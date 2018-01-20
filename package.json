@@ -8,7 +8,7 @@
     "npm": "5.5.1"
   },
   "scripts": {
-    "start": "cd server && yarn install && ./server/node index.js"
+    "start": "cd server && yarn install && node index.js"
   },
   "author": "",
   "license": "ISC"
