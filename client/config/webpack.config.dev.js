@@ -156,9 +156,7 @@ module.exports = {
               {
                 loader: require.resolve("css-loader"),
                 options: {
-                  modules: true,
-                  localIdentName: "[local]___[hash:base64:5]",
-                  minimize: false
+                  importLoaders: 1
                 }
               },
               require.resolve("sass-loader"),
