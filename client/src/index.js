@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
+import 'materialize-css/dist/css/materialize.min.css';
+
 import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
