@@ -1,0 +1,11 @@
+- react toolbox  :
+
+http://react-toolbox.io/#/components
+https://github.com/react-toolbox/react-toolbox-themr
+
+you must import the raw components
+import AppBar from "react-toolbox/lib/app_bar/AppBar";
+instead of importing
+import {AppBar} from "react-toolbox/lib/app_bar";
+
+- react fiber 16 for performance , however if it starts giving us issues we will downgrade to 15
