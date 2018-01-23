@@ -18,7 +18,6 @@ import ThemeProvider from "react-toolbox/lib/ThemeProvider";
 
 //global styles
 import "./index.scss";
-import 'materialize-css/dist/css/materialize.min.css';
 
 import App from "./containers/App";
 
