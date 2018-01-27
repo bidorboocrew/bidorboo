@@ -25,3 +25,5 @@ yarn-error.log*
 
 #private
 /server/config/*
+
+/client/src/**/*.css

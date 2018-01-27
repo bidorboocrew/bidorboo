@@ -11,7 +11,7 @@ import reducers from "./reducers";
 
 
 //global styles
-import "./index.scss";
+import "./index.css";
 
 import App from "./containers/App";
 
@@ -20,6 +20,6 @@ ReactDOM.render(
   <Provider store={store}>
       <App />
   </Provider>,
-  document.getElementById("bidorboo-app")
+  document.getElementById("BidOrBoo-app")
 );
 registerServiceWorker();
