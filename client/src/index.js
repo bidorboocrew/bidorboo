@@ -45,7 +45,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Reboot>
       <MuiThemeProvider theme={theme}>
-      <App />
+        <div className="container">
+          <App />
+        </div>
       </MuiThemeProvider>
     </Reboot>
   </Provider>,
