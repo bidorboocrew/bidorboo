@@ -10,6 +10,7 @@ import AccountCircle from 'material-ui-icons/AccountCircle';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import Button from 'material-ui/Button';
 
 const styles = {
   root: {
@@ -29,7 +30,7 @@ class App extends React.Component {
     classes: PropTypes.object.isRequired
   };
   state = {
-    auth: true,
+    auth: false,
     anchorEl: null
   };
 
@@ -76,6 +77,8 @@ class App extends React.Component {
             <Typography type="title" color="inherit" className={classes.flex}>
               Title
             </Typography>
+            {!auth && <Button color="inherit">signup</Button>}
+            {!auth && <Button color="inherit">Login</Button>}
             {auth && (
               <div>
                 <IconButton
