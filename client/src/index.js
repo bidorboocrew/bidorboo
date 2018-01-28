@@ -53,4 +53,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('BidOrBoo-app')
 );
+
+
 registerServiceWorker();

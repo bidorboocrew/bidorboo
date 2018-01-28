@@ -75,7 +75,7 @@ class App extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Title
+              BidOrBoo
             </Typography>
             {!auth && <Button color="inherit">signup</Button>}
             {!auth && <Button color="inherit">Login</Button>}
