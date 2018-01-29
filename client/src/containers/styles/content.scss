@@ -1,8 +1,9 @@
 @import '../../assets/styles/_variables.scss';
 .contentWrapper {
   height: calc(100vh - #{$app-bar-height} - #{$footer-height});
-  overflow: auto;
+  overflow-y: auto;
   background: white;
+
 
   .__introImage{
     background-image: url("../../assets/images/main.png");
