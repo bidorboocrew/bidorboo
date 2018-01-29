@@ -1,8 +1,22 @@
 @import "materialsass/materialize.scss";
 @import "_animation.scss";
+@import "_variables.scss";
 
+
+//hold global css
 body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+
+.contentWrapper {
+  height: calc(100vh - #{$app-bar-height} - #{$footer-height});
+  overflow-y: auto;
+  background: #622c8c;
+  display: block;
+  .__content {
+    padding: 0 20px 20px 20px;
+  }
 }

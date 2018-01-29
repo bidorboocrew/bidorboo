@@ -1,3 +1,7 @@
 export  {default as Header} from './Header';
-export {default as ContentContainer} from './ContentContainer';
 export {default as Footer} from './Footer';
+export {default as Home} from './Home';
+export {default as ProposerContainer} from './ProposerContainer';
+export {default as BidderContainer} from './BidderContainer';
+
+
