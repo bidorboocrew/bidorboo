@@ -20,7 +20,7 @@ class ProposerContainer extends React.Component {
     });
     return (
       <div id="bob-proposer-content" className={rootClasses}>
-        <div className="__content "> ProposerContainer</div>
+        <div className="__content "> Proposer Container</div>
       </div>
     );
   }
