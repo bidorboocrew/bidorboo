@@ -5,3 +5,8 @@ export const AUTH_ACTIONS = {
 export const ROUTE_ACTIONS = {
   ROUTE_CHANGE : "ROUTE_CHANGE"
 }
+
+export const SIDENAV_ACTIONS = {
+  OPEN_SIDENAV : "OPEN_SIDENAV",
+  CLOSE_SIDENAV : "CLOSE_SIDENAV"
+}

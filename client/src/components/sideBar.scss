@@ -1,0 +1,10 @@
+@import '../assets/styles/_variables.scss';
+
+.sideBar{
+  height: 100%;
+  width: 300px;
+  background: white;
+  border-right:  $divider;
+  position: fixed;
+  padding: 20px;
+}
