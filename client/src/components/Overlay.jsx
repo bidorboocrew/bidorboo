@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import './overlay.css'
+import './overlay.css';
 class Overlay extends React.Component {
+  static propTypes = {
+    clickHandler: PropTypes.func.isRequired
+  };
 
   render() {
-    return (
-      <div className='sidenav-overlay' />
-    );
+    const { clickHandler } = this.props;
+    return <div onClick={() => clickHandler()} className="sidenav-overlay" />;
   }
 }
 

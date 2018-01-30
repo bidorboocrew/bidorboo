@@ -1,32 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+//materialize css
+import 'typeface-roboto';
+//global styles
+import './assets/styles/index.css';
 //offline mode support
 import registerServiceWorker from './registerServiceWorker';
 
 //redux
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+//saidm make sure to update this package before relase
+import { ConnectedRouter } from 'react-router-redux';
 
-//router setup
-import { BrowserRouter } from 'react-router-dom';
-
-//materialize css
-import 'typeface-roboto';
-//global styles
-import './assets/styles/index.css';
+import { Route, Switch } from 'react-router-dom';
 
 import App from './containers/App';
-import reducers from './redux-state/reducers';
 
-//create our beautiful redux store
-const store = createStore(reducers, {}, applyMiddleware());
+
+// import the store like this after moving this code somewhere else
+import { store, history } from './app-state/store';
+
+
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <App />
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('BidOrBoo-app')
 );

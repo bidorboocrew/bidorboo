@@ -18,7 +18,7 @@ nav{
 .contentWrapper {
   height: calc(100vh - #{$app-bar-height} - #{$footer-height});
   overflow-y: auto;
-  background: #622c8c;
+  background-color: white;
   display: block;
 
 }

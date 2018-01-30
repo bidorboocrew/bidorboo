@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { SideBar, Overlay } from '../components';
-import  {A_toggleSideBar}  from '../redux-state/actions/sidebarAction';
+import { action_toggleSideBar } from '../app-state/actions/sidebarAction';
 
 class BidderContainer extends React.Component {
   constructor(props) {
@@ -14,13 +14,11 @@ class BidderContainer extends React.Component {
       willUnmount: false
     };
   }
-
   componentWillUnmount() {
     this.setState({ willUnmount: true });
   }
   render() {
-    const {sidebarState, onSideBarToggle } = this.props;
-    debugger;
+    const { isSideBarOpen, onSideBarToggle } = this.props;
 
     let rootClasses = classnames('animated contentWrapper', {
       bounceOutRight: this.state.willUnmount,
@@ -28,22 +26,22 @@ class BidderContainer extends React.Component {
     });
     return (
       <div id="bob-bidder-content" className={rootClasses}>
-      <div  onClick={()=> onSideBarToggle(sidebarState) }>click me</div>
-        <SideBar />
-        <Overlay />
+        {/* <div onClick={() => onSideBarToggle(isSideBarOpen)}>click me</div> */}
+        <SideBar isSideBarOpen />
+        {/* {isSideBarOpen && <Overlay  />} */}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({sideBarReducer}) => {
+const mapStateToProps = ({ sideBarReducer }) => {
   return {
-    sidebarState : sideBarReducer.isSideBarOpen
-  }
+    isSideBarOpen: sideBarReducer.isSideBarOpen
+  };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onSideBarToggle: bindActionCreators(A_toggleSideBar, dispatch)
+    onSideBarToggle: bindActionCreators(action_toggleSideBar, dispatch)
   };
 };
 

@@ -1,7 +1,6 @@
 import * as A from '../actionTypes';
 
-export const A_toggleSideBar = (isopen) => {
-  debugger;
+export const action_toggleSideBar = (isopen) => {
   return {
     type: !isopen
       ? A.SIDENAV_ACTIONS.OPEN_SIDENAV
@@ -12,4 +11,4 @@ export const A_toggleSideBar = (isopen) => {
   };
 };
 
-export default {A_toggleSideBar};
+export default {action_toggleSideBar};
