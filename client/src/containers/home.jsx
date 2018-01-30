@@ -10,7 +10,7 @@ class ContentContainer extends React.Component {
       <div id="bob-root-content" className="contentWrapper">
         <div className="__introImage"></div>
         <div className="row">
-        Home
+
         </div>
       </div>
     );

@@ -31,7 +31,7 @@ class App extends React.Component {
           </Switch>
         </div>
         <div id="bidorboo-progress" />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
