@@ -1,0 +1,16 @@
+@import '../../assets/_variables.scss';
+
+.footer{
+  font-family: $font-family;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: $border-divider;
+  ._content{
+    margin: 0 20px;
+    ._label{
+      font-size: $font-size-sm;
+    }
+  }
+}

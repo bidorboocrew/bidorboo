@@ -1,0 +1,16 @@
+@import '../../assets/_variables.scss';
+
+.header-wrapper {
+  background-color: white;
+  border-bottom: $border-divider;
+  a{
+    color:#622c8c;
+
+    &.brand-logo{
+      margin-left: 20px;
+      left:0;
+    }
+  }
+
+
+}

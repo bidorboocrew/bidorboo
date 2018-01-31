@@ -1,0 +1,13 @@
+@import '../assets/_variables.scss';
+
+.sidenav-overlay {
+  display: block;
+  position: absolute;
+  background-color:rgba(0,0,0,0.87);
+  z-index: 998;
+  top: 0;
+  left: 300px;
+  bottom: 0;
+  right:0;
+  pointer-events: all;
+}

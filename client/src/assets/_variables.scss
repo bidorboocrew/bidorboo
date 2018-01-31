@@ -1,0 +1,103 @@
+$border-divider: 1px solid rgba(0, 0, 0, 0.12);
+
+$font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+$font-size-xxl: 32px;
+$font-size-xl: 26px;
+$font-size-lg: 20px;
+$font-size-md: 16px;
+$font-size-sm: 12px;
+$font-size-xs: 12px;
+$font-size-xs: 10px;
+
+$font-weight-bold: 500;
+
+$app-bar-height: 64px;
+$footer-height: 22px;
+
+//colors:
+$color-pallette-purple: #622c8c;
+$color-pallette-blue: #4bbdbd;
+$color-pallette-orange: #e95727;
+
+// taken from Materialize http://materializecss.com/getting-started.html
+// 12. Global
+// ==========================================================================
+
+// Media Query Ranges
+$small-screen-up: 601px !default;
+$medium-screen-up: 993px !default;
+$large-screen-up: 1201px !default;
+$small-screen: 600px !default;
+$medium-screen: 992px !default;
+$large-screen: 1200px !default;
+
+$medium-and-up: 'only screen and (min-width : #{$small-screen-up})' !default;
+$large-and-up: 'only screen and (min-width : #{$medium-screen-up})' !default;
+$extra-large-and-up: 'only screen and (min-width : #{$large-screen-up})'
+  !default;
+$small-and-down: 'only screen and (max-width : #{$small-screen})' !default;
+$medium-and-down: 'only screen and (max-width : #{$medium-screen})' !default;
+$medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})'
+  !default;
+
+/*********************
+  Media Query Classes
+**********************/
+.hide-on-small-only,
+.hide-on-small-and-down {
+  @media #{$small-and-down} {
+    display: none !important;
+  }
+}
+.hide-on-med-and-down {
+  @media #{$medium-and-down} {
+    display: none !important;
+  }
+}
+.hide-on-med-and-up {
+  @media #{$medium-and-up} {
+    display: none !important;
+  }
+}
+.hide-on-med-only {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: none !important;
+  }
+}
+.hide-on-large-only {
+  @media #{$large-and-up} {
+    display: none !important;
+  }
+}
+.show-on-large {
+  @media #{$large-and-up} {
+    display: block !important;
+  }
+}
+.show-on-medium {
+  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+    display: block !important;
+  }
+}
+.show-on-small {
+  @media #{$small-and-down} {
+    display: block !important;
+  }
+}
+.show-on-medium-and-up {
+  @media #{$medium-and-up} {
+    display: block !important;
+  }
+}
+.show-on-medium-and-down {
+  @media #{$medium-and-down} {
+    display: block !important;
+  }
+}
+
+// Center text on mobile
+.center-on-small-only {
+  @media #{$small-and-down} {
+    text-align: center;
+  }
+}

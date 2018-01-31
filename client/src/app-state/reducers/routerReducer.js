@@ -1,7 +1,7 @@
-import * as A from "../actions/actionTypes";
+import * as A from "../actionTypes";
 
 const initialState = {
-  isLoggedIn: false
+  path: '/'
 };
 
 export default function(state = initialState, action) {
