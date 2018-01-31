@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 //materialize css
 import 'typeface-roboto';
 //global styles
-import './assets/styles/index.css';
+import './assets/index.css';
 //offline mode support
 import registerServiceWorker from './registerServiceWorker';
 

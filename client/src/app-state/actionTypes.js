@@ -1,3 +1,8 @@
+//to prepend on any async ation that will generate a promise
+export const _REJECTED = '_REJECTED';
+export const _PENDING = '_PENDING';
+export const _FULFILLED = '_FULFILLED';
+
 export const AUTH_ACTIONS = {
   LOG_IN: "LOG_IN"
 };

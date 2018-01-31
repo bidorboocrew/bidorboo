@@ -1,7 +1,6 @@
-@import "materialsass/materialize.scss";
-@import "_animation.scss";
-@import "_variables.scss";
-
+@import "./_normalize.scss";
+@import "./_variables.scss";
+@import "./_flexgrid.scss";
 
 //hold global css
 body {
