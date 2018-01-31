@@ -13,24 +13,57 @@ body {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
+
+.hover-effect{
+  -webkit-transition: .3s ease-out;
+  transition: .3s ease-out;
+}
+
+.btn{
+  cursor: pointer;
+  padding:10px;
+  border-radius: 2px;
+  &.large{
+    font-size: $font-size-lg;
+  }
+  &.medium{
+    font-size: $font-size-md;
+  }
+  &.small{
+    font-size: $font-size-sm;
+  }
+
+  &.flat{
+    background-color: transparent;
+    transition:  background-color .2s;
+    -webkit-transition: background-color .2s;
+  }
+
+  &:hover{
+    background-color: #eeee;
+    transition:  background-color .2s;
+    -webkit-transition: background-color .2s;
+  }
+}
+
 nav {
   .applicationBar-FC {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     padding: 0 20px;
     height: $app-bar-height;
     color: #fff;
     background-color: white;
     color: $color-pallette-purple;
-    font-size: $font-size-xxl;
+    font-size: $font-size-lg;
     border-bottom: $border-divider;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
 
     .__logo {
       cursor: pointer;
+      margin-top: 4px;
     }
     .__name {
       margin-left: 4px;
@@ -40,6 +73,9 @@ nav {
       flex: 1 0 auto;
       .search-wrapper {
         position: relative;
+        display: flex;
+        align-content: stretch;
+        min-width: 100px;
         &::after {
           content: 'search';
           position: absolute;
@@ -60,14 +96,17 @@ nav {
           color: $color-pallette-purple;
           -webkit-font-smoothing: antialiased;
         }
+
+        .app-bar-main-search {
+          flex: 1 0 auto;
+          position: relative;
+          padding: 5px 5px 5px 20px;
+          border: $border-divider;
+          font-size: $font-size-xl;
+          min-width: 100px;
+        }
       }
-      .app-bar-main-search {
-        position: relative;
-        padding: 5px 5px 5px 20px;
-        border: $border-divider;
-        font-size: $font-size-xl;
-        min-width: 100px;
-      }
+
     }
     .__button_FC {
       margin-left: 12px;
@@ -76,7 +115,10 @@ nav {
       align-items: center;
       cursor: pointer;
       .__buttons {
-
+        margin-left: 12px;
+        a{
+          margin-left: 12px;
+        }
       }
     }
   }
