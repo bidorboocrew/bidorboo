@@ -34,7 +34,11 @@ passport.use(
         if (existingUser) {
           done(null, existingUser);
         } else {
-          new User({ Id: profile.id, name: profile.displayName })
+          new User({
+            Id: profile.id,
+            name: profile.displayName,
+            provider: profile.provider
+          })
             .save()
             .then(user => {
               done(null, user);
@@ -56,11 +60,16 @@ passport.use(
   new GoogleStrategy(
     GooglePassportConfig,
     (accessToken, refreshToken, profile, done) => {
+      // console.log('profile - ', profile);
       User.findOne({ Id: profile.id }).then(existingUser => {
         if (existingUser) {
           done(null, existingUser);
         } else {
-          new User({ Id: profile.id, name: profile.displayName })
+          new User({
+            Id: profile.id,
+            name: profile.displayName,
+            provider: profile.provider
+          })
             .save()
             .then(user => {
               done(null, user);

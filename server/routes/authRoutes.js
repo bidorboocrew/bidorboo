@@ -27,6 +27,8 @@ module.exports = app => {
 
   // shared
   app.get('/api/current_user', (req, res) => {
+   // console.log('req', req);
+   // console.log('resreq', res);
     res.send(req.user);
   });
 
