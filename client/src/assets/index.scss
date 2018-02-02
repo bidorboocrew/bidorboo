@@ -141,8 +141,7 @@ nav {
   }
 }
 .contentWrapper {
-  // height: calc(100vh - #{$app-bar-height} - #{$footer-height});
-  height: calc(100vh - #{$app-bar-height});
+  height: calc(100vh - #{$app-bar-height} - 1px); //height minus appbar - 1px for the border
   overflow-y: auto;
   background-color: white;
   display: block;
