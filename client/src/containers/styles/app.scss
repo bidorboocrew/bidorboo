@@ -1,0 +1,25 @@
+@import '../../assets/_variables.scss';
+
+#app-flex-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
+   overflow-x: hidden;
+  overflow-y: auto;
+  #side-nav {
+    flex: 1 1 240px; /*makes sure that content is not cut off in a smaller browser window*/
+    max-width: 240px;
+    min-width: 240px;
+    width: 240px;
+    overflow-y: auto;
+    height: 100vh;
+  }
+  #header-and-content {
+    flex: 1 1 auto;
+    #main-view {
+      flex: 1 1 auto;
+      min-height: calc(100vh - #{$app-bar-height} - 1px);
+      overflow-y: auto;
+    }
+  }
+}
