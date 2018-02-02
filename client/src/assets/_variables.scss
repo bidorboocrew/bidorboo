@@ -37,6 +37,13 @@ $box-shadow-raised: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 
 // 12. Global
 // ==========================================================================
 
+.hoverable {
+  transition: box-shadow .25s;
+
+  &:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
 // Media Query Ranges
 $small-screen-up: 601px !default;
 $medium-screen-up: 993px !default;
@@ -117,10 +124,3 @@ $medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width 
 }
 
 
-.hoverable {
-  transition: box-shadow .25s;
-
-  &:hover {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-}

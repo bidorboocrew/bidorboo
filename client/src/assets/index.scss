@@ -22,20 +22,25 @@ input {
   border: $border-divider;
   border-radius: 2px;
   box-shadow: $box-shadow-raised;
+  border-left:4px solid transparent;
   outline: none;
   &:focus {
     box-shadow: none;
-    border: 1px solid $color-pallette-blue;
+    border-left: 4px solid $color-pallette-blue;
   }
   &.invalid {
     box-shadow: none;
-    border: 1px solid $color-pallette-orange;
+    border-left: 4px solid $color-pallette-orange;
+  }
+  &:hover{
+    transition: box-shadow .25s;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
 
 .hover-effect {
-  -webkit-transition: 0.3s ease-out;
-  transition: 0.3s ease-out;
+  -webkit-transition: .25s ease-out;
+  transition: .25s ease-out;
 }
 
 .btn {
@@ -54,14 +59,14 @@ input {
 
   &.flat {
     background-color: transparent;
-    transition: background-color 0.2s;
-    -webkit-transition: background-color 0.2s;
+    transition: background-color .25s;
+    -webkit-transition: background-color .25s;
   }
 
   &:hover {
     background-color: #eee;
-    transition: background-color 0.2s;
-    -webkit-transition: background-color 0.2s;
+    transition: background-color .25s;
+    -webkit-transition: background-color .25s;
   }
 }
 
@@ -83,6 +88,10 @@ nav {
       cursor: pointer;
       margin-top: $spacing-xs;
       margin-right: $spacing-xs;
+      &:hover{
+        transition: color  0.2s;
+        color: $color-pallette-blue;
+      }
     }
     .__name {
       margin-right: $spacing-md;
@@ -103,7 +112,7 @@ nav {
           position: absolute;
           display: inline-block;
           top: 12px;
-          left: 2px;
+          left: 6px;
           font-family: 'Material Icons';
           font-weight: normal;
           font-style: normal;
@@ -120,7 +129,7 @@ nav {
         .app-bar-main-search {
           width: 60%;
           max-width: 500px;
-          padding: 8px 8px 8px 24px;
+          padding: 8px 4px 8px 24px;
           font-size: $font-size-lg;
         }
       }

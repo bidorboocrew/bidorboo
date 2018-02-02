@@ -16,7 +16,7 @@ class Header extends React.Component {
           <div className="__name hide-on-small-and-down">BidOrBoo</div>
           <div className="__search">
             <div className="search-wrapper">
-              <input className="app-bar-main-search hoverable" />
+              <input className="app-bar-main-search" />
 
               <div className="search-results" />
             </div>
