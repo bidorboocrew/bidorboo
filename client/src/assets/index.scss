@@ -10,39 +10,63 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+  color: $color-text-primary;
+}
+
+input {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-
-.hover-effect{
-  -webkit-transition: .3s ease-out;
-  transition: .3s ease-out;
-}
-
-.btn{
-  cursor: pointer;
-  padding:10px;
+  color: $color-text-primary;
+  font-size: $font-size-md;
+  padding: 4px;
+  border: $border-divider;
   border-radius: 2px;
-  &.large{
+  box-shadow: $box-shadow-raised;
+  border-left:4px solid transparent;
+  outline: none;
+  &:focus {
+    box-shadow: none;
+    border-left: 4px solid $color-pallette-blue;
+  }
+  &.invalid {
+    box-shadow: none;
+    border-left: 4px solid $color-pallette-orange;
+  }
+  &:hover{
+    transition: box-shadow .25s;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+.hover-effect {
+  -webkit-transition: .25s ease-out;
+  transition: .25s ease-out;
+}
+
+.btn {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 2px;
+  &.large {
     font-size: $font-size-lg;
   }
-  &.medium{
+  &.medium {
     font-size: $font-size-md;
   }
-  &.small{
+  &.small {
     font-size: $font-size-sm;
   }
 
-  &.flat{
+  &.flat {
     background-color: transparent;
-    transition:  background-color .2s;
-    -webkit-transition: background-color .2s;
+    transition: background-color .25s;
+    -webkit-transition: background-color .25s;
   }
 
-  &:hover{
+  &:hover {
     background-color: #eee;
-    transition:  background-color .2s;
-    -webkit-transition: background-color .2s;
+    transition: background-color .25s;
+    -webkit-transition: background-color .25s;
   }
 }
 
@@ -60,53 +84,55 @@ nav {
     font-size: $font-size-lg;
     border-bottom: $border-divider;
 
-
     .__logo {
       cursor: pointer;
-      margin-top: 4px;
+      margin-top: $spacing-xs;
+      margin-right: $spacing-xs;
+      &:hover{
+        transition: color  0.2s;
+        color: $color-pallette-blue;
+      }
     }
     .__name {
-      margin-left: 4px;
+      margin-right: $spacing-md;
     }
     .__search {
-      margin-left: 12px;
       flex: 1 0 auto;
+      margin-right: $spacing-md;
       .search-wrapper {
         position: relative;
         display: flex;
-        align-content: stretch;
-        min-width: 100px;
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: center;
+        color: $color-text-primary;
         &::after {
+          color: $color-placeholder-grey;
           content: 'search';
           position: absolute;
-          display: block;
+          display: inline-block;
           top: 12px;
-          left: 2px;
+          left: 6px;
           font-family: 'Material Icons';
           font-weight: normal;
           font-style: normal;
           line-height: 1;
           letter-spacing: normal;
           text-transform: none;
-          display: inline-block;
           white-space: nowrap;
           word-wrap: normal;
           direction: ltr;
           font-size: 20px;
-          color: $color-pallette-purple;
           -webkit-font-smoothing: antialiased;
         }
 
         .app-bar-main-search {
-          flex: 1 0 auto;
-          position: relative;
-          padding: 5px 5px 5px 20px;
-          border: $border-divider;
-          font-size: $font-size-xl;
-          min-width: 100px;
+          width: 60%;
+          max-width: 500px;
+          padding: 8px 4px 8px 24px;
+          font-size: $font-size-lg;
         }
       }
-
     }
     .__button_FC {
       margin-left: 12px;
@@ -116,7 +142,7 @@ nav {
       cursor: pointer;
       .__buttons {
         margin-left: 12px;
-        a{
+        a {
           margin-left: 12px;
         }
       }
@@ -124,8 +150,7 @@ nav {
   }
 }
 .contentWrapper {
-  // height: calc(100vh - #{$app-bar-height} - #{$footer-height});
-  height: calc(100vh - #{$app-bar-height});
+  height: calc(100vh - #{$app-bar-height} - 1px); //height minus appbar - 1px for the border
   overflow-y: auto;
   background-color: white;
   display: block;
