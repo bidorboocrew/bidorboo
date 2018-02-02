@@ -18,7 +18,21 @@ $footer-height: 22px;
 $color-pallette-purple: #622c8c;
 $color-pallette-blue: #4bbdbd;
 $color-pallette-orange: #e95727;
+$color-placeholder-grey: rgba(0, 0, 0, 0.12);
+$color-text-primary: #484848 ;
 
+
+$spacing-xs: 4px;
+$spacing-s: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-xxl: 24px;
+
+
+
+
+$box-shadow-raised: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 // taken from Materialize http://materializecss.com/getting-started.html
 // 12. Global
 // ==========================================================================
@@ -99,5 +113,14 @@ $medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width 
 .center-on-small-only {
   @media #{$small-and-down} {
     text-align: center;
+  }
+}
+
+
+.hoverable {
+  transition: box-shadow .25s;
+
+  &:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
