@@ -33,27 +33,3 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
-
-// TODO SaidM delete later
-//  {/* <MuiThemeProvider theme={theme}> */}
-//  <App />
-// {/* </MuiThemeProvider> */}
-// import Reboot from 'material-ui/Reboot'; //this will do the normalization to avoid inconsistency accross browsers
-// import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-//override some theme vars
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: {
-//       light: '#ffffff',
-//       main: '#ffffff',
-//       dark: '#cccccc',
-//       contrastText: '#622c8c'
-//     },
-//     secondary: {
-//       light: '#82f0ef',
-//       main: '#4bbdbd',
-//       dark: '#008c8d',
-//       contrastText: '#ffffff'
-//     }
-//   }
-// });

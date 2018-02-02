@@ -23,7 +23,6 @@ input {
   border-radius: 2px;
   box-shadow: $box-shadow-raised;
   border-left:4px solid transparent;
-  outline: none;
   &:focus {
     box-shadow: none;
     border-left: 4px solid $color-pallette-blue;
@@ -94,7 +93,7 @@ nav {
       }
     }
     .__name {
-      margin-right: $spacing-md;
+      margin-right: $spacing-xl;
     }
     .__search {
       flex: 1 0 auto;

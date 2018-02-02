@@ -13,7 +13,7 @@ class Header extends React.Component {
           <div className="__logo">
             <i className="material-icons">menu</i>
           </div>
-          <div className="__name hide-on-small-and-down">BidOrBoo</div>
+          <div className="__name hide-on-small-and-down">B.o.B</div>
           <div className="__search">
             <div className="search-wrapper">
               <input className="app-bar-main-search" />
