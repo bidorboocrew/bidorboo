@@ -4,7 +4,7 @@
   "private": true,
   "proxy": {
     "/auth/google": {
-      "target" : "http://localhost:5000"
+      "target": "http://localhost:5000"
     }
   },
   "dependencies": {
@@ -24,7 +24,8 @@
     "redux-form": "^7.2.1",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.0.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "typeface-roboto": "^0.0.54"
   },
   "scripts": {
     "start-js": "react-scripts start",

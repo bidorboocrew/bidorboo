@@ -1,8 +1,7 @@
 {
-  "name": "server",
+  "name": "bidorbooserver",
   "version": "1.0.0",
   "description": "",
-  "main": "./server/index.js",
   "engines": {
     "node": "^8.9.1",
     "npm": "^5.5.1"
