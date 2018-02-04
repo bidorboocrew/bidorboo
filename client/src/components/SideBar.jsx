@@ -6,18 +6,18 @@ import { Link } from 'react-router-dom';
 
 class SideBar extends React.Component {
   render() {
-    let classNames_sidenav = classnames('animated slideInLeft')
+    let classNames_sidenav = classnames('animated slideInLeft');
     return (
       <div id="side-nav" className={classNames_sidenav}>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">Home content</Link>
           </li>
           <li>
-            <Link to="/bidder">bidder</Link>
+            <Link to="/bidder">bidder content</Link>
           </li>
           <li>
-            <Link to="/proposer">proposer</Link>
+            <Link to="/proposer">proposer content</Link>
           </li>
         </ul>
       </div>

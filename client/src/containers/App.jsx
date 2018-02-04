@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import {
   Header,
@@ -21,12 +22,11 @@ class App extends React.Component {
     // Display fallback UI
     // You can also log the error to an error reporting service
     // logErrorToMyService(error, info);
-    console.log("bdb error details " + error)
-    console.log('bdbfailure info ' + info)
+    console.log('bdb error details ' + error);
+    console.log('failure info ' + info);
   }
   render() {
     const { isSideNavOpen } = this.props;
-
 
     return (
       <div id="bidorboo-root-view">
@@ -40,7 +40,7 @@ class App extends React.Component {
         <div id="modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {isSideNavOpen && <SideBar ></SideBar>}
+          {isSideNavOpen && <SideBar />}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -66,4 +66,4 @@ const mapStateToProps = ({ uiReducer }) => {
 //     onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
 //   };
 // };
-export default connect(mapStateToProps, null)(App);
+export default withRouter(connect(mapStateToProps, null)(App));
