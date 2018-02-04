@@ -47,6 +47,7 @@ class App extends React.Component {
             <div id="main-view">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route path="/auth/google/callback" component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/proposer" component={ProposerContainer} />
                 <Route exact path="/bidder" component={BidderContainer} />

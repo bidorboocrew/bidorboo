@@ -1,5 +1,7 @@
 import React from 'react';
 import { a_toggleSideNav } from '../app-state/actions/uiActions';
+import { a_onLogin } from '../app-state/actions/authActions';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -8,7 +10,7 @@ import './styles/header.css';
 
 class Header extends React.Component {
   render() {
-    const { onToggleSideNav, isSideNavOpen } = this.props;
+    const { onToggleSideNav, isSideNavOpen, onLogin } = this.props;
     return (
       <nav>
         <div className="applicationBar-FC">
@@ -29,7 +31,7 @@ class Header extends React.Component {
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
               <a className="btn flat medium hover-effect">Signup</a>
-              <a className="btn flat medium hover-effect">Login</a>
+              <a className="btn flat medium hover-effect"  onClick={() => onLogin()}>Login</a>
             </div>
           </div>
         </div>
@@ -45,7 +47,8 @@ const mapStateToProps = ({ uiReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
+    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch),
+    onLogin: bindActionCreators(a_onLogin, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
