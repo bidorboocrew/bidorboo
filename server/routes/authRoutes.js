@@ -15,27 +15,30 @@ module.exports = app => {
   );
   app.get(
     '/auth/google/callback',
-     passport.authenticate('google'),
-    (req, res) =>{
-      res.redirect('/')
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/');
     }
-    );
+  );
 
   //Facebook routes
   app.get(
     '/auth/facebook',
-    passport.authenticate('facebook', { session: false })
+    passport.authenticate('facebook')
   );
   app.get(
     '/auth/facebook/callback',
-    passport.authenticate('facebook', { session: false })
+    passport.authenticate('facebook'),
+    (req, res) => {
+      res.redirect('/');
+    }
   );
 
   // shared
   app.get('/api/current_user', (req, res) => {
-   // console.log('req', req);
-   // console.log('resreq', res);
-   console.log(req.user)
+    // console.log('req', req);
+    // console.log('resreq', res);
+    console.log(req.user);
     res.send(JSON.stringify(req.user));
   });
 
@@ -43,5 +46,4 @@ module.exports = app => {
     req.logout();
     res.send(req.user);
   });
-
 };
