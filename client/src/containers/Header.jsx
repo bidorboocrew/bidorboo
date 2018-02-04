@@ -1,16 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
+import { a_toggleSideNav } from '../app-state/actions/uiActions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import classnames from 'classnames';
 import './styles/header.css';
 
 class Header extends React.Component {
   render() {
+    const { onToggleSideNav, isSideNavOpen } = this.props;
     return (
       <nav>
         <div className="applicationBar-FC">
-          <div className="__logo">
+          <div
+            onClick={() => onToggleSideNav(isSideNavOpen)}
+            className="__logo"
+          >
             <i className="material-icons">menu</i>
           </div>
           <div className="__name hide-on-small-and-down">B.o.B</div>
@@ -33,4 +38,14 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapStateToProps = ({ uiReducer }) => {
+  return {
+    isSideNavOpen: uiReducer.isSideNavOpen
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

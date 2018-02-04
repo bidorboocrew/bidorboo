@@ -8,10 +8,10 @@ export const AUTH_ACTIONS = {
 };
 
 export const ROUTE_ACTIONS = {
-  ROUTE_CHANGE : "ROUTE_CHANGE"
+  LOCATION_CHANGE : "@@router/LOCATION_CHANGE"
 }
 
-export const SIDENAV_ACTIONS = {
+export const UI_ACTIONS = {
   OPEN_SIDENAV : "OPEN_SIDENAV",
   CLOSE_SIDENAV : "CLOSE_SIDENAV"
 }

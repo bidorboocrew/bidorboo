@@ -1,6 +1,7 @@
 @import './_normalize.scss';
 @import './_variables.scss';
 @import './_flexgrid.scss';
+@import './animatecss.scss';
 // --------------------------------------------------
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
@@ -12,7 +13,27 @@ body {
   padding: 0;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
   color: $color-text-primary;
+  overflow: hidden;
 }
+body::-webkit-scrollbar {
+  width: 1em;
+}
+
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+background-color: darkgrey;
+outline: 1px solid slategrey;
+}
+
+/*
+ * SHADOWS
+ */
+
+ $shadow-sky: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
+ $shadow-space: 0 2px 8px 0 rgba(0,0,0,0.14);
 
 input {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -32,8 +53,8 @@ input {
     border-left: 4px solid $color-pallette-orange;
   }
   &:hover{
-    transition: box-shadow .25s;
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // transition: box-shadow .25s;
+    // box-shadow:  $shadow-sky;
   }
 }
 
@@ -70,6 +91,7 @@ input {
 }
 
 nav {
+  //FC = flex container
   .applicationBar-FC {
     display: flex;
     justify-content: flex-start;
@@ -148,12 +170,7 @@ nav {
     }
   }
 }
-.contentWrapper {
-  height: calc(100vh - #{$app-bar-height} - 1px); //height minus appbar - 1px for the border
-  overflow-y: auto;
-  background-color: white;
-  display: block;
-}
+
 
 #cover-container {
   top: 0;
