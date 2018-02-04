@@ -4,10 +4,11 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router';
+import { withRouter, Redirect } from 'react-router';
 
 import {
   Header,
+  Login,
   ContentContainer,
   Home,
   ProposerContainer,
@@ -46,8 +47,10 @@ class App extends React.Component {
             <div id="main-view">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
                 <Route exact path="/proposer" component={ProposerContainer} />
                 <Route exact path="/bidder" component={BidderContainer} />
+                <ProtectedRoute exact path="/profile"></ProtectedRoute>
               </Switch>
             </div>
           </div>
@@ -61,9 +64,23 @@ const mapStateToProps = ({ uiReducer }) => {
     isSideNavOpen: uiReducer.isSideNavOpen
   };
 };
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
-//   };
-// };
+
 export default withRouter(connect(mapStateToProps, null)(App));
+
+/**
+ * this will ensure that you dont enter a route unless you are auth
+ * good for profile
+ * @param {*} param0
+ */
+const ProtectedRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      props.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);

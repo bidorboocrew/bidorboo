@@ -8,7 +8,7 @@ export const AUTH_ACTIONS = {
 };
 
 export const ROUTE_ACTIONS = {
-  LOCATION_CHANGE : "LOCATION_CHANGE"
+  LOCATION_CHANGE : "@@router/LOCATION_CHANGE"
 }
 
 export const UI_ACTIONS = {
