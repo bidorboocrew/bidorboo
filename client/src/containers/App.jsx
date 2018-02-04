@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-
+import { a_onLogin } from '../app-state/actions/authActions';
 import {
   Header,
   Login,
@@ -19,6 +19,12 @@ import { SideBar, Overlay } from '../components';
 import './styles/app.css';
 
 class App extends React.Component {
+
+  componentDidMount(){
+   this.props.onLogin();
+
+  }
+
   componentDidCatch(error, info) {
     // Display fallback UI
     // You can also log the error to an error reporting service
@@ -29,7 +35,7 @@ class App extends React.Component {
   render() {
     const { isSideNavOpen } = this.props;
 
-    return (
+   return (
       <div id="bidorboo-root-view">
         {/* we will make our notifications absolute positioned  */}
         <div id="bidorboo-notification" />
@@ -47,7 +53,6 @@ class App extends React.Component {
             <div id="main-view">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/auth/google/callback" component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/proposer" component={ProposerContainer} />
                 <Route exact path="/bidder" component={BidderContainer} />
@@ -60,13 +65,18 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ uiReducer }) => {
+const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
-    isSideNavOpen: uiReducer.isSideNavOpen
+    isSideNavOpen: uiReducer.isSideNavOpen,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: bindActionCreators(a_onLogin, dispatch)
   };
 };
 
-export default withRouter(connect(mapStateToProps, null)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
 /**
  * this will ensure that you dont enter a route unless you are auth

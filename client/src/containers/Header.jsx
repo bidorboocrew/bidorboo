@@ -1,6 +1,5 @@
 import React from 'react';
 import { a_toggleSideNav } from '../app-state/actions/uiActions';
-import { a_onLogin } from '../app-state/actions/authActions';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,7 +9,7 @@ import './styles/header.css';
 
 class Header extends React.Component {
   render() {
-    const { onToggleSideNav, isSideNavOpen, onLogin } = this.props;
+    const { onToggleSideNav, isSideNavOpen, userName, isLoggedIn } = this.props;
     return (
       <nav>
         <div className="applicationBar-FC">
@@ -24,14 +23,15 @@ class Header extends React.Component {
           <div className="__search">
             <div className="search-wrapper">
               <input className="app-bar-main-search" />
-
               <div className="search-results" />
             </div>
           </div>
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
               <a className="btn flat medium hover-effect">Signup</a>
-              <a className="btn flat medium hover-effect"  onClick={() => onLogin()}>Login</a>
+              <a className="btn flat medium hover-effect" href="/auth/google">
+                {isLoggedIn ? userName : 'login'}
+              </a>
             </div>
           </div>
         </div>
@@ -40,15 +40,16 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({ uiReducer }) => {
+const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
-    isSideNavOpen: uiReducer.isSideNavOpen
+    isSideNavOpen: uiReducer.isSideNavOpen,
+    userName: authReducer.userName,
+    isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch),
-    onLogin: bindActionCreators(a_onLogin, dispatch)
+    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
