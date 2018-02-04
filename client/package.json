@@ -2,6 +2,11 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/auth/google": {
+      "target" : "http://localhost:5000"
+    }
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
