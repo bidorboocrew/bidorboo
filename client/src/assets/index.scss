@@ -1,6 +1,7 @@
 @import './_normalize.scss';
 @import './_variables.scss';
 @import './_flexgrid.scss';
+@import './animatecss.scss';
 // --------------------------------------------------
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
@@ -27,6 +28,13 @@ background-color: darkgrey;
 outline: 1px solid slategrey;
 }
 
+/*
+ * SHADOWS
+ */
+
+ $shadow-sky: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
+ $shadow-space: 0 2px 8px 0 rgba(0,0,0,0.14);
+
 input {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   color: $color-text-primary;
@@ -45,8 +53,8 @@ input {
     border-left: 4px solid $color-pallette-orange;
   }
   &:hover{
-    transition: box-shadow .25s;
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // transition: box-shadow .25s;
+    // box-shadow:  $shadow-sky;
   }
 }
 
@@ -83,6 +91,7 @@ input {
 }
 
 nav {
+  //FC = flex container
   .applicationBar-FC {
     display: flex;
     justify-content: flex-start;

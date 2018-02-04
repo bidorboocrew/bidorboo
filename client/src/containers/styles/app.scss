@@ -4,9 +4,10 @@
   display: flex;
   justify-content: flex-start;
   height: 100%;
-   overflow-x: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   #side-nav {
+    border-right: $border-divider;
     flex: 1 1 240px; /*makes sure that content is not cut off in a smaller browser window*/
     max-width: 240px;
     min-width: 240px;

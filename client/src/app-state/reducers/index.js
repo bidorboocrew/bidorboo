@@ -1,7 +1,10 @@
-import { combineReducers } from "redux";
-import authReducer from "./authReducer";
-import sidebarReducer from './sidebarReducer'
+import { combineReducers } from 'redux';
+import authReducer from './authReducer';
+import uiReducer from './uiReducer';
+// import routerReducer from './routerReducer';
+
 export default combineReducers({
-    auth: authReducer,
-    sideBarReducer: sidebarReducer
+  auth: authReducer,
+  uiReducer: uiReducer,
+  // routerReducer: routerReducer
 });
