@@ -1,7 +1,10 @@
 const passport = require('passport');
 
-const mongoose = require('mongoose');
-const User = mongoose.model('users');
+const userDataAccess = require('../data-access/userDataAccess');
+
+const keys = require('../config/keys');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
@@ -10,14 +13,11 @@ passport.serializeUser((user, done) => {
 
 //we know how to process the info from client into server object
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
+  debugger;
+  userDataAccess.getUserById(passport, id).then(user => {
     done(null, user);
   });
 });
-
-const keys = require('../config/keys');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 
 const FacebookPassportConfig = {
   clientID: keys.facebookClientID,
@@ -29,20 +29,13 @@ passport.use(
   new FacebookStrategy(
     FacebookPassportConfig,
     (accessToken, refreshToken, profile, done) => {
-      console.log('profile - ', profile);
-      User.findOne({ Id: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
+      userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
+        if (exisitingUser) {
+          done(null, exisitingUser);
         } else {
-          new User({
-            Id: profile.id,
-            name: profile.displayName,
-            provider: profile.provider
-          })
-            .save()
-            .then(user => {
-              done(null, user);
-            });
+          userDataAccess.createNewUser(profile).then(user => {
+            done(null, user);
+          });
         }
       });
     }
@@ -60,20 +53,13 @@ passport.use(
   new GoogleStrategy(
     GooglePassportConfig,
     (accessToken, refreshToken, profile, done) => {
-      // console.log('profile - ', profile);
-      User.findOne({ Id: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
+      userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
+        if (exisitingUser) {
+          done(null, exisitingUser);
         } else {
-          new User({
-            Id: profile.id,
-            name: profile.displayName,
-            provider: profile.provider
-          })
-            .save()
-            .then(user => {
-              done(null, user);
-            });
+          userDataAccess.createNewUser(profile).then(user => {
+            done(null, user);
+          });
         }
       });
     }
