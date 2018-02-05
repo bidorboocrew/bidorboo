@@ -1,9 +1,7 @@
 const passport = require('passport');
 module.exports = app => {
   app.get('/', (req, res) => {
-    res.send({
-      hi: 'hey there'
-    });
+
   });
 
   //google routes
@@ -17,7 +15,9 @@ module.exports = app => {
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/');
+
+      res.redirect('/api/curent_user');
+      res.redirect
     }
   );
 
@@ -44,6 +44,6 @@ module.exports = app => {
 
   app.get('/api/logout', (req, res) => {
     req.logout();
-    res.send(req.user);
+    res.redirect('/');
   });
 };
