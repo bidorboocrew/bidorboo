@@ -19,12 +19,18 @@ import { SideBar, Overlay } from '../components';
 import './styles/app.css';
 
 class App extends React.Component {
-
-  componentDidMount(){
-   this.props.onLogin();
-
+  componentDidMount() {
+    this.props.onLogin();
   }
-
+  componentWillReceiveProps(nextProps) {
+    //this is used mostly to redirect user to the login page
+    if (
+      this.props.currentRoute !== nextProps.currentRoute &&
+      nextProps.currentRoute === '/login'
+    ) {
+      this.props.history.push(nextProps.currentRoute);
+    }
+  }
   componentDidCatch(error, info) {
     // Display fallback UI
     // You can also log the error to an error reporting service
@@ -33,9 +39,8 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { isSideNavOpen } = this.props;
-
-   return (
+    const { isSideNavOpen, currentRoute } = this.props;
+    return (
       <div id="bidorboo-root-view">
         {/* we will make our notifications absolute positioned  */}
         <div id="bidorboo-notification" />
@@ -56,7 +61,7 @@ class App extends React.Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/proposer" component={ProposerContainer} />
                 <Route exact path="/bidder" component={BidderContainer} />
-                <ProtectedRoute exact path="/profile"></ProtectedRoute>
+                <ProtectedRoute exact path="/profile" />
               </Switch>
             </div>
           </div>
@@ -65,9 +70,10 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ uiReducer, authReducer }) => {
+const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
     isSideNavOpen: uiReducer.isSideNavOpen,
+    currentRoute: routerReducer.pathname
   };
 };
 const mapDispatchToProps = dispatch => {

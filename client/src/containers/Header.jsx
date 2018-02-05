@@ -29,9 +29,14 @@ class Header extends React.Component {
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
               <a className="btn flat medium hover-effect">Signup</a>
-              <a className="btn flat medium hover-effect" href="/auth/facebook">
+              <a className="btn flat medium hover-effect" href="/auth/google">
                 {isLoggedIn ? userName : 'login'}
               </a>
+              {isLoggedIn && (
+                <a className="btn flat medium hover-effect" href="/api/logout">
+                  logout
+                </a>
+              )}
             </div>
           </div>
         </div>

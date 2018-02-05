@@ -16,6 +16,9 @@ passport.deserializeUser((id, done) => {
   debugger;
   userDataAccess.getUserById(passport, id).then(user => {
     done(null, user);
+  }).catch(()=>{
+    //uesre does not exist
+    done(null,id)
   });
 });
 
@@ -29,13 +32,16 @@ passport.use(
   new FacebookStrategy(
     FacebookPassportConfig,
     (accessToken, refreshToken, profile, done) => {
+      debugger;
       userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
         if (exisitingUser) {
           done(null, exisitingUser);
         } else {
-          userDataAccess.createNewUser(profile).then(user => {
-            done(null, user);
-          });
+          debugger;
+          done(user, profile)
+          // userDataAccess.createNewUser(profile).then(user => {
+          //   done(null, user);
+          // });
         }
       });
     }
@@ -53,13 +59,16 @@ passport.use(
   new GoogleStrategy(
     GooglePassportConfig,
     (accessToken, refreshToken, profile, done) => {
+      debugger;
+
       userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
         if (exisitingUser) {
           done(null, exisitingUser);
         } else {
-          userDataAccess.createNewUser(profile).then(user => {
-            done(null, user);
-          });
+          done(null, profile);
+          // userDataAccess.createNewUser(profile).then(user => {
+          //   done(null, user);
+          // });
         }
       });
     }
