@@ -7,12 +7,9 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start-server-prod": "cd server && yarn install && node index.js",
-    "start-client-prod": "cd client && yarn install && yarn start",
-    "start-prod": "npm install && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\" ",
-    "start-server-dev": "cd server && yarn install && nodemon index.js",
-    "start-client-dev": "cd client && yarn install && yarn start",
-    "start-dev": "concurrently \"npm run start-server-dev\" \"npm run start-client-dev\" "
+    "start-server-prod": "npm run start --prefix server",
+    "start-client-prod": "npm run start-js --prefix client",
+    "prod": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
   },
   "author": "",
   "license": "ISC",
