@@ -7,6 +7,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   #side-nav {
+    background-color: rgba(#4bbdbd,0.15);
     border-right: $border-divider;
     flex: 1 1 240px; /*makes sure that content is not cut off in a smaller browser window*/
     max-width: 240px;

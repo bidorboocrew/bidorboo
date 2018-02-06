@@ -28,12 +28,7 @@ background-color: darkgrey;
 outline: 1px solid slategrey;
 }
 
-/*
- * SHADOWS
- */
 
- $shadow-sky: 0 2px 4px 0 rgba(0, 0, 0, 0.14);
- $shadow-space: 0 2px 8px 0 rgba(0,0,0,0.14);
 
 input {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -92,7 +87,9 @@ input {
 
 nav {
   //FC = flex container
+  box-shadow: $shadow-space;
   .applicationBar-FC {
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
