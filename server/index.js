@@ -24,8 +24,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', (req, res) => {});
+
 //hyrdrate the routes with the app
 require('./routes/authRoutes')(app);
+require('./routes/userRoutes')(app);
 
 
 

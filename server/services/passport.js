@@ -1,4 +1,5 @@
 const passport = require('passport');
+const ROUTES = require('../routes/route_constants');
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -12,37 +13,28 @@ passport.serializeUser((user, done) => {
 });
 
 //we know how to process the info from client into server object
-passport.deserializeUser((id, done) => {
+passport.deserializeUser(async (id, done) => {
+  const user = await userDataAccess.getUserById(passport, id);
   debugger;
-  userDataAccess.getUserById(passport, id).then(user => {
-    done(null, user);
-  }).catch((e)=>{
-    //uesre does not exist
-      //error
-      console.log(e)
-  });
+  done(null, user);
 });
 
 const FacebookPassportConfig = {
   clientID: keys.facebookClientID,
   clientSecret: keys.facebookClientSecret,
-  callbackURL: '/auth/facebook/callback'
+  callbackURL: ROUTES.AUTH.FACEBOOK_CALLBACK
 };
 //facebook Auth
 passport.use(
   new FacebookStrategy(
     FacebookPassportConfig,
-    (accessToken, refreshToken, profile, done) => {
-      debugger;
-      userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
-        if (exisitingUser) {
-          done(null, exisitingUser);
-        } else {
-            userDataAccess.createNewUser(profile).then(user => {
-            done(null, user);
-          });
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await userDataAccess.getOneUserWithId(profile.id);
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+      const user = await userDataAccess.createNewUser(profile);
+      done(null, user);
     }
   )
 );
@@ -52,22 +44,19 @@ passport.use(
 const GooglePassportConfig = {
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
-  callbackURL: '/auth/google/callback'
+  callbackURL: ROUTES.AUTH.GOOGLE_CALLBACK
 };
 passport.use(
   new GoogleStrategy(
     GooglePassportConfig,
-    (accessToken, refreshToken, profile, done) => {
-      userDataAccess.getOneUserWithId(profile.id).then(exisitingUser => {
-        if (exisitingUser) {
-          done(null, exisitingUser);
-        } else {
-          //create user
-          userDataAccess.createNewUser(profile).then(user => {
-            done(null, user);
-          });
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await userDataAccess.getOneUserWithId(profile.id);
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+      const user = await userDataAccess.createNewUser(profile);
+      debugger
+      done(null, user);
     }
   )
 );

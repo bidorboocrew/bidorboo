@@ -1,40 +1,33 @@
 const passport = require('passport');
+const ROUTES = require('./route_constants');
 module.exports = app => {
-  app.get('/', (req, res) => {});
-
   //google routes
   app.get(
-    '/auth/google',
+    ROUTES.AUTH.GOOGLE,
     passport.authenticate('google', {
       scope: ['profile', 'email']
     })
   );
   app.get(
-    '/auth/google/callback',
+    ROUTES.AUTH.GOOGLE_CALLBACK,
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/');
-      res.redirect;
+      res.redirect(ROUTES.ENTRY);
     }
   );
 
   //Facebook routes
-  app.get('/auth/facebook', passport.authenticate('facebook'));
+  app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
   app.get(
-    '/auth/facebook/callback',
+    ROUTES.AUTH.FACEBOOK_CALLBACK,
     passport.authenticate('facebook'),
     (req, res) => {
-      res.redirect('/');
+      res.redirect(ROUTES.ENTRY);
     }
   );
 
-  // shared
-  app.get('/api/current_user', (req, res) => {
-    res.send(req.user);
-  });
-
-  app.get('/api/logout', (req, res) => {
+  app.get(ROUTES.API.LOGOUT, (req, res) => {
     req.logout();
-    res.redirect('/login');
+    res.redirect(ROUTES.ENTRY);
   });
 };
