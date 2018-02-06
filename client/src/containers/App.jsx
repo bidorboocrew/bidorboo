@@ -41,7 +41,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { isSideNavOpen, currentRoute } = this.props;
+    const { isSideNavOpen, currentRoute, onLogin, onLogout } = this.props;
     return (
       <div id="bidorboo-root-view">
         {/* we will make our notifications absolute positioned  */}
@@ -54,15 +54,31 @@ class App extends React.Component {
         <div id="modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {isSideNavOpen && <SideBar />}
+          {isSideNavOpen && <SideBar loginAction={onLogin} actionList={[]} />}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
               <Switch>
-                <Route exact path={ROUTES.FRONTENDROUTES.ENTRY} component={Home} />
-                <Route exact path={ROUTES.FRONTENDROUTES.LOGIN} component={Login} />
-                <Route exact path={ROUTES.FRONTENDROUTES.PROPOSER} component={ProposerContainer} />
-                <Route exact path={ROUTES.FRONTENDROUTES.BIDDER} component={BidderContainer} />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.ENTRY}
+                  component={Home}
+                />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.LOGIN}
+                  component={Login}
+                />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.PROPOSER}
+                  component={ProposerContainer}
+                />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.BIDDER}
+                  component={BidderContainer}
+                />
                 <ProtectedRoute exact path={ROUTES.FRONTENDROUTES.MY_PROFILE} />
               </Switch>
             </div>

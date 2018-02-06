@@ -1,10 +1,16 @@
 @import '../assets/_variables.scss';
 
-.sideBar{
-  height: 100%;
-  width: 300px;
-  background: #622c8c;
-  border-right:  $border-divider;
-  position: fixed;
-  padding: 20px;
+.sideBarContentWrapper_FC {
+  display: flex;
+
+  align-content:flex-start;
+  .profileImg {
+    flex-grow: 1 0 auto;
+  }
+  .actionItems {
+  }
+  .genericActions {
+  }
 }
+
+// you were here trying to fig out how to align the image in the middle
