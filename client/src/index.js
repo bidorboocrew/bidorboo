@@ -17,11 +17,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import App from './containers/App';
 
-
 // import the store like this after moving this code somewhere else
 import { store, history } from './app-state/store';
-
-
 
 ReactDOM.render(
   <Provider store={store}>
