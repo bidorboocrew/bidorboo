@@ -43,7 +43,7 @@ const UserSchema = new Schema({
   skills: [String], // list of strings representing their skills
   personalParagraph: String, // a blob about who they are
   paymentRefs: [String], // ID to fetch their payments through our system to generate an invoice
-  membershipStatus: {type: String, enum: ['newMember', 'silverMember', 'goldMember']}, // some challenges like the idea of super host
+  membershipStatus: {type: String, enum: ['newMember', 'basicMember', 'bronzeMember','silverMember', 'goldMember']}, // some challenges like the idea of super host
   extras: Object, // this is a place holder for us to add more analytics
   lastSeenOnline: Date //knowing this dates and time  will help us annotate new tasks and put some badge to show whats new
 });
