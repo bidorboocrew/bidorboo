@@ -3,7 +3,7 @@
 import * as A from '../actionTypes';
 
 const initialState = {
-  isSideNavOpen: true
+  isSideNavOpen: false
 };
 
 export default function(state = initialState, { type, payload }) {

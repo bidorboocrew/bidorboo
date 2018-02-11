@@ -13,7 +13,7 @@ export const BACKENDROUTES = {
   }
 };
 export const FRONTENDROUTES = {
-  ENTRY: '/',
+  ENTRY: '/home',
   LOGIN: '/login',
   PROPOSER: '/proposer',
   BIDDER: '/bidder',
