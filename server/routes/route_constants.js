@@ -7,9 +7,10 @@ module.exports = {
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback'
   },
-  API: {
-    GET_CURRENTUSER: '/api/currentUser',
-    LOGOUT: '/api/logout'
+  USERAPI: {
+    GET_CURRENTUSER: '/user/currentUser',
+    LOGOUT: '/user/logout'
   },
+
   FRONTEND: {}
 };

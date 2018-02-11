@@ -1,3 +1,4 @@
+//MAKE SURE THIS IS IN SYNC WITH server\routes\ROUTE_CONSTANTS
 export const BACKENDROUTES = {
   AUTH: {
     GOOGLE: '/auth/google',
@@ -5,7 +6,7 @@ export const BACKENDROUTES = {
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback'
   },
-  API: {
+  USERAPI: {
     GET_CURRENTUSER: '/api/currentUser',
     LOGOUT: '/api/logout'
   }

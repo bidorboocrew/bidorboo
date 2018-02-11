@@ -5,7 +5,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
-require('./models/user');
+require('./models/userModel');
 require('./services/passport');
 
 
@@ -24,7 +24,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {});
+app.get('/', (req, res) => {
+
+  res.send({body: 'hello'});
+});
+
+app.get('/errorRoute', (req, res) => {
+
+  res.send({body: 'error'});
+});
 
 //hyrdrate the routes with the app
 require('./routes/authRoutes')(app);
