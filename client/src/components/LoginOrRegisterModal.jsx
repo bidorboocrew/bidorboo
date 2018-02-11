@@ -47,7 +47,7 @@ class LoginOrRegisterModal extends React.Component {
             <div className="verticalDivider hide-on-small-and-down" />
             <div className="rightSide">
               <div className={classNames_RegisterTitle}>
-                <span>Register?</span>{' '}
+                <span>Signup</span>{' '}
                 <span className="subtext">(It's free)</span>
               </div>
               <RegistrationForm onSubmit={this.submitRegisterForm} />

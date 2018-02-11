@@ -21,11 +21,7 @@ class LoginForm extends React.Component {
     return (
       <form onSubmit={onSubmit}>
         <div className="input-field">
-          <label
-            htmlFor="email"
-          >
-            Email
-          </label>
+          <label htmlFor="email">Email</label>
           <Field
             id="email"
             className="bdb-input"
@@ -36,11 +32,7 @@ class LoginForm extends React.Component {
           />
         </div>
         <div className="input-field">
-          <label
-            htmlFor="lastName"
-          >
-            password
-          </label>
+          <label htmlFor="lastName">password</label>
           <Field
             id="password"
             className="bdb-input"
@@ -51,9 +43,21 @@ class LoginForm extends React.Component {
           />
         </div>
         <div className="buttonsSection">
-        <a className="formbutton medium" type="submit">
-          Login
-        </a>
+          <a className="formbutton medium" type="submit">
+            Login
+          </a>
+        </div>
+        <div className="socialmediaLogin">
+          <div>
+            <a href="/auth/google" className="fa fa-google">
+              <span> login with google </span>
+            </a>
+          </div>
+          <div>
+            <a href="/auth/facebook" className="fa fa-facebook">
+              <span> login with facebook</span>{' '}
+            </a>
+          </div>
         </div>
       </form>
     );
