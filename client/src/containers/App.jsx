@@ -13,15 +13,14 @@ import {
   ContentContainer,
   Home,
   ProposerContainer,
-  BidderContainer
+  BidderContainer,
+  UserProfileContainer
 } from './index';
 import { SideBar, Overlay } from '../components';
 
 import './styles/app.css';
 
 class App extends React.Component {
-
-
   componentDidMount() {
     // this.props.onLogin();
   }
@@ -75,6 +74,11 @@ class App extends React.Component {
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER}
                   component={BidderContainer}
+                />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.MY_PROFILE}
+                  component={UserProfileContainer}
                 />
                 {/* redirect any unknown route to the home component */}
                 <Route path="*" component={Home} />
