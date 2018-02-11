@@ -38,7 +38,7 @@
 
 form {
   label {
-    font-size: 14px;
+    font-size: $spacing-md;
     width: 100%;
     display: block;
     color: $color-placeholder-grey;
@@ -63,16 +63,21 @@ form {
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
     &:focus {
+      transition: background-color 0.3s;
+      -webkit-transition: background-color 0.3s;
       border-bottom: $border-input-focus;
     }
   }
-
+  .buttonsSection{
+    margin-top:$spacing-sm;
+  }
   a.formbutton {
     padding: 0;
+    margin-top: 20px 0 0 0;
     cursor: pointer;
     padding: 10px;
     border-radius: 2px;
-
+    border: 1px solid transparent;
     transition: background-color 0.25s;
     -webkit-transition: background-color 0.25s;
     background-color: #eee;
@@ -88,6 +93,7 @@ form {
     }
 
     &:hover {
+      border: $border-divider;
       background-color: $color-pallette-blue;
       color: white;
       transition: background-color 0.25s;

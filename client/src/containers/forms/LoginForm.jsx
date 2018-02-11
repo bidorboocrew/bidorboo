@@ -20,44 +20,41 @@ class LoginForm extends React.Component {
 
     return (
       <form onSubmit={onSubmit}>
-        {/* <div calssName="input-field">
-          <label htmlFor="firstName">First Name</label>
-          <Field
-            className="bdb-input"
-            id="firstName"
-            name="firstName"
-            component="input"
-            type="text"
-          />
-        </div>
         <div calssName="input-field">
-          <label htmlFor="lastName">Last Name</label>
+          <label
+            htmlFor="email"
+          >
+            Email
+          </label>
           <Field
-            className="bdb-input"
-            name="lastName"
-            component="input"
-            type="text"
-          />
-        </div> */}
-        <div calssName="input-field">
-          <label htmlFor="email">Email</label>
-          <Field
+            id="email"
             className="bdb-input"
             name="email"
             component="input"
             type="email"
+            onFocus={() => this.setState({ activeField: 'email' })}
           />
         </div>
         <div calssName="input-field">
-          <label htmlFor="lastName">password</label>
+          <label
+            htmlFor="lastName"
+          >
+            password
+          </label>
           <Field
+            id="password"
             className="bdb-input"
             name="lastName"
             component="input"
             type="text"
+            onFocus={() => this.setState({ activeField: 'password' })}
           />
         </div>
-        <a className="formbutton medium" type="submit">Submit</a>
+        <div className="buttonsSection">
+        <a className="formbutton medium" type="submit">
+          Submit
+        </a>
+        </div>
       </form>
     );
   }

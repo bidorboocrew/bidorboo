@@ -48,7 +48,11 @@ class RegistrationForm extends React.Component {
             type="email"
           />
         </div>
-        <a className="formbutton medium" type="submit">Submit</a>
+        <div className="buttonsSection">
+          <a className="formbutton medium" type="submit">
+            Submit
+          </a>
+        </div>
       </form>
     );
   }

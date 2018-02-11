@@ -23,7 +23,7 @@ class BidderContainer extends React.Component {
             </div>
             <LoginForm onSubmit={this.submitLoginForm} />
           </div>
-          <div className="verticalDivider" />
+          <div className="verticalDivider hide-on-med-and-down" />
           <div className="rightSide">
             <div className="sectionTitle">
               <span>Register?</span>{' '}

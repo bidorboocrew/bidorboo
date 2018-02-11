@@ -147,11 +147,13 @@ nav {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+
       cursor: pointer;
       .__buttons {
         margin-left: 12px;
         a {
           margin-left: 12px;
+          color: $color-pallette-purple;
         }
       }
     }
