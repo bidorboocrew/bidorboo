@@ -19,13 +19,15 @@ class Header extends React.Component {
           >
             <i className="material-icons">menu</i>
           </div>
-          <div className="__name hide-on-small-and-down">B.o.B</div>
+          <div className="__name">B.o.B</div>
+          {/*
+          SEARCH BAR to be moved to anoteher place later
           <div className="__search">
             <div className="search-wrapper">
               <input className="app-bar-main-search" />
               <div className="search-results" />
             </div>
-          </div>
+          </div> */}
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
               <a className="btn flat medium hover-effect">Signup</a>
@@ -33,7 +35,7 @@ class Header extends React.Component {
                 {isLoggedIn ? userName : 'login'}
               </a>
               {isLoggedIn && (
-                <a className="btn flat medium hover-effect" href="/api/logout">
+                <a className="btn flat medium hover-effect" href="/user/logout">
                   logout
                 </a>
               )}
