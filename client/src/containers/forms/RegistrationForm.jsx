@@ -1,26 +1,58 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-let RegistrationForm = props => {
-  const { handleSubmit } = props;
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <Field name="firstName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <Field name="lastName" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="email" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
+import { Field, reduxForm } from 'redux-form';
+import '../styles/formstyles.css';
+
+class RegistrationForm extends React.Component {
+  static PropTypes = {
+    onSubmit: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { activeField: '' };
+  }
+
+  render() {
+    const { onSubmit } = this.props;
+
+    return (
+      <form onSubmit={onSubmit}>
+        <div calssName="input-field">
+          <label htmlFor="firstName">First Name</label>
+          <Field
+            className="bdb-input"
+            id="firstName"
+            name="firstName"
+            component="input"
+            type="text"
+          />
+        </div>
+        <div calssName="input-field">
+          <label htmlFor="lastName">Last Name</label>
+          <Field
+            className="bdb-input"
+            name="lastName"
+            component="input"
+            type="text"
+          />
+        </div>
+        <div calssName="input-field">
+          <label htmlFor="email">Email</label>
+          <Field
+            className="bdb-input"
+            name="email"
+            component="input"
+            type="email"
+          />
+        </div>
+        <a className="formbutton medium" type="submit">Submit</a>
+      </form>
+    );
+  }
+}
 
 RegistrationForm = reduxForm({
   // a unique name for the form

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import './sideBar.css';
 import defaultUserImage from '../assets/images/img_avatar2.png';
 import { Link } from 'react-router-dom';
+
+import './sideBar.css';
 
 class SideBar extends React.Component {
   static PropTypes = {

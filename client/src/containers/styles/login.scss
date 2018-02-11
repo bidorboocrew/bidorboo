@@ -1,4 +1,5 @@
 @import '../../assets/_variables.scss';
+@import '../../assets/_commonClasses.scss';
 
 .loginWrapper {
   margin: 30px auto;
@@ -10,12 +11,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     .verticalDivider {
-      margin: $spacing-md;
+      margin: $spacing-xxl;
       width: 2px;
       background-color: $color-border-color;
       display: block;
@@ -23,18 +23,22 @@
 
     .leftSide {
       padding: $spacing-md;
-      background: red;
     }
     .rightSide {
       padding: $spacing-md;
-      background: blueviolet;
     }
   }
 }
 
 .sectionTitle {
-  padding: $spacing-md;
+  padding: $spacing-sm 0;
   border-bottom: $border-divider;
   font-weight: $font-weight-bold;
   font-size: $font-size-xl;
+  margin-bottom:$spacing-lg;
+  span.subtext{
+    font-weight: $font-weight-normal;
+    color: $color-placeholder-grey;
+    font-size: $font-size-md;
+  }
 }

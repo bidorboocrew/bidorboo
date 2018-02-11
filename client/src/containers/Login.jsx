@@ -18,12 +18,17 @@ class BidderContainer extends React.Component {
       <div id="bdb-login-content" className="loginWrapper">
         <div className="form">
           <div className="leftSide">
-            <div className="sectionTitle">Login</div>
+            <div className="sectionTitle">
+              <span>Login</span> <span className="subtext">(existing user)</span>
+            </div>
             <LoginForm onSubmit={this.submitLoginForm} />
           </div>
           <div className="verticalDivider" />
           <div className="rightSide">
-            <div className="sectionTitle">Register</div>
+            <div className="sectionTitle">
+              <span>Register?</span>{' '}
+              <span className="subtext">(It is free)</span>
+            </div>
             <RegistrationForm onSubmit={this.RegisterForm} />
           </div>
         </div>

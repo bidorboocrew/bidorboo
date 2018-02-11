@@ -1,6 +1,7 @@
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
 $border-raduis-sm: 2px;
-
+$border-bottom-input: 1px solid #9e9e9e;
+$border-input-focus: 1px solid #4bbdbd;
 
 
 $font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -12,6 +13,7 @@ $font-size-sm: 12px;
 $font-size-xs: 12px;
 $font-size-xs: 10px;
 
+$font-weight-normal: 300;
 $font-weight-bold: 500;
 $font-weight-heavy: 700;
 
@@ -22,12 +24,12 @@ $footer-height: 22px;
 $color-pallette-purple: #622c8c;
 $color-pallette-blue: #4bbdbd;
 $color-pallette-orange: #e95727;
-$color-placeholder-grey: rgba(0, 0, 0, 0.12);
+$color-placeholder-grey:#9e9e9e;
 $color-text-primary: #484848;
 $color-border-color: rgba(0, 0, 0, 0.12);
 
 $spacing-xs: 4px;
-$spacing-s: 8px;
+$spacing-sm: 8px;
 $spacing-md: 12px;
 $spacing-lg: 16px;
 $spacing-xl: 20px;
@@ -44,14 +46,6 @@ $box-shadow-raised: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
 // 12. Global
 // ==========================================================================
 
-.hoverable {
-  transition: box-shadow 0.25s;
-
-  &:hover {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
-      0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-}
 // Media Query Ranges
 $small-screen-up: 601px !default;
 $medium-screen-up: 993px !default;
@@ -68,93 +62,3 @@ $small-and-down: 'only screen and (max-width : #{$small-screen})' !default;
 $medium-and-down: 'only screen and (max-width : #{$medium-screen})' !default;
 $medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})'
   !default;
-
-/*********************
-  Media Query Classes
-**********************/
-.hide-on-small-only,
-.hide-on-small-and-down {
-  @media #{$small-and-down} {
-    display: none !important;
-  }
-}
-.hide-on-med-and-down {
-  @media #{$medium-and-down} {
-    display: none !important;
-  }
-}
-.hide-on-med-and-up {
-  @media #{$medium-and-up} {
-    display: none !important;
-  }
-}
-.hide-on-med-only {
-  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
-    display: none !important;
-  }
-}
-.hide-on-large-only {
-  @media #{$large-and-up} {
-    display: none !important;
-  }
-}
-.show-on-large {
-  @media #{$large-and-up} {
-    display: block !important;
-  }
-}
-.show-on-medium {
-  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
-    display: block !important;
-  }
-}
-.show-on-small {
-  @media #{$small-and-down} {
-    display: block !important;
-  }
-}
-.show-on-medium-and-up {
-  @media #{$medium-and-up} {
-    display: block !important;
-  }
-}
-.show-on-medium-and-down {
-  @media #{$medium-and-down} {
-    display: block !important;
-  }
-}
-
-// Center text on mobile
-.center-on-small-only {
-  @media #{$small-and-down} {
-    text-align: center;
-  }
-}
-
-
-
-.z-depth-1 {
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-}
-
-.z-depth-2 {
-  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-}
-
-.z-depth-3 {
-  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-}
-
-.z-depth-4{
-  -webkit-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
-}
-
-.z-depth-5 {
-  -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
-}
-
