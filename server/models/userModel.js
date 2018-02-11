@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const ProviderSchema = new Schema({
   name: String, //google
-  Id: String, //googleid
+  id: String, //googleid
   email: mongoose.SchemaTypes.Email //email
 });
 

@@ -1,5 +1,5 @@
 const passport = require('passport');
-const ROUTES = require('./route_constants');
+const ROUTES = require('../route_constants');
 
 module.exports = app => {
   //google routes
@@ -13,7 +13,7 @@ module.exports = app => {
     ROUTES.AUTH.GOOGLE_CALLBACK,
     passport.authenticate('google', { failureRedirect: '/errorRoute' }),
     (req, res) => {
-      res.redirect(ROUTES.ENTRY);
+      res.redirect(ROUTES.FRONTEND.HOME);
     }
   );
 

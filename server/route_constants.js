@@ -12,5 +12,11 @@ module.exports = {
     LOGOUT: '/user/logout'
   },
 
-  FRONTEND: {}
+  FRONTEND: {
+    ENTRY: '/',
+    HOME:'/home',
+    PROPOSER: '/proposer',
+    BIDDER: '/bidder',
+    MY_PROFILE: '/myprofile'
+  }
 };

@@ -1,5 +1,5 @@
 const passport = require('passport');
-const ROUTES = require('../routes/route_constants');
+const ROUTES = require('../route_constants');
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -9,13 +9,13 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.userId);
 });
 
 //we know how to process the info from client into server object
-passport.deserializeUser(async (Id, done) => {
+passport.deserializeUser(async (id, done) => {
   try {
-    const user = await userDataAccess.findOneUserById(Id);
+    const user = await userDataAccess.findOneByUserId(id);
     done(null, user);
   } catch (err) {
     done(err, null);
@@ -32,7 +32,7 @@ passport.deserializeUser(async (Id, done) => {
 //   new FacebookStrategy(
 //     FacebookPassportConfig,
 //     async (accessToken, refreshToken, profile, done) => {
-//       const existingUser = await userDataAccess.findOneUserById(profile.id);
+//       const existingUser = await userDataAccess.findOneByUserId(profile.id);
 //       if (existingUser) {
 //         return done(null, existingUser);
 //       }
@@ -55,7 +55,7 @@ passport.use(
     GooglePassportConfig,
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const existingUser = await userDataAccess.findOneUserById(profile.id);
+        const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
           return done(null, existingUser);
         }

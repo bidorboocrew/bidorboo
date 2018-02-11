@@ -7,6 +7,7 @@ export const a_onLogin = () => (dispatch, getState) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER).then(resp => {
+      debugger;
       if (resp.data && resp.data.Id) {
         dispatch({ type: A.AUTH_ACTIONS.USER_LOGGED_IN, payload: resp.data });
       } else {

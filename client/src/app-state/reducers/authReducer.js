@@ -8,6 +8,7 @@ const initialState = {
 export default function(state = initialState, { type, payload }) {
   switch (type) {
     case A.AUTH_ACTIONS.USER_LOGGED_IN: {
+
       return { ...state, isLoggedIn: true, userName: payload.name };
     }
     default:

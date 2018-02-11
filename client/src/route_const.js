@@ -14,7 +14,7 @@ export const BACKENDROUTES = {
 };
 export const FRONTENDROUTES = {
   ENTRY: '/',
-  LOGIN: '/login',
+  HOME:'/home',
   PROPOSER: '/proposer',
   BIDDER: '/bidder',
   MY_PROFILE: '/myprofile'

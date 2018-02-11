@@ -22,7 +22,7 @@ import './styles/app.css';
 
 class App extends React.Component {
   componentDidMount() {
-    // this.props.onLogin();
+    this.props.onLogin();
   }
   componentWillReceiveProps(nextProps) {
     //this is used mostly to redirect user to the login page
@@ -63,6 +63,11 @@ class App extends React.Component {
                 <Route
                   exact
                   path={ROUTES.FRONTENDROUTES.ENTRY}
+                  component={Home}
+                />
+                <Route
+                  exact
+                  path={ROUTES.FRONTENDROUTES.HOME}
                   component={Home}
                 />
                 <Route

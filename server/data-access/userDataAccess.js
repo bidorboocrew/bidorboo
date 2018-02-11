@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 var moment = require('moment');
 
-exports.findOneUserById = Id => User.findOne({ userId: Id });
+exports.findOneByUserId = id => User.findOne({ userId: id });
 exports.createNewUser = userDetails =>
   new User({
     ...userDetails,
