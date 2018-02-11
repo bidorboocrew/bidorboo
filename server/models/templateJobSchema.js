@@ -1,0 +1,20 @@
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const PropertySchema = new Schema({
+  fieldType: String, // in the future make it enum [ 'address field' , phone number ... date ..etc]
+  isRequired: Boolean
+});
+
+const TemplateJobSchema = new Schema({
+  templateId: String, // we will enumerate our job types
+  displayName: String,
+  category: {
+    type: String,
+    enum: ['WALK_THE_DOG', 'TUTOR', 'BABY_SIT', 'PHOTOSHOOT', 'MOW_THE_LAWN'] //expand these in the future
+  },
+  properties: [PropertySchema] //list of props needed for a the template
+});
+
+mongoose.model('TemplateJobModel', TemplateJobSchema);

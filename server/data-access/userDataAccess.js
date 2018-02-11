@@ -1,7 +1,7 @@
 //handle all user data manipulations
 
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
+const User = mongoose.model('UserModel');
 
 exports.getUserById = (passport, id) => User.findById(id);
 
