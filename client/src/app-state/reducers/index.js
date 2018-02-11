@@ -9,5 +9,5 @@ export default combineReducers({
   authReducer: authReducer,
   uiReducer: uiReducer,
   routerReducer: routerReducer,
-  formReducer: formReducer
+  form: formReducer
 });

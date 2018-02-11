@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import { a_onLogin } from '../app-state/actions/authActions';
-import * as ROUTES from '../utils/route_constants';
+import * as ROUTES from '../route_const';
 
 import {
   Header,

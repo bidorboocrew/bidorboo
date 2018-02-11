@@ -1,0 +1,40 @@
+@import '../../assets/_variables.scss';
+
+.loginWrapper {
+  margin: 30px auto;
+
+  .form {
+    width: 80%;
+    border-radius: $border-raduis-sm;
+    margin: $spacing-lg auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .verticalDivider {
+      margin: $spacing-md;
+      width: 2px;
+      background-color: $color-border-color;
+      display: block;
+    }
+
+    .leftSide {
+      padding: $spacing-md;
+      background: red;
+    }
+    .rightSide {
+      padding: $spacing-md;
+      background: blueviolet;
+    }
+  }
+}
+
+.sectionTitle {
+  padding: $spacing-md;
+  border-bottom: $border-divider;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-xl;
+}

@@ -1,5 +1,5 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../utils/route_constants';
+import * as ROUTES from '../../route_const';
 
 import axios from 'axios';
 
