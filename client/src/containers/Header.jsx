@@ -5,12 +5,33 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { LoginOrRegisterModal } from '../components';
+
 import classnames from 'classnames';
 import './styles/header.css';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { openLoginModal: false, loginClickSource: 'login' };
+    this.openLoginModalDialog = this.openLoginModalDialog.bind(this);
+    this.closeLoginModalDialog = this.closeLoginModalDialog.bind(this);
+  }
+
+  openLoginModalDialog(source) {
+    this.setState({
+      openLoginModal: true,
+      loginClickSource: source
+    });
+  }
+
+  closeLoginModalDialog() {
+    this.setState({ openLoginModal: false });
+  }
+
   render() {
     const { onToggleSideNav, isSideNavOpen, userName, isLoggedIn } = this.props;
+
     return (
       <nav>
         <div className="applicationBar-FC">
@@ -31,19 +52,37 @@ class Header extends React.Component {
           </div> */}
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
-            <Link to="/login" className="bdb-button flat medium hover-effect">Signup</Link>
+              <a
+                onClick={() => this.openLoginModalDialog('register')}
+                className="bdb-button flat medium hover-effect"
+              >
+                Signup
+              </a>
               {/* <a className="bdb-button flat medium hover-effect" href="/auth/google">
                 {isLoggedIn ? userName : 'login'}
 
               </a> */}
-              <Link to="/login" className="bdb-button flat medium hover-effect">Login</Link>
+              <a
+                onClick={() => this.openLoginModalDialog('login')}
+                className="bdb-button flat medium hover-effect"
+              >
+                Login
+              </a>
               {isLoggedIn && (
-                <a className="bdb-button flat medium hover-effect" href="/user/logout">
+                <a
+                  className="bdb-button flat medium hover-effect"
+                  href="/user/logout"
+                >
                   logout
                 </a>
               )}
             </div>
           </div>
+          <LoginOrRegisterModal
+            onClose={this.closeLoginModalDialog}
+            open={this.state.openLoginModal}
+            source={this.state.loginClickSource}
+          />
         </div>
       </nav>
     );

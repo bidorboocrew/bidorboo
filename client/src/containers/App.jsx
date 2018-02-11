@@ -10,7 +10,6 @@ import * as ROUTES from '../route_const';
 
 import {
   Header,
-  Login,
   ContentContainer,
   Home,
   ProposerContainer,
@@ -21,6 +20,8 @@ import { SideBar, Overlay } from '../components';
 import './styles/app.css';
 
 class App extends React.Component {
+
+
   componentDidMount() {
     this.props.onLogin();
   }
@@ -42,6 +43,7 @@ class App extends React.Component {
   }
   render() {
     const { isSideNavOpen, currentRoute, onLogin, onLogout } = this.props;
+
     return (
       <div id="bidorboo-root-view">
         {/* we will make our notifications absolute positioned  */}
@@ -66,11 +68,6 @@ class App extends React.Component {
                 />
                 <Route
                   exact
-                  path={ROUTES.FRONTENDROUTES.LOGIN}
-                  component={Login}
-                />
-                <Route
-                  exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER}
                   component={ProposerContainer}
                 />
@@ -79,6 +76,8 @@ class App extends React.Component {
                   path={ROUTES.FRONTENDROUTES.BIDDER}
                   component={BidderContainer}
                 />
+                {/* redirect any unknown route to the home component */}
+                <Route path="*" component={Home} />
                 <ProtectedRoute exact path={ROUTES.FRONTENDROUTES.MY_PROFILE} />
               </Switch>
             </div>

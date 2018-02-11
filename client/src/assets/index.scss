@@ -42,6 +42,12 @@ a {
   padding: $spacing-sm 0 !important;
 }
 
+//all our root divs should use this
+.mainContentWrapper {
+  margin: 20;
+}
+
+
 // input {
 //   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 //   color: $color-text-primary;

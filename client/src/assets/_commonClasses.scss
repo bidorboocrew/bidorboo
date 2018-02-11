@@ -82,6 +82,7 @@ form {
     -webkit-transition: background-color 0.25s;
     background-color: #eee;
     color: $color-pallette-blue;
+    font-weight: $font-weight-bold;
     &.large {
       font-size: $font-size-lg;
     }

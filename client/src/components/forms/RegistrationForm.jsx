@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { Field, reduxForm } from 'redux-form';
-import '../styles/formstyles.css';
+import './styles/formstyles.css';
 
 class RegistrationForm extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     onSubmit: PropTypes.func.isRequired
   };
 
@@ -20,7 +20,7 @@ class RegistrationForm extends React.Component {
 
     return (
       <form onSubmit={onSubmit}>
-        <div calssName="input-field">
+        <div className="input-field">
           <label htmlFor="firstName">First Name</label>
           <Field
             className="bdb-input"
@@ -30,7 +30,7 @@ class RegistrationForm extends React.Component {
             type="text"
           />
         </div>
-        <div calssName="input-field">
+        <div className="input-field">
           <label htmlFor="lastName">Last Name</label>
           <Field
             className="bdb-input"
@@ -39,7 +39,7 @@ class RegistrationForm extends React.Component {
             type="text"
           />
         </div>
-        <div calssName="input-field">
+        <div className="input-field">
           <label htmlFor="email">Email</label>
           <Field
             className="bdb-input"
@@ -50,7 +50,7 @@ class RegistrationForm extends React.Component {
         </div>
         <div className="buttonsSection">
           <a className="formbutton medium" type="submit">
-            Submit
+            Signup
           </a>
         </div>
       </form>

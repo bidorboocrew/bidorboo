@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import defaultUserImage from '../assets/images/img_avatar2.png';
 import { Link } from 'react-router-dom';
 
-import './sideBar.css';
+import './styles/sideBar.css';
 
 class SideBar extends React.Component {
   static PropTypes = {
