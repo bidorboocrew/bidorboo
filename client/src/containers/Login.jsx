@@ -15,7 +15,7 @@ class BidderContainer extends React.Component {
 
   render() {
     return (
-      <div id="bdb-login-content" className="loginWrapper">
+      <div id="bdb-login-content" className="loginWrapper animated fadeIn">
         <div className="form">
           <div className="leftSide">
             <div className="sectionTitle">
@@ -23,7 +23,7 @@ class BidderContainer extends React.Component {
             </div>
             <LoginForm onSubmit={this.submitLoginForm} />
           </div>
-          <div className="verticalDivider hide-on-med-and-down" />
+          <div className="verticalDivider hide-on-small-and-down" />
           <div className="rightSide">
             <div className="sectionTitle">
               <span>Register?</span>{' '}

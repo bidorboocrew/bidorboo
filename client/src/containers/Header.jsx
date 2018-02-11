@@ -1,5 +1,6 @@
 import React from 'react';
 import { a_toggleSideNav } from '../app-state/actions/uiActions';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,10 +31,12 @@ class Header extends React.Component {
           </div> */}
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
-              <a className="bdb-button flat medium hover-effect">Signup</a>
-              <a className="bdb-button flat medium hover-effect" href="/auth/google">
+            <Link to="/login" className="bdb-button flat medium hover-effect">Signup</Link>
+              {/* <a className="bdb-button flat medium hover-effect" href="/auth/google">
                 {isLoggedIn ? userName : 'login'}
-              </a>
+
+              </a> */}
+              <Link to="/login" className="bdb-button flat medium hover-effect">Login</Link>
               {isLoggedIn && (
                 <a className="bdb-button flat medium hover-effect" href="/user/logout">
                   logout
