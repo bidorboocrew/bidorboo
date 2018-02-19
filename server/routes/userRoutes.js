@@ -54,7 +54,7 @@ module.exports = app => {
       };
 
       const user = await userDataAccess.createNewUser(userDetails);
-      done(null, user);
+      // done(null, user);
       res.send(existingUser);
 
     } catch (err) {
