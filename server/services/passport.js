@@ -71,8 +71,8 @@ const LocalStrategyConfig = {
 }
 
 passport.use(new LocalStrategy(
-  async (username, password, done) => {
-    console.log('username, password: ', username, password);
+  async (email, password, done) => {
+    console.log('username, password: ', email, password);
     // check if the user is authenticated or not
     if( authenticate(username, password) ) {
 
