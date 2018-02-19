@@ -20,6 +20,7 @@
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.2",
+    "google-auth-library": "^1.2.1",
     "helmet": "^3.11.0",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
@@ -29,7 +30,6 @@
     "nodemon": "^1.14.11",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
-    "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0"
   }
 }

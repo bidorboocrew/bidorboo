@@ -27,7 +27,6 @@ module.exports = app => {
   //   }
   // );
 
-
   app.get(ROUTES.USERAPI.LOGOUT, (req, res) => {
     req.logout();
     res.redirect(ROUTES.ENTRY);
