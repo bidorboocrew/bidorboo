@@ -1,4 +1,11 @@
 const passport = require('passport');
+var bodyParser = require('body-parser')
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -31,27 +38,28 @@ module.exports = app => {
 
 
   //---------------ANDROIND SPECIFIC----------------
-  app.post('/mobile/googleauth/loginOrRegister', async (req, res) => {
-    debugger;
-    const profile = {};
+  app.post('/mobile/googleauth/loginOrRegister', jsonParser, async (req, res, done) => {
+    const {profile} = req.body;
     try {
       const existingUser = await userDataAccess.findOneByUserId(profile.id);
       if (existingUser) {
+        res.send(existingUser);
         return done(null, existingUser);
       }
 
       const userDetails = {
         userId: profile.id,
-        email: profile.emails ? profile.emails[0].value : '',
-        profileImgUrl: profile.photos
-          ? profile.photos[0].value
-          : 'https://goo.gl/92gqPL'
+        email: profile.email,
+        profileImgUrl: profile.photo? profile.photo : 'https://goo.gl/92gqPL'
       };
 
       const user = await userDataAccess.createNewUser(userDetails);
-      // done(null, user);
+      done(null, user);
+      res.send(existingUser);
+
     } catch (err) {
-      // done(err, null);
+      res.send(err);
+      done(err, null);
     }
   })
 };

@@ -44,26 +44,6 @@ passport.deserializeUser(async (id, done) => {
 //   )
 // );
 
-// passport.use(
-//   new LocalStrategy(async (email, password, done) => {
-//     try {
-//       if (!email) {
-//         return done(null, false);
-//       }
-//       const existingUser = await userDataAccess.findOneByemail(email);
-
-//       if (existingUser) {
-//         if (!user.verifyPassword(password)) { return done(null, false); }
-
-//         return done(null, existingUser);
-//       } else {
-
-//       }
-//     } catch (err) {
-//       done(err, null);
-//     }
-//   })
-// );
 
 //localAtuh
 const LocalStrategyConfig = {
