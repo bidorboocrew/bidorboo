@@ -1,14 +1,16 @@
 //handle all user data manipulations
 
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
+const User = mongoose.model('UserModel');
+var moment = require('moment');
 
-exports.getUserById = (passport, id) => User.findById(id);
+exports.findOneByemail = email => User.findOne({ email: email });
 
-exports.getOneUserWithId = id => User.findOne({ Id: id });
+exports.findOneByUserId = id => User.findOne({ userId: id });
 exports.createNewUser = userDetails =>
   new User({
-    Id: userDetails.id,
-    name: userDetails.displayName,
-    provider: userDetails.provider
+    ...userDetails,
+    globalRating: 0,
+    membershipStatus: 'newMember',
+    lastSeenOnline: new Date(moment.utc().format())
   }).save();
