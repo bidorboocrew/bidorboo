@@ -6,6 +6,7 @@ const userDataAccess = require('../data-access/userDataAccess');
 const keys = require('../config/keys');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
@@ -64,6 +65,30 @@ passport.deserializeUser(async (id, done) => {
 //   })
 // );
 
+//localAtuh
+const LocalStrategyConfig = {
+  successRedirect: ''
+}
+
+passport.use(new LocalStrategy(
+  async (username, password, done) => {
+    console.log('username, password: ', username, password);
+    // check if the user is authenticated or not
+    if( authenticate(username, password) ) {
+
+      // User data from the DB
+      const user = {
+        name: 'Joe',
+        role: 'admin',
+        favColor: 'green',
+        isAdmin: true,
+      };
+
+      return done(null, user); // no error, and data = user
+    }
+    return done(null, false); // error and authenticted = false
+  }
+));
 // google Auth
 const GooglePassportConfig = {
   clientID: keys.googleClientID,

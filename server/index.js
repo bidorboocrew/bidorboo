@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const keys = require('./config/keys');
+const logger = require('morgan');
 // https://www.npmjs.com/package/bcrypt
 var bcrypt = require('bcrypt');
+
+const keys = require('./config/keys');
+
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -13,13 +16,26 @@ require('./models/userModel');
 require('./services/passport');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI);
+
+const dbOptions = {
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 5, // Never stop trying to reconnect
+  reconnectInterval: 500 // Reconnect every 500ms
+};
+mongoose.connect(keys.mongoURI, dbOptions, err => {
+  if (err) {
+    console.log(
+      'Could not connect to mongodb on localhost. Ensure that you have mongodb running mongodb accepts connections on standard ports!'
+    );
+  }
+});
 
 const app = express();
 
 // security package
 app.use(helmet());
 app.disable('x-powered-by');
+app.use(logger('dev'));
 
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
@@ -36,6 +52,8 @@ app.use(
 );
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
