@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+// https://www.npmjs.com/package/bcrypt
+var bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-var helmet = require('helmet');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 
 require('./models/userModel');
 require('./services/passport');
@@ -18,7 +21,7 @@ const app = express();
 app.use(helmet());
 app.disable('x-powered-by');
 
-var expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
   cookieSession({
     maxAge: expiryDate, // 1hour
@@ -33,7 +36,7 @@ app.use(
 );
 
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
