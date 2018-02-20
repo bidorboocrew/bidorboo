@@ -14,7 +14,7 @@ const getMiddleware = () => {
   }
   // Enable additional logging in non-production environments.
   // return applyMiddleware(promise(), thunk, createLogger());
-  return applyMiddleware(promise(), thunk);
+  return applyMiddleware(promise(), thunk,createLogger());
 };
 
 export const store = createStore(

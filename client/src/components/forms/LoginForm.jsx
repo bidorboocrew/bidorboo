@@ -10,16 +10,11 @@ class LoginForm extends React.Component {
     onSubmit: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { activeField: '' };
-  }
 
   render() {
-    const { onSubmit } = this.props;
-
+    const { handleSubmit } = this.props;
     return (
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="input-field">
           <label htmlFor="email">Email</label>
           <Field
@@ -43,9 +38,9 @@ class LoginForm extends React.Component {
           />
         </div>
         <div className="buttonsSection">
-          <a className="formbutton medium" type="submit">
+          <button  className="formbutton medium" type="submit">
             Login
-          </a>
+          </button>
         </div>
         <div className="socialmediaLogin">
           <div>
@@ -55,7 +50,7 @@ class LoginForm extends React.Component {
           </div>
           <div>
             <a href="/auth/facebook" className="fa fa-facebook">
-              <span> login with facebook</span>{' '}
+              <span> login with facebook</span>
             </a>
           </div>
         </div>

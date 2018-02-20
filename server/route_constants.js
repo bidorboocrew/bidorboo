@@ -11,7 +11,8 @@ module.exports = {
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
     LOGOUT: '/user/logout',
-    LOGIN: '/user/login'
+    LOGIN: '/user/login',
+    REGISTER: '/user/register'
   },
 
   FRONTEND: {

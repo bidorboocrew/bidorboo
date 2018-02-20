@@ -5,16 +5,19 @@ export const BACKENDROUTES = {
     GOOGLE: '/auth/google',
     GOOGLE_CALLBACK: '/auth/google/callback',
     FACEBOOK: '/auth/facebook',
-    FACEBOOK_CALLBACK: '/auth/facebook/callback'
+    FACEBOOK_CALLBACK: '/auth/facebook/callback',
+    REGISTER_NEW_USER: '/auth/register'
   },
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
-    LOGOUT: '/user/logout'
+    LOGOUT: '/user/logout',
+    LOGIN: '/user/login',
+    REGISTER: '/user/register'
   }
 };
 export const FRONTENDROUTES = {
   ENTRY: '/',
-  HOME:'/home',
+  HOME: '/home',
   PROPOSER: '/proposer',
   BIDDER: '/bidder',
   MY_PROFILE: '/myprofile'

@@ -44,31 +44,32 @@ passport.deserializeUser(async (id, done) => {
 //   )
 // );
 
-
 //localAtuh
 const LocalStrategyConfig = {
   successRedirect: ''
-}
+};
 
-passport.use(new LocalStrategy(
-  async (email, password, done) => {
+passport.use(
+  new LocalStrategy(async (email, password, done) => {
     console.log('username, password: ', email, password);
     // check if the user is authenticated or not
-    if( authenticate(username, password) ) {
-
-      // User data from the DB
-      const user = {
-        name: 'Joe',
-        role: 'admin',
-        favColor: 'green',
-        isAdmin: true,
-      };
-
-      return done(null, user); // no error, and data = user
+    try {
+      const existingUser = await userDataAccess.findOneByemail(email);
+      if (existingUser) {
+        return done(null, existingUser);
+      } else {
+        return done(null, {
+          error: 'Username or password provided are invalid'
+        });
+      }
+    } catch (err) {
+      return done(null, {
+        error: 'error during authentication',
+        details: err
+      });
     }
-    return done(null, false); // error and authenticted = false
-  }
-));
+  })
+);
 // google Auth
 const GooglePassportConfig = {
   clientID: keys.googleClientID,
