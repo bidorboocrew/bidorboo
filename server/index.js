@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const logger = require('morgan');
+
+const expressLogging = require('express-logging');
+const logger = require('logops');
+// const logger = require('morgan'); //ToDO questionable if I should use this or something else
 // https://www.npmjs.com/package/bcrypt
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const keys = require('./config/keys');
 
@@ -35,7 +38,8 @@ const app = express();
 // security package
 app.use(helmet());
 app.disable('x-powered-by');
-app.use(logger('dev'));
+// app.use(logger('dev'));
+app.use(expressLogging(logger));
 
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
@@ -62,7 +66,7 @@ app.get('/', (req, res) => {
   res.send({ body: 'hello' });
 });
 
-app.get('/errorRoute', (req, res) => {
+app.post('/errorRoute', (req, res) => {
   res.send({ body: 'error' });
 });
 

@@ -49,8 +49,13 @@ const LocalStrategyConfig = {
   successRedirect: ''
 };
 
-passport.use(
-  new LocalStrategy(async (email, password, done) => {
+passport.use('local-login',
+  new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    session: false,
+    passReqToCallback: true
+  },async (req,email, password, done) => {
     console.log('username, password: ', email, password);
     // check if the user is authenticated or not
     try {

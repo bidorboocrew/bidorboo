@@ -17,6 +17,14 @@ module.exports = app => {
     }
   );
 
+  app.post(
+    ROUTES.USERAPI.LOGIN,
+    passport.authenticate('local-login', { failureRedirect: '/errorRoute' }),
+    function(req, res) {
+      res.redirect('/');
+    }
+  );
+
   //Facebook routes
   // app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
   // app.get(

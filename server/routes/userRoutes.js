@@ -2,7 +2,6 @@ const passport = require('passport');
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
-
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -21,51 +20,36 @@ module.exports = app => {
 
   app.post(
     ROUTES.USERAPI.REGISTER,
-    passport.authenticate('local'),
-    (req, res) => {
+    async (req, res, next) => {
       //TO DO check for errors probably and redirect to the same place you came form instead
-      res.redirect('/');
-    }
-  );
-
-
-  app.post(
-    ROUTES.USERAPI.REGISTER,
-    async (req, res) => {
-      //TO DO check for errors probably and redirect to the same place you came form instead
-      const {username, password} = req.body;
+      const {email, password} = req.body;
       try {
 
-        if(!usrname || !password){
+        if(!email || !password){
           return done(null, null);
         }
 
-        const existingUser = await userDataAccess.findOneByemail(username);
-        if (existingUser) {
-          return done(null, existingUser);
-        }
+        // const existingUser = await userDataAccess.findOneByemail(email);
+        // if (existingUser) {
+        //   res.send({msg: "user already Exists"}, null);
+        //   return done(null, existingUser);
+        // }
 
         const userDetails = {
-          userId: profile.username,
-          email: username,
+          userId: email,
+          email: email,
           profileImgUrl: 'https://goo.gl/92gqPL'
         };
 
-        const user = await userDataAccess.createNewUser(userDetails);
-        done(null, user);
+        // const user = await userDataAccess.createNewUser(userDetails);
+        res.send('/bidder')
+        // res.send(null, user);
+        // done(null, user);
       } catch (err) {
+        res.send(err, null);
         done(err, null);
       }
-      res.redirect(ROUTES.USERAPI.LOGIN);
-    }
-  );
 
-  app.post(
-    ROUTES.USERAPI.LOGIN,
-    passport.authenticate('local'),
-    (req, res) => {
-      //TO DO check for errors probably and redirect to the same place you came form instead
-      res.redirect('/');
     }
   );
 

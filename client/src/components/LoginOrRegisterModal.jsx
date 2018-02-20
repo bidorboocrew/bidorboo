@@ -25,8 +25,25 @@ class LoginOrRegisterModal extends React.Component {
 
   render() {
     const { open, onClose, source } = this.props;
-    const submitLoginForm = values => console.log("========>", values)
-    const submitRegisterForm = values => console.log("========>", values)
+    const submitLoginForm = values => {
+      axios
+        .post(ROUTES.BACKENDROUTES.USERAPI.LOGIN, { ...values })
+        .then(response => {
+          debugger
+          console.log(response);
+        })
+        .catch(error => {
+          debugger
+          console.log(error.response);
+        });
+    };
+    const submitRegisterForm = values => {
+      axios
+        .post(ROUTES.BACKENDROUTES.USERAPI.REGISTER, { ...values })
+        .then(results => {
+          debugger;
+        });
+    };
 
     const classNames_loginTitle = classnames('sectionTitle', [
       { Active: source === 'login' }

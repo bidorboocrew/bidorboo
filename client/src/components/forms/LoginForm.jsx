@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
           <Field
             id="password"
             className="bdb-input"
-            name="lastName"
+            name="password"
             component="input"
             type="text"
             onFocus={() => this.setState({ activeField: 'password' })}
