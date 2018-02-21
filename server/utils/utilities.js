@@ -12,10 +12,5 @@ exports.encryptData = async dataToEncrypt => {
 };
 
 exports.compareEncryptedWithClearData = async (clearData, encryptedData) => {
-  try {
-    return bcrypt.compare(clearData, encryptedData);
-    const x =0;
-  } catch (err) {
-    return { errorMsg: 'Failed To compare the password', details: err };
-  }
+  return bcrypt.compare(clearData, encryptedData);
 };

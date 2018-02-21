@@ -41,6 +41,7 @@ app.disable('x-powered-by');
 // app.use(logger('dev'));
 app.use(expressLogging(logger));
 
+//https://github.com/expressjs/cookie-session
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 app.use(
   cookieSession({
@@ -54,11 +55,12 @@ app.use(
     }
   })
 );
+app.use(cookieParser());
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 

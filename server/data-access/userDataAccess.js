@@ -27,7 +27,7 @@ exports.registerNewUserWithPassword = async (userDetails) => {
   }).save();
 };
 
-exports.checkUserPassword = (candidatePass, encryptedPass) => {
-  const isTheRightPassword = utils.compareEncryptedWithClearData(candidatePass, encryptedPass)
+exports.checkUserPassword = async (candidatePass, encryptedPass) => {
+  const isTheRightPassword = await utils.compareEncryptedWithClearData(candidatePass, encryptedPass)
   return isTheRightPassword;
 };

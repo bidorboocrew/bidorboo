@@ -93,7 +93,7 @@ passport.use(
     try {
       const existingUser = await userDataAccess.findOneByemail(email);
       if (existingUser) {
-        const isValidPassword = userDataAccess.checkUserPassword(
+        const isValidPassword = await userDataAccess.checkUserPassword(
           password,
           existingUser.password
         );
