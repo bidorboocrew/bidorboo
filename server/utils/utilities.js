@@ -1,28 +1,21 @@
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
-exports.encryptData = data => {
+exports.encryptData = async dataToEncrypt => {
   // generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-    if (err) {
-      return { errorMessage: 'Failed To Encrypt', details: err };
-    }
-
-    // hash the password using our new salt
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) {
-        return { errorMessage: 'Failed To Hash', details: err };
-      }
-      return hash;
-    });
-  });
+  try {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    return bcrypt.hash(dataToEncrypt, salt);
+  } catch (err) {
+    return { errorMsg: 'Failed To encrypt the password', details: err };
+  }
 };
 
-exports.compareEncryptedWithClearData = (clearData, encryptedData) => {
-  bcrypt.compare(clearData, encryptedData, (err, isMatch) => {
-    if (err) {
-      return { errorMessage: 'Failed To Compare data', details: err };
-    }
-    return isMatch;
-  });
+exports.compareEncryptedWithClearData = async (clearData, encryptedData) => {
+  try {
+    return bcrypt.compare(clearData, encryptedData);
+    const x =0;
+  } catch (err) {
+    return { errorMsg: 'Failed To compare the password', details: err };
+  }
 };

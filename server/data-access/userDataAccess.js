@@ -1,5 +1,7 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
+const moment = require('moment');
+
 const User = mongoose.model('UserModel');
 const utils = require('../utils/utilities');
 
@@ -14,8 +16,8 @@ exports.createNewUser = userDetails =>
     lastSeenOnline: new Date(moment.utc().format())
   }).save();
 
-exports.registerNewUserWithPassword = userDetails => {
-  const encryptedPassword = utils.encryptData(userDetails.password);
+exports.registerNewUserWithPassword = async (userDetails) => {
+  const encryptedPassword = await utils.encryptData(userDetails.password);
   userDetails.password = encryptedPassword;
   return new User({
     ...userDetails,
