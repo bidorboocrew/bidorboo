@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/home.css';
 
-class ContentContainer extends React.Component {
+class HOME extends React.Component {
   render() {
     return (
       <div id="bdb-home-content" className="animated fadeIn">
@@ -12,4 +12,4 @@ class ContentContainer extends React.Component {
   }
 }
 
-export default ContentContainer;
+export default HOME;
