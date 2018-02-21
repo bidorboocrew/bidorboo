@@ -12,7 +12,6 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const PORT = process.env.PORT || 5000;
 
 require('./models/userModel');
 require('./services/passport');
@@ -98,4 +97,5 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT);
