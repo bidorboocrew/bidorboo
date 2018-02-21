@@ -63,9 +63,9 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-  res.send({ body: 'hello' });
-});
+// app.get('/', (req, res) => {
+//   res.send({ body: 'hello' });
+// });
 
 app.post('/errorRoute', (req, res) => {
   res.send({ body: 'error' });
@@ -77,11 +77,11 @@ require('./routes/userRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
-  app.use(function(req, res, next) {
-    if (req.headers['x-forwarded-proto'] != 'https')
-      res.redirect(['https://', req.get('Host'), req.url].join(''));
-    else next();
-  });
+  // app.use((req, res, next) => {
+  //   if (req.headers['x-forwarded-proto'] != 'https')
+  //     res.redirect(['https://', req.get('Host'), req.url].join(''));
+  //   else next();
+  // });
 
   // Express will serve up production assets
   // like our main.js file, or main.css file!
@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === 'production') {
   const path = require('path');
   app.get('*', (req, res) => {
     console.log(
-      'dirname ' + path.resolve(__dirname, '../client', './build', 'index.html')
+      'serving dirname ' + path.resolve(__dirname, '../client', './build', 'index.html')
     );
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });

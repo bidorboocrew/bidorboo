@@ -7,11 +7,10 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start": "npm install && npm run prod ",
+    "start": "npm install && cd client && yarn install && yarn run build && cd .. && cd server && yarn install && yarn run start",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
-    "prod": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
   },
   "author": "",
   "license": "ISC",
