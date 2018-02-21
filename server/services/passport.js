@@ -124,7 +124,8 @@ passport.use(
 const GooglePassportConfig = {
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
-  callbackURL: ROUTES.AUTH.GOOGLE_CALLBACK
+  callbackURL: ROUTES.AUTH.GOOGLE_CALLBACK,
+  proxy: true
 };
 passport.use(
   new GoogleStrategy(
