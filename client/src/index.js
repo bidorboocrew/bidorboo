@@ -13,8 +13,6 @@ import { Provider } from 'react-redux';
 //saidm make sure to update this package before relase
 import { ConnectedRouter } from 'react-router-redux';
 
-import { Route, Switch } from 'react-router-dom';
-
 import App from './containers/App';
 
 // import the store like this after moving this code somewhere else

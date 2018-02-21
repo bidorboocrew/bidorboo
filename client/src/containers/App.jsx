@@ -10,7 +10,7 @@ import * as ROUTES from '../route_const';
 
 import {
   Header,
-  Home,
+  HomePage,
   ProposerContainer,
   BidderContainer,
   UserProfileContainer
