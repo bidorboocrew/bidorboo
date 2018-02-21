@@ -62,12 +62,12 @@ class App extends React.Component {
                 <Route
                   exact
                   path={ROUTES.FRONTENDROUTES.ENTRY}
-                  component={Home}
+                  component={HomePage}
                 />
                 <Route
                   exact
                   path={ROUTES.FRONTENDROUTES.HOME}
-                  component={Home}
+                  component={HomePage}
                 />
                 <Route
                   exact
@@ -85,7 +85,7 @@ class App extends React.Component {
                   component={UserProfileContainer}
                 />
                 {/* redirect any unknown route to the home component */}
-                <Route path="*" component={Home} />
+                <Route path="*" component={HomePage} />
                 <ProtectedRoute exact path={ROUTES.FRONTENDROUTES.MY_PROFILE} />
               </Switch>
             </div>
