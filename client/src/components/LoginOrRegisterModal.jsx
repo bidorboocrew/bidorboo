@@ -27,21 +27,26 @@ class LoginOrRegisterModal extends React.Component {
     const { open, onClose, source } = this.props;
     const submitLoginForm = values => {
       axios
-        .post(ROUTES.BACKENDROUTES.USERAPI.LOGIN, { ...values })
+        .post(ROUTES.BACKENDROUTES.AUTH.LOGIN, { ...values })
         .then(response => {
-          debugger
+          debugger;
           console.log(response);
         })
         .catch(error => {
-          debugger
+          debugger;
           console.log(error.response);
         });
     };
     const submitRegisterForm = values => {
       axios
-        .post(ROUTES.BACKENDROUTES.USERAPI.REGISTER, { ...values })
-        .then(results => {
+        .post(ROUTES.BACKENDROUTES.AUTH.REGISTER, { ...values })
+        .then(response => {
           debugger;
+          console.log(response);
+        })
+        .catch(error => {
+          debugger;
+          console.log(error.response);
         });
     };
 
@@ -58,7 +63,7 @@ class LoginOrRegisterModal extends React.Component {
           <div className="form">
             <div className="leftSide">
               <div className={classNames_loginTitle}>
-                <span>Login</span>
+                <span>Login </span>
                 <span className="subtext">(existing user)</span>
               </div>
               <LoginForm onSubmit={submitLoginForm} />
@@ -66,7 +71,7 @@ class LoginOrRegisterModal extends React.Component {
             <div className="verticalDivider hide-on-small-and-down" />
             <div className="rightSide">
               <div className={classNames_RegisterTitle}>
-                <span>Signup</span> <span className="subtext">(It's free)</span>
+                <span>Signup </span><span className="subtext">(It's free)</span>
               </div>
               <RegistrationForm onSubmit={submitRegisterForm} />
             </div>

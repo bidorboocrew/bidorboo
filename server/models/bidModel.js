@@ -10,7 +10,7 @@ const BidSchema = new Schema({
   lastUpdated: Date,
   state: {
     type: String,
-    enum: ['open', 'boo', 'win', 'cancel', 'modified']
+    enum: ['OPEN', 'BOO', 'WIN', 'CANCEL', 'MODIFIED']
   },
   bidAmount: String //dolar amount
 });

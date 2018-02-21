@@ -24,7 +24,7 @@ const JobSchema = new Schema({
   lastUpdated: Date,
   state: {
     type: String,
-    enum: ['open', 'awarded', 'done', 'canceled', 'reopened']
+    enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'REOPENED']
   },
   properties: [PropertySchema], //list of props needed for a the template
   stats: StatsSchema

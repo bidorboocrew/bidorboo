@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-require('mongoose-type-email');
-
 const { Schema } = mongoose;
+require('mongoose-type-email');
 
 const ProviderSchema = new Schema({
   name: String, //google
@@ -30,8 +29,18 @@ const UserSchema = new Schema({
   _postedJobs: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }], //list of all jobs you have posted
   _postedBids: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }], // list of all bids you made
   _reviews: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }], //ref to reviews
-  userId: { type: String, required: true, unique: true },
-  email: { type: mongoose.SchemaTypes.Email, required: true, unique: true },
+  userId: {
+    type: String,
+    required: true,
+    unique: true,
+    index: { unique: true }
+  },
+  email: {
+    type: mongoose.SchemaTypes.Email,
+    required: true,
+    unique: true,
+    index: { unique: true }
+  },
   displayName: String,
   phoneNumber: String,
   password: String,
@@ -43,9 +52,22 @@ const UserSchema = new Schema({
   skills: [String], // list of strings representing their skills
   personalParagraph: String, // a blob about who they are
   paymentRefs: [String], // ID to fetch their payments through our system to generate an invoice
-  membershipStatus: {type: String, enum: ['newMember', 'basicMember', 'bronzeMember','silverMember', 'goldMember']}, // some challenges like the idea of super host
+  membershipStatus: {
+    type: String,
+    enum: [
+      'NEW_MEMBER',
+      'BASIC_MEMBER',
+      'BRONZE_MEMBER',
+      'SILVER_MEMBER',
+      'GOLDEN_MEMBER',
+      'PLATINUM_MEMBER'
+    ]
+  }, // some challenges like the idea of super host
   extras: Object, // this is a place holder for us to add more analytics
-  lastSeenOnline: Date //knowing this dates and time  will help us annotate new tasks and put some badge to show whats new
+  lastSeenOnline: Date, //knowing this dates and time  will help us annotate new tasks and put some badge to show whats new
+  // read and apply this later http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose
+  loginAttempts: { type: Number, required: true, default: 0 }, //to prevent hackers
+  lockUntil: { type: Number }
 });
 
 mongoose.model('UserModel', UserSchema);

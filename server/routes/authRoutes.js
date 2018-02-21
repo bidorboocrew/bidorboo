@@ -18,13 +18,20 @@ module.exports = app => {
   );
 
   app.post(
-    ROUTES.USERAPI.LOGIN,
-    passport.authenticate('local-login', { failureRedirect: '/errorRoute' }),
+    ROUTES.AUTH.REGISTER,
+    passport.authenticate('local-register', { failureRedirect: '/errorRoute' }),
     function(req, res) {
       res.redirect('/');
     }
   );
 
+  app.post(
+    ROUTES.AUTH.LOGIN,
+    passport.authenticate('local-login', { failureRedirect: '/errorRoute' }),
+    function(req, res) {
+      res.redirect('/');
+    }
+  );
   //Facebook routes
   // app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
   // app.get(
@@ -35,7 +42,7 @@ module.exports = app => {
   //   }
   // );
 
-  app.get(ROUTES.USERAPI.LOGOUT, (req, res) => {
+  app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
     req.logout();
     res.redirect(ROUTES.ENTRY);
   });

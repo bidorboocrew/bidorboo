@@ -6,14 +6,14 @@ export const BACKENDROUTES = {
     GOOGLE_CALLBACK: '/auth/google/callback',
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback',
-    REGISTER_NEW_USER: '/auth/register'
+    REGISTER_NEW_USER: '/auth/register',
+    LOGIN: '/auth/login',
+    REGISTER: '/auth/register',
+    LOGOUT: '/auth/logout',
   },
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
-    LOGOUT: '/user/logout',
-    LOGIN: '/user/login',
-    REGISTER: '/user/register'
-  }
+  },
 };
 export const FRONTENDROUTES = {
   ENTRY: '/',

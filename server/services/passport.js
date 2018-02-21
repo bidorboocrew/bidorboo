@@ -46,30 +46,74 @@ passport.deserializeUser(async (id, done) => {
 
 //localAtuh
 const LocalStrategyConfig = {
-  successRedirect: ''
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true
 };
 
-passport.use('local-login',
-  new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    session: false,
-    passReqToCallback: true
-  },async (req,email, password, done) => {
-    console.log('username, password: ', email, password);
-    // check if the user is authenticated or not
+passport.use(
+  'local-register',
+  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
+    try {
+      if (!email || !password) {
+        return done(
+          {
+            errorMsg:
+              'invalid inputs either username or password was not provided'
+          },
+          null
+        );
+      }
+
+      const existingUser = await userDataAccess.findOneByemail(email);
+      if (existingUser) {
+        return done(
+          { errorMsg: 'a user with the same email already exists' },
+          null
+        );
+      }
+
+      const userDetails = {
+        userId: email,
+        email: email,
+        password: password,
+        profileImgUrl: 'https://goo.gl/92gqPL'
+      };
+
+      const user = await userDataAccess.registerNewUserWithPassword(userDetails)
+      done(null, user);
+    } catch (err) {
+      done({ errorMsg: 'failed to register user', details: err }, null);
+    }
+  })
+);
+passport.use(
+  'local-login',
+  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
       const existingUser = await userDataAccess.findOneByemail(email);
       if (existingUser) {
-        return done(null, existingUser);
+        const isValidPassword = userDataAccess.checkUserPassword(
+          password,
+          existingUser.password
+        );
+        if (isValidPassword) {
+          //successfully logged in
+          return done(null, existingUser);
+        } else {
+          //invalid password try again
+          return done(null, {
+            errorMsg: 'Username or password provided are invalid'
+          });
+        }
       } else {
         return done(null, {
-          error: 'Username or password provided are invalid'
+          errorMsg: 'Username or password provided are invalid'
         });
       }
     } catch (err) {
       return done(null, {
-        error: 'error during authentication',
+        errorMsg: 'error during authentication',
         details: err
       });
     }

@@ -37,13 +37,22 @@
 }
 
 form {
+  div.form-field {
+    margin: 0 0 20px 0;
+    span.form-error {
+      color: #e95727;
+      font-size: $font-size-xs;
+    }
+  }
   label {
     font-size: $spacing-md;
     width: 100%;
     display: block;
     color: $color-placeholder-grey;
   }
+
   input[type='email'],
+  input[type='password'],
   input[type='text'] {
     font-size: 16px;
     background-color: transparent;
@@ -54,7 +63,6 @@ form {
     height: 3rem;
     width: 100%;
     font-size: 1rem;
-    margin: 0 0 20px 0;
     padding: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -68,8 +76,8 @@ form {
       border-bottom: $border-input-focus;
     }
   }
-  .buttonsSection{
-    margin-top:$spacing-sm;
+  .buttonsSection {
+    margin-top: $spacing-sm;
   }
   a.formbutton {
     padding: 0;
