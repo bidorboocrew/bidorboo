@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "npm install && cd server && yarn install && yarn run start",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "heroku-postbuild": "cd client && yarn install && yarn run build",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
