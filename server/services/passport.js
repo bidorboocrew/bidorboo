@@ -48,7 +48,8 @@ passport.deserializeUser(async (id, done) => {
 const LocalStrategyConfig = {
   usernameField: 'email',
   passwordField: 'password',
-  passReqToCallback: true
+  passReqToCallback: true,
+  proxy: true
 };
 
 passport.use(
