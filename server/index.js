@@ -1,11 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const expressLogging = require('express-logging');
-const logger = require('logops');
-// const logger = require('morgan'); //ToDO questionable if I should use this or something else
-// https://www.npmjs.com/package/bcrypt
-const bcrypt = require('bcrypt');
+
+const morganLogger = require('morgan'); //ToDO questionable if I should use this or something else
 
 const keys = require('./config/keys');
 
@@ -15,31 +12,36 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+const PORT = process.env.PORT || 5000;
+
 require('./models/userModel');
 require('./services/passport');
 
 mongoose.Promise = global.Promise;
 
 const dbOptions = {
-  autoIndex: false, // Don't build indexes
   reconnectTries: 5, // Never stop trying to reconnect
   reconnectInterval: 500 // Reconnect every 500ms
 };
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
     console.log(
-      'Could not connect to mongodb on localhost. Ensure that you have mongodb running mongodb accepts connections on standard ports!'
+      `Could not connect to mongodb on localhost.
+      Ensure that you have mongodb running mongodb accepts connections on standard ports! error: ${err}`
     );
   }
 });
 
 const app = express();
+app.use(morganLogger('combined'));
 
 // security package
 app.use(helmet());
 app.disable('x-powered-by');
-// app.use(logger('dev'));
-app.use(expressLogging(logger));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 //https://github.com/expressjs/cookie-session
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -57,9 +59,6 @@ app.use(
 );
 app.use(cookieParser());
 
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -99,5 +98,4 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 5000;
 app.listen(PORT);
