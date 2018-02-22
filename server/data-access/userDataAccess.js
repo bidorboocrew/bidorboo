@@ -13,7 +13,6 @@ exports.createNewUser = userDetails =>
     ...userDetails,
     globalRating: 0,
     membershipStatus: 'NEW_MEMBER',
-    lastSeenOnline: new Date(moment.utc().format())
   }).save();
 
 exports.registerNewUserWithPassword = async (userDetails) => {
@@ -23,7 +22,6 @@ exports.registerNewUserWithPassword = async (userDetails) => {
     ...userDetails,
     globalRating: 0,
     membershipStatus: 'NEW_MEMBER',
-    lastSeenOnline: new Date(moment.utc().format())
   }).save();
 };
 

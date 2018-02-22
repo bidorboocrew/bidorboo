@@ -20,7 +20,8 @@ mongoose.Promise = global.Promise;
 
 const dbOptions = {
   reconnectTries: 5, // Never stop trying to reconnect
-  reconnectInterval: 500 // Reconnect every 500ms
+  reconnectInterval: 500, // Reconnect every 500ms
+  autoIndex: false// avoid performance hit due to schema level indexing
 };
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
