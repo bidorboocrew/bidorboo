@@ -467,6 +467,10 @@ crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
 
+csp-header@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/csp-header/-/csp-header-1.2.2.tgz#7d91521bd841b7fbe45c9d8126995913db9be64c"
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -620,6 +624,13 @@ expand-brackets@^2.1.4:
 expect-ct@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
+
+express-csp-header@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/express-csp-header/-/express-csp-header-2.2.0.tgz#1cfef0c1de1e4be477719bf33738c7c8faa2dcaa"
+  dependencies:
+    csp-header "^1.2.0"
+    parse-domain "^0.2.1"
 
 express@^4.16.2:
   version "4.16.2"
@@ -1679,6 +1690,10 @@ package-json@^4.0.0:
     registry-auth-token "^3.0.1"
     registry-url "^3.0.3"
     semver "^5.1.0"
+
+parse-domain@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/parse-domain/-/parse-domain-0.2.2.tgz#188989b1e2e7398bff3c4f4fd7dca157eb51fac1"
 
 parseurl@~1.3.2:
   version "1.3.2"

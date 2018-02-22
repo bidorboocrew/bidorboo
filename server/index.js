@@ -9,9 +9,10 @@ const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+const helmet = require('helmet');
+const csp = require('express-csp-header');
 
 require('./models/userModel');
 require('./services/passport');
@@ -33,6 +34,20 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
 });
 
 const app = express();
+
+const cspMiddleware = csp({
+    policies: {
+      'default-src': [csp.NONE],
+      'script-src': [csp.NONCE],
+      'style-src': [csp.NONCE],
+      'img-src': [csp.SELF],
+      'font-src': [csp.NONCE, 'fonts.gstatic.com'],
+      'object-src': [csp.NONE],
+      'block-all-mixed-content': true,
+      'frame-ancestors': [csp.NONE]
+    }
+  });
+
 // security package
 app.use(helmet({
   frameguard: {
@@ -40,6 +55,7 @@ app.use(helmet({
   }
 }));
 app.use(helmet.hidePoweredBy());
+app.use(cspMiddleware);
 
 app.use(morganLogger('combined'));
 
