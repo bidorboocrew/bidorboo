@@ -37,12 +37,7 @@ const app = express();
 
 const cspMiddleware = csp({
     policies: {
-      'default-src': [csp.NONE],
-      'script-src': [csp.NONCE],
-      'img-src': [csp.SELF],
-      'object-src': [csp.NONE],
-      'block-all-mixed-content': true,
-      'frame-ancestors': [csp.NONE]
+      'block-all-mixed-content': true
     }
   });
 
