@@ -33,11 +33,17 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
 });
 
 const app = express();
+// security package
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  }
+}));
+app.use(helmet.hidePoweredBy());
+
 app.use(morganLogger('combined'));
 
-// security package
-app.use(helmet());
-app.disable('x-powered-by');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -57,21 +57,12 @@ passport.use(
   new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
       if (!email || !password) {
-        return done(
-          {
-            errorMsg:
-              'invalid inputs either username or password was not provided'
-          },
-          null
-        );
+        return done(null, false, 'invalid e-mail address or password');
       }
 
       const existingUser = await userDataAccess.findOneByemail(email);
       if (existingUser) {
-        return done(
-          { errorMsg: 'a user with the same email already exists' },
-          null
-        );
+        return done(null, false, 'a user with the same email already exists');
       }
 
       const userDetails = {
@@ -81,10 +72,12 @@ passport.use(
         profileImgUrl: 'https://goo.gl/92gqPL'
       };
 
-      const user = await userDataAccess.registerNewUserWithPassword(userDetails)
-      done(null, user);
+      const user = await userDataAccess.registerNewUserWithPassword(
+        userDetails
+      );
+      return done(null, user);
     } catch (err) {
-      done({ errorMsg: 'failed to register user', details: err }, null);
+      return done(err, null, 'Failed to register user');
     }
   })
 );
@@ -100,23 +93,16 @@ passport.use(
         );
         if (isValidPassword) {
           //successfully logged in
-          return done(null, existingUser);
+          done(null, existingUser);
         } else {
           //invalid password try again
-          return done(null, {
-            errorMsg: 'Username or password provided are invalid'
-          });
+          done(null, false, 'Username or password provided are invalid');
         }
       } else {
-        return done(null, {
-          errorMsg: 'Username or password provided are invalid'
-        });
+        return done(null, false, 'Username or password provided are invalid');
       }
     } catch (err) {
-      return done(null, {
-        errorMsg: 'error during authentication',
-        details: err
-      });
+      return done(err, false, 'Error during authentication');
     }
   })
 );
@@ -134,7 +120,7 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
-          return done(null, existingUser);
+          done(null, existingUser);
         }
 
         const userDetails = {
