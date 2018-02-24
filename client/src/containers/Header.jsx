@@ -1,42 +1,40 @@
 import React from 'react';
-import { a_toggleSideNav } from '../app-state/actions/uiActions';
+import {
+  toggleSideNav,
+  toggleLoginRegistrationForm
+} from '../app-state/actions/uiActions';
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { LoginOrRegisterModal } from '../components';
+import {
+  onSubmitRegistrationForm,
+  onSubmitLoginForm
+} from '../app-state/actions/authActions';
 
 import classnames from 'classnames';
 import './styles/header.css';
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { openLoginModal: false, loginClickSource: 'login' };
-    this.openLoginModalDialog = this.openLoginModalDialog.bind(this);
-    this.closeLoginModalDialog = this.closeLoginModalDialog.bind(this);
-  }
 
-  openLoginModalDialog(source) {
-    this.setState({
-      openLoginModal: true,
-      loginClickSource: source
-    });
-  }
-
-  closeLoginModalDialog() {
-    this.setState({ openLoginModal: false });
-  }
 
   render() {
-    const { onToggleSideNav, isSideNavOpen, userName, isLoggedIn } = this.props;
+    const {
+      a_onSubmitLoginForm,
+      a_onSubmitRegistrationForm,
+      a_toggleSideNav,
+      a_toggleLoginRegistrationForm,
+      s_isSideNavOpen,
+      s_userName,
+      s_isLoggedIn,
+      s_loginClickSrc,
+      s_isLoginRegistrationDialogOpen } = this.props;
 
     return (
       <nav>
         <div className="applicationBar-FC">
           <div
-            onClick={() => onToggleSideNav(isSideNavOpen)}
+            onClick={() => a_toggleSideNav(s_isSideNavOpen)}
             className="__logo"
           >
             <i className="material-icons">menu</i>
@@ -53,25 +51,25 @@ class Header extends React.Component {
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
               <a
-                onClick={() => this.openLoginModalDialog('register')}
+                onClick={() => a_toggleLoginRegistrationForm(true,'register')}
                 className="bdb-button flat medium hover-effect"
               >
                 Signup
               </a>
               {/* <a className="bdb-button flat medium hover-effect" href="/auth/google">
-                {isLoggedIn ? userName : 'login'}
+                {s_loginClickSrc ? userName : 'login'}
 
               </a> */}
               <a
-                onClick={() => this.openLoginModalDialog('login')}
+                onClick={() => a_toggleLoginRegistrationForm(true,'login')}
                 className="bdb-button flat medium hover-effect"
               >
                 Login
               </a>
-              {isLoggedIn && (
+              {s_isLoggedIn && (
                 <a
                   className="bdb-button flat medium hover-effect"
-                  href="/user/logout"
+                  href="/auth/logout"
                 >
                   logout
                 </a>
@@ -79,9 +77,11 @@ class Header extends React.Component {
             </div>
           </div>
           <LoginOrRegisterModal
-            onClose={this.closeLoginModalDialog}
-            open={this.state.openLoginModal}
-            source={this.state.loginClickSource}
+            onClose={() => a_toggleLoginRegistrationForm(false, '')}
+            open={s_isLoginRegistrationDialogOpen}
+            source={s_loginClickSrc}
+            onSubmitRegistrationForm={a_onSubmitRegistrationForm}
+            onSubmitLoginForm={a_onSubmitLoginForm}
           />
         </div>
       </nav>
@@ -91,14 +91,26 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
-    isSideNavOpen: uiReducer.isSideNavOpen,
-    userName: authReducer.userName,
-    isLoggedIn: authReducer.isLoggedIn
+    s_isSideNavOpen: uiReducer.isSideNavOpen,
+    s_isLoginRegistrationDialogOpen: uiReducer.isLoginRegistrationDialogOpen,
+    s_loginClickSrc: uiReducer.loginClickSrc,
+    s_userName: authReducer.userName,
+    s_isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleSideNav: bindActionCreators(a_toggleSideNav, dispatch)
+    a_onSubmitLoginForm: bindActionCreators(onSubmitLoginForm, dispatch),
+    a_onSubmitRegistrationForm: bindActionCreators(
+      onSubmitRegistrationForm,
+      dispatch
+    ),
+    a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch),
+    a_toggleLoginRegistrationForm: bindActionCreators(
+      toggleLoginRegistrationForm,
+      dispatch
+    )
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

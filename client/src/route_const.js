@@ -9,7 +9,7 @@ export const BACKENDROUTES = {
     REGISTER_NEW_USER: '/auth/register',
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
-    LOGOUT: '/auth/logout',
+    LOGOUT: '/auth/logout'
   },
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',

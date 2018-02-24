@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 
 const morganLogger = require('morgan'); //ToDO questionable if I should use this or something else
+const morganBody = require('morgan-body');
 
 const keys = require('./config/keys');
 
@@ -49,14 +50,15 @@ app.use(helmet({
 }));
 app.use(helmet.hidePoweredBy());
 app.use(cspMiddleware);
+app.disable('x-powered-by');
 
-app.use(morganLogger('combined'));
+// app.use(morganLogger('common'));
 
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+morganBody(app)
 
 //https://github.com/expressjs/cookie-session
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -112,6 +114,8 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

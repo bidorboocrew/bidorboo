@@ -37,7 +37,7 @@ module.exports = app => {
         });
       }
       return res.send(user);
-    })(req, res, next);
+    })(req, res, next)
   });
 
   app.post(ROUTES.AUTH.LOGIN, (req, res, next) => {
@@ -60,7 +60,7 @@ module.exports = app => {
         });
       }
       return res.send(user);
-    })(req, res, next);
+    })(req, res, next)
   });
   //Facebook routes
   // app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));

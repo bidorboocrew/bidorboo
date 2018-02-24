@@ -66,8 +66,6 @@ class RegistrationForm extends React.Component {
 }
 
 const validate = values => {
-  debugger;
-
   const errors = {};
   if (!values.email) {
     errors.email = 'Required';

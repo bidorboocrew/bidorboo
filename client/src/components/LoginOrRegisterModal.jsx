@@ -14,7 +14,9 @@ class LoginOrRegisterModal extends React.Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    source: PropTypes.string
+    source: PropTypes.string,
+    onSubmitRegistrationForm: PropTypes.func.isRequired,
+    onSubmitLoginForm: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -24,31 +26,13 @@ class LoginOrRegisterModal extends React.Component {
   };
 
   render() {
-    const { open, onClose, source } = this.props;
-    const submitLoginForm = values => {
-      axios
-        .post(ROUTES.BACKENDROUTES.AUTH.LOGIN, { ...values })
-        .then(response => {
-          debugger;
-          console.log(response);
-        })
-        .catch(error => {
-          debugger;
-          console.log(error.response);
-        });
-    };
-    const submitRegisterForm = values => {
-      axios
-        .post(ROUTES.BACKENDROUTES.AUTH.REGISTER, { ...values })
-        .then(response => {
-          debugger;
-          console.log(response);
-        })
-        .catch(error => {
-          debugger;
-          console.log(error.response);
-        });
-    };
+    const {
+      open,
+      onClose,
+      source,
+      onSubmitRegistrationForm,
+      onSubmitLoginForm
+    } = this.props;
 
     const classNames_loginTitle = classnames('sectionTitle', [
       { Active: source === 'login' }
@@ -66,14 +50,15 @@ class LoginOrRegisterModal extends React.Component {
                 <span>Login </span>
                 <span className="subtext">(existing user)</span>
               </div>
-              <LoginForm onSubmit={submitLoginForm} />
+              <LoginForm onSubmit={onSubmitLoginForm} />
             </div>
             <div className="verticalDivider hide-on-small-and-down" />
             <div className="rightSide">
               <div className={classNames_RegisterTitle}>
-                <span>Signup </span><span className="subtext">(It's free)</span>
+                <span>Signup </span>
+                <span className="subtext">(It's free)</span>
               </div>
-              <RegistrationForm onSubmit={submitRegisterForm} />
+              <RegistrationForm onSubmit={onSubmitRegistrationForm} />
             </div>
           </div>
         </Modal>

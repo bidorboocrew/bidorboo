@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import { a_onLogin } from '../app-state/actions/authActions';
+import { onLoginGoogle,
+  onLogout } from '../app-state/actions/authActions';
 import * as ROUTES from '../route_const';
 
 import {
@@ -21,15 +22,15 @@ import './styles/app.css';
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.onLogin();
+    this.props.a_onLoginGoogle();
   }
   componentWillReceiveProps(nextProps) {
     //this is used mostly to redirect user to the login page
     if (
-      this.props.currentRoute !== nextProps.currentRoute &&
-      nextProps.currentRoute === '/login'
+      this.props.s_currentRoute !== nextProps.s_currentRoute &&
+      nextProps.s_currentRoute === '/login'
     ) {
-      this.props.history.push(nextProps.currentRoute);
+      this.props.history.push(nextProps.s_currentRoute);
     }
   }
   componentDidCatch(error, info) {
@@ -40,7 +41,12 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { isSideNavOpen, currentRoute, onLogin, onLogout } = this.props;
+    const {
+      s_isSideNavOpen,
+      s_currentRoute,
+      a_onLoginGoogle,
+      onLogout
+    } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -54,7 +60,9 @@ class App extends React.Component {
         <div id="modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {isSideNavOpen && <SideBar loginAction={onLogin} actionList={[]} />}
+          {s_isSideNavOpen && (
+            <SideBar loginAction={a_onLoginGoogle} actionList={[]} />
+          )}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -97,13 +105,13 @@ class App extends React.Component {
 }
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
-    isSideNavOpen: uiReducer.isSideNavOpen,
-    currentRoute: routerReducer.pathname
+    s_isSideNavOpen: uiReducer.isSideNavOpen,
+    s_currentRoute: routerReducer.pathname
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: bindActionCreators(a_onLogin, dispatch)
+    a_onLoginGoogle: bindActionCreators(onLoginGoogle, dispatch)
   };
 };
 
@@ -112,7 +120,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 /**
  * this will ensure that you dont enter a route unless you are auth
  * good for profile
- * @param {*} param0
+ * @param {*}
  */
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
