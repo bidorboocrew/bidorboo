@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 
 const helmet = require('helmet');
 const csp = require('express-csp-header');
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
+// const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 
 
 const keys = require('./config/keys');
@@ -82,7 +82,7 @@ require('./routes/userRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
-  app.use(redirectToHTTPS());
+  // app.use(redirectToHTTPS());
 
 
   // Express will serve up production assets
