@@ -23,6 +23,7 @@ p {
   overflow-wrap: break-word;
   overflow: hidden;
   span {
+    color: #e95727;
     font-size: 60px;
     font-weight: 700;
     letter-spacing: 0;
@@ -30,32 +31,5 @@ p {
     display: block;
     margin: 0 auto;
     text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
-
-    /* Clip Background Image */
-    background: url(http://f.cl.ly/items/010q3E1u3p2Q0j1L1S1o/animated_text_fill.png)
-      repeat-y;
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    /* Animate Background Image */
-
-    -webkit-text-fill-color: transparent;
-    -webkit-animation: aitf 80s linear infinite;
-
-    /* Activate hardware acceleration for smoother animations */
-
-    -webkit-transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
-  }
-}
-
-/* Animate Background Image */
-
-@-webkit-keyframes aitf {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
   }
 }

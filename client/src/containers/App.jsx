@@ -142,17 +142,18 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
  * good for profile
  * @param {*}
  */
-const ProtectedRoute = ({ isloggedIn, component: Component, ...rest }) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props =>
-        isloggedIn ? (
+      render={(props) => {
+        const { isLoggedIn } = { ...rest };
+        return isLoggedIn ? (
           <Component {...props} />
         ) : (
-          <Redirect to={ROUTES.FRONTENDROUTES.ENTRY} />
-        )
-      }
+          <Redirect to={ROUTES.FRONTENDROUTES.HOME} />
+        );
+      }}
     />
   );
 };

@@ -23,12 +23,12 @@ module.exports = app => {
     ROUTES.AUTH.FACEBOOK_CALLBACK,
     passport.authenticate('facebook'),
     (req, res) => {
-      res.redirect(ROUTES.ENTRY);
+      res.redirect(ROUTES.FRONTEND.HOME);
     }
   );
 
   app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
     req.logout();
-    res.redirect(ROUTES.ENTRY);
+    res.redirect(ROUTES.FRONTEND.ENTRY);
   });
 };
