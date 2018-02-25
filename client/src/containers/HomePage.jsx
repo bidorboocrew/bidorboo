@@ -6,88 +6,11 @@ class HomePage extends React.Component {
     return (
       <div id="bdb-home-content">
         {/* <div classNameName="__introImage" /> */}
-        <div className="container">
-          <div className="bubble-wrap">
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-            <div className="bubble" />
-          </div>
-        </div>
+        <p >
+        Get your daily jobs done for the price you like And Earn Money doing jobs that you love.
+        <span>Bid Or Boo</span>
+        - coming soon -
+        </p>
       </div>
     );
   }
