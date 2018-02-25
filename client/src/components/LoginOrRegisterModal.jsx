@@ -24,12 +24,14 @@ class LoginOrRegisterModal extends React.Component {
             </div>
             <div className="socialmediaLogin">
               <a
+                rel="noopener"
                 href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
                 className="fa fa-google"
               >
                 <span> login with google </span>
               </a>
               <a
+                rel="noopener"
                 href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
                 className="fa fa-facebook"
               >
