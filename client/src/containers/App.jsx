@@ -42,7 +42,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isSideNavOpen, s_isLoggedIn } = this.props;
+    const { s_isSideNavOpen, s_isLoggedIn, s_userDetails } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -56,7 +56,9 @@ class App extends React.Component {
         <div id="global-modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {s_isSideNavOpen && <SideBar actionList={[]} />}
+          {s_isSideNavOpen && (
+            <SideBar userDetails={s_userDetails} actionList={[]} />
+          )}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -101,7 +103,8 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_currentRoute: routerReducer.currentRoute,
-    s_isLoggedIn: authReducer.isLoggedIn
+    s_isLoggedIn: authReducer.isLoggedIn,
+    s_userDetails: authReducer.userDetails
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -118,7 +121,6 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
  * @param {*}
  */
 const ProtectedRoute = ({ isloggedIn, component: Component, ...rest }) => {
-  debugger;
   return (
     <Route
       {...rest}

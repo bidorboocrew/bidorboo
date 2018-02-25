@@ -7,7 +7,10 @@ import './styles/sideBar.css';
 
 class SideBar extends React.Component {
   static PropTypes = {
-    imageURL: PropTypes.string,
+    userDetails: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      profileImgUrl: PropTypes.string.isRequired
+    }).isRequired,
     logoutAction: PropTypes.func,
     actionList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -23,31 +26,22 @@ class SideBar extends React.Component {
 
   render() {
     const classNames_sidenav = classnames('animated slideInLeft');
-    const { imageURL, loginAction, logoutAction, actionList } = this.props;
-
+    const { userDetails, loginAction, logoutAction, actionList } = this.props;
+    const { profileImgUrl, email } = userDetails;
+    debugger;
     return (
       <div id="side-nav" className={classNames_sidenav}>
         <div className="sideBarContentWrapper_FC">
           <div className="profileImg">
             {/* use the user image if one exists  */}
-            {imageURL && (
+            {profileImgUrl && (
               <img
                 height="52px"
                 width="52px"
-                src={imageURL}
+                src={profileImgUrl}
                 style={{ borderRadius: '50%' }}
               />
             )}
-            {/* default image  */}
-            {!imageURL && (
-              <img
-                height="52px"
-                width="52px"
-                src={defaultUserImage}
-                style={{ borderRadius: '50%' }}
-              />
-            )}
-            {/* image container */}
           </div>
 
           <div>{/* login button */}</div>
