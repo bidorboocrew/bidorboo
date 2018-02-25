@@ -19,9 +19,9 @@ class LoginOrRegisterModal extends React.Component {
       <div id="modal-dialog">
         <Modal open={open} onClose={onClose} little>
           <div className="form">
-            <div className="sectionTitle active">
-              <span>Sign into BidorBoo</span>
-            </div>
+            {/* <div className="sectionTitle active">
+              <span>Signin</span>
+            </div> */}
             <div className="socialmediaLogin">
               <a
                 rel="noopener"
