@@ -2,13 +2,39 @@
 
 .profileImg {
   height: 150px;
-  margin-bottom:4px;
+  margin-bottom: $spacing-xs;
   border-radius: 50%;
 }
 
 .starRating {
   width: 150px;
-  margin-bottom:4px;
+  margin-bottom: $spacing-xs;
 }
 
+.divider {
+  border-bottom: $border-divider;
+  border-color: white;
+}
+
+.item {
+  margin-bottom: $spacing-sm;
+  &.username {
+    font-size: $font-size-xs;
+  }
+}
+.action {
+  text-align: left;
+  transition: color 0.25s, background-color 0.25s;
+  padding: $spacing-xl;
+  font-size: $font-size-lg;
+  border-bottom: 1px solid #444444;
+  cursor: pointer;
+  i {
+    font-size: $font-size-md;
+    margin-right: 8px;
+  }
+  &:hover {
+    background: #4bbdbd;
+  }
+}
 // you were here trying to fig out how to align the image in the middle

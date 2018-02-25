@@ -19,9 +19,9 @@ import { SideBar } from '../components';
 import './styles/app.css';
 
 class App extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     s_isSideNavOpen: PropTypes.bool.isRequired,
-    s_currentRoute: PropTypes.bool.isRequired,
+    s_currentRoute: PropTypes.string,
     a_getCurrentUser: PropTypes.func.isRequired
   };
 

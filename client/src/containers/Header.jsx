@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import './styles/header.css';
 
 class Header extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     s_isSideNavOpen: PropTypes.bool.isRequired,
     s_isLoginDialogOpen: PropTypes.bool.isRequired,
     s_userEmail: PropTypes.string,
