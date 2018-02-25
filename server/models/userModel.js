@@ -40,14 +40,20 @@ const UserSchema = new Schema(
     },
     email: {
       type: mongoose.SchemaTypes.Email,
-      required: true,
+      allowBlank: true,
       unique: true,
       lowercase: true,
       trim: true,
       index: true
     },
-    displayName: String,
-    phoneNumber: String,
+    displayName: {
+      type: String,
+      trim: true
+    },
+    phoneNumber:{
+      type: String,
+      trim: true
+    },
     password: String,
     creditCards: [CreditCardSchema], // we will only store the credit cardS number (not expiry nor cvv)
     provider: [ProviderSchema],

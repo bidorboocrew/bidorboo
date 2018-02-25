@@ -20,7 +20,7 @@ class LoginOrRegisterModal extends React.Component {
         <Modal open={open} onClose={onClose} little>
           <div className="form">
             <div className="sectionTitle active">
-              <span>BidorBoo Login</span>
+              <span>Sign into BidorBoo</span>
             </div>
             <div className="socialmediaLogin">
               <a

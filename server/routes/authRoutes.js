@@ -17,15 +17,15 @@ module.exports = app => {
     }
   );
 
-  //Facebook routes
-  // app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
-  // app.get(
-  //   ROUTES.AUTH.FACEBOOK_CALLBACK,
-  //   passport.authenticate('facebook'),
-  //   (req, res) => {
-  //     res.redirect(ROUTES.ENTRY);
-  //   }
-  // );
+  // Facebook routes
+  app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
+  app.get(
+    ROUTES.AUTH.FACEBOOK_CALLBACK,
+    passport.authenticate('facebook'),
+    (req, res) => {
+      res.redirect(ROUTES.ENTRY);
+    }
+  );
 
   app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
     req.logout();

@@ -23,26 +23,40 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// const FacebookPassportConfig = {
-//   clientID: keys.facebookClientID,
-//   clientSecret: keys.facebookClientSecret,
-//   callbackURL: ROUTES.AUTH.FACEBOOK_CALLBACK
-// };
-// //facebook Auth
-// passport.use(
-//   new FacebookStrategy(
-//     FacebookPassportConfig,
-//     async (accessToken, refreshToken, profile, done) => {
-//       const existingUser = await userDataAccess.findOneByUserId(profile.id);
-//       if (existingUser) {
-//         return done(null, existingUser);
-//       }
+const FacebookPassportConfig = {
+  clientID: keys.facebookClientID,
+  clientSecret: keys.facebookClientSecret,
+  callbackURL: ROUTES.AUTH.FACEBOOK_CALLBACK,
+  profileFields: ['id', 'displayName', 'name', 'gender', 'picture.type(large)']
+};
+//facebook Auth
+passport.use(
+  new FacebookStrategy(
+    FacebookPassportConfig,
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const existingUser = await userDataAccess.findOneByUserId(profile.id);
+        if (existingUser) {
+          done(null, existingUser);
+        }
+        const userEmail = profile.emails ? profile.emails[0].value : '';
+        const userDetails = {
+          displayName: profile.displayName,
+          userId: profile.id,
+          email: userEmail,
+          profileImgUrl: profile.photos
+            ? profile.photos[0].value
+            : 'https://goo.gl/92gqPL'
+        };
 
-//       const user = await userDataAccess.createNewUser(profile);
-//       done(null, user);
-//     }
-//   )
-// );
+        const user = await userDataAccess.createNewUser(userDetails);
+        done(null, user);
+      } catch (err) {
+        done(err, null);
+      }
+    }
+  )
+);
 
 // google Auth
 const GooglePassportConfig = {
@@ -60,7 +74,7 @@ passport.use(
         if (existingUser) {
           done(null, existingUser);
         }
-        const userEmail= profile.emails ? profile.emails[0].value : '';
+        const userEmail = profile.emails ? profile.emails[0].value : '';
         const userDetails = {
           displayName: profile.displayName,
           userId: profile.id,

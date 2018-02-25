@@ -20,7 +20,8 @@ require('./services/passport');
 mongoose.Promise = global.Promise;
 
 const dbOptions = {
-  reconnectTries: 5, // Never stop trying to reconnect
+  keepAlive: 120,
+  reconnectTries: 20, // Never stop trying to reconnect
   reconnectInterval: 500, // Reconnect every 500ms
   autoIndex: false // avoid performance hit due to schema level indexing
 };
