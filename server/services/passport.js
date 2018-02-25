@@ -44,68 +44,6 @@ passport.deserializeUser(async (id, done) => {
 //   )
 // );
 
-//localAtuh
-const LocalStrategyConfig = {
-  usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true,
-  proxy: true
-};
-
-passport.use(
-  'local-register',
-  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
-    try {
-      if (!email || !password) {
-        return done(null, false, 'invalid e-mail address or password');
-      }
-
-      const existingUser = await userDataAccess.findOneByemail(email);
-      if (existingUser) {
-        return done(null, false, 'a user with the same email already exists');
-      }
-
-      const userDetails = {
-        userId: email,
-        email: email,
-        password: password,
-        profileImgUrl: 'https://goo.gl/92gqPL'
-      };
-
-      const user = await userDataAccess.registerNewUserWithPassword(
-        userDetails
-      );
-      return done(null, user);
-    } catch (err) {
-      return done(err, null, 'Failed to register user');
-    }
-  })
-);
-passport.use(
-  'local-login',
-  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
-    try {
-      const existingUser = await userDataAccess.findOneByemail(email);
-      if (existingUser) {
-        const isValidPassword = await userDataAccess.checkUserPassword(
-          password,
-          existingUser.password
-        );
-        if (isValidPassword) {
-          //successfully logged in
-          done(null, existingUser);
-        } else {
-          //invalid password try again
-          done(null, false, 'Username or password provided are invalid');
-        }
-      } else {
-        return done(null, false, 'Username or password provided are invalid');
-      }
-    } catch (err) {
-      return done(err, false, 'Error during authentication');
-    }
-  })
-);
 // google Auth
 const GooglePassportConfig = {
   clientID: keys.googleClientID,

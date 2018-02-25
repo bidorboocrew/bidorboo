@@ -4,8 +4,7 @@ import * as A from '../actionTypes';
 
 const initialState = {
   isSideNavOpen: false,
-  isLoginRegistrationDialogOpen: false,
-  loginClickSrc: ''
+  isLoginDialogOpen: false,
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -16,18 +15,17 @@ export default function(state = initialState, { type, payload }) {
     case A.UI_ACTIONS.OPEN_SIDENAV: {
       return { ...state, isSideNavOpen: true };
     }
-    case A.UI_ACTIONS.OPEN_LOGIN_REGISTRATION_FORM: {
+    case A.UI_ACTIONS.OPEN_LOGIN_DIALOG: {
       return {
         ...state,
-        isLoginRegistrationDialogOpen: true,
+        isLoginDialogOpen: true,
         loginClickSrc: payload.loginClickSrc
       };
     }
-    case A.UI_ACTIONS.CLOSE_LOGIN_REGISTRATION_FORM: {
+    case A.UI_ACTIONS.CLOSE_LOGIN_DIALOG: {
       return {
         ...state,
-        isLoginRegistrationDialogOpen: false,
-        loginClickSrc: ''
+        isLoginDialogOpen: false,
       };
     }
 

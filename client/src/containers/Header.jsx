@@ -1,34 +1,34 @@
 import React from 'react';
-import {
-  toggleSideNav,
-  toggleLoginRegistrationForm
-} from '../app-state/actions/uiActions';
-import { Link } from 'react-router-dom';
+import { toggleSideNav, showLoginDialog } from '../app-state/actions/uiActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoginOrRegisterModal } from '../components';
-import {
-  onSubmitRegistrationForm,
-  onSubmitLoginForm
-} from '../app-state/actions/authActions';
+import PropTypes from 'prop-types';
 
-import classnames from 'classnames';
 import './styles/header.css';
 
 class Header extends React.Component {
-
+  static PropTypes = {
+    s_isSideNavOpen: PropTypes.bool.isRequired,
+    s_isLoginDialogOpen: PropTypes.bool.isRequired,
+    s_userEmail: PropTypes.string,
+    s_isLoggedIn: PropTypes.bool.isRequired,
+    a_toggleSideNav: PropTypes.func.isRequired,
+    a_showLoginDialog: PropTypes.func.isRequired
+  };
+  static defaultProps = {
+    s_userEmail: ''
+  };
 
   render() {
     const {
-      a_onSubmitLoginForm,
-      a_onSubmitRegistrationForm,
       a_toggleSideNav,
-      a_toggleLoginRegistrationForm,
+      a_showLoginDialog,
       s_isSideNavOpen,
-      s_userName,
+      s_userEmail,
       s_isLoggedIn,
-      s_loginClickSrc,
-      s_isLoginRegistrationDialogOpen } = this.props;
+      s_isLoginDialogOpen
+    } = this.props;
 
     return (
       <nav>
@@ -50,22 +50,30 @@ class Header extends React.Component {
           </div> */}
           <div className="__button_FC hide-on-small-and-down">
             <div className="__buttons">
-              <a
-                onClick={() => a_toggleLoginRegistrationForm(true,'register')}
-                className="bdb-button flat medium hover-effect"
-              >
-                Signup
-              </a>
-              {/* <a className="bdb-button flat medium hover-effect" href="/auth/google">
-                {s_loginClickSrc ? userName : 'login'}
-
-              </a> */}
-              <a
-                onClick={() => a_toggleLoginRegistrationForm(true,'login')}
-                className="bdb-button flat medium hover-effect"
-              >
-                Login
-              </a>
+              {!s_isLoggedIn && (
+                <a
+                  onClick={() => a_showLoginDialog(true)}
+                  className="bdb-button flat medium hover-effect"
+                >
+                  Signup
+                </a>
+              )}
+              {s_isLoggedIn && (
+                <a
+                  className="bdb-button flat medium hover-effect"
+                  href="/auth/google"
+                >
+                  {s_userEmail}
+                </a>
+              )}
+              {!s_isLoggedIn && (
+                <a
+                  onClick={() => a_showLoginDialog(true)}
+                  className="bdb-button flat medium hover-effect"
+                >
+                  Login
+                </a>
+              )}
               {s_isLoggedIn && (
                 <a
                   className="bdb-button flat medium hover-effect"
@@ -77,11 +85,8 @@ class Header extends React.Component {
             </div>
           </div>
           <LoginOrRegisterModal
-            onClose={() => a_toggleLoginRegistrationForm(false, '')}
-            open={s_isLoginRegistrationDialogOpen}
-            source={s_loginClickSrc}
-            onSubmitRegistrationForm={a_onSubmitRegistrationForm}
-            onSubmitLoginForm={a_onSubmitLoginForm}
+            onClose={() => a_showLoginDialog(false)}
+            open={s_isLoginDialogOpen}
           />
         </div>
       </nav>
@@ -92,24 +97,15 @@ class Header extends React.Component {
 const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
-    s_isLoginRegistrationDialogOpen: uiReducer.isLoginRegistrationDialogOpen,
-    s_loginClickSrc: uiReducer.loginClickSrc,
-    s_userName: authReducer.userName,
+    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
+    s_userEmail: authReducer.userEmail,
     s_isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_onSubmitLoginForm: bindActionCreators(onSubmitLoginForm, dispatch),
-    a_onSubmitRegistrationForm: bindActionCreators(
-      onSubmitRegistrationForm,
-      dispatch
-    ),
     a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch),
-    a_toggleLoginRegistrationForm: bindActionCreators(
-      toggleLoginRegistrationForm,
-      dispatch
-    )
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 

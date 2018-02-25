@@ -6,9 +6,6 @@ module.exports = {
     GOOGLE_CALLBACK: '/auth/google/callback',
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback',
-    REGISTER_NEW_USER: '/auth/register',
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
     LOGOUT: '/auth/logout',
   },
   USERAPI: {
@@ -22,3 +19,4 @@ module.exports = {
     MY_PROFILE: '/myprofile'
   }
 };
+

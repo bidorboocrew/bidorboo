@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import { onLoginGoogle,
-  onLogout } from '../app-state/actions/authActions';
+import { getCurrentUser } from '../app-state/actions/authActions';
 import * as ROUTES from '../route_const';
 
 import {
@@ -16,13 +14,19 @@ import {
   BidderContainer,
   UserProfileContainer
 } from './index';
-import { SideBar, Overlay } from '../components';
+import { SideBar } from '../components';
 
 import './styles/app.css';
 
 class App extends React.Component {
+  static PropTypes = {
+    s_isSideNavOpen: PropTypes.bool.isRequired,
+    s_currentRoute: PropTypes.bool.isRequired,
+    a_getCurrentUser: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
-    this.props.a_onLoginGoogle();
+    this.props.a_getCurrentUser();
   }
   componentWillReceiveProps(nextProps) {
     //this is used mostly to redirect user to the login page
@@ -41,12 +45,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const {
-      s_isSideNavOpen,
-      s_currentRoute,
-      a_onLoginGoogle,
-      onLogout
-    } = this.props;
+    const { s_isSideNavOpen, a_getCurrentUser } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -57,11 +56,11 @@ class App extends React.Component {
         {/* for blocking Entire UI */}
         <div id="block-ui-overlay" />
         {/* for modal dialogs  */}
-        <div id="modal-dialog" />
+        <div id="global-modal-dialog" />
 
         <div id="app-flex-wrapper">
           {s_isSideNavOpen && (
-            <SideBar loginAction={a_onLoginGoogle} actionList={[]} />
+            <SideBar loginAction={a_getCurrentUser} actionList={[]} />
           )}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
@@ -111,7 +110,7 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_onLoginGoogle: bindActionCreators(onLoginGoogle, dispatch)
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch)
   };
 };
 

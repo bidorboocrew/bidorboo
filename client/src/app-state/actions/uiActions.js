@@ -8,13 +8,12 @@ export const toggleSideNav = isopen => ({
   }
 });
 
-export const toggleLoginRegistrationForm = (isopen, loginClickSrc = '') => ({
+export const showLoginDialog = isopen => ({
   type: isopen
-    ? A.UI_ACTIONS.OPEN_LOGIN_REGISTRATION_FORM
-    : A.UI_ACTIONS.CLOSE_LOGIN_REGISTRATION_FORM,
+    ? A.UI_ACTIONS.OPEN_LOGIN_DIALOG
+    : A.UI_ACTIONS.CLOSE_LOGIN_DIALOG,
 
   payload: {
     isLoginRegistrationDialogOpen: isopen,
-    loginClickSrc: loginClickSrc
   }
 });

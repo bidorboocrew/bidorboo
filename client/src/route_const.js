@@ -7,8 +7,6 @@ export const BACKENDROUTES = {
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback',
     REGISTER_NEW_USER: '/auth/register',
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
     LOGOUT: '/auth/logout'
   },
   USERAPI: {

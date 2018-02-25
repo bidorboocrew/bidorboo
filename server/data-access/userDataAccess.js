@@ -15,17 +15,17 @@ exports.createNewUser = userDetails =>
     membershipStatus: 'NEW_MEMBER',
   }).save();
 
-exports.registerNewUserWithPassword = async (userDetails) => {
-  const encryptedPassword = await utils.encryptData(userDetails.password);
-  userDetails.password = encryptedPassword;
-  return new User({
-    ...userDetails,
-    globalRating: 0,
-    membershipStatus: 'NEW_MEMBER',
-  }).save();
-};
+// exports.registerNewUserWithPassword = async (userDetails) => {
+//   const encryptedPassword = await utils.encryptData(userDetails.password);
+//   userDetails.password = encryptedPassword;
+//   return new User({
+//     ...userDetails,
+//     globalRating: 0,
+//     membershipStatus: 'NEW_MEMBER',
+//   }).save();
+// };
 
-exports.checkUserPassword = async (candidatePass, encryptedPass) => {
-  const isTheRightPassword = await utils.compareEncryptedWithClearData(candidatePass, encryptedPass)
-  return isTheRightPassword;
-};
+// exports.checkUserPassword = async (candidatePass, encryptedPass) => {
+//   const isTheRightPassword = await utils.compareEncryptedWithClearData(candidatePass, encryptedPass)
+//   return isTheRightPassword;
+// };

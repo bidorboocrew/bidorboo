@@ -1,43 +1,68 @@
 @import '../../assets/_variables.scss';
 @import '../../assets/_commonClasses.scss';
 
-
 .form {
-  // width: 80%;
-  border-radius: $border-raduis-sm;
   margin: $spacing-lg auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  // height: 100%;
+  flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
-  .verticalDivider {
-    margin: $spacing-xxl;
-    width: 2px;
-    background-color: $color-border-color;
-    display: block;
-  }
-
-  .leftSide {
-    padding: $spacing-lg;
-  }
-  .rightSide {
-    padding: $spacing-lg;
-  }
+  padding: $spacing-lg;
 }
 .sectionTitle {
   padding: $spacing-sm 0;
   border-bottom: $border-divider;
   font-weight: $font-weight-bold;
   font-size: $font-size-xl;
-  margin-bottom:$spacing-lg;
-  span.subtext{
+  margin-bottom: $spacing-lg;
+  text-align: center;
+
+  span.subtext {
     font-weight: $font-weight-normal;
     color: $color-placeholder-grey;
     font-size: $font-size-md;
   }
-  &.Active{
+  &.active {
     color: $color-pallette-blue;
+  }
+}
+
+.socialmediaLogin {
+  padding: 16px 0;
+  flex-grow: 1;
+
+  a {
+    flex-grow: 1;
+    .fa {
+      font-size: $font-size-xl;
+      width: 50px;
+      text-align: center;
+      text-decoration: none;
+      margin: 20px;
+    }
+    &.fa-facebook {
+      background: #3b5998;
+      color: white;
+      margin-top: 12px;
+    }
+    &.fa-google {
+      background: #dd4b39;
+      color: white;
+    }
+    &.fa-google,
+    &.fa-facebook {
+      text-align: center;
+      width: 90%;
+      line-height: 20px;
+      padding: 20px;
+      &:hover {
+        opacity: 0.7;
+      }
+      span {
+        font-family: $font-family;
+        font-size: $font-size-md;
+      }
+    }
   }
 }

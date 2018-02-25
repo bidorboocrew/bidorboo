@@ -1,11 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-
-const morganLogger = require('morgan'); //ToDO questionable if I should use this or something else
 const morganBody = require('morgan-body');
 
-const keys = require('./config/keys');
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -14,6 +10,8 @@ const cookieParser = require('cookie-parser');
 
 const helmet = require('helmet');
 const csp = require('express-csp-header');
+
+const keys = require('./config/keys');
 
 require('./models/userModel');
 require('./services/passport');
@@ -52,9 +50,6 @@ app.use(helmet.hidePoweredBy());
 app.use(cspMiddleware);
 app.disable('x-powered-by');
 
-// app.use(morganLogger('common'));
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -80,15 +75,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.get('/', (req, res) => {
-//   res.send({ body: 'hello' });
-// });
-
-app.post('/errorRoute', (req, res) => {
-  res.send({ body: 'error' });
-});
-
-//hyrdrate the routes with the app
+// define app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 
