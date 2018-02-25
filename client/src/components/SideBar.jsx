@@ -28,22 +28,32 @@ class SideBar extends React.Component {
     const classNames_sidenav = classnames('animated slideInLeft');
     const { userDetails, loginAction, logoutAction, actionList } = this.props;
     const { profileImgUrl, email } = userDetails;
-    debugger;
+
     return (
       <div id="side-nav" className={classNames_sidenav}>
-        <div className="sideBarContentWrapper_FC">
-          <div className="profileImg">
+        <div className="row center-xs">
+          <div className="col-xs-12">
             {/* use the user image if one exists  */}
             {profileImgUrl && (
               <img
-                height="52px"
-                width="52px"
                 src={profileImgUrl}
+                className="profileImg col-xs-12"
                 style={{ borderRadius: '50%' }}
               />
             )}
           </div>
-
+          <div className="col-xs-12">
+            {/* use the user image if one exists  */}
+            {profileImgUrl && (
+              <img
+                src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+                className="starRating col-xs-12"
+              />
+            )}
+          </div>
+          <div className="item col-xs-12">
+           {email}
+          </div>
           <div>{/* login button */}</div>
           <div>{/* register */}</div>
           <div>{/* logout */}</div>

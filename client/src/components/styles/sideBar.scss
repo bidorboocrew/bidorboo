@@ -1,16 +1,14 @@
 @import '../../assets/_variables.scss';
 
-.sideBarContentWrapper_FC {
-  display: flex;
+.profileImg {
+  height: 150px;
+  margin-bottom:4px;
+  border-radius: 50%;
+}
 
-  align-content:flex-start;
-  .profileImg {
-    flex-grow: 1 0 auto;
-  }
-  .actionItems {
-  }
-  .genericActions {
-  }
+.starRating {
+  width: 150px;
+  margin-bottom:4px;
 }
 
 // you were here trying to fig out how to align the image in the middle

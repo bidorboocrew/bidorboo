@@ -8,15 +8,15 @@
   overflow-x: hidden;
   overflow-y: auto;
   #side-nav {
-    background-color: rgba(#4bbdbd,0.15);
+    background-color: #202020;
     border-right: $border-divider;
-    flex: 1 1 240px; /*makes sure that content is not cut off in a smaller browser window*/
     max-width: 240px;
     min-width: 240px;
     width: 240px;
     overflow-y: auto;
     height: 100vh;
-    display:flex;
+    padding: 16px 8px;
+    color: white;
   }
   #header-and-content {
     flex: 1 1 auto;
