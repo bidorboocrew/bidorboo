@@ -1,6 +1,6 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../route_const';
-
+import * as ROUTES from '../../constants/route_const';
+import { USER_MEMBERSHIP_STATUS } from '../../constants/constants';
 import axios from 'axios';
 
 export const getCurrentUser = () => (dispatch, getState) =>
@@ -10,15 +10,37 @@ export const getCurrentUser = () => (dispatch, getState) =>
       .get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER)
       .then(resp => {
         if (resp.data && resp.data.email) {
+          //update everyone that user is now logged in
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
             payload: resp.data
           });
+
+          // if NEW_USER open sidenav + show profile page so they can fill the details
+          switch (resp.data.membershipStatus) {
+            case USER_MEMBERSHIP_STATUS.NEW_MEMBER:
+              //navigate to my profile page
+              dispatch({
+                type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+                payload: { currentRoute: ROUTES.FRONTENDROUTES.MY_PROFILE }
+              });
+              // open side panel to educate the user that we do have a side panel
+              dispatch({
+                type: A.UI_ACTIONS.OPEN_SIDENAV
+              });
+              break;
+            default:
+              dispatch({
+                type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+                payload: { currentRoute: ROUTES.FRONTENDROUTES.HOME }
+              });
+              break;
+          }
         } else {
           //rediret user to sign up page
           dispatch({
             type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
-            payload: { pathname: ROUTES.FRONTENDROUTES.ENTRY }
+            payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
           });
         }
       })

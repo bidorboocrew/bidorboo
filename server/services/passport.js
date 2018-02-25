@@ -60,10 +60,10 @@ passport.use(
         if (existingUser) {
           done(null, existingUser);
         }
-
+        const userEmail= profile.emails ? profile.emails[0].value : '',
         const userDetails = {
-          userId: profile.id,
-          email: profile.emails ? profile.emails[0].value : '',
+          userId: userEmail,
+          email: userEmail,
           profileImgUrl: profile.photos
             ? profile.photos[0].value
             : 'https://goo.gl/92gqPL'

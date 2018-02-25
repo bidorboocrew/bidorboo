@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-responsive-modal';
-import * as ROUTES from '../route_const';
+import * as ROUTES from '../constants/route_const';
 
 import 'react-responsive-modal/lib/react-responsive-modal.css';
 import './styles/loginOrRegisterModal.css';

@@ -8,7 +8,6 @@ import './styles/sideBar.css';
 class SideBar extends React.Component {
   static PropTypes = {
     imageURL: PropTypes.string,
-    loginAction: PropTypes.func,
     logoutAction: PropTypes.func,
     actionList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -19,7 +18,6 @@ class SideBar extends React.Component {
   };
   static defaultProps = {
     imageURL: '',
-    loginAction: () => null,
     logoutAction: () => null
   };
 

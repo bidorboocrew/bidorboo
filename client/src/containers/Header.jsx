@@ -39,7 +39,7 @@ class Header extends React.Component {
           >
             <i className="material-icons">menu</i>
           </div>
-          <div className="__name">B.o.B</div>
+          <div className="__name">BidOrBoo</div>
           {/*
           SEARCH BAR to be moved to anoteher place later
           <div className="__search">
@@ -102,7 +102,7 @@ const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
-    s_userEmail: authReducer.userEmail,
+    s_userEmail: authReducer.userDetails.email,
     s_isLoggedIn: authReducer.isLoggedIn
   };
 };

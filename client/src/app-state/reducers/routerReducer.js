@@ -1,13 +1,13 @@
 import * as A from '../actionTypes';
 
 const initialState = {
-  pathname: '/'
+  currentRoute: '/'
 };
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
     case A.ROUTE_ACTIONS.LOCATION_CHANGE:
-      return { ...state, pathname: payload.pathname };
+      return { ...state, currentRoute: payload.currentRoute };
     default:
       return state;
   }

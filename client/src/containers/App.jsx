@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser } from '../app-state/actions/authActions';
-import * as ROUTES from '../route_const';
+import * as ROUTES from '../constants/route_const';
 
 import {
   Header,
@@ -30,10 +30,7 @@ class App extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     //this is used mostly to redirect user to the login page
-    if (
-      this.props.s_currentRoute !== nextProps.s_currentRoute &&
-      nextProps.s_currentRoute === '/login'
-    ) {
+    if (this.props.s_currentRoute !== nextProps.s_currentRoute) {
       this.props.history.push(nextProps.s_currentRoute);
     }
   }
@@ -45,7 +42,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isSideNavOpen, a_getCurrentUser } = this.props;
+    const { s_isSideNavOpen, s_isLoggedIn } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -59,9 +56,7 @@ class App extends React.Component {
         <div id="global-modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {s_isSideNavOpen && (
-            <SideBar loginAction={a_getCurrentUser} actionList={[]} />
-          )}
+          {s_isSideNavOpen && <SideBar actionList={[]} />}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -86,14 +81,14 @@ class App extends React.Component {
                   path={ROUTES.FRONTENDROUTES.BIDDER}
                   component={BidderContainer}
                 />
-                <Route
+                <ProtectedRoute
+                  isloggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
                   component={UserProfileContainer}
                 />
                 {/* redirect any unknown route to the home component */}
                 <Route path="*" component={HomePage} />
-                <ProtectedRoute exact path={ROUTES.FRONTENDROUTES.MY_PROFILE} />
               </Switch>
             </div>
           </div>
@@ -105,7 +100,8 @@ class App extends React.Component {
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
-    s_currentRoute: routerReducer.pathname
+    s_currentRoute: routerReducer.currentRoute,
+    s_isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -121,15 +117,18 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
  * good for profile
  * @param {*}
  */
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      props.isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={ROUTES.FRONTENDROUTES.ENTRY} />
-      )
-    }
-  />
-);
+const ProtectedRoute = ({ isloggedIn, component: Component, ...rest }) => {
+  debugger;
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isloggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={ROUTES.FRONTENDROUTES.ENTRY} />
+        )
+      }
+    />
+  );
+};
