@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+
 // import defaultUserImage from '../assets/images/img_avatar2.png';
 
 import './styles/sideBar.css';
@@ -8,7 +8,7 @@ import './styles/sideBar.css';
 class SideBar extends React.Component {
   static propTypes = {
     userDetails: PropTypes.shape({
-      email: PropTypes.string.isRequired,
+      displayName: PropTypes.string.isRequired,
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
     actionList: PropTypes.arrayOf(
@@ -17,19 +17,23 @@ class SideBar extends React.Component {
         action: PropTypes.func.isRequired
       })
     ).isRequired,
-    isUserLoggedIn: PropTypes.bool.isRequired
+    isUserLoggedIn: PropTypes.bool.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    onshowLoginDialog: PropTypes.func.isRequired
   };
 
   render() {
-    const { userDetails, isUserLoggedIn } = this.props;
-    const { profileImgUrl, email } = userDetails;
-    const classNames_sidenav = classnames('animated slideInLeft');
-    if (isUserLoggedIn === 'undefined') {
-      debugger;
-    }
+    const {
+      userDetails,
+      isUserLoggedIn,
+      onLogout,
+      onshowLoginDialog
+    } = this.props;
+
+    const { profileImgUrl, displayName } = userDetails;
 
     return (
-      <div id="side-nav" className={classNames_sidenav}>
+      <div id="side-nav" className="slide-in-left">
         <div className="sidenavContentWrapper">
           <div className="row center-xs">
             <div className="col-xs-12">
@@ -39,7 +43,6 @@ class SideBar extends React.Component {
                   alt="profile pic"
                   src={profileImgUrl}
                   className="profileImg col-xs-12"
-                  style={{ borderRadius: '50%' }}
                 />
               )}
             </div>
@@ -53,7 +56,7 @@ class SideBar extends React.Component {
                 />
               )}
             </div>
-            <div className="item username col-xs-12">{email}</div>
+            <div className="item username col-xs-12">{displayName}</div>
             <div className="divider col-xs-12" />
             {isUserLoggedIn && (
               <div className="action col-xs-12">
@@ -68,19 +71,17 @@ class SideBar extends React.Component {
               </div>
             )}
             {!isUserLoggedIn && (
-              <div className="show-on-small-and-down hide-on-small-and-up action col-xs-12">
+              <div
+                onClick={() => onshowLoginDialog(true)}
+                style={{ verticalAlign: 'bottom' }}
+                className="show-on-small-and-down hide-on-small-and-up action col-xs-12"
+              >
                 <i className="material-icons md-24">insert_emoticon</i>
                 <span>login</span>
               </div>
             )}
-            {!isUserLoggedIn && (
-              <div className="show-on-small-and-down hide-on-small-and-up action col-xs-12">
-                <i className="material-icons md-24">open_in_new</i>
-                <span>Register Now</span>
-              </div>
-            )}
             {isUserLoggedIn && (
-              <div className="action col-xs-12">
+              <div onClick={() => onLogout()} className="action col-xs-12">
                 <i className="material-icons md-24">power_settings_new</i>
                 <span>Logout</span>
               </div>
@@ -88,9 +89,6 @@ class SideBar extends React.Component {
           </div>
         </div>
         {/* <ul>
-
-
-
           <li>
             <Link to="/">Home content</Link>
           </li>

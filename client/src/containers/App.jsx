@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import { getCurrentUser } from '../app-state/actions/authActions';
+import {
+  getCurrentUser,
+  onLogout } from '../app-state/actions/authActions';
+import { showLoginDialog } from '../app-state/actions/uiActions';
+
 import * as ROUTES from '../constants/route_const';
 
 import {
@@ -14,7 +18,7 @@ import {
   BidderContainer,
   UserProfileContainer
 } from './index';
-import { SideBar } from '../components';
+import { SideBar, Overlay } from '../components';
 
 import './styles/app.css';
 
@@ -22,7 +26,9 @@ class App extends React.Component {
   static propTypes = {
     s_isSideNavOpen: PropTypes.bool.isRequired,
     s_currentRoute: PropTypes.string,
-    a_getCurrentUser: PropTypes.func.isRequired
+    a_getCurrentUser: PropTypes.func.isRequired,
+    a_onLogout: PropTypes.func.isRequired,
+    a_showLoginDialog: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -42,7 +48,13 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isSideNavOpen, s_isLoggedIn, s_userDetails } = this.props;
+    const {
+      s_isSideNavOpen,
+      s_isLoggedIn,
+      s_userDetails,
+      a_onLogout,
+      a_showLoginDialog
+    } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -52,6 +64,7 @@ class App extends React.Component {
         <div id="bidorboo-progress" />
         {/* for blocking Entire UI */}
         <div id="block-ui-overlay" />
+        {s_isSideNavOpen && <Overlay />}
         {/* for modal dialogs  */}
         <div id="global-modal-dialog" />
 
@@ -60,6 +73,8 @@ class App extends React.Component {
             <SideBar
               userDetails={s_userDetails}
               isUserLoggedIn={s_isLoggedIn}
+              onLogout={a_onLogout}
+              onshowLoginDialog={a_showLoginDialog}
               actionList={[]}
             />
           )}
@@ -113,7 +128,9 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch)
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_onLogout: bindActionCreators(onLogout, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 

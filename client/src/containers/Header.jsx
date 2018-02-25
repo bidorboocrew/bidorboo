@@ -25,7 +25,7 @@ class Header extends React.Component {
       a_toggleSideNav,
       a_showLoginDialog,
       s_isSideNavOpen,
-      s_userEmail,
+      s_displayName,
       s_isLoggedIn,
       s_isLoginDialogOpen
     } = this.props;
@@ -65,7 +65,7 @@ class Header extends React.Component {
                   className="bdb-button flat medium hover-effect"
                   href="/auth/google"
                 >
-                  {s_userEmail}
+                  {s_displayName}
                 </a>
               )}
               {!s_isLoggedIn && (
@@ -75,15 +75,6 @@ class Header extends React.Component {
                   className="bdb-button flat medium hover-effect"
                 >
                   Login
-                </a>
-              )}
-              {s_isLoggedIn && (
-                <a
-                  rel="noopener"
-                  className="bdb-button flat medium hover-effect"
-                  href="/auth/logout"
-                >
-                  logout
                 </a>
               )}
             </div>
@@ -102,7 +93,7 @@ const mapStateToProps = ({ uiReducer, authReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
-    s_userEmail: authReducer.userDetails.email,
+    s_displayName: authReducer.userDetails.displayName,
     s_isLoggedIn: authReducer.isLoggedIn
   };
 };

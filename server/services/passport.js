@@ -62,7 +62,8 @@ passport.use(
         }
         const userEmail= profile.emails ? profile.emails[0].value : '';
         const userDetails = {
-          userId: userEmail,
+          displayName: profile.displayName,
+          userId: profile.id,
           email: userEmail,
           profileImgUrl: profile.photos
             ? profile.photos[0].value
