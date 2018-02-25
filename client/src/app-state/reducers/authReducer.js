@@ -2,7 +2,7 @@ import * as A from '../actionTypes';
 
 const initialState = {
   isLoggedIn: false,
-  userDetails: {}
+  userDetails: {email: 'Join Us for free',profileImgUrl:'https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png'}
 };
 
 export default function(state = initialState, { type, payload }) {

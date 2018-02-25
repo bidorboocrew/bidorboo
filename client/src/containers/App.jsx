@@ -57,7 +57,11 @@ class App extends React.Component {
 
         <div id="app-flex-wrapper">
           {s_isSideNavOpen && (
-            <SideBar userDetails={s_userDetails} actionList={[]} />
+            <SideBar
+              userDetails={s_userDetails}
+              isUserLoggedIn={s_isLoggedIn}
+              actionList={[]}
+            />
           )}
           <div id="header-and-content">
             <Header id="bidorboo-header" />
@@ -84,7 +88,7 @@ class App extends React.Component {
                   component={BidderContainer}
                 />
                 <ProtectedRoute
-                  isloggedIn={s_isLoggedIn}
+                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
                   component={UserProfileContainer}

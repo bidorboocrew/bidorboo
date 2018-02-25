@@ -60,7 +60,7 @@ passport.use(
         if (existingUser) {
           done(null, existingUser);
         }
-        const userEmail= profile.emails ? profile.emails[0].value : '',
+        const userEmail= profile.emails ? profile.emails[0].value : '';
         const userDetails = {
           userId: userEmail,
           email: userEmail,
