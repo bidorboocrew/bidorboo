@@ -9,7 +9,6 @@ export const getCurrentUser = () => (dispatch, getState) =>
     payloads_: axios
       .get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER)
       .then(resp => {
-        debugger;
         if (resp.data && resp.data.userId) {
           //update everyone that user is now logged in
           dispatch({

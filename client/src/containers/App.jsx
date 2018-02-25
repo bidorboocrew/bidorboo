@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import {
-  getCurrentUser,
-  onLogout } from '../app-state/actions/authActions';
-import { showLoginDialog } from '../app-state/actions/uiActions';
+import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
+import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -28,6 +26,7 @@ class App extends React.Component {
     s_currentRoute: PropTypes.string,
     a_getCurrentUser: PropTypes.func.isRequired,
     a_onLogout: PropTypes.func.isRequired,
+    a_toggleSideNav: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired
   };
 
@@ -53,7 +52,8 @@ class App extends React.Component {
       s_isLoggedIn,
       s_userDetails,
       a_onLogout,
-      a_showLoginDialog
+      a_showLoginDialog,
+      a_toggleSideNav
     } = this.props;
 
     return (
@@ -64,7 +64,7 @@ class App extends React.Component {
         <div id="bidorboo-progress" />
         {/* for blocking Entire UI */}
         <div id="block-ui-overlay" />
-        {s_isSideNavOpen && <Overlay />}
+        {s_isSideNavOpen && <Overlay onCloseHandler={a_toggleSideNav} />}
         {/* for modal dialogs  */}
         <div id="global-modal-dialog" />
 
@@ -130,7 +130,8 @@ const mapDispatchToProps = dispatch => {
   return {
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch)
   };
 };
 

@@ -7,3 +7,45 @@
   height: 100px;
   text-align: center;
 }
+
+@keyframes move {
+  100% {
+    transform: translate3d(0, 0, -1000px);
+  }
+}
+.container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  transform-style: preserve-3d;
+
+}
+.bubble-wrap {
+  margin: 0 auto;
+  width: 500px;
+  height: 500px;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  perspective: 600px;
+}
+.bubble {
+  position: absolute;
+  background: black;
+  opacity: .7;
+  border-radius: 50%;
+  animation: move 3s infinite;
+
+}
+
+@for $i from 1 through 20 {
+  .bubble:nth-child(#{$i}){
+     $size: random(30)+px;
+     height: $size;
+     width: $size;
+     animation-delay: -$i * .2s;
+     transform: translate3d( (random(1000) * 1px),  (random(1000) * 1px), (random(2000) * 1px));
+     background: hsl( random(360) , 70%, 50%);
+  }
+
+}
