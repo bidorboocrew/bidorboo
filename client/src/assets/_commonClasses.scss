@@ -47,7 +47,7 @@ $medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width 
   }
 
   &:hover {
-    background-color: #eee;
+    background-color: rgba($color-pallette-blue,0.2);
     transition: background-color 0.25s;
     -webkit-transition: background-color 0.25s;
   }
