@@ -59,7 +59,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
 
 //https://github.com/expressjs/cookie-session
-const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+const expiryDate = 5 * 60 * 1000 // 5 mins hours
 app.use(
   cookieSession({
     maxAge: expiryDate, // 1hour
