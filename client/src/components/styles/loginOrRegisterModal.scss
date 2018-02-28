@@ -45,10 +45,26 @@
       background: #3b5998;
       color: white;
       margin-top: 12px;
+      .icon {
+        background: url('../../assets/images/google.png') no-repeat left;
+        height: auto;
+        width: auto;
+        max-width: 30px;
+        max-height: 30px;
+        display: inline-block;
+      }
     }
     &.fa-google {
       background: #dd4b39;
       color: white;
+      .icon {
+        background: url('../../assets/images/facebook.png') no-repeat left;
+        height: auto;
+        width: auto;
+        max-width: 30px;
+        max-height: 30px;
+        display: inline-block;
+      }
     }
     &.fa-google,
     &.fa-facebook {

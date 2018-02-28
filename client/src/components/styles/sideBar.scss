@@ -3,6 +3,7 @@
 .sidenavContentWrapper{
   overflow-y: auto;
   padding: 16px 8px;
+  color: $color1;
 
 }
 
@@ -19,7 +20,6 @@
 
 .divider {
   border-bottom: $border-divider;
-  border-color: white;
 }
 
 .item {
@@ -29,18 +29,19 @@
   }
 }
 .action {
+  color: $color1;
   text-align: left;
-  transition: color 0.25s, background-color 0.25s;
   padding: $spacing-xl;
   font-size: $font-size-lg;
-  border-bottom: 1px solid #444444;
+  border-bottom: $border-divider;
   cursor: pointer;
   i {
     font-size: $font-size-sm;
     margin-right: 8px;
   }
   &:hover {
-    background: #4bbdbd;
+    background: $color-hover-blue;
+    color: white;
   }
 }
 // you were here trying to fig out how to align the image in the middle

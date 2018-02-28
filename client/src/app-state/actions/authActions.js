@@ -24,10 +24,6 @@ export const getCurrentUser = () => (dispatch, getState) =>
                 type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
                 payload: { currentRoute: ROUTES.FRONTENDROUTES.MY_PROFILE }
               });
-              // open side panel to educate the user that we do have a side panel
-              dispatch({
-                type: A.UI_ACTIONS.OPEN_SIDENAV
-              });
               break;
             default:
               dispatch({

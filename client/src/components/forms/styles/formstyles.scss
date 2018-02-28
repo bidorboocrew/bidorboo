@@ -1,5 +1,8 @@
 @import '../../../assets/_variables.scss';
 
+.addTopMargin{
+  margin-top:4px;
+}
 .socialmediaLogin {
   margin-top: 34px;
   padding: 16px 0;
@@ -26,7 +29,7 @@ a {
   }
   &.fa-google,
   &.fa-facebook {
-    width: 80%;
+    width: 100%;
     padding: 20px;
     &:hover {
       opacity: 0.7;

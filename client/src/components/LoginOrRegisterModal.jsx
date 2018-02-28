@@ -19,23 +19,24 @@ class LoginOrRegisterModal extends React.Component {
       <div id="modal-dialog">
         <Modal open={open} onClose={onClose} little>
           <div className="form">
-            {/* <div className="sectionTitle active">
-              <span>Signin</span>
-            </div> */}
+            <div className="sectionTitle active">
+              <span>BidOrBoo</span>
+            </div>
             <div className="socialmediaLogin">
               <a
                 rel="noopener"
                 href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
                 className="fa fa-google"
               >
-                <span> login with google </span>
+                <span className="icon" />
+                <span> login using google </span>
               </a>
               <a
                 rel="noopener"
                 href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
                 className="fa fa-facebook"
               >
-                <span> login with facebook</span>
+                <span className="icon" /> <span> login using facebook</span>
               </a>
             </div>
           </div>

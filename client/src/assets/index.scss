@@ -1,5 +1,3 @@
-@import './_materialize.scss';
-@import './_normalize.scss';
 @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_commonClasses.scss';
@@ -46,10 +44,6 @@ a {
   margin: 20;
 }
 
-.hover-effect {
-  -webkit-transition: 0.25s ease-out;
-  transition: 0.25s ease-out;
-}
 
 nav {
   //FC = flex container
@@ -62,7 +56,7 @@ nav {
 
     padding: 0 20px;
     height: $app-bar-height;
-    color: #fff;
+    color: $color1;
     background-color: white;
     font-size: $font-size-lg;
     border-bottom: $border-divider;
@@ -73,18 +67,14 @@ nav {
       i {
         padding: 6px 4px 10px 4px;
         font-size: 32px;
-        color: $color-pallette-purple;
-        // transition: color 0.3s;
+        color: $color1;
         &:hover {
-          // transition: color 0.3s;
-          // color: white;
           color: $color-pallette-blue;
         }
       }
     }
     .__name {
       flex: 1 0 auto;
-      color: $color-pallette-purple;
 
       margin-right: $spacing-xl;
       padding: 10px 0;
@@ -102,6 +92,10 @@ nav {
           font-size: $font-size-lg;
           margin-left: 12px;
           color: $color1;
+          &:hover{
+            background: $color-hover-blue;
+            color: white;
+          }
 
         }
       }
@@ -120,4 +114,8 @@ nav {
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: transparent;
   animation: fadeIn;
+}
+
+.container-wrapper{
+  padding : 24px;
 }
