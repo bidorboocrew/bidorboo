@@ -60,13 +60,7 @@ class Header extends React.Component {
                 </a>
               )}
               {s_isLoggedIn && (
-                <a
-                  rel="noopener noreferrer"
-                  className="bdb-button flat medium hover-effect"
-                  href="/auth/google"
-                >
-                  {s_displayName}
-                </a>
+                <div> {s_displayName}</div>
               )}
               {!s_isLoggedIn && (
                 <a
