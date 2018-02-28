@@ -6,11 +6,13 @@ class UserProfileContainer extends React.Component {
   render() {
     return (
       <div id="bdb-profile-content" className="container-wrapper">
-        <div className="row center-xs">
+        <div className="inner row center-xs">
           <div className="col-xs-10">
-            <div className="row center-xs">
-              <div className="col-xs-12">
-                <div className="row ">
+            <div className="row">
+              <div className="col-xs-12
+                col-sm-12
+                col-md-4
+                col-lg-4">
                   <div className="col-xs-12">
                     <img
                       alt="profile pic"
@@ -31,14 +33,16 @@ class UserProfileContainer extends React.Component {
                     <div className="specialDivider" />
                   </div>
                 </div>
-              </div>
-              <div className="col-xs-12">
+              <div className="col-xs-12
+                col-sm-12
+                col-md-8
+                col-lg-8">
                 <ProfileForm onSubmit={onSubmit} />
+              </div>
+              </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
     );
   }
 }

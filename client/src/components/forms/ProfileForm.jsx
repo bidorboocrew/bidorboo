@@ -16,45 +16,48 @@ class ProfileForm extends React.Component {
     const { error, handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
-      <div className="row center-xs">
-      <div className="col-xs-5">
-      <form className="addTopMargin" onSubmit={handleSubmit}>
-        <div className="input-field">
-          {/* <label htmlFor="email">Email</label> */}
-          <Field
-            id="email"
-            className="bdb-input"
-            name="email"
-            component={renderFormField}
-            type="email"
-            label="Email"
-            onFocus={() => this.setState({ activeField: 'email' })}
-          />
-        </div>
-        <div className="input-field">
-          {/* <label htmlFor="lastName">password</label> */}
-          <Field
-            id="password"
-            className="bdb-input"
-            name="password"
-            component={renderFormField}
-            type="password"
-            label="Password"
-            onFocus={() => this.setState({ activeField: 'password' })}
-          />
-        </div>
-        <div className="buttonsSection">
-          <button
-            disabled={submitting}
-            className="formbutton medium"
-            type="submit"
-          >
-            Save
-          </button>
-        </div>
+      <form className="addTopMargin row" onSubmit={handleSubmit}>
+          <div className="input-field col-xs-12
+                col-sm-12
+                col-md-11
+                col-lg-11">
+            <Field
+              id="email"
+              className="bdb-input"
+              name="email"
+              component={renderFormField}
+              type="email"
+              label="Email"
+              onFocus={() => this.setState({ activeField: 'email' })}
+            />
+          </div>
+          <div className="input-field col-xs-12
+                col-sm-12
+                col-md-11
+                col-lg-11">
+            <Field
+              id="password"
+              className="bdb-input"
+              name="password"
+              component={renderFormField}
+              type="password"
+              label="Password"
+              onFocus={() => this.setState({ activeField: 'password' })}
+            />
+          </div>
+          <div className="buttonsSection col-xs-12
+                col-sm-12
+                col-md-11
+                col-lg-11">
+            <button
+              disabled={submitting}
+              className="formbutton medium"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
       </form>
-      </div>
-      </div>
     );
   }
 }

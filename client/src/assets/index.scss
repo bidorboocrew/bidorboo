@@ -117,5 +117,12 @@ nav {
 }
 
 .container-wrapper{
-  padding : 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: calc(100vh - 65px);
+  display:flex;
+  flex-direction: column;
+  .inner{
+      padding : 24px;
+  }
 }
