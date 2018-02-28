@@ -23,7 +23,7 @@ class LoginOrRegisterModal extends React.Component {
               <span>BidOrBoo</span>
             </div>
             <div className="socialmediaLogin">
-              <div class="row">
+              <div className="row">
                 <a
                   rel="noopener noreferrer"
                   href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
@@ -31,7 +31,7 @@ class LoginOrRegisterModal extends React.Component {
                 >
                   <span>
                     <img
-                      class="icon"
+                      className="icon"
                       src={require('../assets/images/google.png')}
                     />
                   </span>
@@ -44,7 +44,7 @@ class LoginOrRegisterModal extends React.Component {
                 >
                   <span>
                     <img
-                      class="icon"
+                      className="icon"
                       src={require('../assets/images/facebook.png')}
                     />
                   </span>

@@ -12,13 +12,14 @@
   font-weight: $font-weight-bold;
   font-size: $font-size-xl;
   margin-bottom: $spacing-lg;
-  text-align: left;
+  text-align: center;
   color: $color1;
 }
 
 .socialmediaLogin {
   padding: 16px 0;
   a {
+    text-align: center;
     border: $border-divider;
 
     .fa {
