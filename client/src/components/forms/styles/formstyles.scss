@@ -10,7 +10,6 @@
 a {
   .fa {
     font-size: $font-size-xl;
-    width: 50px;
     text-align: center;
     text-decoration: none;
     margin: 20px;
@@ -31,8 +30,10 @@ a {
   &.fa-facebook {
     width: 100%;
     padding: 20px;
+    font-weight: 500;
     &:hover {
-      opacity: 0.7;
+      background: $color-hover-blue;
+      color: white;
     }
     span{
       font-family: $font-family;

@@ -52,7 +52,7 @@ class Header extends React.Component {
             <div className="__buttons">
               {!s_isLoggedIn && (
                 <a
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   onClick={() => a_showLoginDialog(true)}
                   className="bdb-button flat medium hover-effect"
                 >
@@ -61,7 +61,7 @@ class Header extends React.Component {
               )}
               {s_isLoggedIn && (
                 <a
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="bdb-button flat medium hover-effect"
                   href="/auth/google"
                 >
@@ -70,7 +70,7 @@ class Header extends React.Component {
               )}
               {!s_isLoggedIn && (
                 <a
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   onClick={() => a_showLoginDialog(true)}
                   className="bdb-button flat medium hover-effect"
                 >

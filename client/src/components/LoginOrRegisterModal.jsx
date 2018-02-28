@@ -23,21 +23,34 @@ class LoginOrRegisterModal extends React.Component {
               <span>BidOrBoo</span>
             </div>
             <div className="socialmediaLogin">
-              <a
-                rel="noopener"
-                href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
-                className="fa fa-google"
-              >
-                <span className="icon" />
-                <span> login using google </span>
-              </a>
-              <a
-                rel="noopener"
-                href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
-                className="fa fa-facebook"
-              >
-                <span className="icon" /> <span> login using facebook</span>
-              </a>
+              <div class="row">
+                <a
+                  rel="noopener noreferrer"
+                  href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
+                  className="fa fa-google col-xs-12"
+                >
+                  <span>
+                    <img
+                      class="icon"
+                      src={require('../assets/images/google.png')}
+                    />
+                  </span>
+                  <span className="text">login using Google</span>
+                </a>
+                <a
+                  rel="noopener noreferrer"
+                  href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
+                  className="fa fa-facebook col-xs-12"
+                >
+                  <span>
+                    <img
+                      class="icon"
+                      src={require('../assets/images/facebook.png')}
+                    />
+                  </span>
+                  <span className="text">login using Facebook</span>
+                </a>
+              </div>
             </div>
           </div>
         </Modal>
