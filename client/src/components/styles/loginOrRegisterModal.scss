@@ -12,7 +12,7 @@
   font-weight: $font-weight-bold;
   font-size: $font-size-xl;
   margin-bottom: $spacing-lg;
-  text-align: center;
+  text-align: left;
   color: $color1;
 }
 
@@ -40,6 +40,7 @@
       }
     }
     &.fa-google {
+      font-weight: 700;
       background: white;
       color: #dd4b39;
       padding: 20px;
