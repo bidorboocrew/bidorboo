@@ -41,6 +41,7 @@ const cspMiddleware = csp({
     'block-all-mixed-content': true
   }
 });
+app.use(cspMiddleware);
 
 // security package
 app.use(
@@ -51,24 +52,22 @@ app.use(
   })
 );
 app.use(helmet.hidePoweredBy());
-app.use(cspMiddleware);
 app.disable('x-powered-by');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
 
 //https://github.com/expressjs/cookie-session
-const expiryDate = 10 * 24 *60 * 60 * 1000; //10 days
+const expiryDate = 24 *60 * 60 * 1000; //10 days
 app.use(
   cookieSession({
-    maxAge: expiryDate, // 1hour
+    maxAge: expiryDate, // 24 hours
     keys: [keys.cookieKey, keys.cookieKey2],
     cookie: {
       secure: true,
       httpOnly: true,
       domain: 'bidorboo.com',
-      expires: expiryDate
+      expires: new Date(Date.now() + expiryDate) // 1 hour
     }
   })
 );
@@ -76,6 +75,11 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// define app routes
+require('./routes/authRoutes')(app);
+require('./routes/userRoutes')(app);
+
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
@@ -97,12 +101,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
-
-
-
-// define app routes
-require('./routes/authRoutes')(app);
-require('./routes/userRoutes')(app);
 
 
 
