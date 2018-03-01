@@ -2,15 +2,15 @@ import React from 'react';
 import ProfileForm from '../components/forms/ProfileForm';
 
 const onSubmit = () => {};
-class UserProfileContainer extends React.Component {
+class MyProfileContainer extends React.Component {
   render() {
     return (
       <div id="bdb-profile-content" className="container-wrapper">
-        <div className="inner row center-xs">
+        <div className="inner row left-xs">
           <div className="col-xs-12
                 col-sm-12
-                col-md-8
-                col-lg-5">
+                col-md-6
+                col-lg-8">
             <div className="row center-xs">
               <div style={{padding: 20}}  className="col-xs-12
                 col-sm-12
@@ -59,4 +59,4 @@ class UserProfileContainer extends React.Component {
   }
 }
 
-export default UserProfileContainer;
+export default MyProfileContainer;

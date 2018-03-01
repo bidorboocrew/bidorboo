@@ -14,9 +14,10 @@ import {
   HomePage,
   ProposerContainer,
   BidderContainer,
-  UserProfileContainer
+  MyProfileContainer,
+  SideBar
 } from './index';
-import { SideBar, Overlay } from '../components';
+import { Overlay } from '../components';
 
 import './styles/app.css';
 
@@ -69,15 +70,12 @@ class App extends React.Component {
         <div id="global-modal-dialog" />
 
         <div id="app-flex-wrapper">
-          {s_isSideNavOpen && (
-            <SideBar
-              userDetails={s_userDetails}
-              isUserLoggedIn={s_isLoggedIn}
-              onLogout={a_onLogout}
-              onshowLoginDialog={a_showLoginDialog}
-              actionList={[]}
-            />
-          )}
+          <SideBar
+            userDetails={s_userDetails}
+            isUserLoggedIn={s_isLoggedIn}
+            onLogout={a_onLogout}
+            onshowLoginDialog={a_showLoginDialog}
+          />
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -106,7 +104,7 @@ class App extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
-                  component={UserProfileContainer}
+                  component={MyProfileContainer}
                 />
                 {/* redirect any unknown route to the home component */}
                 <Route path="*" component={HomePage} />
@@ -146,7 +144,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) => {
+      render={props => {
         const { isLoggedIn } = { ...rest };
         return isLoggedIn ? (
           <Component {...props} />
