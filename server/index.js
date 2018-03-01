@@ -58,6 +58,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
 
+//https://github.com/expressjs/cookie-session
+const expiryDate = 10 * 24 *60 * 60 * 1000; //10 days
+app.use(
+  cookieSession({
+    maxAge: expiryDate, // 1hour
+    keys: [keys.cookieKey, keys.cookieKey2],
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      domain: 'bidorboo.com',
+      expires: expiryDate
+    }
+  })
+);
+app.use(cookieParser());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
   // app.use(redirectToHTTPS());
@@ -79,24 +98,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-//https://github.com/expressjs/cookie-session
-const expiryDate = 10 * 24 *60 * 60 * 1000; //10 days
-app.use(
-  cookieSession({
-    maxAge: expiryDate, // 1hour
-    keys: [keys.cookieKey, keys.cookieKey2],
-    cookie: {
-      secure: true,
-      httpOnly: true,
-      domain: 'bidorboo.com',
-      expires: expiryDate
-    }
-  })
-);
-app.use(cookieParser());
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 // define app routes
 require('./routes/authRoutes')(app);

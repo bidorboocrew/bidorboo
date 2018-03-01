@@ -18,7 +18,7 @@ module.exports = app => {
   );
 
   // Facebook routes
-  app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook'));
+  app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook', { failureRedirect: '/errorRoute' }));
   app.get(
     ROUTES.AUTH.FACEBOOK_CALLBACK,
     passport.authenticate('facebook'),
