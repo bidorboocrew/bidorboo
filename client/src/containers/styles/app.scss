@@ -3,18 +3,9 @@
 
 #app-flex-wrapper {
   display: flex;
-  justify-content: flex-start;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
   color: $color1;
 
   #header-and-content {
     flex: 1 1 auto;
-    #main-view {
-      flex: 1 1 auto;
-      min-height: calc(100vh - #{$app-bar-height} - 1px);
-      overflow-y: auto;
-    }
   }
 }
