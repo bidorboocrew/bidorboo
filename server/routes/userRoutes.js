@@ -37,11 +37,11 @@ module.exports = app => {
 
       const user = await userDataAccess.createNewUser(userDetails);
       res.send(existingUser);
-      done(null, user);
+      return done(null, user);
 
     } catch (err) {
       res.send(err);
-      done(err, null);
+      return done(err, null);
     }
   })
   //---------------ANDROIND SPECIFIC----------------

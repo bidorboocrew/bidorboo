@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const getCurrentUser = () => (dispatch, getState) =>
   dispatch({
-    type: A.AUTH_ACTIONS.GOOGLE_LOGIN_FLOW_INITIATED,
+    type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payloads_: axios
       .get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER)
       .then(resp => {

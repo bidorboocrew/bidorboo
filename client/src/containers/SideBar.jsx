@@ -133,7 +133,8 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: authReducer.userDetails
+    s_userDetails: authReducer.userDetails,
+    s_currentRoute: routerReducer.currentRoute,
   };
 };
 const mapDispatchToProps = dispatch => {

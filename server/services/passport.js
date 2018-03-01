@@ -10,7 +10,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
-  return done(null, user.userId);
+  done(null, user.userId);
 });
 
 //we know how to process the info from client into server object
@@ -19,7 +19,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findOneByUserId(id);
     return done(null, user);
   } catch (err) {
-    return done(err, null);
+    done(err, null);
   }
 });
 
