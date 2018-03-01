@@ -8,18 +8,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   color: $color1;
-  #side-nav {
-    background-color: white;
-    border-right: $border-divider;
-    border-right: $border-divider;
-    max-width: 240px;
-    min-width: 240px;
-    width: $width-side-nav;
-    overflow-y: auto;
-    height: 100vh;
-    color: white;
-    z-index: 999;
-  }
+
   #header-and-content {
     flex: 1 1 auto;
     #main-view {

@@ -9,7 +9,7 @@ class UserProfileContainer extends React.Component {
         <div className="inner row center-xs">
           <div className="col-xs-12
                 col-sm-12
-                col-md-6
+                col-md-8
                 col-lg-5">
             <div className="row center-xs">
               <div style={{padding: 20}}  className="col-xs-12

@@ -17,21 +17,21 @@ export const getCurrentUser = () => (dispatch, getState) =>
           });
 
           // if NEW_USER open sidenav + show profile page so they can fill the details
-          switch (resp.data.membershipStatus) {
-            case USER_MEMBERSHIP_STATUS.NEW_MEMBER:
-              //navigate to my profile page
-              dispatch({
-                type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
-                payload: { currentRoute: ROUTES.FRONTENDROUTES.MY_PROFILE }
-              });
-              break;
-            default:
-              dispatch({
-                type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
-                payload: { currentRoute: ROUTES.FRONTENDROUTES.HOME }
-              });
-              break;
-          }
+          // switch (resp.data.membershipStatus) {
+          //   case USER_MEMBERSHIP_STATUS.NEW_MEMBER:
+          //     //navigate to my profile page
+          //     dispatch({
+          //       type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+          //       payload: { currentRoute: ROUTES.FRONTENDROUTES.MY_PROFILE }
+          //     });
+          //     break;
+          //   default:
+          //     dispatch({
+          //       type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+          //       payload: { currentRoute: ROUTES.FRONTENDROUTES.HOME }
+          //     });
+          //     break;
+          // }
         } else {
           //rediret user to sign up page
           dispatch({

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
+import * as ROUTES from '../constants/route_const';
 
 // import defaultUserImage from '../assets/images/img_avatar2.png';
-
 import './styles/sideBar.css';
 
 class SideBar extends React.Component {
@@ -78,6 +79,12 @@ class SideBar extends React.Component {
               >
                 <i className="material-icons md-24">insert_emoticon</i>
                 <span>login</span>
+              </div>
+            )}
+            {isUserLoggedIn && (
+              <div className="action col-xs-12">
+                <i className="material-icons md-24">account_circle</i>
+                <Link to={ROUTES.FRONTENDROUTES.MY_PROFILE}>My Profile</Link>
               </div>
             )}
             {isUserLoggedIn && (

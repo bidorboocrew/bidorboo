@@ -10,16 +10,16 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
-  done(null, user.userId);
+  return done(null, user.userId);
 });
 
 //we know how to process the info from client into server object
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await userDataAccess.findOneByUserId(id);
-    done(null, user);
+    return done(null, user);
   } catch (err) {
-    done(err, null);
+    return done(err, null);
   }
 });
 
@@ -38,7 +38,7 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
-          done(null, existingUser);
+          return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';
         const userDetails = {
@@ -51,9 +51,9 @@ passport.use(
         };
 
         const user = await userDataAccess.createNewUser(userDetails);
-        done(null, user);
+        return done(null, user);
       } catch (err) {
-        done(err, null);
+        return done(err, null);
       }
     }
   )
@@ -73,7 +73,7 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
-          done(null, existingUser);
+          return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';
         const userDetails = {
@@ -86,9 +86,9 @@ passport.use(
         };
 
         const user = await userDataAccess.createNewUser(userDetails);
-        done(null, user);
+        return done(null, user);
       } catch (err) {
-        done(err, null);
+        return done(err, null);
       }
     }
   )

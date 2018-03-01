@@ -58,8 +58,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
 
+if (process.env.NODE_ENV === 'production') {
+  // xxx not sure about this . I may remove
+  // app.use(redirectToHTTPS());
+
+
+  // Express will serve up production assets
+  // like our main.js file, or main.css file!
+  app.use(express.static('../client/build'));
+
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+  const path = require('path');
+  app.get('*', (req, res) => {
+    console.log(
+      'serving dirname ' +
+        path.resolve(__dirname, '../client', './build', 'index.html')
+    );
+    res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
+  });
+}
+
 //https://github.com/expressjs/cookie-session
-const expiryDate = 5 * 60 * 1000 // 5 mins hours
+const expiryDate = 10 * 24 *60 * 60 * 1000; //10 days
 app.use(
   cookieSession({
     maxAge: expiryDate, // 1hour
@@ -81,26 +102,7 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 
-if (process.env.NODE_ENV === 'production') {
-  // xxx not sure about this . I may remove
-  // app.use(redirectToHTTPS());
 
-
-  // Express will serve up production assets
-  // like our main.js file, or main.css file!
-  app.use(express.static('../client/build'));
-
-  // Express will serve up the index.html file
-  // if it doesn't recognize the route
-  const path = require('path');
-  app.get('*', (req, res) => {
-    console.log(
-      'serving dirname ' +
-        path.resolve(__dirname, '../client', './build', 'index.html')
-    );
-    res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
-  });
-}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
