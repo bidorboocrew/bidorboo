@@ -27,7 +27,7 @@ class LoginOrRegisterModal extends React.Component {
                 <a
                   rel="noopener noreferrer"
                   href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
-                  className="fa fa-google col-xs-12"
+                  className="bdb bdb-google col-xs-12"
                 >
                   <span>
                     <img
@@ -40,7 +40,7 @@ class LoginOrRegisterModal extends React.Component {
                 <a
                   rel="noopener noreferrer"
                   href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
-                  className="fa fa-facebook col-xs-12"
+                  className="bdb bdb-facebook col-xs-12"
                 >
                   <span>
                     <img

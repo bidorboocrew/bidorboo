@@ -1,9 +1,15 @@
 import React from 'react';
-import { toggleSideNav, showLoginDialog } from '../app-state/actions/uiActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
+import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
+import { switchRoute } from '../app-state/actions/routerActions';
+
 import { LoginOrRegisterModal } from '../components';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import * as ROUTES from '../constants/route_const';
 
 import './styles/header.css';
 
@@ -14,12 +20,24 @@ class Header extends React.Component {
     s_userEmail: PropTypes.string,
     s_isLoggedIn: PropTypes.bool.isRequired,
     a_toggleSideNav: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired
+    a_showLoginDialog: PropTypes.func.isRequired,
+    s_userDetails: PropTypes.shape({
+      displayName: PropTypes.string.isRequired,
+      profileImgUrl: PropTypes.string.isRequired
+    }).isRequired,
+    a_onLogout: PropTypes.func.isRequired,
+    a_showLoginDialog: PropTypes.func.isRequired,
+    a_switchRoute: PropTypes.func.isRequired
   };
   static defaultProps = {
     s_userEmail: ''
   };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      isHamburgerOpen: false
+    };
+  }
   render() {
     const {
       a_toggleSideNav,
@@ -27,74 +45,146 @@ class Header extends React.Component {
       s_isSideNavOpen,
       s_displayName,
       s_isLoggedIn,
-      s_isLoginDialogOpen
+      s_isLoginDialogOpen,
+      s_userDetails,
+      a_onLogout,
+      a_switchRoute
     } = this.props;
+    const {
+      profileImgUrl,
+      displayName,
+      email,
+      address,
+      personalParagraph,
+      creditCards,
+      membershipStatus,
+      phoneNumber
+    } = s_userDetails;
 
     return (
-      <nav>
-        <div className="applicationBar-FC">
-          <div
+      <nav style={{ fontSize: 20 }} className="navbar is-fixed-top">
+        <div className="navbar-brand">
+          <a
             onClick={() => a_toggleSideNav(s_isSideNavOpen)}
-            className="__logo"
+            style={{ paddingRight: 4 }}
+            className="navbar-item"
           >
-            <i className="material-icons">menu</i>
-          </div>
-          <div className="__name">BidOrBoo</div>
-          {/*
-          SEARCH BAR to be moved to anoteher place later
-          <div className="__search">
-            <div className="search-wrapper">
-              <input className="app-bar-main-search" />
-              <div className="search-results" />
-            </div>
-          </div> */}
-          <div className="__button_FC hide-on-small-and-down">
-            <div className="__buttons">
-              {!s_isLoggedIn && (
-                <a
-                  rel="noopener noreferrer"
-                  onClick={() => a_showLoginDialog(true)}
-                  className="bdb-button flat medium hover-effect"
-                >
-                  Signup
-                </a>
-              )}
-              {s_isLoggedIn && (
-                <div> {s_displayName}</div>
-              )}
-              {!s_isLoggedIn && (
-                <a
-                  rel="noopener noreferrer"
-                  onClick={() => a_showLoginDialog(true)}
-                  className="bdb-button flat medium hover-effect"
-                >
-                  Login
-                </a>
-              )}
-            </div>
-          </div>
-          <LoginOrRegisterModal
-            onClose={() => a_showLoginDialog(false)}
-            open={s_isLoginDialogOpen}
+            <img
+              src="https://image.flaticon.com/icons/svg/753/753078.svg"
+              alt="BidOrBoo"
+              width="24"
+              height="24"
+            />
+            <span style={{ paddingLeft: 6 }}> BidorBoo </span>
+          </a>
+
+          <div
+            onClick={() => {
+              this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
+            }}
+            className="navbar-burger burger"
+            data-target="navbarmenu"
           />
+        </div>
+
+        <div
+          id="navbarmenu"
+          className={classNames('navbar-menu', {
+            'is-active': this.state.isHamburgerOpen
+          })}
+        >
+          <div className="navbar-start" />
+
+          <div className="navbar-end">
+            <div className="navbar-item">
+              {s_isLoggedIn && (
+                <div className="field is-grouped">
+                  <div className="navbar-item has-dropdown is-hoverable">
+                    <a className="navbar-link">Docs</a>
+
+                    <div className="navbar-dropdown">
+                      <a className="navbar-item">Overview</a>
+                      <a className="navbar-item">Elements</a>
+                      <a className="navbar-item">Components</a>
+                      <hr className="navbar-divider" />
+                      <div className="navbar-item">Version 0.6.2</div>
+                    </div>
+                  </div>
+
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                    {profileImgUrl && (
+                      <img
+                        style={{ borderRadius: '50%' }}
+                        src={profileImgUrl}
+                        alt="BidOrBoo"
+                        width="24"
+                        height="24"
+                      />
+                    )}
+                    <span style={{ paddingLeft: 6 }}> {s_displayName}</span>
+                  </div>
+                </div>
+              )}
+              {!s_isLoggedIn && (
+                <div className="field is-grouped">
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                    Sign up
+                  </div>
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                    <a
+                      style={{ fontSize: 20 }}
+                      className="button button is-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
+                    >
+                      <span className="icon">
+                        <i className="fab fa-facebook" />
+                      </span>
+                      <span>facebook</span>
+                    </a>
+                  </div>
+                  <div className="navbar-item">
+                    <a
+                      style={{ fontSize: 20 }}
+                      className="button button is-danger"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
+                    >
+                      <span className="icon">
+                        <i className="fab fa-google" />
+                      </span>
+                      <span>google</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </nav>
     );
   }
 }
 
-const mapStateToProps = ({ uiReducer, authReducer }) => {
+const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
+    s_isLoggedIn: authReducer.isLoggedIn,
+    s_userDetails: authReducer.userDetails,
     s_displayName: authReducer.userDetails.displayName,
-    s_isLoggedIn: authReducer.isLoggedIn
+    s_currentRoute: routerReducer.currentRoute
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_onLogout: bindActionCreators(onLogout, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 

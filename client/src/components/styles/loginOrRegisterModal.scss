@@ -22,13 +22,13 @@
     text-align: center;
     border: $border-divider;
 
-    .fa {
+    .bdb {
       font-size: $font-size-xl;
       text-align: center;
       text-decoration: none;
       margin: 20px;
     }
-    &.fa-facebook {
+    &.bdb-facebook{
       background: white;
       color: #3b5998;
       margin-top: 12px;
@@ -40,7 +40,7 @@
         margin-left:4px;
       }
     }
-    &.fa-google {
+    &.bdb-google {
       font-weight: 700;
       background: white;
       color: #dd4b39;

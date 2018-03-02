@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- needed this to override the stupid library default to scroll bumla -->
+<html  style="height:100vh;overflow-y: auto !important" class="has-navbar-fixed-top"  lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
   <!--
       manifest.json provides metadata used when your web app is added to the
@@ -24,7 +25,11 @@
   <!-- materialui -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- http://flexboxgrid.com -->
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" type="text/css"> -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
 
   <title>BidOrBoo</title>
 </head>
@@ -33,7 +38,9 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-  <div id="BidOrBoo-app"></div>
+
+    <div id="BidOrBoo-app"></div>
+
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

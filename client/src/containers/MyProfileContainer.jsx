@@ -57,7 +57,8 @@ class MyProfileContainer extends React.Component {
         : 'noCredit card found on file';
 
     return (
-      <div id="bdb-profile-content" className="container-wrapper">
+      <section className="section">
+      <div id="bdb-profile-content">
         <div className="inner row center-xs center-sm start-md start-lg">
           <div className="col-xs-12 col-sm-12 col-md-10 col-lg-8">
             <div className="row center-xs center-sm start-md start-lg">
@@ -138,6 +139,7 @@ class MyProfileContainer extends React.Component {
           </div>
         </div>
       </div>
+      </section>
     );
   }
 }

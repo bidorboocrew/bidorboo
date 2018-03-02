@@ -6,123 +6,15 @@
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
 
-//hold global css
+// @import 'bulma/bulma.sass';
+html
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
-  color: $color-text-primary;
-  overflow: hidden;
-}
-body::-webkit-scrollbar {
-  width: 1em;
-}
-
-body::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-}
-
-a {
-  text-decoration: none;
-}
-
-.bdb-input {
-  font-size: $font-size-lg !important;
-  line-height: $font-size-lg !important;
-  height: $font-size-lg !important;
-  padding: $spacing-sm 0 !important;
-}
-
-//all our root divs should use this
-.mainContentWrapper {
-  margin: 20;
-}
-
-
-nav {
-  //FC = flex container
-  box-shadow: $shadow-space;
-
-  .applicationBar-FC {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    padding: 0 20px;
-    height: $app-bar-height;
-    color: $color1;
-    background-color: white;
-    font-size: $font-size-lg;
-    border-bottom: $border-divider;
-
-    .__logo {
-      cursor: pointer;
-      margin-top: $spacing-xs;
-      i {
-        padding: 6px 4px 10px 4px;
-        font-size: 32px;
-        color: $color1;
-        &:hover {
-          color: $color-pallette-blue;
-        }
-      }
-    }
-    .__name {
-      flex: 1 0 auto;
-
-      margin-right: $spacing-xl;
-      padding: 10px 0;
-    }
-    .__button_FC {
-      margin-left: 12px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      cursor: pointer;
-      .__buttons {
-        margin-left: 12px;
-        a {
-          font-size: $font-size-lg;
-          margin-left: 12px;
-          color: $color1;
-          &:hover{
-            background: $color-hover-blue;
-            color: white;
-          }
-
-        }
-      }
-    }
-  }
-}
-
-#cover-container {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  position: absolute;
-  will-change: opacity;
-  background-color: rgba(0, 0, 0, 0.5);
-  -webkit-tap-highlight-color: transparent;
-  animation: fadeIn;
-}
-
-.container-wrapper{
+  color: $color1;
+  line-height: 1.5;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  overflow-y: auto;
-  height: calc(100vh - 65px);
-  // display:flex;
-  // flex-direction: column;
-  .inner{
-      padding : 24px;
-  }
+  overflow-y: auto !important;
+  // height: 100vh;
 }
+@import 'bulma/bulma.sass';

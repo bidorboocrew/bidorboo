@@ -15,3 +15,61 @@
 
 
 }
+
+nav {
+  //FC = flex container
+  box-shadow: $shadow-space;
+
+  // .applicationBar-FC {
+  //   display: flex;
+  //   justify-content: flex-start;
+  //   align-items: center;
+
+  //   padding: 0 20px;
+  //   height: $app-bar-height;
+  //   color: $color1;
+  //   background-color: white;
+  //   font-size: $font-size-lg;
+  //   border-bottom: $border-divider;
+
+  //   .__logo {
+  //     cursor: pointer;
+  //     margin-top: $spacing-xs;
+  //     i {
+  //       padding: 6px 4px 10px 4px;
+  //       font-size: 32px;
+  //       color: $color1;
+  //       &:hover {
+  //         color: $color-pallette-blue;
+  //       }
+  //     }
+  //   }
+  //   .__name {
+  //     flex: 1 0 auto;
+
+  //     margin-right: $spacing-xl;
+  //     padding: 10px 0;
+  //   }
+  //   .__button_FC {
+  //     margin-left: 12px;
+  //     display: flex;
+  //     justify-content: flex-end;
+  //     align-items: center;
+
+  //     cursor: pointer;
+  //     .__buttons {
+  //       margin-left: 12px;
+  //       a {
+  //         font-size: $font-size-lg;
+  //         margin-left: 12px;
+  //         color: $color1;
+  //         &:hover{
+  //           background: $color-hover-blue;
+  //           color: white;
+  //         }
+
+  //       }
+  //     }
+  //   }
+  // }
+}
