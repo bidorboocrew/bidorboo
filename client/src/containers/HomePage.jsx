@@ -4,9 +4,11 @@ import './styles/home.css';
 class HomePage extends React.Component {
   render() {
     return (
-      <div id="bdb-home-content" className="container-wrapper">
+      <section className="section">
+      <div id="bdb-home-content" >
         <div className="inner">home</div>
       </div>
+      </section>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { Field, reduxForm } from 'redux-form';
 import * as ROUTES from '../../constants/route_const';
 import { renderFormField } from './formHelpers';

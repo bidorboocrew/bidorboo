@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoginOrRegisterModal } from '../components';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import * as ROUTES from '../constants/route_const';
 
 import './styles/header.css';
 
@@ -19,7 +22,12 @@ class Header extends React.Component {
   static defaultProps = {
     s_userEmail: ''
   };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      isHamburgerOpen: false
+    };
+  }
   render() {
     const {
       a_toggleSideNav,
@@ -31,52 +39,87 @@ class Header extends React.Component {
     } = this.props;
 
     return (
-      <nav>
-        <div className="applicationBar-FC">
-          <div
+      <nav style={{ fontSize: 22 }} className="navbar is-fixed-top">
+        <div className="navbar-brand">
+          <a
             onClick={() => a_toggleSideNav(s_isSideNavOpen)}
-            className="__logo"
+            style={{ paddingRight: 4 }}
+            className="navbar-item"
           >
-            <i className="material-icons">menu</i>
+            <img
+              src="https://image.flaticon.com/icons/svg/753/753078.svg"
+              alt="BidOrBoo"
+              width="24"
+              height="24"
+            />
+            <span style={{ paddingLeft: 6 }}> BidorBoo </span>
+          </a>
+
+          <div
+            onClick={() => {
+              this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
+            }}
+            className="navbar-burger burger"
+            data-target="navbarmenu"
+          >
+            <span />
+            <span />
+            <span />
           </div>
-          <div className="__name">BidOrBoo</div>
-          {/*
-          SEARCH BAR to be moved to anoteher place later
-          <div className="__search">
-            <div className="search-wrapper">
-              <input className="app-bar-main-search" />
-              <div className="search-results" />
-            </div>
-          </div> */}
-          <div className="__button_FC hide-on-small-and-down">
-            <div className="__buttons">
-              {!s_isLoggedIn && (
-                <a
-                  rel="noopener noreferrer"
-                  onClick={() => a_showLoginDialog(true)}
-                  className="bdb-button flat medium hover-effect"
-                >
-                  Signup
-                </a>
-              )}
+        </div>
+
+        <div
+          id="navbarmenu"
+          className={classNames('navbar-menu', {
+            'is-active': this.state.isHamburgerOpen
+          })}
+        >
+          <div className="navbar-start" />
+
+          <div className="navbar-end">
+            <div className="navbar-item">
               {s_isLoggedIn && (
-                <div> {s_displayName}</div>
+                <div style={{ paddingRight: 0 }} className="navbar-item">
+                  {s_displayName}
+                </div>
               )}
               {!s_isLoggedIn && (
-                <a
-                  rel="noopener noreferrer"
-                  onClick={() => a_showLoginDialog(true)}
-                  className="bdb-button flat medium hover-effect"
-                >
-                  Login
-                </a>
+                <div className="field is-grouped">
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                    Sign up
+                  </div>
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                    <a
+                      style={{ fontSize: 20 }}
+                      className="button button is-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
+                    >
+                      <span className="icon">
+                        <i className="fab fa-facebook" />
+                      </span>
+                      <span>facebook</span>
+                    </a>
+                  </div>
+                  <div className="navbar-item">
+                    <a
+                      style={{ fontSize: 20 }}
+                      className="button button is-danger"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
+                    >
+                      <span className="icon">
+                        <i className="fab fa-google" />
+                      </span>
+                      <span>google</span>
+                    </a>
+                  </div>
+                </div>
               )}
             </div>
           </div>
-          <LoginOrRegisterModal
-            onClose={() => a_showLoginDialog(false)}
-            open={s_isLoginDialogOpen}
-          />
         </div>
       </nav>
     );

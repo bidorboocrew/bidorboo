@@ -8,26 +8,26 @@
   padding: 16px 0;
 }
 a {
-  .fa {
+  .bdb {
     font-size: $font-size-xl;
     text-align: center;
     text-decoration: none;
     margin: 20px;
 
   }
-  &.fa-facebook {
+  &.bdb-facebook{
     background: #3b5998;
     color: white;
     margin-top:12px;
 
   }
-  &.fa-google {
+  &.bdb-google {
     background: #dd4b39;
     color: white;
 
   }
-  &.fa-google,
-  &.fa-facebook {
+  &.bdb-google,
+  &.bdb-facebook{
     width: 100%;
     padding: 20px;
     font-weight: 500;
