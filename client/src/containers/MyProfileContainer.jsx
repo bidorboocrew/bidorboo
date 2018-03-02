@@ -59,7 +59,7 @@ class MyProfileContainer extends React.Component {
     return (
       <section className="section">
       <div id="bdb-profile-content">
-        <div className="inner row center-xs center-sm start-md start-lg">
+        <div className="inner row center-xs">
           <div className="col-xs-12 col-sm-12 col-md-10 col-lg-8">
             <div className="row center-xs center-sm start-md start-lg">
               <div

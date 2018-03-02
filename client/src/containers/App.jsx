@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
+import { LoginOrRegisterModal } from '../components';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -54,7 +55,8 @@ class App extends React.Component {
       s_userDetails,
       a_onLogout,
       a_showLoginDialog,
-      a_toggleSideNav
+      a_toggleSideNav,
+      s_isLoginDialogOpen
     } = this.props;
 
     return (
@@ -68,7 +70,10 @@ class App extends React.Component {
         {s_isSideNavOpen && <Overlay onCloseHandler={a_toggleSideNav} />}
         {/* for modal dialogs  */}
         <div id="global-modal-dialog" />
-
+        <LoginOrRegisterModal
+          onClose={() => a_showLoginDialog(false)}
+          open={s_isLoginDialogOpen}
+        />
         <div id="app-flex-wrapper">
           <SideBar
             userDetails={s_userDetails}
@@ -121,7 +126,9 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
     s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_currentRoute: routerReducer.currentRoute,
     s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: authReducer.userDetails
+    s_userDetails: authReducer.userDetails,
+    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
+
   };
 };
 const mapDispatchToProps = dispatch => {

@@ -5,7 +5,6 @@ import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 
-import { LoginOrRegisterModal } from '../components';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -26,7 +25,6 @@ class Header extends React.Component {
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
     a_switchRoute: PropTypes.func.isRequired
   };
   static defaultProps = {
@@ -62,10 +60,15 @@ class Header extends React.Component {
     } = s_userDetails;
 
     return (
-      <nav style={{ fontSize: 20 }} className="navbar is-fixed-top">
+      <nav
+        style={{ fontSize: 20, maxHeight: '3.25rem' }}
+        className="navbar is-fixed-top"
+      >
         <div className="navbar-brand">
           <a
-            onClick={() => a_toggleSideNav(s_isSideNavOpen)}
+            onClick={() => {
+              !s_isLoggedIn ? a_showLoginDialog(true) : null;
+            }}
             style={{ paddingRight: 4 }}
             className="navbar-item"
           >
@@ -99,7 +102,7 @@ class Header extends React.Component {
             <div className="navbar-item">
               {s_isLoggedIn && (
                 <div className="field is-grouped">
-                  <div className="navbar-item has-dropdown is-hoverable">
+                  {/* <div className="navbar-item has-dropdown is-hoverable">
                     <a className="navbar-link">Docs</a>
 
                     <div className="navbar-dropdown">
@@ -109,19 +112,43 @@ class Header extends React.Component {
                       <hr className="navbar-divider" />
                       <div className="navbar-item">Version 0.6.2</div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     {profileImgUrl && (
                       <img
-                        style={{ borderRadius: '50%' }}
+                        // style={{ borderRadius: '50%' }}
                         src={profileImgUrl}
                         alt="BidOrBoo"
-                        width="24"
-                        height="24"
+                        width="32"
+                        height="42"
                       />
                     )}
-                    <span style={{ paddingLeft: 6 }}> {s_displayName}</span>
+                    <div className="navbar-item has-dropdown is-hoverable">
+                      <a className="navbar-link" style={{ paddingLeft: 6 }}>
+                        {s_displayName}
+                      </a>
+
+                      <div className="navbar-dropdown">
+                        <a
+                          onClick={() =>
+                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE)
+                          }
+                          className="navbar-item"
+                        >
+                          <i className="material-icons md-24">account_circle</i>
+                          <span>My Profile</span>
+                        </a>
+                        <hr className="navbar-divider" />
+
+                        <a onClick={() => a_onLogout()} className="navbar-item">
+                          <i className="material-icons md-24">
+                            power_settings_new
+                          </i>
+                          <span>Logout</span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
