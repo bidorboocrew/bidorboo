@@ -6,7 +6,12 @@ class HomePage extends React.Component {
     return (
       <section style={{background:'black',padding:"3.25rem 1.5rem"}} >
       <div id="bdb-home-content" >
-        <div  style={{height: "80vh",backgroundImage:"url('https://pre00.deviantart.net/6749/th/pre/i/2011/314/0/2/site_under_contruction_by_gudkiller01-d4fp3la.jpg')"}} className="inner"></div>
+        <img
+              src="https://my.alliant.edu/ICS/icsfs/under_construction.jpg?target=9664e852-79ba-4537-bae4-319d2f6edce7"
+              alt="BidOrBoo"
+              width="400"
+              height="200"
+            />
       </div>
       </section>
     );

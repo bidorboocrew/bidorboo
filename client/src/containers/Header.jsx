@@ -89,7 +89,11 @@ class Header extends React.Component {
             }}
             className="navbar-burger burger"
             data-target="navbarmenu"
-          />
+          >
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
 
         <div
