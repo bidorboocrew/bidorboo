@@ -5,6 +5,10 @@ import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 
+<<<<<<< HEAD
+=======
+import { LoginOrRegisterModal } from '../components';
+>>>>>>> 13f4884aa47d33cc94bac38b11a20f28abaff37e
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -25,6 +29,10 @@ class Header extends React.Component {
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
+<<<<<<< HEAD
+=======
+    a_showLoginDialog: PropTypes.func.isRequired,
+>>>>>>> 13f4884aa47d33cc94bac38b11a20f28abaff37e
     a_switchRoute: PropTypes.func.isRequired
   };
   static defaultProps = {
