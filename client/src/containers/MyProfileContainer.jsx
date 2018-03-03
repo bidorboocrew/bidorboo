@@ -12,11 +12,11 @@ import ProfileForm from '../components/forms/ProfileForm';
 
 const onSubmit = () => {};
 const HeaderTitle = props => {
-  const {title, specialMarginVal} = props;
+  const { title, specialMarginVal } = props;
   return (
     <h2
       style={{
-        marginTop: specialMarginVal||0,
+        marginTop: specialMarginVal || 0,
         marginBottom: 4,
         fontWeight: 500,
         fontSize: 18,
@@ -27,14 +27,31 @@ const HeaderTitle = props => {
     </h2>
   );
 };
-
 const DisplayLabelValue = props => {
   return (
-    <div style={{ fontSize: 14, marginBottom: 4 }}>
+    <div style={{ fontSize: 14, padding: 4, marginBottom: 4 }}>
       <span style={{ color: 'grey' }}>{props.labelText}</span>
       <span> {props.labelValue}</span>
     </div>
   );
+};
+const EditProfile = props => {
+  return props.shouldOpen ? (
+    <div className="modal">
+      <div className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Modal title</p>
+          <button className="delete" aria-label="close" />
+        </header>
+        <section className="modal-card-body">hello</section>
+        <footer className="modal-card-foot">
+          <button className="button is-success">Save changes</button>
+          <button className="button">Cancel</button>
+        </footer>
+      </div>
+    </div>
+  ) : null;
 };
 
 class MyProfileContainer extends React.Component {
@@ -55,7 +72,16 @@ class MyProfileContainer extends React.Component {
     s_isSideNavOpen: PropTypes.bool.isRequired,
     a_switchRoute: PropTypes.func.isRequired
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditProfileOpen: false
+    };
 
+    this.toggleEditProfile = () => {
+      this.setState({ isEditProfileOpen: !this.state.isEditProfileOpen });
+    };
+  }
   render() {
     const {
       s_userDetails,
@@ -84,6 +110,8 @@ class MyProfileContainer extends React.Component {
 
     return (
       <section className="section">
+        {/* edit profile dialog */}
+        {<EditProfile shouldOpen={this.state.isEditProfileOpen} />}
         <div className="container" id="bdb-profile-content">
           <div className="columns">
             <div className="column is-one-quarter">
@@ -104,6 +132,15 @@ class MyProfileContainer extends React.Component {
                 </div>
                 <div style={{ fontSize: 16 }}>{displayName}</div>
                 <div style={{ fontSize: 16 }}>{email}</div>
+                <div style={{ marginTop: 12 }}>
+                  <a className="button is-primary">
+                    <i
+                      style={{ fontSize: 12 }}
+                      className="fas fa-cloud-upload-alt"
+                    />
+                    <span style={{ marginLeft: 4 }}>Edit Picture</span>
+                  </a>
+                </div>
               </div>
             </div>
             {/* user details */}
@@ -126,16 +163,18 @@ class MyProfileContainer extends React.Component {
                 <HeaderTitle specialMarginVal={8} title="Address Section" />
                 <DisplayLabelValue
                   labelText="address:"
-                  labelValue={!address
-                    ? 'please add'
-                    : `${address.unit} ${address.city} ${address.province} ${
-                        address.state
-                      } ${address.postalCode} ${address.country} ${
-                        address.extras
-                      }`}
+                  labelValue={
+                    !address
+                      ? 'please add'
+                      : `${address.unit} ${address.city} ${address.province} ${
+                          address.state
+                        } ${address.postalCode} ${address.country} ${
+                          address.extras
+                        }`
+                  }
                 />
 
-                <HeaderTitle specialMarginVal={8}title="Payment Details" />
+                <HeaderTitle specialMarginVal={8} title="Payment Details" />
                 <DisplayLabelValue
                   labelText="credit card:"
                   labelValue={creditCardsString}
@@ -143,12 +182,21 @@ class MyProfileContainer extends React.Component {
                 <HeaderTitle specialMarginVal={8} title="Self Description" />
                 <DisplayLabelValue
                   labelText="personal paragraph:"
-                  labelValue={personalParagraph ? personalParagraph : 'no description'}
+                  labelValue={
+                    personalParagraph ? personalParagraph : 'no description'
+                  }
                 />
 
-
-                <div style={{marginTop: 12}}>
-                  <a className="button is-primary">edit profile</a>
+                <div style={{ marginTop: 12 }}>
+                  <a
+                    className="button is-primary"
+                    onClick={() => {
+                      this.toggleEditProfile();
+                    }}
+                  >
+                    <i style={{ fontSize: 12 }} className="far fa-edit" />
+                    <span style={{ marginLeft: 4 }}>Edit Profile Details</span>
+                  </a>
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ body {
   // overflow-x: hidden;
   // overflow-y: auto;
   font-family: $font-family;
+  min-height: 100%
 }
 @import 'bulma/bulma.sass';
 

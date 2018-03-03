@@ -190,8 +190,8 @@ class Header extends React.Component {
                           }}
                           className="navbar-item"
                         >
-                          <i className="material-icons md-24">account_circle</i>
-                          <span>profile</span>
+                          <i style={{ fontSize: 12 }} className="far fa-user" />
+                          <span style={{ marginLeft: 4 }}>my profile</span>
                         </a>
                         <hr className="navbar-divider" />
 
@@ -203,10 +203,11 @@ class Header extends React.Component {
                           }
                           className="navbar-item"
                         >
-                          <i className="material-icons md-24">
-                            power_settings_new
-                          </i>
-                          <span>Logout</span>
+                          <i
+                            style={{ fontSize: 12 }}
+                            className="fas fa-sign-out-alt"
+                          />
+                          <span style={{ marginLeft: 4 }}>Logout</span>
                         </a>
                       </div>
                     </div>
