@@ -62,7 +62,7 @@ class Header extends React.Component {
     } = s_userDetails;
 
     return (
-      <nav style={{ fontSize: 18 }} className="navbar is-transparent">
+      <nav style={{ fontSize: 18 }} className="bottom-border navbar">
         {/* brand */}
         <div className="navbar-brand">
           <a
