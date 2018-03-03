@@ -4,7 +4,7 @@ import './styles/home.css';
 class HomePage extends React.Component {
   render() {
     return (
-      <section>
+      <section className="section">
       <div style={{background : 'purple'}}  className="container" id="bdb-home-content" >
             HomePage
       </div>
