@@ -170,7 +170,7 @@ class Header extends React.Component {
                           className="navbar-item"
                         >
                           <i className="material-icons md-24">account_circle</i>
-                          <span>Logout</span>
+                          <span>profile</span>
                         </a>
                         <hr className="navbar-divider" />
 
@@ -186,36 +186,15 @@ class Header extends React.Component {
                 </div>
               )}
               {!s_isLoggedIn && (
-                <div className="field is-grouped">
-                  <div style={{ paddingRight: 0 }} className="navbar-item">
-                    Join us using
-                  </div>
-                  <div style={{ paddingRight: 0 }} className="navbar-item">
-                    <a
-                      className="button button is-link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
-                    >
-                      <span className="icon">
-                        <i className="fab fa-facebook" />
-                      </span>
-                      <span>facebook</span>
-                    </a>
-                  </div>
-                  <div style={{ paddingRight: 0 }} className="navbar-item">
-                    <a
-                      className="button button is-danger"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
-                    >
-                      <span className="icon">
-                        <i className="fab fa-google" />
-                      </span>
-                      <span>google</span>
-                    </a>
-                  </div>
+                <div className="navbar-item">
+                  <a
+                    className="button is-outlined"
+                    onClick={() => {
+                      !s_isLoggedIn ? a_showLoginDialog(true) : null;
+                    }}
+                  >
+                    login
+                  </a>
                 </div>
               )}
             </div>
