@@ -5,8 +5,8 @@ class HomePage extends React.Component {
   render() {
     return (
       <section>
-      <div className="container" id="bdb-home-content" >
-
+      <div style={{background : 'purple'}}  className="container" id="bdb-home-content" >
+            HomePage
       </div>
       </section>
     );

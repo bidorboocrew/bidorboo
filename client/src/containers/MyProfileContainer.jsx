@@ -134,7 +134,6 @@ class MyProfileContainer extends React.Component {
                       self description
                     </h2>
                     <div className="col-xs-12">
-                      {' '}
                       {personalParagraph ? personalParagraph : 'no description'}
                     </div>
                   </div>

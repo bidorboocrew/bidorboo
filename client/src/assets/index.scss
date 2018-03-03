@@ -1,20 +1,20 @@
 @import './_variables.scss';
-@import './_animatecss.scss';
+// @import './_animatecss.scss';
 // @import './_commonClasses.scss';
 // --------------------------------------------------
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
 
-// @import 'bulma/bulma.sass';
+
 html
 body {
   color: $color1;
-  line-height: 1.5;
+  // line-height: 1.5;
   background: #fff;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  overflow-y: auto;
+  // overflow-x: hidden;
+  // overflow-y: auto;
   font-family: $font-family;
 }
 @import 'bulma/bulma.sass';

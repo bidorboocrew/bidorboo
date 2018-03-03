@@ -7,7 +7,6 @@ import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { LoginOrRegisterModal } from '../components';
-import classNames from 'classnames';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -60,13 +59,6 @@ class App extends React.Component {
       s_isLoginDialogOpen,
       s_currentRoute
     } = this.props;
-    const bidder = ROUTES.FRONTENDROUTES.BIDDER;
-    const poster = ROUTES.FRONTENDROUTES.PROPOSER;
-    const spinTheScreen = classNames(
-      { 'rotate-scale-down-hor': s_currentRoute === poster },
-      { 'rotate-scale-down-hor-reverse': s_currentRoute === bidder }
-    );
-    debugger;
 
     return (
       <div id="bidorboo-root-view">
@@ -83,7 +75,7 @@ class App extends React.Component {
           onClose={() => a_showLoginDialog(false)}
           open={s_isLoginDialogOpen}
         />
-        <div className={spinTheScreen} id="app-flex-wrapper">
+        <div id="app-flex-wrapper">
           <SideBar
             userDetails={s_userDetails}
             isUserLoggedIn={s_isLoggedIn}
