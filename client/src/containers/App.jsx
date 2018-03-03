@@ -6,7 +6,6 @@ import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
-import { LoginOrRegisterModal } from '../components';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -15,8 +14,7 @@ import {
   HomePage,
   ProposerContainer,
   BidderContainer,
-  MyProfileContainer,
-  SideBar
+  MyProfileContainer
 } from './index';
 import { Overlay } from '../components';
 
@@ -49,16 +47,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const {
-      s_isSideNavOpen,
-      s_isLoggedIn,
-      s_userDetails,
-      a_onLogout,
-      a_showLoginDialog,
-      a_toggleSideNav,
-      s_isLoginDialogOpen,
-      s_currentRoute
-    } = this.props;
+    const { s_isSideNavOpen, s_isLoggedIn, a_toggleSideNav } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -71,17 +60,7 @@ class App extends React.Component {
         {s_isSideNavOpen && <Overlay onCloseHandler={a_toggleSideNav} />}
         {/* for modal dialogs  */}
         <div id="global-modal-dialog" />
-        <LoginOrRegisterModal
-          onClose={() => a_showLoginDialog(false)}
-          open={s_isLoginDialogOpen}
-        />
         <div id="app-flex-wrapper">
-          <SideBar
-            userDetails={s_userDetails}
-            isUserLoggedIn={s_isLoggedIn}
-            onLogout={a_onLogout}
-            onshowLoginDialog={a_showLoginDialog}
-          />
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -153,7 +132,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         const { isLoggedIn } = { ...rest };
-        return true ? (
+        return isLoggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect to={ROUTES.FRONTENDROUTES.HOME} />

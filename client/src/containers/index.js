@@ -3,4 +3,4 @@ export { default as ProposerContainer } from './ProposerContainer';
 export { default as BidderContainer } from './BidderContainer';
 export { default as MyProfileContainer } from './MyProfileContainer';
 export { default as HomePage } from './HomePage';
-export { default as SideBar } from './SideBar';
+// export { default as SideBar } from './SideBar';

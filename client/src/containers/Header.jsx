@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
+import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 
-import { LoginOrRegisterModal } from '../components';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -26,7 +26,6 @@ class Header extends React.Component {
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
     a_switchRoute: PropTypes.func.isRequired
   };
   static defaultProps = {
@@ -35,46 +34,43 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isHamburgerOpen: false
+      isHamburgerOpen: false,
+      isLoginDialogOpen: false
     };
-    this.closeMenuThenExecute = function(func) {
+    this.closeMenuThenExecute = func => {
       this.setState({ isHamburgerOpen: false }, func);
-    }.bind(this);
+    };
+    this.toggleLoginDialog = () => {
+      this.setState({ isLoginDialogOpen: !this.state.isLoginDialogOpen });
+    };
   }
   render() {
     const {
-      a_toggleSideNav,
-      a_showLoginDialog,
-      s_isSideNavOpen,
       s_displayName,
       s_isLoggedIn,
-      s_isLoginDialogOpen,
       s_userDetails,
       a_onLogout,
       a_switchRoute
     } = this.props;
-    const {
-      profileImgUrl,
-      displayName,
-      email,
-      address,
-      personalParagraph,
-      creditCards,
-      membershipStatus,
-      phoneNumber
-    } = s_userDetails;
+    const { profileImgUrl } = s_userDetails;
 
     return (
       <nav style={{ fontSize: 18 }} className="bottom-border navbar">
         {/* brand */}
+        <LoginOrRegisterModal
+          isActive={this.state.isLoginDialogOpen}
+          handleCancel={this.toggleLoginDialog}
+        />
         <div className="navbar-brand">
           <a
             onClick={() => {
-              !s_isLoggedIn
+              s_isLoggedIn
                 ? this.closeMenuThenExecute(() => {
-                    a_showLoginDialog(true);
+                    a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
                   })
-                : null;
+                : this.closeMenuThenExecute(() => {
+                    this.toggleLoginDialog(true);
+                  });
             }}
             style={{ paddingRight: 4 }}
             className="navbar-item"
@@ -116,29 +112,9 @@ class Header extends React.Component {
             {s_isLoggedIn && (
               <a
                 onClick={() => {
-                  s_isLoggedIn
-                    ? this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
-                      })
-                    : this.closeMenuThenExecute(() => {
-                        a_showLoginDialog(true);
-                      });
-                }}
-                className="navbar-item "
-              >
-                Home
-              </a>
-            )}
-            {s_isLoggedIn && (
-              <a
-                onClick={() => {
-                  s_isLoggedIn
-                    ? this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER);
-                      })
-                    : this.closeMenuThenExecute(() => {
-                        a_showLoginDialog(true);
-                      });
+                  this.closeMenuThenExecute(() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER);
+                  });
                 }}
                 className="navbar-item "
               >
@@ -148,13 +124,9 @@ class Header extends React.Component {
             {s_isLoggedIn && (
               <a
                 onClick={() => {
-                  s_isLoggedIn
-                    ? this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER);
-                      })
-                    : this.closeMenuThenExecute(() => {
-                        a_showLoginDialog(true);
-                      });
+                  this.closeMenuThenExecute(() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER);
+                  });
                 }}
                 className="navbar-item "
               >
@@ -219,11 +191,9 @@ class Header extends React.Component {
                   <a
                     className="button is-outlined"
                     onClick={() => {
-                      !s_isLoggedIn
-                        ? this.closeMenuThenExecute(() => {
-                            a_showLoginDialog(true);
-                          })
-                        : null;
+                      this.closeMenuThenExecute(() => {
+                        this.toggleLoginDialog(true);
+                      });
                     }}
                   >
                     login

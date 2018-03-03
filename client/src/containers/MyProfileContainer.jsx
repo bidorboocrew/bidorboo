@@ -5,9 +5,6 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
-import classNames from 'classnames';
-
-import * as ROUTES from '../constants/route_const';
 
 import ProfileForm from '../components/forms/ProfileForm';
 
@@ -41,14 +38,7 @@ class MyProfileContainer extends React.Component {
     };
   }
   render() {
-    const {
-      s_userDetails,
-      s_isLoggedIn,
-      a_showLoginDialog,
-      a_onLogout,
-      s_isSideNavOpen,
-      a_switchRoute
-    } = this.props;
+    const { s_userDetails } = this.props;
 
     const {
       profileImgUrl,
@@ -68,12 +58,6 @@ class MyProfileContainer extends React.Component {
 
     return (
       <section className="section">
-        {/* edit profile dialog */}
-        <EditProfile
-          title="Edit Profile"
-          handleCancel={this.toggleEditProfile}
-          isActive={this.state.isEditProfile}
-        />
         <div className="container" id="bdb-profile-content">
           <div className="columns">
             <div className="column is-one-quarter">
@@ -108,58 +92,77 @@ class MyProfileContainer extends React.Component {
             {/* user details */}
             <div className="column">
               <div className="box">
-                <HeaderTitle title="General Information" />
-                <DisplayLabelValue
-                  labelText="user name:"
-                  labelValue={displayName}
-                />
-                <DisplayLabelValue
-                  labelText="membership status:"
-                  labelValue={membershipStatus}
-                />
-                <DisplayLabelValue
-                  labelText="phonenumber:"
-                  labelValue={phoneNumber || 'please add'}
-                />
+                {!this.state.isEditProfile && (
+                  <div>
+                    <HeaderTitle title="General Information" />
+                    <DisplayLabelValue
+                      labelText="user name:"
+                      labelValue={displayName}
+                    />
+                    <DisplayLabelValue
+                      labelText="membership status:"
+                      labelValue={membershipStatus}
+                    />
+                    <DisplayLabelValue
+                      labelText="phonenumber:"
+                      labelValue={phoneNumber || 'please add'}
+                    />
 
-                <HeaderTitle specialMarginVal={8} title="Address Section" />
-                <DisplayLabelValue
-                  labelText="address:"
-                  labelValue={
-                    !address
-                      ? 'please add'
-                      : `${address.unit} ${address.city} ${address.province} ${
-                          address.state
-                        } ${address.postalCode} ${address.country} ${
-                          address.extras
-                        }`
-                  }
-                />
+                    <HeaderTitle specialMarginVal={8} title="Address Section" />
+                    <DisplayLabelValue
+                      labelText="address:"
+                      labelValue={
+                        !address
+                          ? 'please add'
+                          : `${address.unit} ${address.city} ${
+                              address.province
+                            } ${address.state} ${address.postalCode} ${
+                              address.country
+                            } ${address.extras}`
+                      }
+                    />
 
-                <HeaderTitle specialMarginVal={8} title="Payment Details" />
-                <DisplayLabelValue
-                  labelText="credit card:"
-                  labelValue={creditCardsString}
-                />
-                <HeaderTitle specialMarginVal={8} title="Self Description" />
-                <DisplayLabelValue
-                  labelText="personal paragraph:"
-                  labelValue={
-                    personalParagraph ? personalParagraph : 'no description'
-                  }
-                />
+                    <HeaderTitle specialMarginVal={8} title="Payment Details" />
+                    <DisplayLabelValue
+                      labelText="credit card:"
+                      labelValue={creditCardsString}
+                    />
+                    <HeaderTitle
+                      specialMarginVal={8}
+                      title="Self Description"
+                    />
+                    <DisplayLabelValue
+                      labelText="personal paragraph:"
+                      labelValue={
+                        personalParagraph ? personalParagraph : 'no description'
+                      }
+                    />
 
-                <div style={{ marginTop: 12 }}>
-                  <a
-                    className="button is-primary"
-                    onClick={() => {
-                      this.toggleEditProfile();
-                    }}
-                  >
-                    <i style={{ fontSize: 12 }} className="far fa-edit" />
-                    <span style={{ marginLeft: 4 }}>Edit Profile Details</span>
-                  </a>
-                </div>
+                    <div style={{ marginTop: 12 }}>
+                      <a
+                        className="button is-primary"
+                        onClick={() => {
+                          this.toggleEditProfile();
+                        }}
+                      >
+                        <i style={{ fontSize: 12 }} className="far fa-edit" />
+                        <span style={{ marginLeft: 4 }}>
+                          Edit Profile Details
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {this.state.isEditProfile && (
+                  <div>
+                    <HeaderTitle title="Edit Profile Deails" />
+
+                    <ProfileForm
+                      onCancel={this.toggleEditProfile}
+                      onSubmit={onSubmit}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             {/* advertisement */}
@@ -227,25 +230,27 @@ const DisplayLabelValue = props => {
     </div>
   );
 };
-const EditProfile = props => {
-  const { isACtive, title, handleCancel } = props;
-  const isActive = classNames('modal', { 'is-active': props.isActive });
-  return props.isActive ? (
-    <div className={isActive}>
-      <div onClick={handleCancel} className="modal-background" />
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">{title}</p>
-          <button className="delete" aria-label="close" />
-        </header>
-        <section className="modal-card-body" />
-        <footer className="modal-card-foot">
-          <button className="button is-primary">Save Changes</button>
-          <button onClick={handleCancel} className="button">
-            Cancel
-          </button>
-        </footer>
-      </div>
-    </div>
-  ) : null;
-};
+// const EditProfile = props => {
+//   const { isActive, title, handleCancel } = props;
+//   const openModalClass = classNames('modal', { 'is-active': props.isActive });
+//   return isActive ? (
+//     <div className={openModalClass}>
+//       <div onClick={handleCancel} className="modal-background" />
+//       <div className="modal-card">
+//         <header className="modal-card-head">
+//           <p className="modal-card-title">{title}</p>
+//           <button className="delete" aria-label="close" />
+//         </header>
+//         <section className="modal-card-body">
+//           <ProfileForm onSubmit={onSubmit} />
+//         </section>
+//         <footer className="modal-card-foot">
+//           <button className="button is-primary">Save Changes</button>
+//           <button onClick={handleCancel} className="button">
+//             Cancel
+//           </button>
+//         </footer>
+//       </div>
+//     </div>
+//   ) : null;
+// };
