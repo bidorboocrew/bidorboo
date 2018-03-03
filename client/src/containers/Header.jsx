@@ -152,7 +152,6 @@ class Header extends React.Component {
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     {profileImgUrl && (
                       <img
-                        // style={{ borderRadius: '50%' }}
                         src={profileImgUrl}
                         alt="BidOrBoo"
                         width="32"
@@ -181,11 +180,10 @@ class Header extends React.Component {
               {!s_isLoggedIn && (
                 <div className="field is-grouped">
                   <div style={{ paddingRight: 0 }} className="navbar-item">
-                    Sign up
+                    Join us via
                   </div>
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     <a
-                      style={{ fontSize: 18 }}
                       className="button button is-link"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -197,9 +195,8 @@ class Header extends React.Component {
                       <span>facebook</span>
                     </a>
                   </div>
-                  <div className="navbar-item">
+                  <div style={{ paddingRight: 0 }} className="navbar-item">
                     <a
-                      style={{ fontSize: 18 }}
                       className="button button is-danger"
                       target="_blank"
                       rel="noopener noreferrer"
