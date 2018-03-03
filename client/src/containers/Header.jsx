@@ -37,6 +37,9 @@ class Header extends React.Component {
     this.state = {
       isHamburgerOpen: false
     };
+    this.closeMenuThenExecute = function(func) {
+      this.setState({ isHamburgerOpen: false }, func);
+    }.bind(this);
   }
   render() {
     const {
@@ -67,7 +70,11 @@ class Header extends React.Component {
         <div className="navbar-brand">
           <a
             onClick={() => {
-              !s_isLoggedIn ? a_showLoginDialog(true) : null;
+              !s_isLoggedIn
+                ? this.closeMenuThenExecute(() => {
+                    a_showLoginDialog(true);
+                  })
+                : null;
             }}
             style={{ paddingRight: 4 }}
             className="navbar-item"
@@ -110,8 +117,12 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   s_isLoggedIn
-                    ? a_switchRoute(ROUTES.FRONTENDROUTES.HOME)
-                    : a_showLoginDialog(true);
+                    ? this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
+                      })
+                    : this.closeMenuThenExecute(() => {
+                        a_showLoginDialog(true);
+                      });
                 }}
                 className="navbar-item "
               >
@@ -122,8 +133,12 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   s_isLoggedIn
-                    ? a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER)
-                    : a_showLoginDialog(true);
+                    ? this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER);
+                      })
+                    : this.closeMenuThenExecute(() => {
+                        a_showLoginDialog(true);
+                      });
                 }}
                 className="navbar-item "
               >
@@ -134,8 +149,12 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   s_isLoggedIn
-                    ? a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER)
-                    : a_showLoginDialog(true);
+                    ? this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER);
+                      })
+                    : this.closeMenuThenExecute(() => {
+                        a_showLoginDialog(true);
+                      });
                 }}
                 className="navbar-item "
               >
@@ -165,7 +184,9 @@ class Header extends React.Component {
                       <div className="navbar-dropdown">
                         <a
                           onClick={() => {
-                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
+                            this.closeMenuThenExecute(() => {
+                              a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
+                            });
                           }}
                           className="navbar-item"
                         >
@@ -174,7 +195,14 @@ class Header extends React.Component {
                         </a>
                         <hr className="navbar-divider" />
 
-                        <a onClick={() => a_onLogout()} className="navbar-item">
+                        <a
+                          onClick={() =>
+                            this.closeMenuThenExecute(() => {
+                              a_onLogout();
+                            })
+                          }
+                          className="navbar-item"
+                        >
                           <i className="material-icons md-24">
                             power_settings_new
                           </i>
@@ -190,7 +218,11 @@ class Header extends React.Component {
                   <a
                     className="button is-outlined"
                     onClick={() => {
-                      !s_isLoggedIn ? a_showLoginDialog(true) : null;
+                      !s_isLoggedIn
+                        ? this.closeMenuThenExecute(() => {
+                            a_showLoginDialog(true);
+                          })
+                        : null;
                     }}
                   >
                     login
