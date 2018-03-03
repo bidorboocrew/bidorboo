@@ -11,6 +11,32 @@ import * as ROUTES from '../constants/route_const';
 import ProfileForm from '../components/forms/ProfileForm';
 
 const onSubmit = () => {};
+const HeaderTitle = props => {
+  const {title, specialMarginVal} = props;
+  return (
+    <h2
+      style={{
+        marginTop: specialMarginVal||0,
+        marginBottom: 4,
+        fontWeight: 500,
+        fontSize: 18,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+      }}
+    >
+      {title}
+    </h2>
+  );
+};
+
+const DisplayLabelValue = props => {
+  return (
+    <div style={{ fontSize: 14, marginBottom: 4 }}>
+      <span style={{ color: 'grey' }}>{props.labelText}</span>
+      <span> {props.labelValue}</span>
+    </div>
+  );
+};
+
 class MyProfileContainer extends React.Component {
   static propTypes = {
     s_userDetails: PropTypes.shape({
@@ -59,85 +85,83 @@ class MyProfileContainer extends React.Component {
     return (
       <section className="section">
         <div className="container" id="bdb-profile-content">
-          <div className="inner row center-xs">
-            <div className="col-xs-12 col-sm-12 col-md-10 col-lg-8">
-              <div className="row center-xs center-sm start-md start-lg">
-                <div
-                  style={{ padding: 20 }}
-                  className="col-xs-12
-                col-sm-12
-                col-md-5
-                col-lg-4"
-                >
-                  <div className="col-xs-12">
-                    <img
-                      alt="profile pic"
-                      src={profileImgUrl}
-                      className="profileImg"
-                    />
-                  </div>
-                  <div className="col-xs-12">
-                    <img
-                      alt="star rating"
-                      src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
-                      className="starRating col-xs-12"
-                    />
-                  </div>
-                  <div className="col-xs-12">{displayName}</div>
-                  <div className="col-xs-12">{email}</div>
-                  <button>edit profile</button>
+          <div className="columns">
+            <div className="column is-one-quarter">
+              <div className="box" style={{ textAlign: 'center' }}>
+                <div>
+                  <img
+                    alt="profile pic"
+                    src={profileImgUrl}
+                    className="profileImg"
+                  />
                 </div>
-                <div
-                  className="col-xs-12
-                col-sm-12
-                col-md-7
-                col-lg-8"
-                >
-                  <div className="row center-xs center-sm start-md start-lg">
-                    <h2
-                      className="col-xs-12"
-                      style={{ border: '1px solid grey' }}
-                    >
-                      General Information
-                    </h2>
-                    <div className="col-xs-12">user name {displayName}</div>
-                    <div className="col-xs-12">
-                      membership status {membershipStatus}
-                    </div>
-                    <div className="col-xs-12">phonenumber {phoneNumber}</div>
-                    <h2
-                      style={{ border: '1px solid grey' }}
-                      className="col-xs-12"
-                    >
-                      Address Section
-                    </h2>
-                    <div className="col-xs-12">
-                      {!address
-                        ? 'noaddress'
-                        : `${address.unit} ${address.city} ${
-                            address.province
-                          } ${address.state} ${address.postalCode} ${
-                            address.country
-                          } ${address.extras}`}
-                    </div>
-                    <h2
-                      style={{ border: '1px solid grey' }}
-                      className="col-xs-12"
-                    >
-                      Payment details
-                    </h2>
-                    <div className="col-xs-12"> {creditCardsString}</div>
-                    <h2
-                      style={{ border: '1px solid grey' }}
-                      className="col-xs-12"
-                    >
-                      self description
-                    </h2>
-                    <div className="col-xs-12">
-                      {personalParagraph ? personalParagraph : 'no description'}
-                    </div>
-                  </div>
-                  {/* <ProfileForm onSubmit={onSubmit} /> */}
+                <div>
+                  <img
+                    alt="star rating"
+                    src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+                    className="starRating col-xs-12"
+                  />
+                </div>
+                <div style={{ fontSize: 16 }}>{displayName}</div>
+                <div style={{ fontSize: 16 }}>{email}</div>
+              </div>
+            </div>
+            {/* user details */}
+            <div className="column">
+              <div className="box">
+                <HeaderTitle title="General Information" />
+                <DisplayLabelValue
+                  labelText="user name:"
+                  labelValue={displayName}
+                />
+                <DisplayLabelValue
+                  labelText="membership status:"
+                  labelValue={membershipStatus}
+                />
+                <DisplayLabelValue
+                  labelText="phonenumber:"
+                  labelValue={phoneNumber || 'please add'}
+                />
+
+                <HeaderTitle specialMarginVal={8} title="Address Section" />
+                <DisplayLabelValue
+                  labelText="address:"
+                  labelValue={!address
+                    ? 'please add'
+                    : `${address.unit} ${address.city} ${address.province} ${
+                        address.state
+                      } ${address.postalCode} ${address.country} ${
+                        address.extras
+                      }`}
+                />
+
+                <HeaderTitle specialMarginVal={8}title="Payment Details" />
+                <DisplayLabelValue
+                  labelText="credit card:"
+                  labelValue={creditCardsString}
+                />
+                <HeaderTitle specialMarginVal={8} title="Self Description" />
+                <DisplayLabelValue
+                  labelText="personal paragraph:"
+                  labelValue={personalParagraph ? personalParagraph : 'no description'}
+                />
+
+
+                <div style={{marginTop: 12}}>
+                  <a className="button is-primary">edit profile</a>
+                </div>
+              </div>
+            </div>
+            {/* advertisement */}
+            <div className="column is-one-quarter">
+              <div className="box" style={{ textAlign: 'center' }}>
+                <div>Ads</div>
+                <div>
+                  <img
+                    alt="profile pic"
+                    src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
+                    className="profileImg"
+                  />
                 </div>
               </div>
             </div>
