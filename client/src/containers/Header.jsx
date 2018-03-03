@@ -188,7 +188,7 @@ class Header extends React.Component {
               {!s_isLoggedIn && (
                 <div className="field is-grouped">
                   <div style={{ paddingRight: 0 }} className="navbar-item">
-                    Join us via
+                    Join us using
                   </div>
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     <a
