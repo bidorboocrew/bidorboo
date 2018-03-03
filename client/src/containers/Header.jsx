@@ -162,8 +162,16 @@ class Header extends React.Component {
                       <a className="navbar-link" style={{ paddingLeft: 6 }}>
                         {s_displayName}
                       </a>
-
                       <div className="navbar-dropdown">
+                        <a
+                          onClick={() =>
+                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE)
+                          }
+                          className="navbar-item"
+                        >
+                          <i className="material-icons md-24">account_circle</i>
+                          <span>Logout</span>
+                        </a>
                         <hr className="navbar-divider" />
 
                         <a onClick={() => a_onLogout()} className="navbar-item">
