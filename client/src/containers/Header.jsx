@@ -62,7 +62,7 @@ class Header extends React.Component {
     } = s_userDetails;
 
     return (
-      <nav style={{ fontSize: 18 }} className="container navbar is-transparent">
+      <nav style={{ fontSize: 18 }} className="navbar is-transparent">
         {/* brand */}
         <div className="navbar-brand">
           <a
@@ -106,12 +106,42 @@ class Header extends React.Component {
         >
           {/* start */}
           <div className="navbar-start">
-            <a className="navbar-item" href="https://bulma.io/">
-              Post a Job
-            </a>
-            <a className="navbar-item" href="https://bulma.io/">
-              Bid on job
-            </a>
+            {s_isLoggedIn && (
+              <a
+                onClick={() => {
+                  s_isLoggedIn
+                    ? a_switchRoute(ROUTES.FRONTENDROUTES.HOME)
+                    : a_showLoginDialog(true);
+                }}
+                className="navbar-item "
+              >
+                Home
+              </a>
+            )}
+            {s_isLoggedIn && (
+              <a
+                onClick={() => {
+                  s_isLoggedIn
+                    ? a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER)
+                    : a_showLoginDialog(true);
+                }}
+                className="navbar-item "
+              >
+                Post a Job
+              </a>
+            )}
+            {s_isLoggedIn && (
+              <a
+                onClick={() => {
+                  s_isLoggedIn
+                    ? a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER)
+                    : a_showLoginDialog(true);
+                }}
+                className="navbar-item "
+              >
+                Bid on job
+              </a>
+            )}
           </div>
 
           {/* end */}
