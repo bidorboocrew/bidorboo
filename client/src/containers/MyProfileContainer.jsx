@@ -5,54 +5,11 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
+import classNames from 'classnames';
 
 import * as ROUTES from '../constants/route_const';
 
 import ProfileForm from '../components/forms/ProfileForm';
-
-const onSubmit = () => {};
-const HeaderTitle = props => {
-  const { title, specialMarginVal } = props;
-  return (
-    <h2
-      style={{
-        marginTop: specialMarginVal || 0,
-        marginBottom: 4,
-        fontWeight: 500,
-        fontSize: 18,
-        borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
-      }}
-    >
-      {title}
-    </h2>
-  );
-};
-const DisplayLabelValue = props => {
-  return (
-    <div style={{ fontSize: 14, padding: 4, marginBottom: 4 }}>
-      <span style={{ color: 'grey' }}>{props.labelText}</span>
-      <span> {props.labelValue}</span>
-    </div>
-  );
-};
-const EditProfile = props => {
-  return props.shouldOpen ? (
-    <div className="modal">
-      <div className="modal-background" />
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">Modal title</p>
-          <button className="delete" aria-label="close" />
-        </header>
-        <section className="modal-card-body">hello</section>
-        <footer className="modal-card-foot">
-          <button className="button is-success">Save changes</button>
-          <button className="button">Cancel</button>
-        </footer>
-      </div>
-    </div>
-  ) : null;
-};
 
 class MyProfileContainer extends React.Component {
   static propTypes = {
@@ -72,14 +29,15 @@ class MyProfileContainer extends React.Component {
     s_isSideNavOpen: PropTypes.bool.isRequired,
     a_switchRoute: PropTypes.func.isRequired
   };
+
   constructor(props) {
     super(props);
     this.state = {
-      isEditProfileOpen: false
+      isEditProfile: false
     };
 
     this.toggleEditProfile = () => {
-      this.setState({ isEditProfileOpen: !this.state.isEditProfileOpen });
+      this.setState({ isEditProfile: !this.state.isEditProfile });
     };
   }
   render() {
@@ -111,7 +69,11 @@ class MyProfileContainer extends React.Component {
     return (
       <section className="section">
         {/* edit profile dialog */}
-        {<EditProfile shouldOpen={this.state.isEditProfileOpen} />}
+        <EditProfile
+          title="Edit Profile"
+          handleCancel={this.toggleEditProfile}
+          isActive={this.state.isEditProfile}
+        />
         <div className="container" id="bdb-profile-content">
           <div className="columns">
             <div className="column is-one-quarter">
@@ -239,3 +201,51 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfileContainer);
+
+const onSubmit = () => {};
+const HeaderTitle = props => {
+  const { title, specialMarginVal } = props;
+  return (
+    <h2
+      style={{
+        marginTop: specialMarginVal || 0,
+        marginBottom: 4,
+        fontWeight: 500,
+        fontSize: 18,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+      }}
+    >
+      {title}
+    </h2>
+  );
+};
+const DisplayLabelValue = props => {
+  return (
+    <div style={{ fontSize: 14, padding: 4, marginBottom: 4 }}>
+      <span style={{ color: 'grey' }}>{props.labelText}</span>
+      <span> {props.labelValue}</span>
+    </div>
+  );
+};
+const EditProfile = props => {
+  const { isACtive, title, handleCancel } = props;
+  const isActive = classNames('modal', { 'is-active': props.isActive });
+  return props.isActive ? (
+    <div className={isActive}>
+      <div onClick={handleCancel} className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">{title}</p>
+          <button className="delete" aria-label="close" />
+        </header>
+        <section className="modal-card-body" />
+        <footer className="modal-card-foot">
+          <button className="button is-primary">Save Changes</button>
+          <button onClick={handleCancel} className="button">
+            Cancel
+          </button>
+        </footer>
+      </div>
+    </div>
+  ) : null;
+};
