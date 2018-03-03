@@ -4,9 +4,9 @@ class BidderContainer extends React.Component {
   render() {
     return (
       <section className="section">
-      <div id="bdb-bidder-content">
-        <div className="inner">home Bidder Content</div>
-      </div>
+        <div style={{background : 'green'}} id="bdb-bidder-content">
+          home Bidder Content
+        </div>
       </section>
     );
   }

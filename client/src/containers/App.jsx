@@ -7,6 +7,7 @@ import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { LoginOrRegisterModal } from '../components';
+import classNames from 'classnames';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -56,8 +57,16 @@ class App extends React.Component {
       a_onLogout,
       a_showLoginDialog,
       a_toggleSideNav,
-      s_isLoginDialogOpen
+      s_isLoginDialogOpen,
+      s_currentRoute
     } = this.props;
+    const bidder = ROUTES.FRONTENDROUTES.BIDDER;
+    const poster = ROUTES.FRONTENDROUTES.PROPOSER;
+    const spinTheScreen = classNames(
+      { 'rotate-scale-down-hor': s_currentRoute === poster },
+      { 'rotate-scale-down-hor-reverse': s_currentRoute === bidder }
+    );
+    debugger;
 
     return (
       <div id="bidorboo-root-view">
@@ -74,7 +83,7 @@ class App extends React.Component {
           onClose={() => a_showLoginDialog(false)}
           open={s_isLoginDialogOpen}
         />
-        <div id="app-flex-wrapper">
+        <div className={spinTheScreen} id="app-flex-wrapper">
           <SideBar
             userDetails={s_userDetails}
             isUserLoggedIn={s_isLoggedIn}
@@ -127,8 +136,7 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
     s_currentRoute: routerReducer.currentRoute,
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
-    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
-
+    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen
   };
 };
 const mapDispatchToProps = dispatch => {

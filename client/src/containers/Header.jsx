@@ -164,9 +164,9 @@ class Header extends React.Component {
                       </a>
                       <div className="navbar-dropdown">
                         <a
-                          onClick={() =>
-                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE)
-                          }
+                          onClick={() => {
+                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
+                          }}
                           className="navbar-item"
                         >
                           <i className="material-icons md-24">account_circle</i>

@@ -4,8 +4,8 @@ class ProposerContainer extends React.Component {
   render() {
     return (
       <section className="section">
-      <div id="bdb-proposer-content">
-        <div className="inner">Proposer Content</div>
+      <div  style={{background : 'blue'}} id="bdb-proposer-content">
+        Proposer Content
       </div>
       </section>
     );

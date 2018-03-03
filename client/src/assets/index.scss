@@ -1,5 +1,5 @@
 @import './_variables.scss';
-// @import './_animatecss.scss';
+@import './_animatecss.scss';
 // @import './_commonClasses.scss';
 // --------------------------------------------------
 // Flexbox SASS mixins
@@ -18,3 +18,5 @@ body {
   font-family: $font-family;
 }
 @import 'bulma/bulma.sass';
+
+
