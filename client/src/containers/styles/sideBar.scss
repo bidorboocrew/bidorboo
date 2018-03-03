@@ -1,56 +1,56 @@
-@import '../../assets/_variables.scss';
+// @import '../../assets/_variables.scss';
 
-#side-nav {
-  background-color: white;
-  border-right: $border-divider-heavy;
-  max-width: 240px;
-  min-width: 240px;
-  width: $width-side-nav;
-  height: 100vh;
-  color: white;
-  z-index: 999;
-  overflow-y: auto;
-}
-.sidenavContentWrapper{
-  padding: 24px 12px;
-  color: $color1;
+// #side-nav {
+//   background-color: white;
+//   border-right: $border-divider-heavy;
+//   max-width: 240px;
+//   min-width: 240px;
+//   width: $width-side-nav;
+//   height: 100vh;
+//   color: white;
+//   z-index: 999;
+//   overflow-y: auto;
+// }
+// .sidenavContentWrapper{
+//   padding: 24px 12px;
+//   color: $color1;
 
-}
+// }
 
-.profileImg {
-  height: 150px;
-  margin-bottom: $spacing-xs;
-}
+// .profileImg {
+//   height: 150px;
+//   margin-bottom: $spacing-xs;
+// }
 
-.starRating {
-  width: 150px;
-  margin-bottom: $spacing-xs;
-}
+// .starRating {
+//   width: 150px;
+//   margin-bottom: $spacing-xs;
+// }
 
-.divider {
-  border-bottom: $border-divider;
-}
+// .divider {
+//   border-bottom: $border-divider;
+// }
 
-.item {
-  margin-bottom: $spacing-sm;
-  &.username {
-    font-size: $font-size-xs;
-  }
-}
-.action {
-  color: $color1;
-  text-align: left;
-  padding: $spacing-xl;
-  font-size: $font-size-lg;
-  border-bottom: $border-divider;
-  cursor: pointer;
-  i {
-    font-size: $font-size-sm;
-    margin-right: 8px;
-  }
-  &:hover {
-    background: $color-hover-blue;
-    color: white;
-  }
-}
-// you were here trying to fig out how to align the image in the middle
+// .item {
+//   margin-bottom: $spacing-sm;
+//   &.username {
+//     font-size: $font-size-xs;
+//   }
+// }
+// .action {
+//   color: $color1;
+//   text-align: left;
+//   padding: $spacing-xl;
+//   font-size: $font-size-lg;
+//   border-bottom: $border-divider;
+//   cursor: pointer;
+//   i {
+//     font-size: $font-size-sm;
+//     margin-right: 8px;
+//   }
+//   &:hover {
+//     background: $color-hover-blue;
+//     color: white;
+//   }
+// }
+// // you were here trying to fig out how to align the image in the middle

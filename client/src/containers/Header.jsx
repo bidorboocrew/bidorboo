@@ -62,10 +62,8 @@ class Header extends React.Component {
     } = s_userDetails;
 
     return (
-      <nav
-        style={{ fontSize: 20, maxHeight: '3.25rem' }}
-        className="navbar is-fixed-top"
-      >
+      <nav style={{ fontSize: 18 }} className="container navbar is-transparent">
+        {/* brand */}
         <div className="navbar-brand">
           <a
             onClick={() => {
@@ -83,17 +81,21 @@ class Header extends React.Component {
             <span style={{ paddingLeft: 6 }}> BidorBoo </span>
           </a>
 
+          {/* burger menu */}
           <div
             onClick={() => {
               this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
             }}
-            className="navbar-burger burger"
+            className={classNames('navbar-burger burger', {
+              'is-active': this.state.isHamburgerOpen
+            })}
             data-target="navbarmenu"
           >
             <span />
             <span />
             <span />
           </div>
+          {/* end of burger */}
         </div>
 
         <div
@@ -102,24 +104,21 @@ class Header extends React.Component {
             'is-active': this.state.isHamburgerOpen
           })}
         >
-          <div className="navbar-start" />
+          {/* start */}
+          <div className="navbar-start">
+            <a className="navbar-item" href="https://bulma.io/">
+              Post a Job
+            </a>
+            <a className="navbar-item" href="https://bulma.io/">
+              Bid on job
+            </a>
+          </div>
 
+          {/* end */}
           <div className="navbar-end">
             <div className="navbar-item">
               {s_isLoggedIn && (
                 <div className="field is-grouped">
-                  {/* <div className="navbar-item has-dropdown is-hoverable">
-                    <a className="navbar-link">Docs</a>
-
-                    <div className="navbar-dropdown">
-                      <a className="navbar-item">Overview</a>
-                      <a className="navbar-item">Elements</a>
-                      <a className="navbar-item">Components</a>
-                      <hr className="navbar-divider" />
-                      <div className="navbar-item">Version 0.6.2</div>
-                    </div>
-                  </div> */}
-
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     {profileImgUrl && (
                       <img
@@ -136,15 +135,6 @@ class Header extends React.Component {
                       </a>
 
                       <div className="navbar-dropdown">
-                        <a
-                          onClick={() =>
-                            a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE)
-                          }
-                          className="navbar-item"
-                        >
-                          <i className="material-icons md-24">account_circle</i>
-                          <span>My Profile</span>
-                        </a>
                         <hr className="navbar-divider" />
 
                         <a onClick={() => a_onLogout()} className="navbar-item">
@@ -165,7 +155,7 @@ class Header extends React.Component {
                   </div>
                   <div style={{ paddingRight: 0 }} className="navbar-item">
                     <a
-                      style={{ fontSize: 20 }}
+                      style={{ fontSize: 18 }}
                       className="button button is-link"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -179,7 +169,7 @@ class Header extends React.Component {
                   </div>
                   <div className="navbar-item">
                     <a
-                      style={{ fontSize: 20 }}
+                      style={{ fontSize: 18 }}
                       className="button button is-danger"
                       target="_blank"
                       rel="noopener noreferrer"
