@@ -13,7 +13,7 @@ export const LoginOrRegisterModal = props => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Join BidOrBoo</p>
-          <button className="delete" aria-label="close" />
+          <button onClick={handleCancel} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
           <div style={{ textAlign: 'cetner' }}>
