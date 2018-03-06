@@ -13,15 +13,13 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section">
+        {/* <section className="section">
           <div
-            style={{ background: 'purple' }}
             className="container"
             id="bdb-home-content"
           >
-            HomePage
           </div>
-        </section>
+        </section> */}
       </div>
     );
   }
