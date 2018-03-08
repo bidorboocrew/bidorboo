@@ -7,14 +7,12 @@ export const requiredField = value => {
 };
 export const alphanumericField = value => {
   const isValid = RegExp(`^[a-zA-Z0-9_]*$`).test(value.trim());
-  debugger;
   return isValid
     ? undefined
     : 'Username can not contain special charachters. Please only use letters and number';
 };
 export const numericField = value => {
   const isValid = RegExp(`^[0-9]*$`).test(value.trim());
-  debugger;
   return isValid ? undefined : 'phone number can not include any charachters';
 };
 
@@ -70,13 +68,14 @@ export const renderFormTextField = ({
 }) => (
   <div className="field">
     <label
-      style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
+      style={{ color: 'grey', fontSize: 16, fontWeight: '400' }}
       className="label"
     >
       {label}
     </label>
     <div className="control">
       <input
+        style={{ fontSize: 16}}
         {...input}
         className="input"
         type="text"

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
+import * as C from '../constants/constants';
 
 import ProfileForm from '../components/forms/ProfileForm';
 
@@ -54,7 +55,9 @@ class MyProfileContainer extends React.Component {
     const creditCardsString =
       creditCards && creditCards.length > 0
         ? `${creditCards}`
-        : 'noCredit card found on file';
+        : 'edit your profile to add';
+    const membershipStatusDisplay =
+      C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     return (
       <section className="section">
@@ -76,8 +79,8 @@ class MyProfileContainer extends React.Component {
                     className="starRating col-xs-12"
                   />
                 </div>
-                <div style={{ fontSize: 16 }}>{displayName}</div>
-                <div style={{ fontSize: 16 }}>{email}</div>
+                <div style={{ fontSize: 20 }}>{displayName}</div>
+                <div style={{ fontSize: 20 }}>{email}</div>
                 <div style={{ marginTop: 12 }}>
                   <a className="button is-primary">
                     <i
@@ -101,11 +104,13 @@ class MyProfileContainer extends React.Component {
                     />
                     <DisplayLabelValue
                       labelText="membership status:"
-                      labelValue={membershipStatus}
+                      labelValue={
+                        C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus]
+                      }
                     />
                     <DisplayLabelValue
                       labelText="phonenumber:"
-                      labelValue={phoneNumber || 'please add'}
+                      labelValue={phoneNumber || 'edit your profile to add'}
                     />
 
                     <HeaderTitle specialMarginVal={8} title="Address Section" />
@@ -113,7 +118,7 @@ class MyProfileContainer extends React.Component {
                       labelText="address:"
                       labelValue={
                         !address
-                          ? 'please add'
+                          ? 'edit your profile to add'
                           : `${address.unit} ${address.city} ${
                               address.province
                             } ${address.state} ${address.postalCode} ${
@@ -134,7 +139,9 @@ class MyProfileContainer extends React.Component {
                     <DisplayLabelValue
                       labelText="personal paragraph:"
                       labelValue={
-                        personalParagraph ? personalParagraph : 'no description'
+                        personalParagraph
+                          ? personalParagraph
+                          : 'edit your profile to add'
                       }
                     />
 
@@ -214,7 +221,7 @@ const HeaderTitle = props => {
         marginTop: specialMarginVal || 0,
         marginBottom: 4,
         fontWeight: 500,
-        fontSize: 18,
+        fontSize: 20,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
       }}
     >
@@ -224,7 +231,7 @@ const HeaderTitle = props => {
 };
 const DisplayLabelValue = props => {
   return (
-    <div style={{ fontSize: 14, padding: 4, marginBottom: 4 }}>
+    <div style={{ fontSize: 16, padding: 4, marginBottom: 4 }}>
       <span style={{ color: 'grey' }}>{props.labelText}</span>
       <span> {props.labelValue}</span>
     </div>

@@ -5,7 +5,6 @@ import * as ROUTES from '../constants/route_const';
 
 export const LoginOrRegisterModal = props => {
   const { isActive, handleCancel } = props;
-  debugger;
   const openModalClass = classNames('modal', { 'is-active': isActive });
   return isActive ? (
     <div className={openModalClass}>

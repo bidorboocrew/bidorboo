@@ -11,3 +11,12 @@ export const APP_MODE = {
   BIDDER: 'BIDDER',
 
 };
+
+export const USER_MEMBERSHIP_TO_DISPLAY = {
+  NEW_MEMBER: 'New Member',
+  BASIC_MEMBER: 'Basic Member',
+  BRONZE_MEMBER: 'Bronze Member',
+  SILVER_MEMBER: 'Silver Member',
+  GOLDEN_MEMBER: 'Golden Member',
+  PLATINUM_MEMBER: 'Platinum Member'
+};
