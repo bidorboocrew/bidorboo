@@ -133,7 +133,7 @@ class MyProfileContainer extends React.Component {
                     <HeaderTitle specialMarginVal={8} title="About Me" />
                     <DisplayLabelValue
                       labelText="personal paragraph:"
-                      labelValue={personalParagraph ? personalParagraph : ''}
+                      labelValue={personalParagraph ? personalParagraph : 'none provided'}
                     />
 
                     <div style={{ marginTop: 12 }}>
@@ -223,8 +223,8 @@ const HeaderTitle = props => {
 const DisplayLabelValue = props => {
   return (
     <div style={{ padding: 4, marginBottom: 4 }}>
-      <span style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</span>
-      <span style={{ fontSize: 16 }}> {props.labelValue}</span>
+      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
+      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
     </div>
   );
 };

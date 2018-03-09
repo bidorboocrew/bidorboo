@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  normalizePhone,
+  enforceNumericField,
   requiredField,
   alphanumericField,
   moreThan3LessThan25Chars,
@@ -41,10 +41,9 @@ class ProfileForm extends React.Component {
           type="text"
           label="Phone Number"
           placeholderText="Enter Your Phone Number"
-          helpText="example : 456-123-1234"
+          helpText="example : 001650333444"
           component={renderFormTextField}
-          validate={[requiredField, alphanumericField]}
-          normalize={normalizePhone}
+          normalize={enforceNumericField}
         />
         {/* <Field
           name="addressField"

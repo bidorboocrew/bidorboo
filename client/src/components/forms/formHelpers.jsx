@@ -25,7 +25,7 @@ export const AddressField = value => {
 
 export const numericField = value => {
   const isValid = /^[0-9]*$/.test(value.trim());
-  return isValid ? undefined : 'phone number can not include any charachters';
+  return isValid ? undefined : 'Field input must only use numbers.';
 };
 
 export const moreThan3LessThan25Chars = value => {
@@ -43,33 +43,12 @@ const moreThanLessThan = (value, lowerLimit, upperLimit) => {
     : `input must be more than ${lowerLimit} letters and less than ${upperLimit}.`;
 };
 
-export const normalizePhone = (value, previousValue) => {
+export const enforceNumericField = (value, previousValue) => {
   if (!value) {
     return value;
   }
   const onlyNums = value.replace(/[^\d]/g, '');
-  if (!previousValue || value.length > previousValue.length) {
-    // typing forward
-    if (onlyNums.length === 3) {
-      return onlyNums + '-';
-    }
-    if (onlyNums.length === 6) {
-      return onlyNums.slice(0, 3) + '-' + onlyNums.slice(3) + '-';
-    }
-  }
-  if (onlyNums.length <= 3) {
-    return onlyNums;
-  }
-  if (onlyNums.length <= 6) {
-    return onlyNums.slice(0, 3) + '-' + onlyNums.slice(3);
-  }
-  return (
-    onlyNums.slice(0, 3) +
-    '-' +
-    onlyNums.slice(3, 6) +
-    '-' +
-    onlyNums.slice(6, 10)
-  );
+ return onlyNums;
 };
 
 export const phoneNumber = value => {
