@@ -21,8 +21,8 @@ class ProfileForm extends React.Component {
         <Field
           name="userNameField"
           type="text"
-          label="user name"
-          placeholderText="enter your preferred name"
+          label="User Name"
+          placeholderText="Enter your name..."
           component={renderFormTextField}
           validate={[
             requiredField,
@@ -34,8 +34,8 @@ class ProfileForm extends React.Component {
         <Field
           name="phoneNumberField"
           type="text"
-          label="phone number"
-          placeholderText="enter your phone number"
+          label="Phone Number"
+          placeholderText="Enter Your Phone Number"
           helpText="example : 456-123-1234"
           component={renderFormTextField}
           validate={[requiredField, alphanumericField]}
@@ -44,9 +44,9 @@ class ProfileForm extends React.Component {
         <Field
           name="addressField"
           type="text"
-          label="address"
+          label="Address"
           change={change}
-          placeholderText="Specify your address"
+          placeholderText="Enter Your Address..."
           component={renderAddressFormField}
           validate={[requiredField, AddressField]}
         />
@@ -54,8 +54,8 @@ class ProfileForm extends React.Component {
         <Field
           name="selfDescriptionField"
           type="text"
-          label="self description"
-          placeholderText="sample: Hey I am handy with tools and can do everything... "
+          label="About Me"
+          placeholderText="Sample: Hey I am handy with tools and can do everything... "
           component={renderFormParagraphField}
           validate={[alphanumericField, moreThan0lessThan250Chars]}
           charsLimit={250}

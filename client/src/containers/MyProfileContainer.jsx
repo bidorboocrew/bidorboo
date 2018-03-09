@@ -99,24 +99,24 @@ class MyProfileContainer extends React.Component {
                   <div>
                     <HeaderTitle title="General Information" />
                     <DisplayLabelValue
-                      labelText="user name:"
+                      labelText="User Name:"
                       labelValue={displayName}
                     />
                     <DisplayLabelValue
-                      labelText="membership status:"
+                      labelText="Membership Status:"
                       labelValue={membershipStatusDisplay}
                     />
                     <DisplayLabelValue
-                      labelText="phonenumber:"
-                      labelValue={phoneNumber || 'edit your profile to add'}
+                      labelText="Phone Number:"
+                      labelValue={phoneNumber || 'not provided'}
                     />
 
                     <HeaderTitle specialMarginVal={8} title="Address Section" />
                     <DisplayLabelValue
-                      labelText="address:"
+                      labelText="Address:"
                       labelValue={
                         !address
-                          ? 'edit your profile to add'
+                          ? 'not provided'
                           : `${address.unit} ${address.city} ${
                               address.province
                             } ${address.state} ${address.postalCode} ${
@@ -125,22 +125,15 @@ class MyProfileContainer extends React.Component {
                       }
                     />
 
-                    <HeaderTitle specialMarginVal={8} title="Payment Details" />
+                    {/* <HeaderTitle specialMarginVal={8} title="Payment Details" />
                     <DisplayLabelValue
-                      labelText="credit card:"
+                      labelText="Credit Card:"
                       labelValue={creditCardsString}
-                    />
-                    <HeaderTitle
-                      specialMarginVal={8}
-                      title="Self Description"
-                    />
+                    /> */}
+                    <HeaderTitle specialMarginVal={8} title="About Me" />
                     <DisplayLabelValue
                       labelText="personal paragraph:"
-                      labelValue={
-                        personalParagraph
-                          ? personalParagraph
-                          : 'edit your profile to add'
-                      }
+                      labelValue={personalParagraph ? personalParagraph : ''}
                     />
 
                     <div style={{ marginTop: 12 }}>
@@ -229,9 +222,9 @@ const HeaderTitle = props => {
 };
 const DisplayLabelValue = props => {
   return (
-    <div style={{ fontSize: 16, padding: 4, marginBottom: 4 }}>
-      <span style={{ color: 'grey' }}>{props.labelText}</span>
-      <span> {props.labelValue}</span>
+    <div style={{ padding: 4, marginBottom: 4 }}>
+      <span style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</span>
+      <span style={{ fontSize: 16 }}> {props.labelValue}</span>
     </div>
   );
 };

@@ -90,7 +90,7 @@ export const renderFormTextField = ({
   return (
     <div className="field">
       <label
-        style={{ color: 'grey', fontSize: 16, fontWeight: '400' }}
+        style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
         className="label"
       >
         {label}
@@ -139,7 +139,7 @@ export const renderAddressFormField = ({
   return (
     <div className="field">
       <label
-        style={{ color: 'grey', fontSize: 16, fontWeight: '400' }}
+        style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
         className="label"
       >
         {label}
@@ -172,7 +172,8 @@ export const renderAddressFormField = ({
                           lat: loc.coords.latitude,
                           lng: loc.coords.longitude
                         };
-                        geocoder.geocode({'location': latlng},
+                        geocoder.geocode(
+                          { location: latlng },
                           (results, status) => {
                             if (status === 'OK') {
                               if (results[0]) {
@@ -250,7 +251,7 @@ export const renderFormParagraphField = ({
   return (
     <div className="field">
       <label
-        style={{ color: 'grey', fontSize: 16, fontWeight: '400' }}
+        style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
         className="label"
       >
         {label}
