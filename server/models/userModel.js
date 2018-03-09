@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 require('mongoose-type-email');
 
@@ -50,7 +51,7 @@ const UserSchema = new Schema(
       type: String,
       trim: true
     },
-    phoneNumber:{
+    phoneNumber: {
       type: String,
       trim: true
     },

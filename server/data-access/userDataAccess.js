@@ -12,8 +12,21 @@ exports.createNewUser = userDetails =>
   new User({
     ...userDetails,
     globalRating: 0,
-    membershipStatus: 'NEW_MEMBER',
+    membershipStatus: 'NEW_MEMBER'
   }).save();
+
+exports.findOneByUserIdAndUpdate = (
+  id,
+  data,
+  options = { new: true },
+  callback
+) =>
+  User.findOneAndUpdate(
+    { userId: id },
+    { $set: { ...data } },
+    options,
+    callback
+  );
 
 // exports.registerNewUserWithPassword = async (userDetails) => {
 //   const encryptedPassword = await utils.encryptData(userDetails.password);

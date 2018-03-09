@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 class ProfileForm extends React.Component {
   render() {
     const {
+      invalid,
       onCancel,
       handleSubmit,
       submitting,
@@ -24,7 +25,7 @@ class ProfileForm extends React.Component {
     return (
       <form onSubmit={handleSubmit}>
         <Field
-          name="userNameField"
+          name="displayName"
           type="text"
           label="User Name"
           placeholderText="Enter your name..."
@@ -37,11 +38,11 @@ class ProfileForm extends React.Component {
           charsLimit={25}
         />
         <Field
-          name="phoneNumberField"
+          name="phoneNumber"
           type="text"
           label="Phone Number"
           placeholderText="Enter Your Phone Number"
-          helpText="example : 001650333444"
+          helpText="example : 0016503334444"
           component={renderFormTextField}
           normalize={enforceNumericField}
         />
@@ -56,7 +57,7 @@ class ProfileForm extends React.Component {
         /> */}
 
         <Field
-          name="selfDescriptionField"
+          name="personalParagraph"
           type="text"
           label="About Me"
           placeholderText="Sample: Hey I am handy with tools and can do everything... "
@@ -67,7 +68,7 @@ class ProfileForm extends React.Component {
 
         <div>
           <button
-            disabled={pristine || submitting}
+            disabled={invalid|| submitting || pristine}
             className="button is-primary"
           >
             Save Changes
@@ -91,19 +92,15 @@ class ProfileForm extends React.Component {
 const mapStateToProps = ({ authReducer }) => {
   const {
     displayName,
-    address,
     personalParagraph,
-    creditCards,
     phoneNumber
   } = authReducer.userDetails;
 
   return {
     initialValues: {
-      userNameField: displayName,
-      phoneNumberField: phoneNumber,
-      addressField: address,
-      creditCardsString: creditCards,
-      paragraphField: personalParagraph
+      displayName: displayName,
+      phoneNumber: phoneNumber,
+      personalParagraph: personalParagraph
     }
   };
 };

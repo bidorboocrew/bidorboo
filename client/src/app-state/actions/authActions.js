@@ -45,3 +45,33 @@ export const onLogout = () => (dispatch, getState) =>
       });
     })
   });
+
+export const updateProfileDetails = profileDetails => (dispatch, getState) => {
+  const updateProfileCall = axios
+    .put(ROUTES.BACKENDROUTES.USERAPI.PUT_UPDATE_PROFILE_DETAILS, {
+      data: profileDetails
+    })
+    .then(resp => {
+      debugger;
+      if (resp.data && resp.data.userId) {
+        //update everyone that user is now logged in
+        dispatch({
+          type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          payload: resp.data
+        });
+      } else {
+        //rediret user to sign up page
+        dispatch({
+          type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+          payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
+  return dispatch({
+    type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
+    payloads_: updateProfileCall
+  });
+};

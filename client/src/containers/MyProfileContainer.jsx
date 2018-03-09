@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
+import { getCurrentUser, onLogout,updateProfileDetails } from '../app-state/actions/authActions';
 import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import * as C from '../constants/constants';
@@ -39,7 +39,7 @@ class MyProfileContainer extends React.Component {
     };
   }
   render() {
-    const { s_userDetails } = this.props;
+    const { s_userDetails,a_updateProfileDetails } = this.props;
 
     const {
       profileImgUrl,
@@ -157,7 +157,7 @@ class MyProfileContainer extends React.Component {
 
                     <ProfileForm
                       onCancel={this.toggleEditProfile}
-                      onSubmit={onSubmit}
+                      onSubmit={a_updateProfileDetails}
                     />
                   </div>
                 )}
@@ -193,6 +193,7 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
@@ -203,7 +204,6 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfileContainer);
 
-const onSubmit = () => {};
 const HeaderTitle = props => {
   const { title, specialMarginVal } = props;
   return (

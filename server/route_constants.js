@@ -10,6 +10,7 @@ module.exports = {
   },
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
+    PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
   },
   FRONTEND: {
     ENTRY: '/',

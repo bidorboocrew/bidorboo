@@ -41,8 +41,13 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&libraries=places" async >
-  </script>
+  <!-- you may not need these . only to support silly ie11 which we dont care about  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js" async></script> -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&libraries=places"
+    async defer>
+    </script>
+
   <div id="BidOrBoo-app"></div>
 
   <!--
