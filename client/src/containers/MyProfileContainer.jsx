@@ -104,9 +104,7 @@ class MyProfileContainer extends React.Component {
                     />
                     <DisplayLabelValue
                       labelText="membership status:"
-                      labelValue={
-                        C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus]
-                      }
+                      labelValue={membershipStatusDisplay}
                     />
                     <DisplayLabelValue
                       labelText="phonenumber:"

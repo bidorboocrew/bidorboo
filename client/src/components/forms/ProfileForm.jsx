@@ -4,95 +4,107 @@ import {
   normalizePhone,
   requiredField,
   alphanumericField,
-  moreThan3LessThan15,
-  renderFormTextField
+  moreThan3LessThan25Chars,
+  renderFormTextField,
+  renderAddressFormField,
+  moreThan0lessThan250Chars,
+  AddressField,
+  renderFormParagraphField
 } from './formHelpers';
 import { connect } from 'react-redux';
 
-import * as C from '../../constants/constants';
+class ProfileForm extends React.Component {
+  render() {
+    const { onCancel, handleSubmit, submitting, pristine, change } = this.props;
+    return (
+      <form onSubmit={handleSubmit}>
+        <Field
+          name="userNameField"
+          type="text"
+          label="user name"
+          placeholderText="enter your preferred name"
+          component={renderFormTextField}
+          validate={[
+            requiredField,
+            alphanumericField,
+            moreThan3LessThan25Chars
+          ]}
+          charsLimit={25}
+        />
+        <Field
+          name="phoneNumberField"
+          type="text"
+          label="phone number"
+          placeholderText="enter your phone number"
+          helpText="example : 456-123-1234"
+          component={renderFormTextField}
+          validate={[requiredField, alphanumericField]}
+          normalize={normalizePhone}
+        />
+        <Field
+          name="addressField"
+          type="text"
+          label="address"
+          change={change}
+          placeholderText="Specify your address"
+          component={renderAddressFormField}
+          validate={[requiredField, AddressField]}
+        />
 
-const ProfileForm = props => {
-  const { onCancel, handleSubmit, submitting, pristine } = props;
+        <Field
+          name="selfDescriptionField"
+          type="text"
+          label="self description"
+          placeholderText="sample: Hey I am handy with tools and can do everything... "
+          component={renderFormParagraphField}
+          validate={[alphanumericField, moreThan0lessThan250Chars]}
+          charsLimit={250}
+        />
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <Field
-        name="userNameField"
-        type="text"
-        label="user name"
-        placeholderText="enter your preferred name"
-        component={renderFormTextField}
-        validate={[requiredField, alphanumericField, moreThan3LessThan15]}
-      />
-      <Field
-        name="phoneNumberField"
-        type="text"
-        label="phonenumber"
-        placeholderText="enter your phone number"
-        helpText="example : 456-123-1234"
-        component={renderFormTextField}
-        validate={[requiredField, alphanumericField]}
-        normalize={normalizePhone}
-      />
-       <Field
-        name="addressField"
-        type="text"
-        label="phonenumber"
-        placeholderText="enter your phone number"
-        helpText="example : 456-123-1234"
-        component={renderFormTextField}
-        validate={[requiredField, alphanumericField]}
-        normalize={normalizePhone}
-      />
+        <div>
+          <button
+            disabled={pristine || submitting}
+            className="button is-primary"
+          >
+            Save Changes
+          </button>
 
-      <div>
-        <button disabled={pristine || submitting} className="button is-primary">
-          Save Changes
-        </button>
-
-        <button
-          style={{ marginLeft: 6 }}
-          onClick={() => {
-            onCancel();
-          }}
-          className="button"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  );
-};
+          <button
+            style={{ marginLeft: 6 }}
+            onClick={() => {
+              onCancel();
+            }}
+            className="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
 
 const mapStateToProps = ({ authReducer }) => {
   const {
-    profileImgUrl,
     displayName,
-    email,
     address,
     personalParagraph,
     creditCards,
-    membershipStatus,
     phoneNumber
   } = authReducer.userDetails;
-
-  const creditCardsString =
-    creditCards && creditCards.length > 0
-      ? `${creditCards}`
-      : 'edit your profile to add';
-  const membershipStatusDisplay =
-    C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
   return {
     initialValues: {
       userNameField: displayName,
-      phoneNumberField: phoneNumber
+      phoneNumberField: phoneNumber,
+      addressField: address,
+      creditCardsString: creditCards,
+      paragraphField: personalParagraph
     }
   };
 };
-const MyReduxForm = reduxForm({
+let MyProfileReduxForm = reduxForm({
   // a unique name for the form\
   form: 'ProfileForm'
 })(ProfileForm);
-
-export default connect(mapStateToProps)(MyReduxForm);
+export default connect(mapStateToProps)(MyProfileReduxForm);
