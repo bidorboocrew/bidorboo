@@ -45,17 +45,17 @@ class MyProfileContainer extends React.Component {
       profileImgUrl,
       displayName,
       email,
-      address,
+      // address,
       personalParagraph,
-      creditCards,
+      // creditCards,
       membershipStatus,
       phoneNumber
     } = s_userDetails;
 
-    const creditCardsString =
-      creditCards && creditCards.length > 0
-        ? `${creditCards}`
-        : 'edit your profile to add';
+    // const creditCardsString =
+    //   creditCards && creditCards.length > 0
+    //     ? `${creditCards}`
+    //     : 'edit your profile to add';
     const membershipStatusDisplay =
       C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
@@ -111,7 +111,7 @@ class MyProfileContainer extends React.Component {
                       labelValue={phoneNumber || 'not provided'}
                     />
 
-                    <HeaderTitle specialMarginVal={8} title="Address Section" />
+                    {/* <HeaderTitle specialMarginVal={8} title="Address Section" />
                     <DisplayLabelValue
                       labelText="Address:"
                       labelValue={
@@ -123,7 +123,7 @@ class MyProfileContainer extends React.Component {
                               address.country
                             } ${address.extras}`
                       }
-                    />
+                    /> */}
 
                     {/* <HeaderTitle specialMarginVal={8} title="Payment Details" />
                     <DisplayLabelValue

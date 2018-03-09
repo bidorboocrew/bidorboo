@@ -6,16 +6,21 @@ import {
   alphanumericField,
   moreThan3LessThan25Chars,
   renderFormTextField,
-  renderAddressFormField,
+  // renderAddressFormField,
   moreThan0lessThan250Chars,
-  AddressField,
+  // AddressField,
   renderFormParagraphField
 } from './formHelpers';
 import { connect } from 'react-redux';
 
 class ProfileForm extends React.Component {
   render() {
-    const { onCancel, handleSubmit, submitting, pristine, change } = this.props;
+    const {
+      onCancel,
+      handleSubmit,
+      submitting,
+      pristine /*, change*/
+    } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <Field
@@ -41,7 +46,7 @@ class ProfileForm extends React.Component {
           validate={[requiredField, alphanumericField]}
           normalize={normalizePhone}
         />
-        <Field
+        {/* <Field
           name="addressField"
           type="text"
           label="Address"
@@ -49,7 +54,7 @@ class ProfileForm extends React.Component {
           placeholderText="Enter Your Address..."
           component={renderAddressFormField}
           validate={[requiredField, AddressField]}
-        />
+        /> */}
 
         <Field
           name="selfDescriptionField"
