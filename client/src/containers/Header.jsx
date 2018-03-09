@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
-import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
+import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 
@@ -19,7 +19,6 @@ class Header extends React.Component {
     s_isLoginDialogOpen: PropTypes.bool.isRequired,
     s_userEmail: PropTypes.string,
     s_isLoggedIn: PropTypes.bool.isRequired,
-    a_toggleSideNav: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired,
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
@@ -55,7 +54,10 @@ class Header extends React.Component {
     const { profileImgUrl } = s_userDetails;
 
     return (
-      <nav style={{ fontSize: 18 }} className="bottom-border navbar">
+      <nav
+        style={{ fontSize: 18, minHeight: '3.25rem', maxHeight: '3.25rem' }}
+        className="nav-bar-bottom navbar is-fixed-top"
+      >
         {/* brand */}
         <LoginOrRegisterModal
           isActive={this.state.isLoginDialogOpen}
@@ -223,7 +225,6 @@ const mapDispatchToProps = dispatch => {
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };

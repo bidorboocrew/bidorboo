@@ -1,7 +1,6 @@
 import * as A from '../actionTypes';
 
 const initialState = {
-  isLoggedIn: false,
   userDetails: {
     userId: '',
     displayName: 'Join Us for Free',
@@ -13,12 +12,8 @@ const initialState = {
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
-    case A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE:
-    case A.AUTH_ACTIONS.USER_IS_LOGGED_IN: {
-      return { ...state, isLoggedIn: true, userDetails: payload };
-    }
-    case A.AUTH_ACTIONS.USER_IS_LOGGED_OUT: {
-      return { ...state, ...initialState };
+    case A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE: {
+      return { ...state, userDetails: payload };
     }
     default:
       return state;

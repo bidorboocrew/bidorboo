@@ -1,5 +1,6 @@
 @import '../../assets/_variables.scss';
 
-.bottom-border {
+.nav-bar-bottom {
   border-bottom: $border-divider;
+  box-shadow: $shadow-space;
 }

@@ -12,7 +12,6 @@ import {
   renderFormParagraphField
 } from './formHelpers';
 import { connect } from 'react-redux';
-
 class ProfileForm extends React.Component {
   render() {
     const {
@@ -20,8 +19,13 @@ class ProfileForm extends React.Component {
       onCancel,
       handleSubmit,
       submitting,
-      pristine /*, change*/
+      pristine /*, change*/,
+      submitSucceeded
     } = this.props;
+
+    if (submitSucceeded) {
+      // onCancel();
+    }
     return (
       <form onSubmit={handleSubmit}>
         <Field
@@ -55,7 +59,6 @@ class ProfileForm extends React.Component {
           component={renderAddressFormField}
           validate={[requiredField, AddressField]}
         /> */}
-
         <Field
           name="personalParagraph"
           type="text"
@@ -65,16 +68,16 @@ class ProfileForm extends React.Component {
           validate={[alphanumericField, moreThan0lessThan250Chars]}
           charsLimit={250}
         />
-
         <div>
           <button
-            disabled={invalid|| submitting || pristine}
+            disabled={invalid || submitting || pristine}
             className="button is-primary"
           >
             Save Changes
           </button>
 
           <button
+            disabled={submitting}
             style={{ marginLeft: 6 }}
             onClick={() => {
               onCancel();
@@ -84,6 +87,7 @@ class ProfileForm extends React.Component {
             Cancel
           </button>
         </div>
+        <div />
       </form>
     );
   }

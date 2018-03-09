@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
-import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
+import { showLoginDialog } from '../app-state/actions/uiActions';
+import LoadingBar from 'react-redux-loading-bar';
 
 import * as ROUTES from '../constants/route_const';
 
@@ -16,7 +17,6 @@ import {
   BidderContainer,
   MyProfileContainer
 } from './index';
-import { Overlay } from '../components';
 
 import './styles/app.css';
 
@@ -26,7 +26,6 @@ class App extends React.Component {
     s_currentRoute: PropTypes.string,
     a_getCurrentUser: PropTypes.func.isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_toggleSideNav: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired
   };
 
@@ -47,7 +46,7 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isSideNavOpen, s_isLoggedIn, a_toggleSideNav } = this.props;
+    const { s_isLoggedIn } = this.props;
 
     return (
       <div id="bidorboo-root-view">
@@ -57,12 +56,18 @@ class App extends React.Component {
         <div id="bidorboo-progress" />
         {/* for blocking Entire UI */}
         <div id="block-ui-overlay" />
-        {s_isSideNavOpen && <Overlay onCloseHandler={a_toggleSideNav} />}
         {/* for modal dialogs  */}
         <div id="global-modal-dialog" />
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
+            <LoadingBar
+              style={{
+                zIndex: 10001,
+                backgroundColor: '#622c8c',
+                height: '2px'
+              }}
+            />
             <div id="main-view">
               <Switch>
                 <Route
@@ -114,8 +119,7 @@ const mapDispatchToProps = dispatch => {
   return {
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 

@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUser, onLogout,updateProfileDetails } from '../app-state/actions/authActions';
-import { showLoginDialog, toggleSideNav } from '../app-state/actions/uiActions';
+import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
+import { updateProfileDetails } from '../app-state/actions/userModelActions';
+import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import * as C from '../constants/constants';
 
@@ -37,9 +38,13 @@ class MyProfileContainer extends React.Component {
     this.toggleEditProfile = () => {
       this.setState({ isEditProfile: !this.state.isEditProfile });
     };
+    this.closeFormAndSubmit = vals => {
+      this.toggleEditProfile();
+      this.props.a_updateProfileDetails(vals);
+    };
   }
   render() {
-    const { s_userDetails,a_updateProfileDetails } = this.props;
+    const { s_userDetails } = this.props;
 
     const {
       profileImgUrl,
@@ -131,9 +136,18 @@ class MyProfileContainer extends React.Component {
                       labelValue={creditCardsString}
                     /> */}
                     <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <DisplayLabelValue
-                      labelText="personal paragraph:"
-                      labelValue={personalParagraph ? personalParagraph : 'none provided'}
+                    <textarea
+                      value={
+                        personalParagraph ? personalParagraph : 'none provided'
+                      }
+                      className="textarea"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                        paddingLeft: 0,
+                        paddingRight: 0
+                      }}
+                      readOnly
                     />
 
                     <div style={{ marginTop: 12 }}>
@@ -157,7 +171,7 @@ class MyProfileContainer extends React.Component {
 
                     <ProfileForm
                       onCancel={this.toggleEditProfile}
-                      onSubmit={a_updateProfileDetails}
+                      onSubmit={vals => this.closeFormAndSubmit(vals)}
                     />
                   </div>
                 )}
@@ -197,7 +211,6 @@ const mapDispatchToProps = dispatch => {
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_toggleSideNav: bindActionCreators(toggleSideNav, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
@@ -228,27 +241,3 @@ const DisplayLabelValue = props => {
     </div>
   );
 };
-// const EditProfile = props => {
-//   const { isActive, title, handleCancel } = props;
-//   const openModalClass = classNames('modal', { 'is-active': props.isActive });
-//   return isActive ? (
-//     <div className={openModalClass}>
-//       <div onClick={handleCancel} className="modal-background" />
-//       <div className="modal-card">
-//         <header className="modal-card-head">
-//           <p className="modal-card-title">{title}</p>
-//           <button className="delete" aria-label="close" />
-//         </header>
-//         <section className="modal-card-body">
-//           <ProfileForm onSubmit={onSubmit} />
-//         </section>
-//         <footer className="modal-card-foot">
-//           <button className="button is-primary">Save Changes</button>
-//           <button onClick={handleCancel} className="button">
-//             Cancel
-//           </button>
-//         </footer>
-//       </div>
-//     </div>
-//   ) : null;
-// };

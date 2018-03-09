@@ -238,11 +238,11 @@ export const renderFormParagraphField = ({
       <div className="control">
         <textarea
           {...input}
-          style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
+          style={{resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
           ref={textInput => {
             this.textInput = textInput;
           }}
-          className="input"
+          className="input textarea"
           type="text"
           placeholder={placeholderText}
         />
