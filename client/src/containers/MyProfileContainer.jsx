@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Textarea from "react-textarea-autosize";
+
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { updateProfileDetails } from '../app-state/actions/userModelActions';
 import { showLoginDialog } from '../app-state/actions/uiActions';
@@ -136,16 +138,19 @@ class MyProfileContainer extends React.Component {
                       labelValue={creditCardsString}
                     /> */}
                     <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <textarea
+                    <Textarea
                       value={
                         personalParagraph ? personalParagraph : 'none provided'
                       }
-                      className="textarea"
+
                       style={{
+                        fontFamily:'"Roboto", "Helvetica", "Arial", sans-serif',
                         resize: 'none',
                         border: 'none',
                         paddingLeft: 0,
-                        paddingRight: 0
+                        paddingRight: 0,
+                        fontSize: 16,
+                        color: '#4a4a4a',
                       }}
                       readOnly
                     />

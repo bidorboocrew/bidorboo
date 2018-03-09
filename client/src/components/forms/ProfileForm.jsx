@@ -19,7 +19,7 @@ class ProfileForm extends React.Component {
       onCancel,
       handleSubmit,
       submitting,
-      pristine /*, change*/,
+      pristine,
       submitSucceeded
     } = this.props;
 

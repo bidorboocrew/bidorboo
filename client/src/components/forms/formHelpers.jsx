@@ -48,7 +48,7 @@ export const enforceNumericField = (value, previousValue) => {
     return value;
   }
   const onlyNums = value.replace(/[^\d]/g, '');
- return onlyNums;
+  return onlyNums;
 };
 
 export const phoneNumber = value => {
@@ -238,7 +238,7 @@ export const renderFormParagraphField = ({
       <div className="control">
         <textarea
           {...input}
-          style={{resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
+          style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
           ref={textInput => {
             this.textInput = textInput;
           }}
