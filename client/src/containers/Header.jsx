@@ -79,7 +79,7 @@ class Header extends React.Component {
               width="24"
               height="24"
             />
-            <span style={{ paddingLeft: 6 }}> BidorBooHome </span>
+            <span style={{ paddingLeft: 6 }}> BidorBoo </span>
           </a>
 
           {/* burger menu */}
