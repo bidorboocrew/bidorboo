@@ -89,7 +89,7 @@ class MyProfileContainer extends React.Component {
                 <div style={{ fontSize: 20 }}>{displayName}</div>
                 <div style={{ fontSize: 20 }}>{email}</div>
                 <div style={{ marginTop: 12 }}>
-                  <a className="button is-primary">
+                  <a className="button is-primary" disabled>
                     <i
                       style={{ fontSize: 12 }}
                       className="fas fa-cloud-upload-alt"
