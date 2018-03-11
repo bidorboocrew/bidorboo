@@ -8,7 +8,7 @@ import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import * as ROUTES from '../constants/route_const';
+import * as ROUTES from '../constants/route-const';
 
 import './styles/header.css';
 

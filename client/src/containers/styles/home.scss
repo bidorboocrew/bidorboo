@@ -1,2 +1,25 @@
-// @import '../../assets/_variables.scss';
+@import '../../assets/_variables.scss';
 // @import '../../assets/_commonClasses.scss';
+.bdb-section-title {
+  border-bottom: $border-divider;
+  padding: 8px 0;
+  font-size: 18px;
+}
+
+.bdb-section-body {
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.descriptoin-section {
+  padding-top: 8px;
+}
+
+.bdbCardComponent {
+  cursor: pointer;
+  .card {
+    &:hover {
+      background: rgba(0,0,0,0.1);
+    }
+  }
+}

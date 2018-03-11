@@ -8,7 +8,7 @@ import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import LoadingBar from 'react-redux-loading-bar';
 
-import * as ROUTES from '../constants/route_const';
+import * as ROUTES from '../constants/route-const';
 
 import {
   Header,

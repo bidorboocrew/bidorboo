@@ -1,5 +1,5 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../constants/route_const';
+import * as ROUTES from '../../constants/route-const';
 import axios from 'axios';
 
 export const getCurrentUser = () => (dispatch, getState) =>

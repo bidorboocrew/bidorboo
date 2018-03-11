@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import * as ROUTES from '../constants/route_const';
+import * as ROUTES from '../constants/route-const';
 
 
 export const LoginOrRegisterModal = props => {
