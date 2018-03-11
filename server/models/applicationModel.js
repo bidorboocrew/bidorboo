@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('mongoose-type-email');
 const { Schema } = mongoose;
 // a singleton of app
 // all dates should be stored in UTC format
@@ -24,7 +23,8 @@ const AppSchema = new Schema({
     situationDetails: String,
     expectedDownDate: Date,
     expectedGoBackOnline: Date,
-  } //will use if we need to inform user about /maintainance/deployments ,,etc
+  }, //will use if we need to inform user about /maintainance/deployments ,,etc
+  extras: Object
 });
 
 mongoose.model('AppModel', AppSchema);
