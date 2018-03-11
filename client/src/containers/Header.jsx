@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
-import { showLoginDialog } from '../app-state/actions/uiActions';
+import { onLogout } from '../app-state/actions/authActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 
@@ -15,11 +14,8 @@ import './styles/header.css';
 
 class Header extends React.Component {
   static propTypes = {
-    s_isSideNavOpen: PropTypes.bool.isRequired,
-    s_isLoginDialogOpen: PropTypes.bool.isRequired,
     s_userEmail: PropTypes.string,
     s_isLoggedIn: PropTypes.bool.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
       profileImgUrl: PropTypes.string.isRequired
@@ -83,7 +79,7 @@ class Header extends React.Component {
               width="24"
               height="24"
             />
-            <span style={{ paddingLeft: 6 }}> BidorBoo </span>
+            <span style={{ paddingLeft: 6 }}> BidorBooHome </span>
           </a>
 
           {/* burger menu */}
@@ -110,8 +106,8 @@ class Header extends React.Component {
           })}
         >
           {/* start */}
-          <div className="navbar-start">
-            {s_isLoggedIn && (
+          {s_isLoggedIn && (
+            <div className="navbar-start">
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
@@ -120,10 +116,9 @@ class Header extends React.Component {
                 }}
                 className="navbar-item "
               >
-                Post a Job
+                <i className="fa fa-child" aria-hidden="true" />
+                <span style={{ marginLeft: 4 }}>Post a Job</span>
               </a>
-            )}
-            {s_isLoggedIn && (
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
@@ -132,10 +127,11 @@ class Header extends React.Component {
                 }}
                 className="navbar-item "
               >
-                Bid on job
+                <i className="fa fa-hand-paper" aria-hidden="true" />
+                <span style={{ marginLeft: 4 }}>Bid on Jobs</span>
               </a>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* end */}
           <div className="navbar-end">
@@ -143,16 +139,15 @@ class Header extends React.Component {
               {s_isLoggedIn && (
                 <div className="field is-grouped">
                   <div style={{ paddingRight: 0 }} className="navbar-item">
-                    {profileImgUrl && (
-                      <img
-                        src={profileImgUrl}
-                        alt="BidOrBoo"
-                        width="32"
-                        height="42"
-                      />
-                    )}
                     <div className="navbar-item has-dropdown is-hoverable">
                       <a className="navbar-link" style={{ paddingLeft: 6 }}>
+                        {profileImgUrl && (
+                          <img
+                            style={{ paddingRight: 4 }}
+                            src={profileImgUrl}
+                            alt="BidOrBoo"
+                          />
+                        )}
                         {s_displayName}
                       </a>
                       <div className="navbar-dropdown">
@@ -162,13 +157,12 @@ class Header extends React.Component {
                               a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
                             });
                           }}
-                          className="navbar-item"
+                          className="navbar-item "
                         >
-                          <i style={{ fontSize: 12 }} className="far fa-user" />
-                          <span style={{ marginLeft: 4 }}>my profile</span>
+                          <i className="far fa-user" aria-hidden="true" />
+                          <span style={{ marginLeft: 4 }}>My Profile</span>
                         </a>
-                        <hr className="navbar-divider" />
-
+                        <hr className="dropdown-divider" />
                         <a
                           onClick={() =>
                             this.closeMenuThenExecute(() => {
@@ -212,19 +206,14 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
-    s_isSideNavOpen: uiReducer.isSideNavOpen,
-    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen,
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
     s_displayName: authReducer.userDetails.displayName,
-    s_currentRoute: routerReducer.currentRoute
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
