@@ -66,7 +66,7 @@ class BidOrBooDefaultTask extends React.Component {
             <div className="content">
               <div className="descriptoin-section">{description}</div>
               <div style={{ textAlign: 'center', marginTop: 8 }}>
-                <a className="button is-primary">
+                <a className="button is-primary" disabled>
                   {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
                   <span style={{ marginLeft: 4 }}>{`Request ${title}`} </span>
                 </a>
