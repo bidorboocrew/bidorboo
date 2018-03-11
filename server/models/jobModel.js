@@ -26,6 +26,7 @@ const JobSchema = new Schema(
       type: String,
       enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'REOPENED']
     },
+    isSeen: { type: Boolean, default: false }, //will be used to highlight new jobs
     properties: [PropertySchema], //list of props needed for a the template
     stats: StatsSchema
   },
@@ -33,3 +34,7 @@ const JobSchema = new Schema(
 );
 
 mongoose.model('JobModel', JobSchema);
+
+
+
+exports.JobSchema = JobSchema;

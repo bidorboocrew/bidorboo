@@ -14,7 +14,14 @@ const csp = require('express-csp-header');
 
 const keys = require('./config/keys');
 
+require('./models/applicationModel');
 require('./models/userModel');
+
+require('./models/bidModel');
+require('./models/reviewModel');
+require('./models/templateJobModel');
+
+// require('./models/jobModel');
 require('./services/passport');
 
 mongoose.Promise = global.Promise;

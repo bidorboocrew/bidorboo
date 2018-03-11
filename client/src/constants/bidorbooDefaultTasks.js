@@ -11,7 +11,7 @@ export const bidorbooDefaultTasks = [
   Expectations:
   [ I expect you to walk the dog outside for 1 hour , feed , shower ..etc]
   special comments :
-  [anything else relevant to this task? ]
+  [mention any specific instructions or info relevant to this task]
   `
   },
   {
@@ -26,7 +26,7 @@ export const bidorbooDefaultTasks = [
   What is your expectations?
   [ I expect to see no ice on the drive through , ]
   extra comments :
-  [anything else relevant to this task? ]
+  [mention any specific instructions or info relevant to this task]
   `
   }
 ];
