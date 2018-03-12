@@ -25,10 +25,7 @@ const ReviewSchema = new Schema(
 const JobSchema = new Schema(
   {
     _ownerId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
-    _bidRefernce: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
-      default: null
-    },
+    _bidRefernce: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
     title: String,
     state: {
       type: String,

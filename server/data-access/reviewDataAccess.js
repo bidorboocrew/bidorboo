@@ -18,7 +18,9 @@ exports.createNewUser = userDetails =>
 exports.findOneByUserIdAndUpdate = (
   id,
   data,
-  options = { new: true },
+  options = { new: true ,
+    lean:true,//do not return the object with all mongodb additional magic funcs
+  },
   callback
 ) =>
   User.findOneAndUpdate(

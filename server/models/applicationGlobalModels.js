@@ -14,17 +14,18 @@ const {
 
 const AppHealth = new Schema({
   appHealthSchemaId: { type: String, deafult: AppHealthSchemaId },
-  totalUsers: Number,
-  totalJobs: Number,
-  totalFulfilledJobs: Number, //number of completed jobs via our site
-  totalBids: Number,
-  whatsNew: { type: [String], default: null }, // general whats new in our site
+  totalUsers: { type: Number, default: 0 },
+  totalJobs: { type: Number, default: 0 },
+  totalFulfilledJobs: { type: Number, default: 0 }, //number of completed jobs via our site
+  // totalBids: Number,
+  whatsNew: [String], // general whats new in our site
   siteState: {
-    type: String,
-    enum: ['ACTIVE', 'MAINTAINANCE', 'UNDER_DEVELOPMENT'],
-    situationDetails: String,
-    expectedDownDate: Date,
-    expectedGoBackOnline: Date
+    type: {
+      situation: { enum: ['ACTIVE', 'MAINTAINANCE', 'UNDER_DEVELOPMENT'] },
+      situationDetails: String,
+      expectedDownDate: Date,
+      expectedGoBackOnline: Date
+    }
   }, //will use if we need to inform user about /maintainance/deployments ,,etc
   extras: { type: Object, default: null }
 });

@@ -36,34 +36,44 @@ const CreditCardSchema = new Schema({
 
 const UserSchema = new Schema(
   {
-    _postedJobs: {type:[{ type: Schema.Types.ObjectId, ref: 'JobModel' }],default:null}, //list of all jobs you have posted
-    _postedBids: {type:[{ type: Schema.Types.ObjectId, ref: 'BidModel' }],default:null}, // list of all bids you made
-    _reviews: {type:[
-      {
-        CommentorDetails: { name: String, userId: String, date: Date },
-        comment: String,
-        ratingDetails: RatingSchema
-      }
-    ],default:null}, //ref to reviews
+    _postedJobs: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+      default: null
+    }, //list of all jobs you have posted
+    _postedBids: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+      default: null
+    }, // list of all bids you made
+    _reviews: {
+      type: [
+        {
+          CommentorDetails: { name: String, userId: String, date: Date },
+          comment: String,
+          ratingDetails: RatingSchema
+        }
+      ],
+      default: null
+    }, //ref to reviews
     globalRating: {
       type: { accumilative: { type: RatingSchema }, globalUserRating: Number },
       default: null
     }, // 1-5 stars
     userId: {
       type: String,
-      required: true,
-      unique: true,
       lowercase: true,
       trim: true,
-      index: true
+      index: true,
+      unique: true,
+      required: true,
+      dropDups: true
     },
     email: {
       type: mongoose.SchemaTypes.Email,
       allowBlank: true,
-      unique: true,
       lowercase: true,
       trim: true,
-      index: true
+      index: true,
+      unique: true,
     },
     displayName: {
       type: String,
@@ -71,10 +81,12 @@ const UserSchema = new Schema(
     },
     phoneNumber: {
       type: String,
-      trim: true
+      trim: true,
+      unique: true,
+      dropDups: true
     },
     // password: String,
-    creditCards: {type:[CreditCardSchema],default:null}, // we will only store the credit cardS number (not expiry nor cvv)
+    creditCards: { type: [CreditCardSchema], default: null }, // we will only store the credit cardS number (not expiry nor cvv)
     // provider: [ProviderSchema],
     profileImgUrl: { type: String, default: 'https://goo.gl/92gqPL' },
     address: AddressSchema,
@@ -101,8 +113,8 @@ const UserSchema = new Schema(
       default: 'REGULAR'
     },
     hasAgreedToServiceTerms: { type: Boolean, required: true, default: false },
-    extras: {type:Object, default:null},
-    settings: {type:Object, default:null},
+    extras: { type: Object, default: null },
+    settings: { type: Object, default: null },
     verified: { type: Boolean, default: false },
     verificationIdImage: { type: String, default: null },
     bidCancellations: {

@@ -17,6 +17,7 @@ const RatingSchema = new Schema({
 });
 const ReviewSchema = new Schema(
   {
+    _jobId: { type: Schema.Types.ObjectId, ref: 'JobModel' },
     _bidderId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
     _proposerId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
     proposerReview: {

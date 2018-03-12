@@ -1,7 +1,7 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const moment = require('moment');
-
+const applicationDataAccess = require('../data-access/applicationDataAccess');
 const User = mongoose.model('UserModel');
 const utils = require('../utils/utilities');
 
@@ -43,13 +43,23 @@ exports.findOneByUserId = id =>
       skills: 0
     }
   );
-exports.createNewUser = userDetails =>
-  new User({
-    ...userDetails,
-    globalRating: 0,
-    membershipStatus: 'NEW_MEMBER'
-  }).save();
+exports.createNewUser = async userDetails => {
+  try {
+    const newUser = await new User({
+      ...userDetails,
+      globalRating: 0,
+      membershipStatus: 'NEW_MEMBER'
+    }).save();
+    await Promise.all([
+      applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
+      applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
+    ]);
 
+    return newUser;
+  } catch (e) {
+    return e;
+  }
+};
 exports.findOneByUserIdAndUpdate = (
   id,
   data,

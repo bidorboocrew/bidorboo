@@ -13,18 +13,17 @@ module.exports = app => {
   //get current user
   app.get(ROUTES.USERAPI.GET_CURRENTUSER, async (req, res, done) => {
     try {
+      let existingUser = null;
       if (req.user) {
-        const existingUser = await userDataAccess.findOneByUserId(
-          req.user.userId
-        );
+        existingUser = await userDataAccess.findOneByUserId(req.user.userId);
         if (existingUser) {
           res.send(existingUser);
         }
       }
-      done(null);
+      done(null, existingUser);
     } catch (err) {
       res.send(err);
-      return done(err, null);
+      done(err, null);
     }
   });
 
@@ -35,7 +34,10 @@ module.exports = app => {
       try {
         const newProfileDetails = req.body.data;
         const userId = req.user.userId;
-        const options = { new: true };
+        const options = {
+          new: true,
+          lean: true //do not return the object with all mongodb additional magic funcs
+        };
         Object.keys(newProfileDetails).forEach(property => {
           newProfileDetails[`${property}`] = newProfileDetails[
             `${property}`

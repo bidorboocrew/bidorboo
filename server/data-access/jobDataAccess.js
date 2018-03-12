@@ -18,12 +18,15 @@ exports.createNewUser = userDetails =>
 exports.findOneByUserIdAndUpdate = (
   id,
   data,
-  options = { new: true },
+  options = {
+    new: true,
+    lean: true //do not return the object with all mongodb additional magic funcs
+  },
   callback
 ) =>
   User.findOneAndUpdate(
     { userId: id },
-    { $set: { ...data } },
+    { $set: { ...data } },//XXXXXX XXx dangerous you must validate and ensure you are only updating fields you actually desire to update
     options,
     callback
   );

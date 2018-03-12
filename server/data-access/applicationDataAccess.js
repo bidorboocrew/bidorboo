@@ -13,7 +13,7 @@ const AppJobsModel = mongoose.model('AppJobsModel');
 const AppUsersModel = mongoose.model('AppUsersModel');
 
 exports.AppHealthModel = {
-  initialize: async () => {
+  initialize: () => {
     const query = { appHealthSchemaId: AppHealthSchemaId };
     const update = {};
     const options = {
@@ -22,19 +22,72 @@ exports.AppHealthModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
-      setDefaultsOnInsert: true
+      setDefaultsOnInsert: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
     };
-    return AppHealthModel.findOneAndUpdate(
-      query,
-      update,
-      options,
-      (error, doc) => {}
-    );
+    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+  },
+  incrementField: fieldToUpdate => {
+    let update;
+    switch (fieldToUpdate) {
+      case 'totalUsers':
+        update = { $inc: { totalUsers: 1 } };
+        break;
+      case 'totalJobs':
+        update = { $inc: { totalJobs: 1 } };
+        break;
+      case 'totalFulfilledJobs':
+        update = { $inc: { totalFulfilledJobs: 1 } };
+        break;
+    }
+    if (update) {
+      const query = { appHealthSchemaId: AppHealthSchemaId };
+      const options = {
+        // Return the document after updates are applied
+        new: true,
+        lean: true //do not return the object with all mongodb additional magic funcs
+      };
+      return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+    }
+    return null;
+  },
+  setWhatsNew: msg => {
+    const update = { $set: { whatsNew: msg } };
+
+    const query = { appHealthSchemaId: AppHealthSchemaId };
+    const options = {
+      // Return the document after updates are applied
+      new: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
+    };
+    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+  },
+  siteState: ({
+    situation,
+    situationDetails,
+    expectedDownDate,
+    expectedGoBackOnline
+  }) => {
+    const update = {
+      $set: {
+        situation: situation,
+        situationDetails: situationDetails,
+        expectedDownDate: expectedDownDate,
+        expectedGoBackOnline: expectedGoBackOnline
+      }
+    };
+    const query = { appHealthSchemaId: AppHealthSchemaId };
+    const options = {
+      // Return the document after updates are applied
+      new: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
+    };
+    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
   }
 };
 
 exports.AppJobsModel = {
-  initialize: async () => {
+  initialize: () => {
     const query = { appJobsSchemaId: AppJobsSchemaId };
     const update = {};
     const options = {
@@ -43,14 +96,21 @@ exports.AppJobsModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
-      setDefaultsOnInsert: true
+      setDefaultsOnInsert: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
     };
-    return AppJobsModel.findOneAndUpdate(
-      query,
-      update,
-      options,
-      (error, doc) => {}
-    );
+    return AppJobsModel.findOneAndUpdate(query, update, options).exec();
+  },
+  addToJobsIdList: newJobId => {
+    const query = { appJobsSchemaId: AppJobsSchemaId };
+    const options = {
+      // Return the document after updates are applied
+      new: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
+    };
+    const update = { $push: { jobsIdList: newJobId } };
+
+    return AppJobsModel.findOneAndUpdate(query, update, options).exec();
   }
 };
 
@@ -64,13 +124,20 @@ exports.AppUsersModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
+      lean: true, //do not return the object with all mongodb additional magic funcs
       setDefaultsOnInsert: true
     };
-    return AppUsersModel.findOneAndUpdate(
-      query,
-      update,
-      options,
-      (error, doc) => {}
-    );
+    return AppUsersModel.findOneAndUpdate(query, update, options).exec();
+  },
+  addToUsersList: newUserMongoDbId => {
+    const query = { appUsersSchemaId: AppUsersSchemaId };
+    const options = {
+      // Return the document after updates are applied
+      new: true,
+      lean: true //do not return the object with all mongodb additional magic funcs
+    };
+    const update = { $push: { usersIdList: newUserMongoDbId } };
+
+    return AppUsersModel.findOneAndUpdate(query, update, options).exec();
   }
 };
