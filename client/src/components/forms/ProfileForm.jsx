@@ -65,7 +65,7 @@ class ProfileForm extends React.Component {
           label="About Me"
           placeholderText="Sample: Hey I am handy with tools and can do everything... "
           component={renderFormParagraphField}
-          validate={[alphanumericField, moreThan0lessThan250Chars]}
+          validate={[moreThan0lessThan250Chars]}
           charsLimit={250}
         />
         <div>
