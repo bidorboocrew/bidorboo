@@ -1,5 +1,6 @@
 const passport = require('passport');
 const ROUTES = require('../route_constants');
+const applicationDataAccess = require('../data-access/applicationDataAccess');
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -16,7 +17,7 @@ passport.serializeUser((user, done) => {
 //we know how to process the info from client into server object
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await userDataAccess.findOneByUserId(id);
+    const user = await userDataAccess.findOneByUserIdForSession(id);
     return done(null, user);
   } catch (err) {
     done(err, null);
@@ -85,8 +86,10 @@ passport.use(
             : 'https://goo.gl/92gqPL'
         };
 
-        const user = await userDataAccess.createNewUser(userDetails);
-        return done(null, user);
+        const userWithMongoSchema = await userDataAccess.createNewUser(userDetails);
+        // to save data usage ommit all the mongoose specific magic and remove it from the obj
+        const userObject = userWithMongoSchema.toObject();
+        return done(null, userObject);
       } catch (err) {
         return done(err, null);
       }

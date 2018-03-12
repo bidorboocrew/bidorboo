@@ -11,10 +11,12 @@ const helmet = require('helmet');
 const csp = require('express-csp-header');
 // const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 
-
 const keys = require('./config/keys');
-
+require('./models/bidModel');
+require('./models/applicationGlobalModels');
 require('./models/userModel');
+require('./models/reviewModel');
+require('./models/jobModel');
 require('./services/passport');
 
 mongoose.Promise = global.Promise;
@@ -22,9 +24,10 @@ mongoose.Promise = global.Promise;
 const dbOptions = {
   keepAlive: 120,
   reconnectTries: 20, // Never stop trying to reconnect
-  reconnectInterval: 500, // Reconnect every 500ms
+  reconnectInterval: 5000, // Reconnect every 500ms
   autoIndex: false // avoid performance hit due to schema level indexing
 };
+
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
     console.log(
@@ -58,7 +61,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
 
 //https://github.com/expressjs/cookie-session
-const expiryDate = 24 *60 * 60 * 1000; //10 days
+const expiryDate = 24 * 60 * 60 * 1000; //10 days
 app.use(
   cookieSession({
     maxAge: expiryDate, // 24 hours
@@ -79,12 +82,11 @@ app.use(passport.session());
 // define app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
-
+require('./routes/globalAppRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
   // app.use(redirectToHTTPS());
-
 
   // Express will serve up production assets
   // like our main.js file, or main.css file!
@@ -101,8 +103,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
