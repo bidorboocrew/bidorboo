@@ -86,8 +86,10 @@ passport.use(
             : 'https://goo.gl/92gqPL'
         };
 
-        const user = await userDataAccess.createNewUser(userDetails);
-        return done(null, user);
+        const userWithMongoSchema = await userDataAccess.createNewUser(userDetails);
+        // to save data usage ommit all the mongoose specific magic and remove it from the obj
+        const userObject = userWithMongoSchema.toObject();
+        return done(null, userObject);
       } catch (err) {
         return done(err, null);
       }
