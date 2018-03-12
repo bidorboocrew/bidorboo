@@ -13,10 +13,9 @@ const csp = require('express-csp-header');
 
 const keys = require('./config/keys');
 require('./models/bidModel');
-require('./models/applicationModel');
+require('./models/applicationGlobalModels');
 require('./models/userModel');
 require('./models/reviewModel');
-require('./models/templateJobModel');
 require('./models/jobModel');
 require('./services/passport');
 
@@ -28,6 +27,7 @@ const dbOptions = {
   reconnectInterval: 5000, // Reconnect every 500ms
   autoIndex: false // avoid performance hit due to schema level indexing
 };
+
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
     console.log(
@@ -36,6 +36,7 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
     );
   }
 });
+console.log('connected to mongodb');
 
 const app = express();
 
@@ -82,6 +83,7 @@ app.use(passport.session());
 // define app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
+require('./routes/globalAppRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
