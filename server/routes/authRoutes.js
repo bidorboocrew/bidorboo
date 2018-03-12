@@ -11,20 +11,25 @@ module.exports = app => {
   );
   app.get(
     ROUTES.AUTH.GOOGLE_CALLBACK,
-    passport.authenticate('google', { failureRedirect: '/errorRoute' }),
-    (req, res) => {
-      res.redirect(ROUTES.FRONTEND.HOME);
-    }
+    passport.authenticate('google', {
+      successRedirect: ROUTES.FRONTEND.HOME,
+      failureRedirect: '/errorRoute',
+      failureFlash: true
+    })
   );
 
   // Facebook routes
-  app.get(ROUTES.AUTH.FACEBOOK, passport.authenticate('facebook', { failureRedirect: '/errorRoute' }));
+  app.get(
+    ROUTES.AUTH.FACEBOOK,
+    passport.authenticate('facebook', { failureRedirect: '/errorRoute' })
+  );
   app.get(
     ROUTES.AUTH.FACEBOOK_CALLBACK,
-    passport.authenticate('facebook'),
-    (req, res) => {
-      res.redirect(ROUTES.FRONTEND.HOME);
-    }
+    passport.authenticate('facebook', {
+      successRedirect: ROUTES.FRONTEND.HOME,
+      failureRedirect: '/errorRoute',
+      failureFlash: true
+    })
   );
 
   app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
