@@ -35,29 +35,21 @@ module.exports = app => {
         const newProfileDetails = req.body.data;
         const userId = req.user.userId;
         const options = {
-          new: true,
-          lean: true //do not return the object with all mongodb additional magic funcs
+          new: true
         };
         Object.keys(newProfileDetails).forEach(property => {
           newProfileDetails[`${property}`] = newProfileDetails[
             `${property}`
           ].trim();
         });
-        const callback = (err, userAfterUpdates) => {
-          if (err) {
-            res.send(err);
-            done(err, null);
-          }
-          res.send(userAfterUpdates);
-          done(null, userAfterUpdates);
-        };
 
-        const userAfterUpdates = await userDataAccess.findOneByUserIdAndUpdate(
+        const userAfterUpdates = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
           userId,
           newProfileDetails,
-          options,
-          callback
+          options
         );
+        res.send(userAfterUpdates);
+        done(null, userAfterUpdates);
       } catch (err) {
         res.send(err);
         done(err, null);

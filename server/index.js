@@ -36,7 +36,6 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
     );
   }
 });
-console.log('connected to mongodb');
 
 const app = express();
 

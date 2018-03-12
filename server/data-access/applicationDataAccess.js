@@ -22,10 +22,11 @@ exports.AppHealthModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
-      setDefaultsOnInsert: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      setDefaultsOnInsert: true
     };
-    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+    return AppHealthModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   },
   incrementField: fieldToUpdate => {
     let update;
@@ -44,10 +45,11 @@ exports.AppHealthModel = {
       const query = { appHealthSchemaId: AppHealthSchemaId };
       const options = {
         // Return the document after updates are applied
-        new: true,
-        lean: true //do not return the object with all mongodb additional magic funcs
+        new: true
       };
-      return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+      return AppHealthModel.findOneAndUpdate(query, update, options)
+        .lean()
+        .exec();
     }
     return null;
   },
@@ -57,10 +59,11 @@ exports.AppHealthModel = {
     const query = { appHealthSchemaId: AppHealthSchemaId };
     const options = {
       // Return the document after updates are applied
-      new: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      new: true
     };
-    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+    return AppHealthModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   },
   siteState: ({
     situation,
@@ -79,10 +82,11 @@ exports.AppHealthModel = {
     const query = { appHealthSchemaId: AppHealthSchemaId };
     const options = {
       // Return the document after updates are applied
-      new: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      new: true
     };
-    return AppHealthModel.findOneAndUpdate(query, update, options).exec();
+    return AppHealthModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   }
 };
 
@@ -96,21 +100,23 @@ exports.AppJobsModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
-      setDefaultsOnInsert: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      setDefaultsOnInsert: true
     };
-    return AppJobsModel.findOneAndUpdate(query, update, options).exec();
+    return AppJobsModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   },
   addToJobsIdList: newJobId => {
     const query = { appJobsSchemaId: AppJobsSchemaId };
     const options = {
       // Return the document after updates are applied
-      new: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      new: true
     };
     const update = { $push: { jobsIdList: newJobId } };
 
-    return AppJobsModel.findOneAndUpdate(query, update, options).exec();
+    return AppJobsModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   }
 };
 
@@ -124,20 +130,41 @@ exports.AppUsersModel = {
       // Create a document if one isn't found. Required
       // for `setDefaultsOnInsert`
       upsert: true,
-      lean: true, //do not return the object with all mongodb additional magic funcs
       setDefaultsOnInsert: true
     };
-    return AppUsersModel.findOneAndUpdate(query, update, options).exec();
+    return AppUsersModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
   },
   addToUsersList: newUserMongoDbId => {
     const query = { appUsersSchemaId: AppUsersSchemaId };
     const options = {
       // Return the document after updates are applied
-      new: true,
-      lean: true //do not return the object with all mongodb additional magic funcs
+      new: true
     };
     const update = { $push: { usersIdList: newUserMongoDbId } };
 
-    return AppUsersModel.findOneAndUpdate(query, update, options).exec();
+    return AppUsersModel.findOneAndUpdate(query, update, options)
+      .lean()
+      .exec();
+  },
+  getUsersFromUsersList: async () => {
+    try {
+      const populateOptions = {
+        path: 'usersIdList',
+        select: 'globalRating displayName phoneNumber profileImgUrl'
+      };
+
+      const populatedUsers = await AppUsersModel.findOne(
+        { appUsersSchemaId: AppUsersSchemaId },
+        { usersIdList: 1 }
+      )
+        .populate(populateOptions)
+        .lean()
+        .exec(); // only works if we pushed refs to children
+      return populatedUsers;
+    } catch (e) {
+      return e;
+    }
   }
 };

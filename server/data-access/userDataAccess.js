@@ -6,7 +6,9 @@ const User = mongoose.model('UserModel');
 const utils = require('../utils/utilities');
 
 exports.findOneByUserIdForSession = id =>
-  User.findOne({ userId: id }, { userId: 1 });
+  User.findOne({ userId: id }, { userId: 1 })
+    .lean()
+    .exec();
 
 exports.findOneByemail = email =>
   User.findOne(
@@ -24,7 +26,9 @@ exports.findOneByemail = email =>
       password: 0,
       skills: 0
     }
-  );
+  )
+    .lean()
+    .exec();
 
 exports.findOneByUserId = id =>
   User.findOne(
@@ -42,12 +46,14 @@ exports.findOneByUserId = id =>
       password: 0,
       skills: 0
     }
-  );
+  )
+    .lean()
+    .exec();
 exports.createNewUser = async userDetails => {
   try {
     const newUser = await new User({
       ...userDetails,
-      globalRating: 0,
+      globalRating: null,
       membershipStatus: 'NEW_MEMBER'
     }).save();
     await Promise.all([
@@ -60,23 +66,16 @@ exports.createNewUser = async userDetails => {
     return e;
   }
 };
-exports.findOneByUserIdAndUpdate = (
-  id,
-  data,
-  options = {
-    new: true,
-    lean: true
-  },
-  callback
-) =>
+exports.findOneByUserIdAndUpdateProfileInfo = (id, data, options) =>
   User.findOneAndUpdate(
     { userId: id },
     {
       $set: { ...data }
     },
-    options,
-    callback
-  );
+    options
+  )
+    .lean()
+    .exec();
 
 exports.findOneByUserIdForPublicRecords = id =>
   User.findOne(
@@ -91,7 +90,9 @@ exports.findOneByUserIdForPublicRecords = id =>
       verified: 1,
       globalRating: 1
     }
-  );
+  )
+    .lean()
+    .exec();
 
 // exports.registerNewUserWithPassword = async (userDetails) => {
 //   const encryptedPassword = await utils.encryptData(userDetails.password);
