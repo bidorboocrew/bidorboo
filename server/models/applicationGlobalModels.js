@@ -42,6 +42,11 @@ const AppUsers = new Schema({
   extras: { type: Object, default: null }
 });
 
+//no need for index on these . avoid performance slowness
+AppHealth.set('autoIndex', false);
+AppJobs.set('autoIndex', false);
+AppUsers.set('autoIndex', false);
+
 mongoose.model('AppHealthModel', AppHealth);
 mongoose.model('AppJobsModel', AppJobs);
 mongoose.model('AppUsersModel', AppUsers);
