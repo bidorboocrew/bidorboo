@@ -1,3 +1,4 @@
+const compression = require('compression')
 const express = require('express');
 const mongoose = require('mongoose');
 const morganBody = require('morgan-body');
@@ -38,6 +39,16 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
 });
 
 const app = express();
+
+// performance
+app.use(compression({filter: (req, res)=> {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false
+  }
+  // fallback to standard filter function
+  return compression.filter(req, res)
+}}))
 
 const cspMiddleware = csp({
   policies: {
