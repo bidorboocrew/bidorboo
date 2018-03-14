@@ -31,6 +31,14 @@ class HomePage extends React.Component {
               <div className="columns">{defaultTasks}</div>
             </div>
           </div>
+          <div className="container">
+            <div id="job-types">
+              <div className="bdb-section-title">Bid on a Job</div>
+            </div>
+            <div className="bdb-section-body" id="existing-jobs">
+              <div className="columns">{defaultTasks}</div>
+            </div>
+          </div>
         </section>
       </div>
     );
