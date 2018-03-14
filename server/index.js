@@ -106,3 +106,13 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
+
+process.on('SIGINT', function() {
+  mongoose.connection.close(() => {
+    console.log(
+      'Mongoose default connection is disconnected due to application termination'
+    );
+    //XXXXXX add more logic to show site is under maintainance  banner if this happen
+    process.exit(0);
+  });
+});
