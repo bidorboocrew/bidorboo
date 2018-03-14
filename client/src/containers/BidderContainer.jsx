@@ -19,11 +19,10 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={18} defaultCenter={{ lat: props.position.lat, lng: props.position.lng }}>
+  <GoogleMap defaultZoom={8} defaultCenter={{ lat: 45.4215, lng: -75.6972 }}>
     {props.isMarkerShown && (
       <Marker
-        // position={{ lat: 45.4215, lng: -75.6972 }}
-        position={{ lat: props.position.lat, lng: props.position.lng }}
+        position={{lat: 45.4215, lng: -75.6972}}
         onClick={props.onMarkerClick}
       >
         {props.showInfo && (
@@ -33,7 +32,8 @@ const MyMapComponent = compose(
           >
             <div
               style={{
-                backgroundColor: `white`,
+                backgroundColor: `whitesmoke`,
+                border:'1px solid rgba(0, 0, 0, 0.12)',
                 // opacity: 0.8,
                 padding: `12px`
               }}
@@ -53,32 +53,8 @@ class BidderContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = { show: false };
-    this.toggleShow = () => {
-      this.setState({ show: !this.state.show,position:{lat: 0, lng: 0}  });
-    };
-    this.updateLocation = (lat, lng) => {
-      this.setState({ ...this.state, position:{lat: lat, lng: lng} });
-    };
-
-  }
-  componentDidMount(){
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          const latitude = pos.coords.latitude;
-          const longitude = pos.coords.longitude;
-          console.log('accuracy level ' + pos.coords.accuracy);
-          this.updateLocation(latitude, longitude);
-        },
-        function error(msg) {
-          //hide ,map
-          alert('Please enable your GPS position future.');
-        },
-        { maximumAge: 600000, timeout: 5000, enableHighAccuracy: true }
-      );
-    } else {
-      //hide ,map
-      alert('Geolocation API is not supported in your browser.');
+    this.toggleShow = ()=>{
+      this.setState({show: !this.state.show});
     }
   }
   render() {
@@ -93,11 +69,13 @@ class BidderContainer extends React.Component {
               <div className="columns">
                 <div className="column">
                   <MyMapComponent
-                    position={this.state.position}
                     showInfo={this.state.show}
                     isMarkerShown={true}
                     onMarkerClick={this.toggleShow}
                   />
+                  <div>
+
+                  </div>
                 </div>
               </div>
             </div>
