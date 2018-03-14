@@ -20,7 +20,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findOneByUserIdForSession(id);
     return done(null, user);
   } catch (err) {
-    done(err, null);
+    throw (err, null);
   }
 });
 
@@ -54,7 +54,7 @@ passport.use(
         const user = await userDataAccess.createNewUser(userDetails);
         return done(null, user);
       } catch (err) {
-        return done(err, null);
+        throw (err, null);
       }
     }
   )
@@ -86,12 +86,14 @@ passport.use(
             : 'https://goo.gl/92gqPL'
         };
 
-        const userWithMongoSchema = await userDataAccess.createNewUser(userDetails);
+        const userWithMongoSchema = await userDataAccess.createNewUser(
+          userDetails
+        );
         // to save data usage ommit all the mongoose specific magic and remove it from the obj
         const userObject = userWithMongoSchema.toObject();
         return done(null, userObject);
       } catch (err) {
-        return done(err, null);
+        throw (err, null);
       }
     }
   )

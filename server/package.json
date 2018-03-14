@@ -28,6 +28,7 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "mongoose": "^5.0.9",
+    "mongoose-geojson-schema": "^2.1.2",
     "mongoose-type-email": "^1.0.5",
     "morgan": "^1.9.0",
     "morgan-body": "^2.3.1",

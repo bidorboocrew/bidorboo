@@ -12,6 +12,9 @@
     "/user/*": {
       "target": "http://localhost:5000"
     },
+    "/job/*": {
+      "target": "http://localhost:5000"
+    },
     "/errorRoute": {
       "target": "http://localhost:5000"
     }

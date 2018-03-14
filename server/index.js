@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 
 const helmet = require('helmet');
 const csp = require('express-csp-header');
-// const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
+
 
 const keys = require('./config/keys');
 require('./models/bidModel');
@@ -91,6 +91,7 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/globalAppRoutes')(app);
+require('./routes/jobRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove

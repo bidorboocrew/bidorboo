@@ -6,7 +6,7 @@ const User = mongoose.model('UserModel');
 const utils = require('../utils/utilities');
 
 exports.findOneByUserIdForSession = id =>
-  User.findOne({ userId: id }, { userId: 1 })
+  User.findOne({ userId: id }, { userId: 1, _id:1 })
     .lean()
     .exec();
 
@@ -63,7 +63,7 @@ exports.createNewUser = async userDetails => {
 
     return newUser;
   } catch (e) {
-    return e;
+    throw e;
   }
 };
 exports.findOneByUserIdAndUpdateProfileInfo = (id, data, options) =>

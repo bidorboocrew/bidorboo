@@ -11,9 +11,7 @@ module.exports = {
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
     PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
-  },
-  APPAPI: {
-    INITIALIZE_APPLICATION_GLOBAL_SCHEMAS: '/bdbApp/initializeAppGlobalSchemas',
+    JOB_ROUTES: '/job'
   },
   FRONTEND: {
     ENTRY: '/',

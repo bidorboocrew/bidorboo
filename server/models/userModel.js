@@ -64,8 +64,7 @@ const UserSchema = new Schema(
       trim: true,
       index: true,
       unique: true,
-      required: true,
-      dropDups: true
+      required: true
     },
     email: {
       type: mongoose.SchemaTypes.Email,
