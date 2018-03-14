@@ -80,12 +80,14 @@ class App extends React.Component {
                   path={ROUTES.FRONTENDROUTES.HOME}
                   component={HomePage}
                 />
-                <Route
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER}
                   component={ProposerContainer}
                 />
-                <Route
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER}
                   component={BidderContainer}

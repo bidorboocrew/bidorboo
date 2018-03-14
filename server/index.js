@@ -1,4 +1,4 @@
-const compression = require('compression')
+const compression = require('compression');
 const express = require('express');
 const mongoose = require('mongoose');
 const morganBody = require('morgan-body');
@@ -41,14 +41,18 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
 const app = express();
 
 // performance
-app.use(compression({filter: (req, res)=> {
-  if (req.headers['x-no-compression']) {
-    // don't compress responses with this request header
-    return false
-  }
-  // fallback to standard filter function
-  return compression.filter(req, res)
-}}))
+app.use(
+  compression({
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        // don't compress responses with this request header
+        return false;
+      }
+      // fallback to standard filter function
+      return compression.filter(req, res);
+    }
+  })
+);
 
 const cspMiddleware = csp({
   policies: {
@@ -58,15 +62,8 @@ const cspMiddleware = csp({
 app.use(cspMiddleware);
 
 // security package
-app.use(
-  helmet({
-    frameguard: {
-      action: 'deny'
-    }
-  })
-);
-app.use(helmet.hidePoweredBy());
-app.disable('x-powered-by');
+app.use(helmet());
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 morganBody(app);
