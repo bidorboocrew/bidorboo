@@ -1,7 +1,11 @@
 const compression = require('compression');
 const express = require('express');
 const mongoose = require('mongoose');
+
 const morganBody = require('morgan-body');
+const winston = require('winston');
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, prettyPrint } = format;
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -11,8 +15,8 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const csp = require('express-csp-header');
 
-
 const keys = require('./config/keys');
+
 require('./models/bidModel');
 require('./models/applicationGlobalModels');
 require('./models/userModel');
@@ -25,9 +29,20 @@ mongoose.Promise = global.Promise;
 const dbOptions = {
   keepAlive: 120,
   reconnectTries: 20, // Never stop trying to reconnect
-  reconnectInterval: 5000, // Reconnect every 500ms
-  autoIndex: false // avoid performance hit due to schema level indexing
+  reconnectInterval: 5000 // Reconnect every 500ms
 };
+// autoIndex: false // avoid performance hit due to schema level indexing
+
+
+
+const logger = createLogger({
+  level: 'info',
+  format: combine(
+    timestamp(),
+    prettyPrint()
+  ),
+  transports: [new transports.Console()]
+})
 
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
@@ -90,7 +105,7 @@ app.use(passport.session());
 // define app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
-require('./routes/globalAppRoutes')(app);
+require('./routes/zzzzzzzzzzzzzzzzzzz')(app,logger);
 require('./routes/jobRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {

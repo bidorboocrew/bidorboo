@@ -56,10 +56,10 @@ exports.createNewUser = async userDetails => {
       globalRating: null,
       membershipStatus: 'NEW_MEMBER'
     }).save();
-    await Promise.all([
-      applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
-      applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
-    ]);
+    // await Promise.all([
+    //   applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
+    //   applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
+    // ]);
 
     return newUser;
   } catch (e) {
