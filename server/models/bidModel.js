@@ -29,6 +29,4 @@ const BidSchema = new Schema(
 
 
 //no need for index on these . avoid performance slowness
-BidSchema.set('autoIndex', false);
-
 mongoose.model('BidModel', BidSchema);

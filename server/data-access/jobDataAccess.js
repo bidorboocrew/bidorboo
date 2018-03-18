@@ -10,16 +10,45 @@ const applicationDataAccess = require('../data-access/applicationDataAccess');
 const { AppHealthSchemaId } = require('../models/zModalConstants');
 
 exports.jobDataAccess = {
+  getJobsNear: specifiedLocation => {
+    // #1
+    return JobModel.aggregate([
+      {
+        $geoNear: {
+          near: { type: 'Point', coordinates: specifiedLocation },
+          distanceField: 'dist.calculated',
+          includeLocs: 'dist.location',
+          limit: 20,
+          distanceMultiplier: 1 / 1000,
+          maxDistance: 5,//meters
+          spherical: true,
+          uniqueDocs: true,
+        }
+      },
+      { $project: { detailedDescription: 0,__v:0, _ownerId:0,createdAt:0,updatedAt:0,whoSeenThis:0,properties:0,extras:0,_bidsList:0,_id:0,state:0} }
+    ]).exec();
+
+    // #2
+    // return JobModel.find({
+    //   location: {
+    //     $near: {
+    //       $geometry: { type: 'Point', coordinates: specifiedLocation },
+    //       $maxDistance: 1000000,
+
+    //     }
+    //   }
+    // }).limit(1).exec();
+  },
   addAJob: async jobDetails => {
     try {
       const newJob = await new JobModel({
         ...jobDetails,
         state: 'OPEN'
       }).save();
-      await Promise.all([
-        applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
-        applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
-      ]);
+      // await Promise.all([
+      //   applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
+      //   applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
+      // ]);
 
       return newJob;
     } catch (e) {
