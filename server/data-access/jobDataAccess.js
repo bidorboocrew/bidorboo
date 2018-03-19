@@ -4,12 +4,23 @@ var GeoJSON = require('mongoose-geojson-schema');
 
 const utils = require('../utils/utilities');
 
+const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const applicationDataAccess = require('../data-access/applicationDataAccess');
 
 const { AppHealthSchemaId } = require('../models/zModalConstants');
 
 exports.jobDataAccess = {
+  getAllJobsForUser: userId => {
+    const populateOptions = {
+      path: '_postedJobs',
+      select: '_postedJobs'
+    };
+    return User.findOne({ userId: userId }, { _postedJobs: 1, _id:0 })
+      .populate(populateOptions)
+      .lean()
+      .exec(); // only works if we pushed refs to children
+  },
   getJobsNear: specifiedLocation => {
     // #1
     return JobModel.aggregate([
@@ -20,12 +31,26 @@ exports.jobDataAccess = {
           includeLocs: 'dist.location',
           limit: 20,
           distanceMultiplier: 1 / 1000,
-          maxDistance: 5,//meters
+          maxDistance: 5, //meters
           spherical: true,
-          uniqueDocs: true,
+          uniqueDocs: true
         }
       },
-      { $project: { detailedDescription: 0,__v:0, _ownerId:0,createdAt:0,updatedAt:0,whoSeenThis:0,properties:0,extras:0,_bidsList:0,_id:0,state:0} }
+      {
+        $project: {
+          detailedDescription: 0,
+          __v: 0,
+          _ownerId: 0,
+          createdAt: 0,
+          updatedAt: 0,
+          whoSeenThis: 0,
+          properties: 0,
+          extras: 0,
+          _bidsList: 0,
+          _id: 0,
+          state: 0
+        }
+      }
     ]).exec();
 
     // #2

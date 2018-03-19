@@ -5,6 +5,16 @@ const requireLogin = require('../middleware/requireLogin');
 const isJobOwner = require('../middleware/isJobOwner');
 
 module.exports = app => {
+  app.get(ROUTES.USERAPI.JOB_ROUTES, requireLogin, async (req, res, done) => {
+    try {
+      userJobsList = await jobDataAccess.getAllJobsForUser(req.userId);
+      res.send(userJobsList);
+
+    } catch (err) {
+      res.send(err);
+    }
+  });
+
   app.get(
     `${ROUTES.USERAPI.JOB_ROUTES}/:jobId`,
     requireLogin,

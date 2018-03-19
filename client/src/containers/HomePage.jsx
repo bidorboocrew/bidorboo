@@ -36,7 +36,7 @@ class HomePage extends React.Component {
               <div className="bdb-section-title">Bid on a Job</div>
             </div>
             <div className="bdb-section-body" id="existing-jobs">
-              <div className="columns">{defaultTasks}</div>
+              < div className="columns">{defaultTasks}</div>
             </div>
           </div>
         </section>
@@ -62,7 +62,10 @@ class BidOrBooDefaultTask extends React.Component {
     const { title, subtitle, description, imageUrl } = this.props;
 
     return (
-      <div className="column bdbCardComponent">
+      <div
+        className="column is-one-third-tablet
+      is-one-quarter-desktop bdbCardComponent"
+      >
         <div className="card">
           <div className="card-image">
             <figure className="image is-3by4">
@@ -76,7 +79,7 @@ class BidOrBooDefaultTask extends React.Component {
               <div style={{ textAlign: 'center', marginTop: 8 }}>
                 <a className="button is-primary" disabled>
                   {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
-                  <span style={{ marginLeft: 4 }}>{`Request ${title}`} </span>
+                  <span style={{ marginLeft: 4 }}><i className="fa fa-plus fa-w-14"/> Request Now</span>
                 </a>
               </div>
             </div>
