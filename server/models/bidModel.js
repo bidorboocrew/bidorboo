@@ -13,7 +13,7 @@ const BidSchema = new Schema(
       type: String,
       enum: ['OPEN', 'BOO', 'WIN', 'CANCEL', 'MODIFIED']
     },
-    isSeen: { type: Boolean, default: false }, // will be used to highlight unseen bids
+    hasJobOwnerSeenThis: { type: Boolean, default: false }, // will be used to highlight unseen bids
     bidAmount: {
       value: { type: Number, required: true },
       currency: {
@@ -29,6 +29,4 @@ const BidSchema = new Schema(
 
 
 //no need for index on these . avoid performance slowness
-BidSchema.set('autoIndex', false);
-
 mongoose.model('BidModel', BidSchema);

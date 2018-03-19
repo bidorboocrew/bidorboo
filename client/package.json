@@ -12,6 +12,9 @@
     "/user/*": {
       "target": "http://localhost:5000"
     },
+    "/job/*": {
+      "target": "http://localhost:5000"
+    },
     "/errorRoute": {
       "target": "http://localhost:5000"
     }
@@ -26,6 +29,7 @@
     "npm-run-all": "^4.1.2",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
+    "react-delay": "^0.1.0",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.6",

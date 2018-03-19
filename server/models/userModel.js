@@ -64,8 +64,7 @@ const UserSchema = new Schema(
       trim: true,
       index: true,
       unique: true,
-      required: true,
-      dropDups: true
+      required: true
     },
     email: {
       type: mongoose.SchemaTypes.Email,
@@ -73,7 +72,7 @@ const UserSchema = new Schema(
       lowercase: true,
       trim: true,
       index: true,
-      unique: true
+      // unique: true
     },
     displayName: {
       type: String,
@@ -82,8 +81,8 @@ const UserSchema = new Schema(
     phoneNumber: {
       type: String,
       trim: true,
-      unique: true,
-      dropDups: true
+      // unique: true,
+      // dropDups: true
     },
     // password: String,
     creditCards: { type: [CreditCardSchema], default: null }, // we will only store the credit cardS number (not expiry nor cvv)
@@ -128,7 +127,6 @@ const UserSchema = new Schema(
 );
 
 //no need for index on these . avoid performance slowness
-UserSchema.set('autoIndex', false);
 mongoose.model('UserModel', UserSchema);
 
 //---------Helper Methods-------------------------------------

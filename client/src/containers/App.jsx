@@ -99,7 +99,7 @@ class App extends React.Component {
                   component={MyProfileContainer}
                 />
                 {/* redirect any unknown route to the home component */}
-                <Route path="*" component={HomePage} />
+                <Redirect path="*" to={ROUTES.FRONTENDROUTES.HOME} />
               </Switch>
             </div>
           </div>

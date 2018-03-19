@@ -43,5 +43,4 @@ const ReviewSchema = new Schema(
 );
 
 //no need for index on these . avoid performance slowness
-ReviewSchema.set('autoIndex', false);
 mongoose.model('ReviewModel', ReviewSchema);

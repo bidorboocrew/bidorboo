@@ -117,7 +117,7 @@ class Header extends React.Component {
                 className="navbar-item "
               >
                 <i className="fa fa-child" aria-hidden="true" />
-                <span style={{ marginLeft: 4 }}>Post a Job</span>
+                <span style={{ marginLeft: 4 }}>Proposer</span>
               </a>
               <a
                 onClick={() => {
@@ -128,7 +128,7 @@ class Header extends React.Component {
                 className="navbar-item "
               >
                 <i className="fa fa-hand-paper" aria-hidden="true" />
-                <span style={{ marginLeft: 4 }}>Bid on Jobs</span>
+                <span style={{ marginLeft: 4 }}>Bidder</span>
               </a>
             </div>
           )}

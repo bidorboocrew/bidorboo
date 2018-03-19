@@ -5,7 +5,7 @@ import axios from 'axios';
 export const getCurrentUser = () => (dispatch, getState) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
-    payloads_: axios
+    payload: axios
       .get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER)
       .then(resp => {
         if (resp.data && resp.data.userId) {
