@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidorbooDefaultTasks } from '../constants/bidorbooDefaultTasks';
+import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
 import { getAllJobs } from '../app-state/actions/jobActions';
 
 class ProposerContainer extends React.Component {
@@ -9,7 +9,13 @@ class ProposerContainer extends React.Component {
     super(props);
     this.state = {
       searchTerm: '',
-      selectedFilterTag: ''
+      selectedFilterTag: '',
+      displayedJobs: []
+    };
+    this.updateSearchTerm = e => {
+      e.preventDefault();
+      const newSearchTerm = e.target.value ? e.target.value.trim() : '';
+      this.setState({ ...this.state, searchTerm: newSearchTerm });
     };
   }
 
@@ -20,9 +26,14 @@ class ProposerContainer extends React.Component {
 
   render() {
     const { s_isLoading, s_userJobsList, s_error } = this.props;
-    const defaultTasks = bidorbooDefaultTasks.map(defaultTask => (
-      <BidOrBooDefaultTask key={defaultTask.id} {...defaultTask} />
-    ));
+
+    const filterBySearchTerm =
+      this.state.searchTerm && this.state.searchTerm.length >= 0;
+    let displayedTasks = s_userJobsList;
+
+    if (filterBySearchTerm) {
+      //show tasks that contain any part of the search term
+    }
 
     return (
       <div id="bdb-proposer-content">
@@ -36,10 +47,13 @@ class ProposerContainer extends React.Component {
                     <strong>Jobs</strong>' search
                   </div>
                 </div>
-                <div style={{ flexBasis: '100%' }} className="level-item">
-                  <div style={{ flexBasis: '100%' }} className="field">
+                <div style={{ flexBasis: '140%' }} className="level-item">
+                  <div style={{ flexBasis: '140%' }} className="field">
                     <div className="control">
                       <input
+                        onChange={e => {
+                          this.updateSearchTerm(e);
+                        }}
                         className="input"
                         type="text"
                         placeholder="Search your jobs..."
@@ -48,7 +62,6 @@ class ProposerContainer extends React.Component {
                   </div>
                 </div>
               </div>
-
               <div className="level-right">
                 <div className="level-item">
                   <a
@@ -66,17 +79,22 @@ class ProposerContainer extends React.Component {
             {/* xxxxxxxxxxxxxxxxxxxxx top section xxxxxxxxxxxxxxxxxxxxx */}
             <div className="container">
               <div id="job-types">
+                {this.state.searchTerm.length > 0}
+
                 <div className="bdb-section-title">Your Existing Jobs</div>
               </div>
               <div className="bdb-section-body" id="existing-jobs">
                 <div className="columns">
                   <div className="column">
                     {s_isLoading && <div className="bdb-spinner" />}
-                    {s_isLoading && s_error && (<div>error fetching your jobs {s_error}</div>)}
+                    {s_isLoading &&
+                      s_error && <div>error fetching your jobs {s_error}</div>}
                     {!s_isLoading &&
-                      !(s_userJobsList.length > 0) && (
+                      !(displayedTasks.length > 0) && (
                         <div className="is-size-6 has-text-grey-light">
-                           <span style={{padding:5}}>You do not have any posted jobs .</span>
+                          {filterBySearchTerm
+                            ? 'No results match your Search. Try to clear your search or use a less specific term '
+                            : 'You do not have any posted jobs yet. You can start posting jobs by clicking on the request a job button'}
                         </div>
                       )}
                   </div>
@@ -85,10 +103,12 @@ class ProposerContainer extends React.Component {
             </div>
             <div className="container">
               <div id="job-types">
-                <div className="bdb-section-title">Use a Teamplate</div>
+                <div className="bdb-section-title">BidorBoo Job Teamplates</div>
               </div>
               <div className="bdb-section-body" id="existing-jobs">
-                <div className="columns">{defaultTasks}</div>
+                <div className="columns">
+                  <BidOrBooDefaultTasks />
+                </div>
               </div>
             </div>
           </div>
@@ -112,48 +132,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProposerContainer);
-
-class BidOrBooDefaultTask extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isHover: false
-    };
-    this.alterHoverState = val => {
-      this.setState({ isHover: val });
-    };
-  }
-
-  render() {
-    const { title, subtitle, description, imageUrl } = this.props;
-
-    return (
-      <div
-        className="column is-one-third-tablet
-      is-one-quarter-desktop bdbCardComponent"
-      >
-        <div className="card">
-          <div className="card-image">
-            <figure className="image is-3by4">
-              <img src={imageUrl} alt={subtitle} />
-            </figure>
-          </div>
-          <div className="card-content">
-            <h1 className="bdb-section-title">{title}</h1>
-            <div className="content">
-              <div className="descriptoin-section">{description}</div>
-              <div style={{ textAlign: 'center', marginTop: 8 }}>
-                <a className="button is-primary" disabled>
-                  {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fa fa-plus fa-w-14" /> Request Now
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}

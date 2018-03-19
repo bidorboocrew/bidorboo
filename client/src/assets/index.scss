@@ -29,6 +29,11 @@ body {
   left: 50%;
 }
 
+.card.space{
+  border: $border-divider;
+  box-shadow: $shadow-smooth;
+}
+
 .bdb-spinner {
   margin: 20px auto;
   border: 5px solid #f3f3f3;
