@@ -105,8 +105,9 @@ app.use(passport.session());
 // define app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
-require('./routes/zzzzzzzzzzzzzzzzzzz')(app,logger);
 require('./routes/jobRoutes')(app);
+//my test path
+// require('./routes/zzzzzzzzzzzzzzzzzzz')(app,logger);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove

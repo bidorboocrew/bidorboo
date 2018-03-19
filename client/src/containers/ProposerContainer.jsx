@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
 import { getAllJobs } from '../app-state/actions/jobActions';
+import { Spinner } from '../components/Spinner';
 
 class ProposerContainer extends React.Component {
   constructor(props) {
@@ -86,7 +87,7 @@ class ProposerContainer extends React.Component {
               <div className="bdb-section-body" id="existing-jobs">
                 <div className="columns">
                   <div className="column">
-                    {s_isLoading && <div className="bdb-spinner" />}
+                    <Spinner isLoading={s_isLoading}></Spinner>
                     {s_isLoading &&
                       s_error && <div>error fetching your jobs {s_error}</div>}
                     {!s_isLoading &&

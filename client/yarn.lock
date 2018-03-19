@@ -5560,6 +5560,12 @@ react-autobind@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-autobind/-/react-autobind-1.0.6.tgz#936bb58edf6b89b619c50f82f0e617159fdfd4f1"
 
+react-delay@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-delay/-/react-delay-0.1.0.tgz#d421613190349a0ff7f73efa5a77502b581446bf"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-dev-utils@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-5.0.0.tgz#425ac7c9c40c2603bc4f7ab8836c1406e96bb473"
