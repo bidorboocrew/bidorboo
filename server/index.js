@@ -125,7 +125,7 @@ if (process.env.NODE_ENV === 'production') {
       'serving dirname ' +
         path.resolve(__dirname, '../client', './build', 'index.html')
     );
-    res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
+    return res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
 
