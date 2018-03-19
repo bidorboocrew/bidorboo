@@ -7,5 +7,6 @@ module.exports = {
   cookieKey: process.env.COOKIE_KEY_ONE,
   cookieKey2: process.env.COOKIE_KEY_TWO,
   facebookClientID: process.env.FACEBOOK_CLIENT_ID,
-  facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET
+  facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  allowedHostName: process.env.ALLOWED_HOST_NAME
 };

@@ -2,10 +2,11 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
 const ROUTES = require('../route_constants');
 
 const requireLogin = require('../middleware/requireLogin');
+const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const isJobOwner = require('../middleware/isJobOwner');
 
 module.exports = app => {
-  app.get(ROUTES.USERAPI.JOB_ROUTES, requireLogin, async (req, res, done) => {
+  app.get(ROUTES.USERAPI.JOB_ROUTES, requireBidorBooHost, requireLogin, async (req, res, done) => {
     try {
       userJobsList = await jobDataAccess.getAllJobsForUser(req.userId);
       res.send(userJobsList);
