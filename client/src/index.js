@@ -6,7 +6,7 @@ import 'typeface-roboto';
 //global styles
 import './assets/index.css';
 //offline mode support
-// import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 
 //redux
 import { Provider } from 'react-redux';

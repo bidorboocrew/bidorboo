@@ -53,4 +53,16 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+.mainSectionContainer{
+  background:whitesmoke;
+}
+
+$family-primary: 'Roboto', sans-serif;
+$body-background-color: whitesmoke; //linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%); //#3b549c;
+$navbar-background-color: whitesmoke;
+$footer-background-color: #363636;
+$body-background-color: whitesmoke;
+$section-padding: 3rem 0.5rem;
 @import 'bulma/bulma.sass';

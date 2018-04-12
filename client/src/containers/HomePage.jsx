@@ -19,9 +19,9 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section">
+        <section className="section mainSectionContainer">
           <div className="container">
-            <div id="job-types">
+            <div id="job-templates-types">
               <div className="bdb-section-title">Post a Job</div>
             </div>
             <div className="bdb-section-body" id="existing-jobs">
@@ -31,7 +31,7 @@ class HomePage extends React.Component {
             </div>
           </div>
           <div className="container">
-            <div id="job-types">
+            <div id="bid-on-job">
               <div className="bdb-section-title">Bid on a Job</div>
             </div>
             <div className="bdb-section-body" id="existing-jobs">

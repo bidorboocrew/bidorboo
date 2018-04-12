@@ -67,7 +67,7 @@ class MyProfileContainer extends React.Component {
       C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     return (
-      <section className="section">
+      <section className="section mainSectionContainer">
         <div className="container" id="bdb-profile-content">
           <div className="columns">
             <div className="column is-one-quarter">

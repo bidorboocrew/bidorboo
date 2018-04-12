@@ -42,8 +42,14 @@ class ProposerContainer extends React.Component {
       //show tasks that contain any part of the search term
     }
     const createNewJob = () => {
-      return <CreateJob submitNewJobs={(vals)=>{debugger;}} />
-    }
+      return (
+        <CreateJob
+          submitNewJobs={vals => {
+            debugger;
+          }}
+        />
+      );
+    };
     const showDefaultView = () => {
       return (
         <div>
@@ -86,7 +92,7 @@ class ProposerContainer extends React.Component {
           </nav>
           {/* xxxxxxxxxxxxxxxxxxxxx top section xxxxxxxxxxxxxxxxxxxxx */}
           <div className="container">
-            <div id="job-types">
+            <div id="my-jobs">
               {this.state.searchTerm.length > 0}
 
               <div className="bdb-section-title">Your Existing Jobs</div>
@@ -110,7 +116,7 @@ class ProposerContainer extends React.Component {
             </div>
           </div>
           <div className="container">
-            <div id="job-types">
+            <div id="template-jobs">
               <div className="bdb-section-title">BidorBoo Job Teamplates</div>
             </div>
             <div className="bdb-section-body" id="existing-jobs">
@@ -123,13 +129,11 @@ class ProposerContainer extends React.Component {
       );
     };
     return (
-      <div id="bdb-proposer-content">
-        <section className="section">
-          <div className="container">
-            {this.state.showCreateNewJob ? createNewJob() : showDefaultView()}
-          </div>
-        </section>
-      </div>
+      <section className="section mainSectionContainer">
+        <div className="container" id="bdb-proposer-content">
+          {this.state.showCreateNewJob ? createNewJob() : showDefaultView()}
+        </div>
+      </section>
     );
   }
 }
