@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/home.css';
 import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
-
+import Stepper from 'react-stepper-horizontal';
 class HomePage extends React.Component {
   render() {
     return (
@@ -21,9 +21,12 @@ class HomePage extends React.Component {
         </section>
         <section className="section mainSectionContainer">
           <div className="container">
-            <div id="job-templates-types">
-              <div className="bdb-section-title">Post a Job</div>
-            </div>
+
+              <div className="has-text-centered title">Post a Job</div>
+
+            <div>
+            <Stepper activeColor={"rgb(0, 209, 178)"} steps={ [{title: 'Pick a Template'}, {title: 'Fill In Details'}, {title: 'Post it!'}] } activeStep={ 0 } />
+          </div>
             <div className="bdb-section-body" id="existing-jobs">
               <div className="columns">
                 <BidOrBooDefaultTasks />
@@ -31,9 +34,11 @@ class HomePage extends React.Component {
             </div>
           </div>
           <div className="container">
-            <div id="bid-on-job">
-              <div className="bdb-section-title">Bid on a Job</div>
-            </div>
+          <div className="has-text-centered title">Bid On a Job</div>
+
+            <div>
+            <Stepper activeColor={"rgb(0, 209, 178)"} steps={ [{title: 'Select a Job'}, {title: 'Bid'}, {title: 'Post it!'}] } activeStep={ 0 } />
+          </div>
             <div className="bdb-section-body" id="existing-jobs">
               <div className="columns">
                 <BidOrBooDefaultTasks />
