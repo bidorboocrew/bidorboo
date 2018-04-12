@@ -1,31 +1,25 @@
 import React from 'react';
 import { bidorbooDefaultTasks } from '../constants/bidorbooDefaultTasks';
 
+
 export const BidOrBooDefaultTasks = () =>
   bidorbooDefaultTasks.map(defaultTask => (
     <BidOrBooDefaultTaskTemplate key={defaultTask.id} {...defaultTask} />
   ));
 
 class BidOrBooDefaultTaskTemplate extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isHover: false
-    };
-    this.alterHoverState = val => {
-      this.setState({ isHover: val });
-    };
-  }
 
   render() {
     const { title, subtitle, description, imageUrl } = this.props;
 
     return (
       <div
-        className="column is-one-third-tablet
-        is-one-quarter-desktop bdbCardComponent"
+        className={
+          'column is-one-third-tablet is-one-quarter-desktop bdbCardComponent'
+        }
       >
-        <div className="card space">
+
+        <div className="card space hvr-bob">
           <div className="card-image">
             <figure style={{ padding: 5 }} className="image is-3by4">
               <img src={imageUrl} alt={subtitle} />

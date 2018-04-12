@@ -29,7 +29,7 @@ body {
   left: 50%;
 }
 
-.card.space{
+.card.space {
   border: $border-divider;
   box-shadow: $shadow-smooth;
 }
@@ -45,18 +45,25 @@ body {
   height: 60px;
 }
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-
-.mainSectionContainer{
-  background:whitesmoke;
+.mainSectionContainer {
+  background: whitesmoke;
 }
 
 $family-primary: 'Roboto', sans-serif;
@@ -66,3 +73,6 @@ $footer-background-color: #363636;
 $body-background-color: whitesmoke;
 $section-padding: 3rem 0.5rem;
 @import 'bulma/bulma.sass';
+
+// http://ianlunn.github.io/Hover/
+@import '../node_modules/hover.css/scss/hover.scss';
