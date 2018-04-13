@@ -20,13 +20,21 @@ class NewJobForm extends React.Component {
       handleSubmit,
       submitting,
       pristine,
-      submitSucceeded
+      submitSucceeded,
+      imageUrl,
+      title
     } = this.props;
 
     if (submitSucceeded) {
       // onCancel();
     }
     return (
+      <React.Fragment>
+      <div className="card-image">
+      <figure style={{ padding: 5 }} className="image is-3by4">
+        <img src={imageUrl} alt={title} />
+      </figure>
+      </div>
       <form onSubmit={handleSubmit}>
         <Field
           name="displayName"
@@ -62,11 +70,11 @@ class NewJobForm extends React.Component {
         <Field
           name="personalParagraph"
           type="text"
-          label="About Me"
+          label="Detailed Description"
           placeholderText="Sample: Hey I am handy with tools and can do everything... "
           component={renderFormParagraphField}
           validate={[moreThan0lessThan250Chars]}
-          charsLimit={250}
+          charsLimit={500}
         />
         <div>
           <button
@@ -89,27 +97,14 @@ class NewJobForm extends React.Component {
         </div>
         <div />
       </form>
+      </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ authReducer }) => {
-  const {
-    displayName,
-    personalParagraph,
-    phoneNumber
-  } = authReducer.userDetails;
 
-  return {
-    initialValues: {
-      displayName: displayName,
-      phoneNumber: phoneNumber,
-      personalParagraph: personalParagraph
-    }
-  };
-};
 let CreateNewJobReduxForm = reduxForm({
   // a unique name for the form\
   form: 'NewJobForm'
 })(NewJobForm);
-export default connect(mapStateToProps)(CreateNewJobReduxForm);
+export default connect(null)(CreateNewJobReduxForm);
