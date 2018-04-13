@@ -44,7 +44,6 @@ class ProposerContainer extends React.Component {
   }
 
   render() {
-
     const filterBySearchTerm =
       this.state.searchTerm && this.state.searchTerm.length >= 0;
 
@@ -77,19 +76,21 @@ class ProposerContainer extends React.Component {
               />
             </div>
             <div className="bdb-section-body" id="existing-jobs">
+              {this.state.currentStepperIndex === 0 && <BidOrBooDefaultTasks />}
+              {this.state.currentStepperIndex === 1 && (
+                <div className="card-content">
 
-                {this.state.currentStepperIndex === 0 && (
-                  <BidOrBooDefaultTasks />
-                )}
-                {this.state.currentStepperIndex === 1 && (
-                  <NewJobForm
-                  title={this.state.chosenTemplate.title}
-                    imageUrl={this.state.chosenTemplate.imageUrl}
-                    onCancel={this.toggleEditProfile}
-                    onSubmit={vals => this.closeFormAndSubmit(vals)}
-                  />
-                )}
+                  <div className="content">
 
+                    <NewJobForm
+                      title={this.state.chosenTemplate.title}
+                      imageUrl={this.state.chosenTemplate.imageUrl}
+                      onCancel={this.toggleEditProfile}
+                      onSubmit={vals => this.closeFormAndSubmit(vals)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

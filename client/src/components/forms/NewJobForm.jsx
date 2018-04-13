@@ -35,6 +35,7 @@ class NewJobForm extends React.Component {
         <img src={imageUrl} alt={title} />
       </figure>
       </div>
+      <h1 className="bdb-section-title title">{title}</h1>
       <form onSubmit={handleSubmit}>
         <Field
           name="displayName"
