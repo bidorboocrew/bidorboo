@@ -83,7 +83,13 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.PROPOSER}
+                  path={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  component={ProposerContainer}
+                />
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
+                  exact
+                  path={ROUTES.FRONTENDROUTES.PROPOSER.templateId}
                   component={ProposerContainer}
                 />
                 <ProtectedRoute

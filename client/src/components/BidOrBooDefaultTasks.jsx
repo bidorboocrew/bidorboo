@@ -1,9 +1,9 @@
 import React from 'react';
-import { bidorbooDefaultTasks } from '../constants/bidorbooDefaultTasks';
+import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 
 export const BidOrBooDefaultTasks = () =>
-  bidorbooDefaultTasks.map(defaultTask => (
+  templatesRepo.map(defaultTask => (
     <BidOrBooDefaultTaskTemplate key={defaultTask.id} {...defaultTask} />
   ));
 

@@ -1,4 +1,4 @@
-export const bidorbooDefaultTasks = [
+export const templatesRepo = [
   {
     id: 'dogSitting',
     title: 'Dog Sitting',

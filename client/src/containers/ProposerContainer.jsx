@@ -3,18 +3,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
 import { CreateJob } from '../components/CreateJob';
-import { getAllJobs } from '../app-state/actions/jobActions';
 import { Spinner } from '../components/Spinner';
+import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+import { getAllJobs } from '../app-state/actions/jobActions';
 
 class ProposerContainer extends React.Component {
   constructor(props) {
     super(props);
+
+    const templateToStartWith = templatesRepo.filter(
+      task => props.match.params.templateId === task.id
+    );
+
     this.state = {
+      startFromATemplate: templateToStartWith.length > 0,
       searchTerm: '',
       selectedFilterTag: '',
       displayedJobs: [],
       showCreateNewJob: false
     };
+
     this.updateSearchTerm = e => {
       e.preventDefault();
       const newSearchTerm = e.target.value ? e.target.value.trim() : '';

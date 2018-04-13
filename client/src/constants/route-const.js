@@ -18,7 +18,10 @@ export const BACKENDROUTES = {
 export const FRONTENDROUTES = {
   ENTRY: '/',
   HOME: '/home',
-  PROPOSER: '/proposer',
+  PROPOSER: {
+    root: '/proposer',
+    templateId: '/proposer/:templateId'
+  },
   BIDDER: '/bidder',
   MY_PROFILE: '/myprofile'
 };
