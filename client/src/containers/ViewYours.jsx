@@ -53,7 +53,7 @@ class ProposerContainer extends React.Component {
       return (
         <CreateJob
           submitNewJobs={vals => {
-            debugger;
+            // debugger;
           }}
         />
       );

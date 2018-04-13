@@ -16,7 +16,6 @@ class ProposerContainer extends React.Component {
       task => props.match.params.templateId === task.id
     );
     const startingWithTemplate = templateToStartWith.length > 0;
-    debugger;
     this.state = {
       isStartingWithTemplate: startingWithTemplate,
       currentStepperIndex: startingWithTemplate ? 1 : 0,
@@ -54,7 +53,7 @@ class ProposerContainer extends React.Component {
       return (
         <CreateJob
           submitNewJobs={vals => {
-            debugger;
+            // debugger;
           }}
         />
       );

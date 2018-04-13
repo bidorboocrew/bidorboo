@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {getLatLng , geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete';
 export const requiredField = value => {
   return value && value.trim() && value.length > 0
     ? undefined
@@ -56,6 +56,7 @@ export const phoneNumber = value => {
     ? undefined
     : 'should match +areacode-123-1234-1234';
 };
+
 export const renderFormTextField = ({
   input,
   label,
@@ -111,10 +112,12 @@ export const renderAddressFormField = ({
   helpText,
   placeholderText,
   change,
+  formName,
   meta: { touched, error },
   charsLimit
 }) => {
   let remainingChars = charsLimit - (input ? input.value.length : 0);
+debugger;
   return (
     <div className="field">
       <label
@@ -155,15 +158,19 @@ export const renderAddressFormField = ({
                           { location: latlng },
                           (results, status) => {
                             if (status === 'OK') {
+                              debugger;
                               if (results[0]) {
-                                change(
+
+                                change(formName,
                                   'addressField',
                                   results[0].formatted_address
                                 );
                               } else {
-                                change('addressField', 'No results found');
+                                debugger;
+                                change(formName,'addressField', 'No results found');
                               }
                             } else {
+                              debugger;
                               console.error(
                                 'Geocoder failed due to: ' + status
                               );
@@ -173,6 +180,7 @@ export const renderAddressFormField = ({
                       }
                     };
                     const locationError = e => {
+                      debugger
                       console.error('failed to get location ' + e);
                     };
                     const options = {
@@ -266,3 +274,46 @@ export const renderFormParagraphField = ({
     </div>
   );
 };
+
+// export const renderAddressField = ({
+//   input,
+//   label,
+//   type,
+//   helpText,
+//   placeholderText,
+//   meta: { touched, error },
+//   charsLimit,
+//   addressFieldProps
+// }) => {
+
+//   const renderSuggestion = ({ suggestion }) => (
+//     <a href="#" className="dropdown-item">
+//       {suggestion}
+//     </a>
+//   );
+//   return (
+//     <div className="field">
+//       <label
+//         style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
+//         className="label"
+//       >
+//         {label}
+//       </label>
+//       <div className="control">
+//         <PlacesAutocomplete
+//           debounce={1000}
+//           renderSuggestion={renderSuggestion}
+//           inputProps={addressFieldProps}
+//         />
+
+//         {helpText && (
+//           <p style={{ color: 'grey' }} className="help">
+//             {helpText}
+//           </p>
+//         )}
+
+//         {touched && error && <p className="help is-danger">{error}</p>}
+//       </div>
+//     </div>
+//   );
+// };
