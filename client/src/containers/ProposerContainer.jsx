@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
+import BidOrBooGenericTasks from './BidOrBooGenericTasks';
 import { CreateJob } from '../components/CreateJob';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { getAllJobs } from '../app-state/actions/jobActions';
@@ -75,12 +75,14 @@ class ProposerContainer extends React.Component {
               />
             </div>
             <div className="bdb-section-body" id="existing-jobs">
-              {this.state.currentStepperIndex === 0 && <BidOrBooDefaultTasks />}
+              {this.state.currentStepperIndex === 0 && (
+                <div className="columns">
+                  <BidOrBooGenericTasks />
+                </div>
+              )}
               {this.state.currentStepperIndex === 1 && (
                 <div className="card-content">
-
                   <div className="content">
-
                     <NewJobForm
                       title={this.state.chosenTemplate.title}
                       imageUrl={this.state.chosenTemplate.imageUrl}

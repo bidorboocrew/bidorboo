@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/home.css';
-import { BidOrBooDefaultTasks } from '../components/BidOrBooDefaultTasks';
+import BidOrBooGenericTasks from './BidOrBooGenericTasks';
 import Stepper from 'react-stepper-horizontal';
 import Rotate from 'react-reveal/Rotate';
 
@@ -47,7 +47,7 @@ class HomePage extends React.Component {
             </div>
             <div className="bdb-section-body" id="existing-jobs">
               <div className="columns">
-                <BidOrBooDefaultTasks />
+                <BidOrBooGenericTasks />
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@ class HomePage extends React.Component {
             </div>
             <div className="bdb-section-body" id="existing-jobs">
               <div className="columns">
-                <BidOrBooDefaultTasks />
+                {/* <BidOrBooDefaultTasks /> */}
               </div>
             </div>
           </div>

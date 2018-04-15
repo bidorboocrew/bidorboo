@@ -5,7 +5,6 @@ import { CreateJob } from '../components/CreateJob';
 import { Spinner } from '../components/Spinner';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { getAllJobs } from '../app-state/actions/jobActions';
-import { Spinner } from '../components/Spinner';
 
 class ProposerContainer extends React.Component {
   constructor(props) {

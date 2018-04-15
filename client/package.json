@@ -25,6 +25,7 @@
     "bulma": "^0.6.2",
     "classnames": "^2.2.5",
     "flexboxgrid-sass": "^8.0.5",
+    "formik": "^0.11.11",
     "hover.css": "^2.3.0",
     "lodash": "^4.17.5",
     "node-sass-chokidar": "^0.0.3",
