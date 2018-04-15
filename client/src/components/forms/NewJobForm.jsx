@@ -9,8 +9,18 @@ import {
   renderFormParagraphField
 } from './formHelpers';
 import { connect } from 'react-redux';
+import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
 
+const GeoInput = createGeoInput(DefaultGeoInput);
 
+const GeoField = fields => {
+  debugger
+  return (
+  <GeoInput
+    addressInput={fields.input}
+    geoDestinationInput={fields.input}
+  />
+)};
 class NewJobForm extends React.Component {
 
   render() {
@@ -44,8 +54,7 @@ class NewJobForm extends React.Component {
           type="text"
           label="Address"
           placeholderText="Enter Your Address..."
-          component={renderAddressFormField}
-          change={change}
+          component={GeoField}
           formName='NewJobForm'
           validate={[requiredField]}
         />
