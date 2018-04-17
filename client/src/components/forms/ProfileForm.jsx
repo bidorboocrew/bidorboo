@@ -1,6 +1,9 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik } from 'formik';
+import Yup from 'yup';
 import {
+  TextInput,
+  TextAreaInput,
   enforceNumericField,
   requiredField,
   alphanumericField,
@@ -9,107 +12,128 @@ import {
   // renderAddressFormField,
   moreThan0lessThan250Chars,
   // AddressField,
-  renderFormParagraphField
-} from './formHelpers';
-import { connect } from 'react-redux';
-class ProfileForm extends React.Component {
-  render() {
-    const {
-      invalid,
-      onCancel,
-      handleSubmit,
-      submitting,
-      pristine,
-      submitSucceeded
-    } = this.props;
+} from './FormsHelpers';
+const EnhancedForms = withFormik({
+  validationSchema: Yup.object().shape({
+    displayName: Yup.string()
+      .ensure()
+      .trim()
+      .min(3, 'your name is longer than that. Must be at least 3 chars')
+      .max(25, 'your name is longer 25. Must be at most 25 chars')
+      .test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{alphanumericField(v)})
+      .required('First name is required.'),
+    phoneNumber: Yup.number().positive(
+      'your phone number can only be of format 61312345678'
+    ),
+    personalParagraph: Yup.string()
+    .max(255,
+      'Maximum length allowed is 255 charachters'
+    ).test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{alphanumericField(v)})
+  }),
+  // validate: (values, props) => {
+  //   //additional validation
+  //   const errors = {};
+  //   if(values){
+  //     const {displayName,phoneNumber,personalParagraph} = values;
+  //     if(phoneNumber){
+        
 
-    if (submitSucceeded) {
-      // onCancel();
-    }
-    return (
-      <form onSubmit={handleSubmit}>
-        <Field
-          name="displayName"
-          type="text"
-          label="User Name"
-          placeholderText="Enter your name..."
-          component={renderFormTextField}
-          validate={[
-            requiredField,
-            alphanumericField,
-            moreThan3LessThan25Chars
-          ]}
-          charsLimit={25}
-        />
-        <Field
-          name="phoneNumber"
-          type="text"
-          label="Phone Number"
-          placeholderText="Enter Your Phone Number"
-          helpText="example : 0016503334444"
-          component={renderFormTextField}
-          normalize={enforceNumericField}
-        />
-        {/* <Field
-          name="addressField"
-          type="text"
-          label="Address"
-          change={change}
-          placeholderText="Enter Your Address..."
-          component={renderAddressFormField}
-          validate={[requiredField, AddressField]}
-        /> */}
-        <Field
-          name="personalParagraph"
-          type="text"
-          label="About Me"
-          placeholderText="Sample: Hey I am handy with tools and can do everything... "
-          component={renderFormParagraphField}
-          validate={[moreThan0lessThan250Chars]}
-          charsLimit={250}
-        />
-        <div>
-          <button
-            disabled={invalid || submitting || pristine}
-            className="button is-primary"
-          >
-            Save Changes
-          </button>
+  //     }
+  //   }
 
-          <button
-            disabled={submitting}
-            style={{ marginLeft: 6 }}
-            onClick={() => {
-              onCancel();
-            }}
-            className="button"
-          >
-            Cancel
-          </button>
-        </div>
-        <div />
-      </form>
-    );
-  }
-}
+  //   return errors;
+  // },
+  mapPropsToValues: ({ userDetails }) => {
+    const { displayName, personalParagraph, phoneNumber } = userDetails;
 
-const mapStateToProps = ({ authReducer }) => {
-  const {
-    displayName,
-    personalParagraph,
-    phoneNumber
-  } = authReducer.userDetails;
-
-  return {
-    initialValues: {
+    return {
       displayName: displayName,
       phoneNumber: phoneNumber,
       personalParagraph: personalParagraph
-    }
-  };
+    };
+  },
+  handleSubmit: (values, { setSubmitting, props }) => {
+    props.onSubmit(values);
+    setSubmitting(false);
+  },
+  displayName: 'ProfileForm'
+});
+
+const ProfileForm = props => {
+  const {
+    values,
+    touched,
+    errors,
+    dirty,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset,
+    onCancel,
+    isValid,
+    isSubmitting
+  } = props;
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextInput
+        id="displayName"
+        type="text"
+        label="User Name"
+        placeholder="Enter your name..."
+        error={touched.displayName && errors.displayName}
+        value={values.displayName || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      <TextInput
+        id="phoneNumber"
+        type="text"
+        label="Phone Number"
+        placeholder="Enter Your Phone Number"
+        helpText="example : 61312345678"
+        error={touched.phoneNumber && errors.phoneNumber}
+        value={values.phoneNumber}
+        onChange={(e)=>{
+          //run normalizer to get rid of alpha chars
+          const normalizedVal = enforceNumericField(e.target.value);
+          e.target.value= normalizedVal;
+          handleChange(e);}}
+        onBlur={handleBlur}
+      />
+      <TextAreaInput
+        id="personalParagraph"
+        type="text"
+        label="About Me"
+        placeholder="Sample: Hey I am handy with tools and can do everything... "
+        error={touched.personalParagraph && errors.personalParagraph}
+        value={values.personalParagraph}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      <div className="field">
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          Submit
+        </button>
+      </div>
+      <div className="field">
+        <button
+          className="button is-info"
+          type="submit"
+          disabled={isSubmitting}
+          onClick={e => {
+            e.preventDefault();
+            onCancel();
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
 };
-let MyProfileReduxForm = reduxForm({
-  // a unique name for the form\
-  form: 'ProfileForm'
-})(ProfileForm);
-export default connect(mapStateToProps)(MyProfileReduxForm);
+
+export default EnhancedForms(ProfileForm);

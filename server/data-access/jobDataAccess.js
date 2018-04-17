@@ -14,7 +14,7 @@ exports.jobDataAccess = {
   getAllJobsForUser: userId => {
     const populateOptions = {
       path: '_postedJobs',
-      select: '_postedJobs'
+      select: 'detailedDescription location -_id'
     };
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id:0 })
       .populate(populateOptions)

@@ -111,7 +111,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER);
+                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
                   });
                 }}
                 className="navbar-item "

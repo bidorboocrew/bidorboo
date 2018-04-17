@@ -8,7 +8,7 @@ const isJobOwner = require('../middleware/isJobOwner');
 module.exports = app => {
   app.get(ROUTES.USERAPI.JOB_ROUTES, requireBidorBooHost, requireLogin, async (req, res, done) => {
     try {
-      userJobsList = await jobDataAccess.getAllJobsForUser(req.userId);
+      userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
       res.send(userJobsList);
 
     } catch (err) {

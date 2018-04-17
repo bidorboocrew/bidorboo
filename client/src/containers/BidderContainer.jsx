@@ -62,7 +62,7 @@ class BidderContainer extends React.Component {
       <div id="bdb-bidder-content">
         <section className="section">
           <div className="container">
-            <div id="job-types">
+            <div id="available-jobs">
               <div className="bdb-section-title">The Map View</div>
             </div>
             <div className="bdb-section-body" id="existing-jobs">
