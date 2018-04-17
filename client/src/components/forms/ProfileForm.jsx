@@ -20,7 +20,7 @@ const EnhancedForms = withFormik({
       .trim()
       .min(3, 'your name is longer than that. Must be at least 3 chars')
       .max(25, 'your name is longer 25. Must be at most 25 chars')
-      .test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{alphanumericField(v)})
+      .test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{return alphanumericField(v)})
       .required('First name is required.'),
     phoneNumber: Yup.number().positive(
       'your phone number can only be of format 61312345678'
@@ -28,7 +28,7 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string()
     .max(255,
       'Maximum length allowed is 255 charachters'
-    ).test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{alphanumericField(v)})
+    )
   }),
   // validate: (values, props) => {
   //   //additional validation
@@ -36,7 +36,7 @@ const EnhancedForms = withFormik({
   //   if(values){
   //     const {displayName,phoneNumber,personalParagraph} = values;
   //     if(phoneNumber){
-        
+
 
   //     }
   //   }
@@ -121,7 +121,7 @@ const ProfileForm = props => {
       </div>
       <div className="field">
         <button
-          className="button is-info"
+          className="button is-text"
           type="submit"
           disabled={isSubmitting}
           onClick={e => {

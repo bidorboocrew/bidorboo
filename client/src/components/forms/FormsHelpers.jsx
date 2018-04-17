@@ -17,6 +17,7 @@ export const moreThan0lessThan250Chars = value => {
 export const alphanumericField = value => {
   debugger;
   const isValid = value && /^[a-z\d\-_\s]+$/i.test(value.trim());
+  console.log(isValid);
   return isValid;
 };
 export const AddressField = value => {
