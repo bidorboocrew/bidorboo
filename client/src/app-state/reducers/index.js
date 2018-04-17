@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import { loadingBarReducer } from 'react-redux-loading-bar';
 
 import authReducer from './authReducer';
@@ -14,6 +13,5 @@ export default combineReducers({
   routerReducer: routerReducer,
   userModelReducer: userModelReducer,
   jobsReducer: jobsReducer,
-  form: formReducer,
   loadingBar: loadingBarReducer
 });

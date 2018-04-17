@@ -1,7 +1,10 @@
 import React from 'react';
-import {getLatLng , geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete';
+import {
+  getLatLng,
+  geocodeByAddress,
+  geocodeByPlaceId
+} from 'react-places-autocomplete';
 export const requiredField = value => {
-  debugger
   return value && value.trim && value.trim() && value.length > 0
     ? undefined
     : 'this is a required field';
@@ -12,10 +15,9 @@ export const moreThan0lessThan250Chars = value => {
 };
 
 export const alphanumericField = value => {
+  debugger;
   const isValid = value && /^[a-z\d\-_\s]+$/i.test(value.trim());
-  return isValid
-    ? undefined
-    : 'field can not contain special charachters. Please only use letters and number';
+  return isValid;
 };
 export const AddressField = value => {
   const isValid = /^[a-z\d\-_\s\\,]+$/i.test(value.trim());
@@ -39,9 +41,7 @@ const moreThanLessThan = (value, lowerLimit, upperLimit) => {
     value.trim() &&
     value.length > lowerLimit &&
     value.length <= upperLimit;
-  return isValid
-    ? undefined
-    : `input must be more than ${lowerLimit} letters and less than ${upperLimit}.`;
+  return isValid;
 };
 
 export const enforceNumericField = (value, previousValue) => {
@@ -56,6 +56,41 @@ export const phoneNumber = value => {
   return RegExp(`^(+0?1s)?(?d{3})?[s.-]d{3}[s.-]d{4}$`).test(value)
     ? undefined
     : 'should match +areacode-123-1234-1234';
+};
+
+export const BDBTextFieldInput = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  helpText,
+  placeholderText,
+  touched,
+  ...props
+}) => {
+  return (
+    <div className="field">
+      <label
+        style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
+        className="label"
+      >
+        {label}
+      </label>
+      <div className="control">
+        <input className="input" type="text" placeholder={placeholderText} />
+        {helpText && (
+          <p style={{ color: 'grey' }} className="help">
+            {helpText}
+          </p>
+        )}
+
+        {touched && error && <p className="help is-danger">{error}</p>}
+      </div>
+    </div>
+  );
 };
 
 export const renderFormTextField = ({
@@ -118,7 +153,6 @@ export const renderAddressFormField = ({
   charsLimit
 }) => {
   let remainingChars = charsLimit - (input ? input.value.length : 0);
-debugger;
   return (
     <div className="field">
       <label
@@ -159,19 +193,20 @@ debugger;
                           { location: latlng },
                           (results, status) => {
                             if (status === 'OK') {
-                              debugger;
                               if (results[0]) {
-
-                                change(formName,
+                                change(
+                                  formName,
                                   'addressField',
                                   results[0].formatted_address
                                 );
                               } else {
-                                debugger;
-                                change(formName,'addressField', 'No results found');
+                                change(
+                                  formName,
+                                  'addressField',
+                                  'No results found'
+                                );
                               }
                             } else {
-                              debugger;
                               console.error(
                                 'Geocoder failed due to: ' + status
                               );
@@ -181,7 +216,6 @@ debugger;
                       }
                     };
                     const locationError = e => {
-                      debugger
                       console.error('failed to get location ' + e);
                     };
                     const options = {
@@ -189,7 +223,6 @@ debugger;
                       timeout: 5000,
                       maximumAge: 0
                     };
-                    // https://github.com/erikras/redux-form/issues/369
                     // https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
                     navigator.geolocation.getCurrentPosition(
                       locationFoundsuccessfully,
@@ -318,3 +351,140 @@ export const renderFormParagraphField = ({
 //     </div>
 //   );
 // };
+
+export const BdbTextField = ({
+  fieldId,
+  label,
+  type,
+  helpText,
+  placeholderText,
+  touched,
+  error,
+  charsLimit,
+  value,
+
+  ...props
+}) => {
+  let remainingChars =
+    charsLimit - (this.inputField ? this.inputField.value.length : 0);
+  return (
+    <div className="field">
+      <label
+        htmlFor={fieldId}
+        style={{ color: 'grey', fontSize: 14, fontWeight: '400' }}
+        className="label"
+      >
+        {label}
+      </label>
+      <div className="control">
+        <input
+          id={fieldId}
+          ref={elem => (this.inputField = elem)}
+          style={{ fontSize: 16, padding: 10, height: 'unset' }}
+          className="input"
+          type={type}
+          value={value}
+          placeholder={placeholderText}
+          {...props}
+        />
+        {helpText && (
+          <p style={{ color: 'grey' }} className="help">
+            {helpText}
+          </p>
+        )}
+        {charsLimit &&
+          remainingChars < charsLimit &&
+          (remainingChars >= 0 ? (
+            <p style={{ color: 'grey' }} className="help">
+              {`${remainingChars} remaining charachters`}
+            </p>
+          ) : (
+            <p style={{ color: '#ff3860' }} className="help">
+              {`${Math.abs(remainingChars)} over the limit`}
+            </p>
+          ))}
+        {touched && error && <p className="help is-danger">{error}</p>}
+      </div>
+    </div>
+  );
+};
+
+const InputFeedback = ({ error }) =>
+  error ? <p className="help is-danger">{error}</p> : null;
+
+const Label = ({ error, className, children, id, ...props }) => {
+  return (
+    <label htmlFor={id} className="label" {...props}>
+      {children}
+    </label>
+  );
+};
+
+const HelpText = ({ helpText }) =>
+  helpText ? (
+    <p style={{ color: 'grey' }} className="help">
+      {helpText}
+    </p>
+  ) : null;
+
+export const TextInput = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  helpText,
+  ...props
+}) => {
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <input
+        id={id}
+        className="input"
+        type={type}
+        value={value || ''}
+        onChange={onChange}
+        {...props}
+      />
+      <HelpText helpText={helpText} />
+      <InputFeedback error={error} />
+    </div>
+  );
+};
+
+export const TextAreaInput = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  helpText,
+  ...props
+}) => {
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <textarea
+        style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
+        className="input textarea"
+        id={id}
+        type={type}
+        value={value || ''}
+        onChange={onChange}
+        {...props}
+      />
+
+      <HelpText helpText={helpText} />
+      <InputFeedback error={error} />
+    </div>
+  );
+};

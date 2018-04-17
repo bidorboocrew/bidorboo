@@ -12,7 +12,6 @@ class BidOrBooGenericTasks extends React.Component {
   };
   render() {
     const { a_switchRoute } = this.props;
-    debugger;
     const genericTasks = templatesRepo.map(defaultTask => {
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
@@ -32,7 +31,7 @@ class BidOrBooGenericTasks extends React.Component {
             className="card space hvr-bob"
           >
             <div className="card-image">
-              <figure style={{ padding: 5 }} className="image is-3by4">
+              <figure className="image">
                 <img src={imageUrl} alt={subtitle} />
               </figure>
             </div>
@@ -60,7 +59,6 @@ class BidOrBooGenericTasks extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  debugger;
   return {
     a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };

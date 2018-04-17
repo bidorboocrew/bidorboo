@@ -175,6 +175,7 @@ class MyProfileContainer extends React.Component {
                     <HeaderTitle title="Edit Profile Deails" />
 
                     <ProfileForm
+                      userDetails={s_userDetails}
                       onCancel={this.toggleEditProfile}
                       onSubmit={vals => this.closeFormAndSubmit(vals)}
                     />
