@@ -1,99 +1,156 @@
-// import React from 'react';
-// // import { Field, reduxForm } from 'redux-form';
-// import {
+import React from 'react';
+import { withFormik } from 'formik';
+import Yup from 'yup';
+import {
+  TextInput,
+  TextAreaInput,
+  enforceNumericField,
+  requiredField,
+  alphanumericField,
+  moreThan3LessThan25Chars,
+  renderFormTextField,
+  // renderAddressFormField,
+  moreThan0lessThan250Chars
+  // AddressField,
+} from './FormsHelpers';
+const EnhancedForms = withFormik({
+  validationSchema: Yup.object().shape({
+    displayName: Yup.string()
+      .ensure()
+      .trim()
+      .min(3, 'your name is longer than that. Must be at least 3 chars')
+      .max(25, 'your name is longer 25. Must be at most 25 chars')
+      .test(
+        'alphanumericField',
+        'Name can only contain alphabits and numbers',
+        v => {
+          return alphanumericField(v);
+        }
+      )
+      .required('First name is required.'),
+    phoneNumber: Yup.number().positive(
+      'your phone number can only be of format 61312345678'
+    ),
+    personalParagraph: Yup.string().max(
+      255,
+      'Maximum length allowed is 255 charachters'
+    )
+  }),
+  // validate: (values, props) => {
+  //   //additional validation
+  //   const errors = {};
+  //   if(values){
+  //     const {displayName,phoneNumber,personalParagraph} = values;
+  //     if(phoneNumber){
 
-//   requiredField,
-//   renderAddressFormField,
-//   moreThan0lessThan250Chars,
+  //     }
+  //   }
 
-//   renderFormParagraphField
-// } from './formHelpers';
-// import { connect } from 'react-redux';
-// import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
+  //   return errors;
+  // },
+  // mapPropsToValues: ({ job }) => {
+  //   const { displayName, personalParagraph, phoneNumber } = userDetails;
 
-// const GeoInput = createGeoInput(DefaultGeoInput);
+  //   return {
+  //     displayName: displayName,
+  //     phoneNumber: phoneNumber,
+  //     personalParagraph: personalParagraph
+  //   };
+  // },
+  handleSubmit: (values, { setSubmitting, props }) => {
+    props.onSubmit(values);
+    setSubmitting(false);
+  },
+  displayName: 'NewJobForm'
+});
 
-// const GeoField = fields => {
-//   return (
-//   <GeoInput
-//     addressInput={fields.input}
-//     geoDestinationInput={fields.input}
-//   />
-// )};
-// class NewJobForm extends React.Component {
+const NewJobForm = props => {
+  const {
+    values,
+    touched,
+    errors,
+    dirty,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset,
+    onCancel,
+    isValid,
+    isSubmitting,
+    title,
+    imageUrl
+  } = props;
+  return (
+    <React.Fragment>
+      <h1 className="bdb-section-title title has-text-centered">{title}</h1>
 
-//   render() {
-//     const {
-//       invalid,
-//       onCancel,
-//       handleSubmit,
-//       submitting,
-//       pristine,
-//       submitSucceeded,
-//       imageUrl,
-//       title
-//     } = this.props;
+      <div className="card-image">
+        <figure className="image is-3by1">
+          <img src={imageUrl} alt={title} />
+        </figure>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          id="displayName"
+          type="text"
+          label="User Name"
+          placeholder="Enter your name..."
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="phoneNumber"
+          type="text"
+          label="Phone Number"
+          placeholder="Enter Your Phone Number"
+          helpText="example : 61312345678"
+          error={touched.phoneNumber && errors.phoneNumber}
+          value={values.phoneNumber}
+          onChange={e => {
+            //run normalizer to get rid of alpha chars
+            const normalizedVal = enforceNumericField(e.target.value);
+            e.target.value = normalizedVal;
+            handleChange(e);
+          }}
+          onBlur={handleBlur}
+        />
+        <TextAreaInput
+          id="personalParagraph"
+          type="text"
+          label="About Me"
+          placeholder="Sample: Hey I am handy with tools and can do everything... "
+          error={touched.personalParagraph && errors.personalParagraph}
+          value={values.personalParagraph}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <div className="field">
+          <button
+            style={{marginRight: 6}}
+            className="button is-primary"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Submit
+          </button>
+          <button
+            className="button is-outlined"
+            type="submit"
+            disabled={isSubmitting}
+            onClick={e => {
+              e.preventDefault();
+              onCancel();
+            }}
+          >
+            go back
+          </button>
+        </div>
+        
+      </form>
+    </React.Fragment>
+  );
+};
 
-//     if (submitSucceeded) {
-//       // onCancel();
-//     }
-
-//     return (
-//       <React.Fragment>
-//         <div className="card-image">
-//           <figure style={{ padding: 5 }} className="image is-3by4">
-//             <img src={imageUrl} alt={title} />
-//           </figure>
-//         </div>
-//         <h1 className="bdb-section-title title">{title}</h1>
-//         <form onSubmit={handleSubmit}>
-
-//           <Field
-//           name="addressField"
-//           type="text"
-//           label="Address"
-//           placeholderText="Enter Your Address..."
-//           component={GeoField}
-//           formName='NewJobForm'
-//           validate={[requiredField]}
-//         />
-//           <Field
-//             name="personalParagraph"
-//             type="text"
-//             label="Detailed Description"
-//             placeholderText="Sample: Hey I am handy with tools and can do everything... "
-//             component={renderFormParagraphField}
-//             validate={[moreThan0lessThan250Chars]}
-//             charsLimit={500}
-//           />
-//           <div>
-//             <button
-//               disabled={invalid || submitting || pristine}
-//               className="button is-primary"
-//             >
-//               Save Changes
-//             </button>
-
-//             <button
-//               disabled={submitting}
-//               style={{ marginLeft: 6 }}
-//               onClick={() => {
-//                 onCancel();
-//               }}
-//               className="button"
-//             >
-//               Cancel
-//             </button>
-//           </div>
-//           <div />
-//         </form>
-//       </React.Fragment>
-//     );
-//   }
-// }
-
-// let CreateNewJobReduxForm = reduxForm({
-//   // a unique name for the form\
-//   form: 'NewJobForm'
-// })(NewJobForm);
-// export default connect(null)(CreateNewJobReduxForm);
+export default EnhancedForms(NewJobForm);
