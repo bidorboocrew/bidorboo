@@ -29,7 +29,7 @@ class GeoSearch extends React.Component {
   }
 
   render() {
-    const { handleSelect, onError, placeholder, id } = this.props;
+    const { handleSelect, onError, placeholder, id ,onBlurEvent} = this.props;
     const inputField = ({
       getInputProps,
       suggestions,
@@ -52,6 +52,7 @@ class GeoSearch extends React.Component {
         <div>
           <input
             id={id}
+            onBlur={onBlurEvent}
             {...getInputProps({
               type: 'text',
               placeholder: `${placeholder}`,
@@ -103,7 +104,7 @@ class GeoSearch extends React.Component {
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.updateField}
-        onBlur={this.onBlurEvent}
+        onBlur={onBlurEvent}
         onSelect={handleSelect}
         onError={onError}
         debounce={750}
@@ -115,3 +116,6 @@ class GeoSearch extends React.Component {
 }
 
 export default GeoSearch;
+
+
+// XXX TODO getInputProps we need to pass on blur handler

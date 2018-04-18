@@ -3,17 +3,9 @@ import './styles/home.css';
 import BidOrBooGenericTasks from './BidOrBooGenericTasks';
 import Stepper from 'react-stepper-horizontal';
 import Rotate from 'react-reveal/Rotate';
-// import Webcam from 'react-webcam';
 
 class HomePage extends React.Component {
-  setRef = webcam => {
-    this.webcam = webcam;
-  };
 
-  capture = () => {
-    const imageSrc = this.webcam.getScreenshot();
-    console.log(imageSrc);
-  };
   render() {
     return (
       <div id="bdb-home-content">
@@ -35,16 +27,6 @@ class HomePage extends React.Component {
         </section>
         <section className="section mainSectionContainer">
           <div className="container">
-            {/* <div>
-              <Webcam
-                audio={false}
-                height={350}
-                ref={this.setRef}
-                screenshotFormat="image/jpeg"
-                width={350}
-              />
-              <button onClick={this.capture}>Capture photo</button>
-            </div> */}
             <div
               style={{ marginBottom: 0 }}
               className="has-text-centered title"

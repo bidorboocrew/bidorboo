@@ -1,10 +1,18 @@
+/**
+ * TODO SAID
+ * handle validation using YUP and otherways
+ * handle blur on address change
+ * make the address optional
+ *
+ */
+
 import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
 import moment from 'moment';
-
+import WebcamCaptureInput from '../WebcamCaptureInput';
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     addressField: Yup.string()
@@ -24,7 +32,10 @@ const EnhancedForms = withFormik({
     return errors;
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
+    // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
+    // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
+
+    // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
     // props.onSubmit(values);
     setSubmitting(false);
   },
@@ -131,7 +142,9 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
+        <div className="field">
+          <WebcamCaptureInput />
+        </div>
         <div className="field">
           <button
             style={{ marginRight: 6 }}
