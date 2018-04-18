@@ -1,5 +1,4 @@
 import React from 'react';
-
 import PlacesAutocomplete, {
   geocodeByAddress,
   // geocodeByPlaceId,
@@ -28,10 +27,10 @@ class GeoSearch extends React.Component {
         value={this.state.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
+        debounce={1000}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps }) => {
           //copied drop down menu from bulmaIO
-          console.log(suggestions);
           const containerDropDownStyle =
             suggestions && suggestions.length > 0
               ? {
