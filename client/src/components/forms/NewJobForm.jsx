@@ -10,12 +10,12 @@ import {
   TextInput,
   TextAreaInput,
   enforceNumericField,
-  requiredField,
+  // requiredField,
   alphanumericField,
-  moreThan3LessThan25Chars,
-  renderFormTextField,
+  // moreThan3LessThan25Chars,
+  // renderFormTextField,
   // renderAddressFormField,
-  moreThan0lessThan250Chars
+  // moreThan0lessThan250Chars
   // AddressField,
 } from './FormsHelpers';
 const EnhancedForms = withFormik({
@@ -74,11 +74,11 @@ const NewJobForm = props => {
     values,
     touched,
     errors,
-    dirty,
+    // dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
+    // handleReset,
     onCancel,
     isValid,
     isSubmitting,
