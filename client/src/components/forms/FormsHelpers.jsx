@@ -95,7 +95,8 @@ export const GeoAddressInput = ({
   error,
   handleSelect,
   placeholder,
-  onChangeValue
+  onChangeValue,
+  onBlurEvent
 }) => {
   return (
     <div className="field">
@@ -109,6 +110,7 @@ export const GeoAddressInput = ({
         placeholder={placeholder}
         handleSelect={handleSelect}
         onChangeValue={onChangeValue}
+        onBlurEvent={onBlurEvent}
       />
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />

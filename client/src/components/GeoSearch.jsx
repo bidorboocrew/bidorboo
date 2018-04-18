@@ -8,6 +8,7 @@ class GeoSearch extends React.Component {
     handleSelect: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     onChangeValue: PropTypes.func.isRequired,
+    onBlurEvent: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.string
@@ -102,6 +103,7 @@ class GeoSearch extends React.Component {
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.updateField}
+        onBlur={this.onBlurEvent}
         onSelect={handleSelect}
         onError={onError}
         debounce={750}

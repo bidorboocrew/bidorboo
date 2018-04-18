@@ -13,15 +13,7 @@ const EnhancedForms = withFormik({
     addressField: Yup.string()
       .ensure()
       .trim()
-      .required('Please select an address from the drop down list')
-      .test(
-        'alphanumericField',
-        'Name can only contain alphabits and numbers',
-        v => {
-          debugger;
-          return alphanumericField(v);
-        }
-      ),
+      .required('Please select an address from the drop down list'),
     jobDetails: Yup.string().max(
       255,
       'Maximum length allowed is 255 charachters'
@@ -29,13 +21,11 @@ const EnhancedForms = withFormik({
   }),
   validate: (values, props) => {
     //additional validation
-    debugger;
     const errors = {};
 
     return errors;
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
     // props.onSubmit(values);
     setSubmitting(false);
   },
@@ -82,15 +72,19 @@ const NewJobForm = props => {
           placeholder="specify your job address"
           error={touched.addressField && errors.addressField}
           onError={e => {
-            debugger;
             console.log('google api error ' + e);
           }}
           onChangeValue={e => {
-            debugger;
+            setFieldValue('addressField', e, true);
+            console.log('value changed ' + e);
+          }}
+          onBlurEvent={e => {
             setFieldValue('addressField', e, true);
             console.log('value changed ' + e);
           }}
           handleSelect={address => {
+            debugger;
+            setFieldValue('addressField', address, true);
             geocodeByAddress(address)
               .then(results => getLatLng(results[0]))
               .then(latLng => console.log('Success', latLng))

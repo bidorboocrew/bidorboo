@@ -33,6 +33,7 @@
     "npm-run-all": "^4.1.2",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
+    "react-datepicker": "^1.4.1",
     "react-delay": "^0.1.0",
     "react-dom": "^16.2.0",
     "react-geoinput": "^1.0.3",
