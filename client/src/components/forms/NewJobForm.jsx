@@ -1,23 +1,21 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
-import { alphanumericField } from './FormsValidators';
-import {
-  geocodeByAddress,
-  // geocodeByPlaceId,
-  getLatLng
-} from 'react-places-autocomplete';
-import { GeoAddressInput, TextAreaInput } from './FormsHelpers';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
+import moment from 'moment';
+
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     addressField: Yup.string()
       .ensure()
       .trim()
       .required('Please select an address from the drop down list'),
+    DateField: Yup.date().min(moment(), 'Date selected can not be in the past'),
     jobDetails: Yup.string().max(
       255,
       'Maximum length allowed is 255 charachters'
-    ),
+    )
   }),
   validate: (values, props) => {
     //additional validation
@@ -26,6 +24,7 @@ const EnhancedForms = withFormik({
     return errors;
   },
   handleSubmit: (values, { setSubmitting, props }) => {
+    debugger;
     // props.onSubmit(values);
     setSubmitting(false);
   },
@@ -55,14 +54,13 @@ const NewJobForm = props => {
           <img src={imageUrl} alt={title} />
         </figure>
       </div>
+
       <form onSubmit={handleSubmit}>
-      <input
+        <input
           id="addressField"
           className="input is-invisible"
           type="hidden"
           value={values.addressField || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
         />
         <GeoAddressInput
           id="geoInputField"
@@ -72,18 +70,24 @@ const NewJobForm = props => {
           placeholder="specify your job address"
           error={touched.addressField && errors.addressField}
           onError={e => {
+            errors.addressField = e;
             console.log('google api error ' + e);
           }}
-          onChangeValue={e => {
+          onChangeEvent={e => {
+
             setFieldValue('addressField', e, true);
             console.log('value changed ' + e);
           }}
           onBlurEvent={e => {
-            setFieldValue('addressField', e, true);
-            console.log('value changed ' + e);
+
+            if (e && e.target){
+              e.target.id="addressField";
+              handleBlur(e);
+       }
+
           }}
           handleSelect={address => {
-            debugger;
+
             setFieldValue('addressField', address, true);
             geocodeByAddress(address)
               .then(results => getLatLng(results[0]))
@@ -92,6 +96,37 @@ const NewJobForm = props => {
           }}
         />
 
+        <input
+          id="dateField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.dateField || ''}
+        />
+        <DateInput
+          id="DateInputField"
+          type="text"
+          helpText={'You must select an address from the drop down menu'}
+          label="Starting Date"
+          placeholder="specify starting time"
+          onChangeEvent={e => {
+            if(e && e instanceof moment){
+             let val = e.toDate()
+             setFieldValue('dateField', val, true);
+            }
+            else{
+              e.target.id="dateField";
+              handleChange(e);
+            }
+
+          }}
+          onBlurEvent={e => {
+            if (e && e.target){
+              e.target.id="dateField";
+              handleBlur(e);
+       }
+
+          }}
+        />
 
         <TextAreaInput
           id="jobDetails"
@@ -103,6 +138,7 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+
         <div className="field">
           <button
             style={{ marginRight: 6 }}

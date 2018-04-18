@@ -1,10 +1,7 @@
 import React from 'react';
 import GeoSearch from '../GeoSearch';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  // geocodeByPlaceId,
-  getLatLng
-} from 'react-places-autocomplete';
+import DatePickerInput from '../DatePickerInput';
+
 
 const InputFeedback = ({ error }) =>
   error ? <p className="help is-danger">{error}</p> : null;
@@ -95,7 +92,7 @@ export const GeoAddressInput = ({
   error,
   handleSelect,
   placeholder,
-  onChangeValue,
+  onChangeEvent,
   onBlurEvent
 }) => {
   return (
@@ -109,7 +106,41 @@ export const GeoAddressInput = ({
         onError={onError}
         placeholder={placeholder}
         handleSelect={handleSelect}
-        onChangeValue={onChangeValue}
+        onChangeEvent={onChangeEvent}
+        onBlurEvent={onBlurEvent}
+      />
+      <HelpText helpText={helpText} />
+      <InputFeedback error={error} />
+    </div>
+  );
+};
+
+
+
+export const DateInput = ({
+  id,
+  label,
+  value,
+  helpText,
+  onError,
+  error,
+  handleSelect,
+  placeholder,
+  onChangeEvent,
+  onBlurEvent
+}) => {
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <DatePickerInput
+        id={id}
+        value={value}
+        onError={onError}
+        placeholder={placeholder}
+        handleSelect={handleSelect}
+        onChangeEvent={onChangeEvent}
         onBlurEvent={onBlurEvent}
       />
       <HelpText helpText={helpText} />
