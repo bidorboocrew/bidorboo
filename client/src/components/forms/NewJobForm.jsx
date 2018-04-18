@@ -74,20 +74,16 @@ const NewJobForm = props => {
             console.log('google api error ' + e);
           }}
           onChangeEvent={e => {
-
             setFieldValue('addressField', e, true);
             console.log('value changed ' + e);
           }}
           onBlurEvent={e => {
-
-            if (e && e.target){
-              e.target.id="addressField";
+            if (e && e.target) {
+              e.target.id = 'addressField';
               handleBlur(e);
-       }
-
+            }
           }}
           handleSelect={address => {
-
             setFieldValue('addressField', address, true);
             geocodeByAddress(address)
               .then(results => getLatLng(results[0]))
@@ -100,31 +96,28 @@ const NewJobForm = props => {
           id="dateField"
           className="input is-invisible"
           type="hidden"
-          value={values.dateField || ''}
+          value={values.dateField || moment().toDate()}
         />
         <DateInput
           id="DateInputField"
           type="text"
-          helpText={'You must select an address from the drop down menu'}
+          helpText="You must select an address from the drop down menu"
           label="Starting Date"
           placeholder="specify starting time"
           onChangeEvent={e => {
-            if(e && e instanceof moment){
-             let val = e.toDate()
-             setFieldValue('dateField', val, true);
-            }
-            else{
-              e.target.id="dateField";
+            if (e && e instanceof moment) {
+              let val = e.toDate();
+              setFieldValue('dateField', val, true);
+            } else {
+              e.target.id = 'dateField';
               handleChange(e);
             }
-
           }}
           onBlurEvent={e => {
-            if (e && e.target){
-              e.target.id="dateField";
+            if (e && e.target) {
+              e.target.id = 'dateField';
               handleBlur(e);
-       }
-
+            }
           }}
         />
 
