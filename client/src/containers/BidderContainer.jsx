@@ -1,14 +1,11 @@
 import React from 'react';
-import GeoInput from '../components/GeoInput';
+import GeoSearch from '../components/GeoSearch';
 import GeoMap from '../components/GeoMap';
 
 class BidderContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { show: false, address: '' };
-    this.toggleShow = () => {
-      this.setState({ show: !this.state.show });
-    };
+    this.state = { address: '' };
   }
 
   render() {
@@ -16,7 +13,7 @@ class BidderContainer extends React.Component {
       <div id="bdb-bidder-content">
         <section className="section">
           <div className="container">
-            <GeoInput />
+            <GeoSearch />
             <div id="available-jobs">
               <div className="bdb-section-title">The Map View</div>
             </div>
