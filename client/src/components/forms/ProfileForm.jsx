@@ -4,15 +4,13 @@ import Yup from 'yup';
 import {
   TextInput,
   TextAreaInput,
-  enforceNumericField,
-  // requiredField,
-  alphanumericField,
-  // moreThan3LessThan25Chars,
-  // renderFormTextField,
-  // renderAddressFormField,
-  // moreThan0lessThan250Chars,
-  // AddressField,
 } from './FormsHelpers';
+import {
+  enforceNumericField,
+  alphanumericField,
+} from './FormsValidators';
+
+
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     displayName: Yup.string()

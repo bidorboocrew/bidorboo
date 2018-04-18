@@ -18,7 +18,7 @@ class BidderContainer extends React.Component {
       <div id="bdb-bidder-content">
         <section className="section">
           <div className="container">
-            <GeoSearch
+            {/* <GeoSearch
               fieldId={'addressSearch'}
               onError={(e)=> {console.log('google api error '+e)}}
               handleSelect={address => {
@@ -27,7 +27,7 @@ class BidderContainer extends React.Component {
                   .then(latLng => console.log('Success', latLng))
                   .catch(error => console.error('Error', error));
               }}
-            />
+            /> */}
             <div id="available-jobs">
               <div className="bdb-section-title">The Map View</div>
             </div>
