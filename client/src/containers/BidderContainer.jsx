@@ -7,6 +7,8 @@ import {
 } from 'react-google-maps';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import { compose, withProps } from 'recompose';
+import GeoInput from '../components/GeoInput';
+
 // https://tomchentw.github.io/react-google-maps/#infobox
 const MyMapComponent = compose(
   withProps({
@@ -22,7 +24,7 @@ const MyMapComponent = compose(
   <GoogleMap defaultZoom={8} defaultCenter={{ lat: 45.4215, lng: -75.6972 }}>
     {props.isMarkerShown && (
       <Marker
-        position={{lat: 45.4215, lng: -75.6972}}
+        position={{ lat: 45.4215, lng: -75.6972 }}
         onClick={props.onMarkerClick}
       >
         {props.showInfo && (
@@ -33,7 +35,7 @@ const MyMapComponent = compose(
             <div
               style={{
                 backgroundColor: `whitesmoke`,
-                border:'1px solid rgba(0, 0, 0, 0.12)',
+                border: '1px solid rgba(0, 0, 0, 0.12)',
                 // opacity: 0.8,
                 padding: `12px`
               }}
@@ -52,16 +54,18 @@ const MyMapComponent = compose(
 class BidderContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { show: false };
-    this.toggleShow = ()=>{
-      this.setState({show: !this.state.show});
-    }
+    this.state = { show: false, address: '' };
+    this.toggleShow = () => {
+      this.setState({ show: !this.state.show });
+    };
   }
+
   render() {
     return (
       <div id="bdb-bidder-content">
         <section className="section">
           <div className="container">
+            <GeoInput />
             <div id="available-jobs">
               <div className="bdb-section-title">The Map View</div>
             </div>
@@ -73,9 +77,7 @@ class BidderContainer extends React.Component {
                     isMarkerShown={true}
                     onMarkerClick={this.toggleShow}
                   />
-                  <div>
-
-                  </div>
+                  <div />
                 </div>
               </div>
             </div>

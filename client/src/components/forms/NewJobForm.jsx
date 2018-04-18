@@ -1,6 +1,11 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
+// import Geosuggest from 'react-geosuggest';
+// import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
+// import CustomGeoInput from './CustomGeoInput';
+// const GeoInput = createGeoInput(CustomGeoInput);
+
 import {
   TextInput,
   TextAreaInput,
@@ -31,7 +36,7 @@ const EnhancedForms = withFormik({
     phoneNumber: Yup.number().positive(
       'your phone number can only be of format 61312345678'
     ),
-    personalParagraph: Yup.string().max(
+    jobDetails: Yup.string().max(
       255,
       'Maximum length allowed is 255 charachters'
     )
@@ -83,23 +88,23 @@ const NewJobForm = props => {
   return (
     <React.Fragment>
       <h1 className="bdb-section-title title has-text-centered">{title}</h1>
-
       <div className="card-image">
         <figure className="image is-3by1">
           <img src={imageUrl} alt={title} />
         </figure>
       </div>
       <form onSubmit={handleSubmit}>
-        <TextInput
-          id="displayName"
+    {(window.google && window.google.maps) ? (<div> GEO LOCAtion input</div>): (   <TextInput
+          id="Manual Address"
           type="text"
-          label="User Name"
-          placeholder="Enter your name..."
+          label="Enter Address"
+          placeholder="Enter your Address..."
           error={touched.displayName && errors.displayName}
           value={values.displayName || ''}
           onChange={handleChange}
           onBlur={handleBlur}
-        />
+        />) }
+
         <TextInput
           id="phoneNumber"
           type="text"
@@ -117,12 +122,12 @@ const NewJobForm = props => {
           onBlur={handleBlur}
         />
         <TextAreaInput
-          id="personalParagraph"
+          id="jobDetails"
           type="text"
-          label="About Me"
+          label="Job Details"
           placeholder="Sample: Hey I am handy with tools and can do everything... "
-          error={touched.personalParagraph && errors.personalParagraph}
-          value={values.personalParagraph}
+          error={touched.jobDetails && errors.jobDetails}
+          value={values.jobDetails}
           onChange={handleChange}
           onBlur={handleBlur}
         />
@@ -147,7 +152,7 @@ const NewJobForm = props => {
             go back
           </button>
         </div>
-        
+
       </form>
     </React.Fragment>
   );

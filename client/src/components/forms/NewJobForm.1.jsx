@@ -9,9 +9,9 @@
 //   renderFormParagraphField
 // } from './formHelpers';
 // import { connect } from 'react-redux';
-// import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
+import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
 
-// const GeoInput = createGeoInput(DefaultGeoInput);
+const GeoInput = createGeoInput(DefaultGeoInput);
 
 // const GeoField = fields => {
 //   return (
