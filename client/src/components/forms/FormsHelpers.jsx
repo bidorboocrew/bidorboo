@@ -1,4 +1,11 @@
 import React from 'react';
+import GeoSearch from '../GeoSearch';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  // geocodeByPlaceId,
+  getLatLng
+} from 'react-places-autocomplete';
+
 
 export const requiredField = value => {
   return value && value.trim && value.trim() && value.length > 0
@@ -480,6 +487,43 @@ export const TextAreaInput = ({
         {...props}
       />
 
+      <HelpText helpText={helpText} />
+      <InputFeedback error={error} />
+    </div>
+  );
+};
+
+
+
+
+export const GeoAddressInput = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  helpText,
+  onError,
+  handleSelect,
+  handleChange,
+  handleBlur,
+  ...props
+}) => {
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <GeoSearch
+        value={value || ''}
+        fieldId={id}
+        onError={onError}
+        handleSelect={handleSelect}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>

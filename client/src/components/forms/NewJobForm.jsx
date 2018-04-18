@@ -5,13 +5,20 @@ import Yup from 'yup';
 // import { createGeoInput, DefaultGeoInput } from 'react-geoinput';
 // import CustomGeoInput from './CustomGeoInput';
 // const GeoInput = createGeoInput(CustomGeoInput);
+import GeoSearch from '../GeoSearch';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  // geocodeByPlaceId,
+  getLatLng
+} from 'react-places-autocomplete';
 
 import {
   TextInput,
   TextAreaInput,
   enforceNumericField,
+  GeoAddressInput,
   // requiredField,
-  alphanumericField,
+  alphanumericField
   // moreThan3LessThan25Chars,
   // renderFormTextField,
   // renderAddressFormField,
@@ -20,22 +27,23 @@ import {
 } from './FormsHelpers';
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    displayName: Yup.string()
-      .ensure()
-      .trim()
-      .min(3, 'your name is longer than that. Must be at least 3 chars')
-      .max(25, 'your name is longer 25. Must be at most 25 chars')
-      .test(
-        'alphanumericField',
-        'Name can only contain alphabits and numbers',
-        v => {
-          return alphanumericField(v);
-        }
-      )
-      .required('First name is required.'),
-    phoneNumber: Yup.number().positive(
-      'your phone number can only be of format 61312345678'
-    ),
+    addressField: Yup.string().ensure().trim().required('Please select an address from the drop down list'),
+    // displayName: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .min(3, 'your name is longer than that. Must be at least 3 chars')
+    //   .max(25, 'your name is longer 25. Must be at most 25 chars')
+    //   .test(
+    //     'alphanumericField',
+    //     'Name can only contain alphabits and numbers',
+    //     v => {
+    //       return alphanumericField(v);
+    //     }
+    //   )
+    //   .required('First name is required.'),
+    // phoneNumber: Yup.number().positive(
+    //   'your phone number can only be of format 61312345678'
+    // ),
     jobDetails: Yup.string().max(
       255,
       'Maximum length allowed is 255 charachters'
@@ -63,6 +71,7 @@ const EnhancedForms = withFormik({
   //   };
   // },
   handleSubmit: (values, { setSubmitting, props }) => {
+    debugger;
     props.onSubmit(values);
     setSubmitting(false);
   },
@@ -94,18 +103,25 @@ const NewJobForm = props => {
         </figure>
       </div>
       <form onSubmit={handleSubmit}>
-    {(window.google && window.google.maps) ? (<div> GEO LOCAtion input</div>): (   <TextInput
-          id="Manual Address"
-          type="text"
-          label="Enter Address"
-          placeholder="Enter your Address..."
-          error={touched.displayName && errors.displayName}
-          value={values.displayName || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />) }
-
-        <TextInput
+        <GeoAddressInput
+        helpText={'You must select an address from the drop down menu'}
+        id='addressField'
+        label="Job Address"
+        placeholder="select job address"
+        onError={(e)=> {console.log('google api error '+e)}}
+        handleSelect={address => {
+          debugger;
+          geocodeByAddress(address)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => console.log('Success', latLng))
+            .catch(error => console.error('Error', error));
+        }}
+        error={touched.addressField && errors.addressField}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        />
+        
+        {/* <TextInput
           id="phoneNumber"
           type="text"
           label="Phone Number"
@@ -120,7 +136,7 @@ const NewJobForm = props => {
             handleChange(e);
           }}
           onBlur={handleBlur}
-        />
+        /> */}
         <TextAreaInput
           id="jobDetails"
           type="text"
@@ -133,7 +149,7 @@ const NewJobForm = props => {
         />
         <div className="field">
           <button
-            style={{marginRight: 6}}
+            style={{ marginRight: 6 }}
             className="button is-primary"
             type="submit"
             disabled={isSubmitting || !isValid}
@@ -152,7 +168,6 @@ const NewJobForm = props => {
             go back
           </button>
         </div>
-
       </form>
     </React.Fragment>
   );

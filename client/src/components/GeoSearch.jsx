@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import PlacesAutocomplete, {
   geocodeByAddress,
   // geocodeByPlaceId,
@@ -6,27 +8,35 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 
 class GeoSearch extends React.Component {
+  static propTypes = {
+    handleSelect: PropTypes.func.isRequired,
+    fieldId: PropTypes.string.isRequired,
+    onError: PropTypes.func.isRequired
+  };
   constructor(props) {
     super(props);
-    this.state = { address: '' };
+    this.state = { address: props.value || '' };
   }
   handleChange = address => {
     this.setState({ address });
   };
 
-  handleSelect = address => {
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
-      .catch(error => console.error('Error', error));
-  };
+  // handleSelect = address => {
+  //   geocodeByAddress(address)
+  //     .then(results => getLatLng(results[0]))
+  //     .then(latLng => console.log('Success', latLng))
+  //     .catch(error => console.error('Error', error));
+  // };
 
   render() {
+    const { handleSelect, fieldId, onError, handleChange, handleBlur} = this.props;
+
     return (
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.handleChange}
-        onSelect={this.handleSelect}
+        onSelect={handleSelect}
+        onError={onError}
         debounce={1000}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps }) => {
@@ -45,6 +55,9 @@ class GeoSearch extends React.Component {
           return (
             <div>
               <input
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                id={fieldId}
                 {...getInputProps({
                   type: 'text',
                   placeholder: 'Search Places ...',
