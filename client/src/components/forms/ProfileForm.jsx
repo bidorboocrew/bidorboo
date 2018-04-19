@@ -108,28 +108,29 @@ const ProfileForm = props => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      
       <div className="field">
-        <button
-          className="button is-primary"
-          type="submit"
-          disabled={isSubmitting || !isValid}
-        >
-          Submit
-        </button>
-      </div>
-      <div className="field">
-        <button
-          className="button is-text"
-          type="submit"
-          disabled={isSubmitting}
-          onClick={e => {
-            e.preventDefault();
-            onCancel();
-          }}
-        >
-          Cancel
-        </button>
-      </div>
+          <button
+            style={{ marginRight: 6 }}
+            className="button is-primary is-medium"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Submit
+          </button>
+          <button
+            className="button is-outlined is-medium"
+            type="submit"
+            disabled={isSubmitting}
+            onClick={e => {
+              e.preventDefault();
+              onCancel(e);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+     
     </form>
   );
 };
