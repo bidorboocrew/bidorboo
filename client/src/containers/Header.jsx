@@ -45,14 +45,39 @@ class Header extends React.Component {
       s_isLoggedIn,
       s_userDetails,
       a_onLogout,
-      a_switchRoute
+      a_switchRoute,
+      s_currentRoute
     } = this.props;
     const { profileImgUrl } = s_userDetails;
 
+    let navbarStylesBasedOnRoute = classNames(
+      'navbar is-fixed-top bottom-border'
+    );
+    let logoSubTitle = '';
+debugger;
+    if (s_currentRoute && s_currentRoute.includes) {
+
+      const isProposerRoutes = s_currentRoute.includes(
+        ROUTES.FRONTENDROUTES.PROPOSER.root
+      );
+      const isBidderRoutes = s_currentRoute.includes(
+        ROUTES.FRONTENDROUTES.BIDDER
+      );
+      navbarStylesBasedOnRoute = classNames(
+        'navbar is-fixed-top bottom-border',
+        { 'color-change-2x-proposer': isProposerRoutes },
+        { 'color-change-2x-bidder': isBidderRoutes }
+      );
+      if (isProposerRoutes) {
+        logoSubTitle += '(proposer)';
+      }
+      if (isBidderRoutes) {
+        logoSubTitle += '(bidder)';
+      }
+    }
+
     return (
-      <nav
-        className="navbar is-fixed-top bottom-border"
-      >
+      <nav className={navbarStylesBasedOnRoute}>
         {/* brand */}
         <LoginOrRegisterModal
           isActive={this.state.isLoginDialogOpen}
@@ -78,7 +103,10 @@ class Header extends React.Component {
               width="24"
               height="24"
             />
-            <span style={{ paddingLeft: 6 }}> BidorBoo </span>
+            <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
+            <span style={{ paddingLeft: 4, color: 'lightgray' }}>
+              {logoSubTitle}
+            </span>
           </a>
 
           {/* burger menu */}
@@ -208,6 +236,7 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
     s_displayName: authReducer.userDetails.displayName,
+    s_currentRoute: routerReducer.currentRoute
   };
 };
 const mapDispatchToProps = dispatch => {

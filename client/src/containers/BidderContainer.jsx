@@ -16,7 +16,7 @@ class BidderContainer extends React.Component {
   render() {
     return (
       <div id="bdb-bidder-content">
-        <section className="section">
+        <section className="section mainSectionContainer">
           <div className="container">
             {/* <GeoSearch
               fieldId={'addressSearch'}

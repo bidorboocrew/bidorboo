@@ -1,13 +1,18 @@
 import * as A from '../actionTypes';
 
 const initialState = {
-  currentRoute: '/'
+  currentRoute: '/',
+  previousRoute: '/'
 };
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
     case A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE:
       return { ...state, currentRoute: payload.currentRoute };
+    case A.ROUTE_ACTIONS.LOCATION_CHANGE:
+      // intercept the current route path names
+      const {currentRoute} = state;
+      return { ...state, previousRoute: currentRoute, currentRoute: payload.pathname };
     default:
       return state;
   }

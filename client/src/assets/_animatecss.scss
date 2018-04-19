@@ -12,3 +12,13 @@
 
  .scale-up-center{-webkit-animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both;animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both}
  @-webkit-keyframes scale-up-center{0%{-webkit-transform:scale(.5);transform:scale(.5)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes scale-up-center{0%{-webkit-transform:scale(.5);transform:scale(.5)}100%{-webkit-transform:scale(1);transform:scale(1)}}
+
+
+
+
+ .color-change-2x-proposer{-webkit-animation:color-change-2x-proposer 2s linear both;animation:color-change-2x-proposer 2s linear both}
+ @-webkit-keyframes color-change-2x-proposer{0%{background:white}100%{background:#e98969}}@keyframes color-change-2x-proposer{0%{background:white}100%{background:#e98969}}
+
+
+ .color-change-2x-bidder{-webkit-animation:color-change-2x-bidder 2s linear both;animation:color-change-2x-bidder 2s linear both}
+ @-webkit-keyframes color-change-2x-bidder{0%{background:white}100%{background:#c786f8}}@keyframes color-change-2x-bidder{0%{background:white}100%{background:#c786f8}}
