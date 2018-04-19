@@ -16,7 +16,7 @@ import {
   ProposerContainer,
   ProposerCreateAJob,
   BidderContainer,
-  MyProfileContainer,
+  MyProfileContainer
 } from './index';
 
 import './styles/app.css';
@@ -62,13 +62,16 @@ class App extends React.Component {
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
-            <LoadingBar
-              style={{
-                zIndex: 10001,
-                backgroundColor: '#622c8c',
-                height: '2px'
-              }}
-            />
+            <section>
+              {/* xxxx create new loading bar  with margin top if you are in hd full screen mode */}
+              <LoadingBar
+                style={{
+                  zIndex: 10001,
+                  backgroundColor: '#622c8c',
+                  height: '2px'
+                }}
+              />
+            </section>
             <div id="main-view">
               <Switch>
                 <Route
@@ -90,7 +93,9 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={`${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/:templateId`}
+                  path={`${
+                    ROUTES.FRONTENDROUTES.PROPOSER.createjob
+                  }/:templateId`}
                   component={ProposerCreateAJob}
                 />
                 <ProtectedRoute
