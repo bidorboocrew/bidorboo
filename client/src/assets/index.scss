@@ -63,7 +63,7 @@ body {
 }
 
 .mainSectionContainer {
-  background: whitesmoke;
+  background-color:  whitesmoke;
 }
 
 //over ride the date selector calendar to over flow anything else
@@ -81,7 +81,7 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous{
 }
 
 $family-primary: 'Roboto', sans-serif;
-$body-background-color: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%); //#3b549c;
+$body-background-color: whitesmoke; //#3b549c;
 $navbar-background-color: white;
 $footer-background-color: #363636;
 // $body-background-color: whitesmoke;

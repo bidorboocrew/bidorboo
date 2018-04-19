@@ -51,8 +51,7 @@ class Header extends React.Component {
 
     return (
       <nav
-        style={{ fontSize: 18, minHeight: '3.25rem', maxHeight: '3.25rem' }}
-        className="nav-bar-bottom navbar is-fixed-top"
+        className="navbar is-fixed-top bottom-border"
       >
         {/* brand */}
         <LoginOrRegisterModal

@@ -4,7 +4,6 @@ import NewJobForm from './forms/NewJobForm';
 export class CreateJobDetailsCard extends React.Component {
   render() {
     return (
-      <div className="column">
         <div className="swing-in-top-fwd">
           <div className="card space">
             <div className="card-content">
@@ -27,7 +26,6 @@ export class CreateJobDetailsCard extends React.Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

@@ -28,7 +28,7 @@ class BidOrBooGenericTasks extends React.Component {
                 `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
               );
             }}
-            className="card space hvr-bob"
+            className="card space hvr-sweep-to-top"
           >
             <div className="card-image">
               <figure className="image">
@@ -40,7 +40,7 @@ class BidOrBooGenericTasks extends React.Component {
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
                 <div style={{ textAlign: 'center', marginTop: 8 }}>
-                  <a className="button is-primary" disabled>
+                  <a className="button is-primary">
                     {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
                     <span style={{ marginLeft: 4 }}>
                       <i className="fa fa-plus fa-w-14" /> Request Now
