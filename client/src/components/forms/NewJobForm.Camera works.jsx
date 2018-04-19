@@ -10,27 +10,27 @@ import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { GeoAddressInput, TextAreaInput, DateInput,TimeInput } from './FormsHelpers';
+import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
 import moment from 'moment';
-// import WebcamCaptureInput from '../WebcamCaptureInput';
+import WebcamCaptureInput from '../WebcamCaptureInput';
 const EnhancedForms = withFormik({
-  // validationSchema: Yup.object().shape({
-  //   addressField: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .required('Please select an address from the drop down list'),
-  //   DateField: Yup.date().min(moment(), 'Date selected can not be in the past'),
-  //   jobDetails: Yup.string().max(
-  //     255,
-  //     'Maximum length allowed is 255 charachters'
-  //   )
-  // }),
-  // validate: (values, props) => {
-  //   //additional validation
-  //   const errors = {};
+  validationSchema: Yup.object().shape({
+    addressField: Yup.string()
+      .ensure()
+      .trim()
+      .required('Please select an address from the drop down list'),
+    DateField: Yup.date().min(moment(), 'Date selected can not be in the past'),
+    jobDetails: Yup.string().max(
+      255,
+      'Maximum length allowed is 255 charachters'
+    )
+  }),
+  validate: (values, props) => {
+    //additional validation
+    const errors = {};
 
-  //   return errors;
-  // },
+    return errors;
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
@@ -112,8 +112,8 @@ const NewJobForm = props => {
         <DateInput
           id="DateInputField"
           type="text"
-          helpText="click to change date"
-          label="Job Start Date"
+          helpText="click to select date"
+          label="Starting Date"
           placeholder="specify starting date"
           onChangeEvent={e => {
             if (e && e instanceof moment) {
@@ -132,18 +132,6 @@ const NewJobForm = props => {
           }}
         />
 
-        <TimeInput
-          id="startTime"
-          type="text"
-          label="Starting time Details"
-          placeholder="select Starting time"
-          error={touched.startTime && errors.startTime}
-          value={values.startTime}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-
         <TextAreaInput
           id="jobDetails"
           type="text"
@@ -154,7 +142,9 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
+        <div className="field">
+          <WebcamCaptureInput />
+        </div>
         <div className="field">
           <button
             style={{ marginRight: 6 }}

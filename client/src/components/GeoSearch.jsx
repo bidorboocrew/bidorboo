@@ -1,3 +1,6 @@
+//xxx TODO said
+// on blur must be propagated to the calling form
+// Limit boundary of search into canada and usa only
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -29,7 +32,7 @@ class GeoSearch extends React.Component {
   }
 
   render() {
-    const { handleSelect, onError, placeholder, id ,onBlurEvent} = this.props;
+    const { handleSelect, onError, placeholder, id, onBlurEvent } = this.props;
     const inputField = ({
       getInputProps,
       suggestions,
@@ -50,15 +53,20 @@ class GeoSearch extends React.Component {
           : {};
       return (
         <div>
-          <input
-            id={id}
-            onBlur={onBlurEvent}
-            {...getInputProps({
-              type: 'text',
-              placeholder: `${placeholder}`,
-              className: 'location-search-input input'
-            })}
-          />
+          <p className="control has-icons-left">
+            <input
+              id={id}
+              onBlur={onBlurEvent}
+              {...getInputProps({
+                type: 'text',
+                placeholder: `${placeholder}`,
+                className: 'location-search-input input'
+              })}
+            />
+            <span className="icon is-small is-left">
+              <i className="fas fa-globe" />
+            </span>
+          </p>
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -108,6 +116,10 @@ class GeoSearch extends React.Component {
         onSelect={handleSelect}
         onError={onError}
         debounce={750}
+        searchOptions={{
+          componentRestrictions: { country: ['US', 'CA'] },
+          types: ['address']
+        }}
       >
         {inputField}
       </PlacesAutocomplete>
@@ -116,6 +128,5 @@ class GeoSearch extends React.Component {
 }
 
 export default GeoSearch;
-
 
 // XXX TODO getInputProps we need to pass on blur handler
