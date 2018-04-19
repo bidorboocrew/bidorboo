@@ -20,8 +20,13 @@ export const FRONTENDROUTES = {
   HOME: '/home',
   PROPOSER: {
     root: '/proposer',
-    createjob: '/proposer/createjob'
+    createjob: '/proposer/createjob',
+    myjobs: '/bidder/myjobs'
   },
-  BIDDER: '/bidder',
+  BIDDER:  {
+    root: '/bidder',
+    createbid: '/bidder/createbid',
+    mybids: '/bidder/mybids'
+  },
   MY_PROFILE: '/myprofile'
 };

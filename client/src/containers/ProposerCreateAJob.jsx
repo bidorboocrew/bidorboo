@@ -37,7 +37,9 @@ class ProposerCreateAJob extends React.Component {
        this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
     };
   }
-
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
   render() {
     return (
       <section className="section mainSectionContainer">

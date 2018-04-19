@@ -166,14 +166,14 @@ const NewJobForm = props => {
         <div className="field">
           <button
             style={{ marginRight: 6 }}
-            className="button is-primary"
+            className="button is-primary is-medium"
             type="submit"
             disabled={isSubmitting || !isValid}
           >
             Submit
           </button>
           <button
-            className="button is-outlined"
+            className="button is-outlined is-medium"
             type="submit"
             disabled={isSubmitting}
             onClick={e => {
@@ -181,7 +181,7 @@ const NewJobForm = props => {
               onCancel(e);
             }}
           >
-            go back
+            Cancel
           </button>
         </div>
       </form>

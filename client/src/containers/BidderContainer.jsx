@@ -10,8 +10,15 @@ import PlacesAutocomplete, {
 class BidderContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: '' };
+    this.state = { address: '',renderMap:false };
   }
+
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    this.setState({renderMap: true});
+  }
+
 
   render() {
     return (
@@ -34,7 +41,7 @@ class BidderContainer extends React.Component {
             <div className="bdb-section-body" id="existing-jobs">
               <div className="columns">
                 <div className="column">
-                  <GeoMap />
+                  {this.state.renderMap && <GeoMap />}
                   <div />
                 </div>
               </div>

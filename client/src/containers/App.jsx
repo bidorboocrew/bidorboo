@@ -101,7 +101,7 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.BIDDER}
+                  path={ROUTES.FRONTENDROUTES.BIDDER.root}
                   component={BidderContainer}
                 />
                 <ProtectedRoute

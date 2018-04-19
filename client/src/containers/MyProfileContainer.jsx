@@ -45,6 +45,11 @@ class MyProfileContainer extends React.Component {
       this.props.a_updateProfileDetails(vals);
     };
   }
+
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+
   render() {
     const { s_userDetails } = this.props;
 

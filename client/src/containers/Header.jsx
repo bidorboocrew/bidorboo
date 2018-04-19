@@ -60,7 +60,7 @@ class Header extends React.Component {
         ROUTES.FRONTENDROUTES.PROPOSER.root
       );
       const isBidderRoutes = s_currentRoute.includes(
-        ROUTES.FRONTENDROUTES.BIDDER
+        ROUTES.FRONTENDROUTES.BIDDER.root
       );
       navbarStylesBasedOnRoute = classNames(
         'navbar is-fixed-top bottom-border',
@@ -148,7 +148,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER);
+                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
                   });
                 }}
                 className="navbar-item "
