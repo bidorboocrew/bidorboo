@@ -1,5 +1,6 @@
 export { default as Header } from './Header';
 export { default as ProposerContainer } from './ProposerContainer';
+export { default as ProposerCreateAJob } from './ProposerCreateAJob';
 export { default as BidderContainer } from './BidderContainer';
 export { default as MyProfileContainer } from './MyProfileContainer';
 export { default as HomePage } from './HomePage';

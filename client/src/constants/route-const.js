@@ -20,7 +20,7 @@ export const FRONTENDROUTES = {
   HOME: '/home',
   PROPOSER: {
     root: '/proposer',
-    templateId: '/proposer/:templateId'
+    createjob: '/proposer/createjob'
   },
   BIDDER: '/bidder',
   MY_PROFILE: '/myprofile'

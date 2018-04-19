@@ -2,38 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BidOrBooGenericTasks from './BidOrBooGenericTasks';
-import { CreateJob } from '../components/CreateJob';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { getAllJobs } from '../app-state/actions/jobActions';
 import Stepper from 'react-stepper-horizontal';
-import NewJobForm from '../components/forms/NewJobForm';
 
 class ProposerContainer extends React.Component {
   constructor(props) {
     super(props);
-debugger;
-    const templateToStartWith = templatesRepo.filter(
-      task => props.match.params.templateId === task.id
-    );
-    const startingWithTemplate = templateToStartWith.length > 0;
     this.state = {
-      isStartingWithTemplate: startingWithTemplate,
-      currentStepperIndex: startingWithTemplate ? 1 : 0,
-      chosenTemplate: startingWithTemplate ? templateToStartWith[0] : null,
       searchTerm: '',
       selectedFilterTag: '',
-      displayedJobs: [],
-      showCreateNewJob: false
+      displayedJobs: []
     };
 
     this.updateSearchTerm = e => {
       e.preventDefault();
       const newSearchTerm = e.target.value ? e.target.value.trim() : '';
       this.setState({ ...this.state, searchTerm: newSearchTerm });
-    };
-    this.showCreateJobView = (e, shouldShow) => {
-      e.preventDefault();
-      this.setState({ ...this.state, showCreateNewJob: shouldShow });
     };
   }
 
@@ -49,20 +33,10 @@ debugger;
     if (filterBySearchTerm) {
       //show tasks that contain any part of the search term
     }
-    const createNewJob = () => {
-      debugger;
-      return (
-        <CreateJob
-          title={this.state.chosenTemplate.title}
-          imageUrl={this.state.chosenTemplate.imageUrl}
-          onCancel={this.toggleEditProfile}
-          onSubmit={vals => this.closeFormAndSubmit(vals)}
-        />
-      );
-    };
-    const showDefaultView = () => {
-      return (
-        <div>
+
+    return (
+      <section className="section mainSectionContainer">
+        <div className="container" id="bdb-proposer-content">
           <div className="container">
             <div>
               <Stepper
@@ -77,39 +51,19 @@ debugger;
               />
             </div>
             <div className="bdb-section-body" id="existing-jobs">
-              {this.state.currentStepperIndex === 0 && (
-                <div className="columns">
-                  <BidOrBooGenericTasks />
-                </div>
-              )}
-              {this.state.currentStepperIndex === 1 && (
-                <div className="card-content">
-                  <div className="content">
-                    <NewJobForm
-                      title={this.state.chosenTemplate.title}
-                      imageUrl={this.state.chosenTemplate.imageUrl}
-                      onCancel={this.toggleEditProfile}
-                      onSubmit={vals => this.closeFormAndSubmit(vals)}
-                    />
-                  </div>
-                </div>
-              )}
+              <div className="columns">
+                <BidOrBooGenericTasks />
+              </div>
             </div>
           </div>
-        </div>
-      );
-    };
-    return (
-      <section className="section mainSectionContainer">
-        <div className="container" id="bdb-proposer-content">
-          {this.state.showCreateNewJob ? createNewJob() : showDefaultView()}
         </div>
       </section>
     );
   }
 }
-const mapStateToProps = ({ jobsReducer }) => {
+const mapStateToProps = ({ jobsReducer, routerReducer }) => {
   return {
+    s_currentRoute: routerReducer.currentRoute,
     s_error: jobsReducer.error,
     s_userJobsList: jobsReducer.userJobsList,
     s_isLoading: jobsReducer.isLoading

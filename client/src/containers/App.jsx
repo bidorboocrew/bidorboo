@@ -14,8 +14,9 @@ import {
   Header,
   HomePage,
   ProposerContainer,
+  ProposerCreateAJob,
   BidderContainer,
-  MyProfileContainer
+  MyProfileContainer,
 } from './index';
 
 import './styles/app.css';
@@ -89,8 +90,8 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.PROPOSER.templateId}
-                  component={ProposerContainer}
+                  path={`${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/:templateId`}
+                  component={ProposerCreateAJob}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}

@@ -58,19 +58,10 @@ const NewJobForm = props => {
     onCancel,
     isValid,
     isSubmitting,
-    title,
-    imageUrl,
     setFieldValue
   } = props;
   return (
     <React.Fragment>
-      <h1 className="bdb-section-title title has-text-centered">{title}</h1>
-      <div className="card-image">
-        <figure className="image is-3by1">
-          <img src={imageUrl} alt={title} />
-        </figure>
-      </div>
-
       <form onSubmit={handleSubmit}>
         <input
           id="addressField"
@@ -196,7 +187,7 @@ const NewJobForm = props => {
             disabled={isSubmitting}
             onClick={e => {
               e.preventDefault();
-              onCancel();
+              onCancel(e);
             }}
           >
             go back

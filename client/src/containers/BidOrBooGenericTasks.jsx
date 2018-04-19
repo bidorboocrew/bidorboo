@@ -25,7 +25,7 @@ class BidOrBooGenericTasks extends React.Component {
             onClick={e => {
               e.preventDefault();
               a_switchRoute(
-                `${ROUTES.FRONTENDROUTES.PROPOSER.root}/${id}`
+                `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
               );
             }}
             className="card space hvr-bob"
