@@ -13,6 +13,7 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   GeoAddressInput,
   TextAreaInput,
+  TextInput,
   DateInput,
   TimeInput
 } from './FormsHelpers';
@@ -138,11 +139,21 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+        <TextInput
+          id="durationField"
+          type="text"
+          helpText="for example : 1 hour , 1 week ...etc"
+          label="Job Duration"
+          error={touched.durationField && errors.durationField}
+          value={values.durationField}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
 
         <TextAreaInput
           id="jobDetails"
           type="text"
-          label="Job Details"
+          label="Detailed Description"
           placeholder="Sample: Hey I am handy with tools and can do everything... "
           error={touched.jobDetails && errors.jobDetails}
           value={values.jobDetails}
