@@ -14,7 +14,8 @@
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
   },
-  "author": "",
+  "author": "saidMadi",
+  "homepage": "https://www.bidorboo.com",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^3.5.1",
