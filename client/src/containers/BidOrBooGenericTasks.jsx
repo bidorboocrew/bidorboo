@@ -28,7 +28,7 @@ class BidOrBooGenericTasks extends React.Component {
                 `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
               );
             }}
-            className="card space hvr-sweep-to-top"
+            className="card space hvr-grow"
           >
             <div className="card-image">
               <figure className="image">

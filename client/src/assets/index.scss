@@ -63,7 +63,9 @@ body {
 }
 
 .mainSectionContainer {
-  background-color:  whitesmoke;
+   background-color: whitesmoke;
+  // height: calc(100% - 3.25rem) !important;
+
 }
 
 //over ride the date selector calendar to over flow anything else
@@ -86,6 +88,7 @@ $navbar-background-color: white;
 $footer-background-color: #363636;
 // $body-background-color: whitesmoke;
 $section-padding: 3rem 0.5rem;
+$navbar-height: 3.25rem;
 @import 'bulma/bulma.sass';
 
 // http://ianlunn.github.io/Hover/

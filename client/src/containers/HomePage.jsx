@@ -8,7 +8,7 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div id="bdb-home-content">
+      <div id="bdb-home-content mainSectionContainer">
         <section className="hero">
           <div style={{ background: '#00d1b2' }} className="hero-body">
             <div className="container">
@@ -25,7 +25,7 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section mainSectionContainer">
+        <section className="section">
           <div className="container">
             <div
               style={{ marginBottom: 0 }}
