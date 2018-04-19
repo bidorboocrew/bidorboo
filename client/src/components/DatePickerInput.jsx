@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -50,7 +51,7 @@ export default class DatePickerInput extends React.Component {
     this.state = {
       startDate: this.props.value || moment()
     };
-    this.handleChange = this.handleChange.bind(this);
+    autoBind(this, 'handleChange');
   }
 
   handleChange(date) {

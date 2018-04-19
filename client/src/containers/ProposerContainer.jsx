@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import BidOrBooGenericTasks from './BidOrBooGenericTasks';
 import { getAllJobs } from '../app-state/actions/jobActions';
 import Stepper from 'react-stepper-horizontal';
+import autoBind from 'react-autobind';
 
 class ProposerContainer extends React.Component {
   constructor(props) {
@@ -13,12 +14,13 @@ class ProposerContainer extends React.Component {
       selectedFilterTag: '',
       displayedJobs: []
     };
+    autoBind(this, 'updateSearchTerm');
+  }
 
-    this.updateSearchTerm = e => {
-      e.preventDefault();
-      const newSearchTerm = e.target.value ? e.target.value.trim() : '';
-      this.setState({ ...this.state, searchTerm: newSearchTerm });
-    };
+  updateSearchTerm(e) {
+    e.preventDefault();
+    const newSearchTerm = e.target.value ? e.target.value.trim() : '';
+    this.setState({ ...this.state, searchTerm: newSearchTerm });
   }
 
   componentDidMount() {

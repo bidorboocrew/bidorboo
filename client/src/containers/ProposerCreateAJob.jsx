@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as ROUTES from '../constants/route-const';
 import { switchRoute } from '../app-state/actions/routerActions';
 import PropTypes from 'prop-types';
+import autoBind from 'react-autobind';
 
 import { bindActionCreators } from 'redux';
 import { CreateJobDetailsCard } from '../components/CreateJobDetailsCard';
@@ -10,7 +11,6 @@ import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { routerActions, ConnectedRouter } from 'react-router-redux';
 
 class ProposerCreateAJob extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -23,25 +23,27 @@ class ProposerCreateAJob extends React.Component {
       currentStepperIndex: startingWithTemplate ? 1 : 0,
       chosenTemplate: startingWithTemplate ? templateToStartWith[0] : null
     };
-
-    this.goBack = e => {
-      const { a_routerActions } = this.props;
-      const y = ConnectedRouter;
-      e.preventDefault();
-      // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
-      // this.props.a_routerActions.goBack();
-
-      // until then
-      this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-    };
-    this.handleSubmit = e => {
-      e.preventDefault();
-      // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
-      // this.props.a_routerActions.goBack();
-      // until then
-      //  this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-    };
+    autoBind(this, 'goBack', 'handleSubmit');
   }
+
+  goBack(e) {
+    const { a_routerActions } = this.props;
+    const y = ConnectedRouter;
+    e.preventDefault();
+    // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
+    // this.props.a_routerActions.goBack();
+
+    // until then
+    this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
+    // this.props.a_routerActions.goBack();
+    // until then
+    //  this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+  }
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }

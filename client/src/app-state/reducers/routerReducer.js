@@ -1,8 +1,7 @@
 import * as A from '../actionTypes';
 
 const initialState = {
-  currentRoute: '/',
-  previousRoute: '/'
+  currentRoute: '/'
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -11,8 +10,11 @@ export default function(state = initialState, { type, payload }) {
       return { ...state, currentRoute: payload.currentRoute };
     case A.ROUTE_ACTIONS.LOCATION_CHANGE:
       // intercept the current route path names
-      const {currentRoute} = state;
-      return { ...state, previousRoute: currentRoute, currentRoute: payload.pathname };
+      const { currentRoute } = state;
+      return {
+        ...state,
+        currentRoute: payload.pathname
+      };
     default:
       return state;
   }

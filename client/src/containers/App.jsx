@@ -23,7 +23,6 @@ import './styles/app.css';
 
 class App extends React.Component {
   static propTypes = {
-    s_isSideNavOpen: PropTypes.bool.isRequired,
     s_currentRoute: PropTypes.string,
     a_getCurrentUser: PropTypes.func.isRequired,
     a_onLogout: PropTypes.func.isRequired,
@@ -81,6 +80,11 @@ class App extends React.Component {
                 />
                 <Route
                   exact
+                  path={`${ROUTES.FRONTENDROUTES.HOME}/:showLoginDialog`}
+                  component={HomePage}
+                />
+                <Route
+                  exact
                   path={ROUTES.FRONTENDROUTES.HOME}
                   component={HomePage}
                 />
@@ -122,7 +126,6 @@ class App extends React.Component {
 }
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
-    s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_currentRoute: routerReducer.currentRoute,
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
@@ -153,7 +156,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         return isLoggedIn ? (
           <Component {...props} />
         ) : (
-          <Redirect to={ROUTES.FRONTENDROUTES.HOME} />
+          <Redirect to={`${ROUTES.FRONTENDROUTES.HOME}/true`} />
         );
       }}
     />

@@ -3,6 +3,7 @@
 // Limit boundary of search into canada and usa only
 import React from 'react';
 import PropTypes from 'prop-types';
+import autoBind from 'react-autobind';
 
 import PlacesAutocomplete from 'react-places-autocomplete';
 
@@ -23,10 +24,10 @@ class GeoSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = { address: props.value };
-    this.updateField = this.updateFieldText.bind(this);
+    autoBind(this, 'updateField');
   }
 
-  updateFieldText(address) {
+  updateField(address) {
     this.setState({ address });
     this.props.onChangeEvent(address);
   }

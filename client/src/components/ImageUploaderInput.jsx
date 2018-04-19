@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import ImageUploader from 'react-image-upload';
+import autoBind from 'react-autobind';
 
 export default class ImageUploaderInput extends React.Component {
   // static propTypes = {
@@ -18,8 +19,7 @@ export default class ImageUploaderInput extends React.Component {
     super(props);
     this.state = { pictures: [] };
     this.onDrop = this.onDrop.bind(this);
-
-    this.handleChange = this.handleChange.bind(this);
+    autoBind(this,'handleChange');
   }
 
   onDrop(picture) {
@@ -36,14 +36,6 @@ export default class ImageUploaderInput extends React.Component {
   }
 
   render() {
-    // const {
-    //   // handleSelect,
-    //   // onError,
-    //   // onChangeEvent,
-    //   // onBlurEvent,
-    //   // id,
-    //   // placeholder
-    // } = this.props;
     return (
       <div className="file">
         <label className="file-label">

@@ -1,11 +1,26 @@
 import React from 'react';
 import './styles/home.css';
+import PropTypes from 'prop-types';
+
 import BidOrBooGenericTasks from './BidOrBooGenericTasks';
 import Stepper from 'react-stepper-horizontal';
 import Rotate from 'react-reveal/Rotate';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { showLoginDialog } from '../app-state/actions/uiActions';
 
 class HomePage extends React.Component {
+  static propTypes = {
+    a_showLoginDialog: PropTypes.func.isRequired
+  };
 
+  constructor(props) {
+    super(props);
+    const shouldShowLoginDialog = props.match.params.showLoginDialog;
+    if (shouldShowLoginDialog) {
+      props.a_showLoginDialog(true);
+    }
+  }
   render() {
     return (
       <div id="bdb-home-content">
@@ -54,7 +69,9 @@ class HomePage extends React.Component {
           </div>
           <div className="container">
             <div className="has-text-centered title">Bid On a Job</div>
-            <div className="has-text-centered">this section is under development</div>
+            <div className="has-text-centered">
+              this section is under development
+            </div>
 
             {/* <div>
               <Stepper
@@ -78,4 +95,9 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+const mapDispatchToProps = dispatch => {
+  return {
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+  };
+};
+export default connect(null, mapDispatchToProps)(HomePage);

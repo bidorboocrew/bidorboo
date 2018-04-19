@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Textarea from "react-textarea-autosize";
+import Textarea from 'react-textarea-autosize';
 
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { updateProfileDetails } from '../app-state/actions/userModelActions';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import * as C from '../constants/constants';
+import autoBind from 'react-autobind';
 
 import ProfileForm from '../components/forms/ProfileForm';
 
@@ -18,16 +19,9 @@ class MyProfileContainer extends React.Component {
       displayName: PropTypes.string.isRequired,
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
-    // actionList: PropTypes.arrayOf(
-    //   PropTypes.shape({
-    //     text: PropTypes.string.isRequired,
-    //     action: PropTypes.func.isRequired
-    //   })
-    // ).isRequired,
     s_isLoggedIn: PropTypes.bool.isRequired,
     a_onLogout: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired,
-    s_isSideNavOpen: PropTypes.bool.isRequired,
     a_switchRoute: PropTypes.func.isRequired
   };
 
@@ -36,18 +30,18 @@ class MyProfileContainer extends React.Component {
     this.state = {
       isEditProfile: false
     };
-
-    this.toggleEditProfile = () => {
-      this.setState({ isEditProfile: !this.state.isEditProfile });
-    };
-    this.closeFormAndSubmit = vals => {
-      this.toggleEditProfile();
-      this.props.a_updateProfileDetails(vals);
-    };
+    autoBind(this, 'toggleEditProfile', 'closeFormAndSubmit');
   }
 
+  toggleEditProfile() {
+    this.setState({ isEditProfile: !this.state.isEditProfile });
+  }
+  closeFormAndSubmit(vals) {
+    this.toggleEditProfile();
+    this.props.a_updateProfileDetails(vals);
+  }
   componentDidMount() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }
 
   render() {
@@ -147,14 +141,14 @@ class MyProfileContainer extends React.Component {
                       value={
                         personalParagraph ? personalParagraph : 'none provided'
                       }
-
                       style={{
-                        fontFamily:'"Roboto", "Helvetica", "Arial", sans-serif',
+                        fontFamily:
+                          '"Roboto", "Helvetica", "Arial", sans-serif',
                         resize: 'none',
                         border: 'none',
                         paddingLeft: 0,
                         paddingRight: 0,
-                        color: '#4a4a4a',
+                        color: '#4a4a4a'
                       }}
                       readOnly
                     />
@@ -209,7 +203,6 @@ class MyProfileContainer extends React.Component {
 
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
-    s_isSideNavOpen: uiReducer.isSideNavOpen,
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
     s_currentRoute: routerReducer.currentRoute

@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { onLogout } from '../app-state/actions/authActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
+import { showLoginDialog } from '../app-state/actions/uiActions';
+import autoBind from 'react-autobind';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -21,24 +23,27 @@ class Header extends React.Component {
       profileImgUrl: PropTypes.string.isRequired
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_switchRoute: PropTypes.func.isRequired
+    a_switchRoute: PropTypes.func.isRequired,
+    a_showLoginDialog: PropTypes.func.isRequired
   };
   static defaultProps = {
     s_userEmail: ''
   };
   constructor(props) {
     super(props);
+    autoBind(this, 'toggleLoginDialog', 'closeMenuThenExecute');
     this.state = {
-      isHamburgerOpen: false,
-      isLoginDialogOpen: false
-    };
-    this.closeMenuThenExecute = func => {
-      this.setState({ isHamburgerOpen: false }, func);
-    };
-    this.toggleLoginDialog = () => {
-      this.setState({ isLoginDialogOpen: !this.state.isLoginDialogOpen });
+      isHamburgerOpen: false
     };
   }
+
+  closeMenuThenExecute(func) {
+    this.setState({ isHamburgerOpen: false }, func);
+  }
+  toggleLoginDialog() {
+    this.props.a_showLoginDialog(!this.props.s_shouldShowLoginDialog);
+  }
+
   render() {
     const {
       s_displayName,
@@ -46,7 +51,8 @@ class Header extends React.Component {
       s_userDetails,
       a_onLogout,
       a_switchRoute,
-      s_currentRoute
+      s_currentRoute,
+      s_shouldShowLoginDialog
     } = this.props;
     const { profileImgUrl } = s_userDetails;
 
@@ -55,7 +61,6 @@ class Header extends React.Component {
     );
     let logoSubTitle = '';
     if (s_currentRoute && s_currentRoute.includes) {
-
       const isProposerRoutes = s_currentRoute.includes(
         ROUTES.FRONTENDROUTES.PROPOSER.root
       );
@@ -76,10 +81,10 @@ class Header extends React.Component {
     }
 
     return (
-      <nav style={{height: "3.25rem"}} className={navbarStylesBasedOnRoute}>
+      <nav style={{ height: '3.25rem' }} className={navbarStylesBasedOnRoute}>
         {/* brand */}
         <LoginOrRegisterModal
-          isActive={this.state.isLoginDialogOpen}
+          isActive={s_shouldShowLoginDialog}
           handleCancel={this.toggleLoginDialog}
         />
         <div className="navbar-brand">
@@ -90,7 +95,7 @@ class Header extends React.Component {
                     a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
                   })
                 : this.closeMenuThenExecute(() => {
-                    this.toggleLoginDialog(true);
+                    this.toggleLoginDialog();
                   });
             }}
             style={{ paddingRight: 4 }}
@@ -103,7 +108,10 @@ class Header extends React.Component {
               height="24"
             />
             <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
-            <span style={{ paddingLeft: 4, color: 'lightgray' }}>
+            <span
+              className="is-hidden-desktop"
+              style={{ paddingLeft: 4, color: 'white' }}
+            >
               {logoSubTitle}
             </span>
           </a>
@@ -214,7 +222,7 @@ class Header extends React.Component {
                     className="button is-outlined"
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
-                        this.toggleLoginDialog(true);
+                        this.toggleLoginDialog();
                       });
                     }}
                   >
@@ -235,13 +243,15 @@ const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
     s_isLoggedIn: authReducer.isLoggedIn,
     s_userDetails: authReducer.userDetails,
     s_displayName: authReducer.userDetails.displayName,
-    s_currentRoute: routerReducer.currentRoute
+    s_currentRoute: routerReducer.currentRoute,
+    s_shouldShowLoginDialog: uiReducer.shouldShowLoginDialog
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 

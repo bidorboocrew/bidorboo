@@ -7,6 +7,7 @@ import {
 } from 'react-google-maps';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import { compose, withProps } from 'recompose';
+import autoBind from 'react-autobind';
 
 // https://tomchentw.github.io/react-google-maps/#infobox
 const MyMapComponent = compose(
@@ -54,9 +55,10 @@ class GeoMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = { show: false, address: '' };
-    this.toggleShow = () => {
-      this.setState({ show: !this.state.show });
-    };
+    autoBind(this, 'toggleShow');
+  }
+  toggleShow() {
+    this.setState({ show: !this.state.show });
   }
 
   render() {
