@@ -30,6 +30,7 @@ export const TextInput = ({
   onChange,
   className,
   helpText,
+  iconLeft,
   ...props
 }) => {
   return (
@@ -37,14 +38,33 @@ export const TextInput = ({
       <Label htmlFor={id} error={error}>
         {label}
       </Label>
-      <input
-        id={id}
-        className="input"
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        {...props}
-      />
+      {!iconLeft && (
+        <input
+          id={id}
+          className="input"
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          {...props}
+        />
+      )}
+      {iconLeft && (
+        <div className="field">
+          <div className="control has-icons-left">
+            <input
+              id={id}
+              className="input"
+              type={type}
+              value={value || ''}
+              onChange={onChange}
+              {...props}
+            />
+            <span className="icon is-small is-left">
+              <i className={iconLeft} />
+            </span>
+          </div>
+        </div>
+      )}
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>

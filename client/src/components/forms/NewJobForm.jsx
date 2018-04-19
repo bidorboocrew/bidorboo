@@ -148,6 +148,7 @@ const NewJobForm = props => {
           value={values.durationField}
           onChange={handleChange}
           onBlur={handleBlur}
+          iconLeft="far fa-clock"
         />
 
         <TextAreaInput

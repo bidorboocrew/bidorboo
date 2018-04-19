@@ -54,7 +54,6 @@ class Header extends React.Component {
       'navbar is-fixed-top bottom-border'
     );
     let logoSubTitle = '';
-debugger;
     if (s_currentRoute && s_currentRoute.includes) {
 
       const isProposerRoutes = s_currentRoute.includes(
@@ -77,7 +76,7 @@ debugger;
     }
 
     return (
-      <nav className={navbarStylesBasedOnRoute}>
+      <nav style={{height: "3.25rem"}} className={navbarStylesBasedOnRoute}>
         {/* brand */}
         <LoginOrRegisterModal
           isActive={this.state.isLoginDialogOpen}
