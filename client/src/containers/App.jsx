@@ -24,9 +24,7 @@ import './styles/app.css';
 class App extends React.Component {
   static propTypes = {
     s_currentRoute: PropTypes.string,
-    a_getCurrentUser: PropTypes.func.isRequired,
-    a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired
+    a_getCurrentUser: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -124,19 +122,15 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
+const mapStateToProps = ({ authReducer, routerReducer }) => {
   return {
     s_currentRoute: routerReducer.currentRoute,
-    s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: authReducer.userDetails,
-    s_isLoginDialogOpen: uiReducer.isLoginDialogOpen
+    s_isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch)
   };
 };
 

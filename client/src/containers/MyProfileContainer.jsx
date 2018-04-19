@@ -18,11 +18,7 @@ class MyProfileContainer extends React.Component {
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
       profileImgUrl: PropTypes.string.isRequired
-    }).isRequired,
-    s_isLoggedIn: PropTypes.bool.isRequired,
-    a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
-    a_switchRoute: PropTypes.func.isRequired
+    }).isRequired
   };
 
   constructor(props) {
@@ -203,18 +199,12 @@ class MyProfileContainer extends React.Component {
 
 const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
   return {
-    s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: authReducer.userDetails,
-    s_currentRoute: routerReducer.currentRoute
+    s_userDetails: authReducer.userDetails
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch)
   };
 };
 

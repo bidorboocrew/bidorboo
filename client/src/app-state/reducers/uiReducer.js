@@ -17,14 +17,14 @@ export default function(state = initialState, { type, payload }) {
     case A.UI_ACTIONS.OPEN_LOGIN_DIALOG:
       return {
         ...state,
-        shouldShowLoginDialog: payload.shouldShowLoginDialog
+        shouldShowLoginDialog: true
         // loginClickSrc: payload.loginClickSrc
       };
 
     case A.UI_ACTIONS.CLOSE_LOGIN_DIALOG:
       return {
         ...state,
-        shouldShowLoginDialog: payload.shouldShowLoginDialog
+        shouldShowLoginDialog: false
       };
 
     default:

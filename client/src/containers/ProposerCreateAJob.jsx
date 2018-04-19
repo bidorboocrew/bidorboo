@@ -66,14 +66,6 @@ class ProposerCreateAJob extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer, routerReducer }) => {
-  return {
-    s_currentRoute: routerReducer.currentRoute,
-    s_error: jobsReducer.error,
-    s_userJobsList: jobsReducer.userJobsList,
-    s_isLoading: jobsReducer.isLoading
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -82,4 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProposerCreateAJob);
+export default connect(null, mapDispatchToProps)(ProposerCreateAJob);

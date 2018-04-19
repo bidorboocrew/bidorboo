@@ -16,11 +16,17 @@ class HomePage extends React.Component {
 
   constructor(props) {
     super(props);
-    const shouldShowLoginDialog = props.match.params.showLoginDialog;
-    if (shouldShowLoginDialog) {
-      props.a_showLoginDialog(true);
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    const { s_resolvedLogin, a_showLoginDialog, match } = this.props;
+    const shouldShowLoginDialog = match.params.showLoginDialog;
+    if (s_resolvedLogin && shouldShowLoginDialog) {
+      a_showLoginDialog(true);
     }
   }
+
   render() {
     return (
       <div id="bdb-home-content">
@@ -94,10 +100,14 @@ class HomePage extends React.Component {
     );
   }
 }
-
+const mapStateToProps = ({ authReducer }) => {
+  return {
+    s_resolvedLogin: authReducer.resolvedLogin
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
-export default connect(null, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

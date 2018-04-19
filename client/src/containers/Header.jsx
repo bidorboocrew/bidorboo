@@ -73,10 +73,10 @@ class Header extends React.Component {
         { 'color-change-2x-bidder': isBidderRoutes }
       );
       if (isProposerRoutes) {
-        logoSubTitle += '(proposer)';
+        logoSubTitle += ' Proposer View';
       }
       if (isBidderRoutes) {
-        logoSubTitle += '(bidder)';
+        logoSubTitle += ' Bidder View';
       }
     }
 
