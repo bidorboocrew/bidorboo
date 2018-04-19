@@ -66,11 +66,25 @@ body {
   background: whitesmoke;
 }
 
+//over ride the date selector calendar to over flow anything else
+// xxxx look at better ways of doing this
+div.react-datepicker-popper{
+  z-index: 10 !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--next{
+  border-left-color: #209cee !important;
+  border-width: 10px !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--previous{
+  border-right-color: #209cee !important;
+  border-width: 10px !important;
+}
+
 $family-primary: 'Roboto', sans-serif;
-$body-background-color: whitesmoke; //linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%); //#3b549c;
-$navbar-background-color: whitesmoke;
+$body-background-color: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%); //#3b549c;
+$navbar-background-color: white;
 $footer-background-color: #363636;
-$body-background-color: whitesmoke;
+// $body-background-color: whitesmoke;
 $section-padding: 3rem 0.5rem;
 @import 'bulma/bulma.sass';
 

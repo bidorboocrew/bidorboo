@@ -78,7 +78,7 @@ export default class DatePickerInput extends React.Component {
         minDate={moment()}
         maxDate={moment().add(1, 'year')}
         onBlur={onBlurEvent}
-        className="input"
+        className="input is-overlay"
 
       />
     );

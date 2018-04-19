@@ -54,8 +54,9 @@ class HomePage extends React.Component {
           </div>
           <div className="container">
             <div className="has-text-centered title">Bid On a Job</div>
+            <div className="has-text-centered">this section is under development</div>
 
-            <div>
+            {/* <div>
               <Stepper
                 size={24}
                 activeColor={'rgb(0, 209, 178)'}
@@ -66,10 +67,10 @@ class HomePage extends React.Component {
                 ]}
                 activeStep={0}
               />
-            </div>
-            <div className="bdb-section-body" id="existing-jobs">
-              <div className="columns">{/* <BidOrBooDefaultTasks /> */}</div>
-            </div>
+            </div> */}
+            {/* <div className="bdb-section-body" id="existing-jobs">
+              <div className="columns">still under development</div>
+            </div> */}
           </div>
         </section>
       </div>
