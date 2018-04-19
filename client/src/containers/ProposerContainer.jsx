@@ -22,7 +22,7 @@ class ProposerContainer extends React.Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     //fireup job request
     // this.props.a_getAllJobs();
   }

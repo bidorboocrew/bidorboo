@@ -154,7 +154,6 @@ class MyProfileContainer extends React.Component {
                         border: 'none',
                         paddingLeft: 0,
                         paddingRight: 0,
-                        fontSize: 16,
                         color: '#4a4a4a',
                       }}
                       readOnly

@@ -10,15 +10,13 @@ import PlacesAutocomplete, {
 class BidderContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: '',renderMap:false };
+    this.state = { address: '', renderMap: false };
   }
-
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.setState({renderMap: true});
+    this.setState({ renderMap: true });
   }
-
 
   render() {
     return (
