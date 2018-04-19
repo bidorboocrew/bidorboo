@@ -53,7 +53,7 @@ class GeoSearch extends React.Component {
           : {};
       return (
         <div>
-          <p className="control has-icons-left">
+          <div className="control has-icons-left">
             <input
               id={id}
               onBlur={onBlurEvent}
@@ -66,7 +66,7 @@ class GeoSearch extends React.Component {
             <span className="icon is-small is-left">
               <i className="fas fa-globe" />
             </span>
-          </p>
+          </div>
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"

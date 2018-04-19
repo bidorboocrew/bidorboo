@@ -15,8 +15,10 @@ export class CreateJob extends React.Component {
                 </div>
                 <div style={{ marginTop: 8 }}>
                   <NewJobForm
-                    // onCancel={() => {}}
-                    onSubmit={vals => this.props.submitNewJobs(vals)}
+                     title={this.props.title}
+                     imageUrl={this.props.imageUrl}
+                     onCancel={this.onCancel}
+                     onSubmit={vals => this.props.onSubmit(vals)}
                   />
                 </div>
               </div>

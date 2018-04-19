@@ -11,7 +11,7 @@ import NewJobForm from '../components/forms/NewJobForm';
 class ProposerContainer extends React.Component {
   constructor(props) {
     super(props);
-
+debugger;
     const templateToStartWith = templatesRepo.filter(
       task => props.match.params.templateId === task.id
     );
@@ -39,7 +39,7 @@ class ProposerContainer extends React.Component {
 
   componentDidMount() {
     //fireup job request
-    this.props.a_getAllJobs();
+    // this.props.a_getAllJobs();
   }
 
   render() {
@@ -50,11 +50,13 @@ class ProposerContainer extends React.Component {
       //show tasks that contain any part of the search term
     }
     const createNewJob = () => {
+      debugger;
       return (
         <CreateJob
-          submitNewJobs={vals => {
-            // debugger;
-          }}
+          title={this.state.chosenTemplate.title}
+          imageUrl={this.state.chosenTemplate.imageUrl}
+          onCancel={this.toggleEditProfile}
+          onSubmit={vals => this.closeFormAndSubmit(vals)}
         />
       );
     };
