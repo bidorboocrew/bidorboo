@@ -20,7 +20,6 @@
     }
   },
   "dependencies": {
-    "algoliasearch": "^3.27.0",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.7.0",
@@ -56,6 +55,7 @@
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
     "typeface-roboto": "^0.0.54",
+    "v": "^3.27.0",
     "yup": "^0.24.1"
   },
   "scripts": {

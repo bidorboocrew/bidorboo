@@ -10,7 +10,12 @@ import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { GeoAddressInput, TextAreaInput, DateInput,TimeInput } from './FormsHelpers';
+import {
+  GeoAddressInput,
+  TextAreaInput,
+  DateInput,
+  TimeInput
+} from './FormsHelpers';
 import moment from 'moment';
 // import WebcamCaptureInput from '../WebcamCaptureInput';
 const EnhancedForms = withFormik({
@@ -143,7 +148,6 @@ const NewJobForm = props => {
           onBlur={handleBlur}
         />
 
-
         <TextAreaInput
           id="jobDetails"
           type="text"
@@ -154,28 +158,27 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-  <div className="field">
-        <div className="file">
-          <label className="file-label">
-            <input
-            id="imageFile"
-            className="file-input"
-            type="file"
-            name="resume"
-            error={touched.imageFile && errors.imageFile}
-            value={values.imageFile}
-            onChange={handleChange}
-            onBlur={handleBlur} />
-            <span className="file-cta">
-              <span className="file-icon">
-                <i className="fas fa-upload"></i>
+        <div className="field">
+          <div className="file">
+            <label className="file-label">
+              <input
+                id="imageFile"
+                className="file-input"
+                type="file"
+                name="resume"
+                error={touched.imageFile && errors.imageFile}
+                value={values.imageFile}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload" />
+                </span>
+                <span className="file-label">upload a picture</span>
               </span>
-              <span className="file-label">
-                upload a picture
-              </span>
-            </span>
-          </label>
-        </div>
+            </label>
+          </div>
         </div>
 
         <div className="field">
