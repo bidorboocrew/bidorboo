@@ -149,28 +149,7 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <div className="field">
-          <div className="file">
-            <label className="file-label">
-              <input
-                id="imageFile"
-                className="file-input"
-                type="file"
-                name="resume"
-                error={touched.imageFile && errors.imageFile}
-                value={values.imageFile}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <span className="file-cta">
-                <span className="file-icon">
-                  <i className="fas fa-upload" />
-                </span>
-                <span className="file-label">upload a picture</span>
-              </span>
-            </label>
-          </div>
-        </div>
+
 
         <div className="field">
           <button
@@ -199,3 +178,38 @@ const NewJobForm = props => {
 };
 
 export default EnhancedForms(NewJobForm);
+
+
+
+
+
+
+
+
+
+
+
+
+// ---- useful things to keep 
+        {/* xxx  file upload field till we are ready <div className="field">
+          <div className="file">
+            <label className="file-label">
+              <input
+                id="imageFile"
+                className="file-input"
+                type="file"
+                name="resume"
+                error={touched.imageFile && errors.imageFile}
+                value={values.imageFile}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload" />
+                </span>
+                <span className="file-label">upload a picture</span>
+              </span>
+            </label>
+          </div>
+        </div> */}
