@@ -7,6 +7,8 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { withFormik } from 'formik';
 import Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -47,6 +49,9 @@ const EnhancedForms = withFormik({
   },
   displayName: 'NewJobForm'
 });
+
+
+
 
 const NewJobForm = props => {
   const {
@@ -188,7 +193,10 @@ const NewJobForm = props => {
     </React.Fragment>
   );
 };
-
+NewJobForm.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
 export default EnhancedForms(NewJobForm);
 
 

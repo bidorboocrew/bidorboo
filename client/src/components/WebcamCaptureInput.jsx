@@ -27,7 +27,7 @@ export default class WebcamCaptureInput extends React.Component {
     this.toggleDialog = this.showHideDialog.bind(this);
   }
   showHideDialog() {
-    debugger;
+    // debugger;
     this.setState({ openModal: !this.state.openModal });
   }
   setWebcamRef(webcamDomRef) {
