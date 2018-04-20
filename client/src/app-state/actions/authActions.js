@@ -14,6 +14,10 @@ export const getCurrentUser = () => (dispatch, getState) =>
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
             payload: resp.data
           });
+          dispatch({
+            type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
+            payload: resp.data
+          });
         } else {
           //rediret user to sign up page
           dispatch({

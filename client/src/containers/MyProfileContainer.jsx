@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Textarea from 'react-textarea-autosize';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { updateProfileDetails } from '../app-state/actions/userModelActions';
@@ -33,6 +33,7 @@ class MyProfileContainer extends React.Component {
     this.setState({ isEditProfile: !this.state.isEditProfile });
   }
   closeFormAndSubmit(vals) {
+    debugger;
     this.toggleEditProfile();
     this.props.a_updateProfileDetails(vals);
   }
@@ -133,17 +134,14 @@ class MyProfileContainer extends React.Component {
                       labelValue={creditCardsString}
                     /> */}
                     <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <Textarea
+                    <TextareaAutosize
                       value={
                         personalParagraph ? personalParagraph : 'none provided'
                       }
+                      className="textarea is-marginless is-paddingless"
                       style={{
-                        fontFamily:
-                          '"Roboto", "Helvetica", "Arial", sans-serif',
                         resize: 'none',
                         border: 'none',
-                        paddingLeft: 0,
-                        paddingRight: 0,
                         color: '#4a4a4a'
                       }}
                       readOnly
@@ -171,7 +169,7 @@ class MyProfileContainer extends React.Component {
                     <ProfileForm
                       userDetails={s_userDetails}
                       onCancel={this.toggleEditProfile}
-                      onSubmit={vals => this.closeFormAndSubmit(vals)}
+                      onSubmit={this.closeFormAndSubmit}
                     />
                   </div>
                 )}
@@ -197,9 +195,9 @@ class MyProfileContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
+const mapStateToProps = ({ userModelReducer }) => {
   return {
-    s_userDetails: authReducer.userDetails
+    s_userDetails: userModelReducer.userDetails
   };
 };
 const mapDispatchToProps = dispatch => {

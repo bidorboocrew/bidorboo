@@ -51,8 +51,8 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
+    debugger
     props.onSubmit(values);
-    setSubmitting(false);
   },
   displayName: 'ProfileForm'
 });
@@ -108,7 +108,7 @@ const ProfileForm = props => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      
+
       <div className="field">
           <button
             style={{ marginRight: 6 }}
@@ -130,7 +130,7 @@ const ProfileForm = props => {
             Cancel
           </button>
         </div>
-     
+
     </form>
   );
 };
