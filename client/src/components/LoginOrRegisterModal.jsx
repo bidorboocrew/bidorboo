@@ -18,7 +18,7 @@ export const LoginOrRegisterModal = props => {
           <div style={{ textAlign: 'cetner' }}>
             <a
               rel="noopener noreferrer"
-              className="button is-danger"
+              className="button is-danger is-large"
               href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
               style={{marginTop:8, width: '100%'}}
             >
@@ -32,8 +32,8 @@ export const LoginOrRegisterModal = props => {
             <a
               rel="noopener noreferrer"
               href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
-              className="button is-link"
-              style={{marginTop:8, width: '100%'}}
+              className="button is-link is-large"
+              style={{marginTop:16, width: '100%'}}
             >
               <span>
                 <i className="fab fa-facebook-square" />
