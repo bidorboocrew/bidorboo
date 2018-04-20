@@ -43,14 +43,12 @@ const EnhancedForms = withFormik({
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
 
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    // props.onSubmit(values);
+    debugger;
+    props.onSubmit(values);
     setSubmitting(false);
   },
   displayName: 'NewJobForm'
 });
-
-
-
 
 const NewJobForm = props => {
   const {
@@ -165,7 +163,6 @@ const NewJobForm = props => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
 
         <div className="field">
           <button

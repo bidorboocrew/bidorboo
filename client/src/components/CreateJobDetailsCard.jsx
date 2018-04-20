@@ -14,27 +14,24 @@ export class CreateJobDetailsCard extends React.Component {
   render() {
     const { jobDetails, onCancel, onSubmit } = this.props;
     return (
-        <div className="card-content">
-          <h1 className="title">
-            {/* <span className="icon">
+      <div className="card-content">
+        <h1 className="title">
+          {/* <span className="icon">
               <i style={{ fontSize: 24 }} className="fas fa-snowflake title" />
             </span> */}
-            <span className="title">{jobDetails.title} Request</span>
-          </h1>
-          <div className="content">
-            <div style={{ marginTop: 8 }}>
-              <NewJobForm
-                onCancel={onCancel}
-                onSubmit={vals => onSubmit(vals)}
-              />
-              {/* <div style={{ marginTop: 8 }} >
+          <span className="title">{jobDetails.title} Request</span>
+        </h1>
+        <div className="content">
+          <div style={{ marginTop: 8 }}>
+            <NewJobForm onCancel={onCancel} onSubmit={vals => onSubmit(vals)} />
+            {/* <div style={{ marginTop: 8 }} >
                 <figure className="image">
                   <img  src={this.props.imageUrl} alt={jobDetails.title} />
                 </figure>
               </div> */}
-            </div>
           </div>
         </div>
+      </div>
     );
   }
 }

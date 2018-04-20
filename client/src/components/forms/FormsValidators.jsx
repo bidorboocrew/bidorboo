@@ -4,7 +4,6 @@
 //   getLatLng
 // } from 'react-places-autocomplete';
 
-
 export const requiredField = value => {
   return value && value.trim && value.trim() && value.length > 0
     ? undefined
