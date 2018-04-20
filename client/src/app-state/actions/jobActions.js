@@ -15,10 +15,10 @@ export const getJobById = jobId => (dispatch, getState) =>
     payload: axios
       .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES}/${jobId}`)
       .then(job => {
-        debugger;
+        // debugger;
       })
       .catch(e => {
-        debugger;
+        // debugger;
       })
   });
 
@@ -32,10 +32,10 @@ export const deleteJob = jobId => (dispatch, getState) => {
         }
       })
       .then(res => {
-        debugger;
+        // debugger;
       })
       .catch(e => {
-        debugger;
+        // debugger;
       })
   });
 };
@@ -45,8 +45,7 @@ export const updateJobDetails = jobDetails => {
     // xxx said mapping between form fields to the job attributes
     // maybe we should hide this from the user and make it happen on the backend .
     // who cares for now tho
-    let x = 1;
-    debugger;
+
     // return dispatch({
     //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
     //   payload: axios
@@ -100,7 +99,6 @@ export const addJob = jobDetails => {
       state: 'OPEN',
       title: jobTitle
     };
-    debugger;
 
       return dispatch({
         type: A.JOB_ACTIONS.ADD_NEW_JOB,
@@ -111,10 +109,10 @@ export const addJob = jobDetails => {
             }
           })
           .then(res => {
-            debugger;
+            // debugger;
           })
           .catch(e => {
-            debugger;
+            // debugger;
           })
       });
   };

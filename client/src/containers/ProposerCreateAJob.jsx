@@ -34,12 +34,7 @@ class ProposerCreateAJob extends React.Component {
     this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
   }
   handleSubmit(values) {
-    debugger;
     this.props.a_addJob(values);
-    // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
-    // this.props.a_routerActions.goBack();
-    // until then
-    //  this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
   }
 
   componentDidMount() {
