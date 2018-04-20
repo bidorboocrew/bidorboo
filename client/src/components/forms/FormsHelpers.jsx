@@ -149,27 +149,27 @@ export const DateInput = ({
 }) => {
   return (
     <div className="field">
-      <Label htmlFor={id} error={error}>
+      <Label>
         {label}
       </Label>
-      <DatePickerInput
-        id={id}
-        onError={onError}
-        placeholder={placeholder}
-        handleSelect={handleSelect}
-        onChangeEvent={onChangeEvent}
-        onBlurEvent={onBlurEvent}
-      />
+      <DatePickerInput onChangeEvent={onChangeEvent} />
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>
   );
 };
 
-export const TimeInput = ({ id, label, helpText, error, onChange, onBlur, 
+export const TimeInput = ({
+  id,
+  label,
+  helpText,
+  error,
+  onChange,
+  onBlur,
   hoursFieldId,
   minutesFieldId,
-  periodFieldId }) => {
+  periodFieldId
+}) => {
   return (
     <div className="field">
       <Label htmlFor={id} error={error}>

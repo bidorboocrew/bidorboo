@@ -25,7 +25,6 @@ const EnhancedForms = withFormik({
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    debugger;
     props.onSubmit(values);
     setSubmitting(false);
   },
@@ -34,6 +33,7 @@ const EnhancedForms = withFormik({
 
 const NewJobForm = props => {
   const {
+    jobTitle,
     values,
     touched,
     errors,
@@ -45,19 +45,26 @@ const NewJobForm = props => {
     isSubmitting,
     setFieldValue
   } = props;
+  values.titleField = jobTitle;
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        id="addressField"
+     <input
+        id="titleField"
         className="input is-invisible"
         type="hidden"
-        value={values.addressField || ''}
+        value={values.titleField || jobTitle}
       />
       <input
-        id="latLngField"
+        id="addressTextField"
         className="input is-invisible"
         type="hidden"
-        value={values.latLngField || ''}
+        value={values.addressTextField || ''}
+      />
+      <input
+        id="locationField"
+        className="input is-invisible"
+        type="hidden"
+        value={values.locationField || ''}
       />
       <GeoAddressInput
         id="geoInputField"
@@ -65,31 +72,29 @@ const NewJobForm = props => {
         helpText={'You must select an address from the drop down menu'}
         label="Job Address"
         placeholder="specify your job address"
-        error={touched.addressField && errors.addressField}
+        error={touched.addressTextField && errors.addressTextField}
         onError={e => {
-          errors.addressField = 'google api error ' + e;
-          debugger;
+          errors.addressTextField = 'google api error ' + e;
         }}
         onChangeEvent={e => {
-          setFieldValue('addressField', e, true);
+          setFieldValue('addressTextField', e, true);
           console.log('value changed ' + e);
         }}
         onBlurEvent={e => {
           if (e && e.target) {
-            e.target.id = 'addressField';
+            e.target.id = 'addressTextField';
             handleBlur(e);
           }
         }}
         handleSelect={address => {
-          setFieldValue('addressField', address, true);
+          setFieldValue('addressTextField', address, true);
           geocodeByAddress(address)
             .then(results => getLatLng(results[0]))
             .then(latLng => {
-              debugger;
-              setFieldValue('latLngField', latLng, false);
+              setFieldValue('locationField', latLng, false);
               console.log('Success', latLng);
             })
-            .catch(error => console.error('Error', error));
+            .catch(error => {  errors.addressTextField = 'error getting lat lng ' + error; console.error('Error', error)});
         }}
       />
 
@@ -108,16 +113,9 @@ const NewJobForm = props => {
         onChangeEvent={e => {
           if (e && e instanceof moment) {
             let val = e.toDate();
-            setFieldValue('dateField', val, true);
+            setFieldValue('dateField', val, false);
           } else {
-            e.target.id = 'dateField';
-            handleChange(e);
-          }
-        }}
-        onBlurEvent={e => {
-          if (e && e.target) {
-            e.target.id = 'dateField';
-            handleBlur(e);
+            e.preventDefault();
           }
         }}
       />
@@ -126,19 +124,19 @@ const NewJobForm = props => {
         id="hoursField"
         className="input is-invisible"
         type="hidden"
-        value={values.hoursField}
+        value={values.hoursField  || 1}
       />
       <input
         id="minutesField"
         className="input is-invisible"
         type="hidden"
-        value={values.minutesField || moment().toDate()}
+        value={values.minutesField  || 0}
       />
       <input
         id="periodField"
         className="input is-invisible"
         type="hidden"
-        value={values.periodField}
+        value={values.periodField  || 'AM'}
       />
       <TimeInput
         hoursFieldId="hoursField"
@@ -152,24 +150,24 @@ const NewJobForm = props => {
         onBlur={handleBlur}
       />
       <TextInput
-        id="durationField"
+        id="durationOfJobField"
         type="text"
         helpText="for example : 1 hour , 1 week ...etc"
         label="Job Duration"
-        error={touched.durationField && errors.durationField}
-        value={values.durationField}
+        error={touched.durationOfJobField && errors.durationOfJobField}
+        value={values.durationOfJobField}
         onChange={handleChange}
         onBlur={handleBlur}
         iconLeft="far fa-clock"
       />
 
       <TextAreaInput
-        id="jobDetails"
+        id="detailedDescriptionField"
         type="text"
         label="Detailed Description"
         placeholder="Sample: Hey I am handy with tools and can do everything... "
-        error={touched.jobDetails && errors.jobDetails}
-        value={values.jobDetails}
+        error={touched.detailedDescriptionField && errors.detailedDescriptionField}
+        value={values.detailedDescriptionField}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -185,7 +183,6 @@ const NewJobForm = props => {
         </button>
         <button
           className="button is-outlined is-medium"
-          type="submit"
           disabled={isSubmitting}
           onClick={e => {
             e.preventDefault();

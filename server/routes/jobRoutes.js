@@ -6,15 +6,19 @@ const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const isJobOwner = require('../middleware/isJobOwner');
 
 module.exports = app => {
-  app.get(ROUTES.USERAPI.JOB_ROUTES, requireBidorBooHost, requireLogin, async (req, res, done) => {
-    try {
-      userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
-      res.send(userJobsList);
-
-    } catch (err) {
-      res.send(err);
+  app.get(
+    ROUTES.USERAPI.JOB_ROUTES,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res, done) => {
+      try {
+        userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
+        res.send(userJobsList);
+      } catch (err) {
+        res.send(err);
+      }
     }
-  });
+  );
 
   app.get(
     `${ROUTES.USERAPI.JOB_ROUTES}/:jobId`,
@@ -43,14 +47,14 @@ module.exports = app => {
       }
     }
   );
+
   app.post(ROUTES.USERAPI.JOB_ROUTES, requireLogin, async (req, res, done) => {
     try {
       // create new job for this user
-      const newJobDetails = req.body.data;
+      const data = req.body.data;
       const userMongoDBId = req.user._id;
-
       const newJob = await jobDataAccess.addAJob({
-        ...newJobDetails,
+        ...data.jobDetails,
         _ownerId: userMongoDBId
       });
       res.send(newJob);
@@ -60,6 +64,7 @@ module.exports = app => {
       throw e;
     }
   });
+
   app.put(
     ROUTES.USERAPI.JOB_ROUTES,
     requireLogin,

@@ -1,6 +1,7 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/route-const';
 import axios from 'axios';
+import moment from 'moment';
 
 export const getAllJobs = () => (dispatch, getState) =>
   dispatch({
@@ -8,44 +9,113 @@ export const getAllJobs = () => (dispatch, getState) =>
     payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES)
   });
 
-// export const updateProfileDetails = profileDetails => (dispatch, getState) => {
-//   axios
-//     .put('/job', {
-//       data: {
-//         jobIdToUpdate: '5aa8bc29152bf02d247bca62',
-//         title: 'iam superbbbb happy'
-//       }
-//     })
-//     .then(job => {
-//       debugger;
-//     })
-//     .catch(e => {
-//       debugger;
-//     });
-//   axios
-//     .post('/job', {
-//       data: {
-//         title: 'iam happy',
-//         detailedDescription:
-//           'this will be an interesting task . I hope I can handle this shit',
-//         point: {
-//           type: 'Point',
-//           coordinates: [12.123456, 13.134578]
-//         }
-//       }
-//     })
-//     .then(job => {
-//       debugger;
-//     })
-//     .catch(e => {
-//       debugger;
-//     });
-//   axios
-//     .get('/job/5aa8bc29152bf02d247bca62')
-//     .then(job => {
-//       debugger;
-//     })
-//     .catch(e => {
-//       debugger;
-//     });
-// };
+export const getJobById = jobId => (dispatch, getState) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_JOB_BY_ID,
+    payload: axios
+      .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES}/${jobId}`)
+      .then(job => {
+        debugger;
+      })
+      .catch(e => {
+        debugger;
+      })
+  });
+
+export const deleteJob = jobId => (dispatch, getState) => {
+  dispatch({
+    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    payload: axios
+      .delete(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
+        data: {
+          jobId: jobId
+        }
+      })
+      .then(res => {
+        debugger;
+      })
+      .catch(e => {
+        debugger;
+      })
+  });
+};
+
+export const updateJobDetails = jobDetails => {
+  return (dispatch, getState) => {
+    // xxx said mapping between form fields to the job attributes
+    // maybe we should hide this from the user and make it happen on the backend .
+    // who cares for now tho
+    let x = 1;
+    debugger;
+    // return dispatch({
+    //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
+    //   payload: axios
+    //     .put(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
+    //       data: {
+    //         jobDetails: jobDetails
+    //       }
+    //     })
+    //     .then(job => {
+    //       debugger;
+    //     })
+    //     .catch(e => {
+    //       debugger;
+    //     })
+    // });
+  };
+};
+
+export const addJob = jobDetails => {
+  return (dispatch, getState) => {
+    const {
+      locationField,
+      detailedDescriptionField,
+      dateField,
+      hoursField,
+      minutesField,
+      periodField,
+      durationOfJobField,
+      addressTextField,
+      jobTitle
+    } = jobDetails;
+
+    //map form fields to the mongodb schema expected fields
+    // for more ddetails look at jobModel.js
+    const mapFieldsToSchema = {
+      detailedDescription: detailedDescriptionField,
+      location: {
+        type: 'Point',
+        coordinates: [locationField.lat, locationField.lng]
+      },
+      startingDateAndTime: {
+        date: moment
+          .utc(dateField)
+          .toDate(),
+        hours: hoursField,
+        minutes: minutesField,
+        period: periodField
+      },
+      durationOfJob: durationOfJobField,
+      addressText: addressTextField,
+      state: 'OPEN',
+      title: jobTitle
+    };
+    debugger;
+
+      return dispatch({
+        type: A.JOB_ACTIONS.ADD_NEW_JOB,
+        payload: axios
+          .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
+            data: {
+              jobDetails: mapFieldsToSchema
+            }
+          })
+          .then(res => {
+            debugger;
+          })
+          .catch(e => {
+            debugger;
+          })
+      });
+  };
+};
