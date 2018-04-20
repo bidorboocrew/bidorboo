@@ -1,15 +1,8 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import Yup from 'yup';
-import {
-  TextInput,
-  TextAreaInput,
-} from './FormsHelpers';
-import {
-  enforceNumericField,
-  alphanumericField,
-} from './FormsValidators';
-
+import { TextInput, TextAreaInput } from './FormsHelpers';
+import { enforceNumericField, alphanumericField } from './FormsValidators';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -18,13 +11,19 @@ const EnhancedForms = withFormik({
       .trim()
       .min(3, 'your name is longer than that. Must be at least 3 chars')
       .max(25, 'your name is longer 25. Must be at most 25 chars')
-      .test('alphanumericField','Name can only contain alphabits and numbers',(v)=>{return alphanumericField(v)})
+      .test(
+        'alphanumericField',
+        'Name can only contain alphabits and numbers',
+        v => {
+          return alphanumericField(v);
+        }
+      )
       .required('First name is required.'),
     phoneNumber: Yup.number().positive(
       'your phone number can only be of format 61312345678'
     ),
-    personalParagraph: Yup.string()
-    .max(255,
+    personalParagraph: Yup.string().max(
+      255,
       'Maximum length allowed is 255 charachters'
     )
   }),
@@ -34,7 +33,6 @@ const EnhancedForms = withFormik({
   //   if(values){
   //     const {displayName,phoneNumber,personalParagraph} = values;
   //     if(phoneNumber){
-
 
   //     }
   //   }
@@ -51,7 +49,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger
     props.onSubmit(values);
   },
   displayName: 'ProfileForm'
@@ -91,11 +88,12 @@ const ProfileForm = props => {
         helpText="example : 61312345678"
         error={touched.phoneNumber && errors.phoneNumber}
         value={values.phoneNumber}
-        onChange={(e)=>{
+        onChange={e => {
           //run normalizer to get rid of alpha chars
           const normalizedVal = enforceNumericField(e.target.value);
-          e.target.value= normalizedVal;
-          handleChange(e);}}
+          e.target.value = normalizedVal;
+          handleChange(e);
+        }}
         onBlur={handleBlur}
       />
       <TextAreaInput
@@ -110,27 +108,26 @@ const ProfileForm = props => {
       />
 
       <div className="field">
-          <button
-            style={{ marginRight: 6 }}
-            className="button is-primary is-medium"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Submit
-          </button>
-          <button
-            className="button is-outlined is-medium"
-            type="submit"
-            disabled={isSubmitting}
-            onClick={e => {
-              e.preventDefault();
-              onCancel(e);
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-
+        <button
+          style={{ marginRight: 6 }}
+          className="button is-primary is-medium"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          Submit
+        </button>
+        <button
+          className="button is-outlined is-medium"
+          type="submit"
+          disabled={isSubmitting}
+          onClick={e => {
+            e.preventDefault();
+            onCancel(e);
+          }}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

@@ -62,12 +62,16 @@ body {
   }
 }
 
+
+//----------------------------app styles customizations
 .mainSectionContainer {
    background-color: whitesmoke;
-  // height: calc(100% - 3.25rem) !important;
-
 }
 
+.nav-bottom-border {
+  border-bottom: $border-divider !important;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+}
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
 div.react-datepicker-popper{
@@ -81,6 +85,20 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous{
   border-right-color: #209cee !important;
   border-width: 10px !important;
 }
+.bdbCardComponent {
+  cursor: pointer;
+  .card {
+    background: white;
+    &:hover{
+
+      -webkit-animation:color-change-2x-proposer 0.350s linear both;animation:color-change-2x-proposer 0.350s linear both;
+    }
+  }
+}
+
+
+//----------------------------bulma customizations
+
 
 $family-primary: 'Roboto', sans-serif;
 $body-background-color: whitesmoke; //#3b549c;
@@ -90,6 +108,3 @@ $footer-background-color: #363636;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 @import 'bulma/bulma.sass';
-
-// http://ianlunn.github.io/Hover/
-@import '../node_modules/hover.css/scss/hover.scss';

@@ -14,12 +14,11 @@ export class CreateJobDetailsCard extends React.Component {
   render() {
     const { jobDetails, onCancel, onSubmit } = this.props;
     return (
-      <div className="swing-in-top-fwd">
         <div className="card-content">
-          <h1 className="bdb-section-title title">
-            <span className="icon">
+          <h1 className="title">
+            {/* <span className="icon">
               <i style={{ fontSize: 24 }} className="fas fa-snowflake title" />
-            </span>
+            </span> */}
             <span className="title">{jobDetails.title} Request</span>
           </h1>
           <div className="content">
@@ -36,7 +35,6 @@ export class CreateJobDetailsCard extends React.Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

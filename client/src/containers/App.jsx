@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
-import { showLoginDialog } from '../app-state/actions/uiActions';
+import { getCurrentUser } from '../app-state/actions/authActions';
 import LoadingBar from 'react-redux-loading-bar';
+import '../assets/index.css';
 
 import * as ROUTES from '../constants/route-const';
 
@@ -18,8 +18,6 @@ import {
   BidderContainer,
   MyProfileContainer
 } from './index';
-
-import './styles/app.css';
 
 class App extends React.Component {
   static propTypes = {

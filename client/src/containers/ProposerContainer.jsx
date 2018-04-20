@@ -53,7 +53,7 @@ class ProposerContainer extends React.Component {
                 activeStep={this.state.currentStepperIndex}
               />
             </div>
-            <div className="bdb-section-body" id="existing-jobs">
+            <div>
               <div className="columns">
                 <BidOrBooGenericTasks />
               </div>

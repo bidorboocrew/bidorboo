@@ -1,11 +1,11 @@
 import React from 'react';
-import GeoSearch from '../components/GeoSearch';
+// import GeoSearch from '../components/GeoSearch';
 import GeoMap from '../components/GeoMap';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  // geocodeByPlaceId,
-  getLatLng
-} from 'react-places-autocomplete';
+// import PlacesAutocomplete, {
+//   geocodeByAddress,
+//   // geocodeByPlaceId,
+//   getLatLng
+// } from 'react-places-autocomplete';
 
 class BidderContainer extends React.Component {
   constructor(props) {
@@ -34,9 +34,9 @@ class BidderContainer extends React.Component {
               }}
             /> */}
             <div id="available-jobs">
-              <div className="bdb-section-title">The Map View</div>
+              <p className="title">The Map View</p>
             </div>
-            <div className="bdb-section-body" id="existing-jobs">
+            <div  id="existing-jobs">
               <div className="columns">
                 <div className="column">
                   {this.state.renderMap && <GeoMap />}

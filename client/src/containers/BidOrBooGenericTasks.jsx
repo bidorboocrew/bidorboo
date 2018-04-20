@@ -36,7 +36,7 @@ class BidOrBooGenericTasks extends React.Component {
               </figure>
             </div>
             <div className="card-content">
-              <h1 className="bdb-section-title">{title}</h1>
+              <h1 className="title">{title}</h1>
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
                 <div style={{ textAlign: 'center', marginTop: 8 }}>

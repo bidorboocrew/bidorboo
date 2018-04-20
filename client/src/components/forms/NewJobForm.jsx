@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withFormik } from 'formik';
-import Yup from 'yup';
+// import Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   GeoAddressInput,
@@ -20,7 +20,6 @@ import {
   TimeInput
 } from './FormsHelpers';
 import moment from 'moment';
-// import WebcamCaptureInput from '../WebcamCaptureInput';
 const EnhancedForms = withFormik({
   // validationSchema: Yup.object().shape({
   //   addressField: Yup.string()
@@ -198,38 +197,3 @@ NewJobForm.propTypes = {
   onSubmit: PropTypes.func.isRequired
 };
 export default EnhancedForms(NewJobForm);
-
-
-
-
-
-
-
-
-
-
-
-
-// ---- useful things to keep
-        {/* xxx  file upload field till we are ready <div className="field">
-          <div className="file">
-            <label className="file-label">
-              <input
-                id="imageFile"
-                className="file-input"
-                type="file"
-                name="resume"
-                error={touched.imageFile && errors.imageFile}
-                value={values.imageFile}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <span className="file-cta">
-                <span className="file-icon">
-                  <i className="fas fa-upload" />
-                </span>
-                <span className="file-label">upload a picture</span>
-              </span>
-            </label>
-          </div>
-        </div> */}

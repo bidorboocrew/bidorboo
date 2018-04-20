@@ -1,10 +1,8 @@
-import React from 'react';
-import GeoSearch from '../GeoSearch';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  // geocodeByPlaceId,
-  getLatLng
-} from 'react-places-autocomplete';
+// import PlacesAutocomplete, {
+//   geocodeByAddress,
+//   // geocodeByPlaceId,
+//   getLatLng
+// } from 'react-places-autocomplete';
 
 
 export const requiredField = value => {

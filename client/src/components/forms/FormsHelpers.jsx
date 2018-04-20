@@ -1,7 +1,7 @@
 import React from 'react';
 import GeoSearch from '../GeoSearch';
 import DatePickerInput from '../DatePickerInput';
-import moment from 'moment';
+// import moment from 'moment';
 
 const InputFeedback = ({ error }) =>
   error ? <p className="help is-danger">{error}</p> : null;

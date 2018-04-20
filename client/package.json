@@ -26,7 +26,6 @@
     "classnames": "^2.2.5",
     "flexboxgrid-sass": "^8.0.5",
     "formik": "^0.11.11",
-    "hover.css": "^2.3.0",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
     "node-sass-chokidar": "^0.0.3",

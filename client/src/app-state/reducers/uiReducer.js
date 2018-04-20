@@ -1,7 +1,5 @@
 //will host all UI global changes
-
 import * as A from '../actionTypes';
-import * as C from '../../constants/constants';
 
 const initialState = {
   // isSideNavOpen: false,

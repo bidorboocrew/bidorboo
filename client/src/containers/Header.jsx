@@ -12,7 +12,6 @@ import classNames from 'classnames';
 
 import * as ROUTES from '../constants/route-const';
 
-import './styles/header.css';
 
 class Header extends React.Component {
   static propTypes = {
@@ -57,7 +56,7 @@ class Header extends React.Component {
     const { profileImgUrl } = s_userDetails;
 
     let navbarStylesBasedOnRoute = classNames(
-      'navbar is-fixed-top bottom-border'
+      'navbar is-fixed-top nav-bottom-border'
     );
     let logoSubTitle = '';
     if (s_currentRoute && s_currentRoute.includes) {
@@ -68,15 +67,15 @@ class Header extends React.Component {
         ROUTES.FRONTENDROUTES.BIDDER.root
       );
       navbarStylesBasedOnRoute = classNames(
-        'navbar is-fixed-top bottom-border',
+        'navbar is-fixed-top nav-bottom-border',
         { 'color-change-2x-proposer': isProposerRoutes },
         { 'color-change-2x-bidder': isBidderRoutes }
       );
       if (isProposerRoutes) {
-        logoSubTitle += ' Proposer View';
+        logoSubTitle = '(Proposer View)';
       }
       if (isBidderRoutes) {
-        logoSubTitle += ' Bidder View';
+        logoSubTitle = '(Bidder View)';
       }
     }
 
@@ -110,7 +109,7 @@ class Header extends React.Component {
             <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
             <span
               className="is-hidden-desktop"
-              style={{ paddingLeft: 4, color: 'white' }}
+              style={{ paddingLeft: 6, color: '#DCDCDC' }}
             >
               {logoSubTitle}
             </span>
@@ -219,14 +218,14 @@ class Header extends React.Component {
               {!s_isLoggedIn && (
                 <div className="navbar-item">
                   <a
-                    className="button is-outlined"
+                    className="button is-danger is-medium heartbeat"
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
                         this.toggleLoginDialog();
                       });
                     }}
                   >
-                    login
+                    Login Now
                   </a>
                 </div>
               )}

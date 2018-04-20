@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../constants/route-const';
 import { switchRoute } from '../app-state/actions/routerActions';
-import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 
 import { bindActionCreators } from 'redux';
 import { CreateJobDetailsCard } from '../components/CreateJobDetailsCard';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { routerActions, ConnectedRouter } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 
 class ProposerCreateAJob extends React.Component {
   constructor(props) {
@@ -27,8 +26,7 @@ class ProposerCreateAJob extends React.Component {
   }
 
   goBack(e) {
-    const { a_routerActions } = this.props;
-    const y = ConnectedRouter;
+    // const { a_routerActions } = this.props;
     e.preventDefault();
     // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
     // this.props.a_routerActions.goBack();

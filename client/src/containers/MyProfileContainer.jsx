@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
-
-import { getCurrentUser, onLogout } from '../app-state/actions/authActions';
 import { updateProfileDetails } from '../app-state/actions/userModelActions';
-import { showLoginDialog } from '../app-state/actions/uiActions';
-import { switchRoute } from '../app-state/actions/routerActions';
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 
@@ -33,7 +29,6 @@ class MyProfileContainer extends React.Component {
     this.setState({ isEditProfile: !this.state.isEditProfile });
   }
   closeFormAndSubmit(vals) {
-    debugger;
     this.toggleEditProfile();
     this.props.a_updateProfileDetails(vals);
   }
