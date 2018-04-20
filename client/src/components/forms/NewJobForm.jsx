@@ -21,27 +21,9 @@ import {
 } from './FormsHelpers';
 import moment from 'moment';
 const EnhancedForms = withFormik({
-  // validationSchema: Yup.object().shape({
-  //   addressField: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .required('Please select an address from the drop down list'),
-  //   DateField: Yup.date().min(moment(), 'Date selected can not be in the past'),
-  //   jobDetails: Yup.string().max(
-  //     255,
-  //     'Maximum length allowed is 255 charachters'
-  //   )
-  // }),
-  // validate: (values, props) => {
-  //   //additional validation
-  //   const errors = {};
-
-  //   return errors;
-  // },
   handleSubmit: (values, { setSubmitting, props }) => {
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
-
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
     debugger;
     props.onSubmit(values);
@@ -64,13 +46,18 @@ const NewJobForm = props => {
     setFieldValue
   } = props;
   return (
-    <React.Fragment>
       <form onSubmit={handleSubmit}>
         <input
           id="addressField"
           className="input is-invisible"
           type="hidden"
           value={values.addressField || ''}
+        />
+        <input
+          id="latLngField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.latLngField || ''}
         />
         <GeoAddressInput
           id="geoInputField"
@@ -80,8 +67,8 @@ const NewJobForm = props => {
           placeholder="specify your job address"
           error={touched.addressField && errors.addressField}
           onError={e => {
-            errors.addressField = e;
-            console.log('google api error ' + e);
+            errors.addressField = 'google api error ' + e;
+            debugger
           }}
           onChangeEvent={e => {
             setFieldValue('addressField', e, true);
@@ -97,7 +84,11 @@ const NewJobForm = props => {
             setFieldValue('addressField', address, true);
             geocodeByAddress(address)
               .then(results => getLatLng(results[0]))
-              .then(latLng => console.log('Success', latLng))
+              .then(latLng => {
+                debugger;
+                setFieldValue('latLngField', latLng, false);
+                 console.log('Success', latLng);
+                })
               .catch(error => console.error('Error', error));
           }}
         />
@@ -131,13 +122,32 @@ const NewJobForm = props => {
           }}
         />
 
+        <input
+          id="hoursField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.hoursField}
+        />
+         <input
+          id="minutesField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.minutesField || moment().toDate()}
+        />
+         <input
+          id="periodField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.periodField}
+        />
         <TimeInput
-          id="startTime"
+          hoursFieldId="hoursField"
+          minutesFieldId="minutesField"
+          periodFieldId="periodField"
           type="text"
           label="Starting time Details"
           placeholder="select Starting time"
           error={touched.startTime && errors.startTime}
-          value={values.startTime}
           onChange={handleChange}
           onBlur={handleBlur}
         />
@@ -186,7 +196,6 @@ const NewJobForm = props => {
           </button>
         </div>
       </form>
-    </React.Fragment>
   );
 };
 NewJobForm.propTypes = {

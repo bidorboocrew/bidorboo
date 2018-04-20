@@ -166,7 +166,10 @@ export const DateInput = ({
   );
 };
 
-export const TimeInput = ({ id, label, helpText, error, onChange, onBlur }) => {
+export const TimeInput = ({ id, label, helpText, error, onChange, onBlur, 
+  hoursFieldId,
+  minutesFieldId,
+  periodFieldId }) => {
   return (
     <div className="field">
       <Label htmlFor={id} error={error}>
@@ -176,16 +179,15 @@ export const TimeInput = ({ id, label, helpText, error, onChange, onBlur }) => {
         <div className="select is-info">
           <select
             onChange={e => {
-              e.target.id = id;
+              e.target.id = hoursFieldId;
               onChange(e);
             }}
             onBlur={e => {
-              e.target.id = id;
+              e.target.id = hoursFieldId;
               onBlur(e);
             }}
             style={{ marginRight: 6 }}
           >
-            <option>hh</option>
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -203,16 +205,15 @@ export const TimeInput = ({ id, label, helpText, error, onChange, onBlur }) => {
         <div className="select is-info">
           <select
             onChange={e => {
-              e.target.id = id;
+              e.target.id = minutesFieldId;
               onChange(e);
             }}
             onBlur={e => {
-              e.target.id = id;
+              e.target.id = minutesFieldId;
               onBlur(e);
             }}
             style={{ marginRight: 6 }}
           >
-            <option>mm</option>
             <option>00</option>
             <option>15</option>
             <option>30</option>
@@ -221,19 +222,18 @@ export const TimeInput = ({ id, label, helpText, error, onChange, onBlur }) => {
         </div>
         <div
           onChange={e => {
-            e.target.id = id;
+            e.target.id = periodFieldId;
             onChange(e);
           }}
           onBlur={e => {
-            e.target.id = id;
+            e.target.id = periodFieldId;
             onBlur(e);
           }}
           className="select is-info"
         >
           <select>
-            <option>pp</option>
-            <option>AM</option>
             <option>PM</option>
+            <option>AM</option>
           </select>
         </div>
       </div>
