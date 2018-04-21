@@ -58,134 +58,118 @@ class MyProfileContainer extends React.Component {
       C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     return (
-      <section className="section mainSectionContainer">
-        <div className="container" id="bdb-profile-content">
-          <div className="columns">
-            <div className="column is-one-quarter">
-              <div className="box" style={{ textAlign: 'center' }}>
-                <div>
-                  <img
-                    alt="profile pic"
-                    src={profileImgUrl}
-                    className="profileImg"
-                  />
-                </div>
-                <div>
-                  <img
-                    alt="star rating"
-                    src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
-                    className="starRating col-xs-12"
-                  />
-                </div>
-                <div style={{ fontSize: 20 }}>{displayName}</div>
-                <div style={{ fontSize: 20 }}>{email}</div>
-                <div style={{ marginTop: 12 }}>
-                  <a className="button is-primary" disabled>
-                    <i
-                      style={{ fontSize: 12 }}
-                      className="fas fa-cloud-upload-alt"
+      <div id="bdb-proposer-root">
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ color: 'white' }} className="title">
+                My Profile
+              </h1>
+            </div>
+          </div>
+        </section>
+        <section className="section mainSectionContainer">
+          <div className="container" id="bdb-profile-content">
+            <div className="columns">
+              <div className="column is-one-quarter">
+                <div className=" has-text-centered">
+                  <div>
+                    <img
+                      alt="profile pic"
+                      src={profileImgUrl}
+                      className="profileImg"
                     />
-                    <span style={{ marginLeft: 4 }}>Edit Picture</span>
-                  </a>
+                  </div>
+                  <div>
+                    <img
+                      alt="star rating"
+                      src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+                      className="starRating"
+                    />
+                  </div>
+                  <div>{displayName}</div>
+                  <div>{email}</div>
                 </div>
               </div>
-            </div>
-            {/* user details */}
-            <div className="column">
-              <div className="box">
-                {!this.state.isEditProfile && (
-                  <div>
-                    <HeaderTitle title="General Information" />
-                    <DisplayLabelValue
-                      labelText="User Name:"
-                      labelValue={displayName}
-                    />
-                    <DisplayLabelValue
-                      labelText="Membership Status:"
-                      labelValue={membershipStatusDisplay}
-                    />
-                    <DisplayLabelValue
-                      labelText="Phone Number:"
-                      labelValue={phoneNumber || 'not provided'}
-                    />
-
-                    {/* <HeaderTitle specialMarginVal={8} title="Address Section" />
-                    <DisplayLabelValue
-                      labelText="Address:"
-                      labelValue={
-                        !address
-                          ? 'not provided'
-                          : `${address.unit} ${address.city} ${
-                              address.province
-                            } ${address.state} ${address.postalCode} ${
-                              address.country
-                            } ${address.extras}`
-                      }
-                    /> */}
-
-                    {/* <HeaderTitle specialMarginVal={8} title="Payment Details" />
-                    <DisplayLabelValue
-                      labelText="Credit Card:"
-                      labelValue={creditCardsString}
-                    /> */}
-                    <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <TextareaAutosize
-                      value={
-                        personalParagraph ? personalParagraph : 'none provided'
-                      }
-                      className="textarea is-marginless is-paddingless"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a'
-                      }}
-                      readOnly
-                    />
-
-                    <div style={{ marginTop: 12 }}>
-                      <a
-                        className="button is-primary"
-                        onClick={() => {
-                          this.toggleEditProfile();
+              {/* user details */}
+              <div className="column">
+                <div>
+                  {!this.state.isEditProfile && (
+                    <div>
+                      <HeaderTitle title="General Information" />
+                      <DisplayLabelValue
+                        labelText="User Name:"
+                        labelValue={displayName}
+                      />
+                      <DisplayLabelValue
+                        labelText="Membership Status:"
+                        labelValue={membershipStatusDisplay}
+                      />
+                      <DisplayLabelValue
+                        labelText="Phone Number:"
+                        labelValue={phoneNumber || 'not provided'}
+                      />
+                      <HeaderTitle specialMarginVal={8} title="About Me" />
+                      <TextareaAutosize
+                        value={
+                          personalParagraph
+                            ? personalParagraph
+                            : 'none provided'
+                        }
+                        className="textarea is-marginless is-paddingless"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                          color: '#4a4a4a'
                         }}
-                      >
-                        <i style={{ fontSize: 12 }} className="far fa-edit" />
-                        <span style={{ marginLeft: 4 }}>
-                          Edit Profile Details
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-                {this.state.isEditProfile && (
-                  <div>
-                    <HeaderTitle title="Edit Profile Deails" />
+                        readOnly
+                      />
 
-                    <ProfileForm
-                      userDetails={s_userDetails}
-                      onCancel={this.toggleEditProfile}
-                      onSubmit={this.closeFormAndSubmit}
+                      <div style={{ marginTop: 12 }}>
+                        <a
+                          className="button is-primary"
+                          onClick={() => {
+                            this.toggleEditProfile();
+                          }}
+                        >
+                          <i style={{ fontSize: 12 }} className="far fa-edit" />
+                          <span style={{ marginLeft: 4 }}>
+                            Edit Profile Details
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  {this.state.isEditProfile && (
+                    <div>
+                      <HeaderTitle title="Edit Profile Details" />
+
+                      <ProfileForm
+                        userDetails={s_userDetails}
+                        onCancel={this.toggleEditProfile}
+                        onSubmit={this.closeFormAndSubmit}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* advertisement */}
+              <div className="column is-one-quarter">
+                <div style={{ textAlign: 'center' }}>
+                  <div>Ads</div>
+                  <div>
+                    <img
+                      alt="profile pic"
+                      src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
+                      className="profileImg"
                     />
                   </div>
-                )}
-              </div>
-            </div>
-            {/* advertisement */}
-            <div className="column is-one-quarter">
-              <div className="box" style={{ textAlign: 'center' }}>
-                <div>Ads</div>
-                <div>
-                  <img
-                    alt="profile pic"
-                    src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
-                    className="profileImg"
-                  />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     );
   }
 }

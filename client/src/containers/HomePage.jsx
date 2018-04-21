@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BidOrBooGenericTasks from './BidOrBooGenericTasks';
-// import Stepper from 'react-stepper-horizontal';
+import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
 import Rotate from 'react-reveal/Rotate';
 import Fade from 'react-reveal/Fade';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
+import { switchRoute } from '../app-state/actions/routerActions';
 
 class HomePage extends React.Component {
   static propTypes = {
@@ -25,12 +25,13 @@ class HomePage extends React.Component {
   }
 
   render() {
+    const { a_switchRoute } = this.props;
     return (
       <div id="bdb-home-content">
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <Rotate delay={500} top left cascade>
+              <Rotate delay={350} top left cascade>
                 <h1 style={{ color: 'white' }} className="title">
                   BidOrBoo
                 </h1>
@@ -44,7 +45,7 @@ class HomePage extends React.Component {
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade left delay={1000}>
+          <Fade left delay={500}>
             <div className="container">
               <section className="hero is-dark is-small is-marginless">
                 <div
@@ -52,28 +53,16 @@ class HomePage extends React.Component {
                   className="hero-body"
                 >
                   <div className="container">
-                    <h1 className="title">Post a Job</h1>
+                    <h1 className="title">Post Jobs</h1>
                     <h2 className="subtitle">
-                      get the work done for the best price possible
+                      Get the work done for the best price possible
                     </h2>
                   </div>
                 </div>
               </section>
-              {/* <div>
-              <Stepper
-                size={27}
-                activeColor={'rgb(0, 209, 178)'}
-                steps={[
-                  { title: 'Pick a Template' },
-                  { title: 'Fill In Details' },
-                  { title: 'Post it!' }
-                ]}
-                activeStep={0}
-              />
-            </div> */}
               <div style={{ marginTop: '0.45rem' }}>
                 <div className="columns">
-                    <BidOrBooGenericTasks />
+                  <BidOrBooGenericTasks switchRoute={a_switchRoute} />
                 </div>
               </div>
             </div>
@@ -81,7 +70,7 @@ class HomePage extends React.Component {
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade right delay={1500}>
+          <Fade right delay={750}>
             <div className="container">
               <section
                 style={{ margin: '0.25rem' }}
@@ -92,9 +81,9 @@ class HomePage extends React.Component {
                   className="hero-body"
                 >
                   <div className="container">
-                    <h1 className="title">Bid on a Job</h1>
+                    <h1 className="title">Bid on Jobs</h1>
                     <h2 className="subtitle">
-                      Start Earning money by doing things you are good at
+                      Start Earning money by doing things you are good at.
                     </h2>
                   </div>
                 </div>
@@ -109,29 +98,6 @@ class HomePage extends React.Component {
             </div>
           </Fade>
         </section>
-
-        {/* <div className="container">
-            <div className="has-text-centered title">Bid On a Job</div>
-            <div className="has-text-centered">
-              this section is under development
-            </div> */}
-
-        {/* <div>
-              <Stepper
-                size={24}
-                activeColor={'rgb(0, 209, 178)'}
-                steps={[
-                  { title: 'Select a Job' },
-                  { title: 'Bid' },
-                  { title: 'Post it!' }
-                ]}
-                activeStep={0}
-              />
-            </div> */}
-        {/* <div className="bdb-section-body" id="existing-jobs">
-              <div className="columns">still under development</div>
-            </div> */}
-        {/* </div> */}
       </div>
     );
   }
@@ -143,7 +109,8 @@ const mapStateToProps = ({ authReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

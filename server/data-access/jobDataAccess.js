@@ -16,7 +16,7 @@ exports.jobDataAccess = {
       path: '_postedJobs',
       select: 'detailedDescription location -_id'
     };
-    return User.findOne({ userId: userId }, { _postedJobs: 1, _id:0 })
+    return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
       .populate(populateOptions)
       .lean()
       .exec(); // only works if we pushed refs to children
@@ -68,17 +68,25 @@ exports.jobDataAccess = {
     try {
       const newJob = await new JobModel({
         ...jobDetails,
-        state: 'OPEN'
+        state: 'OPEN',
+        isNew: true
       }).save();
       // await Promise.all([
-      //   applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
-      //   applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
+      //   applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
+      //   applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
       // ]);
 
       return newJob;
     } catch (e) {
       throw e;
     }
+
+    // await Promise.all([
+    //   applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
+    //   applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
+    // ]);
+
+    // return newJob;
   },
   findOneByJobId: id => {
     return JobModel.findOne(

@@ -23,7 +23,11 @@ export class CreateJobDetailsCard extends React.Component {
         </h1>
         <div className="content">
           <div style={{ marginTop: 8 }}>
-            <NewJobForm onCancel={onCancel} onSubmit={vals => onSubmit(vals)} />
+            <NewJobForm
+              jobTitle={jobDetails.title}
+              onCancel={onCancel}
+              onSubmit={vals => onSubmit(vals)}
+            />
             {/* <div style={{ marginTop: 8 }} >
                 <figure className="image">
                   <img  src={this.props.imageUrl} alt={jobDetails.title} />

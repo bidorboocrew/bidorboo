@@ -1,17 +1,14 @@
 import React from 'react';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { switchRoute } from '../app-state/actions/routerActions';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import * as ROUTES from '../constants/route-const';
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
-    a_switchRoute: PropTypes.func.isRequired
+    switchRoute: PropTypes.func.isRequired
   };
   render() {
-    const { a_switchRoute } = this.props;
+    const { switchRoute } = this.props;
     const genericTasks = templatesRepo.map(defaultTask => {
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
@@ -24,9 +21,7 @@ class BidOrBooGenericTasks extends React.Component {
           <div
             onClick={e => {
               e.preventDefault();
-              a_switchRoute(
-                `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
-              );
+              switchRoute(`${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`);
             }}
             className="card space hvr-sweep-to-bottom"
           >
@@ -58,10 +53,4 @@ class BidOrBooGenericTasks extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
-  };
-};
-
-export default connect(null, mapDispatchToProps)(BidOrBooGenericTasks);
+export default BidOrBooGenericTasks;

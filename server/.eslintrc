@@ -1,6 +1,6 @@
 {
   "plugins": ["node"],
-  "extends": ["eslint:recommended", "plugin:node/recommended"],
+  "extends": ["eslint:recommended", "plugin:node/recommended","react-app"],
   "rules": {
       "node/exports-style": ["error", "module.exports"]
   }

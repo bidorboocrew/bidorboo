@@ -8,9 +8,6 @@ import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
 
 class CustomDateButton extends React.Component {
 static propTypes = {
@@ -19,16 +16,14 @@ static propTypes = {
 };
   render () {
     return (
-
-      <button
+      <a
         className="button is-info is-outlined"
         onClick={this.props.onClick}>
         <span className="icon">
             <i className="far fa-calendar-alt" />
           </span>
           <span>{this.props.value}</span>
-
-      </button>
+      </a>
     )
   }
 }
@@ -36,13 +31,9 @@ static propTypes = {
 export default class DatePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,
-    onBlurEvent: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string])
   };
   static defaultProps = {
-    placeholder: '',
     value: ''
   };
 
@@ -62,25 +53,14 @@ export default class DatePickerInput extends React.Component {
   }
 
   render() {
-    const {
-      // handleSelect,
-      // onError,
-      // onChangeEvent,
-      onBlurEvent,
-      // id,
-      placeholder
-    } = this.props;
     return (
       <DatePicker
         customInput={<CustomDateButton />}
-        placeholderText={placeholder}
         selected={this.state.startDate}
         onChange={this.handleChange}
         minDate={moment()}
         maxDate={moment().add(1, 'year')}
-        onBlur={onBlurEvent}
         className="input is-overlay"
-
       />
     );
   }

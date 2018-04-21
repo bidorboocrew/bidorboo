@@ -7,7 +7,7 @@ import GeoMap from '../components/GeoMap';
 //   getLatLng
 // } from 'react-places-autocomplete';
 
-class BidderContainer extends React.Component {
+class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     this.state = { address: '', renderMap: false };
@@ -20,7 +20,19 @@ class BidderContainer extends React.Component {
 
   render() {
     return (
-      <div id="bdb-bidder-content">
+      <div id="bdb-bidder-root">
+        <section className="hero is-small is-dark">
+          <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
+            <div className="container">
+              <h1 style={{ color: 'white' }} className="title">
+                Bid on Jobs
+              </h1>
+              <h2 style={{ color: 'white' }} className="subtitle">
+                Start Earning money by doing things you are good at.
+              </h2>
+            </div>
+          </div>
+        </section>
         <section className="section mainSectionContainer">
           <div className="container">
             {/* <GeoSearch
@@ -51,4 +63,4 @@ class BidderContainer extends React.Component {
   }
 }
 
-export default BidderContainer;
+export default BidderRoot;
