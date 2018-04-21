@@ -52,11 +52,12 @@ module.exports = app => {
     try {
       // create new job for this user
       const data = req.body.data;
+      const userId = req.user.userId;
       const userMongoDBId = req.user._id;
       const newJob = await jobDataAccess.addAJob({
         ...data.jobDetails,
         _ownerId: userMongoDBId
-      });
+      },userId);
       res.send(newJob);
       done(null, newJob);
     } catch (e) {

@@ -11,7 +11,6 @@ class ProposerMyJobs extends React.Component {
     this.props.a_getAllJobs();
   }
   render() {
-    const { a_switchRoute } = this.props;
     return (
       <div id="bdb-proposer-root">
         <section className="hero is-small">
@@ -44,7 +43,6 @@ const mapStateToProps = ({ jobsReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
     a_getAllJobs: bindActionCreators(getAllJobs, dispatch)
   };
 };

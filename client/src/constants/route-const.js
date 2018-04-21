@@ -21,7 +21,7 @@ export const FRONTENDROUTES = {
   PROPOSER: {
     root: '/proposer',
     createjob: '/proposer/createjob',
-    myjobs: '/bidder/myjobs'
+    myjobs: '/proposer/myjobs'
   },
   BIDDER:  {
     root: '/bidder',

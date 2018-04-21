@@ -75,7 +75,8 @@ export const addJob = jobDetails => {
       periodField,
       durationOfJobField,
       addressTextField,
-      jobTitle
+      jobTitleField,
+      fromTemplateIdField
     } = jobDetails;
 
     //map form fields to the mongodb schema expected fields
@@ -97,9 +98,9 @@ export const addJob = jobDetails => {
       durationOfJob: durationOfJobField,
       addressText: addressTextField,
       state: 'OPEN',
-      title: jobTitle
+      title: jobTitleField,
+      fromTemplateId: fromTemplateIdField
     };
-
       return dispatch({
         type: A.JOB_ACTIONS.ADD_NEW_JOB,
         payload: axios

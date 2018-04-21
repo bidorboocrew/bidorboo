@@ -33,7 +33,8 @@ const EnhancedForms = withFormik({
 
 const NewJobForm = props => {
   const {
-    jobTitle,
+    jobTitleField,
+    fromTemplateIdField,
     values,
     touched,
     errors,
@@ -45,14 +46,21 @@ const NewJobForm = props => {
     isSubmitting,
     setFieldValue
   } = props;
-  values.titleField = jobTitle;
+  values.fromTemplateIdField = fromTemplateIdField;
+  values.jobTitleField = jobTitleField;
   return (
     <form onSubmit={handleSubmit}>
      <input
-        id="titleField"
+        id="jobTitleField"
         className="input is-invisible"
         type="hidden"
-        value={values.titleField || jobTitle}
+        value={values.jobTitleField || jobTitleField}
+      />
+       <input
+        id="fromTemplateIdField"
+        className="input is-invisible"
+        type="hidden"
+        value={values.fromTemplateIdField || fromTemplateIdField}
       />
       <input
         id="addressTextField"

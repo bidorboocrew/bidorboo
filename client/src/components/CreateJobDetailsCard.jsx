@@ -6,7 +6,8 @@ export class CreateJobDetailsCard extends React.Component {
   static propTypes = {
     jobDetails: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      imageUrl: PropTypes.string.isRequired
+      imageUrl: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired
@@ -24,7 +25,8 @@ export class CreateJobDetailsCard extends React.Component {
         <div className="content">
           <div style={{ marginTop: 8 }}>
             <NewJobForm
-              jobTitle={jobDetails.title}
+              fromTemplateIdField={jobDetails.id}
+              jobTitleField={jobDetails.title}
               onCancel={onCancel}
               onSubmit={vals => onSubmit(vals)}
             />

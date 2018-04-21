@@ -42,7 +42,8 @@ class ProposerCreateAJob extends React.Component {
   render() {
     const jobDetails = {
       title: this.state.chosenTemplate.title,
-      imageUrl: this.state.chosenTemplate.imageUrl
+      imageUrl: this.state.chosenTemplate.imageUrl,
+      id: this.state.chosenTemplate.id
     };
 
     return (

@@ -12,10 +12,11 @@ const { AppHealthSchemaId } = require('../models/zModalConstants');
 
 exports.jobDataAccess = {
   getAllJobsForUser: userId => {
+    //use to reduce the obj returned  select: 'addressText location jobReview _bidsList title state detailedDescription stats awardedBidder -_id'
     const populateOptions = {
-      path: '_postedJobs',
-      select: 'detailedDescription location -_id'
+      path: '_postedJobs'
     };
+
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
       .populate(populateOptions)
       .lean()
@@ -64,19 +65,24 @@ exports.jobDataAccess = {
     //   }
     // }).limit(1).exec();
   },
-  addAJob: async jobDetails => {
+  addAJob: async (jobDetails, userId) => {
     try {
       const newJob = await new JobModel({
         ...jobDetails,
         state: 'OPEN',
         isNew: true
       }).save();
-      // await Promise.all([
-      //   applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
-      //   applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
-      // ]);
+      const updateUserModelWithNewJob = await User.findOneAndUpdate(
+        { userId: userId },
+        { $push: { _postedJobs: newJob._id } },
+        { projection: { _id: 1 } }
+      )
+        .lean()
+        .exec();
 
-      return newJob;
+      return updateUserModelWithNewJob._id
+        ? newJob
+        : { error: 'error while creating job' };
     } catch (e) {
       throw e;
     }

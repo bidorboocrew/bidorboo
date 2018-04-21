@@ -118,7 +118,7 @@ class GeoSearch extends React.Component {
         onError={onError}
         debounce={750}
         searchOptions={{
-          componentRestrictions: { country: ['US', 'CA'] },
+          componentRestrictions: { country: 'CA' },
           types: ['address']
         }}
       >
