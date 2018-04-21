@@ -10,6 +10,7 @@ import GeoMap from '../components/GeoMap';
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
+    //render map only after we show everything
     this.state = { address: '', renderMap: false };
   }
 
