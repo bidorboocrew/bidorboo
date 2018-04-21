@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './styles/overlay.css';
+// import './styles/overlay.css';
 
 class Overlay extends React.Component {
   static propTypes = {

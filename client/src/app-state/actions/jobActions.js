@@ -108,15 +108,29 @@ export const addJob = jobDetails => (dispatch, getState) => {
       .then(resp => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          debugger;
+          // dispatch({
+          //   type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
+          //   payload: { currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.myjobs }
+          // });
           dispatch({
-            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: { currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.myjobs }
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: { toastDetails: { type: 'success', msg: 'Great! You have added your job successfully' } }
           });
         }
       })
       .catch(error => {
-        console.log(error.response);
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                '<strong>Sorry That did not work</strong>, Please try again later.\n' +
+                error
+            }
+          }
+        });
+        console.log(error);
       })
   });
 };

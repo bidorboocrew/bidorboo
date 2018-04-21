@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
-import { getCurrentUser } from '../app-state/actions/authActions';
 import LoadingBar from 'react-redux-loading-bar';
-import '../assets/index.css';
+
+import Toast from '../components/Toast';
 
 import * as ROUTES from '../constants/route-const';
+import { getCurrentUser } from '../app-state/actions/authActions';
+
+import '../assets/index.css';
 
 import {
   Header,
@@ -23,6 +26,11 @@ import {
 class App extends React.Component {
   static propTypes = {
     s_currentRoute: PropTypes.string,
+    toastDetails: PropTypes.shape({
+      type: PropTypes.oneOf(['success', 'warning', 'error', 'info']),
+      msg: PropTypes.string,
+      toastId: PropTypes.string
+    }),
     a_getCurrentUser: PropTypes.func.isRequired
   };
 
@@ -43,13 +51,14 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isLoggedIn } = this.props;
+    const { s_isLoggedIn, s_toastDetails } = this.props;
 
     return (
       <div id="bidorboo-root-view">
         {/* we will make our notifications absolute positioned  */}
         <div id="bidorboo-notification" />
         {/* we will make progress absolutely positioned */}
+        <Toast toastDetails={s_toastDetails} />
         <div id="bidorboo-progress" />
         {/* for blocking Entire UI */}
         <div id="block-ui-overlay" />
@@ -99,7 +108,7 @@ class App extends React.Component {
                   }/:templateId`}
                   component={ProposerCreateAJob}
                 />
-                                <ProtectedRoute
+                <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER.myjobs}
@@ -127,10 +136,11 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ authReducer, routerReducer }) => {
+const mapStateToProps = ({ authReducer, routerReducer, uiReducer }) => {
   return {
     s_currentRoute: routerReducer.currentRoute,
-    s_isLoggedIn: authReducer.isLoggedIn
+    s_isLoggedIn: authReducer.isLoggedIn,
+    s_toastDetails: uiReducer.toastDetails
   };
 };
 const mapDispatchToProps = dispatch => {

@@ -9,7 +9,6 @@ export default function(state = initialState, { type, payload }) {
     case A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE:
       return { ...state, currentRoute: payload.currentRoute };
     case A.ROUTE_ACTIONS.LOCATION_CHANGE:
-      debugger;
       return {
         ...state,
         currentRoute: payload.pathname
