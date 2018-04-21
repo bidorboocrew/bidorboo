@@ -14,8 +14,8 @@ module.exports = app => {
       try {
         userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
         res.send(userJobsList);
-      } catch (err) {
-        res.send(err);
+      } catch (e) {
+        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
       }
     }
   );
@@ -41,9 +41,9 @@ module.exports = app => {
         }
 
         done(null, existingJob);
-      } catch (err) {
-        res.send(err);
-        done(err, null);
+      } catch (e) {
+        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+        done(e, null);
       }
     }
   );
@@ -61,8 +61,7 @@ module.exports = app => {
       res.send(newJob);
       done(null, newJob);
     } catch (e) {
-      res.send({ details: e });
-      throw e;
+      res.status(500).send({ error: "Sorry Something went wrong \n" +e })
     }
   });
 
@@ -87,7 +86,7 @@ module.exports = app => {
         res.send(newJob);
         done(null, newJob);
       } catch (e) {
-        done(e, null);
+        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
       }
     }
   );

@@ -21,9 +21,9 @@ module.exports = app => {
         }
       }
       done(null, existingUser);
-    } catch (err) {
-      res.send(err);
-      done(err, null);
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      done(e, null);
     }
   });
 
@@ -50,9 +50,9 @@ module.exports = app => {
         );
         res.send(userAfterUpdates);
         done(null, userAfterUpdates);
-      } catch (err) {
-        res.send(err);
-        done(err, null);
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        done(e, null);
       }
     }
   );
@@ -79,9 +79,9 @@ module.exports = app => {
         const user = await userDataAccess.createNewUser(userDetails);
         res.send(existingUser);
         done(null, user);
-      } catch (err) {
-        res.send(err);
-        done(err, null);
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        done(e, null);
       }
     }
   );

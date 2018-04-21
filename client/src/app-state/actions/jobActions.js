@@ -17,8 +17,16 @@ export const getJobById = jobId => (dispatch, getState) =>
       .then(job => {
         // debugger;
       })
-      .catch(e => {
-        // debugger;
+      .catch(error => {
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Sorry That did not work, Please try again later.\n' + error
+            }
+          }
+        });
       })
   });
 
@@ -34,8 +42,16 @@ export const deleteJob = jobId => (dispatch, getState) => {
       .then(res => {
         // debugger;
       })
-      .catch(e => {
-        // debugger;
+      .catch(error => {
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Sorry That did not work, Please try again later.\n' + error
+            }
+          }
+        });
       })
   });
 };
@@ -114,7 +130,12 @@ export const addJob = jobDetails => (dispatch, getState) => {
           });
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: { toastDetails: { type: 'success', msg: 'Great! You have added your job successfully' } }
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Great! You have added your job successfully'
+              }
+            }
           });
         }
       })
@@ -124,13 +145,10 @@ export const addJob = jobDetails => (dispatch, getState) => {
           payload: {
             toastDetails: {
               type: 'error',
-              msg:
-                '<strong>Sorry That did not work</strong>, Please try again later.\n' +
-                error
+              msg: 'Sorry That did not work, Please try again later.\n' + error
             }
           }
         });
-        console.log(error);
       })
   });
 };

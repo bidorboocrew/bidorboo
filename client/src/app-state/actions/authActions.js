@@ -27,7 +27,15 @@ export const getCurrentUser = () => (dispatch, getState) =>
         }
       })
       .catch(error => {
-        console.log(error.response);
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Sorry That did not work, Please try again later.\n' + error
+            }
+          }
+        });
       })
   });
 
@@ -42,6 +50,15 @@ export const onLogout = () => (dispatch, getState) =>
       dispatch({
         type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
         payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
+      });
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'info',
+            msg: 'You are logged out.'
+          }
+        }
       });
     })
   });

@@ -18,7 +18,15 @@ export const updateProfileDetails = profileDetails => (dispatch, getState) => {
       }
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'Sorry That did not work, Please try again later.\n' + error
+          }
+        }
+      });
     });
 
   return dispatch({

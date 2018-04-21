@@ -7,7 +7,8 @@ import classNames from 'classnames';
 import autoBind from 'react-autobind';
 import ReactTimeout from 'react-timeout';
 
-const toastDisplayDuration = 2500;
+const toastDisplayDuration = 3000;
+
 class Toast extends React.Component {
   static propTypes = {
     toastDetails: PropTypes.shape({
@@ -68,8 +69,8 @@ class Toast extends React.Component {
       { 'is-warning': type === 'warning' },
       { 'is-danger': type === 'error' }
     );
-    //force it to go off in 3 secs
-    if (displayToast && !this.state.shouldRemoveOldToast) {
+    //force it to go off in 3 secs unelss if you are a error toast . we leave you forever
+    if (displayToast &&  type !== 'error' && !this.state.shouldRemoveOldToast) {
       this.props.setTimeout(() => {
         this.autoCloseToast();
       }, toastDisplayDuration);
