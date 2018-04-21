@@ -15,7 +15,7 @@ class BidOrBooGenericTasks extends React.Component {
         <div
           key={id}
           className={
-            'column is-one-quarter bdbCardComponent'
+            'column is-one-quarter bdbCardComponent fade-in'
           }
         >
           <div

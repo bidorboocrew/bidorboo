@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Spinner } from '../components/Spinner';
+
 import { getAllJobs } from '../app-state/actions/jobActions';
-import { switchRoute } from '../app-state/actions/routerActions';
+// import { switchRoute } from '../app-state/actions/routerActions';
 
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
@@ -12,7 +12,7 @@ class ProposerMyJobs extends React.Component {
   }
   render() {
     return (
-      <div id="bdb-proposer-root">
+      <div className="fade-in" id="bdb-proposer-root">
         <section className="hero is-small">
           <div style={{ backgroundColor: '#e98969' }} className="hero-body">
             <div className="container">

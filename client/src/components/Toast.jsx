@@ -62,20 +62,20 @@ class Toast extends React.Component {
 
     const toastTheme = classNames(
       'notification space',
-      { 'slide-in-blurred-top-reversed': this.state.shouldRemoveOldToast },
-      { 'slide-in-blurred-top': !this.state.shouldRemoveOldToast },
+      { 'slide-in-right-reversed': shouldRemoveOldToast },
+      { 'slide-in-right': !shouldRemoveOldToast },
       { 'is-success': type === 'success' },
       { 'is-info': type === 'info' },
       { 'is-warning': type === 'warning' },
       { 'is-danger': type === 'error' }
     );
     //force it to go off in 3 secs unelss if you are a error toast . we leave you forever
-    if (displayToast &&  type !== 'error' && !this.state.shouldRemoveOldToast) {
+    if (displayToast && type !== 'error' && !shouldRemoveOldToast) {
       this.props.setTimeout(() => {
         this.autoCloseToast();
       }, toastDisplayDuration);
     }
-    if (this.state.shouldRemoveOldToast) {
+    if (shouldRemoveOldToast) {
       this.props.setTimeout(() => {
         this.setState({ shouldRemoveOldToast: false });
       });
@@ -85,8 +85,8 @@ class Toast extends React.Component {
         <div
           style={{
             position: 'absolute',
-            top: '3.5rem',
-            right: 0,
+            bottom: '3rem',
+            right: '1.5rem',
             zIndex: 99999
           }}
           className={toastTheme}

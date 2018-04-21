@@ -15,7 +15,7 @@ export class CreateJobDetailsCard extends React.Component {
   render() {
     const { jobDetails, onCancel, onSubmit } = this.props;
     return (
-      <div className="card-content">
+      <div className="card-content fade-in">
         <h1 className="title">
           {/* <span className="icon">
               <i style={{ fontSize: 24 }} className="fas fa-snowflake title" />
