@@ -17,7 +17,7 @@ class ProposerMyJobs extends React.Component {
           <div style={{ backgroundColor: '#e98969' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Post Jobs
+                My Jobs
               </h1>
               <h2 style={{ color: 'white' }} className="subtitle">
                 Get the work done for the best price possible.

@@ -21,7 +21,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
         } else {
           //rediret user to sign up page
           dispatch({
-            type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
             payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
           });
         }
@@ -40,9 +40,8 @@ export const onLogout = () => (dispatch, getState) =>
       });
       //rediret user to sign up page
       dispatch({
-        type: A.ROUTE_ACTIONS.LOCATION_CHANGE,
+        type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
         payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
       });
-
     })
   });

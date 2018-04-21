@@ -16,17 +16,17 @@ module.exports = {
   FRONTEND: {
     ENTRY: '/',
     HOME: '/home',
+    MY_PROFILE: '/myprofile',
     PROPOSER: {
       root: '/proposer',
       createjob: '/proposer/createjob',
-      myjobs: '/bidder/myjobs'
+      myjobs: '/proposer/myjobs'
     },
     BIDDER:  {
       root: '/bidder',
       createbid: '/bidder/createbid',
       mybids: '/bidder/mybids'
     },
-    MY_PROFILE: '/myprofile'
   }
 };
 

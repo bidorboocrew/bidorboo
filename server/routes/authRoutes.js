@@ -34,6 +34,6 @@ module.exports = app => {
 
   app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
     req.logout();
-    res.redirect(ROUTES.FRONTEND.ENTRY);
+    res.send({success: "logout successfully"});
   });
 };
