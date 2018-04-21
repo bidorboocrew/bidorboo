@@ -18,7 +18,6 @@ class ProposerCreateAJob extends React.Component {
     const startingWithTemplate = templateToStartWith.length > 0;
     this.state = {
       isStartingWithTemplate: startingWithTemplate,
-      currentStepperIndex: startingWithTemplate ? 1 : 0,
       chosenTemplate: startingWithTemplate ? templateToStartWith[0] : null
     };
     autoBind(this, 'goBack', 'handleSubmit');
