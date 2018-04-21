@@ -60,11 +60,13 @@ class HomePage extends React.Component {
                   </div>
                 </div>
               </section>
-              <div style={{ marginTop: '0.45rem' }}>
-                <div className="columns">
-                  <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+              <section className="section">
+                <div className="container">
+                  <div className="columns is-multiline">
+                    <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+                  </div>
                 </div>
-              </div>
+              </section>
             </div>
           </Fade>
         </section>

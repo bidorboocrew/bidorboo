@@ -4,4 +4,3 @@ export { default as ProposerCreateAJob } from './ProposerCreateAJob';
 export { default as BidderRoot } from './BidderRoot';
 export { default as MyProfileContainer } from './MyProfileContainer';
 export { default as HomePage } from './HomePage';
-// export { default as SideBar } from './SideBar';

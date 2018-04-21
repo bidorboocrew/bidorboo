@@ -15,7 +15,7 @@ class BidOrBooGenericTasks extends React.Component {
         <div
           key={id}
           className={
-            'column is-one-third-tablet is-one-quarter-desktop bdbCardComponent'
+            'column is-one-quarter bdbCardComponent'
           }
         >
           <div
@@ -34,7 +34,7 @@ class BidOrBooGenericTasks extends React.Component {
               <h1 className="title">{title}</h1>
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
-                <div style={{ textAlign: 'center', marginTop: 8 }}>
+                <div className="has-text-centered" style={{ textAlign: 'center', marginTop: 8 }}>
                   <a className="button is-primary">
                     {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
                     <span style={{ marginLeft: 4 }}>
