@@ -16,7 +16,7 @@ import {
   ProposerRoot,
   ProposerCreateAJob,
   BidderRoot,
-  MyProfileContainer
+  MyProfile
 } from './index';
 
 class App extends React.Component {
@@ -108,7 +108,7 @@ class App extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
-                  component={MyProfileContainer}
+                  component={MyProfile}
                 />
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.FRONTENDROUTES.HOME} />

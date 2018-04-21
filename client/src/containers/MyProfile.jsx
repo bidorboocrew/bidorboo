@@ -9,7 +9,7 @@ import autoBind from 'react-autobind';
 
 import ProfileForm from '../components/forms/ProfileForm';
 
-class MyProfileContainer extends React.Component {
+class MyProfile extends React.Component {
   static propTypes = {
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
@@ -185,7 +185,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
 
 const HeaderTitle = props => {
   const { title, specialMarginVal } = props;

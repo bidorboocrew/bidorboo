@@ -1,15 +1,15 @@
 import React from 'react';
-import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
-
-import { switchRoute } from '../app-state/actions/routerActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Spinner } from '../components/Spinner';
+import { getAllJobs } from '../app-state/actions/jobActions';
+import { switchRoute } from '../app-state/actions/routerActions';
 
-class ProposerRoot extends React.Component {
+class ProposerMyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
+    this.props.a_getAllJobs();
   }
-
   render() {
     const { a_switchRoute } = this.props;
     return (
@@ -28,20 +28,25 @@ class ProposerRoot extends React.Component {
         </section>
         <section className="section mainSectionContainer">
           <div className="container">
-            <div className="columns is-multiline">
-              <BidOrBooGenericTasks switchRoute={a_switchRoute} />
-            </div>
+            <div className="columns is-multiline" />
           </div>
         </section>
       </div>
     );
   }
 }
-
+const mapStateToProps = ({ jobsReducer }) => {
+  return {
+    s_error: jobsReducer.error,
+    s_userJobsList: jobsReducer.userJobsList,
+    s_isLoading: jobsReducer.isLoading
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_getAllJobs: bindActionCreators(getAllJobs, dispatch)
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProposerRoot);
+export default connect(mapStateToProps, mapDispatchToProps)(ProposerMyJobs);
