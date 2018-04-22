@@ -62,8 +62,8 @@ class Toast extends React.Component {
 
     const toastTheme = classNames(
       'notification space',
-      { 'slide-in-right-reversed': shouldRemoveOldToast },
-      { 'slide-in-right': !shouldRemoveOldToast },
+      { 'slide-out-bottom': shouldRemoveOldToast },
+      { 'slide-in-bottom': !shouldRemoveOldToast },
       { 'is-success': type === 'success' },
       { 'is-info': type === 'info' },
       { 'is-warning': type === 'warning' },
@@ -84,10 +84,13 @@ class Toast extends React.Component {
       displayToast && (
         <div
           style={{
-            position: 'absolute',
-            bottom: '3rem',
             right: '1.5rem',
-            zIndex: 99999
+            zIndex: 99999,
+            position: 'fixed',
+            bottom: -24,
+            right: 0,
+            width: '100%',
+            borderRadius: 0
           }}
           className={toastTheme}
         >
