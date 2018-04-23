@@ -5,8 +5,9 @@ import * as ROUTES from '../constants/route-const';
 import classNames from 'classnames';
 import autoBind from 'react-autobind';
 import moment from 'moment';
+import Slide from 'react-reveal/Slide';
 
-class MyJobCards extends React.Component {
+class PostedJobCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(
@@ -39,7 +40,7 @@ class MyJobCards extends React.Component {
     const { jobsList } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        jobsList.map(job => <JobCard key={job._id} jobObj={job} />)
+        jobsList.map((job,index) => <JobCard key={job._id} jobObj={job} jobCounterIndex={index} />)
       ) : (
         <React.Fragment>
           <div>Sorry you have not posted any jobs</div>
@@ -52,7 +53,7 @@ class MyJobCards extends React.Component {
   }
 }
 
-export default MyJobCards;
+export default PostedJobCard;
 
 class JobCard extends React.Component {
   constructor(props) {
@@ -62,11 +63,10 @@ class JobCard extends React.Component {
   }
 
   switchActiveTab(selectedTab) {
-    console.log(selectedTab);
     this.setState({ currentActiveTab: selectedTab });
   }
   render() {
-    const { jobObj } = this.props;
+    const { jobObj,jobCounterIndex} = this.props;
 
     // alter active tab
     const isSummaryTabActive = classNames({
@@ -77,6 +77,8 @@ class JobCard extends React.Component {
     });
 
     return (
+      <Slide bottom>
+
       <div className="panel column is-12 ">
         <div className="tabs is-marginless">
           <ul>
@@ -116,7 +118,7 @@ class JobCard extends React.Component {
               }}
               className={`panel-block ${isSummaryTabActive}`}
             >
-              <SummaryView jobObj={jobObj} />
+              <SummaryView jobCounterIndex={jobCounterIndex} jobObj={jobObj} />
             </div>
             <div
               style={{ border: 'none' }}
@@ -139,11 +141,13 @@ class JobCard extends React.Component {
               }}
               className={`panel-block ${isDetailsTabActive}`}
             >
-              <DetailedView jobObj={jobObj} />
+              <DetailedView jobObj={jobObj}  />
             </div>
           </div>
         )}
       </div>
+      </Slide>
+
     );
   }
 }
@@ -162,6 +166,8 @@ class SummaryView extends React.Component {
       createdAt,
       _bidsList
     } = this.props.jobObj;
+    const{jobCounterIndex}=this.props;
+
     try {
       const daysSinceCreated = createdAt
         ? moment
@@ -185,6 +191,12 @@ class SummaryView extends React.Component {
               <div className="media-content">
                 <div className="content">
                   <div className="level">
+                 <div className="level-item has-text-centered">
+                      <div>
+                        <p className="heading">#</p>
+                        <p className="title">{jobCounterIndex}</p>
+                      </div>
+                    </div>
                     <div className="level-item has-text-centered">
                       <div>
                         <p className="heading">Job Title</p>

@@ -4,7 +4,12 @@ import { bindActionCreators } from 'redux';
 
 import { getAllJobs } from '../app-state/actions/jobActions';
 // import { switchRoute } from '../app-state/actions/routerActions';
-import MyJobCards from '../components/MyJobCards';
+import PostedJobCard from '../components/PostedJobCard';
+
+
+
+
+
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -29,7 +34,7 @@ class ProposerMyJobs extends React.Component {
         <section className="section mainSectionContainer">
           <div className="container">
             <div className="columns is-multiline">
-              <MyJobCards jobsList={s_userPostedJobsList}/>
+              <PostedJobCard jobsList={s_userPostedJobsList}/>
             </div>
           </div>
         </section>

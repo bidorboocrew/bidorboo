@@ -99,8 +99,8 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 .postedJobCard {
   cursor: pointer;
   color: white;
-
-  box-shadow: $box-shadow-raised;
+  background: #dbdbdb;
+  box-shadow: $shadow-space;
   &:hover {
     -webkit-animation: color-change-2x-proposer 0.35s linear both;
     animation: color-change-2x-proposer 0.35s linear both;
