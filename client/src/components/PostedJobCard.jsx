@@ -40,7 +40,9 @@ class PostedJobCard extends React.Component {
     const { jobsList } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        jobsList.map((job,index) => <JobCard key={job._id} jobObj={job} jobCounterIndex={index} />)
+        jobsList.map((job, index) => (
+          <JobCard key={job._id} jobObj={job} jobCounterIndex={index} />
+        ))
       ) : (
         <React.Fragment>
           <div>Sorry you have not posted any jobs</div>
@@ -66,7 +68,7 @@ class JobCard extends React.Component {
     this.setState({ currentActiveTab: selectedTab });
   }
   render() {
-    const { jobObj,jobCounterIndex} = this.props;
+    const { jobObj, jobCounterIndex } = this.props;
 
     // alter active tab
     const isSummaryTabActive = classNames({
@@ -78,76 +80,79 @@ class JobCard extends React.Component {
 
     return (
       <Slide bottom>
-
-      <div className="panel column is-12 ">
-        <div className="tabs is-marginless">
-          <ul>
-            <li
-              style={{
-                borderLeft: '1px solid #dbdbdb',
-                borderTop: '1px solid #dbdbdb',
-                borderRight: '1px solid #dbdbdb'
-              }}
-              className={isSummaryTabActive}
-            >
-              <a onClick={() => this.switchActiveTab('SummaryTab')}>Summary</a>
-            </li>
-            <li
-              className={isDetailsTabActive}
-              style={{
-                borderLeft: '1px solid #dbdbdb',
-                borderTop: '1px solid #dbdbdb',
-                borderRight: '1px solid #dbdbdb'
-              }}
-            >
-              <a onClick={() => this.switchActiveTab('JobDetailsTab')}>
-                Job Details
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {this.state.currentActiveTab === 'SummaryTab' && (
-          <div className="postedJobCard">
-            <div
-              style={{
-                borderBottom: 'none',
-                borderRight: '1px solid #dbdbdb',
-                borderLeft: '1px solid #dbdbdb',
-                borderTop: '1px solid #dbdbdb'
-              }}
-              className={`panel-block ${isSummaryTabActive}`}
-            >
-              <SummaryView jobCounterIndex={jobCounterIndex} jobObj={jobObj} />
-            </div>
-            <div
-              style={{ border: 'none' }}
-              className="panel-block is-paddingless is-marginless"
-            >
-              <button
-                style={{ borderRadius: 0 }}
-                className="button is-link is-outlined is-fullwidth is-meduim"
+        <div className="panel column is-12 ">
+          <div className="tabs is-marginless">
+            <ul>
+              <li
+                style={{
+                  borderLeft: '1px solid #dbdbdb',
+                  borderTop: '1px solid #dbdbdb',
+                  borderRight: '1px solid #dbdbdb'
+                }}
+                className={isSummaryTabActive}
               >
-                Review and Award Bids
-              </button>
-            </div>
+                <a onClick={() => this.switchActiveTab('SummaryTab')}>
+                  Summary
+                </a>
+              </li>
+              <li
+                className={isDetailsTabActive}
+                style={{
+                  borderLeft: '1px solid #dbdbdb',
+                  borderTop: '1px solid #dbdbdb',
+                  borderRight: '1px solid #dbdbdb'
+                }}
+              >
+                <a onClick={() => this.switchActiveTab('JobDetailsTab')}>
+                  Job Details
+                </a>
+              </li>
+            </ul>
           </div>
-        )}
-        {this.state.currentActiveTab === 'JobDetailsTab' && (
-          <div className="postedJobCard">
-            <div
-              style={{
-                border: '1px solid #dbdbdb'
-              }}
-              className={`panel-block ${isDetailsTabActive}`}
-            >
-              <DetailedView jobObj={jobObj}  />
-            </div>
-          </div>
-        )}
-      </div>
-      </Slide>
 
+          {this.state.currentActiveTab === 'SummaryTab' && (
+            <div className="postedJobCard">
+              <div
+                style={{
+                  borderBottom: 'none',
+                  borderRight: '1px solid #dbdbdb',
+                  borderLeft: '1px solid #dbdbdb',
+                  borderTop: '1px solid #dbdbdb'
+                }}
+                className={`panel-block ${isSummaryTabActive}`}
+              >
+                <SummaryView
+                  jobCounterIndex={jobCounterIndex}
+                  jobObj={jobObj}
+                />
+              </div>
+              <div
+                style={{ border: 'none' }}
+                className="panel-block is-paddingless is-marginless"
+              >
+                <button
+                  style={{ borderRadius: 0 }}
+                  className="button is-link is-outlined is-fullwidth is-meduim"
+                >
+                  Review and Award Bids
+                </button>
+              </div>
+            </div>
+          )}
+          {this.state.currentActiveTab === 'JobDetailsTab' && (
+            <div className="postedJobCard">
+              <div
+                style={{
+                  border: '1px solid #dbdbdb'
+                }}
+                className={`panel-block ${isDetailsTabActive}`}
+              >
+                <DetailedView jobObj={jobObj} />
+              </div>
+            </div>
+          )}
+        </div>
+      </Slide>
     );
   }
 }
@@ -166,7 +171,7 @@ class SummaryView extends React.Component {
       createdAt,
       _bidsList
     } = this.props.jobObj;
-    const{jobCounterIndex}=this.props;
+    const { jobCounterIndex } = this.props;
 
     try {
       const daysSinceCreated = createdAt
@@ -175,6 +180,7 @@ class SummaryView extends React.Component {
             .humanize()
         : 0;
     } catch (e) {
+      //xxx we dont wana fail simply cuz we did not get the diff in time
       console.error(e);
     }
 
@@ -191,7 +197,7 @@ class SummaryView extends React.Component {
               <div className="media-content">
                 <div className="content">
                   <div className="level">
-                 <div className="level-item has-text-centered">
+                    <div className="level-item has-text-centered">
                       <div>
                         <p className="heading">#</p>
                         <p className="title">{jobCounterIndex}</p>
