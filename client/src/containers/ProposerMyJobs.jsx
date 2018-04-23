@@ -13,7 +13,7 @@ import PostedJobCard from '../components/PostedJobCard';
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.props.a_getAllJobs();
+    //this.props.a_getAllJobs();
   }
   render() {
     const{s_userPostedJobsList} = this.props;

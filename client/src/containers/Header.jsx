@@ -12,7 +12,6 @@ import classNames from 'classnames';
 
 import * as ROUTES from '../constants/route-const';
 
-
 class Header extends React.Component {
   static propTypes = {
     s_userEmail: PropTypes.string,
@@ -115,6 +114,22 @@ class Header extends React.Component {
             </span>
           </a>
 
+          {/* show on mobile if not  */}
+          {!s_isLoggedIn && (
+            <div className="is-hidden-desktop navbar-item navbar-burger">
+              <a
+                className="button is-danger heartbeat"
+                onClick={() => {
+                  this.closeMenuThenExecute(() => {
+                    this.toggleLoginDialog();
+                  });
+                }}
+              >
+                Login Now
+              </a>
+            </div>
+          )}
+
           {/* burger menu */}
           <div
             onClick={() => {
@@ -141,28 +156,64 @@ class Header extends React.Component {
           {/* start */}
           {s_isLoggedIn && (
             <div className="navbar-start">
-              <a
-                onClick={() => {
-                  this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-                  });
-                }}
-                className="navbar-item "
-              >
-                <i className="fa fa-child" aria-hidden="true" />
-                <span style={{ marginLeft: 4 }}>Proposer</span>
-              </a>
-              <a
-                onClick={() => {
-                  this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
-                  });
-                }}
-                className="navbar-item "
-              >
-                <i className="fa fa-hand-paper" aria-hidden="true" />
-                <span style={{ marginLeft: 4 }}>Bidder</span>
-              </a>
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a
+                  onClick={() => {
+                    this.closeMenuThenExecute(() => {
+                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    });
+                  }}
+                  className="navbar-link"
+                >
+                  <i className="fa fa-hand-paper" aria-hidden="true" />
+                  <span style={{ marginleft: 4 }}>Bidder</span>
+                </a>
+                <div className="navbar-dropdown is-boxed">
+                  <a
+                    style={{ marginleft: 4 }}
+                    className="navbar-item"
+                    href="/documentation/overview/start/"
+                  >
+                    My Bids
+                  </a>
+                  <a
+                    style={{ marginleft: 4 }}
+                    className="navbar-item"
+                    href="https://bulma.io/documentation/modifiers/syntax/"
+                  >
+                    Start Bidding
+                  </a>
+                </div>
+              </div>
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a
+                  onClick={() => {
+                    this.closeMenuThenExecute(() => {
+                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                    });
+                  }}
+                  className="navbar-link"
+                >
+                  <i className="fa fa-child" aria-hidden="true" />
+                  <span style={{ marginleft: 4 }}>Proposer</span>
+                </a>
+                <div className="navbar-dropdown is-boxed">
+                  <a
+                    style={{ marginleft: 4 }}
+                    className="navbar-item"
+                    href="/documentation/overview/start/"
+                  >
+                    My Jobs
+                  </a>
+                  <a
+                    style={{ marginleft: 4 }}
+                    className="navbar-item"
+                    href="https://bulma.io/documentation/modifiers/syntax/"
+                  >
+                    Post a job
+                  </a>
+                </div>
+              </div>
             </div>
           )}
 
@@ -183,14 +234,14 @@ class Header extends React.Component {
                         )}
                         {s_displayName}
                       </a>
-                      <div className="navbar-dropdown">
+                      <div className="navbar-dropdown is-boxed">
                         <a
                           onClick={() => {
                             this.closeMenuThenExecute(() => {
                               a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
                             });
                           }}
-                          className="navbar-item "
+                          className="navbar-item"
                         >
                           <i className="far fa-user" aria-hidden="true" />
                           <span style={{ marginLeft: 4 }}>My Profile</span>
