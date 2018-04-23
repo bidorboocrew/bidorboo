@@ -160,28 +160,42 @@ class Header extends React.Component {
                 <a
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
                     });
                   }}
                   className="navbar-link"
                 >
-                  <i className="fa fa-hand-paper" aria-hidden="true" />
-                  <span style={{ marginleft: 4 }}>Bidder</span>
+                  <i
+                    style={{ marginRight: 4 }}
+                    className="fa fa-child"
+                    aria-hidden="true"
+                  />
+                  <span>Proposer</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
-                    href="/documentation/overview/start/"
+                    onClick={() => {
+                      this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.myjobs);
+                      });
+                    }}
                   >
-                    My Bids
+                    My Jobs
                   </a>
+                  <hr className="dropdown-divider" />
+
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
-                    href="https://bulma.io/documentation/modifiers/syntax/"
+                    onClick={() => {
+                      this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      });
+                    }}
                   >
-                    Start Bidding
+                    Post jobs
                   </a>
                 </div>
               </div>
@@ -189,28 +203,34 @@ class Header extends React.Component {
                 <a
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
                     });
                   }}
                   className="navbar-link"
                 >
-                  <i className="fa fa-child" aria-hidden="true" />
-                  <span style={{ marginleft: 4 }}>Proposer</span>
+                  <i
+                    style={{ marginRight: 4 }}
+                    className="fa fa-hand-paper"
+                    aria-hidden="true"
+                  />
+                  <span>Bidder</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                  <a
-                    style={{ marginleft: 4 }}
-                    className="navbar-item"
-                    href="/documentation/overview/start/"
-                  >
-                    My Jobs
+                  <a style={{ marginleft: 4 }} className="navbar-item">
+                    My Bids (not impl)
                   </a>
+                  <hr className="dropdown-divider" />
+
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
-                    href="https://bulma.io/documentation/modifiers/syntax/"
+                    onClick={() => {
+                      this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      });
+                    }}
                   >
-                    Post a job
+                    Post A Bid
                   </a>
                 </div>
               </div>
@@ -222,9 +242,9 @@ class Header extends React.Component {
             <div className="navbar-item">
               {s_isLoggedIn && (
                 <div className="field is-grouped">
-                  <div style={{ paddingRight: 0 }} className="navbar-item">
+                  <div className="navbar-item">
                     <div className="navbar-item has-dropdown is-hoverable">
-                      <a className="navbar-link" style={{ paddingLeft: 6 }}>
+                      <a className="navbar-link">
                         {profileImgUrl && (
                           <img
                             style={{ paddingRight: 4 }}
@@ -255,10 +275,7 @@ class Header extends React.Component {
                           }
                           className="navbar-item"
                         >
-                          <i
-                            style={{ fontSize: 12 }}
-                            className="fas fa-sign-out-alt"
-                          />
+                          <i className="fas fa-sign-out-alt" />
                           <span style={{ marginLeft: 4 }}>Logout</span>
                         </a>
                       </div>
