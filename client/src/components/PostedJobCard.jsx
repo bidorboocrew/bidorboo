@@ -32,12 +32,12 @@ class PostedJobCard extends React.Component {
         whoSeenThis: PropTypes.array,
         _bidsList: PropTypes.array
       })
-    )
-    // switchRoute: PropTypes.func.isRequired
+    ),
+    switchRoute: PropTypes.func.isRequired
   };
 
   render() {
-    const { jobsList } = this.props;
+    const { jobsList, switchRoute } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
@@ -45,10 +45,21 @@ class PostedJobCard extends React.Component {
         ))
       ) : (
         <React.Fragment>
-          <div>Sorry you have not posted any jobs</div>
-          <div>
-            <button>post jobs</button>
-          </div>
+          <section className="section">
+            <div className="container">
+              <div>Sorry you have not posted any jobs</div>
+              <div>
+                <a
+                  className="button is-primary"
+                  onClick={() => {
+                    switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                  }}
+                >
+                  post jobs
+                </a>
+              </div>
+            </div>
+          </section>
         </React.Fragment>
       );
     return <React.Fragment>{MyJobsList}</React.Fragment>;

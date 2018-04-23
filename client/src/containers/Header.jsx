@@ -184,8 +184,6 @@ class Header extends React.Component {
                   >
                     My Jobs
                   </a>
-                  <hr className="dropdown-divider" />
-
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
@@ -219,8 +217,6 @@ class Header extends React.Component {
                   <a style={{ marginleft: 4 }} className="navbar-item">
                     My Bids (not impl)
                   </a>
-                  <hr className="dropdown-divider" />
-
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"

@@ -27,15 +27,20 @@ export const getCurrentUser = () => (dispatch, getState) =>
         }
       })
       .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + error
+        if (error && error.response && error.response.status === 404) {
+          console.log('server wasnt ready');
+        } else {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'error',
+                msg:
+                  'Sorry That did not work, Please try again later.\n' + error
+              }
             }
-          }
-        });
+          });
+        }
       })
   });
 
