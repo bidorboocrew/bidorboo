@@ -96,6 +96,23 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   }
 }
 
+.postedJobCard {
+  cursor: pointer;
+  color: white;
+
+  box-shadow: $box-shadow-raised;
+  &:hover {
+    -webkit-animation: color-change-2x-proposer 0.35s linear both;
+    animation: color-change-2x-proposer 0.35s linear both;
+    div {
+      button {
+        background-color: #3273dc;
+        color: white;
+      }
+    }
+  }
+}
+
 //----------------------------bulma customizations
 
 $family-primary: 'Roboto', sans-serif;
@@ -105,4 +122,5 @@ $footer-background-color: #363636;
 // $body-background-color: whitesmoke;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
+$box-radius: 2px;
 @import 'bulma/bulma.sass';

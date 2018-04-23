@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 
 import { getAllJobs } from '../app-state/actions/jobActions';
 // import { switchRoute } from '../app-state/actions/routerActions';
-
+import MyJobCards from '../components/MyJobCards';
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     this.props.a_getAllJobs();
   }
   render() {
+    const{s_userPostedJobsList} = this.props;
     return (
       <div className="fade-in" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -27,7 +28,9 @@ class ProposerMyJobs extends React.Component {
         </section>
         <section className="section mainSectionContainer">
           <div className="container">
-            <div className="columns is-multiline" />
+            <div className="columns is-multiline">
+              <MyJobCards jobsList={s_userPostedJobsList}/>
+            </div>
           </div>
         </section>
       </div>
@@ -37,7 +40,7 @@ class ProposerMyJobs extends React.Component {
 const mapStateToProps = ({ jobsReducer }) => {
   return {
     s_error: jobsReducer.error,
-    s_userJobsList: jobsReducer.userJobsList,
+    s_userPostedJobsList: jobsReducer.userPostedJobsList,
     s_isLoading: jobsReducer.isLoading
   };
 };
