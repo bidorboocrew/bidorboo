@@ -58,7 +58,7 @@ class MyProfile extends React.Component {
       C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     return (
-      <div className="fade-in" id="bdb-myprofile">
+      <div className="slide-in-left" id="bdb-myprofile">
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">

@@ -21,7 +21,7 @@ class BidderRoot extends React.Component {
 
   render() {
     return (
-      <div className="fade-in" id="bdb-bidder-root">
+      <div className="slide-in-left" id="bdb-bidder-root">
         <section className="hero is-small is-dark">
           <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
             <div className="container">

@@ -132,3 +132,7 @@
 
 .bg-pan-top{-webkit-animation:bg-pan-top 8s both;animation:bg-pan-top 8s both}
 @-webkit-keyframes bg-pan-top{0%{background-position:50% 100%}100%{background-position:50% 0}}@keyframes bg-pan-top{0%{background-position:50% 100%}100%{background-position:50% 0}}
+
+
+.slide-in-left{-webkit-animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both}
+@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}

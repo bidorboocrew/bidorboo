@@ -13,7 +13,7 @@ class ProposerRoot extends React.Component {
   render() {
     const { a_switchRoute } = this.props;
     return (
-      <div className="fade-in" id="bdb-proposer-root">
+      <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
           <div style={{ backgroundColor: '#e98969' }} className="hero-body">
             <div className="container">
