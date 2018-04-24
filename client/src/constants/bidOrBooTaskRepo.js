@@ -41,7 +41,8 @@ export const templatesRepo = {
     title: 'Lawn Mowing',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl: 'http://www.tobinlawn.com/photos/MowingTips.jpg',
+    imageUrl:
+      'https://i.amz.mshcdn.com/7U-h0YvpfBdWp6NZyIyrS9iNZRU=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F554950%2F9518ba08-75eb-434a-a529-968c355628de.jpg',
     description:
       "Tired of mowing ? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `How Big is your backyard ?
@@ -59,7 +60,7 @@ export const templatesRepo = {
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'http://jonbarron.org/sites/default/files/harsh-cleaning-products-hazardous-lung-health.jpg',
+      'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
     description:
       "Tired of cleaning ? let's be honest who likes to clean ? Why don't you let one of our handy BidorBooers do the cleaning. with a simple click",
     suggestedDetailsText: `How Big is your house ?
