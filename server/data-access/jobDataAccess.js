@@ -14,7 +14,10 @@ exports.jobDataAccess = {
   getAllJobsForUser: userId => {
     //use to reduce the obj returned  select: 'addressText location jobReview _bidsList title state detailedDescription stats awardedBidder -_id'
     const populateOptions = {
-      path: '_postedJobs'
+      path: '_postedJobs',
+      options: {
+        limit: 30 ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
+      }
     };
 
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
@@ -74,7 +77,11 @@ exports.jobDataAccess = {
       }).save();
       const updateUserModelWithNewJob = await User.findOneAndUpdate(
         { userId: userId },
-        { $push: { _postedJobs: newJob._id } },
+        {
+          $push: {
+            _postedJobs: { $each: [newJob._id], $sort: { createdAt: -1 } }
+          }
+        },
         { projection: { _id: 1 } }
       )
         .lean()
