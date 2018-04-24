@@ -94,12 +94,12 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
     &:hover {
       -webkit-animation: color-change-2x-proposer 0.35s linear both;
       animation: color-change-2x-proposer 0.35s linear both;
-      figure {
-        img.specialImageEffect {
-          -webkit-animation: kenburns-bottom 5s ease-out both;
-          animation: kenburns-bottom 5s ease-out both;
-        }
-      }
+      // figure {
+      //   img.specialImageEffect {
+      //     -webkit-animation: kenburns-bottom 5s ease-out both;
+      //     animation: kenburns-bottom 5s ease-out both;
+      //   }
+      // }
     }
   }
 }
@@ -117,12 +117,12 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
         }
       }
     }
-    figure {
-      img.specialImageEffect {
-        -webkit-animation: kenburns-bottom 5s ease-out both;
-        animation: kenburns-bottom 5s ease-out both;
-      }
-    }
+    // figure {
+    //   img.specialImageEffect {
+    //     -webkit-animation: kenburns-bottom 5s ease-out both;
+    //     animation: kenburns-bottom 5s ease-out both;
+    //   }
+    // }
   }
 }
 

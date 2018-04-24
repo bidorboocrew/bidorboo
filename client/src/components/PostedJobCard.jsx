@@ -134,7 +134,6 @@ class SummaryView extends React.Component {
         <div className="card-image is-clipped">
           <figure className="image is-2by1">
             <img
-              className="specialImageEffect"
               src={
                 templatesRepo[fromTemplateId] &&
                 templatesRepo[fromTemplateId].imageUrl
@@ -162,22 +161,20 @@ class SummaryView extends React.Component {
             <p className="heading"># {jobCounterIndex}</p>
             <p style={{ fontWeight: 500 }}>{title || 'Job Title'}</p>
             <p className="heading">
-              Active since
-              {createdAt
-                ? ` ${moment
-                    .duration(moment().diff(moment('2018-04-21T03:28:35.094Z')))
-                    .humanize()}`
-                : null}
+              Active since {createdAt}
+              <span style={{ fontSize: '8px', color: 'lightgrey' }}>
+                ({daysSinceCreated})
+              </span>
             </p>
             <p className="heading">
-              anticipated start Date
+              Start Date
               {startingDateAndTime &&
                 moment(startingDateAndTime.date).format('MMMM Do YYYY')}
             </p>
-            <p className="heading">Status {state}</p>
-            <p className="heading">
+            {/* <p className="heading">Status {state}</p> */}
+            {/* <p className="heading">
               last updated {moment(updatedAt).format('MMMM Do YYYY')}
-            </p>
+            </p> */}
 
             <div className="card">
               {areThereAnyBidders && (

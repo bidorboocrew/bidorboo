@@ -28,7 +28,7 @@ class BidOrBooGenericTasks extends React.Component {
           >
             <div className="card-image is-clipped">
               <figure className="image">
-                <img className="specialImageEffect" src={imageUrl} alt={subtitle} />
+                <img src={imageUrl} alt={subtitle} />
               </figure>
             </div>
             <div className="card-content">
