@@ -164,7 +164,7 @@ class SummaryView extends React.Component {
             <p className="heading">
               Active since {createdAt}
               <span style={{ fontSize: '8px', color: 'lightgrey' }}>
-                ({daysSinceCreated})
+                ({daysSinceCreated} ago)
               </span>
             </p>
             <p className="heading">
