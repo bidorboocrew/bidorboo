@@ -57,7 +57,7 @@ const NewJobForm = props => {
         error={touched.durationOfJobField && errors.durationOfJobField}
         onChange={handleChange}
         onBlur={handleBlur}
-        value={values.jobTitleField || jobTitleField}
+        value={values.jobTitleField || ''}
       />
       <input
         id="fromTemplateIdField"
