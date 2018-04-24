@@ -24,11 +24,11 @@ class BidOrBooGenericTasks extends React.Component {
               e.preventDefault();
               switchRoute(`${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`);
             }}
-            className="card space"
+            className="card"
           >
-            <div className="card-image">
+            <div className="card-image is-clipped">
               <figure className="image">
-                <img src={imageUrl} alt={subtitle} />
+                <img className="specialImageEffect" src={imageUrl} alt={subtitle} />
               </figure>
             </div>
             <div className="card-content">

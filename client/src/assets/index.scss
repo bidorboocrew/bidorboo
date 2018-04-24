@@ -85,20 +85,26 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   border-right-color: #209cee !important;
   border-width: 10px !important;
 }
+
 .bdbCardComponent {
   cursor: pointer;
   .card {
     background: white;
+    box-shadow: $shadow-space;
     &:hover {
       -webkit-animation: color-change-2x-proposer 0.35s linear both;
       animation: color-change-2x-proposer 0.35s linear both;
+      figure {
+        img.specialImageEffect {
+          -webkit-animation: kenburns-bottom 5s ease-out both;
+          animation: kenburns-bottom 5s ease-out both;
+        }
+      }
     }
   }
 }
 
 .postedJobCard {
-  cursor: pointer;
-  box-shadow: $shadow-space !important;
   &:hover {
     -webkit-animation: color-change-2x-proposer 0.35s linear both;
     animation: color-change-2x-proposer 0.35s linear both;
@@ -111,9 +117,21 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
         }
       }
     }
+    figure {
+      img.specialImageEffect {
+        -webkit-animation: kenburns-bottom 5s ease-out both;
+        animation: kenburns-bottom 5s ease-out both;
+      }
+    }
   }
 }
 
+// img.specialImageEffect {
+//   &:hover {
+//     -webkit-animation: kenburns-bottom 5s ease-out both;
+//     animation: kenburns-bottom 5s ease-out both;
+//   }
+// }
 //----------------------------bulma customizations
 
 $family-primary: 'Roboto', sans-serif;

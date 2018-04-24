@@ -131,9 +131,10 @@ class SummaryView extends React.Component {
 
     return (
       <div className="card postedJobCard">
-        <div className="card-image">
+        <div className="card-image is-clipped">
           <figure className="image is-2by1">
             <img
+              className="specialImageEffect"
               src={
                 templatesRepo[fromTemplateId] &&
                 templatesRepo[fromTemplateId].imageUrl
@@ -159,7 +160,7 @@ class SummaryView extends React.Component {
 
           <div className="content">
             <p className="heading"># {jobCounterIndex}</p>
-            <p style={{fontWeight: 500}}>{title || 'Job Title'}</p>
+            <p style={{ fontWeight: 500 }}>{title || 'Job Title'}</p>
             <p className="heading">
               Active since
               {createdAt
