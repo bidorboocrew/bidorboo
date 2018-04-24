@@ -9,7 +9,8 @@ class BidOrBooGenericTasks extends React.Component {
   };
   render() {
     const { switchRoute } = this.props;
-    const genericTasks = templatesRepo.map(defaultTask => {
+    const genericTasks = Object.keys(templatesRepo).map(key => {
+      const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
         <div

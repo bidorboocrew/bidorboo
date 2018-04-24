@@ -1,5 +1,5 @@
-export const templatesRepo = [
-  {
+export const templatesRepo = {
+  dogSitting: {
     id: 'dogSitting',
     category: '',
     title: 'Dog Sitting',
@@ -17,7 +17,7 @@ export const templatesRepo = [
   [mention any specific instructions or info relevant to this task]
   `
   },
-  {
+  snowRemoval: {
     id: 'snowRemoval',
     category: '',
     title: 'Snow Removal',
@@ -35,17 +35,16 @@ export const templatesRepo = [
   [mention any specific instructions or info relevant to this task]
   `
   },
-  {
-    id: 'snowRemoval2',
+  lawnMowing: {
+    id: 'lawnMowing',
     category: '',
-    title: 'Snow Removal',
+    title: 'Lawn Mowing',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
+    imageUrl: 'http://www.tobinlawn.com/photos/MowingTips.jpg',
     description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
+      "Tired of mowing ? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
+    suggestedDetailsText: `How Big is your backyard ?
   [parking fits 2 cars ...,etc]
   What is your expectations?
   [ I expect to see no ice on the drive through , ]
@@ -53,130 +52,22 @@ export const templatesRepo = [
   [mention any specific instructions or info relevant to this task]
   `
   },
-  {
-    id: 'snowRemoval3',
+  houseCleaning: {
+    id: 'houseCleaning',
     category: '',
-    title: 'Snow Removal',
+    title: 'House Cleaning',
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
+      'http://jonbarron.org/sites/default/files/harsh-cleaning-products-hazardous-lung-health.jpg',
     description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
+      "Tired of cleaning ? let's be honest who likes to clean ? Why don't you let one of our handy BidorBooers do the cleaning. with a simple click",
+    suggestedDetailsText: `How Big is your house ?
   [parking fits 2 cars ...,etc]
   What is your expectations?
-  [ I expect to see no ice on the drive through , ]
+  [ I expect to see them to clean bathroom kitchen ..etc , ]
   extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval4',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval5',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval6',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval7',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval8',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
-  {
-    id: 'snowRemoval9',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
+  [I do not have any cleaning products , you must bring your own .]
   `
   }
-];
+};

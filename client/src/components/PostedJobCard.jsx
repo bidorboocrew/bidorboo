@@ -5,7 +5,6 @@ import * as ROUTES from '../constants/route-const';
 import classNames from 'classnames';
 import autoBind from 'react-autobind';
 import moment from 'moment';
-import Slide from 'react-reveal/Slide';
 
 class PostedJobCard extends React.Component {
   static propTypes = {
@@ -33,143 +32,65 @@ class PostedJobCard extends React.Component {
         _bidsList: PropTypes.array
       })
     ),
-    switchRoute: PropTypes.func.isRequired
+    switchRoute: PropTypes.func.isRequired,
+    userDetails: PropTypes.object
   };
 
   render() {
-    const { jobsList, switchRoute } = this.props;
+    const { jobsList, switchRoute, userDetails } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
-          <JobCard key={job._id} jobObj={job} jobCounterIndex={index} />
+          <JobCard
+            userDetails={userDetails}
+            key={job._id}
+            jobObj={job}
+            jobCounterIndex={index}
+          />
         ))
       ) : (
         <React.Fragment>
-          <section className="section">
-            <div className="container">
-              <div>Sorry you have not posted any jobs</div>
-              <div>
-                <a
-                  className="button is-primary"
-                  onClick={() => {
-                    switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-                  }}
-                >
-                  post jobs
-                </a>
-              </div>
-            </div>
-          </section>
+          <div>Sorry you have not posted any jobs</div>
+          <div>
+            <a
+              className="button is-primary"
+              onClick={() => {
+                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+              }}
+            >
+              post jobs
+            </a>
+          </div>
         </React.Fragment>
       );
-    return <React.Fragment>{MyJobsList}</React.Fragment>;
+    return (
+      <section className="section">
+        <div className="container">
+          <div className="columns is-multiline">{MyJobsList}</div>
+        </div>
+      </section>
+    );
   }
 }
 
 export default PostedJobCard;
 
-class JobCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { currentActiveTab: 'SummaryTab' };
-    autoBind(this, 'switchActiveTab');
-  }
-
-  switchActiveTab(selectedTab) {
-    this.setState({ currentActiveTab: selectedTab });
-  }
-  render() {
-    const { jobObj, jobCounterIndex } = this.props;
-
-    // alter active tab
-    const isSummaryTabActive = classNames({
-      'is-active': this.state.currentActiveTab === 'SummaryTab'
-    });
-    const isDetailsTabActive = classNames({
-      'is-active': this.state.currentActiveTab === 'JobDetailsTab'
-    });
-
-    return (
-      <Slide bottom>
-        <div className="panel column is-12 ">
-          <div className="tabs is-marginless">
-            <ul>
-              <li
-                style={{
-                  borderLeft: '1px solid #dbdbdb',
-                  borderTop: '1px solid #dbdbdb',
-                  borderRight: '1px solid #dbdbdb'
-                }}
-                className={isSummaryTabActive}
-              >
-                <a onClick={() => this.switchActiveTab('SummaryTab')}>
-                  Summary
-                </a>
-              </li>
-              <li
-                className={isDetailsTabActive}
-                style={{
-                  borderLeft: '1px solid #dbdbdb',
-                  borderTop: '1px solid #dbdbdb',
-                  borderRight: '1px solid #dbdbdb'
-                }}
-              >
-                <a onClick={() => this.switchActiveTab('JobDetailsTab')}>
-                  Job Details
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {this.state.currentActiveTab === 'SummaryTab' && (
-            <div className="postedJobCard">
-              <div
-                style={{
-                  borderBottom: 'none',
-                  borderRight: '1px solid #dbdbdb',
-                  borderLeft: '1px solid #dbdbdb',
-                  borderTop: '1px solid #dbdbdb'
-                }}
-                className={`panel-block ${isSummaryTabActive}`}
-              >
-                <SummaryView
-                  jobCounterIndex={jobCounterIndex}
-                  jobObj={jobObj}
-                />
-              </div>
-              <div
-                style={{ border: 'none' }}
-                className="panel-block is-paddingless is-marginless"
-              >
-                <button
-                  style={{ borderRadius: 0 }}
-                  className="button is-link is-outlined is-fullwidth is-large"
-                >
-                  Review and Award Bids
-                </button>
-              </div>
-            </div>
-          )}
-          {this.state.currentActiveTab === 'JobDetailsTab' && (
-            <div className="postedJobCard">
-              <div
-                style={{
-                  border: '1px solid #dbdbdb'
-                }}
-                className={`panel-block ${isDetailsTabActive}`}
-              >
-                <DetailedView jobObj={jobObj} />
-              </div>
-            </div>
-          )}
-        </div>
-      </Slide>
-    );
-  }
-}
+const JobCard = props => {
+  const { jobObj, jobCounterIndex, userDetails } = props;
+  return (
+    <div className="column is-half">
+      <SummaryView
+        userDetails={userDetails}
+        jobCounterIndex={jobCounterIndex}
+        jobObj={jobObj}
+      />
+    </div>
+  );
+};
 
 class SummaryView extends React.Component {
   render() {
+    const { jobCounterIndex, userDetails, jobObj } = this.props;
     const {
       state,
       addressText,
@@ -180,10 +101,23 @@ class SummaryView extends React.Component {
       updatedAt,
       whoSeenThis,
       createdAt,
-      _bidsList
-    } = this.props.jobObj;
-    const { jobCounterIndex } = this.props;
+      _bidsList,
+      fromTemplateId
+    } = jobObj;
 
+    const {
+      profileImgUrl,
+      displayName,
+      email,
+      // address,
+      personalParagraph,
+      // creditCards,
+      membershipStatus,
+      phoneNumber
+    } = userDetails;
+
+    const areThereAnyBidders =
+      _bidsList && _bidsList.map && _bidsList.length > 0;
     try {
       const daysSinceCreated = createdAt
         ? moment
@@ -196,91 +130,104 @@ class SummaryView extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <div className="tile is-parent is-vertical is-paddingless">
-          <div className="tile is-child">
-            <article className="media">
-              {/* <figure className="media-left">
-              <p className="image is-64x64">
-                <img src="https://bulma.io/images/placeholders/128x128.png" />
-              </p>
-            </figure> */}
-              <div className="media-content">
-                <div className="content">
-                  <div className="level">
-                    <div className="level-item has-text-centered">
-                      <div>
-                        <p className="heading">#</p>
-                        <p className="title">{jobCounterIndex}</p>
-                      </div>
-                    </div>
-                    <div className="level-item has-text-centered">
-                      <div>
-                        <p className="heading">Job Title</p>
-                        <p className="title">{title}</p>
-                      </div>
-                    </div>
-                    <div className="level-item has-text-centered">
-                      <div>
-                        <p className="heading">Active since</p>
-                        <p className="title">
-                          {createdAt
-                            ? `${moment
-                                .duration(
-                                  moment().diff(
-                                    moment('2018-04-21T03:28:35.094Z')
-                                  )
-                                )
-                                .days()} days`
-                            : null}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="level-item has-text-centered">
-                      <div>
-                        <p className="heading">Start Date</p>
-                        <p className="title">
-                          {startingDateAndTime &&
-                            moment(startingDateAndTime.date).format(
-                              'MMMM Do YYYY'
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="level-item has-text-centered">
-                      <div>
-                        <p className="heading">Status</p>
-                        <p className="title">{state}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
+      <div className="card postedJobCard">
+        <div className="card-image">
+          <figure className="image is-2by1">
+            <img
+              src={
+                templatesRepo[fromTemplateId] &&
+                templatesRepo[fromTemplateId].imageUrl
+                  ? templatesRepo[fromTemplateId].imageUrl
+                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
+              }
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div className="card-content">
+          <div className="media">
+            <div className="media-left">
+              <figure className="image is-48x48">
+                <img src={profileImgUrl} alt="user image image" />
+              </figure>
+            </div>
+            <div className="media-content">
+              <p className="title is-4">{displayName}</p>
+              <p className="subtitle is-6">{email}</p>
+            </div>
           </div>
-          <div className="tile is-child">
+
+          <div className="content">
+            <p className="heading"># {jobCounterIndex}</p>
+            <p className="heading">{title || 'Job Title'}</p>
+            <p className="heading">
+              Active since
+              {createdAt
+                ? ` ${moment
+                    .duration(moment().diff(moment('2018-04-21T03:28:35.094Z')))
+                    .humanize()}`
+                : null}
+            </p>
+            <p className="heading">
+              anticipated start Date
+              {startingDateAndTime &&
+                moment(startingDateAndTime.date).format('MMMM Do YYYY')}
+            </p>
+            <p className="heading">Status {state}</p>
+            <p className="heading">
+              last updated {moment(updatedAt).format('MMMM Do YYYY')}
+            </p>
+
             <div className="card">
-              {_bidsList &&
-                _bidsList.map &&
-                _bidsList.length > 0 && (
-                  <header className="card-header">
-                    <div
-                      style={{ paddingBottom: 10, paddingTop: 10 }}
-                      className="card-header-title card-content"
-                    >
-                      <span style={{ padding: '0.5rem 0.75rem' }}>Bids</span>
-                    </div>
-                  </header>
-                )}
-              <div className="card-content">
-                <div className="content">
-                  <BidsTable bidList={_bidsList} />
-                </div>
+              {areThereAnyBidders && (
+                <header className="card-header">
+                  <div
+                    style={{ paddingBottom: 10, paddingTop: 10 }}
+                    className="card-header-title card-content"
+                  >
+                    <span style={{ padding: '0.5rem 0.75rem' }}>Bids</span>
+                  </div>
+                </header>
+              )}
+              <div className="content">
+                <BidsTable bidList={_bidsList} />
               </div>
             </div>
           </div>
         </div>
-      </React.Fragment>
+        <div
+          style={{ border: 'none' }}
+          className="panel-block is-paddingless is-marginless"
+        >
+          {areThereAnyBidders && (
+            <button
+              style={{
+                borderBottom: 'none',
+                borderRight: 'none',
+                borderLeft: 'none',
+                borderRadius: 0
+              }}
+              className="button is-outlined is-fullwidth is-large"
+            >
+              <span className="title">Review and Award Bids</span>
+            </button>
+          )}
+          {!areThereAnyBidders && (
+            <button
+              disabled
+              style={{
+                borderBottom: 'none',
+                borderRight: 'none',
+                borderLeft: 'none',
+                borderRadius: 0
+              }}
+              className="button is-outlined is-fullwidth is-large"
+            >
+              <span className="title">Review and Award Bids</span>
+            </button>
+          )}
+        </div>
+      </div>
     );
   }
 }
@@ -309,7 +256,7 @@ class BidsTable extends React.Component {
         </table>
       ) : (
         <table className="table is-full-width">
-          <thead>
+          <thead style={{ backgroundColor: '#bdbdbd' }}>
             <tr>
               <th>No Bidders</th>
             </tr>

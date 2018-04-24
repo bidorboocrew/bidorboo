@@ -6,17 +6,13 @@ import { getAllJobs } from '../app-state/actions/jobActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 import PostedJobCard from '../components/PostedJobCard';
 
-
-
-
-
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     this.props.a_getAllJobs();
   }
   render() {
-    const{s_userPostedJobsList} = this.props;
+    const { s_userPostedJobsList, s_userDetails, a_switchRoute } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -34,7 +30,11 @@ class ProposerMyJobs extends React.Component {
         <section className="section mainSectionContainer">
           <div className="container">
             <div className="columns is-multiline">
-              <PostedJobCard switchRoute={switchRoute} jobsList={s_userPostedJobsList}/>
+              <PostedJobCard
+                userDetails={s_userDetails}
+                switchRoute={a_switchRoute}
+                jobsList={s_userPostedJobsList}
+              />
             </div>
           </div>
         </section>
@@ -42,17 +42,18 @@ class ProposerMyJobs extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer }) => {
+const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
     s_error: jobsReducer.error,
     s_userPostedJobsList: jobsReducer.userPostedJobsList,
-    s_isLoading: jobsReducer.isLoading
+    s_isLoading: jobsReducer.isLoading,
+    s_userDetails: userModelReducer.userDetails
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     a_getAllJobs: bindActionCreators(getAllJobs, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 

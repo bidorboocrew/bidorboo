@@ -12,13 +12,13 @@ class ProposerCreateAJob extends React.Component {
   constructor(props) {
     super(props);
 
-    const templateToStartWith = templatesRepo.filter(
-      task => props.match.params.templateId === task.id
-    );
-    const startingWithTemplate = templateToStartWith.length > 0;
+    let templateToStartWith= null;
+    if(props.match && props.match.params && props.match.params.templateId){
+      templateToStartWith = templatesRepo[props.match.params.templateId];
+    }
+
     this.state = {
-      isStartingWithTemplate: startingWithTemplate,
-      chosenTemplate: startingWithTemplate ? templateToStartWith[0] : null
+      chosenTemplate: templateToStartWith
     };
     autoBind(this, 'goBack', 'handleSubmit');
   }

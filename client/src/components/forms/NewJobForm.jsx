@@ -55,7 +55,6 @@ const NewJobForm = props => {
         type="text"
         helpText="customize your job title"
         error={touched.durationOfJobField && errors.durationOfJobField}
-        value={values.durationOfJobField}
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.jobTitleField || jobTitleField}
