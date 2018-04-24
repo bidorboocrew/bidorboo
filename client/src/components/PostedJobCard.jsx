@@ -143,7 +143,7 @@ class JobCard extends React.Component {
               >
                 <button
                   style={{ borderRadius: 0 }}
-                  className="button is-link is-outlined is-fullwidth is-meduim"
+                  className="button is-link is-outlined is-fullwidth is-large"
                 >
                   Review and Award Bids
                 </button>

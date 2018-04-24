@@ -47,16 +47,20 @@ const NewJobForm = props => {
     setFieldValue
   } = props;
   values.fromTemplateIdField = fromTemplateIdField;
-  values.jobTitleField = jobTitleField;
   return (
     <form onSubmit={handleSubmit}>
-     <input
+      <TextInput
         id="jobTitleField"
-        className="input is-invisible"
-        type="hidden"
+        className="input"
+        type="text"
+        helpText="customize your job title"
+        error={touched.durationOfJobField && errors.durationOfJobField}
+        value={values.durationOfJobField}
+        onChange={handleChange}
+        onBlur={handleBlur}
         value={values.jobTitleField || jobTitleField}
       />
-       <input
+      <input
         id="fromTemplateIdField"
         className="input is-invisible"
         type="hidden"
@@ -102,7 +106,10 @@ const NewJobForm = props => {
               setFieldValue('locationField', latLng, false);
               console.log('Success', latLng);
             })
-            .catch(error => {  errors.addressTextField = 'error getting lat lng ' + error; console.error('Error', error)});
+            .catch(error => {
+              errors.addressTextField = 'error getting lat lng ' + error;
+              console.error('Error', error);
+            });
         }}
       />
 
@@ -132,19 +139,19 @@ const NewJobForm = props => {
         id="hoursField"
         className="input is-invisible"
         type="hidden"
-        value={values.hoursField  || 1}
+        value={values.hoursField || 1}
       />
       <input
         id="minutesField"
         className="input is-invisible"
         type="hidden"
-        value={values.minutesField  || 0}
+        value={values.minutesField || 0}
       />
       <input
         id="periodField"
         className="input is-invisible"
         type="hidden"
-        value={values.periodField  || 'AM'}
+        value={values.periodField || 'AM'}
       />
       <TimeInput
         hoursFieldId="hoursField"
@@ -174,7 +181,9 @@ const NewJobForm = props => {
         type="text"
         label="Detailed Description"
         placeholder="Sample: Hey I am handy with tools and can do everything... "
-        error={touched.detailedDescriptionField && errors.detailedDescriptionField}
+        error={
+          touched.detailedDescriptionField && errors.detailedDescriptionField
+        }
         value={values.detailedDescriptionField}
         onChange={handleChange}
         onBlur={handleBlur}

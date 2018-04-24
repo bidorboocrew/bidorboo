@@ -113,6 +113,7 @@ export const addJob = jobDetails => (dispatch, getState) => {
     title: jobTitleField,
     fromTemplateId: fromTemplateIdField
   };
+  debugger;
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
