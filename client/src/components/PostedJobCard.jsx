@@ -159,7 +159,7 @@ class SummaryView extends React.Component {
 
           <div className="content">
             <p className="heading"># {jobCounterIndex}</p>
-            <p className="heading">{title || 'Job Title'}</p>
+            <p style={{fontWeight: 500}}>{title || 'Job Title'}</p>
             <p className="heading">
               Active since
               {createdAt

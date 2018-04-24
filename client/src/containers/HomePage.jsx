@@ -45,7 +45,7 @@ class HomePage extends React.Component {
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade left delay={500}>
+          <Fade left delay={350}>
             <div className="container">
               <section className="hero is-dark is-small is-marginless">
                 <div
@@ -72,7 +72,7 @@ class HomePage extends React.Component {
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade right delay={750}>
+          <Fade right delay={350}>
             <div className="container">
               <section
                 style={{ margin: '0.25rem' }}
