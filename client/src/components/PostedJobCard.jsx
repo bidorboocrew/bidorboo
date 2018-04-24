@@ -118,8 +118,9 @@ class SummaryView extends React.Component {
 
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
+    let daysSinceCreated = '';
     try {
-      const daysSinceCreated = createdAt
+      daysSinceCreated = createdAt
         ? moment
             .duration(moment().diff(moment('2018-04-21T03:28:35.094Z')))
             .humanize()
