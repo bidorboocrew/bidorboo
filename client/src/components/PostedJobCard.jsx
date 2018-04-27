@@ -132,8 +132,11 @@ class SummaryView extends React.Component {
 
     return (
       <div className="card postedJobCard">
+        <header style={{borderBottom: '2px solid rgba(0, 0, 0, 0.12)'}} className="card-header">
+          <p className="card-header-title">{title || 'Job Title'}</p>
+        </header>
         <div className="card-image is-clipped">
-          <figure className="image is-2by1">
+          <figure className="image is-3by1">
             <img
               src={
                 templatesRepo[fromTemplateId] &&
@@ -148,23 +151,22 @@ class SummaryView extends React.Component {
         <div className="card-content">
           <div className="media">
             <div className="media-left">
-              <figure className="image is-48x48">
-                <img src={profileImgUrl} alt="user image image" />
+              <figure className="image is-32x32">
+                <img src={profileImgUrl} alt="user image" />
               </figure>
             </div>
             <div className="media-content">
-              <p className="title is-4">{displayName}</p>
+              <p className="title is-6">{displayName}</p>
               <p className="subtitle is-6">{email}</p>
             </div>
           </div>
 
           <div className="content">
             <p className="heading"># {jobCounterIndex}</p>
-            <p style={{ fontWeight: 500 }}>{title || 'Job Title'}</p>
             <p className="heading">
               Active since {createdAt}
-              <span style={{ fontSize: '8px', color: 'lightgrey' }}>
-                ({daysSinceCreated} ago)
+              <span style={{ fontSize: '10px', color: 'grey' }}>
+                {` (${daysSinceCreated} ago)`}
               </span>
             </p>
             <p className="heading">
@@ -177,8 +179,8 @@ class SummaryView extends React.Component {
               last updated {moment(updatedAt).format('MMMM Do YYYY')}
             </p> */}
 
-            <div className="card">
-              {areThereAnyBidders && (
+            {areThereAnyBidders && (
+              <div className="card">
                 <header className="card-header">
                   <div
                     style={{ paddingBottom: 10, paddingTop: 10 }}
@@ -187,45 +189,14 @@ class SummaryView extends React.Component {
                     <span style={{ padding: '0.5rem 0.75rem' }}>Bids</span>
                   </div>
                 </header>
-              )}
-              <div className="content">
-                <BidsTable bidList={_bidsList} />
               </div>
-            </div>
+            )}
           </div>
         </div>
-        <div
-          style={{ border: 'none' }}
-          className="panel-block is-paddingless is-marginless"
-        >
-          {areThereAnyBidders && (
-            <button
-              style={{
-                borderBottom: 'none',
-                borderRight: 'none',
-                borderLeft: 'none',
-                borderRadius: 0
-              }}
-              className="button is-outlined is-fullwidth is-large"
-            >
-              <span className="title">Review and Award Bids</span>
-            </button>
-          )}
-          {!areThereAnyBidders && (
-            <button
-              disabled
-              style={{
-                borderBottom: 'none',
-                borderRight: 'none',
-                borderLeft: 'none',
-                borderRadius: 0
-              }}
-              className="button is-outlined is-fullwidth is-large"
-            >
-              <span className="title">Review and Award Bids</span>
-            </button>
-          )}
-        </div>
+        <BidsTable
+          bidList={_bidsList}
+          areThereAnyBidders={areThereAnyBidders}
+        />
       </div>
     );
   }
@@ -233,10 +204,10 @@ class SummaryView extends React.Component {
 
 class BidsTable extends React.Component {
   render() {
-    const { bidList } = this.props;
+    const { bidList, areThereAnyBidders } = this.props;
     const BidsTable =
       bidList && bidList.map && bidList.length > 0 ? (
-        <table className="table is-full-width">
+        <table className="table  is-fullwidth is-hoverable">
           <thead>
             <tr>
               <th>#</th>
@@ -251,10 +222,41 @@ class BidsTable extends React.Component {
               <td>5 stars</td>
               <td>38$</td>
             </tr>
+            <tr>
+              <td span={3}>
+                {areThereAnyBidders && (
+                  <button
+                    style={{
+                      borderBottom: 'none',
+                      borderRight: 'none',
+                      borderLeft: 'none',
+                      borderRadius: 0
+                    }}
+                    className="button is-outlined is-fullwidth is-large"
+                  >
+                    <span className="title">Review and Award Bids</span>
+                  </button>
+                )}
+                {!areThereAnyBidders && (
+                  <button
+                    disabled
+                    style={{
+                      borderBottom: 'none',
+                      borderRight: 'none',
+                      borderLeft: 'none',
+                      borderRadius: 0
+                    }}
+                    className="button is-outlined is-fullwidth is-large"
+                  >
+                    <span className="title">Review and Award Bids</span>
+                  </button>
+                )}
+              </td>
+            </tr>
           </tbody>
         </table>
       ) : (
-        <table className="table is-full-width">
+        <table className="table is-fullwidth">
           <thead style={{ backgroundColor: '#bdbdbd' }}>
             <tr>
               <th>No Bidders</th>

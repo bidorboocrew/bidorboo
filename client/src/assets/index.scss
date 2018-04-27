@@ -105,13 +105,15 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 }
 
 .postedJobCard {
+  cursor: pointer;
+  box-shadow: $shadow-space !important;
   &:hover {
-    -webkit-animation: color-change-2x-proposer 0.35s linear both;
-    animation: color-change-2x-proposer 0.35s linear both;
+    -webkit-animation: color-change-2x-proposer 0.25s linear both;
+    animation: color-change-2x-proposer 0.25s linear both;
     div {
       button {
-        -webkit-animation: color-change-2x-proposer 0.35s linear both;
-        animation: color-change-2x-proposer 0.35s linear both;
+        -webkit-animation: color-change-2x-proposer 0.25s linear both;
+        animation: color-change-2x-proposer 0.25s linear both;
         span {
           color: white;
         }
