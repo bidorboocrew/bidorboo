@@ -93,13 +93,15 @@ export const addJob = jobDetails => (dispatch, getState) => {
     fromTemplateIdField
   } = jobDetails;
 
+
+
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
   const mapFieldsToSchema = {
     detailedDescription: detailedDescriptionField,
     location: {
       type: 'Point',
-      coordinates: [locationField.lat, locationField.lng]
+      coordinates: [parseFloat(parseFloat(locationField.lng).toFixed(4)),parseFloat(parseFloat(locationField.lat).toFixed(4))]
     },
     startingDateAndTime: {
       date: moment.utc(dateField).toDate(),

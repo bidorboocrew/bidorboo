@@ -16,13 +16,14 @@ exports.jobDataAccess = {
     const populateOptions = {
       path: '_postedJobs',
       options: {
-        limit: 30 ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
+        limit: 30, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
+        sort: {createdAt:-1}
       }
     };
 
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
       .populate(populateOptions)
-      .lean()
+      .lean(true)
       .exec(); // only works if we pushed refs to children
   },
   getJobsNear: specifiedLocation => {
