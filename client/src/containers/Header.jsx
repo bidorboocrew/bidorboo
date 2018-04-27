@@ -116,7 +116,7 @@ class Header extends React.Component {
 
           {/* show on mobile if not  */}
           {!s_isLoggedIn && (
-            <div className="is-hidden-desktop navbar-item navbar-burger">
+            <div className="is-hidden-desktop navbar-item">
               <a
                 className="button is-danger heartbeat"
                 onClick={() => {

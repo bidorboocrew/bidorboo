@@ -31,23 +31,23 @@ class HomePage extends React.Component {
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <Rotate delay={350} top left cascade>
+              <Rotate top left cascade>
                 <h1 style={{ color: 'white' }} className="title">
                   BidOrBoo
                 </h1>
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Get tasks done for the price you want. Earn money doing what
-                  you love.
-                </h2>
               </Rotate>
+              <h2 style={{ color: 'white' }} className="subtitle slide-in-left">
+                Get tasks done for the price you want. Earn money doing what you
+                love.
+              </h2>
             </div>
           </div>
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade left delay={350}>
+          <Fade left>
             <div className="container">
-              <section className="hero is-dark is-small is-marginless">
+              <section className="hero is-dark is-small is-marginless is-hidden-mobile">
                 <div
                   style={{ backgroundColor: '#e98969' }}
                   className="hero-body"
@@ -72,11 +72,11 @@ class HomePage extends React.Component {
         </section>
 
         <section className="section mainSectionContainer">
-          <Fade right delay={350}>
+          <Fade right>
             <div className="container">
               <section
                 style={{ margin: '0.25rem' }}
-                className="hero is-dark is-small is-marginless"
+                className="hero is-dark is-small is-marginless is-hidden-mobile"
               >
                 <div
                   style={{ backgroundColor: '#c786f8' }}

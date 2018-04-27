@@ -35,16 +35,16 @@ class BidOrBooGenericTasks extends React.Component {
               <h1 className="title">{title}</h1>
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
-                <div className="has-text-centered" style={{ textAlign: 'center', marginTop: 8 }}>
-                  <a className="button is-primary">
-                    {/* <i className="far fa-edit" style={{ fontSize: 12 }} /> */}
+
+              </div>
+            </div>
+            <div className="has-text-centered" style={{ textAlign: 'center'}}>
+                  <a style={{ borderRadius:0 }} className="button is-primary is-fullwidth">
                     <span style={{ marginLeft: 4 }}>
                       <i className="fa fa-plus fa-w-14" /> Request Now
                     </span>
                   </a>
                 </div>
-              </div>
-            </div>
           </div>
         </div>
       );
