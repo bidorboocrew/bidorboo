@@ -119,12 +119,18 @@ class SummaryView extends React.Component {
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
     let daysSinceCreated = '';
+    let createdAtToLocal = '';
+
     try {
       daysSinceCreated = createdAt
         ? moment
-            .duration(moment().diff(moment('2018-04-21T03:28:35.094Z')))
+            .duration(moment().diff(moment(createdAt)))
             .humanize()
         : 0;
+      debugger;
+      createdAtToLocal = moment(createdAt)
+        .local()
+        .format('YYYY-MM-DD hh:mm A');
     } catch (e) {
       //xxx we dont wana fail simply cuz we did not get the diff in time
       console.error(e);
@@ -132,7 +138,10 @@ class SummaryView extends React.Component {
 
     return (
       <div className="card postedJobCard">
-        <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)'}} className="card-header">
+        <header
+          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+          className="card-header"
+        >
           <p className="card-header-title">{title || 'Job Title'}</p>
         </header>
         <div className="card-image is-clipped">
@@ -164,7 +173,7 @@ class SummaryView extends React.Component {
           <div className="content">
             <p className="heading"># {jobCounterIndex}</p>
             <p className="heading">
-              Active since {createdAt}
+              Active since {createdAtToLocal}
               <span style={{ fontSize: '10px', color: 'grey' }}>
                 {` (${daysSinceCreated} ago)`}
               </span>
