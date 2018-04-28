@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import autoBind from 'react-autobind';
 
 import { withFormik } from 'formik';
 // import Yup from 'yup';
@@ -20,6 +21,274 @@ import {
   TimeInput
 } from './FormsHelpers';
 import moment from 'moment';
+
+// for reverse geocoding , get address from lat lng
+// https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
+// https://stackoverflow.com/questions/6478914/reverse-geocoding-code
+var google = window.google;
+var geocoder = new google.maps.Geocoder();
+
+class NewJobForm extends React.Component {
+  static propTypes = {
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
+  };
+  constructor(props) {
+    super(props);
+    autoBind(this, 'getCurrentAddress');
+  }
+  getCurrentAddress() {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          // update the field with the current position coordinates
+          this.props.setFieldValue('addressTextField', pos, true);
+
+          if (google && geocoder) {
+            //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+            geocoder.geocode(
+              {
+                location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
+              },
+              (results, status) => {
+                // xxx handle the various error (api over limit ...etc)
+                if (status !== google.maps.GeocoderStatus.OK) {
+                  alert(status);
+                }
+                // This is checking to see if the Geoeode Status is OK before proceeding
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var address = results[0].formatted_address;
+                  console.log(address);
+                }
+              }
+            );
+          }
+        },
+        e => {
+          //handle error
+          console.error('can not auto detect address');
+        },
+        {
+          maximumAge: 10000,
+          timeout: 5000,
+          enableHighAccuracy: true
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      // try the googlemap apis
+      console.log('no html 5 geo location');
+    }
+  }
+  render() {
+    const {
+      jobTitleField,
+      fromTemplateIdField,
+      values,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      onCancel,
+      isValid,
+      isSubmitting,
+      setFieldValue
+    } = this.props;
+
+    const autoDetectCurrentLocation = navigator.geolocation ? (
+      <React.Fragment>
+        <span>
+          <a
+            style={{ fontSize: 14 }}
+            onClick={this.getCurrentAddress}
+            className="is-link"
+          >
+            Auto Detect
+          </a>
+        </span>
+        <span style={{ fontSize: 12, color: 'grey' }}>
+          {' '}
+          or manually select an address from the drop down menu
+        </span>
+      </React.Fragment>
+    ) : null;
+
+    //get an initial title from the job title
+    values.fromTemplateIdField = fromTemplateIdField;
+    return (
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          id="jobTitleField"
+          className="input"
+          type="text"
+          helpText="customize your job title"
+          error={touched.durationOfJobField && errors.durationOfJobField}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.jobTitleField || ''}
+        />
+        <input
+          id="fromTemplateIdField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.fromTemplateIdField || fromTemplateIdField}
+        />
+        <input
+          id="addressTextField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.addressTextField || ''}
+        />
+        <input
+          id="locationField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.locationField || ''}
+        />
+        <GeoAddressInput
+          id="geoInputField"
+          type="text"
+          helpText={'You must select an address from the drop down menu'}
+          label="Job Address"
+          placeholder="specify your job address"
+          autoDetectComponent={autoDetectCurrentLocation}
+          error={touched.addressTextField && errors.addressTextField}
+          onError={e => {
+            errors.addressTextField = 'google api error ' + e;
+          }}
+          onChangeEvent={e => {
+            setFieldValue('addressTextField', e, true);
+            console.log('value changed ' + e);
+          }}
+          onBlurEvent={e => {
+            if (e && e.target) {
+              e.target.id = 'addressTextField';
+              handleBlur(e);
+            }
+          }}
+          handleSelect={address => {
+            setFieldValue('addressTextField', address, true);
+            geocodeByAddress(address)
+              .then(results => getLatLng(results[0]))
+              .then(latLng => {
+                setFieldValue('locationField', latLng, false);
+                console.log('Success', latLng);
+              })
+              .catch(error => {
+                errors.addressTextField = 'error getting lat lng ' + error;
+                console.error('Error', error);
+              });
+          }}
+        />
+
+        <input
+          id="dateField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.dateField || moment().toDate()}
+        />
+        <DateInput
+          id="DateInputField"
+          type="text"
+          helpText="click to change date"
+          label="Job Start Date"
+          placeholder="specify starting date"
+          onChangeEvent={e => {
+            if (e && e instanceof moment) {
+              let val = e.toDate();
+              setFieldValue('dateField', val, false);
+            } else {
+              e.preventDefault();
+            }
+          }}
+        />
+
+        <input
+          id="hoursField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.hoursField || 1}
+        />
+        <input
+          id="minutesField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.minutesField || 0}
+        />
+        <input
+          id="periodField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.periodField || 'AM'}
+        />
+        <TimeInput
+          hoursFieldId="hoursField"
+          minutesFieldId="minutesField"
+          periodFieldId="periodField"
+          type="text"
+          label="Starting time Details"
+          placeholder="select Starting time"
+          error={touched.startTime && errors.startTime}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="durationOfJobField"
+          type="text"
+          helpText="for example : 1 hour , 1 week ...etc"
+          label="Job Duration"
+          error={touched.durationOfJobField && errors.durationOfJobField}
+          value={values.durationOfJobField}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          iconLeft="far fa-clock"
+        />
+
+        <TextAreaInput
+          id="detailedDescriptionField"
+          type="text"
+          label="Detailed Description"
+          placeholder="Sample: Hey I am handy with tools and can do everything... "
+          error={
+            touched.detailedDescriptionField && errors.detailedDescriptionField
+          }
+          value={values.detailedDescriptionField}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+        <div className="field">
+          <button
+            style={{ marginRight: 6 }}
+            className="button is-primary is-medium"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Submit
+          </button>
+          <button
+            className="button is-outlined is-medium"
+            disabled={isSubmitting}
+            onClick={e => {
+              e.preventDefault();
+              onCancel(e);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
+
 const EnhancedForms = withFormik({
   handleSubmit: (values, { setSubmitting, props }) => {
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
@@ -31,188 +300,4 @@ const EnhancedForms = withFormik({
   displayName: 'NewJobForm'
 });
 
-const NewJobForm = props => {
-  const {
-    jobTitleField,
-    fromTemplateIdField,
-    values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    onCancel,
-    isValid,
-    isSubmitting,
-    setFieldValue
-  } = props;
-  values.fromTemplateIdField = fromTemplateIdField;
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextInput
-        id="jobTitleField"
-        className="input"
-        type="text"
-        helpText="customize your job title"
-        error={touched.durationOfJobField && errors.durationOfJobField}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.jobTitleField || ''}
-      />
-      <input
-        id="fromTemplateIdField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.fromTemplateIdField || fromTemplateIdField}
-      />
-      <input
-        id="addressTextField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.addressTextField || ''}
-      />
-      <input
-        id="locationField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.locationField || ''}
-      />
-      <GeoAddressInput
-        id="geoInputField"
-        type="text"
-        helpText={'You must select an address from the drop down menu'}
-        label="Job Address"
-        placeholder="specify your job address"
-        error={touched.addressTextField && errors.addressTextField}
-        onError={e => {
-          errors.addressTextField = 'google api error ' + e;
-        }}
-        onChangeEvent={e => {
-          setFieldValue('addressTextField', e, true);
-          console.log('value changed ' + e);
-        }}
-        onBlurEvent={e => {
-          if (e && e.target) {
-            e.target.id = 'addressTextField';
-            handleBlur(e);
-          }
-        }}
-        handleSelect={address => {
-          setFieldValue('addressTextField', address, true);
-          geocodeByAddress(address)
-            .then(results => getLatLng(results[0]))
-            .then(latLng => {
-              setFieldValue('locationField', latLng, false);
-              console.log('Success', latLng);
-            })
-            .catch(error => {
-              errors.addressTextField = 'error getting lat lng ' + error;
-              console.error('Error', error);
-            });
-        }}
-      />
-
-      <input
-        id="dateField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.dateField || moment().toDate()}
-      />
-      <DateInput
-        id="DateInputField"
-        type="text"
-        helpText="click to change date"
-        label="Job Start Date"
-        placeholder="specify starting date"
-        onChangeEvent={e => {
-          if (e && e instanceof moment) {
-            let val = e.toDate();
-            setFieldValue('dateField', val, false);
-          } else {
-            e.preventDefault();
-          }
-        }}
-      />
-
-      <input
-        id="hoursField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.hoursField || 1}
-      />
-      <input
-        id="minutesField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.minutesField || 0}
-      />
-      <input
-        id="periodField"
-        className="input is-invisible"
-        type="hidden"
-        value={values.periodField || 'AM'}
-      />
-      <TimeInput
-        hoursFieldId="hoursField"
-        minutesFieldId="minutesField"
-        periodFieldId="periodField"
-        type="text"
-        label="Starting time Details"
-        placeholder="select Starting time"
-        error={touched.startTime && errors.startTime}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <TextInput
-        id="durationOfJobField"
-        type="text"
-        helpText="for example : 1 hour , 1 week ...etc"
-        label="Job Duration"
-        error={touched.durationOfJobField && errors.durationOfJobField}
-        value={values.durationOfJobField}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        iconLeft="far fa-clock"
-      />
-
-      <TextAreaInput
-        id="detailedDescriptionField"
-        type="text"
-        label="Detailed Description"
-        placeholder="Sample: Hey I am handy with tools and can do everything... "
-        error={
-          touched.detailedDescriptionField && errors.detailedDescriptionField
-        }
-        value={values.detailedDescriptionField}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-
-      <div className="field">
-        <button
-          style={{ marginRight: 6 }}
-          className="button is-primary is-medium"
-          type="submit"
-          disabled={isSubmitting || !isValid}
-        >
-          Submit
-        </button>
-        <button
-          className="button is-outlined is-medium"
-          disabled={isSubmitting}
-          onClick={e => {
-            e.preventDefault();
-            onCancel(e);
-          }}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  );
-};
-NewJobForm.propTypes = {
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
-};
 export default EnhancedForms(NewJobForm);

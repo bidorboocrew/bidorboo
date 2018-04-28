@@ -113,7 +113,8 @@ export const GeoAddressInput = ({
   handleSelect,
   placeholder,
   onChangeEvent,
-  onBlurEvent
+  onBlurEvent,
+  autoDetectComponent
 }) => {
   return (
     <div className="field">
@@ -129,7 +130,8 @@ export const GeoAddressInput = ({
         onChangeEvent={onChangeEvent}
         onBlurEvent={onBlurEvent}
       />
-      <HelpText helpText={helpText} />
+      {autoDetectComponent}
+      {!autoDetectComponent && <HelpText helpText={helpText} />}
       <InputFeedback error={error} />
     </div>
   );
@@ -149,9 +151,7 @@ export const DateInput = ({
 }) => {
   return (
     <div className="field">
-      <Label>
-        {label}
-      </Label>
+      <Label>{label}</Label>
       <DatePickerInput onChangeEvent={onChangeEvent} />
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
