@@ -1,16 +1,29 @@
 import React from 'react';
-import {
-  // withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} from 'react-google-maps';
-
-import autoBind from 'react-autobind';
-
-import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
-import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import MapWithAMarkerClusterer from './googleMapsComponents/MapWithAMarkerClusterer';
+
+
+
+export default class BidderMapSection extends React.Component {
+  render() {
+    const { jobsList } = this.props;
+    return jobsList && jobsList.length > 0 ? (
+      <MapWithAMarkerClusterer markers={jobsList} />
+    ) : null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+// import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
+// import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 // https://tomchentw.github.io/react-google-maps/#infobox
 // const MyMapComponent = compose(
 //   withProps({
@@ -28,14 +41,6 @@ import MapWithAMarkerClusterer from './googleMapsComponents/MapWithAMarkerCluste
 //   </GoogleMap>
 // ));
 
-export default class BidderMapSection extends React.Component {
-  render() {
-    const { jobsList } = this.props;
-    return jobsList && jobsList.length > 0 ? (
-      <MapWithAMarkerClusterer markers={jobsList} />
-    ) : null;
-  }
-}
 
 // class JobMarker extends React.Component {
 //   constructor(props) {
