@@ -127,7 +127,6 @@ class SummaryView extends React.Component {
             .duration(moment().diff(moment(createdAt)))
             .humanize()
         : 0;
-      debugger;
       createdAtToLocal = moment(createdAt)
         .local()
         .format('YYYY-MM-DD hh:mm A');
