@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ROUTES from '../constants/route-const';
+import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../app-state/actions/routerActions';
 import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';

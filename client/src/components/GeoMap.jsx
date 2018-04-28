@@ -22,14 +22,47 @@ const MyMapComponent = compose(
   withGoogleMap
 )(props => (
   <GoogleMap defaultZoom={8} defaultCenter={{ lat: 45.4215, lng: -75.6972 }}>
-    {props.isMarkerShown && (
+    {props.isMarkerShown && <React.Fragment>{props.markers}</React.Fragment>}
+  </GoogleMap>
+));
+
+class GeoMap extends React.Component {
+  render() {
+    const { jobsList } = this.props;
+    const jobMarkers = jobsList.map(job => (
+      <JobMarker key={job._id} job={job} />
+    ));
+    return jobsList && jobsList.length > 0 ? (
+      <MyMapComponent isMarkerShown={true} markers={jobMarkers} />
+    ) : null;
+  }
+}
+
+export default GeoMap;
+
+class JobMarker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { show: false };
+    autoBind(this, 'toggleShow');
+  }
+  toggleShow() {
+    this.setState({ show: !this.state.show });
+  }
+  render() {
+    const { job } = this.props;
+
+    return (
       <Marker
-        position={{ lat: 45.4215, lng: -75.6972 }}
-        onClick={props.onMarkerClick}
+        position={{
+          lng: job.location.coordinates[0],
+          lat: job.location.coordinates[1]
+        }}
+        onClick={this.toggleShow}
       >
-        {props.showInfo && (
+        {this.state.show && (
           <InfoBox
-            onCloseClick={props.onToggleOpen}
+            onCloseClick={this.toggleShow}
             options={{ closeBoxURL: ``, enableEventPropagation: true }}
           >
             <div
@@ -41,35 +74,12 @@ const MyMapComponent = compose(
               }}
             >
               <div style={{ fontSize: `16px`, fontColor: `#4a4a4a` }}>
-                Hello, Yacoub! isn't this awesome
+                {job.title}
               </div>
             </div>
           </InfoBox>
         )}
       </Marker>
-    )}
-  </GoogleMap>
-));
-
-class GeoMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { show: false, address: '' };
-    autoBind(this, 'toggleShow');
-  }
-  toggleShow() {
-    this.setState({ show: !this.state.show });
-  }
-
-  render() {
-    return (
-      <MyMapComponent
-        showInfo={this.state.show}
-        isMarkerShown={true}
-        onMarkerClick={this.toggleShow}
-      />
     );
   }
 }
-
-export default GeoMap;

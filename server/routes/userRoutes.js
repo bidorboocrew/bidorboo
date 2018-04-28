@@ -6,7 +6,7 @@ const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const userDataAccess = require('../data-access/userDataAccess');
-const ROUTES = require('../route_constants');
+const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
 
 module.exports = app => {

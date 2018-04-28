@@ -8,7 +8,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import Toast from '../components/Toast';
 
-import * as ROUTES from '../constants/route-const';
+import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
 import '../assets/index.css';

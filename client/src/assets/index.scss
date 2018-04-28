@@ -35,14 +35,25 @@ body {
 }
 
 .bdb-spinner {
-  margin: 20px auto;
+  margin: auto;
   border: 5px solid #f3f3f3;
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;
   border-top: 5px solid #555;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+
+  &.small {
+    width: 30px;
+    height: 30px;
+  }
+  &.meduim {
+    width: 100px;
+    height: 100px;
+  }
+  &.large {
+    width: 200px;
+    height: 200px;
+  }
 }
 @-webkit-keyframes spin {
   0% {

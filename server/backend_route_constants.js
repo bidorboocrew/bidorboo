@@ -11,7 +11,7 @@ module.exports = {
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
     PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
-    JOB_ROUTES: '/job'
+    JOB_ROUTES: { myjobs: '/job/myjobs', alljobs: '/job/alljobs' }
   },
   FRONTEND: {
     ENTRY: '/',

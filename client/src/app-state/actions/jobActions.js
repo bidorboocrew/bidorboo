@@ -1,19 +1,25 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../constants/route-const';
+import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import moment from 'moment';
 
-export const getAllJobs = () => (dispatch, getState) =>
+export const getAllMyJobs = () => (dispatch, getState) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_JOBS,
-    payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES)
+    type: A.JOB_ACTIONS.GET_ALL_MY_JOBS,
+    payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.myjobs)
+  });
+
+export const getAllPostedJobs = () => (dispatch, getState) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
+    payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.alljobs)
   });
 
 export const getJobById = jobId => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
     payload: axios
-      .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES}/${jobId}`)
+      .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.alljobs}/${jobId}`)
       .then(job => {
         // debugger;
       })
@@ -93,15 +99,16 @@ export const addJob = jobDetails => (dispatch, getState) => {
     fromTemplateIdField
   } = jobDetails;
 
-
-
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
   const mapFieldsToSchema = {
     detailedDescription: detailedDescriptionField,
     location: {
       type: 'Point',
-      coordinates: [parseFloat(parseFloat(locationField.lng).toFixed(4)),parseFloat(parseFloat(locationField.lat).toFixed(4))]
+      coordinates: [
+        parseFloat(parseFloat(locationField.lng).toFixed(4)),
+        parseFloat(parseFloat(locationField.lat).toFixed(4))
+      ]
     },
     startingDateAndTime: {
       date: moment.utc(dateField).toDate(),
@@ -119,7 +126,7 @@ export const addJob = jobDetails => (dispatch, getState) => {
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
+      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.myjobs, {
         data: {
           jobDetails: mapFieldsToSchema
         }

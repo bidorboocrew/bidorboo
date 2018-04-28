@@ -1,5 +1,5 @@
 const passport = require('passport');
-const ROUTES = require('../route_constants');
+const ROUTES = require('../backend_route_constants');
 
 module.exports = app => {
   //google routes

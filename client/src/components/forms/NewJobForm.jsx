@@ -102,7 +102,6 @@ const NewJobForm = props => {
           geocodeByAddress(address)
             .then(results => getLatLng(results[0]))
             .then(latLng => {
-              debugger
               setFieldValue('locationField', latLng, false);
               console.log('Success', latLng);
             })

@@ -10,7 +10,7 @@ import autoBind from 'react-autobind';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import * as ROUTES from '../constants/route-const';
+import * as ROUTES from '../constants/frontend-route-consts';
 
 class Header extends React.Component {
   static propTypes = {

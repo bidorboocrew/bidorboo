@@ -1,25 +1,40 @@
 import React from 'react';
 // import GeoSearch from '../components/GeoSearch';
 import GeoMap from '../components/GeoMap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { Spinner } from '../components/Spinner';
+
 // import PlacesAutocomplete, {
 //   geocodeByAddress,
 //   // geocodeByPlaceId,
 //   getLatLng
 // } from 'react-places-autocomplete';
+import { switchRoute } from '../app-state/actions/routerActions';
+import { getAllPostedJobs } from '../app-state/actions/jobActions';
 
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     //render map only after we show everything
-    this.state = { address: '', renderMap: false };
+    this.state = { address: '', initiallyLoading: true };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.setState({ renderMap: true });
+    this.props.a_getAllPostedJobs();
   }
 
   render() {
+    const {
+      s_error,
+      s_myPostedJobsList,
+      s_isLoading,
+      s_userDetails,
+      s_allThePostedJobsList
+    } = this.props;
+
     return (
       <div className="slide-in-left" id="bdb-bidder-root">
         <section className="hero is-small is-dark">
@@ -35,8 +50,15 @@ class BidderRoot extends React.Component {
           </div>
         </section>
         <section className="section mainSectionContainer">
-          <div className="container">
-            {/* <GeoSearch
+          {(s_isLoading || this.state.initiallyLoading) && (
+            <div className="container">
+              <Spinner isLoading={s_isLoading} size={'large'} />
+            </div>
+          )}
+          {!s_isLoading &&
+            this.state.initiallyLoading && (
+              <div className="container">
+                {/* <GeoSearch
               fieldId={'addressSearch'}
               onError={(e)=> {console.log('google api error '+e)}}
               handleSelect={address => {
@@ -46,22 +68,39 @@ class BidderRoot extends React.Component {
                   .catch(error => console.error('Error', error));
               }}
             /> */}
-            <div id="available-jobs">
-              <p className="title">The Map View</p>
-            </div>
-            <div  id="existing-jobs">
-              <div className="columns">
-                <div className="column">
-                  {this.state.renderMap && <GeoMap />}
-                  <div />
+                <div id="available-jobs">
+                  <p className="title">The Map View</p>
+                </div>
+                <div id="existing-jobs">
+                  <div className="columns">
+                    <div className="column">
+                      <GeoMap jobsList={s_allThePostedJobsList} />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
         </section>
       </div>
     );
   }
 }
 
-export default BidderRoot;
+const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
+  return {
+    s_error: jobsReducer.error,
+    s_myPostedJobsList: jobsReducer.myPostedJobsList,
+    s_isLoading: jobsReducer.isLoading,
+    s_userDetails: userModelReducer.userDetails,
+    s_allThePostedJobsList: jobsReducer.allThePostedJobsList
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BidderRoot);

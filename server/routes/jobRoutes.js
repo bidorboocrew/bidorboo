@@ -1,5 +1,5 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
-const ROUTES = require('../route_constants');
+const ROUTES = require('../backend_route_constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
@@ -7,7 +7,7 @@ const isJobOwner = require('../middleware/isJobOwner');
 
 module.exports = app => {
   app.get(
-    ROUTES.USERAPI.JOB_ROUTES,
+    ROUTES.USERAPI.JOB_ROUTES.myjobs,
     requireBidorBooHost,
     requireLogin,
     async (req, res, done) => {
@@ -19,6 +19,22 @@ module.exports = app => {
       }
     }
   );
+
+  app.get(
+    ROUTES.USERAPI.JOB_ROUTES.alljobs,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res, done) => {
+      try {
+        userJobsList = await jobDataAccess.getAllPostedJobs();
+        res.send(userJobsList);
+      } catch (e) {
+        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+      }
+    }
+  );
+
+
 
   app.get(
     `${ROUTES.USERAPI.JOB_ROUTES}/:jobId`,
@@ -48,7 +64,7 @@ module.exports = app => {
     }
   );
 
-  app.post(ROUTES.USERAPI.JOB_ROUTES, requireLogin, async (req, res, done) => {
+  app.post(ROUTES.USERAPI.JOB_ROUTES.myjobs, requireLogin, async (req, res, done) => {
     try {
       // create new job for this user
       const data = req.body.data;

@@ -1,5 +1,5 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../constants/route-const';
+import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 
 export const updateProfileDetails = profileDetails => (dispatch, getState) => {

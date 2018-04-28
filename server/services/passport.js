@@ -1,5 +1,5 @@
 const passport = require('passport');
-const ROUTES = require('../route_constants');
+const ROUTES = require('../backend_route_constants');
 const applicationDataAccess = require('../data-access/applicationDataAccess');
 
 const userDataAccess = require('../data-access/userDataAccess');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
-import * as ROUTES from '../constants/route-const';
+import * as ROUTES from '../constants/frontend-route-consts';
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
@@ -15,9 +15,7 @@ class BidOrBooGenericTasks extends React.Component {
       return (
         <div
           key={id}
-          className={
-            'column is-one-quarter bdbCardComponent fade-in'
-          }
+          className={'column is-one-quarter bdbCardComponent fade-in'}
         >
           <div
             onClick={e => {
@@ -35,16 +33,18 @@ class BidOrBooGenericTasks extends React.Component {
               <h1 className="title">{title}</h1>
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
-
               </div>
             </div>
-            <div className="has-text-centered" style={{ textAlign: 'center'}}>
-                  <a style={{ borderRadius:0 }} className="button is-primary is-fullwidth">
-                    <span style={{ marginLeft: 4 }}>
-                      <i className="fa fa-plus fa-w-14" /> Request Now
-                    </span>
-                  </a>
-                </div>
+            <div className="has-text-centered" style={{ textAlign: 'center' }}>
+              <a
+                style={{ borderRadius: 0 }}
+                className="button is-primary is-fullwidth"
+              >
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-plus fa-w-14" /> Request Now
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       );

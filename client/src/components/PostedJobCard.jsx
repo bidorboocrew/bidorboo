@@ -1,7 +1,7 @@
 import React from 'react';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
-import * as ROUTES from '../constants/route-const';
+import * as ROUTES from '../constants/frontend-route-consts';
 import classNames from 'classnames';
 import autoBind from 'react-autobind';
 import moment from 'moment';
@@ -132,7 +132,7 @@ class SummaryView extends React.Component {
 
     return (
       <div className="card postedJobCard">
-        <header style={{borderBottom: '2px solid rgba(0, 0, 0, 0.12)'}} className="card-header">
+        <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)'}} className="card-header">
           <p className="card-header-title">{title || 'Job Title'}</p>
         </header>
         <div className="card-image is-clipped">
@@ -197,6 +197,29 @@ class SummaryView extends React.Component {
           bidList={_bidsList}
           areThereAnyBidders={areThereAnyBidders}
         />
+        <div className="has-text-centered" style={{ textAlign: 'center' }}>
+          {!areThereAnyBidders && (
+            <a
+              disabled
+              style={{ borderRadius: 0 }}
+              className="button is-primary is-fullwidth"
+            >
+              <span style={{ marginLeft: 4 }}>
+                <i className="fa fa-hand-paper" /> Review Bids
+              </span>
+            </a>
+          )}
+          {areThereAnyBidders && (
+            <a
+              style={{ borderRadius: 0 }}
+              className="button is-primary is-fullwidth"
+            >
+              <span style={{ marginLeft: 4 }}>
+                <i className="fa fa-hand-paper" /> Review Bids
+              </span>
+            </a>
+          )}
+        </div>
       </div>
     );
   }

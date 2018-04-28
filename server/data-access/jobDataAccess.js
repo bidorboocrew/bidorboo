@@ -17,7 +17,7 @@ exports.jobDataAccess = {
       path: '_postedJobs',
       options: {
         limit: 30, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
-        sort: {createdAt:-1}
+        sort: { createdAt: -1 }
       }
     };
 
@@ -26,6 +26,25 @@ exports.jobDataAccess = {
       .lean(true)
       .exec(); // only works if we pushed refs to children
   },
+
+  getAllPostedJobs: () => {
+    return JobModel.find(
+      {},
+      {
+        _ownerId: 0,
+        _bidsList: 0,
+        awardedBidder: 0,
+        jobReview: 0,
+        extras: 0,
+        properties: 0,
+        whoSeenThis: 0
+      },
+      { limit: 50, sort: { createdAt: -1 } }
+    )
+      .lean(true)
+      .exec(); // only works if we pushed refs to children
+  },
+
   getJobsNear: specifiedLocation => {
     // #1
     return JobModel.aggregate([
