@@ -36,7 +36,7 @@ class TheMap extends React.Component {
 class Cluster extends React.Component {
   constructor(props) {
     super(props);
-    autoBind(this, 'onMarkerClustererClick');
+    autoBind(this, 'onMarkerClustererClick', 'onMarkerClustereringEnd');
   }
 
   onMarkerClustererClick(markerClusterer) {
@@ -44,9 +44,13 @@ class Cluster extends React.Component {
     console.log(`Current clicked markers length: ${clickedMarkers.length}`);
     console.log(clickedMarkers);
   }
+  onMarkerClustereringEnd(markerClusterer) {
+    const clickedMarkers = markerClusterer.getMarkers();
+    console.log(`Current clicked markers length: ${clickedMarkers.length}`);
+    console.log(clickedMarkers);
+  }
   render() {
     const { markers } = this.props;
-    debugger;
     if (markers && markers.length > 0) {
       const jobsMarkersOnTheMap = markers.map(marker => (
         <JobMarker key={marker._id} marker={marker} />
@@ -57,6 +61,7 @@ class Cluster extends React.Component {
           averageCenter
           enableRetinaIcons
           gridSize={100}
+          onClusteringEnd={this.onMarkerClustereringEnd}
         >
           {jobsMarkersOnTheMap}
         </MarkerClusterer>
@@ -72,9 +77,11 @@ class JobMarker extends React.Component {
     this.state = { showInfoBox: false };
     autoBind(this, 'toggleShow');
   }
+
   toggleShow() {
     this.setState({ showInfoBox: !this.state.showInfoBox });
   }
+
   render() {
     const { marker } = this.props;
     return (
@@ -90,20 +97,41 @@ class JobMarker extends React.Component {
           <InfoBox
             onClick={this.toggleShow}
             onCloseClick={this.toggleShow}
-            options={{ closeBoxURL: ``, enableEventPropagation: false }}
+            options={{ closeBoxURL: ``, enableEventPropagation: true }}
           >
-            <div
-              style={{
-                backgroundColor: `whitesmoke`,
-                border: '1px solid rgba(0, 0, 0, 0.12)',
-                // opacity: 0.8,
-                padding: `12px`
-              }}
-            >
-              <div style={{ fontSize: `16px`, fontColor: `#4a4a4a` }}>
-                {marker.title}
+            <React.Fragment>
+              <div
+                style={{
+                  width: 150,
+                  backgroundColor: `whitesmoke`,
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  borderTop: 'none',
+                  boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)'
+                }}
+              >
+                <a
+                  onClick={this.toggleShow}
+                  className="button is-outline is-small has-text-right is-fullwidth"
+                >
+                  <i className="fa fa-times fa-w-12" />
+                </a>
+                <div
+                  style={{
+                    padding: `2px`,
+                    fontSize: `16px`,
+                    fontColor: `#4a4a4a`
+                  }}
+                >
+                  {marker.title}
+                </div>
+                <a
+                  onClick={this.toggleShow}
+                  className="button is-primary is-small has-text-right is-fullwidth"
+                >
+                  Bid
+                </a>
               </div>
-            </div>
+            </React.Fragment>
           </InfoBox>
         )}
       </Marker>
