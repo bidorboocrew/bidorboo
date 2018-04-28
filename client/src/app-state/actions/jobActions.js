@@ -30,7 +30,7 @@ export const getJobById = jobId => (dispatch, getState) =>
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + error
+              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
             }
           }
         });
@@ -55,7 +55,7 @@ export const deleteJob = jobId => (dispatch, getState) => {
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + error
+              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
             }
           }
         });
@@ -183,7 +183,7 @@ export const addJob = jobDetails => (dispatch, getState) => {
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + error
+              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
             }
           }
         });

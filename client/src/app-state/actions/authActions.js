@@ -30,13 +30,14 @@ export const getCurrentUser = () => (dispatch, getState) =>
         if (error && error.response && error.response.status === 404) {
           console.log('server wasnt ready');
         } else {
+          debugger;
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
               toastDetails: {
                 type: 'error',
                 msg:
-                  'Sorry That did not work, Please try again later.\n' + error
+                  'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
               }
             }
           });
@@ -56,6 +57,7 @@ export const onLogout = () => (dispatch, getState) =>
         type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
         payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
       });
+
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {
