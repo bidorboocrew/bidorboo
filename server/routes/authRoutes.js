@@ -34,6 +34,7 @@ module.exports = app => {
 
   app.get(ROUTES.AUTH.LOGOUT, (req, res) => {
     req.logout();
+    req.session = null
     res.send({success: "logout successfully"});
   });
 };

@@ -3,9 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const morganBody = require('morgan-body');
-const winston = require('winston');
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, prettyPrint } = format;
+
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -16,6 +14,12 @@ const helmet = require('helmet');
 const csp = require('express-csp-header');
 
 const keys = require('./config/keys');
+
+/**
+ * Requiring `winston-mongodb` will expose
+ * `winston.transports.MongoDB`
+ */
+require('winston-mongodb').MongoDB;
 
 require('./models/bidModel');
 require('./models/applicationGlobalModels');
@@ -29,20 +33,11 @@ mongoose.Promise = global.Promise;
 const dbOptions = {
   keepAlive: 120,
   reconnectTries: 20, // Never stop trying to reconnect
-  reconnectInterval: 5000 // Reconnect every 500ms
+  reconnectInterval: 5000, // Reconnect every 500ms,
+  config: { autoIndex: false }
 };
 // autoIndex: false // avoid performance hit due to schema level indexing
 
-
-
-const logger = createLogger({
-  level: 'info',
-  format: combine(
-    timestamp(),
-    prettyPrint()
-  ),
-  transports: [new transports.Console()]
-})
 
 mongoose.connect(keys.mongoURI, dbOptions, err => {
   if (err) {
@@ -50,6 +45,7 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
       `Could not connect to mongodb on localhost.
       Ensure that you have mongodb running mongodb accepts connections on standard ports! error: ${err}`
     );
+    throw(err);
   }
 });
 
@@ -125,7 +121,9 @@ if (process.env.NODE_ENV === 'production') {
       'serving dirname ' +
         path.resolve(__dirname, '../client', './build', 'index.html')
     );
-    return res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
+    return res.sendFile(
+      path.resolve(__dirname, '../client', './build', 'index.html')
+    );
   });
 }
 
