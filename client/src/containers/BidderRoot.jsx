@@ -1,6 +1,6 @@
 import React from 'react';
 // import GeoSearch from '../components/GeoSearch';
-import GeoMap from '../components/GeoMap';
+import BidderMapSection from '../components/BidderMapSection';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -74,7 +74,7 @@ class BidderRoot extends React.Component {
                 <div id="existing-jobs">
                   <div className="columns">
                     <div className="column">
-                      <GeoMap jobsList={s_allThePostedJobsList} />
+                      <BidderMapSection jobsList={s_allThePostedJobsList} />
                     </div>
                   </div>
                 </div>
