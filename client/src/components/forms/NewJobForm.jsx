@@ -25,8 +25,6 @@ import moment from 'moment';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
-var google = window.google;
-var geocoder = new google.maps.Geocoder();
 
 class NewJobForm extends React.Component {
   static propTypes = {
@@ -35,57 +33,25 @@ class NewJobForm extends React.Component {
   };
   constructor(props) {
     super(props);
-    autoBind(this, 'getCurrentAddress');
-  }
-  getCurrentAddress() {
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-
-          // update the field with the current position coordinates
-          this.props.setFieldValue('addressTextField', pos, true);
-
-          if (google && geocoder) {
-            //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
-            geocoder.geocode(
-              {
-                location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
-              },
-              (results, status) => {
-                // xxx handle the various error (api over limit ...etc)
-                if (status !== google.maps.GeocoderStatus.OK) {
-                  alert(status);
-                }
-                // This is checking to see if the Geoeode Status is OK before proceeding
-                if (status == google.maps.GeocoderStatus.OK) {
-                  var address = results[0].formatted_address;
-                  console.log(address);
-                }
-              }
-            );
-          }
-        },
-        e => {
-          //handle error
-          console.error('can not auto detect address');
-        },
-        {
-          maximumAge: 10000,
-          timeout: 5000,
-          enableHighAccuracy: true
-        }
-      );
-    } else {
-      // Browser doesn't support Geolocation
-      // try the googlemap apis
-      console.log('no html 5 geo location');
+    this.google = window.google;
+    const googleObj = this.google;
+    if (this.google) {
+      this.geocoder = new googleObj.maps.Geocoder();
     }
+    this.state = { autoSetGeoAddress: '' };
+    autoBind(
+      this,
+      'getCurrentAddress',
+      'autoSetGeoLocation',
+      'successfullGeoCoding'
+    );
   }
+  autoSetGeoLocation(addressText) {
+    debugger
+    this.setState(() => ({autoSetGeoAddress: addressText}));
+    this.props.values.geoInputField = addressText;
+  }
+
   render() {
     const {
       jobTitleField,
@@ -114,8 +80,7 @@ class NewJobForm extends React.Component {
           </a>
         </span>
         <span style={{ fontSize: 12, color: 'grey' }}>
-          {' '}
-          or manually select an address from the drop down menu
+          {` or manually select an address from the drop down menu`}
         </span>
       </React.Fragment>
     ) : null;
@@ -155,6 +120,7 @@ class NewJobForm extends React.Component {
         <GeoAddressInput
           id="geoInputField"
           type="text"
+          autoSetValue={this.state.autoSetGeoAddress}
           helpText={'You must select an address from the drop down menu'}
           label="Job Address"
           placeholder="specify your job address"
@@ -286,6 +252,61 @@ class NewJobForm extends React.Component {
         </div>
       </form>
     );
+  }
+
+  successfullGeoCoding(results, status) {
+    // xxx handle the various error (api over limit ...etc)
+    if (status !== this.google.maps.GeocoderStatus.OK) {
+      alert(status);
+    }
+    // This is checking to see if the Geoeode Status is OK before proceeding
+    if (status == this.google.maps.GeocoderStatus.OK) {
+      var address = results[0].formatted_address;
+      this.autoSetGeoLocation(address);
+    }
+  }
+  getCurrentAddress() {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      const getCurrentPositionOptions = {
+        maximumAge: 10000,
+        timeout: 5000,
+        enableHighAccuracy: true
+      };
+      const errorHandling = () => {
+        console.error('can not auto detect address');
+      };
+      const successfulRetrieval = position => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        // update the field with the current position coordinates
+        this.props.setFieldValue('addressTextField', pos, true);
+
+        if (this.google && this.geocoder) {
+          //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+          this.geocoder.geocode(
+            {
+              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) }
+            },
+            this.successfullGeoCoding
+          );
+        }
+      };
+
+      //get the current location
+      navigator.geolocation.getCurrentPosition(
+        successfulRetrieval,
+        errorHandling,
+        getCurrentPositionOptions
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      // try the googlemap apis
+      console.log('no html 5 geo location');
+    }
   }
 }
 

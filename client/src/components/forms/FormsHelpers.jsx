@@ -103,39 +103,7 @@ export const TextAreaInput = ({
   );
 };
 
-export const GeoAddressInput = ({
-  id,
-  label,
-  value,
-  helpText,
-  onError,
-  error,
-  handleSelect,
-  placeholder,
-  onChangeEvent,
-  onBlurEvent,
-  autoDetectComponent
-}) => {
-  return (
-    <div className="field">
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
-      <GeoSearch
-        id={id}
-        value={value}
-        onError={onError}
-        placeholder={placeholder}
-        handleSelect={handleSelect}
-        onChangeEvent={onChangeEvent}
-        onBlurEvent={onBlurEvent}
-      />
-      {autoDetectComponent}
-      {!autoDetectComponent && <HelpText helpText={helpText} />}
-      <InputFeedback error={error} />
-    </div>
-  );
-};
+
 
 export const DateInput = ({
   id,
@@ -242,3 +210,46 @@ export const TimeInput = ({
     </div>
   );
 };
+
+
+
+export class GeoAddressInput extends React.Component {
+
+render() {
+  const {
+  id,
+  label,
+  value,
+  helpText,
+  onError,
+  error,
+  handleSelect,
+  placeholder,
+  onChangeEvent,
+  onBlurEvent,
+  autoDetectComponent,
+  autoSetValue
+   } = this.props ; 
+  debugger;
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <GeoSearch
+        id={id}
+        value={autoSetValue}
+        onError={onError}
+        placeholder={placeholder}
+        handleSelect={handleSelect}
+        onChangeEvent={onChangeEvent}
+        onBlurEvent={onBlurEvent}
+        autoSetValue={autoSetValue}
+      />
+      {autoDetectComponent}
+      {!autoDetectComponent && <HelpText helpText={helpText} />}
+      <InputFeedback error={error} />
+    </div>
+  );
+}
+}
