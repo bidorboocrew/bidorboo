@@ -14,41 +14,46 @@ const MapWithAMarkerClusterer = compose(
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
-  withHandlers({
-    onMarkerClustererClick: () => markerClusterer => {
-      debugger;
-      const clickedMarkers = markerClusterer.getMarkers();
-      console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-      console.log(clickedMarkers);
-    }
-  }),
   withGoogleMap
 )(props => {
-  const { showInfoBox, toggleInfoBox, onMarkerClustererClick, markers } = props;
-  return (
-    <GoogleMap defaultZoom={8} defaultCenter={{ lat: 45.4215, lng: -75.6972 }}>
-      <Cluster fields={props} />
-    </GoogleMap>
-  );
+  return <TheMap {...props} />;
 });
 export default MapWithAMarkerClusterer;
 
-class Cluster extends React.Component {
+class TheMap extends React.Component {
   render() {
-    const { fields } = this.props;
-    const {
-      showInfoBox,
-      toggleInfoBox,
-      onMarkerClustererClick,
-      markers
-    } = fields;
+    return (
+      <GoogleMap
+        defaultZoom={8}
+        defaultCenter={{ lat: 45.4215, lng: -75.6972 }}
+      >
+        <Cluster {...this.props} />
+      </GoogleMap>
+    );
+  }
+}
+
+class Cluster extends React.Component {
+  constructor(props) {
+    super(props);
+    autoBind(this, 'onMarkerClustererClick');
+  }
+
+  onMarkerClustererClick(markerClusterer) {
+    const clickedMarkers = markerClusterer.getMarkers();
+    console.log(`Current clicked markers length: ${clickedMarkers.length}`);
+    console.log(clickedMarkers);
+  }
+  render() {
+    const { markers } = this.props;
+    debugger;
     if (markers && markers.length > 0) {
-      debugger;
-      const jobsMarkersOnTheMap = markers.map(marker => <JobMarker key={marker._id} marker={marker} />);
+      const jobsMarkersOnTheMap = markers.map(marker => (
+        <JobMarker key={marker._id} marker={marker} />
+      ));
       return (
         <MarkerClusterer
-        maxZoom={1}
-          onClick={onMarkerClustererClick}
+          onClick={this.onMarkerClustererClick}
           averageCenter
           enableRetinaIcons
           gridSize={100}
