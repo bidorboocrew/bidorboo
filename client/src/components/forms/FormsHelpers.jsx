@@ -1,5 +1,5 @@
 import React from 'react';
-import GeoSearch from '../GeoSearch';
+import GeoSearch from '../googleMapsComponents/GeoSearch';
 import DatePickerInput from '../DatePickerInput';
 // import moment from 'moment';
 
@@ -229,7 +229,7 @@ render() {
   onBlurEvent,
   autoDetectComponent,
   autoSetValue
-   } = this.props ; 
+   } = this.props ;
   debugger;
   return (
     <div className="field">
@@ -253,3 +253,6 @@ render() {
   );
 }
 }
+
+
+

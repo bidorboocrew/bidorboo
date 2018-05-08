@@ -27,7 +27,7 @@ class ProposerMyJobs extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section mainSectionContainer">
+        <section className="mainSectionContainer">
           <div className="container">
             <div className="columns is-multiline">
               <PostedJobCard

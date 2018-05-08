@@ -6,6 +6,7 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
+
 const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL:
@@ -86,6 +87,8 @@ class JobMarker extends React.Component {
     const { marker } = this.props;
     return (
       <Marker
+      opacity={0.4}
+      icon={require('../../assets/images/mapMarker.png')}
         onClick={this.toggleShow}
         key={marker._id}
         position={{
@@ -99,39 +102,41 @@ class JobMarker extends React.Component {
             onCloseClick={this.toggleShow}
             options={{ closeBoxURL: ``, enableEventPropagation: true }}
           >
-            <React.Fragment>
+            <div
+              style={{
+                border: '1px solid #b5b5b5',
+                padding: 4,
+                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+                width: 150,
+                backgroundColor: 'white'
+              }}
+            >
+              <a
+                onClick={this.toggleShow}
+                className="button is-outline is-small has-text-right is-fullwidth"
+              >
+                <i className="fa fa-times fa-w-12" />
+              </a>
               <div
                 style={{
-                  width: 150,
-                  backgroundColor: `whitesmoke`,
-                  border: '1px solid rgba(0, 0, 0, 0.12)',
-                  borderTop: 'none',
-                  boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)'
+                  padding: `2px`,
+                  fontSize: 16,
+                  fontColor: `#4a4a4a`,
+                  backgroundColor: 'white',
+                  borderRight: '1px solid #b5b5b5',
+                  borderLeft: '1px solid #b5b5b5',
+                  padding: 8
                 }}
               >
-                <a
-                  onClick={this.toggleShow}
-                  className="button is-outline is-small has-text-right is-fullwidth"
-                >
-                  <i className="fa fa-times fa-w-12" />
-                </a>
-                <div
-                  style={{
-                    padding: `2px`,
-                    fontSize: `16px`,
-                    fontColor: `#4a4a4a`
-                  }}
-                >
-                  {marker.title}
-                </div>
-                <a
-                  onClick={this.toggleShow}
-                  className="button is-primary is-small has-text-right is-fullwidth"
-                >
-                  Bid
-                </a>
+                {marker.title}
               </div>
-            </React.Fragment>
+              <a
+                onClick={this.toggleShow}
+                className="button is-primary is-small has-text-right is-fullwidth"
+              >
+                Bid
+              </a>
+            </div>
           </InfoBox>
         )}
       </Marker>

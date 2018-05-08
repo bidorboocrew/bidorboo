@@ -47,7 +47,7 @@ class ProposerCreateAJob extends React.Component {
     };
 
     return (
-      <section className="section mainSectionContainer slide-in-left">
+      <section className="mainSectionContainer slide-in-left">
         <div className="container" id="bdb-proposer-content">
           <CreateJobDetailsCard
             jobDetails={jobDetails}

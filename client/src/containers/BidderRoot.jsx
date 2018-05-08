@@ -49,7 +49,7 @@ class BidderRoot extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section mainSectionContainer">
+        <section className="mainSectionContainer">
           {(s_isLoading || this.state.initiallyLoading) && (
             <div className="container">
               <Spinner isLoading={s_isLoading} size={'large'} />

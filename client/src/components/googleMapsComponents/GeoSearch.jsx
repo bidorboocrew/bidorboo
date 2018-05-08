@@ -114,6 +114,7 @@ class GeoSearch extends React.Component {
       );
     };
     return (
+      //xxx add US here
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.updateField}

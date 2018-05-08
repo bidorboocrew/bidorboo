@@ -68,7 +68,7 @@ class MyProfile extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section mainSectionContainer">
+        <section className="mainSectionContainer">
           <div className="container" id="bdb-profile-content">
             <div className="columns">
               <div className="column is-one-quarter">
