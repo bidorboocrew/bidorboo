@@ -19,7 +19,7 @@ class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     //render map only after we show everything
-    this.state = { address: ''};
+    this.state = { address: '' };
   }
 
   componentDidMount() {
@@ -49,6 +49,38 @@ class BidderRoot extends React.Component {
             </div>
           </div>
         </section>
+        {/* map view */}
+        <section className="mainSectionContainer" style={{ marginBottom: 20 }}>
+          {s_isLoading && (
+            <div className="container">
+              <Spinner isLoading={s_isLoading} size={'large'} />
+            </div>
+          )}
+          {!s_isLoading && (
+            <div className="container">
+              {/* <GeoSearch
+              fieldId={'addressSearch'}
+              onError={(e)=> {console.log('google api error '+e)}}
+              handleSelect={address => {
+                geocodeByAddress(address)
+                  .then(results => getLatLng(results[0]))
+                  .then(latLng => console.log('Success', latLng))
+                  .catch(error => console.error('Error', error));
+              }}
+            /> */}
+              <div id="available-jobs">
+                <p className="title">The Map View</p>
+              </div>
+              <div id="existing-jobs">
+                <div className="columns">
+                  <div className="column">
+                    <BidderMapSection jobsList={s_allThePostedJobsList} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
         {/* jobs view */}
         <section className="mainSectionContainer">
           <div className="container">
@@ -61,38 +93,6 @@ class BidderRoot extends React.Component {
             </div>
           </div>
         </section>
-        {/* map view */}
-        <section className="mainSectionContainer" style={{marginBottom:20}}>
-          {(s_isLoading) && (
-            <div className="container">
-              <Spinner isLoading={s_isLoading} size={'large'} />
-            </div>
-          )}
-          {!s_isLoading && (
-              <div className="container">
-                {/* <GeoSearch
-              fieldId={'addressSearch'}
-              onError={(e)=> {console.log('google api error '+e)}}
-              handleSelect={address => {
-                geocodeByAddress(address)
-                  .then(results => getLatLng(results[0]))
-                  .then(latLng => console.log('Success', latLng))
-                  .catch(error => console.error('Error', error));
-              }}
-            /> */}
-                <div id="available-jobs">
-                  <p className="title">The Map View</p>
-                </div>
-                <div id="existing-jobs">
-                  <div className="columns">
-                    <div className="column">
-                      <BidderMapSection jobsList={s_allThePostedJobsList} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-        </section>
       </div>
     );
   }
@@ -103,7 +103,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
     s_error: jobsReducer.error,
     s_isLoading: jobsReducer.isLoading,
     s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
-    s_userDetails: userModelReducer.userDetails,
+    s_userDetails: userModelReducer.userDetails
   };
 };
 
