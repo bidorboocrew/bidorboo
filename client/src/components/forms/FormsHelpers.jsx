@@ -230,7 +230,6 @@ render() {
   autoDetectComponent,
   autoSetValue
    } = this.props ;
-  debugger;
   return (
     <div className="field">
       <Label htmlFor={id} error={error}>

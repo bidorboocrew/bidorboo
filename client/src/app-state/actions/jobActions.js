@@ -115,9 +115,8 @@ export const addJob = jobDetails => (dispatch, getState) => {
     let preOffset = { latitude: lat, longitude: lng };
     let offset = { x: Math.floor(Math.random() * Math.floor(1000)), y: Math.floor(Math.random() * Math.floor(1000)) };
 
-    debugger
     let postOffset = haversineOffset(preOffset, offset);
-    debugger
+
     if(postOffset.lat > 0){
       lat = Math.min(postOffset.lat, 90).toFixed(5);
     } else if (postOffset.lat < 0){

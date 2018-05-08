@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../components/Spinner';
+import BidJobCard from '../components/BidJobCard';
 
 // import PlacesAutocomplete, {
 //   geocodeByAddress,
@@ -18,7 +19,7 @@ class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     //render map only after we show everything
-    this.state = { address: '', initiallyLoading: true };
+    this.state = { address: ''};
   }
 
   componentDidMount() {
@@ -29,12 +30,10 @@ class BidderRoot extends React.Component {
   render() {
     const {
       s_error,
-      s_myPostedJobsList,
       s_isLoading,
-      s_userDetails,
-      s_allThePostedJobsList
+      s_allThePostedJobsList,
+      a_switchRoute
     } = this.props;
-
     return (
       <div className="slide-in-left" id="bdb-bidder-root">
         <section className="hero is-small is-dark">
@@ -49,14 +48,25 @@ class BidderRoot extends React.Component {
             </div>
           </div>
         </section>
+        {/* jobs view */}
         <section className="mainSectionContainer">
-          {(s_isLoading || this.state.initiallyLoading) && (
+          <div className="container">
+            <div className="columns is-multiline">
+              <BidJobCard
+                switchRoute={a_switchRoute}
+                jobsList={s_allThePostedJobsList}
+              />
+            </div>
+          </div>
+        </section>
+        {/* map view */}
+        <section className="mainSectionContainer">
+          {(s_isLoading) && (
             <div className="container">
               <Spinner isLoading={s_isLoading} size={'large'} />
             </div>
           )}
-          {!s_isLoading &&
-            this.state.initiallyLoading && (
+          {!s_isLoading && (
               <div className="container">
                 {/* <GeoSearch
               fieldId={'addressSearch'}
@@ -89,10 +99,9 @@ class BidderRoot extends React.Component {
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
     s_error: jobsReducer.error,
-    s_myPostedJobsList: jobsReducer.myPostedJobsList,
     s_isLoading: jobsReducer.isLoading,
-    s_userDetails: userModelReducer.userDetails,
-    s_allThePostedJobsList: jobsReducer.allThePostedJobsList
+    s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
+    // s_userDetails: userModelReducer.userDetails,
   };
 };
 

@@ -47,7 +47,6 @@ class NewJobForm extends React.Component {
     );
   }
   autoSetGeoLocation(addressText) {
-    debugger
     this.setState(() => ({autoSetGeoAddress: addressText}));
     this.props.values.geoInputField = addressText;
   }

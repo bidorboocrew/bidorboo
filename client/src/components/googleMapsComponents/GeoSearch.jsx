@@ -36,7 +36,6 @@ class GeoSearch extends React.Component {
 
   render() {
     const { handleSelect, onError, placeholder, id, onBlurEvent, autoSetValue } = this.props;
-    debugger;
     const inputField = ({
       getInputProps,
       suggestions,

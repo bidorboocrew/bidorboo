@@ -31,16 +31,22 @@ exports.jobDataAccess = {
     return JobModel.find(
       {},
       {
-        _ownerId: 0,
+        addressText: 0,
+        updatedAt: 0,
         _bidsList: 0,
         awardedBidder: 0,
         jobReview: 0,
         extras: 0,
         properties: 0,
+        __v: 0,
         whoSeenThis: 0
       },
       { limit: 50, sort: { createdAt: -1 } }
     )
+      .populate({
+        path: '_ownerId',
+        select: { displayName: 1, profileImgUrl: 1, _id: 0 }
+      })
       .lean(true)
       .exec(); // only works if we pushed refs to children
   },

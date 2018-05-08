@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import autoBind from 'react-autobind';
 import moment from 'moment';
 
-class PostedJobCard extends React.Component {
+class BidJobCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(
@@ -29,20 +29,23 @@ class PostedJobCard extends React.Component {
         title: PropTypes.string,
         updatedAt: PropTypes.string,
         whoSeenThis: PropTypes.array,
-        _bidsList: PropTypes.array
+        _bidsList: PropTypes.array,
+        _ownerId: PropTypes.shape({
+          displayName: PropTypes.string,
+          profileImgUrl: PropTypes.string
+        })
       })
     ),
-    switchRoute: PropTypes.func.isRequired,
-    userDetails: PropTypes.object
+    switchRoute: PropTypes.func.isRequired
   };
 
   render() {
-    const { jobsList, switchRoute, userDetails } = this.props;
-    const MyJobsList =
+    const { jobsList, switchRoute } = this.props;
+    const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
           <JobCard
-            userDetails={userDetails}
+            ownerDetails={job.ownerDetails}
             key={job._id}
             jobObj={job}
             jobCounterIndex={index}
@@ -50,7 +53,9 @@ class PostedJobCard extends React.Component {
         ))
       ) : (
         <React.Fragment>
-          <div>Sorry you have not posted any jobs</div>
+          <div>
+            Sorry All jobs have been awarded to bidders , check again later.
+          </div>
           <div>
             <a
               className="button is-primary"
@@ -58,7 +63,7 @@ class PostedJobCard extends React.Component {
                 switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
               }}
             >
-              post jobs
+              post a new job
             </a>
           </div>
         </React.Fragment>
@@ -66,21 +71,21 @@ class PostedJobCard extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          <div className="columns is-multiline">{MyJobsList}</div>
+          <div className="columns is-multiline">{postedJobsList}</div>
         </div>
       </section>
     );
   }
 }
 
-export default PostedJobCard;
+export default BidJobCard;
 
 const JobCard = props => {
-  const { jobObj, jobCounterIndex, userDetails } = props;
+  const { jobObj, jobCounterIndex, ownerDetails } = props;
   return (
-    <div className="column is-half">
+    <div className="column is-one-quarter">
       <SummaryView
-        userDetails={userDetails}
+        ownerDetails={ownerDetails}
         jobCounterIndex={jobCounterIndex}
         jobObj={jobObj}
       />
@@ -90,7 +95,7 @@ const JobCard = props => {
 
 class SummaryView extends React.Component {
   render() {
-    const { jobCounterIndex, userDetails, jobObj } = this.props;
+    const { jobCounterIndex, jobObj } = this.props;
     const {
       state,
       addressText,
@@ -102,19 +107,11 @@ class SummaryView extends React.Component {
       whoSeenThis,
       createdAt,
       _bidsList,
-      fromTemplateId
+      fromTemplateId,
+      _ownerId
     } = jobObj;
 
-    const {
-      profileImgUrl,
-      displayName,
-      email,
-      // address,
-      personalParagraph,
-      // creditCards,
-      membershipStatus,
-      phoneNumber
-    } = userDetails;
+    const { profileImgUrl, displayName } = _ownerId;
 
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
@@ -163,7 +160,7 @@ class SummaryView extends React.Component {
             </div>
             <div className="media-content">
               <p className="title is-6">{displayName}</p>
-              <p className="subtitle is-6">{email}</p>
+              {/* <p className="subtitle is-6">{email}</p> */}
             </div>
           </div>
 
@@ -178,7 +175,7 @@ class SummaryView extends React.Component {
             <p className="heading">
               Start Date
               {startingDateAndTime &&
-                moment(startingDateAndTime.date).format('MMMM Do YYYY')}
+                ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </p>
             {/* <p className="heading">Status {state}</p> */}
             {/* <p className="heading">
@@ -199,111 +196,22 @@ class SummaryView extends React.Component {
             )}
           </div>
         </div>
-        <BidsTable
-          bidList={_bidsList}
-          areThereAnyBidders={areThereAnyBidders}
-        />
+
         <div className="has-text-centered" style={{ textAlign: 'center' }}>
-          {!areThereAnyBidders && (
-            <a
-              disabled
-              style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth"
-            >
-              <span style={{ marginLeft: 4 }}>
-                <i className="fa fa-hand-paper" /> Review Bids
-              </span>
-            </a>
-          )}
-          {areThereAnyBidders && (
-            <a
-              style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth"
-            >
-              <span style={{ marginLeft: 4 }}>
-                <i className="fa fa-hand-paper" /> Review Bids
-              </span>
-            </a>
-          )}
+          <a
+            style={{ borderRadius: 0 }}
+            className="button is-primary is-fullwidth"
+          >
+            <span style={{ marginLeft: 4 }}>
+              <i className="fas fa-dollar-sign" /> Bid Now
+            </span>
+          </a>
         </div>
       </div>
     );
   }
 }
 
-class BidsTable extends React.Component {
-  render() {
-    const { bidList, areThereAnyBidders } = this.props;
-    const BidsTable =
-      bidList && bidList.map && bidList.length > 0 ? (
-        <table className="table  is-fullwidth is-hoverable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Bidder Rating</th>
-              <th>Bid Amount</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>5 stars</td>
-              <td>38$</td>
-            </tr>
-            <tr>
-              <td span={3}>
-                {areThereAnyBidders && (
-                  <button
-                    style={{
-                      borderBottom: 'none',
-                      borderRight: 'none',
-                      borderLeft: 'none',
-                      borderRadius: 0
-                    }}
-                    className="button is-outlined is-fullwidth is-large"
-                  >
-                    <span className="title">Review and Award Bids</span>
-                  </button>
-                )}
-                {!areThereAnyBidders && (
-                  <button
-                    disabled
-                    style={{
-                      borderBottom: 'none',
-                      borderRight: 'none',
-                      borderLeft: 'none',
-                      borderRadius: 0
-                    }}
-                    className="button is-outlined is-fullwidth is-large"
-                  >
-                    <span className="title">Review and Award Bids</span>
-                  </button>
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        <table className="table is-fullwidth">
-          <thead style={{ backgroundColor: '#bdbdbd' }}>
-            <tr>
-              <th>No Bidders</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>
-                No Bids Yet, Keep an eye and check again in a little while
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      );
-    return <React.Fragment>{BidsTable}</React.Fragment>;
-  }
-}
 
 class DetailedView extends React.Component {
   render() {
