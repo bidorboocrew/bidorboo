@@ -44,10 +44,10 @@ class HomePage extends React.Component {
           </div>
         </section>
 
-        <section className="section mainSectionContainer">
+        <section className="mainSectionContainer">
           <Fade left>
             <div className="container">
-              <section className="hero is-dark is-small is-marginless is-hidden-mobile">
+              {/* <section className="hero is-dark is-small is-marginless is-hidden-mobile">
                 <div
                   style={{ backgroundColor: '#e98969' }}
                   className="hero-body"
@@ -59,22 +59,22 @@ class HomePage extends React.Component {
                     </h2>
                   </div>
                 </div>
-              </section>
-              <section className="section">
-                <div className="container">
-                  <div className="columns is-multiline">
-                    <BidOrBooGenericTasks switchRoute={a_switchRoute} />
-                  </div>
+              </section> */}
+              <div className="card-header-title">Start posting jobs</div>
+
+              <div className="container">
+                <div className="columns is-multiline">
+                  <BidOrBooGenericTasks switchRoute={a_switchRoute} />
                 </div>
-              </section>
+              </div>
             </div>
           </Fade>
         </section>
 
-        <section className="section mainSectionContainer">
+        <section className="mainSectionContainer">
           <Fade right>
             <div className="container">
-              <section
+              {/* <section
                 style={{ margin: '0.25rem' }}
                 className="hero is-dark is-small is-marginless is-hidden-mobile"
               >
@@ -89,7 +89,9 @@ class HomePage extends React.Component {
                     </h2>
                   </div>
                 </div>
-              </section>
+              </section> */}
+              <div className="card-header-title">Start Bidding on jobs</div>
+
               <div style={{ marginTop: '0.45rem' }}>
                 <div className="columns">
                   <div className="column has-text-centered">
