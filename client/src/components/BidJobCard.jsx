@@ -36,16 +36,17 @@ class BidJobCard extends React.Component {
         })
       })
     ),
+    currentUserId: PropTypes.string,
     switchRoute: PropTypes.func.isRequired
   };
 
   render() {
-    const { jobsList, switchRoute } = this.props;
+    const { jobsList, switchRoute, currentUserId } = this.props;
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
           <JobCard
-            ownerDetails={job.ownerDetails}
+            currentUserId={currentUserId}
             key={job._id}
             jobObj={job}
             jobCounterIndex={index}
@@ -81,11 +82,11 @@ class BidJobCard extends React.Component {
 export default BidJobCard;
 
 const JobCard = props => {
-  const { jobObj, jobCounterIndex, ownerDetails } = props;
+  const { jobObj, jobCounterIndex, currentUserId } = props;
   return (
     <div className="column is-one-quarter">
       <SummaryView
-        ownerDetails={ownerDetails}
+        currentUserId={currentUserId}
         jobCounterIndex={jobCounterIndex}
         jobObj={jobObj}
       />
@@ -95,7 +96,7 @@ const JobCard = props => {
 
 class SummaryView extends React.Component {
   render() {
-    const { jobCounterIndex, jobObj } = this.props;
+    const { jobCounterIndex, jobObj, currentUserId } = this.props;
     const {
       state,
       addressText,
@@ -197,21 +198,32 @@ class SummaryView extends React.Component {
           </div>
         </div>
 
-        <div className="has-text-centered" style={{ textAlign: 'center' }}>
-          <a
-            style={{ borderRadius: 0 }}
-            className="button is-primary is-fullwidth"
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fas fa-dollar-sign" /> Bid Now
-            </span>
-          </a>
-        </div>
+        {_ownerId._id !== currentUserId && (
+          <div className="has-text-centered" style={{ textAlign: 'center' }}>
+            <a
+              style={{ borderRadius: 0 }}
+              className="button is-primary is-fullwidth"
+            >
+              <span style={{ marginLeft: 4 }}>
+                <i className="fas fa-dollar-sign" /> Bid Now
+              </span>
+            </a>
+          </div>
+        )}
+        {_ownerId._id === currentUserId && (
+          <div className="has-text-centered" style={{ textAlign: 'center' }}>
+            <a
+              style={{ borderRadius: 0 }}
+              className="button is-static is-fullwidth"
+            >
+              My Job
+            </a>
+          </div>
+        )}
       </div>
     );
   }
 }
-
 
 class DetailedView extends React.Component {
   render() {

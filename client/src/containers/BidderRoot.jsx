@@ -32,7 +32,8 @@ class BidderRoot extends React.Component {
       s_error,
       s_isLoading,
       s_allThePostedJobsList,
-      a_switchRoute
+      a_switchRoute,
+      s_userDetails
     } = this.props;
     return (
       <div className="slide-in-left" id="bdb-bidder-root">
@@ -53,6 +54,7 @@ class BidderRoot extends React.Component {
           <div className="container">
             <div className="columns is-multiline">
               <BidJobCard
+                currentUserId={s_userDetails._id}
                 switchRoute={a_switchRoute}
                 jobsList={s_allThePostedJobsList}
               />
@@ -101,7 +103,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
     s_error: jobsReducer.error,
     s_isLoading: jobsReducer.isLoading,
     s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
-    // s_userDetails: userModelReducer.userDetails,
+    s_userDetails: userModelReducer.userDetails,
   };
 };
 
