@@ -86,7 +86,7 @@ class JobMarker extends React.Component {
     const { marker } = this.props;
     return (
       <Marker
-        opacity={0.4}
+        opacity={0.8}
         icon={require('../../assets/images/mapMarker.png')}
         onClick={this.toggleShow}
         key={marker._id}
