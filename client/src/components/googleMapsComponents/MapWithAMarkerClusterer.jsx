@@ -6,7 +6,6 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
-
 const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL:
@@ -87,8 +86,8 @@ class JobMarker extends React.Component {
     const { marker } = this.props;
     return (
       <Marker
-      opacity={0.4}
-      icon={require('../../assets/images/mapMarker.png')}
+        opacity={0.4}
+        icon={require('../../assets/images/mapMarker.png')}
         onClick={this.toggleShow}
         key={marker._id}
         position={{
@@ -104,38 +103,44 @@ class JobMarker extends React.Component {
           >
             <div
               style={{
-                border: '1px solid #b5b5b5',
-                padding: 4,
-                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-                width: 150,
-                backgroundColor: 'white'
+                borderRadius: 4,
+                padding: 2,
+                width: 150
               }}
             >
-              <a
-                onClick={this.toggleShow}
-                className="button is-outline is-small has-text-right is-fullwidth"
-              >
-                <i className="fa fa-times fa-w-12" />
-              </a>
               <div
                 style={{
-                  padding: `2px`,
-                  fontSize: 16,
-                  fontColor: `#4a4a4a`,
-                  backgroundColor: 'white',
-                  borderRight: '1px solid #b5b5b5',
-                  borderLeft: '1px solid #b5b5b5',
-                  padding: 8
+                  border: '1px solid #b5b5b5',
+                  boxShadow:
+                    ' 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)'
                 }}
               >
-                {marker.title}
+                <a
+                  onClick={this.toggleShow}
+                  className="button is-outline is-small has-text-right is-fullwidth"
+                >
+                  <i className="fa fa-times fa-w-12" />
+                </a>
+                <div
+                  style={{
+                    padding: `2px`,
+                    fontSize: 16,
+                    fontColor: `#4a4a4a`,
+                    backgroundColor: 'white',
+                    padding: 8
+                  }}
+                >
+                  {marker.title}
+                </div>
+                <a
+                  onClick={this.toggleShow}
+                  className="button is-primary is-small has-text-right is-fullwidth"
+                >
+                  <span style={{ marginLeft: 4 }}>
+                    <i className="fas fa-dollar-sign" /> Bid
+                  </span>
+                </a>
               </div>
-              <a
-                onClick={this.toggleShow}
-                className="button is-primary is-small has-text-right is-fullwidth"
-              >
-                Bid
-              </a>
             </div>
           </InfoBox>
         )}

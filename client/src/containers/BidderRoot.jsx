@@ -60,7 +60,7 @@ class BidderRoot extends React.Component {
           </div>
         </section>
         {/* map view */}
-        <section className="mainSectionContainer">
+        <section className="mainSectionContainer" style={{marginBottom:20}}>
           {(s_isLoading) && (
             <div className="container">
               <Spinner isLoading={s_isLoading} size={'large'} />
