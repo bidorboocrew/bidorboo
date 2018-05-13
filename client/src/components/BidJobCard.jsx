@@ -145,7 +145,7 @@ class SummaryView extends React.Component {
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
               }
-              alt="Placeholder image"
+              alt="Placeholder"
             />
           </figure>
         </div>
@@ -153,7 +153,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user image" />
+                <img src={profileImgUrl} alt="user" />
               </figure>
             </div>
             <div className="media-content">

@@ -157,7 +157,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user image" />
+                <img src={profileImgUrl} alt="user" />
               </figure>
             </div>
             <div className="media-content">

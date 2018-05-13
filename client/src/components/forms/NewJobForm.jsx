@@ -60,7 +60,6 @@ class NewJobForm extends React.Component {
 
   render() {
     const {
-      jobTitleField,
       fromTemplateIdField,
       values,
       touched,
@@ -268,7 +267,7 @@ class NewJobForm extends React.Component {
       alert(status);
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
-    if (status == this.google.maps.GeocoderStatus.OK) {
+    if (status === this.google.maps.GeocoderStatus.OK) {
       var address = results[0].formatted_address;
       this.autoSetGeoLocation(address);
     }
