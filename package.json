@@ -16,7 +16,9 @@
   },
   "author": "said Madi",
   "contributors": [
-    {"name": "Yacoub Abdullah"}
+    {
+      "name": "Yacoub Abdullah"
+    }
   ],
   "homepage": "https://www.bidorboo.com",
   "license": "UNLICENSED",
