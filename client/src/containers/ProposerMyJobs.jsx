@@ -29,7 +29,7 @@ class ProposerMyJobs extends React.Component {
         </section>
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns is-multiline">
+            <div style={{alignItems:'flex-end'}} className="columns is-multiline">
               <PostedJobCard
                 userDetails={s_userDetails}
                 switchRoute={a_switchRoute}

@@ -336,8 +336,9 @@ const EnhancedForms = withFormik({
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     debugger;
-    props.onSubmit(values);
-    setSubmitting(false);
+    alert("search and filter job list is NOT implemented yet")
+    // props.onSubmit(values);
+    // setSubmitting(false);
   },
   displayName: 'SearchForm'
 });

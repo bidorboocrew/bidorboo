@@ -214,8 +214,14 @@ class Header extends React.Component {
                   <span>Bidder</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                  <a style={{ marginleft: 4 }} className="navbar-item">
-                    My Bids (not impl)
+                  <a
+                    onClick={() => {
+                      alert('My Bids is not implemented yet');
+                    }}
+                    style={{ marginleft: 4 }}
+                    className="navbar-item"
+                  >
+                    My Bids
                   </a>
                   <a
                     style={{ marginleft: 4 }}

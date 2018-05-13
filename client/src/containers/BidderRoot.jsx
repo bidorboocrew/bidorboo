@@ -83,7 +83,7 @@ class BidderRoot extends React.Component {
         {/* jobs view */}
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns is-multiline">
+            <div style={{alignItems:'flex-end'}} className="columns is-multiline">
               <BidJobCard
                 currentUserId={s_userDetails._id}
                 switchRoute={a_switchRoute}

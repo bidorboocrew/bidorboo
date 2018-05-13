@@ -198,6 +198,7 @@ class SummaryView extends React.Component {
         {_ownerId._id !== currentUserId && (
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
+              onClick={()=>{alert("Bid Now is not implemented yet")}}
               style={{ borderRadius: 0 }}
               className="button is-primary is-fullwidth"
             >

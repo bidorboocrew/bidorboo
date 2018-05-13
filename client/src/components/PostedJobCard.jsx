@@ -65,7 +65,7 @@ class PostedJobCard extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          <div className="columns is-multiline">{MyJobsList}</div>
+          <div style={{alignItems:'flex-end'}} className="columns is-multiline">{MyJobsList}</div>
         </div>
       </section>
     );
