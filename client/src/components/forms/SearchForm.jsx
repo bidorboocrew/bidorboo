@@ -21,7 +21,6 @@ import {
   DateInput,
   TimeInput
 } from './FormsHelpers';
-import moment from 'moment';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -39,9 +38,8 @@ class SearchForm extends React.Component {
       this.geocoder = new googleObj.maps.Geocoder();
     }
     this.state = {
-      forceSetAddressValue: '',
+      forceSetAddressValue: ''
     };
-
 
     autoBind(
       this,
@@ -52,40 +50,39 @@ class SearchForm extends React.Component {
       'toggleJobCategorySelection',
       'updateSearchRaduisSelection'
     );
-
   }
 
-  updateSearchRaduisSelection(raduisKm){
-    
+  updateSearchRaduisSelection(raduisKm) {
     this.props.setFieldValue('searchRaduisField', raduisKm, false);
   }
-  
-  toggleJobCategorySelection(jobKey){
-    
-    
+
+  toggleJobCategorySelection(jobKey) {
     let listOfAllSelectedJobs = this.props.values.filterJobsByCategoryField;
-    
+
     let indexOfSelectedJob = listOfAllSelectedJobs.indexOf(jobKey);
 
-    if(indexOfSelectedJob > -1){
-      listOfAllSelectedJobs.splice(indexOfSelectedJob,1);
+    if (indexOfSelectedJob > -1) {
+      listOfAllSelectedJobs.splice(indexOfSelectedJob, 1);
     } else {
       listOfAllSelectedJobs.push(jobKey);
     }
     // array of the selected jobs that we should filter based upon
-    this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
-
+    this.props.setFieldValue(
+      'filterJobsByCategoryField',
+      listOfAllSelectedJobs,
+      false
+    );
   }
 
-  clearForceSetAddressValue(){
-    this.setState({forceSetAddressValue: ''});
+  clearForceSetAddressValue() {
+    this.setState({ forceSetAddressValue: '' });
   }
 
   autoSetGeoLocation(addressText) {
-    this.setState({forceSetAddressValue: addressText});
+    this.setState({ forceSetAddressValue: addressText });
     this.props.setFieldValue('geoInputField', addressText, false);
   }
-  
+
   render() {
     const {
       values,
@@ -101,20 +98,23 @@ class SearchForm extends React.Component {
       resetForm
     } = this.props;
 
+    const staticJobCategoryButtons = Object.keys(templatesRepo).map(key => {
+      const isThisJobSelected = this.props.values.filterJobsByCategoryField.includes(
+        key
+      );
 
-    const staticJobCategoryButtons = Object.keys(templatesRepo).map((key)=>{
-      
-      const isThisJobSelected = this.props.values.filterJobsByCategoryField.includes(key);
-
-      return (<span
-        key={key}
-        onClick={()=> this.toggleJobCategorySelection(key)}
-        className={classNames('button',
-        {'is-info is-selected':isThisJobSelected})}>
-        {templatesRepo[key].title}</span>)
-
-    })
-
+      return (
+        <span
+          key={key}
+          onClick={() => this.toggleJobCategorySelection(key)}
+          className={classNames('button', {
+            'is-info is-selected': isThisJobSelected
+          })}
+        >
+          {templatesRepo[key].title}
+        </span>
+      );
+    });
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
@@ -133,17 +133,15 @@ class SearchForm extends React.Component {
       </React.Fragment>
     ) : null;
 
-
     return (
       <form onSubmit={handleSubmit}>
-     
         <input
           id="locationField"
           className="input is-invisible"
           type="hidden"
           value={values.locationField || ''}
         />
-        
+
         <input
           id="searchRaduisField"
           className="input is-invisible"
@@ -151,7 +149,6 @@ class SearchForm extends React.Component {
           value={values.searchRaduisField}
         />
 
-        
         <input
           id="filterJobsByCategoryField"
           className="input is-invisible"
@@ -174,7 +171,6 @@ class SearchForm extends React.Component {
           onChangeEvent={e => {
             this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
-            
           }}
           onBlurEvent={e => {
             if (e && e.target) {
@@ -188,7 +184,6 @@ class SearchForm extends React.Component {
               .then(results => getLatLng(results[0]))
               .then(latLng => {
                 setFieldValue('locationField', latLng, false);
-                
               })
               .catch(error => {
                 errors.addressTextField = 'error getting lat lng ' + error;
@@ -199,24 +194,34 @@ class SearchForm extends React.Component {
         <div className="field">
           <div className="buttons has-addons">
             <span className="button is-static">Search Raduis</span>
-            <span 
-            onClick={()=> this.updateSearchRaduisSelection(5)}
-            className={classNames('button',
-        {'is-info is-selected': this.props.values.searchRaduisField === 5})}>
-            5km</span>
-            <span 
-            onClick={()=> this.updateSearchRaduisSelection(15)}
-            className={classNames('button',
-        {'is-info is-selected': this.props.values.searchRaduisField === 15})}>
-            15km</span>
-            <span 
-            onClick={()=> this.updateSearchRaduisSelection(25)}
-            className={classNames('button',
-        {'is-info is-selected': this.props.values.searchRaduisField === 25})}>
-            25km</span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(5)}
+              className={classNames('button', {
+                'is-info is-selected': this.props.values.searchRaduisField === 5
+              })}
+            >
+              5km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(15)}
+              className={classNames('button', {
+                'is-info is-selected':
+                  this.props.values.searchRaduisField === 15
+              })}
+            >
+              15km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(25)}
+              className={classNames('button', {
+                'is-info is-selected':
+                  this.props.values.searchRaduisField === 25
+              })}
+            >
+              25km
+            </span>
           </div>
         </div>
-
 
         <div className="field">
           <div className="buttons has-addons">
@@ -224,7 +229,6 @@ class SearchForm extends React.Component {
             {staticJobCategoryButtons}
           </div>
         </div>
-
 
         <div className="field">
           <button
@@ -298,21 +302,22 @@ class SearchForm extends React.Component {
     } else {
       // Browser doesn't support Geolocation
       // try the googlemap apis
-      
     }
   }
 }
 
 const EnhancedForms = withFormik({
-  initialValues:{
+  initialValues: {
     searchRaduisField: 15,
     filterJobsByCategoryField: [],
     geoInputField: ''
   },
   mapPropsToValues: props => {
-    return {  searchRaduisField: 15,
-    filterJobsByCategoryField: [],
-    geoInputField: '' }
+    return {
+      searchRaduisField: 15,
+      filterJobsByCategoryField: [],
+      geoInputField: ''
+    };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     debugger;
