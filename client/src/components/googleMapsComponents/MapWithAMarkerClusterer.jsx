@@ -41,13 +41,13 @@ class Cluster extends React.Component {
 
   onMarkerClustererClick(markerClusterer) {
     const clickedMarkers = markerClusterer.getMarkers();
-    console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-    console.log(clickedMarkers);
+    // console.log(`Current clicked markers length: ${clickedMarkers.length}`);
+    // console.log(clickedMarkers);
   }
   onMarkerClustereringEnd(markerClusterer) {
     const clickedMarkers = markerClusterer.getMarkers();
-    console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-    console.log(clickedMarkers);
+    // console.log(`Current clicked markers length: ${clickedMarkers.length}`);
+    // console.log(clickedMarkers);
   }
   render() {
     const { markers } = this.props;
