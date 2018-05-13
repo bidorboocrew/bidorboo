@@ -27,3 +27,6 @@ yarn-error.log*
 /server/config/dev.js
 
 /client/src/**/*.css
+
+
+.vscode
