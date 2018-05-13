@@ -69,11 +69,9 @@ class BidJobCard extends React.Component {
         </React.Fragment>
       );
     return (
-      <section className="section">
-        <div className="container">
-          <div className="columns is-multiline">{postedJobsList}</div>
-        </div>
-      </section>
+
+      <React.Fragment>{postedJobsList}</React.Fragment>
+
     );
   }
 }

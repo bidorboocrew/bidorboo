@@ -140,7 +140,7 @@ class SearchForm extends React.Component {
     ) : null;
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form style={{padding: 10, border:'1px solid lightgrey'}} onSubmit={handleSubmit}>
         <input
           id="locationField"
           className="input is-invisible"
@@ -231,7 +231,7 @@ class SearchForm extends React.Component {
 
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Filter By Category</span>
+            <span className="button is-static">Exclude By Category</span>
             {staticJobCategoryButtons}
           </div>
         </div>
