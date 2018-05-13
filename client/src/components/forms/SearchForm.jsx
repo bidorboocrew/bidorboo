@@ -62,7 +62,7 @@ class SearchForm extends React.Component {
     this.props.values.searchRaduisField = raduisKm;
 
   }
-
+  
   toggleJobCategorySelection(jobKey){
     let selectedJobState = this.state.jobCategorySelection[jobKey];
     if(selectedJobState){
@@ -86,7 +86,7 @@ class SearchForm extends React.Component {
       debugger;
       // array of the selected jobs that we should filter based upon
       this.props.values.filterJobsByCategoryField = selectedCategoryList;
-
+      
     }
    );
 
@@ -100,7 +100,7 @@ class SearchForm extends React.Component {
     this.setState({forceSetAddressValue: addressText});
     this.props.values.geoInputField = addressText;
   }
-
+  
   render() {
     const {
       values,
@@ -113,7 +113,7 @@ class SearchForm extends React.Component {
       isValid,
       isSubmitting,
       setFieldValue,
-      handleReset
+      resetForm
     } = this.props;
 
 
@@ -257,7 +257,7 @@ class SearchForm extends React.Component {
           <button
             className="button is-outlined is-meduim"
             disabled={isSubmitting}
-            onClick={handleReset}
+            onClick={resetForm}
           >
             Reset
           </button>
@@ -323,6 +323,11 @@ class SearchForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
+  initialValues:{
+    searchRaduisField: '',
+    filterJobsByCategoryField: [],
+    geoInputField: 15
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     debugger;
     props.onSubmit(values);
