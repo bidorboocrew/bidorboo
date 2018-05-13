@@ -83,6 +83,10 @@ class SearchForm extends React.Component {
     this.props.setFieldValue('geoInputField', addressText, false);
   }
 
+  shouldComponentUpdate(){
+    return (!!this.props.values);
+  }
+
   render() {
     const {
       values,
@@ -98,8 +102,10 @@ class SearchForm extends React.Component {
       resetForm
     } = this.props;
 
+
+    const filteredJobsList = values.filterJobsByCategoryField;
     const staticJobCategoryButtons = Object.keys(templatesRepo).map(key => {
-      const isThisJobSelected = this.props.values.filterJobsByCategoryField.includes(
+      const isThisJobSelected = filteredJobsList && filteredJobsList.includes(
         key
       );
 
@@ -197,7 +203,7 @@ class SearchForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(5)}
               className={classNames('button', {
-                'is-info is-selected': this.props.values.searchRaduisField === 5
+                'is-info is-selected': values.searchRaduisField === 5
               })}
             >
               5km
@@ -206,7 +212,7 @@ class SearchForm extends React.Component {
               onClick={() => this.updateSearchRaduisSelection(15)}
               className={classNames('button', {
                 'is-info is-selected':
-                  this.props.values.searchRaduisField === 15
+                  values.searchRaduisField === 15
               })}
             >
               15km
@@ -215,7 +221,7 @@ class SearchForm extends React.Component {
               onClick={() => this.updateSearchRaduisSelection(25)}
               className={classNames('button', {
                 'is-info is-selected':
-                  this.props.values.searchRaduisField === 25
+                 values.searchRaduisField === 25
               })}
             >
               25km
@@ -240,9 +246,12 @@ class SearchForm extends React.Component {
             search
           </button>
           <button
+            type="button"
             className="button is-outlined is-meduim"
-            disabled={isSubmitting}
-            onClick={resetForm}
+            onClick={()=>{
+              resetForm()
+              this.clearForceSetAddressValue()
+            }}
           >
             Reset
           </button>
@@ -313,6 +322,7 @@ const EnhancedForms = withFormik({
     geoInputField: ''
   },
   mapPropsToValues: props => {
+    debugger
     return {
       searchRaduisField: 15,
       filterJobsByCategoryField: [],
