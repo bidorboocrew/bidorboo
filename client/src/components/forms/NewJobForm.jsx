@@ -48,7 +48,7 @@ class NewJobForm extends React.Component {
     );
   }
 
-  
+
   clearForceSetAddressValue(){
     this.setState({forceSetAddressValue: ''});
   }
@@ -247,6 +247,7 @@ class NewJobForm extends React.Component {
             Submit
           </button>
           <button
+            type="button"
             className="button is-outlined is-medium"
             disabled={isSubmitting}
             onClick={e => {
