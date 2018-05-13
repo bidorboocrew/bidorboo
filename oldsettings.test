@@ -8,11 +8,11 @@
     "yarn": "1.6.0"
   },
   "scripts": {
-    "start": "yarn install && cd server && yarn run start",
-    "heroku-postbuild": "cd client && yarn run build",
+    "start": "npm install && cd server && yarn install && yarn run start",
+    "heroku-postbuild": "cd client && yarn install && yarn run build",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
-    "dev-from-scratch": "yarn install && cd server && cd.. && cd client && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
+    "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
   },
   "author": "said Madi",
   "contributors": [
