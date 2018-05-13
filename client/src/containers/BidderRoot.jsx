@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../components/Spinner';
 import BidJobCard from '../components/BidJobCard';
+import SearchForm from '../components/forms/SearchForm';
 
 // import PlacesAutocomplete, {
 //   geocodeByAddress,
@@ -50,7 +51,7 @@ class BidderRoot extends React.Component {
           </div>
         </section>
         {/* map view */}
-        <section className="mainSectionContainer" style={{ marginBottom: 20 }}>
+        <section className="mainSectionContainer">
           {s_isLoading && (
             <div className="container">
               <Spinner isLoading={s_isLoading} size={'large'} />
@@ -68,18 +69,16 @@ class BidderRoot extends React.Component {
                   .catch(error => console.error('Error', error));
               }}
             /> */}
-              <div id="available-jobs">
-                <p className="title">The Map View</p>
-              </div>
-              <div id="existing-jobs">
-                <div className="columns">
-                  <div className="column">
-                    <BidderMapSection jobsList={s_allThePostedJobsList} />
-                  </div>
-                </div>
-              </div>
+
+                <BidderMapSection jobsList={s_allThePostedJobsList} />
+
             </div>
           )}
+        </section>
+        <section className="mainSectionContainer">
+          <div className="container">
+            <SearchSection />
+          </div>
         </section>
         {/* jobs view */}
         <section className="mainSectionContainer">
@@ -115,3 +114,41 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BidderRoot);
+
+const SearchSection = () => {
+  return (
+    <SearchForm
+      onCancel={() => console.log('cancel')}
+      onSubmit={vals => console.log(vals)}
+    />
+  );
+  // return (
+  //   <div className="field has-addons">
+  //     <div className="control  has-icons-left  is-loading">
+  //       <span className="icon is-small is-left">
+  //         <i className="fas fa-search" />
+  //       </span>
+  //       <input
+  //         className="input"
+  //         type="text"
+  //         placeholder="Search by address"
+  //       />
+  //     </div>
+
+  //   </div>
+  // );
+};
+
+{
+  /* <div className="field has-addons">
+<div className="control is-fullwidth has-icons-left  is-loading">
+  <span className="icon is-small is-left">
+    <i className="fas fa-search" />
+  </span>
+  <input className="input" type="text" placeholder="Search by address" />
+</div>
+<p class="control">
+  <button class="button">Search</button>
+</p>
+</div> */
+}

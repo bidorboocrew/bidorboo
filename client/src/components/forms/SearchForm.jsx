@@ -26,13 +26,13 @@ import moment from 'moment';
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-class NewJobForm extends React.Component {
+class SearchForm extends React.Component {
   static propTypes = {
-    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired
   };
   constructor(props) {
     super(props);
+    this.geoInputField;
     this.google = window.google;
     const googleObj = this.google;
     if (this.google) {
@@ -48,20 +48,17 @@ class NewJobForm extends React.Component {
     );
   }
 
-  
   clearForceSetAddressValue(){
     this.setState({forceSetAddressValue: ''});
   }
 
   autoSetGeoLocation(addressText) {
-    this.setState(() => ({forceSetAddressValue: addressText}));
+    this.setState({forceSetAddressValue: addressText});
     this.props.values.geoInputField = addressText;
   }
 
   render() {
     const {
-      jobTitleField,
-      fromTemplateIdField,
       values,
       touched,
       errors,
@@ -91,32 +88,10 @@ class NewJobForm extends React.Component {
       </React.Fragment>
     ) : null;
 
-    //get an initial title from the job title
-    values.fromTemplateIdField = fromTemplateIdField;
+
     return (
       <form onSubmit={handleSubmit}>
-        <TextInput
-          id="jobTitleField"
-          className="input"
-          type="text"
-          helpText="customize your job title"
-          error={touched.durationOfJobField && errors.durationOfJobField}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.jobTitleField || ''}
-        />
-        <input
-          id="fromTemplateIdField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.fromTemplateIdField || fromTemplateIdField}
-        />
-        <input
-          id="addressTextField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.addressTextField || ''}
-        />
+     
         <input
           id="locationField"
           className="input is-invisible"
@@ -128,7 +103,7 @@ class NewJobForm extends React.Component {
           type="text"
           forceSetAddressValue={this.state.forceSetAddressValue}
           helpText={'You must select an address from the drop down menu'}
-          label="Job Address"
+          label="Search By Address"
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
@@ -161,100 +136,24 @@ class NewJobForm extends React.Component {
           }}
         />
 
-        <input
-          id="dateField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.dateField || moment().toDate()}
-        />
-        <DateInput
-          id="DateInputField"
-          type="text"
-          helpText="click to change date"
-          label="Job Start Date"
-          placeholder="specify starting date"
-          onChangeEvent={e => {
-            if (e && e instanceof moment) {
-              let val = e.toDate();
-              setFieldValue('dateField', val, false);
-            } else {
-              e.preventDefault();
-            }
-          }}
-        />
-
-        <input
-          id="hoursField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.hoursField || 1}
-        />
-        <input
-          id="minutesField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.minutesField || 0}
-        />
-        <input
-          id="periodField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.periodField || 'AM'}
-        />
-        <TimeInput
-          hoursFieldId="hoursField"
-          minutesFieldId="minutesField"
-          periodFieldId="periodField"
-          type="text"
-          label="Starting time Details"
-          placeholder="select Starting time"
-          error={touched.startTime && errors.startTime}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="durationOfJobField"
-          type="text"
-          helpText="for example : 1 hour , 1 week ...etc"
-          label="Job Duration"
-          error={touched.durationOfJobField && errors.durationOfJobField}
-          value={values.durationOfJobField}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          iconLeft="far fa-clock"
-        />
-
-        <TextAreaInput
-          id="detailedDescriptionField"
-          type="text"
-          label="Detailed Description"
-          placeholder="Sample: Hey I am handy with tools and can do everything... "
-          error={
-            touched.detailedDescriptionField && errors.detailedDescriptionField
-          }
-          value={values.detailedDescriptionField}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
         <div className="field">
           <button
             style={{ marginRight: 6 }}
-            className="button is-primary is-medium"
+            className="button is-primary is-meduim"
             type="submit"
             disabled={isSubmitting || !isValid}
           >
-            Submit
+            search
           </button>
           <button
-            className="button is-outlined is-medium"
+            className="button is-outlined is-meduim"
             disabled={isSubmitting}
             onClick={e => {
               e.preventDefault();
               onCancel(e);
             }}
           >
-            Cancel
+            Reset
           </button>
         </div>
       </form>
@@ -290,7 +189,7 @@ class NewJobForm extends React.Component {
         };
 
         // update the field with the current position coordinates
-        this.props.setFieldValue('addressTextField', pos, true);
+        this.props.setFieldValue('addressTextField', pos, false);
 
         if (this.google && this.geocoder) {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
@@ -325,7 +224,7 @@ const EnhancedForms = withFormik({
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'NewJobForm'
+  displayName: 'SearchForm'
 });
 
-export default EnhancedForms(NewJobForm);
+export default EnhancedForms(SearchForm);

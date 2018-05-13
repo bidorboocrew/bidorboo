@@ -84,7 +84,7 @@ export default BidJobCard;
 const JobCard = props => {
   const { jobObj, jobCounterIndex, currentUserId } = props;
   return (
-    <div className="column is-one-quarter">
+    <div className="column is-one-third">
       <SummaryView
         currentUserId={currentUserId}
         jobCounterIndex={jobCounterIndex}
@@ -132,10 +132,10 @@ class SummaryView extends React.Component {
     }
 
     return (
-      <div className="card postedJobCard">
+      <div className="card bidJobCard  is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header"
+          className="card-header  is-clipped"
         >
           <p className="card-header-title">{title || 'Job Title'}</p>
         </header>

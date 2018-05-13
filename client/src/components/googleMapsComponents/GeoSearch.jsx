@@ -21,7 +21,6 @@ class GeoSearch extends React.Component {
   static defaultProps = {
     placeholder: '',
     value: '',
-    autoSetValue: ''
   };
   constructor(props) {
     super(props);
@@ -35,14 +34,13 @@ class GeoSearch extends React.Component {
   }
 
   render() {
-    const { handleSelect, onError, placeholder, id, onBlurEvent, autoSetValue } = this.props;
+    const { handleSelect, onError, placeholder, id, onBlurEvent, forceSetAddressValue } = this.props;
+
     const inputField = ({
       getInputProps,
       suggestions,
       getSuggestionItemProps
     }) => {
-      //SAEED START HERE . YOU CAN CREATE CUSTOM RENDERE
-      //copied drop down menu from bulmaIO
       const containerDropDownStyle =
         suggestions && suggestions.length > 0
           ? {
@@ -54,11 +52,11 @@ class GeoSearch extends React.Component {
               paddingTop: '.5rem'
             }
           : {};
+
       return (
         <div>
           <div className="control has-icons-left">
             <input
-              value={autoSetValue}
               id={id}
               onBlur={onBlurEvent}
               {...getInputProps({
@@ -112,10 +110,11 @@ class GeoSearch extends React.Component {
         </div>
       );
     };
+
     return (
       //xxx add US here
       <PlacesAutocomplete
-        value={this.state.address}
+        value={forceSetAddressValue ? forceSetAddressValue : this.state.address}
         onChange={this.updateField}
         onBlur={onBlurEvent}
         onSelect={handleSelect}
@@ -133,5 +132,3 @@ class GeoSearch extends React.Component {
 }
 
 export default GeoSearch;
-
-// XXX TODO getInputProps we need to pass on blur handler

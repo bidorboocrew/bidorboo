@@ -30,7 +30,6 @@ export const getCurrentUser = () => (dispatch, getState) =>
         if (error && error.response && error.response.status === 404) {
           console.log('server wasnt ready');
         } else {
-          debugger;
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

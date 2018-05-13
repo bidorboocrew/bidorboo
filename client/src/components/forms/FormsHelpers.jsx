@@ -228,7 +228,7 @@ render() {
   onChangeEvent,
   onBlurEvent,
   autoDetectComponent,
-  autoSetValue
+  forceSetAddressValue
    } = this.props ;
   return (
     <div className="field">
@@ -237,13 +237,12 @@ render() {
       </Label>
       <GeoSearch
         id={id}
-        value={autoSetValue}
         onError={onError}
         placeholder={placeholder}
         handleSelect={handleSelect}
         onChangeEvent={onChangeEvent}
         onBlurEvent={onBlurEvent}
-        autoSetValue={autoSetValue}
+        forceSetAddressValue={forceSetAddressValue}
       />
       {autoDetectComponent}
       {!autoDetectComponent && <HelpText helpText={helpText} />}
