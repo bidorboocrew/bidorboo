@@ -40,8 +40,6 @@ class SearchForm extends React.Component {
     }
     this.state = {
       forceSetAddressValue: '',
-      jobCategorySelection: {},
-      searchRaduisSelection: 15
     };
 
 
@@ -58,37 +56,24 @@ class SearchForm extends React.Component {
   }
 
   updateSearchRaduisSelection(raduisKm){
-    this.setState({...this.state, searchRaduisSelection: raduisKm});
-    this.props.values.searchRaduisField = raduisKm;
-
+    
+    this.props.setFieldValue('searchRaduisField', raduisKm, false);
   }
   
   toggleJobCategorySelection(jobKey){
-    let selectedJobState = this.state.jobCategorySelection[jobKey];
-    if(selectedJobState){
-      //button exists in our list
-      // toggle its selection state
-      selectedJobState = !selectedJobState.isActive
-    } else {
-      // first time to add the button . which means turn selection on
-      selectedJobState = {isActive: true}
-    }
-    this.setState(()=>{
-      return {...this.state, jobCategorySelection: {...this.state.jobCategorySelection, [jobKey]:selectedJobState}};
-    }, ()=>{
+    
+    
+    let listOfAllSelectedJobs = this.props.values.filterJobsByCategoryField;
+    
+    let indexOfSelectedJob = listOfAllSelectedJobs.indexOf(jobKey);
 
-      const existingSelectionsArray =
-        Object.keys(this.state.jobCategorySelection);
-      let selectedCategoryList = existingSelectionsArray && existingSelectionsArray.length > 0 ?
-      existingSelectionsArray.filter((jobKey)=>{
-        return this.state.jobCategorySelection[jobKey].isActive === true
-      }) : [];
-      debugger;
-      // array of the selected jobs that we should filter based upon
-      this.props.values.filterJobsByCategoryField = selectedCategoryList;
-      
+    if(indexOfSelectedJob > -1){
+      listOfAllSelectedJobs.splice(indexOfSelectedJob,1);
+    } else {
+      listOfAllSelectedJobs.push(jobKey);
     }
-   );
+    // array of the selected jobs that we should filter based upon
+    this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
 
   }
 
@@ -98,7 +83,7 @@ class SearchForm extends React.Component {
 
   autoSetGeoLocation(addressText) {
     this.setState({forceSetAddressValue: addressText});
-    this.props.values.geoInputField = addressText;
+    this.props.setFieldValue('geoInputField', addressText, false);
   }
   
   render() {
@@ -119,17 +104,13 @@ class SearchForm extends React.Component {
 
     const staticJobCategoryButtons = Object.keys(templatesRepo).map((key)=>{
       
-      const isCategorySelected = this.state.jobCategorySelection[key];
-      debugger;
-
-
-      
+      const isThisJobSelected = this.props.values.filterJobsByCategoryField.includes(key);
 
       return (<span
         key={key}
         onClick={()=> this.toggleJobCategorySelection(key)}
         className={classNames('button',
-        {'is-info is-selected': isCategorySelected && isCategorySelected.isActive})}>
+        {'is-info is-selected':isThisJobSelected})}>
         {templatesRepo[key].title}</span>)
 
     })
@@ -167,7 +148,7 @@ class SearchForm extends React.Component {
           id="searchRaduisField"
           className="input is-invisible"
           type="hidden"
-          value={values.searchRaduisField || 15}
+          value={values.searchRaduisField}
         />
 
         
@@ -175,7 +156,7 @@ class SearchForm extends React.Component {
           id="filterJobsByCategoryField"
           className="input is-invisible"
           type="hidden"
-          value={values.filterJobsByCategoryField || []}
+          value={values.filterJobsByCategoryField}
         />
 
         <GeoAddressInput
@@ -221,17 +202,17 @@ class SearchForm extends React.Component {
             <span 
             onClick={()=> this.updateSearchRaduisSelection(5)}
             className={classNames('button',
-        {'is-info is-selected': this.state.searchRaduisSelection === 5})}>
+        {'is-info is-selected': this.props.values.searchRaduisField === 5})}>
             5km</span>
             <span 
             onClick={()=> this.updateSearchRaduisSelection(15)}
             className={classNames('button',
-        {'is-info is-selected': this.state.searchRaduisSelection === 15})}>
+        {'is-info is-selected': this.props.values.searchRaduisField === 15})}>
             15km</span>
             <span 
             onClick={()=> this.updateSearchRaduisSelection(25)}
             className={classNames('button',
-        {'is-info is-selected': this.state.searchRaduisSelection === 25})}>
+        {'is-info is-selected': this.props.values.searchRaduisField === 25})}>
             25km</span>
           </div>
         </div>
@@ -324,9 +305,14 @@ class SearchForm extends React.Component {
 
 const EnhancedForms = withFormik({
   initialValues:{
-    searchRaduisField: '',
+    searchRaduisField: 15,
     filterJobsByCategoryField: [],
-    geoInputField: 15
+    geoInputField: ''
+  },
+  mapPropsToValues: props => {
+    return {  searchRaduisField: 15,
+    filterJobsByCategoryField: [],
+    geoInputField: '' }
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     debugger;
