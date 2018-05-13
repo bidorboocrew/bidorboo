@@ -140,7 +140,7 @@ class SearchForm extends React.Component {
     ) : null;
 
     return (
-      <form style={{padding: 10, border:'1px solid lightgrey'}} onSubmit={handleSubmit}>
+      <form style={{padding: 10, border:'1px solid lightgrey', backgroundColor: 'white'}} onSubmit={handleSubmit}>
         <input
           id="locationField"
           className="input is-invisible"
@@ -249,7 +249,6 @@ class SearchForm extends React.Component {
             type="button"
             className="button is-outlined is-meduim"
             onClick={()=>{
-              debugger
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
               resetForm()
               setFieldValue('locationField', '', false);
@@ -327,7 +326,6 @@ const EnhancedForms = withFormik({
     geoInputField: ''
   },
   mapPropsToValues: props => {
-    debugger
     return {
       searchRaduisField: 15,
       filterJobsByCategoryField: [],
@@ -335,7 +333,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
     alert("search and filter job list is NOT implemented yet")
     // props.onSubmit(values);
     // setSubmitting(false);
