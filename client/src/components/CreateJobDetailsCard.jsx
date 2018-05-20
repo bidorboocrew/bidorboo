@@ -23,7 +23,7 @@ export class CreateJobDetailsCard extends React.Component {
                 <a onClick={onCancel}>Post Jobs</a>
               </li>
               <li className="is-active">
-                <a href="#" aria-current="page">
+                <a aria-current="page">
                   {jobDetails.title}
                 </a>
               </li>

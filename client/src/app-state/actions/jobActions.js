@@ -106,7 +106,6 @@ export const addJob = jobDetails => (dispatch, getState) => {
 
   //  offset the location for security
   // https://www.npmjs.com/package/haversine-offset
-
   let lng = -75.6972; //ottawa
   let lat = 45.4215;
   try {

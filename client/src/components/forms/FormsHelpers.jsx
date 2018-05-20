@@ -219,7 +219,6 @@ render() {
   const {
   id,
   label,
-  value,
   helpText,
   onError,
   error,

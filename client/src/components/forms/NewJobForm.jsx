@@ -55,7 +55,9 @@ class NewJobForm extends React.Component {
 
   autoSetGeoLocation(addressText) {
     this.setState(() => ({forceSetAddressValue: addressText}));
-    this.props.values.geoInputField = addressText;
+    // update the form field with the current position coordinates
+    this.props.setFieldValue('addressTextField', addressText, false);
+
   }
 
   render() {
@@ -289,8 +291,8 @@ class NewJobForm extends React.Component {
           lng: position.coords.longitude
         };
 
-        // update the field with the current position coordinates
-        this.props.setFieldValue('addressTextField', pos, true);
+        // update the form field with the current position coordinates
+        this.props.setFieldValue('locationField', pos, true);
 
         if (this.google && this.geocoder) {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
@@ -318,6 +320,15 @@ class NewJobForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
+  mapPropsToValues: props => {
+    return {
+      jobTitleField: props.jobTitleField,
+      hoursField: 1,
+      minutesField: 0,
+      periodField: 'PM',
+      fromTemplateIdField: props.fromTemplateIdField
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
