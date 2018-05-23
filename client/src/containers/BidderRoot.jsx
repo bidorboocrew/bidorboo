@@ -50,6 +50,12 @@ class BidderRoot extends React.Component {
             </div>
           </div>
         </section>
+        <section className="mainSectionContainer">
+          <div className="container">
+            <SearchSection />
+          </div>
+        </section>
+
         {/* map view */}
         <section className="mainSectionContainer">
           {s_isLoading && (
@@ -70,20 +76,18 @@ class BidderRoot extends React.Component {
               }}
             /> */}
 
-                <BidderMapSection jobsList={s_allThePostedJobsList} />
-
+              <BidderMapSection jobsList={s_allThePostedJobsList} />
             </div>
           )}
         </section>
-        <section className="mainSectionContainer">
-          <div className="container">
-            <SearchSection />
-          </div>
-        </section>
+
         {/* jobs view */}
         <section className="mainSectionContainer">
           <div className="container">
-            <div style={{alignItems:'flex-end'}} className="columns is-multiline">
+            <div
+              style={{ alignItems: 'flex-end' }}
+              className="columns is-multiline"
+            >
               <BidJobCard
                 currentUserId={s_userDetails._id}
                 switchRoute={a_switchRoute}
@@ -122,33 +126,5 @@ const SearchSection = () => {
       onSubmit={vals => console.log(vals)}
     />
   );
-  // return (
-  //   <div className="field has-addons">
-  //     <div className="control  has-icons-left  is-loading">
-  //       <span className="icon is-small is-left">
-  //         <i className="fas fa-search" />
-  //       </span>
-  //       <input
-  //         className="input"
-  //         type="text"
-  //         placeholder="Search by address"
-  //       />
-  //     </div>
-
-  //   </div>
-  // );
 };
 
-{
-  /* <div className="field has-addons">
-<div className="control is-fullwidth has-icons-left  is-loading">
-  <span className="icon is-small is-left">
-    <i className="fas fa-search" />
-  </span>
-  <input className="input" type="text" placeholder="Search by address" />
-</div>
-<p class="control">
-  <button class="button">Search</button>
-</p>
-</div> */
-}

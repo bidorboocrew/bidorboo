@@ -58,6 +58,7 @@ export default class DatePickerInput extends React.Component {
         customInput={<CustomDateButton />}
         selected={this.state.startDate}
         onChange={this.handleChange}
+        locale="en-gb"
         minDate={moment()}
         maxDate={moment().add(1, 'year')}
         className="input is-overlay"

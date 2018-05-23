@@ -1,7 +1,7 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 
-import { compose, withProps, withHandlers, withState } from 'recompose';
+import { compose, withProps} from 'recompose';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
@@ -11,7 +11,15 @@ const MapWithAMarkerClusterer = compose(
     googleMapURL:
       'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: (
+      <div
+        style={{
+          height: `400px`,
+          boxShadow:
+            '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)'
+        }}
+      />
+    ),
     mapElement: <div style={{ height: `100%` }} />
   }),
   withGoogleMap
