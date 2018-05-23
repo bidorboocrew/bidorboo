@@ -30,7 +30,11 @@ export const getJobById = jobId => (dispatch, getState) =>
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
+              msg:
+                'Sorry That did not work, Please try again later.\n' +
+                (error && error.response && error.response.data
+                  ? error.response.data
+                  : error)
             }
           }
         });
@@ -55,7 +59,11 @@ export const deleteJob = jobId => (dispatch, getState) => {
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
+              msg:
+                'Sorry That did not work, Please try again later.\n' +
+                (error && error.response && error.response.data
+                  ? error.response.data
+                  : error)
             }
           }
         });
@@ -86,6 +94,46 @@ export const updateJobDetails = jobDetails => {
   };
 };
 
+export const searchByLocation = userSearchQuery => {
+  return (dispatch, getState) => {
+    const serverSearchQuery = {
+      searchLocation: userSearchQuery.locationField,
+      searchRaduis: userSearchQuery.searchRaduisField * 1000 // translate to KM
+    };
+
+
+
+    dispatch({
+      type: A.JOB_ACTIONS.SEARCH_JOB,
+      payload: serverSearchQuery
+    });
+
+    dispatch({
+      type: A.JOB_ACTIONS.SEARCH_JOB,
+      payload: axios
+        .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.post_search, {
+          data: {
+            searchParams: serverSearchQuery
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'error',
+                msg:
+                  'Sorry That did not work, Please try again later.\n' +
+                  (error && error.response && error.response.data
+                    ? error.response.data
+                    : error)
+              }
+            }
+          });
+        })
+    });
+  };
+};
 
 export const addJob = jobDetails => (dispatch, getState) => {
   const {
@@ -112,18 +160,21 @@ export const addJob = jobDetails => (dispatch, getState) => {
     lng = parseFloat(locationField.lng);
     lat = parseFloat(locationField.lat);
     let preOffset = { latitude: lat, longitude: lng };
-    let offset = { x: Math.floor(Math.random() * Math.floor(1000)), y: Math.floor(Math.random() * Math.floor(1000)) };
+    let offset = {
+      x: Math.floor(Math.random() * Math.floor(1000)),
+      y: Math.floor(Math.random() * Math.floor(1000))
+    };
 
     let postOffset = haversineOffset(preOffset, offset);
 
-    if(postOffset.lat > 0){
+    if (postOffset.lat > 0) {
       lat = Math.min(postOffset.lat, 90).toFixed(5);
-    } else if (postOffset.lat < 0){
+    } else if (postOffset.lat < 0) {
       lat = Math.max(postOffset.lat, -90).toFixed(5);
     }
-    if(postOffset.lng > 0){
+    if (postOffset.lng > 0) {
       lng = Math.min(postOffset.lng, 180).toFixed(5);
-    } else if (postOffset.lng < 0){
+    } else if (postOffset.lng < 0) {
       lng = Math.max(postOffset.lng, -180).toFixed(5);
     }
   } catch (e) {
@@ -181,7 +232,11 @@ export const addJob = jobDetails => (dispatch, getState) => {
           payload: {
             toastDetails: {
               type: 'error',
-              msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
+              msg:
+                'Sorry That did not work, Please try again later.\n' +
+                (error && error.response && error.response.data
+                  ? error.response.data
+                  : error)
             }
           }
         });

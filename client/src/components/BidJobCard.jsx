@@ -2,7 +2,6 @@ import React from 'react';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
-import autoBind from 'react-autobind';
 import moment from 'moment';
 
 class BidJobCard extends React.Component {

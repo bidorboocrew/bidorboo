@@ -6,12 +6,16 @@ module.exports = {
     GOOGLE_CALLBACK: '/auth/google/callback',
     FACEBOOK: '/auth/facebook',
     FACEBOOK_CALLBACK: '/auth/facebook/callback',
-    LOGOUT: '/auth/logout',
+    LOGOUT: '/auth/logout'
   },
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
     PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
-    JOB_ROUTES: { myjobs: '/job/myjobs', alljobs: '/job/alljobs' }
+    JOB_ROUTES: {
+      myjobs: '/job/myjobs',
+      alljobs: '/job/alljobs',
+      post_search: '/job/search'
+    }
   },
   FRONTEND: {
     ENTRY: '/',
@@ -22,12 +26,10 @@ module.exports = {
       createjob: '/proposer/createjob',
       myjobs: '/proposer/myjobs'
     },
-    BIDDER:  {
+    BIDDER: {
       root: '/bidder',
       createbid: '/bidder/createbid',
       mybids: '/bidder/mybids'
-    },
+    }
   }
 };
-
-

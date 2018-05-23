@@ -30,10 +30,11 @@ export default MapWithAMarkerClusterer;
 
 class TheMap extends React.Component {
   render() {
+    const { mapCenterPoint } = this.props;
     return (
       <GoogleMap
         defaultZoom={8}
-        defaultCenter={{ lat: 45.4215, lng: -75.6972 }}
+        defaultCenter={mapCenterPoint}
       >
         <Cluster {...this.props} />
       </GoogleMap>

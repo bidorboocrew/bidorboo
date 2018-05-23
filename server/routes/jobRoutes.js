@@ -15,7 +15,7 @@ module.exports = app => {
         userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
         res.send(userJobsList);
       } catch (e) {
-        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
     }
   );
@@ -29,12 +29,43 @@ module.exports = app => {
         userJobsList = await jobDataAccess.getAllPostedJobs();
         res.send(userJobsList);
       } catch (e) {
-        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
     }
   );
 
+  app.post(
+    `${ROUTES.USERAPI.JOB_ROUTES.post_search}`,
+    requireLogin,
+    async (req, res, done) => {
+      try {
+        const searchParams = req.body.data.searchParams;
+        if (!searchParams) {
+          res.send({ Error: 'JobId search params were Not Specified' });
+          return done(null, null);
+        }
 
+
+        let searchQuery = {
+          searchLocation: searchParams.searchLocation,
+          searchRaduisInMeters: searchParams.searchRaduis
+        };
+        let searchResults;
+
+        existingJob = await jobDataAccess.getJobsNear(searchQuery);
+        if (existingJob) {
+          res.send(existingJob);
+        } else {
+          res.send({ Error: 'JobId Was Not Specified' });
+        }
+
+        done(null, existingJob);
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        done(e, null);
+      }
+    }
+  );
 
   app.get(
     `${ROUTES.USERAPI.JOB_ROUTES}/:jobId`,
@@ -58,28 +89,35 @@ module.exports = app => {
 
         done(null, existingJob);
       } catch (e) {
-        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
         done(e, null);
       }
     }
   );
 
-  app.post(ROUTES.USERAPI.JOB_ROUTES.myjobs, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      const userId = req.user.userId;
-      const userMongoDBId = req.user._id;
-      const newJob = await jobDataAccess.addAJob({
-        ...data.jobDetails,
-        _ownerId: userMongoDBId
-      },userId);
-      res.send(newJob);
-      done(null, newJob);
-    } catch (e) {
-      res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+  app.post(
+    ROUTES.USERAPI.JOB_ROUTES.myjobs,
+    requireLogin,
+    async (req, res, done) => {
+      try {
+        // create new job for this user
+        const data = req.body.data;
+        const userId = req.user.userId;
+        const userMongoDBId = req.user._id;
+        const newJob = await jobDataAccess.addAJob(
+          {
+            ...data.jobDetails,
+            _ownerId: userMongoDBId
+          },
+          userId
+        );
+        res.send(newJob);
+        done(null, newJob);
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      }
     }
-  });
+  );
 
   app.put(
     ROUTES.USERAPI.JOB_ROUTES,
@@ -102,7 +140,7 @@ module.exports = app => {
         res.send(newJob);
         done(null, newJob);
       } catch (e) {
-        res.status(500).send({ error: "Sorry Something went wrong \n" +e })
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
     }
   );

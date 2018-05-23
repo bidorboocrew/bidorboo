@@ -5,9 +5,9 @@ import MapWithAMarkerClusterer from './googleMapsComponents/MapWithAMarkerCluste
 
 export default class BidderMapSection extends React.Component {
   render() {
-    const { jobsList } = this.props;
+    const { jobsList, mapCenterPoint } = this.props;
     return jobsList && jobsList.length > 0 ? (
-      <MapWithAMarkerClusterer markers={jobsList} />
+      <MapWithAMarkerClusterer mapCenterPoint={mapCenterPoint} markers={jobsList} />
     ) : null;
   }
 }

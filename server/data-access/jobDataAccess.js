@@ -51,48 +51,87 @@ exports.jobDataAccess = {
       .exec(); // only works if we pushed refs to children
   },
 
-  getJobsNear: specifiedLocation => {
-    // #1
-    return JobModel.aggregate([
-      {
-        $geoNear: {
-          near: { type: 'Point', coordinates: specifiedLocation },
-          distanceField: 'dist.calculated',
-          includeLocs: 'dist.location',
-          limit: 20,
-          distanceMultiplier: 1 / 1000,
-          maxDistance: 5, //meters
-          spherical: true,
-          uniqueDocs: true
-        }
-      },
-      {
-        $project: {
-          detailedDescription: 0,
-          __v: 0,
-          _ownerId: 0,
-          createdAt: 0,
-          updatedAt: 0,
-          whoSeenThis: 0,
-          properties: 0,
-          extras: 0,
-          _bidsList: 0,
-          _id: 0,
-          state: 0
-        }
+  // get jobs near a given location
+  // default search raduis is 15km raduis
+  getJobsNear: ({ searchLocation, searchRaduisInMeters = 15000 }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        JobModel.aggregate(
+          [
+            {
+              $geoNear: {
+                near: {
+                  type: 'Point',
+                  coordinates: [searchLocation.lng, searchLocation.lat]
+                },
+                distanceField: 'dist.calculated',
+                includeLocs: 'dist.location',
+                limit: 50,
+                distanceMultiplier: 1 / 1000, //meters
+                maxDistance: searchRaduisInMeters, //meters
+                spherical: true,
+                uniqueDocs: true
+              }
+            },
+            {
+              $project: {
+                // detailedDescription: 0,
+                __v: 0,
+                // _ownerId: 0,
+                // createdAt: 0,
+                updatedAt: 0,
+                whoSeenThis: 0,
+                properties: 0,
+                extras: 0,
+                _bidsList: 0,
+                // _id: 1,
+                state: 0
+              }
+            }
+          ],
+          async (error, results) => {
+            //populate job fields
+
+            let searchResults;
+            if (results && results.length > 0) {
+              try {
+                searchResults = results.map(async job => {
+                  const dbJob = await JobModel.findById(job._id, {
+                    addressText: 0,
+                    updatedAt: 0,
+                    _bidsList: 0,
+                    awardedBidder: 0,
+                    jobReview: 0,
+                    extras: 0,
+                    properties: 0,
+                    __v: 0,
+                    whoSeenThis: 0
+                  })
+                    .populate({
+                      path: '_ownerId',
+                      select: { displayName: 1, profileImgUrl: 1, _id: 0 }
+                    })
+                    .lean(true)
+                    .exec();
+
+                  return dbJob;
+                });
+
+                const finalList = await Promise.all(searchResults);
+                resolve(finalList);
+              } catch (e) {
+                throw reject(e);
+              }
+            } else {
+              return resolve([]);
+            }
+          }
+        ).exec();
+      } catch (e) {
+        reject(e);
       }
-    ]).exec();
-
-    // #2
-    // return JobModel.find({
-    //   location: {
-    //     $near: {
-    //       $geometry: { type: 'Point', coordinates: specifiedLocation },
-    //       $maxDistance: 1000000,
-
-    //     }
-    //   }
-    // }).limit(1).exec();
+    });
+    return;
   },
   addAJob: async (jobDetails, userId) => {
     try {

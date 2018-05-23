@@ -80,7 +80,8 @@ class SearchForm extends React.Component {
 
   autoSetGeoLocation(addressText) {
     this.setState({ forceSetAddressValue: addressText });
-    this.props.setFieldValue('geoInputField', addressText, false);
+    this.props.setFieldValue('addressTextField', addressText, false);
+
   }
 
   shouldComponentUpdate(){
@@ -293,7 +294,7 @@ class SearchForm extends React.Component {
         };
 
         // update the field with the current position coordinates
-        this.props.setFieldValue('addressTextField', pos, false);
+        this.props.setFieldValue('locationField', pos, false);
 
         if (this.google && this.geocoder) {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
@@ -333,9 +334,8 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    alert("search and filter job list is NOT implemented yet")
-    // props.onSubmit(values);
-    // setSubmitting(false);
+    props.onSubmit(values);
+    setSubmitting(false);
   },
   displayName: 'SearchForm'
 });

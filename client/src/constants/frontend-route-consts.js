@@ -12,7 +12,11 @@ export const BACKENDROUTES = {
   USERAPI: {
     GET_CURRENTUSER: '/user/currentUser',
     PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
-    JOB_ROUTES: { myjobs: '/job/myjobs', alljobs: '/job/alljobs' }
+    JOB_ROUTES: {
+      myjobs: '/job/myjobs',
+      alljobs: '/job/alljobs',
+      post_search: '/job/search'
+    }
   }
 };
 export const FRONTENDROUTES = {

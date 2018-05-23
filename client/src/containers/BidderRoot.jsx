@@ -14,7 +14,7 @@ import SearchForm from '../components/forms/SearchForm';
 //   getLatLng
 // } from 'react-places-autocomplete';
 import { switchRoute } from '../app-state/actions/routerActions';
-import { getAllPostedJobs } from '../app-state/actions/jobActions';
+import { getAllPostedJobs, searchByLocation } from '../app-state/actions/jobActions';
 
 class BidderRoot extends React.Component {
   constructor(props) {
@@ -34,7 +34,9 @@ class BidderRoot extends React.Component {
       s_isLoading,
       s_allThePostedJobsList,
       a_switchRoute,
-      s_userDetails
+      s_userDetails,
+      a_searchByLocation,
+      s_mapCenterPoint
     } = this.props;
     return (
       <div className="slide-in-left" id="bdb-bidder-root">
@@ -52,7 +54,7 @@ class BidderRoot extends React.Component {
         </section>
         <section className="mainSectionContainer">
           <div className="container">
-            <SearchSection />
+            <SearchSection searchHandler={a_searchByLocation}/>
           </div>
         </section>
 
@@ -76,7 +78,7 @@ class BidderRoot extends React.Component {
               }}
             /> */}
 
-              <BidderMapSection jobsList={s_allThePostedJobsList} />
+              <BidderMapSection mapCenterPoint={s_mapCenterPoint} jobsList={s_allThePostedJobsList} />
             </div>
           )}
         </section>
@@ -106,24 +108,27 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
     s_error: jobsReducer.error,
     s_isLoading: jobsReducer.isLoading,
     s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
-    s_userDetails: userModelReducer.userDetails
+    s_mapCenterPoint: jobsReducer.mapCenterPoint,
+    s_userDetails: userModelReducer.userDetails,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
+    a_searchByLocation:  bindActionCreators(searchByLocation, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BidderRoot);
 
-const SearchSection = () => {
+const SearchSection = (props) => {
   return (
+
     <SearchForm
       onCancel={() => console.log('cancel')}
-      onSubmit={vals => console.log(vals)}
+      onSubmit={vals => {props.searchHandler(vals)}}
     />
   );
 };
