@@ -142,5 +142,5 @@
 @-webkit-keyframes kenburns-bottom{0%{-webkit-transform:scale(1) translateY(0);transform:scale(1) translateY(0);-webkit-transform-origin:50% 84%;transform-origin:50% 84%}100%{-webkit-transform:scale(1.25) translateY(15px);transform:scale(1.25) translateY(15px);-webkit-transform-origin:bottom;transform-origin:bottom}}@keyframes kenburns-bottom{0%{-webkit-transform:scale(1) translateY(0);transform:scale(1) translateY(0);-webkit-transform-origin:50% 84%;transform-origin:50% 84%}100%{-webkit-transform:scale(1.25) translateY(15px);transform:scale(1.25) translateY(15px);-webkit-transform-origin:bottom;transform-origin:bottom}}
 
 
-.shadow-drop-center{-webkit-animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) both;animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) both}
+.shadow-drop-center{-webkit-animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) .7s both;animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) .7s both}
 @-webkit-keyframes shadow-drop-center{0%{box-shadow:0 0 0 0 transparent}100%{box-shadow:0 0 20px 0 rgba(0,0,0,.35)}}@keyframes shadow-drop-center{0%{box-shadow:0 0 0 0 transparent}100%{box-shadow:0 0 20px 0 rgba(0,0,0,.35)}}

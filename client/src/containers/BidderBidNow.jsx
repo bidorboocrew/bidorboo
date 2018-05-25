@@ -48,9 +48,8 @@ class BidderBidNow extends React.Component {
       this.props.a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
     }
 
-    debugger;
     return (
-      <React.Fragment>
+      <div className="slide-in-left" id="bdb-bidder-bidNow">
         <div style={{ marginTop: '1rem' }} className="container">
           <nav className="breadcrumb" aria-label="breadcrumbs">
             <ul>
@@ -72,13 +71,18 @@ class BidderBidNow extends React.Component {
         <section className="mainSectionContainer">
           <div className="container">
             <div className="columns">
-              <div className="column is-half is-clipped">
-                <PostYourBid onSubmit={()=>{debugger;}}
-                onCancel={()=>{a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root)}}
+              <div className="column is-one-third is-clipped">
+                <PostYourBid
+                  onSubmit={values => {
+                    alert('not implemented yet');
+                  }}
+                  onCancel={() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                  }}
                 />
               </div>
 
-              <div className="column is-half is-clipped">
+              <div className="column is-clipped">
                 <JobDetailsReviewCard
                   onSubmit={a_submitBid}
                   onCancel={() =>
@@ -90,7 +94,7 @@ class BidderBidNow extends React.Component {
             </div>
           </div>
         </section>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -126,7 +130,7 @@ class JobDetailsReviewCard extends React.Component {
       _ownerId,
       detailedDescription
     } = jobDetails;
-    debugger;
+
     const { profileImgUrl, displayName } = _ownerId;
     const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';

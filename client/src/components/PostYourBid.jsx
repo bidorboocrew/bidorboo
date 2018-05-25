@@ -2,6 +2,8 @@ import React from 'react';
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 import { TextInput } from './forms/FormsHelpers';
+
+
 class PostYourBid extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
@@ -25,18 +27,17 @@ class PostYourBid extends React.Component {
           <p className="card-header-title">Make a Bid Now</p>
         </header>
         <div className="card-content">
-
           <TextInput
             id="bidAmountField"
             className="input is-focused shadow-drop-center"
             type="text"
-            label="Enter Your Bid Amount"
-            placeholder="specify starting date"
-            helpText="Bid amounts are in CAD, example 5"
-            error={touched.bidAmountField && errors.bidAmountField}
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.bidAmount || ''}
+            label="Enter Your Bid Amount"
+            placeholder="enter bid amount E.g 50"
+            helpText="Bid amounts are in CAD"
+            error={touched.bidAmountField && errors.bidAmountField}
+            value={values.bidAmountField || ''}
           />
         </div>
         <footer className="card-footer">
@@ -45,6 +46,7 @@ class PostYourBid extends React.Component {
             style={{ borderRadius: 0 }}
             className="card-footer-item button is-primary"
           >
+            <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
             Bid Now
           </a>
           <a
@@ -52,6 +54,7 @@ class PostYourBid extends React.Component {
             style={{ borderRadius: 0 }}
             className="card-footer-item button is-danger"
           >
+            <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
             Booo
           </a>
         </footer>
@@ -62,17 +65,16 @@ class PostYourBid extends React.Component {
 
 const EnhancedForms = withFormik({
   initialValues: {
-    hasReviewedDetails: false,
-    bidAmount: 10
+    hasReviewedDetails: false, // we should have a checkbox to make user review etails
   },
   mapPropsToValues: props => {
     return {
       hasReviewedDetails: false,
-      bidAmount: 10
     };
   },
 
   handleSubmit: (values, { setSubmitting, props }) => {
+    debugger
     props.onSubmit(values);
     setSubmitting(false);
   },
