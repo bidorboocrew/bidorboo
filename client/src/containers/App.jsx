@@ -20,7 +20,8 @@ import {
   ProposerCreateAJob,
   ProposerMyJobs,
   BidderRoot,
-  MyProfile
+  MyProfile,
+  BidderBidNow
 } from './index';
 
 class App extends React.Component {
@@ -123,9 +124,16 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
+                  path={ROUTES.FRONTENDROUTES.BIDDER.bidNow}
+                  component={BidderBidNow}
+                />
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
+                  exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
                   component={MyProfile}
                 />
+
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.FRONTENDROUTES.HOME} />
               </Switch>

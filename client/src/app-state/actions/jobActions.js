@@ -21,9 +21,6 @@ export const getJobById = jobId => (dispatch, getState) =>
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
     payload: axios
       .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.alljobs}/${jobId}`)
-      .then(job => {
-        // debugger;
-      })
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -49,9 +46,6 @@ export const deleteJob = jobId => (dispatch, getState) => {
         data: {
           jobId: jobId
         }
-      })
-      .then(res => {
-        // debugger;
       })
       .catch(error => {
         dispatch({

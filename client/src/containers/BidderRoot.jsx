@@ -14,7 +14,13 @@ import SearchForm from '../components/forms/SearchForm';
 //   getLatLng
 // } from 'react-places-autocomplete';
 import { switchRoute } from '../app-state/actions/routerActions';
-import { getAllPostedJobs, searchByLocation } from '../app-state/actions/jobActions';
+import {
+  getAllPostedJobs,
+  searchByLocation
+} from '../app-state/actions/jobActions';
+import {
+  selectJobToBidOn,
+} from '../app-state/actions/bidActions';
 
 class BidderRoot extends React.Component {
   constructor(props) {
@@ -36,7 +42,8 @@ class BidderRoot extends React.Component {
       a_switchRoute,
       s_userDetails,
       a_searchByLocation,
-      s_mapCenterPoint
+      s_mapCenterPoint,
+      a_selectJobToBidOn
     } = this.props;
     return (
       <div className="slide-in-left" id="bdb-bidder-root">
@@ -54,7 +61,7 @@ class BidderRoot extends React.Component {
         </section>
         <section className="mainSectionContainer">
           <div className="container">
-            <SearchSection searchHandler={a_searchByLocation}/>
+            <SearchSection searchHandler={a_searchByLocation} />
           </div>
         </section>
 
@@ -78,7 +85,11 @@ class BidderRoot extends React.Component {
               }}
             /> */}
 
-              <BidderMapSection mapCenterPoint={s_mapCenterPoint} jobsList={s_allThePostedJobsList} />
+              <BidderMapSection
+                selectJobToBidOn={a_selectJobToBidOn}
+                mapCenterPoint={s_mapCenterPoint}
+                jobsList={s_allThePostedJobsList}
+              />
             </div>
           )}
         </section>
@@ -93,6 +104,7 @@ class BidderRoot extends React.Component {
               <BidJobCard
                 currentUserId={s_userDetails._id}
                 switchRoute={a_switchRoute}
+                selectJobToBidOn={a_selectJobToBidOn}
                 jobsList={s_allThePostedJobsList}
               />
             </div>
@@ -109,27 +121,29 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
     s_isLoading: jobsReducer.isLoading,
     s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
     s_mapCenterPoint: jobsReducer.mapCenterPoint,
-    s_userDetails: userModelReducer.userDetails,
+    s_userDetails: userModelReducer.userDetails
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
-    a_searchByLocation:  bindActionCreators(searchByLocation, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
+
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BidderRoot);
 
-const SearchSection = (props) => {
+const SearchSection = props => {
   return (
-
     <SearchForm
       onCancel={() => console.log('cancel')}
-      onSubmit={vals => {props.searchHandler(vals)}}
+      onSubmit={vals => {
+        props.searchHandler(vals);
+      }}
     />
   );
 };
-

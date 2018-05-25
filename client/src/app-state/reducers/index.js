@@ -6,6 +6,7 @@ import uiReducer from './uiReducer';
 import routerReducer from './routerReducer';
 import userModelReducer from './userModelReducer';
 import jobsReducer from './jobsReducer';
+import bidsReducer from './bidsReducer';
 
 export default combineReducers({
   authReducer: authReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   routerReducer: routerReducer,
   userModelReducer: userModelReducer,
   jobsReducer: jobsReducer,
-  loadingBar: loadingBarReducer
+  loadingBar: loadingBarReducer,
+  bidsReducer: bidsReducer
 });

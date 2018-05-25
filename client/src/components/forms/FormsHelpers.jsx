@@ -41,7 +41,7 @@ export const TextInput = ({
       {!iconLeft && (
         <input
           id={id}
-          className="input"
+          className={className|| "input"}
           type={type}
           value={value || ''}
           onChange={onChange}

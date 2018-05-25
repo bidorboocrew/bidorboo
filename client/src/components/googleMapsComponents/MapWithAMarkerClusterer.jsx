@@ -1,7 +1,7 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 
-import { compose, withProps} from 'recompose';
+import { compose, withProps } from 'recompose';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
@@ -32,10 +32,7 @@ class TheMap extends React.Component {
   render() {
     const { mapCenterPoint } = this.props;
     return (
-      <GoogleMap
-        defaultZoom={8}
-        defaultCenter={mapCenterPoint}
-      >
+      <GoogleMap defaultZoom={8} defaultCenter={mapCenterPoint}>
         <Cluster {...this.props} />
       </GoogleMap>
     );
@@ -59,10 +56,10 @@ class Cluster extends React.Component {
     // console.log(clickedMarkers);
   }
   render() {
-    const { markers } = this.props;
+    const { markers, selectJobToBidOn } = this.props;
     if (markers && markers.length > 0) {
       const jobsMarkersOnTheMap = markers.map(marker => (
-        <JobMarker key={marker._id} marker={marker} />
+        <JobMarker selectJobToBidOn={selectJobToBidOn} key={marker._id} marker={marker} />
       ));
       return (
         <MarkerClusterer
@@ -85,14 +82,21 @@ class JobMarker extends React.Component {
     super(props);
     this.state = { showInfoBox: false };
     autoBind(this, 'toggleShow');
+    autoBind(this, 'bidOnThisJob');
   }
 
   toggleShow() {
     this.setState({ showInfoBox: !this.state.showInfoBox });
   }
 
+  bidOnThisJob() {
+    const { marker, selectJobToBidOn } = this.props;
+    selectJobToBidOn(marker);
+  }
+
+
   render() {
-    const { marker } = this.props;
+    const { marker, selectJobToBidOn } = this.props;
     return (
       <Marker
         opacity={0.8}
@@ -142,7 +146,7 @@ class JobMarker extends React.Component {
                   {marker.title}
                 </div>
                 <a
-                  onClick={this.toggleShow}
+                  onClick={this.bidOnThisJob}
                   className="button is-primary is-small has-text-right is-fullwidth"
                 >
                   <span style={{ marginLeft: 4 }}>

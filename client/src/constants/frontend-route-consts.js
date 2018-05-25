@@ -24,13 +24,13 @@ export const FRONTENDROUTES = {
   HOME: '/home',
   PROPOSER: {
     root: '/proposer',
-    createjob: '/proposer/createjob',
-    myjobs: '/proposer/myjobs'
+    createjob: '/proposer/create-job',
+    myjobs: '/proposer/my-jobs'
   },
   BIDDER: {
     root: '/bidder',
-    createbid: '/bidder/createbid',
-    mybids: '/bidder/mybids'
+    bidNow: '/bidder/bid-now',
+    mybids: '/bidder/my-bids'
   },
-  MY_PROFILE: '/myprofile'
+  MY_PROFILE: '/my-profile'
 };

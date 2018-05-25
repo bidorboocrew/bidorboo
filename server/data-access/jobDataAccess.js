@@ -96,7 +96,6 @@ exports.jobDataAccess = {
                 properties: 0,
                 extras: 0,
                 _bidsList: 0,
-                state: 0
               }
             }
           ],

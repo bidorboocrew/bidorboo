@@ -35,19 +35,22 @@ class BidJobCard extends React.Component {
       })
     ),
     currentUserId: PropTypes.string,
-    switchRoute: PropTypes.func.isRequired
+    switchRoute: PropTypes.func.isRequired,
+    selectJobToBidOn: PropTypes.func.isRequired,
   };
 
   render() {
-    const { jobsList, switchRoute, currentUserId } = this.props;
+    const { jobsList, switchRoute, currentUserId, selectJobToBidOn } = this.props;
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
           <JobCard
+            switchRoute={switchRoute}
             currentUserId={currentUserId}
             key={job._id}
             jobObj={job}
             jobCounterIndex={index}
+            selectJobToBidOn={selectJobToBidOn}
           />
         ))
       ) : (
@@ -78,13 +81,14 @@ class BidJobCard extends React.Component {
 export default BidJobCard;
 
 const JobCard = props => {
-  const { jobObj, jobCounterIndex, currentUserId } = props;
+  const { jobObj, jobCounterIndex, currentUserId, switchRoute, selectJobToBidOn } = props;
   return (
     <div className="column is-one-third">
       <SummaryView
         currentUserId={currentUserId}
         jobCounterIndex={jobCounterIndex}
         jobObj={jobObj}
+        selectJobToBidOn={selectJobToBidOn}
       />
     </div>
   );
@@ -92,7 +96,7 @@ const JobCard = props => {
 
 class SummaryView extends React.Component {
   render() {
-    const { jobCounterIndex, jobObj, currentUserId } = this.props;
+    const { jobCounterIndex, jobObj, currentUserId, selectJobToBidOn } = this.props;
     const {
       state,
       addressText,
@@ -197,7 +201,9 @@ class SummaryView extends React.Component {
         {_ownerId._id !== currentUserId && (
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
-              onClick={()=>{alert("Bid Now is not implemented yet")}}
+              onClick={()=>{
+                selectJobToBidOn(jobObj)
+              }}
               style={{ borderRadius: 0 }}
               className="button is-primary is-fullwidth"
             >
@@ -222,47 +228,4 @@ class SummaryView extends React.Component {
   }
 }
 
-class DetailedView extends React.Component {
-  render() {
-    const {
-      state,
-      addressText,
-      durationOfJob,
-      location,
-      startingDateAndTime,
-      title,
-      updatedAt,
-      whoSeenThis,
-      createdAt,
-      _bidsList,
-      _ownerId,
-      _id
-    } = this.props.jobObj;
 
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <div> Development view , details </div>
-            <div>state : {state}</div>
-            <div>addressText : {addressText}</div>
-            <div>durationOfJob : {durationOfJob}</div>
-            <div>location : {JSON.stringify(location)}</div>
-            <div>title : {title}</div>
-            <div>whoSeenThis : {JSON.stringify(whoSeenThis)}</div>
-            <div>updatedAt : {updatedAt}</div>
-            <div>_bidsList : {JSON.stringify(_bidsList)}</div>
-            <div>_ownerId : {JSON.stringify(_ownerId)}</div>
-            <div>jobId : {JSON.stringify(_id)}</div>
-          </div>
-        </div>
-        <footer className="card-footer">
-          <div>
-            this is a dev view only and will be replaced with more user friendly
-            details soon
-          </div>
-        </footer>
-      </div>
-    );
-  }
-}
