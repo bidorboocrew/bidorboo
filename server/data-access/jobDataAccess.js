@@ -53,38 +53,49 @@ exports.jobDataAccess = {
 
   // get jobs near a given location
   // default search raduis is 15km raduis
-  getJobsNear: ({ searchLocation, searchRaduisInMeters = 15000 }) => {
+  // default include all
+  getJobsNear: ({
+    searchLocation,
+    searchRaduisInMeters = 15000,
+    excludedJobTemplates = []
+  }) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const geoNearQuery = {
+          $geoNear: {
+            near: {
+              type: 'Point',
+              coordinates: [searchLocation.lng, searchLocation.lat]
+            },
+            distanceField: 'dist.calculated',
+            includeLocs: 'dist.location',
+            limit: 50,
+            distanceMultiplier: 1 / 1000, //meters
+            maxDistance: searchRaduisInMeters, //meters
+            spherical: true,
+            uniqueDocs: true
+          }
+        };
+        console.log(excludedJobTemplates)
+        if (excludedJobTemplates && excludedJobTemplates.length > 0) {
+          //filter categories of jobs
+          geoNearQuery.$geoNear.query = {
+            fromTemplateId: { $in: excludedJobTemplates }
+          };
+        }
+
         JobModel.aggregate(
           [
-            {
-              $geoNear: {
-                near: {
-                  type: 'Point',
-                  coordinates: [searchLocation.lng, searchLocation.lat]
-                },
-                distanceField: 'dist.calculated',
-                includeLocs: 'dist.location',
-                limit: 50,
-                distanceMultiplier: 1 / 1000, //meters
-                maxDistance: searchRaduisInMeters, //meters
-                spherical: true,
-                uniqueDocs: true
-              }
-            },
+            geoNearQuery,
             {
               $project: {
-                // detailedDescription: 0,
                 __v: 0,
-                // _ownerId: 0,
-                // createdAt: 0,
+                // _id: 1,
                 updatedAt: 0,
                 whoSeenThis: 0,
                 properties: 0,
                 extras: 0,
                 _bidsList: 0,
-                // _id: 1,
                 state: 0
               }
             }
@@ -126,7 +137,7 @@ exports.jobDataAccess = {
               return resolve([]);
             }
           }
-        ).exec();
+        ).explain();
       } catch (e) {
         reject(e);
       }

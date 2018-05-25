@@ -48,7 +48,8 @@ module.exports = app => {
 
         let searchQuery = {
           searchLocation: searchParams.searchLocation,
-          searchRaduisInMeters: searchParams.searchRaduis
+          searchRaduisInMeters: searchParams.searchRaduis,
+          excludedJobTemplates: searchParams.excludedJobTemplates
         };
         let searchResults;
 

@@ -98,7 +98,8 @@ export const searchByLocation = userSearchQuery => {
   return (dispatch, getState) => {
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
-      searchRaduis: userSearchQuery.searchRaduisField * 1000 // translate to KM
+      searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
+      excludedJobTemplates: userSearchQuery.filterJobsByCategoryField// list of categories to exclude from the search
     };
 
 

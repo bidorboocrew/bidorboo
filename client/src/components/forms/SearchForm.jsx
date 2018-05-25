@@ -81,11 +81,10 @@ class SearchForm extends React.Component {
   autoSetGeoLocation(addressText) {
     this.setState({ forceSetAddressValue: addressText });
     this.props.setFieldValue('addressTextField', addressText, false);
-
   }
 
-  shouldComponentUpdate(){
-    return (!!this.props.values);
+  shouldComponentUpdate() {
+    return !!this.props.values;
   }
 
   render() {
@@ -103,12 +102,10 @@ class SearchForm extends React.Component {
       resetForm
     } = this.props;
 
-
     const filteredJobsList = values.filterJobsByCategoryField;
     const staticJobCategoryButtons = Object.keys(templatesRepo).map(key => {
-      const isThisJobSelected = filteredJobsList && filteredJobsList.includes(
-        key
-      );
+      const isThisJobSelected =
+        filteredJobsList && filteredJobsList.includes(key);
 
       return (
         <span
@@ -141,7 +138,14 @@ class SearchForm extends React.Component {
     ) : null;
 
     return (
-      <form style={{padding: 10, border:'1px solid lightgrey', backgroundColor: 'white'}} onSubmit={handleSubmit}>
+      <form
+        style={{
+          padding: 10,
+          border: '1px solid lightgrey',
+          backgroundColor: 'white'
+        }}
+        onSubmit={handleSubmit}
+      >
         <input
           id="locationField"
           className="input is-invisible"
@@ -212,8 +216,7 @@ class SearchForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(15)}
               className={classNames('button', {
-                'is-info is-selected':
-                  values.searchRaduisField === 15
+                'is-info is-selected': values.searchRaduisField === 15
               })}
             >
               15km
@@ -221,8 +224,7 @@ class SearchForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(25)}
               className={classNames('button', {
-                'is-info is-selected':
-                 values.searchRaduisField === 25
+                'is-info is-selected': values.searchRaduisField === 25
               })}
             >
               25km
@@ -232,7 +234,7 @@ class SearchForm extends React.Component {
 
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Exclude By Category</span>
+            <span className="button is-static">Filter by category</span>
             {staticJobCategoryButtons}
           </div>
         </div>
@@ -249,13 +251,13 @@ class SearchForm extends React.Component {
           <button
             type="button"
             className="button is-outlined is-meduim"
-            onClick={()=>{
+            onClick={() => {
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
-              resetForm()
+              resetForm();
               setFieldValue('locationField', '', false);
               setFieldValue('searchRaduisField', 15, false);
               setFieldValue('filterJobsByCategoryField', [], false);
-              this.clearForceSetAddressValue()
+              this.clearForceSetAddressValue();
             }}
           >
             Reset
