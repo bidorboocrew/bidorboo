@@ -133,6 +133,7 @@ exports.jobDataAccess = {
                 throw reject(e);
               }
             } else {
+              // no jobs found return empty set
               return resolve([]);
             }
           }

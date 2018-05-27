@@ -3,7 +3,6 @@ import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 import { TextInput } from './forms/FormsHelpers';
 
-
 class PostYourBid extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
@@ -22,11 +21,15 @@ class PostYourBid extends React.Component {
     } = this.props;
 
     return (
-      <div className="card">
-        <header className="card-header">
-          <p className="card-header-title">Make a Bid Now</p>
+      <div>
+        <header className="card-header"
+        >
+          <p className="card-header-title">Bid Now</p>
         </header>
-        <div className="card-content">
+        <div
+          style={{ borderLeft: `4px solid rebeccapurple` }}
+          className="card-content"
+        >
           <TextInput
             id="bidAmountField"
             className="input is-focused shadow-drop-center"
@@ -35,7 +38,7 @@ class PostYourBid extends React.Component {
             onBlur={handleBlur}
             label="Enter Your Bid Amount"
             placeholder="enter bid amount E.g 50"
-            helpText="Bid amounts are in CAD"
+            helpText="Bid amounts are in CAD. E.g 50"
             error={touched.bidAmountField && errors.bidAmountField}
             value={values.bidAmountField || ''}
           />
@@ -44,7 +47,7 @@ class PostYourBid extends React.Component {
           <a
             onClick={handleSubmit}
             style={{ borderRadius: 0 }}
-            className="card-footer-item button is-primary"
+            className="card-footer-item button is-primary is-large"
           >
             <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
             Bid Now
@@ -52,7 +55,7 @@ class PostYourBid extends React.Component {
           <a
             onClick={onCancel}
             style={{ borderRadius: 0 }}
-            className="card-footer-item button is-danger"
+            className="card-footer-item button is-danger is-large"
           >
             <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
             Booo
@@ -65,16 +68,16 @@ class PostYourBid extends React.Component {
 
 const EnhancedForms = withFormik({
   initialValues: {
-    hasReviewedDetails: false, // we should have a checkbox to make user review etails
+    hasReviewedDetails: false // we should have a checkbox to make user review etails
   },
   mapPropsToValues: props => {
     return {
-      hasReviewedDetails: false,
+      hasReviewedDetails: false
     };
   },
 
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger
+    debugger;
     props.onSubmit(values);
     setSubmitting(false);
   },

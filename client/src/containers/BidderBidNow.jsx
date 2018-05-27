@@ -59,35 +59,25 @@ class BidderBidNow extends React.Component {
                     a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
                   }}
                 >
-                  Bidder
+                  Bidder Home
                 </a>
               </li>
               <li className="is-active">
-                <a aria-current="page">bidding on - {s_jobDetails.title}</a>
+                <a aria-current="page">Bidding</a>
               </li>
             </ul>
           </nav>
         </div>
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns">
-              <div className="column is-one-third is-clipped">
-                <PostYourBid
-                  onSubmit={values => {
-                    alert('not implemented yet');
-                  }}
-                  onCancel={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
-                  }}
-                />
-              </div>
-
-              <div className="column is-clipped">
+            <div className="columns is-mobile is-centered">
+              <div className="column is-half is-narrow">
                 <JobDetailsReviewCard
                   onSubmit={a_submitBid}
                   onCancel={() =>
                     a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root)
                   }
+                  switchRoute={a_switchRoute}
                   jobDetails={s_jobDetails}
                 />
               </div>
@@ -114,7 +104,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(BidderBidNow);
 
 class JobDetailsReviewCard extends React.Component {
   render() {
-    const { jobDetails } = this.props;
+    const { jobDetails, switchRoute } = this.props;
 
     if (!jobDetails || !jobDetails._ownerId) {
       return null;
@@ -155,6 +145,19 @@ class JobDetailsReviewCard extends React.Component {
         >
           <p className="card-header-title">{title || 'Job Title'} details</p>
         </header>
+        <div className="card-image is-clipped">
+          <figure className="image is-3by1">
+            <img
+              src={
+                templatesRepo[fromTemplateId] &&
+                templatesRepo[fromTemplateId].imageUrl
+                  ? templatesRepo[fromTemplateId].imageUrl
+                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
+              }
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
         <div className="card-content">
           <div className="media">
             <div className="media-left">
@@ -214,21 +217,17 @@ class JobDetailsReviewCard extends React.Component {
                 {detailedDescription || 'not specified'}
               </span>
             </p>
+
           </div>
         </div>
-        <div className="card-image is-clipped">
-          <figure className="image is-3by1">
-            <img
-              src={
-                templatesRepo[fromTemplateId] &&
-                templatesRepo[fromTemplateId].imageUrl
-                  ? templatesRepo[fromTemplateId].imageUrl
-                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-              }
-              alt="Placeholder image"
+        <PostYourBid
+              onSubmit={values => {
+                alert('not implemented yet');
+              }}
+              onCancel={() => {
+                switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+              }}
             />
-          </figure>
-        </div>
       </div>
     );
   }
