@@ -33,7 +33,6 @@ export const TextInput = ({
   iconLeft,
   ...props
 }) => {
-  debugger
   return (
     <div className="field">
       <Label htmlFor={id} error={error}>

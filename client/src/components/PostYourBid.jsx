@@ -77,7 +77,7 @@ const EnhancedForms = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
+    debugger
     props.onSubmit(values);
     setSubmitting(false);
   },
