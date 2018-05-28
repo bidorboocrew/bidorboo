@@ -16,6 +16,9 @@ export const BACKENDROUTES = {
       myjobs: '/job/myjobs',
       alljobs: '/job/alljobs',
       post_search: '/job/search'
+    },
+    BIDDER_ROUTES: {
+    post_a_bid: '/bidder/post_a_bid',
     }
   }
 };

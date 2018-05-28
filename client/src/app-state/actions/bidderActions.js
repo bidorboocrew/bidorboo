@@ -5,7 +5,7 @@ import axios from 'axios';
 export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
   //update store with the job details
   dispatch({
-    type: A.BID_ACTIONS.SELECT_JOB_TO_BID_ON,
+    type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
     payload: {
       jobDetails: jobDetails
     }
@@ -17,16 +17,35 @@ export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
   });
 };
 
-export const submitBid = ({ jobId, bidAmount }) => (dispatch, getState) => {
+export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
   //update store with the job details
   dispatch({
-    type: A.JOB_ACTIONS.SEARCH_JOB,
+    type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.post_search, {
+      .post(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.post_a_bid, {
         data: {
           jobId: jobId,
           bidAmount: bidAmount
         }
+      })
+      .then(resp => {
+        debugger;
+        //rediret user to my bids page
+        dispatch({
+          type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
+          payload: { currentRoute: ROUTES.FRONTENDROUTES.BIDDER.mybids }
+        });
+
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'success',
+              msg: 'You have made your bid. Good Luck!'
+            }
+          }
+        });
+
       })
       .catch(error => {
         dispatch({

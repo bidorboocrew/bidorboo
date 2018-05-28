@@ -102,6 +102,8 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/jobRoutes')(app);
+require('./routes/bidderRoutes')(app);
+
 //my test path
 // require('./routes/zzzzzzzzzzzzzzzzzzz')(app,logger);
 

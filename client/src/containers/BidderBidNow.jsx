@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 
 import { switchRoute } from '../app-state/actions/routerActions';
-import { submitBid } from '../app-state/actions/bidActions';
+import { submitBid } from '../app-state/actions/bidderActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
@@ -74,9 +73,6 @@ class BidderBidNow extends React.Component {
               <div className="column is-half is-narrow">
                 <JobDetailsReviewCard
                   onSubmit={a_submitBid}
-                  onCancel={() =>
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root)
-                  }
                   switchRoute={a_switchRoute}
                   jobDetails={s_jobDetails}
                 />
@@ -104,7 +100,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(BidderBidNow);
 
 class JobDetailsReviewCard extends React.Component {
   render() {
-    const { jobDetails, switchRoute } = this.props;
+    const { jobDetails, switchRoute, onSubmit } = this.props;
 
     if (!jobDetails || !jobDetails._ownerId) {
       return null;
@@ -118,7 +114,7 @@ class JobDetailsReviewCard extends React.Component {
       startingDateAndTime,
       title,
       _ownerId,
-      detailedDescription
+      detailedDescription,
     } = jobDetails;
 
     const { profileImgUrl, displayName } = _ownerId;
@@ -222,7 +218,8 @@ class JobDetailsReviewCard extends React.Component {
         </div>
         <PostYourBid
               onSubmit={values => {
-                alert('not implemented yet');
+                debugger;
+                onSubmit({jobId:_id,bidAmount: values.bidAmountField})
               }}
               onCancel={() => {
                 switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);

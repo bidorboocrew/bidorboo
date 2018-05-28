@@ -20,7 +20,7 @@ import {
 } from '../app-state/actions/jobActions';
 import {
   selectJobToBidOn,
-} from '../app-state/actions/bidActions';
+} from '../app-state/actions/bidderActions';
 
 class BidderRoot extends React.Component {
   constructor(props) {

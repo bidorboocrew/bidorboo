@@ -76,7 +76,7 @@ exports.jobDataAccess = {
             uniqueDocs: true
           }
         };
-        console.log(excludedJobTemplates)
+        console.log(excludedJobTemplates);
         if (excludedJobTemplates && excludedJobTemplates.length > 0) {
           //filter categories of jobs
           geoNearQuery.$geoNear.query = {
@@ -95,7 +95,7 @@ exports.jobDataAccess = {
                 whoSeenThis: 0,
                 properties: 0,
                 extras: 0,
-                _bidsList: 0,
+                _bidsList: 0
               }
             }
           ],
@@ -197,7 +197,6 @@ exports.jobDataAccess = {
       .lean()
       .exec();
   },
-
   isJobOwner: (currentSessionUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerId: 1 })
       .where('_ownerId')

@@ -182,7 +182,7 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    My Jobs
+                    My Posted Jobs
                   </a>
                   <a
                     style={{ marginleft: 4 }}

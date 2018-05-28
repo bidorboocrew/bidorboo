@@ -21,7 +21,7 @@ class PostYourBid extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="is-clipped">
         <header className="card-header"
         >
           <p className="card-header-title">Bid Now</p>
@@ -77,7 +77,6 @@ const EnhancedForms = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger
     props.onSubmit(values);
     setSubmitting(false);
   },

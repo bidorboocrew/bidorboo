@@ -8,7 +8,7 @@ const initialState = {
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
-    case A.BID_ACTIONS.SELECT_JOB_TO_BID_ON:
+    case A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON:
       return {
         ...state,
         jobDetails: payload.jobDetails

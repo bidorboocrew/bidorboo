@@ -37,8 +37,8 @@ export const JOB_ACTIONS = {
 };
 
 
-export const BID_ACTIONS = {
+export const BIDDER_ACTIONS = {
   SELECT_JOB_TO_BID_ON: 'SELECT_JOB_TO_BID_ON',
-  SUBMIT_BID: 'SUBMIT_BID',
+  POST_A_BID: 'POST_A_BID',
 
 };
