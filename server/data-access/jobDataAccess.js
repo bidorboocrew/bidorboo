@@ -57,7 +57,7 @@ exports.jobDataAccess = {
     )
       .populate({
         path: '_ownerId',
-        select: { displayName: 1, profileImgUrl: 1, _id: 0 }
+        select: { displayName: 1, profileImgUrl: 1, _id: 1 }
       })
       .lean(true)
       .exec(); // only works if we pushed refs to children

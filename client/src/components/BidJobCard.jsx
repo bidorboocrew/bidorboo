@@ -36,11 +36,16 @@ class BidJobCard extends React.Component {
     ),
     currentUserId: PropTypes.string,
     switchRoute: PropTypes.func.isRequired,
-    selectJobToBidOn: PropTypes.func.isRequired,
+    selectJobToBidOn: PropTypes.func.isRequired
   };
 
   render() {
-    const { jobsList, switchRoute, currentUserId, selectJobToBidOn } = this.props;
+    const {
+      jobsList,
+      switchRoute,
+      currentUserId,
+      selectJobToBidOn
+    } = this.props;
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
@@ -70,18 +75,20 @@ class BidJobCard extends React.Component {
           </div>
         </React.Fragment>
       );
-    return (
-
-      <React.Fragment>{postedJobsList}</React.Fragment>
-
-    );
+    return <React.Fragment>{postedJobsList}</React.Fragment>;
   }
 }
 
 export default BidJobCard;
 
 const JobCard = props => {
-  const { jobObj, jobCounterIndex, currentUserId, switchRoute, selectJobToBidOn } = props;
+  const {
+    jobObj,
+    jobCounterIndex,
+    currentUserId,
+    switchRoute,
+    selectJobToBidOn
+  } = props;
   return (
     <div className="column is-one-third">
       <SummaryView
@@ -96,7 +103,12 @@ const JobCard = props => {
 
 class SummaryView extends React.Component {
   render() {
-    const { jobCounterIndex, jobObj, currentUserId, selectJobToBidOn } = this.props;
+    const {
+      jobCounterIndex,
+      jobObj,
+      currentUserId,
+      selectJobToBidOn
+    } = this.props;
     const {
       state,
       addressText,
@@ -113,7 +125,6 @@ class SummaryView extends React.Component {
     } = jobObj;
 
     const { profileImgUrl, displayName } = _ownerId;
-
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
     let daysSinceCreated = '';
@@ -201,11 +212,11 @@ class SummaryView extends React.Component {
         {_ownerId._id !== currentUserId && (
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
-              onClick={()=>{
-                selectJobToBidOn(jobObj)
+              onClick={() => {
+                selectJobToBidOn(jobObj);
               }}
               style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth"
+              className="button is-primary is-fullwidth is-large"
             >
               <span style={{ marginLeft: 4 }}>
                 <i className="fas fa-dollar-sign" /> Bid Now
@@ -217,7 +228,7 @@ class SummaryView extends React.Component {
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
               style={{ borderRadius: 0 }}
-              className="button is-static is-fullwidth"
+              className="button is-static is-fullwidth disabled is-large"
             >
               My Job
             </a>
@@ -227,5 +238,3 @@ class SummaryView extends React.Component {
     );
   }
 }
-
-
