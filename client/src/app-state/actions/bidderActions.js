@@ -29,7 +29,6 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
         }
       })
       .then(resp => {
-        debugger;
         //rediret user to my bids page
         dispatch({
           type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,

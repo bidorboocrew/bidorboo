@@ -218,7 +218,6 @@ class JobDetailsReviewCard extends React.Component {
         </div>
         <PostYourBid
               onSubmit={values => {
-                debugger;
                 onSubmit({jobId:_id,bidAmount: values.bidAmountField})
               }}
               onCancel={() => {

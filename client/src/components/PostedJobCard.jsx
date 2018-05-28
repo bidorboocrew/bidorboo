@@ -225,7 +225,6 @@ class SummaryView extends React.Component {
 class BidsTable extends React.Component {
   render() {
     const { bidList, areThereAnyBidders } = this.props;
-    debugger;
     const BidsTable =
       bidList && bidList.map && bidList.length > 0 ? (
         <table className="table  is-fullwidth is-hoverable">
