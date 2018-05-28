@@ -63,7 +63,10 @@ class HomePage extends React.Component {
               <div className="card-header-title">Start posting jobs</div>
 
               <div className="container">
-                <div style={{alignItems:'flex-end'}} className="columns is-multiline">
+                <div
+                  // style={{alignItems:'flex-end'}}
+                  className="columns is-multiline"
+                >
                   <BidOrBooGenericTasks switchRoute={a_switchRoute} />
                 </div>
               </div>

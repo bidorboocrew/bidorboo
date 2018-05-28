@@ -2,7 +2,6 @@ import React from 'react';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
-import autoBind from 'react-autobind';
 import moment from 'moment';
 
 class PostedJobCard extends React.Component {
@@ -66,7 +65,7 @@ class PostedJobCard extends React.Component {
       <section className="section">
         <div className="container">
           <div
-            style={{ alignItems: 'flex-end' }}
+            // style={{ alignItems: 'flex-end' }}
             className="columns is-multiline"
           >
             {MyJobsList}
@@ -224,7 +223,27 @@ class SummaryView extends React.Component {
 
 class BidsTable extends React.Component {
   render() {
-    const { bidList, areThereAnyBidders } = this.props;
+    const { bidList } = this.props;
+
+    const bidsRows =
+      bidList &&
+      bidList.length > 0 &&
+      bidList.map((bid, index) => {
+        return (
+          <tr key={bid._id}>
+            <td>{index}</td>
+            <td>
+              {bid.__bidderId && bid.__bidderId.globalRating
+                ? `${bid.__bidderId.globalRating} stars`
+                : 'No Ratings Yet'}{' '}
+            </td>
+            <td>
+              {bid.bidAmount.value} {bid.bidAmount.currency}
+            </td>
+          </tr>
+        );
+      });
+
     const BidsTable =
       bidList && bidList.map && bidList.length > 0 ? (
         <table className="table  is-fullwidth is-hoverable">
@@ -236,13 +255,7 @@ class BidsTable extends React.Component {
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>5 stars</td>
-              <td>38$</td>
-            </tr>
-          </tbody>
+          <tbody>{bidsRows}</tbody>
         </table>
       ) : (
         <table className="table is-fullwidth">

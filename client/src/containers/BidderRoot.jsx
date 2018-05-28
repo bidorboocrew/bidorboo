@@ -98,7 +98,7 @@ class BidderRoot extends React.Component {
         <section className="mainSectionContainer">
           <div className="container">
             <div
-              style={{ alignItems: 'flex-end' }}
+              // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
               <BidJobCard

@@ -216,8 +216,9 @@ class Header extends React.Component {
                 <div className="navbar-dropdown is-boxed">
                   <a
                     onClick={() => {
-                      alert('My Bids is not implemented yet');
-                    }}
+                      this.closeMenuThenExecute(() => {
+                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
+                      });                    }}
                     style={{ marginleft: 4 }}
                     className="navbar-item"
                   >

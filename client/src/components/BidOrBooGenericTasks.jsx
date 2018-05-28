@@ -15,7 +15,7 @@ class BidOrBooGenericTasks extends React.Component {
       return (
         <div
           key={id}
-          className={'column is-one-quarter bdbCardComponent fade-in'}
+          className={'column is-one-third bdbCardComponent fade-in'}
         >
           <div
             onClick={e => {

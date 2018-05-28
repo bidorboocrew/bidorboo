@@ -35,7 +35,7 @@ class BidderMyBids extends React.Component {
           <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Your Bids
+                My Bids
               </h1>
             </div>
           </div>
