@@ -65,7 +65,12 @@ class PostedJobCard extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          <div style={{alignItems:'flex-end'}} className="columns is-multiline">{MyJobsList}</div>
+          <div
+            style={{ alignItems: 'flex-end' }}
+            className="columns is-multiline"
+          >
+            {MyJobsList}
+          </div>
         </div>
       </section>
     );
@@ -183,19 +188,6 @@ class SummaryView extends React.Component {
             {/* <p className="heading">
               last updated {moment(updatedAt).format('MMMM Do YYYY')}
             </p> */}
-
-            {areThereAnyBidders && (
-              <div className="card">
-                <header className="card-header">
-                  <div
-                    style={{ paddingBottom: 10, paddingTop: 10 }}
-                    className="card-header-title card-content"
-                  >
-                    <span style={{ padding: '0.5rem 0.75rem' }}>Bids</span>
-                  </div>
-                </header>
-              </div>
-            )}
           </div>
         </div>
         <BidsTable
@@ -207,7 +199,7 @@ class SummaryView extends React.Component {
             <a
               disabled
               style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth"
+              className="button is-fullwidth is-large"
             >
               <span style={{ marginLeft: 4 }}>
                 <i className="fa fa-hand-paper" /> Review Bids
@@ -217,7 +209,7 @@ class SummaryView extends React.Component {
           {areThereAnyBidders && (
             <a
               style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth"
+              className="button is-primary is-fullwidth is-large"
             >
               <span style={{ marginLeft: 4 }}>
                 <i className="fa fa-hand-paper" /> Review Bids
@@ -233,10 +225,11 @@ class SummaryView extends React.Component {
 class BidsTable extends React.Component {
   render() {
     const { bidList, areThereAnyBidders } = this.props;
+    debugger;
     const BidsTable =
       bidList && bidList.map && bidList.length > 0 ? (
         <table className="table  is-fullwidth is-hoverable">
-          <thead>
+          <thead style={{ background: '#00d1b2' }}>
             <tr>
               <th>#</th>
               <th>Bidder Rating</th>
@@ -249,37 +242,6 @@ class BidsTable extends React.Component {
               <td>1</td>
               <td>5 stars</td>
               <td>38$</td>
-            </tr>
-            <tr>
-              <td span={3}>
-                {areThereAnyBidders && (
-                  <button
-                    style={{
-                      borderBottom: 'none',
-                      borderRight: 'none',
-                      borderLeft: 'none',
-                      borderRadius: 0
-                    }}
-                    className="button is-outlined is-fullwidth is-large"
-                  >
-                    <span className="title">Review and Award Bids</span>
-                  </button>
-                )}
-                {!areThereAnyBidders && (
-                  <button
-                    disabled
-                    style={{
-                      borderBottom: 'none',
-                      borderRight: 'none',
-                      borderLeft: 'none',
-                      borderRadius: 0
-                    }}
-                    className="button is-outlined is-fullwidth is-large"
-                  >
-                    <span className="title">Review and Award Bids</span>
-                  </button>
-                )}
-              </td>
             </tr>
           </tbody>
         </table>

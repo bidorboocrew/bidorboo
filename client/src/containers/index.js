@@ -6,3 +6,4 @@ export { default as BidderRoot } from './BidderRoot';
 export { default as MyProfile } from './MyProfile';
 export { default as HomePage } from './HomePage';
 export { default as BidderBidNow } from './BidderBidNow';
+export { default as BidderMyBids } from './BidderMyBids';
