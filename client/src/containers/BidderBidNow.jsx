@@ -70,7 +70,9 @@ class BidderBidNow extends React.Component {
         <section className="mainSectionContainer">
           <div className="container">
             <div className="columns is-mobile is-centered">
-              <div className="column is-half is-narrow">
+              <div
+                className="column is-12-mobile
+                          is-8-tablet">
                 <JobDetailsReviewCard
                   onSubmit={a_submitBid}
                   switchRoute={a_switchRoute}
@@ -114,7 +116,7 @@ class JobDetailsReviewCard extends React.Component {
       startingDateAndTime,
       title,
       _ownerId,
-      detailedDescription,
+      detailedDescription
     } = jobDetails;
 
     const { profileImgUrl, displayName } = _ownerId;
@@ -213,17 +215,16 @@ class JobDetailsReviewCard extends React.Component {
                 {detailedDescription || 'not specified'}
               </span>
             </p>
-
           </div>
         </div>
         <PostYourBid
-              onSubmit={values => {
-                onSubmit({jobId:_id,bidAmount: values.bidAmountField})
-              }}
-              onCancel={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
-              }}
-            />
+          onSubmit={values => {
+            onSubmit({ jobId: _id, bidAmount: values.bidAmountField });
+          }}
+          onCancel={() => {
+            switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+          }}
+        />
       </div>
     );
   }
