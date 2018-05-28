@@ -17,7 +17,7 @@ module.exports = {
       post_search: '/job/search'
     },
     BIDDER_ROUTES: {
-      post_a_bid: '/bidder/post_a_bid',
+      post_a_bid: '/bids/post_a_bid',
     }
   },
   FRONTEND: {

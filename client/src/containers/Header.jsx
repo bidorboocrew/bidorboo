@@ -218,7 +218,8 @@ class Header extends React.Component {
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
                         a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
-                      });                    }}
+                      });
+                    }}
                     style={{ marginleft: 4 }}
                     className="navbar-item"
                   >

@@ -15,7 +15,7 @@
     "/job/*": {
       "target": "http://localhost:5000"
     },
-    "/bidder/*": {
+    "/bids/*": {
       "target": "http://localhost:5000"
     },
     "/errorRoute": {

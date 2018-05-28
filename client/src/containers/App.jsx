@@ -70,7 +70,6 @@ class App extends React.Component {
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <section>
-              {/* xxxx create new loading bar  with margin top if you are in hd full screen mode */}
               <LoadingBar
                 style={{
                   zIndex: 10001,
@@ -176,7 +175,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         const { isLoggedIn } = { ...rest };
-        return true ? (
+        return isLoggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect to={`${ROUTES.FRONTENDROUTES.HOME}/true`} />
