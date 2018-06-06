@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Spinner } from '../components/Spinner';
 import { switchRoute } from '../app-state/actions/routerActions';
 
-import { getAllMyBids } from '../app-state/actions/bidderActions';
+import { getAllMyBids } from '../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../client-server-interfaces';
 import MyBidsCard from '../components/MyBidsCard'
 class BidderMyBids extends React.Component {

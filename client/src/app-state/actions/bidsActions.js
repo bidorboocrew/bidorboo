@@ -44,7 +44,6 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
             }
           }
         });
-
       })
       .catch(error => {
         dispatch({
@@ -69,6 +68,21 @@ export const getAllMyBids = () => (dispatch, getState) => {
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
     payload: axios
-    .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.get_all_my_bids)
+      .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.get_all_my_bids)
+      .catch(error => {
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'Sorry That did not work, Please try again later.\n' +
+                (error && error.response && error.response.data
+                  ? error.response.data
+                  : error)
+            }
+          }
+        });
+      })
   });
 };

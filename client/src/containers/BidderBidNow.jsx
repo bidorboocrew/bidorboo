@@ -5,7 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { switchRoute } from '../app-state/actions/routerActions';
-import { submitBid } from '../app-state/actions/bidderActions';
+import { submitBid } from '../app-state/actions/bidsActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
