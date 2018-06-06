@@ -108,7 +108,6 @@ class JobDetailsReviewCard extends React.Component {
       return null;
     }
     const {
-      state,
       _id,
       createdAt,
       fromTemplateId,

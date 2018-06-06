@@ -63,3 +63,12 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
       })
   });
 };
+
+export const getAllMyBids = () => (dispatch, getState) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
+    payload: axios
+    .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.get_all_my_bids)
+  });
+};

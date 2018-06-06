@@ -18,7 +18,8 @@ export const BACKENDROUTES = {
       post_search: '/job/search'
     },
     BIDDER_ROUTES: {
-    post_a_bid: '/bids/post_a_bid',
+      post_a_bid: '/bids/post_a_bid',
+      get_all_my_bids: '/bids/get_all_my_bids',
     }
   }
 };

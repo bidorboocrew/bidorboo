@@ -1,33 +1,38 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../components/Spinner';
 import { switchRoute } from '../app-state/actions/routerActions';
-import {
-  getAllPostedJobs,
-  searchByLocation
-} from '../app-state/actions/jobActions';
-import {
-  selectJobToBidOn,
-} from '../app-state/actions/bidderActions';
 
+import { getAllMyBids } from '../app-state/actions/bidderActions';
+import { Proptypes_bidModel } from '../client-server-interfaces';
+import MyBidsCard from '../components/MyBidsCard'
 class BidderMyBids extends React.Component {
-  constructor(props) {
-    super(props);
-    //render map only after we show everything
-    this.state = { address: '' };
-  }
-
+  static propTypes = {
+    s_isLoading: PropTypes.bool,
+    s_bidsList: PropTypes.arrayOf(Proptypes_bidModel)
+  };
   componentDidMount() {
     window.scrollTo(0, 0);
     // get all posted bids
-    // this.props.a_getAllPostedJobs();
+    this.props.a_getAllPostedBids();
   }
 
   render() {
+    const { s_isLoading, s_bidsList } = this.props;
+    if (s_bidsList && s_bidsList.length > 0) {
+    }
+    const bidsList =
+      s_bidsList && s_bidsList.length > 0 ? (
+        s_bidsList.map(bidDetails => {
+          return <MyBidsCard key={bidDetails._id} bidDetails={bidDetails} />;
+        })
+      ) : (
+        <div>You have not bid yet click here to start bidding</div>
+      );
 
     return (
       <div className="slide-in-left" id="bdb-bidder-my-bids">
@@ -41,31 +46,33 @@ class BidderMyBids extends React.Component {
           </div>
         </section>
         <section className="mainSectionContainer">
-         here we start bidder view
+          {s_isLoading && (
+            <div className="container">
+              <Spinner isLoading={s_isLoading} size={'large'} />
+            </div>
+          )}
+          {!s_isLoading && <div className="container">{bidsList}</div>}
         </section>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
+const mapStateToProps = ({ bidsReducer }) => {
   return {
-    s_error: jobsReducer.error,
-    s_isLoading: jobsReducer.isLoading,
-    s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
-    s_mapCenterPoint: jobsReducer.mapCenterPoint,
-    s_userDetails: userModelReducer.userDetails
+    s_bidsList: bidsReducer.bidsList,
+    s_isLoading: bidsReducer.isLoadingBids
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
-    a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
-    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
-
+    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BidderMyBids);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BidderMyBids);

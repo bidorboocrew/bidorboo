@@ -145,6 +145,13 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   box-shadow: $shadow-space !important;
 }
 
+.myBidsCard{
+  box-shadow: $shadow-space;
+  background: white;
+  border: $border-divider;
+  padding: 10px;
+}
+
 .bidJobCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
