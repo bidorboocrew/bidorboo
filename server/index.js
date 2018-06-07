@@ -133,6 +133,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
 process.on('SIGINT', function() {
+  console.log('=== safe shut down ==== bid or boo ');
   mongoose.connection.close(() => {
     console.log(
       'Mongoose default connection is disconnected due to application termination'
