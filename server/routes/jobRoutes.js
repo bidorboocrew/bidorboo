@@ -10,7 +10,7 @@ module.exports = app => {
     ROUTES.USERAPI.JOB_ROUTES.myjobs,
     requireBidorBooHost,
     requireLogin,
-    async (req, res, done) => {
+    async (req, res) => {
       try {
         userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
         res.send(userJobsList);
@@ -24,7 +24,7 @@ module.exports = app => {
     ROUTES.USERAPI.JOB_ROUTES.alljobs,
     requireBidorBooHost,
     requireLogin,
-    async (req, res, done) => {
+    async (req, res) => {
       try {
         userJobsList = await jobDataAccess.getAllPostedJobs();
         res.send(userJobsList);
@@ -41,8 +41,7 @@ module.exports = app => {
       try {
         const searchParams = req.body.data.searchParams;
         if (!searchParams) {
-          res.send({ Error: 'JobId search params were Not Specified' });
-          return done(null, null);
+          return res.send({ Error: 'JobId search params were Not Specified' });
         }
 
 
@@ -51,19 +50,17 @@ module.exports = app => {
           searchRaduisInMeters: searchParams.searchRaduis,
           excludedJobTemplates: searchParams.excludedJobTemplates
         };
-        let searchResults;
 
         existingJob = await jobDataAccess.getJobsNear(searchQuery);
         if (existingJob) {
-          res.send(existingJob);
+          return res.send(existingJob);
         } else {
-          res.send({ Error: 'JobId Was Not Specified' });
+          return res.send({ Error: 'JobId Was Not Specified' });
         }
 
         done(null, existingJob);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-        done(e, null);
       }
     }
   );
@@ -75,23 +72,21 @@ module.exports = app => {
       try {
         const requestedJobId = req.params.jobId;
         if (!requestedJobId) {
-          res.send({ Error: 'JobId Was Not Specified' });
-          done(null, null);
+          return res.send({ Error: 'JobId Was Not Specified' });
         }
 
         let existingJob = null;
 
         existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
         if (existingJob) {
-          res.send(existingJob);
+          return res.send(existingJob);
         } else {
-          res.send({ Error: 'JobId Was Not Specified' });
+          return res.send({ Error: 'JobId Was Not Specified' });
         }
 
         done(null, existingJob);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-        done(e, null);
       }
     }
   );
@@ -99,7 +94,7 @@ module.exports = app => {
   app.post(
     ROUTES.USERAPI.JOB_ROUTES.myjobs,
     requireLogin,
-    async (req, res, done) => {
+    async (req, res) => {
       try {
         // create new job for this user
         const data = req.body.data;
@@ -113,7 +108,6 @@ module.exports = app => {
           userId
         );
         res.send(newJob);
-        done(null, newJob);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
@@ -124,7 +118,7 @@ module.exports = app => {
     ROUTES.USERAPI.JOB_ROUTES,
     requireLogin,
     isJobOwner,
-    async (req, res, done) => {
+    async (req, res) => {
       // you must ensure that they are the owners before allowing them to modify an existing job
       try {
         // create new job for this user
@@ -138,8 +132,7 @@ module.exports = app => {
           newJobDetails,
           options
         );
-        res.send(newJob);
-        done(null, newJob);
+        return res.send(newJob);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }

@@ -1,10 +1,3 @@
-const passport = require('passport');
-const bodyParser = require('body-parser');
-// create application/json parser
-const jsonParser = bodyParser.json();
-// create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
 const userDataAccess = require('../data-access/userDataAccess');
 const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
@@ -17,20 +10,19 @@ module.exports = app => {
       if (req.user) {
         existingUser = await userDataAccess.findOneByUserId(req.user.userId);
         if (existingUser) {
-          res.send(existingUser);
+          return res.send(existingUser);
         }
       }
       done(null, existingUser);
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      done(e, null);
+      return res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
   });
 
   app.put(
     ROUTES.USERAPI.PUT_UPDATE_PROFILE_DETAILS,
     requireLogin,
-    async (req, res, done) => {
+    async (req, res) => {
       try {
         const newProfileDetails = req.body.data;
         const userId = req.user.userId;
@@ -48,42 +40,11 @@ module.exports = app => {
           newProfileDetails,
           options
         );
-        res.send(userAfterUpdates);
-        done(null, userAfterUpdates);
+        return res.send(userAfterUpdates);
       } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-        done(e, null);
+        return res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
     }
   );
 
-  //---------------ANDROIND SPECIFIC----------------
-  app.post(
-    '/mobile/googleauth/loginOrRegister',
-    jsonParser,
-    async (req, res, done) => {
-      const { profile } = req.body;
-      try {
-        const existingUser = await userDataAccess.findOneByUserId(profile.id);
-        if (existingUser) {
-          res.send(existingUser);
-          done(null, existingUser);
-        }
-
-        const userDetails = {
-          userId: profile.id,
-          email: profile.email,
-          profileImgUrl: profile.photo ? profile.photo : 'https://goo.gl/92gqPL'
-        };
-
-        const user = await userDataAccess.createNewUser(userDetails);
-        res.send(existingUser);
-        done(null, user);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-        done(e, null);
-      }
-    }
-  );
-  //---------------ANDROIND SPECIFIC----------------
 };
