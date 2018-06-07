@@ -175,7 +175,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         const { isLoggedIn } = { ...rest };
-        return true ? (
+        return isLoggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect to={`${ROUTES.FRONTENDROUTES.HOME}/true`} />
