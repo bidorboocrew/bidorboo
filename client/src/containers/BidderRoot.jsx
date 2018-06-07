@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../components/Spinner';
-import BidJobCard from '../components/BidJobCard';
+import PostedJobsToBidOnCard from '../components/PostedJobsToBidOnCard';
 import SearchForm from '../components/forms/SearchForm';
 
 // import PlacesAutocomplete, {
@@ -101,7 +101,7 @@ class BidderRoot extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <BidJobCard
+              <PostedJobsToBidOnCard
                 currentUserId={s_userDetails._id}
                 switchRoute={a_switchRoute}
                 selectJobToBidOn={a_selectJobToBidOn}

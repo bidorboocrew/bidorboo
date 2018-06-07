@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
-import { TextInput } from './forms/FormsHelpers';
+import { TextInput } from './FormsHelpers';
 
 class PostYourBid extends React.Component {
   static propTypes = {

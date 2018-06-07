@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
 import moment from 'moment';
 
-class BidJobCard extends React.Component {
+export default class PostedJobsToBidOnCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(
@@ -79,14 +79,12 @@ class BidJobCard extends React.Component {
   }
 }
 
-export default BidJobCard;
 
 const JobCard = props => {
   const {
     jobObj,
     jobCounterIndex,
     currentUserId,
-    switchRoute,
     selectJobToBidOn
   } = props;
   return (
@@ -110,14 +108,8 @@ class SummaryView extends React.Component {
       selectJobToBidOn
     } = this.props;
     const {
-      state,
-      addressText,
-      durationOfJob,
-      location,
       startingDateAndTime,
       title,
-      updatedAt,
-      whoSeenThis,
       createdAt,
       _bidsList,
       fromTemplateId,
@@ -143,7 +135,7 @@ class SummaryView extends React.Component {
     }
 
     return (
-      <div className="card bidJobCard  is-clipped">
+      <div className="card postedJobToBidOnCard  is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"

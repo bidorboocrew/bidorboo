@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { getAllMyJobs } from '../app-state/actions/jobActions';
 import { switchRoute } from '../app-state/actions/routerActions';
-import PostedJobCard from '../components/PostedJobCard';
+import MyPostedJobCard from '../components/MyPostedJobCard';
 
 class ProposerMyJobs extends React.Component {
   componentDidMount() {
@@ -33,7 +33,7 @@ class ProposerMyJobs extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <PostedJobCard
+              <MyPostedJobCard
                 userDetails={s_userDetails}
                 switchRoute={a_switchRoute}
                 jobsList={s_myPostedJobsList}

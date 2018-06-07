@@ -2,7 +2,7 @@ import React from 'react';
 import NewJobForm from './forms/NewJobForm';
 import PropTypes from 'prop-types';
 
-export class CreateJobDetailsCard extends React.Component {
+export class AddJobWithDetailsCard extends React.Component {
   static propTypes = {
     jobDetails: PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -34,9 +34,6 @@ export class CreateJobDetailsCard extends React.Component {
         <div style={{ marginTop: '1rem' }} className="card slide-in-left">
           <div className="card-content">
             <h1 className="title">
-              {/* <span className="icon">
-                <i style={{ fontSize: 24 }} className="fas fa-snowflake title" />
-              </span> */}
               {jobDetails.title} Request
             </h1>
             <div style={{ marginTop: 8 }}>
@@ -46,11 +43,6 @@ export class CreateJobDetailsCard extends React.Component {
                 onCancel={onCancel}
                 onSubmit={vals => onSubmit(vals)}
               />
-              {/* <div style={{ marginTop: 8 }} >
-                <figure className="image">
-                  <img  src={this.props.imageUrl} alt={jobDetails.title} />
-                </figure>
-              </div> */}
             </div>
           </div>
         </div>

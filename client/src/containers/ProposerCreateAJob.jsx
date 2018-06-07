@@ -4,7 +4,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../app-state/actions/routerActions';
 import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
-import { CreateJobDetailsCard } from '../components/CreateJobDetailsCard';
+import { AddJobWithDetailsCard } from '../components/AddJobWithDetailsCard';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { routerActions } from 'react-router-redux';
 import { addJob } from '../app-state/actions/jobActions';
@@ -49,7 +49,7 @@ class ProposerCreateAJob extends React.Component {
     return (
       <section className="mainSectionContainer slide-in-left">
         <div className="container" id="bdb-proposer-content">
-          <CreateJobDetailsCard
+          <AddJobWithDetailsCard
             jobDetails={jobDetails}
             onCancel={this.goBack}
             onSubmit={this.handleSubmit}

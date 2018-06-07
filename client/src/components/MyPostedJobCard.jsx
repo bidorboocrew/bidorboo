@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
 import moment from 'moment';
 
-class PostedJobCard extends React.Component {
+class MyPostedJobCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(
@@ -76,7 +76,7 @@ class PostedJobCard extends React.Component {
   }
 }
 
-export default PostedJobCard;
+export default MyPostedJobCard;
 
 const JobCard = props => {
   const { jobObj, jobCounterIndex, userDetails } = props;
@@ -95,14 +95,8 @@ class SummaryView extends React.Component {
   render() {
     const { jobCounterIndex, userDetails, jobObj } = this.props;
     const {
-      state,
-      addressText,
-      durationOfJob,
-      location,
       startingDateAndTime,
       title,
-      updatedAt,
-      whoSeenThis,
       createdAt,
       _bidsList,
       fromTemplateId
@@ -112,11 +106,6 @@ class SummaryView extends React.Component {
       profileImgUrl,
       displayName,
       email,
-      // address,
-      personalParagraph,
-      // creditCards,
-      membershipStatus,
-      phoneNumber
     } = userDetails;
 
     const areThereAnyBidders =
@@ -278,47 +267,47 @@ class BidsTable extends React.Component {
   }
 }
 
-class DetailedView extends React.Component {
-  render() {
-    const {
-      state,
-      addressText,
-      durationOfJob,
-      location,
-      startingDateAndTime,
-      title,
-      updatedAt,
-      whoSeenThis,
-      createdAt,
-      _bidsList,
-      _ownerId,
-      _id
-    } = this.props.jobObj;
+// class DetailedView extends React.Component {
+//   render() {
+//     const {
+//       state,
+//       addressText,
+//       durationOfJob,
+//       location,
+//       startingDateAndTime,
+//       title,
+//       updatedAt,
+//       whoSeenThis,
+//       createdAt,
+//       _bidsList,
+//       _ownerId,
+//       _id
+//     } = this.props.jobObj;
 
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <div> Development view , details </div>
-            <div>state : {state}</div>
-            <div>addressText : {addressText}</div>
-            <div>durationOfJob : {durationOfJob}</div>
-            <div>location : {JSON.stringify(location)}</div>
-            <div>title : {title}</div>
-            <div>whoSeenThis : {JSON.stringify(whoSeenThis)}</div>
-            <div>updatedAt : {updatedAt}</div>
-            <div>_bidsList : {JSON.stringify(_bidsList)}</div>
-            <div>_ownerId : {JSON.stringify(_ownerId)}</div>
-            <div>jobId : {JSON.stringify(_id)}</div>
-          </div>
-        </div>
-        <footer className="card-footer">
-          <div>
-            this is a dev view only and will be replaced with more user friendly
-            details soon
-          </div>
-        </footer>
-      </div>
-    );
-  }
-}
+//     return (
+//       <div className="card">
+//         <div className="card-content">
+//           <div className="content">
+//             <div> Development view , details </div>
+//             <div>state : {state}</div>
+//             <div>addressText : {addressText}</div>
+//             <div>durationOfJob : {durationOfJob}</div>
+//             <div>location : {JSON.stringify(location)}</div>
+//             <div>title : {title}</div>
+//             <div>whoSeenThis : {JSON.stringify(whoSeenThis)}</div>
+//             <div>updatedAt : {updatedAt}</div>
+//             <div>_bidsList : {JSON.stringify(_bidsList)}</div>
+//             <div>_ownerId : {JSON.stringify(_ownerId)}</div>
+//             <div>jobId : {JSON.stringify(_id)}</div>
+//           </div>
+//         </div>
+//         <footer className="card-footer">
+//           <div>
+//             this is a dev view only and will be replaced with more user friendly
+//             details soon
+//           </div>
+//         </footer>
+//       </div>
+//     );
+//   }
+// }
