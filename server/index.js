@@ -138,7 +138,6 @@ process.on('SIGINT', function() {
     console.log(
       'Mongoose default connection is disconnected due to application termination'
     );
-    //XXXXXX add more logic to show site is under maintainance  banner if this happen
     process.exit(0);
   });
 });

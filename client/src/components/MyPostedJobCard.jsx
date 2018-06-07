@@ -142,7 +142,7 @@ class SummaryView extends React.Component {
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
               }
-              alt="Placeholder image"
+              alt="Placeholder"
             />
           </figure>
         </div>
