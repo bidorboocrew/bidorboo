@@ -61,7 +61,15 @@ class HomePage extends React.Component {
         <section className="mainSectionContainer">
           <Fade left>
             <div className="container">
-              <div className="card-header-title">Start posting jobs</div>
+              <div className="has-text-centered">
+                <div className="card-header-title has-text-grey-dark is-title">
+                  <i
+                    style={{ marginRight: 4 }}
+                    className="fa fa-plus fa-w-14"
+                  />
+                  <span> Start posting jobs</span>
+                </div>
+              </div>
               <div className="container">
                 <div
                   // style={{alignItems:'flex-end'}}
@@ -76,15 +84,17 @@ class HomePage extends React.Component {
 
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="card-header-title">Start Bidding on jobs</div>
-
-            <div style={{ marginTop: '0.45rem' }}>
-              <BidderMapSection
-                selectJobToBidOn={a_selectJobToBidOn}
-                mapCenterPoint={s_mapCenterPoint}
-                jobsList={s_allThePostedJobsList}
-              />
+            <div className="has-text-centered">
+              <div className="card-header-title has-text-grey-dark is-title">
+                <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+                <span> Start Bidding on jobs</span>
+              </div>
             </div>
+            <BidderMapSection
+              selectJobToBidOn={a_selectJobToBidOn}
+              mapCenterPoint={s_mapCenterPoint}
+              jobsList={s_allThePostedJobsList}
+            />
           </div>
         </section>
       </div>
