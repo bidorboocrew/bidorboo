@@ -24,7 +24,6 @@ class PostYourBid extends React.Component {
       <div className="card is-clipped">
         <header className="card-header">
           <p className="card-header-title">
-
             <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
             Bid Now
           </p>

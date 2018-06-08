@@ -7,3 +7,5 @@ export { default as MyProfile } from './MyProfile';
 export { default as HomePage } from './HomePage';
 export { default as BidderBidNow } from './BidderBidNow';
 export { default as BidderMyBids } from './BidderMyBids';
+export { default as ProposerCurrentAddedJob } from './ProposerCurrentAddedJob';
+export { default as BidderCurrentPostedBid } from './BidderCurrentPostedBid';

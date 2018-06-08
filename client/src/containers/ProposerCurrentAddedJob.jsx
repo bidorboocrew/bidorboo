@@ -8,7 +8,7 @@ import { AddJobWithDetailsCard } from '../components/AddJobWithDetailsCard';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { routerActions } from 'react-router-redux';
 import { addJob } from '../app-state/actions/jobActions';
-class ProposerCreateAJob extends React.Component {
+class ProposerCurrentAddedJob extends React.Component {
   constructor(props) {
     super(props);
 
@@ -65,4 +65,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProposerCreateAJob);
+export default connect(null, mapDispatchToProps)(ProposerCurrentAddedJob);

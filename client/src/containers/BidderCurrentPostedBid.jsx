@@ -10,7 +10,7 @@ import { switchRoute } from '../app-state/actions/routerActions';
 import { getAllMyBids } from '../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../client-server-interfaces';
 import MyBidsCard from '../components/MyBidsCard'
-class BidderMyBids extends React.Component {
+class BidderCurrentPostedBid extends React.Component {
   static propTypes = {
     s_isLoading: PropTypes.bool,
     s_bidsList: PropTypes.arrayOf(Proptypes_bidModel)
@@ -74,4 +74,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BidderMyBids);
+)(BidderCurrentPostedBid);

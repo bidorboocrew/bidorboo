@@ -22,7 +22,9 @@ import {
   BidderRoot,
   MyProfile,
   BidderBidNow,
-  BidderMyBids
+  BidderMyBids,
+  ProposerCurrentAddedJob,
+  BidderCurrentPostedBid
 } from './index';
 
 class App extends React.Component {
@@ -118,6 +120,12 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
+                  path={ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob}
+                  component={ProposerCurrentAddedJob}
+                />
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
+                  exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.root}
                   component={BidderRoot}
                 />
@@ -132,6 +140,12 @@ class App extends React.Component {
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.mybids}
                   component={BidderMyBids}
+                />
+                <ProtectedRoute
+                  isLoggedIn={s_isLoggedIn}
+                  exact
+                  path={ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid}
+                  component={BidderCurrentPostedBid}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
@@ -162,7 +176,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
 
 /**
  * this will ensure that you dont enter a route unless you are auth

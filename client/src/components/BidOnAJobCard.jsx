@@ -49,7 +49,6 @@ export default class BidOnAJobCard extends React.Component {
             switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
           }}
         />
-
         <div className="card">
           <header
             style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

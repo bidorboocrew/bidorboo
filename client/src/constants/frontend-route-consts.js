@@ -16,11 +16,10 @@ export const BACKENDROUTES = {
       myjobs: '/job/myjobs',
       alljobs: '/job/alljobs',
       postASearch: '/job/search',
-      currentJob: '/job/current-job'
     },
     BIDDER_ROUTES: {
-      postABid: '/bids/post-a-bid',
-      getAllMyBids: '/bids/get-all-my-bids',
+      postABid: '/bids/post_a_bid',
+      getAllMyBids: '/bids/get_all_my_bids',
     }
   }
 };
@@ -30,12 +29,14 @@ export const FRONTENDROUTES = {
   PROPOSER: {
     root: '/proposer',
     createjob: '/proposer/create-job',
-    myjobs: '/proposer/my-jobs'
+    myjobs: '/proposer/my-jobs',
+    currentPostedJob: '/job/current-posted-job'
   },
   BIDDER: {
     root: '/bidder',
     bidNow: '/bidder/bid-now',
-    mybids: '/bidder/my-bids'
+    mybids: '/bidder/my-bids',
+    currentPostedBid: '/bids/current-posted-bid'
   },
   MY_PROFILE: '/my-profile'
 };

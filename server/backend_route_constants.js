@@ -17,8 +17,8 @@ module.exports = {
       postASearch: '/job/search'
     },
     BIDDER_ROUTES: {
-      postABid: '/bids/post-a-bid',
-      getAllMyBids: '/bids/get-all-my-bids'
+      postABid: '/bids/post_a_bid',
+      getAllMyBids: '/bids/get_all_my_bids'
     }
   },
   FRONTEND: {
