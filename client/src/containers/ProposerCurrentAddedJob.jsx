@@ -9,50 +9,38 @@ import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { routerActions } from 'react-router-redux';
 import { addJob } from '../app-state/actions/jobActions';
 class ProposerCurrentAddedJob extends React.Component {
-  constructor(props) {
-    super(props);
-
-    let templateToStartWith= null;
-    if(props.match && props.match.params && props.match.params.templateId){
-      templateToStartWith = templatesRepo[props.match.params.templateId];
-    }
-
-    this.state = {
-      chosenTemplate: templateToStartWith
-    };
-    autoBind(this, 'goBack', 'handleSubmit');
-  }
-
-  goBack(e) {
-    // const { a_routerActions } = this.props;
-    e.preventDefault();
-    // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
-    // this.props.a_routerActions.goBack();
-
-    // until then
-    this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-  }
-
   componentDidMount() {
     window.scrollTo(0, 0);
   }
   render() {
-    const jobDetails = {
-      title: this.state.chosenTemplate.title,
-      imageUrl: this.state.chosenTemplate.imageUrl,
-      id: this.state.chosenTemplate.id
-    };
+    const { a_switchRoute } = this.props;
 
     return (
-      <section className="mainSectionContainer slide-in-left">
-        <div className="container" id="bdb-proposer-content">
-          <AddJobWithDetailsCard
-            jobDetails={jobDetails}
-            onCancel={this.goBack}
-            onSubmit={this.handleSubmit}
-          />
+      <React.Fragment>
+        <div style={{ marginTop: '1rem' }} className="container">
+          <nav className="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li>
+                <a
+                  onClick={() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.myjobs);
+                  }}
+                >
+                  My Jobs
+                </a>
+              </li>
+              <li className="is-active">
+                <a aria-current="page">Current Job</a>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </section>
+        <section className="mainSectionContainer slide-in-left">
+          <div className="container" id="bdb-proposer-content">
+            details about your posted job
+          </div>
+        </section>
+      </React.Fragment>
     );
   }
 }
@@ -65,4 +53,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProposerCurrentAddedJob);
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProposerCurrentAddedJob);

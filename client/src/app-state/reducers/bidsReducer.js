@@ -7,7 +7,7 @@ const initialState = {
   bidsList: [],
   isLoadingBids: false,
   getBidsErrorMsg: '',
-  recentlyAddedBid: {}
+  recentlyUpdatedBid: {}
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -41,10 +41,8 @@ export default function(state = initialState, { type, payload }) {
         getBidsErrorMsg: getBidsErrorMsg
       };
 
-      case A.BIDDER_ACTIONS.RECENTLY_ADDED_BIDS:
-
-      return {...state,recentlyAddedBid: payload.data };
-
+    case A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS:
+      return { ...state, recentlyUpdatedBid: payload.data };
 
     default:
       return state;

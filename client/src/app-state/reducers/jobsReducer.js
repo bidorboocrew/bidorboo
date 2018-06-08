@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
-  recentlyAddedJob: {}
+  recentlyUpdatedJob: {}
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -60,8 +60,8 @@ export default function(state = initialState, { type, payload }) {
           : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
       return { ...state, error: searchJobsError, isLoading: false };
     // --------------------------------------------
-    case A.JOB_ACTIONS.RECENTLY_ADDED_JOB:
-      return { ...state, recentlyAddedJob: payload.data };
+    case A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS:
+      return { ...state, recentlyUpdatedJob: payload.data };
 
     default:
       return state;

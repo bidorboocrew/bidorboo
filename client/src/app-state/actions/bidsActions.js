@@ -29,21 +29,30 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
         }
       })
       .then(resp => {
-        //rediret user to my bids page
-        dispatch({
-          type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-          payload: { currentRoute: ROUTES.FRONTENDROUTES.BIDDER.mybids }
-        });
-
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'success',
-              msg: 'You have made your bid. Good Luck!'
+        // update recently added job
+        if (resp.data && resp.data._id) {
+          dispatch({
+            type: A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS,
+            payload: { data: resp.data }
+          });
+          //rediret user to the current bid
+          dispatch({
+            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
+            payload: {
+              currentRoute: ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid
             }
-          }
-        });
+          });
+
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'You have made your bid. Good Luck!'
+              }
+            }
+          });
+        }
       })
       .catch(error => {
         dispatch({

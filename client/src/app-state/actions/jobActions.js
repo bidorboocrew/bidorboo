@@ -207,13 +207,15 @@ export const addJob = jobDetails => dispatch => {
         if (resp.data && resp.data._id) {
           // update recently added job
           dispatch({
-            type: A.JOB_ACTIONS.RECENTLY_ADDED_JOB,
+            type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
             payload: { data: resp.data }
           });
           // switch route to show the currently added job
           dispatch({
             type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: { currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.myjobs }
+            payload: {
+              currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob
+            }
           });
           // show notification of new job
           dispatch({
