@@ -23,7 +23,6 @@ module.exports = app => {
   app.get(
     ROUTES.USERAPI.JOB_ROUTES.alljobs,
     requireBidorBooHost,
-    requireLogin,
     async (req, res) => {
       try {
         userJobsList = await jobDataAccess.getAllPostedJobs();
@@ -36,6 +35,7 @@ module.exports = app => {
 
   app.post(
     `${ROUTES.USERAPI.JOB_ROUTES.post_search}`,
+    requireBidorBooHost,
     requireLogin,
     async (req, res, done) => {
       try {
