@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
 import Rotate from 'react-reveal/Rotate';
-import Fade from 'react-reveal/Fade';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -45,7 +44,7 @@ class HomePage extends React.Component {
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <Rotate top left cascade>
+              <Rotate delay={300} top left cascade>
                 <h1 style={{ color: 'white' }} className="title">
                   BidOrBoo
                 </h1>
@@ -59,8 +58,7 @@ class HomePage extends React.Component {
         </section>
 
         <section className="mainSectionContainer">
-          <Fade left>
-            <div className="container">
+            <div className="container slide-in-left">
               <div className="has-text-centered">
                 <div className="card-header-title has-text-grey-dark is-title">
                   <i
@@ -79,11 +77,10 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </div>
-          </Fade>
         </section>
 
         <section className="mainSectionContainer">
-          <div className="container">
+          <div className="container slide-in-left">
             <div className="has-text-centered">
               <div className="card-header-title has-text-grey-dark is-title">
                 <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
