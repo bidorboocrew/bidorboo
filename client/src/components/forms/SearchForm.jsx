@@ -16,10 +16,6 @@ import { withFormik } from 'formik';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   GeoAddressInput,
-  TextAreaInput,
-  TextInput,
-  DateInput,
-  TimeInput
 } from './FormsHelpers';
 
 // for reverse geocoding , get address from lat lng
@@ -92,10 +88,8 @@ class SearchForm extends React.Component {
       values,
       touched,
       errors,
-      handleChange,
       handleBlur,
       handleSubmit,
-      onCancel,
       isValid,
       isSubmitting,
       setFieldValue,
