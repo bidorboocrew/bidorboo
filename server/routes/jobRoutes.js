@@ -34,7 +34,7 @@ module.exports = app => {
   );
 
   app.post(
-    `${ROUTES.USERAPI.JOB_ROUTES.post_search}`,
+    `${ROUTES.USERAPI.JOB_ROUTES.postASearch}`,
     requireBidorBooHost,
     requireLogin,
     async (req, res, done) => {

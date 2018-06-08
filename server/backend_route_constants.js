@@ -14,26 +14,26 @@ module.exports = {
     JOB_ROUTES: {
       myjobs: '/job/myjobs',
       alljobs: '/job/alljobs',
-      post_search: '/job/search'
+      postASearch: '/job/search'
     },
     BIDDER_ROUTES: {
-      post_a_bid: '/bids/post_a_bid',
-      get_all_my_bids: '/bids/get_all_my_bids',
+      postABid: '/bids/post-a-bid',
+      getAllMyBids: '/bids/get-all-my-bids'
     }
   },
   FRONTEND: {
     ENTRY: '/',
     HOME: '/home',
-    MY_PROFILE: '/myprofile',
     PROPOSER: {
       root: '/proposer',
-      createjob: '/proposer/createjob',
-      myjobs: '/proposer/myjobs'
+      createjob: '/proposer/create-job',
+      myjobs: '/proposer/my-jobs'
     },
     BIDDER: {
       root: '/bidder',
-      createbid: '/bidder/createbid',
-      mybids: '/bidder/mybids'
-    }
+      bidNow: '/bidder/bid-now',
+      mybids: '/bidder/my-bids'
+    },
+    MY_PROFILE: '/my-profile'
   }
 };

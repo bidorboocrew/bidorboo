@@ -21,10 +21,13 @@ class PostYourBid extends React.Component {
     } = this.props;
 
     return (
-      <div className="is-clipped">
-        <header className="card-header"
-        >
-          <p className="card-header-title">Bid Now</p>
+      <div className="card is-clipped">
+        <header className="card-header">
+          <p className="card-header-title">
+
+            <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+            Bid Now
+          </p>
         </header>
         <div
           style={{ borderLeft: `4px solid rebeccapurple` }}

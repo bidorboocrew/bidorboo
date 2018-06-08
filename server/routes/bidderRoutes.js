@@ -7,7 +7,7 @@ const requireLogin = require('../middleware/requireLogin');
 
 module.exports = app => {
   app.get(
-    ROUTES.USERAPI.BIDDER_ROUTES.get_all_my_bids,
+    ROUTES.USERAPI.BIDDER_ROUTES.getAllMyBids,
     requireLogin,
     async (req, res, done) => {
       try {
@@ -23,7 +23,7 @@ module.exports = app => {
   );
 
   app.post(
-    ROUTES.USERAPI.BIDDER_ROUTES.post_a_bid,
+    ROUTES.USERAPI.BIDDER_ROUTES.postABid,
     requireLogin,
     async (req, res, done) => {
       try {

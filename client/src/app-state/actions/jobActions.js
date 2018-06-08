@@ -93,10 +93,8 @@ export const searchByLocation = userSearchQuery => {
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
       searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
-      excludedJobTemplates: userSearchQuery.filterJobsByCategoryField// list of categories to exclude from the search
+      excludedJobTemplates: userSearchQuery.filterJobsByCategoryField // list of categories to exclude from the search
     };
-
-
 
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
@@ -106,7 +104,7 @@ export const searchByLocation = userSearchQuery => {
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
       payload: axios
-        .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.post_search, {
+        .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.postASearch, {
           data: {
             searchParams: serverSearchQuery
           }
@@ -130,7 +128,7 @@ export const searchByLocation = userSearchQuery => {
   };
 };
 
-export const addJob = jobDetails => (dispatch, getState) => {
+export const addJob = jobDetails => dispatch => {
   const {
     locationField,
     detailedDescriptionField,
@@ -204,12 +202,20 @@ export const addJob = jobDetails => (dispatch, getState) => {
         }
       })
       .then(resp => {
+        debugger;
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
+          // update recently added job
+          dispatch({
+            type: A.JOB_ACTIONS.RECENTLY_ADDED_JOB,
+            payload: { data: resp.data }
+          });
+          // switch route to show the currently added job
           dispatch({
             type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
             payload: { currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.myjobs }
           });
+          // show notification of new job
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

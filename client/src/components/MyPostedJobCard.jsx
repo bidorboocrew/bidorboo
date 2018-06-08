@@ -81,7 +81,7 @@ export default MyPostedJobCard;
 const JobCard = props => {
   const { jobObj, jobCounterIndex, userDetails } = props;
   return (
-    <div className="column is-half">
+    <div className="column is-one-third">
       <SummaryView
         userDetails={userDetails}
         jobCounterIndex={jobCounterIndex}

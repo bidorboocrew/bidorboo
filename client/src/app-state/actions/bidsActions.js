@@ -22,7 +22,7 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch, getState) => {
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.post_a_bid, {
+      .post(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.postABid, {
         data: {
           jobId: jobId,
           bidAmount: bidAmount
@@ -68,7 +68,7 @@ export const getAllMyBids = () => (dispatch, getState) => {
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
     payload: axios
-      .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.get_all_my_bids)
+      .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.getAllMyBids)
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,

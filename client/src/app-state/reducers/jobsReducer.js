@@ -5,7 +5,8 @@ const initialState = {
   allThePostedJobsList: [],
   error: null,
   isLoading: false,
-  mapCenterPoint: { lat: 45.4215, lng: -75.6972 }
+  mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
+  recentlyAddedJob: {}
 };
 
 export default function(state = initialState, { type, payload }) {
@@ -58,6 +59,10 @@ export default function(state = initialState, { type, payload }) {
           ? payload.data
           : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
       return { ...state, error: searchJobsError, isLoading: false };
+    // --------------------------------------------
+    case A.JOB_ACTIONS.RECENTLY_ADDED_JOB:
+      return { ...state, recentlyAddedJob: payload.data };
+
     default:
       return state;
   }
