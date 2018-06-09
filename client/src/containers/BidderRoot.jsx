@@ -68,12 +68,12 @@ class BidderRoot extends React.Component {
               onClick={this.toggleFilterDialog}
               className="modal-background"
             />
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Filter Jobs</p>
-                <button onClick={this.toggleFilterDialog} class="delete" aria-label="close" />
+            <div className="modal-card">
+              <header className="modal-card-head">
+                <p className="modal-card-title">Filter Jobs</p>
+                <button onClick={this.toggleFilterDialog} className="delete" aria-label="close" />
               </header>
-              <section style={{padding:0}} class="modal-card-body">
+              <section style={{padding:0}} className="modal-card-body">
                 <SearchForm
                   onCancel={() => console.log('cancel')}
                   onSubmit={vals => {

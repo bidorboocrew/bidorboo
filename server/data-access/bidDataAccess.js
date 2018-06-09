@@ -24,8 +24,8 @@ exports.bidDataAccess = {
         path: '_job',
         populate: {
           path: '_ownerId',
-          select: { _id: 1,  displayName: 1, globalRating: 1 }
-        },
+          select: { _id: 1, displayName: 1, globalRating: 1 }
+        }
       }
     };
 
@@ -45,8 +45,16 @@ exports.bidDataAccess = {
           bidAmount: { value: bidAmount, currency: userCurrency }
         }).save();
 
+        const bidDetailsPopulateOptions = {
+          path: '_job',
+          populate: {
+            path: '_ownerId',
+            select: { _id: 1, displayName: 1, globalRating: 1 }
+          }
+        };
+
         //update the user and job model with this new bid
-        await Promise.all([
+        const bidWithDetails = await Promise.all([
           JobModel.findOneAndUpdate(
             { _id: jobId },
             {
@@ -64,10 +72,15 @@ exports.bidDataAccess = {
             { new: true }
           )
             .lean(true)
+            .exec(),
+          BidModel.findById(newBid._id)
+            .populate(bidDetailsPopulateOptions)
+            .lean(true)
             .exec()
         ]);
 
-        resolve(newBid);
+        //index2 is the bid with details populated
+        resolve(bidWithDetails[2]);
       } catch (e) {
         reject(e);
       }

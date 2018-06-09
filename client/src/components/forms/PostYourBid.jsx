@@ -22,14 +22,15 @@ class PostYourBid extends React.Component {
 
     return (
       <div className="card is-clipped">
-        <header className="card-header">
+         <header className="card-header">
           <p className="card-header-title">
             <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
             Bid Now
           </p>
         </header>
+
         <div
-          style={{ borderLeft: `4px solid rebeccapurple` }}
+
           className="card-content"
         >
           <TextInput
@@ -45,7 +46,7 @@ class PostYourBid extends React.Component {
             value={values.bidAmountField || ''}
           />
         </div>
-        <footer className="card-footer">
+        <footer style={{ borderBottom: `4px solid rgb(200,200,200)` }} className="card-footer">
           <a
             onClick={handleSubmit}
             style={{ borderRadius: 0 }}

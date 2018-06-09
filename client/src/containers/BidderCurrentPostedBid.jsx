@@ -2,18 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../app-state/actions/routerActions';
-import autoBind from 'react-autobind';
+
 import { bindActionCreators } from 'redux';
-import { AddJobWithDetailsCard } from '../components/AddJobWithDetailsCard';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { routerActions } from 'react-router-redux';
-import { addJob } from '../app-state/actions/jobActions';
+
+import MyCurrentBidCardWithDetails from '../components/MyCurrentBidCardWithDetails';
+import { Proptypes_bidModel } from '../client-server-interfaces';
+
 class BidderCurrentPostedBid extends React.Component {
+  static propTypes = {
+    s_recentlyUpdatedBid: Proptypes_bidModel
+  };
   componentDidMount() {
     window.scrollTo(0, 0);
   }
   render() {
-    const { a_switchRoute } = this.props;
+    const { a_switchRoute, s_recentlyUpdatedBid } = this.props;
 
     return (
       <React.Fragment>
@@ -37,7 +40,11 @@ class BidderCurrentPostedBid extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container" id="bdb-proposer-content">
-            details about your posted Bid
+            <div className="columns">
+              <div className="column is-8 is-offset-2">
+                <MyCurrentBidCardWithDetails bidDetails={s_recentlyUpdatedBid} />
+              </div>
+            </div>
           </div>
         </section>
       </React.Fragment>
@@ -45,15 +52,20 @@ class BidderCurrentPostedBid extends React.Component {
   }
 }
 
+const mapStateToProps = ({ bidsReducer }) => {
+  return {
+    s_recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
+    s_isLoading: bidsReducer.isLoadingBids
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
-    a_routerActions: bindActionCreators(routerActions, dispatch),
-    a_addJob: bindActionCreators(addJob, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BidderCurrentPostedBid);

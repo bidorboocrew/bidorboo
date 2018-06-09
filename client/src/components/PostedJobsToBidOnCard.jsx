@@ -187,7 +187,7 @@ class SummaryView extends React.Component {
             </p> */}
 
             {areThereAnyBidders && (
-              <div className="card">
+              <div className="card is-clipped">
                 <header className="card-header">
                   <div
                     style={{ paddingBottom: 10, paddingTop: 10 }}

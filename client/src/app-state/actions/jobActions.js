@@ -202,7 +202,6 @@ export const addJob = jobDetails => dispatch => {
         }
       })
       .then(resp => {
-        debugger;
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
           // update recently added job

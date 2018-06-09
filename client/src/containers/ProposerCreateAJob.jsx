@@ -6,14 +6,15 @@ import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
 import { AddJobWithDetailsCard } from '../components/AddJobWithDetailsCard';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { routerActions } from 'react-router-redux';
 import { addJob } from '../app-state/actions/jobActions';
+
+
 class ProposerCreateAJob extends React.Component {
   constructor(props) {
     super(props);
 
-    let templateToStartWith= null;
-    if(props.match && props.match.params && props.match.params.templateId){
+    let templateToStartWith = null;
+    if (props.match && props.match.params && props.match.params.templateId) {
       templateToStartWith = templatesRepo[props.match.params.templateId];
     }
 
@@ -24,11 +25,7 @@ class ProposerCreateAJob extends React.Component {
   }
 
   goBack(e) {
-    // const { a_routerActions } = this.props;
     e.preventDefault();
-    // to go back to where you came from xxx todo https://github.com/ReactTraining/react-router/issues/5597
-    // this.props.a_routerActions.goBack();
-
     // until then
     this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
   }
@@ -63,9 +60,11 @@ class ProposerCreateAJob extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     a_switchRoute: bindActionCreators(switchRoute, dispatch),
-    a_routerActions: bindActionCreators(routerActions, dispatch),
     a_addJob: bindActionCreators(addJob, dispatch)
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProposerCreateAJob);
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProposerCreateAJob);

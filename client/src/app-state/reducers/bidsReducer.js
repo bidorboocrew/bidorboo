@@ -41,7 +41,7 @@ export default function(state = initialState, { type, payload }) {
         getBidsErrorMsg: getBidsErrorMsg
       };
 
-    case A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS:
+    case A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS:
       return { ...state, recentlyUpdatedBid: payload.data };
 
     default:
