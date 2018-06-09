@@ -1,19 +1,31 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
-    switchRoute: PropTypes.func.isRequired
+    switchRoute: PropTypes.func.isRequired,
+    isforHomePage: PropTypes.bool
+  };
+  static defaultProps = {
+    isforHomePage: false
   };
   render() {
-    const { switchRoute } = this.props;
+    const { switchRoute, isforHomePage } = this.props;
     const genericTasks = Object.keys(templatesRepo).map(key => {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
-        <div key={id} className={'column is-half bdbCardComponent fade-in'}>
+        <div
+          key={id}
+          className={classNames('column  bdbCardComponent fade-in', {
+            'is-one-third': !isforHomePage,
+            'is-half': isforHomePage
+          })}
+        >
           <div
             onClick={e => {
               e.preventDefault();

@@ -56,10 +56,8 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <div style={{padding:10}} className="slide-in-left">
-          <div
-            className="columns is-multiline"
-          >
+        <div style={{ padding: 10 }} className="slide-in-left">
+          <div className="columns is-multiline">
             <div className="column is-7">
               <div className="has-text-centered">
                 <div className="card-header-title has-text-grey-dark is-title">
@@ -71,10 +69,13 @@ class HomePage extends React.Component {
                 </div>
               </div>
               <div
-                style={{alignItems:'flex-end'}}
+                style={{ alignItems: 'flex-end' }}
                 className="columns is-multiline"
               >
-                <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+                <BidOrBooGenericTasks
+                  isforHomePage={true}
+                  switchRoute={a_switchRoute}
+                />
               </div>
             </div>
             <div className="column is-5">
