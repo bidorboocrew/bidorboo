@@ -38,7 +38,7 @@ class BidOrBooGenericTasks extends React.Component {
             <div className="has-text-centered" style={{ textAlign: 'center' }}>
               <a
                 style={{ borderRadius: 0 }}
-                className="button is-primary is-fullwidth"
+                className="button is-primary is-large is-fullwidth"
               >
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-plus fa-w-14" /> Request Now

@@ -104,41 +104,41 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   .card {
     background: white;
     box-shadow: $shadow-space;
-    &:hover {
-      -webkit-animation: color-change-2x-proposer 0.35s linear both;
-      animation: color-change-2x-proposer 0.35s linear both;
+    // &:hover {
+      // -webkit-animation: color-change-2x-proposer 0.35s linear both;
+      // animation: color-change-2x-proposer 0.35s linear both;
       // figure {
       //   img.specialImageEffect {
       //     -webkit-animation: kenburns-bottom 5s ease-out both;
       //     animation: kenburns-bottom 5s ease-out both;
       //   }
       // }
-    }
+    // }
   }
 }
 
 .postedJobCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
-  &:hover {
-    -webkit-animation: color-change-2x-proposer 0.25s linear both;
-    animation: color-change-2x-proposer 0.25s linear both;
-    div {
-      button {
-        -webkit-animation: color-change-2x-proposer 0.25s linear both;
-        animation: color-change-2x-proposer 0.25s linear both;
-        span {
-          color: white;
-        }
-      }
-    }
+  // &:hover {
+    // -webkit-animation: color-change-2x-proposer 0.25s linear both;
+    // animation: color-change-2x-proposer 0.25s linear both;
+    // div {
+    //   button {
+    //     // -webkit-animation: color-change-2x-proposer 0.25s linear both;
+    //     // animation: color-change-2x-proposer 0.25s linear both;
+    //     span {
+    //       // color: white;
+    //     }
+    //   }
+    // }
     // figure {
     //   img.specialImageEffect {
     //     -webkit-animation: kenburns-bottom 5s ease-out both;
     //     animation: kenburns-bottom 5s ease-out both;
     //   }
     // }
-  }
+  // }
 }
 
 .card{
@@ -160,25 +160,25 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 .postedJobToBidOnCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
-  &:hover {
-    -webkit-animation: color-change-2x-bidder 0.25s linear both;
-    animation: color-change-2x-bidder 0.25s linear both;
-    div {
-      button {
-        -webkit-animation: color-change-2x-bidder 0.25s linear both;
-        animation: color-change-2x-bidder 0.25s linear both;
-        span {
-          color: white;
-        }
-      }
-    }
-    // figure {
-    //   img.specialImageEffect {
-    //     -webkit-animation: kenburns-bottom 5s ease-out both;
-    //     animation: kenburns-bottom 5s ease-out both;
-    //   }
-    // }
-  }
+  // &:hover {
+  //   -webkit-animation: color-change-2x-bidder 0.25s linear both;
+  //   animation: color-change-2x-bidder 0.25s linear both;
+  //   div {
+  //     button {
+  //       -webkit-animation: color-change-2x-bidder 0.25s linear both;
+  //       animation: color-change-2x-bidder 0.25s linear both;
+  //       span {
+  //         color: white;
+  //       }
+  //     }
+  //   }
+  //   // figure {
+  //   //   img.specialImageEffect {
+  //   //     -webkit-animation: kenburns-bottom 5s ease-out both;
+  //   //     animation: kenburns-bottom 5s ease-out both;
+  //   //   }
+  //   // }
+  // }
 }
 
 
