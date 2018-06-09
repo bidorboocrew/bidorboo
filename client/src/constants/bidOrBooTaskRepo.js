@@ -17,24 +17,6 @@ export const templatesRepo = {
   [mention any specific instructions or info relevant to this task]
   `
   },
-  snowRemoval: {
-    id: 'snowRemoval',
-    category: '',
-    title: 'Snow Removal',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
-    description:
-      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
-    suggestedDetailsText: `How Big is your drivethru ?
-  [parking fits 2 cars ...,etc]
-  What is your expectations?
-  [ I expect to see no ice on the drive through , ]
-  extra comments :
-  [mention any specific instructions or info relevant to this task]
-  `
-  },
   lawnMowing: {
     id: 'lawnMowing',
     category: '',
@@ -69,6 +51,24 @@ export const templatesRepo = {
   [ I expect to see them to clean bathroom kitchen ..etc , ]
   extra comments :
   [I do not have any cleaning products , you must bring your own .]
+  `
+  },
+  snowRemoval: {
+    id: 'snowRemoval',
+    category: '',
+    title: 'Snow Removal',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg',
+    description:
+      "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
+    suggestedDetailsText: `How Big is your drivethru ?
+  [parking fits 2 cars ...,etc]
+  What is your expectations?
+  [ I expect to see no ice on the drive through , ]
+  extra comments :
+  [mention any specific instructions or info relevant to this task]
   `
   }
 };

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
-import BidderMapSection from '../components/BidderMapSection';
+import HomePageMapSection from '../components/HomePageMapSection';
 import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 import { getAllPostedJobs } from '../app-state/actions/jobActions';
 
@@ -56,9 +56,11 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-
-        <section className="mainSectionContainer">
-            <div className="container slide-in-left">
+        <div style={{padding:10}} className="slide-in-left">
+          <div
+            className="columns is-multiline"
+          >
+            <div className="column is-7">
               <div className="has-text-centered">
                 <div className="card-header-title has-text-grey-dark is-title">
                   <i
@@ -68,32 +70,28 @@ class HomePage extends React.Component {
                   <span> Start posting jobs</span>
                 </div>
               </div>
-              <div className="container">
-                <div
-                  // style={{alignItems:'flex-end'}}
-                  className="columns is-multiline"
-                >
-                  <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+              <div
+                style={{alignItems:'flex-end'}}
+                className="columns is-multiline"
+              >
+                <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+              </div>
+            </div>
+            <div className="column is-5">
+              <div className="has-text-centered">
+                <div className="card-header-title has-text-grey-dark is-title">
+                  <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+                  <span> Start Bidding on jobs</span>
                 </div>
               </div>
+              <HomePageMapSection
+                selectJobToBidOn={a_selectJobToBidOn}
+                mapCenterPoint={s_mapCenterPoint}
+                jobsList={s_allThePostedJobsList}
+              />
             </div>
-        </section>
-
-        <section className="mainSectionContainer">
-          <div className="container slide-in-left">
-            <div className="has-text-centered">
-              <div className="card-header-title has-text-grey-dark is-title">
-                <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-                <span> Start Bidding on jobs</span>
-              </div>
-            </div>
-            <BidderMapSection
-              selectJobToBidOn={a_selectJobToBidOn}
-              mapCenterPoint={s_mapCenterPoint}
-              jobsList={s_allThePostedJobsList}
-            />
           </div>
-        </section>
+        </div>
       </div>
     );
   }

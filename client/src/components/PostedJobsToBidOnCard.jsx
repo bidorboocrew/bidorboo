@@ -79,14 +79,8 @@ export default class PostedJobsToBidOnCard extends React.Component {
   }
 }
 
-
 const JobCard = props => {
-  const {
-    jobObj,
-    jobCounterIndex,
-    currentUserId,
-    selectJobToBidOn
-  } = props;
+  const { jobObj, jobCounterIndex, currentUserId, selectJobToBidOn } = props;
   return (
     <div className="column is-one-third">
       <SummaryView
@@ -135,7 +129,14 @@ class SummaryView extends React.Component {
     }
 
     return (
-      <div className="card postedJobToBidOnCard  is-clipped">
+      <div
+        onClick={() => {
+          if (_ownerId._id !== currentUserId) {
+            selectJobToBidOn(jobObj);
+          }
+        }}
+        className="card postedJobToBidOnCard  is-clipped"
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"

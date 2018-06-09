@@ -100,8 +100,8 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 }
 
 .bdbCardComponent {
-  cursor: pointer;
   .card {
+    cursor: pointer;
     background: white;
     box-shadow: $shadow-space;
     // &:hover {
@@ -118,7 +118,6 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 }
 
 .postedJobCard {
-  cursor: pointer;
   box-shadow: $shadow-space !important;
   // &:hover {
     // -webkit-animation: color-change-2x-proposer 0.25s linear both;
