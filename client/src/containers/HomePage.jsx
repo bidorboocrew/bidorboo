@@ -72,7 +72,7 @@ class HomePage extends React.Component {
                       <div className="card-image">
                         <figure className="image is-16by9">
                           <img
-                            src="http://www.findjobshiringworldwide.com/wp-content/uploads/2016/01/jobs-in-newjersey.png"
+                            src="https://www.auto-schnitter.de/wp-content/uploads/2015/10/DIFF-HAPPY-JOBS-940.png"
                             alt="Placeholder image"
                           />
                         </figure>
@@ -113,7 +113,7 @@ class HomePage extends React.Component {
                       <div className="card-image">
                         <figure className="image is-16by9">
                           <img
-                            src="http://homegrouprealty.ca/wp-content/uploads/2016/08/2016-08-18-Bidding-War.jpg"
+                            src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
                             alt="Placeholder image"
                           />
                         </figure>
