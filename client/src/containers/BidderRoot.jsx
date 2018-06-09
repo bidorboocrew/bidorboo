@@ -78,7 +78,6 @@ class BidderRoot extends React.Component {
 
   render() {
     const {
-      s_error,
       s_isLoading,
       s_allThePostedJobsList,
       a_switchRoute,
@@ -127,7 +126,7 @@ class BidderRoot extends React.Component {
           </div>
         )}
         <div className="slide-in-left" id="bdb-bidder-root">
-          <section className="hero is-small is-dark">
+          <section className="hero is-small">
             <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
               <div className="container">
                 <h1 style={{ color: 'white' }} className="title">

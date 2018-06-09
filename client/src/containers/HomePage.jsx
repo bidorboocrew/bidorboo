@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
+// import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
 import Rotate from 'react-reveal/Rotate';
+import Zoom from 'react-reveal/Zoom';
+import Slide from 'react-reveal/Slide';
+
+import * as ROUTES from '../constants/frontend-route-consts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
-import HomePageMapSection from '../components/HomePageMapSection';
-import { selectJobToBidOn } from '../app-state/actions/bidsActions';
-import { getAllPostedJobs } from '../app-state/actions/jobActions';
+// import HomePageMapSection from '../components/HomePageMapSection';
+// import { selectJobToBidOn } from '../app-state/actions/bidsActions';
+// import { getAllPostedJobs } from '../app-state/actions/jobActions';
 
 class HomePage extends React.Component {
   static propTypes = {
@@ -20,7 +24,7 @@ class HomePage extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     const {
-      a_getAllPostedJobs,
+      // a_getAllPostedJobs,
       s_resolvedLogin,
       a_showLoginDialog,
       match
@@ -29,19 +33,20 @@ class HomePage extends React.Component {
     if (s_resolvedLogin && shouldShowLoginDialog) {
       a_showLoginDialog(true);
     }
-    a_getAllPostedJobs();
+    // a_getAllPostedJobs();
   }
 
   render() {
     const {
-      a_switchRoute,
-      a_selectJobToBidOn,
-      s_mapCenterPoint,
-      s_allThePostedJobsList
+      a_switchRoute
+      // a_selectJobToBidOn,
+      // s_mapCenterPoint,
+      // s_allThePostedJobsList
     } = this.props;
     return (
       <div id="bdb-home-content">
-        <section className="hero is-small is-dark">
+      <Slide left>
+        <section className="hero is-dark">
           <div className="hero-body">
             <div className="container">
               <Rotate delay={300} top left cascade>
@@ -56,8 +61,98 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <div style={{ padding: 10 }} className="slide-in-left">
-          <div className="columns is-multiline">
+        </Slide>
+        <div className="slide-in-left">
+          <section className="mainSectionContainer">
+            <div className="container">
+              <div className="columns">
+                <div className="column">
+                  <Zoom left delay={1000}>
+                    <div className="card">
+                      <div className="card-image">
+                        <figure className="image is-16by9">
+                          <img
+                            src="http://www.findjobshiringworldwide.com/wp-content/uploads/2016/01/jobs-in-newjersey.png"
+                            alt="Placeholder image"
+                          />
+                        </figure>
+                      </div>
+                      <div className="card-content">
+                        <div className="content">
+                          <p className="title">Post Your Jobs</p>
+                          <p className="subtitle">
+                            Start with one of our templates and post your jobs.
+                            Get your chores done for a price that will please
+                            you.
+                          </p>
+                        </div>
+                      </div>
+                      <footer className="card-footer">
+                        <a
+                          onClick={() => {
+                            a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                          }}
+                          style={{
+                            borderRadius: 0,
+                            backgroundColor: '#e98969'
+                          }}
+                          className="card-footer-item button is-primary is-large"
+                        >
+                          <span style={{ marginLeft: 4 }}>
+                            <i className="fa fa-plus fa-w-14" /> Start Posting
+                            Jobs
+                          </span>
+                        </a>
+                      </footer>
+                    </div>
+                  </Zoom>
+                </div>
+                <div className="column">
+                  <Zoom right delay={2000}>
+                    <div className="card">
+                      <div className="card-image">
+                        <figure className="image is-16by9">
+                          <img
+                            src="http://homegrouprealty.ca/wp-content/uploads/2016/08/2016-08-18-Bidding-War.jpg"
+                            alt="Placeholder image"
+                          />
+                        </figure>
+                      </div>
+                      <div className="card-content">
+                        <div className="content">
+                          <p className="title">Bid On Jobs</p>
+                          <p className="subtitle">
+                            Start Bidding on the jobs. Do the work you like for
+                            the price you like. Be your own boss and manage your
+                            own schedule.
+                          </p>
+                        </div>
+                      </div>
+                      <footer className="card-footer">
+                        <a
+                          onClick={() => {
+                            a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                          }}
+                          style={{
+                            borderRadius: 0,
+                            backgroundColor: '#c786f8'
+                          }}
+                          className="card-footer-item button is-primary is-large"
+                        >
+                          <span style={{ marginLeft: 4 }}>
+                            <i className="fas fa-dollar-sign" /> Start Bidding
+                            Now
+                          </span>{' '}
+                        </a>
+                      </footer>
+                    </div>
+                  </Zoom>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* <div className="columns is-multiline">
             <div className="column is-7">
               <div className="has-text-centered">
                 <div className="card-header-title has-text-grey-dark is-title">
@@ -91,7 +186,7 @@ class HomePage extends React.Component {
                 jobsList={s_allThePostedJobsList}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -100,16 +195,16 @@ class HomePage extends React.Component {
 const mapStateToProps = ({ authReducer, jobsReducer }) => {
   return {
     s_resolvedLogin: authReducer.resolvedLogin,
-    s_mapCenterPoint: jobsReducer.mapCenterPoint,
-    s_allThePostedJobsList: jobsReducer.allThePostedJobsList
+    // s_mapCenterPoint: jobsReducer.mapCenterPoint,
+    // s_allThePostedJobsList: jobsReducer.allThePostedJobsList
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
+    // a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch),
-    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
+    // a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
   };
 };
 export default connect(
