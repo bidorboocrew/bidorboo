@@ -7,8 +7,7 @@ import 'typeface-roboto';
 //global styles
 import './assets/index.css';
 //offline mode support
-// import registerServiceWorker from './registerServiceWorker';
-
+import registerServiceWorker from './registerServiceWorker';
 //redux
 import { Provider } from 'react-redux';
 //saidm make sure to update this package before relase
@@ -18,6 +17,7 @@ import App from './containers/App';
 
 // import the store like this after moving this code somewhere else
 import { store, history } from './app-state/store';
+// registerServiceWorker();
 
 ReactDOM.render(
   <Provider store={store}>
@@ -28,4 +28,4 @@ ReactDOM.render(
   document.getElementById('BidOrBoo-app')
 );
 
-// registerServiceWorker();
+registerServiceWorker();
