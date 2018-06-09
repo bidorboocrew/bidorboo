@@ -26,8 +26,13 @@ class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     //render map only after we show everything
-    this.state = { address: '', showFilterDialog: false };
-    autoBind(this, 'toggleFilterDialog');
+    this.state = {
+      address: '',
+      showFilterDialog: false,
+      hideMyJobs: false,
+      displayedJobList: null
+    };
+    autoBind(this, 'toggleFilterDialog', 'toggleHideMyJobs');
   }
 
   toggleFilterDialog(e) {
@@ -37,6 +42,33 @@ class BidderRoot extends React.Component {
       ...this.state,
       showFilterDialog: !this.state.showFilterDialog
     });
+  }
+
+  toggleHideMyJobs(e, excludeMyJobs) {
+    e.preventDefault();
+    debugger;
+    const { s_allThePostedJobsList, s_userDetails } = this.props;
+    if (
+      s_userDetails &&
+      s_allThePostedJobsList &&
+      s_allThePostedJobsList.length > 0 &&
+      excludeMyJobs
+    ) {
+      const filteredJobList = s_allThePostedJobsList.filter(job => {
+        return s_userDetails._id !== job._ownerId._id;
+      });
+      this.setState({
+        ...this.state,
+        hideMyJobs: true,
+        displayedJobList: filteredJobList
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        hideMyJobs: false,
+        displayedJobList: s_allThePostedJobsList
+      });
+    }
   }
 
   componentDidMount() {
@@ -71,9 +103,13 @@ class BidderRoot extends React.Component {
             <div className="modal-card">
               <header className="modal-card-head">
                 <p className="modal-card-title">Filter Jobs</p>
-                <button onClick={this.toggleFilterDialog} className="delete" aria-label="close" />
+                <button
+                  onClick={this.toggleFilterDialog}
+                  className="delete"
+                  aria-label="close"
+                />
               </header>
-              <section style={{padding:0}} className="modal-card-body">
+              <section style={{ padding: 0 }} className="modal-card-body">
                 <SearchForm
                   onCancel={() => console.log('cancel')}
                   onSubmit={vals => {
@@ -105,9 +141,37 @@ class BidderRoot extends React.Component {
           </section>
           <section className="mainSectionContainer">
             <div className="container">
-              <a onClick={this.toggleFilterDialog} className="button">
-                Filter Jobs
-              </a>
+              <span>
+                <a
+                  style={{ marginRight: 8 }}
+                  onClick={this.toggleFilterDialog}
+                  className="button"
+                >
+                  Filter Jobs
+                </a>
+              </span>
+              <span>
+                {this.state.hideMyJobs && (
+                  <a
+                    onClick={e => {
+                      this.toggleHideMyJobs(e, false);
+                    }}
+                    className="button is-link"
+                  >
+                    Hide My Jobs
+                  </a>
+                )}
+                {!this.state.hideMyJobs && (
+                  <a
+                    onClick={e => {
+                      this.toggleHideMyJobs(e, true);
+                    }}
+                    className="button"
+                  >
+                    Hide My Jobs
+                  </a>
+                )}
+              </span>
             </div>
           </section>
 
@@ -134,7 +198,11 @@ class BidderRoot extends React.Component {
                 <BidderMapSection
                   selectJobToBidOn={a_selectJobToBidOn}
                   mapCenterPoint={s_mapCenterPoint}
-                  jobsList={s_allThePostedJobsList}
+                  jobsList={
+                    this.state.displayedJobList === null
+                      ? s_allThePostedJobsList
+                      : this.state.displayedJobList
+                  }
                 />
               </div>
             )}
@@ -151,7 +219,11 @@ class BidderRoot extends React.Component {
                   currentUserId={s_userDetails._id}
                   switchRoute={a_switchRoute}
                   selectJobToBidOn={a_selectJobToBidOn}
-                  jobsList={s_allThePostedJobsList}
+                  jobsList={
+                    this.state.displayedJobList === null
+                      ? s_allThePostedJobsList
+                      : this.state.displayedJobList
+                  }
                 />
               </div>
             </div>
