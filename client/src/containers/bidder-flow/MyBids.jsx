@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Spinner } from '../components/Spinner';
-import { switchRoute } from '../app-state/actions/routerActions';
+import { Spinner } from '../../components/Spinner';
+import { switchRoute } from '../../app-state/actions/routerActions';
 
-import { getAllMyBids } from '../app-state/actions/bidsActions';
-import { Proptypes_bidModel } from '../client-server-interfaces';
-import MyBidsCard from '../components/MyBidsCard'
-class BidderMyBids extends React.Component {
+import { getAllMyBids } from '../../app-state/actions/bidsActions';
+import { Proptypes_bidModel } from '../../client-server-interfaces';
+import MyBidsCard from '../../components/bidder-components/MyBidsCard'
+class MyBids extends React.Component {
   static propTypes = {
     s_isLoading: PropTypes.bool,
     s_bidsList: PropTypes.arrayOf(Proptypes_bidModel)
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BidderMyBids);
+)(MyBids);

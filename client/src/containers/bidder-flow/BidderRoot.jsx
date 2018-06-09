@@ -1,26 +1,27 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
-// import GeoSearch from '../components/GeoSearch';
-import BidderMapSection from '../components/BidderMapSection';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Spinner } from '../components/Spinner';
-import PostedJobsToBidOnCard from '../components/PostedJobsToBidOnCard';
-import SearchForm from '../components/forms/SearchForm';
+// import GeoSearch from '../components/GeoSearch';
+import BidderMapSection from '../../components/bidder-components/BidderMapSection';
+
+import { Spinner } from '../../components/Spinner';
+import PostedJobsToBidOnCard from '../../components/bidder-components/PostedJobsToBidOnCard';
+import SearchForm from '../../components/forms/JobsLocationFilterForm';
+import { switchRoute } from '../../app-state/actions/routerActions';
+import {
+  getAllPostedJobs,
+  searchByLocation
+} from '../../app-state/actions/jobActions';
+import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
 // import PlacesAutocomplete, {
 //   geocodeByAddress,
 //   // geocodeByPlaceId,
 //   getLatLng
 // } from 'react-places-autocomplete';
-import { switchRoute } from '../app-state/actions/routerActions';
-import {
-  getAllPostedJobs,
-  searchByLocation
-} from '../app-state/actions/jobActions';
-import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 
 class BidderRoot extends React.Component {
   constructor(props) {

@@ -1,9 +1,9 @@
 import React from 'react';
-
-import * as ROUTES from '../constants/frontend-route-consts';
 import moment from 'moment';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import PostYourBid from '../components/forms/PostYourBid';
+
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import PostYourBid from '../../components/forms/PostYourBid';
 
 export default class BidOnAJobCard extends React.Component {
   render() {

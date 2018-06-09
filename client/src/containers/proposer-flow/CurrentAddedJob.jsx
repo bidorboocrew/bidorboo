@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../app-state/actions/routerActions';
-
 import { bindActionCreators } from 'redux';
 
-import { addJob } from '../app-state/actions/jobActions';
-import { Proptypes_jobModel } from '../client-server-interfaces';
-import MyCurrentPostedJobCardWithDetails from '../components/MyCurrentPostedJobCardWithDetails';
 
-class ProposerCurrentAddedJob extends React.Component {
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../app-state/actions/routerActions';
+import { addJob } from '../../app-state/actions/jobActions';
+import { Proptypes_jobModel } from '../../client-server-interfaces';
+import MyCurrentPostedJobCardWithDetails from '../../components/proposer-components/MyCurrentPostedJobCardWithDetails';
+
+class CurrentAddedJob extends React.Component {
   static propTypes = {
     s_recentlyUpdatedJob: Proptypes_jobModel
   };
@@ -75,4 +75,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProposerCurrentAddedJob);
+)(CurrentAddedJob);

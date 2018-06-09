@@ -1,9 +1,10 @@
 import React from 'react';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import PropTypes from 'prop-types';
-import * as ROUTES from '../constants/frontend-route-consts';
-import moment from 'moment';
 
+import PropTypes from 'prop-types';
+
+import moment from 'moment';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import * as ROUTES from '../../constants/frontend-route-consts';
 export default class PostedJobsToBidOnCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server

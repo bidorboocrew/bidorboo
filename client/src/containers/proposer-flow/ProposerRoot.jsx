@@ -1,9 +1,8 @@
 import React from 'react';
-import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
-
-import { switchRoute } from '../app-state/actions/routerActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
+import { switchRoute } from '../../app-state/actions/routerActions';
 
 class ProposerRoot extends React.Component {
   componentDidMount() {

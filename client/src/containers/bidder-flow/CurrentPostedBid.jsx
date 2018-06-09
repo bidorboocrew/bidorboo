@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../app-state/actions/routerActions';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../app-state/actions/routerActions';
 
 import { bindActionCreators } from 'redux';
 
-import MyCurrentBidCardWithDetails from '../components/MyCurrentBidCardWithDetails';
-import { Proptypes_bidModel } from '../client-server-interfaces';
+import MyCurrentBidCardWithDetails from '../../components/bidder-components/MyCurrentBidCardWithDetails';
+import { Proptypes_bidModel } from '../../client-server-interfaces';
 
-class BidderCurrentPostedBid extends React.Component {
+class CurrentPostedBid extends React.Component {
   static propTypes = {
     s_recentlyUpdatedBid: Proptypes_bidModel
   };
@@ -68,4 +68,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BidderCurrentPostedBid);
+)(CurrentPostedBid);

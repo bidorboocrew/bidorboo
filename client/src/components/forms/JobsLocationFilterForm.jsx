@@ -22,7 +22,7 @@ import {
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-class SearchForm extends React.Component {
+class JobsLocationFilterForm extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired
   };
@@ -333,7 +333,7 @@ const EnhancedForms = withFormik({
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'SearchForm'
+  displayName: 'JobsLocationFilterForm'
 });
 
-export default EnhancedForms(SearchForm);
+export default EnhancedForms(JobsLocationFilterForm);

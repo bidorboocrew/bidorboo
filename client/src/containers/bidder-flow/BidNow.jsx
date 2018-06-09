@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import { switchRoute } from '../app-state/actions/routerActions';
-import { submitBid } from '../app-state/actions/bidsActions';
+import { switchRoute } from '../../app-state/actions/routerActions';
+import { submitBid } from '../../app-state/actions/bidsActions';
 
-import * as ROUTES from '../constants/frontend-route-consts';
-import BidOnAJobCard from '../components/BidOnAJobCard';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import BidOnAJobCard from '../../components/bidder-components/BidOnAJobCard';
 
-class BidderBidNow extends React.Component {
+class BidNow extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     s_jobDetails: PropTypes.shape({
@@ -97,4 +97,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BidderBidNow);
+export default connect(mapStateToProps, mapDispatchToProps)(BidNow);

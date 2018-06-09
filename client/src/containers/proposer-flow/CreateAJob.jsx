@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../app-state/actions/routerActions';
 import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
-import { AddJobWithDetailsCard } from '../components/AddJobWithDetailsCard';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { addJob } from '../app-state/actions/jobActions';
+
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../app-state/actions/routerActions';
+import { AddJobWithDetailsCard } from '../../components/proposer-components/AddJobWithDetailsCard';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import { addJob } from '../../app-state/actions/jobActions';
 
 
-class ProposerCreateAJob extends React.Component {
+class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
 
@@ -67,4 +68,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps
-)(ProposerCreateAJob);
+)(CreateAJob);

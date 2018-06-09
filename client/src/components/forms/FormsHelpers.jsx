@@ -1,6 +1,6 @@
 import React from 'react';
 import GeoSearch from '../googleMapsComponents/GeoSearch';
-import DatePickerInput from '../DatePickerInput';
+import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 
 const InputFeedback = ({ error }) =>

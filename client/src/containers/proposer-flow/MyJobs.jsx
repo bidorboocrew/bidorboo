@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyJobs } from '../app-state/actions/jobActions';
-import { switchRoute } from '../app-state/actions/routerActions';
-import MyPostedJobCard from '../components/MyPostedJobCard';
+import { getAllMyJobs } from '../../app-state/actions/jobActions';
+import { switchRoute } from '../../app-state/actions/routerActions';
+import MyPostedJobCard from '../../components/proposer-components/MyPostedJobCard';
 
-class ProposerMyJobs extends React.Component {
+class MyJobs extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     this.props.a_getAllMyJobs();
@@ -60,4 +60,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProposerMyJobs);
+export default connect(mapStateToProps, mapDispatchToProps)(MyJobs);

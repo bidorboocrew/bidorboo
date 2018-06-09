@@ -1,7 +1,7 @@
 import React from 'react';
-import NewJobForm from './forms/NewJobForm';
 import PropTypes from 'prop-types';
 
+import NewJobForm from '../forms/NewJobForm';
 export class AddJobWithDetailsCard extends React.Component {
   static propTypes = {
     jobDetails: PropTypes.shape({

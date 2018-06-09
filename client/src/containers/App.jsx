@@ -17,14 +17,14 @@ import {
   Header,
   HomePage,
   ProposerRoot,
-  ProposerCreateAJob,
-  ProposerMyJobs,
+  CreateAJob,
+  MyJobs,
   BidderRoot,
   MyProfile,
-  BidderBidNow,
-  BidderMyBids,
-  ProposerCurrentAddedJob,
-  BidderCurrentPostedBid
+  BidNow,
+  MyBids,
+  CurrentAddedJob,
+  CurrentPostedBid
 } from './index';
 
 class App extends React.Component {
@@ -109,19 +109,19 @@ class App extends React.Component {
                   path={`${
                     ROUTES.FRONTENDROUTES.PROPOSER.createjob
                   }/:templateId`}
-                  component={ProposerCreateAJob}
+                  component={CreateAJob}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER.myjobs}
-                  component={ProposerMyJobs}
+                  component={MyJobs}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob}
-                  component={ProposerCurrentAddedJob}
+                  component={CurrentAddedJob}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
@@ -133,19 +133,19 @@ class App extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.bidNow}
-                  component={BidderBidNow}
+                  component={BidNow}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.mybids}
-                  component={BidderMyBids}
+                  component={MyBids}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid}
-                  component={BidderCurrentPostedBid}
+                  component={CurrentPostedBid}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}

@@ -1,5 +1,5 @@
 import React from 'react';
-import MapWithAMarkerClusterer from './googleMapsComponents/MapWithAMarkerClusterer';
+import MapWithAMarkerClusterer from '../googleMapsComponents/MapWithAMarkerClusterer';
 
 
 
