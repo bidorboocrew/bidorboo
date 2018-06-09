@@ -159,7 +159,7 @@ class SummaryView extends React.Component {
           {!areThereAnyBidders && (
             <a
               disabled
-              style={{ borderRadius: 0 }}
+              style={{ borderRadius: 0,backgroundColor: '#bdbdbd' }}
               className="button is-fullwidth is-large"
             >
               <span style={{ marginLeft: 4 }}>
@@ -240,7 +240,7 @@ class BidsTable extends React.Component {
       </table>
     ) : (
       <table className="table is-fullwidth">
-        <thead style={{ backgroundColor: '#bdbdbd' }}>
+        <thead>
           <tr>
             <th>No Bids Yet</th>
           </tr>
