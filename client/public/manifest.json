@@ -1,16 +1,40 @@
 {
   "manifest_version": 2,
-  "short_name": "B.o.B",
-  "name": "BidorBoo",
+  "short_name": "BoB",
+  "name": "Bid or Boo",
+  "version": "1.0.0",
+  "description": "Bid Or Boo platform",
+  "lang": "en-US",
+  "start_url": "/index.html",
+  "display": "standalone",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src":
+        "https://caodanak.com/wp-content/uploads/2017/12/snow-removal-image.jpg"
+    },
+    {
+      "src":
+        "https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg"
+    },
+    {
+      "src":
+        "https://i.amz.mshcdn.com/7U-h0YvpfBdWp6NZyIyrS9iNZRU=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F554950%2F9518ba08-75eb-434a-a529-968c355628de.jpg"
+    },
+    {
+      "src":
+        "https://vid.alarabiya.net/images/2017/03/14/35be08d5-c5c1-4fa0-bbb6-66dcbf393095/35be08d5-c5c1-4fa0-bbb6-66dcbf393095.jpg"
+    },
+    {
+      "src":
+        "https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png"
+    },
+    {
+      "src":
+        "https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+    },
+    {
+      "src":
+        "https://image.flaticon.com/icons/svg/753/753078.svg"
     }
-  ],
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }

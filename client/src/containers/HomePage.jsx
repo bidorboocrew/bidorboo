@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 // import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
 import Rotate from 'react-reveal/Rotate';
-import Zoom from 'react-reveal/Zoom';
-import Slide from 'react-reveal/Slide';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 
@@ -45,8 +43,7 @@ class HomePage extends React.Component {
     } = this.props;
     return (
       <div id="bdb-home-content">
-      <Slide left>
-        <section className="hero is-dark">
+        <section className="hero is-dark slide-in-left">
           <div className="hero-body">
             <div className="container">
               <Rotate delay={300} top left cascade>
@@ -54,21 +51,19 @@ class HomePage extends React.Component {
                   BidOrBoo
                 </h1>
               </Rotate>
-              <h2 style={{ color: 'white' }} className="subtitle slide-in-left">
+              <h2 style={{ color: 'white' }} className="subtitle fade-in">
                 Get tasks done for the price you want. Earn money doing what you
                 love.
               </h2>
             </div>
           </div>
         </section>
-        </Slide>
-        <div className="slide-in-left">
+        <div>
           <section className="mainSectionContainer">
             <div className="container">
               <div className="columns">
                 <div className="column">
-                  <Zoom left delay={1000}>
-                    <div className="card">
+                    <div className="card fade-in">
                       <div className="card-image">
                         <figure className="image is-16by9">
                           <img
@@ -105,11 +100,9 @@ class HomePage extends React.Component {
                         </a>
                       </footer>
                     </div>
-                  </Zoom>
                 </div>
                 <div className="column">
-                  <Zoom right delay={2000}>
-                    <div className="card">
+                    <div className="card fade-in">
                       <div className="card-image">
                         <figure className="image is-16by9">
                           <img
@@ -142,11 +135,10 @@ class HomePage extends React.Component {
                           <span style={{ marginLeft: 4 }}>
                             <i className="fas fa-dollar-sign" /> Start Bidding
                             Now
-                          </span>{' '}
+                          </span>
                         </a>
                       </footer>
                     </div>
-                  </Zoom>
                 </div>
               </div>
             </div>
