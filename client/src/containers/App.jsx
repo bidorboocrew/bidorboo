@@ -199,7 +199,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         ) : (
           <Redirect to={`${ROUTES.FRONTENDROUTES.HOME}/true`} />
         );
-      }}
+       }}
     />
   );
 };

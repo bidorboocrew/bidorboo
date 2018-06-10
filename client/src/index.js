@@ -3,9 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 //materialize css
-import 'typeface-roboto';
-//global styles
-import './assets/index.css';
+// import 'typeface-roboto';
+
 //offline mode support
 import registerServiceWorker from './registerServiceWorker';
 //redux
