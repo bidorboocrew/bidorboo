@@ -10,6 +10,7 @@ import { switchRoute } from '../../app-state/actions/routerActions';
 import { getAllMyBids } from '../../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
 import MyBidsCard from '../../components/bidder-components/MyBidsCard'
+
 class MyBids extends React.Component {
   static propTypes = {
     s_isLoading: PropTypes.bool,

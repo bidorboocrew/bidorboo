@@ -87,7 +87,7 @@ class Header extends React.Component {
         />
         <div className="navbar-brand">
           <a
-            onClick={() => {
+            onClick={(e) => {
               this.closeMenuThenExecute(() => {
                 a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
               });

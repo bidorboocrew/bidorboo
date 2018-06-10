@@ -89,20 +89,10 @@ class App extends React.Component {
                 {/* redirect and force login */}
                 <Route
                   exact
-                  path={`${ROUTES.FRONTENDROUTES.ENTRY}/:showLoginDialog`}
-                  component={HomePage}
-                />
-                <Route
-                  exact
                   path={ROUTES.FRONTENDROUTES.ENTRY}
                   component={HomePage}
                 />
                 {/* redirect and force login */}
-                <Route
-                  exact
-                  path={`${ROUTES.FRONTENDROUTES.HOME}/:showLoginDialog`}
-                  component={HomePage}
-                />
                 <Route
                   exact
                   path={ROUTES.FRONTENDROUTES.HOME}
@@ -134,14 +124,14 @@ class App extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER.myjobs}
-                  redirectRoute={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.PROPOSER.root}
                   component={MyJobs}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob}
-                  redirectRoute={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.PROPOSER.root}
                   component={CurrentAddedJob}
                 />
                 {/* redirect and force login */}
@@ -168,21 +158,21 @@ class App extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.BIDDER.mybids}
-                  redirectRoute={ROUTES.FRONTENDROUTES.BIDDER.root}
+                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.BIDDER.root}
                   component={MyBids}
                 />
                 <ProtectedRoute
-                  isLoggedIn={s_isLoggedIn}
                   exact
+                  isLoggedIn={s_isLoggedIn}
                   path={ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid}
-                  redirectRoute={ROUTES.FRONTENDROUTES.BIDDER.root}
+                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.BIDDER.root}
                   component={CurrentPostedBid}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.FRONTENDROUTES.MY_PROFILE}
-                  redirectRoute={ROUTES.FRONTENDROUTES.HOME}
+                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.HOME}
                   component={MyProfile}
                 />
                 {/* redirect any unknown route to the home component */}
@@ -221,16 +211,18 @@ export default withRouter(
  * @param {*}
  */
 const ProtectedRoute = ({ component: Component, ...rest }) => {
+  debugger;
   return (
     <Route
       {...rest}
       render={props => {
-        const { isLoggedIn, redirectRoute } = { ...rest };
+        debugger;
+        const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
         return isLoggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect
-            to={`${redirectRoute || ROUTES.FRONTENDROUTES.HOME}/true`}
+            to={`${redirectWhenNotLoggedIn || ROUTES.FRONTENDROUTES.HOME}/true`}
           />
         );
       }}

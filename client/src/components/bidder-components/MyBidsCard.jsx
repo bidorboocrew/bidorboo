@@ -26,6 +26,9 @@ export default class MyBidsCard extends React.Component {
       _job.startingDateAndTime.minutes
     }  ${_job.startingDateAndTime.period}`;
 
+    const { _ownerId } = _job;
+    const { profileImgUrl, displayName } = _ownerId;
+
     return (
       <div style={{ marginBottom: 14 }} className="card">
         <header className="card-header">
@@ -34,6 +37,22 @@ export default class MyBidsCard extends React.Component {
         <div className="card-content">
           <div className="content">
             <div className="level is-clipped">
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="heading">Owner Pic</p>
+                    <img
+                      alt="profile pic"
+                      src={profileImgUrl}
+                      className="profileImg image is-24x24"
+                    />
+                </div>
+              </div>
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="heading">Owner Name</p>
+                  <p className="subtitle">{displayName}</p>
+                </div>
+              </div>
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Job Type</p>
@@ -58,7 +77,12 @@ export default class MyBidsCard extends React.Component {
           </div>
         </div>
         <footer className="card-footer">
-          <a onClick={(e)=>{alert('not implemented yet')}} className="card-footer-item">
+          <a
+            onClick={e => {
+              alert('not implemented yet');
+            }}
+            className="card-footer-item"
+          >
             Full Details
           </a>
           <div className="card-footer-item">

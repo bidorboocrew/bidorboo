@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom';
 // import 'typeface-roboto';
 
 //offline mode support
-import registerServiceWorker from './registerServiceWorker';
-// import { unregister } from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 
 //redux
@@ -29,5 +29,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('BidOrBoo-app')
 );
-// unregister();
-registerServiceWorker();
+unregister();
+// registerServiceWorker();
