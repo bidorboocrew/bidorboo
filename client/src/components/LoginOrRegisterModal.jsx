@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import * as ROUTES from '../constants/frontend-route-consts';
 
-
 export const LoginOrRegisterModal = props => {
   const { isActive, handleCancel } = props;
   const openModalClass = classNames('modal', { 'is-active': isActive });
@@ -12,15 +11,19 @@ export const LoginOrRegisterModal = props => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Join BidOrBoo</p>
-          <button onClick={handleCancel} className="delete" aria-label="close" />
+          <button
+            onClick={handleCancel}
+            className="delete"
+            aria-label="close"
+          />
         </header>
         <section className="modal-card-body">
           <div style={{ textAlign: 'cetner' }}>
             <a
               rel="noopener noreferrer"
-              className="button is-danger is-large"
+              className="button is-danger is-large is-large is-fullwidth"
               href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
-              style={{marginTop:8, width: '100%'}}
+              style={{ marginTop: 8 }}
             >
               <span>
                 <i className="fab fa-google" />
@@ -32,8 +35,8 @@ export const LoginOrRegisterModal = props => {
             <a
               rel="noopener noreferrer"
               href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
-              className="button is-link is-large"
-              style={{marginTop:16, width: '100%'}}
+              className="button is-link is-large is-fullwidth"
+              style={{ marginTop: 16 }}
             >
               <span>
                 <i className="fab fa-facebook-square" />
