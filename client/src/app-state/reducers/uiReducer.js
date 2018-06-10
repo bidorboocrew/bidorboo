@@ -13,14 +13,16 @@ const initialState = {
 
 export default function(state = initialState, { type, payload }) {
   switch (type) {
-    // case A.UI_ACTIONS.OPEN_SIDENAV: {
-    //   return { ...state, isSideNavOpen: true };
-    // }
+    case A.AUTH_ACTIONS.USER_IS_LOGGED_IN:
+      return {
+        ...state,
+        shouldShowLoginDialog: false
+      };
+
     case A.UI_ACTIONS.OPEN_LOGIN_DIALOG:
       return {
         ...state,
         shouldShowLoginDialog: true
-        // loginClickSrc: payload.loginClickSrc
       };
 
     case A.UI_ACTIONS.CLOSE_LOGIN_DIALOG:
@@ -32,7 +34,7 @@ export default function(state = initialState, { type, payload }) {
     case A.UI_ACTIONS.SHOW_TOAST_MSG:
       return {
         ...state,
-        toastDetails: {...payload.toastDetails,toastId: uuidv1()}
+        toastDetails: { ...payload.toastDetails, toastId: uuidv1() }
       };
 
     default:

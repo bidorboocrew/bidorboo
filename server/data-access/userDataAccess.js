@@ -7,7 +7,7 @@ const utils = require('../utils/utilities');
 
 exports.findOneByUserIdForSession = id =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
-    .lean()
+    .lean(true)
     .exec();
 
 exports.findOneByemail = email =>
@@ -27,7 +27,7 @@ exports.findOneByemail = email =>
       skills: 0
     }
   )
-    .lean()
+    .lean(true)
     .exec();
 
 exports.findOneByUserId = id =>
@@ -47,7 +47,7 @@ exports.findOneByUserId = id =>
       skills: 0
     }
   )
-    .lean()
+    .lean(true)
     .exec();
 exports.createNewUser = async userDetails => {
   try {
@@ -74,7 +74,7 @@ exports.findOneByUserIdAndUpdateProfileInfo = (id, data, options) =>
     },
     options
   )
-    .lean()
+    .lean(true)
     .exec();
 
 exports.findOneByUserIdForPublicRecords = id =>
@@ -91,7 +91,7 @@ exports.findOneByUserIdForPublicRecords = id =>
       globalRating: 1
     }
   )
-    .lean()
+    .lean(true)
     .exec();
 
 // exports.registerNewUserWithPassword = async (userDetails) => {

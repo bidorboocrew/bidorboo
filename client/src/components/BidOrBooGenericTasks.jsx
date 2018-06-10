@@ -8,28 +8,34 @@ import * as ROUTES from '../constants/frontend-route-consts';
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
     switchRoute: PropTypes.func.isRequired,
-    isforHomePage: PropTypes.bool
+    isLoggedIn: PropTypes.bool,
+    showLoginDialog: PropTypes.func,
   };
-  static defaultProps = {
-    isforHomePage: false
-  };
+
   render() {
-    const { switchRoute, isforHomePage } = this.props;
+    const {
+      switchRoute,
+      isLoggedIn,
+      showLoginDialog
+    } = this.props;
     const genericTasks = Object.keys(templatesRepo).map(key => {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
         <div
           key={id}
-          className={classNames('column  bdbCardComponent fade-in', {
-            'is-one-third': !isforHomePage,
-            'is-half': isforHomePage
-          })}
+          className={classNames('column  bdbCardComponent fade-in is-one-third')}
         >
           <div
             onClick={e => {
               e.preventDefault();
-              switchRoute(`${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`);
+              if (!isLoggedIn) {
+                showLoginDialog(true);
+              } else {
+                switchRoute(
+                  `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
+                );
+              }
             }}
             className="card"
           >

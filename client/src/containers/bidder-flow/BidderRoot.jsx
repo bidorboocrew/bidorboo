@@ -16,6 +16,7 @@ import {
   searchByLocation
 } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 // import PlacesAutocomplete, {
 //   geocodeByAddress,
@@ -47,7 +48,7 @@ class BidderRoot extends React.Component {
 
   toggleHideMyJobs(e, excludeMyJobs) {
     e.preventDefault();
-    debugger;
+
     const { s_allThePostedJobsList, s_userDetails } = this.props;
     if (
       s_userDetails &&
@@ -74,6 +75,11 @@ class BidderRoot extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    const {a_showLoginDialog, match } = this.props;
+    const shouldShowLoginDialog = match.params.showLoginDialog;
+    if (shouldShowLoginDialog) {
+      a_showLoginDialog(true);
+    }
     this.props.a_getAllPostedJobs();
   }
 
@@ -85,7 +91,9 @@ class BidderRoot extends React.Component {
       s_userDetails,
       a_searchByLocation,
       s_mapCenterPoint,
-      a_selectJobToBidOn
+      a_selectJobToBidOn,
+      s_isLoggedIn,
+      a_showLoginDialog
     } = this.props;
 
     return (
@@ -150,28 +158,30 @@ class BidderRoot extends React.Component {
                   Filter Jobs
                 </a>
               </span>
-              <span>
-                {this.state.hideMyJobs && (
-                  <a
-                    onClick={e => {
-                      this.toggleHideMyJobs(e, false);
-                    }}
-                    className="button is-link"
-                  >
-                    Hide My Jobs
-                  </a>
-                )}
-                {!this.state.hideMyJobs && (
-                  <a
-                    onClick={e => {
-                      this.toggleHideMyJobs(e, true);
-                    }}
-                    className="button"
-                  >
-                    Hide My Jobs
-                  </a>
-                )}
-              </span>
+              {s_isLoggedIn && (
+                <span>
+                  {this.state.hideMyJobs && (
+                    <a
+                      onClick={e => {
+                        this.toggleHideMyJobs(e, false);
+                      }}
+                      className="button is-link"
+                    >
+                      Hide My Jobs
+                    </a>
+                  )}
+                  {!this.state.hideMyJobs && (
+                    <a
+                      onClick={e => {
+                        this.toggleHideMyJobs(e, true);
+                      }}
+                      className="button"
+                    >
+                      Hide My Jobs
+                    </a>
+                  )}
+                </span>
+              )}
             </div>
           </section>
 
@@ -216,6 +226,8 @@ class BidderRoot extends React.Component {
                 className="columns is-multiline"
               >
                 <PostedJobsToBidOnCard
+                  isLoggedIn={s_isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
                   currentUserId={s_userDetails._id}
                   switchRoute={a_switchRoute}
                   selectJobToBidOn={a_selectJobToBidOn}
@@ -234,13 +246,14 @@ class BidderRoot extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
+const mapStateToProps = ({ jobsReducer, userModelReducer, authReducer }) => {
   return {
     s_error: jobsReducer.error,
     s_isLoading: jobsReducer.isLoading,
     s_allThePostedJobsList: jobsReducer.allThePostedJobsList,
     s_mapCenterPoint: jobsReducer.mapCenterPoint,
-    s_userDetails: userModelReducer.userDetails
+    s_userDetails: userModelReducer.userDetails,
+    s_isLoggedIn: authReducer.isLoggedIn
   };
 };
 
@@ -249,6 +262,7 @@ const mapDispatchToProps = dispatch => {
     a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
     a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
     a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
   };
 };

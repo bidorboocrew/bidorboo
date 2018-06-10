@@ -25,7 +25,7 @@ exports.AppHealthModel = {
       setDefaultsOnInsert: true
     };
     return AppHealthModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   },
   incrementField: fieldToUpdate => {
@@ -48,7 +48,7 @@ exports.AppHealthModel = {
         new: true
       };
       return AppHealthModel.findOneAndUpdate(query, update, options)
-        .lean()
+        .lean(true)
         .exec();
     }
     return null;
@@ -62,7 +62,7 @@ exports.AppHealthModel = {
       new: true
     };
     return AppHealthModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   },
   siteState: ({
@@ -85,7 +85,7 @@ exports.AppHealthModel = {
       new: true
     };
     return AppHealthModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   }
 };
@@ -103,7 +103,7 @@ exports.AppJobsModel = {
       setDefaultsOnInsert: true
     };
     return AppJobsModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   },
   addToJobsIdList: newJobId => {
@@ -115,7 +115,7 @@ exports.AppJobsModel = {
     const update = { $push: { jobsIdList: newJobId } };
 
     return AppJobsModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   }
 };
@@ -133,7 +133,7 @@ exports.AppUsersModel = {
       setDefaultsOnInsert: true
     };
     return AppUsersModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   },
   addToUsersList: newUserMongoDbId => {
@@ -145,7 +145,7 @@ exports.AppUsersModel = {
     const update = { $push: { usersIdList: newUserMongoDbId } };
 
     return AppUsersModel.findOneAndUpdate(query, update, options)
-      .lean()
+      .lean(true)
       .exec();
   },
   getUsersFromUsersList: async () => {
@@ -160,7 +160,7 @@ exports.AppUsersModel = {
         { usersIdList: 1 }
       )
         .populate(populateOptions)
-        .lean()
+        .lean(true)
         .exec(); // only works if we pushed refs to children
       return populatedUsers;
     } catch (e) {

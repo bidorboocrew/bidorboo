@@ -7,6 +7,8 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 export default class PostedJobsToBidOnCard extends React.Component {
   static propTypes = {
+    isLoggedIn: PropTypes.bool,
+    showLoginDialog: PropTypes.func,
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -45,7 +47,9 @@ export default class PostedJobsToBidOnCard extends React.Component {
       jobsList,
       switchRoute,
       currentUserId,
-      selectJobToBidOn
+      selectJobToBidOn,
+      isLoggedIn,
+      showLoginDialog
     } = this.props;
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
@@ -57,6 +61,8 @@ export default class PostedJobsToBidOnCard extends React.Component {
             jobObj={job}
             jobCounterIndex={index}
             selectJobToBidOn={selectJobToBidOn}
+            isLoggedIn={isLoggedIn}
+            showLoginDialog={showLoginDialog}
           />
         ))
       ) : (
@@ -81,7 +87,14 @@ export default class PostedJobsToBidOnCard extends React.Component {
 }
 
 const JobCard = props => {
-  const { jobObj, jobCounterIndex, currentUserId, selectJobToBidOn } = props;
+  const {
+    jobObj,
+    jobCounterIndex,
+    currentUserId,
+    selectJobToBidOn,
+    isLoggedIn,
+    showLoginDialog
+  } = props;
   return (
     <div className="column is-one-third">
       <SummaryView
@@ -89,6 +102,8 @@ const JobCard = props => {
         jobCounterIndex={jobCounterIndex}
         jobObj={jobObj}
         selectJobToBidOn={selectJobToBidOn}
+        isLoggedIn={isLoggedIn}
+        showLoginDialog={showLoginDialog}
       />
     </div>
   );
@@ -100,7 +115,9 @@ class SummaryView extends React.Component {
       jobCounterIndex,
       jobObj,
       currentUserId,
-      selectJobToBidOn
+      selectJobToBidOn,
+      isLoggedIn,
+      showLoginDialog
     } = this.props;
     const {
       startingDateAndTime,
@@ -132,8 +149,12 @@ class SummaryView extends React.Component {
     return (
       <div
         onClick={() => {
-          if (_ownerId._id !== currentUserId) {
-            selectJobToBidOn(jobObj);
+          if (!isLoggedIn) {
+            showLoginDialog(true);
+          } else {
+            if (_ownerId._id !== currentUserId) {
+              selectJobToBidOn(jobObj);
+            }
           }
         }}
         className="card postedJobToBidOnCard  is-clipped"
@@ -183,31 +204,20 @@ class SummaryView extends React.Component {
               {startingDateAndTime &&
                 ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </p>
-            {/* <p className="heading">Status {state}</p> */}
-            {/* <p className="heading">
-              last updated {moment(updatedAt).format('MMMM Do YYYY')}
-            </p> */}
-
-            {areThereAnyBidders && (
-              <div className="card is-clipped">
-                <header className="card-header">
-                  <div
-                    style={{ paddingBottom: 10, paddingTop: 10 }}
-                    className="card-header-title card-content"
-                  >
-                    <span style={{ padding: '0.5rem 0.75rem' }}>Bids</span>
-                  </div>
-                </header>
-              </div>
-            )}
           </div>
         </div>
 
-        {_ownerId._id !== currentUserId && (
+        {(!isLoggedIn || _ownerId._id !== currentUserId) && (
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
               onClick={() => {
-                selectJobToBidOn(jobObj);
+                if (!isLoggedIn) {
+                  showLoginDialog(true);
+                } else {
+                  if (_ownerId._id !== currentUserId) {
+                    selectJobToBidOn(jobObj);
+                  }
+                }
               }}
               style={{ borderRadius: 0 }}
               className="button is-primary is-fullwidth is-large"
@@ -218,16 +228,17 @@ class SummaryView extends React.Component {
             </a>
           </div>
         )}
-        {_ownerId._id === currentUserId && (
-          <div className="has-text-centered" style={{ textAlign: 'center' }}>
-            <a
-              style={{ borderRadius: 0 }}
-              className="button is-static is-fullwidth disabled is-large"
-            >
-              My Job
-            </a>
-          </div>
-        )}
+        {isLoggedIn &&
+          _ownerId._id === currentUserId && (
+            <div className="has-text-centered" style={{ textAlign: 'center' }}>
+              <a
+                style={{ borderRadius: 0 }}
+                className="button is-static is-fullwidth disabled is-large"
+              >
+                My Job
+              </a>
+            </div>
+          )}
       </div>
     );
   }

@@ -13,7 +13,7 @@ module.exports = app => {
           return res.send(existingUser);
         }
       }
-      done(null, existingUser);
+      done(null, null);
     } catch (e) {
       return res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }

@@ -171,7 +171,7 @@ exports.jobDataAccess = {
         },
         { projection: { _id: 1 } }
       )
-        .lean()
+        .lean(true)
         .exec();
 
       return updateUserModelWithNewJob._id
@@ -205,14 +205,14 @@ exports.jobDataAccess = {
       //   skills: 0
       // }
     )
-      .lean()
+      .lean(true)
       .exec();
   },
   isJobOwner: (currentSessionUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerId: 1 })
       .where('_ownerId')
       .equals(currentSessionUserId)
-      .lean()
+      .lean(true)
       .exec();
   },
   findOneByJobIdAndUpdateJobInfo: (jobIdToUpdate, newJobDetails, options) => {
@@ -223,7 +223,7 @@ exports.jobDataAccess = {
       },
       options
     )
-      .lean()
+      .lean(true)
       .exec();
   }
 };

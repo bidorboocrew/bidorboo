@@ -12,7 +12,7 @@ module.exports = app => {
   app.get(
     ROUTES.AUTH.GOOGLE_CALLBACK,
     passport.authenticate('google', {
-      successRedirect: ROUTES.FRONTEND.HOME,
+      successReturnToOrRedirect: ROUTES.FRONTEND.HOME,
       failureRedirect: '/errorRoute',
       failureFlash: true
     })
@@ -26,7 +26,7 @@ module.exports = app => {
   app.get(
     ROUTES.AUTH.FACEBOOK_CALLBACK,
     passport.authenticate('facebook', {
-      successRedirect: ROUTES.FRONTEND.HOME,
+      successReturnToOrRedirect: ROUTES.FRONTEND.HOME,
       failureRedirect: '/errorRoute',
       failureFlash: true
     })

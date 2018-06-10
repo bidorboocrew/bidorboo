@@ -88,13 +88,9 @@ class Header extends React.Component {
         <div className="navbar-brand">
           <a
             onClick={() => {
-              s_isLoggedIn
-                ? this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
-                  })
-                : this.closeMenuThenExecute(() => {
-                    this.toggleLoginDialog();
-                  });
+              this.closeMenuThenExecute(() => {
+                a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
+              });
             }}
             style={{ paddingRight: 4 }}
             className="navbar-item"
@@ -125,7 +121,7 @@ class Header extends React.Component {
                   });
                 }}
               >
-                Login Now
+                Login
               </a>
             </div>
           )}
@@ -154,25 +150,26 @@ class Header extends React.Component {
           })}
         >
           {/* start */}
-          {s_isLoggedIn && (
-            <div className="navbar-start">
-              <div className="navbar-item has-dropdown is-hoverable">
-                <a
-                  onClick={() => {
-                    this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-                    });
-                  }}
-                  className="navbar-link"
-                >
-                  <i
-                    style={{ marginRight: 4 }}
-                    className="fa fa-child"
-                    aria-hidden="true"
-                  />
-                  <span>Proposer</span>
-                </a>
-                <div className="navbar-dropdown is-boxed">
+
+          <div className="navbar-start">
+            <div className="navbar-item has-dropdown is-hoverable">
+              <a
+                onClick={() => {
+                  this.closeMenuThenExecute(() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                  });
+                }}
+                className="navbar-link"
+              >
+                <i
+                  style={{ marginRight: 4 }}
+                  className="fa fa-child"
+                  aria-hidden="true"
+                />
+                <span>Proposer</span>
+              </a>
+              <div className="navbar-dropdown is-boxed">
+                {s_isLoggedIn && (
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
@@ -184,36 +181,38 @@ class Header extends React.Component {
                   >
                     My Posted Jobs
                   </a>
-                  <a
-                    style={{ marginleft: 4 }}
-                    className="navbar-item"
-                    onClick={() => {
-                      this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-                      });
-                    }}
-                  >
-                    Post jobs
-                  </a>
-                </div>
-              </div>
-              <div className="navbar-item has-dropdown is-hoverable">
+                )}
                 <a
+                  style={{ marginleft: 4 }}
+                  className="navbar-item"
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
                     });
                   }}
-                  className="navbar-link"
                 >
-                  <i
-                    style={{ marginRight: 4 }}
-                    className="fa fa-hand-paper"
-                    aria-hidden="true"
-                  />
-                  <span>Bidder</span>
+                  Post A Job
                 </a>
-                <div className="navbar-dropdown is-boxed">
+              </div>
+            </div>
+            <div className="navbar-item has-dropdown is-hoverable">
+              <a
+                onClick={() => {
+                  this.closeMenuThenExecute(() => {
+                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                  });
+                }}
+                className="navbar-link"
+              >
+                <i
+                  style={{ marginRight: 4 }}
+                  className="fa fa-hand-paper"
+                  aria-hidden="true"
+                />
+                <span>Bidder</span>
+              </a>
+              <div className="navbar-dropdown is-boxed">
+                {s_isLoggedIn && (
                   <a
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
@@ -225,21 +224,21 @@ class Header extends React.Component {
                   >
                     My Bids
                   </a>
-                  <a
-                    style={{ marginleft: 4 }}
-                    className="navbar-item"
-                    onClick={() => {
-                      this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
-                      });
-                    }}
-                  >
-                    Post A Bid
-                  </a>
-                </div>
+                )}
+                <a
+                  style={{ marginleft: 4 }}
+                  className="navbar-item"
+                  onClick={() => {
+                    this.closeMenuThenExecute(() => {
+                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    });
+                  }}
+                >
+                  Post A Bid
+                </a>
               </div>
             </div>
-          )}
+          </div>
 
           {/* end */}
           <div className="navbar-end">
@@ -297,7 +296,7 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    Login Now
+                    Login
                   </a>
                 </div>
               )}
@@ -326,4 +325,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

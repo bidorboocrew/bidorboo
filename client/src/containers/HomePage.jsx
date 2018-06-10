@@ -21,17 +21,12 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    const {
-      // a_getAllPostedJobs,
-      s_resolvedLogin,
-      a_showLoginDialog,
-      match
-    } = this.props;
+    const { a_showLoginDialog, match } = this.props;
     const shouldShowLoginDialog = match.params.showLoginDialog;
-    if (s_resolvedLogin && shouldShowLoginDialog) {
+
+    if (shouldShowLoginDialog) {
       a_showLoginDialog(true);
     }
-    // a_getAllPostedJobs();
   }
 
   render() {
@@ -43,7 +38,7 @@ class HomePage extends React.Component {
     } = this.props;
     return (
       <div id="bdb-home-content">
-        <section className="hero is-dark slide-in-left">
+        <section className="hero is-dark fade-in">
           <div className="hero-body">
             <div className="container">
               <Rotate delay={300} top left cascade>
@@ -63,82 +58,80 @@ class HomePage extends React.Component {
             <div className="container">
               <div className="columns">
                 <div className="column">
-                    <div className="card fade-in">
-                      <div className="card-image">
-                        <figure className="image is-16by9">
-                          <img
-                            src="https://www.auto-schnitter.de/wp-content/uploads/2015/10/DIFF-HAPPY-JOBS-940.png"
-                            alt="Placeholder image"
-                          />
-                        </figure>
-                      </div>
-                      <div className="card-content">
-                        <div className="content">
-                          <p className="title">Post Your Jobs</p>
-                          <p className="subtitle">
-                            Start with one of our templates and post your jobs.
-                            Get your chores done for a price that will please
-                            you.
-                          </p>
-                        </div>
-                      </div>
-                      <footer className="card-footer">
-                        <a
-                          onClick={() => {
-                            a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
-                          }}
-                          style={{
-                            borderRadius: 0,
-                            backgroundColor: '#e98969'
-                          }}
-                          className="card-footer-item button is-primary is-large"
-                        >
-                          <span style={{ marginLeft: 4 }}>
-                            <i className="fa fa-plus fa-w-14" /> Start Posting
-                            Jobs
-                          </span>
-                        </a>
-                      </footer>
+                  <div className="card fade-in">
+                    <div className="card-image">
+                      <figure className="image is-16by9">
+                        <img
+                          src="https://www.auto-schnitter.de/wp-content/uploads/2015/10/DIFF-HAPPY-JOBS-940.png"
+                          alt="Placeholder image"
+                        />
+                      </figure>
                     </div>
+                    <div className="card-content">
+                      <div className="content">
+                        <p className="title">Post Your Jobs</p>
+                        <p className="subtitle">
+                          Start with one of our templates and post your jobs.
+                          Get your chores done for a price that will please you.
+                        </p>
+                      </div>
+                    </div>
+                    <footer className="card-footer">
+                      <a
+                        onClick={() => {
+                          a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                        }}
+                        style={{
+                          borderRadius: 0,
+                          backgroundColor: '#e98969'
+                        }}
+                        className="card-footer-item button is-primary is-large"
+                      >
+                        <span style={{ marginLeft: 4 }}>
+                          <i className="fa fa-plus fa-w-14" /> Start Posting
+                          Jobs
+                        </span>
+                      </a>
+                    </footer>
+                  </div>
                 </div>
                 <div className="column">
-                    <div className="card fade-in">
-                      <div className="card-image">
-                        <figure className="image is-16by9">
-                          <img
-                            src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
-                            alt="Placeholder image"
-                          />
-                        </figure>
-                      </div>
-                      <div className="card-content">
-                        <div className="content">
-                          <p className="title">Bid On Jobs</p>
-                          <p className="subtitle">
-                            Start Bidding on the jobs. Do the work you like for
-                            the price you like. Be your own boss and manage your
-                            own schedule.
-                          </p>
-                        </div>
-                      </div>
-                      <footer className="card-footer">
-                        <a
-                          onClick={() => {
-                            a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
-                          }}
-                          style={{
-                            borderRadius: 0,
-                            backgroundColor: '#c786f8'
-                          }}
-                          className="card-footer-item button is-primary is-large"
-                        >
-                          <span style={{ marginLeft: 4 }}>
-                            <i className="fas fa-dollar-sign" /> Start Bidding
-                            Now
-                          </span>
-                        </a>
-                      </footer>
+                  <div className="card fade-in">
+                    <div className="card-image">
+                      <figure className="image is-16by9">
+                        <img
+                          src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
+                          alt="Placeholder image"
+                        />
+                      </figure>
                     </div>
+                    <div className="card-content">
+                      <div className="content">
+                        <p className="title">Bid On Jobs</p>
+                        <p className="subtitle">
+                          Start Bidding on the jobs. Do the work you like for
+                          the price you like. Be your own boss and manage your
+                          own schedule.
+                        </p>
+                      </div>
+                    </div>
+                    <footer className="card-footer">
+                      <a
+                        onClick={() => {
+                          a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                        }}
+                        style={{
+                          borderRadius: 0,
+                          backgroundColor: '#c786f8'
+                        }}
+                        className="card-footer-item button is-primary is-large"
+                      >
+                        <span style={{ marginLeft: 4 }}>
+                          <i className="fas fa-dollar-sign" /> Start Bidding Now
+                        </span>
+                      </a>
+                    </footer>
+                  </div>
                 </div>
               </div>
             </div>
@@ -184,22 +177,16 @@ class HomePage extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ authReducer, jobsReducer }) => {
-  return {
-    s_resolvedLogin: authReducer.resolvedLogin,
-    // s_mapCenterPoint: jobsReducer.mapCenterPoint,
-    // s_allThePostedJobsList: jobsReducer.allThePostedJobsList
-  };
-};
+
 const mapDispatchToProps = dispatch => {
   return {
     // a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
     // a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
   };
 };
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(HomePage);

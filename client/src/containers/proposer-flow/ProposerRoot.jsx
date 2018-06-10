@@ -3,14 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
 import { switchRoute } from '../../app-state/actions/routerActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 class ProposerRoot extends React.Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
+    const { a_showLoginDialog, match } = this.props;
+    const shouldShowLoginDialog = match.params.showLoginDialog;
+    if (shouldShowLoginDialog) {
+      a_showLoginDialog(true);
+    }
   }
 
   render() {
-    const { a_switchRoute } = this.props;
+    const { a_switchRoute, a_showLoginDialog, s_isLoggedIn } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -31,7 +36,11 @@ class ProposerRoot extends React.Component {
               // style={{alignItems:'flex-end'}}
               className="columns is-multiline"
             >
-              <BidOrBooGenericTasks switchRoute={a_switchRoute} />
+              <BidOrBooGenericTasks
+                showLoginDialog={a_showLoginDialog}
+                isLoggedIn={s_isLoggedIn}
+                switchRoute={a_switchRoute}
+              />
             </div>
           </div>
         </section>
@@ -39,11 +48,19 @@ class ProposerRoot extends React.Component {
     );
   }
 }
-
+const mapStateToProps = ({ authReducer, routerReducer, uiReducer }) => {
+  return {
+    s_isLoggedIn: authReducer.isLoggedIn
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProposerRoot);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProposerRoot);
