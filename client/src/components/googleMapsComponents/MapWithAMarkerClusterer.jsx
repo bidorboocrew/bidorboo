@@ -2,7 +2,7 @@ import React from 'react';
 import autoBind from 'react-autobind';
 
 import { compose, withProps } from 'recompose';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker,withScriptjs } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
@@ -22,6 +22,7 @@ const MapWithAMarkerClusterer = compose(
     ),
     mapElement: <div style={{ height: `100%` }} />
   }),
+  withScriptjs,
   withGoogleMap
 )(props => {
   return <TheMap {...props} />;
