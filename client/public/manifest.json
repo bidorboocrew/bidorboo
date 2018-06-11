@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Bid Or Boo platform",
   "lang": "en-US",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",

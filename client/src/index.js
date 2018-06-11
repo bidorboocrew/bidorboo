@@ -6,9 +6,10 @@ import ReactDOM from 'react-dom';
 // import 'typeface-roboto';
 
 //offline mode support
-import registerServiceWorker from './registerServiceWorker';
-// import { unregister } from './registerServiceWorker';
-
+// xxx said fix this default serviceworker is
+// intercepting login auth flowhttps://www.reddit.com/r/javascript/comments/7evkzu/my_service_worker_is_intercepting_my/
+// import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 //redux
 import { Provider } from 'react-redux';
@@ -29,5 +30,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('BidOrBoo-app')
 );
-// unregister();
-registerServiceWorker();
+unregister();
+// registerServiceWorker();
