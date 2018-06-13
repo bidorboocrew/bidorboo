@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const morganBody = require('morgan-body');
 
 const bugsnag = require('bugsnag');
-bugsnag.register(keys.bugSnagApiKey);
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -55,6 +54,8 @@ mongoose.connect(
 );
 
 const app = express();
+
+bugsnag.register(keys.bugSnagApiKey);
 
 app.use(bugsnag.requestHandler);
 app.use(bugsnag.errorHandler);
