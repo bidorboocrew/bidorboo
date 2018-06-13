@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import bugsnag from 'bugsnag-js';
+import createPlugin from 'bugsnag-react';
 
 //materialize css
 // import 'typeface-roboto';
@@ -22,12 +24,19 @@ import App from './containers/App';
 import { store, history } from './app-state/store';
 // registerServiceWorker();
 
+// add bugsnag support to capture errors
+// https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
+const bugsnagClient = bugsnag('73a5b07dd9df6ea352bebda9e3ce4f62');
+const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
+  <ErrorBoundary>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>
+  </ErrorBoundary>,
   document.getElementById('BidOrBoo-app')
 );
 unregister();

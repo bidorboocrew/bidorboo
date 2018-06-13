@@ -52,7 +52,12 @@ class HomePage extends React.Component {
             <div className="container">
               <div className="columns">
                 <div className="column">
-                  <div className="card fade-in">
+                  <div
+                    onClick={() => {
+                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                    }}
+                    className="card fade-in"
+                  >
                     <div className="card-image">
                       <figure className="image is-16by9">
                         <img
@@ -90,7 +95,12 @@ class HomePage extends React.Component {
                   </div>
                 </div>
                 <div className="column">
-                  <div className="card fade-in">
+                  <div
+                    onClick={() => {
+                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                    }}
+                    className="card fade-in"
+                  >
                     <div className="card-image">
                       <figure className="image is-16by9">
                         <img

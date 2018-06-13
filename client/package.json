@@ -28,6 +28,8 @@
     "@types/react": "^16.3.12",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
+    "bugsnag-js": "^4.7.1",
+    "bugsnag-react": "^1.1.1",
     "bulma": "^0.7.0",
     "classnames": "^2.2.5",
     "flexboxgrid-sass": "^8.0.5",

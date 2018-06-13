@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const morganBody = require('morgan-body');
 
+const bugsnag = require("bugsnag");
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -50,6 +51,13 @@ mongoose.connect(keys.mongoURI, dbOptions, err => {
 });
 
 const app = express();
+
+bugsnag.register(keys.bugSnagApiKey);
+app.use(bugsnag.requestHandler);
+app.use(bugsnag.errorHandler);
+bugsnag.autoNotify(function() {
+  // Your code here
+});
 
 // performance
 app.use(
