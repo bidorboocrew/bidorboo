@@ -59,9 +59,6 @@ bugsnag.register(keys.bugSnagApiKey);
 
 app.use(bugsnag.requestHandler);
 app.use(bugsnag.errorHandler);
-bugsnag.autoNotify(function(e) {
-  bugsnag.notify(new Error('error'+e));
-});
 
 // performance
 app.use(
