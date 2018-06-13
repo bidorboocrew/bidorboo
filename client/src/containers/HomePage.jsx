@@ -97,7 +97,7 @@ class HomePage extends React.Component {
                 <div className="column">
                   <div
                     onClick={() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
                     }}
                     className="card fade-in"
                   >
