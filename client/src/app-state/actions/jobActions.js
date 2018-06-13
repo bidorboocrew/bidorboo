@@ -56,8 +56,8 @@ export const deleteJob = jobId => (dispatch, getState) => {
               msg:
                 'Sorry That did not work, Please try again later.\n' +
                 (error && error.response && error.response.data
-                  ? error.response.data
-                  : error)
+                  ? JSON.stringify(error.response.data)
+                  : JSON.stringify(error))
             }
           }
         });
@@ -118,8 +118,8 @@ export const searchByLocation = userSearchQuery => {
                 msg:
                   'Sorry That did not work, Please try again later.\n' +
                   (error && error.response && error.response.data
-                    ? error.response.data
-                    : error)
+                    ? JSON.stringify(error.response.data)
+                    : JSON.stringify(error))
               }
             }
           });
@@ -237,8 +237,8 @@ export const addJob = jobDetails => dispatch => {
               msg:
                 'Sorry That did not work, Please try again later.\n' +
                 (error && error.response && error.response.data
-                  ? error.response.data
-                  : error)
+                  ? JSON.stringify(error.response.data)
+                  : JSON.stringify(error))
             }
           }
         });

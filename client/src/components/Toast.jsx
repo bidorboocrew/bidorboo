@@ -17,6 +17,9 @@ class Toast extends React.Component {
       toastId: PropTypes.string
     })
   };
+  static defaultProps = {
+    type: 'error'
+  };
 
   constructor(props) {
     super(props);
@@ -99,7 +102,7 @@ class Toast extends React.Component {
             }}
             className="delete"
           />
-          {msg}
+          {msg && typeof msg === 'string' ? msg : JSON.stringify(msg)}
         </div>
       )
     );

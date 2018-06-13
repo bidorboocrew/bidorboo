@@ -23,7 +23,11 @@ export const updateProfileDetails = profileDetails => (dispatch, getState) => {
         payload: {
           toastDetails: {
             type: 'error',
-            msg: 'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
+            msg:
+              'Sorry That did not work, Please try again later.\n' +
+              (error && error.response && error.response.data
+                ? JSON.stringify(error.response.data)
+                : JSON.stringify(error))
           }
         }
       });

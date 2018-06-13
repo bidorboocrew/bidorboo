@@ -17,7 +17,7 @@ export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
   });
 };
 
-export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
+export const submitBid = ({ bidAmount, jobId }) => dispatch => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
@@ -63,8 +63,8 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
               msg:
                 'Sorry That did not work, Please try again later.\n' +
                 (error && error.response && error.response.data
-                  ? error.response.data
-                  : error)
+                  ? JSON.stringify(error.response.data)
+                  : JSON.stringify(error))
             }
           }
         });
@@ -87,8 +87,8 @@ export const getAllMyBids = () => (dispatch, getState) => {
               msg:
                 'Sorry That did not work, Please try again later.\n' +
                 (error && error.response && error.response.data
-                  ? error.response.data
-                  : error)
+                  ? JSON.stringify(error.response.data)
+                  : JSON.stringify(error))
             }
           }
         });

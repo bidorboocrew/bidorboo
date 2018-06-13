@@ -36,7 +36,10 @@ export const getCurrentUser = () => (dispatch, getState) =>
               toastDetails: {
                 type: 'error',
                 msg:
-                  'Sorry That did not work, Please try again later.\n' + (error&& error.response && error.response.data ? error.response.data : error )
+                  'Sorry That did not work, Please try again later.\n' +
+                  (error && error.response && error.response.data
+                    ? JSON.stringify(error.response.data)
+                    : JSON.stringify(error))
               }
             }
           });
