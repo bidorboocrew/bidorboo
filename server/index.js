@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const morganBody = require('morgan-body');
 
-const bugsnag = require("bugsnag");
+const bugsnag = require('bugsnag');
+bugsnag.register(keys.bugSnagApiKey);
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -39,24 +40,26 @@ const dbOptions = {
 };
 // autoIndex: false // avoid performance hit due to schema level indexing
 
-
-mongoose.connect(keys.mongoURI, dbOptions, err => {
-  if (err) {
-    console.log(
-      `Could not connect to mongodb on localhost.
+mongoose.connect(
+  keys.mongoURI,
+  dbOptions,
+  err => {
+    if (err) {
+      console.log(
+        `Could not connect to mongodb on localhost.
       Ensure that you have mongodb running mongodb accepts connections on standard ports! error: ${err}`
-    );
-    throw(err);
+      );
+      throw err;
+    }
   }
-});
+);
 
 const app = express();
 
-bugsnag.register(keys.bugSnagApiKey);
 app.use(bugsnag.requestHandler);
 app.use(bugsnag.errorHandler);
 bugsnag.autoNotify(function() {
-  // Your code here
+  bugsnag.notify(new Error('error args ' + JSON.stringify(arguments)));
 });
 
 // performance
@@ -131,9 +134,7 @@ if (process.env.NODE_ENV === 'production') {
       'serving dirname ' +
         path.resolve(__dirname, '../client', './build', 'index.html')
     );
-    res.sendFile(
-      path.resolve(__dirname, '../client', './build', 'index.html')
-    );
+    res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
 
