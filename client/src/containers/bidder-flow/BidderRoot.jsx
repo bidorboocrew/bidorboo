@@ -9,7 +9,7 @@ import BidderMapSection from '../../components/bidder-components/BidderMapSectio
 
 import { Spinner } from '../../components/Spinner';
 import PostedJobsToBidOnCard from '../../components/bidder-components/PostedJobsToBidOnCard';
-import SearchForm from '../../components/forms/JobsLocationFilterForm';
+import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 import { switchRoute } from '../../app-state/actions/routerActions';
 import {
   getAllPostedJobs,
@@ -118,10 +118,11 @@ class BidderRoot extends React.Component {
                 />
               </header>
               <section style={{ padding: 0 }} className="modal-card-body">
-                <SearchForm
-                  onCancel={() => console.log('cancel')}
+                <JobsLocationFilterForm
+                  onCancel={() => {this.setState({showFilterDialog: false});}}
                   onSubmit={vals => {
                     a_searchByLocation(vals);
+                    this.setState({showFilterDialog: false});
                   }}
                 />
               </section>
