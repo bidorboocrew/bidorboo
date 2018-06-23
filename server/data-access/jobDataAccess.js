@@ -69,7 +69,7 @@ exports.jobDataAccess = {
   getJobsNear: ({
     searchLocation,
     searchRaduisInMeters = 15000,
-    excludedJobTemplates = []
+    jobTypeFilter = []
   }) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -88,11 +88,10 @@ exports.jobDataAccess = {
             uniqueDocs: true
           }
         };
-        console.log(excludedJobTemplates);
-        if (excludedJobTemplates && excludedJobTemplates.length > 0) {
+        if (jobTypeFilter && jobTypeFilter.length > 0) {
           //filter categories of jobs
           geoNearQuery.$geoNear.query = {
-            fromTemplateId: { $in: excludedJobTemplates }
+            fromTemplateId: { $in: jobTypeFilter }
           };
         }
 

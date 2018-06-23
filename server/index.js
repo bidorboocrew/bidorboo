@@ -35,9 +35,8 @@ const dbOptions = {
   keepAlive: 120,
   reconnectTries: 20, // Never stop trying to reconnect
   reconnectInterval: 5000, // Reconnect every 500ms,
-  config: { autoIndex: false }
+  // config: { autoIndex: false }// avoid performance hit due to schema level indexing
 };
-// autoIndex: false // avoid performance hit due to schema level indexing
 
 mongoose.connect(
   keys.mongoURI,
