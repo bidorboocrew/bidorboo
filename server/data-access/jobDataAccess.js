@@ -113,8 +113,10 @@ exports.jobDataAccess = {
           ],
           async (error, results) => {
             //populate job fields
-
-            if (results && results.length > 0) {
+            if(error){
+              reject(error);
+            }
+            else if (results && results.length > 0) {
               try {
                 let searchResults = results.map(async job => {
                   const dbJob = await JobModel.findById(job._id, {

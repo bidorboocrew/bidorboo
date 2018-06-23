@@ -211,12 +211,10 @@ export default withRouter(
  * @param {*}
  */
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  debugger;
   return (
     <Route
       {...rest}
       render={props => {
-        debugger;
         const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
         return isLoggedIn ? (
           <Component {...props} />

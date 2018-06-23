@@ -77,7 +77,6 @@ class BidderRoot extends React.Component {
     window.scrollTo(0, 0);
     const {a_showLoginDialog, match } = this.props;
     const shouldShowLoginDialog = match.params.showLoginDialog;
-    debugger
     if (shouldShowLoginDialog === "true") {
       a_showLoginDialog(true);
     }

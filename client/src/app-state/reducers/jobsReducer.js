@@ -47,7 +47,7 @@ export default function(state = initialState, { type, payload }) {
       return { ...state, error: getAllPostedJobsError, isLoading: false };
     // search jobs
     case `${A.JOB_ACTIONS.SEARCH_JOB}`:
-      return { ...state, mapCenterPoint: payload.searchLocation };
+    return { ...state, mapCenterPoint: payload.searchLocation };
     case `${A.JOB_ACTIONS.SEARCH_JOB}${A._PENDING}`:
       return { ...state, isLoading: true };
     case `${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`:

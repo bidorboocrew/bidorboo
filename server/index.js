@@ -52,11 +52,9 @@ mongoose.connect(
     }
   }
 );
-
-const app = express();
-
 bugsnag.register(keys.bugSnagApiKey);
 
+const app = express();
 app.use(bugsnag.requestHandler);
 app.use(bugsnag.errorHandler);
 
