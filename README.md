@@ -1,6 +1,4 @@
 # Bid OR Boo
-## welcome to bid or boo main repo
-
 
 
 
