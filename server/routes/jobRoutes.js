@@ -48,7 +48,7 @@ module.exports = app => {
         let searchQuery = {
           searchLocation: searchParams.searchLocation,
           searchRaduisInMeters: searchParams.searchRaduis,
-          excludedJobTemplates: searchParams.excludedJobTemplates
+          jobTypeFilter: searchParams.jobTypeFilter
         };
 
         existingJob = await jobDataAccess.getJobsNear(searchQuery);
