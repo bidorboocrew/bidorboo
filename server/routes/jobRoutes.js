@@ -57,8 +57,6 @@ module.exports = app => {
         } else {
           return res.send({ Error: 'JobId Was Not Specified' });
         }
-
-        done(null, existingJob);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
