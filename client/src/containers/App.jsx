@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter, Redirect } from 'react-router';
 import LoadingBar from 'react-redux-loading-bar';
-
+import AdSense from 'react-adsense';
 import Toast from '../components/Toast';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -180,6 +180,19 @@ class App extends React.Component {
               </Switch>
             </div>
           </div>
+          <footer className="footer">
+            <div className="content has-text-centered">
+              <p>
+                <AdSense.Google
+                  client="ca-pub-8548472000108613"
+                  slot="7806394673"
+                  style={{ display: 'block' }}
+                  layout="in-article"
+                  format="fluid"
+                />
+              </p>
+            </div>
+          </footer>
         </div>
       </div>
     );
@@ -192,6 +205,7 @@ const mapStateToProps = ({ authReducer, routerReducer, uiReducer }) => {
     s_toastDetails: uiReducer.toastDetails
   };
 };
+
 const mapDispatchToProps = dispatch => {
   return {
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch)

@@ -140,42 +140,6 @@ class HomePage extends React.Component {
               </div>
             </div>
           </section>
-
-          {/* <div className="columns is-multiline">
-            <div className="column is-7">
-              <div className="has-text-centered">
-                <div className="card-header-title has-text-grey-dark is-title">
-                  <i
-                    style={{ marginRight: 4 }}
-                    className="fa fa-plus fa-w-14"
-                  />
-                  <span> Start posting jobs</span>
-                </div>
-              </div>
-              <div
-                style={{ alignItems: 'flex-end' }}
-                className="columns is-multiline"
-              >
-                <BidOrBooGenericTasks
-                  isforHomePage={true}
-                  switchRoute={a_switchRoute}
-                />
-              </div>
-            </div>
-            <div className="column is-5">
-              <div className="has-text-centered">
-                <div className="card-header-title has-text-grey-dark is-title">
-                  <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-                  <span> Start Bidding on jobs</span>
-                </div>
-              </div>
-              <HomePageMapSection
-                selectJobToBidOn={a_selectJobToBidOn}
-                mapCenterPoint={s_mapCenterPoint}
-                jobsList={s_allThePostedJobsList}
-              />
-            </div>
-          </div> */}
         </div>
       </div>
     );
