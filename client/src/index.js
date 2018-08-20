@@ -39,5 +39,7 @@ ReactDOM.render(
   </ErrorBoundary>,
   document.getElementById('BidOrBoo-app')
 );
-unregister();
+// unregister();
 // registerServiceWorker();
+
+console.log('env is '+ process.env.REACT_APP_STRIPE_KEY)

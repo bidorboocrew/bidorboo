@@ -6,6 +6,7 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
+import StripeCheckout from 'react-stripe-checkout';
 
 class MyPostedJobCard extends React.Component {
   static propTypes = {
@@ -73,6 +74,8 @@ const JobCard = props => {
 };
 
 class SummaryView extends React.Component {
+  state = { showStripePayment: false };
+
   render() {
     const { jobCounterIndex, userDetails, jobObj } = this.props;
     const {
@@ -158,6 +161,7 @@ class SummaryView extends React.Component {
         </div>
 
         <div className="has-text-centered" style={{ textAlign: 'center' }}>
+          {/* show as disabled */}
           {!areThereAnyBidders && (
             <a
               disabled
@@ -169,15 +173,24 @@ class SummaryView extends React.Component {
               </span>
             </a>
           )}
+          {/* show as enabled cuz there is bidders */}
           {areThereAnyBidders && (
-            <a
-              style={{ borderRadius: 0 }}
-              className="button is-primary is-fullwidth is-large"
-            >
-              <span style={{ marginLeft: 4 }}>
-                <i className="fa fa-hand-paper" /> Review Bids
-              </span>
-            </a>
+            <React.Fragment>
+              <a
+                style={{ borderRadius: 0 }}
+                className="button is-primary is-fullwidth is-large"
+                onClick={() => {
+                  // open stripe checkout
+                  this.setState({ showStripePayment: true });
+                }}
+              >
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-hand-paper" /> Review Bids
+                </span>
+              </a>
+                <br/>
+              <Payments />
+            </React.Fragment>
           )}
         </div>
         <BidsTable
@@ -256,6 +269,22 @@ class BidsTable extends React.Component {
       </table>
     );
     return <React.Fragment>{BidsTable}</React.Fragment>;
+  }
+}
+
+class Payments extends React.Component {
+  render() {
+    return (
+      <StripeCheckout
+        amount={50000}
+        name={"BidOrBoo"}
+        description={"We will hold the amount and only release it when the task is completed"}
+        token={token => console.log(token)}
+        stripeKey={process.env.REACT_APP_STRIPE_KEY}
+      >
+        <button className="button is-primary">Pay for this job</button>
+      </StripeCheckout>
+    );
   }
 }
 

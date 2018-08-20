@@ -74,6 +74,17 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
+          const latestProfilePhoto = profile.photos
+            ? profile.photos[0].value
+            : 'https://goo.gl/92gqPL';
+
+          // update the profile pic
+          if (latestProfilePhoto !== existingUser.profileImgUrl) {
+            existingUser = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
+              profile.id,
+              { profileImgUrl: latestProfilePhoto }
+            );
+          }
           return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';

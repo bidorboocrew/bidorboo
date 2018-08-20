@@ -13,7 +13,7 @@ const BidSchema = new Schema(
       type: String,
       enum: ['OPEN', 'BOO', 'WIN', 'CANCEL', 'MODIFIED']
     },
-    hasJobOwnerSeenThis: { type: Boolean, default: false }, // will be used to highlight unseen bids
+    isNewBid: { type: Boolean, default: true }, // will be used to highlight unseen bids
     bidAmount: {
       value: { type: Number, required: true },
       currency: {

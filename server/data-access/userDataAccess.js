@@ -49,6 +49,7 @@ exports.findOneByUserId = id =>
   )
     .lean(true)
     .exec();
+
 exports.createNewUser = async userDetails => {
   try {
     const newUser = await new User({
@@ -77,19 +78,13 @@ exports.findOneByUserIdAndUpdateProfileInfo = (id, data, options) =>
     .lean(true)
     .exec();
 
-exports.findOneByUserIdForPublicRecords = id =>
-  User.findOne(
+exports.updateLastSeenOnline = id =>
+  User.findOneAndUpdate(
     { userId: id },
     {
-      userId: 1,
-      _reviews: 1,
-      displayName: 1,
-      profileImgUrl: 1,
-      personalParagraph: 1,
-      membershipStatus: 1,
-      verified: 1,
-      globalRating: 1
-    }
+      $set: { lastSeenOnline: new Date() }
+    },
+    options
   )
     .lean(true)
     .exec();
