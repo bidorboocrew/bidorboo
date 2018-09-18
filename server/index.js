@@ -2,9 +2,15 @@ const compression = require('compression');
 const express = require('express');
 const mongoose = require('mongoose');
 
+
+// for logs
 const morganBody = require('morgan-body');
 
+// to log our customer encountered  bugs
 const bugsnag = require('bugsnag');
+
+//
+var cloudinary = require('cloudinary');
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -16,11 +22,6 @@ const csp = require('express-csp-header');
 
 const keys = require('./config/keys');
 
-/**
- * Requiring `winston-mongodb` will expose
- * `winston.transports.MongoDB`
- */
-require('winston-mongodb').MongoDB;
 
 require('./models/bidModel');
 require('./models/applicationGlobalModels');
@@ -51,9 +52,12 @@ mongoose.connect(
     }
   }
 );
-bugsnag.register(keys.bugSnagApiKey);
+
 
 const app = express();
+
+// to log bugs into bugsnag
+bugsnag.register(keys.bugSnagApiKey);
 app.use(bugsnag.requestHandler);
 app.use(bugsnag.errorHandler);
 
