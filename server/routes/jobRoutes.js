@@ -111,6 +111,22 @@ module.exports = app => {
       }
     }
   );
+  app.post(
+    ROUTES.USERAPI.JOB_ROUTES.uploadImage,
+    requireLogin,
+    async (req, res) => {
+      try {
+        // create new job for this user
+        const data = req.body.data;
+        const userId = req.user.userId;
+        const userMongoDBId = req.user._id;
+
+        res.send({});
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      }
+    }
+  );
 
   app.put(
     ROUTES.USERAPI.JOB_ROUTES,

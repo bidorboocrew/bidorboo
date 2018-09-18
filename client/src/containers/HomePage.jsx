@@ -14,7 +14,6 @@ import { switchRoute } from '../app-state/actions/routerActions';
 // import HomePageMapSection from '../components/HomePageMapSection';
 // import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 // import { getAllPostedJobs } from '../app-state/actions/jobActions';
-
 const djsConfig = {
   addRemoveLinks: true,
   acceptedFiles: "image/jpeg,image/png,image/gif"
@@ -23,7 +22,7 @@ const djsConfig = {
 const componentConfig = {
   iconFiletypes: ['.jpg', '.png', '.gif'],
   showFiletypeIcon: true,
-  postUrl: '/uploadHandler'   // route url to upload file over server
+  postUrl: '/job/uploadImages'   // route url to upload file over server
 };
 const eventHandlers = {
   init: dz => this.dropzone = dz,
@@ -33,13 +32,15 @@ const eventHandlers = {
   removedfile: this.removedfile,
   uploadprogress: this.progress
 }
+
 class Basic extends React.Component {
   constructor() {
     super()
     this.state = { files: [] }
   }
 
-  onDrop(files) {
+  eventHandlers(files) {
+    debugger;
     this.setState({
       files
     });
