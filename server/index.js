@@ -1,10 +1,14 @@
 const express = require('express');
 const passport = require('passport');
+const corsPrefetch = require('cors-prefetch-middleware').default;
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 
 const app = express();
+
+// allow file upload
+app.use(corsPrefetch);
 
 // initialize bugsnag
 require('./services/bugSnag')(app);

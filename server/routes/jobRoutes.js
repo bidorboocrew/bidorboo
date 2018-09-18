@@ -121,7 +121,7 @@ module.exports = app => {
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
 
-        res.send({});
+        res.sendStatus(200);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }

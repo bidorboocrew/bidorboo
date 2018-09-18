@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DropzoneComponent from 'react-dropzone-component';
 
 // import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
 import Rotate from 'react-reveal/Rotate';
@@ -14,47 +13,8 @@ import { switchRoute } from '../app-state/actions/routerActions';
 // import HomePageMapSection from '../components/HomePageMapSection';
 // import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 // import { getAllPostedJobs } from '../app-state/actions/jobActions';
-const djsConfig = {
-  addRemoveLinks: true,
-  acceptedFiles: "image/jpeg,image/png,image/gif"
-};
 
-const componentConfig = {
-  iconFiletypes: ['.jpg', '.png', '.gif'],
-  showFiletypeIcon: true,
-  postUrl: '/job/uploadImages'   // route url to upload file over server
-};
-const eventHandlers = {
-  init: dz => this.dropzone = dz,
-  drop: this.callbackArray,
-  addedfile: this.callback,
-  success: this.success,
-  removedfile: this.removedfile,
-  uploadprogress: this.progress
-}
 
-class Basic extends React.Component {
-  constructor() {
-    super()
-    this.state = { files: [] }
-  }
-
-  eventHandlers(files) {
-    debugger;
-    this.setState({
-      files
-    });
-  }
-
-  render() {
-    return (
-      <section>
-       <DropzoneComponent config={componentConfig} eventHandlers={eventHandlers} djsConfig={djsConfig} />
-
-      </section>
-    );
-  }
-}
 class HomePage extends React.Component {
   static propTypes = {
     a_showLoginDialog: PropTypes.func.isRequired
@@ -73,7 +33,6 @@ class HomePage extends React.Component {
     } = this.props;
     return (
       <div id="bdb-home-content">
-      <Basic></Basic>
         <section className="hero is-dark fade-in">
           <div className="hero-body">
             <div className="container">

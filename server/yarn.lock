@@ -690,6 +690,10 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+cors-prefetch-middleware@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cors-prefetch-middleware/-/cors-prefetch-middleware-1.0.0.tgz#804eae678db09697d715d7c427edd2653a93346d"
+
 create-error-class@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
