@@ -17,7 +17,7 @@
   "dependencies": {
     "async": "^2.6.0",
     "bcrypt": "^1.0.3",
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "bugsnag": "^2.4.2",
     "cloudinary": "^1.11.0",
     "compression": "^1.7.2",

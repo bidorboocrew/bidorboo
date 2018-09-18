@@ -2102,6 +2102,10 @@ dotenv@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
+dropzone@^5.4.0:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-5.5.1.tgz#06e2f513e61d6aa363d4b556f18574f47cf7ba26"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -2642,6 +2646,10 @@ express@^4.13.3:
     type-is "~1.6.15"
     utils-merge "1.0.1"
     vary "~1.1.2"
+
+extend@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
 
 extend@~3.0.0, extend@~3.0.1:
   version "3.0.1"
@@ -5832,6 +5840,13 @@ react-dom@^16.4.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+react-dropzone-component@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-dropzone-component/-/react-dropzone-component-3.2.0.tgz#8ad4cdce342084fb87302ddec6651caa49d8b103"
+  dependencies:
+    dropzone "^5.4.0"
+    extend "^3.0.1"
 
 react-error-overlay@^4.0.0:
   version "4.0.0"

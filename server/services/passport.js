@@ -1,13 +1,12 @@
 const passport = require('passport');
 const ROUTES = require('../backend_route_constants');
-const applicationDataAccess = require('../data-access/applicationDataAccess');
 
 const userDataAccess = require('../data-access/userDataAccess');
 
 const keys = require('../config/keys');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
+
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {

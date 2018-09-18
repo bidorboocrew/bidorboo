@@ -1,121 +1,32 @@
-const compression = require('compression');
 const express = require('express');
-const mongoose = require('mongoose');
-
-
-// for logs
-const morganBody = require('morgan-body');
-
-// to log our customer encountered  bugs
-const bugsnag = require('bugsnag');
-
-//
-var cloudinary = require('cloudinary');
-
-const cookieSession = require('cookie-session');
 const passport = require('passport');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
-const helmet = require('helmet');
-const csp = require('express-csp-header');
-
-const keys = require('./config/keys');
-
-
-require('./models/bidModel');
-require('./models/applicationGlobalModels');
-require('./models/userModel');
-require('./models/reviewModel');
-require('./models/jobModel');
-require('./services/passport');
-
-mongoose.Promise = global.Promise;
-
-const dbOptions = {
-  keepAlive: 120,
-  reconnectTries: 20, // Never stop trying to reconnect
-  reconnectInterval: 5000, // Reconnect every 500ms,
-  // config: { autoIndex: false }// avoid performance hit due to schema level indexing
-};
-
-mongoose.connect(
-  keys.mongoURI,
-  dbOptions,
-  err => {
-    if (err) {
-      console.log(
-        `Could not connect to mongodb on localhost.
-      Ensure that you have mongodb running mongodb accepts connections on standard ports! error: ${err}`
-      );
-      throw err;
-    }
-  }
-);
-
+// initialize and start mongodb
+require('./services/mongoDB')(process);
 
 const app = express();
 
-// to log bugs into bugsnag
-bugsnag.register(keys.bugSnagApiKey);
-app.use(bugsnag.requestHandler);
-app.use(bugsnag.errorHandler);
+// initialize bugsnag
+require('./services/bugSnag')(app);
 
-// performance
-app.use(
-  compression({
-    filter: (req, res) => {
-      if (req.headers['x-no-compression']) {
-        // don't compress responses with this request header
-        return false;
-      }
-      // fallback to standard filter function
-      return compression.filter(req, res);
-    }
-  })
-);
+// initialize security and compression
+require('./services/SecurityAndCompression')(app);
 
-const cspMiddleware = csp({
-  policies: {
-    'block-all-mixed-content': true
-  }
-});
-app.use(cspMiddleware);
+// initialize logging
+require('./services/loging')(app);
 
-// security package
-app.use(helmet());
-app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-morganBody(app);
+// initialize cookie session and body parser
+require('./services/cookieSessionAndParser')(app);
 
-//https://github.com/expressjs/cookie-session
-const expiryDate = 24 * 60 * 60 * 1000; //10 days
-app.use(
-  cookieSession({
-    maxAge: expiryDate, // 24 hours
-    keys: [keys.cookieKey, keys.cookieKey2],
-    cookie: {
-      secure: true,
-      httpOnly: true,
-      domain: 'bidorboo.com',
-      expires: new Date(Date.now() + expiryDate) // 1 hour
-    }
-  })
-);
-app.use(cookieParser());
-
+// instantiate passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// define app routes
+// instantiate app routes
 require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/jobRoutes')(app);
 require('./routes/bidderRoutes')(app);
-
-//my test path
-// require('./routes/zzzzzzzzzzzzzzzzzzz')(app,logger);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
@@ -139,13 +50,3 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-
-process.on('SIGINT', function() {
-  console.log('=== safe shut down ==== bid or boo ');
-  mongoose.connection.close(() => {
-    console.log(
-      'Mongoose default connection is disconnected due to application termination'
-    );
-    process.exit(0);
-  });
-});
