@@ -14,7 +14,8 @@ module.exports = {
     JOB_ROUTES: {
       myjobs: '/job/myjobs',
       alljobs: '/job/alljobs',
-      postASearch: '/job/search'
+      postASearch: '/job/search',
+      uploadImage: '/job/uploadImages'
     },
     BIDDER_ROUTES: {
       postABid: '/bids/post_a_bid',

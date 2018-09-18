@@ -15,6 +15,9 @@ require('./services/SecurityAndCompression')(app);
 // initialize logging
 require('./services/loging')(app);
 
+// file uploader service cloudinary
+require('./services/cloudinaryFileUploader')();
+
 // initialize cookie session and body parser
 require('./services/cookieSessionAndParser')(app);
 

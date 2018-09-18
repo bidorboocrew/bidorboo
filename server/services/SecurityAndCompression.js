@@ -1,4 +1,3 @@
-// to log our customer encountered  bugs
 const compression = require('compression');
 const helmet = require('helmet');
 const csp = require('express-csp-header');
