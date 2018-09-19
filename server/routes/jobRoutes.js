@@ -122,11 +122,11 @@ module.exports = app => {
         const data = req.body.data;
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
-        await cloudinary.v2.uploader.upload(x[0].path, (error, result) => {
-          console.log(result, error);
-        });
+        // await cloudinary.v2.uploader.upload(x[0].path, (error, result) => {
+        //   console.log(result, error);
+        // });
 
-        res.sendStatus(200);
+        res.send({});
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
