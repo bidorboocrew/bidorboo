@@ -10,10 +10,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
+
+import { FileUploader } from './FileUploaderComponent';
 // import HomePageMapSection from '../components/HomePageMapSection';
 // import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 // import { getAllPostedJobs } from '../app-state/actions/jobActions';
-
 
 class HomePage extends React.Component {
   static propTypes = {
@@ -33,6 +34,19 @@ class HomePage extends React.Component {
     } = this.props;
     return (
       <div id="bdb-home-content">
+        <section>
+          {/* <FileUploader /> */}
+          <br />
+          <form
+            action="/job/uploadImages"
+            enctype="multipart/form-data"
+            method="post"
+          >
+            <input type="file" name="upload" multiple />
+
+            <input type="submit" value="Upload" />
+          </form>
+        </section>
         <section className="hero is-dark fade-in">
           <div className="hero-body">
             <div className="container">
