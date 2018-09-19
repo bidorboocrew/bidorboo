@@ -1,8 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import yup from 'yup';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
 
 const dropzoneStyle = {
   width: '100%',
@@ -17,10 +15,10 @@ export const FileUploader = () => (
   <div className="container">
     <Formik
       initialValues={{
-        files: [],
-        filesToUpload: []
+        files: []
       }}
-      render={({ values, handleSubmit, setFieldValue }) => (
+      onSubmit={() => null}
+      render={({ values, setFieldValue }) => (
         <form
           action="/job/uploadImages"
           encType="multipart/form-data"
@@ -32,14 +30,16 @@ export const FileUploader = () => (
               maxSize={MAX_FILE_SIZE_IN_MB}
               style={dropzoneStyle}
               accept="image/*"
-              name="filesToUpload"
               onDrop={acceptedFiles => {
                 // do nothing if no files
                 if (acceptedFiles.length === 0) {
+                  console.log('if (acceptedFiles.length === 0) {');
                   return;
                 }
                 // on drop we add to the existing files
-                setFieldValue('files', values.files.concat(acceptedFiles));
+                debugger;
+                const newFile = values.files.concat(acceptedFiles);
+                setFieldValue('files', newFile);
               }}
             >
               {({
@@ -49,14 +49,20 @@ export const FileUploader = () => (
                 rejectedFiles
               }) => {
                 if (isDragActive) {
+                  console.log('This file is authorized isDragActive');
                   return 'This file is authorized';
                 }
 
                 if (isDragReject) {
+                  console.log('This file is authorized isDragReject');
+
                   return 'This file is not authorized';
                 }
 
                 if (values.files.length === 0) {
+                  debugger;
+                  console.log('values.files.length === 0');
+
                   return <p>Try dragging a file here!</p>;
                 }
 
@@ -74,40 +80,47 @@ export const FileUploader = () => (
     />
   </div>
 );
-
 class Thumb extends React.Component {
-  state = {
-    loading: false,
-    thumb: undefined
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      thumb: undefined
+    };
+  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!nextProps.file) {
+  //     return;
+  //   }
+  //   this.setState({ loading: true }, () => {
+  //     let reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       this.setState({ loading: false, thumb: reader.result });
+  //     };
+  //     reader.readAsDataURL(nextProps.file);
+  //   });
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.file) {
-      return;
-    }
-
-    this.setState({ loading: true }, () => {
+  componentDidMount() {
+    const { file } = this.props;
+    if (file) {
       let reader = new FileReader();
-      debugger;
       reader.onloadend = () => {
         this.setState({ loading: false, thumb: reader.result });
       };
-      reader.readAsDataURL(nextProps.file);
-    });
+      reader.readAsDataURL(file);
+    }
   }
-
   render() {
+    debugger;
     const { file } = this.props;
     const { loading, thumb } = this.state;
-
     if (!file) {
       return null;
     }
-
     if (loading) {
       return <p>loading...</p>;
     }
-
     return (
       <img
         src={thumb}
