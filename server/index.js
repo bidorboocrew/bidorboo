@@ -12,7 +12,7 @@ require('./services/mongoDB')(process);
 
 const app = express();
 
-app.use(upload.array('upload'));
+app.use(upload.array('filesToUpload'));
 
 // allow file upload
 app.use(corsPrefetch);

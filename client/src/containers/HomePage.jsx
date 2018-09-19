@@ -35,7 +35,7 @@ class HomePage extends React.Component {
     return (
       <div id="bdb-home-content">
         <section>
-          {/* <FileUploader /> */}
+          <FileUploader />
           <br />
           <form
             action="/job/uploadImages"

@@ -12,53 +12,32 @@ const dropzoneStyle = {
   borderStyle: 'dashed',
   borderRadius: 5
 };
-
+const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
 export const FileUploader = () => (
   <div className="container">
     <Formik
       initialValues={{
-        files: []
+        files: [],
+        filesToUpload: []
       }}
-      onSubmit={values => {
-        debugger;
-        values.files &&
-        values.files.length > 0 &&
-        axios.post(
-          '/job/uploadImages',
-          {
-            data: values.files
-          },
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        );
-
-        // alert(
-        //   JSON.stringify(
-        //     {
-        //       files: values.files.map(file => ({
-        //         formData.append(`file`)
-        //       }))
-        //     },
-        //     null,
-        //     2
-        //   )
-        // );
-      }}
-      validationSchema={yup.object().shape({
-        recaptcha: yup.array()
-      })}
       render={({ values, handleSubmit, setFieldValue }) => (
-        <form onSubmit={handleSubmit}>
+        <form
+          action="/job/uploadImages"
+          encType="multipart/form-data"
+          method="post"
+        >
           <div className="form-group">
             <label>Multiple files</label>
             <Dropzone
+              maxSize={MAX_FILE_SIZE_IN_MB}
               style={dropzoneStyle}
               accept="image/*"
+              name="filesToUpload"
               onDrop={acceptedFiles => {
                 // do nothing if no files
                 if (acceptedFiles.length === 0) {
                   return;
                 }
-
                 // on drop we add to the existing files
                 setFieldValue('files', values.files.concat(acceptedFiles));
               }}
@@ -88,7 +67,7 @@ export const FileUploader = () => (
             </Dropzone>
           </div>
           <button type="submit" className="btn btn-primary">
-            submit
+            UPLOAD
           </button>
         </form>
       )}
@@ -109,7 +88,7 @@ class Thumb extends React.Component {
 
     this.setState({ loading: true }, () => {
       let reader = new FileReader();
-
+      debugger;
       reader.onloadend = () => {
         this.setState({ loading: false, thumb: reader.result });
       };
