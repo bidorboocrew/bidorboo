@@ -73,8 +73,6 @@ const JobCard = props => {
 };
 
 class SummaryView extends React.Component {
-  state = { showStripePayment: false };
-
   render() {
     const { jobCounterIndex, userDetails, jobObj } = this.props;
     const {
@@ -178,17 +176,12 @@ class SummaryView extends React.Component {
               <a
                 style={{ borderRadius: 0 }}
                 className="button is-primary is-fullwidth is-large"
-                onClick={() => {
-                  // open stripe checkout
-                  this.setState({ showStripePayment: true });
-                }}
               >
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-hand-paper" /> Review Bids
                 </span>
               </a>
-                <br/>
-              <Payments />
+              <br />
             </React.Fragment>
           )}
         </div>
@@ -268,22 +261,6 @@ class BidsTable extends React.Component {
       </table>
     );
     return <React.Fragment>{BidsTable}</React.Fragment>;
-  }
-}
-
-class Payments extends React.Component {
-  render() {
-    return (
-      <StripeCheckout
-        amount={50000}
-        name={"BidOrBoo"}
-        description={"We will hold the amount and only release it when the task is completed"}
-        token={token => console.log(token)}
-        stripeKey={process.env.REACT_APP_STRIPE_KEY}
-      >
-        <button className="button is-primary">Pay for this job</button>
-      </StripeCheckout>
-    );
   }
 }
 

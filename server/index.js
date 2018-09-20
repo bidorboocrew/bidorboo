@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const corsPrefetch = require('cors-prefetch-middleware').default;
 const path = require('path');
 
 const multer = require('multer');
@@ -13,8 +12,6 @@ const app = express();
 
 app.use(upload.array('filesToUpload'));
 
-// allow file upload
-app.use(corsPrefetch);
 
 // initialize bugsnag
 require('./services/bugSnag')(app);
