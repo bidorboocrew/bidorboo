@@ -4,8 +4,7 @@ const corsPrefetch = require('cors-prefetch-middleware').default;
 const path = require('path');
 
 const multer = require('multer');
-var upload = multer({  dest: path.resolve(__dirname, '../uploadsTempDir') })
-
+var upload = multer({ dest: path.resolve(__dirname, '../uploadsTempDir') });
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);

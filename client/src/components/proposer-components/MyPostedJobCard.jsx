@@ -6,7 +6,6 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
-import StripeCheckout from 'react-stripe-checkout';
 
 class MyPostedJobCard extends React.Component {
   static propTypes = {

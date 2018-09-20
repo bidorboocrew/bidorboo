@@ -4,11 +4,7 @@ const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const isJobOwner = require('../middleware/isJobOwner');
-const multiparty = require('multiparty');
 const cloudinary = require('cloudinary');
-const fs = require('fs');
-var formidable = require('formidable');
-var multer = require('multer');
 
 module.exports = app => {
   app.get(
