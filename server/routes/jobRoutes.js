@@ -4,6 +4,11 @@ const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const isJobOwner = require('../middleware/isJobOwner');
+const multiparty = require('multiparty');
+const cloudinary = require('cloudinary');
+const fs = require('fs');
+var formidable = require('formidable');
+var multer = require('multer');
 
 module.exports = app => {
   app.get(
@@ -43,7 +48,6 @@ module.exports = app => {
         if (!searchParams) {
           return res.send({ Error: 'JobId search params were Not Specified' });
         }
-
 
         let searchQuery = {
           searchLocation: searchParams.searchLocation,
@@ -89,39 +93,45 @@ module.exports = app => {
     }
   );
 
-  app.post(
-    ROUTES.USERAPI.JOB_ROUTES.myjobs,
-    requireLogin,
-    async (req, res) => {
-      try {
-        // create new job for this user
-        const data = req.body.data;
-        const userId = req.user.userId;
-        const userMongoDBId = req.user._id;
-        const newJob = await jobDataAccess.addAJob(
-          {
-            ...data.jobDetails,
-            _ownerId: userMongoDBId
-          },
-          userId
-        );
-        res.send(newJob);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      }
+  app.post(ROUTES.USERAPI.JOB_ROUTES.myjobs, requireLogin, async (req, res) => {
+    try {
+      // create new job for this user
+      const data = req.body.data;
+      const userId = req.user.userId;
+      const userMongoDBId = req.user._id;
+      const newJob = await jobDataAccess.addAJob(
+        {
+          ...data.jobDetails,
+          _ownerId: userMongoDBId
+        },
+        userId
+      );
+      res.send(newJob);
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
-  );
+  });
   app.post(
     ROUTES.USERAPI.JOB_ROUTES.uploadImage,
     requireLogin,
     async (req, res) => {
       try {
+        const filesList = req.files;
         // create new job for this user
         const data = req.body.data;
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
+        await cloudinary.v2.uploader.upload(
+          filesList[0].path,
+          (error, result) => {
+            return res.send({
+              error: 'error uploading ' + error,
+              result: result
+            });
+          }
+        );
 
-        res.sendStatus(200);
+        return res.send({ msg: 'file uploaded successfully' });
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }

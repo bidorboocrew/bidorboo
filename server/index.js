@@ -1,11 +1,18 @@
 const express = require('express');
 const passport = require('passport');
 const corsPrefetch = require('cors-prefetch-middleware').default;
+const path = require('path');
+
+const multer = require('multer');
+var upload = multer({  dest: path.resolve(__dirname, '../uploadsTempDir') })
+
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 
 const app = express();
+
+app.use(upload.array('filesToUpload'));
 
 // allow file upload
 app.use(corsPrefetch);
@@ -45,7 +52,6 @@ if (process.env.NODE_ENV === 'production') {
 
   // Express will serve up the index.html file
   // if it doesn't recognize the route
-  const path = require('path');
   app.get('/*', (req, res) => {
     console.log(
       'serving dirname ' +
