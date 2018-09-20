@@ -34,33 +34,6 @@ class HomePage extends React.Component {
     } = this.props;
     return (
       <div id="bdb-home-content">
-        <section>
-          <FileUploader />
-          <br />
-          <form
-            action="/job/uploadImages"
-            encType="multipart/form-data"
-            method="post"
-          >
-            <div className="file is-boxed">
-              <label className="file-label">
-                <input
-                  className="file-input"
-                  type="file"
-                  name="upload"
-                  multiple
-                />
-                <span className="file-cta">
-                  <span className="file-icon">
-                    <i className="fas fa-upload" />
-                  </span>
-                  <span className="file-label">Choose a file…</span>
-                </span>
-              </label>
-            </div>
-            <input type="submit" value="Upload" />
-          </form>
-        </section>
         <section className="hero is-dark fade-in">
           <div className="hero-body">
             <div className="container">
@@ -90,7 +63,7 @@ class HomePage extends React.Component {
                     <div className="card-image">
                       <figure className="image is-16by9">
                         <img
-                          src="https://www.auto-schnitter.de/wp-content/uploads/2015/10/DIFF-HAPPY-JOBS-940.png"
+                          src="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
                           alt="Placeholder image"
                         />
                       </figure>
@@ -168,6 +141,33 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </div>
+          </section>
+          <section>
+            <FileUploader />
+            {/* <br />
+          <form
+            action="/job/uploadImages"
+            encType="multipart/form-data"
+            method="post"
+          >
+            <div className="file is-boxed">
+              <label className="file-label">
+                <input
+                  className="file-input"
+                  type="file"
+                  name="upload"
+                  multiple
+                />
+                <span className="file-cta">
+                  <span className="file-icon">
+                    <i className="fas fa-upload" />
+                  </span>
+                  <span className="file-label">Choose a file…</span>
+                </span>
+              </label>
+            </div>
+            <input type="submit" value="Upload" />
+          </form> */}
           </section>
         </div>
       </div>

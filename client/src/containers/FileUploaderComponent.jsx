@@ -30,6 +30,8 @@ export const FileUploader = () => (
               maxSize={MAX_FILE_SIZE_IN_MB}
               style={dropzoneStyle}
               accept="image/*"
+              id="filesToUpload"
+              name="filesToUpload"
               onDrop={acceptedFiles => {
                 // do nothing if no files
                 if (acceptedFiles.length === 0) {
@@ -72,7 +74,8 @@ export const FileUploader = () => (
               }}
             </Dropzone>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <br />
+          <button type="submit" className="button is-primary">
             UPLOAD
           </button>
         </form>

@@ -121,13 +121,11 @@ module.exports = app => {
           filesList[0].path,
           (error, result) => {
             return res.send({
-              error: 'error uploading ' + error,
-              result: result
+              error: error,
+              result: result ? result.secure_url : {}
             });
           }
         );
-
-        return res.send({ msg: 'file uploaded successfully' });
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
