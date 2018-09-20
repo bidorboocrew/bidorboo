@@ -116,17 +116,22 @@ module.exports = app => {
     requireLogin,
     async (req, res) => {
       try {
-
-        const x = req.files;
+        const filesList = req.files;
         // create new job for this user
         const data = req.body.data;
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
-        // await cloudinary.v2.uploader.upload(x[0].path, (error, result) => {
-        //   console.log(result, error);
-        // });
+        await cloudinary.v2.uploader.upload(
+          filesList[0].path,
+          (error, result) => {
+            return res.send({
+              error: 'error uploading ' + error,
+              result: result
+            });
+          }
+        );
 
-        res.send({});
+        return res.send({ msg: 'file uploaded successfully' });
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
