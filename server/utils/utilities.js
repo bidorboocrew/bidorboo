@@ -29,7 +29,7 @@ exports.uploadFileToCloudinary = async (filePath, callbackFunc) => {
         async (error, result) => {
           // delete temporary intermediate file stored in TEMP_FILE_STORAGE
           try {
-            await unlinkAsync(filePath + '/saas');
+            await unlinkAsync(filePath);
             callbackFunc(error, result);
             resolve(true);
           } catch (e) {
