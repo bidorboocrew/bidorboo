@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
-import Rotate from 'react-reveal/Rotate';
+// import Rotate from 'react-reveal/Rotate';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 
@@ -37,11 +37,11 @@ class HomePage extends React.Component {
         <section className="hero is-dark fade-in">
           <div className="hero-body">
             <div className="container">
-              <Rotate delay={300} top left cascade>
+              {/* <Rotate delay={300} top left cascade> */}
                 <h1 style={{ color: 'white' }} className="title">
                   BidOrBoo
                 </h1>
-              </Rotate>
+              {/* </Rotate> */}
               <h2 style={{ color: 'white' }} className="subtitle fade-in">
                 Get tasks done for the price you want. Earn money doing what you
                 love.

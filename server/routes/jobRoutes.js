@@ -4,7 +4,8 @@ const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const isJobOwner = require('../middleware/isJobOwner');
-const cloudinary = require('cloudinary');
+
+const utils = require('../utils/utilities');
 
 module.exports = app => {
   app.get(
@@ -82,7 +83,7 @@ module.exports = app => {
           return res.send({ Error: 'JobId Was Not Specified' });
         }
 
-        done(null, existingJob);
+
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }
@@ -117,15 +118,13 @@ module.exports = app => {
         const data = req.body.data;
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
-        await cloudinary.v2.uploader.upload(
-          filesList[0].path,
-          (error, result) => {
-            return res.send({
-              error: error,
-              result: result ? result.secure_url : {}
-            });
-          }
-        );
+        const callbackFunc = (error, result) => {
+          return res.send({
+            error: error,
+            result: result ? result.secure_url : {}
+          });
+        };
+        await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
       }

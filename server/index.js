@@ -2,28 +2,20 @@ const express = require('express');
 const passport = require('passport');
 const path = require('path');
 
-const multer = require('multer');
-var upload = multer({ dest: path.resolve(__dirname, '../uploadsTempDir') });
-
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 
 const app = express();
 
-app.use(upload.array('filesToUpload'));
-
-
 // initialize bugsnag
 require('./services/bugSnag')(app);
-
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
-
 // initialize logging
 require('./services/loging')(app);
 
-// file uploader service cloudinary
-require('./services/cloudinaryFileUploader')();
+// file uploader service cloudinary + multer middleware
+require('./services/cloudinaryAndMulterFileUploader')(app);
 
 // initialize cookie session and body parser
 require('./services/cookieSessionAndParser')(app);
@@ -33,10 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // instantiate app routes
-require('./routes/authRoutes')(app);
-require('./routes/userRoutes')(app);
-require('./routes/jobRoutes')(app);
-require('./routes/bidderRoutes')(app);
+require('./services/populateAppRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
@@ -57,5 +46,24 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+process.on('uncaughtException', function(err) {
+  // handle the error safely
+  console.log(
+    '------------------------------------  UNHANDLED ERROR  -----------------------'
+  );
+  console.log(err);
+  console.log(
+    '------------------------------------^^ UNHANDLED ERROR ^^-----------------------'
+  );
+});
+process.on('unhandledRejection', function(reason, p){
+  console.log(
+    '------------------------------------  UNHANDLED ERROR  -----------------------'
+  );
+  console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
+  console.log(
+    '------------------------------------^^ UNHANDLED ERROR ^^-----------------------'
+  );
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
