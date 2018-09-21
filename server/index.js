@@ -49,20 +49,20 @@ if (process.env.NODE_ENV === 'production') {
 process.on('uncaughtException', function(err) {
   // handle the error safely
   console.log(
-    '------------------------------------  UNHANDLED ERROR  -----------------------'
+    '------------------------------------  uncaughtException ERROR  -----------------------'
   );
   console.log(err);
   console.log(
-    '------------------------------------^^ UNHANDLED ERROR ^^-----------------------'
+    '------------------------------------^^ uncaughtException ERROR ^^-----------------------'
   );
 });
 process.on('unhandledRejection', function(reason, p){
   console.log(
-    '------------------------------------  UNHANDLED ERROR  -----------------------'
+    '------------------------------------  unhandledRejection ERROR  -----------------------'
   );
   console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
   console.log(
-    '------------------------------------^^ UNHANDLED ERROR ^^-----------------------'
+    '------------------------------------^^ unhandledRejection ERROR ^^-----------------------'
   );
 });
 const PORT = process.env.PORT || 5000;
