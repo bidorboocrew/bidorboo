@@ -92,7 +92,8 @@ class Toast extends React.Component {
             bottom: -24,
             right: 0,
             width: '100%',
-            borderRadius: 0
+            borderRadius: 0,
+            maxHeight: '50%'
           }}
           className={toastTheme}
         >

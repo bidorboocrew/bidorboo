@@ -118,12 +118,14 @@ module.exports = app => {
         const data = req.body.data;
         const userId = req.user.userId;
         const userMongoDBId = req.user._id;
+
         const callbackFunc = (error, result) => {
           return res.send({
             error: error,
             result: result ? result.secure_url : {}
           });
         };
+
         await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
       } catch (e) {
         res.status(500).send({ error: 'Sorry Something went wrong \n' + e });

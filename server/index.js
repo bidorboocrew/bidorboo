@@ -12,7 +12,7 @@ require('./services/bugSnag')(app);
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
 // initialize logging
-require('./services/loging')(app);
+require('./services/loging')(app, process);
 
 // file uploader service cloudinary + multer middleware
 require('./services/cloudinaryAndMulterFileUploader')(app);
@@ -27,6 +27,7 @@ app.use(passport.session());
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
 
+// serve the static js file
 if (process.env.NODE_ENV === 'production') {
   // xxx not sure about this . I may remove
   // app.use(redirectToHTTPS());
@@ -46,24 +47,5 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-process.on('uncaughtException', function(err) {
-  // handle the error safely
-  console.log(
-    '------------------------------------  uncaughtException ERROR  -----------------------'
-  );
-  console.log(err);
-  console.log(
-    '------------------------------------^^ uncaughtException ERROR ^^-----------------------'
-  );
-});
-process.on('unhandledRejection', function(reason, p){
-  console.log(
-    '------------------------------------  unhandledRejection ERROR  -----------------------'
-  );
-  console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
-  console.log(
-    '------------------------------------^^ unhandledRejection ERROR ^^-----------------------'
-  );
-});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

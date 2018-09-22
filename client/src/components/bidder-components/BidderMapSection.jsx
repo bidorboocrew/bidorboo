@@ -44,7 +44,7 @@ export default class BidderMapSection extends React.Component {
 
 // class JobMarker extends React.Component {
 //   constructor(props) {
-//     debugger;
+//     //debugger;
 //     super(props);
 //     this.state = { show: false };
 //     autoBind(this, 'toggleShow', 'onMarkerClustererClick');
@@ -59,7 +59,7 @@ export default class BidderMapSection extends React.Component {
 //   }
 
 //   render() {
-//     debugger;
+//     //debugger;
 //     const { jobsList } = this.props;
 //     const markersList = jobsList.map(job => (
 //       <Marker

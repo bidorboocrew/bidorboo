@@ -79,10 +79,10 @@ export const updateJobDetails = jobDetails => {
     //       }
     //     })
     //     .then(job => {
-    //       debugger;
+    //       //debugger;
     //     })
     //     .catch(e => {
-    //       debugger;
+    //       //debugger;
     //     })
     // });
   };
@@ -228,6 +228,41 @@ export const addJob = jobDetails => dispatch => {
           });
         }
       })
+      .catch(error => {
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'Sorry That did not work, Please try again later.\n' +
+                (error && error.response && error.response.data
+                  ? JSON.stringify(error.response.data)
+                  : JSON.stringify(error))
+            }
+          }
+        });
+      })
+  });
+};
+
+
+export const uploadImages = files => (dispatch, getState) => {
+  const config = {
+    headers: { 'content-type': 'multipart/form-data' }
+  }
+  let data = new FormData();
+debugger
+  for (var i = 0; i < files.length; i++) {
+      let file = files[i];
+      data.append('filesToUpload', file, file.name);
+  }
+  dispatch({
+    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    payload: axios
+      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.uploadImage,data,config).then((e=>{
+        //debugger
+      }))
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,

@@ -11,7 +11,6 @@ import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../app-state/actions/routerActions';
 
-import { FileUploader } from './FileUploaderComponent';
 // import HomePageMapSection from '../components/HomePageMapSection';
 // import { selectJobToBidOn } from '../app-state/actions/bidsActions';
 // import { getAllPostedJobs } from '../app-state/actions/jobActions';
@@ -27,10 +26,7 @@ class HomePage extends React.Component {
 
   render() {
     const {
-      a_switchRoute
-      // a_selectJobToBidOn,
-      // s_mapCenterPoint,
-      // s_allThePostedJobsList
+      a_switchRoute,
     } = this.props;
     return (
       <div id="bdb-home-content">
@@ -38,9 +34,9 @@ class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
-                <h1 style={{ color: 'white' }} className="title">
-                  BidOrBoo
-                </h1>
+              <h1 style={{ color: 'white' }} className="title">
+                BidOrBoo
+              </h1>
               {/* </Rotate> */}
               <h2 style={{ color: 'white' }} className="subtitle fade-in">
                 Get tasks done for the price you want. Earn money doing what you
@@ -142,33 +138,6 @@ class HomePage extends React.Component {
               </div>
             </div>
           </section>
-          <section>
-            <FileUploader />
-            {/* <br />
-          <form
-            action="/job/uploadImages"
-            encType="multipart/form-data"
-            method="post"
-          >
-            <div className="file is-boxed">
-              <label className="file-label">
-                <input
-                  className="file-input"
-                  type="file"
-                  name="upload"
-                  multiple
-                />
-                <span className="file-cta">
-                  <span className="file-icon">
-                    <i className="fas fa-upload" />
-                  </span>
-                  <span className="file-label">Choose a file…</span>
-                </span>
-              </label>
-            </div>
-            <input type="submit" value="Upload" />
-          </form> */}
-          </section>
         </div>
       </div>
     );
@@ -177,10 +146,8 @@ class HomePage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
-    // a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
+    a_switchRoute: bindActionCreators(switchRoute, dispatch),
   };
 };
 export default connect(
