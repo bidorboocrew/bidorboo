@@ -94,12 +94,12 @@ class MyForm extends React.Component {
 
 export default formikEnhancer(MyForm);
 const ThumbsCollection = ({ values }) => {
-  let AllThumbnails = values.files.map((file, i) => (
+  let AllThumbnails = values.files > 0 ? values.files.map((file, i) => (
     <React.Fragment>
       <Thumb key={i} file={file} />
       <br />
     </React.Fragment>
-  ));
+  )): <div>Drag and drop your files here, or tap to upload a file</div>;
   return AllThumbnails;
 };
 
