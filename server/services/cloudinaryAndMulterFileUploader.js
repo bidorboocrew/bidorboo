@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 
 const EXPECTED_FILE_INPUT_ID_IN_THE_FORM = 'filesToUpload';
-const TEMP_FILE_STORAGE = path.resolve(__dirname, '../uploadsTempDir');
+const TEMP_FILE_STORAGE = path.resolve(__dirname, '../../uploadsTempDir');
 const ALLOWED_FILE_EXTENSIONS_MIME_TYPE = /image\/(?:jpg|gif|png|tiff|bmp|jpeg)/;
 
 const keys = require('../config/keys');
