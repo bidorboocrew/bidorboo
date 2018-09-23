@@ -3,11 +3,13 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 
 export const updateProfileDetails = profileDetails => (dispatch, getState) => {
+  debugger
   const updateProfileCall = axios
     .put(ROUTES.BACKENDROUTES.USERAPI.PUT_UPDATE_PROFILE_DETAILS, {
       data: profileDetails
     })
     .then(resp => {
+      debugger
       if (resp.data && resp.data.userId) {
         //update everyone that user is now logged in
         //update everyone that user is now logged in
@@ -18,6 +20,7 @@ export const updateProfileDetails = profileDetails => (dispatch, getState) => {
       }
     })
     .catch(error => {
+      debugger
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {

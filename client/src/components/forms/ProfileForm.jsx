@@ -14,11 +14,16 @@ const EnhancedForms = withFormik({
       .test(
         'alphanumericField',
         'Name can only contain alphabits and numbers',
-        v => {
-          return alphanumericField(v);
+        (inputText) => {
+          return alphanumericField(inputText);
         }
       )
       .required('First name is required.'),
+      email: Yup.string()
+      .ensure()
+      .trim()
+      .email('please enter a valid email address')
+      ,
     phoneNumber: Yup.number().positive(
       'your phone number can only be of format 61312345678'
     ),
@@ -27,28 +32,18 @@ const EnhancedForms = withFormik({
       'Maximum length allowed is 255 charachters'
     )
   }),
-  // validate: (values, props) => {
-  //   //additional validation
-  //   const errors = {};
-  //   if(values){
-  //     const {displayName,phoneNumber,personalParagraph} = values;
-  //     if(phoneNumber){
-
-  //     }
-  //   }
-
-  //   return errors;
-  // },
   mapPropsToValues: ({ userDetails }) => {
-    const { displayName, personalParagraph, phoneNumber } = userDetails;
+    const { displayName, personalParagraph, phoneNumber, email } = userDetails;
 
     return {
       displayName: displayName,
       phoneNumber: phoneNumber,
+      email: email,
       personalParagraph: personalParagraph
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
+    debugger
     props.onSubmit(values);
   },
   displayName: 'ProfileForm'
@@ -68,6 +63,7 @@ const ProfileForm = props => {
     isValid,
     isSubmitting
   } = props;
+
   return (
     <form onSubmit={handleSubmit}>
       <TextInput
@@ -77,6 +73,16 @@ const ProfileForm = props => {
         placeholder="Enter your name..."
         error={touched.displayName && errors.displayName}
         value={values.displayName || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      <TextInput
+        id="email"
+        type="text"
+        label="Personal Email"
+        placeholder="Enter your email..."
+        error={touched.email && errors.email}
+        value={values.email || ''}
         onChange={handleChange}
         onBlur={handleBlur}
       />

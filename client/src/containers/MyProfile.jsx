@@ -102,6 +102,10 @@ class MyProfile extends React.Component {
                         labelValue={displayName}
                       />
                       <DisplayLabelValue
+                        labelText="Email:"
+                        labelValue={email}
+                      />
+                      <DisplayLabelValue
                         labelText="Membership Status:"
                         labelValue={membershipStatusDisplay}
                       />
@@ -185,7 +189,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyProfile);
 
 const HeaderTitle = props => {
   const { title, specialMarginVal } = props;
