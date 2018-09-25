@@ -101,7 +101,7 @@ class NewJobForm extends React.Component {
           className="input"
           type="text"
           helpText="customize your job title"
-          error={touched.durationOfJobField && errors.durationOfJobField}
+          error={touched.jobTitleField && errors.jobTitleField}
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.jobTitleField || ''}
