@@ -16,7 +16,6 @@ export const moreThan0lessThan250Chars = value => {
 
 export const alphanumericField = value => {
   const isValid = value && /^[a-z\d\-_\s]+$/i.test(value.trim());
-  console.log(isValid);
   return isValid;
 };
 export const AddressField = value => {
@@ -36,11 +35,7 @@ export const moreThan3LessThan25Chars = value => {
 };
 
 const moreThanLessThan = (value, lowerLimit, upperLimit) => {
-  const isValid =
-    value &&
-    value.trim() &&
-    value.length > lowerLimit &&
-    value.length <= upperLimit;
+  const isValid = value && value.trim() && value.length > lowerLimit && value.length <= upperLimit;
   return isValid;
 };
 
@@ -53,7 +48,6 @@ export const enforceNumericField = (value, previousValue) => {
 };
 
 export const phoneNumber = value => {
-  return RegExp(`^(+0?1s)?(?d{3})?[s.-]d{3}[s.-]d{4}$`).test(value)
-    ? undefined
-    : 'should match +areacode-123-1234-1234';
+  const isValid = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/m.test(value);
+  return !isValid ? undefined : 'should match +areacode-123-123-1234';
 };
