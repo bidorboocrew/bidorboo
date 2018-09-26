@@ -50,11 +50,17 @@ export const updateProfileImage = files => dispatch => {
   }
 
   dispatch({
-    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
     payload: axios
       .put(ROUTES.API.USER.PUT.profilePicture, data, config)
-      .then(e => {
-        //debugger
+      .then(resp => {
+        if (resp.data && resp.data.userId) {
+          //update profile data
+          dispatch({
+            type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
+            payload: resp.data
+          });
+        }
       })
       .catch(error => {
         dispatch({

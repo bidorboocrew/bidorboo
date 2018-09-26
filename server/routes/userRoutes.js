@@ -63,13 +63,24 @@ module.exports = app => {
           // update the user data model
           try {
             if (!error) {
-              await userDataAccess.findOneByUserIdAndUpdateProfileInfo(userId, {
-                profileImage: { url: result.secure_url, public_id: result.public_id }
-              });
+              const options = {
+                new: true
+              };
+              const userAfterUpdates = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
+                userId,
+                {
+                  profileImage: {
+                    url: result.secure_url,
+                    public_id: result.public_id
+                  }
+                },
+                options
+              );
+              return res.send(userAfterUpdates);
             }
+            // xxx need to handle this in the front end
             return res.send({
-              error: error,
-              result: result ? result.secure_url : {}
+              data: error
             });
           } catch (e) {
             res

@@ -4,13 +4,15 @@ import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
 
 const dropzoneStyle = {
-  width: '100%',
+  width: 'auto',
   height: 'auto',
-  minHeight: '250px',
-  borderWidth: 2,
+  minHeight: 150,
+  borderWidth: 1,
   borderColor: 'rgb(102, 102, 102)',
   borderStyle: 'dashed',
-  borderRadius: 5
+  borderRadius: 2,
+  textAlign: 'center',
+  padding: 20
 };
 const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
 
@@ -95,12 +97,7 @@ const ThumbsCollection = ({ values }) => {
   let AllThumbnails =
     values.files && values.files.length > 0 ? (
       values.files.map((file, i) => {
-        return (
-          <React.Fragment>
-            <Thumb key={i} file={file} />
-            <br />
-          </React.Fragment>
-        );
+        return <Thumb key={i} file={file} />;
       })
     ) : (
       <div style={{ textAlign: 'center', padding: 20 }}>

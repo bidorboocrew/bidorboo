@@ -11,8 +11,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
         if (resp.data && resp.data.userId) {
           //update everyone that user is now logged in
           dispatch({
-            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
-            payload: resp.data
+            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN
           });
           dispatch({
             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
