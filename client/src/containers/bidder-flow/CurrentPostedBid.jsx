@@ -26,7 +26,7 @@ class CurrentPostedBid extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
+                    a_switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                   }}
                 >
                   My Bids

@@ -1,6 +1,5 @@
 //MAKE SURE THIS IS IN SYNC WITH server\routes\ROUTE_CONSTANTS
-export const BACKENDROUTES = {
-  ENTRY: '/',
+export const API = {
   AUTH: {
     GOOGLE: '/auth/google',
     GOOGLE_CALLBACK: '/auth/google/callback',
@@ -9,23 +8,44 @@ export const BACKENDROUTES = {
     REGISTER_NEW_USER: '/auth/register',
     LOGOUT: '/auth/logout'
   },
-  USERAPI: {
-    GET_CURRENTUSER: '/user/currentUser',
-    PUT_UPDATE_PROFILE_DETAILS: '/user/updateProfileDetails',
-    PUT_UPDATE_PROFILE_IMAGE: '/user/updateProfileImage',
-    JOB_ROUTES: {
-      myjobs: '/job/myjobs',
-      alljobs: '/job/alljobs',
-      postASearch: '/job/search',
-      uploadImage: '/job/uploadImages'
+  USER: {
+    GET: {
+      currentUser: '/user/currentUser'
     },
-    BIDDER_ROUTES: {
-      postABid: '/bids/post_a_bid',
-      getAllMyBids: '/bids/get_all_my_bids',
+    PUT: {
+      userDetails: '/user/updateProfileDetails',
+      profilePicture: '/user/updateProfileImage'
+    }
+  },
+  JOB: {
+    GET: {
+      myjobs: '/job/myJobs',
+      alljobs: '/job/allJobs',
+      jobById: '/job/:jobId'
+    },
+    POST: {
+      searchJobs: '/job/search',
+      newJob: '/job/createJob'
+    },
+    PUT: {
+      jobImage: '/job/uploadImages'
+    },
+    DELETE: {
+      jobById: '/job',
+      jobImage: '/job'
+    }
+  },
+  BID: {
+    POST: {
+      bid: '/bids/postABid'
+    },
+    GET: {
+      myBids: '/bids/myBids'
     }
   }
 };
-export const FRONTENDROUTES = {
+
+export const CLIENT = {
   ENTRY: '/',
   HOME: '/home',
   PROPOSER: {

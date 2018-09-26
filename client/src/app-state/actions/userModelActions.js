@@ -3,13 +3,11 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 
 export const updateProfileDetails = profileDetails => (dispatch, getState) => {
-  debugger;
   const updateProfileCall = axios
-    .put(ROUTES.BACKENDROUTES.USERAPI.PUT_UPDATE_PROFILE_DETAILS, {
+    .put(ROUTES.API.USER.PUT.userDetails, {
       data: profileDetails
     })
     .then(resp => {
-      debugger;
       if (resp.data && resp.data.userId) {
         //update everyone that user is now logged in
         //update everyone that user is now logged in
@@ -20,7 +18,6 @@ export const updateProfileDetails = profileDetails => (dispatch, getState) => {
       }
     })
     .catch(error => {
-      debugger;
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {
@@ -55,7 +52,7 @@ export const updateProfileImage = files => dispatch => {
   dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
     payload: axios
-      .put(ROUTES.BACKENDROUTES.USERAPI.PUT_UPDATE_PROFILE_IMAGE, data, config)
+      .put(ROUTES.API.USER.PUT.profilePicture, data, config)
       .then(e => {
         //debugger
       })

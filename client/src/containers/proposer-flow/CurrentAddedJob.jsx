@@ -28,7 +28,7 @@ class CurrentAddedJob extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.myjobs);
+                    a_switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
                   }}
                 >
                   My Jobs

@@ -33,7 +33,7 @@ class BidOrBooGenericTasks extends React.Component {
                 showLoginDialog(true);
               } else {
                 switchRoute(
-                  `${ROUTES.FRONTENDROUTES.PROPOSER.createjob}/${id}`
+                  `${ROUTES.CLIENT.PROPOSER.createjob}/${id}`
                 );
               }
             }}

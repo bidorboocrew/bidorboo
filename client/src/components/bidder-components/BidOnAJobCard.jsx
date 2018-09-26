@@ -46,7 +46,7 @@ export default class BidOnAJobCard extends React.Component {
             onSubmit({ jobId: _id, bidAmount: values.bidAmountField });
           }}
           onCancel={() => {
-            switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+            switchRoute(ROUTES.CLIENT.BIDDER.root);
           }}
         />
         <div className="card">

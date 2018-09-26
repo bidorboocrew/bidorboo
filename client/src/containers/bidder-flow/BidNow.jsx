@@ -46,7 +46,7 @@ class BidNow extends React.Component {
     //if user tried to manually set the url to this page without selecting a job
     if (!s_jobDetails || !s_jobDetails._ownerId) {
       //reroute them to bidder root
-      this.props.a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+      this.props.a_switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
     return (
@@ -57,7 +57,7 @@ class BidNow extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    a_switchRoute(ROUTES.CLIENT.BIDDER.root);
                   }}
                 >
                   Bidder Home

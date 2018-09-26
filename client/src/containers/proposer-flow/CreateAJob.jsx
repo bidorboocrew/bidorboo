@@ -28,7 +28,7 @@ class CreateAJob extends React.Component {
   goBack(e) {
     e.preventDefault();
     // until then
-    this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+    this.props.a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
   }
   handleSubmit(values) {
     this.props.a_addJob(values);

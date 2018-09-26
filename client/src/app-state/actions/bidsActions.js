@@ -13,7 +13,7 @@ export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
   // then rediret user to bid now page
   dispatch({
     type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-    payload: { currentRoute: ROUTES.FRONTENDROUTES.BIDDER.bidNow }
+    payload: { currentRoute: ROUTES.CLIENT.BIDDER.bidNow }
   });
 };
 
@@ -22,7 +22,7 @@ export const submitBid = ({ bidAmount, jobId }) => dispatch => {
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.postABid, {
+      .post(ROUTES.API.BID.POST.bid, {
         data: {
           jobId: jobId,
           bidAmount: bidAmount
@@ -39,7 +39,7 @@ export const submitBid = ({ bidAmount, jobId }) => dispatch => {
           dispatch({
             type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
             payload: {
-              currentRoute: ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid
+              currentRoute: ROUTES.CLIENT.BIDDER.currentPostedBid
             }
           });
 
@@ -77,7 +77,7 @@ export const getAllMyBids = () => (dispatch, getState) => {
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
     payload: axios
-      .get(ROUTES.BACKENDROUTES.USERAPI.BIDDER_ROUTES.getAllMyBids)
+      .get(ROUTES.API.BID.GET.myBids)
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,

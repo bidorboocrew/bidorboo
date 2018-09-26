@@ -52,7 +52,7 @@ class HomePage extends React.Component {
                 <div className="column">
                   <div
                     onClick={() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                     className="card fade-in"
                   >
@@ -76,7 +76,7 @@ class HomePage extends React.Component {
                     <footer className="card-footer">
                       <a
                         onClick={() => {
-                          a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                          a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
                         }}
                         style={{
                           borderRadius: 0,
@@ -95,7 +95,7 @@ class HomePage extends React.Component {
                 <div className="column">
                   <div
                     onClick={() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      a_switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                     className="card fade-in"
                   >
@@ -120,7 +120,7 @@ class HomePage extends React.Component {
                     <footer className="card-footer">
                       <a
                         onClick={() => {
-                          a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                          a_switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
                         style={{
                           borderRadius: 0,

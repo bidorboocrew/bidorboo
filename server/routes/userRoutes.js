@@ -1,11 +1,11 @@
 const userDataAccess = require('../data-access/userDataAccess');
-const ROUTES = require('../backend_route_constants');
+const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 
 module.exports = app => {
   //get current user
-  app.get(ROUTES.USERAPI.GET_CURRENTUSER, async (req, res, done) => {
+  app.get(ROUTES.API.USER.GET.currentUser, async (req, res, done) => {
     try {
       let existingUser = null;
       if (req.user) {
@@ -22,38 +22,34 @@ module.exports = app => {
     }
   });
 
-  app.put(
-    ROUTES.USERAPI.PUT_UPDATE_PROFILE_DETAILS,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const newProfileDetails = req.body.data;
-        const userId = req.user.userId;
-        const options = {
-          new: true
-        };
-        Object.keys(newProfileDetails).forEach(property => {
-          newProfileDetails[`${property}`] = newProfileDetails[
-            `${property}`
-          ].trim();
-        });
+  app.put(ROUTES.API.USER.PUT.userDetails, requireLogin, async (req, res) => {
+    try {
+      const newProfileDetails = req.body.data;
+      const userId = req.user.userId;
+      const options = {
+        new: true
+      };
+      Object.keys(newProfileDetails).forEach(property => {
+        newProfileDetails[`${property}`] = newProfileDetails[
+          `${property}`
+        ].trim();
+      });
 
-        const userAfterUpdates = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
-          userId,
-          newProfileDetails,
-          options
-        );
-        return res.send(userAfterUpdates);
-      } catch (e) {
-        return res
-          .status(500)
-          .send({ error: 'Sorry Something went wrong \n' + e });
-      }
+      const userAfterUpdates = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
+        userId,
+        newProfileDetails,
+        options
+      );
+      return res.send(userAfterUpdates);
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ error: 'Sorry Something went wrong \n' + e });
     }
-  );
+  });
 
   app.put(
-    ROUTES.USERAPI.PUT_UPDATE_PROFILE_IMAGE,
+    ROUTES.API.USER.PUT.profilePicture,
     requireLogin,
     async (req, res) => {
       try {
@@ -65,15 +61,21 @@ module.exports = app => {
 
         const callbackFunc = async (error, result) => {
           // update the user data model
-          if (!error) {
-            await userDataAccess.findOneByUserIdAndUpdateProfileInfo(userId, {
-              profileImage: { url: result.url, public_id: result.public_id }
+          try {
+            if (!error) {
+              await userDataAccess.findOneByUserIdAndUpdateProfileInfo(userId, {
+                profileImage: { url: result.url, public_id: result.public_id }
+              });
+            }
+            return res.send({
+              error: error,
+              result: result ? result.url : {}
             });
+          } catch (e) {
+            res
+              .status(500)
+              .send({ error: 'Sorry Something went wrong \n' + e });
           }
-          return res.send({
-            error: error,
-            result: result ? result.url : {}
-          });
         };
 
         let newProfileImgDetails = await utils.uploadFileToCloudinary(

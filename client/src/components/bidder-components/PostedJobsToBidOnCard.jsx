@@ -74,7 +74,7 @@ export default class PostedJobsToBidOnCard extends React.Component {
             <a
               className="button is-primary"
               onClick={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
               post a new job

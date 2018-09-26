@@ -16,7 +16,6 @@ const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
 
 const formikEnhancer = withFormik({
   handleSubmit: (payload, { setSubmitting, props }) => {
-    debugger;
     props.uploadFilesAction(payload.files);
     props.closeDialog();
     setSubmitting(false);
@@ -35,7 +34,6 @@ class MyForm extends React.Component {
   }
 
   onDrophandler(acceptedFiles) {
-    debugger;
     const { setFieldValue, values } = this.props;
     // do nothing if no files
     if (acceptedFiles.length === 0) {
@@ -97,7 +95,6 @@ const ThumbsCollection = ({ values }) => {
   let AllThumbnails =
     values.files && values.files.length > 0 ? (
       values.files.map((file, i) => {
-        debugger;
         return (
           <React.Fragment>
             <Thumb key={i} file={file} />
@@ -153,7 +150,6 @@ class Thumb extends React.Component {
 }
 
 ({ isDragActive, isDragReject, acceptedFiles, rejectedFiles, values }) => {
-  debugger;
   if (isDragActive) {
     console.log('This file is authorized isDragActive');
 
@@ -167,7 +163,6 @@ class Thumb extends React.Component {
   }
 
   // if (values.files.length === 0) {
-  //   //debugger;
   //   console.log('values.files.length === 0');
 
   //   return <p>Try dragging a file here!</p>;

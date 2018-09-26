@@ -63,10 +63,10 @@ class Header extends React.Component {
     let logoSubTitle = '';
     if (s_currentRoute && s_currentRoute.includes) {
       const isProposerRoutes = s_currentRoute.includes(
-        ROUTES.FRONTENDROUTES.PROPOSER.root
+        ROUTES.CLIENT.PROPOSER.root
       );
       const isBidderRoutes = s_currentRoute.includes(
-        ROUTES.FRONTENDROUTES.BIDDER.root
+        ROUTES.CLIENT.BIDDER.root
       );
       navbarStylesBasedOnRoute = classNames(
         'navbar is-fixed-top nav-bottom-border',
@@ -92,7 +92,7 @@ class Header extends React.Component {
           <a
             onClick={e => {
               this.closeMenuThenExecute(() => {
-                a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
+                a_switchRoute(ROUTES.CLIENT.HOME);
               });
             }}
             style={{ paddingRight: 4 }}
@@ -159,7 +159,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                    a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   });
                 }}
                 className="navbar-link"
@@ -178,7 +178,7 @@ class Header extends React.Component {
                     className="navbar-item"
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.myjobs);
+                        a_switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
                       });
                     }}
                   >
@@ -190,7 +190,7 @@ class Header extends React.Component {
                   className="navbar-item"
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     });
                   }}
                 >
@@ -202,7 +202,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    a_switchRoute(ROUTES.CLIENT.BIDDER.root);
                   });
                 }}
                 className="navbar-link"
@@ -219,7 +219,7 @@ class Header extends React.Component {
                   <a
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
+                        a_switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                       });
                     }}
                     style={{ marginleft: 4 }}
@@ -233,7 +233,7 @@ class Header extends React.Component {
                   className="navbar-item"
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      a_switchRoute(ROUTES.CLIENT.BIDDER.root);
                     });
                   }}
                 >
@@ -264,7 +264,7 @@ class Header extends React.Component {
                         <a
                           onClick={() => {
                             this.closeMenuThenExecute(() => {
-                              a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
+                              a_switchRoute(ROUTES.CLIENT.MY_PROFILE);
                             });
                           }}
                           className="navbar-item"

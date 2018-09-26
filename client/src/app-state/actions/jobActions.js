@@ -7,20 +7,20 @@ import haversineOffset from 'haversine-offset';
 export const getAllMyJobs = () => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_JOBS,
-    payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.myjobs)
+    payload: axios.get(ROUTES.API.JOB.GET.myjobs)
   });
 
 export const getAllPostedJobs = () => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-    payload: axios.get(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.alljobs)
+    payload: axios.get(ROUTES.API.JOB.GET.alljobs)
   });
 
 export const getJobById = jobId => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
     payload: axios
-      .get(`${ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.alljobs}/${jobId}`)
+      .get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`)
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -38,55 +38,28 @@ export const getJobById = jobId => (dispatch, getState) =>
       })
   });
 
-export const deleteJob = jobId => (dispatch, getState) => {
-  dispatch({
-    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios
-      .delete(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
-        data: {
-          jobId: jobId
-        }
-      })
-      .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg:
-                'Sorry That did not work, Please try again later.\n' +
-                (error && error.response && error.response.data
-                  ? JSON.stringify(error.response.data)
-                  : JSON.stringify(error))
-            }
-          }
-        });
-      })
-  });
-};
-
-export const updateJobDetails = jobDetails => {
-  return (dispatch, getState) => {
-    // xxx said mapping between form fields to the job attributes
-    // maybe we should hide this from the user and make it happen on the backend .
-    // who cares for now tho
-    // return dispatch({
-    //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
-    //   payload: axios
-    //     .put(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES, {
-    //       data: {
-    //         jobDetails: jobDetails
-    //       }
-    //     })
-    //     .then(job => {
-    //       //debugger;
-    //     })
-    //     .catch(e => {
-    //       //debugger;
-    //     })
-    // });
-  };
-};
+// export const updateJobDetails = jobDetails => {
+//   return (dispatch, getState) => {
+//     // xxx said mapping between form fields to the job attributes
+//     // maybe we should hide this from the user and make it happen on the backend .
+//     // who cares for now tho
+//     // return dispatch({
+//     //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
+//     //   payload: axios
+//     //     .put(ROUTES.API.JOB.JOB_ROUTES, {
+//     //       data: {
+//     //         jobDetails: jobDetails
+//     //       }
+//     //     })
+//     //     .then(job => {
+//     //       //debugger;
+//     //     })
+//     //     .catch(e => {
+//     //       //debugger;
+//     //     })
+//     // });
+//   };
+// };
 
 export const searchByLocation = userSearchQuery => {
   return (dispatch, getState) => {
@@ -104,7 +77,7 @@ export const searchByLocation = userSearchQuery => {
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
       payload: axios
-        .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.postASearch, {
+        .post(ROUTES.API.JOB.POST.searchJobs, {
           data: {
             searchParams: serverSearchQuery
           }
@@ -196,7 +169,7 @@ export const addJob = jobDetails => dispatch => {
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.myjobs, {
+      .post(ROUTES.API.JOB.POST.newJob, {
         data: {
           jobDetails: mapFieldsToSchema
         }
@@ -213,7 +186,7 @@ export const addJob = jobDetails => dispatch => {
           dispatch({
             type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
             payload: {
-              currentRoute: ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob
+              currentRoute: ROUTES.CLIENT.PROPOSER.currentPostedJob
             }
           });
           // show notification of new job
@@ -246,23 +219,22 @@ export const addJob = jobDetails => dispatch => {
   });
 };
 
-
 export const uploadImages = files => (dispatch, getState) => {
   const config = {
     headers: { 'content-type': 'multipart/form-data' }
-  }
+  };
   let data = new FormData();
-debugger
   for (var i = 0; i < files.length; i++) {
-      let file = files[i];
-      data.append('filesToUpload', file, file.name);
+    let file = files[i];
+    data.append('filesToUpload', file, file.name);
   }
   dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
     payload: axios
-      .post(ROUTES.BACKENDROUTES.USERAPI.JOB_ROUTES.uploadImage,data,config).then((e=>{
+      .put(ROUTES.API.JOB.PUT.jobImage, data, config)
+      .then(e => {
         //debugger
-      }))
+      })
       .catch(error => {
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,

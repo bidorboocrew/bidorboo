@@ -28,7 +28,6 @@ export default class MyBidsCard extends React.Component {
 
     const { _ownerId } = _job;
     const { profileImage, displayName } = _ownerId;
-
     return (
       <div style={{ marginBottom: 14 }} className="card">
         <header className="card-header">

@@ -1,17 +1,17 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
-const ROUTES = require('../backend_route_constants');
+const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 
 
 module.exports = app => {
   app.get(
-    ROUTES.USERAPI.BIDDER_ROUTES.getAllMyBids,
+    ROUTES.API.BID.GET.myBids,
     requireLogin,
     async (req, res, done) => {
       try {
-        // create new job for this user
+
         const userMongoDBId = req.user._id;
 
         const userBidsList = await bidDataAccess.getAllBidsForUser(userMongoDBId);
@@ -23,7 +23,7 @@ module.exports = app => {
   );
 
   app.post(
-    ROUTES.USERAPI.BIDDER_ROUTES.postABid,
+    ROUTES.API.BID.POST.bid,
     requireLogin,
     async (req, res, done) => {
       try {

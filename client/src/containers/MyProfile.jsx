@@ -18,10 +18,10 @@ class MyProfile extends React.Component {
   static propTypes = {
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
-      profileImage:  PropTypes.shape({
+      profileImage: PropTypes.shape({
         url: PropTypes.string.isRequired,
-        public_id: PropTypes.string,
-      }),
+        public_id: PropTypes.string
+      })
     }).isRequired
   };
 
@@ -171,14 +171,16 @@ const userImageAndStats = (
   email,
   membershipStatusDisplay
 ) => {
-  debugger
   return (
-
-  <React.Fragment>
+    <React.Fragment>
       <div className="column is-one-quarter">
         <div className=" has-text-centered">
           <div>
-            <img alt="profile pic" src={profileImage.url} className="profileImg" />
+            <img
+              alt="profile pic"
+              src={profileImage.url}
+              className="profileImg"
+            />
           </div>
           <a
             onClick={e => {
@@ -292,7 +294,11 @@ const advertisement = () => {
   );
 };
 
-const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
+const uploadImageDialog = (
+  toggleUploadDialog,
+  showImageUploadDialog,
+  updateProfileImage
+) => {
   return (
     <div
       className={classNames('modal', {
@@ -310,7 +316,10 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
           />
         </header>
         <section className="modal-card-body">
-          <FileUploaderComponent closeDialog={toggleUploadDialog} uploadFilesAction={updateProfileImage} />
+          <FileUploaderComponent
+            closeDialog={toggleUploadDialog}
+            uploadFilesAction={updateProfileImage}
+          />
         </section>
       </div>
     </div>

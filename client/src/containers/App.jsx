@@ -89,33 +89,33 @@ class App extends React.Component {
                 {/* redirect and force login */}
                 <Route
                   exact
-                  path={ROUTES.FRONTENDROUTES.ENTRY}
+                  path={ROUTES.CLIENT.ENTRY}
                   component={HomePage}
                 />
                 {/* redirect and force login */}
                 <Route
                   exact
-                  path={ROUTES.FRONTENDROUTES.HOME}
+                  path={ROUTES.CLIENT.HOME}
                   component={HomePage}
                 />
                 {/* redirect and force login */}
                 <Route
                   exact
                   path={`${
-                    ROUTES.FRONTENDROUTES.PROPOSER.root
+                    ROUTES.CLIENT.PROPOSER.root
                   }/:showLoginDialog`}
                   component={ProposerRoot}
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
                 <Route
                   exact
-                  path={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  path={ROUTES.CLIENT.PROPOSER.root}
                   component={ProposerRoot}
                 />
                 <Route
                   exact
                   path={`${
-                    ROUTES.FRONTENDROUTES.PROPOSER.createjob
+                    ROUTES.CLIENT.PROPOSER.createjob
                   }/:templateId`}
                   component={CreateAJob}
                 />
@@ -123,60 +123,60 @@ class App extends React.Component {
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.PROPOSER.myjobs}
-                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  path={ROUTES.CLIENT.PROPOSER.myjobs}
+                  redirectWhenNotLoggedIn={ROUTES.CLIENT.PROPOSER.root}
                   component={MyJobs}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.PROPOSER.currentPostedJob}
-                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.PROPOSER.root}
+                  path={ROUTES.CLIENT.PROPOSER.currentPostedJob}
+                  redirectWhenNotLoggedIn={ROUTES.CLIENT.PROPOSER.root}
                   component={CurrentAddedJob}
                 />
                 {/* redirect and force login */}
                 <Route
                   exact
-                  path={`${ROUTES.FRONTENDROUTES.BIDDER.root}/:showLoginDialog`}
+                  path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
                   component={BidderRoot}
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
                 <Route
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.BIDDER.root}
+                  path={ROUTES.CLIENT.BIDDER.root}
                   component={BidderRoot}
                 />
                 <Route
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.BIDDER.bidNow}
+                  path={ROUTES.CLIENT.BIDDER.bidNow}
                   component={BidNow}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.BIDDER.mybids}
-                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.BIDDER.root}
+                  path={ROUTES.CLIENT.BIDDER.mybids}
+                  redirectWhenNotLoggedIn={ROUTES.CLIENT.BIDDER.root}
                   component={MyBids}
                 />
                 <ProtectedRoute
                   exact
                   isLoggedIn={s_isLoggedIn}
-                  path={ROUTES.FRONTENDROUTES.BIDDER.currentPostedBid}
-                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.BIDDER.root}
+                  path={ROUTES.CLIENT.BIDDER.currentPostedBid}
+                  redirectWhenNotLoggedIn={ROUTES.CLIENT.BIDDER.root}
                   component={CurrentPostedBid}
                 />
                 <ProtectedRoute
                   isLoggedIn={s_isLoggedIn}
                   exact
-                  path={ROUTES.FRONTENDROUTES.MY_PROFILE}
-                  redirectWhenNotLoggedIn={ROUTES.FRONTENDROUTES.HOME}
+                  path={ROUTES.CLIENT.MY_PROFILE}
+                  redirectWhenNotLoggedIn={ROUTES.CLIENT.HOME}
                   component={MyProfile}
                 />
                 {/* redirect any unknown route to the home component */}
-                <Redirect path="*" to={ROUTES.FRONTENDROUTES.HOME} />
+                <Redirect path="*" to={ROUTES.CLIENT.HOME} />
               </Switch>
             </div>
           </div>
@@ -221,7 +221,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           <Redirect
-            to={`${redirectWhenNotLoggedIn || ROUTES.FRONTENDROUTES.HOME}/true`}
+            to={`${redirectWhenNotLoggedIn || ROUTES.CLIENT.HOME}/true`}
           />
         );
       }}
