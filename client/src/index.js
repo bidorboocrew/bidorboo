@@ -43,3 +43,4 @@ ReactDOM.render(
 // registerServiceWorker();
 
 // console.log('env is '+ process.env.REACT_APP_STRIPE_KEY)
+//  load bugsnag key in a similar manner to REACT_APP_STRIPE_KEY
