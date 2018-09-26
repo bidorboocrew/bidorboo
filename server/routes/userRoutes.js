@@ -69,7 +69,7 @@ module.exports = app => {
             }
             return res.send({
               error: error,
-              result: result ? result.url : {}
+              result: result ? result.secure_url : {}
             });
           } catch (e) {
             res
