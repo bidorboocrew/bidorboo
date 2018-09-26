@@ -70,5 +70,5 @@ export const templatesRepo = {
   extra comments :
   [mention any specific instructions or info relevant to this task]
   `
-  },
+  }
 };

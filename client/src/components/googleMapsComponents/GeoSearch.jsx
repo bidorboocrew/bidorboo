@@ -16,11 +16,11 @@ class GeoSearch extends React.Component {
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    autoSetValue: PropTypes.string,
+    autoSetValue: PropTypes.string
   };
   static defaultProps = {
     placeholder: '',
-    value: '',
+    value: ''
   };
   constructor(props) {
     super(props);
@@ -34,7 +34,14 @@ class GeoSearch extends React.Component {
   }
 
   render() {
-    const { handleSelect, onError, placeholder, id, onBlurEvent, forceSetAddressValue } = this.props;
+    const {
+      handleSelect,
+      onError,
+      placeholder,
+      id,
+      onBlurEvent,
+      forceSetAddressValue
+    } = this.props;
 
     const inputField = ({
       getInputProps,

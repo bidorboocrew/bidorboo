@@ -6,7 +6,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
-      .get(ROUTES.BACKENDROUTES.USERAPI.GET_CURRENTUSER)
+      .get(ROUTES.API.USER.GET.currentUser)
       .then(resp => {
         if (resp.data && resp.data.userId) {
           //update everyone that user is now logged in
@@ -22,7 +22,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
           //rediret user to sign up page
           dispatch({
             type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
+            payload: { currentRoute: ROUTES.CLIENT.ENTRY }
           });
         }
       })
@@ -50,14 +50,14 @@ export const getCurrentUser = () => (dispatch, getState) =>
 export const onLogout = () => (dispatch, getState) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
-    payloads_: axios.get(ROUTES.BACKENDROUTES.AUTH.LOGOUT).then(resp => {
+    payloads_: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {
       dispatch({
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT
       });
       //rediret user to sign up page
       dispatch({
         type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-        payload: { currentRoute: ROUTES.FRONTENDROUTES.ENTRY }
+        payload: { currentRoute: ROUTES.CLIENT.ENTRY }
       });
 
       dispatch({

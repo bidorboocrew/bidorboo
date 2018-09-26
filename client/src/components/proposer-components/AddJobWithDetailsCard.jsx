@@ -23,9 +23,7 @@ export class AddJobWithDetailsCard extends React.Component {
                 <a onClick={onCancel}>Post Jobs</a>
               </li>
               <li className="is-active">
-                <a aria-current="page">
-                  {jobDetails.title}
-                </a>
+                <a aria-current="page">{jobDetails.title}</a>
               </li>
             </ul>
           </nav>
@@ -33,9 +31,7 @@ export class AddJobWithDetailsCard extends React.Component {
 
         <div style={{ marginTop: '1rem' }} className="card slide-in-left">
           <div className="card-content">
-            <h1 className="title">
-              {jobDetails.title} Request
-            </h1>
+            <h1 className="title">{jobDetails.title} Request</h1>
             <div style={{ marginTop: 8 }}>
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}

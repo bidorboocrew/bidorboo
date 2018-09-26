@@ -16,8 +16,8 @@ const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
 
 const formikEnhancer = withFormik({
   handleSubmit: (payload, { setSubmitting, props }) => {
-    debugger;
     props.uploadFilesAction(payload.files);
+    props.closeDialog();
     setSubmitting(false);
   },
   mapPropsToValues: ({ user }) => ({
@@ -41,7 +41,6 @@ class MyForm extends React.Component {
       return;
     }
     // on drop we add to the existing files
-    debugger;
     const newFile = values.files.concat(acceptedFiles);
     setFieldValue('files', newFile);
   }
@@ -63,7 +62,6 @@ class MyForm extends React.Component {
     return (
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Multiple files</label>
           <Dropzone
             multiple={false}
             maxSize={MAX_FILE_SIZE_IN_MB}
@@ -94,12 +92,21 @@ class MyForm extends React.Component {
 
 export default formikEnhancer(MyForm);
 const ThumbsCollection = ({ values }) => {
-  let AllThumbnails = values.files > 0 ? values.files.map((file, i) => (
-    <React.Fragment>
-      <Thumb key={i} file={file} />
-      <br />
-    </React.Fragment>
-  )): <div>Drag and drop your files here, or tap to upload a file</div>;
+  let AllThumbnails =
+    values.files && values.files.length > 0 ? (
+      values.files.map((file, i) => {
+        return (
+          <React.Fragment>
+            <Thumb key={i} file={file} />
+            <br />
+          </React.Fragment>
+        );
+      })
+    ) : (
+      <div style={{ textAlign: 'center', padding: 20 }}>
+        Drag and drop your files here, or tap to upload a file
+      </div>
+    );
   return AllThumbnails;
 };
 
@@ -143,7 +150,6 @@ class Thumb extends React.Component {
 }
 
 ({ isDragActive, isDragReject, acceptedFiles, rejectedFiles, values }) => {
-  debugger;
   if (isDragActive) {
     console.log('This file is authorized isDragActive');
 
@@ -155,13 +161,6 @@ class Thumb extends React.Component {
 
     return 'This file is not authorized';
   }
-
-  // if (values.files.length === 0) {
-  //   //debugger;
-  //   console.log('values.files.length === 0');
-
-  //   return <p>Try dragging a file here!</p>;
-  // }
 
   return values.files.map((file, i) => <Thumb key={i} file={file} />);
 };

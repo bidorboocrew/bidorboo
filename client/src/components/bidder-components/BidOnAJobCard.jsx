@@ -23,7 +23,7 @@ export default class BidOnAJobCard extends React.Component {
       detailedDescription
     } = jobDetails;
 
-    const { profileImgUrl, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerId;
     const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
@@ -46,7 +46,7 @@ export default class BidOnAJobCard extends React.Component {
             onSubmit({ jobId: _id, bidAmount: values.bidAmountField });
           }}
           onCancel={() => {
-            switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+            switchRoute(ROUTES.CLIENT.BIDDER.root);
           }}
         />
         <div className="card">
@@ -76,7 +76,7 @@ export default class BidOnAJobCard extends React.Component {
             <div className="media">
               <div className="media-left">
                 <figure className="image is-32x32">
-                  <img src={profileImgUrl} alt="user" />
+                  <img src={profileImage.url} alt="user" />
                 </figure>
               </div>
               <div className="media-content">

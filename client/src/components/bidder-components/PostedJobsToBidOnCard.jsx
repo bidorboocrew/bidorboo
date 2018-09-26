@@ -33,7 +33,7 @@ export default class PostedJobsToBidOnCard extends React.Component {
         _bidsList: PropTypes.array,
         _ownerId: PropTypes.shape({
           displayName: PropTypes.string,
-          profileImgUrl: PropTypes.string
+          profileImage: PropTypes.string
         })
       })
     ),
@@ -74,7 +74,7 @@ export default class PostedJobsToBidOnCard extends React.Component {
             <a
               className="button is-primary"
               onClick={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
               post a new job
@@ -128,7 +128,7 @@ class SummaryView extends React.Component {
       _ownerId
     } = jobObj;
 
-    const { profileImgUrl, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerId;
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
     let daysSinceCreated = '';
@@ -182,7 +182,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user" />
+                <img src={profileImage.url} alt="user" />
               </figure>
             </div>
             <div className="media-content">

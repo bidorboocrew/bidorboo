@@ -34,7 +34,7 @@ class MyPostedJobCard extends React.Component {
             <a
               className="button is-primary"
               onClick={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
               post jobs
@@ -83,7 +83,7 @@ class SummaryView extends React.Component {
       fromTemplateId
     } = jobObj;
 
-    const { profileImgUrl, displayName, email } = userDetails;
+    const { profileImage, displayName, email } = userDetails;
 
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
@@ -128,7 +128,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user" />
+                <img src={profileImage.url} alt="user" />
               </figure>
             </div>
             <div className="media-content">

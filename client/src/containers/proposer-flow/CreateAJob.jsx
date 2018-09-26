@@ -9,7 +9,6 @@ import { AddJobWithDetailsCard } from '../../components/proposer-components/AddJ
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 
-
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +27,7 @@ class CreateAJob extends React.Component {
   goBack(e) {
     e.preventDefault();
     // until then
-    this.props.a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+    this.props.a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
   }
   handleSubmit(values) {
     this.props.a_addJob(values);

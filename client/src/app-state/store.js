@@ -12,13 +12,7 @@ const getMiddleware = () => {
   if (process.env.NODE_ENV === 'production') {
     return applyMiddleware(promise(), loadingBarMiddleware(), thunk);
   }
-  // Enable additional logging in non-production environments.
-  // return applyMiddleware(promise(), thunk, createLogger());
-  return applyMiddleware(
-    promise(),
-    loadingBarMiddleware(),
-    thunk
-  );
+  return applyMiddleware(promise(), loadingBarMiddleware(), thunk);
 };
 
 export const store = createStore(

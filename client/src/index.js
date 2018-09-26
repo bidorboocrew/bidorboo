@@ -42,4 +42,4 @@ ReactDOM.render(
 // unregister();
 // registerServiceWorker();
 
-console.log('env is '+ process.env.REACT_APP_STRIPE_KEY)
+// console.log('env is '+ process.env.REACT_APP_STRIPE_KEY)

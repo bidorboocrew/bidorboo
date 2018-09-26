@@ -1,26 +1,18 @@
 import React from 'react';
 import MapWithAMarkerClusterer from '../googleMapsComponents/MapWithAMarkerClusterer';
 
-
-
 export default class BidderMapSection extends React.Component {
   render() {
-    const { jobsList, mapCenterPoint, selectJobToBidOn} = this.props;
+    const { jobsList, mapCenterPoint, selectJobToBidOn } = this.props;
     return jobsList && jobsList.length > 0 ? (
-      <MapWithAMarkerClusterer selectJobToBidOn={selectJobToBidOn} mapCenterPoint={mapCenterPoint} markers={jobsList} />
+      <MapWithAMarkerClusterer
+        selectJobToBidOn={selectJobToBidOn}
+        mapCenterPoint={mapCenterPoint}
+        markers={jobsList}
+      />
     ) : null;
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 // import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
 // import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
@@ -40,7 +32,6 @@ export default class BidderMapSection extends React.Component {
 //     {props.isMarkerShown && <React.Fragment>{props.markers}</React.Fragment>}
 //   </GoogleMap>
 // ));
-
 
 // class JobMarker extends React.Component {
 //   constructor(props) {

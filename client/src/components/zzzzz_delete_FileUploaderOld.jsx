@@ -18,7 +18,6 @@ export const FileUploader = props => (
         files: []
       }}
       onSubmit={(payload, { props }) => {
-        debugger;
         props.handleSubmit();
       }}
     >
@@ -36,7 +35,6 @@ export const FileUploader = props => (
           setFieldValue
         } = props;
 
-        debugger;
         return (
           <form onSubmit={handleSubmit}>
             <div className="form-group">

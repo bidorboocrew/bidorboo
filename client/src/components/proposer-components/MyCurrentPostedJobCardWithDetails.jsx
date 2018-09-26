@@ -13,7 +13,7 @@ export default class MyCurrentPostedJobCardWithDetails extends React.Component {
   };
 
   render() {
-    const { jobDetails,  userDetails } = this.props;
+    const { jobDetails, userDetails } = this.props;
     return (
       <JobCard
         userDetails={userDetails}
@@ -28,11 +28,11 @@ export default class MyCurrentPostedJobCardWithDetails extends React.Component {
 const JobCard = props => {
   const { jobObj, jobCounterIndex, userDetails } = props;
   return (
-      <SummaryView
-        userDetails={userDetails}
-        jobCounterIndex={jobCounterIndex}
-        jobObj={jobObj}
-      />
+    <SummaryView
+      userDetails={userDetails}
+      jobCounterIndex={jobCounterIndex}
+      jobObj={jobObj}
+    />
   );
 };
 
@@ -47,7 +47,7 @@ class SummaryView extends React.Component {
       fromTemplateId
     } = jobObj;
 
-    const { profileImgUrl, displayName, email } = userDetails;
+    const { profileImage, displayName, email } = userDetails;
 
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
@@ -92,7 +92,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user" />
+                <img src={profileImage.url} alt="user" />
               </figure>
             </div>
             <div className="media-content">

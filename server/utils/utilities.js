@@ -24,19 +24,16 @@ exports.compareEncryptedWithClearData = async (clearData, encryptedData) => {
 exports.uploadFileToCloudinary = async (filePath, callbackFunc) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await cloudinary.v2.uploader.upload(
-        filePath,
-        async (error, result) => {
-          // delete temporary intermediate file stored in TEMP_FILE_STORAGE
-          try {
-            await unlinkAsync(filePath);
-            callbackFunc(error, result);
-            resolve(true);
-          } catch (e) {
-            reject(e);
-          }
+      await cloudinary.v2.uploader.upload(filePath, async (error, result) => {
+        // delete temporary intermediate file stored in TEMP_FILE_STORAGE
+        try {
+          await unlinkAsync(filePath);
+          callbackFunc(error, result);
+          resolve(true);
+        } catch (e) {
+          reject(e);
         }
-      );
+      });
     } catch (e) {
       reject(e);
     }

@@ -24,7 +24,7 @@ exports.bidDataAccess = {
         path: '_job',
         populate: {
           path: '_ownerId',
-          select: { _id: 1, displayName: 1, globalRating: 1 }
+          select: { _id: 1, displayName: 1, globalRating: 1, profileImage:1 }
         }
       }
     };
