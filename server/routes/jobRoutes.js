@@ -39,8 +39,8 @@ module.exports = app => {
       try {
         const searchParams = req.params.searchQuery;
         if (!searchParams) {
-          // req.status(400);
-          return res.send({ Error: 'JobId search params were Not Specified' });
+          return res.status(400).send('Bad Request JobId searchQuery params was Not Specified')
+          // return res.send({ Error: 'JobId search params were Not Specified' });
         }
 
         let searchQuery = {

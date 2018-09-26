@@ -64,7 +64,7 @@ module.exports = app => {
           try {
             if (!error) {
               await userDataAccess.findOneByUserIdAndUpdateProfileInfo(userId, {
-                profileImage: { url: result.url, public_id: result.public_id }
+                profileImage: { url: result.secure_url, public_id: result.public_id }
               });
             }
             return res.send({
