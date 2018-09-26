@@ -76,22 +76,20 @@ export const getAllMyBids = () => (dispatch, getState) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
-    payload: axios
-      .get(ROUTES.API.BID.GET.myBids)
-      .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg:
-                'Sorry That did not work, Please try again later.\n' +
-                (error && error.response && error.response.data
-                  ? JSON.stringify(error.response.data)
-                  : JSON.stringify(error))
-            }
+    payload: axios.get(ROUTES.API.BID.GET.myBids).catch(error => {
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg:
+              'Sorry That did not work, Please try again later.\n' +
+              (error && error.response && error.response.data
+                ? JSON.stringify(error.response.data)
+                : JSON.stringify(error))
           }
-        });
-      })
+        }
+      });
+    })
   });
 };

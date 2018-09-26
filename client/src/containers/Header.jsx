@@ -65,9 +65,7 @@ class Header extends React.Component {
       const isProposerRoutes = s_currentRoute.includes(
         ROUTES.CLIENT.PROPOSER.root
       );
-      const isBidderRoutes = s_currentRoute.includes(
-        ROUTES.CLIENT.BIDDER.root
-      );
+      const isBidderRoutes = s_currentRoute.includes(ROUTES.CLIENT.BIDDER.root);
       navbarStylesBasedOnRoute = classNames(
         'navbar is-fixed-top nav-bottom-border',
         { 'color-change-2x-proposer': isProposerRoutes },

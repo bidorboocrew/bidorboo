@@ -100,28 +100,24 @@ module.exports = app => {
     }
   });
 
-  app.put(
-    ROUTES.API.JOB.PUT.jobImage,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const filesList = req.files;
-        // create new job for this user
-        const data = req.body.data;
-        const userId = req.user.userId;
-        const userMongoDBId = req.user._id;
+  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+    try {
+      const filesList = req.files;
+      // create new job for this user
+      const data = req.body.data;
+      const userId = req.user.userId;
+      const userMongoDBId = req.user._id;
 
-        const callbackFunc = (error, result) => {
-          return res.send({
-            error: error,
-            result: result ? result.secure_url : {}
-          });
-        };
+      const callbackFunc = (error, result) => {
+        return res.send({
+          error: error,
+          result: result ? result.secure_url : {}
+        });
+      };
 
-        await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      }
+      await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
-  );
+  });
 };

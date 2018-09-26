@@ -87,23 +87,13 @@ class App extends React.Component {
             <div id="main-view">
               <Switch>
                 {/* redirect and force login */}
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.ENTRY}
-                  component={HomePage}
-                />
+                <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
+                {/* redirect and force login */}
+                <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
                 {/* redirect and force login */}
                 <Route
                   exact
-                  path={ROUTES.CLIENT.HOME}
-                  component={HomePage}
-                />
-                {/* redirect and force login */}
-                <Route
-                  exact
-                  path={`${
-                    ROUTES.CLIENT.PROPOSER.root
-                  }/:showLoginDialog`}
+                  path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
                   component={ProposerRoot}
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
@@ -114,9 +104,7 @@ class App extends React.Component {
                 />
                 <Route
                   exact
-                  path={`${
-                    ROUTES.CLIENT.PROPOSER.createjob
-                  }/:templateId`}
+                  path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}

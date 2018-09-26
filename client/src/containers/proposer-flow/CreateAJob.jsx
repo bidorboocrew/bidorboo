@@ -9,7 +9,6 @@ import { AddJobWithDetailsCard } from '../../components/proposer-components/AddJ
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 
-
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);

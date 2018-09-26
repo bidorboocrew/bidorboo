@@ -13,7 +13,7 @@ export default class MyCurrentPostedJobCardWithDetails extends React.Component {
   };
 
   render() {
-    const { jobDetails,  userDetails } = this.props;
+    const { jobDetails, userDetails } = this.props;
     return (
       <JobCard
         userDetails={userDetails}
@@ -28,11 +28,11 @@ export default class MyCurrentPostedJobCardWithDetails extends React.Component {
 const JobCard = props => {
   const { jobObj, jobCounterIndex, userDetails } = props;
   return (
-      <SummaryView
-        userDetails={userDetails}
-        jobCounterIndex={jobCounterIndex}
-        jobObj={jobObj}
-      />
+    <SummaryView
+      userDetails={userDetails}
+      jobCounterIndex={jobCounterIndex}
+      jobObj={jobObj}
+    />
   );
 };
 

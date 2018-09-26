@@ -75,9 +75,9 @@ class BidderRoot extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    const {a_showLoginDialog, match } = this.props;
+    const { a_showLoginDialog, match } = this.props;
     const shouldShowLoginDialog = match.params.showLoginDialog;
-    if (shouldShowLoginDialog === "true") {
+    if (shouldShowLoginDialog === 'true') {
       a_showLoginDialog(true);
     }
     this.props.a_getAllPostedJobs();
@@ -119,10 +119,12 @@ class BidderRoot extends React.Component {
               </header>
               <section style={{ padding: 0 }} className="modal-card-body">
                 <JobsLocationFilterForm
-                  onCancel={() => {this.setState({showFilterDialog: false});}}
+                  onCancel={() => {
+                    this.setState({ showFilterDialog: false });
+                  }}
                   onSubmit={vals => {
                     a_searchByLocation(vals);
-                    this.setState({showFilterDialog: false});
+                    this.setState({ showFilterDialog: false });
                   }}
                 />
               </section>

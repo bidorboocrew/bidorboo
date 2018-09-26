@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../app-state/actions/routerActions';
 import { addJob } from '../../app-state/actions/jobActions';

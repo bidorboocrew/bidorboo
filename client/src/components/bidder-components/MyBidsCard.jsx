@@ -39,11 +39,11 @@ export default class MyBidsCard extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Owner Pic</p>
-                    <img
-                      alt="profile pic"
-                      src={profileImage.url}
-                      className="profileImg image is-24x24"
-                    />
+                  <img
+                    alt="profile pic"
+                    src={profileImage.url}
+                    className="profileImg image is-24x24"
+                  />
                 </div>
               </div>
               <div className="level-item has-text-centered">

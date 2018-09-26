@@ -38,7 +38,7 @@ export const Proptypes_jobModel = PropTypes.shape({
     globalRating: PropTypes.string,
     profileImage: PropTypes.shape({
       url: PropTypes.string.isRequired,
-      public_id: PropTypes.string,
+      public_id: PropTypes.string
     }),
     userRole: PropTypes.string,
     hasAgreedToServiceTerms: PropTypes.bool,

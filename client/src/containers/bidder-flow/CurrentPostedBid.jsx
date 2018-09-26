@@ -42,7 +42,9 @@ class CurrentPostedBid extends React.Component {
           <div className="container" id="bdb-proposer-content">
             <div className="columns">
               <div className="column is-8 is-offset-2">
-                <MyCurrentBidCardWithDetails bidDetails={s_recentlyUpdatedBid} />
+                <MyCurrentBidCardWithDetails
+                  bidDetails={s_recentlyUpdatedBid}
+                />
               </div>
             </div>
           </div>

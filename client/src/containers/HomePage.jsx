@@ -25,9 +25,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const {
-      a_switchRoute,
-    } = this.props;
+    const { a_switchRoute } = this.props;
     return (
       <div id="bdb-home-content">
         <section className="hero is-dark fade-in">
@@ -147,7 +145,7 @@ class HomePage extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    a_switchRoute: bindActionCreators(switchRoute, dispatch)
   };
 };
 export default connect(

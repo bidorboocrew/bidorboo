@@ -162,11 +162,5 @@ class Thumb extends React.Component {
     return 'This file is not authorized';
   }
 
-  // if (values.files.length === 0) {
-  //   console.log('values.files.length === 0');
-
-  //   return <p>Try dragging a file here!</p>;
-  // }
-
   return values.files.map((file, i) => <Thumb key={i} file={file} />);
 };
