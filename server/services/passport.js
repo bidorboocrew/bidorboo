@@ -7,7 +7,6 @@ const keys = require('../config/keys');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
   done(null, user.userId);
@@ -45,9 +44,11 @@ passport.use(
           displayName: profile.displayName,
           userId: profile.id,
           email: userEmail,
-          profileImgUrl: profile.photos
-            ? profile.photos[0].value
-            : 'https://goo.gl/92gqPL'
+          profileImage: {
+            url: profile.photos
+              ? profile.photos[0].value
+              : 'https://goo.gl/92gqPL'
+          }
         };
 
         const user = await userDataAccess.createNewUser(userDetails);
@@ -77,13 +78,13 @@ passport.use(
             ? profile.photos[0].value
             : 'https://goo.gl/92gqPL';
 
-          // update the profile pic
-          if (latestProfilePhoto !== existingUser.profileImgUrl) {
-            existingUser = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
-              profile.id,
-              { profileImgUrl: latestProfilePhoto }
-            );
-          }
+          // // update the profile pic
+          // if (latestProfilePhoto !== existingUser.profileImage) {
+          //   existingUser = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
+          //     profile.id,
+          //     { profileImage: latestProfilePhoto }
+          //   );
+          // }
           return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';
@@ -91,9 +92,11 @@ passport.use(
           displayName: profile.displayName,
           userId: profile.id,
           email: userEmail,
-          profileImgUrl: profile.photos
-            ? profile.photos[0].value
-            : 'https://goo.gl/92gqPL'
+          profileImage: {
+            url: profile.photos
+              ? profile.photos[0].value
+              : 'https://goo.gl/92gqPL'
+          }
         };
 
         const userWithMongoSchema = await userDataAccess.createNewUser(

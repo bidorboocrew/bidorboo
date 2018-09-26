@@ -27,7 +27,7 @@ export default class MyBidsCard extends React.Component {
     }  ${_job.startingDateAndTime.period}`;
 
     const { _ownerId } = _job;
-    const { profileImgUrl, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerId;
 
     return (
       <div style={{ marginBottom: 14 }} className="card">
@@ -42,7 +42,7 @@ export default class MyBidsCard extends React.Component {
                   <p className="heading">Owner Pic</p>
                     <img
                       alt="profile pic"
-                      src={profileImgUrl}
+                      src={profileImage.url}
                       className="profileImg image is-24x24"
                     />
                 </div>

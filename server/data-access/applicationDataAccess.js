@@ -152,7 +152,7 @@ exports.AppUsersModel = {
     try {
       const populateOptions = {
         path: 'usersIdList',
-        select: 'globalRating displayName phoneNumber profileImgUrl'
+        select: 'globalRating displayName phoneNumber profileImage'
       };
 
       const populatedUsers = await AppUsersModel.findOne(

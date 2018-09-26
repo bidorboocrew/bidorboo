@@ -6,8 +6,10 @@ const initialState = {
     userId: '',
     displayName: 'Join Us for Free',
     email: '',
-    profileImgUrl:
-      'https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png'
+    profileImage: {
+      url:
+        'https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png'
+    }
   }
 };
 

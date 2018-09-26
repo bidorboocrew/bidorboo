@@ -26,7 +26,10 @@ class BidNow extends React.Component {
       detailedDescription: PropTypes.string,
       title: PropTypes.string,
       _ownerId: PropTypes.shape({
-        profileImgUrl: PropTypes.string,
+        profileImage: PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          public_id: PropTypes.string
+        }),
         displayName: PropTypes.string
       })
     }),
@@ -71,7 +74,8 @@ class BidNow extends React.Component {
             <div className="columns is-mobile is-centered">
               <div
                 className="column is-12-mobile
-                          is-8-tablet">
+                          is-8-tablet"
+              >
                 <BidOnAJobCard
                   onSubmit={a_submitBid}
                   switchRoute={a_switchRoute}
@@ -97,4 +101,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BidNow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BidNow);

@@ -1,6 +1,7 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const ROUTES = require('../backend_route_constants');
 const requireLogin = require('../middleware/requireLogin');
+const utils = require('../utils/utilities');
 
 module.exports = app => {
   //get current user
@@ -15,7 +16,9 @@ module.exports = app => {
       }
       done(null, null);
     } catch (e) {
-      return res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+        .status(500)
+        .send({ error: 'Sorry Something went wrong \n' + e });
     }
   });
 
@@ -42,9 +45,44 @@ module.exports = app => {
         );
         return res.send(userAfterUpdates);
       } catch (e) {
-        return res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        return res
+          .status(500)
+          .send({ error: 'Sorry Something went wrong \n' + e });
       }
     }
   );
 
+  app.put(
+    ROUTES.USERAPI.PUT_UPDATE_PROFILE_IMAGE,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const filesList = req.files;
+        // create new job for this user
+        const data = req.body.data;
+        const userId = req.user.userId;
+        const userMongoDBId = req.user._id;
+
+        const callbackFunc = async (error, result) => {
+          // update the user data model
+          if (!error) {
+            await userDataAccess.findOneByUserIdAndUpdateProfileInfo(userId, {
+              profileImage: { url: result.url, public_id: result.public_id }
+            });
+          }
+          return res.send({
+            error: error,
+            result: result ? result.url : {}
+          });
+        };
+
+        let newProfileImgDetails = await utils.uploadFileToCloudinary(
+          filesList[0].path,
+          callbackFunc
+        );
+      } catch (e) {
+        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      }
+    }
+  );
 };

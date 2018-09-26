@@ -18,7 +18,10 @@ class Header extends React.Component {
     s_isLoggedIn: PropTypes.bool.isRequired,
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
-      profileImgUrl: PropTypes.string.isRequired
+      profileImage: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        public_id: PropTypes.string
+      })
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
     a_switchRoute: PropTypes.func.isRequired,
@@ -52,7 +55,7 @@ class Header extends React.Component {
       s_currentRoute,
       s_shouldShowLoginDialog
     } = this.props;
-    const { profileImgUrl } = s_userDetails;
+    const { profileImage } = s_userDetails;
 
     let navbarStylesBasedOnRoute = classNames(
       'navbar is-fixed-top nav-bottom-border'
@@ -87,7 +90,7 @@ class Header extends React.Component {
         />
         <div className="navbar-brand">
           <a
-            onClick={(e) => {
+            onClick={e => {
               this.closeMenuThenExecute(() => {
                 a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
               });
@@ -248,10 +251,10 @@ class Header extends React.Component {
                   <div className="navbar-item">
                     <div className="navbar-item has-dropdown is-hoverable">
                       <a className="navbar-link">
-                        {profileImgUrl && (
+                        {profileImage && (
                           <img
                             style={{ paddingRight: 4 }}
-                            src={profileImgUrl}
+                            src={profileImage.url}
                             alt="BidOrBoo"
                           />
                         )}

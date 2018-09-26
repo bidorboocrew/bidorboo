@@ -18,6 +18,7 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, { setSubmitting, props }) => {
     debugger;
     props.uploadFilesAction(payload.files);
+    props.closeDialog();
     setSubmitting(false);
   },
   mapPropsToValues: ({ user }) => ({
@@ -34,6 +35,7 @@ class MyForm extends React.Component {
   }
 
   onDrophandler(acceptedFiles) {
+    debugger;
     const { setFieldValue, values } = this.props;
     // do nothing if no files
     if (acceptedFiles.length === 0) {
@@ -41,7 +43,6 @@ class MyForm extends React.Component {
       return;
     }
     // on drop we add to the existing files
-    debugger;
     const newFile = values.files.concat(acceptedFiles);
     setFieldValue('files', newFile);
   }
@@ -63,7 +64,6 @@ class MyForm extends React.Component {
     return (
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Multiple files</label>
           <Dropzone
             multiple={false}
             maxSize={MAX_FILE_SIZE_IN_MB}
@@ -94,12 +94,22 @@ class MyForm extends React.Component {
 
 export default formikEnhancer(MyForm);
 const ThumbsCollection = ({ values }) => {
-  let AllThumbnails = values.files > 0 ? values.files.map((file, i) => (
-    <React.Fragment>
-      <Thumb key={i} file={file} />
-      <br />
-    </React.Fragment>
-  )): <div>Drag and drop your files here, or tap to upload a file</div>;
+  let AllThumbnails =
+    values.files && values.files.length > 0 ? (
+      values.files.map((file, i) => {
+        debugger;
+        return (
+          <React.Fragment>
+            <Thumb key={i} file={file} />
+            <br />
+          </React.Fragment>
+        );
+      })
+    ) : (
+      <div style={{ textAlign: 'center', padding: 20 }}>
+        Drag and drop your files here, or tap to upload a file
+      </div>
+    );
   return AllThumbnails;
 };
 
