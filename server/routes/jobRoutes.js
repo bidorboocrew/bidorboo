@@ -37,7 +37,8 @@ module.exports = app => {
     requireLogin,
     async (req, res, done) => {
       try {
-        const searchParams = req.params.searchQuery;
+        const { searchParams } = req.body.data;
+        debugger
         if (!searchParams) {
           return res.status(400).send('Bad Request JobId searchQuery params was Not Specified')
           // return res.send({ Error: 'JobId search params were Not Specified' });
