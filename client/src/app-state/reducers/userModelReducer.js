@@ -1,3 +1,5 @@
+import { handleActions } from 'redux-actions';
+
 import * as A from '../actionTypes';
 
 const initialState = {
@@ -6,18 +8,18 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: '',
     profileImage: {
-      url:
-        'https://cdn4.iconfinder.com/data/icons/forum-buttons-and-community-signs-1/794/profile-3-512.png'
+      url: ''
     }
   }
 };
+const updateUserProfile = (state = initialState, { payload }) => ({
+  ...state,
+  userDetails: payload
+});
 
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
-    case A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE: {
-      return { ...state, userDetails: payload };
-    }
-    default:
-      return state;
-  }
-}
+export default handleActions(
+  {
+    [`${A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE}`]: updateUserProfile
+  },
+  initialState
+);
