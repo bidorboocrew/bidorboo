@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { getAllMyJobs } from '../../app-state/actions/jobActions';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 import MyPostedJobCard from '../../components/proposer-components/MyPostedJobCard';
+
 
 class MyJobs extends React.Component {
   componentDidMount() {
@@ -12,7 +13,7 @@ class MyJobs extends React.Component {
     this.props.a_getAllMyJobs();
   }
   render() {
-    const { s_myPostedJobsList, s_userDetails, a_switchRoute } = this.props;
+    const { s_myPostedJobsList, s_userDetails } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -35,7 +36,6 @@ class MyJobs extends React.Component {
             >
               <MyPostedJobCard
                 userDetails={s_userDetails}
-                switchRoute={a_switchRoute}
                 jobsList={s_myPostedJobsList}
               />
             </div>
@@ -55,9 +55,11 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_getAllMyJobs: bindActionCreators(getAllMyJobs, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_getAllMyJobs: bindActionCreators(getAllMyJobs, dispatch)
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyJobs);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyJobs);

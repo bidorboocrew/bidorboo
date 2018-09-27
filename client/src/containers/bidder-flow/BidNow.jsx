@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 import { submitBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import BidOnAJobCard from '../../components/bidder-components/BidOnAJobCard';
+
+import { switchRoute } from '../../utils';
 
 class BidNow extends React.Component {
   static propTypes = {
@@ -26,11 +28,13 @@ class BidNow extends React.Component {
       detailedDescription: PropTypes.string,
       title: PropTypes.string,
       _ownerId: PropTypes.shape({
-        profileImgUrl: PropTypes.string,
+        profileImage: PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          public_id: PropTypes.string
+        }),
         displayName: PropTypes.string
       })
     }),
-    a_switchRoute: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -38,12 +42,12 @@ class BidNow extends React.Component {
   }
 
   render() {
-    const { a_switchRoute, s_jobDetails, a_submitBid } = this.props;
+    const { s_jobDetails, a_submitBid } = this.props;
 
     //if user tried to manually set the url to this page without selecting a job
     if (!s_jobDetails || !s_jobDetails._ownerId) {
       //reroute them to bidder root
-      this.props.a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+      switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
     return (
@@ -54,7 +58,7 @@ class BidNow extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
                   }}
                 >
                   Bidder Home
@@ -71,10 +75,10 @@ class BidNow extends React.Component {
             <div className="columns is-mobile is-centered">
               <div
                 className="column is-12-mobile
-                          is-8-tablet">
+                          is-8-tablet"
+              >
                 <BidOnAJobCard
                   onSubmit={a_submitBid}
-                  switchRoute={a_switchRoute}
                   jobDetails={s_jobDetails}
                 />
               </div>
@@ -92,9 +96,11 @@ const mapStateToProps = ({ bidsReducer }) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
     a_submitBid: bindActionCreators(submitBid, dispatch)
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BidNow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BidNow);

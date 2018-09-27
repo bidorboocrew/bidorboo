@@ -1,5 +1,5 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
-const ROUTES = require('../backend_route_constants');
+const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
@@ -9,7 +9,7 @@ const utils = require('../utils/utilities');
 
 module.exports = app => {
   app.get(
-    ROUTES.USERAPI.JOB_ROUTES.myjobs,
+    ROUTES.API.JOB.GET.myjobs,
     requireBidorBooHost,
     requireLogin,
     async (req, res) => {
@@ -22,28 +22,25 @@ module.exports = app => {
     }
   );
 
-  app.get(
-    ROUTES.USERAPI.JOB_ROUTES.alljobs,
-    requireBidorBooHost,
-    async (req, res) => {
-      try {
-        userJobsList = await jobDataAccess.getAllPostedJobs();
-        res.send(userJobsList);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      }
+  app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
+    try {
+      userJobsList = await jobDataAccess.getAllPostedJobs();
+      res.send(userJobsList);
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
-  );
+  });
 
   app.post(
-    `${ROUTES.USERAPI.JOB_ROUTES.postASearch}`,
+    ROUTES.API.JOB.POST.searchJobs,
     requireBidorBooHost,
     requireLogin,
     async (req, res, done) => {
       try {
-        const searchParams = req.body.data.searchParams;
+        const { searchParams } = req.body.data;
         if (!searchParams) {
-          return res.send({ Error: 'JobId search params were Not Specified' });
+          return res.status(400).send('Bad Request JobId searchQuery params was Not Specified')
+          // return res.send({ Error: 'JobId search params were Not Specified' });
         }
 
         let searchQuery = {
@@ -64,33 +61,27 @@ module.exports = app => {
     }
   );
 
-  app.get(
-    `${ROUTES.USERAPI.JOB_ROUTES}/:jobId`,
-    requireLogin,
-    async (req, res, done) => {
-      try {
-        const requestedJobId = req.params.jobId;
-        if (!requestedJobId) {
-          return res.send({ Error: 'JobId Was Not Specified' });
-        }
-
-        let existingJob = null;
-
-        existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
-        if (existingJob) {
-          return res.send(existingJob);
-        } else {
-          return res.send({ Error: 'JobId Was Not Specified' });
-        }
-
-
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+  app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res, done) => {
+    try {
+      const requestedJobId = req.params.jobId;
+      if (!requestedJobId) {
+        return res.send({ Error: 'JobId Was Not Specified' });
       }
-    }
-  );
 
-  app.post(ROUTES.USERAPI.JOB_ROUTES.myjobs, requireLogin, async (req, res) => {
+      let existingJob = null;
+
+      existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
+      if (existingJob) {
+        return res.send(existingJob);
+      } else {
+        return res.send({ Error: 'JobId Was Not Specified' });
+      }
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+    }
+  });
+
+  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {
       // create new job for this user
       const data = req.body.data;
@@ -108,53 +99,25 @@ module.exports = app => {
       res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
   });
-  app.post(
-    ROUTES.USERAPI.JOB_ROUTES.uploadImage,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const filesList = req.files;
-        // create new job for this user
-        const data = req.body.data;
-        const userId = req.user.userId;
-        const userMongoDBId = req.user._id;
 
-        const callbackFunc = (error, result) => {
-          return res.send({
-            error: error,
-            result: result ? result.secure_url : {}
-          });
-        };
+  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+    try {
+      const filesList = req.files;
+      // create new job for this user
+      const data = req.body.data;
+      const userId = req.user.userId;
+      const userMongoDBId = req.user._id;
 
-        await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      }
+      const callbackFunc = (error, result) => {
+        return res.send({
+          error: error,
+          result: result ? result.secure_url : {}
+        });
+      };
+
+      await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
+    } catch (e) {
+      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
     }
-  );
-
-  app.put(
-    ROUTES.USERAPI.JOB_ROUTES,
-    requireLogin,
-    isJobOwner,
-    async (req, res) => {
-      // you must ensure that they are the owners before allowing them to modify an existing job
-      try {
-        // create new job for this user
-        const { jobIdToUpdate, ...newJobDetails } = req.body.data;
-        const userId = req.user._id;
-        const options = {
-          new: true
-        };
-        const newJob = await jobDataAccess.findOneByJobIdAndUpdateJobInfo(
-          jobIdToUpdate,
-          newJobDetails,
-          options
-        );
-        return res.send(newJob);
-      } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-      }
-    }
-  );
+  });
 };

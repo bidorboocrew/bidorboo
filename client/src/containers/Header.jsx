@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { onLogout } from '../app-state/actions/authActions';
-import { switchRoute } from '../app-state/actions/routerActions';
 import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import autoBind from 'react-autobind';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
+import {switchRoute } from '../utils'
 import * as ROUTES from '../constants/frontend-route-consts';
 
 class Header extends React.Component {
@@ -18,10 +17,12 @@ class Header extends React.Component {
     s_isLoggedIn: PropTypes.bool.isRequired,
     s_userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
-      profileImgUrl: PropTypes.string.isRequired
+      profileImage: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        public_id: PropTypes.string
+      })
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_switchRoute: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired
   };
   static defaultProps = {
@@ -48,11 +49,10 @@ class Header extends React.Component {
       s_isLoggedIn,
       s_userDetails,
       a_onLogout,
-      a_switchRoute,
       s_currentRoute,
       s_shouldShowLoginDialog
     } = this.props;
-    const { profileImgUrl } = s_userDetails;
+    const { profileImage } = s_userDetails;
 
     let navbarStylesBasedOnRoute = classNames(
       'navbar is-fixed-top nav-bottom-border'
@@ -60,11 +60,9 @@ class Header extends React.Component {
     let logoSubTitle = '';
     if (s_currentRoute && s_currentRoute.includes) {
       const isProposerRoutes = s_currentRoute.includes(
-        ROUTES.FRONTENDROUTES.PROPOSER.root
+        ROUTES.CLIENT.PROPOSER.root
       );
-      const isBidderRoutes = s_currentRoute.includes(
-        ROUTES.FRONTENDROUTES.BIDDER.root
-      );
+      const isBidderRoutes = s_currentRoute.includes(ROUTES.CLIENT.BIDDER.root);
       navbarStylesBasedOnRoute = classNames(
         'navbar is-fixed-top nav-bottom-border',
         { 'color-change-2x-proposer': isProposerRoutes },
@@ -87,9 +85,9 @@ class Header extends React.Component {
         />
         <div className="navbar-brand">
           <a
-            onClick={(e) => {
+            onClick={e => {
               this.closeMenuThenExecute(() => {
-                a_switchRoute(ROUTES.FRONTENDROUTES.HOME);
+                switchRoute(ROUTES.CLIENT.HOME);
               });
             }}
             style={{ paddingRight: 4 }}
@@ -156,7 +154,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   });
                 }}
                 className="navbar-link"
@@ -175,7 +173,7 @@ class Header extends React.Component {
                     className="navbar-item"
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.myjobs);
+                        switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
                       });
                     }}
                   >
@@ -187,7 +185,7 @@ class Header extends React.Component {
                   className="navbar-item"
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     });
                   }}
                 >
@@ -199,7 +197,7 @@ class Header extends React.Component {
               <a
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
                   });
                 }}
                 className="navbar-link"
@@ -216,7 +214,7 @@ class Header extends React.Component {
                   <a
                     onClick={() => {
                       this.closeMenuThenExecute(() => {
-                        a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
+                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                       });
                     }}
                     style={{ marginleft: 4 }}
@@ -230,7 +228,7 @@ class Header extends React.Component {
                   className="navbar-item"
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
                     });
                   }}
                 >
@@ -248,10 +246,10 @@ class Header extends React.Component {
                   <div className="navbar-item">
                     <div className="navbar-item has-dropdown is-hoverable">
                       <a className="navbar-link">
-                        {profileImgUrl && (
+                        {profileImage && (
                           <img
                             style={{ paddingRight: 4 }}
-                            src={profileImgUrl}
+                            src={profileImage.url}
                             alt="BidOrBoo"
                           />
                         )}
@@ -261,7 +259,7 @@ class Header extends React.Component {
                         <a
                           onClick={() => {
                             this.closeMenuThenExecute(() => {
-                              a_switchRoute(ROUTES.FRONTENDROUTES.MY_PROFILE);
+                              switchRoute(ROUTES.CLIENT.MY_PROFILE);
                             });
                           }}
                           className="navbar-item"
@@ -308,19 +306,19 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({ uiReducer, authReducer, routerReducer }) => {
+const mapStateToProps = ({ userModelReducer, uiReducer, authReducer }) => {
+  const { userDetails } = userModelReducer;
   return {
     s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: authReducer.userDetails,
-    s_displayName: authReducer.userDetails.displayName,
-    s_currentRoute: routerReducer.currentRoute,
+    s_userDetails: userDetails,
+    s_displayName: userDetails.displayName,
     s_shouldShowLoginDialog: uiReducer.shouldShowLoginDialog
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };

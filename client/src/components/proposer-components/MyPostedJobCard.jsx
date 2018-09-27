@@ -6,17 +6,17 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
+import { switchRoute } from '../../utils';
 
 class MyPostedJobCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(Proptypes_jobModel),
-    switchRoute: PropTypes.func.isRequired,
     userDetails: PropTypes.object
   };
 
   render() {
-    const { jobsList, switchRoute, userDetails } = this.props;
+    const { jobsList, userDetails } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
@@ -34,7 +34,7 @@ class MyPostedJobCard extends React.Component {
             <a
               className="button is-primary"
               onClick={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
               post jobs
@@ -83,7 +83,7 @@ class SummaryView extends React.Component {
       fromTemplateId
     } = jobObj;
 
-    const { profileImgUrl, displayName, email } = userDetails;
+    const { profileImage, displayName, email } = userDetails;
 
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
@@ -128,7 +128,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user" />
+                <img src={profileImage.url} alt="user" />
               </figure>
             </div>
             <div className="media-content">
@@ -197,7 +197,6 @@ class SummaryView extends React.Component {
 class BidsTable extends React.Component {
   render() {
     const { bidList } = this.props;
-
     const areThereAnyBids = bidList && bidList.length > 0;
 
     let lowestBidVal = -1;

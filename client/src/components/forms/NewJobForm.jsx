@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 
 import { withFormik } from 'formik';
-import Yup from 'yup';
+
+import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput, TextAreaInput, TextInput, DateInput, TimeInput } from './FormsHelpers';
 import moment from 'moment';

@@ -2,7 +2,11 @@ import React from 'react';
 import autoBind from 'react-autobind';
 
 import { compose, withProps } from 'recompose';
-import { withGoogleMap, GoogleMap, Marker/*,withScriptjs*/ } from 'react-google-maps';
+import {
+  withGoogleMap,
+  GoogleMap,
+  Marker /*,withScriptjs*/
+} from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
@@ -60,7 +64,11 @@ class Cluster extends React.Component {
     const { markers, selectJobToBidOn } = this.props;
     if (markers && markers.length > 0) {
       const jobsMarkersOnTheMap = markers.map(marker => (
-        <JobMarker selectJobToBidOn={selectJobToBidOn} key={marker._id} marker={marker} />
+        <JobMarker
+          selectJobToBidOn={selectJobToBidOn}
+          key={marker._id}
+          marker={marker}
+        />
       ));
       return (
         <MarkerClusterer
@@ -94,7 +102,6 @@ class JobMarker extends React.Component {
     const { marker, selectJobToBidOn } = this.props;
     selectJobToBidOn(marker);
   }
-
 
   render() {
     const { marker, selectJobToBidOn } = this.props;
@@ -137,7 +144,6 @@ class JobMarker extends React.Component {
                 </a>
                 <div
                   style={{
-                    padding: `2px`,
                     fontSize: 16,
                     fontColor: `#4a4a4a`,
                     backgroundColor: 'white',

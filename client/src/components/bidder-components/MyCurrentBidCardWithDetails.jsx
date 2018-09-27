@@ -73,9 +73,7 @@ export default class MyCurrentBidCardWithDetails extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Approximate location</p>
-                  <p className="subtitle">
-                    {_job.addressText}
-                  </p>
+                  <p className="subtitle">{_job.addressText}</p>
                 </div>
               </div>
             </div>

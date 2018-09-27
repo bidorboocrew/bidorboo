@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFormik } from 'formik';
-import Yup from 'yup';
+import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
 import { enforceNumericField, alphanumericField, phoneNumber } from './FormsValidators';
 
@@ -39,7 +39,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
     props.onSubmit(values);
   },
   displayName: 'ProfileForm',

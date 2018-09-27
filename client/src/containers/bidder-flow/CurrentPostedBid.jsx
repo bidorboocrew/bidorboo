@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 
 import { bindActionCreators } from 'redux';
 
 import MyCurrentBidCardWithDetails from '../../components/bidder-components/MyCurrentBidCardWithDetails';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
+import {switchRoute} from '../../utils';
 
 class CurrentPostedBid extends React.Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class CurrentPostedBid extends React.Component {
     window.scrollTo(0, 0);
   }
   render() {
-    const { a_switchRoute, s_recentlyUpdatedBid } = this.props;
+    const { s_recentlyUpdatedBid } = this.props;
 
     return (
       <React.Fragment>
@@ -26,7 +27,7 @@ class CurrentPostedBid extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.FRONTENDROUTES.BIDDER.mybids);
+                    switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                   }}
                 >
                   My Bids
@@ -42,7 +43,9 @@ class CurrentPostedBid extends React.Component {
           <div className="container" id="bdb-proposer-content">
             <div className="columns">
               <div className="column is-8 is-offset-2">
-                <MyCurrentBidCardWithDetails bidDetails={s_recentlyUpdatedBid} />
+                <MyCurrentBidCardWithDetails
+                  bidDetails={s_recentlyUpdatedBid}
+                />
               </div>
             </div>
           </div>
@@ -59,13 +62,7 @@ const mapStateToProps = ({ bidsReducer }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(CurrentPostedBid);

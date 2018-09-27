@@ -71,7 +71,7 @@ const UserSchema = new Schema(
       allowBlank: true,
       lowercase: true,
       trim: true,
-      index: true,
+      index: true
       // unique: true
     },
     displayName: {
@@ -80,14 +80,17 @@ const UserSchema = new Schema(
     },
     phoneNumber: {
       type: String,
-      trim: true,
+      trim: true
       // unique: true,
       // dropDups: true
     },
     // password: String,
     creditCards: { type: [CreditCardSchema], default: null }, // we will only store the credit cardS number (not expiry nor cvv)
     // provider: [ProviderSchema],
-    profileImgUrl: { type: String, default: 'https://goo.gl/92gqPL' },
+    profileImage: {
+      url: { type: String, default: 'https://goo.gl/92gqPL' },
+      public_id: { type: String, default: null }
+    },
     address: AddressSchema,
     // skills: [String], // list of strings representing their skills
     personalParagraph: String, // a blob about who they are

@@ -18,7 +18,7 @@ exports.jobDataAccess = {
    * populate the _bidsList with full  ref data
    */
   getAllJobsForUser: userId => {
-    const populatePostedJobsOptions = {
+    const populateJobBidsAndBidders = {
       path: '_postedJobs',
       options: {
         // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
@@ -30,11 +30,23 @@ exports.jobDataAccess = {
           path: '_bidderId',
           select: { _id: 1, _reviews: 1, displayName: 1, globalRating: 1 }
         }
-      }
+      },
+    };
+    const populatePostedJobsOwner = {
+      path: '_postedJobs',
+      options: {
+        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
+        sort: { createdAt: -1 }
+      },
+      populate: {
+        path: '_ownerId',
+        select: { displayName: 1, profileImage: 1, _id: 1 },
+      },
     };
 
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
-      .populate(populatePostedJobsOptions)
+      .populate(populateJobBidsAndBidders)
+      .populate(populatePostedJobsOwner)
       .lean(true)
       .exec();
   },
@@ -57,7 +69,7 @@ exports.jobDataAccess = {
     )
       .populate({
         path: '_ownerId',
-        select: { displayName: 1, profileImgUrl: 1, _id: 1 }
+        select: { displayName: 1, profileImage: 1, _id: 1 }
       })
       .lean(true)
       .exec(); // only works if we pushed refs to children
@@ -112,10 +124,9 @@ exports.jobDataAccess = {
           ],
           async (error, results) => {
             //populate job fields
-            if(error){
+            if (error) {
               reject(error);
-            }
-            else if (results && results.length > 0) {
+            } else if (results && results.length > 0) {
               try {
                 let searchResults = results.map(async job => {
                   const dbJob = await JobModel.findById(job._id, {
@@ -131,7 +142,7 @@ exports.jobDataAccess = {
                   })
                     .populate({
                       path: '_ownerId',
-                      select: { displayName: 1, profileImgUrl: 1, _id: 0 }
+                      select: { displayName: 1, profileImage: 1, _id: 0 }
                     })
                     .lean(true)
                     .exec();

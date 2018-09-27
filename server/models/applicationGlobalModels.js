@@ -42,7 +42,6 @@ const AppUsers = new Schema({
   extras: { type: Object, default: null }
 });
 
-
 mongoose.model('AppHealthModel', AppHealth);
 mongoose.model('AppJobsModel', AppJobs);
 mongoose.model('AppUsersModel', AppUsers);

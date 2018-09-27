@@ -4,10 +4,11 @@ import moment from 'moment';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import PostYourBid from '../../components/forms/PostYourBid';
+import { switchRoute } from '../../utils';
 
 export default class BidOnAJobCard extends React.Component {
   render() {
-    const { jobDetails, switchRoute, onSubmit } = this.props;
+    const { jobDetails, onSubmit } = this.props;
 
     if (!jobDetails || !jobDetails._ownerId) {
       return null;
@@ -23,7 +24,7 @@ export default class BidOnAJobCard extends React.Component {
       detailedDescription
     } = jobDetails;
 
-    const { profileImgUrl, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerId;
     const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
@@ -46,7 +47,7 @@ export default class BidOnAJobCard extends React.Component {
             onSubmit({ jobId: _id, bidAmount: values.bidAmountField });
           }}
           onCancel={() => {
-            switchRoute(ROUTES.FRONTENDROUTES.BIDDER.root);
+            switchRoute(ROUTES.CLIENT.BIDDER.root);
           }}
         />
         <div className="card">
@@ -76,7 +77,7 @@ export default class BidOnAJobCard extends React.Component {
             <div className="media">
               <div className="media-left">
                 <figure className="image is-32x32">
-                  <img src={profileImgUrl} alt="user" />
+                  <img src={profileImage.url} alt="user" />
                 </figure>
               </div>
               <div className="media-content">

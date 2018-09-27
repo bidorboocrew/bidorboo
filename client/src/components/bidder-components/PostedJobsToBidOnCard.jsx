@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
+
 export default class PostedJobsToBidOnCard extends React.Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool,
@@ -33,19 +36,20 @@ export default class PostedJobsToBidOnCard extends React.Component {
         _bidsList: PropTypes.array,
         _ownerId: PropTypes.shape({
           displayName: PropTypes.string,
-          profileImgUrl: PropTypes.string
+          profileImage: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+            public_id: PropTypes.string
+          }),
         })
       })
     ),
     currentUserId: PropTypes.string,
-    switchRoute: PropTypes.func.isRequired,
     selectJobToBidOn: PropTypes.func.isRequired
   };
 
   render() {
     const {
       jobsList,
-      switchRoute,
       currentUserId,
       selectJobToBidOn,
       isLoggedIn,
@@ -55,7 +59,6 @@ export default class PostedJobsToBidOnCard extends React.Component {
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
           <JobCard
-            switchRoute={switchRoute}
             currentUserId={currentUserId}
             key={job._id}
             jobObj={job}
@@ -74,7 +77,7 @@ export default class PostedJobsToBidOnCard extends React.Component {
             <a
               className="button is-primary"
               onClick={() => {
-                switchRoute(ROUTES.FRONTENDROUTES.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
               post a new job
@@ -128,7 +131,7 @@ class SummaryView extends React.Component {
       _ownerId
     } = jobObj;
 
-    const { profileImgUrl, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerId;
     const areThereAnyBidders =
       _bidsList && _bidsList.map && _bidsList.length > 0;
     let daysSinceCreated = '';
@@ -182,7 +185,7 @@ class SummaryView extends React.Component {
           <div className="media">
             <div className="media-left">
               <figure className="image is-32x32">
-                <img src={profileImgUrl} alt="user" />
+                <img src={profileImage.url} alt="user" />
               </figure>
             </div>
             <div className="media-content">

@@ -1,4 +1,4 @@
-//will host all UI global changes
+import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 import uuidv1 from 'uuid/v1';
 
@@ -11,33 +11,25 @@ const initialState = {
   // applicationMode: C.APP_MODE.BIDDER
 };
 
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
-    case A.AUTH_ACTIONS.USER_IS_LOGGED_IN:
-      return {
-        ...state,
-        shouldShowLoginDialog: false
-      };
+const closeLoginDialog = (state = initialState, { payload }) => ({
+  ...state,
+  shouldShowLoginDialog: false
+});
+const openLoginDialog = (state = initialState, { payload }) => ({
+  ...state,
+  shouldShowLoginDialog: true
+});
+const showToastNotification = (state = initialState, { payload }) => ({
+  ...state,
+  toastDetails: { ...payload.toastDetails, toastId: uuidv1() }
+});
 
-    case A.UI_ACTIONS.OPEN_LOGIN_DIALOG:
-      return {
-        ...state,
-        shouldShowLoginDialog: true
-      };
-
-    case A.UI_ACTIONS.CLOSE_LOGIN_DIALOG:
-      return {
-        ...state,
-        shouldShowLoginDialog: false
-      };
-
-    case A.UI_ACTIONS.SHOW_TOAST_MSG:
-      return {
-        ...state,
-        toastDetails: { ...payload.toastDetails, toastId: uuidv1() }
-      };
-
-    default:
-      return state;
-  }
-}
+export default handleActions(
+  {
+    [`${A.AUTH_ACTIONS.USER_IS_LOGGED_IN}`]: closeLoginDialog,
+    [`${A.UI_ACTIONS.OPEN_LOGIN_DIALOG}`]: openLoginDialog,
+    [`${A.UI_ACTIONS.CLOSE_LOGIN_DIALOG}`]: closeLoginDialog,
+    [`${A.UI_ACTIONS.SHOW_TOAST_MSG}`]: showToastNotification
+  },
+  initialState
+);

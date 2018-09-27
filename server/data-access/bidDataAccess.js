@@ -14,7 +14,7 @@ const { AppHealthSchemaId } = require('../models/zModalConstants');
 
 exports.bidDataAccess = {
   getAllBidsForUser: userId => {
-    const populatePostedJobsOptions = {
+    const populatedPostedBids = {
       path: '_postedBids',
       options: {
         // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
@@ -24,13 +24,20 @@ exports.bidDataAccess = {
         path: '_job',
         populate: {
           path: '_ownerId',
-          select: { _id: 1, displayName: 1, globalRating: 1 }
+          select: { _id: 1, displayName: 1, globalRating: 1, profileImage:1 }
         }
       }
     };
 
+    const populatePostedBidsBidderInfo = {
+      path: '_postedBids',
+      populate: {
+        path: '_bidderId'
+      }
+    };
     return UserModel.findById(userId)
-      .populate(populatePostedJobsOptions)
+      .populate(populatedPostedBids)
+      .populate(populatePostedBidsBidderInfo)
       .lean(true)
       .exec();
   },

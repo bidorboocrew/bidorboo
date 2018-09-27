@@ -22,7 +22,7 @@ export const LoginOrRegisterModal = props => {
             <a
               rel="noopener noreferrer"
               className="button is-danger is-large is-large is-fullwidth"
-              href={ROUTES.BACKENDROUTES.AUTH.GOOGLE}
+              href={ROUTES.API.AUTH.GOOGLE}
               style={{ marginTop: 8 }}
             >
               <span>
@@ -34,7 +34,7 @@ export const LoginOrRegisterModal = props => {
             </a>
             <a
               rel="noopener noreferrer"
-              href={ROUTES.BACKENDROUTES.AUTH.FACEBOOK}
+              href={ROUTES.API.AUTH.FACEBOOK}
               className="button is-link is-large is-fullwidth"
               style={{ marginTop: 16 }}
             >

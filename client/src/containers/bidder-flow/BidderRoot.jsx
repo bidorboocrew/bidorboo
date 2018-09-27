@@ -10,7 +10,7 @@ import BidderMapSection from '../../components/bidder-components/BidderMapSectio
 import { Spinner } from '../../components/Spinner';
 import PostedJobsToBidOnCard from '../../components/bidder-components/PostedJobsToBidOnCard';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 import {
   getAllPostedJobs,
   searchByLocation
@@ -75,9 +75,9 @@ class BidderRoot extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    const {a_showLoginDialog, match } = this.props;
+    const { a_showLoginDialog, match } = this.props;
     const shouldShowLoginDialog = match.params.showLoginDialog;
-    if (shouldShowLoginDialog === "true") {
+    if (shouldShowLoginDialog === 'true') {
       a_showLoginDialog(true);
     }
     this.props.a_getAllPostedJobs();
@@ -87,7 +87,6 @@ class BidderRoot extends React.Component {
     const {
       s_isLoading,
       s_allThePostedJobsList,
-      a_switchRoute,
       s_userDetails,
       a_searchByLocation,
       s_mapCenterPoint,
@@ -119,10 +118,12 @@ class BidderRoot extends React.Component {
               </header>
               <section style={{ padding: 0 }} className="modal-card-body">
                 <JobsLocationFilterForm
-                  onCancel={() => {this.setState({showFilterDialog: false});}}
+                  onCancel={() => {
+                    this.setState({ showFilterDialog: false });
+                  }}
                   onSubmit={vals => {
                     a_searchByLocation(vals);
-                    this.setState({showFilterDialog: false});
+                    this.setState({ showFilterDialog: false });
                   }}
                 />
               </section>
@@ -230,7 +231,6 @@ class BidderRoot extends React.Component {
                   isLoggedIn={s_isLoggedIn}
                   showLoginDialog={a_showLoginDialog}
                   currentUserId={s_userDetails._id}
-                  switchRoute={a_switchRoute}
                   selectJobToBidOn={a_selectJobToBidOn}
                   jobsList={
                     this.state.displayedJobList === null
@@ -262,7 +262,6 @@ const mapDispatchToProps = dispatch => {
   return {
     a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
     a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch)
   };
