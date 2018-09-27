@@ -14,7 +14,7 @@ import MyBidsCard from '../../components/bidder-components/MyBidsCard';
 class MyBids extends React.Component {
   static propTypes = {
     s_isLoading: PropTypes.bool,
-    s_bidsList: PropTypes.arrayOf(Proptypes_bidModel)
+    s_bidsList: PropTypes.arrayOf(PropTypes.shape(Proptypes_bidModel))
   };
   componentDidMount() {
     window.scrollTo(0, 0);

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
-
+import LoadingBar from 'react-redux-loading-bar';
 // import AdSense from 'react-adsense';
 import Toast from '../components/Toast';
 
@@ -40,7 +40,7 @@ class App extends React.Component {
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
     document.getElementById('fullscreen-preloader') &&
-    document.getElementById('fullscreen-preloader').remove();
+      document.getElementById('fullscreen-preloader').remove();
 
     this.props.a_getCurrentUser();
   }
@@ -69,6 +69,15 @@ class App extends React.Component {
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
+            <section>
+              <LoadingBar
+                style={{
+                  zIndex: 10001,
+                  backgroundColor: '#622c8c',
+                  height: '2px'
+                }}
+              />
+            </section>
             <div id="main-view">
               <Switch>
                 {/* redirect and force login */}
@@ -171,10 +180,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
 
 /**
  * this will ensure that you dont enter a route unless you are auth
