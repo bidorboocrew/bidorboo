@@ -11,16 +11,12 @@ import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 
 import { withFormik } from 'formik';
+
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import {
-  GeoAddressInput,
-  TextAreaInput,
-  TextInput,
-  DateInput,
-  TimeInput
-} from './FormsHelpers';
+import { GeoAddressInput, TextAreaInput, TextInput, DateInput, TimeInput } from './FormsHelpers';
 import moment from 'moment';
+import { alphanumericField } from './FormsValidators';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -29,7 +25,7 @@ import moment from 'moment';
 class NewJobForm extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -44,20 +40,18 @@ class NewJobForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue'
+      'clearForceSetAddressValue',
     );
   }
 
-
-  clearForceSetAddressValue(){
-    this.setState({forceSetAddressValue: ''});
+  clearForceSetAddressValue() {
+    this.setState({ forceSetAddressValue: '' });
   }
 
   autoSetGeoLocation(addressText) {
-    this.setState(() => ({forceSetAddressValue: addressText}));
+    this.setState(() => ({ forceSetAddressValue: addressText }));
     // update the form field with the current position coordinates
     this.props.setFieldValue('addressTextField', addressText, false);
-
   }
 
   render() {
@@ -72,17 +66,13 @@ class NewJobForm extends React.Component {
       onCancel,
       isValid,
       isSubmitting,
-      setFieldValue
+      setFieldValue,
     } = this.props;
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
         <span>
-          <a
-            style={{ fontSize: 14 }}
-            onClick={this.getCurrentAddress}
-            className="is-link"
-          >
+          <a style={{ fontSize: 14 }} onClick={this.getCurrentAddress} className="is-link">
             Auto Detect
           </a>
         </span>
@@ -230,9 +220,7 @@ class NewJobForm extends React.Component {
           type="text"
           label="Detailed Description"
           placeholder="Sample: Hey I am handy with tools and can do everything... "
-          error={
-            touched.detailedDescriptionField && errors.detailedDescriptionField
-          }
+          error={touched.detailedDescriptionField && errors.detailedDescriptionField}
           value={values.detailedDescriptionField}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -280,7 +268,7 @@ class NewJobForm extends React.Component {
       const getCurrentPositionOptions = {
         maximumAge: 10000,
         timeout: 5000,
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
       };
       const errorHandling = () => {
         console.error('can not auto detect address');
@@ -288,7 +276,7 @@ class NewJobForm extends React.Component {
       const successfulRetrieval = position => {
         const pos = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         };
 
         // update the form field with the current position coordinates
@@ -298,9 +286,9 @@ class NewJobForm extends React.Component {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
           this.geocoder.geocode(
             {
-              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) }
+              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
-            this.successfullGeoCoding
+            this.successfullGeoCoding,
           );
         }
       };
@@ -309,7 +297,7 @@ class NewJobForm extends React.Component {
       navigator.geolocation.getCurrentPosition(
         successfulRetrieval,
         errorHandling,
-        getCurrentPositionOptions
+        getCurrentPositionOptions,
       );
     } else {
       // Browser doesn't support Geolocation
@@ -320,13 +308,23 @@ class NewJobForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
+  validationSchema: Yup.object().shape({
+    jobTitleField: Yup.string()
+      .ensure()
+      .trim()
+      .min(5, 'your job title is longer than that. Must be at least 5 chars')
+      .max(100, 'your job title is longer than 100. Must be at most 100 chars')
+      .test('alphanumericField', 'Name can only contain alphabits and numbers', inputText => {
+        return alphanumericField(inputText);
+      }),
+  }),
   mapPropsToValues: props => {
     return {
       jobTitleField: props.jobTitleField,
       hoursField: 1,
       minutesField: 0,
       periodField: 'PM',
-      fromTemplateIdField: props.fromTemplateIdField
+      fromTemplateIdField: props.fromTemplateIdField,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
@@ -336,7 +334,7 @@ const EnhancedForms = withFormik({
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'NewJobForm'
+  displayName: 'NewJobForm',
 });
 
 export default EnhancedForms(NewJobForm);

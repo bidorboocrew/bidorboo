@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
-import { enforceNumericField, alphanumericField } from './FormsValidators';
+import { enforceNumericField, alphanumericField, phoneNumber } from './FormsValidators';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -11,26 +11,22 @@ const EnhancedForms = withFormik({
       .trim()
       .min(3, 'your name is longer than that. Must be at least 3 chars')
       .max(25, 'your name is longer 25. Must be at most 25 chars')
-      .test(
-        'alphanumericField',
-        'Name can only contain alphabits and numbers',
-        (inputText) => {
-          return alphanumericField(inputText);
-        }
-      )
+      .test('alphanumericField', 'Name can only contain alphabits and numbers', inputText => {
+        return alphanumericField(inputText);
+      })
       .required('First name is required.'),
-      email: Yup.string()
+    email: Yup.string()
       .ensure()
       .trim()
       .email('please enter a valid email address')
-      ,
-    phoneNumber: Yup.number().positive(
-      'your phone number can only be of format 61312345678'
-    ),
-    personalParagraph: Yup.string().max(
-      255,
-      'Maximum length allowed is 255 charachters'
-    )
+      .required('email is required.'),
+    phoneNumber: Yup.mixed()
+      //.positive('Phone number can only be of format 161312345678')
+      .required('Phone number is required.')
+      .test('phoneNumber', 'Phone number should match 123-123-1234', inputText => {
+        return phoneNumber(inputText);
+      }),
+    personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { displayName, personalParagraph, phoneNumber, email } = userDetails;
@@ -39,13 +35,13 @@ const EnhancedForms = withFormik({
       displayName: displayName,
       phoneNumber: phoneNumber,
       email: email,
-      personalParagraph: personalParagraph
+      personalParagraph: personalParagraph,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);
   },
-  displayName: 'ProfileForm'
+  displayName: 'ProfileForm',
 });
 
 const ProfileForm = props => {
@@ -60,7 +56,7 @@ const ProfileForm = props => {
     // handleReset,
     onCancel,
     isValid,
-    isSubmitting
+    isSubmitting,
   } = props;
 
   return (
@@ -78,7 +74,7 @@ const ProfileForm = props => {
       <TextInput
         id="email"
         type="text"
-        label="Personal Email"
+        label="Email"
         placeholder="Enter your email..."
         error={touched.email && errors.email}
         value={values.email || ''}
@@ -95,8 +91,8 @@ const ProfileForm = props => {
         value={values.phoneNumber}
         onChange={e => {
           //run normalizer to get rid of alpha chars
-          const normalizedVal = enforceNumericField(e.target.value);
-          e.target.value = normalizedVal;
+          // const normalizedVal = enforceNumericField(e.target.value);
+          // e.target.value = normalizedVal;
           handleChange(e);
         }}
         onBlur={handleBlur}
