@@ -177,7 +177,7 @@ const userImageAndStats = (
         <div className=" has-text-centered">
           <div>
             <img
-              alt="profile pic"
+              alt="profile"
               src={profileImage.url}
               className="profileImg"
             />
@@ -285,7 +285,7 @@ const advertisement = () => {
         <div>Ads</div>
         <div>
           <img
-            alt="profile pic"
+            alt="profile"
             src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
             className="profileImg"
           />

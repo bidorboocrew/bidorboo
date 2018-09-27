@@ -9,7 +9,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
-import { switchRoute } from '../app-state/actions/routerActions';
+import { switchRoute } from '../utils';
 
 // import HomePageMapSection from '../components/HomePageMapSection';
 // import { selectJobToBidOn } from '../app-state/actions/bidsActions';
@@ -25,7 +25,6 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { a_switchRoute } = this.props;
     return (
       <div id="bdb-home-content">
         <section className="hero is-dark fade-in">
@@ -50,7 +49,7 @@ class HomePage extends React.Component {
                 <div className="column">
                   <div
                     onClick={() => {
-                      a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                     className="card fade-in"
                   >
@@ -58,7 +57,7 @@ class HomePage extends React.Component {
                       <figure className="image is-16by9">
                         <img
                           src="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
-                          alt="Placeholder image"
+                          alt="Placeholder"
                         />
                       </figure>
                     </div>
@@ -74,7 +73,7 @@ class HomePage extends React.Component {
                     <footer className="card-footer">
                       <a
                         onClick={() => {
-                          a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
                         }}
                         style={{
                           borderRadius: 0,
@@ -93,7 +92,7 @@ class HomePage extends React.Component {
                 <div className="column">
                   <div
                     onClick={() => {
-                      a_switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                     className="card fade-in"
                   >
@@ -101,7 +100,7 @@ class HomePage extends React.Component {
                       <figure className="image is-16by9">
                         <img
                           src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
-                          alt="Placeholder image"
+                          alt="Placeholder"
                         />
                       </figure>
                     </div>
@@ -118,7 +117,7 @@ class HomePage extends React.Component {
                     <footer className="card-footer">
                       <a
                         onClick={() => {
-                          a_switchRoute(ROUTES.CLIENT.BIDDER.root);
+                          switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
                         style={{
                           borderRadius: 0,
@@ -144,8 +143,7 @@ class HomePage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };
 export default connect(

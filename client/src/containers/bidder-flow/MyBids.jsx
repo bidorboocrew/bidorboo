@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 
 import { getAllMyBids } from '../../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
@@ -14,7 +14,7 @@ import MyBidsCard from '../../components/bidder-components/MyBidsCard';
 class MyBids extends React.Component {
   static propTypes = {
     s_isLoading: PropTypes.bool,
-    s_bidsList: PropTypes.arrayOf(Proptypes_bidModel)
+    s_bidsList: PropTypes.arrayOf(PropTypes.shape(Proptypes_bidModel))
   };
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -68,8 +68,7 @@ const mapStateToProps = ({ bidsReducer }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch)
   };
 };
 

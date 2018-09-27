@@ -19,7 +19,7 @@ export const Proptypes_bidAmountModel = PropTypes.shape({
 
 export const Proptypes_jobModel = PropTypes.shape({
   _id: PropTypes.string,
-  _bidsList: PropTypes.arrayOf(PropTypes.string),
+  _bidsList: PropTypes.arrayOf(PropTypes.shape(Proptypes_bidModel)),
   whoSeenThis: PropTypes.arrayOf(PropTypes.string),
   detailedDescription: PropTypes.string,
   location: PropTypes.shape({
@@ -61,22 +61,33 @@ export const Proptypes_jobModel = PropTypes.shape({
 });
 
 export const Proptypes_bidModel = PropTypes.shape({
-  _id: PropTypes.string,
-  bidAmount: Proptypes_bidAmountModel,
-  hasJobOwnerSeenThis: PropTypes.bool,
-  _bidderId: PropTypes.string,
-  _job: Proptypes_jobModel,
-  state: PropTypes.string,
-  createdAt: PropTypes.date,
-  updatedAt: PropTypes.date
-});
+  _bidderId: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    _reviews: PropTypes.arrayOf(PropTypes.any).isRequired,
+    displayName: PropTypes.string.isRequired,
+    globalRating: PropTypes.any,
+  }).isRequired,
+  _id: PropTypes.string.isRequired,
+  _job: PropTypes.string.isRequired,
+  bidAmount: PropTypes.shape({
+    currency: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+  }).isRequired,
+  createdAt: PropTypes.string.isRequired,
+  isNewBid: PropTypes.bool.isRequired,
+  state: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+}).isRequired;
 
 export const Proptypes_userModel = PropTypes.shape({
   _id: PropTypes.string,
   postedJobs: PropTypes.array,
   _postedBids: PropTypes.array,
   globalRating: PropTypes.string,
-  profileImage: PropTypes.string,
+  profileImage: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    public_id: PropTypes.string
+  }),
   userRole: PropTypes.string,
   hasAgreedToServiceTerms: PropTypes.bool,
   verified: PropTypes.bool,

@@ -5,7 +5,6 @@ import promise from 'redux-promise-middleware';
 import combinedReducers from './reducers';
 import createHistory from 'history/createBrowserHistory';
 import { loadingBarMiddleware } from 'react-redux-loading-bar';
-
 export const history = createHistory();
 
 const getMiddleware = () => {

@@ -4,10 +4,12 @@ import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 import { AddJobWithDetailsCard } from '../../components/proposer-components/AddJobWithDetailsCard';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
+import {switchRoute} from '../../utils';
+
 
 class CreateAJob extends React.Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class CreateAJob extends React.Component {
   goBack(e) {
     e.preventDefault();
     // until then
-    this.props.a_switchRoute(ROUTES.CLIENT.PROPOSER.root);
+    switchRoute(ROUTES.CLIENT.PROPOSER.root);
   }
   handleSubmit(values) {
     this.props.a_addJob(values);
@@ -59,7 +61,7 @@ class CreateAJob extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    
     a_addJob: bindActionCreators(addJob, dispatch)
   };
 };

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Switch } from 'react-router-dom';
-import { withRouter, Redirect } from 'react-router';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import LoadingBar from 'react-redux-loading-bar';
 // import AdSense from 'react-adsense';
 import Toast from '../components/Toast';
@@ -29,7 +29,6 @@ import {
 
 class App extends React.Component {
   static propTypes = {
-    s_currentRoute: PropTypes.string,
     toastDetails: PropTypes.shape({
       type: PropTypes.oneOf(['success', 'warning', 'error', 'info']),
       msg: PropTypes.string,
@@ -45,12 +44,7 @@ class App extends React.Component {
 
     this.props.a_getCurrentUser();
   }
-  componentWillReceiveProps(nextProps) {
-    //this is used mostly to redirect user to the login page
-    if (this.props.s_currentRoute !== nextProps.s_currentRoute) {
-      this.props.history.push(nextProps.s_currentRoute);
-    }
-  }
+
   componentDidCatch(error, info) {
     // Display fallback UI
     // You can also log the error to an error reporting service
@@ -173,9 +167,8 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ authReducer, routerReducer, uiReducer }) => {
+const mapStateToProps = ({ authReducer, uiReducer }) => {
   return {
-    s_currentRoute: routerReducer.currentRoute,
     s_isLoggedIn: authReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails
   };

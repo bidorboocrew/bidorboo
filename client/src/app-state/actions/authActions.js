@@ -1,8 +1,9 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
+import { switchRoute } from '../../utils';
 
-export const getCurrentUser = () => (dispatch, getState) =>
+export const getCurrentUser = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
@@ -19,10 +20,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
           });
         } else {
           //rediret user to sign up page
-          dispatch({
-            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: { currentRoute: ROUTES.CLIENT.ENTRY }
-          });
+          switchRoute(ROUTES.CLIENT.ENTRY);
         }
       })
       .catch(error => {
@@ -46,7 +44,7 @@ export const getCurrentUser = () => (dispatch, getState) =>
       })
   });
 
-export const onLogout = () => (dispatch, getState) =>
+export const onLogout = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
     payloads_: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {
@@ -54,11 +52,7 @@ export const onLogout = () => (dispatch, getState) =>
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT
       });
       //rediret user to sign up page
-      dispatch({
-        type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-        payload: { currentRoute: ROUTES.CLIENT.ENTRY }
-      });
-
+      switchRoute(ROUTES.CLIENT.ENTRY);
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {

@@ -8,7 +8,6 @@ export default class MyCurrentPostedJobCardWithDetails extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobDetails: Proptypes_jobModel,
-    switchRoute: PropTypes.func.isRequired,
     userDetails: PropTypes.object
   };
 

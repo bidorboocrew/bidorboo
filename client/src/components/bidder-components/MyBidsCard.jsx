@@ -40,7 +40,7 @@ export default class MyBidsCard extends React.Component {
                 <div>
                   <p className="heading">Owner Pic</p>
                   <img
-                    alt="profile pic"
+                    alt="profile"
                     src={profileImage.url}
                     className="profileImg image is-24x24"
                   />

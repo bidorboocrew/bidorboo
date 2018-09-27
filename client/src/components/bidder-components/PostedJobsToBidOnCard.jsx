@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
+
 export default class PostedJobsToBidOnCard extends React.Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool,
@@ -33,19 +36,20 @@ export default class PostedJobsToBidOnCard extends React.Component {
         _bidsList: PropTypes.array,
         _ownerId: PropTypes.shape({
           displayName: PropTypes.string,
-          profileImage: PropTypes.string
+          profileImage: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+            public_id: PropTypes.string
+          }),
         })
       })
     ),
     currentUserId: PropTypes.string,
-    switchRoute: PropTypes.func.isRequired,
     selectJobToBidOn: PropTypes.func.isRequired
   };
 
   render() {
     const {
       jobsList,
-      switchRoute,
       currentUserId,
       selectJobToBidOn,
       isLoggedIn,
@@ -55,7 +59,6 @@ export default class PostedJobsToBidOnCard extends React.Component {
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (
           <JobCard
-            switchRoute={switchRoute}
             currentUserId={currentUserId}
             key={job._id}
             jobObj={job}
