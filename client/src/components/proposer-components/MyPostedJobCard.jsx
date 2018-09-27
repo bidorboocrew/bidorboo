@@ -197,7 +197,6 @@ class SummaryView extends React.Component {
 class BidsTable extends React.Component {
   render() {
     const { bidList } = this.props;
-
     const areThereAnyBids = bidList && bidList.length > 0;
 
     let lowestBidVal = -1;
@@ -206,6 +205,7 @@ class BidsTable extends React.Component {
 
     if (areThereAnyBids) {
       const initialBid = bidList[0];
+      debugger
       lowestBidVal = initialBid.bidAmount.value;
       lowestBidCurr = initialBid.bidAmount.currency;
       bidderRating =

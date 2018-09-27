@@ -64,7 +64,6 @@ export const getJobById = jobId => (dispatch, getState) =>
 
 export const searchByLocation = userSearchQuery => {
   return (dispatch) => {
-    debugger
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
       searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
@@ -75,7 +74,6 @@ export const searchByLocation = userSearchQuery => {
       type: A.JOB_ACTIONS.SEARCH_JOB,
       payload: serverSearchQuery
     });
-    debugger
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
       payload: axios

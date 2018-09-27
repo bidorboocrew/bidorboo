@@ -36,7 +36,10 @@ export default class PostedJobsToBidOnCard extends React.Component {
         _bidsList: PropTypes.array,
         _ownerId: PropTypes.shape({
           displayName: PropTypes.string,
-          profileImage: PropTypes.string
+          profileImage: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+            public_id: PropTypes.string
+          }),
         })
       })
     ),

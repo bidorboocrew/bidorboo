@@ -8,6 +8,8 @@ import { addJob } from '../../app-state/actions/jobActions';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
 import MyCurrentPostedJobCardWithDetails from '../../components/proposer-components/MyCurrentPostedJobCardWithDetails';
 import {switchRoute} from '../../utils';
+
+
 class CurrentAddedJob extends React.Component {
   static propTypes = {
     s_recentlyUpdatedJob: Proptypes_jobModel
@@ -18,7 +20,6 @@ class CurrentAddedJob extends React.Component {
   }
   render() {
     const { s_recentlyUpdatedJob, s_userDetails } = this.props;
-
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -65,7 +66,6 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
     a_addJob: bindActionCreators(addJob, dispatch)
   };
 };

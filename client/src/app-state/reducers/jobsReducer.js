@@ -16,6 +16,7 @@ const getMyJobs = {
     isLoading: true
   }),
   isFullfilled: (state = initialState, { payload }) => {
+    debugger
     let myPostedJobs =
       payload.data && payload.data._postedJobs ? payload.data._postedJobs : [];
     return { ...state, myPostedJobsList: myPostedJobs, isLoading: false };
