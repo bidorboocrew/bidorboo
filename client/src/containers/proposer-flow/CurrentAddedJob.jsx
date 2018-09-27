@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 import { addJob } from '../../app-state/actions/jobActions';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
 import MyCurrentPostedJobCardWithDetails from '../../components/proposer-components/MyCurrentPostedJobCardWithDetails';
-
+import {switchRoute} from '../../utils';
 class CurrentAddedJob extends React.Component {
   static propTypes = {
     s_recentlyUpdatedJob: Proptypes_jobModel
@@ -17,7 +17,7 @@ class CurrentAddedJob extends React.Component {
     window.scrollTo(0, 0);
   }
   render() {
-    const { a_switchRoute, s_recentlyUpdatedJob, s_userDetails } = this.props;
+    const { s_recentlyUpdatedJob, s_userDetails } = this.props;
 
     return (
       <React.Fragment>
@@ -27,7 +27,7 @@ class CurrentAddedJob extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    a_switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                    switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
                   }}
                 >
                   My Jobs
@@ -45,7 +45,6 @@ class CurrentAddedJob extends React.Component {
               <div className="column is-8 is-offset-2">
                 <MyCurrentPostedJobCardWithDetails
                   userDetails={s_userDetails}
-                  switchRoute={a_switchRoute}
                   jobDetails={s_recentlyUpdatedJob}
                 />
               </div>
@@ -66,7 +65,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_switchRoute: bindActionCreators(switchRoute, dispatch),
+    
     a_addJob: bindActionCreators(addJob, dispatch)
   };
 };

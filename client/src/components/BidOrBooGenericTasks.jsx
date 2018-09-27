@@ -4,16 +4,17 @@ import classNames from 'classnames';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
+
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
-    switchRoute: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool,
     showLoginDialog: PropTypes.func
   };
 
   render() {
-    const { switchRoute, isLoggedIn, showLoginDialog } = this.props;
+    const { isLoggedIn, showLoginDialog } = this.props;
     const genericTasks = Object.keys(templatesRepo).map(key => {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;

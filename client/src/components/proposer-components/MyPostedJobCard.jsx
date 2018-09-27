@@ -6,17 +6,17 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
+import { switchRoute } from '../../utils';
 
 class MyPostedJobCard extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
     jobsList: PropTypes.arrayOf(Proptypes_jobModel),
-    switchRoute: PropTypes.func.isRequired,
     userDetails: PropTypes.object
   };
 
   render() {
-    const { jobsList, switchRoute, userDetails } = this.props;
+    const { jobsList, userDetails } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job, index) => (

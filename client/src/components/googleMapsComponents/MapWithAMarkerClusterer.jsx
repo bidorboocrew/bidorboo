@@ -144,7 +144,6 @@ class JobMarker extends React.Component {
                 </a>
                 <div
                   style={{
-                    padding: `2px`,
                     fontSize: 16,
                     fontColor: `#4a4a4a`,
                     backgroundColor: 'white',

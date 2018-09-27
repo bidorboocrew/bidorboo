@@ -4,10 +4,11 @@ import moment from 'moment';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import PostYourBid from '../../components/forms/PostYourBid';
+import { switchRoute } from '../../utils';
 
 export default class BidOnAJobCard extends React.Component {
   render() {
-    const { jobDetails, switchRoute, onSubmit } = this.props;
+    const { jobDetails, onSubmit } = this.props;
 
     if (!jobDetails || !jobDetails._ownerId) {
       return null;

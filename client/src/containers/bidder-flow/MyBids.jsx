@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
-import { switchRoute } from '../../app-state/actions/routerActions';
+
 
 import { getAllMyBids } from '../../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
@@ -68,8 +68,7 @@ const mapStateToProps = ({ bidsReducer }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch),
-    a_switchRoute: bindActionCreators(switchRoute, dispatch)
+    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch)
   };
 };
 

@@ -15,13 +15,14 @@ import { unregister } from './registerServiceWorker';
 
 //redux
 import { Provider } from 'react-redux';
-//saidm make sure to update this package before relase
-import { ConnectedRouter } from 'react-router-redux';
 
 import App from './containers/App';
 
 // import the store like this after moving this code somewhere else
-import { store, history } from './app-state/store';
+import { store } from './app-state/store';
+import { Router } from 'react-router-dom';
+import appHistory from './react-router-history';
+
 // registerServiceWorker();
 
 // add bugsnag support to capture errors
@@ -32,9 +33,9 @@ const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <Router history={appHistory}>
         <App />
-      </ConnectedRouter>
+      </Router>
     </Provider>
   </ErrorBoundary>,
   document.getElementById('BidOrBoo-app')

@@ -1,6 +1,7 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
+import { switchRoute } from '../../utils';
 
 export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
   //update store with the job details
@@ -11,10 +12,7 @@ export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
     }
   });
   // then rediret user to bid now page
-  dispatch({
-    type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-    payload: { currentRoute: ROUTES.CLIENT.BIDDER.bidNow }
-  });
+  switchRoute(ROUTES.CLIENT.BIDDER.bidNow);
 };
 
 export const submitBid = ({ bidAmount, jobId }) => dispatch => {
@@ -36,12 +34,7 @@ export const submitBid = ({ bidAmount, jobId }) => dispatch => {
             payload: { data: resp.data }
           });
           //rediret user to the current bid
-          dispatch({
-            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: {
-              currentRoute: ROUTES.CLIENT.BIDDER.currentPostedBid
-            }
-          });
+          switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

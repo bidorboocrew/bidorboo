@@ -3,6 +3,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import moment from 'moment';
 import haversineOffset from 'haversine-offset';
+import { switchRoute } from '../../utils';
 
 export const getAllMyJobs = () => (dispatch, getState) =>
   dispatch({
@@ -183,12 +184,8 @@ export const addJob = jobDetails => dispatch => {
             payload: { data: resp.data }
           });
           // switch route to show the currently added job
-          dispatch({
-            type: A.ROUTE_ACTIONS.USER_TRIGGERED_LOCATION_CHANGE,
-            payload: {
-              currentRoute: ROUTES.CLIENT.PROPOSER.currentPostedJob
-            }
-          });
+          switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
+  
           // show notification of new job
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
