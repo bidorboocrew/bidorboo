@@ -174,24 +174,21 @@ const userImageAndStats = (
   return (
     <React.Fragment>
       <div className="column is-one-quarter">
-        <div className=" has-text-centered">
-          <div>
-            <img
-              alt="profile"
-              src={profileImage.url}
-              className="profileImg"
-            />
-          </div>
+        <div className="has-text-centered">
+          <figure style={{ margin: '0 auto' }} className="image  is-128x128">
+            <img alt="profile" src={profileImage.url} />
+          </figure>
+          <br />
           <a
             onClick={e => {
               e.preventDefault();
               toggleShowUploadProfileImageDialog();
             }}
-            className="button is-outlined is-fullwidth is-small"
+            className="button is-outlined is-small"
           >
-            upload a new Image
+            edit Image
           </a>
-          <br />
+
           <div>
             <img
               alt="star rating"
@@ -287,7 +284,6 @@ const advertisement = () => {
           <img
             alt="profile"
             src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
-            className="profileImg"
           />
         </div>
       </div>

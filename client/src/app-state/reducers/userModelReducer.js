@@ -8,7 +8,7 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: '',
     profileImage: {
-      url: ''
+      url: 'https://goo.gl/92gqPL'
     }
   }
 };

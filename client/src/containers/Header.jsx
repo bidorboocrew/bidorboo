@@ -8,7 +8,7 @@ import autoBind from 'react-autobind';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {switchRoute } from '../utils'
+import { switchRoute } from '../utils';
 import * as ROUTES from '../constants/frontend-route-consts';
 
 class Header extends React.Component {
@@ -246,13 +246,16 @@ class Header extends React.Component {
                   <div className="navbar-item">
                     <div className="navbar-item has-dropdown is-hoverable">
                       <a className="navbar-link">
-                        {profileImage && (
+                        <figure
+                          style={{ margin: '0 auto' }}
+                          className="image is-32x32"
+                        >
                           <img
                             style={{ paddingRight: 4 }}
                             src={profileImage.url}
                             alt="BidOrBoo"
                           />
-                        )}
+                        </figure>
                         {s_displayName}
                       </a>
                       <div className="navbar-dropdown is-boxed">
@@ -318,7 +321,7 @@ const mapStateToProps = ({ userModelReducer, uiReducer, authReducer }) => {
 const mapDispatchToProps = dispatch => {
   return {
     a_onLogout: bindActionCreators(onLogout, dispatch),
-    
+
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
   };
 };

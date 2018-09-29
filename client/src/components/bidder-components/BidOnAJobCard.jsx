@@ -76,7 +76,7 @@ export default class BidOnAJobCard extends React.Component {
           <div className="card-content">
             <div className="media">
               <div className="media-left">
-                <figure className="image is-32x32">
+                <figure style={{ margin: '0 auto' }} className="image is-32x32">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               </div>
