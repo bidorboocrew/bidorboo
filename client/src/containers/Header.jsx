@@ -156,7 +156,8 @@ class Header extends React.Component {
           <div className="navbar-start">
             <div className="navbar-item has-dropdown is-hoverable">
               <a
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   });
