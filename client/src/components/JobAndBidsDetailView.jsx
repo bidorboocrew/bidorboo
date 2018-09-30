@@ -8,17 +8,17 @@ import JobDetailsView from './JobDetailsView';
 export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
-    if (!job || !currentUser) {
+    if (!job || !currentUser || !!job._bidsList) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
     return (
       <section className="mainSectionContainer">
         <div className="container">
-          <div class="columns">
-            <div class="column">
+          <div className="columns">
+            <div className="column">
               <JobDetailsView job={job} currentUser={currentUser} />
             </div>
-            <div class="column">
+            <div className="column">
               <BidsTable bidList={job._bidsList} currentUser={currentUser} />
             </div>
           </div>
@@ -32,13 +32,17 @@ class BidsTable extends React.Component {
   render() {
     const { bidList, currentUser } = this.props;
     const areThereAnyBids = bidList && bidList.length > 0;
-    const specialRow = { backgroundColor: 'red' };
+
     if (areThereAnyBids) {
       // find lowest bid details
       let tableRows = bidList.map(bid => (
         <tr
           key={bid._id}
-          style={bid._bidderId._id === currentUser._id ? specialRow : null}
+          style={
+            bid._bidderId._id === currentUser._id
+              ? { backgroundColor: 'red', wordWrap: 'break-word' }
+              : { wordWrap: 'break-word' }
+          }
         >
           <td className="has-text-centered">
             <figure style={{ margin: '0 auto' }} className="image is-64x64">
@@ -53,7 +57,10 @@ class BidsTable extends React.Component {
       ));
 
       return (
-        <table style={{boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important'}} className="table is-fullwidth is-hoverable">
+        <table
+          style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important' }}
+          className="table is-fullwidth is-hoverable"
+        >
           <thead>
             <tr>
               <th className="has-text-centered">profile image</th>
@@ -67,7 +74,10 @@ class BidsTable extends React.Component {
     }
     // no bids yet
     return (
-      <table tyle={{boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important'}} className="table is-fullwidth">
+      <table
+        tyle={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important' }}
+        className="table is-fullwidth"
+      >
         <thead>
           <tr>
             <th>Bids Table</th>
