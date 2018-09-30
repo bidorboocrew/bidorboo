@@ -53,7 +53,7 @@ class BidsTable extends React.Component {
       ));
 
       return (
-        <table className="table is-fullwidth is-hoverable">
+        <table style={{boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important'}} className="table is-fullwidth is-hoverable">
           <thead>
             <tr>
               <th className="has-text-centered">profile image</th>
@@ -67,7 +67,7 @@ class BidsTable extends React.Component {
     }
     // no bids yet
     return (
-      <table className="table is-fullwidth">
+      <table tyle={{boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important'}} className="table is-fullwidth">
         <thead>
           <tr>
             <th>Bids Table</th>
