@@ -20,7 +20,7 @@ class CurrentAddedJob extends React.Component {
   static propTypes = {
     s_recentlyUpdatedJob: Proptypes_jobModel
   };
-  
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
