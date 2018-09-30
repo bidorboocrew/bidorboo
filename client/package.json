@@ -3,22 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/auth/*": {
-      "target": "http://localhost:5000"
-    },
     "/api/*": {
-      "target": "http://localhost:5000"
-    },
-    "/user/*": {
-      "target": "http://localhost:5000"
-    },
-    "/job/*": {
-      "target": "http://localhost:5000"
-    },
-    "/bids/*": {
-      "target": "http://localhost:5000"
-    },
-    "/errorRoute": {
       "target": "http://localhost:5000"
     }
   },

@@ -1,46 +1,46 @@
 //MAKE SURE THIS IS IN SYNC WITH server\routes\ROUTE_CONSTANTS
 export const API = {
   AUTH: {
-    GOOGLE: '/auth/google',
-    GOOGLE_CALLBACK: '/auth/google/callback',
-    FACEBOOK: '/auth/facebook',
-    FACEBOOK_CALLBACK: '/auth/facebook/callback',
-    REGISTER_NEW_USER: '/auth/register',
-    LOGOUT: '/auth/logout'
+    GOOGLE: '/api/auth/google',
+    GOOGLE_CALLBACK: '/api/auth/google/callback',
+    FACEBOOK: '/api/auth/facebook',
+    FACEBOOK_CALLBACK: '/api/auth/facebook/callback',
+    REGISTER_NEW_USER: '/api/auth/register',
+    LOGOUT: '/api/auth/logout'
   },
   USER: {
     GET: {
-      currentUser: '/user/currentUser'
+      currentUser: '/api/user/currentUser'
     },
     PUT: {
-      userDetails: '/user/updateProfileDetails',
-      profilePicture: '/user/updateProfileImage'
+      userDetails: '/api/user/updateProfileDetails',
+      profilePicture: '/api/user/updateProfileImage'
     }
   },
   JOB: {
     GET: {
-      myjobs: '/job/myJobs',
-      alljobs: '/job/allJobs',
-      jobById: '/job/:jobId'
+      myjobs: '/api/job/myJobs',
+      alljobs: '/api/job/allJobs',
+      jobById: '/api/job/:jobId'
     },
     POST: {
-      searchJobs: '/job/search',
-      newJob: '/job/createJob'
+      searchJobs: '/api/job/search',
+      newJob: '/api/job/createJob'
     },
     PUT: {
-      jobImage: '/job/uploadImages'
+      jobImage: '/api/job/uploadImages'
     },
     DELETE: {
-      jobById: '/job',
-      jobImage: '/job'
+      jobById: '/api/job/',
+      jobImage: '/api/job/'
     }
   },
   BID: {
     POST: {
-      bid: '/bids/postABid'
+      bid: '/api/bids/postABid'
     },
     GET: {
-      myBids: '/bids/myBids'
+      myBids: '/api/bids/myBids'
     }
   }
 };
