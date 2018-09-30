@@ -1,10 +1,16 @@
 import React from 'react';
 
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
+
 import JobDetailsView from './JobDetailsView';
 
 export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
+    if(!job || !currentUser){
+      switchRoute(ROUTES.CLIENT.ENTRY);
+    }
     return (
       <section className="mainSectionContainer">
         <div className="container">

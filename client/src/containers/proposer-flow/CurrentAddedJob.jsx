@@ -54,10 +54,6 @@ class CurrentAddedJob extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
-            {/* <PostedJobConfirmationCard
-                  userDetails={s_userDetails}
-                  jobDetails={s_recentlyUpdatedJob}
-                /> */}
             <JobAndBidsDetailView
               currentUser={s_userDetails}
               job={s_recentlyUpdatedJob}
