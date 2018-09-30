@@ -1,10 +1,10 @@
 // for logs
 const morganBody = require('morgan-body');
-const morgan =  require('morgan');
+const morgan = require('morgan');
 
 module.exports = (app, process) => {
   app.use(morgan('dev'));
-  morganBody(app);
+  morganBody(app, { maxBodyLength: 100000 });
 
   process.on('uncaughtException', function(err) {
     // handle the error safely
@@ -16,11 +16,16 @@ module.exports = (app, process) => {
       '------------------------------------^^ uncaughtException ERROR ^^-----------------------'
     );
   });
-  process.on('unhandledRejection', function(reason, p){
+  process.on('unhandledRejection', function(reason, p) {
     console.log(
       '------------------------------------  unhandledRejection ERROR  -----------------------'
     );
-    console.log("Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
+    console.log(
+      'Possibly Unhandled Rejection at: Promise ',
+      p,
+      ' reason: ',
+      reason
+    );
     console.log(
       '------------------------------------^^ unhandledRejection ERROR ^^-----------------------'
     );

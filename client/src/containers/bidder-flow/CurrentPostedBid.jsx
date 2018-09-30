@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { switchRoute } from '../../utils';
 
-import PostedBidConfirmationCard from '../../components/bidder-components/PostedBidConfirmationCard';
+import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 class CurrentPostedBid extends React.Component {
@@ -23,12 +23,16 @@ class CurrentPostedBid extends React.Component {
   }
 
   render() {
-    const { s_recentlyUpdatedBid } = this.props;
+    const { s_recentlyUpdatedBid, s_currentUserDetails } = this.props;
 
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a
@@ -49,7 +53,7 @@ class CurrentPostedBid extends React.Component {
           <div className="container" id="bdb-proposer-content">
             <div className="columns">
               <div className="column is-8 is-offset-2">
-                <PostedBidConfirmationCard bidDetails={s_recentlyUpdatedBid} />
+                <JobAndBidsDetailView currentUser={s_currentUserDetails} job={s_recentlyUpdatedBid._job} />
               </div>
             </div>
           </div>
@@ -59,10 +63,11 @@ class CurrentPostedBid extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer }) => {
+const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
   return {
     s_recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
-    s_isLoading: bidsReducer.isLoadingBids
+    s_isLoading: bidsReducer.isLoadingBids,
+    s_currentUserDetails: userModelReducer.userDetails
   };
 };
 

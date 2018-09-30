@@ -17,7 +17,11 @@ export class CreateAJobCard extends React.Component {
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a onClick={onCancel}>Post Jobs</a>

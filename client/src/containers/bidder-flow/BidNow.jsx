@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-
 import { submitBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -34,7 +33,7 @@ class BidNow extends React.Component {
         }),
         displayName: PropTypes.string
       })
-    }),
+    })
   };
 
   componentDidMount() {
@@ -53,7 +52,11 @@ class BidNow extends React.Component {
     return (
       <div className="slide-in-left" id="bdb-bidder-bidNow">
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a
