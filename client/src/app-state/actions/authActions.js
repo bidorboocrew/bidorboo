@@ -47,7 +47,7 @@ export const getCurrentUser = () => (dispatch) =>
 export const onLogout = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
-    payloads_: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {
+    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {
       dispatch({
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT
       });

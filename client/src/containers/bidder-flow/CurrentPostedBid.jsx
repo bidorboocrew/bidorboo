@@ -11,12 +11,10 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
-import { Proptypes_bidModel } from '../../client-server-interfaces';
+// import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 class CurrentPostedBid extends React.Component {
-  static propTypes = {
-    s_recentlyUpdatedBid: Proptypes_bidModel
-  };
+
 
   componentDidMount() {
     window.scrollTo(0, 0);

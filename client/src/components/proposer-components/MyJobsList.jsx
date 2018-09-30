@@ -3,16 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { Proptypes_jobModel } from '../../client-server-interfaces';
+// import { Proptypes_jobModel } from '../../client-server-interfaces';
 import { switchRoute } from '../../utils';
 import JobSummaryView from '../JobSummaryView';
 
 class MyJobsList extends React.Component {
-  static propTypes = {
-    // this is the job object structure from the server
-    jobsList: PropTypes.arrayOf(Proptypes_jobModel),
-    userDetails: PropTypes.object
-  };
+
 
   render() {
     const { jobsList } = this.props;

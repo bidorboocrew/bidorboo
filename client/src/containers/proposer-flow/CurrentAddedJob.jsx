@@ -11,16 +11,16 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { addJob } from '../../app-state/actions/jobActions';
-import { Proptypes_jobModel } from '../../client-server-interfaces';
+// import { Proptypes_jobModel } from '../../client-server-interfaces';
 // import PostedJobConfirmationCard from '../../components/proposer-components/PostedJobConfirmationCard';
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 import { switchRoute } from '../../utils';
 
 class CurrentAddedJob extends React.Component {
-  static propTypes = {
-    s_recentlyUpdatedJob: Proptypes_jobModel
-  };
+  // static propTypes = {
+  //   s_recentlyUpdatedJob: Proptypes_jobModel
+  // };
 
   componentDidMount() {
     window.scrollTo(0, 0);
