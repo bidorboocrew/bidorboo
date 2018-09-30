@@ -93,13 +93,11 @@ class App extends React.Component {
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.PROPOSER.myjobs}
                   component={MyJobs}
                 />
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.PROPOSER.currentPostedJob}
                   component={CurrentAddedJob}
@@ -112,32 +110,27 @@ class App extends React.Component {
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.BIDDER.root}
                   component={BidderRoot}
                 />
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.BIDDER.bidNow}
                   component={BidNow}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.BIDDER.mybids}
                   component={MyBids}
                 />
                 <Route
                   exact
-                  isLoggedIn={s_isLoggedIn}
                   path={ROUTES.CLIENT.BIDDER.currentPostedBid}
                   component={CurrentPostedBid}
                 />
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.MY_PROFILE}
                   component={MyProfile}
