@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import CommonJobSummaryCard from '../CommonJobSummaryCard';
+import JobSummaryView from '../JobSummaryView';
 
 export default class JobsToBidOn extends React.Component {
   static propTypes = {
@@ -71,7 +71,7 @@ export default class JobsToBidOn extends React.Component {
                 }
               }}
             >
-              <CommonJobSummaryCard job={job} />
+              <JobSummaryView job={job} />
               <CardBottomSection
                 _ownerId={_ownerId}
                 isLoggedIn={isLoggedIn}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
-import CommonJobDetailedCard from '../CommonJobDetailedCard';
+import JobDetailsView from '../JobDetailsView';
 
 export default class PostedBidConfirmationCard extends React.Component {
   static propTypes = {
@@ -20,8 +20,6 @@ export default class PostedBidConfirmationCard extends React.Component {
 
     return (
       <React.Fragment>
-        <CommonJobDetailedCard job={_job} />
-
         <nav
           style={{ marginTop: 5, padding: 10, background: '#00d1b2' }}
           className="level"
@@ -37,6 +35,7 @@ export default class PostedBidConfirmationCard extends React.Component {
             </div>
           </div>
         </nav>
+        <JobDetailsView job={_job} />
       </React.Fragment>
     );
   }

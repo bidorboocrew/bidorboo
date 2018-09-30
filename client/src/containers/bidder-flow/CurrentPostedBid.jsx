@@ -4,24 +4,24 @@
  * - posts a new bid
  */
 
-
 import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { bindActionCreators } from 'redux';
+import { switchRoute } from '../../utils';
 
 import PostedBidConfirmationCard from '../../components/bidder-components/PostedBidConfirmationCard';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
-import { switchRoute } from '../../utils';
 
 class CurrentPostedBid extends React.Component {
   static propTypes = {
     s_recentlyUpdatedBid: Proptypes_bidModel
   };
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
   render() {
     const { s_recentlyUpdatedBid } = this.props;
 

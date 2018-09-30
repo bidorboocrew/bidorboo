@@ -15,14 +15,16 @@ import { Proptypes_jobModel } from '../../client-server-interfaces';
 import PostedJobConfirmationCard from '../../components/proposer-components/PostedJobConfirmationCard';
 import { switchRoute } from '../../utils';
 
+
 class CurrentAddedJob extends React.Component {
   static propTypes = {
     s_recentlyUpdatedJob: Proptypes_jobModel
   };
-
+  
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
   render() {
     const { s_recentlyUpdatedJob, s_userDetails } = this.props;
     return (

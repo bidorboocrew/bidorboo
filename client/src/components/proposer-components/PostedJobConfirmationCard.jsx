@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
-import CommonJobDetailedCard from '../CommonJobDetailedCard';
+import JobDetailsView from '../JobDetailsView';
 
 export default class PostedJobConfirmationCard extends React.Component {
   static propTypes = {
@@ -12,7 +12,7 @@ export default class PostedJobConfirmationCard extends React.Component {
   render() {
     const { jobDetails } = this.props;
     return (
-      <CommonJobDetailedCard job={jobDetails}></CommonJobDetailedCard>
+      <JobDetailsView job={jobDetails}></JobDetailsView>
     );
   }
 }

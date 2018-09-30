@@ -52,13 +52,13 @@ export const CLIENT = {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
     myjobs: '/proposer/my-jobs',
-    currentPostedJob: '/proposer/job/current-posted-job'
+    currentPostedJob: '/proposer/job/details'
   },
   BIDDER: {
     root: '/bidder-root',
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
-    currentPostedBid: '/bidder/bids/current-posted-bid'
+    currentPostedBid: '/bidder/bids/details'
   },
   MY_PROFILE: '/my-profile'
 };

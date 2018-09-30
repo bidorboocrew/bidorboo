@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Proptypes_jobModel } from '../../client-server-interfaces';
 import { switchRoute } from '../../utils';
-import CommonJobSummaryCard from '../CommonJobSummaryCard';
+import JobSummaryView from '../JobSummaryView';
 
 class MyJobsList extends React.Component {
   static propTypes = {
@@ -22,7 +22,7 @@ class MyJobsList extends React.Component {
           const areThereAnyBidders =
             job._bidsList && job._bidsList.map && job._bidsList.length > 0;
 
-            let specialBorder = areThereAnyBidders
+          let specialBorder = areThereAnyBidders
             ? { border: '1px solid #00d1b2' }
             : {};
           return (
@@ -43,13 +43,17 @@ class MyJobsList extends React.Component {
                 <a
                   style={{ borderRadius: 0 }}
                   className="button is-primary is-fullwidth is-large"
+                  onClick={e => {
+                    e.preventDefault();
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
                 >
                   <span style={{ marginLeft: 4 }}>
                     <i className="fa fa-hand-paper" /> Review Bids
                   </span>
                 </a>
               )}
-              <CommonJobSummaryCard specialStyle={specialBorder} job={job} />
+              <JobSummaryView specialStyle={specialBorder} job={job} />
             </div>
           );
         })

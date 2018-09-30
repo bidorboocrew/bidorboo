@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
-export default class CommonJobDetailedCard extends React.Component {
+export default class JobDetailsView extends React.Component {
   render() {
     const { job } = this.props;
 

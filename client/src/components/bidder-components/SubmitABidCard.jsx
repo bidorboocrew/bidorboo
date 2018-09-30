@@ -5,7 +5,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import PostYourBid from '../forms/PostYourBid';
 import { switchRoute } from '../../utils';
-import CommonJobDetailedCard from '../CommonJobDetailedCard';
+import JobDetailsView from '../JobDetailsView';
 
 export default class SubmitABidCard extends React.Component {
   render() {
@@ -26,7 +26,7 @@ export default class SubmitABidCard extends React.Component {
             switchRoute(ROUTES.CLIENT.BIDDER.root);
           }}
         />
-        <CommonJobDetailedCard job={jobDetails} />
+        <JobDetailsView job={jobDetails} />
       </React.Fragment>
     );
   }

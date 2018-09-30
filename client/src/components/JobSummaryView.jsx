@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
-export default class CommonJobDetailsCard extends React.Component {
+export default class JobSummaryView extends React.Component {
   static propTypes = {
     job: PropTypes.any.isRequired,
     specialStyle: PropTypes.any,
