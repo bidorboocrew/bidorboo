@@ -41,7 +41,7 @@ class BidsTable extends React.Component {
           style={bid._bidderId._id === currentUser._id ? specialRow : null}
         >
           <td className="has-text-centered">
-            <figure style={{ margin: '0 auto' }} className="image  is-64x64">
+            <figure style={{ margin: '0 auto' }} className="image is-64x64">
               <img alt="profile" src={bid._bidderId.profileImage.url} />
             </figure>
           </td>

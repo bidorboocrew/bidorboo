@@ -37,7 +37,7 @@ class BidOrBooGenericTasks extends React.Component {
             className="card"
           >
             <div className="card-image is-clipped">
-              <figure className="image">
+              <figure className="image is-3by1">
                 <img src={imageUrl} alt={subtitle} />
               </figure>
             </div>
