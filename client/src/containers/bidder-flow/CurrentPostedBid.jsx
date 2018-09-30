@@ -1,13 +1,19 @@
+/**
+ * This will handle showing details of the bid when user
+ * - selects 1 bid
+ * - posts a new bid
+ */
+
+
 import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-
 import { bindActionCreators } from 'redux';
 
-import MyCurrentBidCardWithDetails from '../../components/bidder-components/MyCurrentBidCardWithDetails';
+import PostedBidConfirmationCard from '../../components/bidder-components/PostedBidConfirmationCard';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
-import {switchRoute} from '../../utils';
+import { switchRoute } from '../../utils';
 
 class CurrentPostedBid extends React.Component {
   static propTypes = {
@@ -43,9 +49,7 @@ class CurrentPostedBid extends React.Component {
           <div className="container" id="bdb-proposer-content">
             <div className="columns">
               <div className="column is-8 is-offset-2">
-                <MyCurrentBidCardWithDetails
-                  bidDetails={s_recentlyUpdatedBid}
-                />
+                <PostedBidConfirmationCard bidDetails={s_recentlyUpdatedBid} />
               </div>
             </div>
           </div>

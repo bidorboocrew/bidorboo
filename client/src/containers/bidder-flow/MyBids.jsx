@@ -6,10 +6,9 @@ import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
 
-
 import { getAllMyBids } from '../../app-state/actions/bidsActions';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
-import MyBidsCard from '../../components/bidder-components/MyBidsCard';
+import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
 
 class MyBids extends React.Component {
   static propTypes = {
@@ -29,7 +28,9 @@ class MyBids extends React.Component {
     const bidsList =
       s_bidsList && s_bidsList.length > 0 ? (
         s_bidsList.map(bidDetails => {
-          return <MyBidsCard key={bidDetails._id} bidDetails={bidDetails} />;
+          return (
+            <BidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />
+          );
         })
       ) : (
         <div>You have not bid yet click here to start bidding</div>

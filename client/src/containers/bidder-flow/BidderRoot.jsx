@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import BidderMapSection from '../../components/bidder-components/BidderMapSection';
 
 import { Spinner } from '../../components/Spinner';
-import PostedJobsToBidOnCard from '../../components/bidder-components/PostedJobsToBidOnCard';
+import JobsToBidOn from '../../components/bidder-components/JobsToBidOn';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
 import {
@@ -227,7 +227,7 @@ class BidderRoot extends React.Component {
                 // style={{ alignItems: 'flex-end' }}
                 className="columns is-multiline"
               >
-                <PostedJobsToBidOnCard
+                <JobsToBidOn
                   isLoggedIn={s_isLoggedIn}
                   showLoginDialog={a_showLoginDialog}
                   currentUserId={s_userDetails._id}

@@ -4,8 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { getAllMyJobs } from '../../app-state/actions/jobActions';
 
-import MyPostedJobCard from '../../components/proposer-components/MyPostedJobCard';
-
+import MyJobsList from '../../components/proposer-components/MyJobsList';
 
 class MyJobs extends React.Component {
   componentDidMount() {
@@ -34,7 +33,7 @@ class MyJobs extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <MyPostedJobCard
+              <MyJobsList
                 userDetails={s_userDetails}
                 jobsList={s_myPostedJobsList}
               />

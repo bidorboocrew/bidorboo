@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { submitBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import BidOnAJobCard from '../../components/bidder-components/BidOnAJobCard';
+import SubmitABidCard from '../../components/bidder-components/SubmitABidCard';
 
 import { switchRoute } from '../../utils';
 
@@ -77,7 +77,7 @@ class BidNow extends React.Component {
                 className="column is-12-mobile
                           is-8-tablet"
               >
-                <BidOnAJobCard
+                <SubmitABidCard
                   onSubmit={a_submitBid}
                   jobDetails={s_jobDetails}
                 />
