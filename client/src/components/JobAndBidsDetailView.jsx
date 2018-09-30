@@ -8,14 +8,20 @@ import JobDetailsView from './JobDetailsView';
 export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
-    if(!job || !currentUser){
+    if (!job || !currentUser) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
     return (
       <section className="mainSectionContainer">
         <div className="container">
-          <JobDetailsView job={job} currentUser={currentUser} />
-          <BidsTable bidList={job._bidsList} currentUser={currentUser} />
+          <div class="columns">
+            <div class="column">
+              <JobDetailsView job={job} currentUser={currentUser} />
+            </div>
+            <div class="column">
+              <BidsTable bidList={job._bidsList} currentUser={currentUser} />
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -26,15 +32,18 @@ class BidsTable extends React.Component {
   render() {
     const { bidList, currentUser } = this.props;
     const areThereAnyBids = bidList && bidList.length > 0;
-    const specialRow = {backgroundColor: 'red'};
+    const specialRow = { backgroundColor: 'red' };
     if (areThereAnyBids) {
       // find lowest bid details
       let tableRows = bidList.map(bid => (
-        <tr key={bid._id} style={bid._bidderId._id === currentUser._id ? specialRow : null}>
+        <tr
+          key={bid._id}
+          style={bid._bidderId._id === currentUser._id ? specialRow : null}
+        >
           <td className="has-text-centered">
-          <figure style={{ margin: '0 auto' }} className="image  is-64x64">
-            <img alt="profile" src={bid._bidderId.profileImage.url} />
-          </figure>
+            <figure style={{ margin: '0 auto' }} className="image  is-64x64">
+              <img alt="profile" src={bid._bidderId.profileImage.url} />
+            </figure>
           </td>
           <td className="has-text-centered">{bid._bidderId.globalRating}</td>
           <td className="has-text-centered">
@@ -66,7 +75,10 @@ class BidsTable extends React.Component {
         </thead>
         <tbody>
           <tr>
-            <td>No one has made a bid Yet, Keep an eye and check again in a little while</td>
+            <td>
+              No one has made a bid Yet, Keep an eye and check again in a little
+              while
+            </td>
           </tr>
         </tbody>
       </table>
