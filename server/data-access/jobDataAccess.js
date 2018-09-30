@@ -28,9 +28,15 @@ exports.jobDataAccess = {
         path: '_bidsList',
         populate: {
           path: '_bidderId',
-          select: { _id: 1, _reviews: 1, displayName: 1, globalRating: 1 }
+          select: {
+            _id: 1,
+            _reviews: 1,
+            displayName: 1,
+            globalRating: 1,
+            profileImage: 1
+          }
         }
-      },
+      }
     };
     const populatePostedJobsOwner = {
       path: '_postedJobs',
@@ -40,8 +46,8 @@ exports.jobDataAccess = {
       },
       populate: {
         path: '_ownerId',
-        select: { displayName: 1, profileImage: 1, _id: 1 },
-      },
+        select: { displayName: 1, profileImage: 1, _id: 1 }
+      }
     };
 
     return User.findOne({ userId: userId }, { _postedJobs: 1, _id: 0 })
@@ -186,9 +192,32 @@ exports.jobDataAccess = {
         .lean(true)
         .exec();
 
-      return updateUserModelWithNewJob._id
-        ? newJob
-        : { error: 'error while creating job' };
+      if (newJob._id) {
+        let job = await JobModel.findOne(
+          { _id: newJob._id },
+          {
+            addressText: 0,
+            updatedAt: 0,
+            _bidsList: 0,
+            awardedBidder: 0,
+            jobReview: 0,
+            extras: 0,
+            properties: 0,
+            __v: 0,
+            whoSeenThis: 0
+          },
+          { limit: 50, sort: { createdAt: -1 } }
+        )
+          .populate({
+            path: '_ownerId',
+            select: { displayName: 1, profileImage: 1, _id: 1 }
+          })
+          .lean(true)
+          .exec();
+        return job;
+      } else {
+        return { error: 'error while creating job' };
+      }
     } catch (e) {
       throw e;
     }

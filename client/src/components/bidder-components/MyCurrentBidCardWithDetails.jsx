@@ -1,7 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import CommonJobDetailedCard from '../CommonJobDetailedCard';
 
 export default class MyCurrentBidCardWithDetails extends React.Component {
   static propTypes = {
@@ -18,78 +17,27 @@ export default class MyCurrentBidCardWithDetails extends React.Component {
     const bidAmountText = `${bidDetails.bidAmount.value} ${
       bidDetails.bidAmount.currency
     }`;
-    const bidStateText = `${bidDetails.state}`;
-
-    const jobTitleText = _job.title;
-    const fromTemplateId = _job.fromTemplateId;
-    const startingDateText = `${_job.startingDateAndTime.hours}:${
-      _job.startingDateAndTime.minutes
-    }  ${_job.startingDateAndTime.period}`;
 
     return (
-      <div className="card is-clipped">
-        <header className="card-header">
-          <p className="card-header-title">{jobTitleText}</p>
-        </header>
-        <div className="card-image is-clipped">
-          <figure className="image is-3by1">
-            <img
-              src={
-                templatesRepo[fromTemplateId] &&
-                templatesRepo[fromTemplateId].imageUrl
-                  ? templatesRepo[fromTemplateId].imageUrl
-                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-              }
-              alt="Placeholder"
-            />
-          </figure>
-        </div>
-        <div className="card-content">
-          <div className="content">
-            <div className="level is-clipped">
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Job Type</p>
-                  <p className="subtitle">{fromTemplateId}</p>
-                </div>
-              </div>
+      <React.Fragment>
+        <CommonJobDetailedCard job={_job} />
 
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Starting Time</p>
-                  <p className="subtitle">{startingDateText}</p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Bid Amount</p>
-                  <p className="subtitle has-text-weight-bold">
-                    {bidAmountText}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="level is-clipped">
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Approximate location</p>
-                  <p className="subtitle">{_job.addressText}</p>
-                </div>
-              </div>
+        <nav
+          style={{ marginTop: 5, padding: 10, background: '#00d1b2' }}
+          className="level"
+        >
+          <div className="level-item has-text-centered">
+            <div style={{ color: 'white' }}>
+              <p style={{ color: 'white' }} className="title is-5">
+                My Bid
+              </p>
+              <p style={{ color: 'white' }} className="title">
+                {`${bidAmountText} CAD`}
+              </p>
             </div>
           </div>
-        </div>
-        <footer className="card-footer">
-          <div className="card-footer-item">
-            {`Due : ${moment(_job.startingDateAndTime.date).format(
-              'MMMM Do YYYY'
-            )}`}
-          </div>
-          <div className="card-footer-item">
-            <span className="has-text-weight-bold">{`${bidStateText}`}</span>
-          </div>
-        </footer>
-      </div>
+        </nav>
+      </React.Fragment>
     );
   }
 }

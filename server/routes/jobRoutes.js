@@ -94,6 +94,7 @@ module.exports = app => {
         },
         userId
       );
+
       res.send(newJob);
     } catch (e) {
       res.status(500).send({ error: 'Sorry Something went wrong \n' + e });

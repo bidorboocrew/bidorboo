@@ -63,7 +63,7 @@ export const getJobById = jobId => (dispatch, getState) =>
 // };
 
 export const searchByLocation = userSearchQuery => {
-  return (dispatch) => {
+  return dispatch => {
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
       searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
@@ -184,7 +184,7 @@ export const addJob = jobDetails => dispatch => {
           });
           // switch route to show the currently added job
           switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
-  
+
           // show notification of new job
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
