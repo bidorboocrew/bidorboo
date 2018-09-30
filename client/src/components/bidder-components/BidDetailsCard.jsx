@@ -3,9 +3,6 @@ import moment from 'moment';
 import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 export default class BidDetailsCard extends React.Component {
-  static propTypes = {
-    bidDetails: Proptypes_bidModel
-  };
 
   render() {
     const { bidDetails } = this.props;

@@ -7,43 +7,6 @@ import { switchRoute } from '../../utils';
 import JobSummaryView from '../JobSummaryView';
 
 export default class JobsToBidOn extends React.Component {
-  static propTypes = {
-    isLoggedIn: PropTypes.bool,
-    showLoginDialog: PropTypes.func,
-    // this is the job object structure from the server
-    jobsList: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string,
-        createdAt: PropTypes.string,
-        addressText: PropTypes.string,
-        durationOfJob: PropTypes.string,
-        location: PropTypes.shape({
-          coordinates: PropTypes.arrayOf(PropTypes.number),
-          type: PropTypes.string
-        }),
-        startingDateAndTime: PropTypes.shape({
-          date: PropTypes.string,
-          hours: PropTypes.number,
-          minutes: PropTypes.number,
-          period: PropTypes.string
-        }),
-        state: PropTypes.string,
-        title: PropTypes.string,
-        updatedAt: PropTypes.string,
-        whoSeenThis: PropTypes.array,
-        _bidsList: PropTypes.array,
-        _ownerId: PropTypes.shape({
-          displayName: PropTypes.string,
-          profileImage: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-            public_id: PropTypes.string
-          })
-        })
-      })
-    ),
-    currentUserId: PropTypes.string,
-    selectJobToBidOn: PropTypes.func.isRequired
-  };
 
   render() {
     const {

@@ -53,7 +53,7 @@ class CurrentAddedJob extends React.Component {
           </nav>
         </div>
         <section className="mainSectionContainer slide-in-left">
-          <div className="container" id="bdb-proposer-content">
+          <div className="container">
             {/* <PostedJobConfirmationCard
                   userDetails={s_userDetails}
                   jobDetails={s_recentlyUpdatedJob}

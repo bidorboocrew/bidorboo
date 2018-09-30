@@ -50,13 +50,10 @@ class CurrentPostedBid extends React.Component {
           </nav>
         </div>
         <section className="mainSectionContainer slide-in-left">
-          <div className="container" id="bdb-proposer-content">
-            <div className="columns">
-              <div className="column is-8 is-offset-2">
-                <JobAndBidsDetailView currentUser={s_currentUserDetails} job={s_recentlyUpdatedBid._job} />
-              </div>
-            </div>
-          </div>
+            <JobAndBidsDetailView
+              currentUser={s_currentUserDetails}
+              job={s_recentlyUpdatedBid._job}
+            />
         </section>
       </React.Fragment>
     );
