@@ -15,9 +15,11 @@ module.exports = app => {
     async (req, res) => {
       try {
         userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
-        res.send(userJobsList);
+        return res.send(userJobsList);
       } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To get my jobs', details: e });
       }
     }
   );
@@ -25,9 +27,11 @@ module.exports = app => {
   app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getAllPostedJobs();
-      res.send(userJobsList);
+      return res.send(userJobsList);
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To get all posted jobs', details: e });
     }
   });
 
@@ -39,8 +43,11 @@ module.exports = app => {
       try {
         const { searchParams } = req.body.data;
         if (!searchParams) {
-          return res.status(400).send('Bad Request JobId searchQuery params was Not Specified')
-          // return res.send({ Error: 'JobId search params were Not Specified' });
+          return res
+            .status(400)
+            .send({
+              errorMsg: 'Bad Request JobId searchQuery params was Not Specified'
+            });
         }
 
         let searchQuery = {
@@ -53,10 +60,12 @@ module.exports = app => {
         if (existingJob) {
           return res.send(existingJob);
         } else {
-          return res.send({ Error: 'JobId Was Not Specified' });
+          return res.send({ errorMsg: 'JobId Was Not Specified' });
         }
       } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To perform the search', details: e });
       }
     }
   );
@@ -65,7 +74,7 @@ module.exports = app => {
     try {
       const requestedJobId = req.params.jobId;
       if (!requestedJobId) {
-        return res.send({ Error: 'JobId Was Not Specified' });
+        return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
 
       let existingJob = null;
@@ -74,10 +83,12 @@ module.exports = app => {
       if (existingJob) {
         return res.send(existingJob);
       } else {
-        return res.send({ Error: 'JobId Was Not Specified' });
+        return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To get job by id', details: e });
     }
   });
 
@@ -95,30 +106,34 @@ module.exports = app => {
         userId
       );
 
-      res.send(newJob);
+      return res.send(newJob);
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To create new job', details: e });
     }
   });
 
-  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
-    try {
-      const filesList = req.files;
-      // create new job for this user
-      const data = req.body.data;
-      const userId = req.user.userId;
-      const userMongoDBId = req.user._id;
+  // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+  //   try {
+  //     const filesList = req.files;
+  //     // create new job for this user
+  //     const data = req.body.data;
+  //     const userId = req.user.userId;
+  //     const userMongoDBId = req.user._id;
 
-      const callbackFunc = (error, result) => {
-        return res.send({
-          error: error,
-          result: result ? result.secure_url : {}
-        });
-      };
+  //     const callbackFunc = (error, result) => {
+  //       return res.send({
+  //         errorMsg: error,
+  //         result: result ? result.secure_url : {}
+  //       });
+  //     };
 
-      await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
-    } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
-    }
-  });
+  //     await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
+  //   } catch (e) {
+  //     return res
+  //     .status(500)
+  //     .send({ errorMsg: 'Failed To upload job image', details: e });
+  //   }
+  // });
 };

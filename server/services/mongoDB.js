@@ -27,7 +27,7 @@ module.exports = (process) => {
       if (err) {
         console.log(
           `Could not connect to mongodb on localhost.
-        Ensure that you have mongodb running mongodb accepts connections on standard ports! error: ${err}`
+        Ensure that you have mongodb running mongodb accepts connections on standard ports! errorMsg: ${err}`
         );
         throw err;
       }

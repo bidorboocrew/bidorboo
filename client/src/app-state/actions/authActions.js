@@ -1,9 +1,9 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import { switchRoute } from '../../utils';
+import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const getCurrentUser = () => (dispatch) =>
+export const getCurrentUser = () => dispatch =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
@@ -24,27 +24,11 @@ export const getCurrentUser = () => (dispatch) =>
         }
       })
       .catch(error => {
-        if (error && error.response && error.response.status === 404) {
-          console.log('server wasnt ready');
-        } else {
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'error',
-                msg:
-                  'Sorry That did not work, Please try again later.\n' +
-                  (error && error.response && error.response.data
-                    ? JSON.stringify(error.response.data)
-                    : JSON.stringify(error))
-              }
-            }
-          });
-        }
+        throwErrorNotification(dispatch, error);
       })
   });
 
-export const onLogout = () => (dispatch) =>
+export const onLogout = () => dispatch =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
     payload: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {

@@ -1,14 +1,7 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
-var GeoJSON = require('mongoose-geojson-schema');
-
-const utils = require('../utils/utilities');
-
 const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
-const applicationDataAccess = require('../data-access/applicationDataAccess');
-
-const { AppHealthSchemaId } = require('../models/zModalConstants');
 
 exports.jobDataAccess = {
   /**
@@ -159,14 +152,15 @@ exports.jobDataAccess = {
                 const finalList = await Promise.all(searchResults);
                 resolve(finalList);
               } catch (e) {
-                throw reject(e);
+                reject(e);
               }
             } else {
               // no jobs found return empty set
               return resolve([]);
             }
           }
-        ).explain();
+        );
+        // .explain();
       } catch (e) {
         reject(e);
       }
@@ -192,32 +186,28 @@ exports.jobDataAccess = {
         .lean(true)
         .exec();
 
-      if (newJob._id) {
-        let job = await JobModel.findOne(
-          { _id: newJob._id },
-          {
-            addressText: 0,
-            updatedAt: 0,
-            _bidsList: 0,
-            awardedBidder: 0,
-            jobReview: 0,
-            extras: 0,
-            properties: 0,
-            __v: 0,
-            whoSeenThis: 0
-          },
-          { limit: 50, sort: { createdAt: -1 } }
-        )
-          .populate({
-            path: '_ownerId',
-            select: { displayName: 1, profileImage: 1, _id: 1 }
-          })
-          .lean(true)
-          .exec();
-        return job;
-      } else {
-        return { error: 'error while creating job' };
-      }
+      let job = await JobModel.findOne(
+        { _id: newJob._id },
+        {
+          addressText: 0,
+          updatedAt: 0,
+          _bidsList: 0,
+          awardedBidder: 0,
+          jobReview: 0,
+          extras: 0,
+          properties: 0,
+          __v: 0,
+          whoSeenThis: 0
+        },
+        { limit: 50, sort: { createdAt: -1 } }
+      )
+        .populate({
+          path: '_ownerId',
+          select: { displayName: 1, profileImage: 1, _id: 1 }
+        })
+        .lean(true)
+        .exec();
+      return job;
     } catch (e) {
       throw e;
     }

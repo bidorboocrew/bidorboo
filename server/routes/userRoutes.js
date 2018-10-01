@@ -14,11 +14,11 @@ module.exports = app => {
           return res.send(existingUser);
         }
       }
-      done(null, null);
+      return res.send({});
     } catch (e) {
       return res
         .status(500)
-        .send({ error: 'Sorry Something went wrong \n' + e });
+        .send({ errorMsg: 'Failed To get current user', details: e });
     }
   });
 
@@ -44,7 +44,7 @@ module.exports = app => {
     } catch (e) {
       return res
         .status(500)
-        .send({ error: 'Sorry Something went wrong \n' + e });
+        .send({ errorMsg: 'Failed To update user details', details: e });
     }
   });
 
@@ -83,9 +83,9 @@ module.exports = app => {
               data: error
             });
           } catch (e) {
-            res
+            return res
               .status(500)
-              .send({ error: 'Sorry Something went wrong \n' + e });
+              .send({ errorMsg: 'Failed To upload to cloudinary', details: e });
           }
         };
 
@@ -94,7 +94,9 @@ module.exports = app => {
           callbackFunc
         );
       } catch (e) {
-        res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To upload profile img', details: e });
       }
     }
   );
