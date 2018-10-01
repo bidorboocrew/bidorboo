@@ -6,7 +6,6 @@ export const switchRoute = routeAndParams => {
 };
 
 export const throwErrorNotification = (dispatch, error) => {
-  debugger;
   let msg = 'sorry something went wrong';
 
   if (error && error.response && error.response.status === 404) {
