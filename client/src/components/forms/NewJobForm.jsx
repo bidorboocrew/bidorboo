@@ -221,7 +221,7 @@ class NewJobForm extends React.Component {
           label="Detailed Description"
           placeholder="Sample: Hey I am handy with tools and can do everything... "
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-          value={values.detailedDescriptionField}
+          value={values.suggestedDetailsText}
           onChange={handleChange}
           onBlur={handleBlur}
         />
@@ -324,6 +324,7 @@ const EnhancedForms = withFormik({
       hoursField: 1,
       minutesField: 0,
       periodField: 'PM',
+      suggestedDetailsText: props.suggestedDetailsText,
       fromTemplateIdField: props.fromTemplateIdField,
     };
   },

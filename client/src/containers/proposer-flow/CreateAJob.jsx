@@ -20,7 +20,7 @@ class CreateAJob extends React.Component {
     }
 
     this.state = {
-      chosenTemplate: templateToStartWith
+      chosenTemplate: templateToStartWith,
     };
     autoBind(this, 'goBack', 'handleSubmit');
   }
@@ -41,7 +41,8 @@ class CreateAJob extends React.Component {
     const jobDetails = {
       title: this.state.chosenTemplate.title,
       imageUrl: this.state.chosenTemplate.imageUrl,
-      id: this.state.chosenTemplate.id
+      id: this.state.chosenTemplate.id,
+      suggestedDetailsText: this.state.chosenTemplate.suggestedDetailsText,
     };
 
     return (
@@ -60,11 +61,11 @@ class CreateAJob extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    a_addJob: bindActionCreators(addJob, dispatch)
+    a_addJob: bindActionCreators(addJob, dispatch),
   };
 };
 
 export default connect(
   null,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CreateAJob);

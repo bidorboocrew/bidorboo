@@ -7,21 +7,18 @@ export class CreateAJobCard extends React.Component {
     jobDetails: PropTypes.shape({
       title: PropTypes.string.isRequired,
       imageUrl: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
+      suggestedDetailsText: PropTypes.string,
     }).isRequired,
     onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   };
   render() {
     const { jobDetails, onCancel, onSubmit } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav
-            style={{ marginLeft: '1rem' }}
-            className="breadcrumb"
-            aria-label="breadcrumbs"
-          >
+          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
                 <a onClick={onCancel}>Post Jobs</a>
@@ -40,6 +37,7 @@ export class CreateAJobCard extends React.Component {
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}
                 jobTitleField={jobDetails.title}
+                suggestedDetailsText={jobDetails.suggestedDetailsText}
                 onCancel={onCancel}
                 onSubmit={vals => onSubmit(vals)}
               />
