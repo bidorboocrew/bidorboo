@@ -74,7 +74,6 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
-          let x = existingUser.toObject();
           return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';
