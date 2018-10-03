@@ -17,8 +17,8 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await userDataAccess.findOneByUserIdForSession(id);
     return done(null, user);
-  } catch (err) {
-    throw (err, null);
+  } catch (e) {
+    return done({ errorMsg: 'Failed To deserializeUser', details: e }, null);
   }
 });
 
@@ -53,8 +53,8 @@ passport.use(
 
         const user = await userDataAccess.createNewUser(userDetails);
         return done(null, user);
-      } catch (err) {
-        throw (err, null);
+      } catch (e) {
+        return done({ errorMsg: 'Failed To facebook Auth', details: e }, null);
       }
     }
   )
@@ -74,17 +74,7 @@ passport.use(
       try {
         const existingUser = await userDataAccess.findOneByUserId(profile.id);
         if (existingUser) {
-          const latestProfilePhoto = profile.photos
-            ? profile.photos[0].value
-            : 'https://goo.gl/92gqPL';
-
-          // // update the profile pic
-          // if (latestProfilePhoto !== existingUser.profileImage) {
-          //   existingUser = await userDataAccess.findOneByUserIdAndUpdateProfileInfo(
-          //     profile.id,
-          //     { profileImage: latestProfilePhoto }
-          //   );
-          // }
+          let x = existingUser.toObject();
           return done(null, existingUser);
         }
         const userEmail = profile.emails ? profile.emails[0].value : '';
@@ -105,8 +95,8 @@ passport.use(
         // to save data usage ommit all the mongoose specific magic and remove it from the obj
         const userObject = userWithMongoSchema.toObject();
         return done(null, userObject);
-      } catch (err) {
-        throw (err, null);
+      } catch (e) {
+        return done({ errorMsg: 'Failed To Google Auth', details: e }, null);
       }
     }
   )

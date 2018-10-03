@@ -5,11 +5,10 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { AddJobWithDetailsCard } from '../../components/proposer-components/AddJobWithDetailsCard';
+import { CreateAJobCard } from '../../components/proposer-components/CreateAJobCard';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
-import {switchRoute} from '../../utils';
-
+import { switchRoute } from '../../utils';
 
 class CreateAJob extends React.Component {
   constructor(props) {
@@ -48,7 +47,7 @@ class CreateAJob extends React.Component {
     return (
       <section className="mainSectionContainer slide-in-left">
         <div className="container" id="bdb-proposer-content">
-          <AddJobWithDetailsCard
+          <CreateAJobCard
             jobDetails={jobDetails}
             onCancel={this.goBack}
             onSubmit={this.handleSubmit}
@@ -61,7 +60,6 @@ class CreateAJob extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
     a_addJob: bindActionCreators(addJob, dispatch)
   };
 };

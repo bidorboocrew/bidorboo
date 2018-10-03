@@ -54,7 +54,7 @@ class HomePage extends React.Component {
                     className="card fade-in"
                   >
                     <div className="card-image">
-                      <figure className="image is-16by9">
+                      <figure className="image is-3by1">
                         <img
                           src="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
                           alt="Placeholder"
@@ -97,7 +97,7 @@ class HomePage extends React.Component {
                     className="card fade-in"
                   >
                     <div className="card-image">
-                      <figure className="image is-16by9">
+                      <figure className="image is-3by1">
                         <img
                           src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
                           alt="Placeholder"

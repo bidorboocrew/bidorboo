@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import LoadingBar from 'react-redux-loading-bar';
 // import AdSense from 'react-adsense';
 import Toast from '../components/Toast';
 
@@ -69,15 +68,6 @@ class App extends React.Component {
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
-            <section>
-              <LoadingBar
-                style={{
-                  zIndex: 10001,
-                  backgroundColor: '#622c8c',
-                  height: '2px'
-                }}
-              />
-            </section>
             <div id="main-view">
               <Switch>
                 {/* redirect and force login */}
@@ -102,18 +92,14 @@ class App extends React.Component {
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <ProtectedRoute
-                  isLoggedIn={s_isLoggedIn}
+                <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.myjobs}
-                  redirectWhenNotLoggedIn={ROUTES.CLIENT.PROPOSER.root}
                   component={MyJobs}
                 />
-                <ProtectedRoute
-                  isLoggedIn={s_isLoggedIn}
+                <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.currentPostedJob}
-                  redirectWhenNotLoggedIn={ROUTES.CLIENT.PROPOSER.root}
                   component={CurrentAddedJob}
                 />
                 {/* redirect and force login */}
@@ -124,37 +110,29 @@ class App extends React.Component {
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.BIDDER.root}
                   component={BidderRoot}
                 />
                 <Route
-                  isLoggedIn={s_isLoggedIn}
                   exact
                   path={ROUTES.CLIENT.BIDDER.bidNow}
                   component={BidNow}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <ProtectedRoute
-                  isLoggedIn={s_isLoggedIn}
+                <Route
                   exact
                   path={ROUTES.CLIENT.BIDDER.mybids}
-                  redirectWhenNotLoggedIn={ROUTES.CLIENT.BIDDER.root}
                   component={MyBids}
                 />
-                <ProtectedRoute
+                <Route
                   exact
-                  isLoggedIn={s_isLoggedIn}
                   path={ROUTES.CLIENT.BIDDER.currentPostedBid}
-                  redirectWhenNotLoggedIn={ROUTES.CLIENT.BIDDER.root}
                   component={CurrentPostedBid}
                 />
-                <ProtectedRoute
-                  isLoggedIn={s_isLoggedIn}
+                <Route
                   exact
                   path={ROUTES.CLIENT.MY_PROFILE}
-                  redirectWhenNotLoggedIn={ROUTES.CLIENT.HOME}
                   component={MyProfile}
                 />
                 {/* redirect any unknown route to the home component */}

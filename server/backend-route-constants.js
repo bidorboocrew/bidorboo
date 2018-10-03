@@ -2,46 +2,46 @@
 module.exports = {
   API: {
     AUTH: {
-      GOOGLE: '/auth/google',
-      GOOGLE_CALLBACK: '/auth/google/callback',
-      FACEBOOK: '/auth/facebook',
-      FACEBOOK_CALLBACK: '/auth/facebook/callback',
-      REGISTER_NEW_USER: '/auth/register',
-      LOGOUT: '/auth/logout'
+      GOOGLE: '/api/auth/google',
+      GOOGLE_CALLBACK: '/api/auth/google/callback',
+      FACEBOOK: '/api/auth/facebook',
+      FACEBOOK_CALLBACK: '/api/auth/facebook/callback',
+      REGISTER_NEW_USER: '/api/auth/register',
+      LOGOUT: '/api/auth/logout'
     },
     USER: {
       GET: {
-        currentUser: '/user/currentUser'
+        currentUser: '/api/user/currentUser'
       },
       PUT: {
-        userDetails: '/user/updateProfileDetails',
-        profilePicture: '/user/updateProfileImage'
+        userDetails: '/api/user/updateProfileDetails',
+        profilePicture: '/api/user/updateProfileImage'
       }
     },
     JOB: {
       GET: {
-        myjobs: '/job/myJobs',
-        alljobs: '/job/allJobs',
-        jobById: '/job/:jobId'
+        myjobs: '/api/job/myJobs',
+        alljobs: '/api/job/allJobs',
+        jobById: '/api/job/:jobId'
       },
       POST: {
-        searchJobs: '/job/search',
-        newJob: '/job/createJob'
+        searchJobs: '/api/job/search',
+        newJob: '/api/job/createJob'
       },
       PUT: {
-        jobImage: '/job/uploadImages'
+        jobImage: '/api/job/uploadImages'
       },
       DELETE: {
-        jobById: '/job',
-        jobImage: '/job'
+        jobById: '/api/job',
+        jobImage: '/api/job'
       }
     },
     BID: {
       POST: {
-        bid: '/bids/postABid'
+        bid: '/api/bids/postABid'
       },
       GET: {
-        myBids: '/bids/myBids'
+        myBids: '/api/bids/myBids'
       }
     }
   },
@@ -52,13 +52,13 @@ module.exports = {
       root: '/proposer-root',
       createjob: '/proposer/create-job',
       myjobs: '/proposer/my-jobs',
-      currentPostedJob: '/proposer/job/current-posted-job'
+      currentPostedJob: '/proposer/api/job/current-posted-job'
     },
     BIDDER: {
       root: '/bidder-root',
       bidNow: '/bidder/bid-now',
       mybids: '/bidder/my-bids',
-      currentPostedBid: '/bidder/bids/current-posted-bid'
+      currentPostedBid: '/bidder/api/bids/current-posted-bid'
     },
     MY_PROFILE: '/my-profile'
   }

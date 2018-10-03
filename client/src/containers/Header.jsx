@@ -125,19 +125,23 @@ class Header extends React.Component {
           )}
 
           {/* burger menu */}
-          <div
+          <a
             onClick={() => {
               this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
             }}
-            className={classNames('navbar-burger burger', {
+            className={classNames('navbar-burger', {
               'is-active': this.state.isHamburgerOpen
             })}
             data-target="navbarmenu"
+            role="button"
+            aria-label="menu"
+            aria-expanded={this.state.isHamburgerOpen}
           >
-            <span />
-            <span />
-            <span />
-          </div>
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+          </a>
+
           {/* end of burger */}
         </div>
 
@@ -152,7 +156,8 @@ class Header extends React.Component {
           <div className="navbar-start">
             <div className="navbar-item has-dropdown is-hoverable">
               <a
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   });

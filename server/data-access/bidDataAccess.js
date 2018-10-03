@@ -24,7 +24,7 @@ exports.bidDataAccess = {
         path: '_job',
         populate: {
           path: '_ownerId',
-          select: { _id: 1, displayName: 1, globalRating: 1, profileImage:1 }
+          select: { _id: 1, displayName: 1, globalRating: 1, profileImage: 1 }
         }
       }
     };
@@ -56,7 +56,23 @@ exports.bidDataAccess = {
           path: '_job',
           populate: {
             path: '_ownerId',
-            select: { _id: 1, displayName: 1, globalRating: 1 }
+            select: { _id: 1, displayName: 1, globalRating: 1, profileImage: 1 }
+          }
+        };
+        const bidListDetails = {
+          path: '_job',
+          populate: {
+            path: '_bidsList',
+            populate: {
+              path: '_bidderId',
+              select: {
+                _id: 1,
+                _reviews: 1,
+                displayName: 1,
+                globalRating: 1,
+                profileImage: 1
+              }
+            }
           }
         };
 
@@ -82,6 +98,7 @@ exports.bidDataAccess = {
             .exec(),
           BidModel.findById(newBid._id)
             .populate(bidDetailsPopulateOptions)
+            .populate(bidListDetails)
             .lean(true)
             .exec()
         ]);

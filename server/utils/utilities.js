@@ -11,8 +11,8 @@ exports.encryptData = async dataToEncrypt => {
   try {
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     return bcrypt.hash(dataToEncrypt, salt);
-  } catch (err) {
-    return { errorMsg: 'Failed To encrypt the password', details: err };
+  } catch (e) {
+    return { errorMsg: 'Failed To encrypt the password', details: e };
   }
 };
 

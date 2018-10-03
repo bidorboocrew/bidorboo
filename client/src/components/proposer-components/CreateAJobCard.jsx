@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import NewJobForm from '../forms/NewJobForm';
-export class AddJobWithDetailsCard extends React.Component {
+export class CreateAJobCard extends React.Component {
   static propTypes = {
     jobDetails: PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -17,7 +17,11 @@ export class AddJobWithDetailsCard extends React.Component {
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a onClick={onCancel}>Post Jobs</a>

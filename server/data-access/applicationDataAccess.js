@@ -1,7 +1,6 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 
-const utils = require('../utils/utilities');
 const {
   AppHealthSchemaId,
   AppJobsSchemaId,
@@ -164,7 +163,7 @@ exports.AppUsersModel = {
         .exec(); // only works if we pushed refs to children
       return populatedUsers;
     } catch (e) {
-      return e;
+      throw e;
     }
   }
 };
