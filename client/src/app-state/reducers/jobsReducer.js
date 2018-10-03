@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
+  // the last created job
   recentlyUpdatedJob: {}
 };
 

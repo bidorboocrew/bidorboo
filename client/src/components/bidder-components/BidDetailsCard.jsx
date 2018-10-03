@@ -1,11 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import { Proptypes_bidModel } from '../../client-server-interfaces';
+// import { Proptypes_bidModel } from '../../client-server-interfaces';
 
-export default class MyBidsCard extends React.Component {
-  static propTypes = {
-    bidDetails: Proptypes_bidModel
-  };
+export default class BidDetailsCard extends React.Component {
 
   render() {
     const { bidDetails } = this.props;

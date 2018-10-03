@@ -1,28 +1,36 @@
+/**
+ * This will handle showing details of the bid when user
+ * - selects 1 bid
+ * - posts a new bid
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
+import { switchRoute } from '../../utils';
 
-import { bindActionCreators } from 'redux';
-
-import MyCurrentBidCardWithDetails from '../../components/bidder-components/MyCurrentBidCardWithDetails';
-import { Proptypes_bidModel } from '../../client-server-interfaces';
-import {switchRoute} from '../../utils';
+import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
+// import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 class CurrentPostedBid extends React.Component {
-  static propTypes = {
-    s_recentlyUpdatedBid: Proptypes_bidModel
-  };
+
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
   render() {
-    const { s_recentlyUpdatedBid } = this.props;
+    const { s_recentlyUpdatedBid, s_currentUserDetails } = this.props;
 
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a
@@ -40,25 +48,21 @@ class CurrentPostedBid extends React.Component {
           </nav>
         </div>
         <section className="mainSectionContainer slide-in-left">
-          <div className="container" id="bdb-proposer-content">
-            <div className="columns">
-              <div className="column is-8 is-offset-2">
-                <MyCurrentBidCardWithDetails
-                  bidDetails={s_recentlyUpdatedBid}
-                />
-              </div>
-            </div>
-          </div>
+            <JobAndBidsDetailView
+              currentUser={s_currentUserDetails}
+              job={s_recentlyUpdatedBid._job}
+            />
         </section>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ bidsReducer }) => {
+const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
   return {
     s_recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
-    s_isLoading: bidsReducer.isLoadingBids
+    s_isLoading: bidsReducer.isLoadingBids,
+    s_currentUserDetails: userModelReducer.userDetails
   };
 };
 

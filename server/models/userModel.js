@@ -56,7 +56,7 @@ const UserSchema = new Schema(
     }, //ref to reviews
     globalRating: {
       type: { accumilative: { type: RatingSchema }, globalUserRating: Number },
-      default: null
+      default: 'no rating yet'
     }, // 1-5 stars
     userId: {
       type: String,

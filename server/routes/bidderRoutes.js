@@ -10,9 +10,11 @@ module.exports = app => {
       const userMongoDBId = req.user._id;
 
       const userBidsList = await bidDataAccess.getAllBidsForUser(userMongoDBId);
-      res.send(userBidsList);
+      return res.send(userBidsList);
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+      .status(500)
+      .send({ errorMsg: 'Failed To get my bids', details: e });
     }
   });
 
@@ -29,9 +31,11 @@ module.exports = app => {
         jobId: jobId,
         bidAmount: bidAmount
       });
-      res.send(newBid);
+      return res.send(newBid);
     } catch (e) {
-      res.status(500).send({ error: 'Sorry Something went wrong \n' + e });
+      return res
+      .status(500)
+      .send({ errorMsg: 'Failed To post a new bid', details: e });
     }
   });
 };

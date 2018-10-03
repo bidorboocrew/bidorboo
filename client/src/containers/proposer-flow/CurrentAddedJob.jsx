@@ -1,3 +1,9 @@
+/**
+ * This will handle showing details of the job when user
+ * - selects 1 job
+ * - posts a new job
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -5,25 +11,31 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { addJob } from '../../app-state/actions/jobActions';
-import { Proptypes_jobModel } from '../../client-server-interfaces';
-import MyCurrentPostedJobCardWithDetails from '../../components/proposer-components/MyCurrentPostedJobCardWithDetails';
-import {switchRoute} from '../../utils';
+// import { Proptypes_jobModel } from '../../client-server-interfaces';
+// import PostedJobConfirmationCard from '../../components/proposer-components/PostedJobConfirmationCard';
+import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
+import { switchRoute } from '../../utils';
 
 class CurrentAddedJob extends React.Component {
-  static propTypes = {
-    s_recentlyUpdatedJob: Proptypes_jobModel
-  };
+  // static propTypes = {
+  //   s_recentlyUpdatedJob: Proptypes_jobModel
+  // };
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
   render() {
     const { s_recentlyUpdatedJob, s_userDetails } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
+          <nav
+            style={{ marginLeft: '1rem' }}
+            className="breadcrumb"
+            aria-label="breadcrumbs"
+          >
             <ul>
               <li>
                 <a
@@ -41,15 +53,11 @@ class CurrentAddedJob extends React.Component {
           </nav>
         </div>
         <section className="mainSectionContainer slide-in-left">
-          <div className="container" id="bdb-proposer-content">
-            <div className="columns">
-              <div className="column is-8 is-offset-2">
-                <MyCurrentPostedJobCardWithDetails
-                  userDetails={s_userDetails}
-                  jobDetails={s_recentlyUpdatedJob}
-                />
-              </div>
-            </div>
+          <div className="container">
+            <JobAndBidsDetailView
+              currentUser={s_userDetails}
+              job={s_recentlyUpdatedJob}
+            />
           </div>
         </section>
       </React.Fragment>

@@ -4,6 +4,6 @@ module.exports = (req, res, next) => {
   } else {
     return res
       .status(401)
-      .send({ error: 'You must Be Logged in to perform this action.' });
+      .send({ errorMsg: 'You must Be Logged in to perform this action.' });
   }
 };

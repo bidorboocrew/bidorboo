@@ -3,7 +3,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import moment from 'moment';
 import haversineOffset from 'haversine-offset';
-import { switchRoute } from '../../utils';
+import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const getAllMyJobs = () => (dispatch, getState) =>
   dispatch({
@@ -63,7 +63,7 @@ export const getJobById = jobId => (dispatch, getState) =>
 // };
 
 export const searchByLocation = userSearchQuery => {
-  return (dispatch) => {
+  return dispatch => {
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
       searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
@@ -83,19 +83,7 @@ export const searchByLocation = userSearchQuery => {
           }
         })
         .catch(error => {
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'error',
-                msg:
-                  'Sorry That did not work, Please try again later.\n' +
-                  (error && error.response && error.response.data
-                    ? JSON.stringify(error.response.data)
-                    : JSON.stringify(error))
-              }
-            }
-          });
+          throwErrorNotification(dispatch, error);
         })
     });
   };
@@ -184,7 +172,7 @@ export const addJob = jobDetails => dispatch => {
           });
           // switch route to show the currently added job
           switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
-  
+
           // show notification of new job
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -198,19 +186,7 @@ export const addJob = jobDetails => dispatch => {
         }
       })
       .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg:
-                'Sorry That did not work, Please try again later.\n' +
-                (error && error.response && error.response.data
-                  ? JSON.stringify(error.response.data)
-                  : JSON.stringify(error))
-            }
-          }
-        });
+        throwErrorNotification(dispatch, error);
       })
   });
 };
@@ -232,19 +208,7 @@ export const uploadImages = files => (dispatch, getState) => {
         //debugger
       })
       .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg:
-                'Sorry That did not work, Please try again later.\n' +
-                (error && error.response && error.response.data
-                  ? JSON.stringify(error.response.data)
-                  : JSON.stringify(error))
-            }
-          }
-        });
+        throwErrorNotification(dispatch, error);
       })
   });
 };

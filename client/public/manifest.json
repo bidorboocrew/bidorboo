@@ -1,14 +1,15 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 1,
   "short_name": "BoB",
   "name": "Bid or Boo",
+  "homepage_url": "https://bidorboo.com",
   "version": "1.0.0",
   "description": "Bid Or Boo platform",
   "lang": "en-US",
   "start_url": "index.html",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "icons": [
     {
       "src": "favicon.ico",
