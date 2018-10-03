@@ -20,9 +20,8 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
-    phoneNumber: Yup.mixed()
-      //.positive('Phone number can only be of format 161312345678')
-      .required('Phone number is required.')
+    phoneNumber: Yup.number()
+      .positive('Phone number can only be of format 161312345678')
       .test('phoneNumber', 'Phone number should match 123-123-1234', inputText => {
         return phoneNumber(inputText);
       }),
@@ -91,8 +90,8 @@ const ProfileForm = props => {
         value={values.phoneNumber}
         onChange={e => {
           //run normalizer to get rid of alpha chars
-          // const normalizedVal = enforceNumericField(e.target.value);
-          // e.target.value = normalizedVal;
+          const normalizedVal = enforceNumericField(e.target.value);
+          e.target.value = normalizedVal;
           handleChange(e);
         }}
         onBlur={handleBlur}
