@@ -28,11 +28,11 @@ const getAllMyBids = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     const userModel = payload && payload.data;
-    const { _postedBids } = userModel;
+    const { _postedBidsRef } = userModel;
     return {
       ...state,
       isLoadingBids: false,
-      bidsList: _postedBids || []
+      bidsList: _postedBidsRef || []
     };
   },
   isRejected: (state = initialState, { payload }) => {

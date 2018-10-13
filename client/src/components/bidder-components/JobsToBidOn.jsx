@@ -19,7 +19,7 @@ export default class JobsToBidOn extends React.Component {
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map(job => {
-          const { _ownerId } = job;
+          const { _ownerRef } = job;
           return (
             <div
               key={job._id}
@@ -28,7 +28,7 @@ export default class JobsToBidOn extends React.Component {
                 if (!isLoggedIn) {
                   showLoginDialog(true);
                 } else {
-                  if (_ownerId._id !== currentUserId) {
+                  if (_ownerRef._id !== currentUserId) {
                     selectJobToBidOn(job);
                   }
                 }
@@ -36,7 +36,7 @@ export default class JobsToBidOn extends React.Component {
             >
               <JobSummaryView job={job} />
               <CardBottomSection
-                _ownerId={_ownerId}
+                _ownerRef={_ownerRef}
                 isLoggedIn={isLoggedIn}
                 currentUserId={currentUserId}
                 showLoginDialog={showLoginDialog}
@@ -75,7 +75,7 @@ const EmptyStateComponent = () => {
 
 const CardBottomSection = props => {
   const {
-    _ownerId,
+    _ownerRef,
     isLoggedIn,
     currentUserId,
     showLoginDialog,
@@ -84,14 +84,14 @@ const CardBottomSection = props => {
   } = props;
   return (
     <React.Fragment>
-      {(!isLoggedIn || _ownerId._id !== currentUserId) && (
+      {(!isLoggedIn || _ownerRef._id !== currentUserId) && (
         <div className="has-text-centered" style={{ textAlign: 'center' }}>
           <a
             onClick={() => {
               if (!isLoggedIn) {
                 showLoginDialog(true);
               } else {
-                if (_ownerId._id !== currentUserId) {
+                if (_ownerRef._id !== currentUserId) {
                   selectJobToBidOn(job);
                 }
               }
@@ -106,7 +106,7 @@ const CardBottomSection = props => {
         </div>
       )}
       {isLoggedIn &&
-        _ownerId._id === currentUserId && (
+        _ownerRef._id === currentUserId && (
           <div className="has-text-centered" style={{ textAlign: 'center' }}>
             <a
               style={{ borderRadius: 0 }}

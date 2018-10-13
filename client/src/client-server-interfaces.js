@@ -19,7 +19,7 @@
 
 // export const Proptypes_jobModel = PropTypes.shape({
 //   _id: PropTypes.string,
-//   _bidsList: PropTypes.arrayOf(PropTypes.shape(Proptypes_bidModel)),
+//   _bidsListRef: PropTypes.arrayOf(PropTypes.shape(Proptypes_bidModel)),
 //   whoSeenThis: PropTypes.arrayOf(PropTypes.string),
 //   detailedDescription: PropTypes.string,
 //   location: PropTypes.shape({
@@ -31,10 +31,10 @@
 //   state: PropTypes.string,
 //   title: PropTypes.string,
 //   fromTemplateId: PropTypes.string,
-//   _ownerId: PropTypes.shape({
+//   _ownerRef: PropTypes.shape({
 //     _id: PropTypes.string,
 //     postedJobs: PropTypes.array,
-//     _postedBids: PropTypes.array,
+//     _postedBidsRef: PropTypes.array,
 //     globalRating: PropTypes.string,
 //     profileImage: PropTypes.shape({
 //       url: PropTypes.string.isRequired,
@@ -50,7 +50,7 @@
 //     userId: PropTypes.string,
 //     email: PropTypes.string,
 //     membershipStatus: PropTypes.string,
-//     _reviews: PropTypes.array,
+//     _reviewsRef: PropTypes.array,
 //     creditCards: PropTypes.array,
 //     createdAt: PropTypes.date,
 //     updatedAt: PropTypes.date
@@ -61,14 +61,14 @@
 // });
 
 // export const Proptypes_bidModel = PropTypes.shape({
-//   _bidderId: PropTypes.shape({
+//   _bidderRef: PropTypes.shape({
 //     _id: PropTypes.string.isRequired,
-//     _reviews: PropTypes.arrayOf(PropTypes.any).isRequired,
+//     _reviewsRef: PropTypes.arrayOf(PropTypes.any).isRequired,
 //     displayName: PropTypes.string.isRequired,
 //     globalRating: PropTypes.any,
 //   }).isRequired,
 //   _id: PropTypes.string.isRequired,
-//   _job: PropTypes.string.isRequired,
+//   _jobRef: PropTypes.string.isRequired,
 //   bidAmount: PropTypes.shape({
 //     currency: PropTypes.string.isRequired,
 //     value: PropTypes.number.isRequired,
@@ -82,7 +82,7 @@
 // export const Proptypes_userModel = PropTypes.shape({
 //   _id: PropTypes.string,
 //   postedJobs: PropTypes.array,
-//   _postedBids: PropTypes.array,
+//   _postedBidsRef: PropTypes.array,
 //   globalRating: PropTypes.string,
 //   profileImage: PropTypes.shape({
 //     url: PropTypes.string.isRequired,
@@ -98,7 +98,7 @@
 //   userId: PropTypes.string,
 //   email: PropTypes.string,
 //   membershipStatus: PropTypes.string,
-//   _reviews: PropTypes.array,
+//   _reviewsRef: PropTypes.array,
 //   creditCards: PropTypes.array,
 //   createdAt: PropTypes.date,
 //   updatedAt: PropTypes.date

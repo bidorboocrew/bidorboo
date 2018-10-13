@@ -26,7 +26,7 @@
 //   app.get('/bdbApp/populatejob', async (req, res, done) => {
 //     try {
 //       let details = {
-//         _ownerId: '5aab3f36278b6733b05dda18',
+//         _ownerRef: '5aab3f36278b6733b05dda18',
 //         detailedDescription:
 //           'this will be an interesting task . I hope I can handle this shit oh no no no no no yes yes yes lol',
 //         location: {

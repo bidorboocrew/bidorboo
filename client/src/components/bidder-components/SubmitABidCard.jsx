@@ -9,7 +9,7 @@ export default class SubmitABidCard extends React.Component {
   render() {
     const { jobDetails, onSubmit } = this.props;
 
-    if (!jobDetails || !jobDetails._ownerId) {
+    if (!jobDetails || !jobDetails._ownerRef) {
       return null;
     }
     const { _id } = jobDetails;

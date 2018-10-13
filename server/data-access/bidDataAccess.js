@@ -15,24 +15,24 @@ const { AppHealthSchemaId } = require('../models/zModalConstants');
 exports.bidDataAccess = {
   getAllBidsForUser: userId => {
     const populatedPostedBids = {
-      path: '_postedBids',
+      path: '_postedBidsRef',
       options: {
         // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
         sort: { createdAt: -1 }
       },
       populate: {
-        path: '_job',
+        path: '_jobRef',
         populate: {
-          path: '_ownerId',
+          path: '_ownerRef',
           select: { _id: 1, displayName: 1, globalRating: 1, profileImage: 1 }
         }
       }
     };
 
     const populatePostedBidsBidderInfo = {
-      path: '_postedBids',
+      path: '_postedBidsRef',
       populate: {
-        path: '_bidderId'
+        path: '_bidderRef'
       }
     };
     return UserModel.findById(userId)
@@ -41,33 +41,34 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
-  postNewBid: ({ jobId, bidAmount, bidderId, userCurrency = 'CAD' }) => {
+  postNewBid: ({userId, jobId, bidAmount, bidderId, userCurrency = 'CAD' }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const newBid = await new BidModel({
-          _bidderId: bidderId,
-          _job: jobId,
+          bidderId: userId,
+          _bidderRef: bidderId,
+          _jobRef: jobId,
           state: 'OPEN',
           hasJobOwnerSeenThis: false,
           bidAmount: { value: bidAmount, currency: userCurrency }
         }).save();
 
         const bidDetailsPopulateOptions = {
-          path: '_job',
+          path: '_jobRef',
           populate: {
-            path: '_ownerId',
+            path: '_ownerRef',
             select: { _id: 1, displayName: 1, globalRating: 1, profileImage: 1 }
           }
         };
         const bidListDetails = {
-          path: '_job',
+          path: '_jobRef',
           populate: {
-            path: '_bidsList',
+            path: '_bidsListRef',
             populate: {
-              path: '_bidderId',
+              path: '_bidderRef',
               select: {
                 _id: 1,
-                _reviews: 1,
+                _reviewsRef: 1,
                 displayName: 1,
                 globalRating: 1,
                 profileImage: 1
@@ -81,7 +82,7 @@ exports.bidDataAccess = {
           JobModel.findOneAndUpdate(
             { _id: jobId },
             {
-              $push: { _bidsList: newBid._id }
+              $push: { _bidsListRef: newBid._id , bidderIds: userId}
             },
             { new: true }
           )
@@ -90,7 +91,7 @@ exports.bidDataAccess = {
           UserModel.findOneAndUpdate(
             { _id: bidderId },
             {
-              $push: { _postedBids: newBid._id }
+              $push: { _postedBidsRef: newBid._id }
             },
             { new: true }
           )

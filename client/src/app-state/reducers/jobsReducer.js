@@ -18,7 +18,7 @@ const getMyJobs = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let myPostedJobs =
-      payload.data && payload.data._postedJobs ? payload.data._postedJobs : [];
+      payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
     return { ...state, myPostedJobsList: myPostedJobs, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {

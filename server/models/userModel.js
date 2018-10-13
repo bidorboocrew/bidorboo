@@ -36,15 +36,15 @@ const CreditCardSchema = new Schema({
 
 const UserSchema = new Schema(
   {
-    _postedJobs: {
+    _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
       default: null
     }, //list of all jobs you have posted
-    _postedBids: {
+    _postedBidsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
       default: null
     }, // list of all bids you made
-    _reviews: {
+    _reviewsRef: {
       type: [
         {
           CommentorDetails: { name: String, userId: String, date: Date },

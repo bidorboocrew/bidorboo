@@ -26,7 +26,7 @@ class BidNow extends React.Component {
       }),
       detailedDescription: PropTypes.string,
       title: PropTypes.string,
-      _ownerId: PropTypes.shape({
+      _ownerRef: PropTypes.shape({
         profileImage: PropTypes.shape({
           url: PropTypes.string.isRequired,
           public_id: PropTypes.string
@@ -44,7 +44,7 @@ class BidNow extends React.Component {
     const { s_jobDetails, a_submitBid } = this.props;
 
     //if user tried to manually set the url to this page without selecting a job
-    if (!s_jobDetails || !s_jobDetails._ownerId) {
+    if (!s_jobDetails || !s_jobDetails._ownerRef) {
       //reroute them to bidder root
       switchRoute(ROUTES.CLIENT.BIDDER.root);
     }

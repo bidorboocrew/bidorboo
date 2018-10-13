@@ -57,7 +57,7 @@ class BidderRoot extends React.Component {
       excludeMyJobs
     ) {
       const filteredJobList = s_allThePostedJobsList.filter(job => {
-        return s_userDetails._id !== job._ownerId._id;
+        return s_userDetails._id !== job._ownerRef._id;
       });
       this.setState({
         ...this.state,

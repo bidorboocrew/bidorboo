@@ -16,7 +16,7 @@ class MyJobsList extends React.Component {
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map(job => {
           const areThereAnyBidders =
-            job._bidsList && job._bidsList.map && job._bidsList.length > 0;
+            job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
 
           let specialBorder = areThereAnyBidders
             ? { border: '1px solid #00d1b2' }

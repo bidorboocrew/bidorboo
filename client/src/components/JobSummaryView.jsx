@@ -24,10 +24,10 @@ export default class JobSummaryView extends React.Component {
       title,
       createdAt,
       fromTemplateId,
-      _ownerId
+      _ownerRef
     } = job;
 
-    const { profileImage, displayName } = _ownerId;
+    const { profileImage, displayName } = _ownerRef;
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';

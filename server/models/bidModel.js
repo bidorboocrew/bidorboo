@@ -3,12 +3,13 @@ const { Schema } = mongoose;
 
 const BidSchema = new Schema(
   {
-    _bidderId: {
+    _bidderRef: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
       required: true
     },
-    _job: { type: Schema.Types.ObjectId, ref: 'JobModel', required: true }, //we will use this to reference the job
+    bidderId: {type: String, required: true},
+    _jobRef: { type: Schema.Types.ObjectId, ref: 'JobModel', required: true }, //we will use this to reference the job
     state: {
       type: String,
       enum: ['OPEN', 'BOO', 'WIN', 'CANCEL', 'MODIFIED']

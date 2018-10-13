@@ -8,7 +8,7 @@ import JobDetailsView from './JobDetailsView';
 export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
-    if (!job || !currentUser || !!job._bidsList) {
+    if (!job || !currentUser || !!job._bidsListRef) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
     return (
@@ -19,7 +19,7 @@ export default class JobAndBidsDetailView extends React.Component {
               <JobDetailsView job={job} currentUser={currentUser} />
             </div>
             <div className="column">
-              <BidsTable bidList={job._bidsList} currentUser={currentUser} />
+              <BidsTable bidList={job._bidsListRef} currentUser={currentUser} />
             </div>
           </div>
         </div>
@@ -39,17 +39,17 @@ class BidsTable extends React.Component {
         <tr
           key={bid._id}
           style={
-            bid._bidderId._id === currentUser._id
+            bid._bidderRef._id === currentUser._id
               ? { backgroundColor: 'red', wordWrap: 'break-word' }
               : { wordWrap: 'break-word' }
           }
         >
           <td className="has-text-centered">
             <figure style={{ margin: '0 auto' }} className="image is-64x64">
-              <img alt="profile" src={bid._bidderId.profileImage.url} />
+              <img alt="profile" src={bid._bidderRef.profileImage.url} />
             </figure>
           </td>
-          <td className="has-text-centered">{bid._bidderId.globalRating}</td>
+          <td className="has-text-centered">{bid._bidderRef.globalRating}</td>
           <td className="has-text-centered">
             {bid.bidAmount.value} {bid.bidAmount.currency}
           </td>

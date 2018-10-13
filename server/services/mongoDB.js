@@ -14,6 +14,9 @@ module.exports = (process) => {
   mongoose.Promise = global.Promise;
 
   const dbOptions = {
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useCreateIndex: true,
     keepAlive: 120,
     reconnectTries: 20, // Never stop trying to reconnect
     reconnectInterval: 5000 // Reconnect every 500ms,

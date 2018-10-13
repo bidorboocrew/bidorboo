@@ -7,31 +7,24 @@ const isJobOwner = require('../middleware/isJobOwner');
 
 const utils = require('../utils/utilities');
 
-module.exports = app => {
-  app.get(
-    ROUTES.API.JOB.GET.myjobs,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
-        return res.send(userJobsList);
-      } catch (e) {
-        return res
-          .status(500)
-          .send({ errorMsg: 'Failed To get my jobs', details: e });
-      }
+module.exports = (app) => {
+  app.get(ROUTES.API.JOB.GET.myjobs, requireBidorBooHost, requireLogin, async (req, res) => {
+    try {
+      userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
+      return res.send(userJobsList);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my jobs', details: e });
     }
-  );
+  });
 
   app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getAllPostedJobs();
+      const userMongoDBId = req.user.userId;
+
+      userJobsList = await jobDataAccess.getAllPostedJobs(userMongoDBId);
       return res.send(userJobsList);
     } catch (e) {
-      return res
-        .status(500)
-        .send({ errorMsg: 'Failed To get all posted jobs', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });
     }
   });
 
@@ -43,17 +36,15 @@ module.exports = app => {
       try {
         const { searchParams } = req.body.data;
         if (!searchParams) {
-          return res
-            .status(400)
-            .send({
-              errorMsg: 'Bad Request JobId searchQuery params was Not Specified'
-            });
+          return res.status(400).send({
+            errorMsg: 'Bad Request JobId searchQuery params was Not Specified',
+          });
         }
 
         let searchQuery = {
           searchLocation: searchParams.searchLocation,
           searchRaduisInMeters: searchParams.searchRaduis,
-          jobTypeFilter: searchParams.jobTypeFilter
+          jobTypeFilter: searchParams.jobTypeFilter,
         };
 
         existingJob = await jobDataAccess.getJobsNear(searchQuery);
@@ -63,9 +54,7 @@ module.exports = app => {
           return res.send({ errorMsg: 'JobId Was Not Specified' });
         }
       } catch (e) {
-        return res
-          .status(500)
-          .send({ errorMsg: 'Failed To perform the search', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To perform the search', details: e });
       }
     }
   );
@@ -86,9 +75,7 @@ module.exports = app => {
         return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
-      return res
-        .status(500)
-        .send({ errorMsg: 'Failed To get job by id', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
     }
   });
 
@@ -101,16 +88,14 @@ module.exports = app => {
       const newJob = await jobDataAccess.addAJob(
         {
           ...data.jobDetails,
-          _ownerId: userMongoDBId
+          _ownerRef: userMongoDBId,
         },
         userId
       );
 
       return res.send(newJob);
     } catch (e) {
-      return res
-        .status(500)
-        .send({ errorMsg: 'Failed To create new job', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To create new job', details: e });
     }
   });
 

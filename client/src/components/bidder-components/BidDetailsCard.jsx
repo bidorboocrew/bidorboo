@@ -10,21 +10,21 @@ export default class BidDetailsCard extends React.Component {
     if (!bidDetails) {
       return null;
     }
-    const { _job } = bidDetails;
+    const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${
       bidDetails.bidAmount.currency
     }`;
     const bidStateText = `${bidDetails.state}`;
 
-    const jobTitleText = _job.title;
-    const fromTemplateId = _job.fromTemplateId;
-    const startingDateText = `${_job.startingDateAndTime.hours}:${
-      _job.startingDateAndTime.minutes
-    }  ${_job.startingDateAndTime.period}`;
+    const jobTitleText = _jobRef.title;
+    const fromTemplateId = _jobRef.fromTemplateId;
+    const startingDateText = `${_jobRef.startingDateAndTime.hours}:${
+      _jobRef.startingDateAndTime.minutes
+    }  ${_jobRef.startingDateAndTime.period}`;
 
-    const { _ownerId } = _job;
-    const { profileImage, displayName } = _ownerId;
+    const { _ownerRef } = _jobRef;
+    const { profileImage, displayName } = _ownerRef;
     return (
       <div style={{ marginBottom: 14 }} className="card">
         <header className="card-header">
@@ -84,7 +84,7 @@ export default class BidDetailsCard extends React.Component {
             Full Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_job.startingDateAndTime.date).format(
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
               'MMMM Do YYYY'
             )}`}
           </div>

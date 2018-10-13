@@ -22,7 +22,7 @@ exports.findOneByemail = email =>
       loginAttempts: 0,
       provider: 0,
       paymentRefs: 0,
-      _reviews: 0,
+      _reviewsRef: 0,
       password: 0,
       skills: 0
     }
@@ -42,7 +42,7 @@ exports.findOneByUserId = id =>
       loginAttempts: 0,
       provider: 0,
       paymentRefs: 0,
-      _reviews: 0,
+      _reviewsRef: 0,
       password: 0,
       skills: 0
     }
