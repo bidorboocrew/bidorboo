@@ -50,7 +50,7 @@ class CurrentPostedBid extends React.Component {
         <section className="mainSectionContainer slide-in-left">
             <JobAndBidsDetailView
               currentUser={s_currentUserDetails}
-              job={s_recentlyUpdatedBid._jobRef}
+              job={s_recentlyUpdatedBid}
             />
         </section>
       </React.Fragment>

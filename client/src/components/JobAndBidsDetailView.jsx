@@ -8,10 +8,12 @@ import JobDetailsView from './JobDetailsView';
 export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
-    if (!job || !currentUser || !!job._bidsListRef) {
+    const dontShowRoute = !job || !currentUser || !job._bidsListRef;
+
+    if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
-    return (
+    return dontShowRoute? null : (
       <section className="mainSectionContainer">
         <div className="container">
           <div className="columns">

@@ -34,7 +34,6 @@ export const submitBid = ({ bidAmount, jobId }) => dispatch => {
             payload: { data: resp.data }
           });
           //rediret user to the current bid
-          debugger
           switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
 
           dispatch({
