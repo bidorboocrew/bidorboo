@@ -38,7 +38,6 @@ class PostYourBid extends React.Component {
             id="bidAmountField"
             className="input is-focused shadow-drop-center"
             type="text"
-            //onChange={handleChange}
             onBlur={handleBlur}
             label="Enter Your Bid Amount"
             placeholder="enter bid amount E.g 50"
@@ -81,6 +80,7 @@ const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
+      .max(1000000, 'The maximum amout is 100000')
       .required('amount is required.'),
   }),
   initialValues: {
