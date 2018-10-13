@@ -3,8 +3,7 @@ import GeoSearch from '../googleMapsComponents/GeoSearch';
 import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 
-const InputFeedback = ({ error }) =>
-  error ? <p className="help is-danger">{error}</p> : null;
+const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{error}</p> : null);
 
 const Label = ({ error, className, children, id, ...props }) => {
   return (
@@ -21,6 +20,34 @@ const HelpText = ({ helpText }) =>
     </p>
   ) : null;
 
+export const Checkbox = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  helpText,
+  iconLeft,
+  ...props
+}) => {
+  return (
+    <div className="field">
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
+      <input
+        id={id}
+        // className={className || 'input'}
+        type={type}
+        value={value || ''}
+        onChange={onChange}
+        {...props}
+      />
+    </div>
+  );
+};
 export const TextInput = ({
   type,
   id,
@@ -41,7 +68,7 @@ export const TextInput = ({
       {!iconLeft && (
         <input
           id={id}
-          className={className|| "input"}
+          className={className || 'input'}
           type={type}
           value={value || ''}
           onChange={onChange}
@@ -103,8 +130,6 @@ export const TextAreaInput = ({
   );
 };
 
-
-
 export const DateInput = ({
   id,
   label,
@@ -115,7 +140,7 @@ export const DateInput = ({
   handleSelect,
   placeholder,
   onChangeEvent,
-  onBlurEvent
+  onBlurEvent,
 }) => {
   return (
     <div className="field">
@@ -136,7 +161,7 @@ export const TimeInput = ({
   onBlur,
   hoursFieldId,
   minutesFieldId,
-  periodFieldId
+  periodFieldId,
 }) => {
   return (
     <div className="field">
@@ -146,11 +171,11 @@ export const TimeInput = ({
       <div className="control">
         <div className="select is-info">
           <select
-            onChange={e => {
+            onChange={(e) => {
               e.target.id = hoursFieldId;
               onChange(e);
             }}
-            onBlur={e => {
+            onBlur={(e) => {
               e.target.id = hoursFieldId;
               onBlur(e);
             }}
@@ -172,11 +197,11 @@ export const TimeInput = ({
         </div>
         <div className="select is-info">
           <select
-            onChange={e => {
+            onChange={(e) => {
               e.target.id = minutesFieldId;
               onChange(e);
             }}
-            onBlur={e => {
+            onBlur={(e) => {
               e.target.id = minutesFieldId;
               onBlur(e);
             }}
@@ -189,11 +214,11 @@ export const TimeInput = ({
           </select>
         </div>
         <div
-          onChange={e => {
+          onChange={(e) => {
             e.target.id = periodFieldId;
             onChange(e);
           }}
-          onBlur={e => {
+          onBlur={(e) => {
             e.target.id = periodFieldId;
             onBlur(e);
           }}
@@ -211,45 +236,39 @@ export const TimeInput = ({
   );
 };
 
-
-
 export class GeoAddressInput extends React.Component {
-
-render() {
-  const {
-  id,
-  label,
-  helpText,
-  onError,
-  error,
-  handleSelect,
-  placeholder,
-  onChangeEvent,
-  onBlurEvent,
-  autoDetectComponent,
-  forceSetAddressValue
-   } = this.props ;
-  return (
-    <div className="field">
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
-      <GeoSearch
-        id={id}
-        onError={onError}
-        placeholder={placeholder}
-        handleSelect={handleSelect}
-        onChangeEvent={onChangeEvent}
-        onBlurEvent={onBlurEvent}
-        forceSetAddressValue={forceSetAddressValue}
-      />
-      {autoDetectComponent}
-      {!autoDetectComponent && <HelpText helpText={helpText} />}
-      <InputFeedback error={error} />
-    </div>
-  );
+  render() {
+    const {
+      id,
+      label,
+      helpText,
+      onError,
+      error,
+      handleSelect,
+      placeholder,
+      onChangeEvent,
+      onBlurEvent,
+      autoDetectComponent,
+      forceSetAddressValue,
+    } = this.props;
+    return (
+      <div className="field">
+        <Label htmlFor={id} error={error}>
+          {label}
+        </Label>
+        <GeoSearch
+          id={id}
+          onError={onError}
+          placeholder={placeholder}
+          handleSelect={handleSelect}
+          onChangeEvent={onChangeEvent}
+          onBlurEvent={onBlurEvent}
+          forceSetAddressValue={forceSetAddressValue}
+        />
+        {autoDetectComponent}
+        {!autoDetectComponent && <HelpText helpText={helpText} />}
+        <InputFeedback error={error} />
+      </div>
+    );
+  }
 }
-}
-
-
-

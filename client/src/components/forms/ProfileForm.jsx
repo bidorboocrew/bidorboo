@@ -11,7 +11,7 @@ const EnhancedForms = withFormik({
       .trim()
       .min(3, 'your name is longer than that. Must be at least 3 chars')
       .max(25, 'your name is longer 25. Must be at most 25 chars')
-      .test('alphanumericField', 'Name can only contain alphabits and numbers', inputText => {
+      .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
         return alphanumericField(inputText);
       })
       .required('First name is required.'),
@@ -22,7 +22,7 @@ const EnhancedForms = withFormik({
       .required('email is required.'),
     phoneNumber: Yup.number()
       .positive('Phone number can only be of format 161312345678')
-      .test('phoneNumber', 'Phone number should match 123-123-1234', inputText => {
+      .test('phoneNumber', 'Phone number should match 123-123-1234', (inputText) => {
         return phoneNumber(inputText);
       }),
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
@@ -43,7 +43,7 @@ const EnhancedForms = withFormik({
   displayName: 'ProfileForm',
 });
 
-const ProfileForm = props => {
+const ProfileForm = (props) => {
   const {
     values,
     touched,
@@ -88,7 +88,7 @@ const ProfileForm = props => {
         helpText="example : 61312345678"
         error={touched.phoneNumber && errors.phoneNumber}
         value={values.phoneNumber}
-        onChange={e => {
+        onChange={(e) => {
           //run normalizer to get rid of alpha chars
           const normalizedVal = enforceNumericField(e.target.value);
           e.target.value = normalizedVal;
@@ -120,7 +120,7 @@ const ProfileForm = props => {
           className="button is-outlined is-medium"
           type="submit"
           disabled={isSubmitting}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             onCancel(e);
           }}

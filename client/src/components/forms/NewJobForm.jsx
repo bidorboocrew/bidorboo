@@ -14,7 +14,14 @@ import { withFormik } from 'formik';
 
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { GeoAddressInput, TextAreaInput, TextInput, DateInput, TimeInput } from './FormsHelpers';
+import {
+  GeoAddressInput,
+  TextAreaInput,
+  TextInput,
+  DateInput,
+  TimeInput,
+  Checkbox,
+} from './FormsHelpers';
 import moment from 'moment';
 import { alphanumericField } from './FormsValidators';
 
@@ -40,7 +47,7 @@ class NewJobForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue',
+      'clearForceSetAddressValue'
     );
   }
 
@@ -123,29 +130,29 @@ class NewJobForm extends React.Component {
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
-          onError={e => {
+          onError={(e) => {
             errors.addressTextField = 'google api error ' + e;
           }}
-          onChangeEvent={e => {
+          onChangeEvent={(e) => {
             this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
             console.log('value changed ' + e);
           }}
-          onBlurEvent={e => {
+          onBlurEvent={(e) => {
             if (e && e.target) {
               e.target.id = 'addressTextField';
               handleBlur(e);
             }
           }}
-          handleSelect={address => {
+          handleSelect={(address) => {
             setFieldValue('addressTextField', address, true);
             geocodeByAddress(address)
-              .then(results => getLatLng(results[0]))
-              .then(latLng => {
+              .then((results) => getLatLng(results[0]))
+              .then((latLng) => {
                 setFieldValue('locationField', latLng, false);
                 console.log('Success', latLng);
               })
-              .catch(error => {
+              .catch((error) => {
                 errors.addressTextField = 'error getting lat lng ' + error;
                 console.error('Error', error);
               });
@@ -164,7 +171,7 @@ class NewJobForm extends React.Component {
           helpText="click to change date"
           label="Job Start Date"
           placeholder="specify starting date"
-          onChangeEvent={e => {
+          onChangeEvent={(e) => {
             if (e && e instanceof moment) {
               let val = e.toDate();
               setFieldValue('dateField', val, false);
@@ -192,6 +199,7 @@ class NewJobForm extends React.Component {
           type="hidden"
           value={values.periodField || 'AM'}
         />
+        <Checkbox type="checkbox" label="Flexibe Time." onChange={handleChange} />
         <TimeInput
           hoursFieldId="hoursField"
           minutesFieldId="minutesField"
@@ -239,7 +247,7 @@ class NewJobForm extends React.Component {
             type="button"
             className="button is-outlined is-medium"
             disabled={isSubmitting}
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               onCancel(e);
             }}
@@ -273,7 +281,7 @@ class NewJobForm extends React.Component {
       const errorHandling = () => {
         console.error('can not auto detect address');
       };
-      const successfulRetrieval = position => {
+      const successfulRetrieval = (position) => {
         const pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -288,7 +296,7 @@ class NewJobForm extends React.Component {
             {
               location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
-            this.successfullGeoCoding,
+            this.successfullGeoCoding
           );
         }
       };
@@ -297,7 +305,7 @@ class NewJobForm extends React.Component {
       navigator.geolocation.getCurrentPosition(
         successfulRetrieval,
         errorHandling,
-        getCurrentPositionOptions,
+        getCurrentPositionOptions
       );
     } else {
       // Browser doesn't support Geolocation
@@ -314,11 +322,11 @@ const EnhancedForms = withFormik({
       .trim()
       .min(5, 'your job title is longer than that. Must be at least 5 chars')
       .max(100, 'your job title is longer than 100. Must be at most 100 chars')
-      .test('alphanumericField', 'Name can only contain alphabits and numbers', inputText => {
+      .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
         return alphanumericField(inputText);
       }),
   }),
-  mapPropsToValues: props => {
+  mapPropsToValues: (props) => {
     return {
       jobTitleField: props.jobTitleField,
       hoursField: 1,
