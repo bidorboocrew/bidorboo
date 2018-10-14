@@ -13,26 +13,28 @@ import * as ROUTES from '../constants/frontend-route-consts';
 
 class Header extends React.Component {
   static propTypes = {
-    s_userEmail: PropTypes.string,
-    s_isLoggedIn: PropTypes.bool.isRequired,
-    s_userDetails: PropTypes.shape({
+    userEmail: PropTypes.string,
+    isLoggedIn: PropTypes.bool.isRequired,
+    userDetails: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
       profileImage: PropTypes.shape({
         url: PropTypes.string.isRequired,
-        public_id: PropTypes.string
-      })
+        public_id: PropTypes.string,
+      }),
     }).isRequired,
     a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired
+    a_showLoginDialog: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
-    s_userEmail: ''
+    userEmail: '',
   };
+
   constructor(props) {
     super(props);
     autoBind(this, 'toggleLoginDialog', 'closeMenuThenExecute');
     this.state = {
-      isHamburgerOpen: false
+      isHamburgerOpen: false,
     };
   }
 
@@ -40,52 +42,26 @@ class Header extends React.Component {
     this.setState({ isHamburgerOpen: false }, func);
   }
   toggleLoginDialog() {
-    this.props.a_showLoginDialog(!this.props.s_shouldShowLoginDialog);
+    this.props.a_showLoginDialog(!this.props.shouldShowLoginDialog);
   }
 
   render() {
-    const {
-      s_displayName,
-      s_isLoggedIn,
-      s_userDetails,
-      a_onLogout,
-      s_currentRoute,
-      s_shouldShowLoginDialog
-    } = this.props;
-    const { profileImage } = s_userDetails;
+    const { displayName, isLoggedIn, userDetails, a_onLogout, shouldShowLoginDialog } = this.props;
+    const { profileImage } = userDetails;
 
-    let navbarStylesBasedOnRoute = classNames(
-      'navbar is-fixed-top nav-bottom-border'
-    );
-    let logoSubTitle = '';
-    if (s_currentRoute && s_currentRoute.includes) {
-      const isProposerRoutes = s_currentRoute.includes(
-        ROUTES.CLIENT.PROPOSER.root
-      );
-      const isBidderRoutes = s_currentRoute.includes(ROUTES.CLIENT.BIDDER.root);
-      navbarStylesBasedOnRoute = classNames(
-        'navbar is-fixed-top nav-bottom-border',
-        { 'color-change-2x-proposer': isProposerRoutes },
-        { 'color-change-2x-bidder': isBidderRoutes }
-      );
-      if (isProposerRoutes) {
-        logoSubTitle = '(Proposer View)';
-      }
-      if (isBidderRoutes) {
-        logoSubTitle = '(Bidder View)';
-      }
-    }
+    let navbarStylesBasedOnRoute = classNames('navbar is-fixed-top nav-bottom-border');
 
     return (
       <nav style={{ height: '3.25rem' }} className={navbarStylesBasedOnRoute}>
         {/* brand */}
         <LoginOrRegisterModal
-          isActive={s_shouldShowLoginDialog}
+          isActive={shouldShowLoginDialog}
           handleCancel={this.toggleLoginDialog}
         />
         <div className="navbar-brand">
           <a
-            onClick={e => {
+            onClick={(e) => {
+              e.preventDefault();
               this.closeMenuThenExecute(() => {
                 switchRoute(ROUTES.CLIENT.HOME);
               });
@@ -100,20 +76,15 @@ class Header extends React.Component {
               height="24"
             />
             <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
-            <span
-              className="is-hidden-desktop"
-              style={{ paddingLeft: 6, color: '#DCDCDC' }}
-            >
-              {logoSubTitle}
-            </span>
           </a>
 
           {/* show on mobile if not  */}
-          {!s_isLoggedIn && (
+          {!isLoggedIn && (
             <div className="is-hidden-desktop navbar-item">
               <a
                 className="button is-danger heartbeat"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   this.closeMenuThenExecute(() => {
                     this.toggleLoginDialog();
                   });
@@ -126,11 +97,12 @@ class Header extends React.Component {
 
           {/* burger menu */}
           <a
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
             }}
             className={classNames('navbar-burger', {
-              'is-active': this.state.isHamburgerOpen
+              'is-active': this.state.isHamburgerOpen,
             })}
             data-target="navbarmenu"
             role="button"
@@ -148,7 +120,7 @@ class Header extends React.Component {
         <div
           id="navbarmenu"
           className={classNames('navbar-menu', {
-            'is-active': this.state.isHamburgerOpen
+            'is-active': this.state.isHamburgerOpen,
           })}
         >
           {/* start */}
@@ -164,19 +136,16 @@ class Header extends React.Component {
                 }}
                 className="navbar-link"
               >
-                <i
-                  style={{ marginRight: 4 }}
-                  className="fa fa-child"
-                  aria-hidden="true"
-                />
+                <i style={{ marginRight: 4 }} className="fa fa-child" aria-hidden="true" />
                 <span>Proposer</span>
               </a>
               <div className="navbar-dropdown is-boxed">
-                {s_isLoggedIn && (
+                {isLoggedIn && (
                   <a
                     style={{ marginleft: 4 }}
                     className="navbar-item"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       this.closeMenuThenExecute(() => {
                         switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
                       });
@@ -188,7 +157,8 @@ class Header extends React.Component {
                 <a
                   style={{ marginleft: 4 }}
                   className="navbar-item"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     });
@@ -200,24 +170,22 @@ class Header extends React.Component {
             </div>
             <div className="navbar-item has-dropdown is-hoverable">
               <a
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.BIDDER.root);
                   });
                 }}
                 className="navbar-link"
               >
-                <i
-                  style={{ marginRight: 4 }}
-                  className="fa fa-hand-paper"
-                  aria-hidden="true"
-                />
+                <i style={{ marginRight: 4 }} className="fa fa-hand-paper" aria-hidden="true" />
                 <span>Bidder</span>
               </a>
               <div className="navbar-dropdown is-boxed">
-                {s_isLoggedIn && (
+                {isLoggedIn && (
                   <a
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       this.closeMenuThenExecute(() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                       });
@@ -231,7 +199,8 @@ class Header extends React.Component {
                 <a
                   style={{ marginleft: 4 }}
                   className="navbar-item"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     });
@@ -246,26 +215,20 @@ class Header extends React.Component {
           {/* end */}
           <div className="navbar-end">
             <div className="navbar-item">
-              {s_isLoggedIn && (
+              {isLoggedIn && (
                 <div className="field is-grouped">
                   <div className="navbar-item">
                     <div className="navbar-item has-dropdown is-hoverable">
                       <a className="navbar-link">
-                        <figure
-                          style={{ margin: '0 auto' }}
-                          className="image is-32x32"
-                        >
-                          <img
-                            style={{ paddingRight: 4 }}
-                            src={profileImage.url}
-                            alt="BidOrBoo"
-                          />
+                        <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                          <img style={{ paddingRight: 4 }} src={profileImage.url} alt="BidOrBoo" />
                         </figure>
-                        {s_displayName}
+                        {displayName}
                       </a>
                       <div className="navbar-dropdown is-boxed">
                         <a
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             this.closeMenuThenExecute(() => {
                               switchRoute(ROUTES.CLIENT.MY_PROFILE);
                             });
@@ -277,7 +240,7 @@ class Header extends React.Component {
                         </a>
                         <hr className="dropdown-divider" />
                         <a
-                          onClick={() =>
+                          onClick={(e) =>
                             this.closeMenuThenExecute(() => {
                               a_onLogout();
                             })
@@ -292,11 +255,12 @@ class Header extends React.Component {
                   </div>
                 </div>
               )}
-              {!s_isLoggedIn && (
+              {!isLoggedIn && (
                 <div className="navbar-item">
                   <a
                     className="button is-danger is-medium heartbeat"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       this.closeMenuThenExecute(() => {
                         this.toggleLoginDialog();
                       });
@@ -317,17 +281,16 @@ class Header extends React.Component {
 const mapStateToProps = ({ userModelReducer, uiReducer, authReducer }) => {
   const { userDetails } = userModelReducer;
   return {
-    s_isLoggedIn: authReducer.isLoggedIn,
-    s_userDetails: userDetails,
-    s_displayName: userDetails.displayName,
-    s_shouldShowLoginDialog: uiReducer.shouldShowLoginDialog
+    isLoggedIn: authReducer.isLoggedIn,
+    userDetails: userDetails,
+    displayName: userDetails.displayName,
+    shouldShowLoginDialog: uiReducer.shouldShowLoginDialog,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     a_onLogout: bindActionCreators(onLogout, dispatch),
-
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

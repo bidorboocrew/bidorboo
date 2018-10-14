@@ -11,31 +11,18 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { addJob } from '../../app-state/actions/jobActions';
-// import { Proptypes_jobModel } from '../../client-server-interfaces';
-// import PostedJobConfirmationCard from '../../components/proposer-components/PostedJobConfirmationCard';
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 import { switchRoute } from '../../utils';
 
 class CurrentAddedJob extends React.Component {
-  // static propTypes = {
-  //   s_recentlyUpdatedJob: Proptypes_jobModel
-  // };
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   render() {
     const { s_recentlyUpdatedJob, s_userDetails } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav
-            style={{ marginLeft: '1rem' }}
-            className="breadcrumb"
-            aria-label="breadcrumbs"
-          >
+          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
                 <a
@@ -54,10 +41,7 @@ class CurrentAddedJob extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
-            <JobAndBidsDetailView
-              currentUser={s_userDetails}
-              job={s_recentlyUpdatedJob}
-            />
+            <JobAndBidsDetailView currentUser={s_userDetails} job={s_recentlyUpdatedJob} />
           </div>
         </section>
       </React.Fragment>
@@ -68,13 +52,13 @@ class CurrentAddedJob extends React.Component {
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
     s_recentlyUpdatedJob: jobsReducer.recentlyUpdatedJob,
-    s_userDetails: userModelReducer.userDetails
+    s_userDetails: userModelReducer.userDetails,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_addJob: bindActionCreators(addJob, dispatch)
+    a_addJob: bindActionCreators(addJob, dispatch),
   };
 };
 

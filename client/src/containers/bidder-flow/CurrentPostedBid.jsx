@@ -11,14 +11,8 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
-// import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 class CurrentPostedBid extends React.Component {
-
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   render() {
     const { s_recentlyUpdatedBid, s_currentUserDetails } = this.props;

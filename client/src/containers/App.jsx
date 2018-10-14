@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
-// import AdSense from 'react-adsense';
 import Toast from '../components/Toast';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -23,7 +22,7 @@ import {
   BidNow,
   MyBids,
   CurrentAddedJob,
-  CurrentPostedBid
+  CurrentPostedBid,
 } from './index';
 
 class App extends React.Component {
@@ -31,9 +30,9 @@ class App extends React.Component {
     toastDetails: PropTypes.shape({
       type: PropTypes.oneOf(['success', 'warning', 'error', 'info']),
       msg: PropTypes.string,
-      toastId: PropTypes.string
+      toastId: PropTypes.string,
     }),
-    a_getCurrentUser: PropTypes.func.isRequired
+    a_getCurrentUser: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -45,9 +44,6 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    // Display fallback UI
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
@@ -56,15 +52,7 @@ class App extends React.Component {
 
     return (
       <div id="bidorboo-root-view">
-        {/* we will make our notifications absolute positioned  */}
-        <div id="bidorboo-notification" />
-        {/* we will make progress absolutely positioned */}
         <Toast toastDetails={s_toastDetails} />
-        <div id="bidorboo-progress" />
-        {/* for blocking Entire UI */}
-        <div id="block-ui-overlay" />
-        {/* for modal dialogs  */}
-        <div id="global-modal-dialog" />
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
@@ -81,22 +69,14 @@ class App extends React.Component {
                   component={ProposerRoot}
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.PROPOSER.root}
-                  component={ProposerRoot}
-                />
+                <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
                 <Route
                   exact
                   path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.PROPOSER.myjobs}
-                  component={MyJobs}
-                />
+                <Route exact path={ROUTES.CLIENT.PROPOSER.myjobs} component={MyJobs} />
                 <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.currentPostedJob}
@@ -109,32 +89,16 @@ class App extends React.Component {
                   component={BidderRoot}
                 />
                 {/* unprotected routes user is allowed to enter without logging in */}
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.BIDDER.root}
-                  component={BidderRoot}
-                />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.BIDDER.bidNow}
-                  component={BidNow}
-                />
+                <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
+                <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.BIDDER.mybids}
-                  component={MyBids}
-                />
+                <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
                 <Route
                   exact
                   path={ROUTES.CLIENT.BIDDER.currentPostedBid}
                   component={CurrentPostedBid}
                 />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.MY_PROFILE}
-                  component={MyProfile}
-                />
+                <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.CLIENT.HOME} />
               </Switch>
@@ -148,13 +112,13 @@ class App extends React.Component {
 const mapStateToProps = ({ authReducer, uiReducer }) => {
   return {
     s_isLoggedIn: authReducer.isLoggedIn,
-    s_toastDetails: uiReducer.toastDetails
+    s_toastDetails: uiReducer.toastDetails,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch)
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 
@@ -170,20 +134,18 @@ export default withRouter(
  * good for profile
  * @param {*}
  */
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props => {
-        const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
-        return isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={`${redirectWhenNotLoggedIn || ROUTES.CLIENT.HOME}/true`}
-          />
-        );
-      }}
-    />
-  );
-};
+// const ProtectedRoute = ({ component: Component, ...rest }) => {
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) => {
+//         const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
+//         return isLoggedIn ? (
+//           <Component {...props} />
+//         ) : (
+//           <Redirect to={`${redirectWhenNotLoggedIn || ROUTES.CLIENT.HOME}/true`} />
+//         );
+//       }}
+//     />
+//   );
+// };

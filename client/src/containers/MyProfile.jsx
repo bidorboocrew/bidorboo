@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
-import {
-  updateProfileDetails,
-  updateProfileImage
-} from '../app-state/actions/userModelActions';
+import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
@@ -15,28 +12,14 @@ import ProfileForm from '../components/forms/ProfileForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 
 class MyProfile extends React.Component {
-  static propTypes = {
-    s_userDetails: PropTypes.shape({
-      displayName: PropTypes.string.isRequired,
-      profileImage: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        public_id: PropTypes.string
-      })
-    }).isRequired
-  };
 
   constructor(props) {
     super(props);
     this.state = {
       isEditProfile: false,
-      showImageUploadDialog: false
+      showImageUploadDialog: false,
     };
-    autoBind(
-      this,
-      'toggleEditProfile',
-      'closeFormAndSubmit',
-      'toggleShowUploadProfileImageDialog'
-    );
+    autoBind(this, 'toggleEditProfile', 'closeFormAndSubmit', 'toggleShowUploadProfileImageDialog');
   }
 
   toggleEditProfile() {
@@ -51,12 +34,9 @@ class MyProfile extends React.Component {
     this.toggleEditProfile();
     this.props.a_updateProfileDetails(vals);
   }
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   render() {
-    const { s_userDetails, a_updateProfileImage } = this.props;
+    const { userDetails, a_updateProfileImage } = this.props;
 
     const {
       profileImage,
@@ -64,11 +44,10 @@ class MyProfile extends React.Component {
       email,
       personalParagraph,
       membershipStatus,
-      phoneNumber
-    } = s_userDetails;
+      phoneNumber,
+    } = userDetails;
 
-    const membershipStatusDisplay =
-      C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+    const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     return (
       <React.Fragment>
@@ -100,7 +79,7 @@ class MyProfile extends React.Component {
                 )}
                 {/* user details */}
                 {userEditableInfo(
-                  s_userDetails,
+                  userDetails,
                   this.state.isEditProfile,
                   displayName,
                   email,
@@ -122,13 +101,13 @@ class MyProfile extends React.Component {
 
 const mapStateToProps = ({ userModelReducer }) => {
   return {
-    s_userDetails: userModelReducer.userDetails
+    userDetails: userModelReducer.userDetails,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
-    a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch)
+    a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
   };
 };
 
@@ -139,7 +118,7 @@ export default connect(
 
 // profile components ----------------------------------------------------------------------------
 
-const HeaderTitle = props => {
+const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;
   return (
     <h2
@@ -148,14 +127,14 @@ const HeaderTitle = props => {
         marginBottom: 4,
         fontWeight: 500,
         fontSize: 20,
-        borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >
       {title}
     </h2>
   );
 };
-const DisplayLabelValue = props => {
+const DisplayLabelValue = (props) => {
   return (
     <div style={{ padding: 4, marginBottom: 4 }}>
       <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
@@ -180,7 +159,7 @@ const userImageAndStats = (
           </figure>
           <br />
           <a
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               toggleShowUploadProfileImageDialog();
             }}
@@ -198,10 +177,7 @@ const userImageAndStats = (
           </div>
           <div>{displayName}</div>
           <div>{email}</div>
-          <DisplayLabelValue
-            labelText="Membership Status:"
-            labelValue={membershipStatusDisplay}
-          />
+          <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
         </div>
       </div>
     </React.Fragment>
@@ -209,7 +185,7 @@ const userImageAndStats = (
 };
 
 const userEditableInfo = (
-  s_userDetails,
+  userDetails,
   isEditProfile,
   displayName,
   email,
@@ -224,15 +200,9 @@ const userEditableInfo = (
         {!isEditProfile && (
           <div>
             <HeaderTitle title="General Information" />
-            <DisplayLabelValue
-              labelText="User Name:"
-              labelValue={displayName}
-            />
+            <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
             <DisplayLabelValue labelText="Email:" labelValue={email} />
-            <DisplayLabelValue
-              labelText="Phone Number:"
-              labelValue={phoneNumber}
-            />
+            <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
             <HeaderTitle specialMarginVal={8} title="About Me" />
             <TextareaAutosize
               value={personalParagraph}
@@ -241,7 +211,7 @@ const userEditableInfo = (
                 resize: 'none',
                 border: 'none',
                 color: '#4a4a4a',
-                background: 'whitesmoke'
+                background: 'whitesmoke',
               }}
               readOnly
             />
@@ -264,7 +234,7 @@ const userEditableInfo = (
             <HeaderTitle title="Edit Profile Details" />
 
             <ProfileForm
-              userDetails={s_userDetails}
+              userDetails={userDetails}
               onCancel={toggleEditProfile}
               onSubmit={closeFormAndSubmit}
             />
@@ -291,26 +261,18 @@ const advertisement = () => {
   );
 };
 
-const uploadImageDialog = (
-  toggleUploadDialog,
-  showImageUploadDialog,
-  updateProfileImage
-) => {
+const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
   return (
     <div
       className={classNames('modal', {
-        'is-active': showImageUploadDialog
+        'is-active': showImageUploadDialog,
       })}
     >
       <div onClick={toggleUploadDialog} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Update Profile Image</p>
-          <button
-            onClick={toggleUploadDialog}
-            className="delete"
-            aria-label="close"
-          />
+          <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
           <FileUploaderComponent

@@ -11,18 +11,7 @@ import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../utils';
 
-// import HomePageMapSection from '../components/HomePageMapSection';
-// import { selectJobToBidOn } from '../app-state/actions/bidsActions';
-// import { getAllPostedJobs } from '../app-state/actions/jobActions';
-
 class HomePage extends React.Component {
-  static propTypes = {
-    a_showLoginDialog: PropTypes.func.isRequired
-  };
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   render() {
     return (
@@ -36,8 +25,7 @@ class HomePage extends React.Component {
               </h1>
               {/* </Rotate> */}
               <h2 style={{ color: 'white' }} className="subtitle fade-in">
-                Get tasks done for the price you want. Earn money doing what you
-                love.
+                Get tasks done for the price you want. Earn money doing what you love.
               </h2>
             </div>
           </div>
@@ -48,7 +36,8 @@ class HomePage extends React.Component {
               <div className="columns">
                 <div className="column">
                   <div
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                     className="card fade-in"
@@ -65,8 +54,8 @@ class HomePage extends React.Component {
                       <div className="content">
                         <p className="title">Post Your Jobs</p>
                         <p className="subtitle">
-                          Start with one of our templates and post your jobs.
-                          Get your chores done for a price that will please you.
+                          Start with one of our templates and post your jobs. Get your chores done
+                          for a price that will please you.
                         </p>
                       </div>
                     </div>
@@ -77,13 +66,12 @@ class HomePage extends React.Component {
                         }}
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#e98969'
+                          backgroundColor: '#e98969',
                         }}
                         className="card-footer-item button is-primary is-large"
                       >
                         <span style={{ marginLeft: 4 }}>
-                          <i className="fa fa-plus fa-w-14" /> Start Posting
-                          Jobs
+                          <i className="fa fa-plus fa-w-14" /> Start Posting Jobs
                         </span>
                       </a>
                     </footer>
@@ -91,7 +79,8 @@ class HomePage extends React.Component {
                 </div>
                 <div className="column">
                   <div
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                     className="card fade-in"
@@ -108,20 +97,20 @@ class HomePage extends React.Component {
                       <div className="content">
                         <p className="title">Bid On Jobs</p>
                         <p className="subtitle">
-                          Start Bidding on the jobs. Do the work you like for
-                          the price you like. Be your own boss and manage your
-                          own schedule.
+                          Start Bidding on the jobs. Do the work you like for the price you like. Be
+                          your own boss and manage your own schedule.
                         </p>
                       </div>
                     </div>
                     <footer className="card-footer">
                       <a
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#c786f8'
+                          backgroundColor: '#c786f8',
                         }}
                         className="card-footer-item button is-primary is-large"
                       >
@@ -141,12 +130,4 @@ class HomePage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
-  };
-};
-export default connect(
-  null,
-  mapDispatchToProps
-)(HomePage);
+export default HomePage;

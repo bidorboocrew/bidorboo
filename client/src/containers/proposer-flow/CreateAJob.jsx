@@ -34,9 +34,6 @@ class CreateAJob extends React.Component {
     this.props.a_addJob(values);
   }
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
   render() {
     const jobDetails = {
       title: this.state.chosenTemplate.title,

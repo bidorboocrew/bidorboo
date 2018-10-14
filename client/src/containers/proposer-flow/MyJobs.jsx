@@ -8,7 +8,6 @@ import MyJobsList from '../../components/proposer-components/MyJobsList';
 
 class MyJobs extends React.Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
     this.props.a_getAllMyJobs();
   }
   render() {
