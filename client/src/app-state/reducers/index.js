@@ -5,6 +5,7 @@ import uiReducer from './uiReducer';
 import userModelReducer from './userModelReducer';
 import jobsReducer from './jobsReducer';
 import bidsReducer from './bidsReducer';
+import { loadingBarReducer } from 'react-redux-loading-bar';
 
 export default combineReducers({
   authReducer: authReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   userModelReducer: userModelReducer,
   jobsReducer: jobsReducer,
   bidsReducer: bidsReducer,
+  loadingBar: loadingBarReducer,
 });

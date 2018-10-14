@@ -55,7 +55,8 @@ class App extends React.Component {
         <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
           <div id="header-and-content">
-            <Header id="bidorboo-header" />
+
+              <Header id="bidorboo-header" />
             <div id="main-view">
               <Switch>
                 {/* redirect and force login */}
