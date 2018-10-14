@@ -17,11 +17,11 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { s_isLoading, s_bidsList, a_updateRecentBid } = this.props;
+    const { isLoading, bidsList, a_updateRecentBid } = this.props;
 
-    const bidsList =
-      s_bidsList && s_bidsList.length > 0 ? (
-        s_bidsList.map((bidDetails) => {
+    const bidsListComponent =
+      bidsList && bidsList.length > 0 ? (
+        bidsList.map((bidDetails) => {
           return <BidDetailsCard onShowFullDetails={a_updateRecentBid} key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
@@ -40,12 +40,12 @@ class MyBids extends React.Component {
           </div>
         </section>
         <section className="mainSectionContainer">
-          {s_isLoading && (
+          {isLoading && (
             <div className="container">
-              <Spinner isLoading={s_isLoading} size={'large'} />
+              <Spinner isLoading={isLoading} size={'large'} />
             </div>
           )}
-          {!s_isLoading && <div className="container">{bidsList}</div>}
+          {!isLoading && <div className="container">{bidsListComponent}</div>}
         </section>
       </div>
     );
@@ -54,8 +54,8 @@ class MyBids extends React.Component {
 
 const mapStateToProps = ({ bidsReducer }) => {
   return {
-    s_bidsList: bidsReducer.bidsList,
-    s_isLoading: bidsReducer.isLoadingBids,
+    bidsList: bidsReducer.bidsList,
+    isLoading: bidsReducer.isLoadingBids,
   };
 };
 

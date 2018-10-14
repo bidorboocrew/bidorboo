@@ -11,7 +11,7 @@ class MyJobs extends React.Component {
     this.props.a_getAllMyJobs();
   }
   render() {
-    const { s_myPostedJobsList, s_userDetails } = this.props;
+    const { myPostedJobsList, userDetails } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -33,8 +33,8 @@ class MyJobs extends React.Component {
               className="columns is-multiline"
             >
               <MyJobsList
-                userDetails={s_userDetails}
-                jobsList={s_myPostedJobsList}
+                userDetails={userDetails}
+                jobsList={myPostedJobsList}
               />
             </div>
           </div>
@@ -45,10 +45,10 @@ class MyJobs extends React.Component {
 }
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
-    s_error: jobsReducer.error,
-    s_myPostedJobsList: jobsReducer.myPostedJobsList,
-    s_isLoading: jobsReducer.isLoading,
-    s_userDetails: userModelReducer.userDetails
+    error: jobsReducer.error,
+    myPostedJobsList: jobsReducer.myPostedJobsList,
+    isLoading: jobsReducer.isLoading,
+    userDetails: userModelReducer.userDetails
   };
 };
 const mapDispatchToProps = dispatch => {

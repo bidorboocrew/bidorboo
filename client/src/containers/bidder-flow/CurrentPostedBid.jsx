@@ -15,7 +15,7 @@ import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 class CurrentPostedBid extends React.Component {
 
   render() {
-    const { s_recentlyUpdatedBid, s_currentUserDetails } = this.props;
+    const { recentlyUpdatedBid, currentUserDetails } = this.props;
 
     return (
       <React.Fragment>
@@ -43,8 +43,8 @@ class CurrentPostedBid extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
             <JobAndBidsDetailView
-              currentUser={s_currentUserDetails}
-              job={s_recentlyUpdatedBid}
+              currentUser={currentUserDetails}
+              job={recentlyUpdatedBid}
             />
         </section>
       </React.Fragment>
@@ -54,9 +54,9 @@ class CurrentPostedBid extends React.Component {
 
 const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
   return {
-    s_recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
-    s_isLoading: bidsReducer.isLoadingBids,
-    s_currentUserDetails: userModelReducer.userDetails
+    recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
+    isLoading: bidsReducer.isLoadingBids,
+    currentUserDetails: userModelReducer.userDetails
   };
 };
 

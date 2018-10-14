@@ -18,7 +18,7 @@ import { switchRoute } from '../../utils';
 class CurrentAddedJob extends React.Component {
 
   render() {
-    const { s_recentlyUpdatedJob, s_userDetails } = this.props;
+    const { recentlyUpdatedJob, userDetails } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -41,7 +41,7 @@ class CurrentAddedJob extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
-            <JobAndBidsDetailView currentUser={s_userDetails} job={s_recentlyUpdatedJob} />
+            <JobAndBidsDetailView currentUser={userDetails} job={recentlyUpdatedJob} />
           </div>
         </section>
       </React.Fragment>
@@ -51,8 +51,8 @@ class CurrentAddedJob extends React.Component {
 
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
-    s_recentlyUpdatedJob: jobsReducer.recentlyUpdatedJob,
-    s_userDetails: userModelReducer.userDetails,
+    recentlyUpdatedJob: jobsReducer.recentlyUpdatedJob,
+    userDetails: userModelReducer.userDetails,
   };
 };
 

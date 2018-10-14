@@ -15,7 +15,7 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
-    const { a_showLoginDialog, s_isLoggedIn } = this.props;
+    const { a_showLoginDialog, isLoggedIn } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -38,7 +38,7 @@ class ProposerRoot extends React.Component {
             >
               <BidOrBooGenericTasks
                 showLoginDialog={a_showLoginDialog}
-                isLoggedIn={s_isLoggedIn}
+                isLoggedIn={isLoggedIn}
               />
             </div>
           </div>
@@ -49,7 +49,7 @@ class ProposerRoot extends React.Component {
 }
 const mapStateToProps = ({ authReducer }) => {
   return {
-    s_isLoggedIn: authReducer.isLoggedIn
+    isLoggedIn: authReducer.isLoggedIn
   };
 };
 const mapDispatchToProps = dispatch => {

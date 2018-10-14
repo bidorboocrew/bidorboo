@@ -13,7 +13,7 @@ import { switchRoute } from '../../utils';
 class BidNow extends React.Component {
   static propTypes = {
     // this is the job object structure from the server
-    s_jobDetails: PropTypes.shape({
+    jobDetails: PropTypes.shape({
       state: PropTypes.string,
       _id: PropTypes.string,
       createdAt: PropTypes.string,
@@ -37,10 +37,10 @@ class BidNow extends React.Component {
   };
 
   render() {
-    const { s_jobDetails, a_submitBid } = this.props;
+    const { jobDetails, a_submitBid } = this.props;
 
     //if user tried to manually set the url to this page without selecting a job
-    if (!s_jobDetails || !s_jobDetails._ownerRef) {
+    if (!jobDetails || !jobDetails._ownerRef) {
       //reroute them to bidder root
       switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -78,7 +78,7 @@ class BidNow extends React.Component {
               >
                 <SubmitABidCard
                   onSubmit={a_submitBid}
-                  jobDetails={s_jobDetails}
+                  jobDetails={jobDetails}
                 />
               </div>
             </div>
@@ -90,7 +90,7 @@ class BidNow extends React.Component {
 }
 const mapStateToProps = ({ bidsReducer }) => {
   return {
-    s_jobDetails: bidsReducer.jobDetails
+    jobDetails: bidsReducer.jobDetails
   };
 };
 const mapDispatchToProps = dispatch => {
