@@ -9,7 +9,6 @@ export default class JobAndBidsDetailView extends React.Component {
   render() {
     const { job, currentUser } = this.props;
     const dontShowRoute = !job || !currentUser || !job._bidsListRef;
-
     if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }

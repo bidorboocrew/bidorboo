@@ -8,7 +8,7 @@ import JobSummaryView from '../JobSummaryView';
 
 class MyJobsList extends React.Component {
   render() {
-    const { jobsList } = this.props;
+    const { jobsList, selectJobHandler } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job) => {
@@ -36,7 +36,7 @@ class MyJobsList extends React.Component {
                   className="button is-primary is-fullwidth is-large"
                   onClick={(e) => {
                     e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    selectJobHandler(job);
                   }}
                 >
                   <span style={{ marginLeft: 4 }}>
@@ -54,7 +54,8 @@ class MyJobsList extends React.Component {
           <div>
             <a
               className="button is-primary"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >

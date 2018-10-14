@@ -212,3 +212,12 @@ export const uploadImages = files => (dispatch, getState) => {
       })
   });
 };
+
+export const selectJob = jobDetails => (dispatch) => {
+  dispatch({
+    type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
+    payload: { data: jobDetails }
+  });
+  // then rediret user to bid now page
+  switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
+};
