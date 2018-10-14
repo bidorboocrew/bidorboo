@@ -71,11 +71,11 @@ class BidderRoot extends React.Component {
   }
 
   componentDidMount() {
-    const { a_showLoginDialog, match } = this.props;
-    const shouldShowLoginDialog = match.params.showLoginDialog;
-    if (shouldShowLoginDialog === 'true') {
-      a_showLoginDialog(true);
-    }
+    // const { a_showLoginDialog, match } = this.props;
+    // const shouldShowLoginDialog = match.params.showLoginDialog;
+    // if (shouldShowLoginDialog === 'true') {
+    //   a_showLoginDialog(true);
+    // }
     this.props.a_getAllPostedJobs();
   }
 

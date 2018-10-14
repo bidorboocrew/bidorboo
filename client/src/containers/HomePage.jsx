@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../utils';
+import ProposerRoot from './proposer-flow/ProposerRoot';
+import BidderRoot from './bidder-flow/BidderRoot';
 
 class HomePage extends React.Component {
-
   render() {
     return (
       <div id="bdb-home-content">
@@ -125,6 +126,12 @@ class HomePage extends React.Component {
             </div>
           </section>
         </div>
+        <br />
+        <br />
+        <ProposerRoot />
+        <br />
+        <br />
+        <BidderRoot />
       </div>
     );
   }
