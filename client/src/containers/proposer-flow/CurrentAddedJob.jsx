@@ -16,7 +16,6 @@ import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 import { switchRoute } from '../../utils';
 
 class CurrentAddedJob extends React.Component {
-
   render() {
     const { recentlyUpdatedJob, userDetails } = this.props;
     return (

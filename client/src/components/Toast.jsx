@@ -14,11 +14,11 @@ class Toast extends React.Component {
     toastDetails: PropTypes.shape({
       type: PropTypes.oneOf(['success', 'warning', 'error', 'info']),
       msg: PropTypes.string,
-      toastId: PropTypes.string
-    })
+      toastId: PropTypes.string,
+    }),
   };
   static defaultProps = {
-    type: 'error'
+    type: 'error',
   };
 
   constructor(props) {
@@ -93,7 +93,7 @@ class Toast extends React.Component {
             right: 0,
             width: '100%',
             borderRadius: 0,
-            maxHeight: '50%'
+            maxHeight: '50%',
           }}
           className={toastTheme}
         >

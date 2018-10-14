@@ -22,18 +22,18 @@ class BidNow extends React.Component {
         date: PropTypes.string,
         hours: PropTypes.number,
         minutes: PropTypes.number,
-        period: PropTypes.string
+        period: PropTypes.string,
       }),
       detailedDescription: PropTypes.string,
       title: PropTypes.string,
       _ownerRef: PropTypes.shape({
         profileImage: PropTypes.shape({
           url: PropTypes.string.isRequired,
-          public_id: PropTypes.string
+          public_id: PropTypes.string,
         }),
-        displayName: PropTypes.string
-      })
-    })
+        displayName: PropTypes.string,
+      }),
+    }),
   };
 
   render() {
@@ -48,11 +48,7 @@ class BidNow extends React.Component {
     return (
       <div className="slide-in-left" id="bdb-bidder-bidNow">
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav
-            style={{ marginLeft: '1rem' }}
-            className="breadcrumb"
-            aria-label="breadcrumbs"
-          >
+          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
                 <a
@@ -76,10 +72,7 @@ class BidNow extends React.Component {
                 className="column is-12-mobile
                           is-8-tablet"
               >
-                <SubmitABidCard
-                  onSubmit={a_submitBid}
-                  jobDetails={jobDetails}
-                />
+                <SubmitABidCard onSubmit={a_submitBid} jobDetails={jobDetails} />
               </div>
             </div>
           </div>
@@ -90,12 +83,12 @@ class BidNow extends React.Component {
 }
 const mapStateToProps = ({ bidsReducer }) => {
   return {
-    jobDetails: bidsReducer.jobDetails
+    jobDetails: bidsReducer.jobDetails,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_submitBid: bindActionCreators(submitBid, dispatch)
+    a_submitBid: bindActionCreators(submitBid, dispatch),
   };
 };
 

@@ -7,19 +7,15 @@ import { switchRoute } from '../../utils';
 import JobSummaryView from '../JobSummaryView';
 
 class MyJobsList extends React.Component {
-
-
   render() {
     const { jobsList } = this.props;
     const MyJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        jobsList.map(job => {
+        jobsList.map((job) => {
           const areThereAnyBidders =
             job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
 
-          let specialBorder = areThereAnyBidders
-            ? { border: '1px solid #00d1b2' }
-            : {};
+          let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
           return (
             <div key={job._id} className="column is-one-third">
               {!areThereAnyBidders && (
@@ -38,7 +34,7 @@ class MyJobsList extends React.Component {
                 <a
                   style={{ borderRadius: 0 }}
                   className="button is-primary is-fullwidth is-large"
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault();
                     switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   }}

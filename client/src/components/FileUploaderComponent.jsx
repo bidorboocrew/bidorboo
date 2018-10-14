@@ -12,7 +12,7 @@ const dropzoneStyle = {
   borderStyle: 'dashed',
   borderRadius: 2,
   textAlign: 'center',
-  padding: 20
+  padding: 20,
 };
 const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
 
@@ -23,9 +23,9 @@ const formikEnhancer = withFormik({
     setSubmitting(false);
   },
   mapPropsToValues: ({ user }) => ({
-    files: []
+    files: [],
   }),
-  displayName: 'FileUploaderForm'
+  displayName: 'FileUploaderForm',
 });
 
 class MyForm extends React.Component {
@@ -58,7 +58,7 @@ class MyForm extends React.Component {
       handleSubmit,
       handleReset,
       isSubmitting,
-      setFieldValue
+      setFieldValue,
     } = this.props;
 
     return (
@@ -74,7 +74,7 @@ class MyForm extends React.Component {
               'image/png',
               'image/tiff',
               'image/bmp',
-              'image/jpeg'
+              'image/jpeg',
             ]}
             id="filesToUpload"
             name="filesToUpload"
@@ -112,7 +112,7 @@ class Thumb extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      thumb: undefined
+      thumb: undefined,
     };
   }
   componentDidMount() {
@@ -135,13 +135,7 @@ class Thumb extends React.Component {
       return <p>loading...</p>;
     }
     return (
-      <img
-        src={thumb}
-        alt={file.name}
-        className="img-thumbnail mt-2"
-        height={200}
-        width={200}
-      />
+      <img src={thumb} alt={file.name} className="img-thumbnail mt-2" height={200} width={200} />
     );
   }
 }

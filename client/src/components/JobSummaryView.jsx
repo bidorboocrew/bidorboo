@@ -9,23 +9,17 @@ export default class JobSummaryView extends React.Component {
   static propTypes = {
     job: PropTypes.any.isRequired,
     specialStyle: PropTypes.any,
-    onClickHandler: PropTypes.func
+    onClickHandler: PropTypes.func,
   };
 
   static defaultProps = {
     specialStyle: {},
-    onClickHandler: () => null
+    onClickHandler: () => null,
   };
 
   render() {
     const { job, specialStyle } = this.props;
-    const {
-      startingDateAndTime,
-      title,
-      createdAt,
-      fromTemplateId,
-      _ownerRef
-    } = job;
+    const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef } = job;
 
     const { profileImage, displayName } = _ownerRef;
 
@@ -45,10 +39,7 @@ export default class JobSummaryView extends React.Component {
     }
 
     return (
-      <div
-        style={specialStyle}
-        className="card postedJobToBidOnCard is-clipped"
-      >
+      <div style={specialStyle} className="card postedJobToBidOnCard is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
@@ -59,8 +50,7 @@ export default class JobSummaryView extends React.Component {
           <figure className="image is-3by1">
             <img
               src={
-                templatesRepo[fromTemplateId] &&
-                templatesRepo[fromTemplateId].imageUrl
+                templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
               }
@@ -90,8 +80,7 @@ export default class JobSummaryView extends React.Component {
             </p>
             <p className="heading">
               Start Date
-              {startingDateAndTime &&
-                ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
+              {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </p>
           </div>
         </div>

@@ -10,7 +10,6 @@ import { getAllMyBids, updateRecentBid } from '../../app-state/actions/bidsActio
 import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
 
 class MyBids extends React.Component {
-
   componentDidMount() {
     // get all posted bids
     this.props.a_getAllPostedBids();
@@ -22,7 +21,13 @@ class MyBids extends React.Component {
     const bidsListComponent =
       bidsList && bidsList.length > 0 ? (
         bidsList.map((bidDetails) => {
-          return <BidDetailsCard onShowFullDetails={a_updateRecentBid} key={bidDetails._id} bidDetails={bidDetails} />;
+          return (
+            <BidDetailsCard
+              onShowFullDetails={a_updateRecentBid}
+              key={bidDetails._id}
+              bidDetails={bidDetails}
+            />
+          );
         })
       ) : (
         <div>You have not bid yet click here to start bidding</div>

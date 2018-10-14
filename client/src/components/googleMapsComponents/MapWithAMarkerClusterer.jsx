@@ -2,11 +2,7 @@ import React from 'react';
 import autoBind from 'react-autobind';
 
 import { compose, withProps } from 'recompose';
-import {
-  withGoogleMap,
-  GoogleMap,
-  Marker /*,withScriptjs*/
-} from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker /*,withScriptjs*/ } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
@@ -20,15 +16,15 @@ const MapWithAMarkerClusterer = compose(
         style={{
           height: `400px`,
           boxShadow:
-            '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)'
+            '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
         }}
       />
     ),
-    mapElement: <div style={{ height: `100%` }} />
+    mapElement: <div style={{ height: `100%` }} />,
   }),
   // withScriptjs,
   withGoogleMap
-)(props => {
+)((props) => {
   return <TheMap {...props} />;
 });
 export default MapWithAMarkerClusterer;
@@ -63,12 +59,8 @@ class Cluster extends React.Component {
   render() {
     const { markers, selectJobToBidOn } = this.props;
     if (markers && markers.length > 0) {
-      const jobsMarkersOnTheMap = markers.map(marker => (
-        <JobMarker
-          selectJobToBidOn={selectJobToBidOn}
-          key={marker._id}
-          marker={marker}
-        />
+      const jobsMarkersOnTheMap = markers.map((marker) => (
+        <JobMarker selectJobToBidOn={selectJobToBidOn} key={marker._id} marker={marker} />
       ));
       return (
         <MarkerClusterer
@@ -113,7 +105,7 @@ class JobMarker extends React.Component {
         key={marker._id}
         position={{
           lng: marker.location.coordinates[0],
-          lat: marker.location.coordinates[1]
+          lat: marker.location.coordinates[1],
         }}
       >
         {this.state.showInfoBox && (
@@ -126,14 +118,14 @@ class JobMarker extends React.Component {
               style={{
                 borderRadius: 4,
                 padding: 2,
-                width: 150
+                width: 150,
               }}
             >
               <div
                 style={{
                   border: '1px solid #b5b5b5',
                   boxShadow:
-                    ' 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)'
+                    ' 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <a
@@ -147,7 +139,7 @@ class JobMarker extends React.Component {
                     fontSize: 16,
                     fontColor: `#4a4a4a`,
                     backgroundColor: 'white',
-                    padding: 8
+                    padding: 8,
                   }}
                 >
                   {marker.title}

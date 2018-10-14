@@ -13,18 +13,13 @@ import { switchRoute } from '../../utils';
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 class CurrentPostedBid extends React.Component {
-
   render() {
     const { recentlyUpdatedBid, currentUserDetails } = this.props;
 
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
-          <nav
-            style={{ marginLeft: '1rem' }}
-            className="breadcrumb"
-            aria-label="breadcrumbs"
-          >
+          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
                 <a
@@ -42,10 +37,7 @@ class CurrentPostedBid extends React.Component {
           </nav>
         </div>
         <section className="mainSectionContainer slide-in-left">
-            <JobAndBidsDetailView
-              currentUser={currentUserDetails}
-              job={recentlyUpdatedBid}
-            />
+          <JobAndBidsDetailView currentUser={currentUserDetails} job={recentlyUpdatedBid} />
         </section>
       </React.Fragment>
     );
@@ -56,7 +48,7 @@ const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
   return {
     recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
     isLoading: bidsReducer.isLoadingBids,
-    currentUserDetails: userModelReducer.userDetails
+    currentUserDetails: userModelReducer.userDetails,
   };
 };
 

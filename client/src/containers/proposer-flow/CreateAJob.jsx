@@ -56,7 +56,7 @@ class CreateAJob extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     a_addJob: bindActionCreators(addJob, dispatch),
   };
@@ -64,5 +64,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(CreateAJob);

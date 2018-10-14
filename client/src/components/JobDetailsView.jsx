@@ -19,7 +19,7 @@ export default class JobDetailsView extends React.Component {
       startingDateAndTime,
       title,
       _ownerRef,
-      detailedDescription
+      detailedDescription,
     } = job;
 
     const { profileImage, displayName } = _ownerRef;
@@ -40,10 +40,7 @@ export default class JobDetailsView extends React.Component {
 
     return (
       <div className="card">
-        <header
-          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header"
-        >
+        <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">
           <p className="card-header-title">
             <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
             Details: {title || 'Job Title'}
@@ -53,8 +50,7 @@ export default class JobDetailsView extends React.Component {
           <figure className="image is-3by1">
             <img
               src={
-                templatesRepo[fromTemplateId] &&
-                templatesRepo[fromTemplateId].imageUrl
+                templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
               }
@@ -96,8 +92,7 @@ export default class JobDetailsView extends React.Component {
               <span>Start Date</span>
               <br />
               <span className="has-text-weight-semibold">
-                {startingDateAndTime &&
-                  moment(startingDateAndTime.date).format('MMMM Do YYYY')}
+                {startingDateAndTime && moment(startingDateAndTime.date).format('MMMM Do YYYY')}
               </span>
             </p>
             <p className="heading">
@@ -110,9 +105,7 @@ export default class JobDetailsView extends React.Component {
             <p className="heading">
               <span>Duration Required</span>
               <br />
-              <span className="has-text-weight-semibold">
-                {durationOfJob || 'not specified'}
-              </span>
+              <span className="has-text-weight-semibold">{durationOfJob || 'not specified'}</span>
             </p>
             <p className="heading">
               <span>Detailed Description</span>

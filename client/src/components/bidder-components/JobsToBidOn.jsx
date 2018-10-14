@@ -7,18 +7,11 @@ import { switchRoute } from '../../utils';
 import JobSummaryView from '../JobSummaryView';
 
 export default class JobsToBidOn extends React.Component {
-
   render() {
-    const {
-      jobsList,
-      currentUserId,
-      selectJobToBidOn,
-      isLoggedIn,
-      showLoginDialog
-    } = this.props;
+    const { jobsList, currentUserId, selectJobToBidOn, isLoggedIn, showLoginDialog } = this.props;
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        jobsList.map(job => {
+        jobsList.map((job) => {
           const { _ownerRef } = job;
           return (
             <div
@@ -56,9 +49,7 @@ export default class JobsToBidOn extends React.Component {
 const EmptyStateComponent = () => {
   return (
     <React.Fragment>
-      <div>
-        Sorry All jobs have been awarded to bidders , check again later.
-      </div>
+      <div>Sorry All jobs have been awarded to bidders , check again later.</div>
       <div>
         <a
           className="button is-primary"
@@ -73,15 +64,8 @@ const EmptyStateComponent = () => {
   );
 };
 
-const CardBottomSection = props => {
-  const {
-    _ownerRef,
-    isLoggedIn,
-    currentUserId,
-    showLoginDialog,
-    selectJobToBidOn,
-    job
-  } = props;
+const CardBottomSection = (props) => {
+  const { _ownerRef, isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, job } = props;
   return (
     <React.Fragment>
       {(!isLoggedIn || _ownerRef._id !== currentUserId) && (

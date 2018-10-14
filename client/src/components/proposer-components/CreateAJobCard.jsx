@@ -39,7 +39,7 @@ export class CreateAJobCard extends React.Component {
                 jobTitleField={jobDetails.title}
                 suggestedDetailsText={jobDetails.suggestedDetailsText}
                 onCancel={onCancel}
-                onSubmit={vals => onSubmit(vals)}
+                onSubmit={(vals) => onSubmit(vals)}
               />
             </div>
           </div>

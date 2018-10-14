@@ -4,33 +4,33 @@
 //   getLatLng
 // } from 'react-places-autocomplete';
 
-export const requiredField = value => {
+export const requiredField = (value) => {
   return value && value.trim && value.trim() && value.length > 0
     ? undefined
     : 'this is a required field';
 };
 
-export const moreThan0lessThan250Chars = value => {
+export const moreThan0lessThan250Chars = (value) => {
   return moreThanLessThan(value, 0, 250);
 };
 
-export const alphanumericField = value => {
+export const alphanumericField = (value) => {
   const isValid = value && /^[a-z\d\-_\s]+$/i.test(value.trim());
   return isValid;
 };
-export const AddressField = value => {
+export const AddressField = (value) => {
   const isValid = /^[a-z\d\-_\s\\,]+$/i.test(value.trim());
   return isValid
     ? undefined
     : 'field can not contain special charachters. Example: Street,City,Postal Code,Country';
 };
 
-export const numericField = value => {
+export const numericField = (value) => {
   const isValid = /^[0-9]*$/.test(value.trim());
   return isValid ? undefined : 'Field input must only use numbers.';
 };
 
-export const moreThan3LessThan25Chars = value => {
+export const moreThan3LessThan25Chars = (value) => {
   return moreThanLessThan(value, 3, 25);
 };
 
@@ -47,7 +47,7 @@ export const enforceNumericField = (value, previousValue) => {
   return onlyNums;
 };
 
-export const phoneNumber = value => {
+export const phoneNumber = (value) => {
   const isValid = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/m.test(value);
   return !isValid ? undefined : 'should match +areacode-123-123-1234';
 };

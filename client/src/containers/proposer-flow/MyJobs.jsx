@@ -32,10 +32,7 @@ class MyJobs extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <MyJobsList
-                userDetails={userDetails}
-                jobsList={myPostedJobsList}
-              />
+              <MyJobsList userDetails={userDetails} jobsList={myPostedJobsList} />
             </div>
           </div>
         </section>
@@ -48,12 +45,12 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
     error: jobsReducer.error,
     myPostedJobsList: jobsReducer.myPostedJobsList,
     isLoading: jobsReducer.isLoading,
-    userDetails: userModelReducer.userDetails
+    userDetails: userModelReducer.userDetails,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllMyJobs: bindActionCreators(getAllMyJobs, dispatch)
+    a_getAllMyJobs: bindActionCreators(getAllMyJobs, dispatch),
   };
 };
 

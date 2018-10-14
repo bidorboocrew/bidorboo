@@ -17,7 +17,7 @@ export default class SubmitABidCard extends React.Component {
     return (
       <React.Fragment>
         <PostYourBid
-          onSubmit={values => {
+          onSubmit={(values) => {
             onSubmit({ jobId: _id, bidAmount: values.bidAmountField });
           }}
           onCancel={() => {

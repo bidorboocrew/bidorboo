@@ -14,9 +14,7 @@ import classNames from 'classnames';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import {
-  GeoAddressInput,
-} from './FormsHelpers';
+import { GeoAddressInput } from './FormsHelpers';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -24,7 +22,7 @@ import {
 
 class JobsLocationFilterForm extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -34,7 +32,7 @@ class JobsLocationFilterForm extends React.Component {
       this.geocoder = new googleObj.maps.Geocoder();
     }
     this.state = {
-      forceSetAddressValue: ''
+      forceSetAddressValue: '',
     };
 
     autoBind(
@@ -63,11 +61,7 @@ class JobsLocationFilterForm extends React.Component {
       listOfAllSelectedJobs.push(jobKey);
     }
     // array of the selected jobs that we should filter based upon
-    this.props.setFieldValue(
-      'filterJobsByCategoryField',
-      listOfAllSelectedJobs,
-      false
-    );
+    this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
   }
 
   clearForceSetAddressValue() {
@@ -93,20 +87,19 @@ class JobsLocationFilterForm extends React.Component {
       isValid,
       isSubmitting,
       setFieldValue,
-      resetForm
+      resetForm,
     } = this.props;
 
     const filteredJobsList = values.filterJobsByCategoryField;
-    const staticJobCategoryButtons = Object.keys(templatesRepo).map(key => {
-      const isThisJobSelected =
-        filteredJobsList && filteredJobsList.includes(key);
+    const staticJobCategoryButtons = Object.keys(templatesRepo).map((key) => {
+      const isThisJobSelected = filteredJobsList && filteredJobsList.includes(key);
 
       return (
         <span
           key={key}
           onClick={() => this.toggleJobCategorySelection(key)}
           className={classNames('button', {
-            'is-info is-selected': isThisJobSelected
+            'is-info is-selected': isThisJobSelected,
           })}
         >
           {templatesRepo[key].title}
@@ -117,11 +110,7 @@ class JobsLocationFilterForm extends React.Component {
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
         <span>
-          <a
-            style={{ fontSize: 14 }}
-            onClick={this.getCurrentAddress}
-            className="is-link"
-          >
+          <a style={{ fontSize: 14 }} onClick={this.getCurrentAddress} className="is-link">
             Auto Detect
           </a>
         </span>
@@ -136,7 +125,7 @@ class JobsLocationFilterForm extends React.Component {
         style={{
           padding: 10,
           border: '1px solid lightgrey',
-          backgroundColor: 'white'
+          backgroundColor: 'white',
         }}
         onSubmit={handleSubmit}
       >
@@ -170,27 +159,27 @@ class JobsLocationFilterForm extends React.Component {
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
-          onError={e => {
+          onError={(e) => {
             errors.addressTextField = 'google api error ' + e;
           }}
-          onChangeEvent={e => {
+          onChangeEvent={(e) => {
             this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
           }}
-          onBlurEvent={e => {
+          onBlurEvent={(e) => {
             if (e && e.target) {
               e.target.id = 'addressTextField';
               handleBlur(e);
             }
           }}
-          handleSelect={address => {
+          handleSelect={(address) => {
             setFieldValue('addressTextField', address, true);
             geocodeByAddress(address)
-              .then(results => getLatLng(results[0]))
-              .then(latLng => {
+              .then((results) => getLatLng(results[0]))
+              .then((latLng) => {
                 setFieldValue('locationField', latLng, false);
               })
-              .catch(error => {
+              .catch((error) => {
                 errors.addressTextField = 'error getting lat lng ' + error;
                 console.error('Error', error);
               });
@@ -202,7 +191,7 @@ class JobsLocationFilterForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(5)}
               className={classNames('button', {
-                'is-info is-selected': values.searchRaduisField === 5
+                'is-info is-selected': values.searchRaduisField === 5,
               })}
             >
               5km
@@ -210,7 +199,7 @@ class JobsLocationFilterForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(15)}
               className={classNames('button', {
-                'is-info is-selected': values.searchRaduisField === 15
+                'is-info is-selected': values.searchRaduisField === 15,
               })}
             >
               15km
@@ -218,7 +207,7 @@ class JobsLocationFilterForm extends React.Component {
             <span
               onClick={() => this.updateSearchRaduisSelection(25)}
               className={classNames('button', {
-                'is-info is-selected': values.searchRaduisField === 25
+                'is-info is-selected': values.searchRaduisField === 25,
               })}
             >
               25km
@@ -278,15 +267,15 @@ class JobsLocationFilterForm extends React.Component {
       const getCurrentPositionOptions = {
         maximumAge: 10000,
         timeout: 5000,
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
       };
       const errorHandling = () => {
         console.error('can not auto detect address');
       };
-      const successfulRetrieval = position => {
+      const successfulRetrieval = (position) => {
         const pos = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         };
 
         // update the field with the current position coordinates
@@ -296,7 +285,7 @@ class JobsLocationFilterForm extends React.Component {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
           this.geocoder.geocode(
             {
-              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) }
+              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
             this.successfullGeoCoding
           );
@@ -320,20 +309,20 @@ const EnhancedForms = withFormik({
   initialValues: {
     searchRaduisField: 15,
     filterJobsByCategoryField: [],
-    geoInputField: ''
+    geoInputField: '',
   },
-  mapPropsToValues: props => {
+  mapPropsToValues: (props) => {
     return {
       searchRaduisField: 15,
       filterJobsByCategoryField: [],
-      geoInputField: ''
+      geoInputField: '',
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'JobsLocationFilterForm'
+  displayName: 'JobsLocationFilterForm',
 });
 
 export default EnhancedForms(JobsLocationFilterForm);

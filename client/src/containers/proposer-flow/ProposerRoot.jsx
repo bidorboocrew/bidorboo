@@ -36,10 +36,7 @@ class ProposerRoot extends React.Component {
               // style={{alignItems:'flex-end'}}
               className="columns is-multiline"
             >
-              <BidOrBooGenericTasks
-                showLoginDialog={a_showLoginDialog}
-                isLoggedIn={isLoggedIn}
-              />
+              <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
             </div>
           </div>
         </section>
@@ -49,12 +46,12 @@ class ProposerRoot extends React.Component {
 }
 const mapStateToProps = ({ authReducer }) => {
   return {
-    isLoggedIn: authReducer.isLoggedIn
+    isLoggedIn: authReducer.isLoggedIn,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch)
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import * as ROUTES from '../constants/frontend-route-consts';
 
-export const LoginOrRegisterModal = props => {
+export const LoginOrRegisterModal = (props) => {
   const { isActive, handleCancel } = props;
   const openModalClass = classNames('modal', { 'is-active': isActive });
   return isActive ? (
@@ -11,11 +11,7 @@ export const LoginOrRegisterModal = props => {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Join BidOrBoo</p>
-          <button
-            onClick={handleCancel}
-            className="delete"
-            aria-label="close"
-          />
+          <button onClick={handleCancel} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
           <div style={{ textAlign: 'cetner' }}>

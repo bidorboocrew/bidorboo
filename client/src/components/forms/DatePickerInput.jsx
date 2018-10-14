@@ -8,46 +8,43 @@ import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-
 class CustomDateButton extends React.Component {
-static propTypes = {
-  onClick: PropTypes.func,
-  value: PropTypes.string
-};
-  render () {
+  static propTypes = {
+    onClick: PropTypes.func,
+    value: PropTypes.string,
+  };
+  render() {
     return (
-      <a
-        className="button is-info is-outlined"
-        onClick={this.props.onClick}>
+      <a className="button is-info is-outlined" onClick={this.props.onClick}>
         <span className="icon">
-            <i className="far fa-calendar-alt" />
-          </span>
-          <span>{this.props.value}</span>
+          <i className="far fa-calendar-alt" />
+        </span>
+        <span>{this.props.value}</span>
       </a>
-    )
+    );
   }
 }
 
 export default class DatePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string])
+    value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string]),
   };
   static defaultProps = {
-    value: ''
+    value: '',
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      startDate: this.props.value || moment()
+      startDate: this.props.value || moment(),
     };
     autoBind(this, 'handleChange');
   }
 
   handleChange(date) {
     this.setState({
-      startDate: date
+      startDate: date,
     });
     this.props.onChangeEvent(date);
   }

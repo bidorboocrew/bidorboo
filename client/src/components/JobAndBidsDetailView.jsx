@@ -13,7 +13,7 @@ export default class JobAndBidsDetailView extends React.Component {
     if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
-    return dontShowRoute? null : (
+    return dontShowRoute ? null : (
       <section className="mainSectionContainer">
         <div className="container">
           <div className="columns">
@@ -37,7 +37,7 @@ class BidsTable extends React.Component {
 
     if (areThereAnyBids) {
       // find lowest bid details
-      let tableRows = bidList.map(bid => (
+      let tableRows = bidList.map((bid) => (
         <tr
           key={bid._id}
           style={
@@ -87,10 +87,7 @@ class BidsTable extends React.Component {
         </thead>
         <tbody>
           <tr>
-            <td>
-              No one has made a bid Yet, Keep an eye and check again in a little
-              while
-            </td>
+            <td>No one has made a bid Yet, Keep an eye and check again in a little while</td>
           </tr>
         </tbody>
       </table>
