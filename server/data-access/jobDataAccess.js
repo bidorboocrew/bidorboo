@@ -214,7 +214,6 @@ exports.jobDataAccess = {
         {
           addressText: 0,
           updatedAt: 0,
-          _bidsListRef: 0,
           awardedBidder: 0,
           jobReview: 0,
           extras: 0,
@@ -227,6 +226,22 @@ exports.jobDataAccess = {
         .populate({
           path: '_ownerRef',
           select: { displayName: 1, profileImage: 1, _id: 1 },
+        })
+        .populate({
+          path: '_jobRef',
+          populate: {
+            path: '_bidsListRef',
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _id: 1,
+                _reviewsRef: 1,
+                displayName: 1,
+                globalRating: 1,
+                profileImage: 1,
+              },
+            },
+          },
         })
         .lean(true)
         .exec();
