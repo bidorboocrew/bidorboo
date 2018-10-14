@@ -3,7 +3,18 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const selectJobToBidOn = jobDetails => (dispatch, getState) => {
+
+export const updateRecentBid = jobDetails => (dispatch) => {
+  dispatch({
+    type: A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS,
+    payload: { data: jobDetails }
+  });
+  // then rediret user to bid now page
+  switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
+};
+
+
+export const selectJobToBidOn = jobDetails => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
@@ -53,7 +64,7 @@ export const submitBid = ({ bidAmount, jobId }) => dispatch => {
   });
 };
 
-export const getAllMyBids = () => (dispatch, getState) => {
+export const getAllMyBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,

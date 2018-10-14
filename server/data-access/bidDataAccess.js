@@ -8,10 +8,6 @@ const UserModel = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
-const applicationDataAccess = require('../data-access/applicationDataAccess');
-
-const { AppHealthSchemaId } = require('../models/zModalConstants');
-
 exports.bidDataAccess = {
   getAllBidsForUser: (userId) => {
     const populatedPostedBids = {
@@ -38,6 +34,25 @@ exports.bidDataAccess = {
     return UserModel.findById(userId)
       .populate(populatedPostedBids)
       .populate(populatePostedBidsBidderInfo)
+      .populate({
+        path: '_postedBidsRef',
+        populate: {
+          path: '_jobRef',
+          populate: {
+            path: '_bidsListRef',
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _id: 1,
+                _reviewsRef: 1,
+                displayName: 1,
+                globalRating: 1,
+                profileImage: 1,
+              },
+            },
+          },
+        },
+      })
       .lean(true)
       .exec();
   },

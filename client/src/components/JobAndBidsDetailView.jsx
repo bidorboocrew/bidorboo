@@ -42,7 +42,7 @@ class BidsTable extends React.Component {
           key={bid._id}
           style={
             bid._bidderRef._id === currentUser._id
-              ? { backgroundColor: 'red', wordWrap: 'break-word' }
+              ? { backgroundColor: '#00d1b2', wordWrap: 'break-word' }
               : { wordWrap: 'break-word' }
           }
         >

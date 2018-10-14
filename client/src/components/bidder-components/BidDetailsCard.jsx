@@ -3,18 +3,15 @@ import moment from 'moment';
 // import { Proptypes_bidModel } from '../../client-server-interfaces';
 
 export default class BidDetailsCard extends React.Component {
-
   render() {
-    const { bidDetails } = this.props;
+    const { bidDetails, onShowFullDetails } = this.props;
 
     if (!bidDetails) {
       return null;
     }
     const { _jobRef } = bidDetails;
 
-    const bidAmountText = `${bidDetails.bidAmount.value} ${
-      bidDetails.bidAmount.currency
-    }`;
+    const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
     const bidStateText = `${bidDetails.state}`;
 
     const jobTitleText = _jobRef.title;
@@ -37,11 +34,7 @@ export default class BidDetailsCard extends React.Component {
                 <div>
                   <p className="heading">Owner Pic</p>
                   <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                  <img
-                    alt="profile"
-                    src={profileImage.url}
-                    className="image is-32x32"
-                  />
+                    <img alt="profile" src={profileImage.url} className="image is-32x32" />
                   </figure>
                 </div>
               </div>
@@ -66,9 +59,7 @@ export default class BidDetailsCard extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Bid Amount</p>
-                  <p className="subtitle has-text-weight-bold">
-                    {bidAmountText}
-                  </p>
+                  <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
             </div>
@@ -76,17 +67,16 @@ export default class BidDetailsCard extends React.Component {
         </div>
         <footer className="card-footer">
           <a
-            onClick={e => {
-              alert('not implemented yet');
+            onClick={(e) => {
+              e.preventDefault();
+              onShowFullDetails(_jobRef);
             }}
             className="card-footer-item"
           >
-            Full Details
+            Bid Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY'
-            )}`}
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{`${bidStateText}`}</span>

@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getAllMyBids } from '../../app-state/actions/bidsActions';
+import { getAllMyBids, updateRecentBid } from '../../app-state/actions/bidsActions';
 // import { Proptypes_bidModel } from '../../client-server-interfaces';
 import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
 
@@ -22,15 +22,12 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { s_isLoading, s_bidsList } = this.props;
-    if (s_bidsList && s_bidsList.length > 0) {
-    }
+    const { s_isLoading, s_bidsList, a_updateRecentBid } = this.props;
+
     const bidsList =
       s_bidsList && s_bidsList.length > 0 ? (
-        s_bidsList.map(bidDetails => {
-          return (
-            <BidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />
-          );
+        s_bidsList.map((bidDetails) => {
+          return <BidDetailsCard onShowFullDetails={a_updateRecentBid} key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
         <div>You have not bid yet click here to start bidding</div>
@@ -63,13 +60,14 @@ class MyBids extends React.Component {
 const mapStateToProps = ({ bidsReducer }) => {
   return {
     s_bidsList: bidsReducer.bidsList,
-    s_isLoading: bidsReducer.isLoadingBids
+    s_isLoading: bidsReducer.isLoadingBids,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch)
+    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch),
+    a_updateRecentBid: bindActionCreators(updateRecentBid, dispatch),
   };
 };
 
