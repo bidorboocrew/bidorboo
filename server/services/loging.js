@@ -4,7 +4,7 @@ const morgan = require('morgan');
 
 module.exports = (app, process) => {
   app.use(morgan('dev'));
-  morganBody(app, { maxBodyLength: 100000 });
+  morganBody(app, { maxBodyLength: 500 });
 
   process.on('uncaughtException', function(err) {
     // handle the error safely
