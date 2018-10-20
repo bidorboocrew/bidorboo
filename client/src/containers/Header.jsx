@@ -280,7 +280,7 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
-        <LoadingBar style={{ backgroundColor: 'red', height: '5px' }} />
+        <LoadingBar style={{ backgroundColor: '#00d1b2', height: '5px' }} />
       </React.Fragment>
     );
   }
