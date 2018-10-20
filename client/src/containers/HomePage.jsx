@@ -126,12 +126,12 @@ class HomePage extends React.Component {
             </div>
           </section>
         </div>
-        <br />
+        {/* <br />
         <br />
         <ProposerRoot />
         <br />
         <br />
-        <BidderRoot />
+        <BidderRoot /> */}
       </div>
     );
   }

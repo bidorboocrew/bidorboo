@@ -31,7 +31,7 @@ export default class BidDetailsCard extends React.Component {
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Owner Pic</p>
+                  <p className="heading">Job Owner</p>
                   <figure style={{ margin: '0 auto' }} className="image is-32x32">
                     <img alt="profile" src={profileImage.url} className="image is-32x32" />
                   </figure>
@@ -47,12 +47,6 @@ export default class BidDetailsCard extends React.Component {
                 <div>
                   <p className="heading">Job Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Starting Time</p>
-                  <p className="subtitle">{startingDateText}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
@@ -75,7 +69,7 @@ export default class BidDetailsCard extends React.Component {
             Bid Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{`${bidStateText}`}</span>

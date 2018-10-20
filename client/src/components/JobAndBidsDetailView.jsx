@@ -15,13 +15,12 @@ export default class JobAndBidsDetailView extends React.Component {
     return dontShowRoute ? null : (
       <section className="mainSectionContainer">
         <div className="container">
-          <div className="columns">
-            <div className="column">
-              <JobDetailsView job={job} currentUser={currentUser} />
-            </div>
-            <div className="column">
-              <BidsTable bidList={job._bidsListRef} currentUser={currentUser} />
-            </div>
+          <div>
+            <BidsTable bidList={job._bidsListRef} currentUser={currentUser} />
+          </div>
+          <br />
+          <div>
+            <JobDetailsView job={job} currentUser={currentUser} />
           </div>
         </div>
       </section>
@@ -45,13 +44,15 @@ class BidsTable extends React.Component {
               : { wordWrap: 'break-word' }
           }
         >
-          <td className="has-text-centered">
+          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             <figure style={{ margin: '0 auto' }} className="image is-64x64">
               <img alt="profile" src={bid._bidderRef.profileImage.url} />
             </figure>
           </td>
-          <td className="has-text-centered">{bid._bidderRef.globalRating}</td>
-          <td className="has-text-centered">
+          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+            {bid._bidderRef.globalRating}
+          </td>
+          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             {bid.bidAmount.value} {bid.bidAmount.currency}
           </td>
         </tr>
@@ -59,7 +60,7 @@ class BidsTable extends React.Component {
 
       return (
         <table
-          style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important' }}
+          style={{ boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)' }}
           className="table is-fullwidth is-hoverable"
         >
           <thead>
@@ -76,7 +77,7 @@ class BidsTable extends React.Component {
     // no bids yet
     return (
       <table
-        tyle={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34) !important' }}
+        style={{ boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)' }}
         className="table is-fullwidth"
       >
         <thead>
@@ -86,7 +87,9 @@ class BidsTable extends React.Component {
         </thead>
         <tbody>
           <tr>
-            <td>No one has made a bid Yet, Keep an eye and check again in a little while</td>
+            <td style={{ verticalAlign: 'middle' }}>
+              No one has made a bid Yet, Keep an eye and check again in a little while
+            </td>
           </tr>
         </tbody>
       </table>
