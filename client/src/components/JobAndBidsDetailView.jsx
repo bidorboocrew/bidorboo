@@ -15,10 +15,16 @@ export default class JobAndBidsDetailView extends React.Component {
     return dontShowRoute ? null : (
       <section className="mainSectionContainer">
         <div className="container">
+          <h2 style={{ marginBottom: 2 }} class="subtitle">
+            Bids List
+          </h2>
           <div>
             <BidsTable bidList={job._bidsListRef} currentUser={currentUser} />
           </div>
           <br />
+          <h2 style={{ marginBottom: 2 }} class="subtitle">
+            Job Details
+          </h2>
           <div>
             <JobDetailsView job={job} currentUser={currentUser} />
           </div>
@@ -55,6 +61,9 @@ class BidsTable extends React.Component {
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             {bid.bidAmount.value} {bid.bidAmount.currency}
           </td>
+          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+            <a class="button is-primary">Pick Me</a>
+          </td>
         </tr>
       ));
 
@@ -68,6 +77,7 @@ class BidsTable extends React.Component {
               <th className="has-text-centered">profile image</th>
               <th className="has-text-centered">Rating</th>
               <th className="has-text-centered">$</th>
+              <th className="has-text-centered">Award a Bidder</th>
             </tr>
           </thead>
           <tbody>{tableRows}</tbody>
