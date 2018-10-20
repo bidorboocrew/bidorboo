@@ -22,7 +22,7 @@ import App from './containers/App';
 import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
-
+import ScrollToTopOnRouteChange from './ScrollToTopOnRouteChange';
 // registerServiceWorker();
 
 // add bugsnag support to capture errors
@@ -34,7 +34,9 @@ ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
       <Router history={appHistory}>
-        <App />
+        <ScrollToTopOnRouteChange>
+          <App />
+        </ScrollToTopOnRouteChange>
       </Router>
     </Provider>
   </ErrorBoundary>,
@@ -42,4 +44,3 @@ ReactDOM.render(
 );
 // unregister();
 // registerServiceWorker();
-
