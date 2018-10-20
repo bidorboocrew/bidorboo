@@ -99,6 +99,25 @@ module.exports = (app) => {
     }
   });
 
+  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, async (req, res) => {
+    try {
+
+      // create new job for this user
+      const data = req.body.data;
+      const userId = req.user.userId;
+      const userMongoDBId = req.user._id;
+
+      let existingJob = null;
+
+      existingJob = await jobDataAccess.awardedBidder(data.jobId, data.bidId);
+      if (existingJob) {
+        return res.send(existingJob);
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To award bidder', details: e });
+    }
+  });
+
   // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
   //   try {
   //     const filesList = req.files;

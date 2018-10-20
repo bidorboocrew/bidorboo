@@ -13,7 +13,7 @@ export default class JobAndBidsDetailView extends React.Component {
   constructor(props) {
     super(props);
     this.appRoot = document.querySelector('#bidorboo-root-view');
-    debugger;
+
     this.state = {
       showReviewBidModal: false,
       userUnderReview: null,
@@ -33,9 +33,9 @@ export default class JobAndBidsDetailView extends React.Component {
   }
 
   awardBidderHandler(e) {
+    const { awardBidder, job } = this.props;
     e.preventDefault();
-    // xxxx call some prop action to trigger awarding on server
-    alert('not implemented yet');
+    awardBidder && awardBidder(job._id, this.state.userUnderReview._id);
     this.closeReviewModal({ preventDefault: () => null });
   }
 

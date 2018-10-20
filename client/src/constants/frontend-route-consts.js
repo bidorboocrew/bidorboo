@@ -6,43 +6,44 @@ export const API = {
     FACEBOOK: '/api/auth/facebook',
     FACEBOOK_CALLBACK: '/api/auth/facebook/callback',
     REGISTER_NEW_USER: '/api/auth/register',
-    LOGOUT: '/api/auth/logout'
+    LOGOUT: '/api/auth/logout',
   },
   USER: {
     GET: {
-      currentUser: '/api/user/currentUser'
+      currentUser: '/api/user/currentUser',
     },
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
-      profilePicture: '/api/user/updateProfileImage'
-    }
+      profilePicture: '/api/user/updateProfileImage',
+    },
   },
   JOB: {
     GET: {
       myjobs: '/api/job/myJobs',
       alljobs: '/api/job/allJobs',
-      jobById: '/api/job/:jobId'
+      jobById: '/api/job/:jobId',
     },
     POST: {
       searchJobs: '/api/job/search',
-      newJob: '/api/job/createJob'
+      newJob: '/api/job/createJob',
     },
     PUT: {
-      jobImage: '/api/job/uploadImages'
+      jobImage: '/api/job/uploadImages',
+      awardBidder: '/api/job/awardBidder',
     },
     DELETE: {
       jobById: '/api/job/',
-      jobImage: '/api/job/'
-    }
+      jobImage: '/api/job/',
+    },
   },
   BID: {
     POST: {
-      bid: '/api/bids/postABid'
+      bid: '/api/bids/postABid',
     },
     GET: {
-      myBids: '/api/bids/myBids'
-    }
-  }
+      myBids: '/api/bids/myBids',
+    },
+  },
 };
 
 export const CLIENT = {
@@ -52,13 +53,13 @@ export const CLIENT = {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
     myjobs: '/proposer/my-jobs',
-    currentPostedJob: '/proposer/job-details'
+    currentPostedJob: '/proposer/job-details',
   },
   BIDDER: {
     root: '/bidder-root',
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
-    currentPostedBid: '/bidder/bid-details'
+    currentPostedBid: '/bidder/bid-details',
   },
-  MY_PROFILE: '/my-profile'
+  MY_PROFILE: '/my-profile',
 };

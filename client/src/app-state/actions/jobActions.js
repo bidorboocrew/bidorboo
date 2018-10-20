@@ -217,3 +217,27 @@ export const selectJob = (jobDetails) => (dispatch) => {
   // then rediret user to bid now page
   switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
 };
+
+export const awardBidder = (jobId, bidId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId,
+      bidId,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.AWARD_BIDDER,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
+      .then((e) => {
+        debugger;
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};

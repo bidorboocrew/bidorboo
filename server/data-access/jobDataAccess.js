@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
+const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
   /**
@@ -31,6 +32,7 @@ exports.jobDataAccess = {
             personalParagraph: 1,
             membershipStatus: 1,
             phoneNumber: 1,
+            userId,
           },
         },
       },
@@ -53,7 +55,20 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  awardedBidder: async (jobId, bidId) => {
+    // const bid = BidModel.findOne({ _id: bidId });
 
+    await JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: { awardedBidder: bidId, state: 'AWARDED' },
+      }
+    )
+      .lean(true)
+      .exec();
+
+    return JobModel.findById(jobId);
+  },
   getAllPostedJobs: (userId) => {
     // returns all jobs that the current user DID NOT bid on
 

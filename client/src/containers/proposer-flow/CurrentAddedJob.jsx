@@ -10,14 +10,14 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { addJob } from '../../app-state/actions/jobActions';
+import { addJob, awardBidder } from '../../app-state/actions/jobActions';
 import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 import { switchRoute } from '../../utils';
 
 class CurrentAddedJob extends React.Component {
   render() {
-    const { recentlyUpdatedJob, userDetails } = this.props;
+    const { recentlyUpdatedJob, userDetails, a_awardBidder } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -40,7 +40,11 @@ class CurrentAddedJob extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
-            <JobAndBidsDetailView currentUser={userDetails} job={recentlyUpdatedJob} />
+            <JobAndBidsDetailView
+              currentUser={userDetails}
+              job={recentlyUpdatedJob}
+              awardBidder={a_awardBidder}
+            />
           </div>
         </section>
       </React.Fragment>
@@ -58,6 +62,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_addJob: bindActionCreators(addJob, dispatch),
+    a_awardBidder: bindActionCreators(awardBidder, dispatch),
   };
 };
 
