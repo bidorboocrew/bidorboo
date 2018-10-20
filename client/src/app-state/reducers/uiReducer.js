@@ -7,21 +7,21 @@ const initialState = {
   /**
    * toastDetails : {toastType : warning|successful|error , Msg: string, toastId: uuid}
    */
-  toastDetails: {}
+  toastDetails: {},
   // applicationMode: C.APP_MODE.BIDDER
 };
 
 const closeLoginDialog = (state = initialState, { payload }) => ({
   ...state,
-  shouldShowLoginDialog: false
+  shouldShowLoginDialog: false,
 });
 const openLoginDialog = (state = initialState, { payload }) => ({
   ...state,
-  shouldShowLoginDialog: true
+  shouldShowLoginDialog: true,
 });
 const showToastNotification = (state = initialState, { payload }) => ({
   ...state,
-  toastDetails: { ...payload.toastDetails, toastId: uuidv1() }
+  toastDetails: { ...payload.toastDetails, toastId: uuidv1() },
 });
 
 export default handleActions(
@@ -29,7 +29,7 @@ export default handleActions(
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_IN}`]: closeLoginDialog,
     [`${A.UI_ACTIONS.OPEN_LOGIN_DIALOG}`]: openLoginDialog,
     [`${A.UI_ACTIONS.CLOSE_LOGIN_DIALOG}`]: closeLoginDialog,
-    [`${A.UI_ACTIONS.SHOW_TOAST_MSG}`]: showToastNotification
+    [`${A.UI_ACTIONS.SHOW_TOAST_MSG}`]: showToastNotification,
   },
   initialState
 );

@@ -12,7 +12,6 @@ import ProfileForm from '../components/forms/ProfileForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 
 class MyProfile extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

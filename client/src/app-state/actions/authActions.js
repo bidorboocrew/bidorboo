@@ -3,37 +3,37 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const getCurrentUser = () => dispatch =>
+export const getCurrentUser = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
       .get(ROUTES.API.USER.GET.currentUser)
-      .then(resp => {
+      .then((resp) => {
         if (resp.data && resp.data.userId) {
           //update everyone that user is now logged in
           dispatch({
-            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN
+            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
           dispatch({
             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
-            payload: resp.data
+            payload: resp.data,
           });
         } else {
           //rediret user to sign up page
           switchRoute(ROUTES.CLIENT.ENTRY);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throwErrorNotification(dispatch, error);
-      })
+      }),
   });
 
-export const onLogout = () => dispatch =>
+export const onLogout = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
-    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then(resp => {
+    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then((resp) => {
       dispatch({
-        type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT
+        type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT,
       });
       //rediret user to sign up page
       switchRoute(ROUTES.CLIENT.ENTRY);
@@ -42,9 +42,9 @@ export const onLogout = () => dispatch =>
         payload: {
           toastDetails: {
             type: 'info',
-            msg: 'You are logged out.'
-          }
-        }
+            msg: 'You are logged out.',
+          },
+        },
       });
-    })
+    }),
   });

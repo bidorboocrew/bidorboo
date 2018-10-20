@@ -8,18 +8,18 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: '',
     profileImage: {
-      url: 'https://goo.gl/92gqPL'
-    }
-  }
+      url: 'https://goo.gl/92gqPL',
+    },
+  },
 };
 const updateUserProfile = (state = initialState, { payload }) => ({
   ...state,
-  userDetails: payload
+  userDetails: payload,
 });
 
 export default handleActions(
   {
-    [`${A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE}`]: updateUserProfile
+    [`${A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE}`]: updateUserProfile,
   },
   initialState
 );

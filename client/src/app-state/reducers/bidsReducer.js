@@ -8,23 +8,23 @@ const initialState = {
   bidsList: [],
   isLoadingBids: false,
   getBidsErrorMsg: '',
-  recentlyUpdatedBid: {}
+  recentlyUpdatedBid: {},
 };
 
 const selectJobToBidOn = (state = initialState, { payload }) => ({
   ...state,
-  jobDetails: payload.jobDetails
+  jobDetails: payload.jobDetails,
 });
 
 const updateRecentBid = (state = initialState, { payload }) => ({
   ...state,
-  recentlyUpdatedBid: payload.data
+  recentlyUpdatedBid: payload.data,
 });
 
 const getAllMyBids = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
-    isLoadingBids: true
+    isLoadingBids: true,
   }),
   isFullfilled: (state = initialState, { payload }) => {
     const userModel = payload && payload.data;
@@ -32,7 +32,7 @@ const getAllMyBids = {
     return {
       ...state,
       isLoadingBids: false,
-      bidsList: _postedBidsRef || []
+      bidsList: _postedBidsRef || [],
     };
   },
   isRejected: (state = initialState, { payload }) => {
@@ -44,9 +44,9 @@ const getAllMyBids = {
       ...state,
       isLoadingBids: false,
       bidsList: [],
-      getBidsErrorMsg: getBidsErrorMsg
+      getBidsErrorMsg: getBidsErrorMsg,
     };
-  }
+  },
 };
 
 export default handleActions(
@@ -55,7 +55,7 @@ export default handleActions(
     [`${A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_BIDS}${A._PENDING}`]: getAllMyBids.isPending,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_BIDS}${A._FULFILLED}`]: getAllMyBids.isFullfilled,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_BIDS}${A._REJECTED}`]: getAllMyBids.isRejected
+    [`${A.BIDDER_ACTIONS.GET_ALL_MY_BIDS}${A._REJECTED}`]: getAllMyBids.isRejected,
   },
   initialState
 );

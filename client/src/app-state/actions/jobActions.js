@@ -8,35 +8,31 @@ import { switchRoute, throwErrorNotification } from '../../utils';
 export const getAllMyJobs = () => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.myjobs)
+    payload: axios.get(ROUTES.API.JOB.GET.myjobs),
   });
 
 export const getAllPostedJobs = () => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.alljobs)
+    payload: axios.get(ROUTES.API.JOB.GET.alljobs),
   });
 
-export const getJobById = jobId => (dispatch, getState) =>
+export const getJobById = (jobId) => (dispatch, getState) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
-    payload: axios
-      .get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`)
-      .catch(error => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg:
-                'Sorry That did not work, Please try again later.\n' +
-                (error && error.response && error.response.data
-                  ? error.response.data
-                  : error)
-            }
-          }
-        });
-      })
+    payload: axios.get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`).catch((error) => {
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg:
+              'Sorry That did not work, Please try again later.\n' +
+              (error && error.response && error.response.data ? error.response.data : error),
+          },
+        },
+      });
+    }),
   });
 
 // export const updateJobDetails = jobDetails => {
@@ -62,34 +58,34 @@ export const getJobById = jobId => (dispatch, getState) =>
 //   };
 // };
 
-export const searchByLocation = userSearchQuery => {
-  return dispatch => {
+export const searchByLocation = (userSearchQuery) => {
+  return (dispatch) => {
     const serverSearchQuery = {
       searchLocation: userSearchQuery.locationField,
       searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
-      jobTypeFilter: userSearchQuery.filterJobsByCategoryField // list of categories to exclude from the search
+      jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
     };
 
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
-      payload: serverSearchQuery
+      payload: serverSearchQuery,
     });
     dispatch({
       type: A.JOB_ACTIONS.SEARCH_JOB,
       payload: axios
         .post(ROUTES.API.JOB.POST.searchJobs, {
           data: {
-            searchParams: serverSearchQuery
-          }
+            searchParams: serverSearchQuery,
+          },
         })
-        .catch(error => {
+        .catch((error) => {
           throwErrorNotification(dispatch, error);
-        })
+        }),
     });
   };
 };
 
-export const addJob = jobDetails => dispatch => {
+export const addJob = (jobDetails) => (dispatch) => {
   const {
     locationField,
     detailedDescriptionField,
@@ -100,7 +96,7 @@ export const addJob = jobDetails => dispatch => {
     durationOfJobField,
     addressTextField,
     jobTitleField,
-    fromTemplateIdField
+    fromTemplateIdField,
   } = jobDetails;
 
   //map form fields to the mongodb schema expected fields
@@ -116,7 +112,7 @@ export const addJob = jobDetails => dispatch => {
     let preOffset = { latitude: lat, longitude: lng };
     let offset = {
       x: Math.floor(Math.random() * Math.floor(1000)),
-      y: Math.floor(Math.random() * Math.floor(1000))
+      y: Math.floor(Math.random() * Math.floor(1000)),
     };
 
     let postOffset = haversineOffset(preOffset, offset);
@@ -139,19 +135,19 @@ export const addJob = jobDetails => dispatch => {
     detailedDescription: detailedDescriptionField,
     location: {
       type: 'Point',
-      coordinates: [parseFloat(lng), parseFloat(lat)]
+      coordinates: [parseFloat(lng), parseFloat(lat)],
     },
     startingDateAndTime: {
       date: moment.utc(dateField).toDate(),
       hours: hoursField,
       minutes: minutesField,
-      period: periodField
+      period: periodField,
     },
     durationOfJob: durationOfJobField,
     addressText: addressTextField,
     state: 'OPEN',
     title: jobTitleField,
-    fromTemplateId: fromTemplateIdField
+    fromTemplateId: fromTemplateIdField,
   };
 
   return dispatch({
@@ -159,16 +155,16 @@ export const addJob = jobDetails => dispatch => {
     payload: axios
       .post(ROUTES.API.JOB.POST.newJob, {
         data: {
-          jobDetails: mapFieldsToSchema
-        }
+          jobDetails: mapFieldsToSchema,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
           // update recently added job
           dispatch({
             type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
-            payload: { data: resp.data }
+            payload: { data: resp.data },
           });
           // switch route to show the currently added job
           switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
@@ -179,21 +175,21 @@ export const addJob = jobDetails => dispatch => {
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: 'Great! You have added your job successfully'
-              }
-            }
+                msg: 'Great! You have added your job successfully',
+              },
+            },
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throwErrorNotification(dispatch, error);
-      })
+      }),
   });
 };
 
-export const uploadImages = files => (dispatch, getState) => {
+export const uploadImages = (files) => (dispatch, getState) => {
   const config = {
-    headers: { 'content-type': 'multipart/form-data' }
+    headers: { 'content-type': 'multipart/form-data' },
   };
   let data = new FormData();
   for (var i = 0; i < files.length; i++) {
@@ -204,19 +200,19 @@ export const uploadImages = files => (dispatch, getState) => {
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
     payload: axios
       .put(ROUTES.API.JOB.PUT.jobImage, data, config)
-      .then(e => {
+      .then((e) => {
         //debugger
       })
-      .catch(error => {
+      .catch((error) => {
         throwErrorNotification(dispatch, error);
-      })
+      }),
   });
 };
 
-export const selectJob = jobDetails => (dispatch) => {
+export const selectJob = (jobDetails) => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
-    payload: { data: jobDetails }
+    payload: { data: jobDetails },
   });
   // then rediret user to bid now page
   switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
