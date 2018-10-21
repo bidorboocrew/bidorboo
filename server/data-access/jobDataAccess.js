@@ -102,13 +102,15 @@ exports.jobDataAccess = {
               let filteredResults =
                 results &&
                 results.filter((job) => {
-                  let shouldExcludeJob = false;
-                  if (job.bidderIds && job.bidderIds.length > 0) {
-                    shouldExcludeJob = job.bidderIds.some((bidderId) => {
+                  const isOpenState = job.state === 'OPEN';
+                  let didCurrentUserAlreadyBidOnThisJob = false;
+                  if (isOpenState && job.bidderIds && job.bidderIds.length > 0) {
+                    didCurrentUserAlreadyBidOnThisJob = job.bidderIds.some((bidderId) => {
                       return bidderId === userId;
                     });
                   }
-                  return !shouldExcludeJob;
+                  // return jobs where the state is open and the current user did NOT bid on them yet
+                  return (isOpenState && !didCurrentUserAlreadyBidOnThisJob);
                 });
               return resolve(filteredResults);
             }
