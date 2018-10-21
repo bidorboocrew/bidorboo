@@ -18,24 +18,26 @@ export default class JobAndBidsDetailView extends React.Component {
       showReviewBidModal: false,
       userUnderReview: null,
       bidText: '',
+      bidId: null,
     };
     autoBind(this, 'closeReviewModal', 'showReviewModal', 'awardBidderHandler');
   }
 
-  showReviewModal(e, userUnderReview, bidText) {
+  showReviewModal(e, userUnderReview, bidText, bidId) {
     e.preventDefault();
-    this.setState({ showReviewBidModal: true, userUnderReview, bidText: bidText });
+    this.setState({ showReviewBidModal: true, userUnderReview, bidText: bidText, bidId });
   }
 
   closeReviewModal(e) {
     e.preventDefault();
-    this.setState({ showReviewBidModal: false, userUnderReview: null, bidText: '' });
+    this.setState({ showReviewBidModal: false, userUnderReview: null, bidText: '', bidId: null });
   }
 
   awardBidderHandler(e) {
     const { awardBidder, job } = this.props;
+    const { userUnderReview, bidId } = this.state;
     e.preventDefault();
-    awardBidder && awardBidder(job._id, this.state.userUnderReview._id);
+    awardBidder && awardBidder(job._id, userUnderReview._id, bidId);
     this.closeReviewModal({ preventDefault: () => null });
   }
 
@@ -119,7 +121,8 @@ class BidsTable extends React.Component {
                   showReviewModal(
                     e,
                     bid._bidderRef,
-                    `${bid.bidAmount.value} ${bid.bidAmount.currency}`
+                    `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
+                    bid._id
                   );
                 }}
                 className="button is-primary"

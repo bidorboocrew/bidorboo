@@ -101,15 +101,15 @@ module.exports = (app) => {
 
   app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, async (req, res) => {
     try {
-
       // create new job for this user
       const data = req.body.data;
       const userId = req.user.userId;
       const userMongoDBId = req.user._id;
 
+      const { jobId, bidderId, bidId } = data;
       let existingJob = null;
 
-      existingJob = await jobDataAccess.awardedBidder(data.jobId, data.bidId);
+      existingJob = await jobDataAccess.awardedBidder(jobId, bidderId, bidId);
       if (existingJob) {
         return res.send(existingJob);
       }

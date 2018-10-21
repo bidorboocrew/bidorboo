@@ -218,14 +218,15 @@ export const selectJob = (jobDetails) => (dispatch) => {
   switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
 };
 
-export const awardBidder = (jobId, bidId) => (dispatch) => {
+export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
       jobId,
-      bidId,
+      bidderId,
+      bidId
     },
   });
 

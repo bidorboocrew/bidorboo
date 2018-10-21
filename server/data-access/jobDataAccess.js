@@ -55,17 +55,25 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  awardedBidder: async (jobId, bidId) => {
-    // const bid = BidModel.findOne({ _id: bidId });
-
-    await JobModel.findOneAndUpdate(
-      { _id: jobId },
-      {
-        $set: { awardedBidder: bidId, state: 'AWARDED' },
-      }
-    )
-      .lean(true)
-      .exec();
+  awardedBidder: async (jobId, bidderId, bidId) => {
+    const updateRelevantItems = await Promise.all([
+      BidModel.findOneAndUpdate(
+        { _id: bidId },
+        {
+          $set: { state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+      JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $set: { awardedBidder: bidderId, state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+    ]);
 
     return JobModel.findById(jobId);
   },
@@ -110,7 +118,7 @@ exports.jobDataAccess = {
                     });
                   }
                   // return jobs where the state is open and the current user did NOT bid on them yet
-                  return (isOpenState && !didCurrentUserAlreadyBidOnThisJob);
+                  return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
                 });
               return resolve(filteredResults);
             }
