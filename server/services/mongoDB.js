@@ -37,6 +37,8 @@ module.exports = (process) => {
     }
   );
 
+  mongoose.set('useFindAndModify', false);
+
   process.on('SIGINT', function() {
     console.log('=== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
