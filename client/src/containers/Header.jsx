@@ -143,18 +143,32 @@ class Header extends React.Component {
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   {isLoggedIn && (
-                    <a
-                      style={{ marginleft: 4 }}
-                      className="navbar-item"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
-                        });
-                      }}
-                    >
-                      My Posted Jobs
-                    </a>
+                    <React.Fragment>
+                      <a
+                        style={{ marginleft: 4 }}
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.activeAwardedJobsPage);
+                          });
+                        }}
+                      >
+                        Awarded Active Jobs
+                      </a>
+                      <a
+                        style={{ marginleft: 4 }}
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                          });
+                        }}
+                      >
+                        My Posted Jobs
+                      </a>
+                    </React.Fragment>
                   )}
                   <a
                     style={{ marginleft: 4 }}
@@ -185,18 +199,32 @@ class Header extends React.Component {
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   {isLoggedIn && (
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                        });
-                      }}
-                      style={{ marginleft: 4 }}
-                      className="navbar-item"
-                    >
-                      My Bids
-                    </a>
+                    <React.Fragment>
+                      <a
+                        style={{ marginleft: 4 }}
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.activeBidsPage);
+                          });
+                        }}
+                      >
+                        Awarded Active Jobs
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          });
+                        }}
+                        style={{ marginleft: 4 }}
+                        className="navbar-item"
+                      >
+                        My Bids
+                      </a>
+                    </React.Fragment>
                   )}
                   <a
                     style={{ marginleft: 4 }}
