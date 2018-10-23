@@ -22,7 +22,7 @@ const updateRecentBid = (state = initialState, { payload }) => ({
 });
 
 const getAllMyBids = {
-  isPending: (state = initialState, { payload }) => ({
+  isPending: (state = initialState) => ({
     ...state,
     isLoadingBids: true,
   }),

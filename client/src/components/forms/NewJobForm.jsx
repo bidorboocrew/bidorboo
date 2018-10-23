@@ -241,9 +241,9 @@ class NewJobForm extends React.Component {
           id="detailedDescriptionField"
           type="text"
           label="Detailed Description"
-          placeholder="Sample: Hey I am handy with tools and can do everything... "
+          placeholder={values.suggestedDetailsText}
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-          value={values.suggestedDetailsText}
+          value={values.detailedDescriptionField || ''}
           onChange={handleChange}
           onBlur={handleBlur}
         />
