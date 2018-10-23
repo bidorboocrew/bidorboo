@@ -52,10 +52,10 @@ class NewJobForm extends React.Component {
       'autoSetGeoLocation',
       'successfullGeoCoding',
       'clearForceSetAddressValue',
-      'handleChecked'
+      'handleFlexibleTimeChecked'
     );
   }
-  handleChecked() {
+  handleFlexibleTimeChecked() {
     this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
   }
 
