@@ -39,7 +39,6 @@ export const Checkbox = ({
       </Label>
       <input
         id={id}
-        // className={className || 'input'}
         type={type}
         value={value || ''}
         onChange={onChange}
