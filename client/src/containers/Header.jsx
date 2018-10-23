@@ -150,7 +150,7 @@ class Header extends React.Component {
                         onClick={(e) => {
                           e.preventDefault();
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.activeAwardedJobsPage);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
                           });
                         }}
                       >

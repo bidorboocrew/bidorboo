@@ -48,7 +48,6 @@ exports.jobDataAccess = {
         select: { displayName: 1, profileImage: 1, _id: 1 },
       },
     };
-
     return User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
       .populate(populateJobBidsAndBidders)
       .populate(populatePostedJobsOwner)
@@ -75,7 +74,39 @@ exports.jobDataAccess = {
         .exec(),
     ]);
 
-    return JobModel.findById(jobId);
+    return JobModel.findOne(
+      { _id: jobId },
+      {
+        addressText: 0,
+        updatedAt: 0,
+        awardedBidder: 0,
+        jobReview: 0,
+        extras: 0,
+        properties: 0,
+        __v: 0,
+        whoSeenThis: 0,
+      },
+      { limit: 50, sort: { createdAt: -1 } }
+    )
+      .populate({
+        path: '_ownerRef',
+        select: { displayName: 1, profileImage: 1, _id: 1 },
+      })
+      .populate({
+        path: '_bidsListRef',
+        populate: {
+          path: '_bidderRef',
+          select: {
+            _id: 1,
+            _reviewsRef: 1,
+            displayName: 1,
+            globalRating: 1,
+            profileImage: 1,
+          },
+        },
+      })
+      .lean(true)
+      .exec();
   },
   getAllPostedJobs: (userId) => {
     // returns all jobs that the current user DID NOT bid on

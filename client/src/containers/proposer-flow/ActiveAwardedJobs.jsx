@@ -21,7 +21,7 @@ class ProposerRoot extends React.Component {
           <div style={{ backgroundColor: '#e98969' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Awarded Jobs
+                Awarded Jobs ( under implementation )
               </h1>
             </div>
           </div>

@@ -163,11 +163,11 @@ export const addJob = (jobDetails) => (dispatch) => {
         if (resp.data && resp.data._id) {
           // update recently added job
           dispatch({
-            type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
+            type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
             payload: { data: resp.data },
           });
           // switch route to show the currently added job
-          switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
+          switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
 
           // show notification of new job
           dispatch({
@@ -211,11 +211,11 @@ export const uploadImages = (files) => (dispatch, getState) => {
 
 export const selectJob = (jobDetails) => (dispatch) => {
   dispatch({
-    type: A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS,
+    type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
     payload: { data: jobDetails },
   });
   // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.PROPOSER.currentPostedJob);
+  switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
 };
 
 export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
@@ -226,7 +226,7 @@ export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
     data: {
       jobId,
       bidderId,
-      bidId
+      bidId,
     },
   });
 
@@ -234,8 +234,17 @@ export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
     type: A.JOB_ACTIONS.AWARD_BIDDER,
     payload: axios
       .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
-      .then((e) => {
-        debugger;
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
+            payload: { data: resp.data },
+          });
+
+          switchRoute(ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage);
+
+        }
       })
       .catch((error) => {
         throwErrorNotification(dispatch, error);

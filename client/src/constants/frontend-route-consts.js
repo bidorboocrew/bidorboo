@@ -53,8 +53,9 @@ export const CLIENT = {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
     myjobs: '/proposer/my-jobs',
-    currentPostedJob: '/proposer/job-details',
-    activeAwardedJobsPage: '/proposer/active-jobs',
+    selectedPostedJobPage: '/proposer/job-details',
+    awardedJobsPage: '/proposer/active-jobs',
+    selectedAwardedJobPage: '/proposer/active-jobs-details',
   },
   BIDDER: {
     root: '/bidder-root',

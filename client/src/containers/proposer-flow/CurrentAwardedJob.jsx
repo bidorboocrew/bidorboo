@@ -15,9 +15,9 @@ import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 import { switchRoute } from '../../utils';
 
-class CurrentAddedJob extends React.Component {
+class CurrentAwardedJob extends React.Component {
   render() {
-    const { selectedActiveJob, userDetails, a_awardBidder } = this.props;
+    const { selectedJob, userDetails, a_awardBidder } = this.props;
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -26,10 +26,10 @@ class CurrentAddedJob extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                    switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
                   }}
                 >
-                  My Jobs
+                  Awarded Jobs
                 </a>
               </li>
               <li className="is-active">
@@ -42,8 +42,9 @@ class CurrentAddedJob extends React.Component {
           <div className="container">
             <JobAndBidsDetailView
               currentUser={userDetails}
-              job={selectedActiveJob}
+              job={selectedJob}
               awardBidder={a_awardBidder}
+              isForAwarded
             />
           </div>
         </section>
@@ -54,7 +55,7 @@ class CurrentAddedJob extends React.Component {
 
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
-    selectedActiveJob: jobsReducer.selectedActiveJob,
+    selectedJob: jobsReducer.selectedAwardedJob,
     userDetails: userModelReducer.userDetails,
   };
 };
@@ -69,4 +70,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CurrentAddedJob);
+)(CurrentAwardedJob);

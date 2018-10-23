@@ -7,8 +7,10 @@ const initialState = {
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
-  // the last created job
-  recentlyUpdatedJob: {},
+  // the currently selected active job
+  selectedActiveJob: {},
+  // the currently selected awarded job
+  selectedAwardedJob: {},
 };
 
 const getMyJobs = {
@@ -74,9 +76,14 @@ const searchJob = {
   },
 };
 
-const updateRecentlyAddedJob = (state = initialState, { payload }) => ({
+const updateSelectedActiveJob = (state = initialState, { payload }) => ({
   ...state,
-  recentlyUpdatedJob: payload.data,
+  selectedActiveJob: payload.data,
+});
+
+const updateSelectedAwardedJob = (state = initialState, { payload }) => ({
+  ...state,
+  selectedAwardedJob: payload.data,
 });
 
 export default handleActions(
@@ -91,7 +98,8 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._PENDING}`]: searchJob.isPending,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`]: searchJob.isFullfilled,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`]: searchJob.isRejected,
-    [`${A.JOB_ACTIONS.UPDATE_RECENTLY_ADDED_JOBS}`]: updateRecentlyAddedJob,
+    [`${A.JOB_ACTIONS.SELECT_ACTIVE_JOB}`]: updateSelectedActiveJob,
+    [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
   },
   initialState
 );

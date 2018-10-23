@@ -72,7 +72,7 @@ export default class BidDetailsCard extends React.Component {
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">
-            <span className="has-text-weight-bold">{`${bidStateText}`}</span>
+            <span className="has-text-weight-bold">{bidStateText}</span>
           </div>
         </footer>
       </div>

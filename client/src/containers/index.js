@@ -7,6 +7,8 @@ export { default as ProposerRoot } from './proposer-flow/ProposerRoot';
 export { default as CreateAJob } from './proposer-flow/CreateAJob';
 export { default as MyJobs } from './proposer-flow/MyJobs';
 export { default as ActiveAwardedJobs } from './proposer-flow/ActiveAwardedJobs';
+export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
+
 
 export { default as CurrentAddedJob } from './proposer-flow/CurrentAddedJob';
 
