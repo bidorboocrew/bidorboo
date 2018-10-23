@@ -154,10 +154,12 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   border: $border-divider;
   padding: 10px;
 }
-.checkbox {
+.flexibleTimeCheckbox {
   margin-top: 6px;
   margin-right: 5px;
   float: left;
+}
+.checkbox {
 }
 .postedJobToBidOnCard {
   cursor: pointer;

@@ -36,7 +36,7 @@ export const Checkbox = ({
     <div className="field">
       <input
         id={id}
-        className="checkbox"
+        className={className || 'checkbox'}
         type={type}
         value={value || ''}
         onChange={onChange}

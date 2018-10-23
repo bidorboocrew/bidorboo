@@ -43,19 +43,20 @@ class NewJobForm extends React.Component {
     }
     this.state = {
       forceSetAddressValue: '',
-      isDatePickerDisabled: false,
+      isFlexibleTimeSelected: true,
     };
-    this.handleChecked = this.handleChecked.bind(this);
+
     autoBind(
       this,
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue'
+      'clearForceSetAddressValue',
+      'handleChecked'
     );
   }
   handleChecked() {
-    this.setState({ isDatePickerDisabled: !this.state.isDatePickerDisabled });
+    this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
   }
 
   clearForceSetAddressValue() {
@@ -208,8 +209,9 @@ class NewJobForm extends React.Component {
         />
         <Checkbox
           type="checkbox"
+          className="flexibleTimeCheckbox"
           label="Flexibe Time"
-          checked={!this.state.isDatePickerDisabled}
+          checked={this.state.isFlexibleTimeSelected}
           onChange={this.handleChecked}
         />
 
@@ -223,7 +225,7 @@ class NewJobForm extends React.Component {
           error={touched.startTime && errors.startTime}
           onChange={handleChange}
           onBlur={handleBlur}
-          disabled={!this.state.isDatePickerDisabled}
+          disabled={this.state.isFlexibleTimeSelected}
         />
         <TextInput
           id="durationOfJobField"
