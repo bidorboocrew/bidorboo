@@ -212,7 +212,7 @@ class NewJobForm extends React.Component {
           className="flexibleTimeCheckbox"
           label="Flexibe Time"
           checked={this.state.isFlexibleTimeSelected}
-          onChange={this.handleChecked}
+          onChange={this.handleFlexibleTimeChecked}
         />
 
         <TimeInput
