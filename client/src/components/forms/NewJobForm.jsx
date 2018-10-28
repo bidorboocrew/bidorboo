@@ -41,14 +41,22 @@ class NewJobForm extends React.Component {
     if (this.google) {
       this.geocoder = new googleObj.maps.Geocoder();
     }
-    this.state = { forceSetAddressValue: '' };
+    this.state = {
+      forceSetAddressValue: '',
+      isFlexibleTimeSelected: true,
+    };
+
     autoBind(
       this,
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue'
+      'clearForceSetAddressValue',
+      'handleFlexibleTimeChecked'
     );
+  }
+  handleFlexibleTimeChecked() {
+    this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
   }
 
   clearForceSetAddressValue() {
@@ -199,7 +207,14 @@ class NewJobForm extends React.Component {
           type="hidden"
           value={values.periodField || 'AM'}
         />
-        <Checkbox type="checkbox" label="Flexibe Time." onChange={handleChange} />
+        <Checkbox
+          type="checkbox"
+          className="flexibleTimeCheckbox"
+          label="Flexibe Time"
+          checked={this.state.isFlexibleTimeSelected}
+          onChange={this.handleFlexibleTimeChecked}
+        />
+
         <TimeInput
           hoursFieldId="hoursField"
           minutesFieldId="minutesField"
@@ -210,6 +225,7 @@ class NewJobForm extends React.Component {
           error={touched.startTime && errors.startTime}
           onChange={handleChange}
           onBlur={handleBlur}
+          disabled={this.state.isFlexibleTimeSelected}
         />
         <TextInput
           id="durationOfJobField"

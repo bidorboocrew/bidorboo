@@ -34,16 +34,17 @@ export const Checkbox = ({
 }) => {
   return (
     <div className="field">
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
       <input
         id={id}
+        className={className || 'checkbox'}
         type={type}
         value={value || ''}
         onChange={onChange}
         {...props}
       />
+      <Label htmlFor={id} error={error}>
+        {label}
+      </Label>
     </div>
   );
 };
@@ -161,6 +162,7 @@ export const TimeInput = ({
   hoursFieldId,
   minutesFieldId,
   periodFieldId,
+  disabled,
 }) => {
   return (
     <div className="field">
@@ -170,6 +172,7 @@ export const TimeInput = ({
       <div className="control">
         <div className="select is-info">
           <select
+            disabled={disabled}
             onChange={(e) => {
               e.target.id = hoursFieldId;
               onChange(e);
@@ -205,6 +208,7 @@ export const TimeInput = ({
               onBlur(e);
             }}
             style={{ marginRight: 6 }}
+            disabled={disabled}
           >
             <option>00</option>
             <option>15</option>
@@ -223,7 +227,7 @@ export const TimeInput = ({
           }}
           className="select is-info"
         >
-          <select>
+          <select disabled={disabled}>
             <option>PM</option>
             <option>AM</option>
           </select>

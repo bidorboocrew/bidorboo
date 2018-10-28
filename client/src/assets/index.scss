@@ -79,11 +79,10 @@ body {
   padding: 10px;
 }
 
-
 .nav-bottom-border {
   border-bottom: $border-divider !important;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
 }
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
@@ -105,14 +104,14 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
     background: white;
     box-shadow: $shadow-space;
     // &:hover {
-      // -webkit-animation: color-change-2x-proposer 0.35s linear both;
-      // animation: color-change-2x-proposer 0.35s linear both;
-      // figure {
-      //   img.specialImageEffect {
-      //     -webkit-animation: kenburns-bottom 5s ease-out both;
-      //     animation: kenburns-bottom 5s ease-out both;
-      //   }
-      // }
+    // -webkit-animation: color-change-2x-proposer 0.35s linear both;
+    // animation: color-change-2x-proposer 0.35s linear both;
+    // figure {
+    //   img.specialImageEffect {
+    //     -webkit-animation: kenburns-bottom 5s ease-out both;
+    //     animation: kenburns-bottom 5s ease-out both;
+    //   }
+    // }
     // }
   }
 }
@@ -120,42 +119,48 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 .postedJobCard {
   box-shadow: $shadow-space !important;
   // &:hover {
-    // -webkit-animation: color-change-2x-proposer 0.25s linear both;
-    // animation: color-change-2x-proposer 0.25s linear both;
-    // div {
-    //   button {
-    //     // -webkit-animation: color-change-2x-proposer 0.25s linear both;
-    //     // animation: color-change-2x-proposer 0.25s linear both;
-    //     span {
-    //       // color: white;
-    //     }
-    //   }
-    // }
-    // figure {
-    //   img.specialImageEffect {
-    //     -webkit-animation: kenburns-bottom 5s ease-out both;
-    //     animation: kenburns-bottom 5s ease-out both;
-    //   }
-    // }
+  // -webkit-animation: color-change-2x-proposer 0.25s linear both;
+  // animation: color-change-2x-proposer 0.25s linear both;
+  // div {
+  //   button {
+  //     // -webkit-animation: color-change-2x-proposer 0.25s linear both;
+  //     // animation: color-change-2x-proposer 0.25s linear both;
+  //     span {
+  //       // color: white;
+  //     }
+  //   }
+  // }
+  // figure {
+  //   img.specialImageEffect {
+  //     -webkit-animation: kenburns-bottom 5s ease-out both;
+  //     animation: kenburns-bottom 5s ease-out both;
+  //   }
+  // }
   // }
 }
 
-.card{
+.card {
   box-shadow: $shadow-space !important;
-  .card-header{
+  .card-header {
     border-bottom: $border-divider;
   }
 }
-#header-and-content{
+#header-and-content {
   background-color: whitesmoke;
 }
-.BidDetailsCard{
+.BidDetailsCard {
   box-shadow: $shadow-space;
   background: white;
   border: $border-divider;
   padding: 10px;
 }
-
+.flexibleTimeCheckbox {
+  margin-top: 6px;
+  margin-right: 5px;
+  float: left;
+}
+.checkbox {
+}
 .postedJobToBidOnCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
@@ -179,7 +184,6 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   //   // }
   // }
 }
-
 
 // img.specialImageEffect {
 //   &:hover {
