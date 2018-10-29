@@ -1,11 +1,16 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
+const errorHandler = require('errorhandler');
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 
 const app = express();
+
+if(process.env.NODE_ENV !== 'production') {
+  app.use(errorHandler());
+}
 
 // initialize bugsnag
 require('./services/bugSnag')(app);
