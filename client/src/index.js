@@ -27,7 +27,7 @@ import ScrollToTopOnRouteChange from './ScrollToTopOnRouteChange';
 
 // add bugsnag support to capture errors
 // https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
-const bugsnagClient = bugsnag('73a5b07dd9df6ea352bebda9e3ce4f62');
+const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 
 ReactDOM.render(
