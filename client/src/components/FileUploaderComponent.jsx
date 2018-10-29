@@ -139,19 +139,3 @@ class Thumb extends React.Component {
     );
   }
 }
-
-({ isDragActive, isDragReject, acceptedFiles, rejectedFiles, values }) => {
-  if (isDragActive) {
-    console.log('This file is authorized isDragActive');
-
-    return 'This file is authorized';
-  }
-
-  if (isDragReject) {
-    console.log('This file is authorized isDragReject');
-
-    return 'This file is not authorized';
-  }
-
-  return values.files.map((file, i) => <Thumb key={i} file={file} />);
-};
