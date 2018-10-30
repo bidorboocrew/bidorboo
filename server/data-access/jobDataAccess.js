@@ -5,55 +5,55 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
-  /**
-   * called when we hit the my jobs route
-   * get all jobs for a user Id
-   * populate the _postedJobsRef with the full ref data
-   * populate the _bidsListRef with full  ref data
-   */
   getAllJobsForUser: (userId) => {
     const populateJobBidsAndBidders = {
       path: '_postedJobsRef',
+      select: { _id: 0 },
       options: {
-        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
         sort: { createdAt: -1 },
+        select: {
+          _bidsListRef: 1,
+          state: 1,
+          location: 1,
+          startingDateAndTime: 1,
+          addressText: 1,
+          title: 1,
+          fromTemplateId: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
       },
       populate: {
         path: '_bidsListRef',
+        select: {
+          _id: 0,
+          bidAmount: 1,
+          isNewBid: 1,
+          _bidderRef: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
         populate: {
           path: '_bidderRef',
           select: {
-            _id: 1,
+            _id: 0,
             _reviewsRef: 1,
             displayName: 1,
             globalRating: 1,
             profileImage: 1,
-            email: 1,
             personalParagraph: 1,
             membershipStatus: 1,
-            phoneNumber: 1,
-            userId,
           },
         },
       },
     };
-    const populatePostedJobsOwner = {
-      path: '_postedJobsRef',
-      options: {
-        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
-        sort: { createdAt: -1 },
-      },
-      populate: {
-        path: '_ownerRef',
-        select: { displayName: 1, profileImage: 1, _id: 1 },
-      },
-    };
+
     return User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
       .populate(populateJobBidsAndBidders)
-      .populate(populatePostedJobsOwner)
       .lean(true)
       .exec();
   },
+
   awardedBidder: async (jobId, bidderId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(

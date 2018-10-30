@@ -19,7 +19,7 @@ module.exports = app => {
         secure: true,
         httpOnly: true,
         domain: 'bidorboo.com',
-        expires: new Date(Date.now() + expiryDate) // 1 hour
+        expires: new Date(Date.now() + expiryDate)
       }
     })
   );
