@@ -10,6 +10,7 @@ class MyJobs extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyJobs();
   }
+
   render() {
     const { myPostedJobsList, userDetails, a_selectJob } = this.props;
     return (

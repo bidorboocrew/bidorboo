@@ -46,6 +46,27 @@ class MyJobsList extends React.Component {
 
 export default MyJobsList;
 
+
+const EmptyState = () => (
+  <React.Fragment>
+    <div>Sorry you have not posted any jobs</div>
+    <div>
+      <a
+        className="button is-primary"
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(ROUTES.CLIENT.PROPOSER.root);
+        }}
+      >
+        post jobs
+      </a>
+    </div>
+  </React.Fragment>
+);
+
+
+
+
 class JobSummaryView extends React.Component {
   render() {
     const { job, selectJobHandler, userDetails } = this.props;
@@ -155,20 +176,3 @@ class JobSummaryView extends React.Component {
     );
   }
 }
-
-const EmptyState = () => (
-  <React.Fragment>
-    <div>Sorry you have not posted any jobs</div>
-    <div>
-      <a
-        className="button is-primary"
-        onClick={(e) => {
-          e.preventDefault();
-          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-        }}
-      >
-        post jobs
-      </a>
-    </div>
-  </React.Fragment>
-);
