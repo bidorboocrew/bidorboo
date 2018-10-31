@@ -21,7 +21,7 @@
 		}
 	],
 	"homepage": "https://www.bidorboo.com",
-	"license": "PRIVATE",
+	"license": "UNLICENSED",
 	"dependencies": {
 		"concurrently": "^3.5.1",
 		"yarn": "^1.6.0"
