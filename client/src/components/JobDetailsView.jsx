@@ -9,7 +9,7 @@ export default class JobDetailsView extends React.Component {
   render() {
     const { job } = this.props;
 
-    if (!job || !job._ownerRef) {
+    if (!job) {
       return null;
     }
     const {
@@ -22,7 +22,8 @@ export default class JobDetailsView extends React.Component {
       detailedDescription,
     } = job;
 
-    const { profileImage, displayName } = _ownerRef;
+    let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
+    const { profileImage, displayName } = temp;
     const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';

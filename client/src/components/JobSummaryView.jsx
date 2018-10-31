@@ -21,7 +21,9 @@ export default class JobSummaryView extends React.Component {
     const { job, specialStyle } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef } = job;
 
-    const { profileImage, displayName } = _ownerRef;
+    let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
+
+    const { profileImage, displayName } = temp;
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
@@ -61,9 +63,12 @@ export default class JobSummaryView extends React.Component {
         <div className="card-content">
           <div className="media">
             <div className="media-left">
-              <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                <img src={profileImage.url} alt="user" />
-              </figure>
+              {profileImage &&
+                profileImage.url && (
+                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                    <img src={profileImage.url} alt="user" />
+                  </figure>
+                )}
             </div>
             <div className="media-content">
               <p className="title is-6">{displayName}</p>

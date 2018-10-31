@@ -63,7 +63,7 @@ module.exports = (app) => {
     try {
       const requestedJobId = req.params.jobId;
       if (!requestedJobId) {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
+        return res.status(400).send({ errorMsg: 'Bad Request', details: e });
       }
 
       let existingJob = null;
@@ -71,8 +71,6 @@ module.exports = (app) => {
       existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
       if (existingJob) {
         return res.send(existingJob);
-      } else {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });

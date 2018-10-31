@@ -61,6 +61,7 @@ export default class JobAndBidsDetailView extends React.Component {
               />,
               this.appRoot
             )}
+
           <div className="container">
             <h2 style={{ marginBottom: 2 }} className="subtitle">
               Bids List
@@ -91,54 +92,64 @@ export default class JobAndBidsDetailView extends React.Component {
 class BidsTable extends React.Component {
   render() {
     const { bidList, currentUser, isForJobOwber, showReviewModal, isForAwarded } = this.props;
+
     const areThereAnyBids = bidList && bidList.length > 0;
 
     if (areThereAnyBids) {
       // find lowest bid details
-      let tableRows = bidList.map((bid) => {
-        // xxx if this is for awarded page then hide all bids except the awarded one
-        let shouldInclude = isForAwarded ? bid.state === 'AWARDED' : true;
+      let tableRows =
+        bidList &&
+        bidList.map((bid) => {
+          // xxx if this is for awarded page then hide all bids except the awarded one
+          let shouldInclude = isForAwarded ? bid.state === 'AWARDED' : true;
 
-        return shouldInclude ? (
-          <tr
-            key={bid._id}
-            style={
-              bid._bidderRef._id === currentUser._id
-                ? { backgroundColor: '#00d1b2', wordWrap: 'break-word' }
-                : { wordWrap: 'break-word' }
-            }
-          >
-            <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-              <figure style={{ margin: '0 auto' }} className="image is-64x64">
-                <img alt="profile" src={bid._bidderRef.profileImage.url} />
-              </figure>
-            </td>
-            <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-              {bid._bidderRef.globalRating}
-            </td>
-            <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-              {bid.bidAmount.value} {bid.bidAmount.currency}
-            </td>
-            {isForJobOwber && (
+          return shouldInclude ? (
+            <tr
+              key={bid._id || Math.random()}
+              style={
+                bid._bidderRef._id === currentUser._id
+                  ? { backgroundColor: '#00d1b2', wordWrap: 'break-word' }
+                  : { wordWrap: 'break-word' }
+              }
+            >
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                <a
-                  onClick={(e) => {
-                    showReviewModal(
-                      e,
-                      bid._bidderRef,
-                      `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                      bid._id
-                    );
-                  }}
-                  className="button is-primary"
-                >
-                  review details
-                </a>
+                {bid._bidderRef &&
+                  bid._bidderRef.profileImage &&
+                  bid._bidderRef.profileImage.url && (
+                    <figure style={{ margin: '0 auto' }} className="image is-64x64">
+                      <img alt="profile" src={bid._bidderRef.profileImage.url} />
+                    </figure>
+                  )}
               </td>
-            )}
-          </tr>
-        ) : null;
-      });
+              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+                {bid._bidderRef && bid._bidderRef.globalRating}
+              </td>
+              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+                {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
+              </td>
+              {isForJobOwber && (
+                <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+                  {bid._bidderRef &&
+                    bid.bidAmount && (
+                      <a
+                        onClick={(e) => {
+                          showReviewModal(
+                            e,
+                            bid._bidderRef,
+                            `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
+                            bid._id
+                          );
+                        }}
+                        className="button is-primary"
+                      >
+                        review details
+                      </a>
+                    )}
+                </td>
+              )}
+            </tr>
+          ) : null;
+        });
 
       return (
         <table
@@ -181,12 +192,15 @@ class BidsTable extends React.Component {
 }
 
 const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) => {
+  if (!user) {
+    return null;
+  }
   const {
-    profileImage,
-    displayName,
+    profileImage = 'none',
+    displayName = 'none',
     email = 'none provided',
     personalParagraph = 'none provided',
-    membershipStatus,
+    membershipStatus = 'none',
     phoneNumber = 'none provided',
   } = user;
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
@@ -219,9 +233,13 @@ const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) =
 const userImageAndStats = (profileImage, displayName, email, membershipStatusDisplay) => {
   return (
     <div className="has-text-centered">
-      <figure style={{ margin: '0 auto' }} className="image  is-128x128">
-        <img alt="profile" src={profileImage.url} />
-      </figure>
+      {profileImage &&
+        profileImage.url && (
+          <figure style={{ margin: '0 auto' }} className="image  is-128x128">
+            <img alt="profile" src={profileImage.url} />
+          </figure>
+        )}
+
       <div>
         <img
           alt="star rating"
@@ -237,8 +255,8 @@ const userImageAndStats = (profileImage, displayName, email, membershipStatusDis
 };
 
 const userEditableInfo = (
-  displayName,
-  email,
+  displayName = 'none',
+  email = 'none',
   phoneNumber = 'none provided',
   personalParagraph = 'none provided'
 ) => {
