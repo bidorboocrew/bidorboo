@@ -1,24 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import TextareaAutosize from 'react-autosize-textarea';
+import moment from 'moment';
 
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
-import JobDetailsView from './JobDetailsView';
-import * as C from '../constants/constants';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 
-export default class JobAndBidsDetailView extends React.Component {
+import * as Constants from '../../constants/constants';
+
+export default class OwnersJobDetailsCard extends React.Component {
+  static propTypes = {
+    awardBidder: PropTypes.func.isRequired,
+    currentUser: PropTypes.object.isRequired,
+    job: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.appRoot = document.querySelector('#bidorboo-root-view');
 
     this.state = {
       showReviewBidModal: false,
-      userUnderReview: null,
       bidText: '',
       bidId: null,
+      userUnderReview: null,
     };
     autoBind(this, 'closeReviewModal', 'showReviewModal', 'awardBidderHandler');
   }
@@ -41,69 +50,64 @@ export default class JobAndBidsDetailView extends React.Component {
     this.closeReviewModal({ preventDefault: () => null });
   }
 
+  componentDidCatch() {
+    switchRoute(ROUTES.CLIENT.ENTRY);
+  }
+
   render() {
-    const { job, currentUser, isForAwarded,isOwner } = this.props;
-    const dontShowRoute = !job || !currentUser || !job._bidsListRef;
-    if (dontShowRoute) {
-      switchRoute(ROUTES.CLIENT.ENTRY);
+    const { job, currentUser } = this.props;
+
+    if (!job || !job._id) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+      return null;
     }
 
-    return dontShowRoute ? null : (
-      <React.Fragment>
-        <section className="mainSectionContainer">
-          {this.state.showReviewBidModal &&
-            ReactDOM.createPortal(
-              <ReviewBidModal
-                user={this.state.userUnderReview}
-                bidText={this.state.bidText}
-                onCloseHandler={this.closeReviewModal}
-                awardBidderHandler={this.awardBidderHandler}
-              />,
-              this.appRoot
-            )}
 
-          <div className="container">
-            <h2 style={{ marginBottom: 2 }} className="subtitle">
-              Bids List
-            </h2>
-            <div>
-              <BidsTable
-                isForAwarded={isForAwarded}
-                bidList={job._bidsListRef}
-                currentUser={currentUser}
-                isForJobOwber={isOwner}
-                showReviewModal={this.showReviewModal}
-              />
-            </div>
-            <br />
-            <h2 style={{ marginBottom: 2 }} className="subtitle">
-              Job Details
-            </h2>
-            <div>
-              <JobDetailsView job={job} currentUser={currentUser} />
-            </div>
-          </div>
-        </section>
-      </React.Fragment>
+    return (
+      <section className="mainSectionContainer">
+        {/* show award modal */}
+        {this.state.showReviewBidModal &&
+          ReactDOM.createPortal(
+            <ReviewBidModal
+              user={this.state.userUnderReview}
+              bidText={this.state.bidText}
+              onCloseHandler={this.closeReviewModal}
+              awardBidderHandler={this.awardBidderHandler}
+            />,
+            this.appRoot
+          )}
+
+        <div className="container">
+          <h2 style={{ marginBottom: 2 }} className="subtitle">
+            Bids List
+          </h2>
+          <BidsTable
+            bidList={job._bidsListRef}
+            currentUser={currentUser}
+            showReviewModal={this.showReviewModal}
+          />
+          <br />
+          <h2 style={{ marginBottom: 2 }} className="subtitle">
+            Job Details
+          </h2>
+          <JobDetailsView job={job} currentUser={currentUser} />
+        </div>
+      </section>
     );
   }
 }
 
 class BidsTable extends React.Component {
   render() {
-    const { bidList, currentUser, isForJobOwber, showReviewModal, isForAwarded } = this.props;
+    const { bidList, currentUser, showReviewModal } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
-
     if (areThereAnyBids) {
       // find lowest bid details
       let tableRows =
         bidList &&
         bidList.map((bid) => {
-          // xxx if this is for awarded page then hide all bids except the awarded one
-          let shouldInclude = isForAwarded ? bid.state === 'AWARDED' : true;
-
-          return shouldInclude ? (
+          return (
             <tr
               key={bid._id || Math.random()}
               style={
@@ -127,28 +131,27 @@ class BidsTable extends React.Component {
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
               </td>
-              {isForJobOwber && (
-                <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                  {bid._bidderRef &&
-                    bid.bidAmount && (
-                      <a
-                        onClick={(e) => {
-                          showReviewModal(
-                            e,
-                            bid._bidderRef,
-                            `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                            bid._id
-                          );
-                        }}
-                        className="button is-primary"
-                      >
-                        review details
-                      </a>
-                    )}
-                </td>
-              )}
+
+              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+                {bid._bidderRef &&
+                  bid.bidAmount && (
+                    <a
+                      onClick={(e) => {
+                        showReviewModal(
+                          e,
+                          bid._bidderRef,
+                          `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
+                          bid._id
+                        );
+                      }}
+                      className="button is-primary"
+                    >
+                      review details
+                    </a>
+                  )}
+              </td>
             </tr>
-          ) : null;
+          );
         });
 
       return (
@@ -161,7 +164,7 @@ class BidsTable extends React.Component {
               <th className="has-text-centered">profile image</th>
               <th className="has-text-centered">Rating</th>
               <th className="has-text-centered">$</th>
-              {isForJobOwber && <th className="has-text-centered">Award a Bidder</th>}
+              <th className="has-text-centered">Award a Bidder</th>
             </tr>
           </thead>
           <tbody>{tableRows}</tbody>
@@ -203,7 +206,7 @@ const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) =
     membershipStatus = 'none',
     phoneNumber = 'none provided',
   } = user;
-  const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+  const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
   return (
     <div className="modal is-active">
       <div onClick={onCloseHandler} className="modal-background" />
@@ -306,3 +309,126 @@ const DisplayLabelValue = (props) => {
     </div>
   );
 };
+
+class JobDetailsView extends React.Component {
+  componentDidCatch() {
+    switchRoute(ROUTES.CLIENT.ENTRY);
+  }
+
+  render() {
+    const { job, currentUser } = this.props;
+
+    if (!job || !job._id) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+      return null;
+    }
+
+    const {
+      createdAt,
+      fromTemplateId,
+      durationOfJob,
+      startingDateAndTime,
+      title,
+      detailedDescription,
+    } = job;
+
+    let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
+    const { profileImage, displayName } = temp;
+
+    const { hours, minutes, period } = startingDateAndTime;
+    let daysSinceCreated = '';
+    let createdAtToLocal = '';
+
+    try {
+      daysSinceCreated = createdAt
+        ? moment.duration(moment().diff(moment(createdAt))).humanize()
+        : 0;
+      createdAtToLocal = moment(createdAt)
+        .local()
+        .format('YYYY-MM-DD hh:mm A');
+    } catch (e) {
+      console.error(e);
+    }
+
+    return (
+      <div className="card">
+        <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">
+          <p className="card-header-title">
+            <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
+            Details: {title || 'Job Title'}
+          </p>
+        </header>
+        <div className="card-image is-clipped">
+          <figure className="image is-3by1">
+            <img
+              src={
+                templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
+                  ? templatesRepo[fromTemplateId].imageUrl
+                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
+              }
+              alt="Placeholder"
+            />
+          </figure>
+        </div>
+        <div className="card-content">
+          <div className="media">
+            <div className="media-left">
+              <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                <img src={profileImage.url} alt="user" />
+              </figure>
+            </div>
+            <div className="media-content">
+              <p className="title is-12">{displayName}</p>
+            </div>
+          </div>
+
+          <div className="content">
+            <p className="heading">
+              <span>Job Type</span>
+              <br />
+              <span className="has-text-weight-semibold">
+                {templatesRepo[fromTemplateId].title || 'not specified'}
+              </span>
+            </p>
+            <p className="heading">
+              <span>Active since</span>
+              <br />
+              <span className="has-text-weight-semibold">
+                {createdAtToLocal}
+                <span style={{ fontSize: '10px', color: 'grey' }}>
+                  {` (${daysSinceCreated} ago)`}
+                </span>
+              </span>
+            </p>
+            <p className="heading">
+              <span>Start Date</span>
+              <br />
+              <span className="has-text-weight-semibold">
+                {startingDateAndTime && moment(startingDateAndTime.date).format('MMMM Do YYYY')}
+              </span>
+            </p>
+            <p className="heading">
+              <span>Start Time</span>
+              <br />
+              <span className="has-text-weight-semibold">
+                {hours}:{minutes === 0 ? '00' : minutes} {period}
+              </span>
+            </p>
+            <p className="heading">
+              <span>Duration Required</span>
+              <br />
+              <span className="has-text-weight-semibold">{durationOfJob || 'not specified'}</span>
+            </p>
+            <p className="heading">
+              <span>Detailed Description</span>
+              <br />
+              <span className="has-text-weight-semibold">
+                {detailedDescription || 'not specified'}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

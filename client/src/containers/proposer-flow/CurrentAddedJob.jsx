@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { addJob, awardBidder } from '../../app-state/actions/jobActions';
-import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
+import OwnersJobDetailsCard from '../../components/proposer-components/OwnersJobDetailsCard';
 
 import { switchRoute } from '../../utils';
 
@@ -40,7 +40,7 @@ class CurrentAddedJob extends React.Component {
         </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
-            <JobAndBidsDetailView
+            <OwnersJobDetailsCard
               currentUser={userDetails}
               job={selectedActiveJob}
               awardBidder={a_awardBidder}

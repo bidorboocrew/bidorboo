@@ -5,112 +5,53 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
-  /**
-   * called when we hit the my jobs route
-   * get all jobs for a user Id
-   * populate the _postedJobsRef with the full ref data
-   * populate the _bidsListRef with full  ref data
-   */
   getAllJobsForUser: (userId) => {
     const populateJobBidsAndBidders = {
       path: '_postedJobsRef',
       options: {
-        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
         sort: { createdAt: -1 },
+        select: {
+          _bidsListRef: 1,
+          state: 1,
+          location: 1,
+          startingDateAndTime: 1,
+          addressText: 1,
+          title: 1,
+          fromTemplateId: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
       },
       populate: {
         path: '_bidsListRef',
+        select: {
+          bidAmount: 1,
+          isNewBid: 1,
+          _bidderRef: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
         populate: {
           path: '_bidderRef',
           select: {
-            _id: 1,
             _reviewsRef: 1,
             displayName: 1,
             globalRating: 1,
             profileImage: 1,
-            email: 1,
             personalParagraph: 1,
             membershipStatus: 1,
-            phoneNumber: 1,
-            userId,
           },
         },
       },
     };
-    const populatePostedJobsOwner = {
-      path: '_postedJobsRef',
-      options: {
-        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
-        sort: { createdAt: -1 },
-      },
-      populate: {
-        path: '_ownerRef',
-        select: { displayName: 1, profileImage: 1, _id: 1 },
-      },
-    };
+
     return User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
       .populate(populateJobBidsAndBidders)
-      .populate(populatePostedJobsOwner)
       .lean(true)
       .exec();
   },
-  awardedBidder: async (jobId, bidderId, bidId) => {
-    const updateRelevantItems = await Promise.all([
-      BidModel.findOneAndUpdate(
-        { _id: bidId },
-        {
-          $set: { state: 'AWARDED' },
-        }
-      )
-        .lean(true)
-        .exec(),
-      JobModel.findOneAndUpdate(
-        { _id: jobId },
-        {
-          $set: { awardedBidder: bidderId, state: 'AWARDED' },
-        }
-      )
-        .lean(true)
-        .exec(),
-    ]);
 
-    return JobModel.findOne(
-      { _id: jobId },
-      {
-        addressText: 0,
-        updatedAt: 0,
-        awardedBidder: 0,
-        jobReview: 0,
-        extras: 0,
-        properties: 0,
-        __v: 0,
-        whoSeenThis: 0,
-      },
-      { limit: 50, sort: { createdAt: -1 } }
-    )
-      .populate({
-        path: '_ownerRef',
-        select: { displayName: 1, profileImage: 1, _id: 1 },
-      })
-      .populate({
-        path: '_bidsListRef',
-        populate: {
-          path: '_bidderRef',
-          select: {
-            _id: 1,
-            _reviewsRef: 1,
-            displayName: 1,
-            globalRating: 1,
-            profileImage: 1,
-          },
-        },
-      })
-      .lean(true)
-      .exec();
-  },
   getAllPostedJobs: (userId) => {
-    // returns all jobs that the current user DID NOT bid on
-
     return new Promise((resolve, reject) => {
       JobModel.find(
         {},
@@ -123,8 +64,9 @@ exports.jobDataAccess = {
           properties: 0,
           __v: 0,
           whoSeenThis: 0,
+          _bidsListRef: 0,
         },
-        { limit: 50, sort: { createdAt: -1 } }
+        { sort: { createdAt: -1 } }
       )
         .populate({
           path: '_ownerRef',
@@ -213,13 +155,13 @@ exports.jobDataAccess = {
                   const dbJob = await JobModel.findById(job._id, {
                     addressText: 0,
                     updatedAt: 0,
-                    _bidsListRef: 0,
                     awardedBidder: 0,
                     jobReview: 0,
                     extras: 0,
                     properties: 0,
                     __v: 0,
                     whoSeenThis: 0,
+                    _bidsListRef: 0,
                   })
                     .populate({
                       path: '_ownerRef',
@@ -249,6 +191,7 @@ exports.jobDataAccess = {
     });
     return;
   },
+
   addAJob: async (jobDetails, userId) => {
     try {
       const newJob = await new JobModel({
@@ -277,32 +220,14 @@ exports.jobDataAccess = {
           awardedBidder: 0,
           jobReview: 0,
           extras: 0,
+          bidderIds: 0,
           properties: 0,
           __v: 0,
+          _bidsListRef: 0,
           whoSeenThis: 0,
-        },
-        { limit: 50, sort: { createdAt: -1 } }
+          hideForUserIds: 0,
+        }
       )
-        .populate({
-          path: '_ownerRef',
-          select: { displayName: 1, profileImage: 1, _id: 1 },
-        })
-        .populate({
-          path: '_jobRef',
-          populate: {
-            path: '_bidsListRef',
-            populate: {
-              path: '_bidderRef',
-              select: {
-                _id: 1,
-                _reviewsRef: 1,
-                displayName: 1,
-                globalRating: 1,
-                profileImage: 1,
-              },
-            },
-          },
-        })
         .lean(true)
         .exec();
       return job;
@@ -317,23 +242,71 @@ exports.jobDataAccess = {
 
     // return newJob;
   },
-  findOneByJobId: (id) => {
+
+  awardedBidder: async (jobId, bidId) => {
+    const updateRelevantItems = await Promise.all([
+      BidModel.findOneAndUpdate(
+        { _id: bidId },
+        {
+          $set: { state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+      JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $set: { awardedBid: bidId, state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+    ]);
+
     return JobModel.findOne(
-      { _id: id }
-      // {
-      //   //exclude
-      //   settings: 0,
-      //   extras: 0,
-      //   userRole: 0,
-      //   lockUntil: 0,
-      //   loginAttempts: 0,
-      //   provider: 0,
-      //   paymentRefs: 0,
-      //   _reviewsRef: 0,
-      //   password: 0,
-      //   skills: 0
-      // }
+      { _id: jobId },
+      {
+        addressText: 0,
+        updatedAt: 0,
+        jobReview: 0,
+        extras: 0,
+        properties: 0,
+        __v: 0,
+        _bidsListRef: 0,
+        whoSeenThis: 0,
+        _ownerRef: 0,
+        ownerId: 0,
+        bidderIds: 0,
+        hideForUserIds: 0,
+      }
     )
+      .populate({
+        path: 'awardedBid',
+        select: {
+          _jobRef: 0,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            _postedJobsRef: 0,
+            _postedBidsRef: 0,
+            userRole: 0,
+            hasAgreedToServiceTerms: 0,
+            extras: 0,
+            settings: 0,
+            creditCards: 0,
+            updatedAt: 0,
+            __v:0,
+            verificationIdImage:0,
+          },
+        },
+      })
+
+      .lean(true)
+      .exec();
+  },
+  findOneByJobId: (id) => {
+    return JobModel.findOne({ _id: id })
       .lean(true)
       .exec();
   },
@@ -345,6 +318,7 @@ exports.jobDataAccess = {
       .exec();
   },
   findOneByJobIdAndUpdateJobInfo: (jobIdToUpdate, newJobDetails, options) => {
+    // xxx to do , validate user input and use some sanitizer tool to prevent coded content
     return JobModel.findOneAndUpdate(
       { _id: jobIdToUpdate },
       {

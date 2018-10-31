@@ -218,14 +218,13 @@ export const selectJob = (jobDetails) => (dispatch) => {
   switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
 };
 
-export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
+export const awardBidder = (jobId, bidId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
       jobId,
-      bidderId,
       bidId,
     },
   });
@@ -243,7 +242,6 @@ export const awardBidder = (jobId, bidderId, bidId) => (dispatch) => {
           });
 
           switchRoute(ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage);
-
         }
       })
       .catch((error) => {

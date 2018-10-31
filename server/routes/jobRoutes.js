@@ -63,7 +63,7 @@ module.exports = (app) => {
     try {
       const requestedJobId = req.params.jobId;
       if (!requestedJobId) {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
+        return res.status(400).send({ errorMsg: 'Bad Request', details: e });
       }
 
       let existingJob = null;
@@ -71,8 +71,6 @@ module.exports = (app) => {
       existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
       if (existingJob) {
         return res.send(existingJob);
-      } else {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
@@ -103,13 +101,13 @@ module.exports = (app) => {
     try {
       // create new job for this user
       const data = req.body.data;
-      const userId = req.user.userId;
-      const userMongoDBId = req.user._id;
+      // const userId = req.user.userId;
+      // const userMongoDBId = req.user._id;
 
-      const { jobId, bidderId, bidId } = data;
+      const { jobId, bidId } = data;
       let existingJob = null;
 
-      existingJob = await jobDataAccess.awardedBidder(jobId, bidderId, bidId);
+      existingJob = await jobDataAccess.awardedBidder(jobId, bidId);
       if (existingJob) {
         return res.send(existingJob);
       }
