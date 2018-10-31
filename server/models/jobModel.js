@@ -50,6 +50,10 @@ const JobSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'BidModel',
     },
+    awardedBid: {
+      type: Schema.Types.ObjectId,
+      ref: 'BidModel',
+    },
     jobReview: ReviewSchema, //review for each job
     extras: { type: Object, default: null },
     // this is how you create address

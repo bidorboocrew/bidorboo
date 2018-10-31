@@ -44,9 +44,9 @@ export default class OwnersJobDetailsCard extends React.Component {
 
   awardBidderHandler(e) {
     const { awardBidder, job } = this.props;
-    const { userUnderReview, bidId } = this.state;
+    const { bidId } = this.state;
     e.preventDefault();
-    awardBidder && awardBidder(job._id, userUnderReview._id, bidId);
+    awardBidder && awardBidder(job._id, bidId);
     this.closeReviewModal({ preventDefault: () => null });
   }
 
@@ -312,7 +312,6 @@ const DisplayLabelValue = (props) => {
 
 class JobDetailsView extends React.Component {
   componentDidCatch() {
-    debugger;
     switchRoute(ROUTES.CLIENT.ENTRY);
   }
 
@@ -333,7 +332,6 @@ class JobDetailsView extends React.Component {
       detailedDescription,
     } = job;
 
-    debugger;
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 

@@ -35,15 +35,14 @@ export default class JobAndBidsDetailView extends React.Component {
 
   awardBidderHandler(e) {
     const { awardBidder, job } = this.props;
-    const { userUnderReview, bidId } = this.state;
+    const { bidId } = this.state;
     e.preventDefault();
-    awardBidder && awardBidder(job._id, userUnderReview._id, bidId);
+    awardBidder && awardBidder(job._id, bidId);
     this.closeReviewModal({ preventDefault: () => null });
   }
 
   render() {
     const { job, currentUser, isForAwarded,isOwner } = this.props;
-    debugger
     const dontShowRoute = !job || !currentUser || !job._bidsListRef;
     if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
@@ -95,7 +94,7 @@ class BidsTable extends React.Component {
     const { bidList, currentUser, isForJobOwber, showReviewModal, isForAwarded } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
-    debugger
+
     if (areThereAnyBids) {
       // find lowest bid details
       let tableRows =

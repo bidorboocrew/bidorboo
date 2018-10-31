@@ -256,7 +256,7 @@ exports.jobDataAccess = {
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
-          $set: { awardedBidder: bidId, state: 'AWARDED' },
+          $set: { awardedBid: bidId, state: 'AWARDED' },
         }
       )
         .lean(true)
@@ -281,7 +281,7 @@ exports.jobDataAccess = {
       }
     )
       .populate({
-        path: 'awardedBidder',
+        path: 'awardedBid',
         select: {
           _jobRef: 0,
         },

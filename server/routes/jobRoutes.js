@@ -104,7 +104,7 @@ module.exports = (app) => {
       // const userId = req.user.userId;
       // const userMongoDBId = req.user._id;
 
-      const { jobId, bidderId, bidId } = data;
+      const { jobId, bidId } = data;
       let existingJob = null;
 
       existingJob = await jobDataAccess.awardedBidder(jobId, bidId);
