@@ -46,10 +46,6 @@ const JobSchema = new Schema(
     properties: [PropertySchema], //list of props needed for a the template
     detailedDescription: { type: String, trim: true },
     stats: StatsSchema,
-    awardedBidder: {
-      type: Schema.Types.ObjectId,
-      ref: 'BidModel',
-    },
     awardedBid: {
       type: Schema.Types.ObjectId,
       ref: 'BidModel',
