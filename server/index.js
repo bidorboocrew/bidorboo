@@ -1,15 +1,18 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
-const errorHandler = require('errorhandler');
+// const errorHandler = require('errorhandler');
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 
 const app = express();
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT);
+
 if(process.env.NODE_ENV !== 'production') {
-  app.use(errorHandler());
+  // app.use(errorHandler());
 }
 
 // initialize bugsnag
@@ -52,5 +55,3 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT);
