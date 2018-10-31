@@ -42,7 +42,8 @@ export default class JobAndBidsDetailView extends React.Component {
   }
 
   render() {
-    const { job, currentUser, isForAwarded } = this.props;
+    const { job, currentUser, isForAwarded,isOwner } = this.props;
+    debugger
     const dontShowRoute = !job || !currentUser || !job._bidsListRef;
     if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
@@ -71,7 +72,7 @@ export default class JobAndBidsDetailView extends React.Component {
                 isForAwarded={isForAwarded}
                 bidList={job._bidsListRef}
                 currentUser={currentUser}
-                isForJobOwber={currentUser.userId === job.ownerId}
+                isForJobOwber={isOwner}
                 showReviewModal={this.showReviewModal}
               />
             </div>
@@ -94,7 +95,7 @@ class BidsTable extends React.Component {
     const { bidList, currentUser, isForJobOwber, showReviewModal, isForAwarded } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
-
+    debugger
     if (areThereAnyBids) {
       // find lowest bid details
       let tableRows =

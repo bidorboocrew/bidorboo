@@ -34,7 +34,6 @@ exports.jobDataAccess = {
         populate: {
           path: '_bidderRef',
           select: {
-            _id: 0,
             _reviewsRef: 1,
             displayName: 1,
             globalRating: 1,
@@ -221,32 +220,14 @@ exports.jobDataAccess = {
           awardedBidder: 0,
           jobReview: 0,
           extras: 0,
+          bidderIds: 0,
           properties: 0,
           __v: 0,
+          _bidsListRef: 0,
           whoSeenThis: 0,
-        },
-        { limit: 50, sort: { createdAt: -1 } }
+          hideForUserIds: 0,
+        }
       )
-        .populate({
-          path: '_ownerRef',
-          select: { displayName: 1, profileImage: 1, _id: 1 },
-        })
-        .populate({
-          path: '_jobRef',
-          populate: {
-            path: '_bidsListRef',
-            populate: {
-              path: '_bidderRef',
-              select: {
-                _id: 1,
-                _reviewsRef: 1,
-                displayName: 1,
-                globalRating: 1,
-                profileImage: 1,
-              },
-            },
-          },
-        })
         .lean(true)
         .exec();
       return job;
@@ -275,7 +256,7 @@ exports.jobDataAccess = {
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
-          $set: { awardedBidder: bidderId, state: 'AWARDED' },
+          $set: { awardedBidder: bidId, state: 'AWARDED' },
         }
       )
         .lean(true)
@@ -287,32 +268,40 @@ exports.jobDataAccess = {
       {
         addressText: 0,
         updatedAt: 0,
-        awardedBidder: 0,
         jobReview: 0,
         extras: 0,
         properties: 0,
         __v: 0,
+        _bidsListRef: 0,
         whoSeenThis: 0,
-      },
-      { limit: 50, sort: { createdAt: -1 } }
+        _ownerRef: 0,
+        ownerId: 0,
+        bidderIds: 0,
+        hideForUserIds: 0,
+      }
     )
       .populate({
-        path: '_ownerRef',
-        select: { displayName: 1, profileImage: 1, _id: 1 },
-      })
-      .populate({
-        path: '_bidsListRef',
+        path: 'awardedBidder',
+        select: {
+          _jobRef: 0,
+        },
         populate: {
           path: '_bidderRef',
           select: {
-            _id: 1,
-            _reviewsRef: 1,
-            displayName: 1,
-            globalRating: 1,
-            profileImage: 1,
+            _postedJobsRef: 0,
+            _postedBidsRef: 0,
+            userRole: 0,
+            hasAgreedToServiceTerms: 0,
+            extras: 0,
+            settings: 0,
+            creditCards: 0,
+            updatedAt: 0,
+            __v:0,
+            verificationIdImage:0,
           },
         },
       })
+
       .lean(true)
       .exec();
   },

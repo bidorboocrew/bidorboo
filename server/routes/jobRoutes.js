@@ -101,8 +101,8 @@ module.exports = (app) => {
     try {
       // create new job for this user
       const data = req.body.data;
-      const userId = req.user.userId;
-      const userMongoDBId = req.user._id;
+      // const userId = req.user.userId;
+      // const userMongoDBId = req.user._id;
 
       const { jobId, bidderId, bidId } = data;
       let existingJob = null;

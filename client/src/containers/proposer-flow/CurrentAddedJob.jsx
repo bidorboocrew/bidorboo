@@ -44,6 +44,7 @@ class CurrentAddedJob extends React.Component {
               currentUser={userDetails}
               job={selectedActiveJob}
               awardBidder={a_awardBidder}
+              isOwner
             />
           </div>
         </section>

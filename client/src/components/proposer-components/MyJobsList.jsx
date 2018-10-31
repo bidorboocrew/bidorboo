@@ -44,7 +44,7 @@ class MyJobsList extends React.Component {
                   </span>
                 </a>
               )}
-              <JobSummaryView specialStyle={specialBorder} job={job} />
+              <JobSummaryView isForOwner specialStyle={specialBorder} job={job} />
             </div>
           );
         })
