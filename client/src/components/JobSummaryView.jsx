@@ -6,16 +6,6 @@ import moment from 'moment';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 export default class JobSummaryView extends React.Component {
-  static propTypes = {
-    job: PropTypes.any.isRequired,
-    specialStyle: PropTypes.any,
-    onClickHandler: PropTypes.func,
-  };
-
-  static defaultProps = {
-    specialStyle: {},
-    onClickHandler: () => null,
-  };
 
   render() {
     const { job, specialStyle } = this.props;

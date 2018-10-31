@@ -243,7 +243,7 @@ exports.jobDataAccess = {
     // return newJob;
   },
 
-  awardedBidder: async (jobId, bidderId, bidId) => {
+  awardedBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(
         { _id: bidId },

@@ -107,7 +107,7 @@ module.exports = (app) => {
       const { jobId, bidderId, bidId } = data;
       let existingJob = null;
 
-      existingJob = await jobDataAccess.awardedBidder(jobId, bidderId, bidId);
+      existingJob = await jobDataAccess.awardedBidder(jobId, bidId);
       if (existingJob) {
         return res.send(existingJob);
       }
