@@ -202,3 +202,91 @@ $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;
 @import 'bulma/bulma.sass';
+
+/* map infoBox style */
+.infoBox {
+  overflow: visible !important;
+}
+.infoBox:before {
+  content: ' ';
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  position: absolute;
+  top: -10px;
+  left: 130px;
+}
+.info-box-wrap {
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.08);
+}
+.info-box-text-wrap {
+  height: 50px !important;
+  max-width: 120px;
+  width: auto;
+  float: left;
+  overflow: hidden;
+}
+.action-btns {
+  float: left;
+  width: 45px;
+  overflow: hidden;
+  position: relative;
+  top: 5px;
+  left: 6px;
+  margin-right: 15px;
+}
+.action-btns i {
+  font-size: 18px;
+  color: #78a737;
+  margin-left: 3px;
+}
+.action-btns i:hover {
+  transition: color 0.5s ease;
+  color: #ccc;
+  cursor: pointer;
+}
+.action-btns i.fa-dollar-sign {
+  font-weight: bold;
+}
+.info-box-text-wrap h6.info-box-title {
+  padding: 6px 5px 1px 0;
+  margin: 0 0 0 0;
+  font-family: 'Roboto Slab';
+  color: #0c99c8;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.info-box-text-wrap p {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+.info-box-wrap img {
+  width: 40px !important;
+  height: 40px;
+  float: left;
+  margin-right: 10px;
+  padding-top: 0px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.info-box-close {
+  float: right;
+  width: 10px;
+  overflow: hidden;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+.image img {
+  height: 100%;
+}
+.img {
+  height: 100%;
+}
