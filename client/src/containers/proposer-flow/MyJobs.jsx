@@ -21,9 +21,6 @@ class MyJobs extends React.Component {
               <h1 style={{ color: 'white' }} className="title">
                 My Posted Jobs
               </h1>
-              <h2 style={{ color: 'white' }} className="subtitle">
-                Get the work done for the best price possible.
-              </h2>
             </div>
           </div>
         </section>
