@@ -62,7 +62,6 @@ export default class OwnersJobDetailsCard extends React.Component {
       return null;
     }
 
-
     return (
       <section className="mainSectionContainer">
         {/* show award modal */}
@@ -78,19 +77,24 @@ export default class OwnersJobDetailsCard extends React.Component {
           )}
 
         <div className="container">
-          <h2 style={{ marginBottom: 2 }} className="subtitle">
-            Bids List
-          </h2>
-          <BidsTable
-            bidList={job._bidsListRef}
-            currentUser={currentUser}
-            showReviewModal={this.showReviewModal}
-          />
-          <br />
-          <h2 style={{ marginBottom: 2 }} className="subtitle">
-            Job Details
-          </h2>
-          <JobDetailsView job={job} currentUser={currentUser} />
+          <div className="columns is-multiline">
+            <div className="column is-4">
+              <h2 style={{ marginBottom: 2 }} className="subtitle">
+                Job Details
+              </h2>
+              <JobDetailsView job={job} currentUser={currentUser} />
+            </div>
+            <div className="column is-8">
+              <h2 style={{ marginBottom: 2 }} className="subtitle">
+                Bids List
+              </h2>
+              <BidsTable
+                bidList={job._bidsListRef}
+                currentUser={currentUser}
+                showReviewModal={this.showReviewModal}
+              />
+            </div>
+          </div>
         </div>
       </section>
     );
