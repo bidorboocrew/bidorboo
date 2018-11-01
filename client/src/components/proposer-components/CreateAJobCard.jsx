@@ -21,7 +21,7 @@ export class CreateAJobCard extends React.Component {
           <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
-                <a onClick={onCancel}>Post Jobs</a>
+                <a onClick={onCancel}>Job templates</a>
               </li>
               <li className="is-active">
                 <a aria-current="page">{jobDetails.title}</a>
