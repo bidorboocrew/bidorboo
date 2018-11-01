@@ -216,7 +216,9 @@ const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) =
       <div onClick={onCloseHandler} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Review Bidder Details</p>
+          <p className="modal-card-title">
+            Bidding <b> {bidText}</b>{' '}
+          </p>
           <button onClick={onCloseHandler} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body has-text-centered">
@@ -226,7 +228,7 @@ const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) =
         </section>
         <footer className="modal-card-foot">
           <button onClick={awardBidderHandler} className="button is-success">
-            Award This Bidder <b> {bidText}</b>
+            Award This Bidder
           </button>
           <button onClick={onCloseHandler} className="button">
             Review Other Bidders
@@ -255,7 +257,7 @@ const userImageAndStats = (profileImage, displayName, email, membershipStatusDis
         />
       </div>
       <div>{displayName}</div>
-      <div>{email}</div>
+      {/* <div>{email}</div> */}
       <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
     </div>
   );
@@ -271,8 +273,8 @@ const userEditableInfo = (
     <div>
       <HeaderTitle title="General Information" />
       <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-      <DisplayLabelValue labelText="Email:" labelValue={email} />
-      <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+      {/* <DisplayLabelValue labelText="Email:" labelValue={email} /> */}
+      {/* <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} /> */}
       <HeaderTitle specialMarginVal={8} title="About Me" />
       <TextareaAutosize
         value={personalParagraph}
