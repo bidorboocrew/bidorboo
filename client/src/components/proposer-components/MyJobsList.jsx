@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -46,7 +45,6 @@ class MyJobsList extends React.Component {
 
 export default MyJobsList;
 
-
 const EmptyState = () => (
   <React.Fragment>
     <div>Sorry you have not posted any jobs</div>
@@ -64,9 +62,6 @@ const EmptyState = () => (
   </React.Fragment>
 );
 
-
-
-
 class JobSummaryView extends React.Component {
   render() {
     const { job, selectJobHandler, userDetails } = this.props;
@@ -82,8 +77,8 @@ class JobSummaryView extends React.Component {
     const areThereAnyBidders =
       job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
 
-      // set border for jobs with reviews
-      let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
+    // set border for jobs with reviews
+    let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -99,32 +94,6 @@ class JobSummaryView extends React.Component {
 
     return (
       <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
-        {!areThereAnyBidders && (
-          <a
-            disabled
-            style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
-            className="button is-fullwidth is-large"
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fa fa-hand-paper" /> No Bids Yet
-            </span>
-          </a>
-        )}
-        {/* show as enabled cuz there is bidders */}
-        {areThereAnyBidders && (
-          <a
-            style={{ borderRadius: 0 }}
-            className="button is-primary is-fullwidth is-large"
-            onClick={(e) => {
-              e.preventDefault();
-              selectJobHandler(job);
-            }}
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fa fa-hand-paper" /> Review Bids
-            </span>
-          </a>
-        )}
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
@@ -171,7 +140,38 @@ class JobSummaryView extends React.Component {
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </p>
           </div>
+          
         </div>
+        <footer class="card-footer">
+            <div className="card-footer-item">
+              {!areThereAnyBidders && (
+                <a
+                  disabled
+                  style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
+                  className="button is-fullwidth is-large"
+                >
+                  <span style={{ marginLeft: 4 }}>
+                    <i className="fa fa-hand-paper" /> No Bids Yet
+                  </span>
+                </a>
+              )}
+              {/* show as enabled cuz there is bidders */}
+              {areThereAnyBidders && (
+                <a
+                  style={{ borderRadius: 0 }}
+                  className="button is-primary is-fullwidth is-large"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    selectJobHandler(job);
+                  }}
+                >
+                  <span style={{ marginLeft: 4 }}>
+                    <i className="fa fa-hand-paper" /> Review Bids
+                  </span>
+                </a>
+              )}
+            </div>
+          </footer>
       </div>
     );
   }
