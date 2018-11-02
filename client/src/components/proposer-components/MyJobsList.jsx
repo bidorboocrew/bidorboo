@@ -17,13 +17,10 @@ class MyJobsList extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     const MyJobsList = userHasPostedJobs ? (
-      jobsList.map((job) => {
-        return (
-          <div key={job._id} className="column is-one-third">
-            <JobSummaryView job={job} {...this.props} />
-          </div>
-        );
-      })
+      <React.Fragment>
+        <JobsWithBids {...this.props} />
+        <JobsWithoutBids {...this.props} />
+      </React.Fragment>
     ) : (
       <EmptyState />
     );
@@ -45,6 +42,38 @@ class MyJobsList extends React.Component {
 
 export default MyJobsList;
 
+const JobsWithBids = (props) => {
+  const { jobsList } = props;
+  const jobsWithBids = jobsList
+    .filter((job) => {
+      return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
+    })
+    .map((job) => {
+      return (
+        <div key={job._id} className="column is-one-third">
+          <JobSummaryView job={job} areThereAnyBidders {...props} />
+        </div>
+      );
+    });
+  return jobsWithBids;
+};
+
+const JobsWithoutBids = (props) => {
+  const { jobsList } = props;
+  const jobsWithoutBids = jobsList
+    .filter((job) => {
+      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
+    })
+    .map((job) => {
+      return (
+        <div key={job._id} className="column is-one-third">
+          <JobSummaryView job={job} {...props} />
+        </div>
+      );
+    });
+  return jobsWithoutBids;
+};
+
 const EmptyState = () => (
   <React.Fragment>
     <div>Sorry you have not posted any jobs</div>
@@ -64,7 +93,7 @@ const EmptyState = () => (
 
 class JobSummaryView extends React.Component {
   render() {
-    const { job, selectJobHandler, userDetails } = this.props;
+    const { job, selectJobHandler, userDetails, areThereAnyBidders } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
@@ -73,9 +102,6 @@ class JobSummaryView extends React.Component {
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
-
-    const areThereAnyBidders =
-      job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
 
     // set border for jobs with reviews
     let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
@@ -144,10 +170,7 @@ class JobSummaryView extends React.Component {
         <footer className="card-footer">
           <div className="card-footer-item">
             {!areThereAnyBidders && (
-              <a
-                disabled
-                className="button is-outlined is-fullwidth is-large"
-              >
+              <a disabled className="button is-outlined is-fullwidth is-large">
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-hand-paper" /> No Bids Yet
                 </span>
