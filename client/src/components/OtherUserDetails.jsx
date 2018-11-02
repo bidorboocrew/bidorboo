@@ -15,12 +15,14 @@ export default class OtherUserDetails extends React.Component {
       phoneNumber: PropTypes.any,
     }).isRequired,
     breadCrumb: PropTypes.node,
-    actionButtons: PropTypes.arrayOf(PropTypes.node),
+    cardTitle: PropTypes.node,
+    cardFooter: PropTypes.node
   };
 
   static defaultProps = {
     breadCrumb: null,
-    actionButtons: null,
+    cardFooter: null,
+    cardTitle: null,
   };
 
   render() {
@@ -63,25 +65,17 @@ const DisplayLabelValue = (props) => {
   );
 };
 
-const OtherUserProfileCard = ({ otherUserDetails, actionButtons }) => {
+const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
   const { profileImage, displayName, membershipStatus } = otherUserDetails;
 
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
-  const buttonsToRender =
-    actionButtons &&
-    actionButtons.map((action) => {
-      return (
-        <div key={Math.random()} className="card-footer-item">
-          {action}
-        </div>
-      );
-    });
 
   return (
     <div className="columns is-centered">
       <div className="column is-half">
-        <div className="card">
+        <div className="card is-clipped">
+          {cardTitle}
           <div className="card-content">
             <div className="has-text-centered">
               <figure style={{ margin: '0 auto' }} className="image  is-128x128">
@@ -106,7 +100,7 @@ const OtherUserProfileCard = ({ otherUserDetails, actionButtons }) => {
             </div>
           </div>
 
-          {actionButtons && <footer className="card-footer">{buttonsToRender}</footer>}
+          {cardFooter}
         </div>
       </div>
     </div>
@@ -129,7 +123,7 @@ const UserDetails = ({ otherUserDetails }) => {
       <HeaderTitle specialMarginVal={8} title="About Me" />
       <TextareaAutosize
         value={personalParagraph}
-        className="textarea is-marginless is-paddingless"
+        className="textarea is-marginless is-paddingless has-text-centered"
         style={{
           resize: 'none',
           border: 'none',

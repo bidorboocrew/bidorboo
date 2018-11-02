@@ -146,8 +146,7 @@ class JobSummaryView extends React.Component {
             {!areThereAnyBidders && (
               <a
                 disabled
-                style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
-                className="button is-fullwidth is-large"
+                className="button is-outlined is-fullwidth is-large"
               >
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-hand-paper" /> No Bids Yet
@@ -157,7 +156,6 @@ class JobSummaryView extends React.Component {
             {/* show as enabled cuz there is bidders */}
             {areThereAnyBidders && (
               <a
-                style={{ borderRadius: 0 }}
                 className="button is-primary is-fullwidth is-large"
                 onClick={(e) => {
                   e.preventDefault();

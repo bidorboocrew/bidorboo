@@ -85,7 +85,7 @@ export default class OwnersJobDetailsCard extends React.Component {
                 </a>
               </li>
               <li className="is-active">
-                <a aria-current="page">Review Bidder</a>
+                <a aria-current="page">Bidder</a>
               </li>
             </ul>
           </nav>
@@ -93,22 +93,56 @@ export default class OwnersJobDetailsCard extends React.Component {
       );
     };
 
-    const reviewBidderActions = () => {
-      return [
-        <a onClick={this.awardBidderHandler} className="button is-primary is-fullwidth is-large">
-          Award This Bidder
-        </a>,
-        <a onClick={this.closeReviewModal} className="button is-info is-fullwidth is-large">
-          Review Other Bidders
-        </a>,
-      ];
+    const cardTitle = () => {
+      return (
+        <header className="card-header">
+          <p className="card-header-title">
+            Bidder details{' '}
+            <span className="has-text-primary is-capitalized has-text-weight-bold ">
+              {` (${this.state.bidText})`}
+            </span>
+          </p>
+        </header>
+      );
+    };
+
+    const cardFooter = () => {
+      return (
+        <React.Fragment>
+          <div className="has-text-centered is-size-5 ">
+            bid amount :
+            <span className="has-text-primary is-capitalized has-text-weight-bold ">
+              {` ${this.state.bidText}`}
+            </span>
+          </div>
+          <footer className="card-footer">
+            <div className="card-footer-item">
+              <a
+                onClick={this.awardBidderHandler}
+                className="button is-primary is-fullwidth is-large"
+              >
+                Accept Bid
+              </a>
+            </div>
+            <div className="card-footer-item">
+              <a
+                onClick={this.closeReviewModal}
+                className="button is-danger is-outlined is-fullwidth is-large"
+              >
+                Go Back
+              </a>
+            </div>
+          </footer>
+        </React.Fragment>
+      );
     };
 
     let pageContent = this.state.showReviewBidder ? (
       <OtherUserDetails
         otherUserDetails={this.state.userUnderReview}
         breadCrumb={reviewBidderbreadCrumb()}
-        actionButtons={reviewBidderActions()}
+        cardFooter={cardFooter()}
+        cardTitle={cardTitle()}
       />
     ) : (
       <React.Fragment>
@@ -277,7 +311,7 @@ class JobDetailsView extends React.Component {
     }
 
     return (
-      <div className="card">
+      <div className="card is-clipped">
         <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">
           <p className="card-header-title">
             <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />

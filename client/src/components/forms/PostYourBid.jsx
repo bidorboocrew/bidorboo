@@ -65,7 +65,7 @@ class PostYourBid extends React.Component {
             </a>
           </div>
           <div className="card-footer-item">
-            <a onClick={onCancel} className="button is-danger is-large is-fullwidth">
+            <a onClick={onCancel} className="button is-danger is-outlined is-large is-fullwidth">
               <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
               Booo
             </a>
