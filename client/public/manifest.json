@@ -12,9 +12,28 @@
   "background_color": "#000000",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "logo.svg",
+      "sizes": "32x32"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "64x64 "
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "24x24"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "16x16"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "48x48"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "192x192"
     }
   ]
 }
