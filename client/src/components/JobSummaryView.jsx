@@ -6,9 +6,8 @@ import moment from 'moment';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 export default class JobSummaryView extends React.Component {
-
   render() {
-    const { job, specialStyle } = this.props;
+    const { job, specialStyle, footer } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef } = job;
 
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
@@ -79,6 +78,7 @@ export default class JobSummaryView extends React.Component {
             </p>
           </div>
         </div>
+        {footer}
       </div>
     );
   }

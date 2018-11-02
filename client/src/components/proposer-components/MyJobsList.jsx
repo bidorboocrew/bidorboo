@@ -140,38 +140,37 @@ class JobSummaryView extends React.Component {
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </p>
           </div>
-          
         </div>
-        <footer class="card-footer">
-            <div className="card-footer-item">
-              {!areThereAnyBidders && (
-                <a
-                  disabled
-                  style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
-                  className="button is-fullwidth is-large"
-                >
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fa fa-hand-paper" /> No Bids Yet
-                  </span>
-                </a>
-              )}
-              {/* show as enabled cuz there is bidders */}
-              {areThereAnyBidders && (
-                <a
-                  style={{ borderRadius: 0 }}
-                  className="button is-primary is-fullwidth is-large"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    selectJobHandler(job);
-                  }}
-                >
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fa fa-hand-paper" /> Review Bids
-                  </span>
-                </a>
-              )}
-            </div>
-          </footer>
+        <footer className="card-footer">
+          <div className="card-footer-item">
+            {!areThereAnyBidders && (
+              <a
+                disabled
+                style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
+                className="button is-fullwidth is-large"
+              >
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-hand-paper" /> No Bids Yet
+                </span>
+              </a>
+            )}
+            {/* show as enabled cuz there is bidders */}
+            {areThereAnyBidders && (
+              <a
+                style={{ borderRadius: 0 }}
+                className="button is-primary is-fullwidth is-large"
+                onClick={(e) => {
+                  e.preventDefault();
+                  selectJobHandler(job);
+                }}
+              >
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-hand-paper" /> Review Bids
+                </span>
+              </a>
+            )}
+          </div>
+        </footer>
       </div>
     );
   }

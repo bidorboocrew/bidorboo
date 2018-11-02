@@ -21,7 +21,7 @@ import {
   MyProfile,
   BidNow,
   MyBids,
-  CurrentAddedJob,
+  CurrentJob,
   CurrentPostedBid,
   ActiveAwardedBids,
   ActiveAwardedJobs,
@@ -83,7 +83,7 @@ class App extends React.Component {
                 <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}
-                  component={CurrentAddedJob}
+                  component={CurrentJob}
                 />
                 <Route
                   exact

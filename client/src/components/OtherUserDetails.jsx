@@ -1,0 +1,143 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import TextareaAutosize from 'react-autosize-textarea';
+import * as C from '../constants/constants';
+
+export default class OtherUserDetails extends React.Component {
+  static propTypes = {
+    otherUserDetails: PropTypes.shape({
+      profileImage: PropTypes.any,
+      displayName: PropTypes.any,
+      email: PropTypes.any,
+      personalParagraph: PropTypes.any,
+      membershipStatus: PropTypes.any,
+      phoneNumber: PropTypes.any,
+    }).isRequired,
+    breadCrumb: PropTypes.node,
+    actionButtons: PropTypes.arrayOf(PropTypes.node),
+  };
+
+  static defaultProps = {
+    breadCrumb: null,
+    actionButtons: null,
+  };
+
+  render() {
+    const { breadCrumb } = this.props;
+    return (
+      <div className="slide-in-left" id="bdb-user-under-review">
+        {/* if user passes breadcrumb use it */}
+        {breadCrumb}
+
+        <section className="mainSectionContainer">
+          <OtherUserProfileCard {...this.props} />
+        </section>
+      </div>
+    );
+  }
+}
+
+const HeaderTitle = (props) => {
+  const { title, specialMarginVal } = props;
+  return (
+    <h2
+      style={{
+        marginTop: specialMarginVal || 0,
+        marginBottom: 4,
+        fontWeight: 500,
+        fontSize: 20,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+      }}
+    >
+      {title}
+    </h2>
+  );
+};
+const DisplayLabelValue = (props) => {
+  return (
+    <div style={{ padding: 4, marginBottom: 4 }}>
+      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
+      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
+    </div>
+  );
+};
+
+const OtherUserProfileCard = ({ otherUserDetails, actionButtons }) => {
+  const { profileImage, displayName, membershipStatus } = otherUserDetails;
+
+  const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+
+  const buttonsToRender =
+    actionButtons &&
+    actionButtons.map((action) => {
+      return (
+        <div key={Math.random()} className="card-footer-item">
+          {action}
+        </div>
+      );
+    });
+
+  return (
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <div className="card">
+          <div className="card-content">
+            <div className="has-text-centered">
+              <figure style={{ margin: '0 auto' }} className="image  is-128x128">
+                <img alt="profile" src={profileImage.url} />
+              </figure>
+              <div>
+                <img
+                  alt="star rating"
+                  src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+                  className="starRating"
+                />
+              </div>
+              <div>{displayName}</div>
+              <DisplayLabelValue
+                labelText="Membership Status:"
+                labelValue={membershipStatusDisplay}
+              />
+            </div>
+
+            <div className="content has-text-centered">
+              <UserDetails otherUserDetails={otherUserDetails} />
+            </div>
+          </div>
+
+          {actionButtons && <footer className="card-footer">{buttonsToRender}</footer>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UserDetails = ({ otherUserDetails }) => {
+  const {
+    displayName,
+    email,
+    phoneNumber = 'none provided',
+    personalParagraph = 'none provided',
+  } = otherUserDetails;
+  return (
+    <React.Fragment>
+      <HeaderTitle title="General Information" />
+      <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+      <DisplayLabelValue labelText="Email:" labelValue={email} />
+      <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+      <HeaderTitle specialMarginVal={8} title="About Me" />
+      <TextareaAutosize
+        value={personalParagraph}
+        className="textarea is-marginless is-paddingless"
+        style={{
+          resize: 'none',
+          border: 'none',
+          color: '#4a4a4a',
+          background: 'whitesmoke',
+        }}
+        readOnly
+      />
+    </React.Fragment>
+  );
+};

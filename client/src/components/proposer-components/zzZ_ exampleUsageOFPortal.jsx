@@ -1,6 +1,12 @@
+/**
+ * THIS IS NOT USED AND WILL BE DELETED THE POINT IS TO SEE HOW TO USE PORTALS 
+ */
+
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
+import TextareaAutosize from 'react-autosize-textarea';
 import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
@@ -8,18 +14,13 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import OtherUserDetails from '../OtherUserDetails';
+import * as Constants from '../../constants/constants';
 
 export default class OwnersJobDetailsCard extends React.Component {
   static propTypes = {
     awardBidder: PropTypes.func.isRequired,
     currentUser: PropTypes.object.isRequired,
     job: PropTypes.object.isRequired,
-    breadCrumb: PropTypes.node,
-  };
-
-  static defaultProps = {
-    breadCrumb: null,
   };
 
   constructor(props) {
@@ -27,7 +28,7 @@ export default class OwnersJobDetailsCard extends React.Component {
     this.appRoot = document.querySelector('#bidorboo-root-view');
 
     this.state = {
-      showReviewBidder: false,
+      showReviewBidModal: false,
       bidText: '',
       bidId: null,
       userUnderReview: null,
@@ -37,12 +38,12 @@ export default class OwnersJobDetailsCard extends React.Component {
 
   showReviewModal(e, userUnderReview, bidText, bidId) {
     e.preventDefault();
-    this.setState({ showReviewBidder: true, userUnderReview, bidText: bidText, bidId });
+    this.setState({ showReviewBidModal: true, userUnderReview, bidText: bidText, bidId });
   }
 
   closeReviewModal(e) {
     e.preventDefault();
-    this.setState({ showReviewBidder: false, userUnderReview: null, bidText: '', bidId: null });
+    this.setState({ showReviewBidModal: false, userUnderReview: null, bidText: '', bidId: null });
   }
 
   awardBidderHandler(e) {
@@ -58,84 +59,49 @@ export default class OwnersJobDetailsCard extends React.Component {
   }
 
   render() {
-    const { job, currentUser, breadCrumb } = this.props;
+    const { job, currentUser } = this.props;
 
     if (!job || !job._id) {
       switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
       return null;
     }
 
-    const reviewBidderbreadCrumb = () => {
-      return (
-        <div style={{ marginBottom: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
-                  }}
-                >
-                  My Jobs
-                </a>
-              </li>
-              <li>
-                <a onClick={this.closeReviewModal} aria-current="page">
-                  {job.title}
-                </a>
-              </li>
-              <li className="is-active">
-                <a aria-current="page">Review Bidder</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      );
-    };
+    return (
+      <section className="mainSectionContainer">
+        {/* show award modal */}
+        {this.state.showReviewBidModal &&
+          ReactDOM.createPortal(
+            <ReviewBidModal
+              user={this.state.userUnderReview}
+              bidText={this.state.bidText}
+              onCloseHandler={this.closeReviewModal}
+              awardBidderHandler={this.awardBidderHandler}
+            />,
+            this.appRoot
+          )}
 
-    const reviewBidderActions = () => {
-      return [
-        <a onClick={this.awardBidderHandler} className="button is-primary is-fullwidth is-large">
-          Award This Bidder
-        </a>,
-        <a onClick={this.closeReviewModal} className="button is-info is-fullwidth is-large">
-          Review Other Bidders
-        </a>,
-      ];
-    };
-
-    let pageContent = this.state.showReviewBidder ? (
-      <OtherUserDetails
-        otherUserDetails={this.state.userUnderReview}
-        breadCrumb={reviewBidderbreadCrumb()}
-        actionButtons={reviewBidderActions()}
-      />
-    ) : (
-      <React.Fragment>
-        {breadCrumb}
         <div className="container">
-          <React.Fragment>
-            <h2 style={{ marginBottom: 2 }} className="subtitle">
-              Bids List
-            </h2>
-            <BidsTable
-              bidList={job._bidsListRef}
-              currentUser={currentUser}
-              showReviewModal={this.showReviewModal}
-            />
-          </React.Fragment>
-
-          <React.Fragment>
-            <h2 style={{ marginBottom: 2 }} className="subtitle">
-              Job Details
-            </h2>
-            <JobDetailsView job={job} currentUser={currentUser} />
-          </React.Fragment>
+          <div className="columns is-multiline">
+            <div className="column is-4">
+              <h2 style={{ marginBottom: 2 }} className="subtitle">
+                Job Details
+              </h2>
+              <JobDetailsView job={job} currentUser={currentUser} />
+            </div>
+            <div className="column is-8">
+              <h2 style={{ marginBottom: 2 }} className="subtitle">
+                Bids List
+              </h2>
+              <BidsTable
+                bidList={job._bidsListRef}
+                currentUser={currentUser}
+                showReviewModal={this.showReviewModal}
+              />
+            </div>
+          </div>
         </div>
-      </React.Fragment>
+      </section>
     );
-
-    return <React.Fragment>{pageContent}</React.Fragment>;
   }
 }
 
@@ -235,6 +201,124 @@ class BidsTable extends React.Component {
     );
   }
 }
+
+const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) => {
+  if (!user) {
+    return null;
+  }
+  const {
+    profileImage = 'none',
+    displayName = 'none',
+    email = 'none provided',
+    personalParagraph = 'none provided',
+    membershipStatus = 'none',
+    phoneNumber = 'none provided',
+  } = user;
+  const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+  return (
+    <div className="modal is-active">
+      <div onClick={onCloseHandler} className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">
+            Bidding <b> {bidText}</b>{' '}
+          </p>
+          <button onClick={onCloseHandler} className="delete" aria-label="close" />
+        </header>
+        <section className="modal-card-body has-text-centered">
+          {userImageAndStats(profileImage, displayName, email, membershipStatusDisplay)}
+          {/* user details */}
+          {userEditableInfo(displayName, email, phoneNumber, personalParagraph)}
+        </section>
+        <footer className="modal-card-foot">
+          <button onClick={awardBidderHandler} className="button is-success">
+            Award This Bidder
+          </button>
+          <button onClick={onCloseHandler} className="button">
+            Review Other Bidders
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+const userImageAndStats = (profileImage, displayName, email, membershipStatusDisplay) => {
+  return (
+    <div className="has-text-centered">
+      {profileImage &&
+        profileImage.url && (
+          <figure style={{ margin: '0 auto' }} className="image  is-128x128">
+            <img alt="profile" src={profileImage.url} />
+          </figure>
+        )}
+
+      <div>
+        <img
+          alt="star rating"
+          src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
+          className="starRating"
+        />
+      </div>
+      <div>{displayName}</div>
+      {/* <div>{email}</div> */}
+      <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
+    </div>
+  );
+};
+
+const userEditableInfo = (
+  displayName = 'none',
+  email = 'none',
+  phoneNumber = 'none provided',
+  personalParagraph = 'none provided'
+) => {
+  return (
+    <div>
+      <HeaderTitle title="General Information" />
+      <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+      {/* <DisplayLabelValue labelText="Email:" labelValue={email} /> */}
+      {/* <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} /> */}
+      <HeaderTitle specialMarginVal={8} title="About Me" />
+      <TextareaAutosize
+        value={personalParagraph}
+        className="textarea is-marginless is-paddingless"
+        style={{
+          resize: 'none',
+          border: 'none',
+          color: '#4a4a4a',
+          background: 'whitesmoke',
+        }}
+        readOnly
+      />
+    </div>
+  );
+};
+
+const HeaderTitle = (props) => {
+  const { title, specialMarginVal } = props;
+  return (
+    <h2
+      style={{
+        marginTop: specialMarginVal || 0,
+        marginBottom: 4,
+        fontWeight: 500,
+        fontSize: 20,
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+      }}
+    >
+      {title}
+    </h2>
+  );
+};
+const DisplayLabelValue = (props) => {
+  return (
+    <div style={{ padding: 4, marginBottom: 4 }}>
+      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
+      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
+    </div>
+  );
+};
 
 class JobDetailsView extends React.Component {
   componentDidCatch() {

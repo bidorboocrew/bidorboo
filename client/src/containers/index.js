@@ -10,7 +10,7 @@ export { default as ActiveAwardedJobs } from './proposer-flow/ActiveAwardedJobs'
 export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
 
 
-export { default as CurrentAddedJob } from './proposer-flow/CurrentAddedJob';
+export { default as CurrentJob } from './proposer-flow/CurrentJob';
 
 // bidder flow
 export { default as CurrentPostedBid } from './bidder-flow/CurrentPostedBid';

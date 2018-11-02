@@ -18,29 +18,34 @@ import { switchRoute } from '../../utils';
 class CurrentAwardedJob extends React.Component {
   render() {
     const { selectedJob, userDetails, a_awardBidder } = this.props;
+
+    const breadCrumb = (
+      <div style={{ marginTop: '1rem' }} className="container">
+        <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li>
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
+                }}
+              >
+                Awarded Jobs
+              </a>
+            </li>
+            <li className="is-active">
+              <a aria-current="page">Selected Job</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    );
+
     return (
       <React.Fragment>
-        <div style={{ marginTop: '1rem' }} className="container">
-          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
-                  }}
-                >
-                  Awarded Jobs
-                </a>
-              </li>
-              <li className="is-active">
-                <a aria-current="page">Selected Job</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
         <section className="mainSectionContainer slide-in-left">
           <div className="container">
             <JobAndBidsDetailView
+              breadCrumb={breadCrumb}
               currentUser={userDetails}
               job={selectedJob}
               awardBidder={a_awardBidder}

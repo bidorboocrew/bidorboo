@@ -13,6 +13,17 @@ export default class JobsToBidOn extends React.Component {
       jobsList && jobsList.map && jobsList.length > 0 ? (
         jobsList.map((job) => {
           const { _ownerRef } = job;
+
+          const cardFooter = (
+            <CardBottomSection
+              _ownerRef={_ownerRef}
+              isLoggedIn={isLoggedIn}
+              currentUserId={currentUserId}
+              showLoginDialog={showLoginDialog}
+              selectJobToBidOn={selectJobToBidOn}
+              job={job}
+            />
+          );
           return (
             <div
               key={job._id}
@@ -27,15 +38,7 @@ export default class JobsToBidOn extends React.Component {
                 }
               }}
             >
-              <JobSummaryView job={job} />
-              <CardBottomSection
-                _ownerRef={_ownerRef}
-                isLoggedIn={isLoggedIn}
-                currentUserId={currentUserId}
-                showLoginDialog={showLoginDialog}
-                selectJobToBidOn={selectJobToBidOn}
-                job={job}
-              />
+              <JobSummaryView footer={cardFooter} job={job} />
             </div>
           );
         })
@@ -66,10 +69,11 @@ const EmptyStateComponent = () => {
 
 const CardBottomSection = (props) => {
   const { _ownerRef, isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, job } = props;
+
   return (
-    <React.Fragment>
-      {(!isLoggedIn || _ownerRef._id !== currentUserId) && (
-        <div className="has-text-centered" style={{ textAlign: 'center' }}>
+    <footer class="card-footer">
+      <div class="card-footer-item">
+        {(!isLoggedIn || _ownerRef._id !== currentUserId) && (
           <a
             onClick={() => {
               if (!isLoggedIn) {
@@ -80,26 +84,18 @@ const CardBottomSection = (props) => {
                 }
               }
             }}
-            style={{ borderRadius: 0 }}
             className="button is-primary is-fullwidth is-large"
           >
             <span style={{ marginLeft: 4 }}>
               <i className="fas fa-dollar-sign" /> Bid Now
             </span>
           </a>
-        </div>
-      )}
-      {isLoggedIn &&
-        _ownerRef._id === currentUserId && (
-          <div className="has-text-centered" style={{ textAlign: 'center' }}>
-            <a
-              style={{ borderRadius: 0 }}
-              className="button is-static is-fullwidth disabled is-large"
-            >
-              My Job
-            </a>
-          </div>
         )}
-    </React.Fragment>
+        {isLoggedIn &&
+          _ownerRef._id === currentUserId && (
+            <a className="button is-static is-fullwidth disabled is-large">My Job</a>
+          )}
+      </div>
+    </footer>
   );
 };

@@ -15,39 +15,42 @@ import OwnersJobDetailsCard from '../../components/proposer-components/OwnersJob
 
 import { switchRoute } from '../../utils';
 
-class CurrentAddedJob extends React.Component {
+class CurrentJob extends React.Component {
   render() {
     const { selectedActiveJob, userDetails, a_awardBidder } = this.props;
+
+    const breadCrumb = (
+      <div style={{ marginBottom: '1rem' }} className="container">
+        <nav className="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li>
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                }}
+              >
+                My Jobs
+              </a>
+            </li>
+            <li className="is-active">
+              <a aria-current="page">
+                {selectedActiveJob ? selectedActiveJob.title : 'Selected Job'}
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    );
+
     return (
-      <React.Fragment>
-        <div style={{ marginTop: '1rem' }} className="container">
-          <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
-                  }}
-                >
-                  My Jobs
-                </a>
-              </li>
-              <li className="is-active">
-                <a aria-current="page">Selected Job</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <section className="mainSectionContainer slide-in-left">
-          <div className="container">
-            <OwnersJobDetailsCard
-              currentUser={userDetails}
-              job={selectedActiveJob}
-              awardBidder={a_awardBidder}
-            />
-          </div>
-        </section>
-      </React.Fragment>
+      <section className="mainSectionContainer slide-in-left">
+        <OwnersJobDetailsCard
+          breadCrumb={breadCrumb}
+          currentUser={userDetails}
+          job={selectedActiveJob}
+          awardBidder={a_awardBidder}
+        />
+      </section>
     );
   }
 }
@@ -69,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CurrentAddedJob);
+)(CurrentJob);

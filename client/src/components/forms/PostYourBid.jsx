@@ -37,6 +37,7 @@ class PostYourBid extends React.Component {
           <TextInput
             id="bidAmountField"
             className="input is-focused shadow-drop-center"
+            style={{ fontSize: '1.5rem' }}
             type="text"
             onBlur={handleBlur}
             label="Enter Your Bid Amount"
@@ -52,24 +53,23 @@ class PostYourBid extends React.Component {
             }}
           />
         </div>
-        <footer style={{ borderBottom: `4px solid rgb(200,200,200)` }} className="card-footer">
-          <a
-            onClick={handleSubmit}
-            style={{ borderRadius: 0 }}
-            className="card-footer-item button is-primary is-large"
-            disabled={isSubmitting || !isValid}
-          >
-            <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-            Bid Now
-          </a>
-          <a
-            onClick={onCancel}
-            style={{ borderRadius: 0 }}
-            className="card-footer-item button is-danger is-large"
-          >
-            <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
-            Booo
-          </a>
+        <footer className="card-footer">
+          <div className="card-footer-item">
+            <a
+              onClick={handleSubmit}
+              className="button is-primary is-large is-fullwidth"
+              disabled={isSubmitting || !isValid}
+            >
+              <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+              Bid Now
+            </a>
+          </div>
+          <div className="card-footer-item">
+            <a onClick={onCancel} className="button is-danger is-large is-fullwidth">
+              <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
+              Booo
+            </a>
+          </div>
         </footer>
       </div>
     );

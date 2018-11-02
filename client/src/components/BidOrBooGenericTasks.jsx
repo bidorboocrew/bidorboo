@@ -41,7 +41,7 @@ class BidOrBooGenericTasks extends React.Component {
                 <div className="descriptoin-section">{description}</div>
               </div>
             </div>
-            <footer class="card-footer">
+            <footer className="card-footer">
               <div className="card-footer-item has-text-centered" style={{ textAlign: 'center' }}>
                 <a style={{ borderRadius: 0 }} className="button is-primary is-large is-fullwidth">
                   <span style={{ marginLeft: 4 }}>
