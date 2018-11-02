@@ -97,9 +97,8 @@ export default class OwnersJobDetailsCard extends React.Component {
       return (
         <header className="card-header">
           <p className="card-header-title">
-            Bidder details{' '}
             <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {` (${this.state.bidText})`}
+              {`Bidder details (${this.state.bidText})`}
             </span>
           </p>
         </header>
