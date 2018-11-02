@@ -71,8 +71,8 @@ const CardBottomSection = (props) => {
   const { _ownerRef, isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, job } = props;
 
   return (
-    <footer class="card-footer">
-      <div class="card-footer-item">
+    <footer className="card-footer">
+      <div className="card-footer-item">
         {(!isLoggedIn || _ownerRef._id !== currentUserId) && (
           <a
             onClick={() => {
