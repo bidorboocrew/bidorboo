@@ -1,5 +1,5 @@
 {
-  "name": "bidorbooserver",
+  "name": "bidorboo",
   "version": "1.0.0",
   "description": "",
   "engines": {
@@ -15,7 +15,7 @@
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
   },
-  "author": "said Madi",
+  "author": "Said Madi",
   "contributors": [
     {
       "name": "Yacoub Abdulla"
