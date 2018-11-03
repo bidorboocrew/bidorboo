@@ -27,20 +27,33 @@ import ScrollToTopOnRouteChange from './ScrollToTopOnRouteChange';
 
 // add bugsnag support to capture errors
 // https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
-const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+if (process.env.NODE_ENV === 'production') {
+  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+  const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 
-ReactDOM.render(
-  <ErrorBoundary>
+  ReactDOM.render(
+    <ErrorBoundary>
+      <Provider store={store}>
+        <Router history={appHistory}>
+          <ScrollToTopOnRouteChange>
+            <App />
+          </ScrollToTopOnRouteChange>
+        </Router>
+      </Provider>
+    </ErrorBoundary>,
+    document.getElementById('BidOrBoo-app')
+  );
+} else {
+  ReactDOM.render(
     <Provider store={store}>
       <Router history={appHistory}>
         <ScrollToTopOnRouteChange>
           <App />
         </ScrollToTopOnRouteChange>
       </Router>
-    </Provider>
-  </ErrorBoundary>,
-  document.getElementById('BidOrBoo-app')
-);
+    </Provider>,
+    document.getElementById('BidOrBoo-app')
+  );
+}
 // unregister();
 // registerServiceWorker();

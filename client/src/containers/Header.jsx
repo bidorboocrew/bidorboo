@@ -138,14 +138,13 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <i style={{ marginRight: 4 }} className="fa fa-child" aria-hidden="true" />
+                  <i className="fa fa-child" aria-hidden="true" />
                   <span>Proposer</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   {isLoggedIn && (
                     <React.Fragment>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -154,24 +153,29 @@ class Header extends React.Component {
                           });
                         }}
                       >
-                        Awarded Active Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="far fa-calendar-check" />
+                        </span>
+
+                        <span style={{ marginLeft: 4 }}>Awarded Jobs</span>
                       </a>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                           });
                         }}
                       >
-                        My Posted Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-list" />
+                        </span>
+                        <span style={{ marginleft: 4 }}>My Open Jobs</span>
                       </a>
                     </React.Fragment>
                   )}
                   <a
-                    style={{ marginleft: 4 }}
                     className="navbar-item"
                     onClick={(e) => {
                       e.preventDefault();
@@ -180,7 +184,10 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    Post A Job
+                    <span style={{ marginRight: 4 }}>
+                      <i className="far fa-plus-square" />
+                    </span>
+                    <span>Post A Job</span>
                   </a>
                 </div>
               </div>
@@ -201,7 +208,6 @@ class Header extends React.Component {
                   {isLoggedIn && (
                     <React.Fragment>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -210,7 +216,10 @@ class Header extends React.Component {
                           });
                         }}
                       >
-                        Awarded Active Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-handshake" />
+                        </span>
+                        <span style={{ marginLeft: 4 }}>Awarded Bids</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -219,15 +228,16 @@ class Header extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                           });
                         }}
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                       >
-                        My Bids
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-money-check-alt" />
+                        </span>
+                        <span>My Bids</span>
                       </a>
                     </React.Fragment>
                   )}
                   <a
-                    style={{ marginleft: 4 }}
                     className="navbar-item"
                     onClick={(e) => {
                       e.preventDefault();
@@ -236,7 +246,10 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    Post A Bid
+                    <span style={{ marginRight: 4 }}>
+                      <i className="fas fa-plus-circle" />
+                    </span>
+                    <span>Post A Bid</span>
                   </a>
                 </div>
               </div>

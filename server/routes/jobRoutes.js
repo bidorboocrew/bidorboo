@@ -8,12 +8,21 @@ const isJobOwner = require('../middleware/isJobOwner');
 const utils = require('../utils/utilities');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.JOB.GET.myjobs, requireBidorBooHost, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getAllJobsForUser(req.user.userId);
+      userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'OPEN');
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my jobs', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
+    try {
+      userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'AWARDED');
+      return res.send(userJobsList);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
     }
   });
 

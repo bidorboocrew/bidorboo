@@ -2,7 +2,8 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
-  myPostedJobsList: [],
+  myOpenJobsList: [],
+  myAwardedJobsList: [],
   allThePostedJobsList: [],
   error: null,
   isLoading: false,
@@ -13,22 +14,40 @@ const initialState = {
   selectedAwardedJob: {},
 };
 
-const getMyJobs = {
+const getMyOpenJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
   }),
   isFullfilled: (state = initialState, { payload }) => {
-    let myPostedJobs =
-      payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
-    return { ...state, myPostedJobsList: myPostedJobs, isLoading: false };
+    let myOpenJobs = payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
+    return { ...state, myOpenJobsList: myOpenJobs, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {
-    const getAllMyJobsError =
+    const getAllMyOpenJobsError =
       payload && payload.data
         ? payload.data
         : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._REJECTED}`;
-    return { ...state, error: getAllMyJobsError, isLoading: false };
+    return { ...state, error: getAllMyOpenJobsError, isLoading: false };
+  },
+};
+
+const getMyAwardedJobs = {
+  isPending: (state = initialState, { payload }) => ({
+    ...state,
+    isLoading: true,
+  }),
+  isFullfilled: (state = initialState, { payload }) => {
+    let myAwardedJobs =
+      payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
+    return { ...state, myAwardedJobsList: myAwardedJobs, isLoading: false };
+  },
+  isRejected: (state = initialState, { payload }) => {
+    const error =
+      payload && payload.data
+        ? payload.data
+        : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._REJECTED}`;
+    return { ...state, error, isLoading: false };
   },
 };
 
@@ -88,9 +107,15 @@ const updateSelectedAwardedJob = (state = initialState, { payload }) => ({
 
 export default handleActions(
   {
-    [`${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._PENDING}`]: getMyJobs.isPending,
-    [`${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._FULFILLED}`]: getMyJobs.isFullfilled,
-    [`${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._REJECTED}`]: getMyJobs.isRejected,
+    // open jobs
+    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._PENDING}`]: getMyOpenJobs.isPending,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._FULFILLED}`]: getMyOpenJobs.isFullfilled,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._REJECTED}`]: getMyOpenJobs.isRejected,
+    // awarded jobs
+    [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._PENDING}`]: getMyAwardedJobs.isPending,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._FULFILLED}`]: getMyAwardedJobs.isFullfilled,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._REJECTED}`]: getMyAwardedJobs.isRejected,
+    //
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,

@@ -26,7 +26,7 @@ class CurrentJob extends React.Component {
             <li>
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                  switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                 }}
               >
                 My Jobs

@@ -20,9 +20,10 @@ module.exports = {
     },
     JOB: {
       GET: {
-        myjobs: '/api/job/myJobs',
+        myOpenJobs: '/api/job/myOpenJobs',
         alljobs: '/api/job/allJobs',
         jobById: '/api/job/:jobId',
+        myAwardedJobs: '/api/job/myAwardedJobs',
       },
       POST: {
         searchJobs: '/api/job/search',

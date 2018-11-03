@@ -5,19 +5,25 @@ import moment from 'moment';
 import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const getAllMyJobs = () => (dispatch, getState) =>
+export const getAllMyOpenJobs = () => (dispatch, getState) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_MY_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.myjobs),
+    type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
+    payload: axios.get(ROUTES.API.JOB.GET.myOpenJobs),
   });
 
-export const getAllPostedJobs = () => (dispatch, getState) =>
+export const getAllMyAwardedJobs = () => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
+    payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
+  });
+
+export const getAllPostedJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.alljobs),
   });
 
-export const getJobById = (jobId) => (dispatch, getState) =>
+export const getJobById = (jobId) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
     payload: axios.get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`).catch((error) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
-// const errorHandler = require('errorhandler');
+const errorHandler = require('errorhandler');
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
@@ -12,11 +12,13 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
 if(process.env.NODE_ENV !== 'production') {
-  // app.use(errorHandler());
+  app.use(errorHandler());
 }
 
 // initialize bugsnag
+if(process.env.NODE_ENV === 'production') {
 require('./services/bugSnag')(app);
+}
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
 // initialize logging

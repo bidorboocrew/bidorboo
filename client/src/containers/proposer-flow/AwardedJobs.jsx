@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyOpenJobs, selectJob } from '../../app-state/actions/jobActions';
+import { getAllMyAwardedJobs, selectJob } from '../../app-state/actions/jobActions';
 
 import MyJobsList from '../../components/proposer-components/MyJobsList';
 
 class MyJobs extends React.Component {
   componentDidMount() {
-    this.props.a_getAllMyOpenJobs();
+    this.props.a_getAllMyAwardedJobs();
   }
 
   render() {
-    const { myOpenJobsList, userDetails, a_selectJob } = this.props;
+    const { myAwardedJobsList, userDetails, a_selectJob } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -33,7 +33,7 @@ class MyJobs extends React.Component {
               <MyJobsList
                 selectJobHandler={a_selectJob}
                 userDetails={userDetails}
-                jobsList={myOpenJobsList}
+                jobsList={myAwardedJobsList}
               />
             </div>
           </div>
@@ -45,14 +45,14 @@ class MyJobs extends React.Component {
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
     error: jobsReducer.error,
-    myOpenJobsList: jobsReducer.myOpenJobsList,
+    myAwardedJobsList: jobsReducer.myAwardedJobsList,
     isLoading: jobsReducer.isLoading,
     userDetails: userModelReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
+    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
     a_selectJob: bindActionCreators(selectJob, dispatch),
   };
 };

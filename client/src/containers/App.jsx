@@ -24,7 +24,7 @@ import {
   CurrentJob,
   CurrentPostedBid,
   ActiveAwardedBids,
-  ActiveAwardedJobs,
+  AwardedJobs,
   CurrentAwardedJob,
 } from './index';
 
@@ -79,7 +79,7 @@ class App extends React.Component {
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route exact path={ROUTES.CLIENT.PROPOSER.myjobs} component={MyJobs} />
+                <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={MyJobs} />
                 <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}
@@ -88,7 +88,7 @@ class App extends React.Component {
                 <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.awardedJobsPage}
-                  component={ActiveAwardedJobs}
+                  component={AwardedJobs}
                 />
                  <Route
                   exact

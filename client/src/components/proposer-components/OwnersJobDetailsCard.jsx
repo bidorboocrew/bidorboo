@@ -61,7 +61,7 @@ export default class OwnersJobDetailsCard extends React.Component {
     const { job, currentUser, breadCrumb } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
 
@@ -73,7 +73,7 @@ export default class OwnersJobDetailsCard extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                    switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                   }}
                 >
                   My Jobs
@@ -278,7 +278,7 @@ class JobDetailsView extends React.Component {
     const { job, currentUser } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
 

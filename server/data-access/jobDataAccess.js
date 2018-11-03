@@ -5,50 +5,66 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
-  getAllJobsForUser: (userId) => {
-    const populateJobBidsAndBidders = {
-      path: '_postedJobsRef',
-      options: {
-        sort: { createdAt: -1 },
-        select: {
-          _bidsListRef: 1,
-          state: 1,
-          location: 1,
-          startingDateAndTime: 1,
-          addressText: 1,
-          title: 1,
-          fromTemplateId: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        },
-      },
-      populate: {
-        path: '_bidsListRef',
-        select: {
-          bidAmount: 1,
-          isNewBid: 1,
-          _bidderRef: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        },
-        populate: {
-          path: '_bidderRef',
+  getUserJobs: async (userId, stateFilter) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobBidsAndBidders = {
+        path: '_postedJobsRef',
+        options: {
+          sort: { createdAt: -1 },
           select: {
-            _reviewsRef: 1,
-            displayName: 1,
-            globalRating: 1,
-            profileImage: 1,
-            personalParagraph: 1,
-            membershipStatus: 1,
+            _bidsListRef: 1,
+            state: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            addressText: 1,
+            title: 1,
+            fromTemplateId: 1,
+            createdAt: 1,
+            updatedAt: 1,
           },
         },
-      },
-    };
+        populate: {
+          path: '_bidsListRef',
+          select: {
+            bidAmount: 1,
+            isNewBid: 1,
+            _bidderRef: 1,
+            createdAt: 1,
+            updatedAt: 1,
+          },
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _reviewsRef: 1,
+              displayName: 1,
+              globalRating: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+            },
+          },
+        },
+      };
 
-    return User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
-      .populate(populateJobBidsAndBidders)
-      .lean(true)
-      .exec();
+      try {
+        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
+          .populate(populateJobBidsAndBidders)
+          .lean(true)
+          .exec();
+
+        if (allJobs && allJobs._postedJobsRef && stateFilter) {
+          const filteredJobList = allJobs._postedJobsRef.filter((job) => {
+            return job.state === stateFilter;
+          });
+
+          resolve({ _postedJobsRef: filteredJobList });
+        } else {
+          resolve(allJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 
   getAllPostedJobs: (userId) => {
@@ -296,8 +312,8 @@ exports.jobDataAccess = {
             settings: 0,
             creditCards: 0,
             updatedAt: 0,
-            __v:0,
-            verificationIdImage:0,
+            __v: 0,
+            verificationIdImage: 0,
           },
         },
       })
