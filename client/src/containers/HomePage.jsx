@@ -96,7 +96,7 @@ class HomePage extends React.Component {
                     </div>
                     <div className="card-content">
                       <div className="content">
-                        <p className="title">Bid On Jobs</p>
+                        <p className="title">Bid Now</p>
                         <p className="subtitle">
                           Start Bidding on the jobs. Do the work you like for the price you like. Be
                           your own boss and manage your own schedule.

@@ -85,7 +85,7 @@ const EmptyState = () => (
           switchRoute(ROUTES.CLIENT.PROPOSER.root);
         }}
       >
-        post jobs
+        Post New Jobs
       </a>
     </div>
   </React.Fragment>

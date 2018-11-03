@@ -138,7 +138,9 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <i className="fa fa-child" aria-hidden="true" />
+                  <span style={{ marginRight: 4 }}>
+                    <i className="fa fa-child" aria-hidden="true" />
+                  </span>
                   <span>Proposer</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
@@ -156,8 +158,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="far fa-calendar-check" />
                         </span>
-
-                        <span style={{ marginLeft: 4 }}>Awarded Jobs</span>
+                        <span>Awarded Jobs</span>
                       </a>
                       <a
                         className="navbar-item"
@@ -171,7 +172,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-list" />
                         </span>
-                        <span style={{ marginleft: 4 }}>My Open Jobs</span>
+                        <span>Posted Jobs</span>
                       </a>
                     </React.Fragment>
                   )}
@@ -187,7 +188,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Post A Job</span>
+                    <span>Create Jobs</span>
                   </a>
                 </div>
               </div>
@@ -201,7 +202,9 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <i style={{ marginRight: 4 }} className="fa fa-hand-paper" aria-hidden="true" />
+                  <span style={{ marginRight: 4 }}>
+                    <i className="fa fa-hand-paper" aria-hidden="true" />
+                  </span>
                   <span>Bidder</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
@@ -219,7 +222,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-handshake" />
                         </span>
-                        <span style={{ marginLeft: 4 }}>Awarded Bids</span>
+                        <span>Bids I Won</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -233,7 +236,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-money-check-alt" />
                         </span>
-                        <span>My Bids</span>
+                        <span>Posted Bids</span>
                       </a>
                     </React.Fragment>
                   )}
@@ -249,7 +252,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="fas fa-plus-circle" />
                     </span>
-                    <span>Post A Bid</span>
+                    <span>Bid Now</span>
                   </a>
                 </div>
               </div>
@@ -282,8 +285,10 @@ class Header extends React.Component {
                             }}
                             className="navbar-item"
                           >
-                            <i className="far fa-user" aria-hidden="true" />
-                            <span style={{ marginLeft: 4 }}>My Profile</span>
+                            <span style={{ marginRight: 4 }}>
+                              <i className="far fa-user" aria-hidden="true" />
+                            </span>
+                            <span>My Profile</span>
                           </a>
                           <hr className="dropdown-divider" />
                           <a
@@ -294,8 +299,10 @@ class Header extends React.Component {
                             }
                             className="navbar-item"
                           >
-                            <i className="fas fa-sign-out-alt" />
-                            <span style={{ marginLeft: 4 }}>Logout</span>
+                            <span style={{ marginRight: 4 }}>
+                              <i className="fas fa-sign-out-alt" />
+                            </span>
+                            <span>Logout</span>
                           </a>
                         </div>
                       </div>
