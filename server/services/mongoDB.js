@@ -19,14 +19,14 @@ module.exports = (process) => {
     useCreateIndex: true,
     keepAlive: 120,
     reconnectTries: 20, // Never stop trying to reconnect
-    reconnectInterval: 5000 // Reconnect every 500ms,
+    reconnectInterval: 5000, // Reconnect every 500ms,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
   mongoose.connect(
     keys.mongoURI,
     dbOptions,
-    err => {
+    (err) => {
       if (err) {
         console.log(
           `Could not connect to mongodb on localhost.
@@ -42,9 +42,7 @@ module.exports = (process) => {
   process.on('SIGINT', function() {
     console.log('=== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
-      console.log(
-        'Mongoose default connection is disconnected due to application termination'
-      );
+      console.log('Mongoose default connection is disconnected due to application termination');
       process.exit(0);
     });
   });
