@@ -8,8 +8,8 @@
 	},
 	"main": "index.js",
 	"scripts": {
-		"start": "pm2 start index.js",
-		"oldStart": "npm node index.js",
+		"start": "node index.js",
+		"oldStart": "pm2 start index.js",
 		"dev": "nodemon index.js",
 		"debug": "node --nolazy --inspect-brk=9229 index.js"
 	},
