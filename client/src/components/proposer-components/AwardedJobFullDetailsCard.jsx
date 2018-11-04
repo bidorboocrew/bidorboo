@@ -136,7 +136,7 @@ const ContactMeDialog = ({ user, close }) => {
       <div onClick={close} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Contact Bidder</p>
+          <p className="modal-card-title">Bidder Contact Info</p>
           <button onClick={close} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
@@ -144,7 +144,7 @@ const ContactMeDialog = ({ user, close }) => {
           <DisplayLabelValue labelText="Email:" labelValue={email} />
           <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
 
-          <DisplayLabelValue
+          <NotesDisplayAndValue
             labelText="We Advice You To:"
             labelValue={
               <React.Fragment>
@@ -157,7 +157,6 @@ const ContactMeDialog = ({ user, close }) => {
               </React.Fragment>
             }
           />
-
           <br />
           <NotesDisplayAndValue
             labelText="notes*"
@@ -179,7 +178,7 @@ const ContactMeDialog = ({ user, close }) => {
         </section>
         <footer className="modal-card-foot">
           <button onClick={close} className="button is-success">
-            I accept the terms.
+            Got It!
           </button>
           <button onClick={close} className="button">
             Cancel
