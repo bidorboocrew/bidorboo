@@ -14,7 +14,21 @@ export const getAllMyOpenJobs = () => (dispatch, getState) =>
 export const deleteJobById = (jobId) => (dispatch) => {
   return dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios.delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } }),
+    payload: axios
+      .delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Job was sucessfully deleted.',
+              },
+            },
+          });
+        }
+      }),
   });
 };
 
@@ -34,42 +48,9 @@ export const getJobById = (jobId) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_BY_ID,
     payload: axios.get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`).catch((error) => {
-      dispatch({
-        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-        payload: {
-          toastDetails: {
-            type: 'error',
-            msg:
-              'Sorry That did not work, Please try again later.\n' +
-              (error && error.response && error.response.data ? error.response.data : error),
-          },
-        },
-      });
+      throwErrorNotification(dispatch, error);
     }),
   });
-
-// export const updateJobDetails = jobDetails => {
-//   return (dispatch, getState) => {
-//     // xxx said mapping between form fields to the job attributes
-//     // maybe we should hide this from the user and make it happen on the backend .
-//     // who cares for now tho
-//     // return dispatch({
-//     //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
-//     //   payload: axios
-//     //     .put(ROUTES.API.JOB.JOB_ROUTES, {
-//     //       data: {
-//     //         jobDetails: jobDetails
-//     //       }
-//     //     })
-//     //     .then(job => {
-//     //       //debugger;
-//     //     })
-//     //     .catch(e => {
-//     //       //debugger;
-//     //     })
-//     // });
-//   };
-// };
 
 export const searchByLocation = (userSearchQuery) => {
   return (dispatch) => {
@@ -200,27 +181,27 @@ export const addJob = (jobDetails) => (dispatch) => {
   });
 };
 
-export const uploadImages = (files) => (dispatch, getState) => {
-  const config = {
-    headers: { 'content-type': 'multipart/form-data' },
-  };
-  let data = new FormData();
-  for (var i = 0; i < files.length; i++) {
-    let file = files[i];
-    data.append('filesToUpload', file, file.name);
-  }
-  dispatch({
-    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios
-      .put(ROUTES.API.JOB.PUT.jobImage, data, config)
-      .then((e) => {
-        //debugger
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
+// export const uploadImages = (files) => (dispatch, getState) => {
+//   const config = {
+//     headers: { 'content-type': 'multipart/form-data' },
+//   };
+//   let data = new FormData();
+//   for (var i = 0; i < files.length; i++) {
+//     let file = files[i];
+//     data.append('filesToUpload', file, file.name);
+//   }
+// dispatch({
+//   type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+//   payload: axios
+//     .put(ROUTES.API.JOB.PUT.jobImage, data, config)
+//     .then((e) => {
+//       //debugger
+//     })
+//     .catch((error) => {
+//       throwErrorNotification(dispatch, error);
+//     }),
+// });
+// };
 
 export const selectJob = (jobDetails) => (dispatch) => {
   dispatch({

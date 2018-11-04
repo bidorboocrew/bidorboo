@@ -111,18 +111,20 @@ const deleteJob = {
     isLoading: true,
   }),
   isFullfilled: (state = initialState, { payload }) => {
-    const deletedJobId = payload.data;
-    const filteredResults =
-      state.myOpenJobsList &&
-      state.myOpenJobsList.filter((job) => {
-        return job._id !== deletedJobId;
-      });
+    if (payload && payload.data) {
+      const deletedJobId = payload.data;
+      const filteredResults =
+        state.myOpenJobsList &&
+        state.myOpenJobsList.filter((job) => {
+          return job._id !== deletedJobId;
+        });
 
-    return {
-      ...state,
-      myOpenJobsList: filteredResults,
-      isLoading: false,
-    };
+      return {
+        ...state,
+        myOpenJobsList: filteredResults,
+        isLoading: false,
+      };
+    }
   },
   isRejected: (state = initialState, { payload }) => {
     const error =
