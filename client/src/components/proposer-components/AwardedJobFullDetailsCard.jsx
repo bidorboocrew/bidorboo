@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import moment from 'moment';
+import ReactDOM from 'react-dom';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -24,6 +25,17 @@ export default class AwardedJobFullDetailsCard extends React.Component {
   constructor(props) {
     super(props);
     this.appRoot = document.querySelector('#bidorboo-root-view');
+
+    this.state = {
+      showConnectToBidderDialog: false,
+    };
+
+    autoBind(this, 'toggleConnecToBidderDialog');
+  }
+  toggleConnecToBidderDialog(e) {
+    e.preventDefault(e);
+
+    this.setState({ showConnectToBidderDialog: !this.state.showConnectToBidderDialog });
   }
 
   componentDidCatch() {
@@ -32,7 +44,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 
   render() {
     const { job, currentUser, breadCrumb } = this.props;
-    debugger;
+
     if (!job || !job._id || !job.awardedBid || !job.awardedBid._bidderRef) {
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
@@ -63,7 +75,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
         <footer className="card-footer">
           <div className="card-footer-item">
             <a
-              onClick={() => alert('not implemented yet')}
+              onClick={this.toggleConnecToBidderDialog}
               className="button is-primary is-fullwidth is-large"
             >
               Contact Bidder
@@ -83,6 +95,12 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 
     return (
       <React.Fragment>
+        {this.state.showConnectToBidderDialog &&
+          ReactDOM.createPortal(
+            <ContactMeDialog user={_bidderRef} close={this.toggleConnecToBidderDialog} />,
+            this.appRoot
+          )}
+
         {breadCrumb}
         {/* <React.Fragment>
         <h2 style={{ marginBottom: 2 }} className="subtitle">
@@ -109,6 +127,68 @@ export default class AwardedJobFullDetailsCard extends React.Component {
     );
   }
 }
+
+const ContactMeDialog = ({ user, close }) => {
+  const { displayName, email, phoneNumber = 'none provided' } = user;
+
+  return (
+    <div className="modal is-active">
+      <div onClick={close} className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Contact Bidder</p>
+          <button onClick={close} className="delete" aria-label="close" />
+        </header>
+        <section className="modal-card-body">
+          <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+          <DisplayLabelValue labelText="Email:" labelValue={email} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+
+          <DisplayLabelValue
+            labelText="We Advice You To:"
+            labelValue={
+              <React.Fragment>
+                <p>1) Make sure to agree on all necessary details about the task</p>
+                <p>2) Make sure to specify exact day and time</p>
+                <p>
+                  3) Confirm that the final price is the one listed against this job and not a dime
+                  more
+                </p>
+              </React.Fragment>
+            }
+          />
+
+          <br />
+          <NotesDisplayAndValue
+            labelText="notes*"
+            labelValue={
+              <React.Fragment>
+                <p>
+                  - To ensure quality you will get to rate the Bidder once they fullfilled the job.
+                </p>
+                <p>
+                  - Tasks are expected to match the scope in the listing and the final price is not
+                  negotiable
+                </p>
+                <p className="has-text-weight-bold has-text-info">
+                  - For safety we will handled payments automatically throught our service.
+                </p>
+              </React.Fragment>
+            }
+          />
+        </section>
+        <footer className="modal-card-foot">
+          <button onClick={close} className="button is-success">
+            I accept the terms.
+          </button>
+          <button onClick={close} className="button">
+            Cancel
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
+};
 
 class AwardedJobDetails extends React.Component {
   componentDidCatch() {
@@ -241,3 +321,25 @@ class AwardedJobDetails extends React.Component {
     );
   }
 }
+
+const DisplayLabelValue = (props) => {
+  return (
+    <div style={{ padding: 4, marginBottom: 4 }}>
+      <div style={{ color: 'grey', fontSize: 12 }}>{props.labelText}</div>
+      <div className="has-text-weight-bold" style={{ fontSize: 14 }}>
+        {props.labelValue}
+      </div>
+    </div>
+  );
+};
+
+const NotesDisplayAndValue = (props) => {
+  return (
+    <div style={{ padding: 4, marginBottom: 4 }}>
+      <div style={{ color: 'grey', fontSize: 12 }}>{props.labelText}</div>
+      <div className="has-text-weight-bold" style={{ fontSize: 10 }}>
+        {props.labelValue}
+      </div>
+    </div>
+  );
+};
