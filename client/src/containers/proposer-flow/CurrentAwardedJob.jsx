@@ -69,11 +69,13 @@ class CurrentAwardedJob extends React.Component {
       <section className="mainSectionContainer slide-in-left">
         {selectedAwardedJob && selectedAwardedJob._id ? (
           <AwardedJobFullDetailsCard
-            breadCrumb={breadCrumb}
+            breadCrumb={breadCrumb()}
             currentUser={userDetails}
             job={selectedAwardedJob}
           />
-        ) : (<div>loading</div>)}
+        ) : (
+          <div>loading</div>
+        )}
       </section>
     );
   }

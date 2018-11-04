@@ -231,7 +231,6 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
       .then((resp) => {
-        debugger;
         // update recently added job
         if (resp && resp.data) {
           switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);

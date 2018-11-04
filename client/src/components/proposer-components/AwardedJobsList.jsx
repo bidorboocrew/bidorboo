@@ -24,7 +24,6 @@ class AwardedJobsList extends React.Component {
     return userHasPostedJobs ? (
       <React.Fragment>
         <JobsWithBids {...this.props} />
-        <JobsWithoutBids {...this.props} />
       </React.Fragment>
     ) : (
       <EmptyState />
@@ -48,22 +47,6 @@ const JobsWithBids = (props) => {
       );
     });
   return jobsWithBids;
-};
-
-const JobsWithoutBids = (props) => {
-  const { jobsList } = props;
-  const jobsWithoutBids = jobsList
-    .filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className="column is-one-third">
-          <JobSummaryView job={job} {...props} />
-        </div>
-      );
-    });
-  return jobsWithoutBids;
 };
 
 const EmptyState = () => (
