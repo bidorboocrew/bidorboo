@@ -105,6 +105,34 @@ const updateSelectedAwardedJob = (state = initialState, { payload }) => ({
   selectedAwardedJob: payload.data,
 });
 
+const deleteJob = {
+  isPending: (state = initialState, { payload }) => ({
+    ...state,
+    isLoading: true,
+  }),
+  isFullfilled: (state = initialState, { payload }) => {
+    const deletedJobId = payload.data;
+    const filteredResults =
+      state.myOpenJobsList &&
+      state.myOpenJobsList.filter((job) => {
+        return job._id !== deletedJobId;
+      });
+
+    return {
+      ...state,
+      myOpenJobsList: filteredResults,
+      isLoading: false,
+    };
+  },
+  isRejected: (state = initialState, { payload }) => {
+    const error =
+      payload && payload.data
+        ? payload.data
+        : `unknown issue while ${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._REJECTED}`;
+    return { ...state, error, isLoading: false };
+  },
+};
+
 export default handleActions(
   {
     // open jobs
@@ -115,7 +143,11 @@ export default handleActions(
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._PENDING}`]: getMyAwardedJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._FULFILLED}`]: getMyAwardedJobs.isFullfilled,
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._REJECTED}`]: getMyAwardedJobs.isRejected,
-    //
+    //delete a job
+    [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._PENDING}`]: deleteJob.isPending,
+    [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._FULFILLED}`]: deleteJob.isFullfilled,
+    [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._REJECTED}`]: deleteJob.isRejected,
+
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
     [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,

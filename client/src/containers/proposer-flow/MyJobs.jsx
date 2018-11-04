@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyOpenJobs, selectJob } from '../../app-state/actions/jobActions';
+import { getAllMyOpenJobs, selectJob, deleteJobById } from '../../app-state/actions/jobActions';
 
 import MyJobsList from '../../components/proposer-components/MyJobsList';
 
@@ -12,7 +12,7 @@ class MyJobs extends React.Component {
   }
 
   render() {
-    const { myOpenJobsList, userDetails, a_selectJob } = this.props;
+    const { myOpenJobsList, userDetails, a_selectJob, a_deleteJobById } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -34,6 +34,7 @@ class MyJobs extends React.Component {
                 selectJobHandler={a_selectJob}
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
+                deleteJob={a_deleteJobById}
               />
             </div>
           </div>
@@ -53,6 +54,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
+    a_deleteJobById: bindActionCreators(deleteJobById, dispatch),
     a_selectJob: bindActionCreators(selectJob, dispatch),
   };
 };

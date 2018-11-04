@@ -11,7 +11,9 @@ class MyJobsList extends React.Component {
     selectJobHandler: PropTypes.func.isRequired,
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
+    deleteJob: PropTypes.func.isRequired,
   };
+
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
@@ -93,7 +95,7 @@ const EmptyState = () => (
 
 class JobSummaryView extends React.Component {
   render() {
-    const { job, selectJobHandler, userDetails, areThereAnyBidders } = this.props;
+    const { job, selectJobHandler, userDetails, areThereAnyBidders, deleteJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
@@ -125,6 +127,20 @@ class JobSummaryView extends React.Component {
           className="card-header  is-clipped"
         >
           <p className="card-header-title">{title || 'Job Title'}</p>
+
+          {/* xxxx delete button */}
+          <a
+            className="card-header-icon"
+            aria-label="more options"
+            onClick={(e) => {
+              e.preventDefault();
+              deleteJob(job._id);
+            }}
+          >
+            <span style={{ color: 'grey' }} className="icon">
+              <i className="far fa-trash-alt" aria-hidden="true" />
+            </span>
+          </a>
         </header>
         <div className="card-image is-clipped">
           <figure className="image is-3by1">

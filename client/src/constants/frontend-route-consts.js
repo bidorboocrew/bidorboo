@@ -33,8 +33,7 @@ export const API = {
       awardBidder: '/api/job/awardBidder',
     },
     DELETE: {
-      jobById: '/api/job/',
-      jobImage: '/api/job/',
+      jobById: '/api/job/delete',
     },
   },
   BID: {

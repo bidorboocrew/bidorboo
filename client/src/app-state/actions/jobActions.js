@@ -11,6 +11,13 @@ export const getAllMyOpenJobs = () => (dispatch, getState) =>
     payload: axios.get(ROUTES.API.JOB.GET.myOpenJobs),
   });
 
+export const deleteJobById = (jobId) => (dispatch) => {
+  return dispatch({
+    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    payload: axios.delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } }),
+  });
+};
+
 export const getAllMyAwardedJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
