@@ -17,6 +17,30 @@ module.exports = (app) => {
     }
   });
 
+  app.delete(
+    ROUTES.API.JOB.DELETE.jobById,
+    requireBidorBooHost,
+    requireLogin,
+    // isJobOwner,
+    async (req, res) => {
+      try {
+        const userMongoDBId = req.user.userId;
+        const jobId = req.body.jobId;
+
+        if(jobId){
+          userJobsList = await jobDataAccess.deleteJob(jobId, userMongoDBId);
+          return res.send(jobId);
+        } else{
+          return res.status(400).send({
+            errorMsg: 'Bad Request JobId param was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To delete job', details: e });
+      }
+    }
+  );
+
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'AWARDED');

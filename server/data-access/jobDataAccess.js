@@ -345,4 +345,20 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  deleteJob: async (jobId, userId) => {
+
+    const deletedJob = await JobModel.findOneAndDelete({ _id: jobId })
+      .lean(true)
+      .exec();
+
+    const user = await User.findOneAndUpdate(
+      { userId: userId },
+      { $pull: { _postedJobsRef: { $in: [jobId] } } },
+      { new: true }
+    )
+      .lean(true)
+      .exec();
+
+    return user;
+  },
 };
