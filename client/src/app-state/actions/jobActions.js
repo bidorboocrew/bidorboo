@@ -12,23 +12,23 @@ export const getAllMyOpenJobs = () => (dispatch) =>
   });
 
 export const deleteJobById = (jobId) => (dispatch) => {
-  return dispatch({
+  const req = dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios
-      .delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } })
-      .then((resp) => {
-        if (resp && resp.data) {
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Job was sucessfully deleted.',
-              },
-            },
-          });
-        }
-      }),
+    payload: axios.delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } }),
+  });
+
+  req.then((resp) => {
+    if (resp && resp.value && resp.value.data) {
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'success',
+            msg: 'Job was sucessfully deleted.',
+          },
+        },
+      });
+    }
   });
 };
 

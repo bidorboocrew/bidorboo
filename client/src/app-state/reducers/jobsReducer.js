@@ -122,10 +122,11 @@ const deleteJob = {
         state.myOpenJobsList.filter((job) => {
           return job._id !== deletedJobId;
         });
-
       return {
         ...state,
         myOpenJobsList: filteredResults,
+        selectedActivePostedJob: {},
+        selectedActivePostedJob:{},
         isLoading: false,
       };
     }
