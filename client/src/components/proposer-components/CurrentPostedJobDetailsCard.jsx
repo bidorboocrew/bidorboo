@@ -108,7 +108,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     const cardFooter = () => {
       return (
         <React.Fragment>
-          <div className="has-text-centered is-size-5 ">
+          <div className="has-text-centered is-size-2 ">
             bid amount :
             <span className="has-text-primary is-capitalized has-text-weight-bold ">
               {` ${this.state.bidText}`}

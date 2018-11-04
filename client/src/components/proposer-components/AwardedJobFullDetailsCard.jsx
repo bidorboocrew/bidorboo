@@ -54,9 +54,9 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 
     const cardFooter = () => (
       <React.Fragment>
-        <div className="has-text-centered is-size-5 ">
+        <div className="has-text-centered is-size-2 ">
           bid amount :
-          <span className="has-text-primary is-capitalized has-text-weight-bold ">
+          <span className="has-text-primary is-capitalized has-text-weight-bold">
             {` ${bidText}`}
           </span>
         </div>
@@ -94,17 +94,17 @@ export default class AwardedJobFullDetailsCard extends React.Component {
           showReviewModal={this.showReviewModal}
         />
       </React.Fragment> */}
-          {_bidderRef && (
-            <OtherUserDetails
-              otherUserDetails={_bidderRef}
-              cardFooter={cardFooter()}
-              cardTitle={cardTitle()}
-            />
-          )}
+        {_bidderRef && (
+          <OtherUserDetails
+            otherUserDetails={_bidderRef}
+            cardFooter={cardFooter()}
+            cardTitle={cardTitle()}
+          />
+        )}
 
-          <br />
+        <br />
 
-          <AwardedJobDetails job={job} currentUser={currentUser} />
+        <AwardedJobDetails job={job} currentUser={currentUser} />
       </React.Fragment>
     );
   }
