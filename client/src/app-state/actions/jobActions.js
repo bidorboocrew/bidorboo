@@ -5,7 +5,7 @@ import moment from 'moment';
 import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const getAllMyOpenJobs = () => (dispatch, getState) =>
+export const getAllMyOpenJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.myOpenJobs),
@@ -44,39 +44,47 @@ export const getAllPostedJobs = () => (dispatch) =>
     payload: axios.get(ROUTES.API.JOB.GET.alljobs),
   });
 
-export const getJobById = (jobId) => (dispatch) =>
+export const getPostedJobDetails = (jobId) => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_JOB_BY_ID,
-    payload: axios.get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`).catch((error) => {
-      throwErrorNotification(dispatch, error);
-    }),
+    type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.jobById, { params: { jobId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
   });
 
-export const searchByLocation = (userSearchQuery) => {
-  return (dispatch) => {
-    const serverSearchQuery = {
-      searchLocation: userSearchQuery.locationField,
-      searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
-      jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
-    };
-
-    dispatch({
-      type: A.JOB_ACTIONS.SEARCH_JOB,
-      payload: serverSearchQuery,
-    });
-    dispatch({
-      type: A.JOB_ACTIONS.SEARCH_JOB,
-      payload: axios
-        .post(ROUTES.API.JOB.POST.searchJobs, {
-          data: {
-            searchParams: serverSearchQuery,
-          },
-        })
-        .catch((error) => {
-          throwErrorNotification(dispatch, error);
-        }),
-    });
+export const searchByLocation = (userSearchQuery) => (dispatch) => {
+  const serverSearchQuery = {
+    searchLocation: userSearchQuery.locationField,
+    searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
+    jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
   };
+
+  dispatch({
+    type: A.JOB_ACTIONS.SEARCH_JOB,
+    payload: serverSearchQuery,
+  });
+  dispatch({
+    type: A.JOB_ACTIONS.SEARCH_JOB,
+    payload: axios
+      .post(ROUTES.API.JOB.POST.searchJobs, {
+        data: {
+          searchParams: serverSearchQuery,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
 };
 
 export const addJob = (jobDetails) => (dispatch) => {
@@ -155,24 +163,8 @@ export const addJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          // update recently added job
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
-            payload: { data: resp.data },
-          });
           // switch route to show the currently added job
-          switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
-
-          // show notification of new job
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Great! You have added your job successfully',
-              },
-            },
-          });
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`);
         }
       })
       .catch((error) => {
@@ -202,15 +194,6 @@ export const addJob = (jobDetails) => (dispatch) => {
 //     }),
 // });
 // };
-
-export const selectJob = (jobDetails) => (dispatch) => {
-  dispatch({
-    type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
-    payload: { data: jobDetails },
-  });
-  // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
-};
 
 export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
   dispatch({

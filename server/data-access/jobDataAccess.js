@@ -106,9 +106,7 @@ exports.jobDataAccess = {
             return job.state === stateFilter;
           });
 
-          resolve({ _postedJobsRef: filteredJobList });
-        } else {
-          resolve(allJobs);
+          resolve(filteredJobList );
         }
       } catch (e) {
         reject(e);
@@ -408,5 +406,67 @@ exports.jobDataAccess = {
       .exec();
 
     return user;
+  },
+
+  getPostedJobDetails: async (userId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobBidsAndBidders = {
+        path: '_postedJobsRef',
+        options: {
+          select: {
+            _bidsListRef: 1,
+            state: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            addressText: 1,
+            title: 1,
+            fromTemplateId: 1,
+            createdAt: 1,
+            _id:1,
+            updatedAt: 1,
+          },
+        },
+        populate: {
+          path: '_bidsListRef',
+          select: {
+            bidAmount: 1,
+            isNewBid: 1,
+            _bidderRef: 1,
+            createdAt: 1,
+            updatedAt: 1,
+          },
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _reviewsRef: 1,
+              displayName: 1,
+              globalRating: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+            },
+          },
+        },
+      };
+
+      try {
+        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(populateJobBidsAndBidders)
+          .lean(true)
+          .exec();
+
+        if (allJobs && allJobs._postedJobsRef) {
+          const chosenJob = allJobs._postedJobsRef.find((job) => {
+            return job._id.toString() === jobId;
+          });
+
+          resolve(chosenJob);
+        } else {
+          resolve(allJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 };

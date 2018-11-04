@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyOpenJobs, selectJob, deleteJobById } from '../../app-state/actions/jobActions';
+import { getAllMyOpenJobs, deleteJobById } from '../../app-state/actions/jobActions';
 
 import MyJobsList from '../../components/proposer-components/MyJobsList';
 
@@ -31,7 +31,6 @@ class MyJobs extends React.Component {
               className="columns is-multiline"
             >
               <MyJobsList
-                selectJobHandler={a_selectJob}
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
@@ -55,7 +54,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
     a_deleteJobById: bindActionCreators(deleteJobById, dispatch),
-    a_selectJob: bindActionCreators(selectJob, dispatch),
   };
 };
 

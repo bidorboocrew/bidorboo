@@ -11,7 +11,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'OPEN');
-      return res.send(userJobsList);
+      return res.send({ _postedJobsRef: userJobsList });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
     }
@@ -66,7 +66,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'AWARDED');
-      return res.send(userJobsList);
+      return res.send({ _postedJobsRef:userJobsList});
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
     }
@@ -116,16 +116,16 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res, done) => {
     try {
-      const requestedJobId = req.params.jobId;
-      if (!requestedJobId) {
-        return res.status(400).send({ errorMsg: 'Bad Request', details: e });
-      }
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        const userId = req.user.userId;
 
-      let existingJob = null;
-
-      existingJob = await jobDataAccess.findOneByJobId(requestedJobId);
-      if (existingJob) {
-        return res.send(existingJob);
+        const jobDetails = await jobDataAccess.getPostedJobDetails(userId, jobId);
+        return res.send(jobDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
+        });
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });

@@ -8,7 +8,6 @@ import { switchRoute } from '../../utils';
 
 class MyJobsList extends React.Component {
   static propTypes = {
-    selectJobHandler: PropTypes.func.isRequired,
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
     deleteJob: PropTypes.func,
@@ -86,7 +85,7 @@ const EmptyState = () => (
 
 class JobSummaryView extends React.Component {
   render() {
-    const { job, selectJobHandler, userDetails, areThereAnyBidders, deleteJob } = this.props;
+    const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;
 
     // get details about the user
@@ -191,7 +190,7 @@ class JobSummaryView extends React.Component {
                 className="button is-primary is-fullwidth is-large"
                 onClick={(e) => {
                   e.preventDefault();
-                  selectJobHandler(job);
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
                 }}
               >
                 <span style={{ marginLeft: 4 }}>

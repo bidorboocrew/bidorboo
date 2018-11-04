@@ -24,7 +24,6 @@ class CurrentAwardedJob extends React.Component {
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     } else {
-      debugger;
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
     }
@@ -34,8 +33,6 @@ class CurrentAwardedJob extends React.Component {
     const { a_getAwardedBidFullDetails } = this.props;
 
     if (!a_getAwardedBidFullDetails || !this.jobId) {
-      debugger;
-
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
     }
@@ -45,7 +42,6 @@ class CurrentAwardedJob extends React.Component {
 
   render() {
     const { selectedAwardedJob, userDetails } = this.props;
-debugger
     const breadCrumb = () => (
       <div style={{ marginBottom: '1rem' }} className="container">
         <nav className="breadcrumb" aria-label="breadcrumbs">

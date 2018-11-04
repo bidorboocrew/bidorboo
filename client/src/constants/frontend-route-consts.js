@@ -21,7 +21,7 @@ export const API = {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
       alljobs: '/api/job/allJobs',
-      jobById: '/api/job/:jobId',
+      jobById: '/api/job',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
     },
