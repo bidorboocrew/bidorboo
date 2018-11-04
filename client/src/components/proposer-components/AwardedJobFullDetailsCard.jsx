@@ -78,7 +78,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
               onClick={this.toggleConnecToBidderDialog}
               className="button is-primary is-fullwidth is-large"
             >
-              Contact Bidder
+              Contact
             </a>
           </div>
           <div className="card-footer-item">
