@@ -213,7 +213,6 @@ export const selectJob = (jobDetails) => (dispatch) => {
 };
 
 export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
-  debugger;
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
     payload: axios

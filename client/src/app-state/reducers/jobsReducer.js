@@ -100,10 +100,14 @@ const updateSelectedActiveJob = (state = initialState, { payload }) => ({
   selectedActiveJob: payload.data,
 });
 
-const updateSelectedAwardedJob = (state = initialState, { payload }) => ({
-  ...state,
-  selectedAwardedJob: payload.data,
-});
+const updateSelectedAwardedJob = (state = initialState, { payload }) => {
+  debugger;
+
+  return {
+    ...state,
+    selectedAwardedJob: payload.data,
+  };
+};
 
 const deleteJob = {
   isPending: (state = initialState, { payload }) => ({

@@ -24,6 +24,7 @@ exports.jobDataAccess = {
             extras: 0,
             canBid: 0,
             canPost: 0,
+            userId:0,
           },
         },
       };

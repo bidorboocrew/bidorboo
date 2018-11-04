@@ -20,11 +20,11 @@ class CurrentAwardedJob extends React.Component {
     super(props);
 
     this.jobId = null;
-    debugger
 
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     } else {
+      debugger;
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
     }
@@ -32,8 +32,10 @@ class CurrentAwardedJob extends React.Component {
 
   componentDidMount() {
     const { a_getAwardedBidFullDetails } = this.props;
-debugger
+
     if (!a_getAwardedBidFullDetails || !this.jobId) {
+      debugger;
+
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
     }
@@ -42,9 +44,9 @@ debugger
   }
 
   render() {
-    const { selectedAwardedJob, userDetails, a_awardBidder } = this.props;
-
-    const breadCrumb = (
+    const { selectedAwardedJob, userDetails } = this.props;
+debugger
+    const breadCrumb = () => (
       <div style={{ marginBottom: '1rem' }} className="container">
         <nav className="breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -69,11 +71,13 @@ debugger
 
     return (
       <section className="mainSectionContainer slide-in-left">
-        <AwardedJobFullDetailsCard
-          breadCrumb={breadCrumb}
-          currentUser={userDetails}
-          job={selectedAwardedJob}
-        />
+        {selectedAwardedJob && selectedAwardedJob._id ? (
+          <AwardedJobFullDetailsCard
+            breadCrumb={breadCrumb}
+            currentUser={userDetails}
+            job={selectedAwardedJob}
+          />
+        ) : (<div>loading</div>)}
       </section>
     );
   }

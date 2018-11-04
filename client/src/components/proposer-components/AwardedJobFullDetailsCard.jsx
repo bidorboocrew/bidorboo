@@ -54,12 +54,14 @@ export default class AwardedJobFullDetailsCard extends React.Component {
   }
 
   componentDidCatch() {
+    
     switchRoute(ROUTES.CLIENT.ENTRY);
   }
 
   render() {
     const { job, currentUser, breadCrumb } = this.props;
 
+    debugger
     if (!job || !job._id) {
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
