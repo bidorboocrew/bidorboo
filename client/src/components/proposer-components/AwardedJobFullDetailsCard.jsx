@@ -181,7 +181,7 @@ const ContactMeDialog = ({ user, close }) => {
             Got It!
           </button>
           <button onClick={close} className="button">
-            Cancel
+            Go Back
           </button>
         </footer>
       </div>
