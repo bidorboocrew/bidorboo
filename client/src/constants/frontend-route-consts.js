@@ -22,6 +22,7 @@ export const API = {
       myOpenJobs: '/api/job/myOpenJobs',
       alljobs: '/api/job/allJobs',
       jobById: '/api/job/:jobId',
+      jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
     },
     POST: {

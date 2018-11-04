@@ -212,6 +212,27 @@ export const selectJob = (jobDetails) => (dispatch) => {
   switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
 };
 
+export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
+  debugger;
+  dispatch({
+    type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.jobFullDetailsById, { params: { jobId } })
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const awardBidder = (jobId, bidId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
@@ -228,14 +249,10 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
       .then((resp) => {
+        debugger;
         // update recently added job
         if (resp && resp.data) {
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
-            payload: { data: resp.data },
-          });
-
-          switchRoute(ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {

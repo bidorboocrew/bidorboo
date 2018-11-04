@@ -24,6 +24,7 @@ module.exports = {
         alljobs: '/api/job/allJobs',
         jobById: '/api/job/:jobId',
         myAwardedJobs: '/api/job/myAwardedJobs',
+        jobFullDetailsById: '/api/job/fullDetails',
       },
       POST: {
         searchJobs: '/api/job/search',

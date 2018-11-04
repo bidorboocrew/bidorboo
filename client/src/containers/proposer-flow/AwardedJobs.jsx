@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyAwardedJobs, selectJob } from '../../app-state/actions/jobActions';
+import { getAllMyAwardedJobs } from '../../app-state/actions/jobActions';
 
-import MyJobsList from '../../components/proposer-components/MyJobsList';
+import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
 
 class MyJobs extends React.Component {
   componentDidMount() {
@@ -12,7 +12,7 @@ class MyJobs extends React.Component {
   }
 
   render() {
-    const { myAwardedJobsList, userDetails, a_selectJob } = this.props;
+    const { myAwardedJobsList, userDetails } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
@@ -30,8 +30,7 @@ class MyJobs extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <MyJobsList
-                selectJobHandler={a_selectJob}
+              <AwardedJobsList
                 userDetails={userDetails}
                 jobsList={myAwardedJobsList}
               />
@@ -53,7 +52,6 @@ const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
-    a_selectJob: bindActionCreators(selectJob, dispatch),
   };
 };
 

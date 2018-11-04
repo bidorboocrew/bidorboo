@@ -92,7 +92,7 @@ class App extends React.Component {
                 />
                  <Route
                   exact
-                  path={ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}
+                  path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
                   component={CurrentAwardedJob}
                 />
 

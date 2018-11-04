@@ -27,16 +27,38 @@ module.exports = (app) => {
         const userMongoDBId = req.user.userId;
         const jobId = req.body.jobId;
 
-        if(jobId){
+        if (jobId) {
           userJobsList = await jobDataAccess.deleteJob(jobId, userMongoDBId);
           return res.send(jobId);
-        } else{
+        } else {
           return res.status(400).send({
             errorMsg: 'Bad Request JobId param was Not Specified',
           });
         }
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To delete job', details: e });
+      }
+    }
+  );
+
+  app.get(
+    ROUTES.API.JOB.GET.jobFullDetailsById,
+    requireBidorBooHost,
+    requireLogin,
+    // isJobOwner,
+    async (req, res) => {
+      try {
+        if (req.query && req.query.jobId) {
+          const { jobId } = req.query;
+          jobFullDetails = await jobDataAccess.getAwardedJobDetails(jobId);
+          return res.send(jobFullDetails);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for awarded job details, jobId param was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
       }
     }
   );

@@ -5,6 +5,54 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
+  getAwardedJobDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobWithBidderDetails = {
+        path: 'awardedBid',
+        select: {
+          _bidderRef: 1,
+          bidAmount: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            _postedJobsRef: 0,
+            _postedBidsRef: 0,
+            creditCards: 0,
+            address: 0,
+            settings: 0,
+            extras: 0,
+            canBid: 0,
+            canPost: 0,
+          },
+        },
+      };
+
+      try {
+        const jobWithBidderDetails = await JobModel.findById(
+          { _id: jobId },
+          {
+            _ownerRef: 0,
+            ownerId: 0,
+            properties: 0,
+            hideForUserIds: 0,
+            bidderIds: 0,
+            _ownerRef: 0,
+            _bidsListRef: 0,
+            jobReview: 0,
+            extras: 0,
+          }
+        )
+          .populate(populateJobWithBidderDetails)
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getUserJobs: async (userId, stateFilter) => {
     return new Promise(async (resolve, reject) => {
       const populateJobBidsAndBidders = {
@@ -346,7 +394,6 @@ exports.jobDataAccess = {
       .exec();
   },
   deleteJob: async (jobId, userId) => {
-
     const deletedJob = await JobModel.findOneAndDelete({ _id: jobId })
       .lean(true)
       .exec();
