@@ -22,8 +22,9 @@ module.exports = {
       GET: {
         myOpenJobs: '/api/job/myOpenJobs',
         alljobs: '/api/job/allJobs',
-        jobById: '/api/job/:jobId',
+        jobById: '/api/job',
         myAwardedJobs: '/api/job/myAwardedJobs',
+        jobFullDetailsById: '/api/job/fullDetails',
       },
       POST: {
         searchJobs: '/api/job/search',
@@ -34,7 +35,7 @@ module.exports = {
         awardBidder: '/api/job/awardBidder',
       },
       DELETE: {
-        jobById: '/api/job/delete',
+        jobById: '/api/job',
       },
     },
     BID: {

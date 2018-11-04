@@ -6,7 +6,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-class MyJobsList extends React.Component {
+class AwardedJobsList extends React.Component {
   static propTypes = {
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
@@ -24,7 +24,6 @@ class MyJobsList extends React.Component {
     return userHasPostedJobs ? (
       <React.Fragment>
         <JobsWithBids {...this.props} />
-        <JobsWithoutBids {...this.props} />
       </React.Fragment>
     ) : (
       <EmptyState />
@@ -32,7 +31,7 @@ class MyJobsList extends React.Component {
   }
 }
 
-export default MyJobsList;
+export default AwardedJobsList;
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;
@@ -48,22 +47,6 @@ const JobsWithBids = (props) => {
       );
     });
   return jobsWithBids;
-};
-
-const JobsWithoutBids = (props) => {
-  const { jobsList } = props;
-  const jobsWithoutBids = jobsList
-    .filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className="column is-one-third">
-          <JobSummaryView job={job} {...props} />
-        </div>
-      );
-    });
-  return jobsWithoutBids;
 };
 
 const EmptyState = () => (
@@ -185,16 +168,17 @@ class JobSummaryView extends React.Component {
               </a>
             )}
             {/* show as enabled cuz there is bidders */}
+
             {areThereAnyBidders && (
               <a
                 className="button is-primary is-fullwidth is-large"
                 onClick={(e) => {
                   e.preventDefault();
-                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
                 }}
               >
                 <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Review Bids
+                  <i className="fa fa-hand-paper" /> Contact Winner
                 </span>
               </a>
             )}

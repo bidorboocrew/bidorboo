@@ -21,7 +21,8 @@ export const API = {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
       alljobs: '/api/job/allJobs',
-      jobById: '/api/job/:jobId',
+      jobById: '/api/job',
+      jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
     },
     POST: {
@@ -33,7 +34,7 @@ export const API = {
       awardBidder: '/api/job/awardBidder',
     },
     DELETE: {
-      jobById: '/api/job/delete',
+      jobById: '/api/job',
     },
   },
   BID: {

@@ -116,7 +116,7 @@ const UserDetails = ({ otherUserDetails }) => {
   } = otherUserDetails;
   return (
     <React.Fragment>
-      <HeaderTitle title="General Information" />
+      <HeaderTitle title="Member Details" />
       <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
       <DisplayLabelValue labelText="Email:" labelValue={email} />
       <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />

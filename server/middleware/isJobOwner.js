@@ -2,7 +2,7 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
-    if (req.user) {
+    if (req.user && req.user.userId) {
       //in the future redirect to login page
       const { jobIdToUpdate } = req.body.data;
       const userId = req.user._id;

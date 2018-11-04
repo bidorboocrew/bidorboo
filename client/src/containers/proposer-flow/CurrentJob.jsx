@@ -10,14 +10,36 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { addJob, awardBidder } from '../../app-state/actions/jobActions';
-import OwnersJobDetailsCard from '../../components/proposer-components/OwnersJobDetailsCard';
+import { awardBidder, getPostedJobDetails } from '../../app-state/actions/jobActions';
+import CurrentPostedJobDetailsCard from '../../components/proposer-components/CurrentPostedJobDetailsCard';
 
 import { switchRoute } from '../../utils';
 
 class CurrentJob extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.jobId = null;
+    if (props.match && props.match.params && props.match.params.jobId) {
+      this.jobId = props.match.params.jobId;
+    } else {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return null;
+    }
+  }
+
+  componentDidMount() {
+    const { a_getPostedJobDetails } = this.props;
+
+    if (!a_getPostedJobDetails || !this.jobId) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return null;
+    }
+
+    a_getPostedJobDetails(this.jobId);
+  }
   render() {
-    const { selectedActiveJob, userDetails, a_awardBidder } = this.props;
+    const { selectedActivePostedJob, userDetails, a_awardBidder } = this.props;
 
     const breadCrumb = (
       <div style={{ marginBottom: '1rem' }} className="container">
@@ -34,7 +56,7 @@ class CurrentJob extends React.Component {
             </li>
             <li className="is-active">
               <a aria-current="page">
-                {selectedActiveJob ? selectedActiveJob.title : 'Selected Job'}
+                {selectedActivePostedJob ? selectedActivePostedJob.title : 'Selected Job'}
               </a>
             </li>
           </ul>
@@ -44,12 +66,16 @@ class CurrentJob extends React.Component {
 
     return (
       <section className="mainSectionContainer slide-in-left">
-        <OwnersJobDetailsCard
-          breadCrumb={breadCrumb}
-          currentUser={userDetails}
-          job={selectedActiveJob}
-          awardBidder={a_awardBidder}
-        />
+        {selectedActivePostedJob && selectedActivePostedJob._id ? (
+          <CurrentPostedJobDetailsCard
+            breadCrumb={breadCrumb}
+            currentUser={userDetails}
+            job={selectedActivePostedJob}
+            awardBidder={a_awardBidder}
+          />
+        ) : (
+          <div>loading</div>
+        )}
       </section>
     );
   }
@@ -57,15 +83,15 @@ class CurrentJob extends React.Component {
 
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
-    selectedActiveJob: jobsReducer.selectedActiveJob,
+    selectedActivePostedJob: jobsReducer.selectedActivePostedJob,
     userDetails: userModelReducer.userDetails,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_addJob: bindActionCreators(addJob, dispatch),
     a_awardBidder: bindActionCreators(awardBidder, dispatch),
+    a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
   };
 };
 

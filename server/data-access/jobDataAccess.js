@@ -5,6 +5,55 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.jobDataAccess = {
+  getAwardedJobDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobWithBidderDetails = {
+        path: 'awardedBid',
+        select: {
+          _bidderRef: 1,
+          bidAmount: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            _postedJobsRef: 0,
+            _postedBidsRef: 0,
+            creditCards: 0,
+            address: 0,
+            settings: 0,
+            extras: 0,
+            canBid: 0,
+            canPost: 0,
+            userId:0,
+          },
+        },
+      };
+
+      try {
+        const jobWithBidderDetails = await JobModel.findById(
+          { _id: jobId },
+          {
+            _ownerRef: 0,
+            ownerId: 0,
+            properties: 0,
+            hideForUserIds: 0,
+            bidderIds: 0,
+            _ownerRef: 0,
+            _bidsListRef: 0,
+            jobReview: 0,
+            extras: 0,
+          }
+        )
+          .populate(populateJobWithBidderDetails)
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getUserJobs: async (userId, stateFilter) => {
     return new Promise(async (resolve, reject) => {
       const populateJobBidsAndBidders = {
@@ -57,9 +106,7 @@ exports.jobDataAccess = {
             return job.state === stateFilter;
           });
 
-          resolve({ _postedJobsRef: filteredJobList });
-        } else {
-          resolve(allJobs);
+          resolve(filteredJobList );
         }
       } catch (e) {
         reject(e);
@@ -346,7 +393,6 @@ exports.jobDataAccess = {
       .exec();
   },
   deleteJob: async (jobId, userId) => {
-
     const deletedJob = await JobModel.findOneAndDelete({ _id: jobId })
       .lean(true)
       .exec();
@@ -360,5 +406,67 @@ exports.jobDataAccess = {
       .exec();
 
     return user;
+  },
+
+  getPostedJobDetails: async (userId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobBidsAndBidders = {
+        path: '_postedJobsRef',
+        options: {
+          select: {
+            _bidsListRef: 1,
+            state: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            addressText: 1,
+            title: 1,
+            fromTemplateId: 1,
+            createdAt: 1,
+            _id:1,
+            updatedAt: 1,
+          },
+        },
+        populate: {
+          path: '_bidsListRef',
+          select: {
+            bidAmount: 1,
+            isNewBid: 1,
+            _bidderRef: 1,
+            createdAt: 1,
+            updatedAt: 1,
+          },
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _reviewsRef: 1,
+              displayName: 1,
+              globalRating: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+            },
+          },
+        },
+      };
+
+      try {
+        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(populateJobBidsAndBidders)
+          .lean(true)
+          .exec();
+
+        if (allJobs && allJobs._postedJobsRef) {
+          const chosenJob = allJobs._postedJobsRef.find((job) => {
+            return job._id.toString() === jobId;
+          });
+
+          resolve(chosenJob);
+        } else {
+          resolve(allJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 };

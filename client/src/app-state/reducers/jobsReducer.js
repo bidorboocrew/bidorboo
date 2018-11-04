@@ -9,7 +9,7 @@ const initialState = {
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
   // the currently selected active job
-  selectedActiveJob: {},
+  selectedActivePostedJob: {},
   // the currently selected awarded job
   selectedAwardedJob: {},
 };
@@ -95,15 +95,19 @@ const searchJob = {
   },
 };
 
-const updateSelectedActiveJob = (state = initialState, { payload }) => ({
-  ...state,
-  selectedActiveJob: payload.data,
-});
+const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedActivePostedJob: payload.data,
+  };
+};
 
-const updateSelectedAwardedJob = (state = initialState, { payload }) => ({
-  ...state,
-  selectedAwardedJob: payload.data,
-});
+const updateSelectedAwardedJob = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedAwardedJob: payload.data,
+  };
+};
 
 const deleteJob = {
   isPending: (state = initialState, { payload }) => ({
@@ -118,10 +122,11 @@ const deleteJob = {
         state.myOpenJobsList.filter((job) => {
           return job._id !== deletedJobId;
         });
-
       return {
         ...state,
         myOpenJobsList: filteredResults,
+        selectedActivePostedJob: {},
+        selectedActivePostedJob:{},
         isLoading: false,
       };
     }
@@ -157,7 +162,7 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._PENDING}`]: searchJob.isPending,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`]: searchJob.isFullfilled,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`]: searchJob.isRejected,
-    [`${A.JOB_ACTIONS.SELECT_ACTIVE_JOB}`]: updateSelectedActiveJob,
+    [`${A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB}`]: updateSelectedActivePostedJob,
     [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
   },
   initialState
