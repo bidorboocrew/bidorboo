@@ -18,26 +18,13 @@ class MyJobsList extends React.Component {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
-    const MyJobsList = userHasPostedJobs ? (
+    return userHasPostedJobs ? (
       <React.Fragment>
         <JobsWithBids {...this.props} />
         <JobsWithoutBids {...this.props} />
       </React.Fragment>
     ) : (
       <EmptyState />
-    );
-
-    return (
-      <section className="section">
-        <div className="container">
-          <div
-            // style={{ alignItems: 'flex-end' }}
-            className="columns is-multiline"
-          >
-            {MyJobsList}
-          </div>
-        </div>
-      </section>
     );
   }
 }
