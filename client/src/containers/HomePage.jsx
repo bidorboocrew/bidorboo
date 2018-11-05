@@ -66,7 +66,6 @@ class HomePage extends React.Component {
                             className="card-footer-item button is-primary is-large"
                           >
                             <span className="icon">
-                              
                               <i className="fa fa-plus fa-w-14" />
                             </span>
                             <span style={{ marginLeft: 4 }}>Create Jobs</span>

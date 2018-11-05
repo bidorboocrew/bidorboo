@@ -29,8 +29,9 @@ export default class JobSummaryView extends React.Component {
       console.error(e);
     }
 
+    const newStyle = { ...specialStyle, height: '100%' };
     return (
-      <div style={specialStyle} className="card postedJobToBidOnCard is-clipped">
+      <div style={newStyle} className="card postedJobToBidOnCard is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
