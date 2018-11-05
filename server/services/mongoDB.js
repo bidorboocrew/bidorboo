@@ -12,7 +12,9 @@ module.exports = (process) => {
   require('../services/passport');
 
   mongoose.Promise = global.Promise;
-
+  if (process.env.NODE_ENV !== 'production') {
+    mongoose.set('debug', true);
+  }
   const dbOptions = {
     useFindAndModify: false,
     useNewUrlParser: true,

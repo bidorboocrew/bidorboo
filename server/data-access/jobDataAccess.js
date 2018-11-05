@@ -8,7 +8,7 @@ exports.jobDataAccess = {
   getAwardedJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       const populateJobWithBidderDetails = {
-        path: 'awardedBid',
+        path: '_awardedBidRef',
         select: {
           _bidderRef: 1,
           bidAmount: 1,
@@ -24,7 +24,7 @@ exports.jobDataAccess = {
             extras: 0,
             canBid: 0,
             canPost: 0,
-            userId:0,
+            userId: 0,
           },
         },
       };
@@ -106,7 +106,7 @@ exports.jobDataAccess = {
             return job.state === stateFilter;
           });
 
-          resolve(filteredJobList );
+          resolve(filteredJobList);
         }
       } catch (e) {
         reject(e);
@@ -252,7 +252,6 @@ exports.jobDataAccess = {
         reject(e);
       }
     });
-    return;
   },
 
   addAJob: async (jobDetails, userId) => {
@@ -319,7 +318,7 @@ exports.jobDataAccess = {
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
-          $set: { awardedBid: bidId, state: 'AWARDED' },
+          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
         }
       )
         .lean(true)
@@ -344,7 +343,7 @@ exports.jobDataAccess = {
       }
     )
       .populate({
-        path: 'awardedBid',
+        path: '_awardedBidRef',
         select: {
           _jobRef: 0,
         },
@@ -393,19 +392,53 @@ exports.jobDataAccess = {
       .exec();
   },
   deleteJob: async (jobId, userId) => {
-    const deletedJob = await JobModel.findOneAndDelete({ _id: jobId })
-      .lean(true)
-      .exec();
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findById({ _id: jobId })
+          .lean(true)
+          .exec();
 
-    const user = await User.findOneAndUpdate(
-      { userId: userId },
-      { $pull: { _postedJobsRef: { $in: [jobId] } } },
-      { new: true }
-    )
-      .lean(true)
-      .exec();
+        // delete all bids associatedc
+        const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+        if (areThereAnyBids) {
+          const referencedBidIds = job._bidsListRef.map((bidRef) => {
+            return bidRef.toString();
+          });
 
-    return user;
+          job.bidderIds.forEach(async (bidderId) => {
+            // clean ref for bidders
+            await User.findOneAndUpdate(
+              { userId: bidderId },
+              { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+              { new: true }
+            )
+              .lean(true)
+              .exec();
+          });
+
+          referencedBidIds.forEach(async (bidId) => {
+            await BidModel.deleteOne({ _id: bidId });
+          });
+        }
+        // delete job model
+        await JobModel.deleteOne({ _id: jobId })
+          .lean(true)
+          .exec();
+        // clean for owner
+        await User.findOneAndUpdate(
+          { userId: userId },
+          { $pull: { _postedJobsRef: { $in: [jobId] } } },
+          { new: true }
+        )
+          .lean(true)
+          .exec();
+
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 
   getPostedJobDetails: async (userId, jobId) => {
@@ -422,7 +455,7 @@ exports.jobDataAccess = {
             title: 1,
             fromTemplateId: 1,
             createdAt: 1,
-            _id:1,
+            _id: 1,
             updatedAt: 1,
           },
         },

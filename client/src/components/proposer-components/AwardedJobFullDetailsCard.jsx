@@ -45,13 +45,13 @@ export default class AwardedJobFullDetailsCard extends React.Component {
   render() {
     const { job, currentUser, breadCrumb } = this.props;
 
-    if (!job || !job._id || !job.awardedBid || !job.awardedBid._bidderRef) {
+    if (!job || !job._id || !job._awardedBidRef || !job._awardedBidRef._bidderRef) {
       switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
       return null;
     }
 
-    const { _bidderRef } = job.awardedBid;
-    const bidText = `${job.awardedBid.bidAmount.value} ${job.awardedBid.bidAmount.currency}`;
+    const { _bidderRef } = job._awardedBidRef;
+    const bidText = `${job._awardedBidRef.bidAmount.value} ${job._awardedBidRef.bidAmount.currency}`;
     const cardTitle = () => {
       return (
         <header className="card-header">
