@@ -75,7 +75,7 @@ body {
 
 //----------------------------app styles customizations
 .mainSectionContainer {
-  background-color: whitesmoke;
+  background-color: white;
   padding: 10px 4px;
 }
 
@@ -146,7 +146,7 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   }
 }
 #header-and-content {
-  background-color: whitesmoke;
+  background-color: white;
 }
 .BidDetailsCard {
   box-shadow: $shadow-space;
@@ -195,10 +195,10 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 //----------------------------bulma customizations
 
 $family-primary: 'Roboto', sans-serif;
-$body-background-color: whitesmoke; //#3b549c;
+$body-background-color: white; //#3b549c;
 $navbar-background-color: white;
 $footer-background-color: #363636;
-// $body-background-color: whitesmoke;
+// $body-background-color: white;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;

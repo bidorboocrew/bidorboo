@@ -221,7 +221,7 @@ const ReviewBidModal = ({ user, onCloseHandler, awardBidderHandler, bidText }) =
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">
-            Bidding <b> {bidText}</b>{' '}
+            Bidding <b> {bidText}</b>
           </p>
           <button onClick={onCloseHandler} className="delete" aria-label="close" />
         </header>
@@ -287,7 +287,7 @@ const userEditableInfo = (
           resize: 'none',
           border: 'none',
           color: '#4a4a4a',
-          background: 'whitesmoke',
+          background: 'white',
         }}
         readOnly
       />

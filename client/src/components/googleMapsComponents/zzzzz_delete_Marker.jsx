@@ -29,7 +29,7 @@
 //           >
 //             <div
 //               style={{
-//                 backgroundColor: `whitesmoke`,
+//                 backgroundColor: `white`,
 //                 border: '1px solid rgba(0, 0, 0, 0.12)',
 //                 // opacity: 0.8,
 //                 padding: `12px`

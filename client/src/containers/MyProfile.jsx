@@ -210,7 +210,7 @@ const userEditableInfo = (
                 resize: 'none',
                 border: 'none',
                 color: '#4a4a4a',
-                background: 'whitesmoke',
+                background: 'white',
               }}
               readOnly
             />

@@ -37,6 +37,7 @@ class HomePage extends React.Component {
               <div className="columns">
                 <div className="column">
                   <div
+                    style={{ height: '100%' }}
                     onClick={(e) => {
                       e.preventDefault();
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -53,33 +54,35 @@ class HomePage extends React.Component {
                     </div>
                     <div className="card-content">
                       <div className="content">
-                        <p className="title">Post Your Jobs</p>
+                        <p className="title">
+                          <a
+                            onClick={() => {
+                              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                            }}
+                            style={{
+                              borderRadius: 0,
+                              backgroundColor: '#e98969',
+                            }}
+                            className="card-footer-item button is-primary is-large"
+                          >
+                            <span className="icon">
+                              
+                              <i className="fa fa-plus fa-w-14" />
+                            </span>
+                            <span style={{ marginLeft: 4 }}>Create Jobs</span>
+                          </a>
+                        </p>
                         <p className="subtitle">
                           Start with one of our templates and post your jobs. Get your chores done
                           for a price that will please you.
                         </p>
                       </div>
                     </div>
-                    <footer className="card-footer">
-                      <a
-                        onClick={() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                        }}
-                        style={{
-                          borderRadius: 0,
-                          backgroundColor: '#e98969',
-                        }}
-                        className="card-footer-item button is-primary is-large"
-                      >
-                        <span style={{ marginLeft: 4 }}>
-                          <i className="fa fa-plus fa-w-14" /> Start Posting Jobs
-                        </span>
-                      </a>
-                    </footer>
                   </div>
                 </div>
                 <div className="column">
                   <div
+                    style={{ height: '100%' }}
                     onClick={(e) => {
                       e.preventDefault();
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -96,30 +99,30 @@ class HomePage extends React.Component {
                     </div>
                     <div className="card-content">
                       <div className="content">
-                        <p className="title">Bid Now</p>
+                        <p className="title">
+                          <a
+                            onClick={(e) => {
+                              e.preventDefault();
+                              switchRoute(ROUTES.CLIENT.BIDDER.root);
+                            }}
+                            style={{
+                              borderRadius: 0,
+                              backgroundColor: '#c786f8',
+                            }}
+                            className="card-footer-item button is-primary is-large"
+                          >
+                            <span className="icon">
+                              <i className="fas fa-dollar-sign" />
+                            </span>
+                            <span style={{ marginLeft: 4 }}>Bid Now</span>
+                          </a>
+                        </p>
                         <p className="subtitle">
                           Start Bidding on the jobs. Do the work you like for the price you like. Be
                           your own boss and manage your own schedule.
                         </p>
                       </div>
                     </div>
-                    <footer className="card-footer">
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        }}
-                        style={{
-                          borderRadius: 0,
-                          backgroundColor: '#c786f8',
-                        }}
-                        className="card-footer-item button is-primary is-large"
-                      >
-                        <span style={{ marginLeft: 4 }}>
-                          <i className="fas fa-dollar-sign" /> Start Bidding Now
-                        </span>
-                      </a>
-                    </footer>
                   </div>
                 </div>
               </div>

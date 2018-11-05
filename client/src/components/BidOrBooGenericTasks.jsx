@@ -18,8 +18,9 @@ class BidOrBooGenericTasks extends React.Component {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
-        <div key={id} className={classNames('column  bdbCardComponent fade-in is-one-third')}>
+        <div key={id} className="column bdbCardComponent fade-in is-one-third">
           <div
+            style={{ height: '100%' }}
             onClick={(e) => {
               e.preventDefault();
               if (!isLoggedIn) {
@@ -36,20 +37,18 @@ class BidOrBooGenericTasks extends React.Component {
               </figure>
             </div>
             <div className="card-content">
-              <h1 className="title">{title}</h1>
+              <h1 className="title">
+                <a style={{ borderRadius: 0 }} className="button is-primary is-large is-fullwidth">
+                  <span className="icon">
+                    <i className="fa fa-plus fa-w-14" />
+                  </span>
+                  <span style={{ marginLeft: 4 }}>{title}</span>
+                </a>
+              </h1>
               <div className="content">
                 <div className="descriptoin-section">{description}</div>
               </div>
             </div>
-            <footer className="card-footer">
-              <div className="card-footer-item has-text-centered" style={{ textAlign: 'center' }}>
-                <a style={{ borderRadius: 0 }} className="button is-primary is-large is-fullwidth">
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fa fa-plus fa-w-14" /> Request Now
-                  </span>
-                </a>
-              </div>
-            </footer>
           </div>
         </div>
       );
