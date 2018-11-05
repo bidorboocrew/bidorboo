@@ -47,12 +47,7 @@ class BidderRoot extends React.Component {
     e.preventDefault();
 
     const { allThePostedJobsList, userDetails } = this.props;
-    if (
-      userDetails &&
-      allThePostedJobsList &&
-      allThePostedJobsList.length > 0 &&
-      excludeMyJobs
-    ) {
+    if (userDetails && allThePostedJobsList && allThePostedJobsList.length > 0 && excludeMyJobs) {
       const filteredJobList = allThePostedJobsList.filter((job) => {
         return userDetails._id !== job._ownerRef._id;
       });
@@ -195,6 +190,9 @@ class BidderRoot extends React.Component {
                 <BidderMapSection
                   selectJobToBidOn={a_selectJobToBidOn}
                   mapCenterPoint={mapCenterPoint}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
                   jobsList={
                     this.state.displayedJobList === null
                       ? allThePostedJobsList
