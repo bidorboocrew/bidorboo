@@ -18,7 +18,7 @@ class BidOrBooGenericTasks extends React.Component {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
       return (
-        <div key={id} className="column bdbCardComponent fade-in is-one-third">
+        <div key={id} className="column fade-in is-one-third">
           <div
             style={{ height: '100%' }}
             onClick={(e) => {
