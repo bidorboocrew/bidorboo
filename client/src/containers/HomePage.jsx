@@ -8,7 +8,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div id="bdb-home-content">
-        <section className="hero is-dark fade-in">
+        <section className="hero has-text-centered is-dark fade-in">
           <div className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
@@ -22,9 +22,9 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="mainSectionContainer">
+        <section className="section">
           <div className="columns">
-            <div className="column is-paddingless">
+            <div className="column">
               <BidOrBooCard
                 backgroundImage="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
                 contentTextColor={'white'}
@@ -37,11 +37,11 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                   >
-                    <p className="title has-text-white	">
+                    <p className="title has-text-white slide-fwd-center">
                       <a
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#e98969',
+                          backgroundColor: '#9C89B8',
                         }}
                         className="card-footer-item button is-primary is-large"
                       >
@@ -61,7 +61,7 @@ export default class HomePage extends React.Component {
                 }
               />
             </div>
-            <div className="column is-paddingless">
+            <div className="column">
               <BidOrBooCard
                 backgroundImage="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
                 contentTextColor={'white'}
@@ -75,7 +75,7 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                   >
-                    <p className="title has-text-white	">
+                    <p className="title has-text-white slide-fwd-center">
                       <a
                         onClick={(e) => {
                           e.preventDefault();
@@ -83,7 +83,7 @@ export default class HomePage extends React.Component {
                         }}
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#c786f8',
+                          backgroundColor: '#F0A6CA',
                         }}
                         className="card-footer-item button is-primary is-large"
                       >

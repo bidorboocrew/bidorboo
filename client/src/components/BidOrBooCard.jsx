@@ -16,7 +16,7 @@ export default class BidOrBooCard extends React.Component {
     themeColor: 'black',
     backgroundImage: '',
     contentTextColor: 'white',
-    contentBackgroundColor: 'rgba(0,0,0,0.6)',
+    contentBackgroundColor: 'rgba(0,0,0,0.7)',
     onClickHandler: () => null,
   };
 
@@ -31,18 +31,19 @@ export default class BidOrBooCard extends React.Component {
     return (
       <div
         style={{
-          height:'100%',
+          height: '100%',
           padding: '1rem',
           background: `url(${backgroundImage})`,
         }}
       >
         <div
-          style={{ background: 'transparent', color: 'white',  height:'100%'}}
+          style={{ background: 'transparent', color: 'white', height: '100%' }}
           onClick={onClickHandler}
           className="card bdbGenericCard fade-in Aligner"
         >
           <div
             style={{
+              height: '100%',
               color: contentTextColor,
               background: `${contentBackgroundColor}`,
               borderRadius: 2,

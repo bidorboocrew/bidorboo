@@ -18,7 +18,7 @@ class ProposerRoot extends React.Component {
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
-          <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
+          <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
                 Bids you won ( under implementation )
