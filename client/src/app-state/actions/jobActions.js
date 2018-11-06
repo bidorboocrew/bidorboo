@@ -241,3 +241,30 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
       }),
   });
 };
+
+export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  debugger
+  const postData = {
+    data: {
+      jobId,
+      bidId,
+    },
+  };
+
+  const response = dispatch({
+    type: A.JOB_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
+    payload: axios.put(ROUTES.API.BID.PUT.markBidAsSeen, postData, config),
+  });
+  debugger;
+  response.then(({ value }) => {
+    if (value) {
+      dispatch({
+        type: A.JOB_ACTIONS.MARK_BID_AS_SEEN,
+        payload: { jobId, bidId },
+      });
+    }
+  });
+};

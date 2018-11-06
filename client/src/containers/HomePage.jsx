@@ -37,8 +37,8 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                   >
-                    <p className="title has-text-white slide-fwd-center">
-                      <a
+                    <div className="title has-text-white slide-fwd-center">
+                      <div
                         style={{
                           borderRadius: 0,
                           backgroundColor: '#9C89B8',
@@ -51,12 +51,12 @@ export default class HomePage extends React.Component {
                         <span className="has-text-white" style={{ marginLeft: 4 }}>
                           Create Jobs
                         </span>
-                      </a>
-                    </p>
-                    <p className="subtitle has-text-white	">
+                      </div>
+                    </div>
+                    <div className="subtitle has-text-white	">
                       Start with one of our templates and post your jobs. Get your chores done for a
                       price that will please you.
-                    </p>
+                    </div>
                   </a>
                 }
               />
@@ -75,8 +75,8 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                   >
-                    <p className="title has-text-white slide-fwd-center">
-                      <a
+                    <div className="title has-text-white slide-fwd-center">
+                      <div
                         onClick={(e) => {
                           e.preventDefault();
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -93,12 +93,12 @@ export default class HomePage extends React.Component {
                         <span className="has-text-white	" style={{ marginLeft: 4 }}>
                           Bid Now
                         </span>
-                      </a>
-                    </p>
-                    <p className="subtitle has-text-white	">
+                      </div>
+                    </div>
+                    <div className="subtitle has-text-white	">
                       Start Bidding on the jobs. Do the work you like for the price you like. Be
                       your own boss and manage your own schedule.
-                    </p>
+                    </div>
                   </a>
                 }
               />

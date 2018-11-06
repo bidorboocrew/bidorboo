@@ -102,16 +102,6 @@ export default class AwardedJobFullDetailsCard extends React.Component {
           )}
 
         {breadCrumb}
-        {/* <React.Fragment>
-        <h2 style={{ marginBottom: 2 }} className="subtitle">
-          Bids List
-        </h2>
-        <BidsTable
-          bidList={job._bidsListRef}
-          currentUser={currentUser}
-          showReviewModal={this.showReviewModal}
-        />
-      </React.Fragment> */}
         {_bidderRef && (
           <OtherUserDetails
             otherUserDetails={_bidderRef}

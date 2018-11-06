@@ -13,6 +13,7 @@ import OtherUserDetails from '../OtherUserDetails';
 export default class CurrentPostedJobDetailsCard extends React.Component {
   static propTypes = {
     awardBidder: PropTypes.func.isRequired,
+    markBidAsSeen: PropTypes.func.isRequired,
     currentUser: PropTypes.object.isRequired,
     job: PropTypes.object.isRequired,
     breadCrumb: PropTypes.node,
@@ -58,7 +59,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
   }
 
   render() {
-    const { job, currentUser, breadCrumb } = this.props;
+    const { job, currentUser, breadCrumb, markBidAsSeen } = this.props;
 
     if (!job || !job._id) {
       switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -148,9 +149,11 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
         {breadCrumb}
         <div className="container">
           <BidsTable
+            jobId={job._id}
             bidList={job._bidsListRef}
             currentUser={currentUser}
             showReviewModal={this.showReviewModal}
+            markBidAsSeen={markBidAsSeen}
           />
 
           <PostedJobsDetails job={job} currentUser={currentUser} />
@@ -164,7 +167,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
 
 class BidsTable extends React.Component {
   render() {
-    const { bidList, currentUser, showReviewModal } = this.props;
+    const { bidList, showReviewModal, markBidAsSeen, jobId } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
     if (areThereAnyBids) {
@@ -172,15 +175,9 @@ class BidsTable extends React.Component {
       let tableRows =
         bidList &&
         bidList.map((bid) => {
+          debugger;
           return (
-            <tr
-              key={bid._id || Math.random()}
-              style={
-                bid._bidderRef._id === currentUser._id
-                  ? { backgroundColor: '#00d1b2', wordWrap: 'break-word' }
-                  : { wordWrap: 'break-word' }
-              }
-            >
+            <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid._bidderRef &&
                   bid._bidderRef.profileImage &&
@@ -189,9 +186,23 @@ class BidsTable extends React.Component {
                       <img alt="profile" src={bid._bidderRef.profileImage.url} />
                     </figure>
                   )}
+                {bid.isNewBid ? (
+                  <span className="tag is-danger">
+                    new bid!
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        markBidAsSeen(jobId, bid._id);
+                      }}
+                      className="delete"
+                    />
+                  </span>
+                ) : null}
               </td>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.globalRating}
+                {bid._bidderRef && bid._bidderRef.globalRating
+                  ? bid._bidderRef.globalRating
+                  : 'Not Rated Yet'}
               </td>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
@@ -202,6 +213,8 @@ class BidsTable extends React.Component {
                   bid.bidAmount && (
                     <a
                       onClick={(e) => {
+                        markBidAsSeen(jobId, bid._id);
+
                         showReviewModal(
                           e,
                           bid._bidderRef,
@@ -209,9 +222,9 @@ class BidsTable extends React.Component {
                           bid._id
                         );
                       }}
-                      className="button is-primary"
+                      className="button is-primary is-outlined"
                     >
-                      review details
+                      Review Bid
                     </a>
                   )}
               </td>
@@ -220,41 +233,46 @@ class BidsTable extends React.Component {
         });
 
       return (
-        <table
-          style={{ boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)' }}
-          className="table is-fullwidth is-hoverable"
-        >
-          <thead>
-            <tr>
-              <th className="has-text-centered">profile image</th>
-              <th className="has-text-centered">Rating</th>
-              <th className="has-text-centered">$</th>
-              <th className="has-text-centered">Award a Bidder</th>
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </table>
+        <div className="columns is-centered">
+          <div className="column is-half">
+            <table
+              style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
+              className="table is-hoverable table is-striped is-fullwidth"
+            >
+              <thead>
+                <tr>
+                  <th className="has-text-centered">profile image</th>
+                  <th className="has-text-centered">Rating</th>
+                  <th className="has-text-centered">$</th>
+                  <th className="has-text-centered">Bid Details</th>
+                </tr>
+              </thead>
+              <tbody>{tableRows}</tbody>
+            </table>
+          </div>
+        </div>
       );
     }
     // no bids yet
     return (
-      <table
-        style={{ boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)' }}
-        className="table is-fullwidth"
-      >
-        <thead>
-          <tr>
-            <th>Bids Table</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style={{ verticalAlign: 'middle' }}>
-              No one has made a bid Yet, Keep an eye and check again in a little while
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="columns is-centered">
+        <div className="column is-half">
+          <table className="table is-hoverable table is-striped is-fullwidth">
+            <thead>
+              <tr>
+                <th>Bids Table</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{ verticalAlign: 'middle' }}>
+                  No one has made a bid Yet, Keep an eye and check again in a little while
+                </td>
+              </tr>
+            </tbody>
+          </table>{' '}
+        </div>
+      </div>
     );
   }
 }
@@ -307,10 +325,7 @@ class PostedJobsDetails extends React.Component {
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
               className="card-header"
             >
-              <p className="card-header-title">
-                <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
-                Details: {title || 'Job Title'}
-              </p>
+              <p className="card-header-title">Job Details: {title || 'Job Title'}</p>
             </header>
             <div className="card-image is-clipped">
               <figure className="image is-3by1">

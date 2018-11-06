@@ -45,6 +45,9 @@ module.exports = {
       GET: {
         myBids: '/api/bids/myBids',
       },
+      PUT: {
+        markBidAsSeen: '/api/bids/markBidAsSeen',
+      }
     },
   },
   CLIENT: {

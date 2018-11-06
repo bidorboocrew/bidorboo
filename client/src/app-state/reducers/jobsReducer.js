@@ -126,7 +126,7 @@ const deleteJob = {
         ...state,
         myOpenJobsList: filteredResults,
         selectedActivePostedJob: {},
-        selectedActivePostedJob:{},
+        selectedActivePostedJob: {},
         isLoading: false,
       };
     }
@@ -138,6 +138,50 @@ const deleteJob = {
         : `unknown issue while ${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._REJECTED}`;
     return { ...state, error, isLoading: false };
   },
+};
+
+const markBidAsSeen = (state = initialState, { payload }) => {
+  const { jobId, bidId } = payload;
+
+  if (jobId && bidId) {
+    const updatedMyOpenJobsList = state.myOpenJobsList.map((job) => {
+      if (job._id === jobId) {
+        const updated_bidsListRef =
+          job._bidsListRef &&
+          job._bidsListRef.map((bid) => {
+            if (bid._id === bidId) {
+              return { ...bid, isNewBid: false };
+            } else {
+              return { ...bid };
+            }
+          });
+        return { ...job, _bidsListRef: updated_bidsListRef };
+      } else {
+        return { ...job };
+      }
+    });
+
+    const updateBidStateForCurrentActiveJob =
+      state.selectedActivePostedJob._bidsListRef &&
+      state.selectedActivePostedJob._bidsListRef.map((bid) => {
+        if (bid._id === bidId) {
+          return { ...bid, isNewBid: false };
+        } else {
+          return { ...bid };
+        }
+      });
+
+    const updatedSelectedActivePostedJob = {
+      ...state.selectedActivePostedJob,
+      _bidsListRef: updateBidStateForCurrentActiveJob,
+    };
+
+    return {
+      ...state,
+      myOpenJobsList: [...updatedMyOpenJobsList],
+      selectedActivePostedJob: { ...updatedSelectedActivePostedJob },
+    };
+  }
 };
 
 export default handleActions(
@@ -164,6 +208,7 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`]: searchJob.isRejected,
     [`${A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB}`]: updateSelectedActivePostedJob,
     [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
+    [`${A.JOB_ACTIONS.MARK_BID_AS_SEEN}`]: markBidAsSeen,
   },
   initialState
 );

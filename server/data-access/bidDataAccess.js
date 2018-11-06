@@ -1,14 +1,23 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
-var GeoJSON = require('mongoose-geojson-schema');
-
-const utils = require('../utils/utilities');
 
 const UserModel = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.bidDataAccess = {
+  markBidAsSeen: async (bidId) => {
+    const isSuccessful = await BidModel.findOneAndUpdate(
+      { _id: bidId },
+      {
+        $set: { isNewBid: false },
+      }
+    )
+      .lean(true)
+      .exec();
+    return !!isSuccessful;
+  },
+
   getAllBidsForUser: (userId) => {
     const populatedPostedBids = {
       path: '_postedBidsRef',

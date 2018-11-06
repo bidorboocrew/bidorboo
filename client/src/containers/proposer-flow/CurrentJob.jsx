@@ -10,7 +10,11 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { awardBidder, getPostedJobDetails } from '../../app-state/actions/jobActions';
+import {
+  awardBidder,
+  getPostedJobDetails,
+  markBidAsSeen,
+} from '../../app-state/actions/jobActions';
 import CurrentPostedJobDetailsCard from '../../components/proposer-components/CurrentPostedJobDetailsCard';
 
 import { switchRoute } from '../../utils';
@@ -39,7 +43,7 @@ class CurrentJob extends React.Component {
     a_getPostedJobDetails(this.jobId);
   }
   render() {
-    const { selectedActivePostedJob, userDetails, a_awardBidder } = this.props;
+    const { selectedActivePostedJob, userDetails, a_awardBidder, a_markBidAsSeen } = this.props;
 
     const breadCrumb = (
       <div style={{ marginBottom: '1rem' }} className="container">
@@ -72,6 +76,7 @@ class CurrentJob extends React.Component {
             currentUser={userDetails}
             job={selectedActivePostedJob}
             awardBidder={a_awardBidder}
+            markBidAsSeen={a_markBidAsSeen}
           />
         ) : (
           <div>loading</div>
@@ -92,6 +97,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_awardBidder: bindActionCreators(awardBidder, dispatch),
     a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
+    a_markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };
 
