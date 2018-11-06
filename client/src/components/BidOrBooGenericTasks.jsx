@@ -39,10 +39,7 @@ class BidOrBooGenericTasks extends React.Component {
             <div className="card-content">
               <h1 className="title">
                 <a style={{ borderRadius: 0 }} className="button is-primary is-large is-fullwidth">
-                  <span className="icon">
-                    <i className="fa fa-plus fa-w-14" />
-                  </span>
-                  <span style={{ marginLeft: 4 }}>{title}</span>
+                  <span>{title}</span>
                 </a>
               </h1>
               <div className="content">
