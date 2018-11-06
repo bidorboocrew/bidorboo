@@ -7,7 +7,7 @@
     background: white;
   }
   100% {
-    background: #e98969;
+    background: #9C89B8;
   }
 }
 @keyframes color-change-2x-proposer {
@@ -15,7 +15,7 @@
     background: white;
   }
   100% {
-    background: #e98969;
+    background: #9C89B8;
   }
 }
 
@@ -28,7 +28,7 @@
     background: white;
   }
   100% {
-    background: #c786f8;
+    background: #F0A6CA;
   }
 }
 @keyframes color-change-2x-bidder {
@@ -36,7 +36,7 @@
     background: white;
   }
   100% {
-    background: #c786f8;
+    background: #F0A6CA;
   }
 }
 
@@ -136,3 +136,7 @@
 
 .shadow-drop-center{-webkit-animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) .7s both;animation:shadow-drop-center 1s cubic-bezier(.25,.46,.45,.94) .7s both}
 @-webkit-keyframes shadow-drop-center{0%{box-shadow:0 0 0 0 transparent}100%{box-shadow:0 0 20px 0 rgba(0,0,0,.35)}}@keyframes shadow-drop-center{0%{box-shadow:0 0 0 0 transparent}100%{box-shadow:0 0 20px 0 rgba(0,0,0,.35)}}
+
+
+.slide-fwd-center{-webkit-animation:slide-fwd-center .45s cubic-bezier(.25,.46,.45,.94) both;animation:slide-fwd-center .45s cubic-bezier(.25,.46,.45,.94) both}
+@-webkit-keyframes slide-fwd-center{0%{-webkit-transform:translateZ(0);transform:translateZ(0)}100%{-webkit-transform:translateZ(160px);transform:translateZ(160px)}}@keyframes slide-fwd-center{0%{-webkit-transform:translateZ(0);transform:translateZ(0)}100%{-webkit-transform:translateZ(160px);transform:translateZ(160px)}}

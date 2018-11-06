@@ -29,9 +29,17 @@ body {
   left: 50%;
 }
 
-.card.space {
-  border: $border-divider;
-  box-shadow: $shadow-smooth;
+.card {
+  &.space {
+    border: $border-divider;
+    box-shadow: $shadow-smooth;
+  }
+
+  &.bdbGenericCard {
+    border: none;
+    cursor: pointer;
+    box-shadow: none;
+  }
 }
 
 .bdb-spinner {
@@ -98,24 +106,6 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   border-width: 10px !important;
 }
 
-.bdbCardComponent {
-  .card {
-    cursor: pointer;
-    background: white;
-    box-shadow: $shadow-space;
-    // &:hover {
-    // -webkit-animation: color-change-2x-proposer 0.35s linear both;
-    // animation: color-change-2x-proposer 0.35s linear both;
-    // figure {
-    //   img.specialImageEffect {
-    //     -webkit-animation: kenburns-bottom 5s ease-out both;
-    //     animation: kenburns-bottom 5s ease-out both;
-    //   }
-    // }
-    // }
-  }
-}
-
 .postedJobCard {
   box-shadow: $shadow-space !important;
   // &:hover {
@@ -139,12 +129,12 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   // }
 }
 
-.card {
-  box-shadow: $shadow-space !important;
-  .card-header {
-    border-bottom: $border-divider;
-  }
-}
+// .card {
+//   box-shadow: $shadow-space !important;
+//   .card-header {
+//     border-bottom: $border-divider;
+//   }
+// }
 #header-and-content {
   background-color: white;
 }
@@ -203,3 +193,21 @@ $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;
 @import 'bulma/bulma.sass';
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 80%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
