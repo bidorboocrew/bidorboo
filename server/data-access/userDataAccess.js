@@ -1,105 +1,51 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
-const moment = require('moment');
-const applicationDataAccess = require('../data-access/applicationDataAccess');
 const User = mongoose.model('UserModel');
-const utils = require('../utils/utilities');
 
-exports.findOneByUserIdForSession = id =>
+
+
+exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
     .lean(true)
     .exec();
 
-exports.findOneByemail = email =>
-  User.findOne(
-    { email: email },
+exports.findOneByUserId = (userId) =>
+  User.findOne({ userId })
+    .lean(true)
+    .exec();
+
+exports.createNewUser = async (userDetails) =>
+  await new User({
+    ...userDetails,
+  }).save();
+
+exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
+  User.findOneAndUpdate(
+    { userId },
     {
-      //exclude
-      settings: 0,
-      extras: 0,
-      userRole: 0,
-      lockUntil: 0,
-      loginAttempts: 0,
-      provider: 0,
-      paymentRefs: 0,
-      _reviewsRef: 0,
-      password: 0,
-      skills: 0
+      $set: {
+        profileImage: {
+          url: imgUrl,
+          public_id: imgPublicId,
+        },
+      },
+    },
+    {
+      new: true,
     }
   )
     .lean(true)
     .exec();
 
-exports.findOneByUserId = id =>
-  User.findOne(
-    { userId: id },
+exports.updateUserProfileDetails = (userId, userDetails) =>
+  User.findOneAndUpdate(
+    { userId },
     {
-      //exclude
-      settings: 0,
-      extras: 0,
-      userRole: 0,
-      lockUntil: 0,
-      loginAttempts: 0,
-      provider: 0,
-      paymentRefs: 0,
-      _reviewsRef: 0,
-      password: 0,
-      skills: 0
+      $set: { ...userDetails },
+    },
+    {
+      new: true,
     }
   )
     .lean(true)
     .exec();
-
-exports.createNewUser = async userDetails => {
-  try {
-    const newUser = await new User({
-      ...userDetails,
-      globalRating: null,
-      membershipStatus: 'NEW_MEMBER'
-    }).save();
-    // await Promise.all([
-    //   applicationDataAccess.AppHealthModel.incrementField('totalUsers'),
-    //   applicationDataAccess.AppUsersModel.addToUsersList(newUser.id)
-    // ]);
-
-    return newUser;
-  } catch (e) {
-    throw e;
-  }
-};
-exports.findOneByUserIdAndUpdateProfileInfo = (id, data, options) =>
-  User.findOneAndUpdate(
-    { userId: id },
-    {
-      $set: { ...data }
-    },
-    options
-  )
-    .lean(true)
-    .exec();
-
-exports.updateLastSeenOnline = id =>
-  User.findOneAndUpdate(
-    { userId: id },
-    {
-      $set: { lastSeenOnline: new Date() }
-    },
-    options
-  )
-    .lean(true)
-    .exec();
-
-// exports.registerNewUserWithPassword = async (userDetails) => {
-//   const encryptedPassword = await utils.encryptData(userDetails.password);
-//   userDetails.password = encryptedPassword;
-//   return new User({
-//     ...userDetails,
-//     globalRating: 0,
-//     membershipStatus: 'NEW_MEMBER',
-//   }).save();
-// };
-
-// exports.checkUserPassword = async (candidatePass, encryptedPass) => {
-//   const isTheRightPassword = await utils.compareEncryptedWithClearData(candidatePass, encryptedPass)
-//   return isTheRightPassword;
-// };

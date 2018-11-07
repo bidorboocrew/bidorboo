@@ -1,9 +1,3 @@
-/**
- * This will handle showing details of the job when user
- * - selects 1 job
- * - posts a new job
- */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -78,9 +72,7 @@ class CurrentJob extends React.Component {
             awardBidder={a_awardBidder}
             markBidAsSeen={a_markBidAsSeen}
           />
-        ) : (
-          <div>loading</div>
-        )}
+        ) : null}
       </section>
     );
   }
