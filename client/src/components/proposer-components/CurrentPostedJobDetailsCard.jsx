@@ -99,7 +99,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
         <header className="card-header">
           <p className="card-header-title">
             <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {`Bidder details (${this.state.bidText})`}
+              Review Bidder
             </span>
           </p>
         </header>
@@ -150,7 +150,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
         <div className="container">
           <BidsTable
             jobId={job._id}
-            bidList={job._bidsRef}
+            bidList={job._bidsListRef}
             currentUser={currentUser}
             showReviewModal={this.showReviewModal}
             markBidAsSeen={markBidAsSeen}
@@ -200,9 +200,9 @@ class BidsTable extends React.Component {
                 ) : null}
               </td>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.globalRating
-                  ? bid._bidderRef.globalRating
-                  : 'Not Rated Yet'}
+                {bid._bidderRef && bid._bidderRef.rating
+                  ? `${bid._bidderRef.rating.globalRating}`
+                  : null}
               </td>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}

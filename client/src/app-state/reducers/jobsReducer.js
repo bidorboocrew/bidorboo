@@ -146,24 +146,24 @@ const markBidAsSeen = (state = initialState, { payload }) => {
   if (jobId && bidId) {
     const updatedMyOpenJobsList = state.myOpenJobsList.map((job) => {
       if (job._id === jobId) {
-        const updated_bidsRef =
-          job._bidsRef &&
-          job._bidsRef.map((bid) => {
+        const updated_bidsListRef =
+          job._bidsListRef &&
+          job._bidsListRef.map((bid) => {
             if (bid._id === bidId) {
               return { ...bid, isNewBid: false };
             } else {
               return { ...bid };
             }
           });
-        return { ...job, _bidsRef: updated_bidsRef };
+        return { ...job, _bidsListRef: updated_bidsListRef };
       } else {
         return { ...job };
       }
     });
 
     const updateBidStateForCurrentActiveJob =
-      state.selectedActivePostedJob._bidsRef &&
-      state.selectedActivePostedJob._bidsRef.map((bid) => {
+      state.selectedActivePostedJob._bidsListRef &&
+      state.selectedActivePostedJob._bidsListRef.map((bid) => {
         if (bid._id === bidId) {
           return { ...bid, isNewBid: false };
         } else {
@@ -173,7 +173,7 @@ const markBidAsSeen = (state = initialState, { payload }) => {
 
     const updatedSelectedActivePostedJob = {
       ...state.selectedActivePostedJob,
-      _bidsRef: updateBidStateForCurrentActiveJob,
+      _bidsListRef: updateBidStateForCurrentActiveJob,
     };
 
     return {

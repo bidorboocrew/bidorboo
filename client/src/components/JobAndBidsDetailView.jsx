@@ -43,7 +43,7 @@ export default class JobAndBidsDetailView extends React.Component {
 
   render() {
     const { job, currentUser, isForAwarded, isOwner } = this.props;
-    const dontShowRoute = !job || !currentUser || !job._bidsRef;
+    const dontShowRoute = !job || !currentUser || !job._bidsListRef;
     if (dontShowRoute) {
       switchRoute(ROUTES.CLIENT.ENTRY);
     }
@@ -69,7 +69,7 @@ export default class JobAndBidsDetailView extends React.Component {
             <div>
               <BidsTable
                 isForAwarded={isForAwarded}
-                bidList={job._bidsRef}
+                bidList={job._bidsListRef}
                 currentUser={currentUser}
                 isForJobOwber={isOwner}
                 showReviewModal={this.showReviewModal}

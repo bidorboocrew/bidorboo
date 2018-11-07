@@ -8,7 +8,7 @@ export const switchRoute = (routeAndParams) => {
 
 export const throwErrorNotification = (dispatch, error) => {
   let msg = 'sorry something went wrong';
-
+debugger
   if (error && error.response && error.response.status === 404) {
     msg = 'could not find the requested resource';
   } else if (error && error.response) {

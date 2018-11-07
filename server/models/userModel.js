@@ -23,7 +23,7 @@ const UserSchema = new Schema(
     }, // list of all bids you made
     _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
-    globalRating: ratingSchema,
+    rating: ratingSchema,
     userId: {
       type: String,
       lowercase: true,

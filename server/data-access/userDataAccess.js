@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 
+
+
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
     .lean(true)

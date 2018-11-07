@@ -4,7 +4,116 @@ const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
+const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+
 exports.jobDataAccess = {
+  // get jobs for a user and filter by a given state
+  getUserJobsByState: async (userId, stateFilter) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(schemaHelpers.populateJobRef('_postedJobsRef'))
+          .lean(true)
+          .exec();
+
+        if (jobs && jobs._postedJobsRef && stateFilter) {
+          const filteredJobs = jobs._postedJobsRef.filter((job) => {
+            return job.state === stateFilter;
+          });
+
+          resolve(filteredJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  getPostedJobDetails: async (userId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      // const populateJobBidsAndBidders = {
+      //   path: '_postedJobsRef',
+      //   options: {
+      //     select: {
+      //       _bidsListRef: 1,
+      //       state: 1,
+      //       location: 1,
+      //       startingDateAndTime: 1,
+      //       addressText: 1,
+      //       title: 1,
+      //       fromTemplateId: 1,
+      //       createdAt: 1,
+      //       _id: 1,
+      //       updatedAt: 1,
+      //     },
+      //   },
+      //   populate: {
+      //     path: '_bidsListRef',
+      //     select: {
+      //       bidAmount: 1,
+      //       isNewBid: 1,
+      //       _bidderRef: 1,
+      //       createdAt: 1,
+      //       updatedAt: 1,
+      //     },
+      //     populate: {
+      //       path: '_bidderRef',
+      //       select: {
+      //         _reviewsRef: 1,
+      //         displayName: 1,
+      //         globalRating: 1,
+      //         profileImage: 1,
+      //         personalParagraph: 1,
+      //         membershipStatus: 1,
+      //       },
+      //     },
+      //   },
+      // };
+
+
+
+      try {
+
+        const populateBidSchema = schemaHelpers.populateBidRef('_bidsListRef', {
+          select: schemaHelpers.BidModelSchemaFields,
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _reviewsRef: 1,
+              displayName: 1,
+              rating: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+            },
+          },
+        });
+        const populationSpec= schemaHelpers.populateJobRef('_postedJobsRef',{populate: { ...populateBidSchema} })
+
+
+        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(populationSpec)
+          .lean(true)
+          .exec();
+
+        if (allJobs && allJobs._postedJobsRef) {
+          const chosenJob = allJobs._postedJobsRef.find((job) => {
+            return job._id.toString() === jobId;
+          });
+
+          resolve(chosenJob);
+        } else {
+          resolve(allJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
   getAwardedJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       const populateJobWithBidderDetails = {
@@ -49,65 +158,6 @@ exports.jobDataAccess = {
           .exec();
 
         resolve(jobWithBidderDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  getUserJobs: async (userId, stateFilter) => {
-    return new Promise(async (resolve, reject) => {
-      const populateJobBidsAndBidders = {
-        path: '_postedJobsRef',
-        options: {
-          sort: { createdAt: -1 },
-          select: {
-            _bidsListRef: 1,
-            state: 1,
-            location: 1,
-            startingDateAndTime: 1,
-            addressText: 1,
-            title: 1,
-            fromTemplateId: 1,
-            createdAt: 1,
-            updatedAt: 1,
-          },
-        },
-        populate: {
-          path: '_bidsListRef',
-          select: {
-            bidAmount: 1,
-            isNewBid: 1,
-            _bidderRef: 1,
-            createdAt: 1,
-            updatedAt: 1,
-          },
-          populate: {
-            path: '_bidderRef',
-            select: {
-              _reviewsRef: 1,
-              displayName: 1,
-              globalRating: 1,
-              profileImage: 1,
-              personalParagraph: 1,
-              membershipStatus: 1,
-            },
-          },
-        },
-      };
-
-      try {
-        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
-          .populate(populateJobBidsAndBidders)
-          .lean(true)
-          .exec();
-
-        if (allJobs && allJobs._postedJobsRef && stateFilter) {
-          const filteredJobList = allJobs._postedJobsRef.filter((job) => {
-            return job.state === stateFilter;
-          });
-
-          resolve(filteredJobList);
-        }
       } catch (e) {
         reject(e);
       }
@@ -428,68 +478,6 @@ exports.jobDataAccess = {
           .exec();
 
         resolve(true);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-
-  getPostedJobDetails: async (userId, jobId) => {
-    return new Promise(async (resolve, reject) => {
-      const populateJobBidsAndBidders = {
-        path: '_postedJobsRef',
-        options: {
-          select: {
-            _bidsListRef: 1,
-            state: 1,
-            location: 1,
-            startingDateAndTime: 1,
-            addressText: 1,
-            title: 1,
-            fromTemplateId: 1,
-            createdAt: 1,
-            _id: 1,
-            updatedAt: 1,
-          },
-        },
-        populate: {
-          path: '_bidsListRef',
-          select: {
-            bidAmount: 1,
-            isNewBid: 1,
-            _bidderRef: 1,
-            createdAt: 1,
-            updatedAt: 1,
-          },
-          populate: {
-            path: '_bidderRef',
-            select: {
-              _reviewsRef: 1,
-              displayName: 1,
-              globalRating: 1,
-              profileImage: 1,
-              personalParagraph: 1,
-              membershipStatus: 1,
-            },
-          },
-        },
-      };
-
-      try {
-        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate(populateJobBidsAndBidders)
-          .lean(true)
-          .exec();
-
-        if (allJobs && allJobs._postedJobsRef) {
-          const chosenJob = allJobs._postedJobsRef.find((job) => {
-            return job._id.toString() === jobId;
-          });
-
-          resolve(chosenJob);
-        } else {
-          resolve(allJobs);
-        }
       } catch (e) {
         reject(e);
       }
