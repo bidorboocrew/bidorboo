@@ -11,8 +11,13 @@ exports.jobDataAccess = {
   getUserJobsByState: async (userId, stateFilter) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const postedJobsRefPopSchema = schemaHelpers.populateJobRef(
+          '_postedJobsRef',
+          {},
+          { options: { sort: { createdAt: -1 } } }
+        );
         const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate(schemaHelpers.populateJobRef('_postedJobsRef'))
+          .populate(postedJobsRefPopSchema)
           .lean(true)
           .exec();
 
@@ -31,50 +36,8 @@ exports.jobDataAccess = {
 
   getPostedJobDetails: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
-      // const populateJobBidsAndBidders = {
-      //   path: '_postedJobsRef',
-      //   options: {
-      //     select: {
-      //       _bidsListRef: 1,
-      //       state: 1,
-      //       location: 1,
-      //       startingDateAndTime: 1,
-      //       addressText: 1,
-      //       title: 1,
-      //       fromTemplateId: 1,
-      //       createdAt: 1,
-      //       _id: 1,
-      //       updatedAt: 1,
-      //     },
-      //   },
-      //   populate: {
-      //     path: '_bidsListRef',
-      //     select: {
-      //       bidAmount: 1,
-      //       isNewBid: 1,
-      //       _bidderRef: 1,
-      //       createdAt: 1,
-      //       updatedAt: 1,
-      //     },
-      //     populate: {
-      //       path: '_bidderRef',
-      //       select: {
-      //         _reviewsRef: 1,
-      //         displayName: 1,
-      //         globalRating: 1,
-      //         profileImage: 1,
-      //         personalParagraph: 1,
-      //         membershipStatus: 1,
-      //       },
-      //     },
-      //   },
-      // };
-
-
-
       try {
-
-        const populateBidSchema = schemaHelpers.populateBidRef('_bidsListRef', {
+        const bidsListRefPopSchema = schemaHelpers.populateBidRef('_bidsListRef', {
           select: schemaHelpers.BidModelSchemaFields,
           populate: {
             path: '_bidderRef',
@@ -88,11 +51,12 @@ exports.jobDataAccess = {
             },
           },
         });
-        const populationSpec= schemaHelpers.populateJobRef('_postedJobsRef',{populate: { ...populateBidSchema} })
-
+        const postedJobsRefPopSchema = schemaHelpers.populateJobRef('_postedJobsRef', {
+          populate: { ...bidsListRefPopSchema },
+        });
 
         const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate(populationSpec)
+          .populate(postedJobsRefPopSchema)
           .lean(true)
           .exec();
 
