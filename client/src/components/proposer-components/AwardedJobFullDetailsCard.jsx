@@ -51,15 +51,13 @@ export default class AwardedJobFullDetailsCard extends React.Component {
     }
 
     const { _bidderRef } = job._awardedBidRef;
-    const bidText = `${job._awardedBidRef.bidAmount.value} ${job._awardedBidRef.bidAmount.currency}`;
+    const bidText = `${job._awardedBidRef.bidAmount.value} ${
+      job._awardedBidRef.bidAmount.currency
+    }`;
     const cardTitle = () => {
       return (
         <header className="card-header">
-          <p className="card-header-title">
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {`Bidder details (${bidText})`}
-            </span>
-          </p>
+          <p className="card-header-title">Bidder details</p>
         </header>
       );
     };
@@ -152,13 +150,13 @@ const ContactMeDialog = ({ user, close }) => {
             labelText="notes*"
             labelValue={
               <React.Fragment>
-                <p>
+                {/* <p>
                   - To ensure quality you will get to rate the Bidder once they fullfilled the job.
                 </p>
                 <p>
                   - Tasks are expected to match the scope in the listing and the final price is not
                   negotiable
-                </p>
+                </p> */}
                 <p className="has-text-weight-bold has-text-info">
                   - For safety we will handled payments automatically throught our service.
                 </p>

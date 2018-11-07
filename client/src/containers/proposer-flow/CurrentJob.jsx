@@ -72,9 +72,7 @@ class CurrentJob extends React.Component {
             awardBidder={a_awardBidder}
             markBidAsSeen={a_markBidAsSeen}
           />
-        ) : (
-          <div>loading</div>
-        )}
+        ) : null}
       </section>
     );
   }
