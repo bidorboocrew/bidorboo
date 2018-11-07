@@ -296,13 +296,6 @@ exports.jobDataAccess = {
     } catch (e) {
       throw e;
     }
-
-    // await Promise.all([
-    //   applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
-    //   applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
-    // ]);
-
-    // return newJob;
   },
 
   awardedBidder: async (jobId, bidId) => {

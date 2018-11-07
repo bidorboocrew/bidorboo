@@ -5,11 +5,9 @@ const keys = require('../config/keys');
 module.exports = (process) => {
   // require the application models
   require('../models/bidModel');
-  require('../models/applicationGlobalModels');
   require('../models/userModel');
   require('../models/reviewModel');
   require('../models/jobModel');
-  require('../services/passport');
 
   mongoose.Promise = global.Promise;
   if (process.env.NODE_ENV !== 'production') {

@@ -2,98 +2,61 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 require('mongoose-type-email');
 
-const ProviderSchema = new Schema({
-  name: String, //google
-  id: String, //googleid
-  email: mongoose.SchemaTypes.Email //email
-});
-const RatingSchema = new Schema({
-  jobRatingByCategory: {
-    accuracy_of_post: { type: Number, default: null },
-    proficiency: { type: Number, default: null },
-    on_time: { type: Number, default: null },
-    manners: { type: Number, default: null },
-    cleanliness: { type: Number, default: null }
-  },
-  overallJobRating: { type: Number, default: null }
-});
-//should be flexible in the future to accomodate global address patterns
-const AddressSchema = new Schema({
-  street: String,
-  unit: String,
-  city: String,
-  province: String,
-  state: String,
-  postalCode: String,
-  country: String,
-  extras: String //to handle unique addresses
-});
+const MAX_PARAGRAPH_LENGTH = 500;
+const MAX_NAME_LENGTH = 50;
 
-const CreditCardSchema = new Schema({
-  number: String,
-  type: String
-});
+const ratingSchema = {
+  globalRating: { type: String, default: 'No Ratings Yet' },
+  fulfilledBids: { type: Number, default: 0 },
+  cancelledBis: { type: Number, default: 0 },
+  fulfilledJobs: { type: Number, default: 0 },
+  canceledJobs: { type: Number, default: 0 },
+};
 
 const UserSchema = new Schema(
   {
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
-      default: null
     }, //list of all jobs you have posted
     _postedBidsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
-      default: null
     }, // list of all bids you made
-    _reviewsRef: {
-      type: [
-        {
-          CommentorDetails: { name: String, userId: String, date: Date },
-          comment: String,
-          ratingDetails: RatingSchema
-        }
-      ],
-      default: null
-    }, //ref to reviews
-    globalRating: {
-      type: { accumilative: { type: RatingSchema }, globalUserRating: Number },
-      default: 'no rating yet'
-    }, // 1-5 stars
+    _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    globalRating: ratingSchema,
     userId: {
       type: String,
       lowercase: true,
       trim: true,
       index: true,
       unique: true,
-      required: true
+      required: true,
     },
     email: {
       type: mongoose.SchemaTypes.Email,
       allowBlank: true,
       lowercase: true,
       trim: true,
-      index: true
-      // unique: true
+      index: true,
+      unique: true,
     },
     displayName: {
       type: String,
-      trim: true
+      trim: true,
+      maxlength: MAX_NAME_LENGTH,
     },
     phoneNumber: {
       type: String,
-      trim: true
-      // unique: true,
-      // dropDups: true
+      trim: true,
+      unique: true,
     },
-    // password: String,
-    creditCards: { type: [CreditCardSchema], default: null }, // we will only store the credit cardS number (not expiry nor cvv)
-    // provider: [ProviderSchema],
     profileImage: {
       url: { type: String, default: 'https://goo.gl/92gqPL' },
-      public_id: { type: String, default: null }
+      public_id: { type: String },
     },
-    address: AddressSchema,
+    addressText: { type: String, maxlength: MAX_PARAGRAPH_LENGTH },
     // skills: [String], // list of strings representing their skills
-    personalParagraph: String, // a blob about who they are
+    personalParagraph: { type: String, maxlength: MAX_PARAGRAPH_LENGTH }, // a blob about who they are
     // paymentRefs: [String], // ID to fetch their payments through our system to generate an invoice
     membershipStatus: {
       type: String,
@@ -103,40 +66,25 @@ const UserSchema = new Schema(
         'BRONZE_MEMBER',
         'SILVER_MEMBER',
         'GOLDEN_MEMBER',
-        'PLATINUM_MEMBER'
-      ]
-    }, // some challenges like the idea of super host
-    // read and apply this later http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose
-    // loginAttempts: { type: Number, required: true, default: 0 }, //to prevent hackers
-    // lockUntil: { type: Number },
+        'PLATINUM_MEMBER',
+      ],
+      default: 'NEW_MEMBER',
+    },
     userRole: {
       type: String,
       enum: ['ADMIN', 'REGULAR'],
-      default: 'REGULAR'
+      default: 'REGULAR',
     },
-    hasAgreedToServiceTerms: { type: Boolean, required: true, default: false },
-    extras: { type: Object, default: null },
-    settings: { type: Object, default: null },
-    verified: { type: Boolean, default: false },
-    verificationIdImage: { type: String, default: null },
-    bidCancellations: {
-      type: { cancelationsRemaining: Number, dateTillRefresh: Date },
-      default: 0
-    }, //you have 3 cancellations every 6 months
+    agreedToServiceTerms: { type: Boolean, required: true, default: false },
+    settings: { type: Object },
+    extras: { type: Object },
+    isVerified: { type: Boolean, default: false },
+    verificationIdImage: { type: String },
     canBid: { type: Boolean, default: true },
-    canPost: { type: Boolean, default: true }
+    canPost: { type: Boolean, default: true },
   },
   { timestamps: true } // createdAt and updatedAt auto  generated by mongoose
 );
 
 //no need for index on these . avoid performance slowness
 mongoose.model('UserModel', UserSchema);
-
-//---------Helper Methods-------------------------------------
-
-// -------handle updating other models -------------
-
-// UserSchema.post('save', function(doc, next) {
-
-//   next();
-// });

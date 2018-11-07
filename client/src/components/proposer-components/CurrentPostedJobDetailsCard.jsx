@@ -150,7 +150,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
         <div className="container">
           <BidsTable
             jobId={job._id}
-            bidList={job._bidsListRef}
+            bidList={job._bidsRef}
             currentUser={currentUser}
             showReviewModal={this.showReviewModal}
             markBidAsSeen={markBidAsSeen}

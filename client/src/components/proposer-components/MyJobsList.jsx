@@ -38,7 +38,7 @@ const JobsWithBids = (props) => {
   const { jobsList } = props;
   const jobsWithBids = jobsList
     .filter((job) => {
-      return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
+      return job._bidsRef && job._bidsRef.map && job._bidsRef.length > 0;
     })
     .map((job) => {
       return (
@@ -54,7 +54,7 @@ const JobsWithoutBids = (props) => {
   const { jobsList } = props;
   const jobsWithoutBids = jobsList
     .filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
+      return !(job._bidsRef && job._bidsRef.map && job._bidsRef.length > 0);
     })
     .map((job) => {
       return (

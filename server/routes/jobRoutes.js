@@ -3,9 +3,6 @@ const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const isJobOwner = require('../middleware/isJobOwner');
-
-const utils = require('../utils/utilities');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -134,7 +131,6 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {
-      // create new job for this user
       const data = req.body.data;
       const userId = req.user.userId;
       const userMongoDBId = req.user._id;
