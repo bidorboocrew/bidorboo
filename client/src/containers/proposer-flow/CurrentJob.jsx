@@ -1,9 +1,3 @@
-/**
- * This will handle showing details of the job when user
- * - selects 1 job
- * - posts a new job
- */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

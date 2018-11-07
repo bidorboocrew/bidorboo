@@ -37,13 +37,13 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
                   >
-                    <div className="title has-text-white slide-fwd-center">
+                    <div className="title has-text-white">
                       <div
                         style={{
                           borderRadius: 0,
                           backgroundColor: '#9C89B8',
                         }}
-                        className="card-footer-item button is-primary is-large"
+                        className="button is-primary is-large is-fullwidth"
                       >
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
@@ -75,7 +75,7 @@ export default class HomePage extends React.Component {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
                   >
-                    <div className="title has-text-white slide-fwd-center">
+                    <div className="title has-text-white">
                       <div
                         onClick={(e) => {
                           e.preventDefault();
@@ -85,7 +85,7 @@ export default class HomePage extends React.Component {
                           borderRadius: 0,
                           backgroundColor: '#F0A6CA',
                         }}
-                        className="card-footer-item button is-primary is-large"
+                        className="button is-primary is-large is-fullwidth"
                       >
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />

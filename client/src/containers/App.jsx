@@ -16,7 +16,7 @@ import {
   HomePage,
   ProposerRoot,
   CreateAJob,
-  MyJobs,
+  PostedJobs,
   BidderRoot,
   MyProfile,
   BidNow,
@@ -79,7 +79,7 @@ class App extends React.Component {
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={MyJobs} />
+                <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
                 <Route
                   exact
                   path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
@@ -147,24 +147,3 @@ export default withRouter(
     mapDispatchToProps
   )(App)
 );
-
-/**
- * this will ensure that you dont enter a route unless you are auth
- * good for profile
- * @param {*}
- */
-// const ProtectedRoute = ({ component: Component, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) => {
-//         const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
-//         return isLoggedIn ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect to={`${redirectWhenNotLoggedIn || ROUTES.CLIENT.HOME}/true`} />
-//         );
-//       }}
-//     />
-//   );
-// };
