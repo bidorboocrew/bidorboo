@@ -34,12 +34,6 @@ body {
     border: $border-divider;
     box-shadow: $shadow-smooth;
   }
-
-  &.bdbGenericCard {
-    border: none;
-    cursor: pointer;
-    box-shadow: none;
-  }
 }
 
 .bdb-spinner {
@@ -149,8 +143,6 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   margin-right: 5px;
   float: left;
 }
-.checkbox {
-}
 
 .postedJobToBidOnCard {
   cursor: pointer;
@@ -194,20 +186,39 @@ $navbar-height: 3.25rem;
 $box-radius: 2px;
 @import 'bulma/bulma.sass';
 
-.Aligner {
+.VerticalAligner {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.Aligner-item {
+.VerticalAligner-item {
   max-width: 80%;
 }
 
-.Aligner-item--top {
+.VerticalAligner-item--top {
   align-self: flex-start;
 }
 
-.Aligner-item--bottom {
+.VerticalAligner-item--bottom {
   align-self: flex-end;
+}
+
+.HorizontalAligner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bdb-AddJobButton {
+  &:hover {
+    -webkit-animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+}
+
+.bdb-genericJobCard{
+  &:hover{
+    -webkit-animation:shadow-drop-center .4s cubic-bezier(.25,.46,.45,.94) both;animation:shadow-drop-center .4s cubic-bezier(.25,.46,.45,.94) both
+  }
 }
