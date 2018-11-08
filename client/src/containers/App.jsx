@@ -28,6 +28,8 @@ import {
   CurrentAwardedJob,
 } from './index';
 
+import ActionSheet from './ActionSheet';
+
 class App extends React.Component {
   static propTypes = {
     toastDetails: PropTypes.shape({
@@ -51,11 +53,13 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isLoggedIn, s_toastDetails } = this.props;
+    const { s_toastDetails } = this.props;
 
     return (
       <div id="bidorboo-root-view">
         <Toast toastDetails={s_toastDetails} />
+        {/* todo xxxx   <ActionSheet /> */}
+
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
@@ -90,7 +94,7 @@ class App extends React.Component {
                   path={ROUTES.CLIENT.PROPOSER.awardedJobsPage}
                   component={AwardedJobs}
                 />
-                 <Route
+                <Route
                   exact
                   path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
                   component={CurrentAwardedJob}

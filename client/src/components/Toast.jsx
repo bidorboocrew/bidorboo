@@ -64,7 +64,7 @@ class Toast extends React.Component {
     const displayToast = !!(type && type.length > 0 && msg && msg.length > 0);
 
     const toastTheme = classNames(
-      'notification space',
+      'notification',
       { 'slide-out-bottom': shouldRemoveOldToast },
       { 'slide-in-bottom': !shouldRemoveOldToast },
       { 'is-success': type === 'success' },

@@ -217,8 +217,40 @@ $box-radius: 2px;
   }
 }
 
-.bdb-genericJobCard{
-  &:hover{
-    -webkit-animation:shadow-drop-center .4s cubic-bezier(.25,.46,.45,.94) both;animation:shadow-drop-center .4s cubic-bezier(.25,.46,.45,.94) both
+.bdb-genericJobCard {
+  &:hover {
+    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 }
+
+.bdbGenericCard {
+  box-shadow: none
+}
+
+.bdb-ActionSheet {
+  -webkit-animation: slide-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  z-index: 99999;
+  position: fixed;
+  bottom: -24px;
+  right: 0px;
+  width: 100%;
+  border-radius: 0px;
+  max-height: 50%;
+  background: #363636;
+  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+}
+
