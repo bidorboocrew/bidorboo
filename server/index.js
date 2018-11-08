@@ -5,6 +5,7 @@ const errorHandler = require('errorhandler');
 
 // initialize and start mongodb
 require('./services/mongoDB')(process);
+require('./services/passport');
 
 const app = express();
 

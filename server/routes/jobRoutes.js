@@ -3,32 +3,54 @@ const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const isJobOwner = require('../middleware/isJobOwner');
-
-const utils = require('../utils/utilities');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'OPEN');
+      userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
       return res.send({ _postedJobsRef: userJobsList });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
     }
   });
 
+
+
+  app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res) => {
+    try {
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        const userId = req.user.userId;
+
+        const jobDetails = await jobDataAccess.getPostedJobDetails(userId, jobId);
+        return res.send(jobDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
+    }
+  });
+
+
+
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
   app.delete(
     ROUTES.API.JOB.DELETE.jobById,
     requireBidorBooHost,
     requireLogin,
-    // isJobOwner,
     async (req, res) => {
       try {
-        const userMongoDBId = req.user.userId;
+        const userId = req.user.userId;
         const jobId = req.body.jobId;
 
         if (jobId) {
-          userJobsList = await jobDataAccess.deleteJob(jobId, userMongoDBId);
+          userJobsList = await jobDataAccess.deleteJob(jobId, userId);
           return res.send(jobId);
         } else {
           return res.status(400).send({
@@ -41,11 +63,11 @@ module.exports = (app) => {
     }
   );
 
+
   app.get(
     ROUTES.API.JOB.GET.jobFullDetailsById,
     requireBidorBooHost,
     requireLogin,
-    // isJobOwner,
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {
@@ -63,10 +85,12 @@ module.exports = (app) => {
     }
   );
 
+
+
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getUserJobs(req.user.userId, 'AWARDED');
-      return res.send({ _postedJobsRef:userJobsList});
+      userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'AWARDED');
+      return res.send({ _postedJobsRef: userJobsList });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
     }
@@ -114,27 +138,10 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res, done) => {
-    try {
-      if (req.query && req.query.jobId) {
-        const { jobId } = req.query;
-        const userId = req.user.userId;
 
-        const jobDetails = await jobDataAccess.getPostedJobDetails(userId, jobId);
-        return res.send(jobDetails);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
-        });
-      }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
-    }
-  });
 
   app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {
-      // create new job for this user
       const data = req.body.data;
       const userId = req.user.userId;
       const userMongoDBId = req.user._id;

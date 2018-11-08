@@ -5,10 +5,11 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { CreateAJobCard } from '../../components/proposer-components/CreateAJobCard';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
+import NewJobForm from '../../components/forms/NewJobForm';
+
 
 class CreateAJob extends React.Component {
   constructor(props) {
@@ -45,11 +46,30 @@ class CreateAJob extends React.Component {
     return (
       <section className="mainSectionContainer slide-in-left">
         <div className="container" id="bdb-proposer-content">
-          <CreateAJobCard
-            jobDetails={jobDetails}
-            onCancel={this.goBack}
-            onSubmit={this.handleSubmit}
-          />
+          <div style={{ marginTop: '1rem' }} className="slide-in-left">
+            <div style={{ marginTop: '1rem' }} className="container">
+              <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                  <li>
+                    <a onClick={this.goBack}>Job templates</a>
+                  </li>
+                  <li className="is-active">
+                    <a aria-current="page">{jobDetails.title}</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div className="card-content">
+              <h1 className="title">{jobDetails.title} Request</h1>
+              <NewJobForm
+                fromTemplateIdField={jobDetails.id}
+                jobTitleField={jobDetails.title}
+                suggestedDetailsText={jobDetails.suggestedDetailsText}
+                onCancel={this.goBack}
+                onSubmit={(vals) => this.handleSubmit(vals)}
+              />
+            </div>
+          </div>
         </div>
       </section>
     );

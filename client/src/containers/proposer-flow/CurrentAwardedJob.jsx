@@ -73,9 +73,7 @@ class CurrentAwardedJob extends React.Component {
             currentUser={userDetails}
             job={selectedAwardedJob}
           />
-        ) : (
-          <div>loading</div>
-        )}
+        ) : null}
       </section>
     );
   }
