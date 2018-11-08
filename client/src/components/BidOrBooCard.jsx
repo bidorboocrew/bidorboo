@@ -39,7 +39,7 @@ export default class BidOrBooCard extends React.Component {
         <div
           style={{ background: 'transparent', color: 'white', height: '100%' }}
           onClick={onClickHandler}
-          className="card bdbGenericCard fade-in Aligner"
+          className="card bdbGenericCard fade-in VerticalAligner"
         >
           <div
             style={{
@@ -48,7 +48,7 @@ export default class BidOrBooCard extends React.Component {
               background: `${contentBackgroundColor}`,
               borderRadius: 2,
             }}
-            className="card-content Aligner-item"
+            className="card-content VerticalAligner-item"
           >
             <div className="content" style={{ color: contentTextColor }}>
               {cardContent}
