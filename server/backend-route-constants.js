@@ -20,9 +20,11 @@ module.exports = {
     },
     JOB: {
       GET: {
-        myjobs: '/api/job/myJobs',
+        myOpenJobs: '/api/job/myOpenJobs',
         alljobs: '/api/job/allJobs',
-        jobById: '/api/job/:jobId',
+        jobById: '/api/job',
+        myAwardedJobs: '/api/job/myAwardedJobs',
+        jobFullDetailsById: '/api/job/fullDetails',
       },
       POST: {
         searchJobs: '/api/job/search',
@@ -34,7 +36,6 @@ module.exports = {
       },
       DELETE: {
         jobById: '/api/job',
-        jobImage: '/api/job',
       },
     },
     BID: {
@@ -44,6 +45,9 @@ module.exports = {
       GET: {
         myBids: '/api/bids/myBids',
       },
+      PUT: {
+        markBidAsSeen: '/api/bids/markBidAsSeen',
+      }
     },
   },
   CLIENT: {

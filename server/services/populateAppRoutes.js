@@ -5,5 +5,5 @@ module.exports = app => {
   require('../routes/authRoutes')(app);
   require('../routes/userRoutes')(app);
   require('../routes/jobRoutes')(app);
-  require('../routes/bidderRoutes')(app);
+  require('../routes/bidRoutes')(app);
 };

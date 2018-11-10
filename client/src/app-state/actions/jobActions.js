@@ -5,84 +5,86 @@ import moment from 'moment';
 import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const getAllMyJobs = () => (dispatch, getState) =>
+export const getAllMyOpenJobs = () => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_MY_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.myjobs),
+    type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
+    payload: axios.get(ROUTES.API.JOB.GET.myOpenJobs),
   });
 
-export const getAllPostedJobs = () => (dispatch, getState) =>
+export const deleteJobById = (jobId) => (dispatch) => {
+  const req = dispatch({
+    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    payload: axios.delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } }),
+  });
+
+  req.then((resp) => {
+    if (resp && resp.value && resp.value.data) {
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'success',
+            msg: 'Job was sucessfully deleted.',
+          },
+        },
+      });
+    }
+  });
+};
+
+export const getAllMyAwardedJobs = () => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
+    payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
+  });
+
+export const getAllPostedJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.alljobs),
   });
 
-export const getJobById = (jobId) => (dispatch, getState) =>
+export const getPostedJobDetails = (jobId) => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_JOB_BY_ID,
-    payload: axios.get(`${ROUTES.API.JOB.GET.alljobs}/${jobId}`).catch((error) => {
-      dispatch({
-        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-        payload: {
-          toastDetails: {
-            type: 'error',
-            msg:
-              'Sorry That did not work, Please try again later.\n' +
-              (error && error.response && error.response.data ? error.response.data : error),
-          },
-        },
-      });
-    }),
+    type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.jobById, { params: { jobId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
   });
 
-// export const updateJobDetails = jobDetails => {
-//   return (dispatch, getState) => {
-//     // xxx said mapping between form fields to the job attributes
-//     // maybe we should hide this from the user and make it happen on the backend .
-//     // who cares for now tho
-//     // return dispatch({
-//     //   type: A.JOB_ACTIONS.UPDATE_EXISTING_JOB,
-//     //   payload: axios
-//     //     .put(ROUTES.API.JOB.JOB_ROUTES, {
-//     //       data: {
-//     //         jobDetails: jobDetails
-//     //       }
-//     //     })
-//     //     .then(job => {
-//     //       //debugger;
-//     //     })
-//     //     .catch(e => {
-//     //       //debugger;
-//     //     })
-//     // });
-//   };
-// };
-
-export const searchByLocation = (userSearchQuery) => {
-  return (dispatch) => {
-    const serverSearchQuery = {
-      searchLocation: userSearchQuery.locationField,
-      searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
-      jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
-    };
-
-    dispatch({
-      type: A.JOB_ACTIONS.SEARCH_JOB,
-      payload: serverSearchQuery,
-    });
-    dispatch({
-      type: A.JOB_ACTIONS.SEARCH_JOB,
-      payload: axios
-        .post(ROUTES.API.JOB.POST.searchJobs, {
-          data: {
-            searchParams: serverSearchQuery,
-          },
-        })
-        .catch((error) => {
-          throwErrorNotification(dispatch, error);
-        }),
-    });
+export const searchByLocation = (userSearchQuery) => (dispatch) => {
+  const serverSearchQuery = {
+    searchLocation: userSearchQuery.locationField,
+    searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
+    jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
   };
+
+  dispatch({
+    type: A.JOB_ACTIONS.SEARCH_JOB,
+    payload: serverSearchQuery,
+  });
+  dispatch({
+    type: A.JOB_ACTIONS.SEARCH_JOB,
+    payload: axios
+      .post(ROUTES.API.JOB.POST.searchJobs, {
+        data: {
+          searchParams: serverSearchQuery,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
 };
 
 export const addJob = (jobDetails) => (dispatch) => {
@@ -161,24 +163,8 @@ export const addJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          // update recently added job
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
-            payload: { data: resp.data },
-          });
           // switch route to show the currently added job
-          switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
-
-          // show notification of new job
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Great! You have added your job successfully',
-              },
-            },
-          });
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`);
         }
       })
       .catch((error) => {
@@ -187,35 +173,46 @@ export const addJob = (jobDetails) => (dispatch) => {
   });
 };
 
-export const uploadImages = (files) => (dispatch, getState) => {
-  const config = {
-    headers: { 'content-type': 'multipart/form-data' },
-  };
-  let data = new FormData();
-  for (var i = 0; i < files.length; i++) {
-    let file = files[i];
-    data.append('filesToUpload', file, file.name);
-  }
+// export const uploadImages = (files) => (dispatch, getState) => {
+//   const config = {
+//     headers: { 'content-type': 'multipart/form-data' },
+//   };
+//   let data = new FormData();
+//   for (var i = 0; i < files.length; i++) {
+//     let file = files[i];
+//     data.append('filesToUpload', file, file.name);
+//   }
+// dispatch({
+//   type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+//   payload: axios
+//     .put(ROUTES.API.JOB.PUT.jobImage, data, config)
+//     .then((e) => {
+//       //debugger
+//     })
+//     .catch((error) => {
+//       throwErrorNotification(dispatch, error);
+//     }),
+// });
+// };
+
+export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
   dispatch({
-    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
+    type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.jobImage, data, config)
-      .then((e) => {
-        //debugger
+      .get(ROUTES.API.JOB.GET.jobFullDetailsById, { params: { jobId } })
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
+            payload: { data: resp.data },
+          });
+        }
       })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
   });
-};
-
-export const selectJob = (jobDetails) => (dispatch) => {
-  dispatch({
-    type: A.JOB_ACTIONS.SELECT_ACTIVE_JOB,
-    payload: { data: jobDetails },
-  });
-  // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.PROPOSER.selectedPostedJobPage);
 };
 
 export const awardBidder = (jobId, bidId) => (dispatch) => {
@@ -236,16 +233,36 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
-            payload: { data: resp.data },
-          });
-
-          switchRoute(ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
+  });
+};
+
+export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = {
+    data: {
+      jobId,
+      bidId,
+    },
+  };
+
+  const response = dispatch({
+    type: A.JOB_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
+    payload: axios.put(ROUTES.API.BID.PUT.markBidAsSeen, postData, config),
+  });
+  response.then(({ value }) => {
+    if (value) {
+      dispatch({
+        type: A.JOB_ACTIONS.MARK_BID_AS_SEEN,
+        payload: { jobId, bidId },
+      });
+    }
   });
 };

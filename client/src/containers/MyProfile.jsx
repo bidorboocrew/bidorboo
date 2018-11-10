@@ -198,7 +198,7 @@ const userEditableInfo = (
       <div>
         {!isEditProfile && (
           <div>
-            <HeaderTitle title="General Information" />
+            <HeaderTitle title="My Info" />
             <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
             <DisplayLabelValue labelText="Email:" labelValue={email} />
             <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
@@ -210,7 +210,7 @@ const userEditableInfo = (
                 resize: 'none',
                 border: 'none',
                 color: '#4a4a4a',
-                background: 'whitesmoke',
+                background: 'white',
               }}
               readOnly
             />

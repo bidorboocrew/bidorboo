@@ -1,23 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// import BidOrBooGenericTasks from '../components/BidOrBooGenericTasks';
-// import Rotate from 'react-reveal/Rotate';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { showLoginDialog } from '../app-state/actions/uiActions';
 import { switchRoute } from '../utils';
-import ProposerRoot from './proposer-flow/ProposerRoot';
-import BidderRoot from './bidder-flow/BidderRoot';
+import BidOrBooCard from '../components/BidOrBooCard';
 
-class HomePage extends React.Component {
+export default class HomePage extends React.Component {
   render() {
     return (
       <div id="bdb-home-content">
-        <section className="hero is-dark fade-in">
+        <section className="hero has-text-centered is-dark fade-in">
           <div className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
@@ -31,110 +22,90 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <div>
-          <section className="mainSectionContainer">
-            <div className="container">
-              <div className="columns">
-                <div className="column">
-                  <div
-                    onClick={(e) => {
-                      e.preventDefault();
+        <section className="section">
+          <div className="columns">
+            <div className="column">
+              <BidOrBooCard
+                backgroundImage="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
+                contentTextColor={'white'}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                }}
+                cardContent={
+                  <a
+                    onClick={() => {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
-                    className="card fade-in"
                   >
-                    <div className="card-image">
-                      <figure className="image is-3by1">
-                        <img
-                          src="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
-                          alt="Placeholder"
-                        />
-                      </figure>
-                    </div>
-                    <div className="card-content">
-                      <div className="content">
-                        <p className="title">Post Your Jobs</p>
-                        <p className="subtitle">
-                          Start with one of our templates and post your jobs. Get your chores done
-                          for a price that will please you.
-                        </p>
-                      </div>
-                    </div>
-                    <footer className="card-footer">
-                      <a
-                        onClick={() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                        }}
+                    <div className="title has-text-white">
+                      <div
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#e98969',
+                          backgroundColor: '#9C89B8',
                         }}
-                        className="card-footer-item button is-primary is-large"
+                        className="button is-primary is-large is-fullwidth"
                       >
-                        <span style={{ marginLeft: 4 }}>
-                          <i className="fa fa-plus fa-w-14" /> Start Posting Jobs
+                        <span className="icon">
+                          <i className="fa fa-plus fa-w-14" />
                         </span>
-                      </a>
-                    </footer>
-                  </div>
-                </div>
-                <div className="column">
-                  <div
+                        <span className="has-text-white" style={{ marginLeft: 4 }}>
+                          Create Jobs
+                        </span>
+                      </div>
+                    </div>
+                    <div className="subtitle has-text-white	">
+                      Start with one of our templates and post your jobs. Get your chores done for a
+                      price that will please you.
+                    </div>
+                  </a>
+                }
+              />
+            </div>
+            <div className="column">
+              <BidOrBooCard
+                backgroundImage="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
+                contentTextColor={'white'}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+                cardContent={
+                  <a
                     onClick={(e) => {
                       e.preventDefault();
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
-                    className="card fade-in"
                   >
-                    <div className="card-image">
-                      <figure className="image is-3by1">
-                        <img
-                          src="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
-                          alt="Placeholder"
-                        />
-                      </figure>
-                    </div>
-                    <div className="card-content">
-                      <div className="content">
-                        <p className="title">Bid On Jobs</p>
-                        <p className="subtitle">
-                          Start Bidding on the jobs. Do the work you like for the price you like. Be
-                          your own boss and manage your own schedule.
-                        </p>
-                      </div>
-                    </div>
-                    <footer className="card-footer">
-                      <a
+                    <div className="title has-text-white">
+                      <div
                         onClick={(e) => {
                           e.preventDefault();
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
                         style={{
                           borderRadius: 0,
-                          backgroundColor: '#c786f8',
+                          backgroundColor: '#F0A6CA',
                         }}
-                        className="card-footer-item button is-primary is-large"
+                        className="button is-primary is-large is-fullwidth"
                       >
-                        <span style={{ marginLeft: 4 }}>
-                          <i className="fas fa-dollar-sign" /> Start Bidding Now
+                        <span className="icon">
+                          <i className="fas fa-dollar-sign" />
                         </span>
-                      </a>
-                    </footer>
-                  </div>
-                </div>
-              </div>
+                        <span className="has-text-white	" style={{ marginLeft: 4 }}>
+                          Bid Now
+                        </span>
+                      </div>
+                    </div>
+                    <div className="subtitle has-text-white	">
+                      Start Bidding on the jobs. Do the work you like for the price you like. Be
+                      your own boss and manage your own schedule.
+                    </div>
+                  </a>
+                }
+              />
             </div>
-          </section>
-        </div>
-        {/* <br />
-        <br />
-        <ProposerRoot />
-        <br />
-        <br />
-        <BidderRoot /> */}
+          </div>
+        </section>
       </div>
     );
   }
 }
-
-export default HomePage;

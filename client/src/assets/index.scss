@@ -29,9 +29,11 @@ body {
   left: 50%;
 }
 
-.card.space {
-  border: $border-divider;
-  box-shadow: $shadow-smooth;
+.card {
+  &.space {
+    border: $border-divider;
+    box-shadow: $shadow-smooth;
+  }
 }
 
 .bdb-spinner {
@@ -75,8 +77,8 @@ body {
 
 //----------------------------app styles customizations
 .mainSectionContainer {
-  background-color: whitesmoke;
-  padding: 10px;
+  background-color: white;
+  padding: 10px 4px;
 }
 
 .nav-bottom-border {
@@ -96,24 +98,6 @@ button.react-datepicker__navigation.react-datepicker__navigation--next {
 button.react-datepicker__navigation.react-datepicker__navigation--previous {
   border-right-color: #209cee !important;
   border-width: 10px !important;
-}
-
-.bdbCardComponent {
-  .card {
-    cursor: pointer;
-    background: white;
-    box-shadow: $shadow-space;
-    // &:hover {
-    // -webkit-animation: color-change-2x-proposer 0.35s linear both;
-    // animation: color-change-2x-proposer 0.35s linear both;
-    // figure {
-    //   img.specialImageEffect {
-    //     -webkit-animation: kenburns-bottom 5s ease-out both;
-    //     animation: kenburns-bottom 5s ease-out both;
-    //   }
-    // }
-    // }
-  }
 }
 
 .postedJobCard {
@@ -139,14 +123,14 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   // }
 }
 
-.card {
-  box-shadow: $shadow-space !important;
-  .card-header {
-    border-bottom: $border-divider;
-  }
-}
+// .card {
+//   box-shadow: $shadow-space !important;
+//   .card-header {
+//     border-bottom: $border-divider;
+//   }
+// }
 #header-and-content {
-  background-color: whitesmoke;
+  background-color: white;
 }
 .BidDetailsCard {
   box-shadow: $shadow-space;
@@ -159,8 +143,7 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   margin-right: 5px;
   float: left;
 }
-.checkbox {
-}
+
 .postedJobToBidOnCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
@@ -194,15 +177,22 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 //----------------------------bulma customizations
 
 $family-primary: 'Roboto', sans-serif;
-$body-background-color: whitesmoke; //#3b549c;
+$body-background-color: white; //#3b549c;
 $navbar-background-color: white;
 $footer-background-color: #363636;
-// $body-background-color: whitesmoke;
+// $body-background-color: white;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;
+.navbar-dropdown .navbar-item{
+  font-size: 16px;
+}
+.navbar-item{
+  font-size: 1.25rem;
+}
 @import 'bulma/bulma.sass';
 
+<<<<<<< HEAD
 /* map infoBox style */
 
 .info-box-action-button {
@@ -243,3 +233,73 @@ $box-radius: 2px;
   white-space: nowrap;
   font-size: 1.25rem;
 }
+=======
+.VerticalAligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.VerticalAligner-item {
+  max-width: 80%;
+}
+
+.VerticalAligner-item--top {
+  align-self: flex-start;
+}
+
+.VerticalAligner-item--bottom {
+  align-self: flex-end;
+}
+
+.HorizontalAligner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bdb-AddJobButton {
+  &:hover {
+    -webkit-animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+}
+
+.bdb-genericJobCard {
+  &:hover {
+    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+}
+
+.bdbGenericCard {
+  box-shadow: none;
+}
+
+.bdb-ActionSheet {
+  padding: 0.5rem;
+  max-height: 5rem;
+  box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.34);
+  border-top: 1px #ededed solid;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 30;
+  background: #eeee;
+  opacity: 1;
+}
+
+.bdb-addMarginForActionSheet {
+  margin-bottom: 2.50rem;
+}
+
+
+.input{
+  font-size: 1.25rem;
+}
+
+span.icon{
+  font-size: 1.25rem;
+}
+>>>>>>> master

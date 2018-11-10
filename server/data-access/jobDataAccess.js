@@ -4,51 +4,128 @@ const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
+const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+
 exports.jobDataAccess = {
-  getAllJobsForUser: (userId) => {
-    const populateJobBidsAndBidders = {
-      path: '_postedJobsRef',
-      options: {
-        sort: { createdAt: -1 },
+  // get jobs for a user and filter by a given state
+  getUserJobsByState: async (userId, stateFilter) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const postedJobsRefPopSchema = schemaHelpers.populateJobRef(
+          '_postedJobsRef',
+          {},
+          { options: { sort: { createdAt: -1 } } }
+        );
+        const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(postedJobsRefPopSchema)
+          .lean(true)
+          .exec();
+
+        if (jobs && jobs._postedJobsRef && stateFilter) {
+          const filteredJobs = jobs._postedJobsRef.filter((job) => {
+            return job.state === stateFilter;
+          });
+
+          resolve(filteredJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  getPostedJobDetails: async (userId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const bidsListRefPopSchema = schemaHelpers.populateBidRef('_bidsListRef', {
+          select: schemaHelpers.BidModelSchemaFields,
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _reviewsRef: 1,
+              displayName: 1,
+              rating: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+            },
+          },
+        });
+        const postedJobsRefPopSchema = schemaHelpers.populateJobRef('_postedJobsRef', {
+          populate: { ...bidsListRefPopSchema },
+        });
+
+        const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+          .populate(postedJobsRefPopSchema)
+          .lean(true)
+          .exec();
+
+        if (allJobs && allJobs._postedJobsRef) {
+          const chosenJob = allJobs._postedJobsRef.find((job) => {
+            return job._id.toString() === jobId;
+          });
+
+          resolve(chosenJob);
+        } else {
+          resolve(allJobs);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
+  getAwardedJobDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      const populateJobWithBidderDetails = {
+        path: '_awardedBidRef',
         select: {
-          _bidsListRef: 1,
-          state: 1,
-          location: 1,
-          startingDateAndTime: 1,
-          addressText: 1,
-          title: 1,
-          fromTemplateId: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        },
-      },
-      populate: {
-        path: '_bidsListRef',
-        select: {
-          bidAmount: 1,
-          isNewBid: 1,
           _bidderRef: 1,
-          createdAt: 1,
-          updatedAt: 1,
+          bidAmount: 1,
         },
         populate: {
           path: '_bidderRef',
           select: {
-            _reviewsRef: 1,
-            displayName: 1,
-            globalRating: 1,
-            profileImage: 1,
-            personalParagraph: 1,
-            membershipStatus: 1,
+            _postedJobsRef: 0,
+            _postedBidsRef: 0,
+            creditCards: 0,
+            address: 0,
+            settings: 0,
+            extras: 0,
+            canBid: 0,
+            canPost: 0,
+            userId: 0,
           },
         },
-      },
-    };
+      };
 
-    return User.findOne({ userId: userId }, { _postedJobsRef: 1, _id: 0 })
-      .populate(populateJobBidsAndBidders)
-      .lean(true)
-      .exec();
+      try {
+        const jobWithBidderDetails = await JobModel.findById(
+          { _id: jobId },
+          {
+            _ownerRef: 0,
+            ownerId: 0,
+            properties: 0,
+            hideForUserIds: 0,
+            bidderIds: 0,
+            _ownerRef: 0,
+            _bidsListRef: 0,
+            jobReview: 0,
+            extras: 0,
+          }
+        )
+          .populate(populateJobWithBidderDetails)
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 
   getAllPostedJobs: (userId) => {
@@ -78,7 +155,7 @@ exports.jobDataAccess = {
           try {
             if (error) {
               return reject(error);
-            } else {
+            } else if (userId) {
               // remove jobs that user already bid on
               let filteredResults =
                 results &&
@@ -94,6 +171,8 @@ exports.jobDataAccess = {
                   return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
                 });
               return resolve(filteredResults);
+            } else {
+              resolve(results);
             }
           } catch (e) {
             return reject(e);
@@ -189,7 +268,6 @@ exports.jobDataAccess = {
         reject(e);
       }
     });
-    return;
   },
 
   addAJob: async (jobDetails, userId) => {
@@ -234,13 +312,6 @@ exports.jobDataAccess = {
     } catch (e) {
       throw e;
     }
-
-    // await Promise.all([
-    //   applicationDataAccess.AppHealthModel.incrementField('totalJobs'),
-    //   applicationDataAccess.AppJobsModel.addToJobsIdList(newJob.id)
-    // ]);
-
-    // return newJob;
   },
 
   awardedBidder: async (jobId, bidId) => {
@@ -256,7 +327,7 @@ exports.jobDataAccess = {
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
-          $set: { awardedBid: bidId, state: 'AWARDED' },
+          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
         }
       )
         .lean(true)
@@ -281,7 +352,7 @@ exports.jobDataAccess = {
       }
     )
       .populate({
-        path: 'awardedBid',
+        path: '_awardedBidRef',
         select: {
           _jobRef: 0,
         },
@@ -296,8 +367,8 @@ exports.jobDataAccess = {
             settings: 0,
             creditCards: 0,
             updatedAt: 0,
-            __v:0,
-            verificationIdImage:0,
+            __v: 0,
+            verificationIdImage: 0,
           },
         },
       })
@@ -328,5 +399,54 @@ exports.jobDataAccess = {
     )
       .lean(true)
       .exec();
+  },
+  deleteJob: async (jobId, userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findById({ _id: jobId })
+          .lean(true)
+          .exec();
+
+        // delete all bids associatedc
+        const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+        if (areThereAnyBids) {
+          const referencedBidIds = job._bidsListRef.map((bidRef) => {
+            return bidRef.toString();
+          });
+
+          job.bidderIds.forEach(async (bidderId) => {
+            // clean ref for bidders
+            await User.findOneAndUpdate(
+              { userId: bidderId },
+              { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+              { new: true }
+            )
+              .lean(true)
+              .exec();
+          });
+
+          referencedBidIds.forEach(async (bidId) => {
+            await BidModel.deleteOne({ _id: bidId });
+          });
+        }
+        // delete job model
+        await JobModel.deleteOne({ _id: jobId })
+          .lean(true)
+          .exec();
+        // clean for owner
+        await User.findOneAndUpdate(
+          { userId: userId },
+          { $pull: { _postedJobsRef: { $in: [jobId] } } },
+          { new: true }
+        )
+          .lean(true)
+          .exec();
+
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 };

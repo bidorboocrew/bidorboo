@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { switchRoute } from '../utils';
 import * as ROUTES from '../constants/frontend-route-consts';
-import LoadingBar from 'react-redux-loading-bar';
 
 class Header extends React.Component {
   static propTypes = {
@@ -138,14 +137,15 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <i style={{ marginRight: 4 }} className="fa fa-child" aria-hidden="true" />
+                  <span style={{ marginRight: 4 }}>
+                    <i className="fa fa-child" aria-hidden="true" />
+                  </span>
                   <span>Proposer</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   {isLoggedIn && (
                     <React.Fragment>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -154,24 +154,28 @@ class Header extends React.Component {
                           });
                         }}
                       >
-                        Awarded Active Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="far fa-calendar-check" />
+                        </span>
+                        <span>Awarded Jobs</span>
                       </a>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myjobs);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                           });
                         }}
                       >
-                        My Posted Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-list" />
+                        </span>
+                        <span>Posted Jobs</span>
                       </a>
                     </React.Fragment>
                   )}
                   <a
-                    style={{ marginleft: 4 }}
                     className="navbar-item"
                     onClick={(e) => {
                       e.preventDefault();
@@ -180,7 +184,10 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    Post A Job
+                    <span style={{ marginRight: 4 }}>
+                      <i className="far fa-plus-square" />
+                    </span>
+                    <span>Create Jobs</span>
                   </a>
                 </div>
               </div>
@@ -194,14 +201,15 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <i style={{ marginRight: 4 }} className="fa fa-hand-paper" aria-hidden="true" />
+                  <span style={{ marginRight: 4 }}>
+                    <i className="fa fa-hand-paper" aria-hidden="true" />
+                  </span>
                   <span>Bidder</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   {isLoggedIn && (
                     <React.Fragment>
                       <a
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -210,7 +218,10 @@ class Header extends React.Component {
                           });
                         }}
                       >
-                        Awarded Active Jobs
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-handshake" />
+                        </span>
+                        <span>Bids I Won</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -219,15 +230,16 @@ class Header extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                           });
                         }}
-                        style={{ marginleft: 4 }}
                         className="navbar-item"
                       >
-                        My Bids
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-money-check-alt" />
+                        </span>
+                        <span>Posted Bids</span>
                       </a>
                     </React.Fragment>
                   )}
                   <a
-                    style={{ marginleft: 4 }}
                     className="navbar-item"
                     onClick={(e) => {
                       e.preventDefault();
@@ -236,7 +248,10 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    Post A Bid
+                    <span style={{ marginRight: 4 }}>
+                      <i className="fas fa-plus-circle" />
+                    </span>
+                    <span>Bid Now</span>
                   </a>
                 </div>
               </div>
@@ -269,8 +284,10 @@ class Header extends React.Component {
                             }}
                             className="navbar-item"
                           >
-                            <i className="far fa-user" aria-hidden="true" />
-                            <span style={{ marginLeft: 4 }}>My Profile</span>
+                            <span style={{ marginRight: 4 }}>
+                              <i className="far fa-user" aria-hidden="true" />
+                            </span>
+                            <span>My Profile</span>
                           </a>
                           <hr className="dropdown-divider" />
                           <a
@@ -281,8 +298,10 @@ class Header extends React.Component {
                             }
                             className="navbar-item"
                           >
-                            <i className="fas fa-sign-out-alt" />
-                            <span style={{ marginLeft: 4 }}>Logout</span>
+                            <span style={{ marginRight: 4 }}>
+                              <i className="fas fa-sign-out-alt" />
+                            </span>
+                            <span>Logout</span>
                           </a>
                         </div>
                       </div>
@@ -308,7 +327,6 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
-        <LoadingBar style={{ backgroundColor: '#00d1b2', height: '5px' }} />
       </React.Fragment>
     );
   }

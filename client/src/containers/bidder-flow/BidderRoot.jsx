@@ -122,10 +122,10 @@ class BidderRoot extends React.Component {
         )}
         <div className="slide-in-left" id="bdb-bidder-root">
           <section className="hero is-small">
-            <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
+            <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
                 <h1 style={{ color: 'white' }} className="title">
-                  Bid on Jobs
+                  Bid Now
                 </h1>
                 <h2 style={{ color: 'white' }} className="subtitle">
                   Start Earning money by doing things you are good at.

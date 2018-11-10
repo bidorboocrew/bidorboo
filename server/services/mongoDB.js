@@ -5,28 +5,28 @@ const keys = require('../config/keys');
 module.exports = (process) => {
   // require the application models
   require('../models/bidModel');
-  require('../models/applicationGlobalModels');
   require('../models/userModel');
   require('../models/reviewModel');
   require('../models/jobModel');
-  require('../services/passport');
 
   mongoose.Promise = global.Promise;
-
+  if (process.env.NODE_ENV !== 'production') {
+    mongoose.set('debug', true);
+  }
   const dbOptions = {
     useFindAndModify: false,
     useNewUrlParser: true,
     useCreateIndex: true,
     keepAlive: 120,
     reconnectTries: 20, // Never stop trying to reconnect
-    reconnectInterval: 5000 // Reconnect every 500ms,
+    reconnectInterval: 5000, // Reconnect every 500ms,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
   mongoose.connect(
     keys.mongoURI,
     dbOptions,
-    err => {
+    (err) => {
       if (err) {
         console.log(
           `Could not connect to mongodb on localhost.
@@ -42,9 +42,7 @@ module.exports = (process) => {
   process.on('SIGINT', function() {
     console.log('=== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
-      console.log(
-        'Mongoose default connection is disconnected due to application termination'
-      );
+      console.log('Mongoose default connection is disconnected due to application termination');
       process.exit(0);
     });
   });

@@ -2,28 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyJobs, selectJob } from '../../app-state/actions/jobActions';
+import { getAllMyAwardedJobs } from '../../app-state/actions/jobActions';
 
-import MyJobsList from '../../components/proposer-components/MyJobsList';
+import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
 
 class MyJobs extends React.Component {
   componentDidMount() {
-    this.props.a_getAllMyJobs();
+    this.props.a_getAllMyAwardedJobs();
   }
 
   render() {
-    const { myPostedJobsList, userDetails, a_selectJob } = this.props;
+    const { myAwardedJobsList, userDetails } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
-          <div style={{ backgroundColor: '#e98969' }} className="hero-body">
+          <div style={{ backgroundColor: '#9C89B8' }} className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                My Posted Jobs
+                My Awarded Jobs
               </h1>
-              <h2 style={{ color: 'white' }} className="subtitle">
-                Get the work done for the best price possible.
-              </h2>
             </div>
           </div>
         </section>
@@ -33,10 +30,9 @@ class MyJobs extends React.Component {
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"
             >
-              <MyJobsList
-                selectJobHandler={a_selectJob}
+              <AwardedJobsList
                 userDetails={userDetails}
-                jobsList={myPostedJobsList}
+                jobsList={myAwardedJobsList}
               />
             </div>
           </div>
@@ -48,15 +44,14 @@ class MyJobs extends React.Component {
 const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
   return {
     error: jobsReducer.error,
-    myPostedJobsList: jobsReducer.myPostedJobsList,
+    myAwardedJobsList: jobsReducer.myAwardedJobsList,
     isLoading: jobsReducer.isLoading,
     userDetails: userModelReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllMyJobs: bindActionCreators(getAllMyJobs, dispatch),
-    a_selectJob: bindActionCreators(selectJob, dispatch),
+    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
   };
 };
 

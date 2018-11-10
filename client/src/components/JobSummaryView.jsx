@@ -6,9 +6,8 @@ import moment from 'moment';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 export default class JobSummaryView extends React.Component {
-
   render() {
-    const { job, specialStyle } = this.props;
+    const { job, specialStyle, footer } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef } = job;
 
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
@@ -30,8 +29,9 @@ export default class JobSummaryView extends React.Component {
       console.error(e);
     }
 
+    const newStyle = { ...specialStyle, height: '100%' };
     return (
-      <div style={specialStyle} className="card postedJobToBidOnCard is-clipped">
+      <div style={newStyle} className="card postedJobToBidOnCard is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
@@ -79,6 +79,7 @@ export default class JobSummaryView extends React.Component {
             </p>
           </div>
         </div>
+        {footer}
       </div>
     );
   }

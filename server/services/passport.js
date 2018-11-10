@@ -15,7 +15,7 @@ passport.serializeUser((user, done) => {
 //we know how to process the info from client into server object
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await userDataAccess.findOneByUserIdForSession(id);
+    const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
     return done({ errorMsg: 'Failed To deserializeUser', details: e }, null);

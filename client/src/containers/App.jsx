@@ -16,15 +16,15 @@ import {
   HomePage,
   ProposerRoot,
   CreateAJob,
-  MyJobs,
+  PostedJobs,
   BidderRoot,
   MyProfile,
   BidNow,
   MyBids,
-  CurrentAddedJob,
+  CurrentJob,
   CurrentPostedBid,
   ActiveAwardedBids,
-  ActiveAwardedJobs,
+  AwardedJobs,
   CurrentAwardedJob,
 } from './index';
 
@@ -40,8 +40,8 @@ class App extends React.Component {
 
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
-    document.getElementById('fullscreen-preloader') &&
-      document.getElementById('fullscreen-preloader').remove();
+    // document.getElementById('fullscreen-preloader') &&
+    //   document.getElementById('fullscreen-preloader').remove();
 
     this.props.a_getCurrentUser();
   }
@@ -51,12 +51,14 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
   render() {
-    const { s_isLoggedIn, s_toastDetails } = this.props;
-
+    const { s_toastDetails } = this.props;
     return (
       <div id="bidorboo-root-view">
+        {/* this sill be where action sheets mount */}
+        <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
+
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -79,20 +81,20 @@ class App extends React.Component {
                   component={CreateAJob}
                 />
                 {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route exact path={ROUTES.CLIENT.PROPOSER.myjobs} component={MyJobs} />
+                <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
                 <Route
                   exact
-                  path={ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}
-                  component={CurrentAddedJob}
+                  path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
+                  component={CurrentJob}
                 />
                 <Route
                   exact
                   path={ROUTES.CLIENT.PROPOSER.awardedJobsPage}
-                  component={ActiveAwardedJobs}
+                  component={AwardedJobs}
                 />
-                 <Route
+                <Route
                   exact
-                  path={ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}
+                  path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
                   component={CurrentAwardedJob}
                 />
 
@@ -147,24 +149,3 @@ export default withRouter(
     mapDispatchToProps
   )(App)
 );
-
-/**
- * this will ensure that you dont enter a route unless you are auth
- * good for profile
- * @param {*}
- */
-// const ProtectedRoute = ({ component: Component, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) => {
-//         const { isLoggedIn, redirectWhenNotLoggedIn } = { ...rest };
-//         return isLoggedIn ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect to={`${redirectWhenNotLoggedIn || ROUTES.CLIENT.HOME}/true`} />
-//         );
-//       }}
-//     />
-//   );
-// };

@@ -18,14 +18,11 @@ class ProposerRoot extends React.Component {
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small">
-          <div style={{ backgroundColor: '#c786f8' }} className="hero-body">
+          <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Bids you won  ( under implementation )
+                Bids you won ( under implementation )
               </h1>
-              <h2 style={{ color: 'white' }} className="subtitle">
-                schedule the time to do the job and get paid
-              </h2>
             </div>
           </div>
         </section>

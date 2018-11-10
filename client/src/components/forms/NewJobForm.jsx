@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
+import ReactDOM from 'react-dom';
 
 import { withFormik } from 'formik';
 
@@ -24,7 +25,7 @@ import {
 } from './FormsHelpers';
 import moment from 'moment';
 import { alphanumericField } from './FormsValidators';
-
+import ActionSheet from '../ActionSheet';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -36,6 +37,7 @@ class NewJobForm extends React.Component {
   };
   constructor(props) {
     super(props);
+
     this.google = window.google;
     const googleObj = this.google;
     if (this.google) {
@@ -83,6 +85,7 @@ class NewJobForm extends React.Component {
       isSubmitting,
       setFieldValue,
     } = this.props;
+    const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
@@ -100,7 +103,7 @@ class NewJobForm extends React.Component {
     //get an initial title from the job title
     values.fromTemplateIdField = fromTemplateIdField;
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <TextInput
           id="jobTitleField"
           className="input"
@@ -142,17 +145,20 @@ class NewJobForm extends React.Component {
             errors.addressTextField = 'google api error ' + e;
           }}
           onChangeEvent={(e) => {
+            console.log(`onChangeEvent={(e) => ${e}`);
             this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
-            console.log('value changed ' + e);
           }}
           onBlurEvent={(e) => {
             if (e && e.target) {
+              console.log(`onChangeEvent={(e) => ${e}`);
               e.target.id = 'addressTextField';
               handleBlur(e);
             }
           }}
           handleSelect={(address) => {
+            console.log(`onChangeEvent={(e) => ${address}`);
+
             setFieldValue('addressTextField', address, true);
             geocodeByAddress(address)
               .then((results) => getLatLng(results[0]))
@@ -166,7 +172,6 @@ class NewJobForm extends React.Component {
               });
           }}
         />
-
         <input
           id="dateField"
           className="input is-invisible"
@@ -188,7 +193,6 @@ class NewJobForm extends React.Component {
             }
           }}
         />
-
         <input
           id="hoursField"
           className="input is-invisible"
@@ -214,7 +218,6 @@ class NewJobForm extends React.Component {
           checked={this.state.isFlexibleTimeSelected}
           onChange={this.handleFlexibleTimeChecked}
         />
-
         <TimeInput
           hoursFieldId="hoursField"
           minutesFieldId="minutesField"
@@ -238,7 +241,6 @@ class NewJobForm extends React.Component {
           onBlur={handleBlur}
           iconLeft="far fa-clock"
         />
-
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
@@ -249,28 +251,34 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
-        <div className="field">
-          <button
-            style={{ marginRight: 6 }}
-            className="button is-primary is-medium"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            className="button is-outlined is-medium"
-            disabled={isSubmitting}
-            onClick={(e) => {
-              e.preventDefault();
-              onCancel(e);
-            }}
-          >
-            Cancel
-          </button>
-        </div>
+        {actionsSheetRoot &&
+          ReactDOM.createPortal(
+            <div className="field">
+              <ActionSheet>
+                <button
+                  type="button"
+                  className="button is-outlined is-medium"
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onCancel(e);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  style={{ marginLeft: '2.25rem' }}
+                  className="button is-primary is-medium"
+                  type="submit"
+                  disabled={isSubmitting || !isValid}
+                  onClick={()=>{handleSubmit(values,{...this.props})}}
+                >
+                  Submit
+                </button>
+              </ActionSheet>
+            </div>,
+            actionsSheetRoot
+          )}
       </form>
     );
   }

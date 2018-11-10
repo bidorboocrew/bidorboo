@@ -19,9 +19,11 @@ export const API = {
   },
   JOB: {
     GET: {
-      myjobs: '/api/job/myJobs',
+      myOpenJobs: '/api/job/myOpenJobs',
       alljobs: '/api/job/allJobs',
-      jobById: '/api/job/:jobId',
+      jobById: '/api/job',
+      jobFullDetailsById: '/api/job/fullDetails',
+      myAwardedJobs: '/api/job/myAwardedJobs',
     },
     POST: {
       searchJobs: '/api/job/search',
@@ -32,8 +34,7 @@ export const API = {
       awardBidder: '/api/job/awardBidder',
     },
     DELETE: {
-      jobById: '/api/job/',
-      jobImage: '/api/job/',
+      jobById: '/api/job',
     },
   },
   BID: {
@@ -43,6 +44,9 @@ export const API = {
     GET: {
       myBids: '/api/bids/myBids',
     },
+    PUT: {
+      markBidAsSeen: '/api/bids/markBidAsSeen',
+    }
   },
 };
 
@@ -52,10 +56,10 @@ export const CLIENT = {
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
-    myjobs: '/proposer/my-jobs',
+    myOpenJobs: '/proposer/my-open-jobs',
     selectedPostedJobPage: '/proposer/job-details',
-    awardedJobsPage: '/proposer/active-jobs',
-    selectedAwardedJobPage: '/proposer/active-jobs-details',
+    awardedJobsPage: '/proposer/awarded-jobs',
+    selectedAwardedJobPage: '/proposer/awarded-job-details',
   },
   BIDDER: {
     root: '/bidder-root',

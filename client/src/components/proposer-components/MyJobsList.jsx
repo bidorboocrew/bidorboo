@@ -2,53 +2,72 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 class MyJobsList extends React.Component {
   static propTypes = {
-    selectJobHandler: PropTypes.func.isRequired,
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
+    deleteJob: PropTypes.func,
   };
+
+  static defaultProps = {
+    deleteJob: null,
+  };
+
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
-    const MyJobsList = userHasPostedJobs ? (
-      jobsList.map((job) => {
-        return (
-          <div key={job._id} className="column is-one-third">
-            <JobSummaryView job={job} {...this.props} />
-          </div>
-        );
-      })
+    return userHasPostedJobs ? (
+      <React.Fragment>
+        <JobsWithBids {...this.props} />
+        <JobsWithoutBids {...this.props} />
+      </React.Fragment>
     ) : (
       <EmptyState />
-    );
-
-    return (
-      <section className="section">
-        <div className="container">
-          <div
-            // style={{ alignItems: 'flex-end' }}
-            className="columns is-multiline"
-          >
-            {MyJobsList}
-          </div>
-        </div>
-      </section>
     );
   }
 }
 
 export default MyJobsList;
 
+const JobsWithBids = (props) => {
+  const { jobsList } = props;
+  const jobsWithBids = jobsList
+    .filter((job) => {
+      return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
+    })
+    .map((job) => {
+      return (
+        <div key={job._id} className="column is-one-third">
+          <JobSummaryView job={job} areThereAnyBidders {...props} />
+        </div>
+      );
+    });
+  return jobsWithBids;
+};
+
+const JobsWithoutBids = (props) => {
+  const { jobsList } = props;
+  const jobsWithoutBids = jobsList
+    .filter((job) => {
+      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
+    })
+    .map((job) => {
+      return (
+        <div key={job._id} className="column is-one-third">
+          <JobSummaryView job={job} {...props} />
+        </div>
+      );
+    });
+  return jobsWithoutBids;
+};
 
 const EmptyState = () => (
-  <React.Fragment>
+  <div className="container">
     <div>Sorry you have not posted any jobs</div>
     <div>
       <a
@@ -58,19 +77,16 @@ const EmptyState = () => (
           switchRoute(ROUTES.CLIENT.PROPOSER.root);
         }}
       >
-        post jobs
+        Post New Jobs
       </a>
     </div>
-  </React.Fragment>
+  </div>
 );
-
-
-
 
 class JobSummaryView extends React.Component {
   render() {
-    const { job, selectJobHandler, userDetails } = this.props;
-    const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
+    const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
+    const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;
 
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
@@ -79,11 +95,8 @@ class JobSummaryView extends React.Component {
     let daysSinceCreated = '';
     let createdAtToLocal = '';
 
-    const areThereAnyBidders =
-      job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
-
-      // set border for jobs with reviews
-      let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
+    // set border for jobs with reviews
+    let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -99,37 +112,27 @@ class JobSummaryView extends React.Component {
 
     return (
       <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
-        {!areThereAnyBidders && (
-          <a
-            disabled
-            style={{ borderRadius: 0, backgroundColor: '#bdbdbd' }}
-            className="button is-fullwidth is-large"
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fa fa-hand-paper" /> No Bids Yet
-            </span>
-          </a>
-        )}
-        {/* show as enabled cuz there is bidders */}
-        {areThereAnyBidders && (
-          <a
-            style={{ borderRadius: 0 }}
-            className="button is-primary is-fullwidth is-large"
-            onClick={(e) => {
-              e.preventDefault();
-              selectJobHandler(job);
-            }}
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fa fa-hand-paper" /> Review Bids
-            </span>
-          </a>
-        )}
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
           <p className="card-header-title">{title || 'Job Title'}</p>
+
+          {/* xxxx delete button */}
+          {deleteJob && (
+            <a
+              className="card-header-icon"
+              aria-label="more options"
+              onClick={(e) => {
+                e.preventDefault();
+                deleteJob(job._id);
+              }}
+            >
+              <span style={{ color: 'grey' }} className="icon">
+                <i className="far fa-trash-alt" aria-hidden="true" />
+              </span>
+            </a>
+          )}
         </header>
         <div className="card-image is-clipped">
           <figure className="image is-3by1">
@@ -172,6 +175,31 @@ class JobSummaryView extends React.Component {
             </p>
           </div>
         </div>
+        <footer className="card-footer">
+          <div className="card-footer-item">
+            {!areThereAnyBidders && (
+              <a disabled className="button is-outlined is-fullwidth is-large">
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-hand-paper" /> No Bids Yet
+                </span>
+              </a>
+            )}
+            {/* show as enabled cuz there is bidders */}
+            {areThereAnyBidders && (
+              <a
+                className="button is-primary is-fullwidth is-large"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
+                }}
+              >
+                <span style={{ marginLeft: 4 }}>
+                  <i className="fa fa-hand-paper" /> Review Bids
+                </span>
+              </a>
+            )}
+          </div>
+        </footer>
       </div>
     );
   }
