@@ -118,7 +118,7 @@ class JobMarker extends React.Component {
       >
         {this.state.showInfoBox && (
           <InfoBox
-            className="infoBox"
+            className="info-Box-map"
             options={{
               pixelOffset: new google.maps.Size(-140, 0),
               zIndex: null,
@@ -132,47 +132,53 @@ class JobMarker extends React.Component {
               enableEventPropagation: true,
             }}
           >
-            <div class="card info-box-card">
-              <div class="info-box-card-content info-box-wrap">
-                <div class="media info-box-media">
-                  <div class="media-left info-box-media-left">
-                    <figure class="image is-43x43">
-                      <img alt="profile" src={marker._ownerRef.profileImage.url} />
-                    </figure>
+            <div class="card" style={{ maxWidth: '300px' }}>
+              <div class="card-content">
+                <p class="title info-box-card-title">{marker.title}</p>
+                <p class="subtitle">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-43x43">
+                        <img alt="profile" src={marker._ownerRef.profileImage.url} />
+                      </figure>
+                    </div>
+                    <div class="media-right">
+                      <p> {marker._ownerRef.displayName}</p>
+                    </div>
                   </div>
-                  <div class="info-box-text-wrap  media-content">
-                    <p class="title is-6 info-box-title">{marker.title}</p>
-                  </div>
-                </div>
+                </p>
                 <div className="info-box-close">
                   <a onClick={this.toggleShow} className=" is-outline is-small has-text-right">
                     <i className="fa fa-times fa-w-12" />
                   </a>
                 </div>
               </div>
-              <footer class=" action-btns card-footer">
-                {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
-                  <i
-                    className="button is-primary"
-                    onClick={() => {
-                      if (!isLoggedIn) {
-                        showLoginDialog(true);
-                      } else {
-                        if (marker._ownerRef._id !== currentUserId) {
-                          this.bidOnThisJob();
-                        }
-                      }
-                    }}
-                  >
-                    <span style={{ marginLeft: 4 }}>
-                      <i className="fas fa-dollar-sign" /> Bid Now
-                    </span>
-                  </i>
-                )}
-                {isLoggedIn &&
-                  marker._ownerRef._id === currentUserId && (
-                    <i className="button is-static disabled">My Job</i>
-                  )}
+              <footer class="card-footer">
+                <p class="card-footer-item">
+                  <span className="info-box-action-button">
+                    {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
+                      <a
+                        className="button is-primary info-box-action-button"
+                        onClick={() => {
+                          if (!isLoggedIn) {
+                            showLoginDialog(true);
+                          } else {
+                            if (marker._ownerRef._id !== currentUserId) {
+                              this.bidOnThisJob();
+                            }
+                          }
+                        }}
+                      >
+                        <span style={{ marginLeft: 4 }}>
+                          <i className="fas fa-dollar-sign" /> Bid Now
+                        </span>
+                      </a>
+                    )}
+                    {isLoggedIn && marker._ownerRef._id === currentUserId && (
+                      <a className="button is-static disabled  info-box-action-button">My Job</a>
+                    )}
+                  </span>
+                </p>
               </footer>
             </div>
           </InfoBox>
