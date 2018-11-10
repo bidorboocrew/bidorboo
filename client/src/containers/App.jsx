@@ -40,8 +40,8 @@ class App extends React.Component {
 
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
-    document.getElementById('fullscreen-preloader') &&
-      document.getElementById('fullscreen-preloader').remove();
+    // document.getElementById('fullscreen-preloader') &&
+    //   document.getElementById('fullscreen-preloader').remove();
 
     this.props.a_getCurrentUser();
   }
