@@ -26,7 +26,7 @@ class AwardedJobsList extends React.Component {
         <JobsWithBids {...this.props} />
       </React.Fragment>
     ) : (
-      <EmptyState />
+      <EmptyStateComponent />
     );
   }
 }
@@ -49,19 +49,22 @@ const JobsWithBids = (props) => {
   return jobsWithBids;
 };
 
-const EmptyState = () => (
-  <div className="container">
-    <div>Sorry you have not posted any jobs</div>
-    <div>
-      <a
-        className="button is-primary"
-        onClick={(e) => {
-          e.preventDefault();
-          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-        }}
-      >
-        Post New Jobs
-      </a>
+const EmptyStateComponent = () => (
+  <div className="card is-fullwidth">
+    <div className="card-content">
+      <div className="content has-text-centered">
+        <div className="is-size-5">Sorry you have not posted any jobs.</div>
+        <br />
+        <a
+          className="button is-primary is-large"
+          onClick={(e) => {
+            e.preventDefault();
+            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+          }}
+        >
+          Create A Job
+        </a>
+      </div>
     </div>
   </div>
 );
@@ -132,12 +135,11 @@ class JobSummaryView extends React.Component {
         <div className="card-content">
           <div className="media">
             <div className="media-left">
-              {profileImage &&
-                profileImage.url && (
-                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                    <img src={profileImage.url} alt="user" />
-                  </figure>
-                )}
+              {profileImage && profileImage.url && (
+                <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                  <img src={profileImage.url} alt="user" />
+                </figure>
+              )}
             </div>
             <div className="media-content">
               <p className="title is-6">{displayName}</p>

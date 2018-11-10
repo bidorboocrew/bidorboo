@@ -55,7 +55,7 @@ exports.jobDataAccess = {
                   personalParagraph: 1,
                   membershipStatus: 1,
                   agreedToServiceTerms: 1,
-                  createdAt:1,
+                  createdAt: 1,
                 },
               },
             },
@@ -77,8 +77,8 @@ exports.jobDataAccess = {
       }
     });
   },
-
-  getAllJobsToBidOn: (userId) => {
+  getAllJobsToBidOnForLoggedOutUser: () => {
+    // wil return all jobs in the system
     return new Promise((resolve, reject) => {
       const jobFields = {
         _ownerRef: 1,
@@ -96,18 +96,58 @@ exports.jobDataAccess = {
       };
       const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
 
-      JobModel.find({}, jobFields, { sort: { createdAt: -1 } })
+      JobModel.find({}, jobFields, {
+        sort: { createdAt: -1 },
+      })
         .populate({
           path: '_ownerRef',
           select: jobOwnerFields,
         })
         .lean(true)
         .exec((error, results) => {
-          // xxx todo figure a better way to query a sub document to avoid perforamnce issues
           try {
             if (error) {
               return reject(error);
-            } else if (userId) {
+            }
+            return resolve(results);
+          } catch (e) {
+            return reject(e);
+          }
+        });
+    });
+  },
+  getAllJobsToBidOnForLoggedInUser: (userId, mongoDbUserId) => {
+    // will return jobs that you did not bid on and that you are not owner of
+    return new Promise((resolve, reject) => {
+      const jobFields = {
+        _ownerRef: 1,
+        title: 1,
+        state: 1,
+        detailedDescription: 1,
+        stats: 1,
+        startingDateAndTime: 1,
+        durationOfJob: 1,
+        fromTemplateId: 1,
+        reportThisJob: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        location: 1,
+      };
+      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
+
+      JobModel.find({ _ownerRef: { $not: { $eq: mongoDbUserId } } }, jobFields, {
+        sort: { createdAt: -1 },
+      })
+        .populate({
+          path: '_ownerRef',
+          select: jobOwnerFields,
+        })
+        .lean(true)
+        .exec((error, results) => {
+          try {
+            if (error) {
+              return reject(error);
+            } else {
               // this will be hit if user is logged in
 
               // remove jobs that user already bid on
@@ -125,9 +165,6 @@ exports.jobDataAccess = {
                   return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
                 });
               return resolve(jobsUserHasntBidOn);
-            } else {
-              // for logged out people you will see everything
-              resolve(results);
             }
           } catch (e) {
             return reject(e);

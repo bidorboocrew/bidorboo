@@ -4,7 +4,7 @@ import * as A from '../actionTypes';
 const initialState = {
   myOpenJobsList: [],
   myAwardedJobsList: [],
-  allThePostedJobsList: [],
+  ListOfJobsToBidOn: [],
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
@@ -60,16 +60,16 @@ const getPostedJobs = {
     let allThePostedJobs = payload.data ? payload.data : [];
     return {
       ...state,
-      allThePostedJobsList: allThePostedJobs,
+      ListOfJobsToBidOn: allThePostedJobs,
       isLoading: false,
     };
   },
   isRejected: (state = initialState, { payload }) => {
-    const getAllPostedJobsError =
+    const getAllJobsToBidOnError =
       payload && payload.data
         ? payload.data
         : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`;
-    return { ...state, error: getAllPostedJobsError, isLoading: false };
+    return { ...state, error: getAllJobsToBidOnError, isLoading: false };
   },
 };
 
@@ -84,7 +84,7 @@ const searchJob = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let searchResult = payload && payload.data ? payload.data : [];
-    return { ...state, allThePostedJobsList: searchResult, isLoading: false };
+    return { ...state, ListOfJobsToBidOn: searchResult, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {
     const searchJobsError =

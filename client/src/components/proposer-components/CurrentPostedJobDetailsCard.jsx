@@ -269,7 +269,7 @@ class BidsTable extends React.Component {
                 </td>
               </tr>
             </tbody>
-          </table>{' '}
+          </table>
         </div>
       </div>
     );

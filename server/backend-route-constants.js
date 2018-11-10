@@ -21,7 +21,7 @@ module.exports = {
     JOB: {
       GET: {
         myOpenJobs: '/api/job/myOpenJobs',
-        alljobs: '/api/job/allJobs',
+        alljobsToBidOn: '/api/job/alljobsToBidOn',
         jobById: '/api/job',
         myAwardedJobs: '/api/job/myAwardedJobs',
         jobFullDetailsById: '/api/job/fullDetails',

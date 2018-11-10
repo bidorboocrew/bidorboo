@@ -38,10 +38,10 @@ export const getAllMyAwardedJobs = () => (dispatch) =>
     payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
   });
 
-export const getAllPostedJobs = () => (dispatch) =>
+export const getAllJobsToBidOn = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.alljobs),
+    payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
   });
 
 export const getPostedJobDetails = (jobId) => (dispatch) =>

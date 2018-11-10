@@ -32,11 +32,16 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.alljobsToBidOn, requireBidorBooHost, async (req, res) => {
     try {
-      const userMongoDBId = req.user && req.user.userId ? req.user.userId : null;
+      const userId = req.user && req.user.userId ? req.user.userId : null;
+      const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
 
-      userJobsList = await jobDataAccess.getAllJobsToBidOn(userMongoDBId);
+      const isUserLoggedIn = !!(userId && mongoDbUserId);
+      userJobsList = isUserLoggedIn
+        ? await jobDataAccess.getAllJobsToBidOnForLoggedInUser(userId, mongoDbUserId)
+        : await jobDataAccess.getAllJobsToBidOnForLoggedOutUser();
+
       return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });

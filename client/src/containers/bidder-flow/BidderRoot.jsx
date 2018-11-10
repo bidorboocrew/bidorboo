@@ -10,7 +10,7 @@ import { Spinner } from '../../components/Spinner';
 import JobsToBidOn from '../../components/bidder-components/JobsToBidOn';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
-import { getAllPostedJobs, searchByLocation } from '../../app-state/actions/jobActions';
+import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
@@ -39,9 +39,9 @@ class BidderRoot extends React.Component {
   toggleHideMyJobs(e, excludeMyJobs) {
     e.preventDefault();
 
-    const { allThePostedJobsList, userDetails } = this.props;
-    if (userDetails && allThePostedJobsList && allThePostedJobsList.length > 0 && excludeMyJobs) {
-      const filteredJobList = allThePostedJobsList.filter((job) => {
+    const { ListOfJobsToBidOn, userDetails } = this.props;
+    if (userDetails && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && excludeMyJobs) {
+      const filteredJobList = ListOfJobsToBidOn.filter((job) => {
         return userDetails._id !== job._ownerRef._id;
       });
       this.setState({
@@ -53,19 +53,19 @@ class BidderRoot extends React.Component {
       this.setState({
         ...this.state,
         hideMyJobs: false,
-        displayedJobList: allThePostedJobsList,
+        displayedJobList: ListOfJobsToBidOn,
       });
     }
   }
 
   componentDidMount() {
-    this.props.a_getAllPostedJobs();
+    this.props.a_getAllJobsToBidOn();
   }
 
   render() {
     const {
       isLoading,
-      allThePostedJobsList,
+      ListOfJobsToBidOn,
       userDetails,
       a_searchByLocation,
       mapCenterPoint,
@@ -172,7 +172,7 @@ class BidderRoot extends React.Component {
                   currentUserId={userDetails._id}
                   jobsList={
                     this.state.displayedJobList === null
-                      ? allThePostedJobsList
+                      ? ListOfJobsToBidOn
                       : this.state.displayedJobList
                   }
                 />
@@ -193,7 +193,7 @@ class BidderRoot extends React.Component {
                   selectJobToBidOn={a_selectJobToBidOn}
                   jobsList={
                     this.state.displayedJobList === null
-                      ? allThePostedJobsList
+                      ? ListOfJobsToBidOn
                       : this.state.displayedJobList
                   }
                 />
@@ -210,7 +210,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer, authReducer }) => {
   return {
     error: jobsReducer.error,
     isLoading: jobsReducer.isLoading,
-    allThePostedJobsList: jobsReducer.allThePostedJobsList,
+    ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
     mapCenterPoint: jobsReducer.mapCenterPoint,
     userDetails: userModelReducer.userDetails,
     isLoggedIn: authReducer.isLoggedIn,
@@ -219,7 +219,7 @@ const mapStateToProps = ({ jobsReducer, userModelReducer, authReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedJobs: bindActionCreators(getAllPostedJobs, dispatch),
+    a_getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
     a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),

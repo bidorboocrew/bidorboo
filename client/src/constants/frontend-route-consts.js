@@ -20,7 +20,7 @@ export const API = {
   JOB: {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
-      alljobs: '/api/job/allJobs',
+      alljobsToBidOn: '/api/job/alljobsToBidOn',
       jobById: '/api/job',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',

@@ -8,13 +8,13 @@ import JobSummaryView from '../JobSummaryView';
 
 export default class JobsToBidOn extends React.Component {
   render() {
-    const { jobsList, currentUserId, selectJobToBidOn, isLoggedIn, showLoginDialog } = this.props;
+    const { jobsList } = this.props;
 
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         <React.Fragment>
           <OtherPeoplesJobs {...this.props} />
-          <MyJobs {...this.props} />
+          {/* <MyJobs {...this.props} /> */}
         </React.Fragment>
       ) : (
         <EmptyStateComponent />
@@ -64,64 +64,26 @@ const OtherPeoplesJobs = (props) => {
     });
 };
 
-const MyJobs = (props) => {
-  const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
-
-  return jobsList
-    .filter((job) => {
-      const { _ownerRef } = job;
-
-      return isLoggedIn && _ownerRef._id === currentUserId;
-    })
-    .map((job) => {
-      const { _ownerRef } = job;
-
-      const cardFooter = (
-        <CardBottomSection
-          _ownerRef={_ownerRef}
-          isLoggedIn={isLoggedIn}
-          currentUserId={currentUserId}
-          showLoginDialog={showLoginDialog}
-          selectJobToBidOn={selectJobToBidOn}
-          job={job}
-          isOwnerTheSameAsLoggedInUser
-        />
-      );
-      return (
-        <div
-          key={job._id}
-          className="column is-one-third"
-          onClick={() => {
-            if (!isLoggedIn) {
-              showLoginDialog(true);
-            } else {
-              if (_ownerRef._id !== currentUserId) {
-                selectJobToBidOn(job);
-              }
-            }
-          }}
-        >
-          <JobSummaryView footer={cardFooter} job={job} />
-        </div>
-      );
-    });
-};
-
 const EmptyStateComponent = () => {
   return (
-    <React.Fragment>
-      <div>Sorry All jobs have been awarded to bidders , check again later.</div>
-      <div>
-        <a
-          className="button is-primary"
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.root);
-          }}
-        >
-          post a new job
-        </a>
+    <div className="card is-fullwidth">
+      <div className="card-content">
+        <div className="content has-text-centered">
+          <div className="is-size-5">
+            Sorry All jobs have been awarded to bidders , check again later.
+          </div>
+          <br />
+          <a
+            className="button is-primary is-large"
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            }}
+          >
+            Create A Job
+          </a>
+        </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
