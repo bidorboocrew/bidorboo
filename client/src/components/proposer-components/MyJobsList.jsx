@@ -80,7 +80,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Create A Job
+            Create a Job
           </a>
         </div>
       </div>

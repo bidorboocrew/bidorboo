@@ -14,7 +14,6 @@ import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/job
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -123,11 +122,12 @@ class BidderRoot extends React.Component {
           </section>
           <section className="mainSectionContainer">
             <div className="container">
-              <span>
+              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
                 <a style={{ marginRight: 8 }} onClick={this.toggleFilterDialog} className="button">
                   Filter Jobs
                 </a>
-              </span>
+              )}
+
               {/* {isLoggedIn && (
                 <span>
                   {this.state.hideMyJobs && (
@@ -183,9 +183,7 @@ class BidderRoot extends React.Component {
           {/* jobs view */}
           <section className="mainSectionContainer">
             <div className="container">
-              <div
-                className="columns is-multiline"
-              >
+              <div className="columns is-multiline">
                 <JobsToBidOn
                   isLoggedIn={isLoggedIn}
                   showLoginDialog={a_showLoginDialog}

@@ -121,6 +121,7 @@ exports.jobDataAccess = {
     return new Promise((resolve, reject) => {
       const jobFields = {
         _ownerRef: 1,
+        _bidsListRef: 1,
         title: 1,
         state: 1,
         detailedDescription: 1,
@@ -142,6 +143,10 @@ exports.jobDataAccess = {
           path: '_ownerRef',
           select: jobOwnerFields,
         })
+        .populate({
+          path: '_bidsListRef',
+          select: { _bidderRef: 1 },
+        })
         .lean(true)
         .exec((error, results) => {
           try {
@@ -151,20 +156,22 @@ exports.jobDataAccess = {
               // this will be hit if user is logged in
 
               // remove jobs that user already bid on
-              let jobsUserHasntBidOn =
+              let openJobsUserHasntBidOn =
                 results &&
                 results.filter((job) => {
                   const isOpenState = job.state === 'OPEN';
                   let didCurrentUserAlreadyBidOnThisJob = false;
-                  if (isOpenState && job.bidderIds && job.bidderIds.length > 0) {
-                    didCurrentUserAlreadyBidOnThisJob = job.bidderIds.some((bidderId) => {
-                      return bidderId === userId;
+                  if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
+                    didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
+                      return (
+                        bid._bidderRef && (bid._bidderRef.toString() === mongoDbUserId.toString())
+                      );
                     });
                   }
                   // return jobs where the state is open and the current user did NOT bid on them yet
                   return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
                 });
-              return resolve(jobsUserHasntBidOn);
+              return resolve(openJobsUserHasntBidOn);
             }
           } catch (e) {
             return reject(e);
