@@ -193,45 +193,15 @@ $box-radius: 2px;
 @import 'bulma/bulma.sass';
 
 /* map infoBox style */
-
-.info-box-action-button {
-  width: 100%;
+.card {
+  &.bdb-infoBoxCard {
+    border: 1px solid #00d1b2;
+    box-shadow: $shadow-space;
+    background: white;
+    pointer-events: all;
+  }
 }
-.info-Box-map {
-  overflow: visible !important;
-}
-.info-Box-map:before {
-  content: ' ';
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #fff;
-  position: absolute;
-  top: -10px;
-  left: 130px;
-}
-
-.info-box-close {
-  float: right;
-  width: 10px;
-  overflow: hidden;
-  position: relative;
-  top: -120px;
-  right: -15px;
-}
-.image img {
-  height: 100%;
-}
-.img {
-  height: 100%;
-}
-.info-box-card-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 1.25rem;
-}
+/* */
 
 .VerticalAligner {
   display: flex;

@@ -121,7 +121,7 @@ class JobMarker extends React.Component {
             className="info-Box-map"
             options={{
               pixelOffset: new google.maps.Size(-140, 0),
-              zIndex: null,
+              zIndex: 999,
               boxStyle: {
                 padding: '0px 0px 0px 0px',
               },
@@ -132,52 +132,58 @@ class JobMarker extends React.Component {
               enableEventPropagation: true,
             }}
           >
-            <div class="card" style={{ maxWidth: '300px' }}>
-              <div class="card-content">
-                <p class="title info-box-card-title">{marker.title}</p>
-                <p class="subtitle">
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-43x43">
-                        <img alt="profile" src={marker._ownerRef.profileImage.url} />
-                      </figure>
-                    </div>
-                    <div class="media-right">
-                      <p> {marker._ownerRef.displayName}</p>
-                    </div>
-                  </div>
-                </p>
-                <div className="info-box-close">
-                  <a onClick={this.toggleShow} className=" is-outline is-small has-text-right">
+            <div className="card bdb-infoBoxCard">
+              <header className="card-header">
+                <p className="card-header-title">{marker.title}</p>
+                <a onClick={this.toggleShow} className="card-header-icon is-outline">
+                  <span className="icon">
                     <i className="fa fa-times fa-w-12" />
-                  </a>
+                  </span>
+                </a>
+              </header>
+              <div className="card-content">
+                <div className="content">
+                  <nav class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <figure class="image is-43x43">
+                          <img alt="profile" src={marker._ownerRef.profileImage.url} />
+                        </figure>
+                      </div>
+                    </div>
+
+                    <div class="level-right">
+                      <div class="level-item">
+                        <p className="has-text-weight-bold">{marker._ownerRef.displayName}</p>
+                      </div>
+                    </div>
+                  </nav>
                 </div>
               </div>
-              <footer class="card-footer">
-                <p class="card-footer-item">
-                  <span className="info-box-action-button">
-                    {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
-                      <a
-                        className="button is-primary info-box-action-button"
-                        onClick={() => {
-                          if (!isLoggedIn) {
-                            showLoginDialog(true);
-                          } else {
-                            if (marker._ownerRef._id !== currentUserId) {
-                              this.bidOnThisJob();
-                            }
+              <footer className="card-footer">
+                <p className="card-footer-item">
+                  {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
+                    <a
+                      className="button is-primary is-fullwidth"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (!isLoggedIn) {
+                          showLoginDialog(true);
+                        } else {
+                          if (marker._ownerRef._id !== currentUserId) {
+                            this.bidOnThisJob();
                           }
-                        }}
-                      >
-                        <span style={{ marginLeft: 4 }}>
-                          <i className="fas fa-dollar-sign" /> Bid Now
-                        </span>
-                      </a>
-                    )}
-                    {isLoggedIn && marker._ownerRef._id === currentUserId && (
-                      <a className="button is-static disabled  info-box-action-button">My Job</a>
-                    )}
-                  </span>
+                        }
+                      }}
+                    >
+                      <span style={{ marginLeft: 4 }}>
+                        <i className="fas fa-dollar-sign" /> Bid Now
+                      </span>
+                    </a>
+                  )}
+                  {isLoggedIn && marker._ownerRef._id === currentUserId && (
+                    <a className="button is-static disabled is-fullwidth">My Job</a>
+                  )}
                 </p>
               </footer>
             </div>
