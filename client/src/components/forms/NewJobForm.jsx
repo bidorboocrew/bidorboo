@@ -103,7 +103,7 @@ class NewJobForm extends React.Component {
     //get an initial title from the job title
     values.fromTemplateIdField = fromTemplateIdField;
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <TextInput
           id="jobTitleField"
           className="input"
@@ -145,20 +145,19 @@ class NewJobForm extends React.Component {
             errors.addressTextField = 'google api error ' + e;
           }}
           onChangeEvent={(e) => {
-            console.log(`onChangeEvent={(e) => ${e}`)
+            console.log(`onChangeEvent={(e) => ${e}`);
             this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
           }}
           onBlurEvent={(e) => {
-
             if (e && e.target) {
-              console.log(`onChangeEvent={(e) => ${e}`)
+              console.log(`onChangeEvent={(e) => ${e}`);
               e.target.id = 'addressTextField';
               handleBlur(e);
             }
           }}
           handleSelect={(address) => {
-            console.log(`onChangeEvent={(e) => ${address}`)
+            console.log(`onChangeEvent={(e) => ${address}`);
 
             setFieldValue('addressTextField', address, true);
             geocodeByAddress(address)
@@ -254,27 +253,30 @@ class NewJobForm extends React.Component {
         />
         {actionsSheetRoot &&
           ReactDOM.createPortal(
-            <ActionSheet>
-              <button
-                type="button"
-                className="button is-outlined is-medium"
-                disabled={isSubmitting}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onCancel(e);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                style={{ marginLeft: '2.25rem' }}
-                className="button is-primary is-medium"
-                type="submit"
-                disabled={isSubmitting || !isValid}
-              >
-                Submit
-              </button>
-            </ActionSheet>,
+            <div className="field">
+              <ActionSheet>
+                <button
+                  type="button"
+                  className="button is-outlined is-medium"
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onCancel(e);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  style={{ marginLeft: '2.25rem' }}
+                  className="button is-primary is-medium"
+                  type="submit"
+                  disabled={isSubmitting || !isValid}
+                  onClick={()=>{handleSubmit(values,{...this.props})}}
+                >
+                  Submit
+                </button>
+              </ActionSheet>
+            </div>,
             actionsSheetRoot
           )}
       </form>
