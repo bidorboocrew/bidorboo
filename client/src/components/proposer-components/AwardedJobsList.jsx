@@ -50,20 +50,22 @@ const JobsWithBids = (props) => {
 };
 
 const EmptyStateComponent = () => (
-  <div className="card is-fullwidth">
-    <div className="card-content">
-      <div className="content has-text-centered">
-        <div className="is-size-5">Sorry you have not posted any jobs.</div>
-        <br />
-        <a
-          className="button is-primary is-large"
-          onClick={(e) => {
-            e.preventDefault();
-            switchRoute(ROUTES.CLIENT.PROPOSER.root);
-          }}
-        >
-          Create A Job
-        </a>
+  <div className="HorizontalAligner-center">
+    <div className="card is-fullwidth">
+      <div className="card-content">
+        <div className="content has-text-centered">
+          <div className="is-size-5">Sorry you have not posted any jobs.</div>
+          <br />
+          <a
+            className="button is-primary is-large"
+            onClick={(e) => {
+              e.preventDefault();
+              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            }}
+          >
+            Create A Job
+          </a>
+        </div>
       </div>
     </div>
   </div>

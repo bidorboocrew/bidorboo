@@ -66,22 +66,24 @@ const OtherPeoplesJobs = (props) => {
 
 const EmptyStateComponent = () => {
   return (
-    <div className="card is-fullwidth">
-      <div className="card-content">
-        <div className="content has-text-centered">
-          <div className="is-size-5">
-            Sorry All jobs have been awarded to bidders , check again later.
+    <div className="HorizontalAligner-center column">
+      <div className="card is-fullwidth">
+        <div className="card-content">
+          <div className="content has-text-centered">
+            <div className="is-size-5">
+              Sorry All jobs have been awarded to bidders , check again later.
+            </div>
+            <br />
+            <a
+              className="button is-primary is-large"
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+              }}
+            >
+              Create A Job
+            </a>
           </div>
-          <br />
-          <a
-            className="button is-primary is-large"
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.root);
-            }}
-          >
-            Create A Job
-          </a>
-        </div>
+        </div>{' '}
       </div>
     </div>
   );
