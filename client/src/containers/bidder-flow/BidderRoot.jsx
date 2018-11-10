@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-// import GeoSearch from '../components/GeoSearch';
 import BidderMapSection from '../../components/bidder-components/BidderMapSection';
 
 import { Spinner } from '../../components/Spinner';
@@ -15,16 +14,10 @@ import { getAllPostedJobs, searchByLocation } from '../../app-state/actions/jobA
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-// import PlacesAutocomplete, {
-//   geocodeByAddress,
-//   // geocodeByPlaceId,
-//   getLatLng
-// } from 'react-places-autocomplete';
 
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
-    //render map only after we show everything
     this.state = {
       address: '',
       showFilterDialog: false,
@@ -66,11 +59,6 @@ class BidderRoot extends React.Component {
   }
 
   componentDidMount() {
-    // const { a_showLoginDialog, match } = this.props;
-    // const shouldShowLoginDialog = match.params.showLoginDialog;
-    // if (shouldShowLoginDialog === 'true') {
-    //   a_showLoginDialog(true);
-    // }
     this.props.a_getAllPostedJobs();
   }
 
@@ -176,17 +164,6 @@ class BidderRoot extends React.Component {
             )}
             {!isLoading && (
               <div className="container">
-                {/* <GeoSearch
-              fieldId={'addressSearch'}
-              onError={(e)=> {console.log('google api error '+e)}}
-              handleSelect={address => {
-                geocodeByAddress(address)
-                  .then(results => getLatLng(results[0]))
-                  .then(latLng => console.log('Success', latLng))
-                  .catch(error => console.error('Error', error));
-              }}
-            /> */}
-
                 <BidderMapSection
                   selectJobToBidOn={a_selectJobToBidOn}
                   mapCenterPoint={mapCenterPoint}
@@ -207,7 +184,6 @@ class BidderRoot extends React.Component {
           <section className="mainSectionContainer">
             <div className="container">
               <div
-                // style={{ alignItems: 'flex-end' }}
                 className="columns is-multiline"
               >
                 <JobsToBidOn
