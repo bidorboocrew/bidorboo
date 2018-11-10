@@ -10,18 +10,18 @@ import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&v=3.exp&libraries=geometry,drawing,places',
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
         style={{
-          height: `400px`,
+          height: `30rem`,
           boxShadow:
             '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
         }}
       />
     ),
-    mapElement: <div style={{ height: `100%` }} />,
+    mapElement: <div style={{ height: '100%' }} />,
   }),
   // withScriptjs,
   withGoogleMap
@@ -105,7 +105,7 @@ class JobMarker extends React.Component {
 
   render() {
     const { marker, currentUserId, isLoggedIn, showLoginDialog } = this.props;
-    return (
+    return marker && marker.location ? (
       <Marker
         opacity={0.8}
         icon={require('../../assets/images/mapMarker.png')}
@@ -132,44 +132,41 @@ class JobMarker extends React.Component {
               enableEventPropagation: true,
             }}
           >
-            <div className="card bdb-infoBoxCard">
+            <div className="card is-clipped bdb-infoBoxCard">
               <header className="card-header">
-                <p style={{ padding: '2px 0.75rem' }} className="card-header-title">
+                <p
+                  style={{ borderBottom: '1px solid #dbdbdb', padding: '4px 0.75rem' }}
+                  className="card-header-title"
+                >
                   {marker.title}
                 </p>
                 <a
-                  style={{ padding: '2px 0.75rem' }}
+                  style={{ borderBottom: '1px solid #dbdbdb', padding: '4px 0.75rem' }}
                   onClick={this.toggleShow}
                   className="is-paddingless card-header-icon is-outline"
                 >
-                  <span className="icon">
+                  <span style={{ color: '#a7a7a7' }} className="icon">
                     <i className="fa fa-times fa-w-12" />
                   </span>
                 </a>
               </header>
-              <div style={{ padding: '2px 0.75rem' }} className="card-content">
+              <div style={{ padding: '0.25rem 0.75rem' }} className="card-content">
                 <div className="content">
-                  <nav class="level">
-                    <div class="level-left">
-                      <div class="level-item">
-                        <figure class="image is-marginless">
-                          <img alt="profile" src={marker._ownerRef.profileImage.url} />
-                        </figure>
-                      </div>
-                    </div>
-
-                    <div class="level-right">
-                      <div class="level-item">
-                        <p className="has-text-weight-bold">{marker._ownerRef.displayName}</p>
-                      </div>
-                    </div>
-                  </nav>
+                  <div>
+                    <figure class="image is-marginless">
+                      <img alt="profile" src={marker._ownerRef.profileImage.url} />
+                    </figure>
+                  </div>
+                  <div class="level-item">
+                    <p className="has-text-weight-bold">{marker._ownerRef.displayName}</p>
+                  </div>
                 </div>
               </div>
               <footer style={{ padding: '2px' }} className="card-footer">
                 <div className="card-footer-item is-paddingless">
                   {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
                     <a
+                      style={{ borderRadius: 0 }}
                       className="button is-primary is-fullwidth"
                       onClick={(e) => {
                         e.preventDefault();
@@ -196,6 +193,6 @@ class JobMarker extends React.Component {
           </InfoBox>
         )}
       </Marker>
-    );
+    ) : null;
   }
 }

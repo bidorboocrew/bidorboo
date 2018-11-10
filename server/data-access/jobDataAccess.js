@@ -11,13 +11,12 @@ exports.jobDataAccess = {
   getUserJobsByState: async (userId, stateFilter) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const postedJobsRefPopSchema = schemaHelpers.populateJobRef(
-          '_postedJobsRef',
-          {},
-          { options: { sort: { createdAt: -1 } } }
-        );
         const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate(postedJobsRefPopSchema)
+          .populate({
+            path: '_postedJobsRef',
+            select: schemaHelpers.JobFieldsFull,
+            options: { sort: { createdAt: -1 } },
+          })
           .lean(true)
           .exec();
 
@@ -34,29 +33,33 @@ exports.jobDataAccess = {
     });
   },
 
-  getPostedJobDetails: async (userId, jobId) => {
+  getMyPostedJobs: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const bidsListRefPopSchema = schemaHelpers.populateBidRef('_bidsListRef', {
-          select: schemaHelpers.BidModelSchemaFields,
-          populate: {
-            path: '_bidderRef',
-            select: {
-              _reviewsRef: 1,
-              displayName: 1,
-              rating: 1,
-              profileImage: 1,
-              personalParagraph: 1,
-              membershipStatus: 1,
-            },
-          },
-        });
-        const postedJobsRefPopSchema = schemaHelpers.populateJobRef('_postedJobsRef', {
-          populate: { ...bidsListRefPopSchema },
-        });
-
         const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate(postedJobsRefPopSchema)
+          .populate({
+            path: '_postedJobsRef',
+            select: schemaHelpers.JobFieldsFull,
+            populate: {
+              path: '_bidsListRef',
+              select: schemaHelpers.BidFull,
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  _asBidderReviewsRef: 1,
+                  _asProposerReviewsRef: 1,
+                  rating: 1,
+                  userId: 1,
+                  displayName: 1,
+                  profileImage: 1,
+                  personalParagraph: 1,
+                  membershipStatus: 1,
+                  agreedToServiceTerms: 1,
+                  createdAt:1,
+                },
+              },
+            },
+          })
           .lean(true)
           .exec();
 
@@ -72,6 +75,64 @@ exports.jobDataAccess = {
       } catch (e) {
         reject(e);
       }
+    });
+  },
+
+  getAllJobsToBidOn: (userId) => {
+    return new Promise((resolve, reject) => {
+      const jobFields = {
+        _ownerRef: 1,
+        title: 1,
+        state: 1,
+        detailedDescription: 1,
+        stats: 1,
+        startingDateAndTime: 1,
+        durationOfJob: 1,
+        fromTemplateId: 1,
+        reportThisJob: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        location: 1,
+      };
+      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
+
+      JobModel.find({}, jobFields, { sort: { createdAt: -1 } })
+        .populate({
+          path: '_ownerRef',
+          select: jobOwnerFields,
+        })
+        .lean(true)
+        .exec((error, results) => {
+          // xxx todo figure a better way to query a sub document to avoid perforamnce issues
+          try {
+            if (error) {
+              return reject(error);
+            } else if (userId) {
+              // this will be hit if user is logged in
+
+              // remove jobs that user already bid on
+              let jobsUserHasntBidOn =
+                results &&
+                results.filter((job) => {
+                  const isOpenState = job.state === 'OPEN';
+                  let didCurrentUserAlreadyBidOnThisJob = false;
+                  if (isOpenState && job.bidderIds && job.bidderIds.length > 0) {
+                    didCurrentUserAlreadyBidOnThisJob = job.bidderIds.some((bidderId) => {
+                      return bidderId === userId;
+                    });
+                  }
+                  // return jobs where the state is open and the current user did NOT bid on them yet
+                  return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
+                });
+              return resolve(jobsUserHasntBidOn);
+            } else {
+              // for logged out people you will see everything
+              resolve(results);
+            }
+          } catch (e) {
+            return reject(e);
+          }
+        });
     });
   },
   //-----------------------------------------------------------------------------------------------
@@ -125,59 +186,6 @@ exports.jobDataAccess = {
       } catch (e) {
         reject(e);
       }
-    });
-  },
-
-  getAllPostedJobs: (userId) => {
-    return new Promise((resolve, reject) => {
-      JobModel.find(
-        {},
-        {
-          addressText: 0,
-          updatedAt: 0,
-          awardedBidder: 0,
-          jobReview: 0,
-          extras: 0,
-          properties: 0,
-          __v: 0,
-          whoSeenThis: 0,
-          _bidsListRef: 0,
-        },
-        { sort: { createdAt: -1 } }
-      )
-        .populate({
-          path: '_ownerRef',
-          select: { displayName: 1, profileImage: 1, _id: 1 },
-        })
-        .lean(true)
-        .exec((error, results) => {
-          // xxx todo figure a better way to query a sub document to avoid perforamnce issues
-          try {
-            if (error) {
-              return reject(error);
-            } else if (userId) {
-              // remove jobs that user already bid on
-              let filteredResults =
-                results &&
-                results.filter((job) => {
-                  const isOpenState = job.state === 'OPEN';
-                  let didCurrentUserAlreadyBidOnThisJob = false;
-                  if (isOpenState && job.bidderIds && job.bidderIds.length > 0) {
-                    didCurrentUserAlreadyBidOnThisJob = job.bidderIds.some((bidderId) => {
-                      return bidderId === userId;
-                    });
-                  }
-                  // return jobs where the state is open and the current user did NOT bid on them yet
-                  return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
-                });
-              return resolve(filteredResults);
-            } else {
-              resolve(results);
-            }
-          } catch (e) {
-            return reject(e);
-          }
-        });
     });
   },
 

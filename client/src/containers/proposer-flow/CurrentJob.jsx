@@ -18,8 +18,6 @@ class CurrentJob extends React.Component {
     super(props);
 
     this.jobId = null;
-
-    debugger
     // react router state
     this.isNewlyPostedJob = props.location && props.location.state && props.location.state.isNewJob;
 

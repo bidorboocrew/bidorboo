@@ -20,7 +20,7 @@ module.exports = (app) => {
         const { jobId } = req.query;
         const userId = req.user.userId;
 
-        const jobDetails = await jobDataAccess.getPostedJobDetails(userId, jobId);
+        const jobDetails = await jobDataAccess.getMyPostedJobs(userId, jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({
@@ -29,6 +29,17 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
+    try {
+      const userMongoDBId = req.user && req.user.userId ? req.user.userId : null;
+
+      userJobsList = await jobDataAccess.getAllJobsToBidOn(userMongoDBId);
+      return res.send(userJobsList);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });
     }
   });
 
@@ -81,17 +92,6 @@ module.exports = (app) => {
       return res.send({ _postedJobsRef: userJobsList });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
-    }
-  });
-
-  app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
-    try {
-      const userMongoDBId = req.user && req.user.userId ? req.user.userId : null;
-
-      userJobsList = await jobDataAccess.getAllPostedJobs(userMongoDBId);
-      return res.send(userJobsList);
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });
     }
   });
 
