@@ -1,3 +1,4 @@
+/*global google*/
 import React from 'react';
 import autoBind from 'react-autobind';
 
@@ -57,10 +58,17 @@ class Cluster extends React.Component {
     // console.log(clickedMarkers);
   }
   render() {
-    const { markers, selectJobToBidOn } = this.props;
+    const { markers, selectJobToBidOn, currentUserId, isLoggedIn, showLoginDialog } = this.props;
     if (markers && markers.length > 0) {
       const jobsMarkersOnTheMap = markers.map((marker) => (
-        <JobMarker selectJobToBidOn={selectJobToBidOn} key={marker._id} marker={marker} />
+        <JobMarker
+          selectJobToBidOn={selectJobToBidOn}
+          key={marker._id}
+          marker={marker}
+          currentUserId={currentUserId}
+          isLoggedIn={isLoggedIn}
+          showLoginDialog={showLoginDialog}
+        />
       ));
       return (
         <MarkerClusterer
@@ -96,7 +104,7 @@ class JobMarker extends React.Component {
   }
 
   render() {
-    const { marker, selectJobToBidOn } = this.props;
+    const { marker, currentUserId, isLoggedIn, showLoginDialog } = this.props;
     return (
       <Marker
         opacity={0.8}
@@ -110,49 +118,68 @@ class JobMarker extends React.Component {
       >
         {this.state.showInfoBox && (
           <InfoBox
-            onClick={this.toggleShow}
-            onCloseClick={this.toggleShow}
-            options={{ closeBoxURL: ``, enableEventPropagation: true }}
+            className="info-Box-map"
+            options={{
+              pixelOffset: new google.maps.Size(-140, 0),
+              zIndex: null,
+              boxStyle: {
+                padding: '0px 0px 0px 0px',
+              },
+              closeBoxURL: '',
+              infoBoxClearance: new google.maps.Size(1, 1),
+              isHidden: false,
+              pane: 'mapPane',
+              enableEventPropagation: true,
+            }}
           >
-            <div
-              style={{
-                borderRadius: 4,
-                padding: 2,
-                width: 150,
-              }}
-            >
-              <div
-                style={{
-                  border: '1px solid #b5b5b5',
-                  boxShadow:
-                    ' 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <a
-                  onClick={this.toggleShow}
-                  className="button is-outline is-small has-text-right is-fullwidth"
-                >
-                  <i className="fa fa-times fa-w-12" />
-                </a>
-                <div
-                  style={{
-                    fontSize: 16,
-                    fontColor: `#4a4a4a`,
-                    backgroundColor: 'white',
-                    padding: 8,
-                  }}
-                >
-                  {marker.title}
+            <div class="card" style={{ maxWidth: '300px' }}>
+              <div class="card-content">
+                <p class="title info-box-card-title">{marker.title}</p>
+                <p class="subtitle">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-43x43">
+                        <img alt="profile" src={marker._ownerRef.profileImage.url} />
+                      </figure>
+                    </div>
+                    <div class="media-right">
+                      <p> {marker._ownerRef.displayName}</p>
+                    </div>
+                  </div>
+                </p>
+                <div className="info-box-close">
+                  <a onClick={this.toggleShow} className=" is-outline is-small has-text-right">
+                    <i className="fa fa-times fa-w-12" />
+                  </a>
                 </div>
-                <a
-                  onClick={this.bidOnThisJob}
-                  className="button is-primary is-small has-text-right is-fullwidth"
-                >
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fas fa-dollar-sign" /> Bid
-                  </span>
-                </a>
               </div>
+              <footer class="card-footer">
+                <p class="card-footer-item">
+                  <span className="info-box-action-button">
+                    {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
+                      <a
+                        className="button is-primary info-box-action-button"
+                        onClick={() => {
+                          if (!isLoggedIn) {
+                            showLoginDialog(true);
+                          } else {
+                            if (marker._ownerRef._id !== currentUserId) {
+                              this.bidOnThisJob();
+                            }
+                          }
+                        }}
+                      >
+                        <span style={{ marginLeft: 4 }}>
+                          <i className="fas fa-dollar-sign" /> Bid Now
+                        </span>
+                      </a>
+                    )}
+                    {isLoggedIn && marker._ownerRef._id === currentUserId && (
+                      <a className="button is-static disabled  info-box-action-button">My Job</a>
+                    )}
+                  </span>
+                </p>
+              </footer>
             </div>
           </InfoBox>
         )}

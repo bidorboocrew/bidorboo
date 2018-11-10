@@ -184,13 +184,54 @@ $footer-background-color: #363636;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;
-.navbar-dropdown .navbar-item{
+.navbar-dropdown .navbar-item {
   font-size: 16px;
 }
-.navbar-item{
+.navbar-item {
   font-size: 1.25rem;
 }
 @import 'bulma/bulma.sass';
+
+/* map infoBox style */
+
+.info-box-action-button {
+  width: 100%;
+}
+.info-Box-map {
+  overflow: visible !important;
+}
+.info-Box-map:before {
+  content: ' ';
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  position: absolute;
+  top: -10px;
+  left: 130px;
+}
+
+.info-box-close {
+  float: right;
+  width: 10px;
+  overflow: hidden;
+  position: relative;
+  top: -120px;
+  right: -15px;
+}
+.image img {
+  height: 100%;
+}
+.img {
+  height: 100%;
+}
+.info-box-card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.25rem;
+}
 
 .VerticalAligner {
   display: flex;
@@ -249,14 +290,13 @@ $box-radius: 2px;
 }
 
 .bdb-addMarginForActionSheet {
-  margin-bottom: 2.50rem;
+  margin-bottom: 2.5rem;
 }
 
-
-.input{
+.input {
   font-size: 1.25rem;
 }
 
-span.icon{
+span.icon {
   font-size: 1.25rem;
 }
