@@ -31,19 +31,20 @@ export default class BidOrBooCard extends React.Component {
     return (
       <div
         style={{
-          height: '100%',
           padding: '1rem',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           background: `url(${backgroundImage})`,
         }}
       >
         <div
-          style={{ background: 'transparent', color: 'white', height: '100%' }}
+          style={{ background: 'transparent', color: 'white' }}
           onClick={onClickHandler}
           className="card bdbGenericCard fade-in VerticalAligner"
         >
           <div
             style={{
-              height: '100%',
               color: contentTextColor,
               background: `${contentBackgroundColor}`,
               borderRadius: 2,

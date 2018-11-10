@@ -37,7 +37,6 @@ class PostYourBid extends React.Component {
           <TextInput
             id="bidAmountField"
             className="input is-focused shadow-drop-center"
-            style={{ fontSize: '1.5rem' }}
             type="text"
             onBlur={handleBlur}
             label="Enter Your Bid Amount"

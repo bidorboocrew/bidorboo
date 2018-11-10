@@ -52,13 +52,13 @@ class App extends React.Component {
   }
   render() {
     const { s_toastDetails } = this.props;
-debugger
     return (
       <div id="bidorboo-root-view">
-        <div id="bidorboo-root-action-sheet"></div>
-
+        {/* this sill be where action sheets mount */}
+        <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
+
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">

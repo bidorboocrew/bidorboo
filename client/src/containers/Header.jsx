@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { switchRoute } from '../utils';
 import * as ROUTES from '../constants/frontend-route-consts';
-import LoadingBar from 'react-redux-loading-bar';
 
 class Header extends React.Component {
   static propTypes = {
@@ -328,7 +327,6 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
-        <LoadingBar style={{ backgroundColor: '#00d1b2', height: '5px' }} />
       </React.Fragment>
     );
   }

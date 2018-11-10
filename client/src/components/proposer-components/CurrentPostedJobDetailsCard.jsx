@@ -175,7 +175,6 @@ class BidsTable extends React.Component {
       let tableRows =
         bidList &&
         bidList.map((bid) => {
-          debugger;
           return (
             <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
