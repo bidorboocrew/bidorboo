@@ -115,7 +115,7 @@ const CardBottomSection = (props) => {
             className="button is-primary is-fullwidth is-large"
           >
             <span style={{ marginLeft: 4 }}>
-              <i className="fas fa-dollar-sign" /> Bid Now
+              <i className="fas fa-dollar-sign" /> {`Review & Bid`}
             </span>
           </a>
         )}

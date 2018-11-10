@@ -1,15 +1,38 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
+import autoBind from 'react-autobind';
+
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
 import { enforceNumericField } from './FormsValidators';
+import ActionSheet from '../ActionSheet';
 
 class PostYourBid extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showBidDialog: false,
+    };
+
+    autoBind(this, 'closeShowBidDialog', 'openShowBidDialog');
+  }
+
+  closeShowBidDialog() {
+    this.setState({ showBidDialog: false });
+  }
+
+  openShowBidDialog() {
+    this.setState({ showBidDialog: true });
+  }
 
   render() {
     const {
@@ -24,54 +47,82 @@ class PostYourBid extends React.Component {
       isSubmitting,
     } = this.props;
 
-    return (
-      <div className="card is-clipped">
-        <header className="card-header">
-          <p className="card-header-title">
-            <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-            Bid Now
-          </p>
-        </header>
+    const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
 
-        <div className="card-content">
-          <TextInput
-            id="bidAmountField"
-            className="input is-focused shadow-drop-center"
-            type="text"
-            onBlur={handleBlur}
-            label="Enter Your Bid Amount"
-            placeholder="enter bid amount E.g 50"
-            helpText="Bid amounts are in CAD. E.g 50"
-            error={touched.bidAmountField && errors.bidAmountField}
-            value={values.bidAmountField || ''}
-            onChange={(e) => {
-              //run normalizer to get rid of alpha chars
-              const normalizedVal = enforceNumericField(e.target.value);
-              e.target.value = normalizedVal;
-              handleChange(e);
-            }}
-          />
-        </div>
-        <footer className="card-footer">
-          <div className="card-footer-item">
-            <a
-              onClick={handleSubmit}
-              className="button is-primary is-large is-fullwidth"
-              disabled={isSubmitting || !isValid}
-            >
-              <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-              Bid Now
-            </a>
-          </div>
-          <div className="card-footer-item">
-            <a onClick={onCancel} className="button is-danger is-outlined is-large is-fullwidth">
-              <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
-              Booo
-            </a>
-          </div>
-        </footer>
-      </div>
-    );
+    return actionsSheetRoot ? (
+      <React.Fragment>
+        {!this.state.showBidDialog
+          ? ReactDOM.createPortal(
+              <ActionSheet>
+                <a
+                  onClick={this.openShowBidDialog}
+                  ype="button"
+                  className="button is-primary is-large"
+                >
+                  <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+                  Enter Bid
+                </a>
+
+                <a
+                  style={{ marginLeft: '2.25rem' }}
+                  className="button is-danger is-outlined is-large"
+                  type="submit"
+                  onClick={onCancel}
+                >
+                  <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
+                  Booo
+                </a>
+              </ActionSheet>,
+              actionsSheetRoot
+            )
+          : ReactDOM.createPortal(
+              <div className="modal is-active">
+                <div onClick={this.closeShowBidDialog} className="modal-background" />
+                <div className="modal-card">
+                  <header className="modal-card-head">
+                    <p className="modal-card-title">Bidder Contact Info</p>
+                    <button
+                      onClick={this.closeShowBidDialog}
+                      className="delete"
+                      aria-label="close"
+                    />
+                  </header>
+                  <section className="modal-card-body">
+                    <TextInput
+                      id="bidAmountField"
+                      className="input is-focused shadow-drop-center"
+                      type="text"
+                      onBlur={handleBlur}
+                      placeholder="enter bid amount E.g 50"
+                      helpText="Bid amounts are in CAD. E.g 50"
+                      error={touched.bidAmountField && errors.bidAmountField}
+                      value={values.bidAmountField || ''}
+                      onChange={(e) => {
+                        //run normalizer to get rid of alpha chars
+                        const normalizedVal = enforceNumericField(e.target.value);
+                        e.target.value = normalizedVal;
+                        handleChange(e);
+                      }}
+                    />
+                  </section>
+                  <footer className="modal-card-foot">
+                    <button
+                      disabled={isSubmitting || !isValid}
+                      onClick={handleSubmit}
+                      className="button is-primary"
+                    >
+                      Submit Bid
+                    </button>
+                    <button onClick={this.closeShowBidDialog} className="button is-outline">
+                      Go Back
+                    </button>
+                  </footer>
+                </div>
+              </div>,
+              actionsSheetRoot
+            )}
+      </React.Fragment>
+    ) : null;
   }
 }
 
