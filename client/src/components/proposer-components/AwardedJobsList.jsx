@@ -42,7 +42,7 @@ const JobsWithBids = (props) => {
     .map((job) => {
       return (
         <div key={job._id} className="column is-one-third">
-          <JobSummaryView job={job} areThereAnyBidders {...props} />
+          <MyAwardedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
     });
@@ -71,7 +71,7 @@ const EmptyStateComponent = () => (
   </div>
 );
 
-class JobSummaryView extends React.Component {
+class MyAwardedJobSummaryCard extends React.Component {
   render() {
     const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;

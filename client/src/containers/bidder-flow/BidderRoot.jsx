@@ -24,7 +24,7 @@ class BidderRoot extends React.Component {
       hideMyJobs: false,
       displayedJobList: null,
     };
-    autoBind(this, 'toggleFilterDialog', 'toggleHideMyJobs');
+    autoBind(this, 'toggleFilterDialog');
   }
 
   toggleFilterDialog(e) {
@@ -36,27 +36,27 @@ class BidderRoot extends React.Component {
     });
   }
 
-  toggleHideMyJobs(e, excludeMyJobs) {
-    e.preventDefault();
+  // toggleHideMyJobs(e, excludeMyJobs) {
+  //   e.preventDefault();
 
-    const { ListOfJobsToBidOn, userDetails } = this.props;
-    if (userDetails && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && excludeMyJobs) {
-      const filteredJobList = ListOfJobsToBidOn.filter((job) => {
-        return userDetails._id !== job._ownerRef._id;
-      });
-      this.setState({
-        ...this.state,
-        hideMyJobs: true,
-        displayedJobList: filteredJobList,
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        hideMyJobs: false,
-        displayedJobList: ListOfJobsToBidOn,
-      });
-    }
-  }
+  //   const { ListOfJobsToBidOn, userDetails } = this.props;
+  //   if (userDetails && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && excludeMyJobs) {
+  //     const filteredJobList = ListOfJobsToBidOn.filter((job) => {
+  //       return userDetails._id !== job._ownerRef._id;
+  //     });
+  //     this.setState({
+  //       ...this.state,
+  //       hideMyJobs: true,
+  //       displayedJobList: filteredJobList,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       ...this.state,
+  //       hideMyJobs: false,
+  //       displayedJobList: ListOfJobsToBidOn,
+  //     });
+  //   }
+  // }
 
   componentDidMount() {
     this.props.a_getAllJobsToBidOn();
@@ -128,7 +128,7 @@ class BidderRoot extends React.Component {
                   Filter Jobs
                 </a>
               </span>
-              {isLoggedIn && (
+              {/* {isLoggedIn && (
                 <span>
                   {this.state.hideMyJobs && (
                     <a
@@ -151,7 +151,7 @@ class BidderRoot extends React.Component {
                     </a>
                   )}
                 </span>
-              )}
+              )} */}
             </div>
           </section>
 
