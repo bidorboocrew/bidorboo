@@ -10,7 +10,6 @@ import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
 
-
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -59,7 +58,7 @@ class CreateAJob extends React.Component {
                 </ul>
               </nav>
             </div>
-            <div className="card-content">
+            <div className="card-content bdb-addMarginForActionSheet">
               <h1 className="title">{jobDetails.title} Request</h1>
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}

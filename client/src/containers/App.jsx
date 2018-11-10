@@ -28,8 +28,6 @@ import {
   CurrentAwardedJob,
 } from './index';
 
-import ActionSheet from './ActionSheet';
-
 class App extends React.Component {
   static propTypes = {
     toastDetails: PropTypes.shape({
@@ -54,12 +52,12 @@ class App extends React.Component {
   }
   render() {
     const { s_toastDetails } = this.props;
-
+debugger
     return (
       <div id="bidorboo-root-view">
-        <Toast toastDetails={s_toastDetails} />
-        {/* todo xxxx   <ActionSheet /> */}
+        <div id="bidorboo-root-action-sheet"></div>
 
+        <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />

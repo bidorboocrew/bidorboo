@@ -225,32 +225,23 @@ $box-radius: 2px;
 }
 
 .bdbGenericCard {
-  box-shadow: none
+  box-shadow: none;
 }
 
 .bdb-ActionSheet {
-  -webkit-animation: slide-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: slide-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  z-index: 99999;
-  position: fixed;
-  bottom: -24px;
-  right: 0px;
-  width: 100%;
-  border-radius: 0px;
-  max-height: 50%;
-  background: #363636;
-  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
-  overflow: auto;
-  position: fixed;
-  top: 0;
+  padding: 0.5rem;
+  max-height: 5rem;
+  box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.34);
+  border-top: 1px #ededed solid;
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
+  position: fixed;
+  z-index: 30;
+  background: #eeee;
+  opacity: 1;
 }
 
+.bdb-addMarginForActionSheet {
+  margin-bottom: 3rem;
+}

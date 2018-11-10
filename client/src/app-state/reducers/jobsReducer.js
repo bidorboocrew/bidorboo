@@ -126,7 +126,6 @@ const deleteJob = {
         ...state,
         myOpenJobsList: filteredResults,
         selectedActivePostedJob: {},
-        selectedActivePostedJob: {},
         isLoading: false,
       };
     }
