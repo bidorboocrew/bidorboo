@@ -14,8 +14,6 @@ module.exports = (app) => {
     }
   });
 
-
-
   app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
@@ -34,35 +32,27 @@ module.exports = (app) => {
     }
   });
 
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------
+  app.delete(ROUTES.API.JOB.DELETE.jobById, requireBidorBooHost, requireLogin, async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const jobId = req.body.jobId;
 
-
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
-  app.delete(
-    ROUTES.API.JOB.DELETE.jobById,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const userId = req.user.userId;
-        const jobId = req.body.jobId;
-
-        if (jobId) {
-          userJobsList = await jobDataAccess.deleteJob(jobId, userId);
-          return res.send(jobId);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request JobId param was Not Specified',
-          });
-        }
-      } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To delete job', details: e });
+      if (jobId) {
+        userJobsList = await jobDataAccess.deleteJob(jobId, userId);
+        return res.send(jobId);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request JobId param was Not Specified',
+        });
       }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To delete job', details: e });
     }
-  );
-
+  });
 
   app.get(
     ROUTES.API.JOB.GET.jobFullDetailsById,
@@ -85,8 +75,6 @@ module.exports = (app) => {
     }
   );
 
-
-
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'AWARDED');
@@ -98,7 +86,7 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.alljobs, requireBidorBooHost, async (req, res) => {
     try {
-      const userMongoDBId = req.user.userId;
+      const userMongoDBId = req.user && req.user.userId ? req.user.userId : null;
 
       userJobsList = await jobDataAccess.getAllPostedJobs(userMongoDBId);
       return res.send(userJobsList);
@@ -137,8 +125,6 @@ module.exports = (app) => {
       }
     }
   );
-
-
 
   app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {

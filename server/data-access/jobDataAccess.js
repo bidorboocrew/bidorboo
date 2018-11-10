@@ -155,7 +155,7 @@ exports.jobDataAccess = {
           try {
             if (error) {
               return reject(error);
-            } else {
+            } else if (userId) {
               // remove jobs that user already bid on
               let filteredResults =
                 results &&
@@ -171,6 +171,8 @@ exports.jobDataAccess = {
                   return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
                 });
               return resolve(filteredResults);
+            } else {
+              resolve(results);
             }
           } catch (e) {
             return reject(e);
