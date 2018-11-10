@@ -184,6 +184,12 @@ $footer-background-color: #363636;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
 $box-radius: 2px;
+.navbar-dropdown .navbar-item{
+  font-size: 16px;
+}
+.navbar-item{
+  font-size: 1.25rem;
+}
 @import 'bulma/bulma.sass';
 
 .VerticalAligner {
