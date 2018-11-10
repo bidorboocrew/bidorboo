@@ -17,10 +17,12 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     currentUser: PropTypes.object.isRequired,
     job: PropTypes.object.isRequired,
     breadCrumb: PropTypes.node,
+    hideBidTable: PropTypes.bool,
   };
 
   static defaultProps = {
     breadCrumb: null,
+    hideBidTable: false,
   };
 
   constructor(props) {
@@ -59,7 +61,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
   }
 
   render() {
-    const { job, currentUser, breadCrumb, markBidAsSeen } = this.props;
+    const { job, currentUser, breadCrumb, markBidAsSeen, hideBidTable } = this.props;
 
     if (!job || !job._id) {
       switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -148,14 +150,15 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       <React.Fragment>
         {breadCrumb}
         <div className="container">
-          <BidsTable
-            jobId={job._id}
-            bidList={job._bidsListRef}
-            currentUser={currentUser}
-            showReviewModal={this.showReviewModal}
-            markBidAsSeen={markBidAsSeen}
-          />
-
+          {!hideBidTable && (
+            <BidsTable
+              jobId={job._id}
+              bidList={job._bidsListRef}
+              currentUser={currentUser}
+              showReviewModal={this.showReviewModal}
+              markBidAsSeen={markBidAsSeen}
+            />
+          )}
           <PostedJobsDetails job={job} currentUser={currentUser} />
         </div>
       </React.Fragment>
@@ -178,13 +181,11 @@ class BidsTable extends React.Component {
           return (
             <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef &&
-                  bid._bidderRef.profileImage &&
-                  bid._bidderRef.profileImage.url && (
-                    <figure style={{ margin: '0 auto' }} className="image is-64x64">
-                      <img alt="profile" src={bid._bidderRef.profileImage.url} />
-                    </figure>
-                  )}
+                {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
+                  <figure style={{ margin: '0 auto' }} className="image is-64x64">
+                    <img alt="profile" src={bid._bidderRef.profileImage.url} />
+                  </figure>
+                )}
                 {bid.isNewBid ? (
                   <span className="tag is-danger">
                     new bid!
@@ -208,24 +209,23 @@ class BidsTable extends React.Component {
               </td>
 
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef &&
-                  bid.bidAmount && (
-                    <a
-                      onClick={(e) => {
-                        markBidAsSeen(jobId, bid._id);
+                {bid._bidderRef && bid.bidAmount && (
+                  <a
+                    onClick={(e) => {
+                      markBidAsSeen(jobId, bid._id);
 
-                        showReviewModal(
-                          e,
-                          bid._bidderRef,
-                          `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                          bid._id
-                        );
-                      }}
-                      className="button is-primary is-outlined"
-                    >
-                      Review Bid
-                    </a>
-                  )}
+                      showReviewModal(
+                        e,
+                        bid._bidderRef,
+                        `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
+                        bid._id
+                      );
+                    }}
+                    className="button is-primary is-outlined"
+                  >
+                    Review Bid
+                  </a>
+                )}
               </td>
             </tr>
           );

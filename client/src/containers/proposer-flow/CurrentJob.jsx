@@ -18,6 +18,11 @@ class CurrentJob extends React.Component {
     super(props);
 
     this.jobId = null;
+
+    debugger
+    // react router state
+    this.isNewlyPostedJob = props.location && props.location.state && props.location.state.isNewJob;
+
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     } else {
@@ -71,6 +76,7 @@ class CurrentJob extends React.Component {
             job={selectedActivePostedJob}
             awardBidder={a_awardBidder}
             markBidAsSeen={a_markBidAsSeen}
+            hideBidTable={this.isNewlyPostedJob}
           />
         ) : null}
       </section>

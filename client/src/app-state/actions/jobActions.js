@@ -164,7 +164,9 @@ export const addJob = (jobDetails) => (dispatch) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
           // switch route to show the currently added job
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`, {
+            isNewJob: true,
+          });
         }
       })
       .catch((error) => {

@@ -1,9 +1,13 @@
 import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
 
-export const switchRoute = (routeAndParams) => {
+export const switchRoute = (routeAndParams, stateContent = null) => {
   console.log(routeAndParams);
-  appHistory.push(routeAndParams);
+  if (stateContent) {
+    appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
+  } else {
+    appHistory.push(routeAndParams);
+  }
 };
 
 export const throwErrorNotification = (dispatch, error) => {
