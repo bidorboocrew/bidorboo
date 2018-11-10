@@ -134,19 +134,25 @@ class JobMarker extends React.Component {
           >
             <div className="card bdb-infoBoxCard">
               <header className="card-header">
-                <p className="card-header-title">{marker.title}</p>
-                <a onClick={this.toggleShow} className="card-header-icon is-outline">
+                <p style={{ padding: '2px 0.75rem' }} className="card-header-title">
+                  {marker.title}
+                </p>
+                <a
+                  style={{ padding: '2px 0.75rem' }}
+                  onClick={this.toggleShow}
+                  className="is-paddingless card-header-icon is-outline"
+                >
                   <span className="icon">
                     <i className="fa fa-times fa-w-12" />
                   </span>
                 </a>
               </header>
-              <div className="card-content">
+              <div style={{ padding: '2px 0.75rem' }} className="card-content">
                 <div className="content">
                   <nav class="level">
                     <div class="level-left">
                       <div class="level-item">
-                        <figure class="image is-43x43">
+                        <figure class="image is-marginless">
                           <img alt="profile" src={marker._ownerRef.profileImage.url} />
                         </figure>
                       </div>
@@ -160,8 +166,8 @@ class JobMarker extends React.Component {
                   </nav>
                 </div>
               </div>
-              <footer className="card-footer">
-                <p className="card-footer-item">
+              <footer style={{ padding: '2px' }} className="card-footer">
+                <div className="card-footer-item is-paddingless">
                   {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
                     <a
                       className="button is-primary is-fullwidth"
@@ -184,7 +190,7 @@ class JobMarker extends React.Component {
                   {isLoggedIn && marker._ownerRef._id === currentUserId && (
                     <a className="button is-static disabled is-fullwidth">My Job</a>
                   )}
-                </p>
+                </div>
               </footer>
             </div>
           </InfoBox>
