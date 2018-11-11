@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import BidderMapSection from '../../components/bidder-components/BidderMapSection';
 
 import { Spinner } from '../../components/Spinner';
-import JobsToBidOn from '../../components/bidder-components/JobsToBidOn';
+import JobsToBidOnListView from '../../components/bidder-components/JobsToBidOnListView';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
 import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/jobActions';
@@ -184,7 +184,7 @@ class BidderRoot extends React.Component {
           <section className="mainSectionContainer">
             <div className="container">
               <div className="columns is-multiline">
-                <JobsToBidOn
+                <JobsToBidOnListView
                   isLoggedIn={isLoggedIn}
                   showLoginDialog={a_showLoginDialog}
                   currentUserId={userDetails._id}

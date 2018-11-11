@@ -6,6 +6,31 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.bidDataAccess = {
+  getAllBidsForUser: (mongoDbUserId) => {
+    return UserModel.findById({ _id: mongoDbUserId },{_postedBidsRef:1})
+      .populate({
+        path: '_postedBidsRef',
+        populate: {
+          path: '_jobRef',
+          populate: {
+            path: '_ownerRef',
+            select: {
+              _id: 1,
+              displayName: 1,
+              globalRating: 1,
+              profileImage: 1,
+            },
+          },
+        },
+      })
+      .lean(true)
+      .exec();
+  },
+
+  //---------------------
+  //---------------------
+  //---------------------
+  //---------------------
   markBidAsSeen: async (bidId) => {
     const isSuccessful = await BidModel.findOneAndUpdate(
       { _id: bidId },
@@ -18,53 +43,7 @@ exports.bidDataAccess = {
     return !!isSuccessful;
   },
 
-  getAllBidsForUser: (userId) => {
-    const populatedPostedBids = {
-      path: '_postedBidsRef',
-      options: {
-        // limit: 4, ///xxxx saidm you gotta do something to get the next jobs .. but maybe initially remove the limit ?
-        sort: { createdAt: -1 },
-      },
-      populate: {
-        path: '_jobRef',
-        populate: {
-          path: '_ownerRef',
-          select: { _id: 1, displayName: 1, globalRating: 1, profileImage: 1 },
-        },
-      },
-    };
 
-    const populatePostedBidsBidderInfo = {
-      path: '_postedBidsRef',
-      populate: {
-        path: '_bidderRef',
-      },
-    };
-    return UserModel.findById(userId)
-      .populate(populatedPostedBids)
-      .populate(populatePostedBidsBidderInfo)
-      .populate({
-        path: '_postedBidsRef',
-        populate: {
-          path: '_jobRef',
-          populate: {
-            path: '_bidsListRef',
-            populate: {
-              path: '_bidderRef',
-              select: {
-                _id: 1,
-                _reviewsRef: 1,
-                displayName: 1,
-                globalRating: 1,
-                profileImage: 1,
-              },
-            },
-          },
-        },
-      })
-      .lean(true)
-      .exec();
-  },
   postNewBid: ({ userId, jobId, bidAmount, bidderId, userCurrency = 'CAD' }) => {
     return new Promise(async (resolve, reject) => {
       try {

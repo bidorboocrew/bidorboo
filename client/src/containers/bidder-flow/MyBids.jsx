@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,7 @@ import { Spinner } from '../../components/Spinner';
 
 import { getAllMyBids, updateRecentBid } from '../../app-state/actions/bidsActions';
 import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
+import { switchRoute } from '../../utils';
 
 class MyBids extends React.Component {
   componentDidMount() {
@@ -30,7 +31,7 @@ class MyBids extends React.Component {
           );
         })
       ) : (
-        <div>You have not bid yet click here to start bidding</div>
+        <EmptyStateComponent />
       );
 
     return (
@@ -75,3 +76,26 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(MyBids);
+
+const EmptyStateComponent = () => {
+  return (
+    <div className="HorizontalAligner-center column">
+      <div className="card is-fullwidth">
+        <div className="card-content">
+          <div className="content has-text-centered">
+            <div className="is-size-5">You have not bid yet click here to start bidding!</div>
+            <br />
+            <a
+              className="button is-primary is-large"
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            >
+              Bid Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

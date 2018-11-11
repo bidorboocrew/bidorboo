@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { submitBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import SubmitABidCard from '../../components/bidder-components/SubmitABidCard';
 
+import JobDetailsViewForBidder from '../../components/bidder-components/JobDetailsViewForBidder';
+import PostYourBid from '../../components/forms/PostYourBid';
 import { switchRoute } from '../../utils';
 
 class BidNow extends React.Component {
@@ -67,12 +68,21 @@ class BidNow extends React.Component {
         </div>
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns is-mobile is-centered">
-              <div
-                className="column is-12-mobile
-                          is-8-tablet"
-              >
-                <SubmitABidCard onSubmit={a_submitBid} jobDetails={jobDetails} />
+            <div className="columns is-centered">
+              <div className="column is-6">
+                {jobDetails && jobDetails._id && (
+                  <React.Fragment>
+                    <PostYourBid
+                      onSubmit={(values) => {
+                        a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+                      }}
+                      onCancel={() => {
+                        switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      }}
+                    />
+                    <JobDetailsViewForBidder job={jobDetails} />
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>

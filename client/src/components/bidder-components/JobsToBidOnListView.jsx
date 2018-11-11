@@ -6,7 +6,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-export default class JobsToBidOn extends React.Component {
+export default class JobsToBidOnListView extends React.Component {
   render() {
     const { jobsList } = this.props;
 
@@ -24,8 +24,6 @@ const OtherPeoplesJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
   return jobsList.map((job) => {
-    const { _ownerRef } = job;
-
     const cardFooter = (
       <CardBottomSection
         isLoggedIn={isLoggedIn}

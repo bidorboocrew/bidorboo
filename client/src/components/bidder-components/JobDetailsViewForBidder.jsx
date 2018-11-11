@@ -1,13 +1,13 @@
 import React from 'react';
 
 import moment from 'moment';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
-export default class JobDetailsView extends React.Component {
+export default class JobDetailsViewForBidder extends React.Component {
   render() {
     const { job } = this.props;
 
-    if (!job) {
+    if (!job || !job._id) {
       return null;
     }
     const {
