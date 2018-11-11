@@ -12,10 +12,7 @@ export default class JobsToBidOn extends React.Component {
 
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        <React.Fragment>
-          <OtherPeoplesJobs {...this.props} />
-          {/* <MyJobs {...this.props} /> */}
-        </React.Fragment>
+        <OtherPeoplesJobs {...this.props} />
       ) : (
         <EmptyStateComponent />
       );
@@ -26,42 +23,33 @@ export default class JobsToBidOn extends React.Component {
 const OtherPeoplesJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
-  return jobsList
-    .filter((job) => {
-      const { _ownerRef } = job;
-      return !isLoggedIn || _ownerRef._id !== currentUserId;
-    })
-    .map((job) => {
-      const { _ownerRef } = job;
+  return jobsList.map((job) => {
+    const { _ownerRef } = job;
 
-      const cardFooter = (
-        <CardBottomSection
-          _ownerRef={_ownerRef}
-          isLoggedIn={isLoggedIn}
-          currentUserId={currentUserId}
-          showLoginDialog={showLoginDialog}
-          selectJobToBidOn={selectJobToBidOn}
-          job={job}
-        />
-      );
-      return (
-        <div
-          key={job._id}
-          className="column is-one-third"
-          onClick={() => {
-            if (!isLoggedIn) {
-              showLoginDialog(true);
-            } else {
-              if (_ownerRef._id !== currentUserId) {
-                selectJobToBidOn(job);
-              }
-            }
-          }}
-        >
-          <JobsToBidOnSummaryCard footer={cardFooter} job={job} />
-        </div>
-      );
-    });
+    const cardFooter = (
+      <CardBottomSection
+        isLoggedIn={isLoggedIn}
+        showLoginDialog={showLoginDialog}
+        selectJobToBidOn={selectJobToBidOn}
+        job={job}
+      />
+    );
+    return (
+      <div
+        key={job._id}
+        className="column is-one-third"
+        onClick={() => {
+          if (!isLoggedIn) {
+            showLoginDialog(true);
+          } else {
+            selectJobToBidOn(job);
+          }
+        }}
+      >
+        <JobsToBidOnSummaryCard footer={cardFooter} job={job} />
+      </div>
+    );
+  });
 };
 
 const EmptyStateComponent = () => {
@@ -88,40 +76,25 @@ const EmptyStateComponent = () => {
 };
 
 const CardBottomSection = (props) => {
-  const {
-    _ownerRef,
-    isLoggedIn,
-    currentUserId,
-    showLoginDialog,
-    selectJobToBidOn,
-    job,
-    isOwnerTheSameAsLoggedInUser,
-  } = props;
+  const { isLoggedIn, showLoginDialog, selectJobToBidOn, job } = props;
 
   return (
     <footer className="card-footer">
       <div className="card-footer-item">
-        {!isOwnerTheSameAsLoggedInUser && (
-          <a
-            onClick={() => {
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                if (_ownerRef._id !== currentUserId) {
-                  selectJobToBidOn(job);
-                }
-              }
-            }}
-            className="button is-primary is-fullwidth is-large"
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fas fa-dollar-sign" /> {`Review & Bid`}
-            </span>
-          </a>
-        )}
-        {isOwnerTheSameAsLoggedInUser && (
-          <a className="button is-static is-fullwidth disabled is-large">My Job</a>
-        )}
+        <a
+          onClick={() => {
+            if (!isLoggedIn) {
+              showLoginDialog(true);
+            } else {
+              selectJobToBidOn(job);
+            }
+          }}
+          className="button is-primary is-fullwidth is-large"
+        >
+          <span style={{ marginLeft: 4 }}>
+            <i className="fas fa-dollar-sign" /> {`Review & Bid`}
+          </span>
+        </a>
       </div>
     </footer>
   );

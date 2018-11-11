@@ -120,10 +120,11 @@ class JobMarker extends React.Component {
           <InfoBox
             className="info-Box-map"
             options={{
-              pixelOffset: new google.maps.Size(-140, 0),
+              pixelOffset: new google.maps.Size(-50, -10),
               zIndex: 999,
               boxStyle: {
                 padding: '0px 0px 0px 0px',
+                boxShadow:  '0 2px 8px 0 rgba(0, 0, 0, 0.34)'
               },
               closeBoxURL: '',
               infoBoxClearance: new google.maps.Size(1, 1),

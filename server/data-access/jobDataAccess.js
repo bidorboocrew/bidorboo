@@ -77,6 +77,68 @@ exports.jobDataAccess = {
       }
     });
   },
+  addAJob: async (jobDetails, mongoDbUserId) => {
+    try {
+      const newJob = await new JobModel({
+        ...jobDetails,
+        _ownerRef: mongoDbUserId,
+      }).save();
+
+      await User.findOneAndUpdate(
+        { _id: mongoDbUserId },
+        {
+          $push: {
+            _postedJobsRef: { $each: [newJob._id], $sort: { createdAt: -1 } },
+          },
+        },
+        { projection: { _id: 1 } }
+      )
+        .lean(true)
+        .exec();
+      return newJob.toObject();
+    } catch (e) {
+      throw e;
+    }
+  },
+  getAwardedJobDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidderDetails = await JobModel.findById({ _id: jobId })
+          .populate({
+            path: '_awardedBidRef',
+            select: {
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+              createdAt: 1,
+              updatedAt: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _postedJobsRef: 0,
+                _postedBidsRef: 0,
+                addressText: 0,
+                userRole: 0,
+                settings: 0,
+                extras: 0,
+                verificationIdImage: 0,
+                canBid: 0,
+                canPost: 0,
+                updatedAt: 0,
+              },
+            },
+          })
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getAllJobsToBidOnForLoggedOutUser: () => {
     // wil return all jobs in the system
     return new Promise((resolve, reject) => {
@@ -164,7 +226,7 @@ exports.jobDataAccess = {
                   if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
                     didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
                       return (
-                        bid._bidderRef && (bid._bidderRef.toString() === mongoDbUserId.toString())
+                        bid._bidderRef && bid._bidderRef.toString() === mongoDbUserId.toString()
                       );
                     });
                   }
@@ -183,55 +245,6 @@ exports.jobDataAccess = {
   //-----------------------------------------------------------------------------------------------
   //-----------------------------------------------------------------------------------------------
   //-----------------------------------------------------------------------------------------------
-  getAwardedJobDetails: async (jobId) => {
-    return new Promise(async (resolve, reject) => {
-      const populateJobWithBidderDetails = {
-        path: '_awardedBidRef',
-        select: {
-          _bidderRef: 1,
-          bidAmount: 1,
-        },
-        populate: {
-          path: '_bidderRef',
-          select: {
-            _postedJobsRef: 0,
-            _postedBidsRef: 0,
-            creditCards: 0,
-            address: 0,
-            settings: 0,
-            extras: 0,
-            canBid: 0,
-            canPost: 0,
-            userId: 0,
-          },
-        },
-      };
-
-      try {
-        const jobWithBidderDetails = await JobModel.findById(
-          { _id: jobId },
-          {
-            _ownerRef: 0,
-            ownerId: 0,
-            properties: 0,
-            hideForUserIds: 0,
-            bidderIds: 0,
-            _ownerRef: 0,
-            _bidsListRef: 0,
-            jobReview: 0,
-            extras: 0,
-          }
-        )
-          .populate(populateJobWithBidderDetails)
-          .lean(true)
-          .exec();
-
-        resolve(jobWithBidderDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
 
   // get jobs near a given location
   // default search raduis is 15km raduis
@@ -239,21 +252,6 @@ exports.jobDataAccess = {
   getJobsNear: ({ searchLocation, searchRaduisInMeters = 15000, jobTypeFilter = [] }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const geoNearQuery = {
-          $geoNear: {
-            near: {
-              type: 'Point',
-              coordinates: [searchLocation.lng, searchLocation.lat],
-            },
-            distanceField: 'dist.calculated',
-            includeLocs: 'dist.location',
-            limit: 50,
-            distanceMultiplier: 1 / 1000, //meters
-            maxDistance: searchRaduisInMeters, //meters
-            spherical: true,
-            uniqueDocs: true,
-          },
-        };
         if (jobTypeFilter && jobTypeFilter.length > 0) {
           //filter categories of jobs
           geoNearQuery.$geoNear.query = {
@@ -263,16 +261,24 @@ exports.jobDataAccess = {
 
         JobModel.aggregate(
           [
-            geoNearQuery,
+            {
+              $geoNear: {
+                near: {
+                  type: 'Point',
+                  coordinates: [searchLocation.lng, searchLocation.lat],
+                },
+                distanceField: 'dist.calculated',
+                includeLocs: 'dist.location',
+                // limit: 50,
+                distanceMultiplier: 1 / 1000, //meters
+                maxDistance: searchRaduisInMeters, //meters
+                spherical: true,
+                uniqueDocs: true,
+              },
+            },
             {
               $project: {
-                __v: 0,
-                // _id: 1,
-                updatedAt: 0,
-                whoSeenThis: 0,
-                properties: 0,
-                extras: 0,
-                _bidsListRef: 0,
+                _id: 1,
               },
             },
           ],
@@ -284,19 +290,15 @@ exports.jobDataAccess = {
               try {
                 let searchResults = results.map(async (job) => {
                   const dbJob = await JobModel.findById(job._id, {
-                    addressText: 0,
-                    updatedAt: 0,
-                    awardedBidder: 0,
-                    jobReview: 0,
-                    extras: 0,
-                    properties: 0,
-                    __v: 0,
-                    whoSeenThis: 0,
                     _bidsListRef: 0,
+                    _awardedBidRef: 0,
+                    _reviewRef: 0,
+                    addressText: 0,
+                    extras: 0,
                   })
                     .populate({
                       path: '_ownerRef',
-                      select: { displayName: 1, profileImage: 1, _id: 0 },
+                      select: { displayName: 1, profileImage: 1 },
                     })
                     .lean(true)
                     .exec();
@@ -321,51 +323,6 @@ exports.jobDataAccess = {
       }
     });
   },
-
-  addAJob: async (jobDetails, userId) => {
-    try {
-      const newJob = await new JobModel({
-        ...jobDetails,
-        ownerId: userId,
-        state: 'OPEN',
-        isNew: true,
-      }).save();
-      const updateUserModelWithNewJob = await User.findOneAndUpdate(
-        { userId: userId },
-        {
-          $push: {
-            _postedJobsRef: { $each: [newJob._id], $sort: { createdAt: -1 } },
-          },
-        },
-        { projection: { _id: 1 } }
-      )
-        .lean(true)
-        .exec();
-
-      let job = await JobModel.findOne(
-        { _id: newJob._id },
-        {
-          addressText: 0,
-          updatedAt: 0,
-          awardedBidder: 0,
-          jobReview: 0,
-          extras: 0,
-          bidderIds: 0,
-          properties: 0,
-          __v: 0,
-          _bidsListRef: 0,
-          whoSeenThis: 0,
-          hideForUserIds: 0,
-        }
-      )
-        .lean(true)
-        .exec();
-      return job;
-    } catch (e) {
-      throw e;
-    }
-  },
-
   awardedBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(

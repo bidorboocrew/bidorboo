@@ -256,8 +256,9 @@ class NewJobForm extends React.Component {
             <div className="field">
               <ActionSheet>
                 <button
+                  style={{ borderRadius: 0 }}
                   type="button"
-                  className="button is-outlined is-medium"
+                  className="button is-outlined is-fullwidth is-large"
                   disabled={isSubmitting}
                   onClick={(e) => {
                     e.preventDefault();
@@ -267,11 +268,13 @@ class NewJobForm extends React.Component {
                   Cancel
                 </button>
                 <button
-                  style={{ marginLeft: '2.25rem' }}
-                  className="button is-primary is-medium"
+                  style={{ borderRadius: 0, marginLeft: '2.25rem' }}
+                  className="button is-primary is-fullwidth is-large"
                   type="submit"
                   disabled={isSubmitting || !isValid}
-                  onClick={()=>{handleSubmit(values,{...this.props})}}
+                  onClick={() => {
+                    handleSubmit(values, { ...this.props });
+                  }}
                 >
                   Submit
                 </button>
