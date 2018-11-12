@@ -49,7 +49,7 @@ export default class HomePage extends React.Component {
                           <i className="fa fa-plus fa-w-14" />
                         </span>
                         <span className="has-text-white" style={{ marginLeft: 4 }}>
-                          Create Jobs
+                          Request a Service
                         </span>
                       </div>
                     </div>
@@ -91,7 +91,7 @@ export default class HomePage extends React.Component {
                           <i className="fas fa-dollar-sign" />
                         </span>
                         <span className="has-text-white	" style={{ marginLeft: 4 }}>
-                          Bid Now
+                          Offer a Service
                         </span>
                       </div>
                     </div>

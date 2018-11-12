@@ -1,5 +1,6 @@
 import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
+import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
   console.log(routeAndParams);
@@ -29,4 +30,17 @@ export const throwErrorNotification = (dispatch, error) => {
       },
     },
   });
+};
+
+
+export const getLocalDate = (UTCdate, formatPattern = 'YYYY-MM-DD HH:mm z') => {
+  if (moment(UTCdate).isValid()) {
+    const localTimezone = moment.tz.guess() || 'America/Los_Angeles';
+    const culture = Globalize.getSmartlingCulture();
+    moment.locale(culture);
+    return moment
+      .utc(UTCdate)
+      .tz(localTimezone)
+      .format(formatPattern);
+  }
 };
