@@ -94,7 +94,9 @@ exports.bidDataAccess = {
           .lean(true)
           .exec();
         const theBid =
-          user._postedBidsRef && user._postedBidsRef.length === 1 ? user._postedBidsRef[0] : {};
+          user && user._postedBidsRef && user._postedBidsRef.length === 1
+            ? user._postedBidsRef[0]
+            : {};
         resolve(theBid);
       } catch (e) {
         reject(e);
