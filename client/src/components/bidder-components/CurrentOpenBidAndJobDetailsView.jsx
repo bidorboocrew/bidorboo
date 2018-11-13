@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import autoBind from 'react-autobind';
 import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';

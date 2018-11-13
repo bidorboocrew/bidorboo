@@ -4,7 +4,7 @@ import moment from 'moment';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-export default class BidDetailsCard extends React.Component {
+export default class AwardedBidDetailsCard extends React.Component {
   render() {
     const { bidDetails } = this.props;
 
@@ -65,7 +65,7 @@ export default class BidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
+              switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
             }}
             className="card-footer-item"
           >

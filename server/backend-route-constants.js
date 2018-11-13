@@ -44,8 +44,9 @@ module.exports = {
       },
       GET: {
         myOpenBids: '/api/bids/myOpenBids',
-        myAwardedBids: '/api/bids/myawardedBids',
+        myAwardedBids: '/api/bids/myAwardedBids',
         openBidDetails: '/api/bids/openBidDetails',
+        awardedBidDetails: '/api/bids/awardedBidDetails',
       },
       PUT: {
         markBidAsSeen: '/api/bids/markBidAsSeen',

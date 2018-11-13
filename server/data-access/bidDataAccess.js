@@ -36,7 +36,7 @@ exports.bidDataAccess = {
             match: { state: { $eq: stateFilter } },
             populate: {
               path: '_jobRef',
-              select:{
+              select: {
                 _ownerRef: 1,
                 title: 1,
                 state: 1,

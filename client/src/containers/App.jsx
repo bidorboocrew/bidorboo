@@ -26,10 +26,10 @@ import {
   MyAwardedBids,
   AwardedJobs,
   CurrentAwardedJob,
+  CurrentAwardedBid,
 } from './index';
 
 class App extends React.Component {
-
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
     // document.getElementById('fullscreen-preloader') &&
@@ -50,7 +50,6 @@ class App extends React.Component {
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
-
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -108,9 +107,10 @@ class App extends React.Component {
                 />
                 <Route
                   exact
-                  path={ROUTES.CLIENT.BIDDER.myAwardedBids}
-                  component={MyAwardedBids}
+                  path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
+                  component={CurrentAwardedBid}
                 />
+                <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} />
                 <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.CLIENT.HOME} />

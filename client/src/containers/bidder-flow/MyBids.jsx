@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Spinner } from '../../components/Spinner';
 
 import { getMyOpenBids } from '../../app-state/actions/bidsActions';
-import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
+import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
 import { switchRoute } from '../../utils';
 
 class MyBids extends React.Component {
@@ -23,7 +23,7 @@ class MyBids extends React.Component {
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
           return (
-            <BidDetailsCard
+            <OpenBidDetailsCard
               key={bidDetails._id}
               bidDetails={bidDetails}
             />

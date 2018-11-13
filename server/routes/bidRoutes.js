@@ -30,8 +30,8 @@ module.exports = (app) => {
       if (req.query && req.query.openBidId) {
         const { openBidId } = req.query;
         const userMongoDBId = req.user._id;
-        const userBidsList = await bidDataAccess.getBidDetails(userMongoDBId, openBidId);
-        return res.send(userBidsList);
+        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, openBidId);
+        return res.send(userBid);
       } else {
         return res.status(400).send({
           errorMsg: 'Bad Request for get open Bid Details, openBidId param was Not Specified',
@@ -39,6 +39,23 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open bid details', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.BID.GET.awardedBidDetails, requireLogin, async (req, res, done) => {
+    try {
+      if (req.query && req.query.awardedBidId) {
+        const { awardedBidId } = req.query;
+        const userMongoDBId = req.user._id;
+        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, awardedBidId);
+        return res.send(userBid);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get awarded Bid Details, openBidId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded bid details', details: e });
     }
   });
 

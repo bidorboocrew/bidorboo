@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
-import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
+import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
 
 import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
@@ -20,7 +20,7 @@ class MyAwardedBids extends React.Component {
     const bidsListComponent =
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
-          return <BidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+          return <AwardedBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
         <EmptyStateComponent />

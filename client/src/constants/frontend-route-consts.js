@@ -43,8 +43,9 @@ export const API = {
     },
     GET: {
       myOpenBids: '/api/bids/myOpenBids',
-      myAwardedBids: '/api/bids/myawardedBids',
+      myAwardedBids: '/api/bids/myAwardedBids',
       openBidDetails: '/api/bids/openBidDetails',
+      awardedBidDetails: '/api/bids/awardedBidDetails',
     },
     PUT: {
       markBidAsSeen: '/api/bids/markBidAsSeen',
@@ -68,6 +69,7 @@ export const CLIENT = {
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
+    currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
     myAwardedBidDetails: '/bidder/my-awarded-bid-details',
   },
