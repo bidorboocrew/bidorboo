@@ -62,19 +62,24 @@ module.exports = (app) => {
   app.post(ROUTES.API.BID.POST.bid, requireLogin, async (req, res, done) => {
     try {
       // create new job for this user
-      const data = req.body.data;
-      const userMongoDBId = req.user._id;
-      const userId = req.user.userId;
-      const jobId = data.jobId;
-      const bidAmount = data.bidAmount;
+      const { data } = req.body;
 
-      const newBid = await bidDataAccess.postNewBid({
-        userId: userId,
-        bidderId: userMongoDBId,
-        jobId: jobId,
-        bidAmount: bidAmount,
-      });
-      return res.send(newBid);
+      if (data && data.bidAmount && data.jobId) {
+        const { jobId, bidAmount } = data;
+
+        const userMongoDBId = req.user._id;
+
+        const newBid = await bidDataAccess.postNewBid({
+          userMongoDBId,
+          jobId,
+          bidAmount,
+        });
+        return res.send(newBid);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request post new Bid, missing param',
+        });
+      }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
     }
