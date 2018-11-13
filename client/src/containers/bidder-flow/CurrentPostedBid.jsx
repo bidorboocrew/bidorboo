@@ -6,16 +6,42 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 
+import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
 
-import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
+// import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 class CurrentPostedBid extends React.Component {
-  render() {
-    const { recentlyUpdatedBid, currentUserDetails } = this.props;
+  constructor(props) {
+    super(props);
+debugger
+    this.bidId = null;
+    // react router state
+    // this.isNewlyPostedBid = props.location && props.location.state && props.location.state.isNewBid;
 
+    if (props.match && props.match.params && props.match.params.bidId) {
+      this.bidId = props.match.params.bidId;
+    } else {
+      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return null;
+    }
+  }
+
+  componentDidMount() {
+    const { a_getOpenBidDetails } = this.props;
+    if (!a_getOpenBidDetails || !this.bidId) {
+      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return null;
+    } else {
+      a_getOpenBidDetails(this.bidId);
+    }
+  }
+
+  render() {
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -36,8 +62,9 @@ class CurrentPostedBid extends React.Component {
             </ul>
           </nav>
         </div>
+
         <section className="mainSectionContainer slide-in-left">
-          <JobAndBidsDetailView currentUser={currentUserDetails} job={recentlyUpdatedBid} />
+          {/* <JobAndBidsDetailView currentUser={currentUserDetails} job={recentlyUpdatedBid} /> */}
         </section>
       </React.Fragment>
     );
@@ -51,8 +78,12 @@ const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
     currentUserDetails: userModelReducer.userDetails,
   };
 };
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+  };
+};
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CurrentPostedBid);

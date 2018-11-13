@@ -43,7 +43,9 @@ module.exports = {
         bid: '/api/bids/postABid',
       },
       GET: {
-        myBids: '/api/bids/myBids',
+        myOpenBids: '/api/bids/myOpenBids',
+        myAwardedBids: '/api/bids/myawardedBids',
+        openBidDetails: '/api/bids/openBidDetails',
       },
       PUT: {
         markBidAsSeen: '/api/bids/markBidAsSeen',

@@ -62,11 +62,21 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
   });
 };
 
-export const getAllMyBids = () => (dispatch) => {
+export const getMyOpenBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.myBids).catch((error) => {
+    type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
+    payload: axios.get(ROUTES.API.BID.GET.myOpenBids).catch((error) => {
+      throwErrorNotification(dispatch, error);
+    }),
+  });
+};
+
+export const getOpenBidDetails = (openBidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    payload: axios.get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } }).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
   });

@@ -7,7 +7,7 @@ const BidModel = mongoose.model('BidModel');
 
 exports.bidDataAccess = {
   getAllBidsForUser: (mongoDbUserId) => {
-    return UserModel.findById({ _id: mongoDbUserId },{_postedBidsRef:1})
+    return UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
       .populate({
         path: '_postedBidsRef',
         populate: {
@@ -26,7 +26,81 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
+  // get jobs for a user and filter by a given state
+  getAllBidsForUserByState: async (mongoDbUserId, stateFilter) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            match: { state: { $eq: stateFilter } },
+            populate: {
+              path: '_jobRef',
+              populate: {
+                path: '_ownerRef',
+                select: {
+                  _id: 1,
+                  displayName: 1,
+                  globalRating: 1,
+                  profileImage: 1,
+                },
+              },
+            },
+          })
+          .lean(true)
+          .exec();
 
+        resolve(user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  // get jobs for a user and filter by a given state
+  getBidDetails: async (mongoDbUserId, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            match: { _id: { $eq: bidId } },
+            populate: {
+              path: '_jobRef',
+              select: {
+                _ownerRef: 1,
+                title: 1,
+                state: 1,
+                detailedDescription: 1,
+                location: 1,
+                stats: 1,
+                startingDateAndTime: 1,
+                durationOfJob: 1,
+                fromTemplateId: 1,
+                reportThisJob: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_ownerRef',
+                select: {
+                  _id: 1,
+                  displayName: 1,
+                  globalRating: 1,
+                  profileImage: 1,
+                },
+              },
+            },
+          })
+          .lean(true)
+          .exec();
+        const theBid =
+          user._postedBidsRef && user._postedBidsRef.length === 1 ? user._postedBidsRef[0] : {};
+        resolve(theBid);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   //---------------------
   //---------------------
   //---------------------
@@ -42,7 +116,6 @@ exports.bidDataAccess = {
       .exec();
     return !!isSuccessful;
   },
-
 
   postNewBid: ({ userId, jobId, bidAmount, bidderId, userCurrency = 'CAD' }) => {
     return new Promise(async (resolve, reject) => {
