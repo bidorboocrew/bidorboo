@@ -13,12 +13,14 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
 
+import CurrentOpenBidAndJobDetailsView from '../../components/bidder-components/CurrentOpenBidAndJobDetailsView';
+
 // import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
 
 class CurrentPostedBid extends React.Component {
   constructor(props) {
     super(props);
-debugger
+
     this.bidId = null;
     // react router state
     // this.isNewlyPostedBid = props.location && props.location.state && props.location.state.isNewBid;
@@ -42,6 +44,8 @@ debugger
   }
 
   render() {
+    const { selectedOpenBid, isLoading, currentUserDetails } = this.props;
+
     return (
       <React.Fragment>
         <div style={{ marginTop: '1rem' }} className="container">
@@ -64,7 +68,11 @@ debugger
         </div>
 
         <section className="mainSectionContainer slide-in-left">
-          {/* <JobAndBidsDetailView currentUser={currentUserDetails} job={recentlyUpdatedBid} /> */}
+          <CurrentOpenBidAndJobDetailsView
+            currentUser={currentUserDetails}
+            bid={selectedOpenBid}
+            isLoading={isLoading} 
+          />
         </section>
       </React.Fragment>
     );
@@ -73,7 +81,7 @@ debugger
 
 const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
   return {
-    recentlyUpdatedBid: bidsReducer.recentlyUpdatedBid,
+    selectedOpenBid: bidsReducer.selectedOpenBid,
     isLoading: bidsReducer.isLoadingBids,
     currentUserDetails: userModelReducer.userDetails,
   };

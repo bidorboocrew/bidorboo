@@ -7,157 +7,44 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import { Spinner } from '../Spinner';
 
-import OtherUserDetails from '../OtherUserDetails';
-
-export default class CurrentPostedJobDetailsCard extends React.Component {
+export default class CurrentOpenBidAndJobDetailsView extends React.Component {
   static propTypes = {
     currentUser: PropTypes.object.isRequired,
-    job: PropTypes.object.isRequired,
+    bid: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
     breadCrumb: PropTypes.node,
-    hideBidTable: PropTypes.bool,
   };
 
   static defaultProps = {
     breadCrumb: null,
-    hideBidTable: false,
   };
-
-  constructor(props) {
-    super(props);
-    this.appRoot = document.querySelector('#bidorboo-root-view');
-
-    this.state = {
-      showReviewBidder: false,
-      bidText: '',
-      bidId: null,
-      userUnderReview: null,
-    };
-    autoBind(this, 'closeReviewModal', 'showReviewModal', 'awardBidderHandler');
-  }
-
-  showReviewModal(e, userUnderReview, bidText, bidId) {
-    e.preventDefault();
-    this.setState({ showReviewBidder: true, userUnderReview, bidText: bidText, bidId });
-  }
-
-  closeReviewModal(e) {
-    e.preventDefault();
-    this.setState({ showReviewBidder: false, userUnderReview: null, bidText: '', bidId: null });
-  }
-
-  awardBidderHandler(e) {
-    const { awardBidder, job } = this.props;
-    const { bidId } = this.state;
-    e.preventDefault();
-    awardBidder && awardBidder(job._id, bidId);
-    this.closeReviewModal({ preventDefault: () => null });
-  }
 
   componentDidCatch() {
     switchRoute(ROUTES.CLIENT.ENTRY);
   }
 
   render() {
-    const { job, currentUser, breadCrumb, markBidAsSeen, hideBidTable } = this.props;
+    const { bid, currentUser, breadCrumb, isLoading } = this.props;
 
-    if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
-      return null;
-    }
-
-    const reviewBidderbreadCrumb = () => {
+    // loading indicator
+    if (!bid || !bid._id || !bid._jobRef || !bid._jobRef._id) {
       return (
-        <div style={{ marginBottom: '1rem' }} className="container">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
-                  }}
-                >
-                  My Jobs
-                </a>
-              </li>
-              <li>
-                <a onClick={this.closeReviewModal} aria-current="page">
-                  {job.title}
-                </a>
-              </li>
-              <li className="is-active">
-                <a aria-current="page">Bidder</a>
-              </li>
-            </ul>
-          </nav>
+        <div className="container">
+          <Spinner isLoading={isLoading} size={'large'} />
         </div>
       );
-    };
+    }
 
-    const cardTitle = () => {
-      return (
-        <header className="card-header">
-          <p className="card-header-title">
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              Review Bidder
-            </span>
-          </p>
-        </header>
-      );
-    };
+    const { _jobRef: job } = bid;
 
-    const cardFooter = () => {
-      return (
-        <React.Fragment>
-          <div className="has-text-centered is-size-2 ">
-            bid amount :
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {` ${this.state.bidText}`}
-            </span>
-          </div>
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <a
-                onClick={this.awardBidderHandler}
-                className="button is-primary is-fullwidth is-large"
-              >
-                Accept Bid
-              </a>
-            </div>
-            <div className="card-footer-item">
-              <a
-                onClick={this.closeReviewModal}
-                className="button is-danger is-outlined is-fullwidth is-large"
-              >
-                Go Back
-              </a>
-            </div>
-          </footer>
-        </React.Fragment>
-      );
-    };
-
-    let pageContent = this.state.showReviewBidder ? (
-      <OtherUserDetails
-        otherUserDetails={this.state.userUnderReview}
-        breadCrumb={reviewBidderbreadCrumb()}
-        cardFooter={cardFooter()}
-        cardTitle={cardTitle()}
-      />
-    ) : (
+    let pageContent = (
       <React.Fragment>
         {breadCrumb}
         <div className="container">
-          {!hideBidTable && (
-            <BidsTable
-              jobId={job._id}
-              bidList={job._bidsListRef}
-              currentUser={currentUser}
-              showReviewModal={this.showReviewModal}
-              markBidAsSeen={markBidAsSeen}
-            />
-          )}
-          <PostedJobsDetails job={job} currentUser={currentUser} />
+          <BidsTable bid={bid} currentUser={currentUser} />
+          <PostedJobsDetails job={job} />
         </div>
       </React.Fragment>
     );
@@ -168,105 +55,41 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
 
 class BidsTable extends React.Component {
   render() {
-    const { bidList, showReviewModal, markBidAsSeen, jobId } = this.props;
+    const { bid, currentUser } = this.props;
+    // find lowest bid details
+    let tableRow = (
+      <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
+        <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+          {currentUser && currentUser.profileImage && currentUser.profileImage.url && (
+            <figure style={{ margin: '0 auto' }} className="image is-64x64">
+              <img alt="profile" src={currentUser.profileImage.url} />
+            </figure>
+          )}
+        </td>
+        <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+          {currentUser && currentUser.rating ? `${currentUser.rating.globalRating}` : null}
+        </td>
+        <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+          {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
+        </td>
+      </tr>
+    );
 
-    const areThereAnyBids = bidList && bidList.length > 0;
-    if (areThereAnyBids) {
-      // find lowest bid details
-      let tableRows =
-        bidList &&
-        bidList.map((bid) => {
-          return (
-            <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
-                  <figure style={{ margin: '0 auto' }} className="image is-64x64">
-                    <img alt="profile" src={bid._bidderRef.profileImage.url} />
-                  </figure>
-                )}
-                {bid.isNewBid ? (
-                  <span className="tag is-danger">
-                    new bid!
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        markBidAsSeen(jobId, bid._id);
-                      }}
-                      className="delete"
-                    />
-                  </span>
-                ) : null}
-              </td>
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.rating
-                  ? `${bid._bidderRef.rating.globalRating}`
-                  : null}
-              </td>
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
-              </td>
-
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid.bidAmount && (
-                  <a
-                    onClick={(e) => {
-                      markBidAsSeen(jobId, bid._id);
-
-                      showReviewModal(
-                        e,
-                        bid._bidderRef,
-                        `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                        bid._id
-                      );
-                    }}
-                    className="button is-primary is-outlined"
-                  >
-                    Review Bid
-                  </a>
-                )}
-              </td>
-            </tr>
-          );
-        });
-
-      return (
-        <div className="columns is-centered">
-          <div className="column is-half">
-            <table
-              style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
-              className="table is-hoverable table is-striped is-fullwidth"
-            >
-              <thead>
-                <tr>
-                  <th className="has-text-centered">profile image</th>
-                  <th className="has-text-centered">Rating</th>
-                  <th className="has-text-centered">$</th>
-                  <th className="has-text-centered">Bid Details</th>
-                </tr>
-              </thead>
-              <tbody>{tableRows}</tbody>
-            </table>
-          </div>
-        </div>
-      );
-    }
-    // no bids yet
     return (
       <div className="columns is-centered">
         <div className="column is-half">
-          <table className="table is-hoverable table is-striped is-fullwidth">
+          <table
+            style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
+            className="table is-hoverable table is-striped is-fullwidth"
+          >
             <thead>
               <tr>
-                <th>Bids Table</th>
+                <th className="has-text-centered">profile image</th>
+                <th className="has-text-centered">Rating</th>
+                <th className="has-text-centered">$</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td style={{ verticalAlign: 'middle' }}>
-                  No one has made a bid Yet, Keep an eye and check again in a little while
-                </td>
-              </tr>
-            </tbody>
+            <tbody>{tableRow}</tbody>
           </table>
         </div>
       </div>
@@ -280,10 +103,10 @@ class PostedJobsDetails extends React.Component {
   }
 
   render() {
-    const { job, currentUser } = this.props;
+    const { job } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
       return null;
     }
 
@@ -293,10 +116,11 @@ class PostedJobsDetails extends React.Component {
       durationOfJob,
       startingDateAndTime,
       title,
+      _ownerRef,
       detailedDescription,
     } = job;
 
-    let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
+    let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 
     const { hours, minutes, period } = startingDateAndTime;

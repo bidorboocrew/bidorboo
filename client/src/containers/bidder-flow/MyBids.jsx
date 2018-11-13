@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getMyOpenBids, updateRecentBid } from '../../app-state/actions/bidsActions';
+import { getMyOpenBids } from '../../app-state/actions/bidsActions';
 import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
 import { switchRoute } from '../../utils';
 
@@ -17,7 +17,7 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, a_updateRecentBid } = this.props;
+    const { isLoading, openBidsList } = this.props;
 
     const bidsListComponent =
       openBidsList && openBidsList.length > 0 ? (
@@ -67,7 +67,6 @@ const mapStateToProps = ({ bidsReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
-    a_updateRecentBid: bindActionCreators(updateRecentBid, dispatch),
   };
 };
 

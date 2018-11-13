@@ -65,7 +65,6 @@ export default class BidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              debugger
               switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
             }}
             className="card-footer-item"

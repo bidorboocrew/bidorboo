@@ -9,8 +9,6 @@ const initialState = {
   isLoadingBids: false,
   getBidsErrorMsg: '',
   selectedOpenBid: {},
-
-  recentlyUpdatedBid: {},
 };
 
 const selectJobToBidOn = (state = initialState, { payload }) => ({
@@ -18,10 +16,7 @@ const selectJobToBidOn = (state = initialState, { payload }) => ({
   jobDetails: payload.jobDetails,
 });
 
-const updateRecentBid = (state = initialState, { payload }) => ({
-  ...state,
-  recentlyUpdatedBid: payload.data,
-});
+
 
 const getMyOpenBids = {
   isPending: (state = initialState) => ({
@@ -86,7 +81,6 @@ const getOpenBidDetails = {
 
 export default handleActions(
   {
-    [`${A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS}`]: updateRecentBid,
     [`${A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyOpenBids.isPending,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyOpenBids.isFullfilled,
