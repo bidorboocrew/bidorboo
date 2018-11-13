@@ -26,7 +26,7 @@ export default class HomePage extends React.Component {
           <div className="columns">
             <div className="column">
               <BidOrBooCard
-                backgroundImage="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
+                // backgroundImage="https://images.theconversation.com/files/191713/original/file-20171024-30561-ph2byj.jpg?ixlib=rb-1.1.0&rect=665%2C0%2C2622%2C1744&q=45&auto=format&w=1012&h=668&fit=crop"
                 contentTextColor={'white'}
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -48,9 +48,7 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
                         </span>
-                        <span className="has-text-white" style={{ marginLeft: 4 }}>
-                          Request a Service
-                        </span>
+                        <span className="has-text-white">Request a Service</span>
                       </div>
                     </div>
                     <div className="subtitle has-text-white	">
@@ -63,7 +61,7 @@ export default class HomePage extends React.Component {
             </div>
             <div className="column">
               <BidOrBooCard
-                backgroundImage="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
+                // backgroundImage="https://martechtoday.com/wp-content/uploads/2018/04/header-bidding-auction-ss-1920-800x450.gif"
                 contentTextColor={'white'}
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -90,12 +88,10 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />
                         </span>
-                        <span className="has-text-white	" style={{ marginLeft: 4 }}>
-                          Offer a Service
-                        </span>
+                        <span className="has-text-white	">Offer a Service</span>
                       </div>
                     </div>
-                    <div className="subtitle has-text-white	">
+                    <div className="subtitle has-text-white">
                       Start Bidding on the jobs. Do the work you like for the price you like. Be
                       your own boss and manage your own schedule.
                     </div>

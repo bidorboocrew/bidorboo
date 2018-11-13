@@ -111,7 +111,7 @@ class App extends React.Component {
                 <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
                 <Route
                   exact
-                  path={ROUTES.CLIENT.BIDDER.currentPostedBid}
+                  path={`${ROUTES.CLIENT.BIDDER.currentPostedBid}/:bidId`}
                   component={CurrentPostedBid}
                 />
                 <Route

@@ -1,9 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 export default class BidDetailsCard extends React.Component {
   render() {
-    const { bidDetails, onShowFullDetails } = this.props;
+    const { bidDetails } = this.props;
 
     if (!bidDetails) {
       return null;
@@ -62,14 +65,16 @@ export default class BidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              onShowFullDetails(_jobRef);
+              switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
             }}
             className="card-footer-item"
           >
             Bid Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')} at ${startingDateText}`}
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
+              'MMMM Do YYYY'
+            )} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

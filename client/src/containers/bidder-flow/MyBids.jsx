@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getAllMyBids, updateRecentBid } from '../../app-state/actions/bidsActions';
+import { getMyOpenBids } from '../../app-state/actions/bidsActions';
 import BidDetailsCard from '../../components/bidder-components/BidDetailsCard';
 import { switchRoute } from '../../utils';
 
@@ -17,14 +17,13 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { isLoading, bidsList, a_updateRecentBid } = this.props;
+    const { isLoading, openBidsList } = this.props;
 
     const bidsListComponent =
-      bidsList && bidsList.length > 0 ? (
-        bidsList.map((bidDetails) => {
+      openBidsList && openBidsList.length > 0 ? (
+        openBidsList.map((bidDetails) => {
           return (
             <BidDetailsCard
-              onShowFullDetails={a_updateRecentBid}
               key={bidDetails._id}
               bidDetails={bidDetails}
             />
@@ -60,15 +59,14 @@ class MyBids extends React.Component {
 
 const mapStateToProps = ({ bidsReducer }) => {
   return {
-    bidsList: bidsReducer.bidsList,
+    openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedBids: bindActionCreators(getAllMyBids, dispatch),
-    a_updateRecentBid: bindActionCreators(updateRecentBid, dispatch),
+    a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
   };
 };
 
