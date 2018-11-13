@@ -88,7 +88,7 @@ class MyProfile extends React.Component {
                   this.closeFormAndSubmit
                 )}
                 {/* advertisement */}
-                {advertisement()}
+                {/* {advertisement()} */}
               </div>
             </div>
           </section>
@@ -198,7 +198,7 @@ const userEditableInfo = (
       <div>
         {!isEditProfile && (
           <div>
-            <HeaderTitle title="My Info" />
+            <HeaderTitle title="My Details" />
             <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
             <DisplayLabelValue labelText="Email:" labelValue={email} />
             <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
@@ -244,21 +244,21 @@ const userEditableInfo = (
   );
 };
 
-const advertisement = () => {
-  return (
-    <div className="column is-one-quarter">
-      <div style={{ textAlign: 'center' }}>
-        <div>Ads</div>
-        <div>
-          <img
-            alt="profile"
-            src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
+// const advertisement = () => {
+//   return (
+//     <div className="column is-one-quarter">
+//       <div style={{ textAlign: 'center' }}>
+//         <div>Ads</div>
+//         <div>
+//           <img
+//             alt="profile"
+//             src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
   return (
