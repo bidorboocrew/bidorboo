@@ -29,12 +29,8 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp.data && resp.data._id) {
-          dispatch({
-            type: A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS,
-            payload: { data: resp.data },
-          });
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
+          switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${resp.data._id}`);
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -67,7 +63,19 @@ export const getOpenBidDetails = (openBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
-    payload: axios.get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } }).catch((error) => {
+    payload: axios
+      .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const getMyAwardedBids = () => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS,
+    payload: axios.get(ROUTES.API.BID.GET.myAwardedBids).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
   });

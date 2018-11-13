@@ -17,4 +17,4 @@ export { default as CurrentPostedBid } from './bidder-flow/CurrentPostedBid';
 export { default as BidNow } from './bidder-flow/BidNow';
 export { default as MyBids } from './bidder-flow/MyBids';
 export { default as BidderRoot } from './bidder-flow/BidderRoot';
-export { default as ActiveAwardedBids } from './bidder-flow/ActiveAwardedBids';
+export { default as MyAwardedBids } from './bidder-flow/MyAwardedBids';

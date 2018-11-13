@@ -214,7 +214,7 @@ class Header extends React.Component {
                         onClick={(e) => {
                           e.preventDefault();
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.activeBidsPage);
+                            switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
                           });
                         }}
                       >

@@ -23,7 +23,7 @@ class CurrentPostedBid extends React.Component {
 
     this.bidId = null;
     // react router state
-    // this.isNewlyPostedBid = props.location && props.location.state && props.location.state.isNewBid;
+    // this.bid = props.location && props.location.state && props.location.state.bid;
 
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
@@ -71,7 +71,7 @@ class CurrentPostedBid extends React.Component {
           <CurrentOpenBidAndJobDetailsView
             currentUser={currentUserDetails}
             bid={selectedOpenBid}
-            isLoading={isLoading} 
+            isLoading={isLoading}
           />
         </section>
       </React.Fragment>

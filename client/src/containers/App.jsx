@@ -23,20 +23,12 @@ import {
   MyBids,
   CurrentJob,
   CurrentPostedBid,
-  ActiveAwardedBids,
+  MyAwardedBids,
   AwardedJobs,
   CurrentAwardedJob,
 } from './index';
 
 class App extends React.Component {
-  static propTypes = {
-    toastDetails: PropTypes.shape({
-      type: PropTypes.oneOf(['success', 'warning', 'error', 'info']),
-      msg: PropTypes.string,
-      toastId: PropTypes.string,
-    }),
-    a_getCurrentUser: PropTypes.func.isRequired,
-  };
 
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
@@ -116,8 +108,8 @@ class App extends React.Component {
                 />
                 <Route
                   exact
-                  path={ROUTES.CLIENT.BIDDER.activeBidsPage}
-                  component={ActiveAwardedBids}
+                  path={ROUTES.CLIENT.BIDDER.myAwardedBids}
+                  component={MyAwardedBids}
                 />
                 <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
                 {/* redirect any unknown route to the home component */}

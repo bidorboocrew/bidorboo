@@ -36,6 +36,21 @@ exports.bidDataAccess = {
             match: { state: { $eq: stateFilter } },
             populate: {
               path: '_jobRef',
+              select:{
+                _ownerRef: 1,
+                title: 1,
+                state: 1,
+                detailedDescription: 1,
+                location: 1,
+                stats: 1,
+                addressText: 1,
+                startingDateAndTime: 1,
+                durationOfJob: 1,
+                fromTemplateId: 1,
+                reportThisJob: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
               populate: {
                 path: '_ownerRef',
                 select: {

@@ -68,7 +68,8 @@ export const CLIENT = {
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
-    activeBidsPage: '/bidder/active-bids',
+    myAwardedBids: '/bidder/my-awarded-bids',
+    myAwardedBidDetails: '/bidder/my-awarded-bid-details',
   },
   MY_PROFILE: '/my-profile',
 };
