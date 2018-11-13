@@ -24,7 +24,7 @@ export const deleteJobById = (jobId) => (dispatch) => {
         payload: {
           toastDetails: {
             type: 'success',
-            msg: 'Job was sucessfully deleted.',
+            msg: 'Service Request was sucessfully deleted.',
           },
         },
       });

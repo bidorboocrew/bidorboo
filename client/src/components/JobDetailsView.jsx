@@ -42,7 +42,7 @@ export default class JobDetailsView extends React.Component {
         <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">
           <p className="card-header-title">
             <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
-            Details: {title || 'Job Title'}
+            Details: {title || 'Service Title'}
           </p>
         </header>
         <div className="card-image is-clipped">
@@ -71,7 +71,7 @@ export default class JobDetailsView extends React.Component {
 
           <div className="content">
             <p className="heading">
-              <span>Job Type</span>
+              <span>Service Type</span>
               <br />
               <span className="has-text-weight-semibold">
                 {templatesRepo[fromTemplateId].title || 'not specified'}

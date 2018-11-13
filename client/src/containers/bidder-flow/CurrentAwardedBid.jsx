@@ -15,8 +15,6 @@ import { switchRoute } from '../../utils';
 
 import CurrentOpenBidAndJobDetailsView from '../../components/bidder-components/CurrentOpenBidAndJobDetailsView';
 
-// import JobAndBidsDetailView from '../../components/JobAndBidsDetailView';
-
 class CurrentAwardedBid extends React.Component {
   constructor(props) {
     super(props);
@@ -57,11 +55,11 @@ class CurrentAwardedBid extends React.Component {
                     switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
                   }}
                 >
-                  My Awarded Bids
+                  Upcoming Appointments
                 </a>
               </li>
               <li className="is-active">
-                <a aria-current="page">Current Bid</a>
+                <a aria-current="page">details</a>
               </li>
             </ul>
           </nav>

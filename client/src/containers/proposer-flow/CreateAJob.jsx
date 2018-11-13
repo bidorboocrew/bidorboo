@@ -50,7 +50,7 @@ class CreateAJob extends React.Component {
               <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                   <li>
-                    <a onClick={this.goBack}>Job templates</a>
+                    <a onClick={this.goBack}>Service Templates</a>
                   </li>
                   <li className="is-active">
                     <a aria-current="page">{jobDetails.title}</a>

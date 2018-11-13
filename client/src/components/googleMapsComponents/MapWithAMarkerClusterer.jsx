@@ -124,7 +124,7 @@ class JobMarker extends React.Component {
               zIndex: 999,
               boxStyle: {
                 padding: '0px 0px 0px 0px',
-                boxShadow:  '0 2px 8px 0 rgba(0, 0, 0, 0.34)'
+                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
               },
               closeBoxURL: '',
               infoBoxClearance: new google.maps.Size(1, 1),
@@ -181,12 +181,12 @@ class JobMarker extends React.Component {
                       }}
                     >
                       <span style={{ marginLeft: 4 }}>
-                        <i className="fas fa-dollar-sign" /> Bid
+                        <i className="fas fa-dollar-sign" /> Offer
                       </span>
                     </a>
                   )}
                   {isLoggedIn && marker._ownerRef._id === currentUserId && (
-                    <a className="button is-static disabled is-fullwidth">My Job</a>
+                    <a className="button is-static disabled is-fullwidth">My Request</a>
                   )}
                 </div>
               </footer>

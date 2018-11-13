@@ -80,7 +80,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Create a Job
+            Request a Service
           </a>
         </div>
       </div>
@@ -121,7 +121,7 @@ class MyPostedJobSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{title || 'Job Title'}</p>
+          <p className="card-header-title">{title || 'Service Title'}</p>
 
           {/* xxxx delete button */}
           {deleteJob && (
@@ -198,7 +198,7 @@ class MyPostedJobSummaryCard extends React.Component {
                 }}
               >
                 <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Review Bids
+                  <i className="fa fa-hand-paper" /> Review Offers
                 </span>
               </a>
             )}

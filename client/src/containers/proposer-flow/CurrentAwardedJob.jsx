@@ -57,7 +57,7 @@ class CurrentAwardedJob extends React.Component {
             </li>
             <li className="is-active">
               <a aria-current="page">
-                {selectedAwardedJob ? selectedAwardedJob.title : 'Selected Job'}
+                {selectedAwardedJob ? selectedAwardedJob.title : 'Selected Service'}
               </a>
             </li>
           </ul>

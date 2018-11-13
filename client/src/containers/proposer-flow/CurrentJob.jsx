@@ -52,12 +52,12 @@ class CurrentJob extends React.Component {
                   switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                 }}
               >
-                My Jobs
+                My Requests
               </a>
             </li>
             <li className="is-active">
               <a aria-current="page">
-                {selectedActivePostedJob ? selectedActivePostedJob.title : 'Selected Job'}
+                {selectedActivePostedJob ? selectedActivePostedJob.title : 'Selected Service'}
               </a>
             </li>
           </ul>

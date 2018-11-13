@@ -34,7 +34,7 @@ export default class OpenBidDetailsCard extends React.Component {
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Job Owner</p>
+                  <p className="heading">Requester</p>
                   <figure style={{ margin: '0 auto' }} className="image is-32x32">
                     <img alt="profile" src={profileImage.url} className="image is-32x32" />
                   </figure>
@@ -42,19 +42,19 @@ export default class OpenBidDetailsCard extends React.Component {
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Owner Name</p>
+                  <p className="heading">Requester Name</p>
                   <p className="subtitle">{displayName}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Job Type</p>
+                  <p className="heading">Service Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Bid Amount</p>
+                  <p className="heading">Offer Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default class OpenBidDetailsCard extends React.Component {
             }}
             className="card-footer-item"
           >
-            Bid Details
+            Offer Details
           </a>
           <div className="card-footer-item">
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format(

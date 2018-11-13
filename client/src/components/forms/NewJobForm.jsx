@@ -137,7 +137,7 @@ class NewJobForm extends React.Component {
           type="text"
           forceSetAddressValue={this.state.forceSetAddressValue}
           helpText={'You must select an address from the drop down menu'}
-          label="Job Address"
+          label="Service Address"
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
@@ -182,7 +182,7 @@ class NewJobForm extends React.Component {
           id="DateInputField"
           type="text"
           helpText="click to change date"
-          label="Job Start Date"
+          label="Service Start Date"
           placeholder="specify starting date"
           onChangeEvent={(e) => {
             if (e && e instanceof moment) {
@@ -234,7 +234,7 @@ class NewJobForm extends React.Component {
           id="durationOfJobField"
           type="text"
           helpText="for example : 1 hour , 1 week ...etc"
-          label="Job Duration"
+          label="Service Duration"
           error={touched.durationOfJobField && errors.durationOfJobField}
           value={values.durationOfJobField}
           onChange={handleChange}

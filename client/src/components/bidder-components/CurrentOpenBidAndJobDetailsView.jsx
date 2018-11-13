@@ -145,7 +145,7 @@ class PostedJobsDetails extends React.Component {
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
               className="card-header"
             >
-              <p className="card-header-title">Job Details: {title || 'Job Title'}</p>
+              <p className="card-header-title">Service Details: {title || 'Service Title'}</p>
             </header>
             <div className="card-image is-clipped">
               <figure className="image is-3by1">
@@ -173,7 +173,7 @@ class PostedJobsDetails extends React.Component {
 
               <div className="content">
                 <p className="heading">
-                  <span>Job Type</span>
+                  <span>Service Type</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {templatesRepo[fromTemplateId].title || 'not specified'}
