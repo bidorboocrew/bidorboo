@@ -60,11 +60,10 @@ class BidOrBooGenericTasks extends React.Component {
                 <div className="HorizontalAligner-center">
                   <a
                     style={{
-                      fontSize: '1.8rem',
+                      fontSize: '1.5rem',
                       border: 'none',
-                      marginTop: '-55px',
+                      marginTop: '-51px',
                       color: 'white',
-                      borderRadius: '100%',
                       backgroundColor: bgcolor,
                     }}
                     className="button is-large bdb-AddJobButton"

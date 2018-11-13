@@ -108,52 +108,18 @@ class BidderRoot extends React.Component {
           </div>
         )}
         <div className="slide-in-left" id="bdb-bidder-root">
-          <section className="hero is-small">
+          {/* <section className="hero is-small">
             <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
                 <h1 style={{ color: 'white' }} className="title">
-                  Bid Now
+                  Offer A Service
                 </h1>
                 <h2 style={{ color: 'white' }} className="subtitle">
                   Start Earning money by doing things you are good at.
                 </h2>
               </div>
             </div>
-          </section>
-          <section className="mainSectionContainer">
-            <div className="container">
-              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
-                <a style={{ marginRight: 8 }} onClick={this.toggleFilterDialog} className="button">
-                  Filter Jobs
-                </a>
-              )}
-
-              {/* {isLoggedIn && (
-                <span>
-                  {this.state.hideMyJobs && (
-                    <a
-                      onClick={(e) => {
-                        this.toggleHideMyJobs(e, false);
-                      }}
-                      className="button is-link"
-                    >
-                      Hide My Jobs
-                    </a>
-                  )}
-                  {!this.state.hideMyJobs && (
-                    <a
-                      onClick={(e) => {
-                        this.toggleHideMyJobs(e, true);
-                      }}
-                      className="button"
-                    >
-                      Hide My Jobs
-                    </a>
-                  )}
-                </span>
-              )} */}
-            </div>
-          </section>
+          </section> */}
 
           {/* map view */}
           <section className="mainSectionContainer">
@@ -179,7 +145,15 @@ class BidderRoot extends React.Component {
               </div>
             )}
           </section>
-
+          <section className="mainSectionContainer">
+            <div className="container">
+              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
+                <a style={{ marginRight: 8 }} onClick={this.toggleFilterDialog} className="button">
+                  Filter Jobs
+                </a>
+              )}
+            </div>
+          </section>
           {/* jobs view */}
           <section className="mainSectionContainer">
             <div className="container">

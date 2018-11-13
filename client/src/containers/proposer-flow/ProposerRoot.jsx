@@ -18,18 +18,18 @@ class ProposerRoot extends React.Component {
     const { a_showLoginDialog, isLoggedIn } = this.props;
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
-        <section className="hero is-small">
+        {/* <section className="hero is-small">
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body  has-text-centered">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Post New Jobs
+                Request Service
               </h1>
               <h2 style={{ color: 'white' }} className="subtitle">
                 Get the work done for the best price possible.
               </h2>
             </div>
           </div>
-        </section>
+        </section> */}
         <section className="mainSectionContainer">
           <div className="container">
             <div

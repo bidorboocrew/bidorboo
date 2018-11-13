@@ -17,7 +17,7 @@ export default class HomePage extends React.Component {
               </h1>
               {/* </Rotate> */}
               <h2 style={{ color: 'white' }} className="subtitle fade-in">
-                Get tasks done for the price you want. Earn money doing what you love.
+                Get the services you need for the price you want. Earn money doing what you love.
               </h2>
             </div>
           </div>
@@ -48,12 +48,11 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
                         </span>
-                        <span className="has-text-white">Request a Service</span>
+                        <span className="has-text-white">Request Services</span>
                       </div>
                     </div>
-                    <div className="subtitle has-text-white	">
-                      Start with one of our templates and post your jobs. Get your chores done for a
-                      price that will please you.
+                    <div className="subtitle has-text-white">
+                      Need help ? Start by requesting a service using our platform to get your chores done for the price you desire
                     </div>
                   </a>
                 }
@@ -88,12 +87,11 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />
                         </span>
-                        <span className="has-text-white	">Offer a Service</span>
+                        <span className="has-text-white	">Offer Services</span>
                       </div>
                     </div>
                     <div className="subtitle has-text-white">
-                      Start Bidding on the jobs. Do the work you like for the price you like. Be
-                      your own boss and manage your own schedule.
+                      Are you handy and creative ? Start offering your services and earn money doing the things you like.
                     </div>
                   </a>
                 }

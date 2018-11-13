@@ -29,17 +29,18 @@ export default class BidOrBooCard extends React.Component {
       backgroundImage,
     } = this.props;
     return (
-      <div
-        style={{
-          padding: '1rem',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          background: `url(${backgroundImage})`,
-        }}
-      >
+      // <div
+      //   style={{
+      //     height:'100%'
+      //     // padding: '3rem',
+      //     // backgroundSize: 'cover',
+      //     // backgroundPosition: 'center',
+      //     // backgroundRepeat: 'no-repeat',
+      //     // background: `url(${backgroundImage})`,
+      //   }}
+      // >
         <div
-          style={{ background: 'transparent', color: 'white' }}
+          style={{ color: 'white', height:'100%'}}
           onClick={onClickHandler}
           className="card bdbGenericCard fade-in VerticalAligner"
         >
@@ -48,6 +49,8 @@ export default class BidOrBooCard extends React.Component {
               color: contentTextColor,
               background: `${contentBackgroundColor}`,
               borderRadius: 2,
+              height:'100%',
+              lineHeight:1.5
             }}
             className="card-content VerticalAligner-item"
           >
@@ -56,7 +59,7 @@ export default class BidOrBooCard extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      // </div>
     );
   }
 }

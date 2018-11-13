@@ -89,7 +89,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             >
-              Bid Now
+              Offer A Service
             </a>
           </div>
         </div>

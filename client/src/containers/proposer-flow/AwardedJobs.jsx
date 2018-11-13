@@ -19,7 +19,7 @@ class MyJobs extends React.Component {
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                My Awarded Jobs
+                My Upcoming Appointments
               </h1>
             </div>
           </div>

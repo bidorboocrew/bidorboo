@@ -52,7 +52,7 @@ class CurrentAwardedJob extends React.Component {
                   switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
                 }}
               >
-                Awarded Jobs
+                Upcoming Appointments
               </a>
             </li>
             <li className="is-active">
