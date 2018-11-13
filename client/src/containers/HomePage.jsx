@@ -91,7 +91,7 @@ export default class HomePage extends React.Component {
                         <span className="has-text-white	">Offer a Service</span>
                       </div>
                     </div>
-                    <div className="subtitle has-text-white	">
+                    <div className="subtitle has-text-white">
                       Start Bidding on the jobs. Do the work you like for the price you like. Be
                       your own boss and manage your own schedule.
                     </div>
