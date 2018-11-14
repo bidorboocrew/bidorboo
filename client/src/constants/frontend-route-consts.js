@@ -46,7 +46,7 @@ export const API = {
     },
     PUT: {
       markBidAsSeen: '/api/bids/markBidAsSeen',
-    }
+    },
   },
 };
 
@@ -67,6 +67,7 @@ export const CLIENT = {
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
     activeBidsPage: '/bidder/active-bids',
+    reviewJobPage: '/review-page',
   },
   MY_PROFILE: '/my-profile',
 };

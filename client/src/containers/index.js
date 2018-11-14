@@ -9,8 +9,9 @@ export { default as PostedJobs } from './proposer-flow/PostedJobs';
 export { default as AwardedJobs } from './proposer-flow/AwardedJobs';
 export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
 
-
 export { default as CurrentJob } from './proposer-flow/CurrentJob';
+
+export { default as ReviewPage } from './ReviewPage';
 
 // bidder flow
 export { default as CurrentPostedBid } from './bidder-flow/CurrentPostedBid';

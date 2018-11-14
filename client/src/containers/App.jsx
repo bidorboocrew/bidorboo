@@ -26,6 +26,7 @@ import {
   ActiveAwardedBids,
   AwardedJobs,
   CurrentAwardedJob,
+  ReviewPage,
 } from './index';
 
 class App extends React.Component {
@@ -58,7 +59,6 @@ class App extends React.Component {
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
         <div id="app-flex-wrapper">
-
           <div id="header-and-content">
             <Header id="bidorboo-header" />
             <div id="main-view">
@@ -119,6 +119,7 @@ class App extends React.Component {
                   path={ROUTES.CLIENT.BIDDER.activeBidsPage}
                   component={ActiveAwardedBids}
                 />
+                <Route exact path={ROUTES.CLIENT.BIDDER.reviewJobPage} component={ReviewPage} />
                 <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.CLIENT.HOME} />

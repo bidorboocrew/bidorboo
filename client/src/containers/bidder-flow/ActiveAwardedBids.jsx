@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 class ProposerRoot extends React.Component {
@@ -29,6 +32,16 @@ class ProposerRoot extends React.Component {
         <section className="mainSectionContainer">
           <div className="container">
             <div>Awarded Bids List</div>
+          </div>
+          <div>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.reviewJobPage);
+              }}
+              className="button is-large"
+            >
+              <span>Review job</span>
+            </a>
           </div>
         </section>
       </div>
