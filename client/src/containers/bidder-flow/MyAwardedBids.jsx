@@ -32,7 +32,7 @@ class MyAwardedBids extends React.Component {
           <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Upcoming Appointments
+                Scheduled Work
               </h1>
             </div>
           </div>
@@ -72,7 +72,7 @@ const EmptyStateComponent = () => {
       <div className="card is-fullwidth">
         <div className="card-content">
           <div className="content has-text-centered">
-            <div className="is-size-5">You have no upcoming appointments. start bidding!</div>
+            <div className="is-size-5">You have no scheduled work. start bidding!</div>
             <br />
             <a
               className="button is-primary is-large"
@@ -80,7 +80,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             >
-              Offer A Service
+              Bid
             </a>
           </div>
         </div>

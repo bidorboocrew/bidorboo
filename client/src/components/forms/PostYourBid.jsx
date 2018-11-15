@@ -61,7 +61,7 @@ class PostYourBid extends React.Component {
                   className="button is-primary is-fullwidth is-large"
                 >
                   <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-                  Enter Offer
+                  Enter Bid
                 </a>
 
                 <a
@@ -94,8 +94,8 @@ class PostYourBid extends React.Component {
                       className="input is-focused shadow-drop-center"
                       type="text"
                       onBlur={handleBlur}
-                      placeholder="enter offer amount E.g 50"
-                      helpText="Offer amounts are in CAD. E.g 50"
+                      placeholder="enter Bid amount E.g 50"
+                      helpText="Bid amounts are in CAD. E.g 50"
                       error={touched.bidAmountField && errors.bidAmountField}
                       value={values.bidAmountField || ''}
                       onChange={(e) => {
@@ -112,7 +112,7 @@ class PostYourBid extends React.Component {
                       onClick={handleSubmit}
                       className="button is-primary"
                     >
-                      Submit Offer
+                      Submit Bid
                     </button>
                     <button onClick={this.closeShowBidDialog} className="button is-outline">
                       Go Back

@@ -112,7 +112,7 @@ class BidderRoot extends React.Component {
             <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
                 <h1 style={{ color: 'white' }} className="title">
-                  Offer A Service
+                  Bid
                 </h1>
                 <h2 style={{ color: 'white' }} className="subtitle">
                   Start Earning money by doing things you are good at.

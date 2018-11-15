@@ -198,7 +198,7 @@ class MyPostedJobSummaryCard extends React.Component {
                 }}
               >
                 <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Review Offers
+                  <i className="fa fa-hand-paper" /> Review Bids
                 </span>
               </a>
             )}

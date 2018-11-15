@@ -19,7 +19,7 @@ class MyJobs extends React.Component {
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Upcoming Appointments
+                Requests Queue
               </h1>
             </div>
           </div>

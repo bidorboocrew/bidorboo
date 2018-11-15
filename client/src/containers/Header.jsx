@@ -140,7 +140,7 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-child" aria-hidden="true" />
                   </span>
-                  <span>Requesting Services</span>
+                  <span>Requests</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   <a
@@ -155,7 +155,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Request Services</span>
+                    <span>Add a Request</span>
                   </a>
                   {isLoggedIn && (
                     <React.Fragment>
@@ -171,7 +171,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-list" />
                         </span>
-                        <span>Posted Requests</span>
+                        <span>My Requests</span>
                       </a>
                       <a
                         className="navbar-item"
@@ -185,7 +185,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="far fa-calendar-check" />
                         </span>
-                        <span>Upcoming Appointments</span>
+                        <span>requests queue</span>
                       </a>
                     </React.Fragment>
                   )}
@@ -204,7 +204,7 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-hand-paper" aria-hidden="true" />
                   </span>
-                  <span>Offer Services</span>
+                  <span>Bids</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   <a
@@ -219,7 +219,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="fas fa-plus-circle" />
                     </span>
-                    <span>Offer A Service</span>
+                    <span>Add a Bid</span>
                   </a>
                   {isLoggedIn && (
                     <React.Fragment>
@@ -235,7 +235,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-money-check-alt" />
                         </span>
-                        <span>Posted Offers</span>
+                        <span>My Bids</span>
                       </a>
                       <a
                         className="navbar-item"
@@ -249,7 +249,7 @@ class Header extends React.Component {
                         <span style={{ marginRight: 4 }}>
                           <i className="fas fa-handshake" />
                         </span>
-                        <span>Upcoming Appointments</span>
+                        <span>Scheduled Work</span>
                       </a>
                     </React.Fragment>
                   )}

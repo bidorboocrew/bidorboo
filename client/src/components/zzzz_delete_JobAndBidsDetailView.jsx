@@ -209,7 +209,7 @@
 //       <div onClick={onCloseHandler} className="modal-background" />
 //       <div className="modal-card">
 //         <header className="modal-card-head">
-//           <p className="modal-card-title">Review Offerer Details</p>
+//           <p className="modal-card-title">Review Bidder Details</p>
 //           <button onClick={onCloseHandler} className="delete" aria-label="close" />
 //         </header>
 //         <section className="modal-card-body has-text-centered">
@@ -219,10 +219,10 @@
 //         </section>
 //         <footer className="modal-card-foot">
 //           <button onClick={awardBidderHandler} className="button is-success">
-//             Award This Offerer <b> {bidText}</b>
+//             Award This Bidder <b> {bidText}</b>
 //           </button>
 //           <button onClick={onCloseHandler} className="button">
-//             Review Other Offerers
+//             Review Other Bidders
 //           </button>
 //         </footer>
 //       </div>

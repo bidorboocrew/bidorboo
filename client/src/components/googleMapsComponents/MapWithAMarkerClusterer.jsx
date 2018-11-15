@@ -181,7 +181,7 @@ class JobMarker extends React.Component {
                       }}
                     >
                       <span style={{ marginLeft: 4 }}>
-                        <i className="fas fa-dollar-sign" /> Offer
+                        <i className="fas fa-dollar-sign" /> Bid
                       </span>
                     </a>
                   )}

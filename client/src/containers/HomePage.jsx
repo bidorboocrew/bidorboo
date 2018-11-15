@@ -48,7 +48,7 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
                         </span>
-                        <span className="has-text-white">Request Services</span>
+                        <span className="has-text-white">Request</span>
                       </div>
                     </div>
                     <div className="subtitle has-text-white">
@@ -87,11 +87,11 @@ export default class HomePage extends React.Component {
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />
                         </span>
-                        <span className="has-text-white	">Offer Services</span>
+                        <span className="has-text-white	">Bid</span>
                       </div>
                     </div>
                     <div className="subtitle has-text-white">
-                      Are you handy and creative ? Start offering your services and earn money doing the things you like.
+                      Are you handy and creative ? Start Bidding and earn money doing the things you like.
                     </div>
                   </a>
                 }

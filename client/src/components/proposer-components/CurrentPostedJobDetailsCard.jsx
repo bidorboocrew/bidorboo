@@ -88,7 +88,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
                 </a>
               </li>
               <li className="is-active">
-                <a aria-current="page">Offerer</a>
+                <a aria-current="page">Bidder</a>
               </li>
             </ul>
           </nav>
@@ -101,7 +101,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
         <header className="card-header">
           <p className="card-header-title">
             <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              Review Offerer
+              Review Bidder
             </span>
           </p>
         </header>
@@ -112,7 +112,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       return (
         <React.Fragment>
           <div className="has-text-centered is-size-2 ">
-            Offer Amount :
+            Bid Amount :
             <span className="has-text-primary is-capitalized has-text-weight-bold ">
               {` ${this.state.bidText}`}
             </span>
@@ -123,7 +123,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
                 onClick={this.awardBidderHandler}
                 className="button is-primary is-fullwidth is-large"
               >
-                Accept Offer
+                Accept Bid
               </a>
             </div>
             <div className="card-footer-item">
@@ -223,7 +223,7 @@ class BidsTable extends React.Component {
                     }}
                     className="button is-primary is-outlined"
                   >
-                    Review Offer
+                    Review Bid
                   </a>
                 )}
               </td>
@@ -243,7 +243,7 @@ class BidsTable extends React.Component {
                   <th className="has-text-centered">profile image</th>
                   <th className="has-text-centered">Rating</th>
                   <th className="has-text-centered">$</th>
-                  <th className="has-text-centered">Offer Details</th>
+                  <th className="has-text-centered">Bid Details</th>
                 </tr>
               </thead>
               <tbody>{tableRows}</tbody>

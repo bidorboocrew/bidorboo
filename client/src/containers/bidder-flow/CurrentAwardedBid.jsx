@@ -55,7 +55,7 @@ class CurrentAwardedBid extends React.Component {
                     switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
                   }}
                 >
-                  Upcoming Appointments
+                  Scheduled Work
                 </a>
               </li>
               <li className="is-active">

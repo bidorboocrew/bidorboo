@@ -39,7 +39,7 @@ class MyBids extends React.Component {
           <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Posted Offers
+                Posted Bids
               </h1>
             </div>
           </div>
@@ -89,7 +89,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             >
-              Offer A Service
+              Bid
             </a>
           </div>
         </div>

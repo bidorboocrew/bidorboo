@@ -54,7 +54,7 @@ export default class AwardedBidDetailsCard extends React.Component {
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Offer Amount</p>
+                  <p className="heading">Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             }}
             className="card-footer-item"
           >
-            Offer Details
+            Bid Details
           </a>
           <div className="card-footer-item">
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format(

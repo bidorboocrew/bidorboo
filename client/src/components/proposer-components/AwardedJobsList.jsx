@@ -54,7 +54,7 @@ const EmptyStateComponent = () => (
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">Sorry you have no upcoming appointments.</div>
+          <div className="is-size-5">Sorry nothing is scheduled.</div>
           <br />
           <a
             className="button is-primary is-large"
