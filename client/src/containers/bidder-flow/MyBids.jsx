@@ -22,12 +22,7 @@ class MyBids extends React.Component {
     const bidsListComponent =
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
-          return (
-            <OpenBidDetailsCard
-              key={bidDetails._id}
-              bidDetails={bidDetails}
-            />
-          );
+          return <OpenBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
         <EmptyStateComponent />

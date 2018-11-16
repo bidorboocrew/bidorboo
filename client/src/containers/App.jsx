@@ -49,75 +49,65 @@ class App extends React.Component {
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
-        <div id="app-flex-wrapper">
-          <div id="header-and-content">
-            <Header id="bidorboo-header" />
-            <div id="main-view">
-              <Switch>
-                {/* redirect and force login */}
-                <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
-                {/* redirect and force login */}
-                <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-                {/* redirect and force login */}
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
-                  component={ProposerRoot}
-                />
-                {/* unprotected routes user is allowed to enter without logging in */}
-                <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
-                  component={CreateAJob}
-                />
-                {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
-                  component={CurrentJob}
-                />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.PROPOSER.awardedJobsPage}
-                  component={AwardedJobs}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
-                  component={CurrentAwardedJob}
-                />
+        <Header id="bidorboo-header" />
+        <Switch>
+          {/* redirect and force login */}
+          <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
+          {/* redirect and force login */}
+          <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
+          {/* redirect and force login */}
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
+            component={ProposerRoot}
+          />
+          {/* unprotected routes user is allowed to enter without logging in */}
+          <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
+            component={CreateAJob}
+          />
+          {/* protected routes , user will be redirected to corresponding root route and asked to login */}
+          <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
+            component={CurrentJob}
+          />
+          <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
+            component={CurrentAwardedJob}
+          />
 
-                {/* redirect and force login */}
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
-                  component={BidderRoot}
-                />
-                {/* unprotected routes user is allowed to enter without logging in */}
-                <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
-                <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
-                {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-                <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.BIDDER.currentPostedBid}/:bidId`}
-                  component={CurrentPostedBid}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
-                  component={CurrentAwardedBid}
-                />
-                <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} />
-                <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
-                {/* redirect any unknown route to the home component */}
-                <Redirect path="*" to={ROUTES.CLIENT.HOME} />
-              </Switch>
-            </div>
-          </div>
-        </div>
+          {/* redirect and force login */}
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
+            component={BidderRoot}
+          />
+          {/* unprotected routes user is allowed to enter without logging in */}
+          <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
+          {/* protected routes , user will be redirected to corresponding root route and asked to login */}
+          <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.BIDDER.currentPostedBid}/:bidId`}
+            component={CurrentPostedBid}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
+            component={CurrentAwardedBid}
+          />
+          <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} />
+          <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
+          {/* redirect any unknown route to the home component */}
+          <Redirect path="*" to={ROUTES.CLIENT.HOME} />
+        </Switch>
       </div>
     );
   }

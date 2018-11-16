@@ -29,13 +29,6 @@ body {
   left: 50%;
 }
 
-.card {
-  &.space {
-    border: $border-divider;
-    box-shadow: $shadow-smooth;
-  }
-}
-
 .bdb-spinner {
   margin: auto;
   border: 5px solid #f3f3f3;
@@ -129,12 +122,12 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 //     border-bottom: $border-divider;
 //   }
 // }
-#header-and-content {
-  background-color: white;
-}
+// #header-and-content {
+//   background-color: white;
+// }
 .BidDetailsCard {
   box-shadow: $shadow-space;
-  background: white;
+  // background: white;
   border: $border-divider;
   padding: 10px;
 }
@@ -143,7 +136,9 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   margin-right: 5px;
   float: left;
 }
-
+#bdb-home-content {
+  background: #eeeeee !important;
+}
 .postedJobToBidOnCard {
   cursor: pointer;
   box-shadow: $shadow-space !important;
@@ -176,29 +171,38 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 // }
 //----------------------------bulma customizations
 
+$family-sans-serif: 'Roboto', sans-serif;
 $family-primary: 'Roboto', sans-serif;
-$body-background-color: white; //#3b549c;
+$body-background-color: #eeeeee; //#3b549c;
 $navbar-background-color: white;
-$footer-background-color: #363636;
 // $body-background-color: white;
 $section-padding: 3rem 0.5rem;
 $navbar-height: 3.25rem;
-$box-radius: 2px;
+$box-radius: 0;
 .navbar-dropdown .navbar-item {
   font-size: 16px;
 }
-.navbar-item {
-  font-size: 1.25rem;
-}
+
 @import 'bulma/bulma.sass';
 
 /* map infoBox style */
 .card {
+  height: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.bdb-infoBoxCard {
     border: 1px solid #00d1b2;
     box-shadow: $shadow-space;
     background: white;
     pointer-events: all;
+  }
+  &.space {
+    border: $border-divider;
+    box-shadow: $shadow-smooth;
+  }
+  &.homecard {
+    &:hover {
+      box-shadow: $shadow-space;
+    }
   }
 }
 /* */
@@ -239,10 +243,6 @@ $box-radius: 2px;
     -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
-}
-
-.bdbGenericCard {
-  box-shadow: none;
 }
 
 .bdb-ActionSheet {
