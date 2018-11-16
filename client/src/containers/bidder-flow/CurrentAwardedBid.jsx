@@ -65,7 +65,7 @@ class CurrentAwardedBid extends React.Component {
           </nav>
         </div>
 
-        <section className="mainSectionContainer slide-in-left">
+        <section className="bdbPage slide-in-left">
           <CurrentOpenBidAndJobDetailsView
             currentUser={currentUserDetails}
             bid={selectedOpenBid}

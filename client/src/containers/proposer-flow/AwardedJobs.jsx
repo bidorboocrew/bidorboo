@@ -14,18 +14,18 @@ class MyJobs extends React.Component {
   render() {
     const { myAwardedJobsList, userDetails } = this.props;
     return (
-      <div className="slide-in-left" id="bdb-proposer-root">
+      <div className="slide-in-left bdbPage">
         <section className="hero is-small">
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
-            <div className="container">
+            <div className="container is-fluid">
               <h1 style={{ color: 'white' }} className="title">
                 Requests Queue
               </h1>
             </div>
           </div>
         </section>
-        <section className="mainSectionContainer">
-          <div className="container">
+        <section className="section">
+          <div className="container is-fluid">
             <div
               // style={{ alignItems: 'flex-end' }}
               className="columns is-multiline"

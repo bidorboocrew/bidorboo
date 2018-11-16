@@ -32,7 +32,7 @@ export default class OtherUserDetails extends React.Component {
         {/* if user passes breadcrumb use it */}
         {breadCrumb}
 
-        <section className="mainSectionContainer">
+        <section className="bdbPage">
           <OtherUserProfileCard {...this.props} />
         </section>
       </div>

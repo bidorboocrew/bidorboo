@@ -9,7 +9,7 @@ import requestImg from '../assets/images/jobs.png';
 export default class HomePage extends React.Component {
   render() {
     return (
-      <div id="bdb-home-content">
+      <div id="bdb-home-content" className="bdbPage">
         <section className="hero has-text-centered fade-in">
           <div style={{ color: 'rgb(85,85,85' }} className="hero-body">
             <div className="container">

@@ -35,7 +35,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-third"
+        className="column is-one-quarter"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);

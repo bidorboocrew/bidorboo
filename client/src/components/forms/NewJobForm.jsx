@@ -54,7 +54,7 @@ class NewJobForm extends React.Component {
       'autoSetGeoLocation',
       'successfullGeoCoding',
       'clearForceSetAddressValue',
-      'handleFlexibleTimeChecked'
+      'handleFlexibleTimeChecked',
     );
   }
   handleFlexibleTimeChecked() {
@@ -251,37 +251,32 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {actionsSheetRoot &&
-          ReactDOM.createPortal(
-            <div className="field">
-              <ActionSheet>
-                <button
-                  style={{ borderRadius: 0 }}
-                  type="button"
-                  className="button is-outlined is-fullwidth is-large"
-                  disabled={isSubmitting}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onCancel(e);
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  style={{ borderRadius: 0, marginLeft: '2.25rem' }}
-                  className="button is-primary is-fullwidth is-large"
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
-                  onClick={() => {
-                    handleSubmit(values, { ...this.props });
-                  }}
-                >
-                  Submit
-                </button>
-              </ActionSheet>
-            </div>,
-            actionsSheetRoot
-          )}
+
+        <div className="field">
+          <button
+            style={{ borderRadius: 0 }}
+            type="button"
+            className="button is-outlined is-large"
+            disabled={isSubmitting}
+            onClick={(e) => {
+              e.preventDefault();
+              onCancel(e);
+            }}
+          >
+            Go Back
+          </button>
+          <button
+            style={{ borderRadius: 0, marginLeft: '1rem' }}
+            className="button is-primary is-large"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+            onClick={() => {
+              handleSubmit(values, { ...this.props });
+            }}
+          >
+            Post The Request
+          </button>
+        </div>
       </form>
     );
   }
@@ -323,7 +318,7 @@ class NewJobForm extends React.Component {
             {
               location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
-            this.successfullGeoCoding
+            this.successfullGeoCoding,
           );
         }
       };
@@ -332,7 +327,7 @@ class NewJobForm extends React.Component {
       navigator.geolocation.getCurrentPosition(
         successfulRetrieval,
         errorHandling,
-        getCurrentPositionOptions
+        getCurrentPositionOptions,
       );
     } else {
       // Browser doesn't support Geolocation

@@ -50,7 +50,7 @@
 
 //     return dontShowRoute ? null : (
 //       <React.Fragment>
-//         <section className="mainSectionContainer">
+//         <section className="bdbPage">
 //           {this.state.showReviewBidModal &&
 //             ReactDOM.createPortal(
 //               <ReviewBidModal

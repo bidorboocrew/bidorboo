@@ -39,7 +39,7 @@ class MyBids extends React.Component {
             </div>
           </div>
         </section>
-        <section className="mainSectionContainer">
+        <section className="bdbPage">
           {isLoading && (
             <div className="container">
               <Spinner isLoading={isLoading} size={'large'} />

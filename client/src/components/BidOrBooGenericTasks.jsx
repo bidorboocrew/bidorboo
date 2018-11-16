@@ -23,9 +23,8 @@ class BidOrBooGenericTasks extends React.Component {
         alpha: 0.9,
       })}`;
       return (
-        <div key={id} className="column fade-in is-one-third">
+        <div key={id} className="column is-one-third">
           <div
-            style={{ height: '100%' }}
             onClick={(e) => {
               e.preventDefault();
               if (!isLoggedIn) {
@@ -34,24 +33,21 @@ class BidOrBooGenericTasks extends React.Component {
                 switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
               }
             }}
-            className="card bdb-genericJobCard"
+            className="card"
           >
-            <header style={{ borderBottom: '1px solid #eee' }}>
+            <header>
               <p
                 style={{
-                  border: 'none',
-                  padding: 28,
                   backgroundColor: bgcolor,
-                  borderRadius: 0,
-                  color: 'white',
+                  border: 'none',
                 }}
-                className="button is-fullwidth has-text-centered is-capitalized has-text-weight-bold is-size-4"
+                className="button is-size-4 is-fullwidth has-text-white has-text-centered is-capitalized"
               >
                 {title}
               </p>
             </header>
-            <div className="card-image is-clipped">
-              <figure className="image is-3by1">
+            <div className="card-image">
+              <figure className="image is-2by2">
                 <img src={imageUrl} alt={subtitle} />
               </figure>
             </div>
@@ -60,20 +56,20 @@ class BidOrBooGenericTasks extends React.Component {
                 <div className="HorizontalAligner-center">
                   <a
                     style={{
-                      fontSize: '1.5rem',
-                      border: 'none',
                       marginTop: '-51px',
                       color: 'white',
+                      borderRadius: '50%',
+                      borderColor: 'transparent',
                       backgroundColor: bgcolor,
                     }}
-                    className="button is-large bdb-AddJobButton"
+                    className="button is-size-4 is-large bdb-AddJobButton"
                   >
                     <span>+</span>
                   </a>
                 </div>
               </h1>
               <div className="content">
-                <div className="descriptoin-section">{description}</div>
+                <div className="has-text-grey is-size-6">{description}</div>
               </div>
             </div>
           </div>

@@ -107,7 +107,7 @@ class BidderRoot extends React.Component {
             />
           </div>
         )}
-        <div className="slide-in-left" id="bdb-bidder-root">
+        <div className="slide-in-left bdbPage" id="bdb-bidder-root">
           {/* <section className="hero is-small">
             <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
@@ -120,16 +120,11 @@ class BidderRoot extends React.Component {
               </div>
             </div>
           </section> */}
-
           {/* map view */}
-          <section className="mainSectionContainer">
-            {isLoading && (
-              <div className="container">
-                <Spinner isLoading={isLoading} size={'large'} />
-              </div>
-            )}
-            {!isLoading && (
-              <div className="container">
+          <section className="section">
+            <div className="container is-fluid">
+              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+              {!isLoading && (
                 <BidderMapSection
                   selectJobToBidOn={a_selectJobToBidOn}
                   mapCenterPoint={mapCenterPoint}
@@ -142,21 +137,16 @@ class BidderRoot extends React.Component {
                       : this.state.displayedJobList
                   }
                 />
-              </div>
-            )}
-          </section>
-          <section className="mainSectionContainer">
-            <div className="container">
-              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
-                <a style={{ marginRight: 8 }} onClick={this.toggleFilterDialog} className="button">
-                  Filter Jobs
-                </a>
               )}
             </div>
           </section>
-          {/* jobs view */}
-          <section className="mainSectionContainer">
-            <div className="container">
+          <React.Fragment>
+            <div className="container is-fluid">
+              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
+                <a style={{ marginBottom: '1rem' }} onClick={this.toggleFilterDialog} className="button">
+                  Filter Jobs
+                </a>
+              )}
               <div className="columns is-multiline">
                 <JobsToBidOnListView
                   isLoggedIn={isLoggedIn}
@@ -171,7 +161,7 @@ class BidderRoot extends React.Component {
                 />
               </div>
             </div>
-          </section>
+          </React.Fragment>{' '}
         </div>
       </React.Fragment>
     );
@@ -200,5 +190,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(BidderRoot);

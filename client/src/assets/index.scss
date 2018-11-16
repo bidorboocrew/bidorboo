@@ -68,11 +68,7 @@ body {
   }
 }
 
-//----------------------------app styles customizations
-.mainSectionContainer {
-  background-color: white;
-  padding: 10px 4px;
-}
+
 
 .nav-bottom-border {
   border-bottom: $border-divider !important;
@@ -187,6 +183,9 @@ $box-radius: 0;
 
 /* map infoBox style */
 .card {
+  &:hover {
+    box-shadow: $shadow-space;
+  }
   height: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.bdb-infoBoxCard {
@@ -198,11 +197,6 @@ $box-radius: 0;
   &.space {
     border: $border-divider;
     box-shadow: $shadow-smooth;
-  }
-  &.homecard {
-    &:hover {
-      box-shadow: $shadow-space;
-    }
   }
 }
 /* */
@@ -233,17 +227,19 @@ $box-radius: 0;
 
 .bdb-AddJobButton {
   &:hover {
-    -webkit-animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    span {
+      -webkit-animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      animation: rotate-90-cw 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
   }
 }
 
-.bdb-genericJobCard {
-  &:hover {
-    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-}
+// .bdb-genericJobCard {
+//   &:hover {
+//     -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+//     animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+//   }
+// }
 
 .bdb-ActionSheet {
   padding: 0.5rem;
@@ -272,9 +268,13 @@ span.icon {
 }
 
 img {
-  height: auto !important;
+  height: auto;
 }
 
 .button {
-  border-radius: 0 !important;
+  border-radius: 0;
+}
+
+.bdbPage{
+  background: #EEEEEE;
 }

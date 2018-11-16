@@ -66,7 +66,7 @@ class MyProfile extends React.Component {
               </div>
             </div>
           </section>
-          <section className="mainSectionContainer">
+          <section className="bdbPage">
             <div className="container" id="bdb-profile-content">
               <div className="columns">
                 {userImageAndStats(

@@ -66,7 +66,7 @@ class CurrentJob extends React.Component {
     );
 
     return (
-      <section className="mainSectionContainer slide-in-left">
+      <section className="bdbPage slide-in-left">
         {selectedActivePostedJob && selectedActivePostedJob._id ? (
           <CurrentPostedJobDetailsCard
             breadCrumb={breadCrumb}

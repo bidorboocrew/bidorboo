@@ -66,7 +66,7 @@ class BidNow extends React.Component {
             </ul>
           </nav>
         </div>
-        <section className="mainSectionContainer">
+        <section className="bdbPage">
           <div className="container">
             <div className="columns is-centered">
               <div className="column is-6">
