@@ -6301,6 +6301,13 @@ react-stars@^2.2.5:
   resolved "https://registry.yarnpkg.com/react-stars/-/react-stars-2.2.5.tgz#911852018e1574a0f9a2c1dfa4f0bc9af071b921"
   integrity sha1-kRhSAY4VdKD5osHfpPC8mvBxuSE=
 
+react-stripe-elements@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-2.0.1.tgz#197db4762c57bf73a07d852564ebdbac52954094"
+  integrity sha512-P70Yd55FZGgOChvgSyegPOisfc/5kWVucYvb9je9RhTMm44fY5Q0yQz9yL0kLcYfCPkJWVmXl6Ex7FiMEuAdtg==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-timeout@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-timeout/-/react-timeout-1.1.2.tgz#df6da252abf16d5542abdf12e14999930c7cde9f"

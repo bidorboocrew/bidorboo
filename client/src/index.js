@@ -15,6 +15,7 @@ import createPlugin from 'bugsnag-react';
 
 //redux
 import { Provider } from 'react-redux';
+import { StripeProvider } from 'react-stripe-elements';
 
 import App from './containers/App';
 
@@ -41,18 +42,20 @@ if (process.env.NODE_ENV === 'production') {
         </Router>
       </Provider>
     </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app')
+    document.getElementById('BidOrBoo-app'),
   );
 } else {
   ReactDOM.render(
-    <Provider store={store}>
-      <Router history={appHistory}>
-        <ScrollToTopOnRouteChange>
-          <App />
-        </ScrollToTopOnRouteChange>
-      </Router>
-    </Provider>,
-    document.getElementById('BidOrBoo-app')
+    // <StripeProvider apiKey="pk_test_PMfMPvRIAobaK1YXvpth2mEj">
+      <Provider store={store}>
+        <Router history={appHistory}>
+          <ScrollToTopOnRouteChange>
+            <App />
+          </ScrollToTopOnRouteChange>
+        </Router>
+      </Provider>,
+    // </StripeProvider>,
+    document.getElementById('BidOrBoo-app'),
   );
 }
 // unregister();

@@ -22,9 +22,10 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
+        <section className="section">
         <div className="container is-fluid">
-          <div className="columns">
-            <div className="column">
+          <div className="columns  is-centered">
+            <div className="column is-4">
               <BidOrBooCard
                 logoImg={requestImg}
                 onClickHandler={() => {
@@ -52,7 +53,7 @@ export default class HomePage extends React.Component {
                 }
               />
             </div>
-            <div className="column">
+            <div className="column is-4">
               <BidOrBooCard
                 logoImg={bidsImg}
                 onClickHandler={() => {
@@ -89,7 +90,9 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </div>
+        </section>
       </div>
+      
     );
   }
 }
