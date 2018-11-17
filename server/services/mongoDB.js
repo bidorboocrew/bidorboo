@@ -8,6 +8,8 @@ module.exports = (process) => {
   require('../models/userModel');
   require('../models/reviewModel');
   require('../models/jobModel');
+  require('../models/paymentModel');
+
 
   mongoose.Promise = global.Promise;
   if (process.env.NODE_ENV !== 'production') {

@@ -112,10 +112,10 @@ class PostYourBid extends React.Component {
                       onClick={handleSubmit}
                       className="button is-primary"
                     >
-                      Submit Bid
+                      Submit
                     </button>
                     <button onClick={this.closeShowBidDialog} className="button is-outline">
-                      Go Back
+                      Cancel
                     </button>
                   </footer>
                 </div>

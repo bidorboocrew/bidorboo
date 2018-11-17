@@ -6,11 +6,11 @@ const keys = require('../config/keys');
 
 module.exports = app => {
 
-  app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   //https://github.com/expressjs/cookie-session
-  const expiryDate = 24 * 60 * 60 * 1000; //10 days
+  const expiryDate = 10 * 24 * 60 * 60 * 1000; //10 days
   app.use(
     cookieSession({
       maxAge: expiryDate, // 24 hours

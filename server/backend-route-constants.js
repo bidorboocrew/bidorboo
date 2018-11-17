@@ -9,6 +9,14 @@ module.exports = {
       REGISTER_NEW_USER: '/api/auth/register',
       LOGOUT: '/api/auth/logout',
     },
+    PAYMENT: {
+      POST: {
+        payment: '/api/payment',
+      },
+      GET: {
+        payment: '/api/payment',
+      },
+    },
     USER: {
       GET: {
         currentUser: '/api/user/currentUser',

@@ -17,6 +17,14 @@ export const API = {
       profilePicture: '/api/user/updateProfileImage',
     },
   },
+  PAYMENT: {
+    POST: {
+      payment: '/api/payment',
+    },
+    GET: {
+      payment: '/api/payment',
+    },
+  },
   JOB: {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',

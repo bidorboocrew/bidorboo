@@ -263,7 +263,7 @@ class NewJobForm extends React.Component {
               onCancel(e);
             }}
           >
-            Go Back
+            Cancel
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
@@ -274,7 +274,7 @@ class NewJobForm extends React.Component {
               handleSubmit(values, { ...this.props });
             }}
           >
-            Post The Request
+            Submit
           </button>
         </div>
       </form>

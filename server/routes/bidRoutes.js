@@ -93,7 +93,7 @@ module.exports = (app) => {
 
       if (bidId) {
         const newBid = await bidDataAccess.markBidAsSeen(bidId);
-        return res.send({ bidId, success: '1' });
+        return res.send({ bidId, success: true });
       } else {
         return res.status(400).send({
           errorMsg: 'Bad Request param bidId was Not Specified',
