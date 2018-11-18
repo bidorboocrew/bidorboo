@@ -22,75 +22,73 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section">
-          <div className="container is-fluid">
-            <div className="columns  is-centered">
-              <div className="column is-4">
-                <BidOrBooCard
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={() => {
-                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                      }}
-                    >
-                      <div className="title">
-                        <div className="button is-large is-fullwidth is-outlined">
-                          <span className="icon">
-                            <i className="fa fa-plus fa-w-14" />
-                          </span>
-                          <span className="is-capitalized">Request</span>
-                        </div>
+        <div className="container is-fluid">
+          <div className="columns  is-centered">
+            <div className="column is-5">
+              <BidOrBooCard
+                logoImg={requestImg}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                }}
+                cardContent={
+                  <a
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    }}
+                  >
+                    <div className="title">
+                      <div className="button is-large is-fullwidth is-outlined">
+                        <span className="icon">
+                          <i className="fa fa-plus fa-w-14" />
+                        </span>
+                        <span className="is-capitalized">Request</span>
                       </div>
-                      <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
-                        Need help ? Start by requesting a service using our platform to get your
-                        chores done for the price you desire
+                    </div>
+                    <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
+                      Need help ? Start by requesting a service using our platform to get your
+                      chores done for the price you desire
+                    </div>
+                  </a>
+                }
+              />
+            </div>
+            <div className="column is-5">
+              <BidOrBooCard
+                logoImg={bidsImg}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+                cardContent={
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    }}
+                  >
+                    <div className="title">
+                      <div
+                        onClick={(e) => {
+                          e.preventDefault();
+                          switchRoute(ROUTES.CLIENT.BIDDER.root);
+                        }}
+                        className="button is-large is-fullwidth is-outlined"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-dollar-sign" />
+                        </span>
+                        <span className="is-capitalized">Bid</span>
                       </div>
-                    </a>
-                  }
-                />
-              </div>
-              <div className="column is-4">
-                <BidOrBooCard
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
-                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                      }}
-                    >
-                      <div className="title">
-                        <div
-                          onClick={(e) => {
-                            e.preventDefault();
-                            switchRoute(ROUTES.CLIENT.BIDDER.root);
-                          }}
-                          className="button is-large is-fullwidth is-outlined"
-                        >
-                          <span className="icon">
-                            <i className="fas fa-dollar-sign" />
-                          </span>
-                          <span className="is-capitalized">Bid</span>
-                        </div>
-                      </div>
-                      <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
-                        Are you handy and creative ? Start Bidding and earn money doing the things
-                        you like for the price you want.
-                      </div>
-                    </a>
-                  }
-                />
-              </div>
+                    </div>
+                    <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
+                      Are you handy and creative ? Start Bidding and earn money doing the things you
+                      like for the price you want.
+                    </div>
+                  </a>
+                }
+              />
             </div>
           </div>
-        </section>
+        </div>
       </div>
     );
   }

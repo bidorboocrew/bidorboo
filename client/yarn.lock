@@ -1349,7 +1349,14 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bulma@^0.7.2:
+bulma-o-steps@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz#0a1309d58a72164f2f6eb94efd5a4722b6e4c13a"
+  integrity sha512-T5qywE4MPCt6t0YTaZg2LEnzw0QoeYuob+dTB5WmYY8FtSOyEbNZnQ2kkrqzRwtAocvvzUTb+erAAc47QnkWoQ==
+  dependencies:
+    bulma "^0.7.1"
+
+bulma@^0.7.1, bulma@^0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.2.tgz#8e944377b74c7926558830d38d8e19eaf49f5fb6"
 

@@ -176,13 +176,15 @@ $box-radius: 0;
 .navbar-dropdown .navbar-item {
   font-size: 16px;
 }
+// @import 'bulma-o-steps/bulma-steps.sass';
 
 @import 'bulma/bulma.sass';
-
 /* map infoBox style */
 .card {
   &:hover {
-    box-shadow: $shadow-space;
+    -webkit-animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    // box-shadow: $shadow-space;
   }
   height: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
