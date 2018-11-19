@@ -8,6 +8,11 @@ export const API = {
     REGISTER_NEW_USER: '/api/auth/register',
     LOGOUT: '/api/auth/logout',
   },
+  UTILS: {
+    GET: {
+      signCloudinaryRequest: '/api/user/paramstosign'
+    }
+  },
   USER: {
     GET: {
       currentUser: '/api/user/currentUser',
