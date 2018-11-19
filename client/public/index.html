@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <!-- needed this to override the stupid library default to scroll bumla -->
-<html
-  style="overflow-y: auto !important"
-  class="has-navbar-fixed-top"
-  lang="en"
->
+<html style="overflow-y: auto !important" class="has-navbar-fixed-top" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/logo.svg" />
@@ -29,9 +25,11 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+
     <title>BidOrBoo</title>
   </head>
 
@@ -64,5 +62,6 @@
       async
       defer
     ></script>
+
   </body>
 </html>

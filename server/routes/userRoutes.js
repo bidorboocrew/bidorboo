@@ -60,7 +60,22 @@ module.exports = (app) => {
         }
       };
 
-      await utils.uploadFileToCloudinary(filesList[0].path, callbackFunc);
+      await utils.uploadFileToCloudinary(
+        filesList[0].path,
+        { public_id: 'Test/Private/path', folder: 'SaidTesting/test/private' },
+        callbackFunc
+      );
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: e });
+    }
+  });
+
+  app.get('/api/user/paramstosign', async (req, res) => {
+    try {
+      const params_to_sign = req.query;
+
+      const signedParams = await utils.signCloudinaryParams(params_to_sign);
+      res.send({ signature: signedParams });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: e });
     }

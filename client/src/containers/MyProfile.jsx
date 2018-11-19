@@ -7,7 +7,7 @@ import { updateProfileDetails, updateProfileImage } from '../app-state/actions/u
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
-
+import axios from 'axios';
 import ProfileForm from '../components/forms/ProfileForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 
@@ -19,6 +19,92 @@ class MyProfile extends React.Component {
       showImageUploadDialog: false,
     };
     autoBind(this, 'toggleEditProfile', 'closeFormAndSubmit', 'toggleShowUploadProfileImageDialog');
+
+    this.widget = window.cloudinary.createUploadWidget(
+      {
+        uploadSignature: (callback, paramsToSign) => {
+          debugger;
+          axios
+            .get('/api/user/paramstosign', { params: paramsToSign })
+            .then((res) => {
+              if (res && res.data) {
+                const { signature } = res.data;
+                debugger;
+                callback(signature);
+              }
+            })
+            .catch((e) => {
+              debugger;
+            });
+        },
+        cloudName: 'hr6bwgs1p',
+        uploadPreset: 'saveCropped',
+        apiKey: '199892955566316',
+        sources: ['local'],
+        maxFiles: '1',
+        multiple: 'false',
+        folder: 'Profile',
+        tag: 'profile-pic',
+        resourceType: 'image',
+        cropping: true,
+        clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
+        maxFileSize: 3000000, // 3MB
+        maxImageWidth: 800,
+        maxImageHeight: 600,
+        minImageWidth: 100,
+        minImageHeight: 100,
+        validateMaxWidthHeight: true,
+        croppingValidateDimensions: true,
+        croppingShowDimensions: true,
+        croppingShowBackButton: true,
+        croppingCoordinatesMode: 'custom',
+        // showCompletedButton: true,
+        showPoweredBy: false,
+        text: {
+          en: {
+            or: 'Or',
+            close: 'Close',
+            menu: {
+              files: 'MY Files',
+            },
+            selection_counter: {
+              selected: 'selected',
+            },
+            actions: {
+              upload: 'Upload',
+              clear_all: 'Clear all',
+              log_out: 'Log out',
+            },
+            notifications: {
+              general_error: 'An error has occurred',
+              general_prompt: 'Are you sure?',
+              limit_reached: 'No more files can be selected',
+              invalid_add_url: 'Added URL must be valid',
+              invalid_public_id: 'Public ID cannot contain \\,?,&,#,%,<,>',
+              no_new_files: 'File(s) have already been uploaded',
+            },
+            landscape_overlay: {
+              title: "Landscape mode isn't supported",
+              description: 'Rotate back to portrait mode to continue.',
+            },
+            local: {
+              main_title: 'BidOrBoo upload profile pic',
+            },
+          },
+        },
+        theme: 'white',
+        buttonClass: 'button is-primary is-large',
+        buttonCaption: 'Upload image',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          debugger;
+          this.toggleShowUploadProfileImageDialog();
+        } else {
+          debugger;
+        }
+      },
+    );
   }
 
   toggleEditProfile() {
@@ -26,7 +112,9 @@ class MyProfile extends React.Component {
   }
 
   toggleShowUploadProfileImageDialog() {
-    this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog });
+    this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog }, () => {
+      this.state.showImageUploadDialog ? this.widget.open() : this.widget.close({ quiet: true });
+    });
   }
 
   closeFormAndSubmit(vals) {
@@ -50,11 +138,11 @@ class MyProfile extends React.Component {
 
     return (
       <React.Fragment>
-        {uploadImageDialog(
+        {/* {uploadImageDialog(
           this.toggleShowUploadProfileImageDialog,
           this.state.showImageUploadDialog,
-          a_updateProfileImage
-        )}
+          a_updateProfileImage,
+        )} */}
 
         <div className="slide-in-left" id="bdb-myprofile">
           <section className="hero is-small is-dark">
@@ -74,7 +162,7 @@ class MyProfile extends React.Component {
                   profileImage,
                   displayName,
                   email,
-                  membershipStatusDisplay
+                  membershipStatusDisplay,
                 )}
                 {/* user details */}
                 {userEditableInfo(
@@ -85,7 +173,7 @@ class MyProfile extends React.Component {
                   phoneNumber,
                   personalParagraph,
                   this.toggleEditProfile,
-                  this.closeFormAndSubmit
+                  this.closeFormAndSubmit,
                 )}
                 {/* advertisement */}
                 {/* {advertisement()} */}
@@ -112,7 +200,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyProfile);
 
 // profile components ----------------------------------------------------------------------------
@@ -147,7 +235,7 @@ const userImageAndStats = (
   profileImage,
   displayName,
   email,
-  membershipStatusDisplay
+  membershipStatusDisplay,
 ) => {
   return (
     <React.Fragment>
@@ -191,7 +279,7 @@ const userEditableInfo = (
   phoneNumber = 'none provided',
   personalParagraph = 'none provided',
   toggleEditProfile,
-  closeFormAndSubmit
+  closeFormAndSubmit,
 ) => {
   return (
     <div className="column">
@@ -260,26 +348,23 @@ const userEditableInfo = (
 //   );
 // };
 
-const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
-  return (
-    <div
-      className={classNames('modal', {
-        'is-active': showImageUploadDialog,
-      })}
-    >
-      <div onClick={toggleUploadDialog} className="modal-background" />
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">Update Profile Image</p>
-          <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
-        </header>
-        <section className="modal-card-body">
-          <FileUploaderComponent
-            closeDialog={toggleUploadDialog}
-            uploadFilesAction={updateProfileImage}
-          />
-        </section>
-      </div>
-    </div>
-  );
-};
+// const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
+
+//   return showImageUploadDialog ? (
+//     <div className="modal is-active">
+//       <div onClick={toggleUploadDialog} className="modal-background" />
+//       <div className="modal-card">
+//         <header className="modal-card-head">
+//           <p className="modal-card-title">Update Profile Image</p>
+//           <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
+//         </header>
+//         <section className="modal-card-body">
+//           <FileUploaderComponent
+//             closeDialog={toggleUploadDialog}
+//             uploadFilesAction={updateProfileImage}
+//           />
+//         </section>
+//       </div>
+//     </div>
+//   ) : null;
+// };

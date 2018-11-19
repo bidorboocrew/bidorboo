@@ -47,6 +47,18 @@ class MyForm extends React.Component {
     setFieldValue('files', newFile);
   }
 
+  componentWillUnmount() {
+    const { values } = this.props;
+    debugger;
+    values.files && values.files.length > 0;
+
+    values.files && values.files.length > 0
+      ? values.files.map((file, i) => {
+        debugger
+          window.URL.revokeObjectURL(file.preview);
+        })
+      : null;
+  }
   render() {
     const {
       values,
