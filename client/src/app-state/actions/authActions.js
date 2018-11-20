@@ -81,21 +81,25 @@ const initializeProfileImgUploaderWidget = (resp) => {
                   .catch((e) => {});
               },
               cloudName,
+              publicId: `${userId}-profilepic`, // ensures user got only 1 profile pic
               uploadPreset,
               apiKey,
               sources: ['local'],
               folder: `${userId}/Profile`,
               tag: 'profile-pic',
               resourceType: 'image',
-              cropping: true,
               clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
-              maxFileSize: 3000000,
+              maxFileSize: 3000000, //3MB
               minImageWidth: 50,
               minImageHeight: 50,
+              maxImageWidth: 600,
+              maxImageHeight: 500,
               validateMaxWidthHeight: true,
+              cropping: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
+              croppingDefaultSelectionRatio: 0.75,
               showPoweredBy: false,
               multiple: false,
               theme: 'minimal',
@@ -177,10 +181,12 @@ const initializeProfileImgUploaderWidget = (resp) => {
             (error, result) => {
               if (result && result.event === 'success') {
                 onSuccessHandler(error, result);
+                window.BidOrBoo.getProfileUploaderWidget().close({ quiet: true });
               }
 
               if (result.event === 'abort') {
                 onCloseHandler();
+                window.BidOrBoo.getProfileUploaderWidget().close({ quiet: true });
               }
             },
           );
@@ -193,7 +199,12 @@ const initializeJobImgUploaderWidget = (resp) => {
   window.BidOrBoo = window.BidOrBoo ? window.BidOrBoo : {};
   window.BidOrBoo.getJobImgUploaderWidget = window.BidOrBoo.getJobImgUploaderWidget
     ? window.BidOrBoo.getJobImgUploaderWidget
-    : (onSuccessHandler = () => null, onCloseHandler = () => null, jobId = `${Math.random()}`) => {
+    : (
+        onSuccessHandler = () => null,
+        onCloseHandler = () => null,
+        jobId = `${Math.random()}`,
+        jobIndex = 0,
+      ) => {
         const userId = resp.data._id;
         const cloudName = `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}`;
         const uploadPreset = `${process.env.REACT_APP_CLOUDINARY_PRESET}`;
@@ -219,19 +230,24 @@ const initializeJobImgUploaderWidget = (resp) => {
               apiKey,
               sources: ['local'],
               multiple: false,
-              folder: `${userId}/Jobs/${jobId}`,
+              folder: `${userId}/Jobs/`,
               tag: `${userId}-Jobs`,
+              // folder: `${userId}/Jobs/${jobId}`,
+              // publicId: `${jobId}-${jobIndex}`,
               resourceType: 'image',
-              cropping: true,
               multiple: false,
               clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
-              maxFileSize: 3000000,
+              maxFileSize: 3000000, //3MB //3MB
+              maxImageWidth: 600,
+              maxImageHeight: 500,
+              validateMaxWidthHeight: true,
               minImageWidth: 100,
               minImageHeight: 100,
-              validateMaxWidthHeight: true,
+              cropping: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
+              croppingDefaultSelectionRatio: 0.75,
               showPoweredBy: false,
               theme: 'minimal',
               buttonClass: 'button is-primary is-large',
@@ -310,12 +326,13 @@ const initializeJobImgUploaderWidget = (resp) => {
               },
             },
             (error, result) => {
-              
               if (result && result.event === 'success') {
                 onSuccessHandler(error, result);
+                window.BidOrBoo.getJobImgUploaderWidget().close({ quiet: true });
               }
               if (result.event === 'abort') {
                 onCloseHandler();
+                window.BidOrBoo.getJobImgUploaderWidget().close({ quiet: true });
               }
             },
           );
