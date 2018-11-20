@@ -17,17 +17,22 @@ class ProposerRoot extends React.Component {
 
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
+    const content = <React.Fragment />;
     return (
-      <div className="bdbPage" id="bdb-proposer-root">
+      <React.Fragment>
         <ProposerStepper currentStepNumber={1} />
-        <section className="section">
-          <div className="container">
-            <div className="columns is-multiline">
-              <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
-            </div>
+
+        <div className="container is-hidden-mobile bdbPage pageWithStepper desktop">
+          <div className="columns is-multiline">
+            <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
-        </section>
-      </div>
+        </div>
+        <div className="container is-hidden-tablet bdbPage pageWithStepper mobile">
+          <div className="columns is-multiline">
+            <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

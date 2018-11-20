@@ -66,48 +66,51 @@ class CreateAJob extends React.Component {
       suggestedDetailsText: this.state.chosenTemplate.suggestedDetailsText,
     };
     const { currentStepNumber } = this.state;
+
+    const content = (
+      <div
+        style={{
+          marginBottom: '1rem',
+          marginTop: '1rem',
+          borderBottom: '1px solid #bdbdbd',
+          boxShadow: 'none',
+        }}
+        className="card noShadow"
+      >
+        <div className="card-content">
+          <h1 className="title">{jobDetails.title} Request</h1>
+          {currentStepNumber === 2 && (
+            <React.Fragment>
+              <UploadJobPictures
+                collectedDetails={this.collectedJobDetails}
+                onUpdateImages={this.collectJobImageDetails}
+              />
+              <NewJobForm
+                fromTemplateIdField={jobDetails.id}
+                jobTitleField={jobDetails.title}
+                suggestedDetailsText={jobDetails.suggestedDetailsText}
+                onGoBack={this.goBack}
+                onNext={this.collectInitialJobDetails}
+              />
+            </React.Fragment>
+          )}
+          {currentStepNumber === 3 && (
+            <ReviewAndPost
+              jobDetails={this.collectedJobDetails}
+              onCancel={this.goBack}
+              onGoBack={this.goBackToCollectingImages}
+              onSubmit={this.postJob}
+            />
+          )}
+        </div>
+      </div>
+    );
     return (
       <React.Fragment>
         <ProposerStepper currentStepNumber={currentStepNumber} />
 
-        <div className="container">
-          <div
-            style={{
-              marginBottom: '1rem',
-              marginTop: '1rem',
-              borderBottom: '1px solid #bdbdbd',
-              boxShadow: 'none',
-            }}
-            className="card noShadow"
-          >
-            <div className="card-content">
-              <h1 className="title">{jobDetails.title} Request</h1>
-              {currentStepNumber === 2 && (
-                <React.Fragment>
-                  <UploadJobPictures
-                    collectedDetails={this.collectedJobDetails}
-                    onUpdateImages={this.collectJobImageDetails}
-                  />
-                  <NewJobForm
-                    fromTemplateIdField={jobDetails.id}
-                    jobTitleField={jobDetails.title}
-                    suggestedDetailsText={jobDetails.suggestedDetailsText}
-                    onGoBack={this.goBack}
-                    onNext={this.collectInitialJobDetails}
-                  />
-                </React.Fragment>
-              )}
-              {currentStepNumber === 3 && (
-                <ReviewAndPost
-                  jobDetails={this.collectedJobDetails}
-                  onCancel={this.goBack}
-                  onGoBack={this.goBackToCollectingImages}
-                  onSubmit={this.postJob}
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        <div className="container is-hidden-mobile bdbPage pageWithStepper desktop">{content}</div>
+        <div className="container is-hidden-tablet bdbPage pageWithStepper mobile">{content}</div>
       </React.Fragment>
     );
   }

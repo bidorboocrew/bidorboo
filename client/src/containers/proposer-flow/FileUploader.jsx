@@ -62,7 +62,7 @@ export default class FileUploader extends React.Component {
           >
             <React.Fragment>
               <div
-                style={{ height: '100%', background: '#EEEEEE', border: '1px dashed grey' }}
+                style={{ height: '100%', background: 'white', border: '1px dashed grey' }}
                 className="section"
               >
                 <div className="has-text-centered">

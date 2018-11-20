@@ -4,10 +4,24 @@ export default class ProposerStepper extends React.Component {
   render() {
     const { currentStepNumber } = this.props;
     return (
-      <div style={{ marginTop: '0.5rem', background: '#eeeeee' }}>
+      <div style={{ background: '#EEEEEE' }}>
         {/* mobile view*/}
-        <div className="is-hidden-tablet ">
-          <ul className="steps is-horizontal">
+        <div
+          style={{
+            height: '2.5rem',
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            width: '100%',
+            top: '3.25rem',
+            zIndex: 12,
+            background: '#EEEEEE',
+            paddingTop: 6,
+            paddingBottom: 4,
+          }}
+          className="is-hidden-tablet"
+        >
+          <ul style={{ background: '#EEEEEE' }} className="steps is-horizontal">
             <li className={`steps-segment ${currentStepNumber === 1 ? 'is-active ' : ''}`}>
               <span className="steps-marker">
                 <span className="icon">
@@ -32,8 +46,25 @@ export default class ProposerStepper extends React.Component {
           </ul>
         </div>
         {/* desktop view*/}
-        <div className="is-hidden-mobile">
-          <ul className="steps is-horizontal has-content-centered">
+        <div
+          style={{
+            height: '3.5rem',
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            width: '100%',
+            top: '3.25rem',
+            zIndex: 12,
+            background: '#EEEEEE',
+            paddingTop: 6,
+            paddingBottom: 4,
+          }}
+          className="is-hidden-mobile"
+        >
+          <ul
+            style={{ background: '#EEEEEE' }}
+            className="steps is-horizontal has-content-centered"
+          >
             <li
               className={`steps-segment ${
                 currentStepNumber === 1 ? 'is-active has-text-weight-semibold' : ''
