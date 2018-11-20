@@ -25,13 +25,6 @@ export default class ProposerStepper extends React.Component {
             <li className={`steps-segment ${currentStepNumber === 3 ? 'is-active' : ''}`}>
               <span className="steps-marker">
                 <span className="icon">
-                  <i className="fas fa-camera" />
-                </span>
-              </span>
-            </li>
-            <li className={`steps-segment ${currentStepNumber === 4 ? 'is-active' : ''}`}>
-              <span className="steps-marker">
-                <span className="icon">
                   <i className="fa fa-check" />
                 </span>
               </span>
@@ -72,20 +65,6 @@ export default class ProposerStepper extends React.Component {
             <li
               className={`steps-segment ${
                 currentStepNumber === 3 ? 'is-active has-text-weight-semibold' : ''
-              }`}
-            >
-              <span className="steps-marker">
-                <span className="icon">
-                  <i className="fas fa-camera" />
-                </span>
-              </span>
-              <div className="steps-content">
-                <p className="is-size-5">Add Pics</p>
-              </div>
-            </li>
-            <li
-              className={`steps-segment ${
-                currentStepNumber === 4 ? 'is-active has-text-weight-semibold' : ''
               }`}
             >
               <span className="steps-marker">

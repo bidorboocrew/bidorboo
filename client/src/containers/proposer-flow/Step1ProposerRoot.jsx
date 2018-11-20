@@ -7,30 +7,18 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import ProposerStepper from './ProposerStepper';
 
 class ProposerRoot extends React.Component {
-  componentDidMount() {
-    // const { a_showLoginDialog, match } = this.props;
-    // const shouldShowLoginDialog = match.params.showLoginDialog;
-    // if (shouldShowLoginDialog === 'true') {
-    //   a_showLoginDialog(true);
-    // }
-  }
+  // componentDidMount() {
+  //   // const { a_showLoginDialog, match } = this.props;
+  //   // const shouldShowLoginDialog = match.params.showLoginDialog;
+  //   // if (shouldShowLoginDialog === 'true') {
+  //   //   a_showLoginDialog(true);
+  //   // }
+  // }
 
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
     return (
       <div className="bdbPage" id="bdb-proposer-root">
-        {/* <section className="hero is-small">
-          <div style={{ backgroundColor: '#9C89B8' }} className="hero-body  has-text-centered">
-            <div className="container">
-              <h1 style={{ color: 'white' }} className="title">
-                Request Service
-              </h1>
-              <h2 style={{ color: 'white' }} className="subtitle">
-                Get the work done for the best price possible.
-              </h2>
-            </div>
-          </div>
-        </section> */}
         <ProposerStepper currentStepNumber={1} />
         <section className="section">
           <div className="container">

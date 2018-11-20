@@ -23,6 +23,7 @@ export default class UploadJobPictures extends React.Component {
                   // what to do
                   const imageArray = [...this.state.uploadedImages, result.info];
                   this.setState({ uploadedImages: imageArray, showUploadModal: false });
+                  this.props.onUpdateImages(imageArray);
                 }
                 window.BidOrBoo.getJobImgUploaderWidget().close({ quiet: true });
               },
@@ -39,9 +40,9 @@ export default class UploadJobPictures extends React.Component {
     const { uploadedImages } = this.state;
 
     const previewContent = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 6; i++) {
       const temp = (
-        <div key={Math.random()} className="column is-one-quarter">
+        <div key={Math.random()} className="column is-one-third">
           {!uploadedImages[i] && (
             <div
               style={{ height: '100%', background: '#EEEEEE', border: '1px dashed grey' }}
@@ -61,10 +62,7 @@ export default class UploadJobPictures extends React.Component {
             </div>
           )}
           {uploadedImages[i] && (
-            <div
-              style={{ height: '100%' }}
-              className="section"
-            >
+            <div style={{ height: '100%' }} className="section">
               <figure className="image">
                 <img src={`${uploadedImages[i].secure_url}`} />
               </figure>
@@ -77,27 +75,12 @@ export default class UploadJobPictures extends React.Component {
     }
 
     return (
-      <div style={{ border: 'none', boxShadow: 'none' }} className="card noShadow">
-        <div className="card-content">
-          <div className="content">
-            <div id="imageUploaderSection" />
-
-            <div className="columns is-multiline">{previewContent}</div>
-          </div>
+      <React.Fragment>
+        <div class="field">
+          <div class="label">upload Images</div>
         </div>
-        <div className="field">
-          <button style={{ borderRadius: 0 }} type="button" className="button is-outlined is-large">
-            Back
-          </button>
-          <button
-            style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className="button is-primary is-large"
-            type="submit"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+        <div className="columns  is-multiline">{previewContent}</div>
+      </React.Fragment>
     );
   }
 }

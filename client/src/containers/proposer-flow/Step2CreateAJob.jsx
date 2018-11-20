@@ -23,9 +23,9 @@ class CreateAJob extends React.Component {
 
     this.state = {
       chosenTemplate: templateToStartWith,
-      currentStepNumber: 3,
+      currentStepNumber: 2,
     };
-    this.collectedJobDetails = {};
+    this.collectedJobDetails = { initialDetails: {}, jobImages: [] };
     autoBind(
       this,
       'goBack',
@@ -43,35 +43,19 @@ class CreateAJob extends React.Component {
     switchRoute(ROUTES.CLIENT.PROPOSER.root);
   }
   collectInitialJobDetails(values) {
+    debugger;
     this.collectedJobDetails.initialDetails = values;
     this.setState({ currentStepNumber: 3 });
   }
+
   collectJobImageDetails(imageArray) {
-    this.collectedJobDetails = { ...this.collectedJobDetails, jobImages: imageArray };
-    this.setState({ currentStepNumber: 4 });
+    this.collectedJobDetails.jobImages = imageArray;
   }
+
   // final step
   postJob() {
+    debugger;
     this.props.a_addJob(this.collectedJobDetails);
-  }
-
-  goBackToCollectingInitialJobDetails() {
-    if (this.collectedJobDetails.jobImages) {
-      // remove images associated with this job
-      this.collectedJobDetails.jobImages = {};
-    }
-    this.setState({ currentStepNumber: 2 });
-  }
-  goBackToCollectingImages() {
-    this.setState({ currentStepNumber: 3 });
-  }
-
-  goBackToImageSelection() {
-    if (this.collectedJobDetails.jobImages) {
-      // remove images associated with this job
-      this.collectedJobDetails.jobImages = [];
-    }
-    this.setState({ currentStepNumber: 3 });
   }
 
   render() {
@@ -88,29 +72,32 @@ class CreateAJob extends React.Component {
 
         <div className="container">
           <div
-            style={{ marginBottom: '1rem', marginTop: '1rem', boxShadow: 'none' }}
+            style={{
+              marginBottom: '1rem',
+              marginTop: '1rem',
+              borderBottom: '1px solid #bdbdbd',
+              boxShadow: 'none',
+            }}
             className="card noShadow"
           >
             <div className="card-content">
               <h1 className="title">{jobDetails.title} Request</h1>
               {currentStepNumber === 2 && (
-                <NewJobForm
-                  fromTemplateIdField={jobDetails.id}
-                  jobTitleField={jobDetails.title}
-                  suggestedDetailsText={jobDetails.suggestedDetailsText}
-                  onGoBack={this.goBack}
-                  onNext={this.collectInitialJobDetails}
-                />
+                <React.Fragment>
+                  <UploadJobPictures
+                    collectedDetails={this.collectedJobDetails}
+                    onUpdateImages={this.collectJobImageDetails}
+                  />
+                  <NewJobForm
+                    fromTemplateIdField={jobDetails.id}
+                    jobTitleField={jobDetails.title}
+                    suggestedDetailsText={jobDetails.suggestedDetailsText}
+                    onGoBack={this.goBack}
+                    onNext={this.collectInitialJobDetails}
+                  />
+                </React.Fragment>
               )}
               {currentStepNumber === 3 && (
-                <UploadJobPictures
-                  collectedDetails={this.collectedJobDetails}
-                  onCancel={this.goBack}
-                  onGoBack={this.goBackToCollectingInitialJobDetails}
-                  onNext={this.collectJobImageDetails}
-                />
-              )}
-              {currentStepNumber === 4 && (
                 <ReviewAndPost
                   jobDetails={this.collectedJobDetails}
                   onCancel={this.goBack}
