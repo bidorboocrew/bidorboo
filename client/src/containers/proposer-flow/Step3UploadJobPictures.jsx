@@ -45,13 +45,13 @@ export default class UploadJobPictures extends React.Component {
         <div key={Math.random()} className="column is-one-third">
           {!uploadedImages[i] && (
             <div
+              onClick={this.toggleUploadImageModal}
               style={{ height: '100%', background: '#EEEEEE', border: '1px dashed grey' }}
               className="section"
             >
               <div className="has-text-centered">
                 <a
-                  style={{ borderRadius: '100%' }}
-                  onClick={this.toggleUploadImageModal}
+                  style={{ pointerEvents: 'none', borderRadius: '100%' }}
                   className="button is-success is-meduim"
                 >
                   <span>
