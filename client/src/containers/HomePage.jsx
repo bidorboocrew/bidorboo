@@ -292,7 +292,17 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <ReviewPage job={job} bid={bid} bidder={bidder} proposer={proposer} isForProposer={true} />
+        <ReviewPage
+          job={job}
+          bid={bid}
+          bidder={bidder}
+          proposer={proposer}
+          isForProposer={false}
+          touched
+          errors
+          handleChange
+          handleBlur
+        />
       </div>
     );
   }
