@@ -25,7 +25,7 @@ export const getCurrentUser = () => (dispatch) =>
 
           window.BidOrBoo.getCloudinaryWidget = window.BidOrBoo.getCloudinaryWidget
             ? window.BidOrBoo.getCloudinaryWidget
-            : (onSuccessHandler, autoclose = true) => {
+            : (onSuccessHandler) => {
                 const userId = resp.data._id;
 
                 const cloudName = `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}`;
@@ -148,7 +148,6 @@ export const getCurrentUser = () => (dispatch) =>
                     (error, result) => {
                       if (result && result.event === 'success') {
                         onSuccessHandler(error, result);
-                      } else {
                       }
                     },
                   );

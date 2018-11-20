@@ -28,21 +28,22 @@ export const updateProfileDetails = (profileDetails) => (dispatch, getState) => 
   });
 };
 
-export const updateProfileImage = (files) => (dispatch) => {
-  const config = {
-    headers: { 'content-type': 'multipart/form-data' },
-  };
-  let data = new FormData();
-  for (var i = 0; i < files.length; i++) {
-    let file = files[i];
-    data.append('filesToUpload', file, file.name);
-  }
-
+export const updateProfileImage = (imageDetails) => (dispatch) => {
+  // const config = {
+  //   headers: { 'content-type': 'multipart/form-data' },
+  // };
+  // let data = new FormData();
+  // for (var i = 0; i < files.length; i++) {
+  //   let file = files[i];
+  //   data.append('filesToUpload', file, file.name);
+  // }
+debugger
   dispatch({
     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
     payload: axios
-      .put(ROUTES.API.USER.PUT.profilePicture, data, config)
+      .put(ROUTES.API.USER.PUT.profilePicture, { imageDetails })
       .then((resp) => {
+        debugger
         if (resp.data && resp.data.userId) {
           //update profile data
           dispatch({
@@ -56,3 +57,32 @@ export const updateProfileImage = (files) => (dispatch) => {
       }),
   });
 };
+
+// export const updateProfileImage = (files) => (dispatch) => {
+//   const config = {
+//     headers: { 'content-type': 'multipart/form-data' },
+//   };
+//   let data = new FormData();
+//   for (var i = 0; i < files.length; i++) {
+//     let file = files[i];
+//     data.append('filesToUpload', file, file.name);
+//   }
+
+//   dispatch({
+//     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
+//     payload: axios
+//       .put(ROUTES.API.USER.PUT.profilePicture, data, config)
+//       .then((resp) => {
+//         if (resp.data && resp.data.userId) {
+//           //update profile data
+//           dispatch({
+//             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
+//             payload: resp.data,
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         throwErrorNotification(dispatch, error);
+//       }),
+//   });
+// };

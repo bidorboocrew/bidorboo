@@ -28,11 +28,15 @@ class MyProfile extends React.Component {
   toggleShowUploadProfileImageDialog() {
     if (window.BidOrBoo && window.BidOrBoo.getCloudinaryWidget) {
       this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog }, () => {
-        debugger
+        debugger;
         this.state.showImageUploadDialog
           ? window.BidOrBoo.getCloudinaryWidget((err, result) => {
-              console.log(result);
-               this.toggleShowUploadProfileImageDialog();
+              debugger;
+              if (result && result.event === 'success' && result.info) {
+                this.props.a_updateProfileImage(result.info);
+              }
+
+              this.toggleShowUploadProfileImageDialog();
             }).open()
           : window.BidOrBoo.getCloudinaryWidget().close({ quiet: true });
       });
@@ -45,7 +49,7 @@ class MyProfile extends React.Component {
   }
 
   render() {
-    const { userDetails, a_updateProfileImage } = this.props;
+    const { userDetails } = this.props;
 
     const {
       profileImage,
