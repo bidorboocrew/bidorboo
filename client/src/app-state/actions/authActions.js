@@ -90,15 +90,12 @@ const initializeProfileImgUploaderWidget = (resp) => {
               cropping: true,
               clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
               maxFileSize: 3000000,
-              maxImageWidth: 800,
-              maxImageHeight: 600,
-              minImageWidth: 100,
-              minImageHeight: 100,
+              minImageWidth: 50,
+              minImageHeight: 50,
               validateMaxWidthHeight: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
-              croppingCoordinatesMode: 'custom',
               showPoweredBy: false,
               multiple: false,
               theme: 'minimal',
@@ -197,7 +194,6 @@ const initializeJobImgUploaderWidget = (resp) => {
   window.BidOrBoo.getJobImgUploaderWidget = window.BidOrBoo.getJobImgUploaderWidget
     ? window.BidOrBoo.getJobImgUploaderWidget
     : (onSuccessHandler = () => null, onCloseHandler = () => null, jobId = `${Math.random()}`) => {
-        
         const userId = resp.data._id;
         const cloudName = `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}`;
         const uploadPreset = `${process.env.REACT_APP_CLOUDINARY_PRESET}`;
@@ -230,15 +226,12 @@ const initializeJobImgUploaderWidget = (resp) => {
               multiple: false,
               clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
               maxFileSize: 3000000,
-              maxImageWidth: 800,
-              maxImageHeight: 600,
               minImageWidth: 100,
               minImageHeight: 100,
               validateMaxWidthHeight: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
-              croppingCoordinatesMode: 'custom',
               showPoweredBy: false,
               theme: 'minimal',
               buttonClass: 'button is-primary is-large',
