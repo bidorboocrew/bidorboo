@@ -99,6 +99,7 @@ export const addJob = (jobDetails) => (dispatch) => {
     addressTextField,
     jobTitleField,
     fromTemplateIdField,
+    jobImages,
   } = jobDetails;
 
   //map form fields to the mongodb schema expected fields
@@ -158,6 +159,7 @@ export const addJob = (jobDetails) => (dispatch) => {
       .post(ROUTES.API.JOB.POST.newJob, {
         data: {
           jobDetails: mapFieldsToSchema,
+          jobImages
         },
       })
       .then((resp) => {

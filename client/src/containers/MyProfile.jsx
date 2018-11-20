@@ -26,19 +26,17 @@ class MyProfile extends React.Component {
   }
 
   toggleShowUploadProfileImageDialog() {
-    if (window.BidOrBoo && window.BidOrBoo.getCloudinaryWidget) {
+    if (window.BidOrBoo && window.BidOrBoo.getProfileUploaderWidget) {
       this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog }, () => {
-        debugger;
         this.state.showImageUploadDialog
-          ? window.BidOrBoo.getCloudinaryWidget((err, result) => {
-              debugger;
+          ? window.BidOrBoo.getProfileUploaderWidget((err, result) => {
               if (result && result.event === 'success' && result.info) {
                 this.props.a_updateProfileImage(result.info);
               }
 
               this.toggleShowUploadProfileImageDialog();
             }).open()
-          : window.BidOrBoo.getCloudinaryWidget().close({ quiet: true });
+          : window.BidOrBoo.getProfileUploaderWidget().close({ quiet: true });
       });
     }
   }

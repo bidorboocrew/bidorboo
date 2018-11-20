@@ -37,7 +37,6 @@ export const updateProfileImage = (imageDetails) => (dispatch) => {
   //   let file = files[i];
   //   data.append('filesToUpload', file, file.name);
   // }
-debugger
   dispatch({
     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
     payload: axios

@@ -77,10 +77,21 @@ exports.jobDataAccess = {
       }
     });
   },
-  addAJob: async (jobDetails, mongoDbUserId) => {
+  addAJob: async (jobDetails, jobImages=[], mongoDbUserId) => {
     try {
+      let jobImagesArray = [];
+      if (jobImages && jobImages.length > 0) {
+        jobImagesArray = jobImage.map((imgDetail) => {
+          return {
+            url: imgDetail.url,
+            public_id: imgDetail.public_id,
+          };
+        });
+      }
+
       const newJob = await new JobModel({
         ...jobDetails,
+        jobImages: jobImagesArray,
         _ownerRef: mongoDbUserId,
       }).save();
 

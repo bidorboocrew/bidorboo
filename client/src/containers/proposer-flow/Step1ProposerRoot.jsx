@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import ProposerStepper from './ProposerStepper';
 
 class ProposerRoot extends React.Component {
   componentDidMount() {
@@ -17,7 +18,7 @@ class ProposerRoot extends React.Component {
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
     return (
-      <div className="bdbPage slide-in-left" id="bdb-proposer-root">
+      <div className="bdbPage" id="bdb-proposer-root">
         {/* <section className="hero is-small">
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body  has-text-centered">
             <div className="container">
@@ -30,11 +31,10 @@ class ProposerRoot extends React.Component {
             </div>
           </div>
         </section> */}
+        <ProposerStepper currentStepNumber={1} />
         <section className="section">
           <div className="container">
-            <div
-              className="columns is-multiline"
-            >
+            <div className="columns is-multiline">
               <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
             </div>
           </div>
@@ -56,5 +56,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ProposerRoot);

@@ -133,9 +133,9 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {
-      const { jobDetails } = req.body.data;
+      const { jobDetails, jobImages } = req.body.data;
       const userMongoDBId = req.user._id;
-      const newJob = await jobDataAccess.addAJob(jobDetails,userMongoDBId);
+      const newJob = await jobDataAccess.addAJob(jobDetails, jobImages, userMongoDBId);
 
       return res.send(newJob);
     } catch (e) {

@@ -115,7 +115,7 @@ export const TextAreaInput = ({
         {label}
       </Label>
       <textarea
-        style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset' }}
+        style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: '200px' }}
         className="input textarea"
         id={id}
         type={type}
