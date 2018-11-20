@@ -21,8 +21,8 @@ export const getCurrentUser = () => (dispatch) =>
 
           // initialize uploader widget on window obj
 
-          initializeProfileImgUploaderWidget(resp);
-          initializeJobImgUploaderWidget(resp);
+          // initializeProfileImgUploaderWidget(resp);
+          // initializeJobImgUploaderWidget(resp);
         } else {
           //rediret user to sign up page
           switchRoute(ROUTES.CLIENT.ENTRY);
@@ -224,6 +224,15 @@ const initializeJobImgUploaderWidget = (resp) => {
                     }
                   })
                   .catch((e) => {});
+              },
+              preBatch: (cb, data) => {
+                debugger;
+
+                if (data.files[0].name === 'TopSecret') {
+                  cb({ cancel: true });
+                } else {
+                  cb();
+                }
               },
               cloudName,
               uploadPreset,

@@ -206,6 +206,14 @@ $box-radius: 0;
   }
 }
 /* */
+.pageWithStepper {
+  &.desktop {
+    margin-top: 3rem;
+  }
+  &.mobile {
+    margin-top: 2rem;
+  }
+}
 
 .VerticalAligner {
   display: flex;

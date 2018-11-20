@@ -1,6 +1,6 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-
+import FileUploader from './FileUploader';
 export default class UploadJobPictures extends React.Component {
   constructor(props) {
     super(props);
@@ -12,30 +12,12 @@ export default class UploadJobPictures extends React.Component {
     autoBind(this, 'toggleUploadImageModal');
   }
 
-  toggleUploadImageModal() {
-    if (window.BidOrBoo && window.BidOrBoo.getProfileUploaderWidget) {
-      this.setState({ showUploadModal: !this.state.showUploadModal }, () => {
-        this.state.showUploadModal
-          ? window.BidOrBoo.getJobImgUploaderWidget(
-              (err, result) => {
-                debugger;
-                if (result && result.event === 'success' && result.info) {
-                  // what to do
-                  const imageArray = [...this.state.uploadedImages, result.info];
-                  this.setState({ uploadedImages: imageArray, showUploadModal: false });
-                  this.props.onUpdateImages(imageArray);
-                }
-                window.BidOrBoo.getJobImgUploaderWidget().close({ quiet: true });
-              },
-              () => {
-                this.toggleUploadImageModal;
-              },
-              '123454',
-            ).open()
-          : window.BidOrBoo.getJobImgUploaderWidget().close({ quiet: true });
-      });
-    }
-  }
+  onImageChange = (index, file) => {
+    const temp = [...this.state.uploadedImages];
+    temp[index] = file || null;
+    this.setState({ uploadedImages: temp });
+  };
+
   render() {
     const { uploadedImages } = this.state;
 
@@ -43,43 +25,23 @@ export default class UploadJobPictures extends React.Component {
     for (let i = 0; i < 6; i++) {
       const temp = (
         <div key={Math.random()} className="column is-one-third">
-          {!uploadedImages[i] && (
-            <div
-              onClick={this.toggleUploadImageModal}
-              style={{ height: '100%', background: '#EEEEEE', border: '1px dashed grey' }}
-              className="section"
-            >
-              <div className="has-text-centered">
-                <a
-                  style={{ pointerEvents: 'none', borderRadius: '100%' }}
-                  className="button is-success is-meduim"
-                >
-                  <span>
-                    <i className="fa fa-camera" aria-hidden="true" />
-                  </span>
-                </a>
-              </div>
-            </div>
-          )}
-          {uploadedImages[i] && (
-            <div style={{ height: '100%' }} className="section">
-              <figure className="image">
-                <img src={`${uploadedImages[i].secure_url}`} />
-              </figure>
-            </div>
-          )}
+          {!uploadedImages[i] && <FileUploader imgIndex={i} onImageChange={this.onImageChange} />}
         </div>
       );
-
       previewContent.push(temp);
     }
 
     return (
       <React.Fragment>
-        <div class="field">
-          <div class="label">upload Images</div>
+        <div className="field">
+          <div className="label">upload Images</div>
         </div>
-        <div className="columns  is-multiline">{previewContent}</div>
+        <div
+          style={{ borderRadius: 4, background: 'rgba(33, 33, 33, 0.1)' }}
+          className="columns is-multiline is-centered"
+        >
+          {previewContent}
+        </div>
       </React.Fragment>
     );
   }
