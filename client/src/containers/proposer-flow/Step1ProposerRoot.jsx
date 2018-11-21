@@ -7,13 +7,6 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import ProposerStepper from './ProposerStepper';
 
 class ProposerRoot extends React.Component {
-  // componentDidMount() {
-  //   // const { a_showLoginDialog, match } = this.props;
-  //   // const shouldShowLoginDialog = match.params.showLoginDialog;
-  //   // if (shouldShowLoginDialog === 'true') {
-  //   //   a_showLoginDialog(true);
-  //   // }
-  // }
 
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;

@@ -28,10 +28,7 @@ class CreateAJob extends React.Component {
     autoBind(
       this,
       'goBack',
-      'collectInitialJobDetails',
       'collectJobImageDetails',
-      'goBackToCollectingInitialJobDetails',
-      'goBackToCollectingImages',
       'postJob',
     );
   }
@@ -41,11 +38,6 @@ class CreateAJob extends React.Component {
     // until then
     switchRoute(ROUTES.CLIENT.PROPOSER.root);
   }
-  collectInitialJobDetails(values) {
-    debugger;
-    this.collectedJobDetails.initialDetails = values;
-    this.setState({ currentStepNumber: 3 });
-  }
 
   collectJobImageDetails(index, imgFile) {
     debugger;
@@ -53,8 +45,8 @@ class CreateAJob extends React.Component {
   }
 
   // final step
-  postJob() {
-    debugger;
+  postJob(values) {
+    this.collectedJobDetails.initialDetails = values;
     this.props.a_addJob(this.collectedJobDetails);
   }
 
@@ -90,7 +82,7 @@ class CreateAJob extends React.Component {
                 jobTitleField={jobDetails.title}
                 suggestedDetailsText={jobDetails.suggestedDetailsText}
                 onGoBack={this.goBack}
-                onNext={this.collectInitialJobDetails}
+                onNext={this.postJob}
               />
             </React.Fragment>
           )}
