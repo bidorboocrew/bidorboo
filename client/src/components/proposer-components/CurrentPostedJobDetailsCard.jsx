@@ -323,8 +323,13 @@ class PostedJobsDetails extends React.Component {
     debugger;
     if (jobImages && jobImages.length > 0) {
       carouselItems = jobImages.map((imgObj) => (
-        <div className="card-image is-clipped">
-          <img style={{height:300}} src={imgObj.url} />
+        <div
+          onClick={() => {
+            window.open(imgObj.url, '_blank');
+          }}
+          className="card-image is-clipped"
+        >
+          <img style={{ height: 300 }} src={imgObj.url} />
         </div>
       ));
     }
@@ -355,7 +360,7 @@ class PostedJobsDetails extends React.Component {
             )}
 
             {jobImages && jobImages.length > 0 && (
-              <Carousel showStatus={false} infiniteLoop={true} showThumbs={false}>
+              <Carousel showStatus={false} showThumbs={false}>
                 {carouselItems}
               </Carousel>
             )}

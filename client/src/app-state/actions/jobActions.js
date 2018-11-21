@@ -183,12 +183,18 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
               type: A.JOB_ACTIONS.ADD_NEW_JOB,
               payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
                 if (resp2 && resp2.data.success && resp2.data.jobId) {
-                  switchRoute(
-                    `${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/${resp2.data.jobId}`,
-                    {
-                      isNewJob: true,
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/${resp2.data.jobId}`, {
+                    isNewJob: true,
+                  });
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'success',
+                        msg: 'Service Request was sucessfully created.',
+                      },
                     },
-                  );
+                  });
                 }
                 // switch route to show the currently added job
               }),
