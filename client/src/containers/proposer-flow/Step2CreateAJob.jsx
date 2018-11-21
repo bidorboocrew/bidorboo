@@ -40,7 +40,6 @@ class CreateAJob extends React.Component {
   }
 
   collectJobImageDetails(index, imgFile) {
-    debugger;
     this.collectedJobDetails.jobImages[index] = imgFile;
   }
 

@@ -87,7 +87,7 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
   });
 };
 
-export const addJob = (jobDetails) => (dispatch) => {
+export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
   const {
     locationField,
     detailedDescriptionField,
@@ -97,11 +97,9 @@ export const addJob = (jobDetails) => (dispatch) => {
     periodField,
     durationOfJobField,
     addressTextField,
-    jobTitleField,
     fromTemplateIdField,
-    jobImages,
-  } = jobDetails;
-
+  } = initialDetails;
+  debugger;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 
@@ -149,9 +147,9 @@ export const addJob = (jobDetails) => (dispatch) => {
     durationOfJob: durationOfJobField,
     addressText: addressTextField,
     state: 'OPEN',
-    title: jobTitleField,
     fromTemplateId: fromTemplateIdField,
   };
+  debugger;
 
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
@@ -159,16 +157,43 @@ export const addJob = (jobDetails) => (dispatch) => {
       .post(ROUTES.API.JOB.POST.newJob, {
         data: {
           jobDetails: mapFieldsToSchema,
-          jobImages
         },
       })
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          // switch route to show the currently added job
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`, {
-            isNewJob: true,
-          });
+          let data = new FormData();
+          const validImageFiles =
+            jobImages &&
+            jobImages.filter((imgFile) => {
+              return imgFile ? true : false;
+            });
+
+          validImageFiles &&
+            validImageFiles.length > 0 &&
+            validImageFiles.forEach((file) => {
+              data.append('filesToUpload', file, 'jobImages');
+            });
+          const config = {
+            headers: { 'content-type': 'multipart/form-data' },
+          };
+          data.append('jobId', resp.data._id);
+          if (validImageFiles.length > 0) {
+            dispatch({
+              type: A.JOB_ACTIONS.ADD_NEW_JOB,
+              payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
+                if (resp2 && resp2.data.success && resp2.data.jobId) {
+                  switchRoute(
+                    `${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp2.data.jobId}`,
+                    {
+                      isNewJob: true,
+                    },
+                  );
+                }
+                // switch route to show the currently added job
+              }),
+            });
+          }
         }
       })
       .catch((error) => {

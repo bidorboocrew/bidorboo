@@ -218,7 +218,7 @@ class BidsTable extends React.Component {
                         e,
                         bid._bidderRef,
                         `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                        bid._id
+                        bid._id,
                       );
                     }}
                     className="button is-primary is-outlined"

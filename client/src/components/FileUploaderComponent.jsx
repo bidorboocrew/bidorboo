@@ -49,12 +49,10 @@ class MyForm extends React.Component {
 
   componentWillUnmount() {
     const { values } = this.props;
-    debugger;
     values.files && values.files.length > 0;
 
     values.files && values.files.length > 0
       ? values.files.map((file, i) => {
-        debugger
           window.URL.revokeObjectURL(file.preview);
         })
       : null;

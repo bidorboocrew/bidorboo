@@ -77,21 +77,10 @@ exports.jobDataAccess = {
       }
     });
   },
-  addAJob: async (jobDetails, jobImages=[], mongoDbUserId) => {
+  addAJob: async (jobDetails, mongoDbUserId) => {
     try {
-      let jobImagesArray = [];
-      if (jobImages && jobImages.length > 0) {
-        jobImagesArray = jobImage.map((imgDetail) => {
-          return {
-            url: imgDetail.url,
-            public_id: imgDetail.public_id,
-          };
-        });
-      }
-
       const newJob = await new JobModel({
         ...jobDetails,
-        jobImages: jobImagesArray,
         _ownerRef: mongoDbUserId,
       }).save();
 
@@ -107,6 +96,35 @@ exports.jobDataAccess = {
         .lean(true)
         .exec();
       return newJob.toObject();
+    } catch (e) {
+      throw e;
+    }
+  },
+  addJobImages: async (jobId, images) => {
+    try {
+      // let jobImagesArray = [];
+      // if (jobImages && jobImages.length > 0) {
+      //   jobImagesArray = jobImage.map((imgDetail) => {
+      //     return {
+      //       url: imgDetail.url,
+      //       public_id: imgDetail.public_id,
+      //     };
+      //   });
+      // }
+
+      const updatedJob = await JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $push: {
+            jobImages: { $each: images },
+          },
+        },
+        { new: true }
+      )
+        .lean(true)
+        .exec();
+
+      return updatedJob;
     } catch (e) {
       throw e;
     }

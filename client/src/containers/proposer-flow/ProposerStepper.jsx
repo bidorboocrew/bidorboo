@@ -72,8 +72,7 @@ export default class ProposerStepper extends React.Component {
         >
           <ul
             style={{
-              paddingTop: 6,
-              paddingBottom: 4,
+              paddingTop: 10,
               background: '#EEEEEE',
               boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
             }}

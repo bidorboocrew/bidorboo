@@ -14,7 +14,6 @@ export default class FileUploader extends React.Component {
   }
 
   onDrophandler(files) {
-    debugger;
     // do nothing if no files
     if (!files || !(files.length > 0)) {
       return;
@@ -100,7 +99,6 @@ export default class FileUploader extends React.Component {
 }
 
 export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
-  debugger;
   let AllThumbnails = acceptedFile ? (
     <Thumb clickHandler={clickHandler} file={acceptedFile} />
   ) : null;

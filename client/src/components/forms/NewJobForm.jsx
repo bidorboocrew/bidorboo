@@ -31,10 +31,7 @@ import ActionSheet from '../ActionSheet';
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
 class NewJobForm extends React.Component {
-  static propTypes = {
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-  };
+
   constructor(props) {
     super(props);
 
@@ -103,7 +100,7 @@ class NewJobForm extends React.Component {
     //get an initial title from the job title
     values.fromTemplateIdField = fromTemplateIdField;
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* <TextInput
           id="jobTitleField"
           className="input"
@@ -271,7 +268,8 @@ class NewJobForm extends React.Component {
             className="button is-primary is-large"
             type="submit"
             disabled={isSubmitting || !isValid}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               handleSubmit(values, { ...this.props });
             }}
           >

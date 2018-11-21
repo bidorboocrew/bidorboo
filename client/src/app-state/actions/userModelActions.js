@@ -42,7 +42,6 @@ export const updateProfileImage = (imageDetails) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.USER.PUT.profilePicture, { imageDetails })
       .then((resp) => {
-        debugger
         if (resp.data && resp.data.userId) {
           //update profile data
           dispatch({
