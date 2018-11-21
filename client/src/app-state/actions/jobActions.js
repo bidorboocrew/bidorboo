@@ -99,7 +99,6 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
     addressTextField,
     fromTemplateIdField,
   } = initialDetails;
-  debugger;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 
@@ -149,7 +148,6 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
     state: 'OPEN',
     fromTemplateId: fromTemplateIdField,
   };
-  debugger;
 
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,

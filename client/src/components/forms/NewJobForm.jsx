@@ -31,7 +31,6 @@ import ActionSheet from '../ActionSheet';
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
 class NewJobForm extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -265,7 +264,7 @@ class NewJobForm extends React.Component {
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className="button is-primary is-large"
+            className={`button is-primary is-large ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
             onClick={(e) => {
@@ -351,7 +350,6 @@ const EnhancedForms = withFormik({
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
     props.onNext(values);
-    setSubmitting(false);
   },
   displayName: 'NewJobForm',
 });

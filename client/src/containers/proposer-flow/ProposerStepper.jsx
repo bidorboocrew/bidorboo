@@ -27,7 +27,7 @@ export default class ProposerStepper extends React.Component {
           <ul
             style={{
               background: '#EEEEEE',
-              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
+              boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
               paddingTop: 6,
               paddingBottom: 4,
             }}
@@ -74,7 +74,7 @@ export default class ProposerStepper extends React.Component {
             style={{
               paddingTop: 10,
               background: '#EEEEEE',
-              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
+              boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
             }}
             className="steps is-horizontal has-content-centered"
           >
