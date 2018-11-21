@@ -117,7 +117,7 @@ export default class ProposerStepper extends React.Component {
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-5">Post</p>
+                <p className="is-size-5">Posted</p>
               </div>
             </li>
           </ul>

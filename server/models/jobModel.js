@@ -45,7 +45,7 @@ const JobSchema = new Schema(
     jobImages: {
       type: [
         {
-          url: { type: String, default: 'https://goo.gl/92gqPL' },
+          url: { type: String },
           public_id: { type: String },
         },
       ],

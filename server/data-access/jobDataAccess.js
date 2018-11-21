@@ -102,21 +102,20 @@ exports.jobDataAccess = {
   },
   addJobImages: async (jobId, images) => {
     try {
-      // let jobImagesArray = [];
-      // if (jobImages && jobImages.length > 0) {
-      //   jobImagesArray = jobImage.map((imgDetail) => {
-      //     return {
-      //       url: imgDetail.url,
-      //       public_id: imgDetail.public_id,
-      //     };
-      //   });
-      // }
-
+      let jobImagesArray = [];
+      if (images && images.length > 0) {
+        jobImagesArray = images.map((imgDetail) => {
+          return {
+            url: imgDetail.secure_url,
+            public_id: imgDetail.public_id,
+          };
+        });
+      }
       const updatedJob = await JobModel.findOneAndUpdate(
         { _id: jobId },
         {
           $push: {
-            jobImages: { $each: images },
+            jobImages: { $each: jobImagesArray },
           },
         },
         { new: true }

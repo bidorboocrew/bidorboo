@@ -66,22 +66,24 @@ export default class FileUploader extends React.Component {
           >
             <React.Fragment>
               <div
-                style={{ height: '100%', background: 'white', border: '1px dashed grey' }}
-                className="section"
+                style={{
+                  cursor: 'pointer',
+                  height: 300,
+                  background: 'white',
+                  border: '1px dashed grey',
+                }}
+                className="section has-text-centered"
               >
-                <div className="has-text-centered">
-                  <a
-                    type="submit"
-                    className="button is-primary"
-                    //   onClick={() => open()}
-                    style={{ pointerEvents: 'none', borderRadius: '100%' }}
-                    className="button is-success is-meduim"
-                  >
-                    <span>
-                      <i className="fa fa-camera" aria-hidden="true" />
-                    </span>
-                  </a>
-                </div>
+                <a
+                  type="submit"
+                  //   onClick={() => open()}
+                  style={{ marginTop: '22%', pointerEvents: 'none', borderRadius: '100%' }}
+                  className="button is-success is-meduim  "
+                >
+                  <span>
+                    <i className="fa fa-camera" aria-hidden="true" />
+                  </span>
+                </a>
               </div>
             </React.Fragment>
           </Dropzone>
@@ -135,13 +137,11 @@ class Thumb extends React.Component {
     return (
       <div className="has-text-centered">
         <img
-          style={{ height: 128, width: '100%' }}
+          style={{ height: 300, width: '100%' }}
           onClick={clickHandler}
           src={thumb}
           alt={file.name}
           className="image"
-          height={'128px'}
-          width={'100%'}
         />
       </div>
     );

@@ -184,7 +184,7 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
               payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
                 if (resp2 && resp2.data.success && resp2.data.jobId) {
                   switchRoute(
-                    `${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp2.data.jobId}`,
+                    `${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/${resp2.data.jobId}`,
                     {
                       isNewJob: true,
                     },

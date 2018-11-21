@@ -26,6 +26,7 @@ import {
   AwardedJobs,
   CurrentAwardedJob,
   CurrentAwardedBid,
+  NewPostedJob,
 } from './index';
 
 class App extends React.Component {
@@ -73,6 +74,11 @@ class App extends React.Component {
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
             component={CurrentJob}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
+            component={NewPostedJob}
           />
           <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} />
           <Route
@@ -127,6 +133,6 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(App)
+    mapDispatchToProps,
+  )(App),
 );

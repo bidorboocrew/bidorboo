@@ -74,6 +74,7 @@ export const CLIENT = {
     createjob: '/proposer/create-job',
     myOpenJobs: '/proposer/my-open-jobs',
     selectedPostedJobPage: '/proposer/job-details',
+    newlyPostedJob:'/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
   },
