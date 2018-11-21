@@ -320,7 +320,7 @@ class PostedJobsDetails extends React.Component {
     }
 
     let carouselItems = null;
-    debugger;
+
     if (jobImages && jobImages.length > 0) {
       carouselItems = jobImages.map((imgObj) => (
         <div
@@ -333,7 +333,7 @@ class PostedJobsDetails extends React.Component {
         </div>
       ));
     }
-    debugger;
+
     return (
       <div className="columns is-centered">
         <div className="column is-half">
