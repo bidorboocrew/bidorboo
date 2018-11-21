@@ -275,7 +275,7 @@ class NewJobForm extends React.Component {
               handleSubmit(values, { ...this.props });
             }}
           >
-            Next
+            Post it!
           </button>
         </div>
       </form>

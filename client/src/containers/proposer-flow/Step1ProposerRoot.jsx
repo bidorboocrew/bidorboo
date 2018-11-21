@@ -17,17 +17,15 @@ class ProposerRoot extends React.Component {
 
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
-    const content = <React.Fragment />;
+    // 768 is bulma mobile size
+    const classToApply =
+      window.innerWidth > 768
+        ? 'container bdbPage pageWithStepper desktop'
+        : 'container bdbPage pageWithStepper mobile';
     return (
       <React.Fragment>
         <ProposerStepper currentStepNumber={1} />
-
-        <div className="container is-hidden-mobile bdbPage pageWithStepper desktop">
-          <div className="columns is-multiline">
-            <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
-          </div>
-        </div>
-        <div className="container is-hidden-tablet bdbPage pageWithStepper mobile">
+        <div className={`${classToApply}`}>
           <div className="columns is-multiline">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>

@@ -1,31 +1,25 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 import FileUploader from './FileUploader';
-export default class UploadJobPictures extends React.Component {
+export default class PicturesUploaderContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      uploadedImages: props.collectedDetails.jobImages || [],
+      imagesToUpload: props.collectedDetails.jobImages || [],
       showUploadModal: false,
     };
-    autoBind(this, 'toggleUploadImageModal');
   }
 
-  onImageChange = (index, file) => {
-    const temp = [...this.state.uploadedImages];
-    temp[index] = file || null;
-    this.setState({ uploadedImages: temp });
-  };
+
 
   render() {
-    const { uploadedImages } = this.state;
-
+    const {onImageChange} = this.props;
     const previewContent = [];
     for (let i = 0; i < 6; i++) {
       const temp = (
         <div key={Math.random()} className="column is-one-third">
-          {!uploadedImages[i] && <FileUploader imgIndex={i} onImageChange={this.onImageChange} />}
+          <FileUploader imgIndex={i} onImageChange={onImageChange} />
         </div>
       );
       previewContent.push(temp);

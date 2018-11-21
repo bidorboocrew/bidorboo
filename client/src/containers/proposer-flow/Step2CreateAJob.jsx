@@ -10,8 +10,7 @@ import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
 import ProposerStepper from './ProposerStepper';
-import UploadJobPictures from './Step3UploadJobPictures';
-import ReviewAndPost from './Step4ReviewAndPost';
+import PicturesUploaderContainer from './PicturesUploaderContainer';
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -48,8 +47,9 @@ class CreateAJob extends React.Component {
     this.setState({ currentStepNumber: 3 });
   }
 
-  collectJobImageDetails(imageArray) {
-    this.collectedJobDetails.jobImages = imageArray;
+  collectJobImageDetails(index, imgFile) {
+    debugger;
+    this.collectedJobDetails.jobImages[index] = imgFile;
   }
 
   // final step
@@ -67,7 +67,7 @@ class CreateAJob extends React.Component {
     };
     const { currentStepNumber } = this.state;
 
-    const content = (
+    const content = () => (
       <div
         style={{
           marginBottom: '1rem',
@@ -81,9 +81,9 @@ class CreateAJob extends React.Component {
           <h1 className="title">{jobDetails.title} Request</h1>
           {currentStepNumber === 2 && (
             <React.Fragment>
-              <UploadJobPictures
+              <PicturesUploaderContainer
                 collectedDetails={this.collectedJobDetails}
-                onUpdateImages={this.collectJobImageDetails}
+                onImageChange={this.collectJobImageDetails}
               />
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}
@@ -94,23 +94,21 @@ class CreateAJob extends React.Component {
               />
             </React.Fragment>
           )}
-          {currentStepNumber === 3 && (
-            <ReviewAndPost
-              jobDetails={this.collectedJobDetails}
-              onCancel={this.goBack}
-              onGoBack={this.goBackToCollectingImages}
-              onSubmit={this.postJob}
-            />
-          )}
+          {currentStepNumber === 3 && <div />}
         </div>
       </div>
     );
+    // 768 is bulma mobile size
+    const classToApply =
+      window.innerWidth > 768
+        ? 'container bdbPage pageWithStepper desktop'
+        : 'container bdbPage pageWithStepper mobile';
+
     return (
       <React.Fragment>
         <ProposerStepper currentStepNumber={currentStepNumber} />
 
-        <div className="container is-hidden-mobile bdbPage pageWithStepper desktop">{content}</div>
-        <div className="container is-hidden-tablet bdbPage pageWithStepper mobile">{content}</div>
+        <div className={`${classToApply}`}>{content()}</div>
       </React.Fragment>
     );
   }

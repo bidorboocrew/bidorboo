@@ -21,8 +21,8 @@ export const getCurrentUser = () => (dispatch) =>
 
           // initialize uploader widget on window obj
 
-          // initializeProfileImgUploaderWidget(resp);
-          // initializeJobImgUploaderWidget(resp);
+          initializeProfileImgUploaderWidget(resp);
+          initializeJobImgUploaderWidget(resp);
         } else {
           //rediret user to sign up page
           switchRoute(ROUTES.CLIENT.ENTRY);
@@ -95,7 +95,6 @@ const initializeProfileImgUploaderWidget = (resp) => {
               maxImageWidth: 600,
               maxImageHeight: 500,
               validateMaxWidthHeight: true,
-              cropping: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
@@ -225,25 +224,16 @@ const initializeJobImgUploaderWidget = (resp) => {
                   })
                   .catch((e) => {});
               },
-              preBatch: (cb, data) => {
-                debugger;
-
-                if (data.files[0].name === 'TopSecret') {
-                  cb({ cancel: true });
-                } else {
-                  cb();
-                }
-              },
               cloudName,
               uploadPreset,
               apiKey,
               sources: ['local'],
               multiple: false,
-              folder: `${userId}/Jobs/`,
+              folder: `${userId}/Jobs/${jobId}`,
               tag: `${userId}-Jobs`,
-              // folder: `${userId}/Jobs/${jobId}`,
-              // publicId: `${jobId}-${jobIndex}`,
+              publicId: `${jobId}-${jobIndex}`,
               resourceType: 'image',
+              cropping: true,
               multiple: false,
               clientAllowedFormats: ['png', 'gif', 'jpeg', 'tiff', 'jpg', 'bmp'],
               maxFileSize: 3000000, //3MB //3MB
@@ -252,11 +242,9 @@ const initializeJobImgUploaderWidget = (resp) => {
               validateMaxWidthHeight: true,
               minImageWidth: 100,
               minImageHeight: 100,
-              cropping: true,
               croppingValidateDimensions: true,
               croppingShowDimensions: true,
               croppingShowBackButton: true,
-              croppingDefaultSelectionRatio: 0.75,
               showPoweredBy: false,
               theme: 'minimal',
               buttonClass: 'button is-primary is-large',

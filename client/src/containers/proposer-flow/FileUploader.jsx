@@ -20,7 +20,12 @@ export default class FileUploader extends React.Component {
       return;
     }
     // on drop we add to the existing files
-    this.setState({ showThumbNail: true, acceptedFile: files[0] });
+    this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
+      if (this.props.onImageChange) {
+        const { onImageChange, imgIndex } = this.props;
+        onImageChange(imgIndex, this.state.acceptedFile);
+      }
+    });
   }
 
   removeFileAndOpenFileSelector = () => {
@@ -94,7 +99,7 @@ export default class FileUploader extends React.Component {
   }
 }
 
-const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
+export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
   debugger;
   let AllThumbnails = acceptedFile ? (
     <Thumb clickHandler={clickHandler} file={acceptedFile} />

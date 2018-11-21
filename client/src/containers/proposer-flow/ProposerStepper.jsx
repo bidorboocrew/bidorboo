@@ -3,8 +3,13 @@ import React from 'react';
 export default class ProposerStepper extends React.Component {
   render() {
     const { currentStepNumber } = this.props;
+
     return (
-      <div style={{ background: '#EEEEEE' }}>
+      <div
+        style={{
+          background: '#EEEEEE',
+        }}
+      >
         {/* mobile view*/}
         <div
           style={{
@@ -14,14 +19,20 @@ export default class ProposerStepper extends React.Component {
             right: 0,
             width: '100%',
             top: '3.25rem',
-            zIndex: 12,
+            zIndex: 25,
             background: '#EEEEEE',
-            paddingTop: 6,
-            paddingBottom: 4,
           }}
           className="is-hidden-tablet"
         >
-          <ul style={{ background: '#EEEEEE' }} className="steps is-horizontal">
+          <ul
+            style={{
+              background: '#EEEEEE',
+              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
+              paddingTop: 6,
+              paddingBottom: 4,
+            }}
+            className="steps is-horizontal"
+          >
             <li className={`steps-segment ${currentStepNumber === 1 ? 'is-active ' : ''}`}>
               <span className="steps-marker">
                 <span className="icon">
@@ -54,15 +65,18 @@ export default class ProposerStepper extends React.Component {
             right: 0,
             width: '100%',
             top: '3.25rem',
-            zIndex: 12,
+            zIndex: 25,
             background: '#EEEEEE',
-            paddingTop: 6,
-            paddingBottom: 4,
           }}
           className="is-hidden-mobile"
         >
           <ul
-            style={{ background: '#EEEEEE' }}
+            style={{
+              paddingTop: 6,
+              paddingBottom: 4,
+              background: '#EEEEEE',
+              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
+            }}
             className="steps is-horizontal has-content-centered"
           >
             <li
