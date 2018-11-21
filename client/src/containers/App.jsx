@@ -25,11 +25,9 @@ import {
   MyAwardedBids,
   AwardedJobs,
   CurrentAwardedJob,
-<<<<<<< HEAD
   ReviewPage,
-=======
   CurrentAwardedBid,
->>>>>>> a6861fc560173516e91262df68fe3ea0cbf7bb01
+  ActiveAwardedBids,
 } from './index';
 
 class App extends React.Component {
@@ -52,7 +50,6 @@ class App extends React.Component {
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
-<<<<<<< HEAD
         <div id="app-flex-wrapper">
           <div id="header-and-content">
             <Header id="bidorboo-header" />
@@ -122,7 +119,6 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-=======
         <Header id="bidorboo-header" />
         <Switch>
           {/* redirect and force login */}
@@ -182,7 +178,6 @@ class App extends React.Component {
           {/* redirect any unknown route to the home component */}
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
->>>>>>> a6861fc560173516e91262df68fe3ea0cbf7bb01
       </div>
     );
   }
@@ -203,6 +198,6 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(App)
+    mapDispatchToProps,
+  )(App),
 );

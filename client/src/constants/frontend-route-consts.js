@@ -77,14 +77,11 @@ export const CLIENT = {
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
-<<<<<<< HEAD
     activeBidsPage: '/bidder/active-bids',
     reviewJobPage: '/review-page',
-=======
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
     myAwardedBidDetails: '/bidder/my-awarded-bid-details',
->>>>>>> a6861fc560173516e91262df68fe3ea0cbf7bb01
   },
   MY_PROFILE: '/my-profile',
 };
