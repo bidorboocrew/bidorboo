@@ -48,7 +48,7 @@ exports.ReviewFull = {
   updatedAt: 1,
 };
 
-exports.JobFieldsFull = {
+exports.JobFull = {
   _ownerRef: 1,
   _bidsListRef: 1,
   _awardedBidRef: 1,
@@ -65,6 +65,18 @@ exports.JobFieldsFull = {
   fromTemplateId: 1,
   reportThisJob: 1,
   extras: 1,
+  createdAt: 1,
+  updatedAt: 1,
+};
+
+
+exports.PaymentFull = {
+  _jobRef: 1,
+  _from: 1,
+  _to: 1,
+  paymentDetails: 1,
+  stripeConfirmationId:1,
+  state:1,
   createdAt: 1,
   updatedAt: 1,
 };

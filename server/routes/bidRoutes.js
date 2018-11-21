@@ -5,33 +5,81 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.myBids, requireLogin, async (req, res, done) => {
+  app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-
-      const userBidsList = await bidDataAccess.getAllBidsForUser(userMongoDBId);
+      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, 'OPEN');
       return res.send(userBidsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my bids', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res, done) => {
+    try {
+      const userMongoDBId = req.user._id;
+      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, 'AWARDED');
+      return res.send(userBidsList);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.BID.GET.openBidDetails, requireLogin, async (req, res, done) => {
+    try {
+      if (req.query && req.query.openBidId) {
+        const { openBidId } = req.query;
+        const userMongoDBId = req.user._id;
+        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, openBidId);
+        return res.send(userBid);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get open Bid Details, openBidId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my open bid details', details: e });
+    }
+  });
+
+  app.get(ROUTES.API.BID.GET.awardedBidDetails, requireLogin, async (req, res, done) => {
+    try {
+      if (req.query && req.query.awardedBidId) {
+        const { awardedBidId } = req.query;
+        const userMongoDBId = req.user._id;
+        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, awardedBidId);
+        return res.send(userBid);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get awarded Bid Details, openBidId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded bid details', details: e });
     }
   });
 
   app.post(ROUTES.API.BID.POST.bid, requireLogin, async (req, res, done) => {
     try {
       // create new job for this user
-      const data = req.body.data;
-      const userMongoDBId = req.user._id;
-      const userId = req.user.userId;
-      const jobId = data.jobId;
-      const bidAmount = data.bidAmount;
+      const { data } = req.body;
 
-      const newBid = await bidDataAccess.postNewBid({
-        userId: userId,
-        bidderId: userMongoDBId,
-        jobId: jobId,
-        bidAmount: bidAmount,
-      });
-      return res.send(newBid);
+      if (data && data.bidAmount && data.jobId) {
+        const { jobId, bidAmount } = data;
+
+        const userMongoDBId = req.user._id;
+
+        const newBid = await bidDataAccess.postNewBid({
+          userMongoDBId,
+          jobId,
+          bidAmount,
+        });
+        return res.send(newBid);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request post new Bid, missing param',
+        });
+      }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
     }
@@ -45,7 +93,7 @@ module.exports = (app) => {
 
       if (bidId) {
         const newBid = await bidDataAccess.markBidAsSeen(bidId);
-        return res.send({ bidId, success: '1' });
+        return res.send({ bidId, success: true });
       } else {
         return res.status(400).send({
           errorMsg: 'Bad Request param bidId was Not Specified',

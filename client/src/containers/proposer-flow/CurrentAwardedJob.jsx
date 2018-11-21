@@ -52,12 +52,12 @@ class CurrentAwardedJob extends React.Component {
                   switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
                 }}
               >
-                Awarded Jobs
+               Requests Queue
               </a>
             </li>
             <li className="is-active">
               <a aria-current="page">
-                {selectedAwardedJob ? selectedAwardedJob.title : 'Selected Job'}
+                {selectedAwardedJob ? selectedAwardedJob.title : 'Selected Service'}
               </a>
             </li>
           </ul>
@@ -66,7 +66,7 @@ class CurrentAwardedJob extends React.Component {
     );
 
     return (
-      <section className="mainSectionContainer slide-in-left">
+      <section className="bdbPage slide-in-left">
         {selectedAwardedJob && selectedAwardedJob._id ? (
           <AwardedJobFullDetailsCard
             breadCrumb={breadCrumb()}

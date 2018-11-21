@@ -35,7 +35,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-third"
+        className="column is-one-quarter"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -64,7 +64,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
-              Create a Job
+              Request a Service
             </a>
           </div>
         </div>
@@ -89,9 +89,10 @@ const CardBottomSection = (props) => {
           }}
           className="button is-primary is-fullwidth is-large"
         >
-          <span style={{ marginLeft: 4 }}>
-            <i className="fas fa-dollar-sign" /> {`Review & Bid`}
-          </span>
+         View Details
+          {/* <span style={{ marginLeft: 4 }}>
+            <i className="fas fa-dollar-sign" /> View Details
+          </span> */}
         </a>
       </div>
     </footer>
@@ -128,7 +129,7 @@ class JobsToBidOnSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{title || 'Job Title'}</p>
+          <p className="card-header-title">{title || 'Service Title'}</p>
         </header>
         <div className="card-image is-clipped">
           <figure className="image is-3by1">

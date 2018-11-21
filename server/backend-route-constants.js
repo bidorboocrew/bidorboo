@@ -9,6 +9,14 @@ module.exports = {
       REGISTER_NEW_USER: '/api/auth/register',
       LOGOUT: '/api/auth/logout',
     },
+    PAYMENT: {
+      POST: {
+        payment: '/api/payment',
+      },
+      GET: {
+        payment: '/api/payment',
+      },
+    },
     USER: {
       GET: {
         currentUser: '/api/user/currentUser',
@@ -43,7 +51,10 @@ module.exports = {
         bid: '/api/bids/postABid',
       },
       GET: {
-        myBids: '/api/bids/myBids',
+        myOpenBids: '/api/bids/myOpenBids',
+        myAwardedBids: '/api/bids/myAwardedBids',
+        openBidDetails: '/api/bids/openBidDetails',
+        awardedBidDetails: '/api/bids/awardedBidDetails',
       },
       PUT: {
         markBidAsSeen: '/api/bids/markBidAsSeen',

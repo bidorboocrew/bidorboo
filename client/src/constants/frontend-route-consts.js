@@ -17,6 +17,14 @@ export const API = {
       profilePicture: '/api/user/updateProfileImage',
     },
   },
+  PAYMENT: {
+    POST: {
+      payment: '/api/payment',
+    },
+    GET: {
+      payment: '/api/payment',
+    },
+  },
   JOB: {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
@@ -42,7 +50,10 @@ export const API = {
       bid: '/api/bids/postABid',
     },
     GET: {
-      myBids: '/api/bids/myBids',
+      myOpenBids: '/api/bids/myOpenBids',
+      myAwardedBids: '/api/bids/myAwardedBids',
+      openBidDetails: '/api/bids/openBidDetails',
+      awardedBidDetails: '/api/bids/awardedBidDetails',
     },
     PUT: {
       markBidAsSeen: '/api/bids/markBidAsSeen',
@@ -66,8 +77,14 @@ export const CLIENT = {
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
+<<<<<<< HEAD
     activeBidsPage: '/bidder/active-bids',
     reviewJobPage: '/review-page',
+=======
+    currentAwardedBid: '/bidder/awarded-bid-details',
+    myAwardedBids: '/bidder/my-awarded-bids',
+    myAwardedBidDetails: '/bidder/my-awarded-bid-details',
+>>>>>>> a6861fc560173516e91262df68fe3ea0cbf7bb01
   },
   MY_PROFILE: '/my-profile',
 };

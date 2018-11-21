@@ -3,15 +3,6 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const updateRecentBid = (jobDetails) => (dispatch) => {
-  dispatch({
-    type: A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS,
-    payload: { data: jobDetails },
-  });
-  // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
-};
-
 export const selectJobToBidOn = (jobDetails) => (dispatch) => {
   //update store with the job details
   dispatch({
@@ -38,12 +29,8 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp.data && resp.data._id) {
-          dispatch({
-            type: A.BIDDER_ACTIONS.UPDATE_RECENTLY_ADDED_BIDS,
-            payload: { data: resp.data },
-          });
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.currentPostedBid);
+          switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${resp.data._id}`);
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -62,12 +49,47 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
   });
 };
 
-export const getAllMyBids = () => (dispatch) => {
+export const getMyOpenBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_ALL_MY_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.myBids).catch((error) => {
+    type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
+    payload: axios.get(ROUTES.API.BID.GET.myOpenBids).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
+  });
+};
+
+export const getOpenBidDetails = (openBidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    payload: axios
+      .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const getMyAwardedBids = () => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS,
+    payload: axios.get(ROUTES.API.BID.GET.myAwardedBids).catch((error) => {
+      throwErrorNotification(dispatch, error);
+    }),
+  });
+};
+
+
+export const getAwardedBidDetails = (openBidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    payload: axios
+      .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
   });
 };

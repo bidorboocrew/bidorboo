@@ -1,77 +1,68 @@
 <!DOCTYPE html>
 <!-- needed this to override the stupid library default to scroll bumla -->
-<html style="overflow-y: auto !important" class="fontawesome-i2svg-active fontawesome-i2svg-complete has-navbar-fixed-top" lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/logo.svg">
-  <meta name="BidOrBoo" content="Bid or Boo, info: a modern platform to generate income or get your jobs done">
-  <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
-  <!-- @todo xxx app icons generated from https://realfavicongenerator.net/ -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <!-- <link rel="manifest" href="/site.webmanifest"> -->
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <!--
+<html
+  style="overflow-y: auto !important"
+  class="has-navbar-fixed-top"
+  lang="en"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/logo.svg" />
+    <meta
+      name="BidOrBoo"
+      content="Bid or Boo, info: a modern platform to generate income or get your jobs done"
+    />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <!-- @todo xxx app icons generated from https://realfavicongenerator.net/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <!-- <link rel="manifest" href="/site.webmanifest"> -->
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 
-  <!-- <style>
-    #fullscreen-preloader {
-      padding: 0;
-      margin: 0;
-      color: #fff;
-      line-height: 1.5em;
-      text-align: center;
-      height: 100vh;
-      position: absolute;
-      top:0;
-      bottom:0;
-      left:0;
-      right:0;
-      width: 100%;
-      overflow: hidden;
-      -webkit-animation:color-change-2x 1s linear infinite alternate both;animation:color-change-2x 1s linear infinite alternate both;
-    }
-    @-webkit-keyframes color-change-2x{0%{background:#080C10}100%{background:#232D36}}@keyframes color-change-2x{0%{background:#080C10}100%{background:#232D36}}
-    .sk-circle {
-      margin: 20% auto;
-      width: 200px;
-      height: 200px;
-      position: relative;
-    }
-  </style> -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>BidOrBoo</title>
+  </head>
 
-  <title>BidOrBoo</title>
-</head>
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <!-- just show a loading indicator till app is loaded -->
+    <!-- <div id="fullscreen-preloader"> -->
+    <div id="BidOrBoo-app"></div>
 
-<body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <!-- just show a loading indicator till app is loaded -->
-  <!-- <div id="fullscreen-preloader"> -->
-  <div style="background: white;height:100vh;width:100%" id="BidOrBoo-app">
-    <div style=" display: flex;align-items: center;justify-content: center;height:200px;width:100%">
-    <img src='./logo.svg' height="100rem" width="100rem" />
-  </div>
+    <script src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" async defer></script>
 
+    <!--
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=geometry,drawing,places" async defer></script>
+    -->
 
-
-  <script src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" async defer></script>
-
-  <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=geometry,drawing,places" async defer></script> -->
-
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" type="text/css"> -->
-  <link rel="style" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-    crossorigin="anonymous" async defer>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places" async defer></script>
-
-</body>
-
+    <!--
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" type="text/css">
+    -->
+    <link
+      rel="style"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+      crossorigin="anonymous"
+      async
+      defer
+    />
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places"
+      async
+      defer
+    ></script>
+  </body>
 </html>

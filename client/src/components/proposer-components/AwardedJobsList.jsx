@@ -54,7 +54,7 @@ const EmptyStateComponent = () => (
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">Sorry you have no Awarded Jobs.</div>
+          <div className="is-size-5">Sorry nothing is scheduled.</div>
           <br />
           <a
             className="button is-primary is-large"
@@ -63,7 +63,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Create a Job
+            Request a Service
           </a>
         </div>
       </div>
@@ -104,7 +104,7 @@ class MyAwardedJobSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{title || 'Job Title'}</p>
+          <p className="card-header-title">{title || 'Service Title'}</p>
 
           {/* xxxx delete button */}
           {deleteJob && (

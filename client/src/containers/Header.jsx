@@ -140,41 +140,9 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-child" aria-hidden="true" />
                   </span>
-                  <span>Proposer</span>
+                  <span>Requests</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                  {isLoggedIn && (
-                    <React.Fragment>
-                      <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="far fa-calendar-check" />
-                        </span>
-                        <span>Awarded Jobs</span>
-                      </a>
-                      <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-list" />
-                        </span>
-                        <span>Posted Jobs</span>
-                      </a>
-                    </React.Fragment>
-                  )}
                   <a
                     className="navbar-item"
                     onClick={(e) => {
@@ -187,8 +155,40 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Create Jobs</span>
+                    <span>Add a Request</span>
                   </a>
+                  {isLoggedIn && (
+                    <React.Fragment>
+                      <a
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                          });
+                        }}
+                      >
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-list" />
+                        </span>
+                        <span>My Requests</span>
+                      </a>
+                      <a
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
+                          });
+                        }}
+                      >
+                        <span style={{ marginRight: 4 }}>
+                          <i className="far fa-calendar-check" />
+                        </span>
+                        <span>requests queue</span>
+                      </a>
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
               <div className="navbar-item has-dropdown is-hoverable">
@@ -204,41 +204,9 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-hand-paper" aria-hidden="true" />
                   </span>
-                  <span>Bidder</span>
+                  <span>Bids</span>
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                  {isLoggedIn && (
-                    <React.Fragment>
-                      <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.activeBidsPage);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-handshake" />
-                        </span>
-                        <span>Bids I Won</span>
-                      </a>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                          });
-                        }}
-                        className="navbar-item"
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-money-check-alt" />
-                        </span>
-                        <span>Posted Bids</span>
-                      </a>
-                    </React.Fragment>
-                  )}
                   <a
                     className="navbar-item"
                     onClick={(e) => {
@@ -251,8 +219,40 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="fas fa-plus-circle" />
                     </span>
-                    <span>Bid Now</span>
+                    <span>Add a Bid</span>
                   </a>
+                  {isLoggedIn && (
+                    <React.Fragment>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          });
+                        }}
+                        className="navbar-item"
+                      >
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-money-check-alt" />
+                        </span>
+                        <span>My Bids</span>
+                      </a>
+                      <a
+                        className="navbar-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
+                          });
+                        }}
+                      >
+                        <span style={{ marginRight: 4 }}>
+                          <i className="fas fa-handshake" />
+                        </span>
+                        <span>Scheduled Work</span>
+                      </a>
+                    </React.Fragment>
+                  )}
                 </div>
               </div>
             </div>

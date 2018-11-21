@@ -54,7 +54,7 @@ class NewJobForm extends React.Component {
       'autoSetGeoLocation',
       'successfullGeoCoding',
       'clearForceSetAddressValue',
-      'handleFlexibleTimeChecked'
+      'handleFlexibleTimeChecked',
     );
   }
   handleFlexibleTimeChecked() {
@@ -137,7 +137,7 @@ class NewJobForm extends React.Component {
           type="text"
           forceSetAddressValue={this.state.forceSetAddressValue}
           helpText={'You must select an address from the drop down menu'}
-          label="Job Address"
+          label="Service Address"
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
@@ -182,7 +182,7 @@ class NewJobForm extends React.Component {
           id="DateInputField"
           type="text"
           helpText="click to change date"
-          label="Job Start Date"
+          label="Service Start Date"
           placeholder="specify starting date"
           onChangeEvent={(e) => {
             if (e && e instanceof moment) {
@@ -234,7 +234,7 @@ class NewJobForm extends React.Component {
           id="durationOfJobField"
           type="text"
           helpText="for example : 1 hour , 1 week ...etc"
-          label="Job Duration"
+          label="Service Duration"
           error={touched.durationOfJobField && errors.durationOfJobField}
           value={values.durationOfJobField}
           onChange={handleChange}
@@ -251,37 +251,32 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {actionsSheetRoot &&
-          ReactDOM.createPortal(
-            <div className="field">
-              <ActionSheet>
-                <button
-                  style={{ borderRadius: 0 }}
-                  type="button"
-                  className="button is-outlined is-fullwidth is-large"
-                  disabled={isSubmitting}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onCancel(e);
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  style={{ borderRadius: 0, marginLeft: '2.25rem' }}
-                  className="button is-primary is-fullwidth is-large"
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
-                  onClick={() => {
-                    handleSubmit(values, { ...this.props });
-                  }}
-                >
-                  Submit
-                </button>
-              </ActionSheet>
-            </div>,
-            actionsSheetRoot
-          )}
+
+        <div className="field">
+          <button
+            style={{ borderRadius: 0 }}
+            type="button"
+            className="button is-outlined is-large"
+            disabled={isSubmitting}
+            onClick={(e) => {
+              e.preventDefault();
+              onCancel(e);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            style={{ borderRadius: 0, marginLeft: '1rem' }}
+            className="button is-primary is-large"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+            onClick={() => {
+              handleSubmit(values, { ...this.props });
+            }}
+          >
+            Submit
+          </button>
+        </div>
       </form>
     );
   }
@@ -323,7 +318,7 @@ class NewJobForm extends React.Component {
             {
               location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
-            this.successfullGeoCoding
+            this.successfullGeoCoding,
           );
         }
       };
@@ -332,7 +327,7 @@ class NewJobForm extends React.Component {
       navigator.geolocation.getCurrentPosition(
         successfulRetrieval,
         errorHandling,
-        getCurrentPositionOptions
+        getCurrentPositionOptions,
       );
     } else {
       // Browser doesn't support Geolocation

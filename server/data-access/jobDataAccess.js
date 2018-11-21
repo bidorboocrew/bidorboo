@@ -14,7 +14,7 @@ exports.jobDataAccess = {
         const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
           .populate({
             path: '_postedJobsRef',
-            select: schemaHelpers.JobFieldsFull,
+            select: schemaHelpers.JobFull,
             options: { sort: { createdAt: -1 } },
           })
           .lean(true)
@@ -39,7 +39,7 @@ exports.jobDataAccess = {
         const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
           .populate({
             path: '_postedJobsRef',
-            select: schemaHelpers.JobFieldsFull,
+            select: schemaHelpers.JobFull,
             populate: {
               path: '_bidsListRef',
               select: schemaHelpers.BidFull,

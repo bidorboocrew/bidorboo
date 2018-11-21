@@ -65,7 +65,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
     const cardFooter = () => (
       <React.Fragment>
         <div className="has-text-centered is-size-2 ">
-          bid amount :
+          Bid amount :
           <span className="has-text-primary is-capitalized has-text-weight-bold">
             {` ${bidText}`}
           </span>
@@ -227,7 +227,7 @@ class AwardedJobDetails extends React.Component {
             >
               <p className="card-header-title">
                 <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
-                Details: {title || 'Job Title'}
+                Details: {title || 'Service Title'}
               </p>
             </header>
             <div className="card-image is-clipped">
@@ -256,7 +256,7 @@ class AwardedJobDetails extends React.Component {
 
               <div className="content">
                 <p className="heading">
-                  <span>Job Type</span>
+                  <span>Service Type</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {templatesRepo[fromTemplateId].title || 'not specified'}

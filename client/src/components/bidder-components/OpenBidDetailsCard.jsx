@@ -1,9 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
-export default class BidDetailsCard extends React.Component {
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
+export default class OpenBidDetailsCard extends React.Component {
   render() {
-    const { bidDetails, onShowFullDetails } = this.props;
+    const { bidDetails } = this.props;
 
     if (!bidDetails) {
       return null;
@@ -31,7 +34,7 @@ export default class BidDetailsCard extends React.Component {
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Job Owner</p>
+                  <p className="heading">Requester</p>
                   <figure style={{ margin: '0 auto' }} className="image is-32x32">
                     <img alt="profile" src={profileImage.url} className="image is-32x32" />
                   </figure>
@@ -39,13 +42,13 @@ export default class BidDetailsCard extends React.Component {
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Owner Name</p>
+                  <p className="heading">Requester Name</p>
                   <p className="subtitle">{displayName}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Job Type</p>
+                  <p className="heading">Service Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
                 </div>
               </div>
@@ -62,14 +65,16 @@ export default class BidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              onShowFullDetails(_jobRef);
+              switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
             }}
             className="card-footer-item"
           >
             Bid Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')} at ${startingDateText}`}
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
+              'MMMM Do YYYY'
+            )} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

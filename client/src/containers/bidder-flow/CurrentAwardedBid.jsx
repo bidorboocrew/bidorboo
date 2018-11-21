@@ -15,8 +15,7 @@ import { switchRoute } from '../../utils';
 
 import CurrentOpenBidAndJobDetailsView from '../../components/bidder-components/CurrentOpenBidAndJobDetailsView';
 
-
-class CurrentPostedBid extends React.Component {
+class CurrentAwardedBid extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,7 +26,7 @@ class CurrentPostedBid extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     } else {
-      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
       return null;
     }
   }
@@ -53,10 +52,10 @@ class CurrentPostedBid extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                    switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
                   }}
                 >
-                  Posted Services
+                  Scheduled Work
                 </a>
               </li>
               <li className="is-active">
@@ -93,4 +92,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CurrentPostedBid);
+)(CurrentAwardedBid);

@@ -1,40 +1,38 @@
 import React from 'react';
-import * as ROUTES from '../../constants/frontend-route-consts';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { Spinner } from '../../components/Spinner';
+import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
 
-import { getMyOpenBids } from '../../app-state/actions/bidsActions';
-import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
+import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
-
-class MyBids extends React.Component {
+class MyAwardedBids extends React.Component {
   componentDidMount() {
-    // get all posted bids
-    this.props.a_getAllPostedBids();
+    this.props.a_getMyAwardedBids();
   }
 
   render() {
-    const { isLoading, openBidsList } = this.props;
+    const { isLoading, awardedBidsList } = this.props;
 
     const bidsListComponent =
-      openBidsList && openBidsList.length > 0 ? (
-        openBidsList.map((bidDetails) => {
-          return <OpenBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+      awardedBidsList && awardedBidsList.length > 0 ? (
+        awardedBidsList.map((bidDetails) => {
+          return <AwardedBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
         <EmptyStateComponent />
       );
 
     return (
-      <div className="slide-in-left" id="bdb-bidder-my-bids">
-        <section className="hero is-small is-dark">
+      <div className="slide-in-left" id="bdb-proposer-root">
+        <section className="hero is-small">
           <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Posted Bids
+                Scheduled Work
               </h1>
             </div>
           </div>
@@ -51,24 +49,22 @@ class MyBids extends React.Component {
     );
   }
 }
-
 const mapStateToProps = ({ bidsReducer }) => {
   return {
-    openBidsList: bidsReducer.openBidsList,
+    awardedBidsList: bidsReducer.awardedBidsList,
     isLoading: bidsReducer.isLoadingBids,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
+    a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MyBids);
+)(MyAwardedBids);
 
 const EmptyStateComponent = () => {
   return (
@@ -76,7 +72,7 @@ const EmptyStateComponent = () => {
       <div className="card is-fullwidth">
         <div className="card-content">
           <div className="content has-text-centered">
-            <div className="is-size-5">You have not bid yet click here to start bidding!</div>
+            <div className="is-size-5">You have no scheduled work. start bidding!</div>
             <br />
             <a
               className="button is-primary is-large"

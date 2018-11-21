@@ -43,21 +43,20 @@ class CreateAJob extends React.Component {
     };
 
     return (
-      <section className="mainSectionContainer slide-in-left">
-        <div className="container" id="bdb-proposer-content">
-          <div style={{ marginTop: '1rem' }} className="slide-in-left">
-            <div style={{ marginTop: '1rem' }} className="container">
+      <section className="bdbPage slide-in-left">
+        <div className="container">
+            {/* <div style={{ marginTop: '1rem' }} className="container">
               <nav style={{ marginLeft: '1rem' }} className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                   <li>
-                    <a onClick={this.goBack}>Job templates</a>
+                    <a onClick={this.goBack}>Service Templates</a>
                   </li>
                   <li className="is-active">
                     <a aria-current="page">{jobDetails.title}</a>
                   </li>
                 </ul>
               </nav>
-            </div>
+            </div> */}
             <div className="card-content bdb-addMarginForActionSheet">
               <h1 className="title">{jobDetails.title} Request</h1>
               <NewJobForm
@@ -69,7 +68,6 @@ class CreateAJob extends React.Component {
               />
             </div>
           </div>
-        </div>
       </section>
     );
   }
