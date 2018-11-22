@@ -2,7 +2,8 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
-
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 
 const formikEnhancer = withFormik({
@@ -18,9 +19,23 @@ const formikEnhancer = withFormik({
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showThumbNail: false, acceptedFile: {} };
+    this.state = { showThumbNail: false, acceptedFile: {}, showCropper: false, croppedFile: '' };
     this.dropzoneRef = React.createRef();
-    autoBind(this, 'onDrophandler');
+    autoBind(
+      this,
+      'onDrophandler',
+      'toggleCroppingOn',
+      'saveCrop',
+      'dismissCrop',
+      'onUpdateCropping',
+      'dataURItoBlob',
+    );
+  }
+
+  componentWillUnmount() {
+    const { acceptedFile } = this.state;
+    // clean up memory
+    acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
   }
 
   onDrophandler(files) {
@@ -41,15 +56,69 @@ class MyForm extends React.Component {
     });
   };
 
-  componentWillUnmount() {
-    const { acceptedFile } = this.state;
-    // clean up memory
-    acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
+  toggleCroppingOn() {
+    this.setState({ showCropper: true });
+  }
+
+  dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    //Old Code
+    //write the ArrayBuffer to a blob, and you're done
+    //var bb = new BlobBuilder();
+    //bb.append(ab);
+    //return bb.getBlob(mimeString);
+
+    //New Code
+    return new Blob([ab], { type: mimeString });
+  }
+
+  saveCrop(values) {
+    try {
+      if (this.state.croppedFile && this.state.croppedFile.length > 0) {
+        const updatedFile = this.dataURItoBlob(this.state.croppedFile);
+        this.props.setFieldValue('fileField', updatedFile, false);
+        this.props.handleSubmit(values, this.props);
+      }
+    } catch (e) {
+      console.error('could not crop the image');
+    }
+  }
+
+  dismissCrop() {
+    this.setState({ showCropper: false, croppedFile: {} });
+  }
+
+  onUpdateCropping(file) {
+    try {
+      if (file) {
+        this.setState({ croppedFile: file });
+      }
+    } catch (e) {
+      console.error('failed to crop' + e);
+    }
+
+    // this.setState({ croppedFile: file });
   }
 
   render() {
-    const { handleSubmit, values } = this.props;
-    const { showThumbNail, acceptedFile } = this.state;
+    const { handleSubmit, values, closeDialog } = this.props;
+    const { showThumbNail, acceptedFile, showCropper } = this.state;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -111,20 +180,52 @@ class MyForm extends React.Component {
             <ThumbsCollection
               clickHandler={this.removeFileAndOpenFileSelector}
               acceptedFile={acceptedFile}
+              onUpdateCropping={this.onUpdateCropping}
+              showCropper={showCropper}
             />
           )}
         </div>
-        <br />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleSubmit(values, { ...this.props });
-          }}
-          type="submit"
-          className="button is-primary"
-        >
-          UPLOAD
-        </button>
+
+        <footer style={{ paddingBottom: 0 }} className="modal-card-foot ">
+          {showCropper && (
+            <React.Fragment>
+              <button onClick={this.dismissCrop} className="button">
+                dismisss
+              </button>
+              <button
+                onClick={(values) => {
+                  this.saveCrop(values);
+                }}
+                type="submit"
+                className="button is-primary"
+              >
+                {`Save & Upload`}
+              </button>
+            </React.Fragment>
+          )}
+          {!showCropper && (
+            <React.Fragment>
+              <button onClick={closeDialog} className="button">
+                Cancel
+              </button>
+              {showThumbNail && (
+                <button onClick={this.toggleCroppingOn} className="button is-info">
+                  crop
+                </button>
+              )}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(values, { ...this.props });
+                }}
+                type="submit"
+                className="button is-primary"
+              >
+                Upload
+              </button>
+            </React.Fragment>
+          )}
+        </footer>
       </form>
     );
   }
@@ -132,9 +233,14 @@ class MyForm extends React.Component {
 
 export default formikEnhancer(MyForm);
 
-export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
+export const ThumbsCollection = ({ acceptedFile, clickHandler, showCropper, onUpdateCropping }) => {
   let AllThumbnails = acceptedFile ? (
-    <Thumb clickHandler={clickHandler} file={acceptedFile} />
+    <Thumb
+      clickHandler={clickHandler}
+      file={acceptedFile}
+      showCropper={showCropper}
+      onUpdateCropping={onUpdateCropping}
+    />
   ) : null;
   return AllThumbnails;
 };
@@ -157,8 +263,14 @@ class Thumb extends React.Component {
       reader.readAsDataURL(file);
     }
   }
+  _crop = () => {
+    const { onUpdateCropping } = this.props;
+
+    onUpdateCropping(this.refs.cropper.getCroppedCanvas().toDataURL());
+  };
+
   render() {
-    const { file, clickHandler } = this.props;
+    const { file, clickHandler, showCropper } = this.props;
     const { loading, thumb } = this.state;
     if (!file) {
       return null;
@@ -166,7 +278,18 @@ class Thumb extends React.Component {
     if (loading) {
       return <p>loading...</p>;
     }
-    return (
+
+    console.log('show cropper ' + showCropper);
+    return showCropper ? (
+      <Cropper
+        ref="cropper"
+        src={`${thumb}`}
+        // style={{ height: '18.75rem', width: '100%' }}
+        guides={false}
+        crop={this._crop}
+        className="bdbImageAsBackground"
+      />
+    ) : (
       <div
         onClick={clickHandler}
         className="bdbImageAsBackground"
