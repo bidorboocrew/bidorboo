@@ -155,7 +155,7 @@ class MyPostedJobSummaryCard extends React.Component {
           <div className="media">
             <div className="media-left">
               {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}

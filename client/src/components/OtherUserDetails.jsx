@@ -77,9 +77,10 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
           {cardTitle}
           <div className="card-content">
             <div className="has-text-centered">
-              <figure style={{ margin: '0 auto' }} className="image  is-128x128">
-                <img alt="profile" src={profileImage.url} />
-              </figure>
+              <div
+                style={{ backgroundImage: `url('${profileImage.url}')` }}
+                className="bdbLargeProfilePic"
+              />
               <div>{displayName}</div>
               <DisplayLabelValue
                 labelText="Membership Status:"

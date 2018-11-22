@@ -184,7 +184,7 @@ class BidsTable extends React.Component {
             <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
-                  <figure style={{ margin: '0 auto' }} className="image is-64x64">
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
                     <img alt="profile" src={bid._bidderRef.profileImage.url} />
                   </figure>
                 )}
@@ -368,7 +368,7 @@ class PostedJobsDetails extends React.Component {
             <div className="card-content">
               <div className="media">
                 <div className="media-left">
-                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
                     <img src={profileImage.url} alt="user" />
                   </figure>
                 </div>

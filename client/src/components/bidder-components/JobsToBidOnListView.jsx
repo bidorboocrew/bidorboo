@@ -35,7 +35,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-quarter"
+        className="column is-one-third"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -147,7 +147,7 @@ class JobsToBidOnSummaryCard extends React.Component {
           <div className="media">
             <div className="media-left">
               {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}

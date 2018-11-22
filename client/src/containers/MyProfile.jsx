@@ -167,9 +167,8 @@ const userImageAndStats = (
         <div className="has-text-centered">
           <div
             style={{ backgroundImage: `url('${profileImage.url}')` }}
-            className="bdbProfilePic"
+            className="bdbLargeProfilePic"
           />
-
           <br />
           <a
             onClick={(e) => {
@@ -181,7 +180,6 @@ const userImageAndStats = (
             edit Image
           </a>
 
-          <div />
           <div>{displayName}</div>
           <div>{email}</div>
           <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
