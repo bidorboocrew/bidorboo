@@ -2,6 +2,7 @@ const cloudinary = require('cloudinary');
 const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
+const keys = require('../config/keys');
 
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
@@ -45,10 +46,10 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
 exports.signCloudinaryParams = async (paramsToSign) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // const signed = await cloudinary.utils.api_sign_request(
-      //   paramsToSign,
-      //   'tWu-VkF7Dpn1b_AC5H9ymd2T_ak'
-      // );
+      const signed = await cloudinary.utils.api_sign_request(
+        paramsToSign,
+        keys.cloudinarySecretApiKey
+      );
       resolve(signed);
     } catch (e) {
       reject(e);
