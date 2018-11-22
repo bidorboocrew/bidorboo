@@ -30,8 +30,6 @@ class MyForm extends React.Component {
     }
     // on drop we add to the existing files
     this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
-      debugger;
-
       this.props.setFieldValue('fileField', this.state.acceptedFile, false);
     });
   }

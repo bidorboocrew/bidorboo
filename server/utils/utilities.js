@@ -45,10 +45,10 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
 exports.signCloudinaryParams = async (paramsToSign) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const signed = await cloudinary.utils.api_sign_request(
-        paramsToSign,
-        'tWu-VkF7Dpn1b_AC5H9ymd2T_ak'
-      );
+      // const signed = await cloudinary.utils.api_sign_request(
+      //   paramsToSign,
+      //   'tWu-VkF7Dpn1b_AC5H9ymd2T_ak'
+      // );
       resolve(signed);
     } catch (e) {
       reject(e);
