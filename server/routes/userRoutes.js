@@ -40,36 +40,49 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
     }
   });
+
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
     try {
-      if (req.body.imageDetails) {
-        const { imageDetails } = req.body;
+      if (req.files && req.files.length === 1) {
+        const filesList = req.files;
         const userId = req.user.userId;
+        const userMongoDBId = req.user._id;
+
+        const updateUserWithNewProfileImg = async (error, result) => {
+          try {
+            if (!error) {
+              const userWithNewProfileImg = await userDataAccess.updateUserProfilePic(
+                userId,
+                result.secure_url,
+                result.public_id
+              );
+              return res.send(userWithNewProfileImg);
+            }
+          } catch (e) {
+            return res.status(500).send({ errorMsg: 'Failed To upload to cloudinary', details: e });
+          }
+        };
 
         // delete old profile images if it exist (to save space)
         const currentUser = await userDataAccess.findUserImgDetails(userId);
 
         if (currentUser && currentUser.profileImage && currentUser.profileImage.public_id) {
-          cloudinary.v2.uploader.destroy(currentUser.profileImage.public_id, (error, result) => {
-            // we dont care about errors here as we pretty much either delete the image or .. it gets stale
-            console.log(result, error);
-          });
+          await cloudinary.v2.uploader.destroy(
+            currentUser.profileImage.public_id,
+            (error, result) => {
+              // we dont care about errors here as we pretty much either delete the image or .. it gets stale
+              console.log(result, error);
+            }
+          );
         }
 
-        // delete all images in a folder
-        // const userMongoDbId = req.user._id.toString();
-
-        // await cloudinary.api.delete_resources_by_prefix(`${userMongoDbId}/Profile`, (error, result) => {
-        //   console.log(result, error);
-        // });
-
-        // set new image
-        const userWithNewProfileImg = await userDataAccess.updateUserProfilePic(
-          userId,
-          imageDetails.secure_url,
-          imageDetails.public_id
+        const newImg = await utils.uploadFileToCloudinary(
+          filesList[0].path,
+          {
+            folder: `${userMongoDBId}/`,
+          },
+          updateUserWithNewProfileImg
         );
-        return res.send(userWithNewProfileImg);
       } else {
         return res.status(403).send({
           errorMsg: 'image upload failed due to missing params',

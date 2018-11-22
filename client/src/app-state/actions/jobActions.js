@@ -206,28 +206,6 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
   });
 };
 
-// export const uploadImages = (files) => (dispatch, getState) => {
-//   const config = {
-//     headers: { 'content-type': 'multipart/form-data' },
-//   };
-//   let data = new FormData();
-//   for (var i = 0; i < files.length; i++) {
-//     let file = files[i];
-//     data.append('filesToUpload', file, file.name);
-//   }
-// dispatch({
-//   type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-//   payload: axios
-//     .put(ROUTES.API.JOB.PUT.jobImage, data, config)
-//     .then((e) => {
-//       //debugger
-//     })
-//     .catch((error) => {
-//       throwErrorNotification(dispatch, error);
-//     }),
-// });
-// };
-
 export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,

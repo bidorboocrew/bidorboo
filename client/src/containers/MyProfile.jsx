@@ -1,15 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
-// import classNames from 'classnames';
-import axios from 'axios';
+import classNames from 'classnames';
 import ProfileForm from '../components/forms/ProfileForm';
-// import FileUploaderComponent from '../components/FileUploaderComponent';
+import FileUploaderComponent from '../components/FileUploaderComponent';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -26,19 +24,7 @@ class MyProfile extends React.Component {
   }
 
   toggleShowUploadProfileImageDialog() {
-    if (window.BidOrBoo && window.BidOrBoo.getProfileUploaderWidget) {
-      this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog }, () => {
-        this.state.showImageUploadDialog
-          ? window.BidOrBoo.getProfileUploaderWidget((err, result) => {
-              if (result && result.event === 'success' && result.info) {
-                this.props.a_updateProfileImage(result.info);
-              }
-
-              this.toggleShowUploadProfileImageDialog();
-            }).open()
-          : window.BidOrBoo.getProfileUploaderWidget().close({ quiet: true });
-      });
-    }
+    this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog });
   }
 
   closeFormAndSubmit(vals) {
@@ -47,7 +33,7 @@ class MyProfile extends React.Component {
   }
 
   render() {
-    const { userDetails } = this.props;
+    const { userDetails, a_updateProfileImage } = this.props;
 
     const {
       profileImage,
@@ -62,11 +48,11 @@ class MyProfile extends React.Component {
 
     return (
       <React.Fragment>
-        {/* {uploadImageDialog(
+        {uploadImageDialog(
           this.toggleShowUploadProfileImageDialog,
           this.state.showImageUploadDialog,
           a_updateProfileImage,
-        )} */}
+        )}
 
         <div className="slide-in-left" id="bdb-myprofile">
           <section className="hero is-small is-dark">
@@ -248,4 +234,24 @@ const userEditableInfo = (
       </div>
     </div>
   );
+};
+
+const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
+  return showImageUploadDialog ? (
+    <div className="modal is-active">
+      <div onClick={toggleUploadDialog} className="modal-background" />
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Update Profile Image</p>
+          <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
+        </header>
+        <section className="modal-card-body">
+          <FileUploaderComponent
+            closeDialog={toggleUploadDialog}
+            uploadFilesAction={updateProfileImage}
+          />
+        </section>
+      </div>
+    </div>
+  ) : null;
 };

@@ -41,7 +41,7 @@ class BidOrBooGenericTasks extends React.Component {
                   backgroundColor: bgcolor,
                   border: 'none',
                 }}
-                className="button is-size-4 is-fullwidth has-text-white has-text-centered is-capitalized"
+                className="button is-primary is-size-4 is-fullwidth has-text-white has-text-centered is-capitalized"
               >
                 {title}
               </p>
@@ -65,7 +65,7 @@ class BidOrBooGenericTasks extends React.Component {
                       borderColor: 'transparent',
                       backgroundColor: bgcolor,
                     }}
-                    className="button is-size-4 is-large bdb-AddJobButton"
+                    className="button is-primary is-size-4 is-large bdb-AddJobButton"
                   >
                     <span>+</span>
                   </a>

@@ -206,12 +206,10 @@ class NewJobForm extends React.Component {
             errors.addressTextField = 'google api error ' + e;
           }}
           onChangeEvent={(e) => {
-            debugger;
             console.log(`onChangeEvent={(e) => ${e}`);
             setFieldValue('addressTextField', e, true);
           }}
           onBlurEvent={(e) => {
-            debugger;
             if (e && e.target) {
               console.log(`onChangeEvent={(e) => ${e}`);
               e.target.id = 'addressTextField';
@@ -219,13 +217,11 @@ class NewJobForm extends React.Component {
             }
           }}
           handleSelect={(address) => {
-            debugger;
             console.log(`onChangeEvent={(e) => ${address}`);
             setFieldValue('addressTextField', address, false);
             geocodeByAddress(address)
               .then((results) => getLatLng(results[0]))
               .then((latLng) => {
-                debugger;
                 setFieldValue('locationField', latLng, false);
                 console.log('Success', latLng);
               })

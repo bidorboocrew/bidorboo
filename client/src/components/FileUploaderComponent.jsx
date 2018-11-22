@@ -3,81 +3,72 @@ import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
 
-const dropzoneStyle = {
-  width: 'auto',
-  height: 'auto',
-  minHeight: 150,
-  borderWidth: 1,
-  borderColor: 'rgb(102, 102, 102)',
-  borderStyle: 'dashed',
-  borderRadius: 2,
-  textAlign: 'center',
-  padding: 20,
-};
-const MAX_FILE_SIZE_IN_MB = 1000000 * 5; //5MB
+const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 
 const formikEnhancer = withFormik({
-  handleSubmit: (payload, { setSubmitting, props }) => {
-    props.uploadFilesAction(payload.files);
+  handleSubmit: (payload, { props }) => {
+    if (payload && payload.fileField) {
+      props.uploadFilesAction(payload.fileField);
+    }
     props.closeDialog();
-    setSubmitting(false);
   },
-  mapPropsToValues: ({ user }) => ({
-    files: [],
-  }),
   displayName: 'FileUploaderForm',
 });
 
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = { showThumbNail: false, acceptedFile: {} };
+    this.dropzoneRef = React.createRef();
     autoBind(this, 'onDrophandler');
   }
 
-  onDrophandler(acceptedFiles) {
-    const { setFieldValue, values } = this.props;
+  onDrophandler(files) {
     // do nothing if no files
-    if (acceptedFiles.length === 0) {
-      console.log('if (acceptedFiles.length === 0) {');
+    if (!files || !(files.length > 0)) {
       return;
     }
     // on drop we add to the existing files
-    const newFile = values.files.concat(acceptedFiles);
-    setFieldValue('files', newFile);
+    this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
+      debugger;
+
+      this.props.setFieldValue('fileField', this.state.acceptedFile, false);
+    });
   }
+
+  removeFileAndOpenFileSelector = () => {
+    // remove image
+    this.setState({ showThumbNail: false, acceptedFile: {} }, () => {
+      this.dropzoneRef && this.dropzoneRef.current.open && this.dropzoneRef.current.open();
+    });
+  };
 
   componentWillUnmount() {
-    const { values } = this.props;
-    values.files && values.files.length > 0;
-
-    values.files && values.files.length > 0
-      ? values.files.map((file, i) => {
-          window.URL.revokeObjectURL(file.preview);
-        })
-      : null;
+    const { acceptedFile } = this.state;
+    // clean up memory
+    acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
   }
+
   render() {
-    const {
-      values,
-      touched,
-      errors,
-      dirty,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      handleReset,
-      isSubmitting,
-      setFieldValue,
-    } = this.props;
+    const { handleSubmit, values } = this.props;
+    const { showThumbNail, acceptedFile } = this.state;
 
     return (
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <input
+            id="files"
+            className="input is-invisible"
+            type="hidden"
+            value={values.files || ''}
+          />
           <Dropzone
+            style={!showThumbNail ? {} : { height: 0 }}
+            className={!showThumbNail ? '' : 'is-invisible'}
+            ref={this.dropzoneRef}
             multiple={false}
             maxSize={MAX_FILE_SIZE_IN_MB}
-            style={dropzoneStyle}
+            // style={dropzoneStyle}
             accept={[
               'image/jpg',
               'image/gif',
@@ -90,11 +81,50 @@ class MyForm extends React.Component {
             name="filesToUpload"
             onDrop={this.onDrophandler}
           >
-            <ThumbsCollection {...this.props} />
+            <React.Fragment>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  height: 300,
+                  background: 'white',
+                  border: '1px dashed grey',
+                }}
+                className="section has-text-centered"
+              >
+                <a
+                  type="submit"
+                  style={{
+                    marginTop: '10%',
+                    pointerEvents: 'none',
+                    borderRadius: '100%',
+                    height: 45,
+                  }}
+                  className="button is-success is-meduim  "
+                >
+                  <span>
+                    <i className="fa fa-camera" aria-hidden="true" />
+                  </span>
+                </a>
+              </div>
+            </React.Fragment>
           </Dropzone>
+
+          {showThumbNail && (
+            <ThumbsCollection
+              clickHandler={this.removeFileAndOpenFileSelector}
+              acceptedFile={acceptedFile}
+            />
+          )}
         </div>
         <br />
-        <button type="submit" className="button is-primary">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit(values, { ...this.props });
+          }}
+          type="submit"
+          className="button is-primary"
+        >
           UPLOAD
         </button>
       </form>
@@ -103,17 +133,11 @@ class MyForm extends React.Component {
 }
 
 export default formikEnhancer(MyForm);
-const ThumbsCollection = ({ values }) => {
-  let AllThumbnails =
-    values.files && values.files.length > 0 ? (
-      values.files.map((file, i) => {
-        return <Thumb key={i} file={file} />;
-      })
-    ) : (
-      <div style={{ textAlign: 'center', padding: 20 }}>
-        Drag and drop your files here, or tap to upload a file
-      </div>
-    );
+
+export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
+  let AllThumbnails = acceptedFile ? (
+    <Thumb clickHandler={clickHandler} file={acceptedFile} />
+  ) : null;
   return AllThumbnails;
 };
 
@@ -136,7 +160,7 @@ class Thumb extends React.Component {
     }
   }
   render() {
-    const { file } = this.props;
+    const { file, clickHandler } = this.props;
     const { loading, thumb } = this.state;
     if (!file) {
       return null;
@@ -146,14 +170,10 @@ class Thumb extends React.Component {
     }
     return (
       <div
+        onClick={clickHandler}
+        className="bdbImageAsBackground"
         style={{
           background: `url('${thumb}')`,
-          width: '100%',
-          height: 'auto',
-          backgroundImage: `url('${thumb}')`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: '50% 50%',
         }}
       />
     );

@@ -145,15 +145,6 @@ class Thumb extends React.Component {
           background: `url('${thumb}')`,
         }}
       />
-      // <div className="has-text-centered">
-      //   <img
-      //     style={{ height: 300, width: '100%' }}
-      //     onClick={clickHandler}
-      //     src={thumb}
-      //     alt={file.name}
-      //     className="image"
-      //   />
-      // </div>
     );
   }
 }

@@ -14,7 +14,7 @@ class PaymentHandling extends React.Component {
   }
 
   onTokenResponse(clientStripeToken) {
-    ;
+
     if (clientStripeToken && clientStripeToken.id) {
       this.props.a_submitPayment({
         stripeTransactionToken: clientStripeToken.id,
