@@ -23,7 +23,6 @@ class PaymentHandling extends React.Component {
         chargeAmount: 100,
       });
     }
-    console.log(clientStripeToken);
   }
 
   render() {
