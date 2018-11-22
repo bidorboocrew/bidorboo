@@ -111,6 +111,11 @@ class App extends React.Component {
                   path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
                   component={CurrentAwardedBid}
                 />
+                <Route
+                  exact
+                  path={ROUTES.CLIENT.BIDDER.activeBidsPage}
+                  component={ActiveAwardedBids}
+                />
                 <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} />
                 <Route exact path={ROUTES.CLIENT.BIDDER.reviewJobPage} component={ReviewPage} />
                 <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
