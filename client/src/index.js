@@ -28,38 +28,22 @@ import ScrollToTopOnRouteChange from './ScrollToTopOnRouteChange';
 // add bugsnag support to capture errors
 // https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
 
-console.log(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
+const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+ReactDOM.render(
+  <ErrorBoundary>
+    {/* <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`}> */}
+    <Provider store={store}>
+      <Router history={appHistory}>
+        <ScrollToTopOnRouteChange>
+          <App />
+        </ScrollToTopOnRouteChange>
+      </Router>
+    </Provider>
+    {/* </StripeProvider> */}
+  </ErrorBoundary>,
+  document.getElementById('BidOrBoo-app'),
+);
 
-if (process.env.NODE_ENV === 'production') {
-  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-  const ErrorBoundary = bugsnagClient.use(createPlugin(React));
-  ReactDOM.render(
-    <ErrorBoundary>
-      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`}>
-        <Provider store={store}>
-          <Router history={appHistory}>
-            <ScrollToTopOnRouteChange>
-              <App />
-            </ScrollToTopOnRouteChange>
-          </Router>
-        </Provider>
-      </StripeProvider>
-    </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app'),
-  );
-} else {
-  ReactDOM.render(
-    <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`}>
-      <Provider store={store}>
-        <Router history={appHistory}>
-          <ScrollToTopOnRouteChange>
-            <App />
-          </ScrollToTopOnRouteChange>
-        </Router>
-      </Provider>
-    </StripeProvider>,
-    document.getElementById('BidOrBoo-app'),
-  );
-}
 // unregister();
 // registerServiceWorker();

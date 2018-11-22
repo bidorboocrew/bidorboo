@@ -35,8 +35,8 @@ export default class OpenBidDetailsCard extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Requester</p>
-                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                    <img alt="profile" src={profileImage.url} className="image is-32x32" />
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                    <img alt="profile" src={profileImage.url} />
                   </figure>
                 </div>
               </div>

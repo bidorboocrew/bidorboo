@@ -6152,9 +6152,17 @@ react-dom@^16.6.0:
 react-dropzone@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-7.0.1.tgz#bc76bc1686fb47ed0c8301f968fffa6aecdff47b"
+  integrity sha512-J4rbzhFZPVW7k7K9CVb0OcwSOJGLWa0y+0rvtB4rBLVkvq0agH/o3kPJ0DCkd6ZVzL2K1NFqIOvtQkwQKpmJBA==
   dependencies:
     attr-accept "^1.1.3"
     prop-types "^15.6.2"
+
+react-easy-swipe@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.16.tgz#5a3d949a8f975d05be92a818254315d1318a81ea"
+  integrity sha1-Wj2Umo+XXQW+kqgYJUMV0TGKgeo=
+  dependencies:
+    prop-types "^15.5.8"
 
 react-error-overlay@^4.0.1:
   version "4.0.1"
@@ -6213,6 +6221,7 @@ react-popper@^1.0.2:
 react-redux-loading-bar@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/react-redux-loading-bar/-/react-redux-loading-bar-4.1.0.tgz#3ca460569d979450d9d1dc992328efa449c10a7a"
+  integrity sha512-9L51ZvPqnlPs97j44FZLio6maQ/2BMP8xXFPArDWxByyLyGYs2fXpSZw+Lby9qr8Px3SsH9dylfC8HfQrmc/Mw==
   dependencies:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.2"
@@ -6228,6 +6237,15 @@ react-redux@^5.1.0:
     prop-types "^15.6.1"
     react-is "^16.6.0"
     react-lifecycles-compat "^3.0.0"
+
+react-responsive-carousel@^3.1.43:
+  version "3.1.43"
+  resolved "https://registry.yarnpkg.com/react-responsive-carousel/-/react-responsive-carousel-3.1.43.tgz#c6ccb50867958aea83a216a7d25e63441b766457"
+  integrity sha512-ZFYRtGR1dkC/3TBZKDlwWIvm0OshxCCLq4fWsRgucCja+lOfzB4Pwx9wCgmlZOBj014mne1CDAae/Syd877hIw==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.8"
+    react-easy-swipe "^0.0.16"
 
 react-reveal@^1.2.2:
   version "1.2.2"

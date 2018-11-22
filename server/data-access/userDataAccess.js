@@ -14,6 +14,12 @@ exports.findOneByUserId = (userId) =>
     .lean(true)
     .exec();
 
+
+exports.findUserImgDetails = (userId) =>
+User.findOne({ userId }, {profileImage: 1})
+  .lean(true)
+  .exec();
+
 exports.createNewUser = async (userDetails) =>
   await new User({
     ...userDetails,

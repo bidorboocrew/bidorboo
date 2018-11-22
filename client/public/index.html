@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <!-- needed this to override the stupid library default to scroll bumla -->
-<html
-  style="overflow-y: auto !important"
-  class="has-navbar-fixed-top"
-  lang="en"
->
+<html style="overflow-y: auto !important" class="has-navbar-fixed-top" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/logo.svg" />
@@ -29,9 +25,13 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
-    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/" async></script>
+    <!--
+      <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+    -->
+
     <title>BidOrBoo</title>
   </head>
 
@@ -55,14 +55,10 @@
       href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
       integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
       crossorigin="anonymous"
-      async
-      defer
     />
     <script
       type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places"
-      async
-      defer
     ></script>
   </body>
 </html>

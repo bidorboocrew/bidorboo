@@ -100,6 +100,34 @@ exports.jobDataAccess = {
       throw e;
     }
   },
+  addJobImages: async (jobId, images) => {
+    try {
+      let jobImagesArray = [];
+      if (images && images.length > 0) {
+        jobImagesArray = images.map((imgDetail) => {
+          return {
+            url: imgDetail.secure_url,
+            public_id: imgDetail.public_id,
+          };
+        });
+      }
+      const updatedJob = await JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $push: {
+            jobImages: { $each: jobImagesArray },
+          },
+        },
+        { new: true }
+      )
+        .lean(true)
+        .exec();
+
+      return updatedJob;
+    } catch (e) {
+      throw e;
+    }
+  },
   getAwardedJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {

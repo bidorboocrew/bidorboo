@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Toast from '../components/Toast';
-
+import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
@@ -26,6 +26,7 @@ import {
   AwardedJobs,
   CurrentAwardedJob,
   CurrentAwardedBid,
+  NewPostedJob,
 } from './index';
 
 class App extends React.Component {
@@ -48,6 +49,18 @@ class App extends React.Component {
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
+        <LoadingBar
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: '100%',
+            backgroundColor: '#23d160',
+            height: '5px',
+          }}
+        />
+
         <Header id="bidorboo-header" />
         <Switch>
           {/* redirect and force login */}
@@ -73,6 +86,11 @@ class App extends React.Component {
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
             component={CurrentJob}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
+            component={NewPostedJob}
           />
           <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} />
           <Route
@@ -127,6 +145,6 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(App)
+    mapDispatchToProps,
+  )(App),
 );

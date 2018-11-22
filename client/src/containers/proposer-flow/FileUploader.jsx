@@ -1,21 +1,10 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 
-const formikEnhancer = withFormik({
-  handleSubmit: (payload, { props }) => {
-    if (payload && payload.fileField) {
-      props.uploadFilesAction(payload.fileField);
-    }
-    props.closeDialog();
-  },
-  displayName: 'FileUploaderForm',
-});
-
-class MyForm extends React.Component {
+export default class FileUploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showThumbNail: false, acceptedFile: {} };
@@ -30,7 +19,10 @@ class MyForm extends React.Component {
     }
     // on drop we add to the existing files
     this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
-      this.props.setFieldValue('fileField', this.state.acceptedFile, false);
+      if (this.props.onImageChange) {
+        const { onImageChange, imgIndex } = this.props;
+        onImageChange(imgIndex, this.state.acceptedFile);
+      }
     });
   }
 
@@ -48,18 +40,10 @@ class MyForm extends React.Component {
   }
 
   render() {
-    const { handleSubmit, values } = this.props;
     const { showThumbNail, acceptedFile } = this.state;
-
     return (
-      <form onSubmit={handleSubmit}>
+      <React.Fragment>
         <div className="form-group">
-          <input
-            id="files"
-            className="input is-invisible"
-            type="hidden"
-            value={values.files || ''}
-          />
           <Dropzone
             style={!showThumbNail ? {} : { height: 0 }}
             className={!showThumbNail ? '' : 'is-invisible'}
@@ -92,7 +76,7 @@ class MyForm extends React.Component {
                 <a
                   type="submit"
                   style={{
-                    marginTop: '10%',
+                    marginTop: '25%',
                     pointerEvents: 'none',
                     borderRadius: '100%',
                     height: 45,
@@ -114,23 +98,10 @@ class MyForm extends React.Component {
             />
           )}
         </div>
-        <br />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleSubmit(values, { ...this.props });
-          }}
-          type="submit"
-          className="button is-primary"
-        >
-          UPLOAD
-        </button>
-      </form>
+      </React.Fragment>
     );
   }
 }
-
-export default formikEnhancer(MyForm);
 
 export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
   let AllThumbnails = acceptedFile ? (

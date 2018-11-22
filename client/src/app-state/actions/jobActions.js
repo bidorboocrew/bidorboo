@@ -87,7 +87,7 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
   });
 };
 
-export const addJob = (jobDetails) => (dispatch) => {
+export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
   const {
     locationField,
     detailedDescriptionField,
@@ -97,10 +97,8 @@ export const addJob = (jobDetails) => (dispatch) => {
     periodField,
     durationOfJobField,
     addressTextField,
-    jobTitleField,
     fromTemplateIdField,
-  } = jobDetails;
-
+  } = initialDetails;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 
@@ -148,7 +146,6 @@ export const addJob = (jobDetails) => (dispatch) => {
     durationOfJob: durationOfJobField,
     addressText: addressTextField,
     state: 'OPEN',
-    title: jobTitleField,
     fromTemplateId: fromTemplateIdField,
   };
 
@@ -163,10 +160,44 @@ export const addJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          // switch route to show the currently added job
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${resp.data._id}`, {
-            isNewJob: true,
-          });
+          let data = new FormData();
+          const validImageFiles =
+            jobImages &&
+            jobImages.filter((imgFile) => {
+              return imgFile ? true : false;
+            });
+
+          validImageFiles &&
+            validImageFiles.length > 0 &&
+            validImageFiles.forEach((file) => {
+              data.append('filesToUpload', file, 'jobImages');
+            });
+          const config = {
+            headers: { 'content-type': 'multipart/form-data' },
+          };
+          data.append('jobId', resp.data._id);
+          if (validImageFiles.length > 0) {
+            dispatch({
+              type: A.JOB_ACTIONS.ADD_NEW_JOB,
+              payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
+                if (resp2 && resp2.data.success && resp2.data.jobId) {
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/${resp2.data.jobId}`, {
+                    isNewJob: true,
+                  });
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'success',
+                        msg: 'Service Request was sucessfully created.',
+                      },
+                    },
+                  });
+                }
+                // switch route to show the currently added job
+              }),
+            });
+          }
         }
       })
       .catch((error) => {
@@ -174,28 +205,6 @@ export const addJob = (jobDetails) => (dispatch) => {
       }),
   });
 };
-
-// export const uploadImages = (files) => (dispatch, getState) => {
-//   const config = {
-//     headers: { 'content-type': 'multipart/form-data' },
-//   };
-//   let data = new FormData();
-//   for (var i = 0; i < files.length; i++) {
-//     let file = files[i];
-//     data.append('filesToUpload', file, file.name);
-//   }
-// dispatch({
-//   type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-//   payload: axios
-//     .put(ROUTES.API.JOB.PUT.jobImage, data, config)
-//     .then((e) => {
-//       //debugger
-//     })
-//     .catch((error) => {
-//       throwErrorNotification(dispatch, error);
-//     }),
-// });
-// };
 
 export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
   dispatch({

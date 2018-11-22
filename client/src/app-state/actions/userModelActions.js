@@ -28,15 +28,13 @@ export const updateProfileDetails = (profileDetails) => (dispatch, getState) => 
   });
 };
 
-export const updateProfileImage = (files) => (dispatch) => {
+export const updateProfileImage = (imgFile) => (dispatch) => {
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
   let data = new FormData();
-  for (var i = 0; i < files.length; i++) {
-    let file = files[i];
-    data.append('filesToUpload', file, file.name);
-  }
+
+  data.append('filesToUpload', imgFile);
 
   dispatch({
     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
@@ -56,3 +54,32 @@ export const updateProfileImage = (files) => (dispatch) => {
       }),
   });
 };
+
+// export const updateProfileImage = (files) => (dispatch) => {
+//   const config = {
+//     headers: { 'content-type': 'multipart/form-data' },
+//   };
+//   let data = new FormData();
+//   for (var i = 0; i < files.length; i++) {
+//     let file = files[i];
+//     data.append('filesToUpload', file, file.name);
+//   }
+
+//   dispatch({
+//     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
+//     payload: axios
+//       .put(ROUTES.API.USER.PUT.profilePicture, data, config)
+//       .then((resp) => {
+//         if (resp.data && resp.data.userId) {
+//           //update profile data
+//           dispatch({
+//             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
+//             payload: resp.data,
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         throwErrorNotification(dispatch, error);
+//       }),
+//   });
+// };
