@@ -35,7 +35,6 @@ export const onLogout = () => (dispatch) =>
       dispatch({
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT,
       });
-      window.BidOrBoo = null;
       //rediret user to sign up page
       switchRoute(ROUTES.CLIENT.ENTRY);
       dispatch({
