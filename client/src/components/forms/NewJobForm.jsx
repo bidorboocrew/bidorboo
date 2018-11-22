@@ -49,16 +49,11 @@ class NewJobForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue',
       'handleFlexibleTimeChecked',
     );
   }
   handleFlexibleTimeChecked() {
     this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
-  }
-
-  clearForceSetAddressValue() {
-    this.setState({ forceSetAddressValue: '' });
   }
 
   autoSetGeoLocation(addressText) {
@@ -201,21 +196,22 @@ class NewJobForm extends React.Component {
         <GeoAddressInput
           id="geoInputField"
           type="text"
-          forceSetAddressValue={this.state.forceSetAddressValue}
           helpText={'You must select an address from the drop down menu'}
           label="Service Address"
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
+          value={values.addressTextField || ''}
           onError={(e) => {
             errors.addressTextField = 'google api error ' + e;
           }}
           onChangeEvent={(e) => {
+            debugger;
             console.log(`onChangeEvent={(e) => ${e}`);
-            this.clearForceSetAddressValue();
             setFieldValue('addressTextField', e, true);
           }}
           onBlurEvent={(e) => {
+            debugger;
             if (e && e.target) {
               console.log(`onChangeEvent={(e) => ${e}`);
               e.target.id = 'addressTextField';
@@ -223,12 +219,13 @@ class NewJobForm extends React.Component {
             }
           }}
           handleSelect={(address) => {
+            debugger;
             console.log(`onChangeEvent={(e) => ${address}`);
-
-            setFieldValue('addressTextField', address, true);
+            setFieldValue('addressTextField', address, false);
             geocodeByAddress(address)
               .then((results) => getLatLng(results[0]))
               .then((latLng) => {
+                debugger;
                 setFieldValue('locationField', latLng, false);
                 console.log('Success', latLng);
               })

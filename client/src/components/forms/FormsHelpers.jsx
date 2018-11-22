@@ -252,7 +252,7 @@ export class GeoAddressInput extends React.Component {
       onChangeEvent,
       onBlurEvent,
       autoDetectComponent,
-      forceSetAddressValue,
+      value,
     } = this.props;
     return (
       <div className="field">
@@ -266,7 +266,7 @@ export class GeoAddressInput extends React.Component {
           handleSelect={handleSelect}
           onChangeEvent={onChangeEvent}
           onBlurEvent={onBlurEvent}
-          forceSetAddressValue={forceSetAddressValue}
+          forceSetAddressValue={value}
         />
         {autoDetectComponent}
         {!autoDetectComponent && <HelpText helpText={helpText} />}
