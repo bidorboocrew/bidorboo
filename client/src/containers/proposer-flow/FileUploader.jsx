@@ -76,7 +76,12 @@ export default class FileUploader extends React.Component {
                 <a
                   type="submit"
                   //   onClick={() => open()}
-                  style={{ marginTop: '25%', pointerEvents: 'none', borderRadius: '100%' }}
+                  style={{
+                    marginTop: '25%',
+                    pointerEvents: 'none',
+                    borderRadius: '100%',
+                    height: 45,
+                  }}
                   className="button is-success is-meduim  "
                 >
                   <span>
