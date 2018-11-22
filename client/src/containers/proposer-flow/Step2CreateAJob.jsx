@@ -25,12 +25,7 @@ class CreateAJob extends React.Component {
       currentStepNumber: 2,
     };
     this.collectedJobDetails = { initialDetails: {}, jobImages: [] };
-    autoBind(
-      this,
-      'goBack',
-      'collectJobImageDetails',
-      'postJob',
-    );
+    autoBind(this, 'goBack', 'collectJobImageDetails', 'postJob');
   }
 
   goBack(e) {
@@ -89,17 +84,12 @@ class CreateAJob extends React.Component {
         </div>
       </div>
     );
-    // 768 is bulma mobile size
-    const classToApply =
-      window.innerWidth > 768
-        ? 'container bdbPage pageWithStepper desktop'
-        : 'container bdbPage pageWithStepper mobile';
 
     return (
       <React.Fragment>
         <ProposerStepper currentStepNumber={currentStepNumber} />
 
-        <div className={`${classToApply}`}>{content()}</div>
+        <div className="container bdbPage pageWithStepper desktop">{content()}</div>
       </React.Fragment>
     );
   }

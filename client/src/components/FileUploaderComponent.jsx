@@ -145,7 +145,17 @@ class Thumb extends React.Component {
       return <p>loading...</p>;
     }
     return (
-      <img src={thumb} alt={file.name} className="img-thumbnail mt-2" height={200} width={200} />
+      <div
+        style={{
+          background: `url('${thumb}')`,
+          width: '100%',
+          height: 'auto',
+          backgroundImage: `url('${thumb}')`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: '50% 50%',
+        }}
+      />
     );
   }
 }

@@ -370,3 +370,24 @@ img {
     padding: 0;
   }
 }
+
+.bdbImageAsBackground {
+  width: 100% !important;
+  background-position: center !important;
+  height: 18.75rem !important;
+  background-repeat: no-repeat !important;
+}
+
+.bdbProfilePic{
+  width: 100% !important;
+  background-position: center !important;
+  height: 14.5rem !important;
+  background-repeat: no-repeat !important;
+}
+
+.bdbMiniProfilePic{
+  width: 100% !important;
+  background-position: center !important;
+  height: 2rem !important;
+  background-repeat: no-repeat !important;
+}

@@ -10,7 +10,6 @@ export default class ProposerStepper extends React.Component {
           background: '#EEEEEE',
         }}
       >
-        {/* mobile view*/}
         <div
           style={{
             height: '2.5rem',
@@ -22,61 +21,15 @@ export default class ProposerStepper extends React.Component {
             zIndex: 25,
             background: '#EEEEEE',
           }}
-          className="is-hidden-tablet"
         >
           <ul
             style={{
+              paddingTop: 8,
               background: '#EEEEEE',
-              boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
-              paddingTop: 6,
-              paddingBottom: 4,
+              boxShadow:
+                '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
             }}
-            className="steps is-horizontal"
-          >
-            <li className={`steps-segment ${currentStepNumber === 1 ? 'is-active ' : ''}`}>
-              <span className="steps-marker">
-                <span className="icon">
-                  <i className="fas fa-search" />
-                </span>
-              </span>
-            </li>
-            <li className={`steps-segment ${currentStepNumber === 2 ? 'is-active' : ''}`}>
-              <span className="steps-marker">
-                <span className="icon">
-                  <i className="fas fa-pencil-alt" />
-                </span>
-              </span>
-            </li>
-            <li className={`steps-segment ${currentStepNumber === 3 ? 'is-active' : ''}`}>
-              <span className="steps-marker">
-                <span className="icon">
-                  <i className="fa fa-check" />
-                </span>
-              </span>
-            </li>
-          </ul>
-        </div>
-        {/* desktop view*/}
-        <div
-          style={{
-            height: '3.5rem',
-            position: 'fixed',
-            left: 0,
-            right: 0,
-            width: '100%',
-            top: '3.25rem',
-            zIndex: 25,
-            background: '#EEEEEE',
-          }}
-          className="is-hidden-mobile"
-        >
-          <ul
-            style={{
-              paddingTop: 10,
-              background: '#EEEEEE',
-              boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
-            }}
-            className="steps is-horizontal has-content-centered"
+            className="steps is-small is-horizontal has-content-centered"
           >
             <li
               className={`steps-segment ${
@@ -84,12 +37,12 @@ export default class ProposerStepper extends React.Component {
               }`}
             >
               <span className="steps-marker">
-                <span className="icon">
+                <span style={{ fontSize: 'unset' }} className="icon">
                   <i className="fas fa-search" />
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-5">Select task</p>
+                <p className="is-size-7">Select task</p>
               </div>
             </li>
             <li
@@ -98,12 +51,12 @@ export default class ProposerStepper extends React.Component {
               }`}
             >
               <span className="steps-marker">
-                <span className="icon">
+                <span style={{ fontSize: 'unset' }} className="icon">
                   <i className="fas fa-pencil-alt" />
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-5">Fill Details</p>
+                <p className="is-size-7">Fill Details</p>
               </div>
             </li>
             <li
@@ -112,12 +65,12 @@ export default class ProposerStepper extends React.Component {
               }`}
             >
               <span className="steps-marker">
-                <span className="icon">
+                <span style={{ fontSize: 'unset' }} className="icon">
                   <i className="fa fa-check" />
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-5">Posted</p>
+                <p className="is-size-7">Posted</p>
               </div>
             </li>
           </ul>

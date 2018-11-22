@@ -16,7 +16,7 @@ export default class OtherUserDetails extends React.Component {
     }).isRequired,
     breadCrumb: PropTypes.node,
     cardTitle: PropTypes.node,
-    cardFooter: PropTypes.node
+    cardFooter: PropTypes.node,
   };
 
   static defaultProps = {
@@ -70,7 +70,6 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
 
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
-
   return (
     <div className="columns is-centered">
       <div className="column is-half">
@@ -81,13 +80,6 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
               <figure style={{ margin: '0 auto' }} className="image  is-128x128">
                 <img alt="profile" src={profileImage.url} />
               </figure>
-              <div>
-                <img
-                  alt="star rating"
-                  src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
-                  className="starRating"
-                />
-              </div>
               <div>{displayName}</div>
               <DisplayLabelValue
                 labelText="Membership Status:"

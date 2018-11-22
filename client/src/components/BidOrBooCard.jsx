@@ -8,15 +8,17 @@ export default class BidOrBooCard extends React.Component {
     logoImg: PropTypes.string.isRequired,
   };
 
-
   render() {
     const { cardContent, onClickHandler, logoImg } = this.props;
     return (
-      <div style={{cursor: "pointer"}} onClick={onClickHandler} className="card">
+      <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
         <div className="card-image">
-          <figure className="image is-2by2">
-            <img src={logoImg} alt="Placeholder image" />
-          </figure>
+          <div
+            style={{
+              background: `url('${logoImg}')`,
+            }}
+            className="bdbImageAsBackground"
+          />
         </div>
         <div className="card-content">
           <div className="content">{cardContent}</div>

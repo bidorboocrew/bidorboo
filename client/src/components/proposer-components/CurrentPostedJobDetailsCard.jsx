@@ -327,10 +327,11 @@ class PostedJobsDetails extends React.Component {
           onClick={() => {
             window.open(imgObj.url, '_blank');
           }}
-          className="card-image is-clipped"
-        >
-          <img style={{ height: 300 }} src={imgObj.url} />
-        </div>
+          className="bdbImageAsBackground"
+          style={{
+            background: `url('${imgObj.url}')`,
+          }}
+        />
       ));
     }
 
@@ -346,16 +347,16 @@ class PostedJobsDetails extends React.Component {
             </header>
             {!jobImages && !(jobImages.length > 0) && (
               <div className="card-image is-clipped">
-                <figure className="image">
-                  <img
-                    src={
+                <div
+                  style={{
+                    background: `url('${
                       templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                         ? templatesRepo[fromTemplateId].imageUrl
                         : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-                    }
-                    alt="Placeholder"
-                  />
-                </figure>
+                    }')`,
+                  }}
+                  className="bdbImageAsBackground"
+                />
               </div>
             )}
 

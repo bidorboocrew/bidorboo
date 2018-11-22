@@ -65,14 +65,9 @@ class CurrentJob extends React.Component {
         </nav>
       </div>
     );
-  // 768 is bulma mobile size
-  const classToApply =
-  window.innerWidth > 768
-    ? 'container bdbPage pageWithStepper desktop'
-    : 'container bdbPage pageWithStepper mobile';
 
     return (
-      <section className={classToApply}>
+      <div className="container bdbPage pageWithStepper desktop">
         <ProposerStepper currentStepNumber={3} />
 
         {selectedActivePostedJob && selectedActivePostedJob._id ? (
@@ -85,7 +80,7 @@ class CurrentJob extends React.Component {
             hideBidTable={true}
           />
         ) : null}
-      </section>
+      </div>
     );
   }
 }

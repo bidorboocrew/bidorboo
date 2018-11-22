@@ -165,9 +165,11 @@ const userImageAndStats = (
     <React.Fragment>
       <div className="column is-one-quarter">
         <div className="has-text-centered">
-          <figure style={{ margin: '0 auto' }} className="image  is-128x128">
-            <img alt="profile" src={profileImage.url} />
-          </figure>
+          <div
+            style={{ backgroundImage: `url('${profileImage.url}')` }}
+            className="bdbProfilePic"
+          />
+
           <br />
           <a
             onClick={(e) => {
@@ -179,13 +181,7 @@ const userImageAndStats = (
             edit Image
           </a>
 
-          <div>
-            <img
-              alt="star rating"
-              src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
-              className="starRating"
-            />
-          </div>
+          <div />
           <div>{displayName}</div>
           <div>{email}</div>
           <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
@@ -222,7 +218,7 @@ const userEditableInfo = (
                 resize: 'none',
                 border: 'none',
                 color: '#4a4a4a',
-                background: 'white',
+                background: '#EEEEEE',
               }}
               readOnly
             />
@@ -255,40 +251,3 @@ const userEditableInfo = (
     </div>
   );
 };
-
-// const advertisement = () => {
-//   return (
-//     <div className="column is-one-quarter">
-//       <div style={{ textAlign: 'center' }}>
-//         <div>Ads</div>
-//         <div>
-//           <img
-//             alt="profile"
-//             src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
-
-//   return showImageUploadDialog ? (
-//     <div className="modal is-active">
-//       <div onClick={toggleUploadDialog} className="modal-background" />
-//       <div className="modal-card">
-//         <header className="modal-card-head">
-//           <p className="modal-card-title">Update Profile Image</p>
-//           <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
-//         </header>
-//         <section className="modal-card-body">
-//           <FileUploaderComponent
-//             closeDialog={toggleUploadDialog}
-//             uploadFilesAction={updateProfileImage}
-//           />
-//         </section>
-//       </div>
-//     </div>
-//   ) : null;
-// };

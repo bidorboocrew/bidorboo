@@ -96,7 +96,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
         {this.state.showConnectToBidderDialog &&
           ReactDOM.createPortal(
             <ContactMeDialog user={_bidderRef} close={this.toggleConnecToBidderDialog} />,
-            this.appRoot
+            this.appRoot,
           )}
 
         {breadCrumb}
@@ -231,16 +231,16 @@ class AwardedJobDetails extends React.Component {
               </p>
             </header>
             <div className="card-image is-clipped">
-              <figure className="image is-3by1">
-                <img
-                  src={
+              <div
+                style={{
+                  background: `url('${
                     templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                       ? templatesRepo[fromTemplateId].imageUrl
                       : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-                  }
-                  alt="Placeholder"
-                />
-              </figure>
+                  }')`,
+                }}
+                className="bdbImageAsBackground"
+              />
             </div>
             <div className="card-content">
               <div className="media">

@@ -1,6 +1,5 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
@@ -135,15 +134,22 @@ class Thumb extends React.Component {
       return <p>loading...</p>;
     }
     return (
-      <div className="has-text-centered">
-        <img
-          style={{ height: 300, width: '100%' }}
-          onClick={clickHandler}
-          src={thumb}
-          alt={file.name}
-          className="image"
-        />
-      </div>
+      <div
+        onClick={clickHandler}
+        className="bdbImageAsBackground"
+        style={{
+          background: `url('${thumb}')`,
+        }}
+      />
+      // <div className="has-text-centered">
+      //   <img
+      //     style={{ height: 300, width: '100%' }}
+      //     onClick={clickHandler}
+      //     src={thumb}
+      //     alt={file.name}
+      //     className="image"
+      //   />
+      // </div>
     );
   }
 }
