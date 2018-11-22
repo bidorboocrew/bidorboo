@@ -60,12 +60,9 @@ class BidsTable extends React.Component {
       <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
         <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
           {currentUser && currentUser.profileImage && currentUser.profileImage.url && (
-            <div
-              style={{
-                background: `url('${currentUser.profileImage.url}')`,
-              }}
-              className="bdbImageAsBackground"
-            />
+            <figure style={{ margin: '0 auto' }} className="image is-48x48">
+              <img src={currentUser.profileImage.url} alt="user" />
+            </figure>
           )}
         </td>
         <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
