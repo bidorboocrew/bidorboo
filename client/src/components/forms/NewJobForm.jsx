@@ -31,10 +31,6 @@ import ActionSheet from '../ActionSheet';
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
 class NewJobForm extends React.Component {
-  static propTypes = {
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-  };
   constructor(props) {
     super(props);
 
@@ -53,16 +49,11 @@ class NewJobForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue',
       'handleFlexibleTimeChecked',
     );
   }
   handleFlexibleTimeChecked() {
     this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
-  }
-
-  clearForceSetAddressValue() {
-    this.setState({ forceSetAddressValue: '' });
   }
 
   autoSetGeoLocation(addressText) {
@@ -80,7 +71,7 @@ class NewJobForm extends React.Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      onCancel,
+      onGoBack,
       isValid,
       isSubmitting,
       setFieldValue,
@@ -103,8 +94,8 @@ class NewJobForm extends React.Component {
     //get an initial title from the job title
     values.fromTemplateIdField = fromTemplateIdField;
     return (
-      <form>
-        <TextInput
+      <form onSubmit={handleSubmit}>
+        {/* <TextInput
           id="jobTitleField"
           className="input"
           type="text"
@@ -113,7 +104,7 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.jobTitleField || ''}
-        />
+        /> */}
         <input
           id="fromTemplateIdField"
           className="input is-invisible"
@@ -131,46 +122,6 @@ class NewJobForm extends React.Component {
           className="input is-invisible"
           type="hidden"
           value={values.locationField || ''}
-        />
-        <GeoAddressInput
-          id="geoInputField"
-          type="text"
-          forceSetAddressValue={this.state.forceSetAddressValue}
-          helpText={'You must select an address from the drop down menu'}
-          label="Service Address"
-          placeholder="specify your job address"
-          autoDetectComponent={autoDetectCurrentLocation}
-          error={touched.addressTextField && errors.addressTextField}
-          onError={(e) => {
-            errors.addressTextField = 'google api error ' + e;
-          }}
-          onChangeEvent={(e) => {
-            console.log(`onChangeEvent={(e) => ${e}`);
-            this.clearForceSetAddressValue();
-            setFieldValue('addressTextField', e, true);
-          }}
-          onBlurEvent={(e) => {
-            if (e && e.target) {
-              console.log(`onChangeEvent={(e) => ${e}`);
-              e.target.id = 'addressTextField';
-              handleBlur(e);
-            }
-          }}
-          handleSelect={(address) => {
-            console.log(`onChangeEvent={(e) => ${address}`);
-
-            setFieldValue('addressTextField', address, true);
-            geocodeByAddress(address)
-              .then((results) => getLatLng(results[0]))
-              .then((latLng) => {
-                setFieldValue('locationField', latLng, false);
-                console.log('Success', latLng);
-              })
-              .catch((error) => {
-                errors.addressTextField = 'error getting lat lng ' + error;
-                console.error('Error', error);
-              });
-          }}
         />
         <input
           id="dateField"
@@ -241,6 +192,45 @@ class NewJobForm extends React.Component {
           onBlur={handleBlur}
           iconLeft="far fa-clock"
         />
+
+        <GeoAddressInput
+          id="geoInputField"
+          type="text"
+          helpText={'You must select an address from the drop down menu'}
+          label="Service Address"
+          placeholder="specify your job address"
+          autoDetectComponent={autoDetectCurrentLocation}
+          error={touched.addressTextField && errors.addressTextField}
+          value={values.addressTextField || ''}
+          onError={(e) => {
+            errors.addressTextField = 'google api error ' + e;
+          }}
+          onChangeEvent={(e) => {
+            console.log(`onChangeEvent={(e) => ${e}`);
+            setFieldValue('addressTextField', e, true);
+          }}
+          onBlurEvent={(e) => {
+            if (e && e.target) {
+              console.log(`onChangeEvent={(e) => ${e}`);
+              e.target.id = 'addressTextField';
+              handleBlur(e);
+            }
+          }}
+          handleSelect={(address) => {
+            console.log(`onChangeEvent={(e) => ${address}`);
+            setFieldValue('addressTextField', address, false);
+            geocodeByAddress(address)
+              .then((results) => getLatLng(results[0]))
+              .then((latLng) => {
+                setFieldValue('locationField', latLng, false);
+                console.log('Success', latLng);
+              })
+              .catch((error) => {
+                errors.addressTextField = 'error getting lat lng ' + error;
+                console.error('Error', error);
+              });
+          }}
+        />
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
@@ -260,21 +250,22 @@ class NewJobForm extends React.Component {
             disabled={isSubmitting}
             onClick={(e) => {
               e.preventDefault();
-              onCancel(e);
+              onGoBack(e);
             }}
           >
-            Cancel
+            Back
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className="button is-primary is-large"
+            className={`button is-primary is-large ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               handleSubmit(values, { ...this.props });
             }}
           >
-            Submit
+            Post it!
           </button>
         </div>
       </form>
@@ -338,19 +329,8 @@ class NewJobForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
-  validationSchema: Yup.object().shape({
-    jobTitleField: Yup.string()
-      .ensure()
-      .trim()
-      .min(5, 'your job title is longer than that. Must be at least 5 chars')
-      .max(100, 'your job title is longer than 100. Must be at most 100 chars')
-      .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
-        return alphanumericField(inputText);
-      }),
-  }),
   mapPropsToValues: (props) => {
     return {
-      jobTitleField: props.jobTitleField,
       hoursField: 1,
       minutesField: 0,
       periodField: 'PM',
@@ -362,8 +342,7 @@ const EnhancedForms = withFormik({
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    props.onSubmit(values);
-    setSubmitting(false);
+    props.onNext(values);
   },
   displayName: 'NewJobForm',
 });

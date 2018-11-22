@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Toast from '../components/Toast';
-
+import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
@@ -28,6 +28,7 @@ import {
   ReviewPage,
   CurrentAwardedBid,
   ActiveAwardedBids,
+  NewPostedJob,
 } from './index';
 
 class App extends React.Component {
@@ -81,6 +82,11 @@ class App extends React.Component {
                 />
                 <Route
                   exact
+                  path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
+                  component={NewPostedJob}
+                />
+                <Route
+                  exact
                   path={ROUTES.CLIENT.PROPOSER.awardedJobsPage}
                   component={AwardedJobs}
                 />
@@ -122,10 +128,23 @@ class App extends React.Component {
                 {/* redirect any unknown route to the home component */}
                 <Redirect path="*" to={ROUTES.CLIENT.HOME} />
               </Switch>
+
+              <LoadingBar
+                style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  width: '100%',
+                  backgroundColor: '#23d160',
+                  height: '5px',
+                }}
+              />
+
+              <Header id="bidorboo-header" />
             </div>
           </div>
         </div>
-        <Header id="bidorboo-header" />
       </div>
     );
   }

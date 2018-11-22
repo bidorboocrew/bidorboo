@@ -10,6 +10,7 @@ import {
   markBidAsSeen,
 } from '../../app-state/actions/jobActions';
 import CurrentPostedJobDetailsCard from '../../components/proposer-components/CurrentPostedJobDetailsCard';
+import ProposerStepper from './ProposerStepper';
 
 import { switchRoute } from '../../utils';
 
@@ -66,7 +67,9 @@ class CurrentJob extends React.Component {
     );
 
     return (
-      <section className="bdbPage slide-in-left">
+      <div className="container bdbPage pageWithStepper desktop">
+        <ProposerStepper currentStepNumber={3} />
+
         {selectedActivePostedJob && selectedActivePostedJob._id ? (
           <CurrentPostedJobDetailsCard
             breadCrumb={breadCrumb}
@@ -74,10 +77,10 @@ class CurrentJob extends React.Component {
             job={selectedActivePostedJob}
             awardBidder={a_awardBidder}
             markBidAsSeen={a_markBidAsSeen}
-            hideBidTable={this.isNewlyPostedJob}
+            hideBidTable={true}
           />
         ) : null}
-      </section>
+      </div>
     );
   }
 }

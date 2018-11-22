@@ -35,9 +35,12 @@ export default class AwardedBidDetailsCard extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Requester</p>
-                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                    <img alt="profile" src={profileImage.url} className="image is-32x32" />
-                  </figure>
+                  <div
+                    style={{
+                      background: `url('${profileImage.url}')`,
+                    }}
+                    className="bdbImageAsBackground"
+                  />
                 </div>
               </div>
               <div className="level-item has-text-centered">
@@ -73,7 +76,7 @@ export default class AwardedBidDetailsCard extends React.Component {
           </a>
           <div className="card-footer-item">
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY'
+              'MMMM Do YYYY',
             )} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">

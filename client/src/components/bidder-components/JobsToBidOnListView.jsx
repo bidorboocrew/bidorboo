@@ -35,7 +35,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-quarter"
+        className="column is-one-third"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -89,7 +89,7 @@ const CardBottomSection = (props) => {
           }}
           className="button is-primary is-fullwidth is-large"
         >
-         View Details
+          View Details
           {/* <span style={{ marginLeft: 4 }}>
             <i className="fas fa-dollar-sign" /> View Details
           </span> */}
@@ -132,22 +132,22 @@ class JobsToBidOnSummaryCard extends React.Component {
           <p className="card-header-title">{title || 'Service Title'}</p>
         </header>
         <div className="card-image is-clipped">
-          <figure className="image is-3by1">
-            <img
-              src={
+          <div
+            style={{
+              background: `url('${
                 templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-              }
-              alt="Placeholder"
-            />
-          </figure>
+              }')`,
+            }}
+            className="bdbImageAsBackground"
+          />
         </div>
         <div className="card-content">
           <div className="media">
             <div className="media-left">
               {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}

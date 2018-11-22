@@ -154,8 +154,8 @@ class JobMarker extends React.Component {
               <div style={{ padding: '0.25rem 0.75rem' }} className="card-content">
                 <div className="content">
                   <div>
-                    <figure className="image is-marginless">
-                      <img alt="profile" src={marker._ownerRef.profileImage.url} />
+                    <figure className="image is-48x48 is-marginless">
+                      <img  alt="profile" src={marker._ownerRef.profileImage.url} />
                     </figure>
                   </div>
                   <div className="level-item">

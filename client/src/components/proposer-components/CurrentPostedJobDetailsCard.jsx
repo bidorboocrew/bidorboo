@@ -9,6 +9,8 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import OtherUserDetails from '../OtherUserDetails';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
 
 export default class CurrentPostedJobDetailsCard extends React.Component {
   static propTypes = {
@@ -148,7 +150,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       />
     ) : (
       <React.Fragment>
-        {breadCrumb}
+        {/* {breadCrumb} */}
         <div className="container">
           {!hideBidTable && (
             <BidsTable
@@ -182,7 +184,7 @@ class BidsTable extends React.Component {
             <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
-                  <figure style={{ margin: '0 auto' }} className="image is-64x64">
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
                     <img alt="profile" src={bid._bidderRef.profileImage.url} />
                   </figure>
                 )}
@@ -218,7 +220,7 @@ class BidsTable extends React.Component {
                         e,
                         bid._bidderRef,
                         `${bid.bidAmount.value} ${bid.bidAmount.currency}`,
-                        bid._id
+                        bid._id,
                       );
                     }}
                     className="button is-primary is-outlined"
@@ -296,6 +298,7 @@ class PostedJobsDetails extends React.Component {
       startingDateAndTime,
       title,
       detailedDescription,
+      jobImages,
     } = job;
 
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
@@ -316,32 +319,56 @@ class PostedJobsDetails extends React.Component {
       console.error(e);
     }
 
+    let carouselItems = null;
+
+    if (jobImages && jobImages.length > 0) {
+      carouselItems = jobImages.map((imgObj) => (
+        <div
+          onClick={() => {
+            window.open(imgObj.url, '_blank');
+          }}
+          className="bdbImageAsBackground"
+          style={{
+            background: `url('${imgObj.url}')`,
+          }}
+        />
+      ));
+    }
+
     return (
       <div className="columns is-centered">
         <div className="column is-half">
-          <div className="card is-clipped">
+          <div className="card noShadow is-clipped">
             <header
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
               className="card-header"
             >
-              <p className="card-header-title">Service Details: {title || 'Service Title'}</p>
+              <p className="card-header-title">Request Details</p>
             </header>
-            <div className="card-image is-clipped">
-              <figure className="image is-3by1">
-                <img
-                  src={
-                    templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
-                      ? templatesRepo[fromTemplateId].imageUrl
-                      : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-                  }
-                  alt="Placeholder"
+            {!jobImages && !(jobImages.length > 0) && (
+              <div className="card-image is-clipped">
+                <div
+                  style={{
+                    background: `url('${
+                      templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
+                        ? templatesRepo[fromTemplateId].imageUrl
+                        : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
+                    }')`,
+                  }}
+                  className="bdbImageAsBackground"
                 />
-              </figure>
-            </div>
+              </div>
+            )}
+
+            {jobImages && jobImages.length > 0 && (
+              <Carousel showStatus={false} showThumbs={false}>
+                {carouselItems}
+              </Carousel>
+            )}
             <div className="card-content">
               <div className="media">
                 <div className="media-left">
-                  <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
                     <img src={profileImage.url} alt="user" />
                   </figure>
                 </div>

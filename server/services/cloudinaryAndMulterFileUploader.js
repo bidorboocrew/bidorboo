@@ -15,29 +15,26 @@ const multerWithConfigs = multer({
     // https://github.com/expressjs/multer/isues/114
     // replace this with regex to match image/*
     const isAllowedFileType =
-      file &&
-      file.mimetype &&
-      ALLOWED_FILE_EXTENSIONS_MIME_TYPE.test(file.mimetype);
+      file && file.mimetype && ALLOWED_FILE_EXTENSIONS_MIME_TYPE.test(file.mimetype);
 
     if (!isAllowedFileType) {
       // ignore files that are not allowed
-
       // TODO in the future we can even send an error  to the user
       // return cb(new Error('Only image files are allowed'));
     } else {
       cb(null, true);
     }
-  }
+  },
 });
 
-module.exports = app => {
+module.exports = (app) => {
   // configure multer for handling form file input and intermediate storage
-  app.use(multerWithConfigs.array(EXPECTED_FILE_INPUT_ID_IN_THE_FORM));
+  app.use(multerWithConfigs.array(EXPECTED_FILE_INPUT_ID_IN_THE_FORM, 6));
 
   // configure cloudinary to upload files to cloud
   cloudinary.config({
     cloud_name: keys.cloudinaryCloudName,
     api_key: keys.cloudinaryPublicApiKey,
-    api_secret: keys.cloudinarySecretApiKey
+    api_secret: keys.cloudinarySecretApiKey,
   });
 };

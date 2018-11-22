@@ -8,6 +8,11 @@ export const API = {
     REGISTER_NEW_USER: '/api/auth/register',
     LOGOUT: '/api/auth/logout',
   },
+  UTILS: {
+    GET: {
+      signCloudinaryRequest: '/api/user/paramstosign'
+    }
+  },
   USER: {
     GET: {
       currentUser: '/api/user/currentUser',
@@ -69,6 +74,7 @@ export const CLIENT = {
     createjob: '/proposer/create-job',
     myOpenJobs: '/proposer/my-open-jobs',
     selectedPostedJobPage: '/proposer/job-details',
+    newlyPostedJob:'/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
   },

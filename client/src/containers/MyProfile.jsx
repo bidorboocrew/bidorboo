@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
@@ -7,7 +6,6 @@ import { updateProfileDetails, updateProfileImage } from '../app-state/actions/u
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
-
 import ProfileForm from '../components/forms/ProfileForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 
@@ -53,7 +51,7 @@ class MyProfile extends React.Component {
         {uploadImageDialog(
           this.toggleShowUploadProfileImageDialog,
           this.state.showImageUploadDialog,
-          a_updateProfileImage
+          a_updateProfileImage,
         )}
 
         <div className="slide-in-left" id="bdb-myprofile">
@@ -74,7 +72,7 @@ class MyProfile extends React.Component {
                   profileImage,
                   displayName,
                   email,
-                  membershipStatusDisplay
+                  membershipStatusDisplay,
                 )}
                 {/* user details */}
                 {userEditableInfo(
@@ -85,7 +83,7 @@ class MyProfile extends React.Component {
                   phoneNumber,
                   personalParagraph,
                   this.toggleEditProfile,
-                  this.closeFormAndSubmit
+                  this.closeFormAndSubmit,
                 )}
                 {/* advertisement */}
                 {/* {advertisement()} */}
@@ -112,7 +110,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyProfile);
 
 // profile components ----------------------------------------------------------------------------
@@ -147,15 +145,16 @@ const userImageAndStats = (
   profileImage,
   displayName,
   email,
-  membershipStatusDisplay
+  membershipStatusDisplay,
 ) => {
   return (
     <React.Fragment>
       <div className="column is-one-quarter">
         <div className="has-text-centered">
-          <figure style={{ margin: '0 auto' }} className="image  is-128x128">
-            <img alt="profile" src={profileImage.url} />
-          </figure>
+          <div
+            style={{ backgroundImage: `url('${profileImage.url}')` }}
+            className="bdbLargeProfilePic"
+          />
           <br />
           <a
             onClick={(e) => {
@@ -167,13 +166,6 @@ const userImageAndStats = (
             edit Image
           </a>
 
-          <div>
-            <img
-              alt="star rating"
-              src="https://www.citizensadvice.org.uk/Global/energy-comparison/rating-35.svg"
-              className="starRating"
-            />
-          </div>
           <div>{displayName}</div>
           <div>{email}</div>
           <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
@@ -191,7 +183,7 @@ const userEditableInfo = (
   phoneNumber = 'none provided',
   personalParagraph = 'none provided',
   toggleEditProfile,
-  closeFormAndSubmit
+  closeFormAndSubmit,
 ) => {
   return (
     <div className="column">
@@ -210,7 +202,7 @@ const userEditableInfo = (
                 resize: 'none',
                 border: 'none',
                 color: '#4a4a4a',
-                background: 'white',
+                background: '#EEEEEE',
               }}
               readOnly
             />
@@ -244,29 +236,9 @@ const userEditableInfo = (
   );
 };
 
-// const advertisement = () => {
-//   return (
-//     <div className="column is-one-quarter">
-//       <div style={{ textAlign: 'center' }}>
-//         <div>Ads</div>
-//         <div>
-//           <img
-//             alt="profile"
-//             src="https://digitalsynopsis.com/wp-content/uploads/2017/01/creative-print-ads-copywriting-challenge-8.png"
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProfileImage) => {
-  return (
-    <div
-      className={classNames('modal', {
-        'is-active': showImageUploadDialog,
-      })}
-    >
+  return showImageUploadDialog ? (
+    <div className="modal is-active">
       <div onClick={toggleUploadDialog} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
@@ -281,5 +253,5 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
         </section>
       </div>
     </div>
-  );
+  ) : null;
 };

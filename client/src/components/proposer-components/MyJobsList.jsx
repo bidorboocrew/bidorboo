@@ -140,22 +140,22 @@ class MyPostedJobSummaryCard extends React.Component {
           )}
         </header>
         <div className="card-image is-clipped">
-          <figure className="image is-3by1">
-            <img
-              src={
+          <div
+            style={{
+              background: `url('${
                 templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
                   ? templatesRepo[fromTemplateId].imageUrl
                   : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-              }
-              alt="Placeholder"
-            />
-          </figure>
+              }')`,
+            }}
+            className="bdbImageAsBackground"
+          />
         </div>
         <div className="card-content">
           <div className="media">
             <div className="media-left">
               {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-32x32">
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}

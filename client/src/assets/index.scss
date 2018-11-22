@@ -9,7 +9,7 @@
 html body {
   color: $color1;
   // line-height: 1.5;
-  background: #fff;
+  background: #eeeeee;
   -webkit-font-smoothing: antialiased;
   // overflow-x: hidden;
   // overflow-y: auto;
@@ -176,7 +176,7 @@ $box-radius: 0;
 .navbar-dropdown .navbar-item {
   font-size: 16px;
 }
-// @import 'bulma-o-steps/bulma-steps.sass';
+@import 'bulma-o-steps/bulma-steps.sass';
 
 @import 'bulma/bulma.sass';
 /* map infoBox style */
@@ -185,6 +185,12 @@ $box-radius: 0;
     -webkit-animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     // box-shadow: $shadow-space;
+  }
+  &.noShadow {
+    &:hover {
+      animation: none;
+      // box-shadow: $shadow-space;
+    }
   }
   height: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
@@ -200,6 +206,14 @@ $box-radius: 0;
   }
 }
 /* */
+.pageWithStepper {
+  &.desktop {
+    margin-top: 5.5rem;
+  }
+  &.mobile {
+    margin-top: 3.5rem;
+  }
+}
 
 .VerticalAligner {
   display: flex;
@@ -255,17 +269,13 @@ $box-radius: 0;
   opacity: 1;
 }
 
-.bdb-addMarginForActionSheet {
-  margin-bottom: 2.5rem;
-}
+// .input {
+//   font-size: 1.25rem;
+// }
 
-.input {
-  font-size: 1.25rem;
-}
-
-span.icon {
-  font-size: 1.25rem;
-}
+// span.icon {
+//   font-size: 1.25rem;
+// }
 
 img {
   height: auto;
@@ -359,4 +369,25 @@ img {
   .StripeElement.PaymentRequestButton {
     padding: 0;
   }
+}
+
+.bdbImageAsBackground {
+  width: 100% !important;
+  background-position: center !important;
+  height: 18.75rem !important;
+  background-repeat: no-repeat !important;
+}
+
+.bdbLargeProfilePic{
+  width: 100% !important;
+  background-position: center !important;
+  height: 14.5rem !important;
+  background-repeat: no-repeat !important;
+}
+
+.bdbMiniProfilePic{
+  width: 100% !important;
+  background-position: center !important;
+  height: 2rem !important;
+  background-repeat: no-repeat !important;
 }
