@@ -32,6 +32,7 @@ export const throwErrorNotification = (dispatch, error) => {
   });
 };
 
+
 export const getLocalDate = (UTCdate, formatPattern = 'YYYY-MM-DD HH:mm z') => {
   if (moment(UTCdate).isValid()) {
     const localTimezone = moment.tz.guess() || 'America/Los_Angeles';
