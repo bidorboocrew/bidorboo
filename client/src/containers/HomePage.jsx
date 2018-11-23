@@ -37,7 +37,7 @@ export default class HomePage extends React.Component {
                     }}
                   >
                     <div className="title">
-                      <div className="button is-large is-fullwidth is-outlined">
+                      <div className="button is-large is-fullwidth is-primary">
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
                         </span>
@@ -71,7 +71,7 @@ export default class HomePage extends React.Component {
                           e.preventDefault();
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
-                        className="button is-large is-fullwidth is-outlined"
+                        className="button is-large is-fullwidth is-primary"
                       >
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />
