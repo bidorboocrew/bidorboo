@@ -38,7 +38,6 @@ const UserSchema = new Schema(
       lowercase: true,
       trim: true,
       index: true,
-      unique: true,
     },
     displayName: {
       type: String,
@@ -48,7 +47,6 @@ const UserSchema = new Schema(
     phoneNumber: {
       type: String,
       trim: true,
-      unique: true,
     },
     profileImage: {
       url: { type: String, default: 'https://goo.gl/92gqPL' },
