@@ -169,14 +169,14 @@ class BidderRoot extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userModelReducer, authReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
   return {
     error: jobsReducer.error,
     isLoading: jobsReducer.isLoading,
     ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
     mapCenterPoint: jobsReducer.mapCenterPoint,
-    userDetails: userModelReducer.userDetails,
-    isLoggedIn: authReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
+    isLoggedIn: userReducer.isLoggedIn,
   };
 };
 

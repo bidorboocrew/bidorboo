@@ -7,14 +7,13 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import ProposerStepper from './ProposerStepper';
 
 class ProposerRoot extends React.Component {
-
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
-    
+
     return (
       <React.Fragment>
         <ProposerStepper currentStepNumber={1} />
-        <div className='container bdbPage pageWithStepper desktop'>
+        <div className="container bdbPage pageWithStepper desktop">
           <div className="columns is-multiline">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
@@ -23,9 +22,9 @@ class ProposerRoot extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ authReducer }) => {
+const mapStateToProps = ({ userReducer }) => {
   return {
-    isLoggedIn: authReducer.isLoggedIn,
+    isLoggedIn: userReducer.isLoggedIn,
   };
 };
 const mapDispatchToProps = (dispatch) => {

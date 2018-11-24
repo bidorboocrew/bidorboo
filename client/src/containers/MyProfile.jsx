@@ -96,9 +96,9 @@ class MyProfile extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userModelReducer }) => {
+const mapStateToProps = ({ userReducer }) => {
   return {
-    userDetails: userModelReducer.userDetails,
+    userDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {

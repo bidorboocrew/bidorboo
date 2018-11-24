@@ -77,11 +77,11 @@ class CurrentAwardedBid extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer, userModelReducer }) => {
+const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
     selectedOpenBid: bidsReducer.selectedOpenBid,
     isLoading: bidsReducer.isLoadingBids,
-    currentUserDetails: userModelReducer.userDetails,
+    currentUserDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {

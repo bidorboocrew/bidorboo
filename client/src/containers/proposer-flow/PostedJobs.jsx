@@ -42,12 +42,12 @@ class MyJobs extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
   return {
     error: jobsReducer.error,
     myOpenJobsList: jobsReducer.myOpenJobsList,
     isLoading: jobsReducer.isLoading,
-    userDetails: userModelReducer.userDetails,
+    userDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -82,10 +82,10 @@ class CurrentJob extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userModelReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
   return {
     selectedActivePostedJob: jobsReducer.selectedActivePostedJob,
-    userDetails: userModelReducer.userDetails,
+    userDetails: userReducer.userDetails,
   };
 };
 

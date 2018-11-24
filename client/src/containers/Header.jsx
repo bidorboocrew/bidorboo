@@ -332,10 +332,10 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userModelReducer, uiReducer, authReducer }) => {
-  const { userDetails } = userModelReducer;
+const mapStateToProps = ({ userReducer, uiReducer }) => {
+  const { userDetails } = userReducer;
   return {
-    isLoggedIn: authReducer.isLoggedIn,
+    isLoggedIn: userReducer.isLoggedIn,
     userDetails: userDetails,
     displayName: userDetails.displayName,
     shouldShowLoginDialog: uiReducer.shouldShowLoginDialog,

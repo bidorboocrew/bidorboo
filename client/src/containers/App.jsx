@@ -129,9 +129,9 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ authReducer, uiReducer }) => {
+const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
-    s_isLoggedIn: authReducer.isLoggedIn,
+    s_isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
   };
 };
