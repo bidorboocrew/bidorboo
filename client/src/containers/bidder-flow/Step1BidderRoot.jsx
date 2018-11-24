@@ -14,6 +14,7 @@ import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/job
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
+import BidderStepper from './BidderStepper';
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -75,12 +76,10 @@ class BidderRoot extends React.Component {
 
     return (
       <React.Fragment>
+        <BidderStepper currentStepNumber={1} />
+
         {this.state.showFilterDialog && (
-          <div
-            className={classNames('modal', {
-              'is-active': this.state.showFilterDialog,
-            })}
-          >
+          <div className="modal is-active">
             <div onClick={this.toggleFilterDialog} className="modal-background" />
             <div className="modal-card">
               <header className="modal-card-head">
@@ -107,7 +106,7 @@ class BidderRoot extends React.Component {
             />
           </div>
         )}
-        <div className="slide-in-left bdbPage" id="bdb-bidder-root">
+        <div className="container bdbPage pageWithStepper desktop" id="bdb-bidder-root">
           {/* <section className="hero is-small">
             <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
@@ -121,29 +120,31 @@ class BidderRoot extends React.Component {
             </div>
           </section> */}
           {/* map view */}
-          <section className="section">
-            <div className="container is-fluid">
-              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-              {!isLoading && (
-                <BidderMapSection
-                  selectJobToBidOn={a_selectJobToBidOn}
-                  mapCenterPoint={mapCenterPoint}
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  currentUserId={userDetails._id}
-                  jobsList={
-                    this.state.displayedJobList === null
-                      ? ListOfJobsToBidOn
-                      : this.state.displayedJobList
-                  }
-                />
-              )}
-            </div>
-          </section>
+          <div className="container is-fluid">
+            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+            {!isLoading && (
+              <BidderMapSection
+                selectJobToBidOn={a_selectJobToBidOn}
+                mapCenterPoint={mapCenterPoint}
+                isLoggedIn={isLoggedIn}
+                showLoginDialog={a_showLoginDialog}
+                currentUserId={userDetails._id}
+                jobsList={
+                  this.state.displayedJobList === null
+                    ? ListOfJobsToBidOn
+                    : this.state.displayedJobList
+                }
+              />
+            )}
+          </div>
           <React.Fragment>
             <div className="container is-fluid">
               {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
-                <a style={{ marginBottom: '1rem' }} onClick={this.toggleFilterDialog} className="button">
+                <a
+                  style={{ marginBottom: '1rem' }}
+                  onClick={this.toggleFilterDialog}
+                  className="button"
+                >
                   Filter Jobs
                 </a>
               )}

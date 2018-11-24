@@ -104,7 +104,7 @@ class MyAwardedJobSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{title || 'Service Title'}</p>
+          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
           {/* xxxx delete button */}
           {deleteJob && (

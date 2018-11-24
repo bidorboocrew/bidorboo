@@ -324,6 +324,7 @@ class PostedJobsDetails extends React.Component {
     if (jobImages && jobImages.length > 0) {
       carouselItems = jobImages.map((imgObj) => (
         <img
+          key={Math.random()}
           onClick={() => {
             window.open(imgObj.url, '_blank');
           }}

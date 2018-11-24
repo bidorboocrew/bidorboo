@@ -227,7 +227,7 @@ class AwardedJobDetails extends React.Component {
             >
               <p className="card-header-title">
                 <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
-                Details: {title || 'Service Title'}
+                {templatesRepo[fromTemplateId].title}
               </p>
             </header>
             <div className="card-image is-clipped">

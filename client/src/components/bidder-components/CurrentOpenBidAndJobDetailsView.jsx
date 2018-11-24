@@ -145,7 +145,7 @@ class PostedJobsDetails extends React.Component {
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
               className="card-header"
             >
-              <p className="card-header-title">Service Details: {title || 'Service Title'}</p>
+              <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
             </header>
             <div className="card-image is-clipped">
               <img

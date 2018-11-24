@@ -42,7 +42,7 @@ export default class JobDetailsViewForBidder extends React.Component {
         <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">
           <p className="card-header-title">
             <i style={{ marginRight: 4 }} className="fab fa-reddit-alien" />
-            Details: {title || 'Service Title'}
+            {templatesRepo[fromTemplateId].title}
           </p>
         </header>
         <div className="card-image is-clipped">

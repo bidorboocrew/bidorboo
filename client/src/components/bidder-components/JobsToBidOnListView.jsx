@@ -27,6 +27,7 @@ const OtherPeoplesJobs = (props) => {
     const cardFooter = (
       <CardBottomSection
         isLoggedIn={isLoggedIn}
+        currentUserId={currentUserId}
         showLoginDialog={showLoginDialog}
         selectJobToBidOn={selectJobToBidOn}
         job={job}
@@ -74,10 +75,11 @@ const EmptyStateComponent = () => {
 };
 
 const CardBottomSection = (props) => {
-  const { isLoggedIn, showLoginDialog, selectJobToBidOn, job } = props;
+  const { isLoggedIn, showLoginDialog, selectJobToBidOn, job, currentUserId } = props;
 
   return (
     <footer className="card-footer">
+      {(currentUserId !== job._ownerRef._id) ? (
       <div className="card-footer-item">
         <a
           onClick={() => {
@@ -90,11 +92,13 @@ const CardBottomSection = (props) => {
           className="button is-primary is-fullwidth is-large"
         >
           View Details
-          {/* <span style={{ marginLeft: 4 }}>
-            <i className="fas fa-dollar-sign" /> View Details
-          </span> */}
         </a>
       </div>
+      ) :(
+      <div className="card-footer-item">
+        <a disabled className="button is-outline is-fullwidth is-large">My Request</a>
+      </div>
+      )}
     </footer>
   );
 };
@@ -129,7 +133,7 @@ class JobsToBidOnSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{title || 'Service Title'}</p>
+          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
         </header>
         <div className="card-image is-clipped">
           <img
