@@ -33,11 +33,10 @@ class MyForm extends React.Component {
   }
 
   componentWillUnmount() {
-    const { acceptedFile,croppedFile } = this.state;
+    const { acceptedFile, croppedFile } = this.state;
     // clean up memory
     acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
     croppedFile ? window.URL.revokeObjectURL(croppedFile) : null;
-
   }
 
   onDrophandler(files) {
@@ -155,15 +154,7 @@ class MyForm extends React.Component {
             onDrop={this.onDrophandler}
           >
             <React.Fragment>
-              <div
-                style={{
-                  cursor: 'pointer',
-                  height: 300,
-                  background: 'white',
-                  border: '1px dashed grey',
-                }}
-                className="section has-text-centered"
-              >
+              <div className="section VerticalAligner bdb-img-upload-placeholder">
                 <a
                   type="submit"
                   style={{
@@ -172,7 +163,7 @@ class MyForm extends React.Component {
                     borderRadius: '100%',
                     height: 45,
                   }}
-                  className="button is-success is-meduim  "
+                  className="button is-success is-meduim"
                 >
                   <span>
                     <i className="fa fa-camera" aria-hidden="true" />
@@ -296,13 +287,7 @@ class Thumb extends React.Component {
         className="bdbImageAsBackground"
       />
     ) : (
-      <div
-        onClick={clickHandler}
-        className="bdbImageAsBackground"
-        style={{
-          background: `url('${thumb}')`,
-        }}
-      />
+      <img onClick={clickHandler} className="bdb-cover-img" src={`${thumb}`} />
     );
   }
 }

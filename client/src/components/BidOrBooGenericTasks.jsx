@@ -47,12 +47,7 @@ class BidOrBooGenericTasks extends React.Component {
               </p>
             </header>
             <div className="card-image">
-              <div
-                style={{
-                  background: `url('${imageUrl}')`,
-                }}
-                className="bdbImageAsBackground"
-              />
+              <img src={`${imageUrl}`} className="bdb-cover-img" />
             </div>
             <div className="card-content">
               <h1>

@@ -46,15 +46,13 @@ export default class JobDetailsViewForBidder extends React.Component {
           </p>
         </header>
         <div className="card-image is-clipped">
-          <div
-            style={{
-              background: `url('${
-                templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
-                  ? templatesRepo[fromTemplateId].imageUrl
-                  : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
-              }')`,
-            }}
-            className="bdbImageAsBackground"
+          <img
+            className="bdb-cover-img"
+            src={`${
+              templatesRepo[fromTemplateId] && templatesRepo[fromTemplateId].imageUrl
+                ? templatesRepo[fromTemplateId].imageUrl
+                : 'https://vignette.wikia.nocookie.net/kongregate/images/9/96/Unknown_flag.png/revision/latest?cb=20100825093317'
+            }`}
           />
         </div>
         <div className="card-content">

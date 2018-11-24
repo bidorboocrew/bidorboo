@@ -151,10 +151,7 @@ const userImageAndStats = (
     <React.Fragment>
       <div className="column is-one-quarter">
         <div className="has-text-centered">
-          <div
-            style={{ backgroundImage: `url('${profileImage.url}')` }}
-            className="bdbLargeProfilePic"
-          />
+          <img className="bdb-img" src={`${profileImage.url}`} />
           <br />
           <a
             onClick={(e) => {

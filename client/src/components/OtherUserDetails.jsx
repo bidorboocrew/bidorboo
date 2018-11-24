@@ -77,9 +77,8 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
           {cardTitle}
           <div className="card-content">
             <div className="has-text-centered">
-              <div
-                style={{ backgroundImage: `url('${profileImage.url}')` }}
-                className="bdbLargeProfilePic"
+              <img
+                src={`${profileImage.url}`}
               />
               <div>{displayName}</div>
               <DisplayLabelValue

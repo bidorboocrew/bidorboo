@@ -35,11 +35,9 @@ export default class AwardedBidDetailsCard extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="heading">Requester</p>
-                  <div
-                    style={{
-                      background: `url('${profileImage.url}')`,
-                    }}
-                    className="bdbImageAsBackground"
+                  <img
+                    className="bdb-cover-img"
+                    src={`${profileImage.url}`}
                   />
                 </div>
               </div>

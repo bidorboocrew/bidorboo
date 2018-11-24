@@ -13,12 +13,7 @@ export default class BidOrBooCard extends React.Component {
     return (
       <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
         <div className="card-image">
-          <div
-            style={{
-              background: `url('${logoImg}')`,
-            }}
-            className="bdbImageAsBackground"
-          />
+          <img src={`${logoImg}`} className="bdb-cover-img" />
         </div>
         <div className="card-content">
           <div className="content">{cardContent}</div>

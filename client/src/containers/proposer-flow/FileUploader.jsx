@@ -64,19 +64,10 @@ export default class FileUploader extends React.Component {
             onDrop={this.onDrophandler}
           >
             <React.Fragment>
-              <div
-                style={{
-                  cursor: 'pointer',
-                  height: 300,
-                  background: 'white',
-                  border: '1px dashed grey',
-                }}
-                className="section has-text-centered"
-              >
+              <div className="section VerticalAligner bdb-img-upload-placeholder">
                 <a
                   type="submit"
                   style={{
-                    marginTop: '25%',
                     pointerEvents: 'none',
                     borderRadius: '100%',
                     height: 45,
@@ -137,14 +128,6 @@ class Thumb extends React.Component {
     if (loading) {
       return <p>loading...</p>;
     }
-    return (
-      <div
-        onClick={clickHandler}
-        className="bdbImageAsBackground"
-        style={{
-          background: `url('${thumb}')`,
-        }}
-      />
-    );
+    return <img onClick={clickHandler} src={`${thumb}`} className="bdb-cover-img" />;
   }
 }
