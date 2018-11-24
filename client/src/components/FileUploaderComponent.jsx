@@ -19,7 +19,7 @@ const formikEnhancer = withFormik({
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showThumbNail: false, acceptedFile: {}, showCropper: false, croppedFile: '' };
+    this.state = { showThumbNail: false, thumb: null, showCropper: false };
     this.dropzoneRef = React.createRef();
     autoBind(
       this,
@@ -30,6 +30,8 @@ class MyForm extends React.Component {
       'onUpdateCropping',
       'dataURItoBlob',
     );
+
+    this.reader = new FileReader();
   }
 
   componentWillUnmount() {
@@ -37,6 +39,7 @@ class MyForm extends React.Component {
     // clean up memory
     acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
     croppedFile ? window.URL.revokeObjectURL(croppedFile) : null;
+    this.reader = null;
   }
 
   onDrophandler(files) {
@@ -44,6 +47,12 @@ class MyForm extends React.Component {
     if (!files || !(files.length > 0)) {
       return;
     }
+
+    this.reader.onloadend = () => {
+      this.setState({ thumb: this.reader.result });
+    };
+    this.reader.readAsDataURL(files[0]);
+
     // on drop we add to the existing files
     this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
       this.props.setFieldValue('fileField', this.state.acceptedFile, false);
@@ -51,10 +60,10 @@ class MyForm extends React.Component {
   }
 
   removeFileAndOpenFileSelector = () => {
-    // remove image
-    this.setState({ showThumbNail: false, acceptedFile: {} }, () => {
-      this.dropzoneRef && this.dropzoneRef.current.open && this.dropzoneRef.current.open();
-    });
+    // // remove image
+    // this.setState({ showThumbNail: false, acceptedFile: {} }, () => {
+    //   this.dropzoneRef && this.dropzoneRef.current.open && this.dropzoneRef.current.open();
+    // });
   };
 
   toggleCroppingOn() {
@@ -89,19 +98,19 @@ class MyForm extends React.Component {
       //New Code
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error(e);
+      console.error('could not crop the image will upload the original img instead blob creation');
     }
   }
 
   saveCrop(values) {
     try {
-      if (this.state.croppedFile && this.state.croppedFile.length > 0) {
-        const updatedFile = this.dataURItoBlob(this.state.croppedFile);
-        this.props.setFieldValue('fileField', updatedFile, false);
-        this.props.handleSubmit(values, this.props);
-      }
+      debugger
+      const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
+      const updatedFile = this.dataURItoBlob(croppedImg);
+      this.props.setFieldValue('fileField', updatedFile, false);
+      this.props.handleSubmit(values, this.props);
     } catch (e) {
-      console.error('could not crop the image');
+      console.error('could not crop the image will upload the original img instead');
     }
   }
 
@@ -123,7 +132,7 @@ class MyForm extends React.Component {
 
   render() {
     const { handleSubmit, values, closeDialog } = this.props;
-    const { showThumbNail, acceptedFile, showCropper } = this.state;
+    const { showThumbNail, thumb, showCropper } = this.state;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -140,7 +149,6 @@ class MyForm extends React.Component {
             ref={this.dropzoneRef}
             multiple={false}
             maxSize={MAX_FILE_SIZE_IN_MB}
-            // style={dropzoneStyle}
             accept={[
               'image/jpg',
               'image/gif',
@@ -158,7 +166,6 @@ class MyForm extends React.Component {
                 <a
                   type="submit"
                   style={{
-                    marginTop: '10%',
                     pointerEvents: 'none',
                     borderRadius: '100%',
                     height: 45,
@@ -173,17 +180,26 @@ class MyForm extends React.Component {
             </React.Fragment>
           </Dropzone>
 
-          {showThumbNail && (
+          {showThumbNail && !showCropper && (
             <ThumbsCollection
               clickHandler={this.removeFileAndOpenFileSelector}
-              acceptedFile={acceptedFile}
+              acceptedFile={thumb}
               onUpdateCropping={this.onUpdateCropping}
-              showCropper={showCropper}
+            />
+          )}
+          {showCropper && (
+            <Cropper
+              ref="cropper"
+              src={thumb}
+              // style={{ height: '18.75rem', width: '100%' }}
+              checkOrientation={true}
+              guides={false} // crop={this._crop}
+              className="bdb-img-upload-placeholder"
             />
           )}
         </div>
 
-        <footer style={{ paddingBottom: 0 }} className="modal-card-foot ">
+        <footer style={{ paddingBottom: 0, background: 'white' }} className="modal-card-foot ">
           {showCropper && (
             <React.Fragment>
               <button onClick={this.dismissCrop} className="button">
@@ -230,14 +246,9 @@ class MyForm extends React.Component {
 
 export default formikEnhancer(MyForm);
 
-export const ThumbsCollection = ({ acceptedFile, clickHandler, showCropper, onUpdateCropping }) => {
+export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
   let AllThumbnails = acceptedFile ? (
-    <Thumb
-      clickHandler={clickHandler}
-      file={acceptedFile}
-      showCropper={showCropper}
-      onUpdateCropping={onUpdateCropping}
-    />
+    <Thumb clickHandler={clickHandler} file={acceptedFile} />
   ) : null;
   return AllThumbnails;
 };
@@ -247,28 +258,12 @@ class Thumb extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      thumb: undefined,
     };
   }
-  componentDidMount() {
-    const { file } = this.props;
-    if (file) {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        this.setState({ loading: false, thumb: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-  _crop = () => {
-    const { onUpdateCropping } = this.props;
-
-    onUpdateCropping(this.refs.cropper.getCroppedCanvas().toDataURL());
-  };
 
   render() {
-    const { file, clickHandler, showCropper } = this.props;
-    const { loading, thumb } = this.state;
+    const { file, clickHandler } = this.props;
+    const { loading } = this.state;
     if (!file) {
       return null;
     }
@@ -276,18 +271,6 @@ class Thumb extends React.Component {
       return <p>loading...</p>;
     }
 
-    console.log('show cropper ' + showCropper);
-    return showCropper ? (
-      <Cropper
-        ref="cropper"
-        src={`${thumb}`}
-        // style={{ height: '18.75rem', width: '100%' }}
-        guides={false}
-        crop={this._crop}
-        className="bdbImageAsBackground"
-      />
-    ) : (
-      <img onClick={clickHandler} className="bdb-cover-img" src={`${thumb}`} />
-    );
+    return <img onClick={clickHandler} className="bdb-cover-img" src={file} />;
   }
 }
