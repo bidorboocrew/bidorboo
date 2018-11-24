@@ -1,6 +1,6 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-import FileUploader from './FileUploader';
+import JobImageFileUploader from './JobImageFileUploader';
 export default class PicturesUploaderContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -11,13 +11,15 @@ export default class PicturesUploaderContainer extends React.Component {
     };
   }
 
+
+
   render() {
-    const { onImageChange } = this.props;
+    const {onImageChange} = this.props;
     const previewContent = [];
     for (let i = 0; i < 6; i++) {
       const temp = (
         <div key={Math.random()} className="column is-one-third">
-          <FileUploader imgIndex={i} onImageChange={onImageChange} />
+          <JobImageFileUploader imgIndex={i} onImageChange={onImageChange} />
         </div>
       );
       previewContent.push(temp);

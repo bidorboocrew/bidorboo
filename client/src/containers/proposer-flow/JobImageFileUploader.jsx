@@ -4,7 +4,7 @@ import autoBind from 'react-autobind';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 
-export default class FileUploader extends React.Component {
+export default class JobImageFileUploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showThumbNail: false, acceptedFile: {} };
