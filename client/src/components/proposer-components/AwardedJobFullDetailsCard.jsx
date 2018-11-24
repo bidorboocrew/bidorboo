@@ -82,7 +82,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
           <div className="card-footer-item">
             <a
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage)}
-              className="button is-danger is-outlined is-fullwidth is-large"
+              className="button is-danger is-outlined is-large"
             >
               Go Back
             </a>

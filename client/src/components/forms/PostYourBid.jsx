@@ -58,15 +58,15 @@ class PostYourBid extends React.Component {
                   style={{ borderRadius: 0 }}
                   onClick={this.openShowBidDialog}
                   type="button"
-                  className="button is-primary is-fullwidth is-large"
+                  className="button is-primary is-large"
                 >
                   <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
-                  Enter Bid
+                  Bid
                 </a>
 
                 <a
                   style={{ borderRadius: 0, marginLeft: '2.25rem' }}
-                  className="button is-danger is-outlined is-fullwidth is-large"
+                  className="button is-danger is-outlined is-large"
                   type="submit"
                   onClick={onCancel}
                 >
@@ -74,7 +74,7 @@ class PostYourBid extends React.Component {
                   Booo
                 </a>
               </ActionSheet>,
-              actionsSheetRoot
+              actionsSheetRoot,
             )
           : ReactDOM.createPortal(
               <div className="modal is-active">
@@ -120,7 +120,7 @@ class PostYourBid extends React.Component {
                   </footer>
                 </div>
               </div>,
-              actionsSheetRoot
+              actionsSheetRoot,
             )}
       </React.Fragment>
     ) : null;
