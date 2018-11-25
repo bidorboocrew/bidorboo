@@ -6,6 +6,13 @@ import { getAllMyAwardedJobs } from '../../app-state/actions/jobActions';
 
 import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
 
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+const localizer = BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+
 class MyJobs extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyAwardedJobs();
@@ -13,6 +20,30 @@ class MyJobs extends React.Component {
 
   render() {
     const { myAwardedJobsList, userDetails } = this.props;
+
+    const myEventsList =
+      myAwardedJobsList &&
+      myAwardedJobsList.map((awardedJob) => {
+        const date = awardedJob.startingDateAndTime && awardedJob.startingDateAndTime.date;
+
+        if (date) {
+          debugger;
+          let eventStartDate = moment(date);
+
+          eventStartDate = eventStartDate.set({
+            hour: awardedJob.startingDateAndTime.hours,
+            minute: awardedJob.startingDateAndTime.minutes,
+          });
+
+          return {
+            id: awardedJob._id,
+            title: awardedJob.fromTemplateId,
+            allDay: true,
+            start: eventStartDate,
+            end: eventStartDate,
+          };
+        }
+      });
     return (
       <div className="slide-in-left bdbPage">
         <section className="hero is-small">
@@ -26,17 +57,21 @@ class MyJobs extends React.Component {
         </section>
         <section className="section">
           <div className="container is-fluid">
-            <div
-              // style={{ alignItems: 'flex-end' }}
-              className="columns is-multiline"
-            >
-              <AwardedJobsList
-                userDetails={userDetails}
-                jobsList={myAwardedJobsList}
+            <div style={{ padding: '1rem', background: 'white' }}>
+              <BigCalendar
+                localizer={localizer}
+                events={myEventsList}
+                step={60}
+                defaultDate={new Date()}
               />
             </div>
           </div>
         </section>
+        <div className="container is-fluid">
+          <div className="columns is-multiline">
+            <AwardedJobsList userDetails={userDetails} jobsList={myAwardedJobsList} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -57,5 +92,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyJobs);
