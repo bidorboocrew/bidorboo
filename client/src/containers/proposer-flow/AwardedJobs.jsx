@@ -29,6 +29,7 @@ class MyJobs extends React.Component {
         if (date) {
           let eventStartDate = moment(date);
 
+
           eventStartDate = eventStartDate.set({
             hour: awardedJob.startingDateAndTime.hours,
             minute: awardedJob.startingDateAndTime.minutes,
