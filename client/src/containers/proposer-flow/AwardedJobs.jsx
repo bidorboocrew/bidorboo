@@ -50,7 +50,7 @@ class MyJobs extends React.Component {
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
             <div className="container is-fluid">
               <h1 style={{ color: 'white' }} className="title">
-                Requests Queue
+                Request Queue
               </h1>
             </div>
           </div>
