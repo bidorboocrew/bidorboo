@@ -27,7 +27,6 @@ class MyJobs extends React.Component {
         const date = awardedJob.startingDateAndTime && awardedJob.startingDateAndTime.date;
 
         if (date) {
-          debugger;
           let eventStartDate = moment(date);
 
           eventStartDate = eventStartDate.set({

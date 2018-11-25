@@ -36,7 +36,6 @@ const setLoggedInState = (state = initialState) => ({
   isLoggedIn: true,
 });
 const setLoggedOutState = () => {
-  debugger;
   return { ...initialState };
 };
 export default handleActions(

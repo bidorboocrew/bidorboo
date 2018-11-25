@@ -60,17 +60,5 @@
       type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places"
     ></script>
-    <script>
-      (function() {
-        try {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            debugger
-            if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
-              WebView.setWebContentsDebuggingEnabled(true);
-            }
-          }
-        } catch (e) {}
-      })();
-    </script>
   </body>
 </html>
