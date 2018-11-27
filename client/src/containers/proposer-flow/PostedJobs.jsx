@@ -2,35 +2,81 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllMyOpenJobs, deleteJobById } from '../../app-state/actions/jobActions';
+import {
+  getAllMyOpenJobs,
+  deleteJobById,
+  getAllMyAwardedJobs,
+} from '../../app-state/actions/jobActions';
+import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
 
-import MyJobsList from '../../components/proposer-components/MyJobsList';
+import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
+import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
 
 class MyJobs extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyOpenJobs();
+    this.props.a_getAllMyAwardedJobs();
   }
 
   render() {
-    const { myOpenJobsList, userDetails, a_selectJob, a_deleteJobById } = this.props;
+    const { myOpenJobsList, userDetails, a_deleteJobById, myAwardedJobsList } = this.props;
     return (
-      <div className="slide-in-left bdbPage">
+      <div className="bdbPage">
         <section className="hero is-small">
           <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
             <div className="container is-fluid">
               <h1 style={{ color: 'white' }} className="title">
-                My Posted Requests
+                My Requests
               </h1>
             </div>
           </div>
         </section>
+
         <section className="section">
           <div className="container is-fluid">
-            <div
-              // style={{ alignItems: 'flex-end' }}
-              className="columns is-multiline"
-            >
-              <MyJobsList
+            <div className="tabs">
+              <ul>
+                <li className="is-active">
+                  <a>Review Bids</a>
+                </li>
+              </ul>
+            </div>
+            <div className="columns is-multiline">
+              <JobsWithBidsAwaitingReview
+                userDetails={userDetails}
+                jobsList={myOpenJobsList}
+                deleteJob={a_deleteJobById}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container is-fluid">
+            <div className="tabs">
+              <ul>
+                <li className="is-active">
+                  <a>Queued jobs</a>
+                </li>
+              </ul>
+            </div>
+            <div className="columns is-multiline">
+              <AwardedJobsList userDetails={userDetails} jobsList={myAwardedJobsList} />
+            </div>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container is-fluid">
+            <div className="tabs">
+              <ul>
+                <li className="is-active">
+                  <a>No bids yet</a>
+                </li>
+              </ul>
+            </div>
+            <div className="columns is-multiline">
+              <JobsWithNoBids
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
@@ -48,16 +94,18 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
     myOpenJobsList: jobsReducer.myOpenJobsList,
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
+    myAwardedJobsList: jobsReducer.myAwardedJobsList,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
     a_deleteJobById: bindActionCreators(deleteJobById, dispatch),
+    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyJobs);
