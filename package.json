@@ -16,7 +16,7 @@
     "yarn": "1.12.3"
   },
   "cacheDirectories": [
-    "node_modules",
+    "./node_modules",
     "./client/node_modules",
     "./server/node_modules"
   ],
