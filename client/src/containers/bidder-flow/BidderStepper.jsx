@@ -56,7 +56,7 @@ export default class BidderStepper extends React.Component {
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-7">Bid</p>
+                <p className="is-size-7">Bid $</p>
               </div>
             </li>
             <li
