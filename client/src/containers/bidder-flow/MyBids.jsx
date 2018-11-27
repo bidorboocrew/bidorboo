@@ -41,9 +41,9 @@ class MyBids extends React.Component {
       );
 
     return (
-      <div className="slide-in-left" id="bdb-bidder-my-bids">
+      <div  id="bdb-bidder-my-bids">
         <section className="hero is-small is-dark">
-          <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
+          <div className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
                 My Bids

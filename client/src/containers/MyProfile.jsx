@@ -54,7 +54,7 @@ class MyProfile extends React.Component {
           a_updateProfileImage,
         )}
 
-        <div className="slide-in-left" id="bdb-myprofile">
+        <div className="bdbPage">
           <section className="hero is-small is-dark">
             <div className="hero-body">
               <div className="container">
@@ -149,9 +149,9 @@ const userImageAndStats = (
 ) => {
   return (
     <React.Fragment>
-      <div className="column is-one-quarter">
+      <div className="column is-4">
         <div className="has-text-centered">
-          <img className="bdb-img" src={`${profileImage.url}`} />
+          <img style={{ background: '#eeeeee' }} className="bdb-img" src={`${profileImage.url}`} />
           <br />
           <a
             onClick={(e) => {
@@ -183,7 +183,7 @@ const userEditableInfo = (
   closeFormAndSubmit,
 ) => {
   return (
-    <div className="column">
+    <div className="column is-8">
       <div>
         {!isEditProfile && (
           <div>

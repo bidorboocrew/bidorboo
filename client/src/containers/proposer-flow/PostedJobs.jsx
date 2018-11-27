@@ -22,8 +22,8 @@ class MyJobs extends React.Component {
     const { myOpenJobsList, userDetails, a_deleteJobById, myAwardedJobsList } = this.props;
     return (
       <div className="bdbPage">
-        <section className="hero is-small">
-          <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
             <div className="container is-fluid">
               <h1 style={{ color: 'white' }} className="title">
                 My Requests

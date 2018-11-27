@@ -7,7 +7,7 @@ import { switchRoute } from '../../utils';
 export default class OpenBidDetailsCard extends React.Component {
   render() {
     const { bidDetails } = this.props;
-
+debugger
     if (!bidDetails) {
       return null;
     }

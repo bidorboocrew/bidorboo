@@ -29,7 +29,6 @@ class MyJobs extends React.Component {
         if (date) {
           let eventStartDate = moment(date);
 
-
           eventStartDate = eventStartDate.set({
             hour: awardedJob.startingDateAndTime.hours,
             minute: awardedJob.startingDateAndTime.minutes,
@@ -46,8 +45,8 @@ class MyJobs extends React.Component {
       });
     return (
       <div className="slide-in-left bdbPage">
-        <section className="hero is-small">
-          <div style={{ backgroundColor: '#9C89B8' }} className="hero-body">
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
             <div className="container is-fluid">
               <h1 style={{ color: 'white' }} className="title">
                 Request Queue
