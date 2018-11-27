@@ -10,11 +10,6 @@
       "name": "Yacoub Abdulla"
     }
   ],
-  "engines": {
-    "node": "10.3.0",
-    "npm": "6.4.1",
-    "yarn": "1.12.3"
-  },
   "cacheDirectories": [
     "./node_modules",
     "./client/node_modules",
