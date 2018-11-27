@@ -21,8 +21,8 @@
     "server/node_modules"
   ],
   "scripts": {
-    "start": "cd server && yarn run start",
-    "heroku-postbuild": "cd client && yarn install && yarn run build && cd.. && cd server && yarn install",
+    "start": "cd server && yarn install && yarn run start",
+    "heroku-postbuild": "cd client && yarn install && yarn run build",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
