@@ -12,7 +12,28 @@ export default class JobsToBidOnListView extends React.Component {
 
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
-        <OtherPeoplesJobs {...this.props} />
+        <React.Fragment>
+          <div className="tabs">
+            <ul>
+              <li className="is-active">
+                <a>Open Requests</a>
+              </li>
+            </ul>
+          </div>
+          <div className="columns is-multiline">
+            <OtherPeoplesJobs {...this.props} />
+          </div>
+          <div className="tabs">
+            <ul>
+              <li className="is-active">
+                <a>My Requets</a>
+              </li>
+            </ul>
+          </div>
+          <div className="columns is-multiline">
+            <MyJobs {...this.props} />
+          </div>
+        </React.Fragment>
       ) : (
         <EmptyStateComponent />
       );
@@ -23,7 +44,9 @@ export default class JobsToBidOnListView extends React.Component {
 const OtherPeoplesJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
-  return jobsList.map((job) => {
+  const otherPeopleJobs = jobsList.filter((job) => job._ownerRef._id !== currentUserId);
+
+  const components = otherPeopleJobs.map((job) => {
     const cardFooter = (
       <CardBottomSection
         isLoggedIn={isLoggedIn}
@@ -36,7 +59,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-third"
+        className="column is-one-fifth"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -49,8 +72,42 @@ const OtherPeoplesJobs = (props) => {
       </div>
     );
   });
+  return components && components.length > 0 ? components : null;
 };
 
+const MyJobs = (props) => {
+  const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
+
+  const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
+
+  const components = myjobs.map((job) => {
+    const cardFooter = (
+      <CardBottomSection
+        isLoggedIn={isLoggedIn}
+        currentUserId={currentUserId}
+        showLoginDialog={showLoginDialog}
+        selectJobToBidOn={selectJobToBidOn}
+        job={job}
+      />
+    );
+    return (
+      <div
+        key={job._id}
+        className="column is-one-fifth"
+        onClick={() => {
+          if (!isLoggedIn) {
+            showLoginDialog(true);
+          } else {
+            selectJobToBidOn(job);
+          }
+        }}
+      >
+        <JobsToBidOnSummaryCard footer={cardFooter} job={job} />
+      </div>
+    );
+  });
+  return components && components.length > 0 ? components : null;
+};
 const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
@@ -79,25 +136,27 @@ const CardBottomSection = (props) => {
 
   return (
     <footer className="card-footer">
-      {(currentUserId !== job._ownerRef._id) ? (
-      <div className="card-footer-item">
-        <a
-          onClick={() => {
-            if (!isLoggedIn) {
-              showLoginDialog(true);
-            } else {
-              selectJobToBidOn(job);
-            }
-          }}
-          className="button is-primary is-fullwidth is-large"
-        >
-          View Details
-        </a>
-      </div>
-      ) :(
-      <div className="card-footer-item">
-        <a disabled className="button is-outline is-fullwidth is-large">My Request</a>
-      </div>
+      {currentUserId !== job._ownerRef._id ? (
+        <div className="card-footer-item">
+          <a
+            onClick={() => {
+              if (!isLoggedIn) {
+                showLoginDialog(true);
+              } else {
+                selectJobToBidOn(job);
+              }
+            }}
+            className="button is-primary is-fullwidth is-large"
+          >
+            View Details
+          </a>
+        </div>
+      ) : (
+        <div className="card-footer-item">
+          <a disabled className="button is-outline is-fullwidth is-large">
+            My Request
+          </a>
+        </div>
       )}
     </footer>
   );

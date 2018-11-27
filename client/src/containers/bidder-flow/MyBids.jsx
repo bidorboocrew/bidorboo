@@ -9,17 +9,20 @@ import { Spinner } from '../../components/Spinner';
 import { getMyOpenBids } from '../../app-state/actions/bidsActions';
 import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
 import { switchRoute } from '../../utils';
+import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
+import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
 
 class MyBids extends React.Component {
   componentDidMount() {
     // get all posted bids
     this.props.a_getAllPostedBids();
+    this.props.a_getMyAwardedBids();
   }
 
   render() {
-    const { isLoading, openBidsList } = this.props;
+    const { isLoading, openBidsList, awardedBidsList } = this.props;
 
-    const bidsListComponent =
+    const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
           return <OpenBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
@@ -28,24 +31,54 @@ class MyBids extends React.Component {
         <EmptyStateComponent />
       );
 
+    const awardedBidsListComponent =
+      awardedBidsList && awardedBidsList.length > 0 ? (
+        awardedBidsList.map((bidDetails) => {
+          return <AwardedBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+        })
+      ) : (
+        <EmptyStateComponent />
+      );
+
     return (
-      <div className="slide-in-left" id="bdb-bidder-my-bids">
+      <div  id="bdb-bidder-my-bids">
         <section className="hero is-small is-dark">
-          <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
+          <div className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
-                Posted Bids
+                My Bids
               </h1>
             </div>
           </div>
         </section>
-        <section className="bdbPage">
-          {isLoading && (
-            <div className="container">
-              <Spinner isLoading={isLoading} size={'large'} />
+
+        <section className="section">
+          <div className="container is-fluid">
+            <div className="tabs">
+              <ul>
+                <li className="is-active">
+                  <a>Awarded Bids</a>
+                </li>
+              </ul>
             </div>
-          )}
-          {!isLoading && <div className="container">{bidsListComponent}</div>}
+
+            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+            {!isLoading && <React.Fragment>{awardedBidsListComponent}</React.Fragment>}
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="container is-fluid">
+            <div className="tabs">
+              <ul>
+                <li className="is-active">
+                  <a>Pending</a>
+                </li>
+              </ul>
+            </div>
+            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+            {!isLoading && <React.Fragment>{pendingBidsList}</React.Fragment>}
+          </div>
         </section>
       </div>
     );
@@ -56,18 +89,20 @@ const mapStateToProps = ({ bidsReducer }) => {
   return {
     openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
+    awardedBidsList: bidsReducer.awardedBidsList,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
+    a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyBids);
 
 const EmptyStateComponent = () => {

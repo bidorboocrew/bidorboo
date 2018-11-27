@@ -6,7 +6,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-class MyJobsList extends React.Component {
+class JobsWithBidsAwaitingReview extends React.Component {
   static propTypes = {
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
@@ -21,18 +21,11 @@ class MyJobsList extends React.Component {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
-    return userHasPostedJobs ? (
-      <React.Fragment>
-        <JobsWithBids {...this.props} />
-        <JobsWithoutBids {...this.props} />
-      </React.Fragment>
-    ) : (
-      <EmptyStateComponent />
-    );
+    return userHasPostedJobs ? <JobsWithBids {...this.props} /> : <EmptyStateComponent />;
   }
 }
 
-export default MyJobsList;
+export default JobsWithBidsAwaitingReview;
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;
@@ -48,22 +41,6 @@ const JobsWithBids = (props) => {
       );
     });
   return jobsWithBids;
-};
-
-const JobsWithoutBids = (props) => {
-  const { jobsList } = props;
-  const jobsWithoutBids = jobsList
-    .filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className="column is-one-fifth">
-          <MyPostedJobSummaryCard job={job} {...props} />
-        </div>
-      );
-    });
-  return jobsWithoutBids;
 };
 
 const EmptyStateComponent = () => (
@@ -101,7 +78,7 @@ class MyPostedJobSummaryCard extends React.Component {
     let createdAtToLocal = '';
 
     // set border for jobs with reviews
-    let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
+    let specialBorder = areThereAnyBidders ? { border: '1px solid #ff3860' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -189,7 +166,7 @@ class MyPostedJobSummaryCard extends React.Component {
             {/* show as enabled cuz there is bidders */}
             {areThereAnyBidders && (
               <a
-                className="button is-primary is-fullwidth is-large"
+                className="button is-fullwidth is-large  is-danger"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);

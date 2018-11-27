@@ -104,7 +104,6 @@ class MyForm extends React.Component {
 
   saveCrop(values) {
     try {
-      debugger;
       const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
       const updatedFile = this.dataURItoBlob(croppedImg);
       this.props.setFieldValue('fileField', updatedFile, false);

@@ -92,7 +92,7 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
             component={NewPostedJob}
           />
-          <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} />
+          {/* <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} /> */}
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
@@ -120,7 +120,7 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
             component={CurrentAwardedBid}
           />
-          <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} />
+          {/* <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} /> */}
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
           {/* redirect any unknown route to the home component */}
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />

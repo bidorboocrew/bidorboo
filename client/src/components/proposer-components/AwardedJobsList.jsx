@@ -41,7 +41,7 @@ const JobsWithBids = (props) => {
     })
     .map((job) => {
       return (
-        <div key={job._id} className="column is-one-third">
+        <div key={job._id} className="column is-one-fifth">
           <MyAwardedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
@@ -84,7 +84,7 @@ class MyAwardedJobSummaryCard extends React.Component {
     let createdAtToLocal = '';
 
     // set border for jobs with reviews
-    let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
+    let specialBorder = areThereAnyBidders ? { border: '1px solid #23d160' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -173,7 +173,7 @@ class MyAwardedJobSummaryCard extends React.Component {
 
             {areThereAnyBidders && (
               <a
-                className="button is-primary is-fullwidth is-large"
+                className="button is-success is-fullwidth is-large"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);

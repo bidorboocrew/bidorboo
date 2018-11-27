@@ -28,8 +28,8 @@ class MyAwardedBids extends React.Component {
 
     return (
       <div className="slide-in-left" id="bdb-proposer-root">
-        <section className="hero is-small">
-          <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
             <div className="container">
               <h1 style={{ color: 'white' }} className="title">
                 Scheduled Work
@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyAwardedBids);
 
 const EmptyStateComponent = () => {

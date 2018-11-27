@@ -43,22 +43,20 @@ class CurrentAwardedJob extends React.Component {
   render() {
     const { selectedAwardedJob, userDetails } = this.props;
     const breadCrumb = () => (
-      <div style={{ marginBottom: '1rem' }} className="container">
+      <div style={{ marginBottom: '1rem', marginTop: '1rem' }} className="container">
         <nav className="breadcrumb" aria-label="breadcrumbs">
           <ul>
             <li>
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
+                  switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                 }}
               >
-               Requests Queue
+                My Jobs
               </a>
             </li>
             <li className="is-active">
-              <a aria-current="page">
-                {selectedAwardedJob ? selectedAwardedJob.title : 'Selected Service'}
-              </a>
+              <a aria-current="page">Selected Service</a>
             </li>
           </ul>
         </nav>
@@ -95,5 +93,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CurrentAwardedJob);

@@ -56,9 +56,7 @@ class CurrentJob extends React.Component {
               </a>
             </li>
             <li className="is-active">
-              <a aria-current="page">
-                {selectedActivePostedJob ? selectedActivePostedJob.title : 'Selected Service'}
-              </a>
+              <a aria-current="page">Selected Service</a>
             </li>
           </ul>
         </nav>
@@ -66,7 +64,7 @@ class CurrentJob extends React.Component {
     );
 
     return (
-      <section className="bdbPage slide-in-left">
+      <section className="bdbPage section">
         {selectedActivePostedJob && selectedActivePostedJob._id ? (
           <CurrentPostedJobDetailsCard
             breadCrumb={breadCrumb}

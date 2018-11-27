@@ -6,7 +6,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-class MyJobsList extends React.Component {
+class JobsWithNoBids extends React.Component {
   static propTypes = {
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
@@ -21,18 +21,11 @@ class MyJobsList extends React.Component {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
-    return userHasPostedJobs ? (
-      <React.Fragment>
-        <JobsWithBids {...this.props} />
-        <JobsWithoutBids {...this.props} />
-      </React.Fragment>
-    ) : (
-      <EmptyStateComponent />
-    );
+    return userHasPostedJobs ? <JobsWithoutBids {...this.props} /> : <EmptyStateComponent />;
   }
 }
 
-export default MyJobsList;
+export default JobsWithNoBids;
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;

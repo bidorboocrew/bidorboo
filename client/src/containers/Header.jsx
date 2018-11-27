@@ -173,7 +173,7 @@ class Header extends React.Component {
                         </span>
                         <span>My Requests</span>
                       </a>
-                      <a
+                      {/* <a
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -186,7 +186,7 @@ class Header extends React.Component {
                           <i className="far fa-calendar-check" />
                         </span>
                         <span>requests queue</span>
-                      </a>
+                      </a> */}
                     </React.Fragment>
                   )}
                 </div>
@@ -237,7 +237,7 @@ class Header extends React.Component {
                         </span>
                         <span>My Bids</span>
                       </a>
-                      <a
+                      {/* <a
                         className="navbar-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -250,7 +250,7 @@ class Header extends React.Component {
                           <i className="fas fa-handshake" />
                         </span>
                         <span>Scheduled Work</span>
-                      </a>
+                      </a> */}
                     </React.Fragment>
                   )}
                 </div>

@@ -197,6 +197,19 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
                 // switch route to show the currently added job
               }),
             });
+          } else {
+            switchRoute(`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/${resp.data._id}`, {
+              isNewJob: true,
+            });
+            dispatch({
+              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+              payload: {
+                toastDetails: {
+                  type: 'success',
+                  msg: 'Service Request was sucessfully created.',
+                },
+              },
+            });
           }
         }
       })

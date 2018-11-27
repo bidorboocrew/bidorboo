@@ -150,7 +150,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       />
     ) : (
       <React.Fragment>
-        {/* {breadCrumb} */}
+        {breadCrumb}
         <div className="container">
           {!hideBidTable && (
             <BidsTable
