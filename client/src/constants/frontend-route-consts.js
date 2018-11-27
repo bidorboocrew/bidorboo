@@ -10,8 +10,8 @@ export const API = {
   },
   UTILS: {
     GET: {
-      signCloudinaryRequest: '/api/user/paramstosign'
-    }
+      signCloudinaryRequest: '/api/user/paramstosign',
+    },
   },
   USER: {
     GET: {
@@ -74,7 +74,7 @@ export const CLIENT = {
     createjob: '/proposer/create-job',
     myOpenJobs: '/proposer/my-open-jobs',
     selectedPostedJobPage: '/proposer/job-details',
-    newlyPostedJob:'/proposer/new-job-details',
+    newlyPostedJob: '/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
   },
@@ -83,6 +83,7 @@ export const CLIENT = {
     bidNow: '/bidder/bid-now',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
+    reviewJobPage: '/review-page',
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
     myAwardedBidDetails: '/bidder/my-awarded-bid-details',
