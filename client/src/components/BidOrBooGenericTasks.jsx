@@ -23,7 +23,7 @@ class BidOrBooGenericTasks extends React.Component {
         alpha: 0.9,
       })}`;
       return (
-        <div key={id} className="column is-one-third">
+        <div key={id} className="column is-one-fifth">
           <div
             onClick={(e) => {
               e.preventDefault();
@@ -54,7 +54,7 @@ class BidOrBooGenericTasks extends React.Component {
                 <div className="HorizontalAligner-center">
                   <a
                     style={{
-                      marginTop: '-51px',
+                      marginTop: '-70px',
                       color: 'white',
                       borderRadius: '50%',
                       borderColor: 'transparent',

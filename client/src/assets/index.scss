@@ -400,14 +400,14 @@ img {
   object-fit: scale-down !important;
   width: 100% !important;
   height: 14.5rem !important;
-  background-color: #363636;
+  background-color: white;
 }
 
 .bdb-cover-img {
   object-fit: scale-down !important;
   width: 100% !important;
-  height: 14.5rem !important;
-  background-color: #363636;
+  height: 8rem !important;
+  background-color: white;
 }
 
 .bdb-img-upload-placeholder {
@@ -416,7 +416,7 @@ img {
   height: 14.5rem !important;
   background-color: white;
   cursor: pointer;
-  border: 1px dashed #363636;
+  border: 1px dashed white;
   input {
     width: 100%;
   }

@@ -74,6 +74,8 @@ class BidderRoot extends React.Component {
       a_showLoginDialog,
     } = this.props;
 
+const userId = userDetails._id;
+
     return (
       <React.Fragment>
         <BidderStepper currentStepNumber={1} />
@@ -137,32 +139,32 @@ class BidderRoot extends React.Component {
               />
             )}
           </div>
-          <React.Fragment>
+
+          <section className="section">
             <div className="container is-fluid">
               {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
                 <a
-                  style={{ marginBottom: '1rem' }}
+                  style={{ marginBottom: '1.5rem' }}
                   onClick={this.toggleFilterDialog}
                   className="button"
                 >
                   Filter Jobs
                 </a>
               )}
-              <div className="columns is-multiline">
-                <JobsToBidOnListView
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  currentUserId={userDetails._id}
-                  selectJobToBidOn={a_selectJobToBidOn}
-                  jobsList={
-                    this.state.displayedJobList === null
-                      ? ListOfJobsToBidOn
-                      : this.state.displayedJobList
-                  }
-                />
-              </div>
+
+              <JobsToBidOnListView
+                isLoggedIn={isLoggedIn}
+                showLoginDialog={a_showLoginDialog}
+                currentUserId={userDetails._id}
+                selectJobToBidOn={a_selectJobToBidOn}
+                jobsList={
+                  this.state.displayedJobList === null
+                    ? ListOfJobsToBidOn
+                    : this.state.displayedJobList
+                }
+              />
             </div>
-          </React.Fragment>{' '}
+          </section>
         </div>
       </React.Fragment>
     );

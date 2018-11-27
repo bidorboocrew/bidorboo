@@ -41,7 +41,7 @@ const JobsWithBids = (props) => {
     })
     .map((job) => {
       return (
-        <div key={job._id} className="column is-one-third">
+        <div key={job._id} className="column is-one-fifth">
           <MyAwardedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
