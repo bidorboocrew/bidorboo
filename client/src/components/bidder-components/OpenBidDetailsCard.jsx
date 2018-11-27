@@ -7,7 +7,6 @@ import { switchRoute } from '../../utils';
 export default class OpenBidDetailsCard extends React.Component {
   render() {
     const { bidDetails } = this.props;
-debugger
     if (!bidDetails) {
       return null;
     }
@@ -73,7 +72,7 @@ debugger
           </a>
           <div className="card-footer-item">
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY'
+              'MMMM Do YYYY',
             )} at ${startingDateText}`}
           </div>
           <div className="card-footer-item">
