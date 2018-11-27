@@ -17,8 +17,8 @@
   },
   "cacheDirectories": [
     "node_modules",
-    "client/node_modules",
-    "server/node_modules"
+    "./client/node_modules",
+    "./server/node_modules"
   ],
   "scripts": {
     "start": "yarn install && cd server && yarn install && yarn run start",
