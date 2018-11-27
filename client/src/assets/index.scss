@@ -373,33 +373,10 @@ img {
   }
 }
 
-.bdbImageAsBackground {
-  width: 100% !important;
-  background-position: center !important;
-  // height: 18.75rem !important;
-  height: 14.5rem !important;
-
-  background-repeat: no-repeat !important;
-}
-
-.bdbLargeProfilePic {
-  width: 100% !important;
-  background-position: center !important;
-  height: 14.5rem !important;
-  background-repeat: no-repeat !important;
-}
-
-.bdbMiniProfilePic {
-  width: 100% !important;
-  background-position: center !important;
-  height: 2rem !important;
-  background-repeat: no-repeat !important;
-}
-
 .bdb-img {
   object-fit: scale-down !important;
   width: 100% !important;
-  height: 14.5rem !important;
+  height: 8rem !important;
   background-color: white;
 }
 
@@ -413,7 +390,7 @@ img {
 .bdb-img-upload-placeholder {
   object-fit: scale-down !important;
   width: 100% !important;
-  height: 14.5rem !important;
+  height: 8rem !important;
   background-color: white;
   cursor: pointer;
   border: 1px dashed white;
