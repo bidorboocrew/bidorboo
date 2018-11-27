@@ -1,9 +1,15 @@
 {
-  "name": "client",
-  "version": "0.1.0",
+  "name": "bidorboo",
+  "version": "1.0.0",
   "license": "UNLICENSED",
-  "private": true,
+  "homepage": "https://www.bidorboo.com",
+  "description": "Get Services Done For the Price you desire. Offer Services and earn money.",
   "author": "Said Madi",
+  "contributors": [
+    {
+      "name": "Yacoub Abdulla"
+    }
+  ],
   "proxy": {
     "/api/*": {
       "target": "http://localhost:5000"
