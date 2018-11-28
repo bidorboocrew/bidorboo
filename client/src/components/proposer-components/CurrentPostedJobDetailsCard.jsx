@@ -129,10 +129,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </a>
             </div>
             <div className="card-footer-item">
-              <a
-                onClick={this.closeReviewModal}
-                className="button is-danger is-outlined is-large"
-              >
+              <a onClick={this.closeReviewModal} className="button is-danger is-outlined is-large">
                 Go Back
               </a>
             </div>
@@ -358,7 +355,12 @@ class PostedJobsDetails extends React.Component {
             )}
 
             {jobImages && jobImages.length > 0 && (
-              <Carousel showStatus={false} showThumbs={false}>
+              <Carousel
+                className="bdb-carousel-img-arrow"
+                showStatus={false}
+                showThumbs={false}
+                emulateTouch={true}
+              >
                 {carouselItems}
               </Carousel>
             )}
