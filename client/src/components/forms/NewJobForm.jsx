@@ -237,7 +237,11 @@ class NewJobForm extends React.Component {
           label="Detailed Description"
           placeholder={values.suggestedDetailsText}
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-          value={values.detailedDescriptionField || ''}
+          value={
+            values.detailedDescriptionField == ''
+              ? ' '
+              : values.detailedDescriptionField || values.suggestedDetailsText
+          }
           onChange={handleChange}
           onBlur={handleBlur}
         />
