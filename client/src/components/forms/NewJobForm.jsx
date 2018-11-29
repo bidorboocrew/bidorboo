@@ -235,7 +235,7 @@ class NewJobForm extends React.Component {
           id="detailedDescriptionField"
           type="text"
           label="Detailed Description"
-          placeholder={values.suggestedDetailsText}
+          placeholder={'Please supply job details and your expectations'}
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}
           value={values.detailedDescriptionField || ''}
           onChange={handleChange}
@@ -334,7 +334,7 @@ const EnhancedForms = withFormik({
       hoursField: 1,
       minutesField: 0,
       periodField: 'PM',
-      suggestedDetailsText: props.suggestedDetailsText,
+      detailedDescriptionField: props.suggestedDetailsText,
       fromTemplateIdField: props.fromTemplateIdField,
     };
   },
