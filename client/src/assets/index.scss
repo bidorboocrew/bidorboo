@@ -398,10 +398,11 @@ img {
     width: 100%;
   }
 }
-
-.bdb-carousel-img-arrow .carousel .control-next.control-arrow:before {
-  border-left: 8px solid rgba(0, 0, 0, 0.2);
-}
-.bdb-carousel-img-arrow .carousel .control-prev.control-arrow:before {
-  border-right: 8px solid rgba(0, 0, 0, 0.2);
+.bdb-carousel-img-arrow .carousel {
+  .control-next.control-arrow:before {
+    border-left: 8px solid rgba(0, 0, 0, 0.2);
+  }
+  .control-prev.control-arrow:before {
+    border-right: 8px solid rgba(0, 0, 0, 0.2);
+  }
 }
