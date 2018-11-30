@@ -56,7 +56,7 @@ class BidOrBooGenericTasks extends React.Component {
               <img src={`${imageUrl}`} className="bdb-cover-img" />
             </div>
             <div style={{ paddingBottom: '0.25rem' }} className="card-content">
-              <h1>
+              {/* <h1>
                 <div className="HorizontalAligner-center">
                   <a
                     style={{
@@ -71,7 +71,7 @@ class BidOrBooGenericTasks extends React.Component {
                     <span>+</span>
                   </a>
                 </div>
-              </h1>
+              </h1> */}
               <div className="content">
                 <div className="has-text-grey is-size-7">{description}</div>
               </div>

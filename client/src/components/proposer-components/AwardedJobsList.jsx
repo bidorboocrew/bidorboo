@@ -185,7 +185,7 @@ class MyAwardedJobSummaryCard extends React.Component {
                 }}
               >
                 <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Contact Winner
+                  <i className="fa fa-hand-paper" /> Contact
                 </span>
               </a>
             )}

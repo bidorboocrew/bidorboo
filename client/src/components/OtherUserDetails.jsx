@@ -68,7 +68,7 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
   return (
-    <div className="columns  is-multiline">
+    <div className="columns is-multiline">
       <div className="column is-half">
         <div className="card is-clipped">
           {cardTitle}

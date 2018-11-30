@@ -17,7 +17,7 @@ class HomePage extends React.Component {
       <div id="bdb-home-content" className="bdbPage">
         <section
           style={{ paddingBottom: '0.25rem' }}
-          className="hero has-text-centered fade-in section"
+          className="hero has-text-centered fade-in"
         >
           <div style={{ paddingBottom: '0.25rem', color: 'rgb(85,85,85' }} className="hero-body">
             <div className="container">
@@ -48,18 +48,15 @@ class HomePage extends React.Component {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       }}
                     >
-                      <div className="title">
+                      {/* <div className="title">
                         <div className="button  is-fullwidth is-primary">
                           <span className="icon">
                             <i className="fa fa-plus fa-w-14" />
                           </span>
                           <span className="is-capitalized">Request</span>
                         </div>
-                      </div>
-                      <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
-                        Need help ? Start by requesting a service using our platform to get your
-                        chores done for the price you desire
-                      </div>
+                      </div> */}
+                      <div className="subtitle">Need help ? Start by requesting a service.</div>
                     </a>
                   }
                 />
@@ -77,7 +74,7 @@ class HomePage extends React.Component {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       }}
                     >
-                      <div className="title">
+                      {/* <div className="title">
                         <div
                           onClick={(e) => {
                             e.preventDefault();
@@ -90,11 +87,8 @@ class HomePage extends React.Component {
                           </span>
                           <span className="is-capitalized">Bid</span>
                         </div>
-                      </div>
-                      <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
-                        Are you handy and creative ? Start Bidding and earn money doing the things
-                        you like for the price you want.
-                      </div>
+                      </div> */}
+                      <div className="subtitle">Are you handy? Start Bidding now.</div>
                     </a>
                   }
                 />

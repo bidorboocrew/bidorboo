@@ -108,11 +108,11 @@ const MyJobs = (props) => {
           if (!isLoggedIn) {
             showLoginDialog(true);
           } else {
-            selectJobToBidOn(job);
+            // selectJobToBidOn(job);
           }
         }}
       >
-        <JobsToBidOnSummaryCard footer={cardFooter} job={job} />
+        <JobsToBidOnSummaryCard myJob footer={cardFooter} job={job} />
       </div>
     );
   });
@@ -143,7 +143,7 @@ const EmptyStateComponent = () => {
 
 const CardBottomSection = (props) => {
   const { isLoggedIn, showLoginDialog, selectJobToBidOn, job, currentUserId } = props;
-
+  return null;
   return (
     <footer className="card-footer">
       {currentUserId !== job._ownerRef._id ? (
@@ -174,7 +174,7 @@ const CardBottomSection = (props) => {
 
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
-    const { job, specialStyle, footer } = this.props;
+    const { job, specialStyle, footer, myJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef, location } = job;
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
 
@@ -195,13 +195,24 @@ class JobsToBidOnSummaryCard extends React.Component {
     }
 
     const newStyle = { ...specialStyle, height: '100%' };
+
     return (
-      <div style={newStyle} className="card postedJobToBidOnCard is-clipped">
+      <div
+        style={newStyle}
+        className={`card postedJobToBidOnCard is-clipped ${myJob ? 'noshadow' : ''}`}
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">
+            {`${templatesRepo[fromTemplateId].title}`}
+            {myJob && (
+              <span style={{ marginLeft: 4 }} className="has-text-grey">{`${
+                myJob ? '  (mine)' : ''
+              }`}</span>
+            )}
+          </p>
         </header>
         <div className="card-image is-clipped">
           <img
@@ -224,7 +235,7 @@ class JobsToBidOnSummaryCard extends React.Component {
             </div>
             <div className="media-content">
               <p className="is-size-7">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p> 
+              {/* <p className="subtitle is-6">{email}</p>
             </div>
           </div> */}
           <div className="content">
