@@ -15,8 +15,11 @@ class HomePage extends React.Component {
 
     return (
       <div id="bdb-home-content" className="bdbPage">
-        <section className="hero has-text-centered fade-in">
-          <div style={{ color: 'rgb(85,85,85' }} className="hero-body">
+        <section
+          style={{ paddingBottom: '0.25rem' }}
+          className="hero has-text-centered fade-in section"
+        >
+          <div style={{ paddingBottom: '0.25rem', color: 'rgb(85,85,85' }} className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
               <h1 className="title is-size-1">BidOrBoo</h1>
@@ -27,73 +30,78 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container is-fluid">
-          <div className="columns is-centered is-multiline is-mobile">
-            <div className={columnCount}>
-              <BidOrBooCard
-                logoImg={requestImg}
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                }}
-                cardContent={
-                  <a
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    }}
-                  >
-                    <div className="title">
-                      <div className="button  is-fullwidth is-primary">
-                        <span className="icon">
-                          <i className="fa fa-plus fa-w-14" />
-                        </span>
-                        <span className="is-capitalized">Request</span>
+        <section
+          style={{ paddingTop: '0.25rem' }}
+          className="hero has-text-centered fade-in section"
+        >
+          <div className="container is-fluid">
+            <div className="columns is-centered is-multiline is-mobile">
+              <div className={columnCount}>
+                <BidOrBooCard
+                  logoImg={requestImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                  cardContent={
+                    <a
+                      onClick={() => {
+                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                      }}
+                    >
+                      <div className="title">
+                        <div className="button  is-fullwidth is-primary">
+                          <span className="icon">
+                            <i className="fa fa-plus fa-w-14" />
+                          </span>
+                          <span className="is-capitalized">Request</span>
+                        </div>
                       </div>
-                    </div>
-                    <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
-                      Need help ? Start by requesting a service using our platform to get your
-                      chores done for the price you desire
-                    </div>
-                  </a>
-                }
-              />
-            </div>
-            <div className={columnCount}>
-              <BidOrBooCard
-                logoImg={bidsImg}
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
-                }}
-                cardContent={
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    }}
-                  >
-                    <div className="title">
-                      <div
-                        onClick={(e) => {
-                          e.preventDefault();
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        }}
-                        className="button  is-fullwidth is-primary"
-                      >
-                        <span className="icon">
-                          <i className="fas fa-dollar-sign" />
-                        </span>
-                        <span className="is-capitalized">Bid</span>
+                      <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
+                        Need help ? Start by requesting a service using our platform to get your
+                        chores done for the price you desire
                       </div>
-                    </div>
-                    <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
-                      Are you handy and creative ? Start Bidding and earn money doing the things you
-                      like for the price you want.
-                    </div>
-                  </a>
-                }
-              />
+                    </a>
+                  }
+                />
+              </div>
+              <div className={columnCount}>
+                <BidOrBooCard
+                  logoImg={bidsImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                  cardContent={
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      }}
+                    >
+                      <div className="title">
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            switchRoute(ROUTES.CLIENT.BIDDER.root);
+                          }}
+                          className="button is-fullwidth is-primary"
+                        >
+                          <span className="icon">
+                            <i className="fas fa-dollar-sign" />
+                          </span>
+                          <span className="is-capitalized">Bid</span>
+                        </div>
+                      </div>
+                      <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
+                        Are you handy and creative ? Start Bidding and earn money doing the things
+                        you like for the price you want.
+                      </div>
+                    </a>
+                  }
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     );
   }
