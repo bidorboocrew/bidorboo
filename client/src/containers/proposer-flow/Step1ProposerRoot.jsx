@@ -12,12 +12,12 @@ class ProposerRoot extends React.Component {
 
     return (
       <React.Fragment>
-        <ProposerStepper currentStepNumber={1} />
-        <div className="container bdbPage pageWithStepper desktop">
+        {/* <ProposerStepper currentStepNumber={1} /> */}
+        <section className="section">
           <div className="columns  is-multiline is-mobile">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
-        </div>
+        </section>
       </React.Fragment>
     );
   }

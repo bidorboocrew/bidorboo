@@ -199,7 +199,7 @@ class JobsToBidOnSummaryCard extends React.Component {
     return (
       <div
         style={newStyle}
-        className={`card postedJobToBidOnCard is-clipped ${myJob ? 'noshadow' : ''}`}
+        className={`card postedJobToBidOnCard is-clipped ${myJob ? 'disabled' : ''}`}
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

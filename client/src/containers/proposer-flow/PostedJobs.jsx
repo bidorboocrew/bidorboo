@@ -24,7 +24,7 @@ class MyJobs extends React.Component {
       <div className="bdbPage">
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <div className="container is-fluid">
+            <div>
               <h1 style={{ color: 'white' }} className="title">
                 My Requests
               </h1>
@@ -33,7 +33,7 @@ class MyJobs extends React.Component {
         </section>
 
         <section className="section" style={{ paddingBottom: '0.25rem' }}>
-          <div className="container is-fluid">
+          <div>
             <div className="tabs">
               <ul>
                 <li className="is-active">
@@ -52,7 +52,7 @@ class MyJobs extends React.Component {
         </section>
 
         <section className="section" style={{ paddingBottom: '0.25rem' }}>
-          <div className="container is-fluid">
+          <div>
             <div className="tabs">
               <ul>
                 <li className="is-active">
@@ -67,7 +67,7 @@ class MyJobs extends React.Component {
         </section>
 
         <section className="section" style={{ paddingBottom: '0.25rem' }}>
-          <div className="container is-fluid">
+          <div>
             <div className="tabs">
               <ul>
                 <li className="is-active">
@@ -80,6 +80,7 @@ class MyJobs extends React.Component {
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
+                disabled
               />
             </div>
           </div>

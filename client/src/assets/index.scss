@@ -350,21 +350,21 @@ img {
 }
 
 .bdb-img {
-  object-fit: scale-down !important;
+  object-fit: cover !important;
   width: 100% !important;
   height: 8rem !important;
   background-color: white;
 }
 
 .bdb-cover-img {
-  object-fit: scale-down !important;
+  object-fit: cover !important;
   width: 100% !important;
   height: 8rem !important;
   background-color: white;
 }
 
 .bdb-img-upload-placeholder {
-  object-fit: scale-down !important;
+  object-fit: cover !important;
   width: 100% !important;
   height: 8rem !important;
   background-color: white;
@@ -389,7 +389,8 @@ img {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 }
 .card {
-  &.noshadow {
+  &.disabled {
+    cursor: not-allowed;
     box-shadow: none !important;
     border: 1px solid lightgrey;
     &:hover {
@@ -401,12 +402,7 @@ img {
     animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     // box-shadow: $shadow-space;
   }
-  &.noShadow {
-    &:hover {
-      animation: none;
-      // box-shadow: $shadow-space;
-    }
-  }
+
   height: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.bdb-infoBoxCard {
@@ -419,4 +415,9 @@ img {
     border: $border-divider;
     box-shadow: $shadow-smooth;
   }
+}
+
+.card-content {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }

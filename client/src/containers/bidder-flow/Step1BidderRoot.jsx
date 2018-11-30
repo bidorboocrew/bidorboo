@@ -74,11 +74,11 @@ class BidderRoot extends React.Component {
       a_showLoginDialog,
     } = this.props;
 
-const userId = userDetails._id;
+    const userId = userDetails._id;
 
     return (
       <React.Fragment>
-        <BidderStepper currentStepNumber={1} />
+        {/* <BidderStepper currentStepNumber={1} /> */}
 
         {this.state.showFilterDialog && (
           <div className="modal is-active">
@@ -101,14 +101,10 @@ const userId = userDetails._id;
               </section>
             </div>
 
-            <button
-              onClick={this.toggleFilterDialog}
-              className="modal-close "
-              aria-label="close"
-            />
+            <button onClick={this.toggleFilterDialog} className="modal-close " aria-label="close" />
           </div>
         )}
-        <div className="container bdbPage pageWithStepper desktop" id="bdb-bidder-root">
+        <div className="" id="bdb-bidder-root">
           {/* <section className="hero is-small">
             <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
               <div className="container">
@@ -122,26 +118,27 @@ const userId = userDetails._id;
             </div>
           </section> */}
           {/* map view */}
-          <div className="container is-fluid">
-            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-            {!isLoading && (
-              <BidderMapSection
-                selectJobToBidOn={a_selectJobToBidOn}
-                mapCenterPoint={mapCenterPoint}
-                isLoggedIn={isLoggedIn}
-                showLoginDialog={a_showLoginDialog}
-                currentUserId={userDetails._id}
-                jobsList={
-                  this.state.displayedJobList === null
-                    ? ListOfJobsToBidOn
-                    : this.state.displayedJobList
-                }
-              />
-            )}
-          </div>
 
           <section className="section">
-            <div className="container is-fluid">
+            <div>
+              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+              {!isLoading && (
+                <BidderMapSection
+                  selectJobToBidOn={a_selectJobToBidOn}
+                  mapCenterPoint={mapCenterPoint}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
+                  jobsList={
+                    this.state.displayedJobList === null
+                      ? ListOfJobsToBidOn
+                      : this.state.displayedJobList
+                  }
+                />
+              )}
+            </div>
+            <br />
+            <div>
               {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
                 <a
                   style={{ marginBottom: '1.5rem' }}

@@ -72,7 +72,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
 
     const reviewBidderbreadCrumb = () => {
       return (
-        <div style={{ marginBottom: '1rem' }} className="container">
+        <div style={{ marginBottom: '1rem' }}>
           <nav className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
@@ -121,10 +121,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
           </div>
           <footer className="card-footer">
             <div className="card-footer-item">
-              <a
-                onClick={this.awardBidderHandler}
-                className="button is-primary is-fullwidth "
-              >
+              <a onClick={this.awardBidderHandler} className="button is-primary is-fullwidth ">
                 Accept Bid
               </a>
             </div>
@@ -148,7 +145,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     ) : (
       <React.Fragment>
         {breadCrumb}
-        <div className="container">
+        <div>
           {!hideBidTable && (
             <BidsTable
               jobId={job._id}

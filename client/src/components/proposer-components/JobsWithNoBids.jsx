@@ -8,16 +8,6 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
 class JobsWithNoBids extends React.Component {
-  static propTypes = {
-    userDetails: PropTypes.object.isRequired,
-    jobsList: PropTypes.array.isRequired,
-    deleteJob: PropTypes.func,
-  };
-
-  static defaultProps = {
-    deleteJob: null,
-  };
-
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
@@ -94,7 +84,7 @@ const EmptyStateComponent = () => (
 
 class MyPostedJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
+    const { job, userDetails, areThereAnyBidders, deleteJob, disabled } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
@@ -120,7 +110,10 @@ class MyPostedJobSummaryCard extends React.Component {
     }
 
     return (
-      <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
+      <div
+        style={specialBorder}
+        className={`card postedJobToBidOnCard is-clipped ${disabled ? 'disabled' : ''}`}
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"

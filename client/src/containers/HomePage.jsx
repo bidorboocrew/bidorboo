@@ -15,10 +15,7 @@ class HomePage extends React.Component {
 
     return (
       <div id="bdb-home-content" className="bdbPage">
-        <section
-          style={{ paddingBottom: '0.25rem' }}
-          className="hero has-text-centered fade-in"
-        >
+        <section style={{ paddingBottom: '0.25rem' }} className="hero has-text-centered fade-in">
           <div style={{ paddingBottom: '0.25rem', color: 'rgb(85,85,85' }} className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
@@ -56,7 +53,9 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Request</span>
                         </div>
                       </div> */}
-                      <div className="subtitle">Need help ? Start by requesting a service.</div>
+                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
+                        Need help ? Start by requesting a service.
+                      </div>
                     </a>
                   }
                 />
@@ -88,7 +87,9 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Bid</span>
                         </div>
                       </div> */}
-                      <div className="subtitle">Are you handy? Start Bidding now.</div>
+                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
+                        Are you handy? Start Bidding now.
+                      </div>
                     </a>
                   }
                 />
