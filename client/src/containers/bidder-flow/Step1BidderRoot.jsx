@@ -103,7 +103,7 @@ const userId = userDetails._id;
 
             <button
               onClick={this.toggleFilterDialog}
-              className="modal-close is-large"
+              className="modal-close "
               aria-label="close"
             />
           </div>

@@ -114,7 +114,7 @@ const EmptyStateComponent = () => {
             <div className="is-size-5">You have not bid yet click here to start bidding!</div>
             <br />
             <a
-              className="button is-primary is-large"
+              className="button is-primary "
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}

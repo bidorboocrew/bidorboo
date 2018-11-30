@@ -7,7 +7,7 @@ const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{err
 
 const Label = ({ error, className, children, id, ...props }) => {
   return (
-    <label htmlFor={id} className="label" {...props}>
+    <label htmlFor={id} className="label has-text-weight-normal" {...props}>
       {children}
     </label>
   );

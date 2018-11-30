@@ -32,7 +32,7 @@ class MyJobs extends React.Component {
           </div>
         </section>
 
-        <section className="section">
+        <section className="section" style={{ paddingBottom: '0.25rem' }}>
           <div className="container is-fluid">
             <div className="tabs">
               <ul>
@@ -41,7 +41,7 @@ class MyJobs extends React.Component {
                 </li>
               </ul>
             </div>
-            <div className="columns is-multiline">
+            <div className="columns is-multiline is-mobile">
               <JobsWithBidsAwaitingReview
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
@@ -51,7 +51,7 @@ class MyJobs extends React.Component {
           </div>
         </section>
 
-        <section className="section">
+        <section className="section" style={{ paddingBottom: '0.25rem' }}>
           <div className="container is-fluid">
             <div className="tabs">
               <ul>
@@ -60,13 +60,13 @@ class MyJobs extends React.Component {
                 </li>
               </ul>
             </div>
-            <div className="columns is-multiline">
+            <div className="columns is-multiline is-mobile">
               <AwardedJobsList userDetails={userDetails} jobsList={myAwardedJobsList} />
             </div>
           </div>
         </section>
 
-        <section className="section">
+        <section className="section" style={{ paddingBottom: '0.25rem' }}>
           <div className="container is-fluid">
             <div className="tabs">
               <ul>
@@ -75,7 +75,7 @@ class MyJobs extends React.Component {
                 </li>
               </ul>
             </div>
-            <div className="columns is-multiline">
+            <div className="columns is-multiline is-mobile">
               <JobsWithNoBids
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}

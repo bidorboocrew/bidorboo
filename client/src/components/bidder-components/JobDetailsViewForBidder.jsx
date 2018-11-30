@@ -55,60 +55,59 @@ export default class JobDetailsViewForBidder extends React.Component {
             }`}
           />
         </div>
-        <div className="card-content">
-          <div className="media">
-            <div className="media-left">
-              <figure style={{ margin: '0 auto' }} className="image is-48x48">
-                <img src={profileImage.url} alt="user" />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="title is-12">{displayName}</p>
-            </div>
-          </div>
-
+        <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
           <div className="content">
-            <p className="heading">
+            <p className="is-size-7">
               <span>Service Type</span>
               <br />
-              <span className="has-text-weight-semibold">
+              <span className="has-text-weight-semibold is-size-6">
                 {templatesRepo[fromTemplateId].title || 'not specified'}
               </span>
             </p>
-            <p className="heading">
-              <span>Active since</span>
-              <br />
-              <span className="has-text-weight-semibold">
-                {createdAtToLocal}
-                <span style={{ fontSize: '10px', color: 'grey' }}>
-                  {` (${daysSinceCreated} ago)`}
-                </span>
-              </span>
-            </p>
-            <p className="heading">
+            <p className="is-size-7">
               <span>Start Date</span>
               <br />
-              <span className="has-text-weight-semibold">
+              <span className="has-text-weight-semibold is-size-6">
                 {startingDateAndTime && moment(startingDateAndTime.date).format('MMMM Do YYYY')}
               </span>
             </p>
-            <p className="heading">
+            <p className="is-size-7">
               <span>Start Time</span>
               <br />
-              <span className="has-text-weight-semibold">
+              <span className="has-text-weight-semibold is-size-6">
                 {hours}:{minutes === 0 ? '00' : minutes} {period}
               </span>
             </p>
-            <p className="heading">
+            <p className="is-size-7">
               <span>Duration Required</span>
               <br />
-              <span className="has-text-weight-semibold">{durationOfJob || 'not specified'}</span>
+              <span className="has-text-weight-semibold is-size-6">
+                {durationOfJob || 'not specified'}
+              </span>
             </p>
-            <p className="heading">
+            <p className="is-size-7">
               <span>Detailed Description</span>
               <br />
-              <span className="has-text-weight-semibold">
+              <span className="has-text-weight-semibold is-size-6">
                 {detailedDescription || 'not specified'}
+              </span>
+            </p>
+
+            <div className="media">
+              <div className="media-left">
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                  <img src={profileImage.url} alt="user" />
+                </figure>
+              </div>
+              <div className="media-content">
+                <p className="is-size-7">{displayName}</p>
+              </div>
+            </div>
+            <p className="is-size-7">
+              <span className="has-text-weight-semibold is-size-6">
+                <span style={{ fontSize: '10px', color: 'grey' }}>
+                  {`Posted (${daysSinceCreated} ago)`}
+                </span>
               </span>
             </p>
           </div>

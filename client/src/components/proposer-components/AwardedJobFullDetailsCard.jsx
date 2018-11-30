@@ -64,7 +64,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 
     const cardFooter = () => (
       <React.Fragment>
-        <div className="has-text-centered is-size-2 ">
+        <div className="has-text-centered is-size-5">
           Bid amount :
           <span className="has-text-primary is-capitalized has-text-weight-bold">
             {` ${bidText}`}
@@ -72,17 +72,14 @@ export default class AwardedJobFullDetailsCard extends React.Component {
         </div>
         <footer className="card-footer">
           <div className="card-footer-item">
-            <a
-              onClick={this.toggleConnecToBidderDialog}
-              className="button is-primary is-fullwidth is-large"
-            >
+            <a onClick={this.toggleConnecToBidderDialog} className="button is-primary is-fullwidth">
               Contact
             </a>
           </div>
           <div className="card-footer-item">
             <a
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage)}
-              className="button is-danger is-outlined is-large"
+              className="button is-danger is-outlined  is-fullwidth"
             >
               Go Back
             </a>
@@ -218,7 +215,7 @@ class AwardedJobDetails extends React.Component {
     }
 
     return (
-      <div className="columns is-centered">
+      <div className="columns  is-multiline">
         <div className="column is-half">
           <div className="card is-clipped">
             <header
@@ -248,19 +245,19 @@ class AwardedJobDetails extends React.Component {
                   </figure>
                 </div>
                 <div className="media-content">
-                  <p className="title is-12">{displayName}</p>
+                  <p className="title">{displayName}</p>
                 </div>
               </div>
 
               <div className="content">
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Service Type</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {templatesRepo[fromTemplateId].title || 'not specified'}
                   </span>
                 </p>
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Active since</span>
                   <br />
                   <span className="has-text-weight-semibold">
@@ -270,28 +267,28 @@ class AwardedJobDetails extends React.Component {
                     </span>
                   </span>
                 </p>
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Start Date</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {startingDateAndTime && moment(startingDateAndTime.date).format('MMMM Do YYYY')}
                   </span>
                 </p>
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Start Time</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {hours}:{minutes === 0 ? '00' : minutes} {period}
                   </span>
                 </p>
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Duration Required</span>
                   <br />
                   <span className="has-text-weight-semibold">
                     {durationOfJob || 'not specified'}
                   </span>
                 </p>
-                <p className="heading">
+                <p className="is-size-6">
                   <span>Detailed Description</span>
                   <br />
                   <span className="has-text-weight-semibold">

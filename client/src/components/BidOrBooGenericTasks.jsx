@@ -1,9 +1,11 @@
 import React from 'react';
 import { randomColor } from 'randomcolor';
+import windowSize from 'react-window-size';
+
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../utils';
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
@@ -13,17 +15,21 @@ class BidOrBooGenericTasks extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog } = this.props;
+
+    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+      ? 'column is-half'
+      : 'column is-one-fifth';
+
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
-
       const bgcolor = `${randomColor({
         luminosity: 'dark',
         format: 'rgba',
         alpha: 0.9,
       })}`;
       return (
-        <div key={id} className="column is-one-fifth">
+        <div key={id} className={columnCount}>
           <div
             onClick={(e) => {
               e.preventDefault();
@@ -33,7 +39,7 @@ class BidOrBooGenericTasks extends React.Component {
                 switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
               }
             }}
-            className="card"
+            className="card is-clipped"
           >
             <header>
               <p
@@ -41,7 +47,7 @@ class BidOrBooGenericTasks extends React.Component {
                   backgroundColor: bgcolor,
                   border: 'none',
                 }}
-                className="button is-primary is-size-4 is-fullwidth has-text-white has-text-centered is-capitalized"
+                className="button is-primary is-size-6 is-fullwidth has-text-white has-text-centered is-capitalized"
               >
                 {title}
               </p>
@@ -49,7 +55,7 @@ class BidOrBooGenericTasks extends React.Component {
             <div className="card-image">
               <img src={`${imageUrl}`} className="bdb-cover-img" />
             </div>
-            <div className="card-content">
+            <div style={{ paddingBottom: '0.25rem' }} className="card-content">
               <h1>
                 <div className="HorizontalAligner-center">
                   <a
@@ -60,14 +66,14 @@ class BidOrBooGenericTasks extends React.Component {
                       borderColor: 'transparent',
                       backgroundColor: bgcolor,
                     }}
-                    className="button is-primary is-size-4 is-large bdb-AddJobButton"
+                    className="button is-primary is-size-4  bdb-AddJobButton"
                   >
                     <span>+</span>
                   </a>
                 </div>
               </h1>
               <div className="content">
-                <div className="has-text-grey is-size-6">{description}</div>
+                <div className="has-text-grey is-size-7">{description}</div>
               </div>
             </div>
           </div>
@@ -79,4 +85,4 @@ class BidOrBooGenericTasks extends React.Component {
   }
 }
 
-export default BidOrBooGenericTasks;
+export default windowSize(BidOrBooGenericTasks);

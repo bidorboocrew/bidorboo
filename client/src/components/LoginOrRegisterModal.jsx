@@ -17,7 +17,7 @@ export const LoginOrRegisterModal = (props) => {
           <div style={{ textAlign: 'cetner' }}>
             <a
               rel="noopener noreferrer"
-              className="button is-danger is-large is-large is-fullwidth"
+              className="button is-danger   is-fullwidth"
               href={ROUTES.API.AUTH.GOOGLE}
               style={{ marginTop: 8 }}
             >
@@ -31,7 +31,7 @@ export const LoginOrRegisterModal = (props) => {
             <a
               rel="noopener noreferrer"
               href={ROUTES.API.AUTH.FACEBOOK}
-              className="button is-link is-large is-fullwidth"
+              className="button is-link  is-fullwidth"
               style={{ marginTop: 16 }}
             >
               <span>

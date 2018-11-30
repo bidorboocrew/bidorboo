@@ -14,7 +14,7 @@ class ProposerRoot extends React.Component {
       <React.Fragment>
         <ProposerStepper currentStepNumber={1} />
         <div className="container bdbPage pageWithStepper desktop">
-          <div className="columns is-multiline">
+          <div className="columns  is-multiline is-mobile">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
         </div>

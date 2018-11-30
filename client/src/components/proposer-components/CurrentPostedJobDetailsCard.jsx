@@ -123,13 +123,13 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
             <div className="card-footer-item">
               <a
                 onClick={this.awardBidderHandler}
-                className="button is-primary is-fullwidth is-large"
+                className="button is-primary is-fullwidth "
               >
                 Accept Bid
               </a>
             </div>
             <div className="card-footer-item">
-              <a onClick={this.closeReviewModal} className="button is-danger is-outlined is-large">
+              <a onClick={this.closeReviewModal} className="button is-danger is-outlined ">
                 Go Back
               </a>
             </div>
@@ -231,7 +231,7 @@ class BidsTable extends React.Component {
         });
 
       return (
-        <div className="columns is-centered">
+        <div className="columns  is-multiline">
           <div className="column is-half">
             <table
               style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
@@ -253,7 +253,7 @@ class BidsTable extends React.Component {
     }
     // no bids yet
     return (
-      <div className="columns is-centered">
+      <div className="columns  is-multiline">
         <div className="column is-half">
           <table className="table is-hoverable table is-striped is-fullwidth">
             <thead>
@@ -332,7 +332,7 @@ class PostedJobsDetails extends React.Component {
     }
 
     return (
-      <div className="columns is-centered">
+      <div className="columns  is-multiline">
         <div className="column is-half">
           <div className="card noShadow is-clipped">
             <header

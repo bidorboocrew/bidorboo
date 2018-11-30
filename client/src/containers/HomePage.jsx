@@ -1,13 +1,18 @@
 import React from 'react';
+import windowSize from 'react-window-size';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../utils';
 import BidOrBooCard from '../components/BidOrBooCard';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
   render() {
+    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+      ? 'column is-half'
+      : 'column is-4';
+
     return (
       <div id="bdb-home-content" className="bdbPage">
         <section className="hero has-text-centered fade-in">
@@ -16,15 +21,15 @@ export default class HomePage extends React.Component {
               {/* <Rotate delay={300} top left cascade> */}
               <h1 className="title is-size-1">BidOrBoo</h1>
               {/* </Rotate> */}
-              <h2 className="subtitle">
+              <h2 className="is-size-6">
                 Get the services you need for the price you want. Earn money doing what you love.
               </h2>
             </div>
           </div>
         </section>
         <div className="container is-fluid">
-          <div className="columns  is-centered">
-            <div className="column is-4">
+          <div className="columns is-centered is-multiline is-mobile">
+            <div className={columnCount}>
               <BidOrBooCard
                 logoImg={requestImg}
                 onClickHandler={() => {
@@ -37,14 +42,14 @@ export default class HomePage extends React.Component {
                     }}
                   >
                     <div className="title">
-                      <div className="button is-large is-fullwidth is-primary">
+                      <div className="button  is-fullwidth is-primary">
                         <span className="icon">
                           <i className="fa fa-plus fa-w-14" />
                         </span>
                         <span className="is-capitalized">Request</span>
                       </div>
                     </div>
-                    <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
+                    <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
                       Need help ? Start by requesting a service using our platform to get your
                       chores done for the price you desire
                     </div>
@@ -52,7 +57,7 @@ export default class HomePage extends React.Component {
                 }
               />
             </div>
-            <div className="column is-4">
+            <div className={columnCount}>
               <BidOrBooCard
                 logoImg={bidsImg}
                 onClickHandler={() => {
@@ -71,7 +76,7 @@ export default class HomePage extends React.Component {
                           e.preventDefault();
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
                         }}
-                        className="button is-large is-fullwidth is-primary"
+                        className="button  is-fullwidth is-primary"
                       >
                         <span className="icon">
                           <i className="fas fa-dollar-sign" />
@@ -79,7 +84,7 @@ export default class HomePage extends React.Component {
                         <span className="is-capitalized">Bid</span>
                       </div>
                     </div>
-                    <div style={{ marginTop: 6 }} className="subtitle has-text-grey">
+                    <div style={{ marginTop: 6 }} className="is-size-6 has-text-grey">
                       Are you handy and creative ? Start Bidding and earn money doing the things you
                       like for the price you want.
                     </div>
@@ -93,3 +98,5 @@ export default class HomePage extends React.Component {
     );
   }
 }
+
+export default windowSize(HomePage);

@@ -28,11 +28,11 @@ export default class PicturesUploaderContainer extends React.Component {
     return (
       <React.Fragment>
         <div className="field">
-          <div className="label">upload Images</div>
+          <div className="label has-text-weight-normal">upload Images</div>
         </div>
         <div
           style={{ borderRadius: 4, background: 'rgba(33, 33, 33, 0.1)' }}
-          className="columns is-multiline is-centered"
+          className="columns  is-multiline"
         >
           {previewContent}
         </div>

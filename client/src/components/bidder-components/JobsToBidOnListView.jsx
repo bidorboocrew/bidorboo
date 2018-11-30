@@ -1,12 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
-export default class JobsToBidOnListView extends React.Component {
+const geocoder = new window.google.maps.Geocoder();
+class JobsToBidOnListView extends React.Component {
   render() {
     const { jobsList } = this.props;
 
@@ -20,7 +22,7 @@ export default class JobsToBidOnListView extends React.Component {
               </li>
             </ul>
           </div>
-          <div className="columns is-multiline">
+          <div className="columns  is-multiline is-mobile">
             <OtherPeoplesJobs {...this.props} />
           </div>
           <div className="tabs">
@@ -30,7 +32,7 @@ export default class JobsToBidOnListView extends React.Component {
               </li>
             </ul>
           </div>
-          <div className="columns is-multiline">
+          <div className="columns  is-multiline is-mobile">
             <MyJobs {...this.props} />
           </div>
         </React.Fragment>
@@ -40,11 +42,16 @@ export default class JobsToBidOnListView extends React.Component {
     return <React.Fragment>{postedJobsList}</React.Fragment>;
   }
 }
+export default windowSize(JobsToBidOnListView);
 
 const OtherPeoplesJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
   const otherPeopleJobs = jobsList.filter((job) => job._ownerRef._id !== currentUserId);
+
+  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
+    ? 'column is-half'
+    : 'column is-one-fifth';
 
   const components = otherPeopleJobs.map((job) => {
     const cardFooter = (
@@ -59,7 +66,7 @@ const OtherPeoplesJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-fifth"
+        className={columnCount}
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -79,6 +86,9 @@ const MyJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
   const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
+  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
+    ? 'column is-half'
+    : 'column is-one-fifth';
 
   const components = myjobs.map((job) => {
     const cardFooter = (
@@ -93,7 +103,7 @@ const MyJobs = (props) => {
     return (
       <div
         key={job._id}
-        className="column is-one-fifth"
+        className={columnCount}
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -117,7 +127,7 @@ const EmptyStateComponent = () => {
             <div className="is-size-5">Couldn't find any. please check again later!</div>
             <br />
             <a
-              className="button is-primary is-large"
+              className="button is-primary "
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
@@ -146,14 +156,14 @@ const CardBottomSection = (props) => {
                 selectJobToBidOn(job);
               }
             }}
-            className="button is-primary is-fullwidth is-large"
+            className="button is-primary is-fullwidth"
           >
             View Details
           </a>
         </div>
       ) : (
         <div className="card-footer-item">
-          <a disabled className="button is-outline is-fullwidth is-large">
+          <a disabled className="button is-outline is-fullwidth">
             My Request
           </a>
         </div>
@@ -165,14 +175,13 @@ const CardBottomSection = (props) => {
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
     const { job, specialStyle, footer } = this.props;
-    const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef } = job;
+    const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef, location } = job;
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
 
     const { profileImage, displayName } = temp;
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
-
     try {
       daysSinceCreated = createdAt
         ? moment.duration(moment().diff(moment(createdAt))).humanize()
@@ -204,31 +213,31 @@ class JobsToBidOnSummaryCard extends React.Component {
             }`}
           />
         </div>
-        <div className="card-content">
-          <div className="media">
+        <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
+          {/* <div className="media">
             <div className="media-left">
               {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                <figure style={{ margin: '0 auto' }} className="image is-24x24">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}
             </div>
             <div className="media-content">
-              <p className="title is-6">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p> */}
+              <p className="is-size-7">{displayName}</p>
+              {/* <p className="subtitle is-6">{email}</p> 
             </div>
-          </div>
+          </div> */}
           <div className="content">
-            <p className="heading">
-              Active since {createdAtToLocal}
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {` (${daysSinceCreated} ago)`}
-              </span>
-            </p>
-            <p className="heading">
-              Start Date
+            <div className="is-size-7">
+              Due on:
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
-            </p>
+            </div>
+            <div className="is-size-7">
+              {/* Active since {createdAtToLocal} */}
+              <span style={{ fontSize: '10px', color: 'grey' }}>
+                {`posted (${daysSinceCreated} ago)`}
+              </span>
+            </div>
           </div>
         </div>
         {footer}

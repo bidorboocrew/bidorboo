@@ -406,3 +406,9 @@ img {
     border-right: 8px solid rgba(0, 0, 0, 0.2);
   }
 }
+
+// bulma overrides
+
+.button {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
+}

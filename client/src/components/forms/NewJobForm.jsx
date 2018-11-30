@@ -246,7 +246,7 @@ class NewJobForm extends React.Component {
           <button
             style={{ borderRadius: 0 }}
             type="button"
-            className="button is-outlined is-large"
+            className="button is-outlined "
             disabled={isSubmitting}
             onClick={(e) => {
               e.preventDefault();
@@ -257,7 +257,7 @@ class NewJobForm extends React.Component {
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className={`button is-primary is-large ${isSubmitting ? 'is-loading' : ''}`}
+            className={`button is-primary  ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
             onClick={(e) => {

@@ -81,7 +81,7 @@ export default class ReviewPage extends React.Component {
             </div>
             <div class="media-content">
               <p class="title is-4">{title}</p>
-              <p class="subtitle is-6">{proposer.displayName}</p>
+              <p class="subtitle is-half">{proposer.displayName}</p>
             </div>
           </div>
           <div class="content">
@@ -103,7 +103,7 @@ export default class ReviewPage extends React.Component {
             </div>
             <div class="media-content">
               <p class="title is-4">{title}</p>
-              <p class="subtitle is-6">{displayName}</p>
+              <p class="subtitle is-half">{displayName}</p>
             </div>
           </div>
           <div class="content">
@@ -209,7 +209,7 @@ export default class ReviewPage extends React.Component {
         <div>
           <footer class="card-footer">
             <button
-              className="button is-primary is-fullwidth is-large"
+              className="button is-primary is-fullwidth "
               disabled={!this.state.isValid}
               onClick={() => {
                 // onSubmit();
@@ -254,8 +254,8 @@ export default class ReviewPage extends React.Component {
         </section>
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns is-centered">
-              <div className="column is-6">
+            <div className="columns  is-multiline is-mobile">
+              <div className="column is-half">
                 <div class="card">
                   <header class="card-header">
                     <p class="card-header-title">Submit Review</p>

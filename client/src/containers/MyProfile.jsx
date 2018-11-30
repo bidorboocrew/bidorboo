@@ -66,7 +66,7 @@ class MyProfile extends React.Component {
           </section>
           <section className="bdbPage">
             <div className="container" id="bdb-profile-content">
-              <div className="columns">
+              <div className="columns is-multiline">
                 {userImageAndStats(
                   this.toggleShowUploadProfileImageDialog,
                   profileImage,

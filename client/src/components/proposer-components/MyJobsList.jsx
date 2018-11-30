@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
 class MyJobsList extends React.Component {
   static propTypes = {
@@ -32,17 +33,22 @@ class MyJobsList extends React.Component {
   }
 }
 
-export default MyJobsList;
+export default windowSize(MyJobsList);
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;
+
+  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
+    ? 'column is-half'
+    : 'column is-one-fifth';
+
   const jobsWithBids = jobsList
     .filter((job) => {
       return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
     })
     .map((job) => {
       return (
-        <div key={job._id} className="column is-one-fifth">
+        <div key={job._id} className={columnCount}>
           <MyPostedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
@@ -52,13 +58,16 @@ const JobsWithBids = (props) => {
 
 const JobsWithoutBids = (props) => {
   const { jobsList } = props;
+  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
+    ? 'column is-half'
+    : 'column is-one-fifth';
   const jobsWithoutBids = jobsList
     .filter((job) => {
       return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
     })
     .map((job) => {
       return (
-        <div key={job._id} className="column is-one-fifth">
+        <div key={job._id} className={columnCount}>
           <MyPostedJobSummaryCard job={job} {...props} />
         </div>
       );
@@ -74,7 +83,7 @@ const EmptyStateComponent = () => (
           <div className="is-size-5">Sorry you have not posted any jobs.</div>
           <br />
           <a
-            className="button is-primary is-large"
+            className="button is-primary "
             onClick={(e) => {
               e.preventDefault();
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -180,7 +189,7 @@ class MyPostedJobSummaryCard extends React.Component {
         <footer className="card-footer">
           <div className="card-footer-item">
             {!areThereAnyBidders && (
-              <a disabled className="button is-outlined is-fullwidth is-large">
+              <a disabled className="button is-outlined is-fullwidth ">
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-hand-paper" /> No Bids Yet
                 </span>
@@ -189,7 +198,7 @@ class MyPostedJobSummaryCard extends React.Component {
             {/* show as enabled cuz there is bidders */}
             {areThereAnyBidders && (
               <a
-                className="button is-primary is-fullwidth is-large"
+                className="button is-primary is-fullwidth "
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);

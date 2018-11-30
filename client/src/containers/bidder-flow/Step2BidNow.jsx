@@ -29,7 +29,7 @@ class BidNow extends React.Component {
         <div className="container bdbPage pageWithStepper desktop">
           <section className="bdbPage">
             <div className="container">
-              <div className="columns is-centered">
+              <div className="columns  is-multiline">
                 <div className="column is-6">
                   {jobDetails && jobDetails._id && (
                     <React.Fragment>

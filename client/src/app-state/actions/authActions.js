@@ -96,7 +96,7 @@ export const onLogout = () => (dispatch) =>
 //               showPoweredBy: false,
 //               multiple: false,
 //               theme: 'minimal',
-//               buttonClass: 'button is-primary is-large',
+//               buttonClass: 'button is-primary ',
 //               buttonCaption: 'Upload image',
 //               styles: {
 //                 palette: {

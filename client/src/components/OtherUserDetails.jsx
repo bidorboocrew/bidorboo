@@ -43,25 +43,22 @@ export default class OtherUserDetails extends React.Component {
 const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;
   return (
-    <h2
+    <p
+      className="has-text-grey is-size-7"
       style={{
-        marginTop: specialMarginVal || 0,
-        marginBottom: 4,
-        fontWeight: 500,
-        fontSize: 20,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >
       {title}
-    </h2>
+    </p>
   );
 };
 const DisplayLabelValue = (props) => {
   return (
-    <div style={{ padding: 4, marginBottom: 4 }}>
-      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
-      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
-    </div>
+    <p>
+      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-6"> {props.labelValue || 'none provided'}</div>
+    </p>
   );
 };
 
@@ -71,15 +68,13 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
   return (
-    <div className="columns is-centered">
+    <div className="columns  is-multiline">
       <div className="column is-half">
         <div className="card is-clipped">
           {cardTitle}
           <div className="card-content">
             <div className="has-text-centered">
-              <img
-                src={`${profileImage.url}`}
-              />
+              <img src={`${profileImage.url}`} />
               <div>{displayName}</div>
               <DisplayLabelValue
                 labelText="Membership Status:"
@@ -108,7 +103,9 @@ const UserDetails = ({ otherUserDetails }) => {
   } = otherUserDetails;
   return (
     <React.Fragment>
+      <br />
       <HeaderTitle title="Member Details" />
+
       <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
       <DisplayLabelValue labelText="Email:" labelValue={email} />
       <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />

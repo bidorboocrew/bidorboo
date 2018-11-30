@@ -58,7 +58,7 @@ class PostYourBid extends React.Component {
                   style={{ borderRadius: 0 }}
                   onClick={this.openShowBidDialog}
                   type="button"
-                  className="button is-primary is-large"
+                  className="button is-primary "
                 >
                   <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
                   Bid
@@ -66,7 +66,7 @@ class PostYourBid extends React.Component {
 
                 <a
                   style={{ borderRadius: 0, marginLeft: '2.25rem' }}
-                  className="button is-danger is-outlined is-large"
+                  className="button is-danger is-outlined "
                   type="submit"
                   onClick={onCancel}
                 >

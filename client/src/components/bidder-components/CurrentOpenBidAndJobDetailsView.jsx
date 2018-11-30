@@ -75,7 +75,7 @@ class BidsTable extends React.Component {
     );
 
     return (
-      <div className="columns is-centered">
+      <div className="columns  is-multiline">
         <div className="column is-half">
           <table
             style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
@@ -138,7 +138,7 @@ class PostedJobsDetails extends React.Component {
     }
 
     return (
-      <div className="columns is-centered">
+      <div className="columns  is-multiline">
         <div className="column is-half">
           <div className="card is-clipped">
             <header

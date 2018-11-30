@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
 class JobsWithBidsAwaitingReview extends React.Component {
   static propTypes = {
@@ -25,17 +26,22 @@ class JobsWithBidsAwaitingReview extends React.Component {
   }
 }
 
-export default JobsWithBidsAwaitingReview;
+export default windowSize(JobsWithBidsAwaitingReview);
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;
+
+  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
+    ? 'column is-half'
+    : 'column is-one-fifth';
+
   const jobsWithBids = jobsList
     .filter((job) => {
       return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
     })
     .map((job) => {
       return (
-        <div key={job._id} className="column is-one-fifth">
+        <div key={job._id} className={columnCount}>
           <MyPostedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
@@ -51,7 +57,7 @@ const EmptyStateComponent = () => (
           <div className="is-size-5">Sorry you have not posted any jobs.</div>
           <br />
           <a
-            className="button is-primary is-large"
+            className="button is-primary "
             onClick={(e) => {
               e.preventDefault();
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -96,7 +102,7 @@ class MyPostedJobSummaryCard extends React.Component {
       <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header  is-clipped"
+          className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
@@ -126,38 +132,37 @@ class MyPostedJobSummaryCard extends React.Component {
             }`}
           />
         </div>
-        <div className="card-content">
-          <div className="media">
-            <div className="media-left">
+        <div style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }} className="card-content">
+          {/* <div className="media"> */}
+          {/* <div className="media-left">
               {profileImage && profileImage.url && (
                 <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}
-            </div>
-            <div className="media-content">
+            </div> */}
+          {/* <div className="media-content">
               <p className="title is-6">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p> */}
-            </div>
-          </div>
+              {/* <p className="subtitle is-6">{email}</p> 
+            </div> */}
+          {/* </div> */}
 
           <div className="content">
-            <p className="heading">
-              Active since {createdAtToLocal}
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {` (${daysSinceCreated} ago)`}
-              </span>
-            </p>
-            <p className="heading">
+            <p className="is-size-7">
               Start Date
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            </p>
+            <p className="is-size-7">
+              <span style={{ fontSize: '10px', color: 'grey' }}>
+                {`Posted (${daysSinceCreated} ago)`}
+              </span>
             </p>
           </div>
         </div>
         <footer className="card-footer">
           <div className="card-footer-item">
             {!areThereAnyBidders && (
-              <a disabled className="button is-outlined is-fullwidth is-large">
+              <a disabled className="button is-outlined is-fullwidth ">
                 <span style={{ marginLeft: 4 }}>
                   <i className="fa fa-hand-paper" /> No Bids Yet
                 </span>
@@ -166,7 +171,7 @@ class MyPostedJobSummaryCard extends React.Component {
             {/* show as enabled cuz there is bidders */}
             {areThereAnyBidders && (
               <a
-                className="button is-fullwidth is-large  is-danger"
+                className="button is-fullwidth   is-danger"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
