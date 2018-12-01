@@ -18,7 +18,7 @@ exports.findOneByUserId = (userId) =>
 exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const bidsWithUpdatedStatus = ['BOO', 'WIN', 'CANCEL'];
+      const bidsWithUpdatedStatus = ['BOO', 'WIN', 'CANCEL', 'AWARDED'];
       const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
@@ -41,7 +41,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $in: ['BOO', 'WIN', 'CANCEL', 'AWARDED'] } },
+          match: { state: { $in: bidsWithUpdatedStatus } },
           select: schemaHelpers.BidFull,
           populate: {
             path: '_jobRef',

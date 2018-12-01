@@ -20,7 +20,7 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, awardedBidsList } = this.props;
+    const { isLoading, openBidsList, awardedBidsList, notificationFeed } = this.props;
 
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
@@ -34,14 +34,20 @@ class MyBids extends React.Component {
     const awardedBidsListComponent =
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
-          return <AwardedBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+          return (
+            <AwardedBidDetailsCard
+              key={bidDetails._id}
+              bidDetails={bidDetails}
+              notificationFeed={notificationFeed}
+            />
+          );
         })
       ) : (
         <EmptyStateComponent />
       );
 
     return (
-      <div  id="bdb-bidder-my-bids">
+      <div id="bdb-bidder-my-bids">
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">
@@ -85,11 +91,12 @@ class MyBids extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer }) => {
+const mapStateToProps = ({ bidsReducer, uiReducer }) => {
   return {
     openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
     awardedBidsList: bidsReducer.awardedBidsList,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 

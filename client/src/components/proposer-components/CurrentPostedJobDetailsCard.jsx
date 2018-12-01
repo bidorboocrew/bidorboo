@@ -202,8 +202,8 @@ class BidsTable extends React.Component {
                 </div>
                 {bid.isNewBid ? (
                   <div
-                    style={{ verticalAlign: 'middle', marginLeft: 4, fontWeight: 100 }}
-                    className="tag is-info"
+                    style={{ verticalAlign: 'middle', marginLeft: 4 }}
+                    className="tag is-dark"
                   >
                     new bid
                     {/* <button

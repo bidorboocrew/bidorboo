@@ -8,7 +8,6 @@ class ScrollToTopOnRouteChange extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       if (this.props.s_isLoggedIn) {
-        debugger
         this.props.a_getCurrentUserNotifications();
       }
       window.scrollTo(0, 0);

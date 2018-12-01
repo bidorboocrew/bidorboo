@@ -117,7 +117,7 @@ class MyPostedJobSummaryCard extends React.Component {
           <p className="card-header-title">
             {templatesRepo[fromTemplateId].title}
             {areThereAnyBidders && doesthisJobHaveNewBids && (
-              <span style={{ marginLeft: 4, fontWeight: 100 }} className="tag is-info">
+              <span style={{ marginLeft: 4 }} className="tag is-dark">
                 +{numberOfNewBids} new bid
               </span>
             )}

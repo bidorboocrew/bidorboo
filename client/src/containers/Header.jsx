@@ -155,9 +155,8 @@ class Header extends React.Component {
                         style={{
                           marginLeft: 4,
                           borderRadius: '100%',
-                          fontWeight: 100,
                         }}
-                        className="tag is-info"
+                        className="tag is-dark"
                       >
                         +
                       </span>
@@ -196,10 +195,7 @@ class Header extends React.Component {
                         {notificationFeed &&
                           notificationFeed.jobIdsWithNewBids &&
                           notificationFeed.jobIdsWithNewBids.length > 0 && (
-                            <span
-                              style={{ marginLeft: 4, fontWeight: 100 }}
-                              className="tag is-info"
-                            >
+                            <span style={{ marginLeft: 4 }} className="tag is-dark">
                               {notificationFeed.jobIdsWithNewBids.length}
                             </span>
                           )}
@@ -228,10 +224,9 @@ class Header extends React.Component {
                       <span
                         style={{
                           marginLeft: 4,
-                          fontWeight: 100,
                           borderRadius: '100%',
                         }}
-                        className="tag is-info"
+                        className="tag is-dark"
                       >
                         +
                       </span>
@@ -270,10 +265,7 @@ class Header extends React.Component {
                         {notificationFeed &&
                           notificationFeed.myBidsWithNewStatus &&
                           notificationFeed.myBidsWithNewStatus.length > 0 && (
-                            <span
-                              style={{ marginLeft: 4, fontWeight: 100 }}
-                              className="tag is-info"
-                            >
+                            <span style={{ marginLeft: 4 }} className="tag is-dark">
                               {notificationFeed.myBidsWithNewStatus.length}
                             </span>
                           )}

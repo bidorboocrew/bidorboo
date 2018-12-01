@@ -6,7 +6,7 @@ import { switchRoute } from '../../utils';
 
 export default class AwardedBidDetailsCard extends React.Component {
   render() {
-    const { bidDetails } = this.props;
+    const { bidDetails, notificationFeed } = this.props;
 
     if (!bidDetails) {
       return null;
@@ -24,38 +24,40 @@ export default class AwardedBidDetailsCard extends React.Component {
 
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
+
+    let updatedStatus = false;
+    if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
+      for (let i = 0; i < notificationFeed.myBidsWithNewStatus.length; i++) {
+        if (notificationFeed.myBidsWithNewStatus[i]._id === bidDetails._id) {
+          updatedStatus = true;
+          break;
+        }
+      }
+    }
+
     return (
       <div style={{ marginBottom: 14 }} className="card">
-        <header className="card-header">
-          <p className="card-header-title">{jobTitleText}</p>
-        </header>
         <div className="card-content">
           <div className="content">
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Requester</p>
-                  <img
-                    className="bdb-cover-img"
-                    src={`${profileImage.url}`}
-                  />
+                  <img className="bdb-cover-img" src={`${profileImage.url}`} />
+                  <div>
+                    <p className="subtitle">{displayName}</p>
+                  </div>
                 </div>
               </div>
+
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Requester Name</p>
-                  <p className="subtitle">{displayName}</p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Service Type</p>
+                  <p className="is-size-6">Service Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Bid Amount</p>
+                  <p className="is-size-6">Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -71,6 +73,16 @@ export default class AwardedBidDetailsCard extends React.Component {
             className="card-footer-item"
           >
             Bid Details
+            {updatedStatus && (
+              <span
+                style={{
+                  marginLeft: 4,
+                }}
+                className="tag is-dark"
+              >
+                New
+              </span>
+            )}
           </a>
           <div className="card-footer-item">
             {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
