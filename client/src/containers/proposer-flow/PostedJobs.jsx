@@ -19,7 +19,14 @@ class MyJobs extends React.Component {
   }
 
   render() {
-    const { myOpenJobsList, userDetails, a_deleteJobById, myAwardedJobsList } = this.props;
+    const {
+      myOpenJobsList,
+      userDetails,
+      a_deleteJobById,
+      myAwardedJobsList,
+      notificationFeed,
+    } = this.props;
+
     return (
       <div className="bdbPage">
         <section className="hero is-small is-dark">
@@ -46,6 +53,7 @@ class MyJobs extends React.Component {
                 userDetails={userDetails}
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
+                notificationFeed={notificationFeed}
               />
             </div>
           </div>
@@ -61,7 +69,11 @@ class MyJobs extends React.Component {
               </ul>
             </div>
             <div className="columns is-multiline is-mobile">
-              <AwardedJobsList userDetails={userDetails} jobsList={myAwardedJobsList} />
+              <AwardedJobsList
+                notificationFeed={notificationFeed}
+                userDetails={userDetails}
+                jobsList={myAwardedJobsList}
+              />
             </div>
           </div>
         </section>
@@ -81,6 +93,7 @@ class MyJobs extends React.Component {
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
                 disabled
+                notificationFeed={notificationFeed}
               />
             </div>
           </div>
@@ -89,13 +102,14 @@ class MyJobs extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     error: jobsReducer.error,
     myOpenJobsList: jobsReducer.myOpenJobsList,
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
     myAwardedJobsList: jobsReducer.myAwardedJobsList,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

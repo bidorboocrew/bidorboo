@@ -151,8 +151,15 @@ class Header extends React.Component {
                   {notificationFeed &&
                     notificationFeed.jobIdsWithNewBids &&
                     notificationFeed.jobIdsWithNewBids.length > 0 && (
-                      <span style={{ marginLeft: 4, fontSize: 8 }} className="tag is-link is-small">
-                        new
+                      <span
+                        style={{
+                          marginLeft: 4,
+                          borderRadius: '100%',
+                          fontWeight: 100,
+                        }}
+                        className="tag is-info"
+                      >
+                        +
                       </span>
                     )}
                 </a>
@@ -190,8 +197,8 @@ class Header extends React.Component {
                           notificationFeed.jobIdsWithNewBids &&
                           notificationFeed.jobIdsWithNewBids.length > 0 && (
                             <span
-                              style={{ marginLeft: 4, fontSize: 8 }}
-                              className="tag is-link is-small"
+                              style={{ marginLeft: 4, fontWeight: 100 }}
+                              className="tag is-info"
                             >
                               {notificationFeed.jobIdsWithNewBids.length}
                             </span>
@@ -218,8 +225,15 @@ class Header extends React.Component {
                   {notificationFeed &&
                     notificationFeed.myBidsWithNewStatus &&
                     notificationFeed.myBidsWithNewStatus.length > 0 && (
-                      <span style={{ marginLeft: 4, fontSize: 8 }} className="tag is-link is-small">
-                        new
+                      <span
+                        style={{
+                          marginLeft: 4,
+                          fontWeight: 100,
+                          borderRadius: '100%',
+                        }}
+                        className="tag is-info"
+                      >
+                        +
                       </span>
                     )}
                 </a>
@@ -257,8 +271,8 @@ class Header extends React.Component {
                           notificationFeed.myBidsWithNewStatus &&
                           notificationFeed.myBidsWithNewStatus.length > 0 && (
                             <span
-                              style={{ marginLeft: 4, fontSize: 8 }}
-                              className="tag is-link is-small"
+                              style={{ marginLeft: 4, fontWeight: 100 }}
+                              className="tag is-info"
                             >
                               {notificationFeed.myBidsWithNewStatus.length}
                             </span>

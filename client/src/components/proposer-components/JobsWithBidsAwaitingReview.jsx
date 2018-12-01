@@ -12,6 +12,7 @@ class JobsWithBidsAwaitingReview extends React.Component {
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
     deleteJob: PropTypes.func,
+    notificationFeed: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -73,7 +74,7 @@ const EmptyStateComponent = () => (
 
 class MyPostedJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
+    const { job, userDetails, areThereAnyBidders, deleteJob, notificationFeed } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
@@ -82,9 +83,6 @@ class MyPostedJobSummaryCard extends React.Component {
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
-
-    // set border for jobs with reviews
-    let specialBorder = areThereAnyBidders ? { border: '1px solid #ff3860' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -98,13 +96,32 @@ class MyPostedJobSummaryCard extends React.Component {
       console.error(e);
     }
 
+    let doesthisJobHaveNewBids = false;
+    let numberOfNewBids = 0;
+    debugger;
+    if (notificationFeed.jobIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+          doesthisJobHaveNewBids = true;
+          numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+          break;
+        }
+      }
+    }
     return (
-      <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
+      <div className="card postedJobToBidOnCard is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">
+            {templatesRepo[fromTemplateId].title}
+            {areThereAnyBidders && doesthisJobHaveNewBids && (
+              <span style={{ marginLeft: 4, fontWeight: 100 }} className="tag is-info">
+                +{numberOfNewBids} new bid
+              </span>
+            )}
+          </p>
 
           {/* xxxx delete button */}
           {deleteJob && (
@@ -143,7 +160,7 @@ class MyPostedJobSummaryCard extends React.Component {
             </div> */}
           {/* <div className="media-content">
               <p className="title is-6">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p> 
+              {/* <p className="subtitle is-6">{email}</p>
             </div> */}
           {/* </div> */}
 
@@ -169,17 +186,19 @@ class MyPostedJobSummaryCard extends React.Component {
               </a>
             )}
             {/* show as enabled cuz there is bidders */}
+
             {areThereAnyBidders && (
               <a
-                className="button is-fullwidth   is-danger"
+                className="button is-fullwidth is-danger"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
                 }}
               >
-                <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Review Bids
+                <span className="icon">
+                  <i className="fa fa-hand-paper" />
                 </span>
+                <span style={{ marginLeft: 4 }}>Bids</span>
               </a>
             )}
           </div>
