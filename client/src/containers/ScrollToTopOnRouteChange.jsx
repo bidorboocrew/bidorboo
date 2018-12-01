@@ -2,12 +2,15 @@ import { withRouter } from 'react-router-dom';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUser } from '../app-state/actions/authActions';
+import { getCurrentUserNotifications } from '../app-state/actions/authActions';
 
 class ScrollToTopOnRouteChange extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      this.props.a_getCurrentUser();
+      if (this.props.s_isLoggedIn) {
+        debugger
+        this.props.a_getCurrentUserNotifications();
+      }
       window.scrollTo(0, 0);
     }
   }
@@ -16,16 +19,20 @@ class ScrollToTopOnRouteChange extends React.Component {
     return this.props.children;
   }
 }
-
+const mapStateToProps = ({ userReducer }) => {
+  return {
+    s_isLoggedIn: userReducer.isLoggedIn,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
   };
 };
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   )(ScrollToTopOnRouteChange),
 );

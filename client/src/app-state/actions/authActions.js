@@ -3,6 +3,27 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
+export const getCurrentUserNotifications = () => (dispatch) =>
+  dispatch({
+    type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
+    payload: axios
+      .get(ROUTES.API.USER.GET.currentUser)
+      .then((resp) => {
+        if (resp.data && resp.data.userId) {
+          dispatch({
+            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+            payload: resp.data,
+          });
+        } else {
+          //rediret user to sign up page
+          switchRoute(ROUTES.CLIENT.ENTRY);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+
 export const getCurrentUser = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
