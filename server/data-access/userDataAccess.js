@@ -19,23 +19,25 @@ exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const bidsWithUpdatedStatus = ['BOO', 'WIN', 'CANCEL'];
-      const user = await User.findOne({ userId })
+      const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
           select: {
             _bidsListRef: 1,
             _reviewRef: 1,
           },
-          populate: {
-            path: '_bidsListRef',
-            select: { _id: 1 },
-            match: { isNewBid: { $eq: true } },
-          },
-          populate: {
-            path: '_reviewRef',
-            select: { _id: 1 },
-            match: { $and: [{ proposerSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
-          },
+          populate: [
+            {
+              path: '_bidsListRef',
+              select: schemaHelpers.BidFull,
+              match: { isNewBid: { $eq: true } },
+            },
+            {
+              path: '_reviewRef',
+              select: { _id: 1 },
+              match: { $and: [{ bidderSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
+            },
+          ],
         })
         .populate({
           path: '_postedBidsRef',
@@ -89,8 +91,8 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       resolve({
         ...user,
-        // _postedJobsRef: null,
-        // _postedBidsRef: null,
+        _postedJobsRef: null,
+        _postedBidsRef: null,
         z_notify_jobsWithNewBids,
         z_notify_myBidsWithNewStatus,
         z_track_reviewsToBeFilled,

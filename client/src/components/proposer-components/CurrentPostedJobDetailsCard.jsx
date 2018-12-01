@@ -126,7 +126,10 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </a>
             </div>
             <div className="card-footer-item">
-              <a onClick={this.closeReviewModal} className="button is-danger is-outlined ">
+              <a
+                onClick={this.closeReviewModal}
+                className="button is-danger is-outlined is-fullwidth"
+              >
                 Go Back
               </a>
             </div>
@@ -218,6 +221,7 @@ class BidsTable extends React.Component {
                 {bid._bidderRef && bid.bidAmount && (
                   <a
                     onClick={(e) => {
+                      e.preventDefault();
                       markBidAsSeen(jobId, bid._id);
 
                       showReviewModal(

@@ -98,7 +98,7 @@ class MyPostedJobSummaryCard extends React.Component {
 
     let doesthisJobHaveNewBids = false;
     let numberOfNewBids = 0;
-    debugger;
+
     if (notificationFeed.jobIdsWithNewBids) {
       for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
         if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
