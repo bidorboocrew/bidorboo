@@ -1,8 +1,9 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
-
-
+const JobModel = mongoose.model('JobModel');
+const BidModel = mongoose.model('BidModel');
+const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
@@ -14,11 +15,96 @@ exports.findOneByUserId = (userId) =>
     .lean(true)
     .exec();
 
+exports.findUserAndAllNewNotifications = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const bidsWithUpdatedStatus = ['BOO', 'WIN', 'CANCEL'];
+      const user = await User.findOne({ userId })
+        .populate({
+          path: '_postedJobsRef',
+          select: {
+            _bidsListRef: 1,
+            _reviewRef: 1,
+          },
+          populate: {
+            path: '_bidsListRef',
+            select: { _id: 1 },
+            match: { isNewBid: { $eq: true } },
+          },
+          populate: {
+            path: '_reviewRef',
+            select: { _id: 1 },
+            match: { $and: [{ proposerSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
+          },
+        })
+        .populate({
+          path: '_postedBidsRef',
+          match: { state: { $in: ['BOO', 'WIN', 'CANCEL', 'AWARDED'] } },
+          select: schemaHelpers.BidFull,
+          populate: {
+            path: '_jobRef',
+            select: {
+              _reviewRef: 1,
+            },
+            populate: {
+              path: '_reviewRef',
+              select: { _id: 1 },
+              match: { $and: [{ bidderSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
+            },
+          },
+        })
+        .lean(true)
+        .exec();
 
+      let z_notify_jobsWithNewBids =
+        user._postedJobsRef &&
+        user._postedJobsRef.filter((job) => {
+          return job._bidsListRef && job._bidsListRef.length > 0;
+        });
+
+      let z_notify_myBidsWithNewStatus =
+        user._postedBidsRef &&
+        user._postedBidsRef.filter((myBid) => {
+          return bidsWithUpdatedStatus.includes(myBid.state);
+        });
+
+      let z_track_workToDo =
+        user._postedBidsRef &&
+        user._postedBidsRef.filter((myBid) => {
+          return myBid.state === 'AWARDED';
+        });
+
+      let reviewsOnFullfilledJobs =
+        user._postedJobsRef &&
+        user._postedJobsRef.filter((job) => {
+          return job._reviewRef && job._reviewRef;
+        });
+      let reviewsOnFullfilledBids =
+        user._postedBidsRef &&
+        user._postedBidsRef.filter((mybids) => {
+          return mybids._jobRef && mybids._jobRef._reviewRef;
+        });
+
+      let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
+
+      resolve({
+        ...user,
+        // _postedJobsRef: null,
+        // _postedBidsRef: null,
+        z_notify_jobsWithNewBids,
+        z_notify_myBidsWithNewStatus,
+        z_track_reviewsToBeFilled,
+        z_track_workToDo,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 exports.findUserImgDetails = (userId) =>
-User.findOne({ userId }, {profileImage: 1})
-  .lean(true)
-  .exec();
+  User.findOne({ userId }, { profileImage: 1 })
+    .lean(true)
+    .exec();
 
 exports.createNewUser = async (userDetails) =>
   await new User({

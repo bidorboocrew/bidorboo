@@ -374,6 +374,18 @@ img {
     width: 100%;
   }
 }
+.bdb-img-profile-pic {
+  object-fit: scale-down !important;
+  width: 100% !important;
+  height: 8rem !important;
+  background-color: white;
+  cursor: pointer;
+  border: 1px dashed white;
+  input {
+    width: 100%;
+  }
+}
+
 .bdb-carousel-img-arrow .carousel {
   .control-next.control-arrow:before {
     border-left: 8px solid rgba(0, 0, 0, 0.2);

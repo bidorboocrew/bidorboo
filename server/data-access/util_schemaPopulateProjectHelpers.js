@@ -46,6 +46,7 @@ exports.ReviewFull = {
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
+  isNew: 1,
 };
 
 exports.JobFull = {
@@ -67,17 +68,16 @@ exports.JobFull = {
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
-  jobImages:1,
+  jobImages: 1,
 };
-
 
 exports.PaymentFull = {
   _jobRef: 1,
   _from: 1,
   _to: 1,
   paymentDetails: 1,
-  stripeConfirmationId:1,
-  state:1,
+  stripeConfirmationId: 1,
+  state: 1,
   createdAt: 1,
   updatedAt: 1,
 };

@@ -31,7 +31,7 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
-      enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'REOPENED', 'PASTDUE'],
+      enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'EXPIRED'],
     },
     hideForUserIds: [{ type: String }], //array of people who saw this/booed no longer wish to see it ..etc
     detailedDescription: { type: String, trim: true },

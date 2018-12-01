@@ -10,7 +10,7 @@ module.exports = (app) => {
     try {
       let existingUser = null;
       if (req.user) {
-        existingUser = await userDataAccess.findOneByUserId(req.user.userId);
+        existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
         if (existingUser) {
           return res.send(existingUser);
         }

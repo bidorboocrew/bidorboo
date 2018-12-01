@@ -18,6 +18,11 @@ const ReviewSchema = new Schema(
         comment: String, //max 120 chars
       },
     },
+    state: {
+      type: String,
+      enum: ['AWAITING', 'REVEALED'],
+    },
+
     bidderReview: {
       type: {
         ratingCategories: { type: categories, RatingSchema: false },
@@ -25,6 +30,8 @@ const ReviewSchema = new Schema(
         comment: String, //max 120 chars
       },
     },
+    proposerSubmitted: { type: Boolean, default: false },
+    bidderSubmitted: { type: Boolean, default: false },
     reveal: { type: Boolean, default: false }, //this wil turn true only when both completed the review
     extras: { type: Object },
   },

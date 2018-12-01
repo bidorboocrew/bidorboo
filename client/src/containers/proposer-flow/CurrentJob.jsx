@@ -43,7 +43,7 @@ class CurrentJob extends React.Component {
     const { selectedActivePostedJob, userDetails, a_awardBidder, a_markBidAsSeen } = this.props;
 
     const breadCrumb = (
-      <div style={{ marginBottom: '1rem' }} className="container">
+      <div style={{ marginBottom: '1rem' }}>
         <nav className="breadcrumb" aria-label="breadcrumbs">
           <ul>
             <li>
@@ -64,7 +64,7 @@ class CurrentJob extends React.Component {
     );
 
     return (
-      <section className="bdbPage section">
+      <section className="section">
         {selectedActivePostedJob && selectedActivePostedJob._id ? (
           <CurrentPostedJobDetailsCard
             breadCrumb={breadCrumb}
