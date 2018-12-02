@@ -11,33 +11,14 @@ class JobsWithNoBids extends React.Component {
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
-
+    const jobsWithoutBids = jobsList.filter((job) => {
+      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
+    });
     return userHasPostedJobs ? <JobsWithoutBids {...this.props} /> : <EmptyStateComponent />;
   }
 }
 
 export default windowSize(JobsWithNoBids);
-
-const JobsWithBids = (props) => {
-  const { jobsList } = props;
-
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
-
-  const jobsWithBids = jobsList
-    .filter((job) => {
-      return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className={columnCount}>
-          <MyPostedJobSummaryCard job={job} areThereAnyBidders {...props} />
-        </div>
-      );
-    });
-  return jobsWithBids;
-};
 
 const JobsWithoutBids = (props) => {
   const { jobsList } = props;
@@ -57,7 +38,11 @@ const JobsWithoutBids = (props) => {
         </div>
       );
     });
-  return jobsWithoutBids;
+  return jobsWithoutBids.length > 0 ? (
+    <React.Fragment>{jobsWithoutBids}</React.Fragment>
+  ) : (
+    <EmptyStateComponent />
+  );
 };
 
 const EmptyStateComponent = () => (

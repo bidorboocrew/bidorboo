@@ -270,6 +270,6 @@ class Thumb extends React.Component {
       return <p>loading...</p>;
     }
 
-    return <img onClick={clickHandler} className="bdb-cover-img" src={file} />;
+    return <img onClick={clickHandler} className="bdb-img-profile-pic" src={file} />;
   }
 }

@@ -10,7 +10,7 @@ import { getMyOpenBids } from '../../app-state/actions/bidsActions';
 import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
 import { switchRoute } from '../../utils';
 import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
-import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
+import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
 
 class MyBids extends React.Component {
   componentDidMount() {
@@ -20,7 +20,13 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, awardedBidsList } = this.props;
+    const {
+      isLoading,
+      openBidsList,
+      awardedBidsList,
+      notificationFeed,
+      a_updateBidState,
+    } = this.props;
 
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
@@ -34,14 +40,21 @@ class MyBids extends React.Component {
     const awardedBidsListComponent =
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
-          return <AwardedBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+          return (
+            <AwardedBidDetailsCard
+              key={bidDetails._id}
+              bidDetails={bidDetails}
+              notificationFeed={notificationFeed}
+              updateBidState={a_updateBidState}
+            />
+          );
         })
       ) : (
         <EmptyStateComponent />
       );
 
     return (
-      <div  id="bdb-bidder-my-bids">
+      <div id="bdb-bidder-my-bids">
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div className="container">
@@ -85,11 +98,12 @@ class MyBids extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer }) => {
+const mapStateToProps = ({ bidsReducer, uiReducer }) => {
   return {
     openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
     awardedBidsList: bidsReducer.awardedBidsList,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
@@ -97,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
     a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    a_updateBidState: bindActionCreators(updateBidState, dispatch),
   };
 };
 

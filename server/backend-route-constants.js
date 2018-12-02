@@ -11,8 +11,8 @@ module.exports = {
     },
     UTILS: {
       GET: {
-        signCloudinaryRequest: '/api/user/paramstosign'
-      }
+        signCloudinaryRequest: '/api/user/paramstosign',
+      },
     },
     PAYMENT: {
       POST: {
@@ -63,7 +63,8 @@ module.exports = {
       },
       PUT: {
         markBidAsSeen: '/api/bids/markBidAsSeen',
-      }
+        updateBidState: '/api/bids/updateBidState',
+      },
     },
   },
   CLIENT: {

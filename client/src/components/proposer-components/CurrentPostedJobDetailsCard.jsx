@@ -126,7 +126,10 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </a>
             </div>
             <div className="card-footer-item">
-              <a onClick={this.closeReviewModal} className="button is-danger is-outlined ">
+              <a
+                onClick={this.closeReviewModal}
+                className="button is-danger is-outlined is-fullwidth"
+              >
                 Go Back
               </a>
             </div>
@@ -177,37 +180,45 @@ class BidsTable extends React.Component {
           return (
             <tr key={bid._id || Math.random()} style={{ wordWrap: 'break-word' }}>
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
-                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
-                    <img alt="profile" src={bid._bidderRef.profileImage.url} />
-                  </figure>
-                )}
+                <div>
+                  {bid._bidderRef &&
+                    bid._bidderRef.profileImage &&
+                    bid._bidderRef.profileImage.url && (
+                      <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                        <img alt="profile" src={bid._bidderRef.profileImage.url} />
+                      </figure>
+                    )}
+                </div>
+                <div>
+                  {bid._bidderRef && bid._bidderRef.rating
+                    ? `${bid._bidderRef.rating.globalRating}`
+                    : null}
+                </div>
+              </td>
+
+              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+                <div>
+                  {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
+                </div>
                 {bid.isNewBid ? (
-                  <span className="tag is-danger">
-                    new bid!
-                    <button
+                  <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-dark">
+                    new bid
+                    {/* <button
                       onClick={(e) => {
                         e.preventDefault();
                         markBidAsSeen(jobId, bid._id);
                       }}
                       className="delete"
-                    />
-                  </span>
+                    /> */}
+                  </div>
                 ) : null}
-              </td>
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid._bidderRef && bid._bidderRef.rating
-                  ? `${bid._bidderRef.rating.globalRating}`
-                  : null}
-              </td>
-              <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-                {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
               </td>
 
               <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
                 {bid._bidderRef && bid.bidAmount && (
                   <a
                     onClick={(e) => {
+                      e.preventDefault();
                       markBidAsSeen(jobId, bid._id);
 
                       showReviewModal(
@@ -236,8 +247,7 @@ class BidsTable extends React.Component {
             >
               <thead>
                 <tr>
-                  <th className="has-text-centered">profile image</th>
-                  <th className="has-text-centered">Rating</th>
+                  <th className="has-text-centered">Bidder</th>
                   <th className="has-text-centered">$</th>
                   <th className="has-text-centered">Bid Details</th>
                 </tr>

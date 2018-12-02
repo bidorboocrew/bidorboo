@@ -13,6 +13,15 @@ class ProposerRoot extends React.Component {
     return (
       <React.Fragment>
         {/* <ProposerStepper currentStepNumber={1} /> */}
+        <section className="hero is-small is-dark">
+            <div className="hero-body">
+              <div className="container">
+                <h1 style={{ color: 'white' }} className="title">
+                  Post Tasks
+                </h1>
+              </div>
+            </div>
+          </section>
         <section className="section">
           <div className="columns  is-multiline is-mobile">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />

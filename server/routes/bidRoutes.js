@@ -8,7 +8,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, 'OPEN');
+      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, ['OPEN']);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: e });
@@ -18,7 +18,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, 'AWARDED');
+      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, ['WON', 'WON_SEEN']);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: e });
@@ -101,6 +101,24 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
+    }
+  });
+  app.put(ROUTES.API.BID.PUT.updateBidState, requireLogin, async (req, res, done) => {
+    try {
+      // create new job for this user
+      const data = req.body.data;
+      const { bidId, newState } = data;
+
+      if (bidId && newState) {
+        const newBid = await bidDataAccess.updateBidState(bidId, newState);
+        return res.send({ bidId, success: true });
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request param bidId was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To update Bid State', details: e });
     }
   });
 };

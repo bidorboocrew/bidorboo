@@ -62,6 +62,7 @@ export const API = {
     },
     PUT: {
       markBidAsSeen: '/api/bids/markBidAsSeen',
+      updateBidState: '/api/bids/updateBidState',
     },
   },
 };

@@ -81,13 +81,24 @@ export const getMyAwardedBids = () => (dispatch) => {
   });
 };
 
-
 export const getAwardedBidDetails = (openBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
     payload: axios
       .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const updateBidState = (bidId, newState) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.UPDATE_BID_STATE,
+    payload: axios
+      .put(ROUTES.API.BID.PUT.updateBidState, { data: { bidId, newState } })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),

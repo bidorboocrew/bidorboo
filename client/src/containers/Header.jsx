@@ -46,7 +46,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const { displayName, isLoggedIn, userDetails, a_onLogout, shouldShowLoginDialog } = this.props;
+    const {
+      displayName,
+      isLoggedIn,
+      userDetails,
+      a_onLogout,
+      shouldShowLoginDialog,
+      notificationFeed,
+    } = this.props;
     const { profileImage } = userDetails;
 
     let navbarStylesBasedOnRoute = classNames('navbar is-fixed-top nav-bottom-border');
@@ -141,6 +148,20 @@ class Header extends React.Component {
                     <i className="fa fa-child" aria-hidden="true" />
                   </span>
                   <span>Requests</span>
+                  {notificationFeed &&
+                    notificationFeed.jobIdsWithNewBids &&
+                    notificationFeed.jobIdsWithNewBids.length > 0 && (
+                      <span
+                        style={{
+                          marginLeft: 4,
+                          width: 24,
+                          borderRadius: 100,
+                        }}
+                        className="tag is-dark has-text-weight-semibold"
+                      >
+                        <i className="far fa-bell" />
+                      </span>
+                    )}
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   <a
@@ -172,21 +193,14 @@ class Header extends React.Component {
                           <i className="fas fa-list" />
                         </span>
                         <span>My Requests</span>
+                        {notificationFeed &&
+                          notificationFeed.jobIdsWithNewBids &&
+                          notificationFeed.jobIdsWithNewBids.length > 0 && (
+                            <span style={{ marginLeft: 4 }} className="tag is-dark">
+                              {notificationFeed.jobIdsWithNewBids.length}
+                            </span>
+                          )}
                       </a>
-                      {/* <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.awardedJobsPage);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="far fa-calendar-check" />
-                        </span>
-                        <span>requests queue</span>
-                      </a> */}
                     </React.Fragment>
                   )}
                 </div>
@@ -205,6 +219,20 @@ class Header extends React.Component {
                     <i className="fa fa-hand-paper" aria-hidden="true" />
                   </span>
                   <span>Bids</span>
+                  {notificationFeed &&
+                    notificationFeed.myBidsWithNewStatus &&
+                    notificationFeed.myBidsWithNewStatus.length > 0 && (
+                      <span
+                        style={{
+                          marginLeft: 4,
+                          width: 24,
+                          borderRadius: 100,
+                        }}
+                        className="tag is-dark has-text-weight-semibold"
+                      >
+                        <i className="far fa-bell" />
+                      </span>
+                    )}
                 </a>
                 <div className="navbar-dropdown is-boxed">
                   <a
@@ -236,6 +264,13 @@ class Header extends React.Component {
                           <i className="fas fa-money-check-alt" />
                         </span>
                         <span>My Bids</span>
+                        {notificationFeed &&
+                          notificationFeed.myBidsWithNewStatus &&
+                          notificationFeed.myBidsWithNewStatus.length > 0 && (
+                            <span style={{ marginLeft: 4 }} className="tag is-dark">
+                              {notificationFeed.myBidsWithNewStatus.length}
+                            </span>
+                          )}
                       </a>
                       {/* <a
                         className="navbar-item"
@@ -339,6 +374,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     userDetails: userDetails,
     displayName: userDetails.displayName,
     shouldShowLoginDialog: uiReducer.shouldShowLoginDialog,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 const mapDispatchToProps = (dispatch) => {

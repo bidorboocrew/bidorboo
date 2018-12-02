@@ -356,7 +356,7 @@ exports.jobDataAccess = {
       BidModel.findOneAndUpdate(
         { _id: bidId },
         {
-          $set: { state: 'AWARDED' },
+          $set: { state: 'WON' },
         }
       )
         .lean(true)
