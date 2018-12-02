@@ -154,11 +154,12 @@ class Header extends React.Component {
                       <span
                         style={{
                           marginLeft: 4,
-                          borderRadius: '100%',
+                          width: 24,
+                          borderRadius: 100,
                         }}
-                        className="tag is-dark"
+                        className="tag is-dark has-text-weight-semibold"
                       >
-                        +
+                        <i className="far fa-bell" />
                       </span>
                     )}
                 </a>
@@ -224,11 +225,12 @@ class Header extends React.Component {
                       <span
                         style={{
                           marginLeft: 4,
-                          borderRadius: '100%',
+                          width: 24,
+                          borderRadius: 100,
                         }}
-                        className="tag is-dark"
+                        className="tag is-dark has-text-weight-semibold"
                       >
-                        +
+                        <i className="far fa-bell" />
                       </span>
                     )}
                 </a>

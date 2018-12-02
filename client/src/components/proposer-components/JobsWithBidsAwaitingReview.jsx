@@ -114,14 +114,7 @@ class MyPostedJobSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">
-            {templatesRepo[fromTemplateId].title}
-            {areThereAnyBidders && doesthisJobHaveNewBids && (
-              <span style={{ marginLeft: 4 }} className="tag is-dark">
-                +{numberOfNewBids} new bid
-              </span>
-            )}
-          </p>
+          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
           {/* xxxx delete button */}
           {deleteJob && (
@@ -199,6 +192,11 @@ class MyPostedJobSummaryCard extends React.Component {
                   <i className="fa fa-hand-paper" />
                 </span>
                 <span style={{ marginLeft: 4 }}>Bids</span>
+                {areThereAnyBidders && doesthisJobHaveNewBids && (
+                  <span style={{ marginLeft: 4 }} className="tag is-dark">
+                    +{numberOfNewBids}
+                  </span>
+                )}
               </a>
             )}
           </div>
