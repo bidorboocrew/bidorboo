@@ -94,7 +94,6 @@ export const getAwardedBidDetails = (openBidId) => (dispatch) => {
 };
 
 export const updateBidState = (bidId, newState) => (dispatch) => {
-  debugger;
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.UPDATE_BID_STATE,

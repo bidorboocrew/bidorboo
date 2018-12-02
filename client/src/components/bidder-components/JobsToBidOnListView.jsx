@@ -7,33 +7,23 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
-const geocoder = new window.google.maps.Geocoder();
+const TAB_IDS = {
+  openRequests: 'Open Tasks',
+  postedBids: 'Posted Bids',
+  mine: 'Mines',
+};
+
 class JobsToBidOnListView extends React.Component {
   render() {
-    const { jobsList } = this.props;
+    const { jobsList, activeTab } = this.props;
 
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         <React.Fragment>
-          <div className="tabs">
-            <ul>
-              <li className="is-active">
-                <a>Open Requests</a>
-              </li>
-            </ul>
-          </div>
           <div className="columns  is-multiline is-mobile">
-            <OtherPeoplesJobs {...this.props} />
-          </div>
-          <div className="tabs">
-            <ul>
-              <li className="is-active">
-                <a>My Requets</a>
-              </li>
-            </ul>
-          </div>
-          <div className="columns  is-multiline is-mobile">
-            <MyJobs {...this.props} />
+            {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
+
+            {activeTab === TAB_IDS.mine && <MyJobs {...this.props} />}
           </div>
         </React.Fragment>
       ) : (
@@ -205,14 +195,7 @@ class JobsToBidOnSummaryCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header  is-clipped"
         >
-          <p className="card-header-title">
-            {`${templatesRepo[fromTemplateId].title}`}
-            {myJob && (
-              <span style={{ marginLeft: 4 }} className="has-text-grey">{`${
-                myJob ? '  (mine)' : ''
-              }`}</span>
-            )}
-          </p>
+          <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
         </header>
         <div className="card-image is-clipped">
           <img
@@ -225,19 +208,6 @@ class JobsToBidOnSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
-          {/* <div className="media">
-            <div className="media-left">
-              {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-24x24">
-                  <img src={profileImage.url} alt="user" />
-                </figure>
-              )}
-            </div>
-            <div className="media-content">
-              <p className="is-size-7">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p>
-            </div>
-          </div> */}
           <div className="content">
             <div className="is-size-7">
               Due on:

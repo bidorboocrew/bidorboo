@@ -1,6 +1,5 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -15,6 +14,12 @@ import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import BidderStepper from './BidderStepper';
+
+const TAB_IDS = {
+  openRequests: 'Open Tasks',
+  postedBids: 'Posted Bids',
+  mine: 'Mines',
+};
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -23,8 +28,12 @@ class BidderRoot extends React.Component {
       showFilterDialog: false,
       hideMyJobs: false,
       displayedJobList: null,
+      activeTab: TAB_IDS.openRequests,
     };
-    autoBind(this, 'toggleFilterDialog');
+    autoBind(this, 'toggleFilterDialog', 'changeActiveTab');
+  }
+  changeActiveTab(tabId) {
+    this.setState({ activeTab: tabId });
   }
 
   toggleFilterDialog(e) {
@@ -74,7 +83,18 @@ class BidderRoot extends React.Component {
       a_showLoginDialog,
     } = this.props;
 
-    const userId = userDetails._id;
+    const currentUserId = userDetails._id;
+    const { activeTab } = this.state;
+
+    let currentlyViewedjobs = [];
+    let jobsList =
+      this.state.displayedJobList === null ? ListOfJobsToBidOn : this.state.displayedJobList;
+
+    if (activeTab === TAB_IDS.openRequests) {
+      currentlyViewedjobs = jobsList.filter((job) => job._ownerRef._id !== currentUserId);
+    } else if (activeTab === TAB_IDS.mine) {
+      currentlyViewedjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
+    }
 
     return (
       <React.Fragment>
@@ -105,21 +125,26 @@ class BidderRoot extends React.Component {
           </div>
         )}
         <div className="" id="bdb-bidder-root">
-          {/* <section className="hero is-small">
-            <div style={{ backgroundColor: '#F0A6CA' }} className="hero-body">
+          <section className="hero is-small is-dark">
+            <div className="hero-body">
               <div className="container">
                 <h1 style={{ color: 'white' }} className="title">
-                  Bid
+                  Post Bids
                 </h1>
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Start Earning money by doing things you are good at.
-                </h2>
               </div>
             </div>
-          </section> */}
-          {/* map view */}
+          </section>
+          <section style={{ paddingBottom: 0 }} className="section">
+            {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
+              <a
+                style={{ marginBottom: '1.5rem' }}
+                onClick={this.toggleFilterDialog}
+                className="button"
+              >
+                Filter Jobs
+              </a>
+            )}
 
-          <section className="section">
             <div>
               {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
               {!isLoading && (
@@ -129,36 +154,44 @@ class BidderRoot extends React.Component {
                   isLoggedIn={isLoggedIn}
                   showLoginDialog={a_showLoginDialog}
                   currentUserId={userDetails._id}
-                  jobsList={
-                    this.state.displayedJobList === null
-                      ? ListOfJobsToBidOn
-                      : this.state.displayedJobList
-                  }
+                  jobsList={currentlyViewedjobs}
                 />
               )}
             </div>
-            <br />
+          </section>
+          <section className="section">
+            <div className="tabs">
+              <ul>
+                <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.changeActiveTab(TAB_IDS.openRequests);
+                    }}
+                  >
+                    {TAB_IDS.openRequests}
+                  </a>
+                </li>
+                <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.changeActiveTab(TAB_IDS.mine);
+                    }}
+                  >
+                    {TAB_IDS.mine}
+                  </a>
+                </li>
+              </ul>
+            </div>
             <div>
-              {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
-                <a
-                  style={{ marginBottom: '1.5rem' }}
-                  onClick={this.toggleFilterDialog}
-                  className="button"
-                >
-                  Filter Jobs
-                </a>
-              )}
-
               <JobsToBidOnListView
+                activeTab={activeTab}
                 isLoggedIn={isLoggedIn}
                 showLoginDialog={a_showLoginDialog}
                 currentUserId={userDetails._id}
                 selectJobToBidOn={a_selectJobToBidOn}
-                jobsList={
-                  this.state.displayedJobList === null
-                    ? ListOfJobsToBidOn
-                    : this.state.displayedJobList
-                }
+                jobsList={currentlyViewedjobs}
               />
             </div>
           </section>

@@ -53,44 +53,42 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ color: 'white' }} className="title">
+                My Profile
+              </h1>
+            </div>
+          </div>
+        </section>
 
-        <div className="bdbPage">
-          <section className="hero is-small is-dark">
-            <div className="hero-body">
-              <div className="container">
-                <h1 style={{ color: 'white' }} className="title">
-                  My Profile
-                </h1>
-              </div>
+        <section className="section">
+          <div className="container" id="bdb-profile-content">
+            <div className="columns is-multiline">
+              {userImageAndStats(
+                this.toggleShowUploadProfileImageDialog,
+                profileImage,
+                displayName,
+                email,
+                membershipStatusDisplay,
+              )}
+              {/* user details */}
+              {userEditableInfo(
+                userDetails,
+                this.state.isEditProfile,
+                displayName,
+                email,
+                phoneNumber,
+                personalParagraph,
+                this.toggleEditProfile,
+                this.closeFormAndSubmit,
+              )}
+              {/* advertisement */}
+              {/* {advertisement()} */}
             </div>
-          </section>
-          <section className="bdbPage">
-            <div className="container" id="bdb-profile-content">
-              <div className="columns is-multiline">
-                {userImageAndStats(
-                  this.toggleShowUploadProfileImageDialog,
-                  profileImage,
-                  displayName,
-                  email,
-                  membershipStatusDisplay,
-                )}
-                {/* user details */}
-                {userEditableInfo(
-                  userDetails,
-                  this.state.isEditProfile,
-                  displayName,
-                  email,
-                  phoneNumber,
-                  personalParagraph,
-                  this.toggleEditProfile,
-                  this.closeFormAndSubmit,
-                )}
-                {/* advertisement */}
-                {/* {advertisement()} */}
-              </div>
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </React.Fragment>
     );
   }
@@ -151,7 +149,11 @@ const userImageAndStats = (
     <React.Fragment>
       <div className="column is-4">
         <div className="has-text-centered">
-          <img style={{ background: '#eeeeee' }} className="bdb-img-profile-pic" src={`${profileImage.url}`} />
+          <img
+            style={{ background: '#eeeeee' }}
+            className="bdb-img-profile-pic"
+            src={`${profileImage.url}`}
+          />
           <br />
           <a
             onClick={(e) => {

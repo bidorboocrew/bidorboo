@@ -68,7 +68,6 @@ export default class AwardedBidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              debugger;
               updateBidState(bidDetails._id, 'WON_SEEN');
               switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
             }}
