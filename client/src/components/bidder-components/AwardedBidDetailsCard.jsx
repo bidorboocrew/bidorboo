@@ -6,7 +6,7 @@ import { switchRoute } from '../../utils';
 
 export default class AwardedBidDetailsCard extends React.Component {
   render() {
-    const { bidDetails, notificationFeed } = this.props;
+    const { bidDetails, notificationFeed, updateBidState } = this.props;
 
     if (!bidDetails) {
       return null;
@@ -68,11 +68,13 @@ export default class AwardedBidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
+              debugger;
+              updateBidState(bidDetails._id, 'WON_SEEN');
               switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
             }}
             className="card-footer-item"
           >
-            Bid Details
+            Review Details
             {updatedStatus && (
               <span
                 style={{

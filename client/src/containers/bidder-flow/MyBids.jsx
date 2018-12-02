@@ -10,7 +10,7 @@ import { getMyOpenBids } from '../../app-state/actions/bidsActions';
 import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
 import { switchRoute } from '../../utils';
 import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
-import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
+import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
 
 class MyBids extends React.Component {
   componentDidMount() {
@@ -20,7 +20,13 @@ class MyBids extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, awardedBidsList, notificationFeed } = this.props;
+    const {
+      isLoading,
+      openBidsList,
+      awardedBidsList,
+      notificationFeed,
+      a_updateBidState,
+    } = this.props;
 
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
@@ -39,6 +45,7 @@ class MyBids extends React.Component {
               key={bidDetails._id}
               bidDetails={bidDetails}
               notificationFeed={notificationFeed}
+              updateBidState={a_updateBidState}
             />
           );
         })
@@ -104,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
     a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    a_updateBidState: bindActionCreators(updateBidState, dispatch),
   };
 };
 

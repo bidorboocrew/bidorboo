@@ -33,7 +33,7 @@ exports.bidDataAccess = {
         const user = await UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
-            match: { state: { $eq: stateFilter } },
+            match: { state: { $in: stateFilter } },
             populate: {
               path: '_jobRef',
               select: {
@@ -133,7 +133,17 @@ exports.bidDataAccess = {
       .exec();
     return !!isSuccessful;
   },
-
+  updateBidState: async (bidId, newState) => {
+    const isSuccessful = await BidModel.findOneAndUpdate(
+      { _id: bidId },
+      {
+        $set: { state: newState },
+      }
+    )
+      .lean(true)
+      .exec();
+    return !!isSuccessful;
+  },
   postNewBid: ({ userMongoDBId, jobId, bidAmount }) => {
     return new Promise(async (resolve, reject) => {
       try {

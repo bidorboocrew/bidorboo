@@ -7,7 +7,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
 import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
 
-import { getMyAwardedBids } from '../../app-state/actions/bidsActions';
+import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
 class MyAwardedBids extends React.Component {
   componentDidMount() {
@@ -15,7 +15,7 @@ class MyAwardedBids extends React.Component {
   }
 
   render() {
-    const { isLoading, awardedBidsList, notificationFeed } = this.props;
+    const { isLoading, awardedBidsList, notificationFeed, a_updateBidState } = this.props;
 
     const bidsListComponent =
       awardedBidsList && awardedBidsList.length > 0 ? (
@@ -25,6 +25,7 @@ class MyAwardedBids extends React.Component {
               key={bidDetails._id}
               bidDetails={bidDetails}
               notificationFeed={notificationFeed}
+              updateBidState={a_updateBidState}
             />
           );
         })
@@ -65,6 +66,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    a_updateBidState: bindActionCreators(updateBidState, dispatch),
   };
 };
 

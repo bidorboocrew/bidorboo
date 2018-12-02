@@ -11,7 +11,7 @@ const BidSchema = new Schema(
     _jobRef: { type: Schema.Types.ObjectId, ref: 'JobModel', required: true }, //we will use this to reference the job
     state: {
       type: String,
-      enum: ['OPEN', 'BOO', 'WIN', 'CANCEL', 'WIN_SEEN', 'CANCEL_SEEN', 'BOO_SEEN'],
+      enum: ['OPEN', 'BOO', 'WON', 'CANCEL', 'WON_SEEN', 'CANCEL_SEEN', 'BOO_SEEN'],
       default: 'OPEN',
     },
     isNewBid: { type: Boolean, default: true }, // will be used to highlight unseen bids
