@@ -13,10 +13,33 @@ class BidOrBooGenericTasks extends React.Component {
     showLoginDialog: PropTypes.func,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+      ? 'column is-half'
+      : 'column is-one-fifth';
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.windowWidth !== this.props.windowWidth) {
+      let newColumnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+        ? 'column is-half'
+        : 'column is-one-fifth';
+      if (this.columnCount !== newColumnCount) {
+        this.columnCount = newColumnCount;
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   render() {
+    console.log('we will render BidOrBooGenericTasks');
     const { isLoggedIn, showLoginDialog } = this.props;
 
-    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+    this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
       : 'column is-one-fifth';
 
@@ -29,7 +52,7 @@ class BidOrBooGenericTasks extends React.Component {
         alpha: 0.9,
       })}`;
       return (
-        <div key={id} className={columnCount}>
+        <div key={id} className={this.columnCount}>
           <div
             onClick={(e) => {
               e.preventDefault();

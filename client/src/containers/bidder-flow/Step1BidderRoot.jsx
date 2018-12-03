@@ -12,6 +12,7 @@ import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterFor
 import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import windowSize from 'react-window-size';
 
 import BidderStepper from './BidderStepper';
 
@@ -45,28 +46,6 @@ class BidderRoot extends React.Component {
     });
   }
 
-  // toggleHideMyJobs(e, excludeMyJobs) {
-  //   e.preventDefault();
-
-  //   const { ListOfJobsToBidOn, userDetails } = this.props;
-  //   if (userDetails && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && excludeMyJobs) {
-  //     const filteredJobList = ListOfJobsToBidOn.filter((job) => {
-  //       return userDetails._id !== job._ownerRef._id;
-  //     });
-  //     this.setState({
-  //       ...this.state,
-  //       hideMyJobs: true,
-  //       displayedJobList: filteredJobList,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       ...this.state,
-  //       hideMyJobs: false,
-  //       displayedJobList: ListOfJobsToBidOn,
-  //     });
-  //   }
-  // }
-
   componentDidMount() {
     this.props.a_getAllJobsToBidOn();
   }
@@ -84,6 +63,11 @@ class BidderRoot extends React.Component {
     } = this.props;
 
     const currentUserId = userDetails._id;
+
+    if (isLoading) {
+      return <Spinner isLoading={isLoading} size={'large'} />;
+    }
+
     const { activeTab } = this.state;
 
     let currentlyViewedjobs = [];
@@ -124,6 +108,7 @@ class BidderRoot extends React.Component {
             <button onClick={this.toggleFilterDialog} className="modal-close " aria-label="close" />
           </div>
         )}
+
         <div className="" id="bdb-bidder-root">
           <section className="hero is-small is-dark">
             <div className="hero-body">
@@ -146,17 +131,14 @@ class BidderRoot extends React.Component {
             )}
 
             <div>
-              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-              {!isLoading && (
-                <BidderMapSection
-                  selectJobToBidOn={a_selectJobToBidOn}
-                  mapCenterPoint={mapCenterPoint}
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  currentUserId={userDetails._id}
-                  jobsList={currentlyViewedjobs}
-                />
-              )}
+              <BidderMapSection
+                selectJobToBidOn={a_selectJobToBidOn}
+                mapCenterPoint={mapCenterPoint}
+                isLoggedIn={isLoggedIn}
+                showLoginDialog={a_showLoginDialog}
+                currentUserId={userDetails._id}
+                jobsList={currentlyViewedjobs}
+              />
             </div>
           </section>
           <section className="section">
@@ -192,6 +174,7 @@ class BidderRoot extends React.Component {
                 currentUserId={userDetails._id}
                 selectJobToBidOn={a_selectJobToBidOn}
                 jobsList={currentlyViewedjobs}
+                {...this.props}
               />
             </div>
           </section>
@@ -224,4 +207,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BidderRoot);
+)(windowSize(BidderRoot));

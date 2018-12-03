@@ -42,7 +42,7 @@ class JobsLocationFilterForm extends React.Component {
       'successfullGeoCoding',
       'clearForceSetAddressValue',
       'toggleJobCategorySelection',
-      'updateSearchRaduisSelection'
+      'updateSearchRaduisSelection',
     );
   }
 
@@ -287,7 +287,7 @@ class JobsLocationFilterForm extends React.Component {
             {
               location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
             },
-            this.successfullGeoCoding
+            this.successfullGeoCoding,
           );
         }
       };
@@ -296,7 +296,7 @@ class JobsLocationFilterForm extends React.Component {
       navigator.geolocation.getCurrentPosition(
         successfulRetrieval,
         errorHandling,
-        getCurrentPositionOptions
+        getCurrentPositionOptions,
       );
     } else {
       // Browser doesn't support Geolocation

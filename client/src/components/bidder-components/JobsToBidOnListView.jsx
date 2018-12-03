@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -32,7 +31,7 @@ class JobsToBidOnListView extends React.Component {
     return <React.Fragment>{postedJobsList}</React.Fragment>;
   }
 }
-export default windowSize(JobsToBidOnListView);
+export default JobsToBidOnListView;
 
 const OtherPeoplesJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;

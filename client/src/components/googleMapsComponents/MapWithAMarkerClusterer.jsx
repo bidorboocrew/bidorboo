@@ -39,8 +39,6 @@ class TheMap extends React.Component {
           disableDefaultUI: true,
           streetViewControl: false,
         }}
-        clickableIcons={true}
-        mapTypeId={false}
         defaultZoom={8}
         defaultCenter={mapCenterPoint}
       >
