@@ -55,7 +55,7 @@ class MyProfile extends React.Component {
         )}
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <div className="container">
+            <div>
               <h1 style={{ color: 'white' }} className="title">
                 My Profile
               </h1>

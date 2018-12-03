@@ -57,7 +57,7 @@ class MyBids extends React.Component {
       <div id="bdb-bidder-my-bids">
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <div className="container">
+            <div>
               <h1 style={{ color: 'white' }} className="title">
                 My Bids
               </h1>

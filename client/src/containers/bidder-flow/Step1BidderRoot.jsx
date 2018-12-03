@@ -112,7 +112,7 @@ class BidderRoot extends React.Component {
         <div className="" id="bdb-bidder-root">
           <section className="hero is-small is-dark">
             <div className="hero-body">
-              <div className="container">
+              <div>
                 <h1 style={{ color: 'white' }} className="title">
                   Post Bids
                 </h1>

@@ -37,7 +37,7 @@ class MyAwardedBids extends React.Component {
       <div className="slide-in-left" id="bdb-proposer-root">
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <div className="container">
+            <div>
               <h1 style={{ color: 'white' }} className="title">
                 Scheduled Work
               </h1>

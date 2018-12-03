@@ -1,12 +1,13 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 
-module.exports = app => {
+
+module.exports = (app) => {
   //google routes
   app.get(
     ROUTES.API.AUTH.GOOGLE,
     passport.authenticate('google', {
-      scope: ['profile', 'email']
+      scope: ['profile', 'email'],
     })
   );
   app.get(
@@ -14,7 +15,7 @@ module.exports = app => {
     passport.authenticate('google', {
       successReturnToOrRedirect: ROUTES.CLIENT.HOME,
       failureRedirect: '/errorRoute',
-      failureFlash: true
+      failureFlash: true,
     })
   );
 
@@ -28,7 +29,7 @@ module.exports = app => {
     passport.authenticate('facebook', {
       successReturnToOrRedirect: ROUTES.CLIENT.HOME,
       failureRedirect: '/errorRoute',
-      failureFlash: true
+      failureFlash: true,
     })
   );
 

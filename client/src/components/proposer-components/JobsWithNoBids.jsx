@@ -10,9 +10,7 @@ class JobsWithNoBids extends React.Component {
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
-    const jobsWithoutBids = jobsList.filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
-    });
+
     return userHasPostedJobs ? <JobsWithoutBids {...this.props} /> : <EmptyStateComponent />;
   }
 }
