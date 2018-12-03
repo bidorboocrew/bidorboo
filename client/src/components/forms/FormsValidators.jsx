@@ -49,5 +49,5 @@ export const enforceNumericField = (value, previousValue) => {
 
 export const phoneNumber = (value) => {
   const isValid = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/m.test(value);
-  return !isValid ? undefined : 'should match +areacode-123-123-1234';
+  return !isValid ? undefined : 'should match +areacode-1231231234';
 };

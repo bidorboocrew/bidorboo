@@ -22,7 +22,7 @@ const EnhancedForms = withFormik({
       .required('email is required.'),
     phoneNumber: Yup.number()
       .positive('Phone number can only be of format 161312345678')
-      .test('phoneNumber', 'Phone number should match 123-123-1234', (inputText) => {
+      .test('phoneNumber', 'Phone number should match 1231231234', (inputText) => {
         return phoneNumber(inputText);
       }),
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),

@@ -13,12 +13,7 @@ const Label = ({ error, className, children, id, ...props }) => {
   );
 };
 
-const HelpText = ({ helpText }) =>
-  helpText ? (
-    <p style={{ color: 'grey' }} className="help">
-      {helpText}
-    </p>
-  ) : null;
+const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
 
 export const Checkbox = ({
   type,
@@ -60,38 +55,47 @@ export const TextInput = ({
   iconLeft,
   ...props
 }) => {
+  let inputClassName = className || 'input';
+  
+  if (error) {
+    inputClassName += ' is-danger';
+  }
+
   return (
     <div className="field">
       <Label htmlFor={id} error={error}>
         {label}
       </Label>
-      {!iconLeft && (
-        <input
-          id={id}
-          className={className || 'input'}
-          type={type}
-          value={value || ''}
-          onChange={onChange}
-          {...props}
-        />
-      )}
-      {iconLeft && (
-        <div className="field">
-          <div className="control has-icons-left">
-            <input
-              id={id}
-              className="input"
-              type={type}
-              value={value || ''}
-              onChange={onChange}
-              {...props}
-            />
-            <span className="icon is-small is-left">
-              <i className={iconLeft} />
-            </span>
+      <div className="control">
+        {!iconLeft && (
+          <input
+            id={id}
+            className={inputClassName}
+            type={type}
+            value={value || ''}
+            onChange={onChange}
+            {...props}
+          />
+        )}
+        {iconLeft && (
+          <div className="field">
+            <div className="control has-icons-left">
+              <input
+                id={id}
+                className="input"
+                type={type}
+                value={value || ''}
+                onChange={onChange}
+                {...props}
+              />
+              <span className="icon is-small is-left">
+                <i className={iconLeft} />
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>
