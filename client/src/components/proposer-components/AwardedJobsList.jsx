@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -32,7 +31,7 @@ class AwardedJobsList extends React.Component {
   }
 }
 
-export default windowSize(AwardedJobsList);
+export default AwardedJobsList;
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;

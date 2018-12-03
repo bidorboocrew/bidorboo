@@ -12,6 +12,7 @@ import autoBind from 'react-autobind';
 
 import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
 import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
+import windowSize from 'react-window-size';
 
 const TAB_IDS = {
   reviewBids: 'Review Bids',
@@ -101,6 +102,7 @@ class MyJobs extends React.Component {
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}
                 notificationFeed={notificationFeed}
+                {...this.props}
               />
             )}
             {activeTab === TAB_IDS.inQueue && (
@@ -108,6 +110,7 @@ class MyJobs extends React.Component {
                 notificationFeed={notificationFeed}
                 userDetails={userDetails}
                 jobsList={myAwardedJobsList}
+                {...this.props}
               />
             )}
             {activeTab === TAB_IDS.noBids && (
@@ -117,6 +120,7 @@ class MyJobs extends React.Component {
                 deleteJob={a_deleteJobById}
                 disabled
                 notificationFeed={notificationFeed}
+                {...this.props}
               />
             )}
           </div>
@@ -146,4 +150,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyJobs);
+)(windowSize(MyJobs));
