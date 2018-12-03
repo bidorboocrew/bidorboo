@@ -10,7 +10,7 @@ import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 const TAB_IDS = {
   openRequests: 'Open Tasks',
   postedBids: 'Posted Bids',
-  mine: 'Mines',
+  mine: 'Mine',
 };
 
 class JobsToBidOnListView extends React.Component {

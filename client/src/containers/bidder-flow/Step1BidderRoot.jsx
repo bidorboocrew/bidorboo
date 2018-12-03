@@ -18,7 +18,7 @@ import BidderStepper from './BidderStepper';
 const TAB_IDS = {
   openRequests: 'Open Tasks',
   postedBids: 'Posted Bids',
-  mine: 'Mines',
+  mine: 'Mine',
 };
 class BidderRoot extends React.Component {
   constructor(props) {

@@ -21,10 +21,10 @@ const MapWithAMarkerClusterer = compose(
         }}
       />
     ),
-    mapElement: <div style={{ height: '100%' }} />,
+    mapElement: <div id="bdb-map" style={{ height: '100%' }} />,
   }),
   // withScriptjs,
-  withGoogleMap
+  withGoogleMap,
 )((props) => {
   return <TheMap {...props} />;
 });
@@ -34,7 +34,16 @@ class TheMap extends React.Component {
   render() {
     const { mapCenterPoint } = this.props;
     return (
-      <GoogleMap defaultZoom={8} defaultCenter={mapCenterPoint}>
+      <GoogleMap
+        options={{
+          disableDefaultUI: true,
+          streetViewControl: false,
+        }}
+        clickableIcons={true}
+        mapTypeId={false}
+        defaultZoom={8}
+        defaultCenter={mapCenterPoint}
+      >
         <Cluster {...this.props} />
       </GoogleMap>
     );
@@ -155,7 +164,7 @@ class JobMarker extends React.Component {
                 <div className="content">
                   <div>
                     <figure className="image is-48x48 is-marginless">
-                      <img  alt="profile" src={marker._ownerRef.profileImage.url} />
+                      <img alt="profile" src={marker._ownerRef.profileImage.url} />
                     </figure>
                   </div>
                   <div className="level-item">
