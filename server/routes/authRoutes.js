@@ -1,7 +1,6 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 
-
 module.exports = (app) => {
   //google routes
   app.get(
@@ -22,7 +21,9 @@ module.exports = (app) => {
   // Facebook routes
   app.get(
     ROUTES.API.AUTH.FACEBOOK,
-    passport.authenticate('facebook', { failureRedirect: '/errorRoute' })
+    passport.authenticate('facebook', {
+      scope: ['email'],
+    })
   );
   app.get(
     ROUTES.API.AUTH.FACEBOOK_CALLBACK,
