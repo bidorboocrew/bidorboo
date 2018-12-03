@@ -103,6 +103,24 @@ class Header extends React.Component {
               </div>
             )}
 
+            {notificationFeed &&
+              ((notificationFeed.myBidsWithNewStatus &&
+                notificationFeed.myBidsWithNewStatus.length > 0) ||
+                (notificationFeed.jobIdsWithNewBids &&
+                  notificationFeed.jobIdsWithNewBids.length > 0)) && (
+                <div className="is-hidden-desktop navbar-item">
+                  <span
+                    style={{
+                      marginLeft: 4,
+                      width: 24,
+                      borderRadius: 100,
+                    }}
+                    className="tag is-dark has-text-weight-semibold"
+                  >
+                    <i className="far fa-bell" />
+                  </span>
+                </div>
+              )}
             {/* burger menu */}
             <a
               onClick={(e) => {
