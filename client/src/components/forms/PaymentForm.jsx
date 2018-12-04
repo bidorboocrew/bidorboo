@@ -3,7 +3,7 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
 import { enforceNumericField, alphanumericField, phoneNumber } from './FormsValidators';
-
+import axios from 'axios';
 const EnhancedForms = withFormik({
   // validationSchema: Yup.object().shape({
   //   displayName: Yup.string()
@@ -40,30 +40,52 @@ const EnhancedForms = withFormik({
   handleSubmit: (values, { setSubmitting, props }) => {
     debugger;
 
-    window.BidorBoo.stripe
-      .createToken('bank_account', {
-        country: 'US',
-        currency: 'usd',
-        routing_number: '110000000',
-        account_number: '000123456789',
-        account_holder_name: 'Jenny Rosen',
-        account_holder_type: 'individual',
-      })
-      .then(({ token: tokenizedBankAccount, error: tokenizedBankAccountError }) => {
-        debugger;
-        console.log(tokenizedBankAccount);
-        const paymentDetails = { external_account: tokenizedBankAccount };
-      });
-    debugger;
-    window.BidorBoo.stripe
-      .createToken('pii', { personal_id_number: '123131185' })
-      .then(({ token: tokenizePii, error: tokenizePiiError }) => {
-        debugger;
-        console.log(tokenizePii);
-        const paymentDetails = { external_account: tokenizePii };
-      });
-    const { fileInputFront, fileInputBack } = values;
+    // window.BidorBoo.stripe
+    //   .createToken('bank_account', {
+    //     country: 'US',
+    //     currency: 'usd',
+    //     routing_number: '110000000',
+    //     account_number: '000123456789',
+    //     account_holder_name: 'Jenny Rosen',
+    //     account_holder_type: 'individual',
+    //   })
+    //   .then(({ token: tokenizedBankAccount, error: tokenizedBankAccountError }) => {
+    //     debugger;
+    //     console.log(tokenizedBankAccount);
+    //     const paymentDetails = { external_account: tokenizedBankAccount };
+    //   });
+    // debugger;
+    // window.BidorBoo.stripe
+    //   .createToken('pii', { personal_id_number: '123131185' })
+    //   .then(({ token: tokenizePii, error: tokenizePiiError }) => {
+    //     debugger;
+    //     console.log(tokenizePii);
+    //     const paymentDetails = { external_account: tokenizePii };
+    //   });
+    const { idFrontImg, idBackImg } = values;
+    let fileData = new FormData();
+    fileData.append('file', idFrontImg);
 
+    axios
+      .post(`https://files.stripe.com/v1/files`, {
+        data: {
+          file: fileData,
+          purpose: 'identity_document',
+        },
+        headers: {
+          Accept: 'multipart/form-data',
+          Auth: `${process.env.REACT_APP_STRIPE_KEY}`,
+          // 'Stripe-Account': 'acct_STRIPE-ACCOUNT-ID'
+        },
+      })
+      .then((resp) => {
+        debugger;
+        console.log(resp);
+      })
+      .catch((e) => {
+        debugger;
+        console.log(e);
+      });
     // props.onSubmit(values);
 
     // stripe.createToken('bank_account', bankAccountData);
@@ -88,37 +110,58 @@ const PaymentForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div class="file is-boxed">
-        <label class="file-label">
-          <input class="file-input" type="file" name="resume" />
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload" />
+      <div className="file is-boxed">
+        <label className="file-label">
+          <input
+            id="idFrontImg"
+            value={values.idFrontImg}
+            className="file-input"
+            type="file"
+            name="idFrontImg"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <span className="file-cta">
+            <span className="file-icon">
+              <i className="fas fa-upload" />
             </span>
-            <span class="file-label">upload Id Img (front)</span>
+            <span className="file-label">upload Id Img (front)</span>
           </span>
+          <span class="file-name">{values.idFrontImg || ''}</span>
         </label>
       </div>
-      <div style={{ marginTop: -20 }} className="help">
-        {`* Acepted files JPEG, PNG  < 5MB`}
-      </div>
+      <div className="help">{`* Acepted files JPEG, PNG  < 5MB`}</div>
       <br />
-      <div class="file is-boxed">
-        <label class="file-label">
-          <input class="file-input" type="file" name="resume" />
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload" />
+      <div className="file is-boxed">
+        <label className="file-label">
+          <input
+            id="idBackImg"
+            value={values.idBackImg}
+            className="file-input"
+            type="file"
+            name="idBackImg"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <span className="file-cta">
+            <span className="file-icon">
+              <i className="fas fa-upload" />
             </span>
-            <span class="file-label">upload Id Img (back)</span>
-          </span>
+            <span className="file-label">upload Id Img (back)</span>
+          </span>{' '}
+          <span class="file-name">{values.idBackImg || ''}</span>
         </label>
       </div>
-      <div style={{ marginTop: -20 }} className="help">
-        {`* Acepted files JPEG, PNG  < 5MB`}
-      </div>
+      <div className="help">{`* Acepted files JPEG, PNG  < 5MB and smaller than  8,000px by 8,000px.`}</div>
       <br />
-
+      <button
+            style={{ marginRight: 6 }}
+            className="button is-primary is-medium"
+            type="submit"
+            // disabled={isSubmitting || !isValid}
+          >
+            Submit
+          </button>
       <div className="field is-grouped">
         <input
           id="account_holder_type"
