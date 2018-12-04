@@ -41,6 +41,32 @@ module.exports = (app) => {
     }
   });
 
+  app.put(
+    ROUTES.API.USER.PUT.setupPaymentDetails,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const newProfileDetails = req.body.data;
+        const userId = req.user.userId;
+
+        // terms of service acceptance
+        const tosAcceptance = {
+          tos_acceptance: {
+            date: Math.floor(Date.now() / 1000),
+            ip: request.connection.remoteAddress,
+          },
+        };
+
+        // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
+
+        return res.send({});
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
+      }
+    }
+  );
+
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
     try {
       if (req.files && req.files.length === 1) {

@@ -56,7 +56,7 @@ export const TextInput = ({
   ...props
 }) => {
   let inputClassName = className || 'input';
-  
+
   if (error) {
     inputClassName += ' is-danger';
   }

@@ -28,6 +28,7 @@ module.exports = {
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
+        setupPaymentDetails: '/api/user/setupPaymentDetails',
         profilePicture: '/api/user/updateProfileImage',
       },
     },

@@ -7,6 +7,8 @@ import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
 import ProfileForm from '../components/forms/ProfileForm';
+
+import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 
 class MyProfile extends React.Component {
@@ -14,14 +16,24 @@ class MyProfile extends React.Component {
     super(props);
     this.state = {
       isEditProfile: false,
-      isEditPaymentInfo: false,
+      showAddPaymentDetails: true,
       showImageUploadDialog: false,
     };
-    autoBind(this, 'toggleEditProfile', 'closeFormAndSubmit', 'toggleShowUploadProfileImageDialog');
+    autoBind(
+      this,
+      'toggleAddPaymentDetails',
+      'toggleEditProfile',
+      'closeFormAndSubmit',
+      'toggleShowUploadProfileImageDialog',
+    );
   }
 
   toggleEditProfile() {
     this.setState({ isEditProfile: !this.state.isEditProfile });
+  }
+
+  toggleAddPaymentDetails() {
+    this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
   }
 
   toggleShowUploadProfileImageDialog() {
@@ -84,7 +96,8 @@ class MyProfile extends React.Component {
                 personalParagraph,
                 this.toggleEditProfile,
                 this.closeFormAndSubmit,
-                this.state.isEditPaymentInfo,
+                this.state.showAddPaymentDetails,
+                this.toggleAddPaymentDetails,
               )}
               {/* advertisement */}
               {/* {advertisement()} */}
@@ -179,7 +192,8 @@ const userEditableInfo = (
   personalParagraph = 'none provided',
   toggleEditProfile,
   closeFormAndSubmit,
-  isEditPaymentInfo,
+  showAddPaymentDetails,
+  toggleAddPaymentDetails,
 ) => {
   return (
     <div>
@@ -215,13 +229,20 @@ const userEditableInfo = (
           </div>
         </section>
       )}
-      {!isEditPaymentInfo && (
+      {!showAddPaymentDetails && (
         <div>
-          <div>
-            Yacoub, add slider to enable adding/editing payment details
-          </div>
+          <div>Yacoub, add slider to enable adding/editing payment details</div>
 
           <HeaderTitle title="My Payment Details" />
+          <a
+            className="button is-primary"
+            onClick={() => {
+              toggleAddPaymentDetails();
+            }}
+          >
+            <i style={{ fontSize: 12 }} className="far fa-edit" />
+            <span style={{ marginLeft: 4 }}>Add Payment Details</span>
+          </a>
         </div>
       )}
       {isEditProfile && (
@@ -235,15 +256,15 @@ const userEditableInfo = (
           />
         </div>
       )}
-      {isEditPaymentInfo && (
+      {showAddPaymentDetails && (
         <div>
-          <HeaderTitle title="Edit Payment Details" />
+          <HeaderTitle title="Add Payment Details" />
 
-          {/* <ProfileForm
-              userDetails={userDetails}
-              onCancel={toggleEditProfile}
-              onSubmit={closeFormAndSubmit}
-            /> */}
+          <PaymentForm
+            userDetails={userDetails}
+            onCancel={toggleAddPaymentDetails}
+            onSubmit={(vals) => console.log(vals)}
+          />
         </div>
       )}
     </div>
