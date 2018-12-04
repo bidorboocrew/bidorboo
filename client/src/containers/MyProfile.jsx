@@ -14,6 +14,7 @@ class MyProfile extends React.Component {
     super(props);
     this.state = {
       isEditProfile: false,
+      isEditPaymentInfo: false,
       showImageUploadDialog: false,
     };
     autoBind(this, 'toggleEditProfile', 'closeFormAndSubmit', 'toggleShowUploadProfileImageDialog');
@@ -64,8 +65,8 @@ class MyProfile extends React.Component {
         </section>
 
         <section className="section">
-          <div className="container" id="bdb-profile-content">
-            <div className="columns is-multiline">
+          <div className="container is-fluid" id="bdb-profile-content">
+            <div>
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
@@ -83,6 +84,7 @@ class MyProfile extends React.Component {
                 personalParagraph,
                 this.toggleEditProfile,
                 this.closeFormAndSubmit,
+                this.state.isEditPaymentInfo,
               )}
               {/* advertisement */}
               {/* {advertisement()} */}
@@ -147,29 +149,23 @@ const userImageAndStats = (
 ) => {
   return (
     <React.Fragment>
-      <div className="column is-4">
-        <div className="has-text-centered">
-          <img
-            style={{ background: '#eeeeee' }}
-            className="bdb-img-profile-pic"
-            src={`${profileImage.url}`}
-          />
-          <br />
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              toggleShowUploadProfileImageDialog();
-            }}
-            className="button is-outlined is-small"
-          >
-            edit Image
-          </a>
-
-          <div>{displayName}</div>
-          <div>{email}</div>
-          <DisplayLabelValue labelText="Membership Status:" labelValue={membershipStatusDisplay} />
-        </div>
+      <div style={{ width: '8rem', background: '#eeeeee' }}>
+        <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
       </div>
+      <div>
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            toggleShowUploadProfileImageDialog();
+          }}
+          className="button is-outlined is-small"
+        >
+          edit Image
+        </a>
+      </div>
+      <div>{displayName}</div>
+      <div>{email}</div>
+      <div>{membershipStatusDisplay}</div>
     </React.Fragment>
   );
 };
@@ -183,54 +179,73 @@ const userEditableInfo = (
   personalParagraph = 'none provided',
   toggleEditProfile,
   closeFormAndSubmit,
+  isEditPaymentInfo,
 ) => {
   return (
-    <div className="column is-8">
-      <div>
-        {!isEditProfile && (
-          <div>
-            <HeaderTitle title="My Details" />
-            <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-            <DisplayLabelValue labelText="Email:" labelValue={email} />
-            <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
-            <HeaderTitle specialMarginVal={8} title="About Me" />
-            <TextareaAutosize
-              value={personalParagraph}
-              className="textarea is-marginless is-paddingless"
-              style={{
-                resize: 'none',
-                border: 'none',
-                color: '#4a4a4a',
-                background: '#EEEEEE',
+    <div>
+      {!isEditProfile && (
+        <section className="section">
+          <HeaderTitle title="My Details" />
+          <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+          <DisplayLabelValue labelText="Email:" labelValue={email} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+          <HeaderTitle specialMarginVal={8} title="About Me" />
+          <TextareaAutosize
+            value={personalParagraph}
+            className="textarea is-marginless is-paddingless"
+            style={{
+              resize: 'none',
+              border: 'none',
+              color: '#4a4a4a',
+              background: '#EEEEEE',
+            }}
+            readOnly
+          />
+
+          <div style={{ marginTop: 12 }}>
+            <a
+              className="button is-primary"
+              onClick={() => {
+                toggleEditProfile();
               }}
-              readOnly
-            />
-
-            <div style={{ marginTop: 12 }}>
-              <a
-                className="button is-primary"
-                onClick={() => {
-                  toggleEditProfile();
-                }}
-              >
-                <i style={{ fontSize: 12 }} className="far fa-edit" />
-                <span style={{ marginLeft: 4 }}>Edit Profile Details</span>
-              </a>
-            </div>
+            >
+              <i style={{ fontSize: 12 }} className="far fa-edit" />
+              <span style={{ marginLeft: 4 }}>Edit My Details</span>
+            </a>
           </div>
-        )}
-        {isEditProfile && (
+        </section>
+      )}
+      {!isEditPaymentInfo && (
+        <div>
           <div>
-            <HeaderTitle title="Edit Profile Details" />
+            Yacoub, add slider to enable adding/editing payment details
+          </div>
 
-            <ProfileForm
+          <HeaderTitle title="My Payment Details" />
+        </div>
+      )}
+      {isEditProfile && (
+        <div>
+          <HeaderTitle title="Edit My Details" />
+
+          <ProfileForm
+            userDetails={userDetails}
+            onCancel={toggleEditProfile}
+            onSubmit={closeFormAndSubmit}
+          />
+        </div>
+      )}
+      {isEditPaymentInfo && (
+        <div>
+          <HeaderTitle title="Edit Payment Details" />
+
+          {/* <ProfileForm
               userDetails={userDetails}
               onCancel={toggleEditProfile}
               onSubmit={closeFormAndSubmit}
-            />
-          </div>
-        )}
-      </div>
+            /> */}
+        </div>
+      )}
     </div>
   );
 };

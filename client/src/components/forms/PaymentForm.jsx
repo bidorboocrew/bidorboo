@@ -40,19 +40,19 @@ const EnhancedForms = withFormik({
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);
   },
-  displayName: 'ProfileForm',
+  displayName: 'PaymentForm',
 });
 
-const ProfileForm = (props) => {
+const PaymentForm = (props) => {
   const {
     values,
     touched,
     errors,
-    // dirty,
+    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    // handleReset,
+    handleReset,
     onCancel,
     isValid,
     isSubmitting,
@@ -137,4 +137,4 @@ const ProfileForm = (props) => {
   );
 };
 
-export default EnhancedForms(ProfileForm);
+export default EnhancedForms(PaymentForm);
