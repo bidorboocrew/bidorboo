@@ -28,9 +28,9 @@ import ScrollToTopOnRouteChange from './containers/ScrollToTopOnRouteChange';
 // add bugsnag support to capture errors
 // https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
 
-const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
+const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 window.BidorBoo = {
-  helpers: stripe,
+  stripe,
 };
 
 if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production') {
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
   const ErrorBoundary = bugsnagClient.use(createPlugin(React));
   ReactDOM.render(
     <ErrorBoundary>
-      {/* <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`}> */}
+      {/* <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}> */}
       <Provider store={store}>
         <Router history={appHistory}>
           <ScrollToTopOnRouteChange>

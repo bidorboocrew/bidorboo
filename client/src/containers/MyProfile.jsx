@@ -259,7 +259,14 @@ const userEditableInfo = (
       {showAddPaymentDetails && (
         <div>
           <HeaderTitle title="Add Payment Details" />
-
+          <React.Fragment>
+            Data is secured via
+            <a href="https://stripe.com/ca" target="_blank">
+              {` Stripe payment gateway.`}
+            </a>
+            {` BidOrBoo will NOT be storing any sensitive info.`}
+          </React.Fragment>
+          <br /> <br />
           <PaymentForm
             userDetails={userDetails}
             onCancel={toggleAddPaymentDetails}

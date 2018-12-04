@@ -49,18 +49,18 @@ exports.stripeService = {
 
         external_account: 'some token from client side',
         // {
-        //   // id: 'ba_1DXbEhIkbQJUBZs8mJEXMzBv',
-        //   // object: 'bank_account',
-        //   // account_holder_name: 'Jane Austen',
-        //   // account_holder_type: 'individual',
-        //   // bank_name: 'STRIPE TEST BANK',
-        //   // country: 'CA',
-        //   // currency: 'CAD',
-        //   // last4: '6789',
-        //   // routing_number: '11000000',
-        //   // status: 'new',
-        //   // account_number: '000123456789',
-        //   // metadata: {}, // keyvalue pair to represent what exactly is going on
+        //   id: 'ba_1DXbEhIkbQJUBZs8mJEXMzBv',
+        //   object: 'bank_account',
+        //   account_holder_name: 'Jane Austen',
+        //   account_holder_type: 'individual',
+        //   bank_name: 'STRIPE TEST BANK',
+        //   country: 'CA',
+        //   currency: 'CAD',
+        //   last4: '6789',
+        //   routing_number: '11000000',
+        //   status: 'new',
+        //   account_number: '000123456789',
+        //   metadata: {}, // keyvalue pair to represent what exactly is going on
         // },
       });
       // will return something like this

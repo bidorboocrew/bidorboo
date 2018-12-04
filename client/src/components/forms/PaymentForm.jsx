@@ -38,7 +38,35 @@ const EnhancedForms = withFormik({
   //   };
   // },
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit(values);
+    debugger;
+
+    window.BidorBoo.stripe
+      .createToken('bank_account', {
+        country: 'US',
+        currency: 'usd',
+        routing_number: '110000000',
+        account_number: '000123456789',
+        account_holder_name: 'Jenny Rosen',
+        account_holder_type: 'individual',
+      })
+      .then(({ token: tokenizedBankAccount, error: tokenizedBankAccountError }) => {
+        debugger;
+        console.log(tokenizedBankAccount);
+        const paymentDetails = { external_account: tokenizedBankAccount };
+      });
+    debugger;
+    window.BidorBoo.stripe
+      .createToken('pii', { personal_id_number: '123131185' })
+      .then(({ token: tokenizePii, error: tokenizePiiError }) => {
+        debugger;
+        console.log(tokenizePii);
+        const paymentDetails = { external_account: tokenizePii };
+      });
+    const { fileInputFront, fileInputBack } = values;
+
+    // props.onSubmit(values);
+
+    // stripe.createToken('bank_account', bankAccountData);
   },
   displayName: 'PaymentForm',
 });
@@ -60,23 +88,50 @@ const PaymentForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div class="file is-boxed">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" />
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload" />
+            </span>
+            <span class="file-label">upload Id Img (front)</span>
+          </span>
+        </label>
+      </div>
+      <div style={{ marginTop: -20 }} className="help">
+        {`* Acepted files JPEG, PNG  < 5MB`}
+      </div>
+      <br />
+      <div class="file is-boxed">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" />
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload" />
+            </span>
+            <span class="file-label">upload Id Img (back)</span>
+          </span>
+        </label>
+      </div>
+      <div style={{ marginTop: -20 }} className="help">
+        {`* Acepted files JPEG, PNG  < 5MB`}
+      </div>
+      <br />
+
       <div className="field is-grouped">
+        <input
+          id="account_holder_type"
+          className="input is-invisible"
+          type="hidden"
+          value={'individual'}
+        />
+
         <TextInput
           id="firstName"
           type="text"
           label="First Name"
           placeholder="first name"
-          error={touched.displayName && errors.displayName}
-          value={values.displayName || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-        <TextInput
-          id="middleInitial"
-          type="text"
-          label="Middle Initial"
-          placeholder="Middle initial"
           error={touched.displayName && errors.displayName}
           value={values.displayName || ''}
           onChange={handleChange}
@@ -98,11 +153,12 @@ const PaymentForm = (props) => {
         * Provide your name as it appears on your legal document
       </div>
       <br />
+      <br />
       <div className="field is-grouped">
         <TextInput
           id="day"
           type="text"
-          label="Day of Birth"
+          label="Birth Day"
           error={touched.displayName && errors.displayName}
           value={values.displayName || ''}
           onChange={handleChange}
@@ -133,15 +189,17 @@ const PaymentForm = (props) => {
       </div>
 
       <br />
-      <TextInput
-        id="phoneNumber"
-        type="text"
-        label="Phone Number"
-        error={touched.displayName && errors.displayName}
-        value={values.displayName || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
+      <div className="field is-grouped">
+        <TextInput
+          id="phoneNumber"
+          type="text"
+          label="Phone Number"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
       <br />
       <div className="field is-grouped">
         <TextInput
@@ -163,6 +221,8 @@ const PaymentForm = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+      </div>
+      <div className="field is-grouped">
         <TextInput
           id="city"
           type="text"
@@ -188,27 +248,73 @@ const PaymentForm = (props) => {
         * Provide your address as it shows on your legal document (driver license)
       </div>
       <br />
+      <div className="field is-grouped">
+        <TextInput
+          id="bank_name"
+          type="text"
+          label="Bank Name"
+          placeholder="Your Bank Name"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="account_number"
+          type="text"
+          label="Account Number"
+          placeholder="Your bank account number"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div className="field is-grouped">
+        <TextInput
+          id="branch_number"
+          type="text"
+          label="Branch Number"
+          placeholder="Your branch number"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="transit_number"
+          type="text"
+          label="Transit Number"
+          placeholder="Your Transit number"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
 
       <br />
-      <TextInput
-        id="SIN"
-        type="text"
-        label="Social Insurance Number"
-        placeholder="first name"
-        error={touched.displayName && errors.displayName}
-        value={values.displayName || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        helpText={
-          <React.Fragment>
-            This will be encrypted and secured via
-            <a href="https://stripe.com/ca" target="_blank">
-              {` Stripe payment gateway.`}
-            </a>
-            {` BidOrBoo will NOT be storing this info.`}
-          </React.Fragment>
-        }
-      />
+      <div className="field is-grouped">
+        <TextInput
+          id="SIN"
+          type="text"
+          label="Social Insurance Number"
+          placeholder="first name"
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          helpText={
+            <React.Fragment>
+              This will be encrypted and secured via
+              <a href="https://stripe.com/ca" target="_blank">
+                {` Stripe payment gateway.`}
+              </a>
+              {` BidOrBoo will NOT be storing this info.`}
+            </React.Fragment>
+          }
+        />
+      </div>
 
       <br />
 
@@ -237,7 +343,7 @@ const PaymentForm = (props) => {
             style={{ marginRight: 6 }}
             className="button is-primary is-medium"
             type="submit"
-            disabled={isSubmitting || !isValid}
+            // disabled={isSubmitting || !isValid}
           >
             Submit
           </button>
