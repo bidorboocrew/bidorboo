@@ -4,9 +4,42 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.stripeService = {
-  createConnectedAccount: async (userVerificationDetails, callback) => {
+  createConnectedAccount: async (
+    connectedAccountDetails,
+    { _id, email, userId, displayName, phoneNumber }
+  ) => {
     try {
       const account = await stripe.accounts.create({
+        country: 'CA', //HARD CODED
+        type: 'custom', //HARD CODED
+        email: email || '',
+        default_currency: 'CAD', //HARD CODED
+        metadata: { _id, email, userId, displayName, phoneNumber },
+        payout_statement_descriptor: 'BidOrBoo Fee', //HARD CODED
+        ...connectedAccountDetails,
+      });
+
+      // will return something like this
+      // {
+      //   ...
+      //   "id": "acct_12QkqYGSOD4VcegJ",  <--- you wana store this in your DB
+      //   "keys": {
+      //     "secret": "sk_live_AxSI9q6ieYWjGIeRbURf6EG0",
+      //     "publishable": "pk_live_h9xguYGf2GcfytemKs5tHrtg"
+      //   },
+      //   "type": "custom"
+      //   ...
+      // }
+      return account;
+    } catch (error) {
+      throw error;
+    }
+  },
+};
+
+//
+/*
+  const account = await stripe.accounts.create({
         country: 'CA', //HARD CODED
         type: 'custom', //HARD CODED
         email: 'someEmail@gmail.com',
@@ -32,21 +65,12 @@ exports.stripeService = {
           },
           first_name: 'Contractor bob',
           last_name: 'Test',
-          personal_address: {
-            //optional
-            city: 'Ottawa',
-            country: 'CA',
-            line1: '264 testing pvt',
-            postal_code: 'K1s 2p9',
-            state: 'ON',
-          },
           phone_number: '613-123-1234',
           verification: {
             document: '',
           },
           type: 'individual', //HARD CODED
         },
-
         external_account: 'some token from client side',
         // {
         //   id: 'ba_1DXbEhIkbQJUBZs8mJEXMzBv',
@@ -63,20 +87,4 @@ exports.stripeService = {
         //   metadata: {}, // keyvalue pair to represent what exactly is going on
         // },
       });
-      // will return something like this
-      // {
-      //   ...
-      //   "id": "acct_12QkqYGSOD4VcegJ",  <--- you wana store this in your DB
-      //   "keys": {
-      //     "secret": "sk_live_AxSI9q6ieYWjGIeRbURf6EG0",
-      //     "publishable": "pk_live_h9xguYGf2GcfytemKs5tHrtg"
-      //   },
-      //   "type": "custom"
-      //   ...
-      // }
-      return account;
-    } catch (error) {
-      throw error;
-    }
-  },
-};
+      */

@@ -4,6 +4,7 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const cloudinary = require('cloudinary');
+const stripeService = require('../services/stripeService').stripeService;
 
 module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
@@ -47,19 +48,12 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const newProfileDetails = req.body.data;
+        const reqData = req.body.data;
+        const { connectedAccountDetails, metaData } = reqData;
+
         const userId = req.user.userId;
-
-        // terms of service acceptance
-        const tosAcceptance = {
-          tos_acceptance: {
-            date: Math.floor(Date.now() / 1000),
-            ip: request.connection.remoteAddress,
-          },
-        };
-
-        // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
-
+        const ip = req.connection.remoteAddress;
+        stripeService.createConnectedAccount(connectedAccountDetails, { ...metaData });
         return res.send({});
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });

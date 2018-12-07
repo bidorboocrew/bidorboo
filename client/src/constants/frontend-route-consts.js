@@ -20,6 +20,7 @@ export const API = {
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
       profilePicture: '/api/user/updateProfileImage',
+      setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
   },
   PAYMENT: {
