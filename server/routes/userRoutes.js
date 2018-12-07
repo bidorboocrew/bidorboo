@@ -4,7 +4,7 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const cloudinary = require('cloudinary');
-const stripeService = require('../services/stripeService').stripeService;
+const stripeServiceUtil = require('../services/stripeService').util;
 
 module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
@@ -48,13 +48,26 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
+        const userId = req.user.userId;
+
         const reqData = req.body.data;
         const { connectedAccountDetails, metaData } = reqData;
 
-        const userId = req.user.userId;
-        const ip = req.connection.remoteAddress;
-        stripeService.createConnectedAccount(connectedAccountDetails, { ...metaData });
-        return res.send({});
+        const connectedAccount = await stripeServiceUtil.createConnectedAccount(
+          connectedAccountDetails,
+          {
+            ...metaData,
+          }
+        );
+        const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+          agreedToServiceTerms: true,
+          membershipStatus: 'VERIFIED_MEMBER',
+          stripeConnect: {
+            accId: connectedAccount.id,
+            ownerId: connectedAccount.metadata._id,
+          },
+        });
+        return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
       }

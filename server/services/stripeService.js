@@ -3,7 +3,7 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
-exports.stripeService = {
+exports.util = {
   createConnectedAccount: async (
     connectedAccountDetails,
     { _id, email, userId, displayName, phoneNumber }
