@@ -3,6 +3,8 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const requireUserHasNoStripeAccount = require('../middleware/requireUserHasNoStripeAccount');
+
 const cloudinary = require('cloudinary');
 const stripeServiceUtil = require('../services/stripeService').util;
 
@@ -46,6 +48,7 @@ module.exports = (app) => {
     ROUTES.API.USER.PUT.setupPaymentDetails,
     requireBidorBooHost,
     requireLogin,
+    requireUserHasNoStripeAccount,
     async (req, res) => {
       try {
         const userId = req.user.userId;
@@ -69,7 +72,7 @@ module.exports = (app) => {
         });
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
+        return res.status(500).send({ errorMsg: e });
       }
     }
   );

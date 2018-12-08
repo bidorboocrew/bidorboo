@@ -27,25 +27,25 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section
-          style={{ paddingTop: '0.25rem' }}
-          className="hero has-text-centered fade-in section"
-        >
-          <div className="container is-fluid">
-            <div className="columns is-centered is-multiline is-mobile">
-              <div className={columnCount}>
-                <BidOrBooCard
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={() => {
+
+        <section class="hero is-dark">
+          <div class="hero-body">
+            <div class="container">
+              <div className="container is-fluid">
+                <div className="columns is-centered is-multiline is-mobile">
+                  <div className={columnCount}>
+                    <BidOrBooCard
+                      logoImg={requestImg}
+                      onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       }}
-                    >
-                      {/* <div className="title">
+                      cardContent={
+                        <a
+                          onClick={() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                          }}
+                        >
+                          {/* <div className="title">
                         <div className="button  is-fullwidth is-primary">
                           <span className="icon">
                             <i className="fa fa-plus fa-w-14" />
@@ -53,27 +53,27 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Request</span>
                         </div>
                       </div> */}
-                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
-                        Need help ? Start by requesting a service.
-                      </div>
-                    </a>
-                  }
-                />
-              </div>
-              <div className={columnCount}>
-                <BidOrBooCard
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
+                          <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
+                            Need help ? Start by requesting a service.
+                          </div>
+                        </a>
+                      }
+                    />
+                  </div>
+                  <div className={columnCount}>
+                    <BidOrBooCard
+                      logoImg={bidsImg}
+                      onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       }}
-                    >
-                      {/* <div className="title">
+                      cardContent={
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            switchRoute(ROUTES.CLIENT.BIDDER.root);
+                          }}
+                        >
+                          {/* <div className="title">
                         <div
                           onClick={(e) => {
                             e.preventDefault();
@@ -87,12 +87,14 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Bid</span>
                         </div>
                       </div> */}
-                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
-                        Are you handy? Start Bidding now.
-                      </div>
-                    </a>
-                  }
-                />
+                          <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
+                            Are you handy? Start Bidding now.
+                          </div>
+                        </a>
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

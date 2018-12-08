@@ -143,3 +143,16 @@ exports.updateUserProfileDetails = (userId, userDetails) =>
   )
     .lean(true)
     .exec();
+
+exports.getUserStripeAccount = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await User.findOne({ userId }, { stripeConnect: 1 })
+        .lean(true)
+        .exec();
+      resolve(user.stripeConnect);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};

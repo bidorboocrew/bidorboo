@@ -39,8 +39,6 @@ const EnhancedForms = withFormik({
   //   };
   // },
   handleSubmit: async (values, { setSubmitting, props }) => {
-    debugger;
-
     const {
       token: tokenizedBankAccount,
       error: tokenizedBankAccountError,
@@ -168,8 +166,14 @@ const EnhancedForms = withFormik({
           },
         },
       });
+      debugger;
     } catch (e) {
-      alert(e);
+      debugger;
+      let msg =
+        e.response.data && e.response.data.errorMsg
+          ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
+          : 'failed To Create Account please email us at bidorboocrew@gmail.com';
+      alert(msg);
       setSubmitting(false);
     }
 
@@ -416,10 +420,6 @@ const PaymentForm = (props) => {
           </span>
         </label>
       </Dropzone>
-      <div className="help">
-        {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
-      </div>
-      <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
       <br />
       <input id="idBackImg" className="input is-invisible" type="hidden" />
       <Dropzone
