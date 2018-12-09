@@ -457,7 +457,11 @@ const PaymentForm = (props) => {
               {` BidOrBoo Service Agreement `}
             </a>
             and the
-            <a target="_blank" rel="noopener noreferrer" href="https://stripe.com/connect-account/legal">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://stripe.com/connect-account/legal"
+            >
               {` Stripe Connected Account Agreement`}
             </a>
             .
