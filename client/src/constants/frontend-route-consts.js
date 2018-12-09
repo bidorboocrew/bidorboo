@@ -26,6 +26,8 @@ export const API = {
   PAYMENT: {
     POST: {
       payment: '/api/payment',
+      myaccountWebhook: '/api/stripewebhook/myaccount',
+      connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
     },
     GET: {
       payment: '/api/payment',

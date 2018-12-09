@@ -10,13 +10,14 @@ import ProfileForm from '../components/forms/ProfileForm';
 
 import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
+import PaymentHandling from './PaymentHandling';
 
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEditProfile: false,
-      showAddPaymentDetails: true,
+      showAddPaymentDetails: false,
       showImageUploadDialog: false,
     };
     autoBind(
@@ -229,6 +230,18 @@ const userEditableInfo = (
           </div>
         </section>
       )}
+      {isEditProfile && (
+        <div>
+          <HeaderTitle title="Edit My Details" />
+
+          <ProfileForm
+            userDetails={userDetails}
+            onCancel={toggleEditProfile}
+            onSubmit={closeFormAndSubmit}
+          />
+        </div>
+      )}
+
       {!showAddPaymentDetails && (
         <div>
           <div>Yacoub, add slider to enable adding/editing payment details</div>
@@ -245,17 +258,7 @@ const userEditableInfo = (
           </a>
         </div>
       )}
-      {isEditProfile && (
-        <div>
-          <HeaderTitle title="Edit My Details" />
 
-          <ProfileForm
-            userDetails={userDetails}
-            onCancel={toggleEditProfile}
-            onSubmit={closeFormAndSubmit}
-          />
-        </div>
-      )}
       {showAddPaymentDetails && (
         <div>
           <HeaderTitle title="Add Payment Details" />
@@ -274,6 +277,10 @@ const userEditableInfo = (
           />
         </div>
       )}
+
+      <section className="section">
+        <PaymentHandling />
+      </section>
     </div>
   );
 };

@@ -38,7 +38,21 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
   const ErrorBoundary = bugsnagClient.use(createPlugin(React));
   ReactDOM.render(
     <ErrorBoundary>
-      {/* <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}> */}
+      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
+        <Provider store={store}>
+          <Router history={appHistory}>
+            <ScrollToTopOnRouteChange>
+              <App />
+            </ScrollToTopOnRouteChange>
+          </Router>
+        </Provider>
+      </StripeProvider>
+    </ErrorBoundary>,
+    document.getElementById('BidOrBoo-app'),
+  );
+} else {
+  ReactDOM.render(
+    <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
           <ScrollToTopOnRouteChange>
@@ -46,19 +60,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
           </ScrollToTopOnRouteChange>
         </Router>
       </Provider>
-      {/* </StripeProvider> */}
-    </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app'),
-  );
-} else {
-  ReactDOM.render(
-    <Provider store={store}>
-      <Router history={appHistory}>
-        <ScrollToTopOnRouteChange>
-          <App />
-        </ScrollToTopOnRouteChange>
-      </Router>
-    </Provider>,
+    </StripeProvider>,
     document.getElementById('BidOrBoo-app'),
   );
 }
