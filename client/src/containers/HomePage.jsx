@@ -9,9 +9,7 @@ import requestImg from '../assets/images/jobs.png';
 
 class HomePage extends React.Component {
   render() {
-    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-4';
+    const columnCount = 'column is-half';
 
     return (
       <div id="bdb-home-content" className="bdbPage">
@@ -28,9 +26,9 @@ class HomePage extends React.Component {
           </div>
         </section>
 
-        <section class="hero is-dark">
-          <div class="hero-body">
-            <div class="container">
+        <section className="hero">
+          <div className="hero-body">
+            <div className="container">
               <div className="container is-fluid">
                 <div className="columns is-centered is-multiline is-mobile">
                   <div className={columnCount}>
@@ -53,7 +51,7 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Request</span>
                         </div>
                       </div> */}
-                          <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
+                          <div className="title  is-size-4 has-text-black-bis">
                             Need help ? Start by requesting a service.
                           </div>
                         </a>
@@ -87,9 +85,7 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Bid</span>
                         </div>
                       </div> */}
-                          <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
-                            Are you handy? Start Bidding now.
-                          </div>
+                          <div className="title is-size-4 has-text-black-bis">Are you handy? Start Bidding now.</div>
                         </a>
                       }
                     />

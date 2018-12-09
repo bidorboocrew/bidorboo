@@ -17,7 +17,7 @@ exports.UserFull = {
   agreedToServiceTerms: 1,
   settings: 1,
   extras: 1,
-  stripeConnect: 1,
+  // stripeConnect: 1, we dont want this to go around
   canBid: 1,
   canPost: 1,
   createdAt: 1,

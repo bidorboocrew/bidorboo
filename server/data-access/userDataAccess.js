@@ -4,6 +4,7 @@ const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
@@ -108,10 +109,30 @@ exports.findUserImgDetails = (userId) =>
     .lean(true)
     .exec();
 
-exports.createNewUser = async (userDetails) =>
-  await new User({
-    ...userDetails,
-  }).save();
+exports.createNewUser = async (userDetails) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const newUser = await new User({
+        ...userDetails,
+        stripeConnect: {},
+      }).save();
+
+      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+        _id: newUser._id.toString(),
+        email: newUser.email,
+        userId: newUser.userID,
+        displayName: newUser.displayName,
+      });
+
+      const userWithAccount = await this.updateUserProfileDetails(newUser.userId, {
+        stripeConnect: { accId: newStripeConnectAcc.id },
+      });
+      resolve(userWithAccount);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
   User.findOneAndUpdate(

@@ -158,14 +158,14 @@ const EnhancedForms = withFormik({
           },
         },
       };
-      const accountSetup = await axios.put('/api/user/setupPaymentDetails', {
-        data: {
-          connectedAccountDetails,
-          metaData: {
-            ...props.userDetails,
-          },
-        },
-      });
+      // const accountSetup = await axios.put('/api/user/setupPaymentDetails', {
+      //   data: {
+      //     connectedAccountDetails,
+      //     metaData: {
+      //       ...props.userDetails,
+      //     },
+      //   },
+      // });
       debugger;
     } catch (e) {
       debugger;

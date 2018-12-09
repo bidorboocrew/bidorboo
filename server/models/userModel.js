@@ -79,7 +79,6 @@ const UserSchema = new Schema(
     stripeConnect: {
       accId: { type: String },
       isVerified: { type: Boolean, default: false },
-      ownerId: { type: Schema.Types.ObjectId, ref: 'UserModel', unique: true },
     },
     canBid: { type: Boolean, default: false },
     canPost: { type: Boolean, default: true },
