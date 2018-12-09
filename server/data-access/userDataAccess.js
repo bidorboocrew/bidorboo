@@ -7,7 +7,7 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 exports.findSessionUserById = (id) =>
-  User.findOne({ userId: id }, { userId: 1, _id: 1 })
+  User.findOne({ userId: id }, { userId: 1, _id: 1, email: 1 })
     .lean(true)
     .exec();
 

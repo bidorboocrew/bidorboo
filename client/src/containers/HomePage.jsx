@@ -52,7 +52,7 @@ class HomePage extends React.Component {
                         </div>
                       </div> */}
                           <div className="title  is-size-4 has-text-black-bis">
-                            Need help ? Start by requesting a service.
+                            Need help ? Request a service now.
                           </div>
                         </a>
                       }
@@ -85,7 +85,9 @@ class HomePage extends React.Component {
                           <span className="is-capitalized">Bid</span>
                         </div>
                       </div> */}
-                          <div className="title is-size-4 has-text-black-bis">Are you handy? Start Bidding now.</div>
+                          <div className="title is-size-4 has-text-black-bis">
+                            Are you handy? Start Bidding now.
+                          </div>
                         </a>
                       }
                     />
