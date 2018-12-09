@@ -453,11 +453,11 @@ const PaymentForm = (props) => {
           <label className="checkbox">
             <input style={{ scale: 1.5 }} type="checkbox" />
             {` I have read and agree to`}
-            <a target="_blank" href="bidorbooserviceAgreement">
+            <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
               {` BidOrBoo Service Agreement `}
             </a>
             and the
-            <a target="_blank" href="https://stripe.com/connect-account/legal">
+            <a target="_blank" rel="noopener noreferrer" href="https://stripe.com/connect-account/legal">
               {` Stripe Connected Account Agreement`}
             </a>
             .
