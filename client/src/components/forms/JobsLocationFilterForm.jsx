@@ -69,7 +69,8 @@ class JobsLocationFilterForm extends React.Component {
   }
 
   autoSetGeoLocation(addressText) {
-    this.setState({ forceSetAddressValue: addressText });
+    this.setState(() => ({ forceSetAddressValue: addressText }));
+    // update the form field with the current position coordinates
     this.props.setFieldValue('addressTextField', addressText, false);
   }
 
@@ -124,17 +125,10 @@ class JobsLocationFilterForm extends React.Component {
       <form
         style={{
           padding: 10,
-          border: '1px solid lightgrey',
-          backgroundColor: 'white',
+          backgroundColor: '#eeee',
         }}
         onSubmit={handleSubmit}
       >
-        <input
-          id="locationField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.locationField || ''}
-        />
 
         <input
           id="searchRaduisField"
@@ -150,34 +144,50 @@ class JobsLocationFilterForm extends React.Component {
           value={values.filterJobsByCategoryField}
         />
 
+        <input
+          id="addressTextField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.addressTextField || ''}
+        />
+                <input
+          id="locationField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.locationField || ''}
+        />
+
         <GeoAddressInput
           id="geoInputField"
           type="text"
-          forceSetAddressValue={this.state.forceSetAddressValue}
           helpText={'You must select an address from the drop down menu'}
-          label="Search By Address"
+          label="Service Address"
           placeholder="specify your job address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
+          value={values.addressTextField || ''}
           onError={(e) => {
             errors.addressTextField = 'google api error ' + e;
           }}
           onChangeEvent={(e) => {
-            this.clearForceSetAddressValue();
+            console.log(`onChangeEvent={(e) => ${e}`);
             setFieldValue('addressTextField', e, true);
           }}
           onBlurEvent={(e) => {
             if (e && e.target) {
+              console.log(`onChangeEvent={(e) => ${e}`);
               e.target.id = 'addressTextField';
               handleBlur(e);
             }
           }}
           handleSelect={(address) => {
-            setFieldValue('addressTextField', address, true);
+            console.log(`onChangeEvent={(e) => ${address}`);
+            setFieldValue('addressTextField', address, false);
             geocodeByAddress(address)
               .then((results) => getLatLng(results[0]))
               .then((latLng) => {
                 setFieldValue('locationField', latLng, false);
+                console.log('Success', latLng);
               })
               .catch((error) => {
                 errors.addressTextField = 'error getting lat lng ' + error;
@@ -243,7 +253,7 @@ class JobsLocationFilterForm extends React.Component {
               this.clearForceSetAddressValue();
             }}
           >
-            Reset
+            Clear All Filters
           </button>
         </div>
       </form>
@@ -307,13 +317,13 @@ class JobsLocationFilterForm extends React.Component {
 
 const EnhancedForms = withFormik({
   initialValues: {
-    searchRaduisField: 15,
+    searchRaduisField: '',
     filterJobsByCategoryField: [],
     geoInputField: '',
   },
   mapPropsToValues: (props) => {
     return {
-      searchRaduisField: 15,
+      searchRaduisField: '',
       filterJobsByCategoryField: [],
       geoInputField: '',
     };

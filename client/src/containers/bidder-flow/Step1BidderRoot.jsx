@@ -119,8 +119,19 @@ class BidderRoot extends React.Component {
               </div>
             </div>
           </section>
+          <section style={{ padding: 0 }} className="modal-card-body">
+            <JobsLocationFilterForm
+              onCancel={() => {
+                this.setState({ showFilterDialog: false });
+              }}
+              onSubmit={(vals) => {
+                a_searchByLocation(vals);
+                this.setState({ showFilterDialog: false });
+              }}
+            />
+          </section>
           <section style={{ paddingBottom: 0 }} className="section">
-            {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
+            {/* {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
               <a
                 style={{ marginBottom: '1.5rem' }}
                 onClick={this.toggleFilterDialog}
@@ -128,7 +139,7 @@ class BidderRoot extends React.Component {
               >
                 Filter Jobs
               </a>
-            )}
+            )} */}
 
             <div>
               <BidderMapSection
