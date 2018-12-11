@@ -13,8 +13,8 @@ class HomePage extends React.Component {
 
     return (
       <div id="bdb-home-content" className="bdbPage">
-        <section style={{ paddingBottom: '0.25rem' }} className="hero has-text-centered fade-in">
-          <div style={{ paddingBottom: '0.25rem', color: 'rgb(85,85,85' }} className="hero-body">
+        <section className="hero has-text-centered is-dark">
+          <div className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
               <h1 className="title is-size-1">BidOrBoo</h1>
