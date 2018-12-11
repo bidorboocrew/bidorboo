@@ -233,7 +233,7 @@ const userImageAndStats = (
   rating,
   displayName,
 ) => {
-  const { canceledJobs, cancelledBis, fulfilledBids, fulfilledJobs, globalRating } = rating;
+  const { canceledJobs, canceledBids, fulfilledBids, fulfilledJobs, globalRating } = rating;
   return (
     <React.Fragment>
       <div style={{ backgroundColor: 'white', padding: '1rem' }} className="has-text-centered">
@@ -280,7 +280,7 @@ const userImageAndStats = (
 
         <div className="field has-text-centered">
           <label className="label">Cancelled Bids</label>
-          <div className="control has-text-centered">{`${cancelledBis}`}</div>
+          <div className="control has-text-centered">{`${canceledBids}`}</div>
         </div>
       </div>
     </React.Fragment>

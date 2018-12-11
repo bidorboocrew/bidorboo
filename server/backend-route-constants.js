@@ -33,6 +33,12 @@ module.exports = {
         setupPaymentDetails: '/api/user/setupPaymentDetails',
         profilePicture: '/api/user/updateProfileImage',
       },
+      POST: {
+        verifyEmail: '/api/user/verifyEmail',
+        verifyPhone: '/api/user/verifyPhone',
+        sendVerificationEmail: '/api/user/sendVerificationEmail',
+        sendVerificationMsg: '/api/user/sendVerificationMsg',
+      },
     },
     JOB: {
       GET: {

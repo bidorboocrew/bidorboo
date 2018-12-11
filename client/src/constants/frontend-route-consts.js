@@ -22,6 +22,12 @@ export const API = {
       profilePicture: '/api/user/updateProfileImage',
       setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
+    POST: {
+      verifyEmail: '/api/user/verifyEmail',
+      verifyPhone: '/api/user/verifyPhone',
+      sendVerificationEmail: '/api/user/sendVerificationEmail',
+      sendVerificationMsg: '/api/user/sendVerificationMsg',
+    },
   },
   PAYMENT: {
     POST: {

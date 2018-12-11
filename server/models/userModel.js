@@ -8,7 +8,7 @@ const MAX_NAME_LENGTH = 50;
 const ratingSchema = {
   globalRating: { type: String, default: 'No Ratings Yet' },
   fulfilledBids: { type: Number, default: 0 },
-  cancelledBis: { type: Number, default: 0 },
+  canceledBids: { type: Number, default: 0 },
   fulfilledJobs: { type: Number, default: 0 },
   canceledJobs: { type: Number, default: 0 },
 };
@@ -38,6 +38,16 @@ const UserSchema = new Schema(
       lowercase: true,
       trim: true,
       index: true,
+    },
+    verification: {
+      email: {
+        type: Map,
+        of: String,
+      },
+      phone: {
+        type: Map,
+        of: String,
+      },
     },
     displayName: {
       type: String,
@@ -77,8 +87,9 @@ const UserSchema = new Schema(
     settings: { type: Object },
     extras: { type: Object },
     stripeConnect: {
-      accId: { type: String },
+      accId: { type: String, unique: true },
       isVerified: { type: Boolean, default: false },
+      last4BankAcc: { type: String },
     },
     canBid: { type: Boolean, default: false },
     canPost: { type: Boolean, default: true },

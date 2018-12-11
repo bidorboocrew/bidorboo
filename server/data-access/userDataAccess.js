@@ -1,13 +1,13 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
-const JobModel = mongoose.model('JobModel');
-const BidModel = mongoose.model('BidModel');
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 
 exports.findSessionUserById = (id) =>
-  User.findOne({ userId: id }, { userId: 1, _id: 1, email: 1 })
+  User.findOne({ userId: id }, { userId: 1, _id: 1 })
     .lean(true)
     .exec();
 
@@ -112,22 +112,67 @@ exports.findUserImgDetails = (userId) =>
 exports.createNewUser = async (userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const newUser = await new User({
-        ...userDetails,
-        stripeConnect: {},
-      }).save();
+      let secretCodes = {};
+      let newUser = {};
+      let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
-      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+      if (userDetails.email) {
+        secretCodes = {
+          ...secretCodes,
+          email: {
+            [`${emailVerificationCode}`]: `${userDetails.email}`,
+          },
+        };
+      }
+      if (userDetails.phoneNumber) {
+        secretCodes = {
+          ...secretCodes,
+          phone: {
+            [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
+          },
+        };
+      }
+      if (secretCodes.email || secretCodes.phone) {
+        newUser = await new User({
+          ...userDetails,
+          verification: {
+            ...secretCodes,
+          },
+        }).save();
+      } else {
+        newUser = await new User({
+          ...userDetails,
+        }).save();
+      }
+
+      if (secretCodes.email) {
+        sendGridEmailing.sendEmail(
+          'bidorboocrew@gmail.com',
+          newUser.email,
+          'BidOrBoo: Email verification',
+          `Your Email verification Code : ${emailVerificationCode}`
+        );
+      }
+
+      if (secretCodes.phoneNumber) {
+        sendTextService.sendText(
+          newUser.phoneNumber,
+          `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
+        );
+      }
+
+      const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
         _id: newUser._id.toString(),
         email: newUser.email,
         userId: newUser.userID,
         displayName: newUser.displayName,
       });
 
-      const userWithAccount = await this.updateUserProfileDetails(newUser.userId, {
+      this.updateUserProfileDetails(newUser.userId, {
         stripeConnect: { accId: newStripeConnectAcc.id },
       });
-      resolve(userWithAccount);
+      resolve(newUser.toObject());
     } catch (e) {
       reject(e);
     }
@@ -152,8 +197,52 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .lean(true)
     .exec();
 
-exports.updateUserProfileDetails = (userId, userDetails) =>
-  User.findOneAndUpdate(
+exports.updateUserProfileDetails = (userId, userDetails) => {
+  let secretCodes = {};
+
+  if (userDetails.email) {
+    let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    secretCodes = {
+      ...secretCodes,
+      'verification.email': {
+        [`${emailVerificationCode}`]: `${userDetails.email}`,
+      },
+    };
+    sendGridEmailing.sendEmail(
+      'bidorboocrew@gmail.com',
+      userDetails.email,
+      'BidOrBoo: Email verification',
+      `Your Email verification Code : ${emailVerificationCode}`
+    );
+  }
+  if (userDetails.phoneNumber) {
+    let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
+    secretCodes = {
+      ...secretCodes,
+      'verification.phone': {
+        [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
+      },
+    };
+    sendTextService.sendText(
+      userDetails.phoneNumber,
+      `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
+    );
+  }
+  if (secretCodes) {
+    return User.findOneAndUpdate(
+      { userId },
+      {
+        $set: { ...userDetails, ...secretCodes },
+      },
+      {
+        new: true,
+      }
+    )
+      .lean(true)
+      .exec();
+  }
+  return User.findOneAndUpdate(
     { userId },
     {
       $set: { ...userDetails },
@@ -164,7 +253,7 @@ exports.updateUserProfileDetails = (userId, userDetails) =>
   )
     .lean(true)
     .exec();
-
+};
 exports.getUserStripeAccount = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {

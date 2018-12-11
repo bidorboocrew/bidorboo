@@ -58,6 +58,7 @@ export const onLogout = () => (dispatch) =>
       });
       //rediret user to sign up page
       switchRoute(ROUTES.CLIENT.ENTRY);
+      document.location.reload();
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {

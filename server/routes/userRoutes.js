@@ -9,6 +9,83 @@ const cloudinary = require('cloudinary');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 module.exports = (app) => {
+  app.post(
+    ROUTES.API.USER.POST.verifyEmail,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        if (user && user.email) {
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.verifyPhone,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        if (user && user.phoneNumber) {
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.sendVerificationEmail,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        if (user) {
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To sendVerificationEmail', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.sendVerificationMsg,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        if (user && user.phoneNumber) {
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: e });
+      }
+    }
+  );
+
   app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
     try {
       let existingUser = null;
