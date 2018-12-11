@@ -31,13 +31,13 @@ export const getCurrentUser = () => (dispatch) =>
       .get(ROUTES.API.USER.GET.currentUser)
       .then((resp) => {
         if (resp.data && resp.data.userId) {
-          //update everyone that user is now logged in
-          dispatch({
-            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
-          });
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
             payload: resp.data,
+          });
+          //update everyone that user is now logged in
+          dispatch({
+            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
         } else {
           //rediret user to sign up page

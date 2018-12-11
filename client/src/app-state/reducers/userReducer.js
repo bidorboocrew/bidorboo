@@ -5,6 +5,7 @@ import * as A from '../actionTypes';
 const initialState = {
   isLoggedIn: false,
   userDetails: {
+    rating: {},
     userId: '',
     displayName: 'Join Us for Free',
     email: '',
@@ -21,10 +22,13 @@ const initialState = {
     },
   },
 };
-const updateUserProfile = (state = initialState, { payload }) => ({
-  ...state,
-  userDetails: payload,
-});
+const updateUserProfile = (state = initialState, { payload }) => {
+  debugger
+  return {
+    ...state,
+    userDetails: payload,
+  };
+};
 
 const updateUserUnderReviewDetails = (state = initialState, { payload }) => ({
   ...state,

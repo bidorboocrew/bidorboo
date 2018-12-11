@@ -9,7 +9,7 @@ import ProfileForm from '../components/forms/ProfileForm';
 
 import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
-import PaymentHandling from './PaymentHandling';
+// import PaymentHandling from './PaymentHandling';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -46,16 +46,24 @@ class MyProfile extends React.Component {
   }
 
   render() {
-    const { userDetails, a_updateProfileImage } = this.props;
+    const { userDetails, a_updateProfileImage, isLoggedIn } = this.props;
 
-    const {
+    if (!isLoggedIn) {
+      return null;
+    }
+
+    let {
       profileImage,
       displayName,
       email,
       personalParagraph,
       membershipStatus,
       phoneNumber,
+      rating,
     } = userDetails;
+    debugger;
+    personalParagraph = personalParagraph || 'not provided';
+    phoneNumber = phoneNumber || 'not provided';
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { isEditProfile, showAddPaymentDetails, showImageUploadDialog } = this.state;
@@ -82,88 +90,91 @@ class MyProfile extends React.Component {
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
-                displayName,
-                email,
                 membershipStatusDisplay,
+                rating,
+                displayName,
               )}
             </div>
             <div className="column">
-              {!isEditProfile && (
-                <div className="field">
-                  <HeaderTitle title="My Details" />
-                  <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                  <DisplayLabelValue labelText="Email:" labelValue={email} />
-                  <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
-                  <HeaderTitle specialMarginVal={8} title="About Me" />
-                  <TextareaAutosize
-                    value={personalParagraph}
-                    className="textarea is-marginless is-paddingless"
-                    style={{
-                      resize: 'none',
-                      border: 'none',
-                      color: '#4a4a4a',
-                      background: '#EEEEEE',
-                    }}
-                    readOnly
-                  />
+              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+                {!isEditProfile && (
+                  <div className="field">
+                    <HeaderTitle title="My Details" />
+                    <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                    <DisplayLabelValue labelText="Email:" labelValue={email} />
+                    <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+                    <HeaderTitle specialMarginVal={8} title="About Me" />
+                    <TextareaAutosize
+                      value={personalParagraph}
+                      className="textarea is-marginless is-paddingless"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                        color: '#4a4a4a',
+                      }}
+                      readOnly
+                    />
 
+                    <div>
+                      <a
+                        className="button is-primary"
+                        onClick={() => {
+                          this.toggleEditProfile();
+                        }}
+                      >
+                        <i className="far fa-edit" />
+                        <span style={{ marginLeft: 4 }}>Edit Details</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {isEditProfile && (
                   <div>
+                    <HeaderTitle title="Edit My Details" />
+
+                    <ProfileForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleEditProfile}
+                      onSubmit={this.closeFormAndSubmit}
+                    />
+                  </div>
+                )}
+              </section>
+              <br />
+              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+                {!showAddPaymentDetails && (
+                  <div>
+                    <HeaderTitle title="Payout Details" />
                     <a
                       className="button is-primary"
                       onClick={() => {
-                        this.toggleEditProfile();
+                        this.toggleAddPaymentDetails();
                       }}
                     >
                       <i className="far fa-edit" />
-                      <span style={{ marginLeft: 4 }}>Edit My Details</span>
+                      <span style={{ marginLeft: 4 }}>Add Payment Details</span>
                     </a>
                   </div>
-                </div>
-              )}
-              {isEditProfile && (
-                <div>
-                  <HeaderTitle title="Edit My Details" />
-
-                  <ProfileForm
-                    userDetails={userDetails}
-                    onCancel={this.toggleEditProfile}
-                    onSubmit={this.closeFormAndSubmit}
-                  />
-                </div>
-              )}
-
-              {!showAddPaymentDetails && (
-                <div>
-                  <HeaderTitle title="My Payment Details" />
-                  <a
-                    className="button is-primary"
-                    onClick={() => {
-                      this.toggleAddPaymentDetails();
-                    }}
-                  >
-                    <i className="far fa-edit" />
-                    <span style={{ marginLeft: 4 }}>Add Payment Details</span>
-                  </a>
-                </div>
-              )}
-              {showAddPaymentDetails && (
-                <div>
-                  <HeaderTitle title="Add Payment Details" />
-                  <React.Fragment>
-                    Data is secured via
-                    <a href="https://stripe.com/ca" target="_blank">
-                      {` Stripe payment gateway.`}
-                    </a>
-                    {` BidOrBoo will NOT be storing any sensitive info.`}
-                  </React.Fragment>
-                  <br /> <br />
-                  <PaymentForm
-                    userDetails={userDetails}
-                    onCancel={this.toggleAddPaymentDetails}
-                    onSubmit={(vals) => console.log(vals)}
-                  />
-                </div>
-              )}
+                )}
+                {showAddPaymentDetails && (
+                  <div>
+                    <HeaderTitle title="Add Payment Details" />
+                    <React.Fragment>
+                      Data is secured via
+                      <a href="https://stripe.com/ca" target="_blank">
+                        {` Stripe payment gateway.`}
+                      </a>
+                      {` BidOrBoo will NOT be storing any sensitive info.`}
+                    </React.Fragment>
+                    <br /> <br />
+                    <PaymentForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleAddPaymentDetails}
+                      onSubmit={(vals) => console.log(vals)}
+                    />
+                  </div>
+                )}
+              </section>
             </div>
           </div>
         </section>
@@ -175,6 +186,7 @@ class MyProfile extends React.Component {
 const mapStateToProps = ({ userReducer }) => {
   return {
     userDetails: userReducer.userDetails,
+    isLoggedIn: userReducer.isLoggedIn,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -217,18 +229,19 @@ const DisplayLabelValue = (props) => {
 const userImageAndStats = (
   toggleShowUploadProfileImageDialog,
   profileImage,
-  displayName,
-  email,
   membershipStatusDisplay,
+  rating,
+  displayName,
 ) => {
+  const { canceledJobs, cancelledBis, fulfilledBids, fulfilledJobs, globalRating } = rating;
   return (
     <React.Fragment>
-      <div className="has-text-centered">
+      <div style={{ backgroundColor: 'white', padding: '1rem' }} className="has-text-centered">
         <div>
           <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
         </div>
-
-        <div style={{ marginBottom: 7 }}>
+        <div>{displayName}</div>
+        <div style={{ marginBottom: 8 }}>
           <a
             onClick={(e) => {
               e.preventDefault();
@@ -237,10 +250,38 @@ const userImageAndStats = (
             className="button is-outlined is-small has-text-centered"
           >
             <i className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Edit</span>
+            <span style={{ marginLeft: 4 }}>Edit Pic</span>
           </a>
         </div>
-        <div style={{ marginBottom: 7 }}>{membershipStatusDisplay}</div>
+
+        <div className="field has-text-centered">
+          <label className="label">membership status</label>
+          <div className="control has-text-centered">
+            <div className="control has-text-centered">{membershipStatusDisplay} </div>
+          </div>
+        </div>
+
+        <div className="field has-text-centered">
+          <label className="label">Global Rating</label>
+          <div className="control has-text-centered">{`global ${globalRating}`}</div>
+        </div>
+        <div className="field has-text-centered">
+          <label className="label">Fullfilled Jobs</label>
+          <div className="control has-text-centered">{`${fulfilledJobs}`}</div>
+        </div>
+        <div className="field has-text-centered">
+          <label className="label">Fulfilled Bids</label>
+          <div className="control has-text-centered">{`${fulfilledBids}`}</div>
+        </div>
+        <div className="field has-text-centered">
+          <label className="label">Cancelled Jobs</label>
+          <div className="control has-text-centered">{`${canceledJobs}`}</div>
+        </div>
+
+        <div className="field has-text-centered">
+          <label className="label">Cancelled Bids</label>
+          <div className="control has-text-centered">{`${cancelledBis}`}</div>
+        </div>
       </div>
     </React.Fragment>
   );
