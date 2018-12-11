@@ -297,7 +297,7 @@ const userImageAndStats = (
             className="button is-outlined is-small has-text-centered"
           >
             <i className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Edit Pic</span>
+            <span style={{ marginLeft: 4 }}>Edit Picture</span>
           </a>
         </div>
 
