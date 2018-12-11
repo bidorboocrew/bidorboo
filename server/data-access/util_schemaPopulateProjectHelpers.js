@@ -7,7 +7,9 @@ exports.UserFull = {
   rating: 1,
   userId: 1,
   email: 1,
+  phone: 1,
   displayName: 1,
+  // verification: 1, we dont want this to go around
   phoneNumber: 1,
   profileImage: 1,
   addressText: 1,
@@ -17,8 +19,7 @@ exports.UserFull = {
   agreedToServiceTerms: 1,
   settings: 1,
   extras: 1,
-  isVerified: 1,
-  verificationIdImage: 1,
+  // stripeConnect: 1, we dont want this to go around
   canBid: 1,
   canPost: 1,
   createdAt: 1,

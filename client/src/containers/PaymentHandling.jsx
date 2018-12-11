@@ -14,13 +14,12 @@ class PaymentHandling extends React.Component {
   }
 
   onTokenResponse(clientStripeToken) {
-
     if (clientStripeToken && clientStripeToken.id) {
       this.props.a_submitPayment({
         stripeTransactionToken: clientStripeToken.id,
         jobId: '5beb7cbc344b040068aa8347',
-        bidderId: '5beb7a37344b040068aa8344',
-        chargeAmount: 100,
+        bidderId: '10102122975013661',
+        chargeAmount: 100 * 100,
       });
     }
   }
@@ -31,7 +30,7 @@ class PaymentHandling extends React.Component {
         name="BidOrBoo"
         image={logoImg}
         description="Secure payment using Stripe"
-        amount={100}
+        amount={100 * 100 * 1.07}
         currency="CAD"
         zipCode
         billingAddress
@@ -39,7 +38,7 @@ class PaymentHandling extends React.Component {
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >
-        <button className="button">Add Credits</button>
+        <button className="button">Pay for a job example</button>
       </StripeCheckout>
     );
   }

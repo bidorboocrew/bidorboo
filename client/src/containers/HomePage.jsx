@@ -1,22 +1,17 @@
 import React from 'react';
-import windowSize from 'react-window-size';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../utils';
-import BidOrBooCard from '../components/BidOrBooCard';
+import { switchRoute } from '../utils';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
 class HomePage extends React.Component {
   render() {
-    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-4';
 
     return (
       <div id="bdb-home-content" className="bdbPage">
-        <section style={{ paddingBottom: '0.25rem' }} className="hero has-text-centered fade-in">
-          <div style={{ paddingBottom: '0.25rem', color: 'rgb(85,85,85' }} className="hero-body">
+        <section className="hero has-text-centered is-dark">
+          <div className="hero-body">
             <div className="container">
               {/* <Rotate delay={300} top left cascade> */}
               <h1 className="title is-size-1">BidOrBoo</h1>
@@ -27,72 +22,48 @@ class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section
-          style={{ paddingTop: '0.25rem' }}
-          className="hero has-text-centered fade-in section"
-        >
-          <div className="container is-fluid">
-            <div className="columns is-centered is-multiline is-mobile">
-              <div className={columnCount}>
-                <BidOrBooCard
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={() => {
+
+        <section className="hero">
+          <div className="hero-body">
+            <div className="container">
+              <div className="container is-fluid">
+                <div className="columns is-centered is-multiline is-mobile">
+                  <div className="column is-half">
+                    <BidOrBooCard
+                      logoImg={requestImg}
+                      onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       }}
-                    >
-                      {/* <div className="title">
-                        <div className="button  is-fullwidth is-primary">
-                          <span className="icon">
-                            <i className="fa fa-plus fa-w-14" />
-                          </span>
-                          <span className="is-capitalized">Request</span>
-                        </div>
-                      </div> */}
-                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
-                        Need help ? Start by requesting a service.
-                      </div>
-                    </a>
-                  }
-                />
-              </div>
-              <div className={columnCount}>
-                <BidOrBooCard
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                  cardContent={
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
+                      cardContent={
+                        <a
+                          onClick={() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                          }}
+                        >
+                          <div className="title has-text-black-bis">Request a Service</div>
+                        </a>
+                      }
+                    />
+                  </div>
+                  <div className="column is-half">
+                    <BidOrBooCard
+                      logoImg={bidsImg}
+                      onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       }}
-                    >
-                      {/* <div className="title">
-                        <div
+                      cardContent={
+                        <a
                           onClick={(e) => {
                             e.preventDefault();
                             switchRoute(ROUTES.CLIENT.BIDDER.root);
                           }}
-                          className="button is-fullwidth is-primary"
                         >
-                          <span className="icon">
-                            <i className="fas fa-dollar-sign" />
-                          </span>
-                          <span className="is-capitalized">Bid</span>
-                        </div>
-                      </div> */}
-                      <div style={{ color: 'rgb(85, 85, 85)' }} className="is-size-6">
-                        Are you handy? Start Bidding now.
-                      </div>
-                    </a>
-                  }
-                />
+                          <div className="title has-text-black-bis">Start Bidding</div>
+                        </a>
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -102,4 +73,18 @@ class HomePage extends React.Component {
   }
 }
 
-export default windowSize(HomePage);
+export default HomePage;
+
+const BidOrBooCard = (props) => {
+  const { cardContent, onClickHandler, logoImg } = props;
+  return (
+    <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
+      <div className="card-image">
+        <img src={`${logoImg}`} className="bdb-home-page" />
+      </div>
+      <div className="card-content">
+        <div className="content has-text-centered is-title has-text-black-bis">{cardContent}</div>
+      </div>
+    </div>
+  );
+};

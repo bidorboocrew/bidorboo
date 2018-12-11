@@ -169,7 +169,6 @@ class MyPostedJobSummaryCard extends React.Component {
             </div>
             <div className="media-content">
               <p className="title is-6">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p> */}
             </div>
           </div>
 

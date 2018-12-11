@@ -363,6 +363,13 @@ img {
   background-color: white;
 }
 
+.bdb-home-page {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 18rem !important;
+  background-color: white;
+}
+
 .bdb-img-upload-placeholder {
   object-fit: cover !important;
   width: 100% !important;
@@ -375,10 +382,11 @@ img {
   }
 }
 .bdb-img-profile-pic {
-  object-fit: scale-down !important;
+  object-fit: cover !important;
   width: 100% !important;
   height: 8rem !important;
-  background-color: white;
+  width: 8rem !important;
+  background-color: #eeee;
   cursor: pointer;
   // border: 1px dashed white;
   input {
@@ -396,7 +404,9 @@ img {
 }
 
 // bulma overrides
-
+input[type='checkbox'] {
+  transform: scale(1.5);
+}
 .button {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 }
@@ -414,7 +424,7 @@ img {
     animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     // box-shadow: $shadow-space;
   }
-
+  cursor: pointer;
   height: 100%;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.bdb-infoBoxCard {
@@ -431,5 +441,5 @@ img {
 
 .card-content {
   padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  // padding-bottom: 0.25rem;
 }
