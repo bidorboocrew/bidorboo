@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
 
-//materialize css
-// import 'typeface-roboto';
+import 'typeface-roboto';
 
 //offline mode support
 // xxx said fix this default serviceworker is
