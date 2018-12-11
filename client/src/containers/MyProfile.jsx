@@ -5,7 +5,6 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
-import classNames from 'classnames';
 import ProfileForm from '../components/forms/ProfileForm';
 
 import PaymentForm from '../components/forms/PaymentForm';
@@ -59,7 +58,7 @@ class MyProfile extends React.Component {
     } = userDetails;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-
+    const { isEditProfile, showAddPaymentDetails, showImageUploadDialog } = this.state;
     return (
       <React.Fragment>
         {uploadImageDialog(
@@ -78,8 +77,8 @@ class MyProfile extends React.Component {
         </section>
 
         <section className="section">
-          <div className="container is-fluid" id="bdb-profile-content">
-            <div>
+          <div className="columns">
+            <div className="column is-2">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
@@ -87,21 +86,88 @@ class MyProfile extends React.Component {
                 email,
                 membershipStatusDisplay,
               )}
-              {/* user details */}
-              {userEditableInfo(
-                userDetails,
-                this.state.isEditProfile,
-                displayName,
-                email,
-                phoneNumber,
-                personalParagraph,
-                this.toggleEditProfile,
-                this.closeFormAndSubmit,
-                this.state.showAddPaymentDetails,
-                this.toggleAddPaymentDetails,
+            </div>
+            <div className="column">
+              {!isEditProfile && (
+                <div className="field">
+                  <HeaderTitle title="My Details" />
+                  <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                  <DisplayLabelValue labelText="Email:" labelValue={email} />
+                  <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+                  <HeaderTitle specialMarginVal={8} title="About Me" />
+                  <TextareaAutosize
+                    value={personalParagraph}
+                    className="textarea is-marginless is-paddingless"
+                    style={{
+                      resize: 'none',
+                      border: 'none',
+                      color: '#4a4a4a',
+                      background: '#EEEEEE',
+                    }}
+                    readOnly
+                  />
+
+                  <div>
+                    <a
+                      className="button is-primary"
+                      onClick={() => {
+                        this.toggleEditProfile();
+                      }}
+                    >
+                      <i className="far fa-edit" />
+                      <span style={{ marginLeft: 4 }}>Edit My Details</span>
+                    </a>
+                  </div>
+                </div>
               )}
-              {/* advertisement */}
-              {/* {advertisement()} */}
+              {isEditProfile && (
+                <div>
+                  <HeaderTitle title="Edit My Details" />
+
+                  <ProfileForm
+                    userDetails={userDetails}
+                    onCancel={this.toggleEditProfile}
+                    onSubmit={this.closeFormAndSubmit}
+                  />
+                </div>
+              )}
+
+              {!showAddPaymentDetails && (
+                <div>
+                  <HeaderTitle title="My Payment Details" />
+                  <a
+                    className="button is-primary"
+                    onClick={() => {
+                      this.toggleAddPaymentDetails();
+                    }}
+                  >
+                    <i className="far fa-edit" />
+                    <span style={{ marginLeft: 4 }}>Add Payment Details</span>
+                  </a>
+                </div>
+              )}
+              {showAddPaymentDetails && (
+                <div>
+                  <HeaderTitle title="Add Payment Details" />
+                  <React.Fragment>
+                    Data is secured via
+                    <a href="https://stripe.com/ca" target="_blank">
+                      {` Stripe payment gateway.`}
+                    </a>
+                    {` BidOrBoo will NOT be storing any sensitive info.`}
+                  </React.Fragment>
+                  <br /> <br />
+                  <PaymentForm
+                    userDetails={userDetails}
+                    onCancel={this.toggleAddPaymentDetails}
+                    onSubmit={(vals) => console.log(vals)}
+                  />
+                </div>
+              )}
+
+              <section className="section">
+                <PaymentHandling />
+              </section>
             </div>
           </div>
         </section>
@@ -126,8 +192,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MyProfile);
-
-// profile components ----------------------------------------------------------------------------
 
 const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;
@@ -163,125 +227,26 @@ const userImageAndStats = (
 ) => {
   return (
     <React.Fragment>
-      <div style={{ width: '8rem', background: '#eeeeee' }}>
-        <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-      </div>
-      <div>
-        <a
-          onClick={(e) => {
-            e.preventDefault();
-            toggleShowUploadProfileImageDialog();
-          }}
-          className="button is-outlined is-small"
-        >
-          edit Image
-        </a>
-      </div>
-      <div>{displayName}</div>
-      <div>{email}</div>
-      <div>{membershipStatusDisplay}</div>
-    </React.Fragment>
-  );
-};
-
-const userEditableInfo = (
-  userDetails,
-  isEditProfile,
-  displayName,
-  email,
-  phoneNumber = 'none provided',
-  personalParagraph = 'none provided',
-  toggleEditProfile,
-  closeFormAndSubmit,
-  showAddPaymentDetails,
-  toggleAddPaymentDetails,
-) => {
-  return (
-    <div>
-      {!isEditProfile && (
-        <section className="section">
-          <HeaderTitle title="My Details" />
-          <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <DisplayLabelValue labelText="Email:" labelValue={email} />
-          <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
-          <HeaderTitle specialMarginVal={8} title="About Me" />
-          <TextareaAutosize
-            value={personalParagraph}
-            className="textarea is-marginless is-paddingless"
-            style={{
-              resize: 'none',
-              border: 'none',
-              color: '#4a4a4a',
-              background: '#EEEEEE',
-            }}
-            readOnly
-          />
-
-          <div style={{ marginTop: 12 }}>
-            <a
-              className="button is-primary"
-              onClick={() => {
-                toggleEditProfile();
-              }}
-            >
-              <i style={{ fontSize: 12 }} className="far fa-edit" />
-              <span style={{ marginLeft: 4 }}>Edit My Details</span>
-            </a>
-          </div>
-        </section>
-      )}
-      {isEditProfile && (
+      <div className="has-text-centered">
         <div>
-          <HeaderTitle title="Edit My Details" />
-
-          <ProfileForm
-            userDetails={userDetails}
-            onCancel={toggleEditProfile}
-            onSubmit={closeFormAndSubmit}
-          />
+          <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
         </div>
-      )}
 
-      {!showAddPaymentDetails && (
-        <div>
-          <div>Yacoub, add slider to enable adding/editing payment details</div>
-
-          <HeaderTitle title="My Payment Details" />
+        <div style={{ marginBottom: 7 }}>
           <a
-            className="button is-primary"
-            onClick={() => {
-              toggleAddPaymentDetails();
+            onClick={(e) => {
+              e.preventDefault();
+              toggleShowUploadProfileImageDialog();
             }}
+            className="button is-outlined is-small has-text-centered"
           >
-            <i style={{ fontSize: 12 }} className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Add Payment Details</span>
+            <i className="far fa-edit" />
+            <span style={{ marginLeft: 4 }}>Edit </span>
           </a>
         </div>
-      )}
-
-      {showAddPaymentDetails && (
-        <div>
-          <HeaderTitle title="Add Payment Details" />
-          <React.Fragment>
-            Data is secured via
-            <a href="https://stripe.com/ca" target="_blank">
-              {` Stripe payment gateway.`}
-            </a>
-            {` BidOrBoo will NOT be storing any sensitive info.`}
-          </React.Fragment>
-          <br /> <br />
-          <PaymentForm
-            userDetails={userDetails}
-            onCancel={toggleAddPaymentDetails}
-            onSubmit={(vals) => console.log(vals)}
-          />
-        </div>
-      )}
-
-      <section className="section">
-        <PaymentHandling />
-      </section>
-    </div>
+        <div style={{ marginBottom: 7 }}>{membershipStatusDisplay}</div>
+      </div>
+    </React.Fragment>
   );
 };
 

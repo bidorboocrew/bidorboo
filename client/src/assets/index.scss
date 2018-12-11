@@ -370,7 +370,6 @@ img {
   background-color: white;
 }
 
-
 .bdb-img-upload-placeholder {
   object-fit: cover !important;
   width: 100% !important;
@@ -383,10 +382,11 @@ img {
   }
 }
 .bdb-img-profile-pic {
-  object-fit: scale-down !important;
+  object-fit: cover !important;
   width: 100% !important;
   height: 8rem !important;
-  background-color: white;
+  width: 8rem !important;
+  background-color: #eeee;
   cursor: pointer;
   // border: 1px dashed white;
   input {

@@ -38,7 +38,7 @@ class PaymentHandling extends React.Component {
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >
-        <button className="button">Add Credits</button>
+        <button className="button">Pay for a job example</button>
       </StripeCheckout>
     );
   }
