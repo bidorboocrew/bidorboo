@@ -151,14 +151,16 @@ exports.createNewUser = async (userDetails) => {
           'bidorboocrew@gmail.com',
           newUser.email.emailAddress,
           'BidOrBoo: Email verification',
-          `Your Email verification Code : ${emailVerificationCode}`
+          `Your Email verification Code : ${emailVerificationCode}.
+           Please visit https://www.bidorboo.com to verify your profile details
+          `
         );
       }
 
       if (secretCodes.phoneNumber) {
         sendTextService.sendText(
           newUser.phone.phoneNumber,
-          `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
+          `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}. visit https://www.bidorboo.com`
         );
       }
 
