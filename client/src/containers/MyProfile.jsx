@@ -164,10 +164,6 @@ class MyProfile extends React.Component {
                   />
                 </div>
               )}
-
-              <section className="section">
-                <PaymentHandling />
-              </section>
             </div>
           </div>
         </section>
@@ -241,7 +237,7 @@ const userImageAndStats = (
             className="button is-outlined is-small has-text-centered"
           >
             <i className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Edit </span>
+            <span style={{ marginLeft: 4 }}>Edit</span>
           </a>
         </div>
         <div style={{ marginBottom: 7 }}>{membershipStatusDisplay}</div>

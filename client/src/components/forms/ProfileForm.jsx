@@ -111,7 +111,7 @@ const ProfileForm = (props) => {
         <div className="control">
           <button
             style={{ marginRight: 6 }}
-            className="button is-primary is-medium"
+            className="button is-primary"
             type="submit"
             disabled={isSubmitting || !isValid}
           >
@@ -121,7 +121,7 @@ const ProfileForm = (props) => {
 
         <div className="control">
           <button
-            className="button is-outlined is-medium"
+            className="button is-outlined"
             type="submit"
             disabled={isSubmitting}
             onClick={(e) => {
