@@ -1,24 +1,34 @@
-// self.addEventListener('push', function(event) {
-//   console.log('[Service Worker] Push Received.');
-//   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+'use strict';
 
-//   const title = 'Push Codelab';
-//   const options = {
-//     body: 'Yay it works.',
-//     icon: 'images/icon.png',
-//     badge: 'images/badge.png',
-//   };
+self.addEventListener('push', function(event) {
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
-//   event.waitUntil(self.registration.showNotification(title, options));
-// });
-self.addEventListener('push', (event) => {
-  const data = event.data.json();
-  const { title } = data;
-
-  const body = {
-    body: data.body,
-    icon: data.icon,
+  const title = 'Push Codelab';
+  const options = {
+    body: 'Yay it works.',
+    icon: 'images/icon.png',
+    badge: 'images/badge.png',
   };
 
-  event.waitUntil(self.registration.showNotification(title, body));
+  event.waitUntil(self.registration.showNotification(title, options));
 });
+
+self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Notification click Received.');
+
+  event.notification.close();
+
+  event.waitUntil(clients.openWindow('https://developers.google.com/web/'));
+});
+// self.addEventListener('push', (event) => {
+//   const data = event.data.json();
+//   const { title } = data;
+
+//   const body = {
+//     body: data.body,
+//     icon: data.icon,
+//   };
+
+//   event.waitUntil(self.registration.showNotification(title, body));
+// });

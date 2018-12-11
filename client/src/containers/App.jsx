@@ -29,7 +29,35 @@ import {
   NewPostedJob,
 } from './index';
 
+import WebPush from '../WebPush';
+import { payloadFromSubscription } from '../utils';
+const applicationServerPublicKey =
+  'BNNIelsxMdODKuerQ6A28c0ASnc0YP7BygBjuTkR0qRgRSJXOonCx5Juk2VZgOLmiAbTl04zER-AbdRScMOzYfE';
+
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      subscriveUserEnabled: true,
+      subscription: { endpoint: '' },
+    };
+
+    this.onUpdateSubscriptionOnServer = this.onUpdateSubscriptionOnServer.bind(this);
+    this.onSubscriptionFailed = this.onSubscriptionFailed.bind(this);
+  }
+
+  onUpdateSubscriptionOnServer(subscription) {
+    console.log('onUpdateSubscriptionOnServer:', subscription);
+    var payload = payloadFromSubscription(subscription);
+    console.log('payload:', JSON.stringify(payload));
+    this.setState({ subscription: subscription });
+  }
+
+  onSubscriptionFailed(error) {
+    console.log('onSubscriptionFailed:', error);
+  }
+
   componentDidMount() {
     // just remvoe a loading indicator till app is loaded
     // document.getElementById('fullscreen-preloader') &&
@@ -46,6 +74,12 @@ class App extends React.Component {
     const { s_toastDetails } = this.props;
     return (
       <div id="bidorboo-root-view">
+        <WebPush
+          subscriveUserEnabled={this.state.subscriveUserEnabled}
+          applicationServerPublicKey={applicationServerPublicKey}
+          onSubscriptionFailed={this.onSubscriptionFailed}
+          onUpdateSubscriptionOnServer={this.onUpdateSubscriptionOnServer}
+        />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
