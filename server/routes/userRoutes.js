@@ -35,7 +35,7 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const user = await userDataAccess.findOneByUserId(req.user.userId);
-        if (user && user.phoneNumber) {
+        if (user && user.phone.phoneNumber) {
         } else {
           return res.status(403).send({
             errorMsg: 'verifyEmail failed due to missing params',
@@ -73,7 +73,7 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const user = await userDataAccess.findOneByUserId(req.user.userId);
-        if (user && user.phoneNumber) {
+        if (user && user.phone.phoneNumber) {
         } else {
           return res.status(403).send({
             errorMsg: 'verifyEmail failed due to missing params',

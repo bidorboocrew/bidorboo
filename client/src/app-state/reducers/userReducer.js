@@ -8,7 +8,7 @@ const initialState = {
     rating: {},
     userId: '',
     displayName: 'Join Us for Free',
-    email: '',
+    email: {},
     profileImage: {
       url: 'https://goo.gl/92gqPL',
     },
@@ -16,14 +16,14 @@ const initialState = {
   userUnderReviewDetails: {
     userId: '',
     displayName: 'Join Us for Free',
-    email: '',
+    email: {},
     profileImage: {
       url: 'https://goo.gl/92gqPL',
     },
   },
 };
 const updateUserProfile = (state = initialState, { payload }) => {
-  debugger
+  debugger;
   return {
     ...state,
     userDetails: payload,

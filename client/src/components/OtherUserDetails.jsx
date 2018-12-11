@@ -1,30 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import TextareaAutosize from 'react-autosize-textarea';
 import * as C from '../constants/constants';
 
 export default class OtherUserDetails extends React.Component {
-  static propTypes = {
-    otherUserDetails: PropTypes.shape({
-      profileImage: PropTypes.any,
-      displayName: PropTypes.any,
-      email: PropTypes.any,
-      personalParagraph: PropTypes.any,
-      membershipStatus: PropTypes.any,
-      phoneNumber: PropTypes.any,
-    }).isRequired,
-    breadCrumb: PropTypes.node,
-    cardTitle: PropTypes.node,
-    cardFooter: PropTypes.node,
-  };
-
-  static defaultProps = {
-    breadCrumb: null,
-    cardFooter: null,
-    cardTitle: null,
-  };
-
   render() {
     const { breadCrumb } = this.props;
     return (
@@ -98,7 +77,7 @@ const UserDetails = ({ otherUserDetails }) => {
   const {
     displayName,
     email,
-    phoneNumber = 'none provided',
+    phone = { phoneNumber: 'none provided' },
     personalParagraph = 'none provided',
   } = otherUserDetails;
   return (
@@ -107,8 +86,8 @@ const UserDetails = ({ otherUserDetails }) => {
       <HeaderTitle title="Member Details" />
 
       <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-      <DisplayLabelValue labelText="Email:" labelValue={email} />
-      <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+      <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
+      <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
       <HeaderTitle specialMarginVal={8} title="About Me" />
       <TextareaAutosize
         value={personalParagraph}

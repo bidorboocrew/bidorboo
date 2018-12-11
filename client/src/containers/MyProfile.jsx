@@ -58,12 +58,12 @@ class MyProfile extends React.Component {
       email,
       personalParagraph,
       membershipStatus,
-      phoneNumber,
+      phone,
       rating,
     } = userDetails;
     debugger;
     personalParagraph = personalParagraph || 'not provided';
-    phoneNumber = phoneNumber || 'not provided';
+    let phoneNumber = phone.phoneNumber || 'not provided';
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { isEditProfile, showAddPaymentDetails, showImageUploadDialog } = this.state;
@@ -101,7 +101,7 @@ class MyProfile extends React.Component {
                   <div className="field">
                     <HeaderTitle title="My Details" />
                     <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                    <DisplayLabelValue labelText="Email:" labelValue={email} />
+                    <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
                     <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
                     <HeaderTitle specialMarginVal={8} title="About Me" />
                     <TextareaAutosize
@@ -236,7 +236,7 @@ const userImageAndStats = (
   const { canceledJobs, canceledBids, fulfilledBids, fulfilledJobs, globalRating } = rating;
   return (
     <React.Fragment>
-      <div style={{ backgroundColor: 'white', padding: '1rem' }} className="has-text-centered">
+      <div style={{ backgroundColor: 'white', padding: '0.25rem' }} className="has-text-centered">
         <div>
           <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
         </div>

@@ -117,19 +117,19 @@ exports.createNewUser = async (userDetails) => {
       let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
       let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
-      if (userDetails.email) {
+      if (userDetails.email && userDetails.emailAddress) {
         secretCodes = {
           ...secretCodes,
           email: {
-            [`${emailVerificationCode}`]: `${userDetails.email}`,
+            [`${emailVerificationCode}`]: `${userDetails.email.emailAddress}`,
           },
         };
       }
-      if (userDetails.phoneNumber) {
+      if (userDetails.phone && userDetails.phone.phoneNumber) {
         secretCodes = {
           ...secretCodes,
           phone: {
-            [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
+            [`${phoneVerificationCode}`]: `${userDetails.phone.phoneNumber}`,
           },
         };
       }
@@ -149,7 +149,7 @@ exports.createNewUser = async (userDetails) => {
       if (secretCodes.email) {
         sendGridEmailing.sendEmail(
           'bidorboocrew@gmail.com',
-          newUser.email,
+          newUser.email.emailAddress,
           'BidOrBoo: Email verification',
           `Your Email verification Code : ${emailVerificationCode}`
         );
@@ -157,14 +157,14 @@ exports.createNewUser = async (userDetails) => {
 
       if (secretCodes.phoneNumber) {
         sendTextService.sendText(
-          newUser.phoneNumber,
+          newUser.phone.phoneNumber,
           `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
         );
       }
 
       const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
         _id: newUser._id.toString(),
-        email: newUser.email,
+        email: newUser.email.emailAddress,
         userId: newUser.userID,
         displayName: newUser.displayName,
       });

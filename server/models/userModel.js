@@ -33,11 +33,28 @@ const UserSchema = new Schema(
       required: true,
     },
     email: {
-      type: mongoose.SchemaTypes.Email,
-      allowBlank: true,
-      lowercase: true,
-      trim: true,
-      index: true,
+      emailAddress: {
+        type: mongoose.SchemaTypes.Email,
+        allowBlank: true,
+        lowercase: true,
+        trim: true,
+        index: true,
+      },
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    phone: {
+      phoneNumber: {
+        type: String,
+        trim: true,
+        default: 'not provided',
+      },
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
     },
     verification: {
       email: {
@@ -53,10 +70,6 @@ const UserSchema = new Schema(
       type: String,
       trim: true,
       maxlength: MAX_NAME_LENGTH,
-    },
-    phoneNumber: {
-      type: String,
-      trim: true,
     },
     profileImage: {
       url: { type: String, default: 'https://goo.gl/92gqPL' },

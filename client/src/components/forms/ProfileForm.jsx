@@ -28,17 +28,21 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { displayName, personalParagraph, phoneNumber, email } = userDetails;
+    const { displayName, personalParagraph, phone, email } = userDetails;
 
     return {
       displayName: displayName,
-      phoneNumber: phoneNumber,
-      email: email,
+      phoneNumber: phone.phoneNumber,
+      email: email.emailAddress,
       personalParagraph: personalParagraph,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit(values);
+    props.onSubmit({
+      ...values,
+      email: { emailAddress: values.email },
+      phone: { phoneNumber: values.phoneNumber },
+    });
   },
   displayName: 'ProfileForm',
 });

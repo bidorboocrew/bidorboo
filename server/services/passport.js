@@ -41,7 +41,7 @@ passport.use(
       const userDetails = {
         displayName: profile.displayName,
         userId: profile.id,
-        email: userEmail,
+        email: { emailAddress: userEmail },
         profileImage: {
           url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
         },
@@ -74,7 +74,7 @@ passport.use(
       const userDetails = {
         displayName: profile.displayName,
         userId: profile.id,
-        email: userEmail,
+        email: { emailAddress: userEmail },
         profileImage: {
           url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
         },

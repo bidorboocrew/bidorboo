@@ -114,7 +114,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 }
 
 const ContactMeDialog = ({ user, close }) => {
-  const { displayName, email, phoneNumber = 'none provided' } = user;
+  const { displayName, email, phone = { phoneNumber: 'none provided' } } = user;
 
   return (
     <div className="modal is-active">
@@ -126,8 +126,8 @@ const ContactMeDialog = ({ user, close }) => {
         </header>
         <section className="modal-card-body">
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <DisplayLabelValue labelText="Email:" labelValue={email} />
-          <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
 
           <NotesDisplayAndValue
             labelText="We Advice You To:"
