@@ -27,7 +27,7 @@ class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <div className="container is-fluid">
-                <div className="columns is-centered is-multiline is-mobile">
+                <div className="columns is-centered is-multiline">
                   <div className="column is-half">
                     <BidOrBooCard
                       logoImg={requestImg}
