@@ -117,7 +117,7 @@ exports.createNewUser = async (userDetails) => {
       let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
       let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
-      if (userDetails.email && userDetails.emailAddress) {
+      if (userDetails.email && userDetails.email.emailAddress) {
         secretCodes = {
           ...secretCodes,
           email: {
@@ -198,50 +198,50 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .exec();
 
 exports.updateUserProfileDetails = (userId, userDetails) => {
-  let secretCodes = {};
+  // let secretCodes = {};
 
-  if (userDetails.email) {
-    let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+  // if (userDetails.email) {
+  //   let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
-    secretCodes = {
-      ...secretCodes,
-      'verification.email': {
-        [`${emailVerificationCode}`]: `${userDetails.email}`,
-      },
-    };
-    sendGridEmailing.sendEmail(
-      'bidorboocrew@gmail.com',
-      userDetails.email,
-      'BidOrBoo: Email verification',
-      `Your Email verification Code : ${emailVerificationCode}`
-    );
-  }
-  if (userDetails.phoneNumber) {
-    let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
-    secretCodes = {
-      ...secretCodes,
-      'verification.phone': {
-        [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
-      },
-    };
-    sendTextService.sendText(
-      userDetails.phoneNumber,
-      `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
-    );
-  }
-  if (secretCodes) {
-    return User.findOneAndUpdate(
-      { userId },
-      {
-        $set: { ...userDetails, ...secretCodes },
-      },
-      {
-        new: true,
-      }
-    )
-      .lean(true)
-      .exec();
-  }
+  //   secretCodes = {
+  //     ...secretCodes,
+  //     'verification.email': {
+  //       [`${emailVerificationCode}`]: `${userDetails.email}`,
+  //     },
+  //   };
+  //   sendGridEmailing.sendEmail(
+  //     'bidorboocrew@gmail.com',
+  //     userDetails.email,
+  //     'BidOrBoo: Email verification',
+  //     `Your Email verification Code : ${emailVerificationCode}`
+  //   );
+  // }
+  // if (userDetails.phoneNumber) {
+  //   let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
+  //   secretCodes = {
+  //     ...secretCodes,
+  //     'verification.phone': {
+  //       [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
+  //     },
+  //   };
+  //   sendTextService.sendText(
+  //     userDetails.phoneNumber,
+  //     `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
+  //   );
+  // }
+  // if (secretCodes) {
+  //   return User.findOneAndUpdate(
+  //     { userId },
+  //     {
+  //       $set: { ...userDetails, ...secretCodes },
+  //     },
+  //     {
+  //       new: true,
+  //     }
+  //   )
+  //     .lean(true)
+  //     .exec();
+  // }
   return User.findOneAndUpdate(
     { userId },
     {

@@ -49,7 +49,6 @@ const UserSchema = new Schema(
       phoneNumber: {
         type: String,
         trim: true,
-        default: 'not provided',
       },
       isVerified: {
         type: Boolean,

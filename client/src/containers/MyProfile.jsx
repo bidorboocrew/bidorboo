@@ -6,10 +6,11 @@ import { updateProfileDetails, updateProfileImage } from '../app-state/actions/u
 import * as C from '../constants/constants';
 import autoBind from 'react-autobind';
 import ProfileForm from '../components/forms/ProfileForm';
-
+import axios from 'axios';
 import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 // import PaymentHandling from './PaymentHandling';
+import * as ROUTES from '../constants/frontend-route-consts';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -61,12 +62,17 @@ class MyProfile extends React.Component {
       phone,
       rating,
     } = userDetails;
-    debugger;
+
     personalParagraph = personalParagraph || 'not provided';
     let phoneNumber = phone.phoneNumber || 'not provided';
 
+    // phone number is provided but it is not verified
+    const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
+    // email is provided but it is not verified
+    const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
+
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-    const { isEditProfile, showAddPaymentDetails, showImageUploadDialog } = this.state;
+    const { isEditProfile, showAddPaymentDetails } = this.state;
     return (
       <React.Fragment>
         {uploadImageDialog(
@@ -101,8 +107,49 @@ class MyProfile extends React.Component {
                   <div className="field">
                     <HeaderTitle title="My Details" />
                     <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                    <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
-                    <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+                    <DisplayLabelValue
+                      labelText="Email:"
+                      labelValue={
+                        <div>
+                          <span>{email.emailAddress}</span>
+                          {email.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-success">
+                              <i className="fas fa-check is-success" />
+                              <span style={{ marginLeft: 2 }}>Verified</span>
+                            </span>
+                          )}
+                          {!email.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-grey">
+                              <span style={{ marginLeft: 2 }}>Not Verified</span>
+                            </span>
+                          )}
+                        </div>
+                      }
+                    />
+
+                    {shouldShowEmailVerification && <VerifyEmail />}
+
+                    <DisplayLabelValue
+                      labelText="Phone Number:"
+                      labelValue={
+                        <div>
+                          <span>{phoneNumber}</span>
+                          {phone.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-success">
+                              <i className="fas fa-check is-success" />
+                              <span style={{ marginLeft: 2 }}>Verified</span>
+                            </span>
+                          )}
+                          {!phone.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-grey">
+                              <span style={{ marginLeft: 2 }}>Not Verified</span>
+                            </span>
+                          )}
+                        </div>
+                      }
+                    />
+                    {shouldShowPhoneVerification && <VerifyPhone />}
+
                     <HeaderTitle specialMarginVal={8} title="About Me" />
                     <TextareaAutosize
                       value={personalParagraph}
@@ -306,3 +353,202 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
     </div>
   ) : null;
 };
+
+class VerifyEmail extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inputFieldValue: '',
+      isSubmitting: false,
+      wrongCode: false,
+    };
+  }
+
+  handleInputChange = (e) => {
+    e.preventDefault();
+    let inputText = e.target.value;
+    this.setState({ inputFieldValue: inputText });
+  };
+
+  handleVerify = async () => {
+    try {
+      debugger;
+      const { inputFieldValue } = this.state;
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyEmail, {
+        data: { code: inputFieldValue },
+      });
+      debugger;
+      if (verifyReq && verifyReq.data && verifyReq.data.success) {
+        document.location.reload();
+      } else {
+        this.setState({ wrongCode: true, isSubmitting: false });
+      }
+    } catch (e) {
+      alert('we are unable to send the verification email, please contact bidorboocrew@gmail.com');
+      this.setState({ isSubmitting: false });
+    }
+  };
+  handleSendNewCode = async () => {
+    try {
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.sendVerificationEmail);
+      if (verifyReq && verifyReq.success) {
+        alert('you should recieve an email shortly , please give 10-15 minutes');
+      }
+    } catch (e) {
+      // some alert
+      alert('we are unable to send the verification email, please contact bidorboocrew@gmail.com');
+      this.setState({ isSubmitting: false });
+    }
+  };
+  render() {
+    const { inputFieldValue, isSubmitting, wrongCode } = this.state;
+
+    const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
+    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
+    const inputFieldClass = `${!wrongCode ? 'input is-success' : 'input is-danger'}`;
+
+    const helpField = !wrongCode ? (
+      <span className="help">* we sent a verification code to your email</span>
+    ) : (
+      <span className="help is-danger">* invalid Code. check again or request a new code</span>
+    );
+
+    return (
+      <div className="field is-horizontal">
+        <div className="field">
+          <p>
+            <input
+              disabled={isSubmitting}
+              value={inputFieldValue}
+              className={inputFieldClass}
+              type="text"
+              placeholder="Verification code"
+              onChange={this.handleInputChange}
+            />
+            {helpField}
+          </p>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            <p className="control">
+              <button
+                onClick={this.handleVerify}
+                style={{ marginLeft: 6 }}
+                className={submitButtonClass}
+              >
+                verify email
+              </button>
+              <button
+                onClick={this.handleSendNewCode}
+                style={{ marginLeft: 6 }}
+                className={resendButtonClass}
+              >
+                resend code
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class VerifyPhone extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inputFieldValue: '',
+      isSubmitting: false,
+      wrongCode: false,
+    };
+  }
+
+  handleInputChange = (e) => {
+    e.preventDefault();
+    let inputText = e.target.value;
+    this.setState({ inputFieldValue: inputText });
+  };
+
+  handleVerify = async () => {
+    try {
+      const { inputFieldValue } = this.state;
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
+        data: { code: inputFieldValue },
+      });
+      debugger;
+      if (verifyReq && verifyReq.data && verifyReq.data.success) {
+        document.location.reload();
+      } else {
+        this.setState({ wrongCode: true, isSubmitting: false });
+      }
+    } catch (e) {
+      alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+      this.setState({ isSubmitting: false });
+    }
+  };
+  handleSendNewCode = async () => {
+    try {
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.sendVerificationMsg);
+      if (verifyReq && verifyReq.success) {
+        alert('you should recieve a text shortly , please give 10-15 minutes');
+      }
+    } catch (e) {
+      // some alert
+      alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+      this.setState({ isSubmitting: false });
+    }
+  };
+  render() {
+    const { inputFieldValue, isSubmitting, wrongCode } = this.state;
+
+    const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
+    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
+    const inputFieldClass = `${!wrongCode ? 'input is-success' : 'input is-danger'}`;
+
+    const helpField = !wrongCode ? (
+      <span className="help">* we sent a pincode to your phone number</span>
+    ) : (
+      <span className="help is-danger">* invalid Code. check again or request a new code</span>
+    );
+
+    return (
+      <div className="field is-horizontal">
+        <div className="field">
+          <p>
+            <input
+              disabled={isSubmitting}
+              value={inputFieldValue}
+              className={inputFieldClass}
+              type="text"
+              placeholder="PIN code"
+              onChange={this.handleInputChange}
+            />
+            {helpField}
+          </p>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            <p className="control">
+              <button
+                onClick={this.handleVerify}
+                style={{ marginLeft: 6 }}
+                className={submitButtonClass}
+              >
+                verify phone
+              </button>
+              <button
+                onClick={this.handleSendNewCode}
+                style={{ marginLeft: 6 }}
+                className={resendButtonClass}
+              >
+                resend pin
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

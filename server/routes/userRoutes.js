@@ -15,14 +15,26 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const user = await userDataAccess.findOneByUserId(req.user.userId);
-        if (user && user.email) {
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+        if (user && user.email && req.body.data.code) {
+          const { code } = req.body.data;
+
+          const emailVerification = user.verification.email;
+          const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
+          if (user.email.emailAddress === emailCorrespondingToTheCode) {
+            const newUser = await userDataAccess.updateUserProfileDetails(userId, {
+              email: { ...user.email, isVerified: true },
+            });
+            return res.send({ success: true });
+          } else {
+            return res.send({ success: false });
+          }
         } else {
           return res.status(403).send({
             errorMsg: 'verifyEmail failed due to missing params',
           });
         }
-        return res.send({ success: true });
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: e });
       }
