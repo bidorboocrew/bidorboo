@@ -23,7 +23,6 @@ const initialState = {
   },
 };
 const updateUserProfile = (state = initialState, { payload }) => {
-  debugger;
   return {
     ...state,
     userDetails: payload,

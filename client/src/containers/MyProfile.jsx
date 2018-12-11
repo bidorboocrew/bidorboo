@@ -373,12 +373,11 @@ class VerifyEmail extends React.Component {
 
   handleVerify = async () => {
     try {
-      debugger;
       const { inputFieldValue } = this.state;
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyEmail, {
         data: { code: inputFieldValue },
       });
-      debugger;
+
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
         document.location.reload();
       } else {
@@ -391,7 +390,7 @@ class VerifyEmail extends React.Component {
   };
   handleSendNewCode = async () => {
     try {
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.sendVerificationEmail);
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationEmail);
       if (verifyReq && verifyReq.success) {
         alert('you should recieve an email shortly , please give 10-15 minutes');
       }
@@ -477,7 +476,7 @@ class VerifyPhone extends React.Component {
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
         data: { code: inputFieldValue },
       });
-      debugger;
+
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
         document.location.reload();
       } else {
@@ -490,7 +489,7 @@ class VerifyPhone extends React.Component {
   };
   handleSendNewCode = async () => {
     try {
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.sendVerificationMsg);
+      const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
       if (verifyReq && verifyReq.success) {
         alert('you should recieve a text shortly , please give 10-15 minutes');
       }

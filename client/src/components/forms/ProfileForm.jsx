@@ -39,7 +39,7 @@ const EnhancedForms = withFormik({
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit({
-      ...values,
+      displayName: values.displayName,
       email: { emailAddress: values.email },
       phone: { phoneNumber: values.phoneNumber },
     });

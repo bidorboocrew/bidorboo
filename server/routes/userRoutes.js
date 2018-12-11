@@ -73,7 +73,7 @@ module.exports = (app) => {
     }
   );
   app.post(
-    ROUTES.API.USER.POST.sendVerificationEmail,
+    ROUTES.API.USER.POST.resendVerificationEmail,
     requireBidorBooHost,
     requireLogin,
     async (req, res) => {
@@ -87,7 +87,7 @@ module.exports = (app) => {
             user.email.emailAddress
           );
           if (verificationRequest.success) {
-            res.send(verificationRequest);
+            return res.send(verificationRequest);
           } else {
             return res.status(500).send({
               errorMsg: 'unexpected error occured sendVerificationEmail',
@@ -98,14 +98,13 @@ module.exports = (app) => {
             errorMsg: 'verifyEmail failed due to missing params',
           });
         }
-        return res.send({ success: true });
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To sendVerificationEmail', details: e });
       }
     }
   );
   app.post(
-    ROUTES.API.USER.POST.sendVerificationMsg,
+    ROUTES.API.USER.POST.resendVerificationMsg,
     requireBidorBooHost,
     requireLogin,
     async (req, res) => {

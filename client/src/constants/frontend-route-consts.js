@@ -25,8 +25,8 @@ export const API = {
     POST: {
       verifyEmail: '/api/user/verifyEmail',
       verifyPhone: '/api/user/verifyPhone',
-      sendVerificationEmail: '/api/user/sendVerificationEmail',
-      sendVerificationMsg: '/api/user/sendVerificationMsg',
+      resendVerificationEmail: '/api/user/resendVerificationEmail',
+      resendVerificationMsg: '/api/user/resendVerificationMsg',
     },
   },
   PAYMENT: {

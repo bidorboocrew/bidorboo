@@ -249,7 +249,6 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
 
         if (isDifferentEmailThanTheOneOnFile) {
           await this.resetAndSendEmailVerificationCode(userId, userDetails.email.emailAddress);
-          delete userDetails.email;
         }
 
         const isDifferentPhoneThanTheOneOnFile =
@@ -258,8 +257,11 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
           userDetails.phone.phoneNumber !== currentUser.phone.phoneNumber;
         if (isDifferentPhoneThanTheOneOnFile) {
           await this.resetAndSendPhoneVerificationPin(userId, userDetails.phone.phoneNumber);
-          delete userDetails.phone;
         }
+
+        // dealt with these fields and updated the user with the approperiate shit
+        userDetails.email && delete userDetails.email;
+        userDetails.phone && delete userDetails.phone;
       }
 
       const updatedUser = await User.findOneAndUpdate(
