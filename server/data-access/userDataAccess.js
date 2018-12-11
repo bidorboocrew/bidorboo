@@ -139,7 +139,7 @@ exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
         updatedUser.phone.phoneNumber,
         `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}. visit https://www.bidorboo.com`
       );
-      resolve({ success: true });
+      resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
       reject(e);
     }
@@ -179,7 +179,7 @@ exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
         `
       );
 
-      resolve({ success: true });
+      resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
       reject(e);
     }
@@ -239,6 +239,8 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
 exports.updateUserProfileDetails = (userId, userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
+      let updatedUser = {};
+
       if (userDetails.email || userDetails.phone) {
         const currentUser = await this.findOneByUserId(userId);
 
@@ -248,7 +250,12 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
           userDetails.email.emailAddress !== currentUser.email.emailAddress;
 
         if (isDifferentEmailThanTheOneOnFile) {
-          await this.resetAndSendEmailVerificationCode(userId, userDetails.email.emailAddress);
+          emailVerificationReq = await this.resetAndSendEmailVerificationCode(
+            userId,
+            userDetails.email.emailAddress
+          );
+
+          updatedUser = emailVerificationReq.updatedUser;
         }
 
         const isDifferentPhoneThanTheOneOnFile =
@@ -256,7 +263,11 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
           userDetails.phone.phoneNumber &&
           userDetails.phone.phoneNumber !== currentUser.phone.phoneNumber;
         if (isDifferentPhoneThanTheOneOnFile) {
-          await this.resetAndSendPhoneVerificationPin(userId, userDetails.phone.phoneNumber);
+          phoneVerificationReq = await this.resetAndSendPhoneVerificationPin(
+            userId,
+            userDetails.phone.phoneNumber
+          );
+          updatedUser = phoneVerificationReq.updatedUser;
         }
 
         // dealt with these fields and updated the user with the approperiate shit
@@ -264,22 +275,39 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
         userDetails.phone && delete userDetails.phone;
       }
 
-      const updatedUser = await User.findOneAndUpdate(
-        { userId },
-        {
-          $set: { ...userDetails },
-        },
-        {
-          new: true,
-        }
-      )
-        .lean(true)
-        .exec();
+      if (userDetails && Object.keys(userDetails).length > 0) {
+        updatedUser = await User.findOneAndUpdate(
+          { userId },
+          {
+            $set: { ...userDetails },
+          },
+          {
+            new: true,
+          }
+        )
+          .lean(true)
+          .exec();
+      }
+
       resolve(updatedUser);
     } catch (e) {
       reject(e);
     }
   });
+};
+
+exports.findByUserIdAndUpdate = (userId, userDetails) => {
+  return User.findOneAndUpdate(
+    { userId },
+    {
+      $set: { ...userDetails },
+    },
+    {
+      new: true,
+    }
+  )
+    .lean(true)
+    .exec();
 };
 exports.getUserStripeAccount = async (userId) => {
   return new Promise(async (resolve, reject) => {

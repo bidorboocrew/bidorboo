@@ -23,9 +23,10 @@ module.exports = (app) => {
           const emailVerification = user.verification.email;
           const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
           if (user.email.emailAddress === emailCorrespondingToTheCode) {
-            const newUser = await userDataAccess.updateUserProfileDetails(userId, {
+            const userData = {
               email: { ...user.email, isVerified: true },
-            });
+            };
+            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
             return res.send({ success: true });
           } else {
             return res.send({ success: false });
@@ -55,9 +56,10 @@ module.exports = (app) => {
           const phoneNumberCorrespondingToTheCode =
             phoneVerification && phoneVerification[`${code}`];
           if (user.phone.phoneNumber === phoneNumberCorrespondingToTheCode) {
-            const newUser = await userDataAccess.updateUserProfileDetails(userId, {
+            const userData = {
               phone: { ...user.phone, isVerified: true },
-            });
+            };
+            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
             return res.send({ success: true });
           } else {
             return res.send({ success: false });
@@ -129,7 +131,6 @@ module.exports = (app) => {
             errorMsg: 'verifyEmail failed due to missing params',
           });
         }
-        return res.send({ success: true });
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: e });
       }
