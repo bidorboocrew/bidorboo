@@ -5,9 +5,9 @@ var request = require('request');
 
 exports.TxtMsgingService = {
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
-    if (process.env.NODE_ENV !== 'production') {
-      return;
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   return;
+    // }
     request.post(
       {
         headers: {

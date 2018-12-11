@@ -109,59 +109,96 @@ exports.findUserImgDetails = (userId) =>
     .lean(true)
     .exec();
 
+exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
+
+      // updte user with this new info
+      const updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: {
+            phone: {
+              phoneNumber: phoneNumber,
+              isVerified: false,
+            },
+            'verification.phone': {
+              [`${phoneVerificationCode}`]: `${phoneNumber}`,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      )
+        .lean(true)
+        .exec();
+
+      await sendTextService.sendText(
+        updatedUser.phone.phoneNumber,
+        `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}. visit https://www.bidorboo.com`
+      );
+      resolve({ success: true });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+
+      const updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: {
+            email: {
+              emailAddress: emailAddress,
+              isVerified: false,
+            },
+            'verification.email': {
+              [`${emailVerificationCode}`]: `${emailAddress}`,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      )
+        .lean(true)
+        .exec();
+
+      sendGridEmailing.sendEmail(
+        'bidorboocrew@gmail.com',
+        updatedUser.email.emailAddress,
+        'BidOrBoo: Email verification',
+        `Your Email verification Code : ${emailVerificationCode}.
+         Please visit https://www.bidorboo.com to verify your profile details
+        `
+      );
+
+      resolve({ success: true });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 exports.createNewUser = async (userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let secretCodes = {};
-      let newUser = {};
-      let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
-      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
+      const newUser = await new User({
+        ...userDetails,
+      }).save();
 
-      if (userDetails.email && userDetails.email.emailAddress) {
-        secretCodes = {
-          ...secretCodes,
-          email: {
-            [`${emailVerificationCode}`]: `${userDetails.email.emailAddress}`,
-          },
-        };
-      }
-      if (userDetails.phone && userDetails.phone.phoneNumber) {
-        secretCodes = {
-          ...secretCodes,
-          phone: {
-            [`${phoneVerificationCode}`]: `${userDetails.phone.phoneNumber}`,
-          },
-        };
-      }
-      if (secretCodes.email || secretCodes.phone) {
-        newUser = await new User({
-          ...userDetails,
-          verification: {
-            ...secretCodes,
-          },
-        }).save();
-      } else {
-        newUser = await new User({
-          ...userDetails,
-        }).save();
+      if (newUser.email.emailAddress) {
+        this.resetAndSendEmailVerificationCode(newUser.userId, newUser.email.emailAddress);
       }
 
-      if (secretCodes.email) {
-        sendGridEmailing.sendEmail(
-          'bidorboocrew@gmail.com',
-          newUser.email.emailAddress,
-          'BidOrBoo: Email verification',
-          `Your Email verification Code : ${emailVerificationCode}.
-           Please visit https://www.bidorboo.com to verify your profile details
-          `
-        );
-      }
-
-      if (secretCodes.phoneNumber) {
-        sendTextService.sendText(
-          newUser.phone.phoneNumber,
-          `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}. visit https://www.bidorboo.com`
-        );
+      if (newUser.phone.phoneNumber) {
+        this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
       }
 
       const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
@@ -200,61 +237,47 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .exec();
 
 exports.updateUserProfileDetails = (userId, userDetails) => {
-  // let secretCodes = {};
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (userDetails.email || userDetails.phone) {
+        const currentUser = await this.findOneByUserId(userId);
 
-  // if (userDetails.email) {
-  //   let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+        const isDifferentEmailThanTheOneOnFile =
+          userDetails.email &&
+          userDetails.email.emailAddress &&
+          userDetails.email.emailAddress !== currentUser.email.emailAddress;
 
-  //   secretCodes = {
-  //     ...secretCodes,
-  //     'verification.email': {
-  //       [`${emailVerificationCode}`]: `${userDetails.email}`,
-  //     },
-  //   };
-  //   sendGridEmailing.sendEmail(
-  //     'bidorboocrew@gmail.com',
-  //     userDetails.email,
-  //     'BidOrBoo: Email verification',
-  //     `Your Email verification Code : ${emailVerificationCode}`
-  //   );
-  // }
-  // if (userDetails.phoneNumber) {
-  //   let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
-  //   secretCodes = {
-  //     ...secretCodes,
-  //     'verification.phone': {
-  //       [`${phoneVerificationCode}`]: `${userDetails.phoneNumber}`,
-  //     },
-  //   };
-  //   sendTextService.sendText(
-  //     userDetails.phoneNumber,
-  //     `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}`
-  //   );
-  // }
-  // if (secretCodes) {
-  //   return User.findOneAndUpdate(
-  //     { userId },
-  //     {
-  //       $set: { ...userDetails, ...secretCodes },
-  //     },
-  //     {
-  //       new: true,
-  //     }
-  //   )
-  //     .lean(true)
-  //     .exec();
-  // }
-  return User.findOneAndUpdate(
-    { userId },
-    {
-      $set: { ...userDetails },
-    },
-    {
-      new: true,
+        if (isDifferentEmailThanTheOneOnFile) {
+          await this.resetAndSendEmailVerificationCode(userId, userDetails.email.emailAddress);
+          delete userDetails.email;
+        }
+
+        const isDifferentPhoneThanTheOneOnFile =
+          userDetails.phone &&
+          userDetails.phone.phoneNumber &&
+          userDetails.phone.phoneNumber !== currentUser.phone.phoneNumber;
+        if (isDifferentPhoneThanTheOneOnFile) {
+          await this.resetAndSendPhoneVerificationPin(userId, userDetails.phone.phoneNumber);
+          delete userDetails.phone;
+        }
+      }
+
+      const updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: { ...userDetails },
+        },
+        {
+          new: true,
+        }
+      )
+        .lean(true)
+        .exec();
+      resolve(updatedUser);
+    } catch (e) {
+      reject(e);
     }
-  )
-    .lean(true)
-    .exec();
+  });
 };
 exports.getUserStripeAccount = async (userId) => {
   return new Promise(async (resolve, reject) => {

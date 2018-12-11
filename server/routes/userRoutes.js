@@ -78,8 +78,21 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+
         if (user) {
+          const verificationRequest = await userDataAccess.resetAndSendEmailVerificationCode(
+            userId,
+            user.email.emailAddress
+          );
+          if (verificationRequest.success) {
+            res.send(verificationRequest);
+          } else {
+            return res.status(500).send({
+              errorMsg: 'unexpected error occured sendVerificationEmail',
+            });
+          }
         } else {
           return res.status(403).send({
             errorMsg: 'verifyEmail failed due to missing params',
@@ -97,8 +110,21 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const user = await userDataAccess.findOneByUserId(req.user.userId);
-        if (user && user.phone.phoneNumber) {
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+
+        if (user) {
+          const verificationRequest = await userDataAccess.resetAndSendPhoneVerificationPin(
+            userId,
+            user.phone.phoneNumber
+          );
+          if (verificationRequest.success) {
+            res.send(verificationRequest);
+          } else {
+            return res.status(500).send({
+              errorMsg: 'unexpected error occured sendVerificationMsg',
+            });
+          }
         } else {
           return res.status(403).send({
             errorMsg: 'verifyEmail failed due to missing params',
@@ -133,7 +159,7 @@ module.exports = (app) => {
 
       // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
       Object.keys(newProfileDetails).forEach((property) => {
-        newProfileDetails[`${property}`] = newProfileDetails[`${property}`].trim();
+        newProfileDetails[`${property}`] = newProfileDetails[`${property}`];
       });
 
       const userAfterUpdates = await userDataAccess.updateUserProfileDetails(
