@@ -46,14 +46,27 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const user = await userDataAccess.findOneByUserId(req.user.userId);
-        if (user && user.phone.phoneNumber) {
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+        if (user && user.phone && req.body.data.code) {
+          const { code } = req.body.data;
+
+          const phoneVerification = user.verification.phone;
+          const phoneNumberCorrespondingToTheCode =
+            phoneVerification && phoneVerification[`${code}`];
+          if (user.phone.phoneNumber === phoneNumberCorrespondingToTheCode) {
+            const newUser = await userDataAccess.updateUserProfileDetails(userId, {
+              phone: { ...user.phone, isVerified: true },
+            });
+            return res.send({ success: true });
+          } else {
+            return res.send({ success: false });
+          }
         } else {
           return res.status(403).send({
-            errorMsg: 'verifyEmail failed due to missing params',
+            errorMsg: 'verifyPhone failed due to missing params',
           });
         }
-        return res.send({ success: true });
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: e });
       }
