@@ -23,8 +23,7 @@ module.exports = (app) => {
   let pushIntervalID;
 
   webpush.setVapidDetails('mailto:bidorboocrew@gmail.com', PUBLIC_VAPID_KEY, PRIVATE_VAPID_KEY);
-  //console.log('in /api/register...');
-  app.post('/api/register', async (req, res) => {
+  app.post('/api/pushNotification', async (req, res) => {
     subscription = JSON.parse(req.body.data);
 
     res.status(201).json({});

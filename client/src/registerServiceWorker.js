@@ -113,13 +113,16 @@
 // // }
 
 export default function register() {
+  console.log('register()');
   // process.env.NODE_ENV === 'production' &&
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
     window.addEventListener('load', () => {
-     // console.log('load', `${process.env.PUBLIC_URL}/sw.js`);
-      const swUrl = 'http://localhost:3000/sw.js';
+      // console.log('load', `${process.env.PUBLIC_URL}/sw.js`);
+    //  const swUrl = 'sw.js';
       navigator.serviceWorker
-        .register(swUrl)
+        .register('sw.js', {
+          scope: '/',
+        })
         .then((registration) => {
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;

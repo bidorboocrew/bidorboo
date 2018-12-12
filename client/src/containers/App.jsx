@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
@@ -39,7 +40,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      subscriveUserEnabled: true,
       subscription: { endpoint: '' },
     };
 
@@ -75,7 +75,6 @@ class App extends React.Component {
     return (
       <div id="bidorboo-root-view">
         <WebPush
-          subscriveUserEnabled={this.state.subscriveUserEnabled}
           applicationServerPublicKey={applicationServerPublicKey}
           onSubscriptionFailed={this.onSubscriptionFailed}
           onUpdateSubscriptionOnServer={this.onUpdateSubscriptionOnServer}

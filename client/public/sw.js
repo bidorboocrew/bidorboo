@@ -1,34 +1,25 @@
 'use strict';
 
-self.addEventListener('push', function(event) {
+self.addEventListener('push', (event) => {
+  const data = event.data.json();
   console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  console.log('[Service Worker] Push had this data:', data);
 
-  const title = 'Push Codelab';
+  const title = data.title;
   const options = {
-    body: 'Yay it works.',
-    icon: 'images/icon.png',
+    body: data.body,
+    icon: data.icon,
     badge: 'images/badge.png',
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
 
-  event.waitUntil(clients.openWindow('https://developers.google.com/web/'));
+
+  event.waitUntil(clients.openWindow('http://localhost:3000'));
 });
-// self.addEventListener('push', (event) => {
-//   const data = event.data.json();
-//   const { title } = data;
-
-//   const body = {
-//     body: data.body,
-//     icon: data.icon,
-//   };
-
-//   event.waitUntil(self.registration.showNotification(title, body));
-// });

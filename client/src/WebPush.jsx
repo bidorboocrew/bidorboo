@@ -11,21 +11,11 @@ class WebPush extends Component {
 
     this.onRegisterServiceWorker = this.onRegisterServiceWorker.bind(this);
     this.onSubscribeUser = this.onSubscribeUser.bind(this);
-   
   }
 
   componentWillMount() {
     if (swRegistration == null) {
       this.onRegisterServiceWorker();
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.subscriveUserEnabled != nextProps.subscriveUserEnabled &&
-      nextProps.subscriveUserEnabled
-    ) {
-      this.onSubscribeUser();
     }
   }
 
@@ -38,9 +28,8 @@ class WebPush extends Component {
     var onSubscribeFailed = this.props.onSubscribeFailed;
     var applicationServerPublicKey = this.props.applicationServerPublicKey;
 
-    swRegistration.pushManager.getSubscription().then(function(subscription) {
-      var isSubscribed = !(subscription === null);
-      if (isSubscribed) {
+    swRegistration.pushManager.getSubscription().then((subscription) => {
+      if (subscription !== null) {
         onUpdateSubscriptionOnServer(subscription);
       } else {
         const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
@@ -49,13 +38,13 @@ class WebPush extends Component {
             userVisibleOnly: true,
             applicationServerKey: applicationServerKey,
           })
-          .then(function(subscription) {
+          .then((subscription) => {
             console.log('User is subscribed.');
             if (onUpdateSubscriptionOnServer) {
               onUpdateSubscriptionOnServer(subscription);
             }
           })
-          .catch(function(err) {
+          .catch((err) => {
             console.log('Failed to subscribe the user: ', err);
             if (onSubscribeFailed) {
               onSubscribeFailed(err);
@@ -70,7 +59,7 @@ class WebPush extends Component {
       .register('sw.js', {
         scope: '/',
       })
-      .then(function(swReg) {
+      .then((swReg) => {
         console.log('Service Worker is registered', swReg);
 
         swRegistration = swReg;
@@ -84,7 +73,6 @@ class WebPush extends Component {
 }
 
 WebPush.propTypes = {
-  subscriveUserEnabled: PropTypes.bool.isRequired,
   applicationServerPublicKey: PropTypes.string.isRequired,
   onUpdateSubscriptionOnServer: PropTypes.func,
   onSubscribeFailed: PropTypes.func,

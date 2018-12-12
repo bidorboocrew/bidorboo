@@ -120,13 +120,34 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
 // }
 
 registerServiceWorker();
-// axios
-//   .post('/api/register', {
-//     //data: JSON.stringify(subscription),
-//     headers: {
-//       'content-type': 'application/json',
-//     },
-//   })
-//   .catch((err) => console.error('Push subscription error: ', err));
 
-// console.log('Push Sent...');
+// We need the service worker registration to check for a subscription
+navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+  // Do we already have a push message subscription?
+  serviceWorkerRegistration.pushManager
+    .getSubscription()
+    .then((subscription) => {
+      axios
+        .post('/api/pushNotification', {
+          data: JSON.stringify(PushManager.getSubscription()),
+          headers: {
+            'content-type': 'application/json',
+          },
+        })
+        .catch((err) => console.error('Push subscription error: ', err));
+
+      if (!subscription) {
+        // We aren’t subscribed to push, so set UI
+        // to allow the user to enable push
+        return;
+      }
+
+      // // Keep your server in sync with the latest subscriptionId
+      // sendSubscriptionToServer(subscription);
+
+      // showCurlCommand(subscription);
+    })
+    .catch(function(err) {
+      window.Demo.debug.log('Error during getSubscription()', err);
+    });
+});
