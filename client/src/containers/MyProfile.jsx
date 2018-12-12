@@ -11,6 +11,7 @@ import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 // import PaymentHandling from './PaymentHandling';
 import * as ROUTES from '../constants/frontend-route-consts';
+import { getCurrentUser } from '../app-state/actions/authActions';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class MyProfile extends React.Component {
   }
 
   render() {
-    const { userDetails, a_updateProfileImage, isLoggedIn } = this.props;
+    const { userDetails, a_updateProfileImage, isLoggedIn, a_getCurrentUser } = this.props;
 
     if (!isLoggedIn) {
       return null;
@@ -127,7 +128,9 @@ class MyProfile extends React.Component {
                       }
                     />
 
-                    {shouldShowEmailVerification && <VerifyEmail />}
+                    {shouldShowEmailVerification && (
+                      <VerifyEmail getCurrentUser={a_getCurrentUser} />
+                    )}
 
                     <DisplayLabelValue
                       labelText="Phone Number:"
@@ -148,7 +151,9 @@ class MyProfile extends React.Component {
                         </div>
                       }
                     />
-                    {shouldShowPhoneVerification && <VerifyPhone />}
+                    {shouldShowPhoneVerification && (
+                      <VerifyPhone getCurrentUser={a_getCurrentUser} />
+                    )}
 
                     <HeaderTitle specialMarginVal={8} title="About Me" />
                     <TextareaAutosize
@@ -240,6 +245,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
     a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 
@@ -284,35 +290,39 @@ const userImageAndStats = (
   return (
     <React.Fragment>
       <div style={{ backgroundColor: 'white', padding: '0.25rem' }} className="has-text-centered">
-        <div>
-          <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-        </div>
-        <div>{displayName}</div>
-        <div style={{ marginBottom: 8 }}>
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              toggleShowUploadProfileImageDialog();
-            }}
-            className="button is-outlined is-small has-text-centered"
-          >
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            toggleShowUploadProfileImageDialog();
+          }}
+        >
+          <div>
+            <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
+          </div>
+
+          <a className="button is-outlined is-small has-text-centered">
             <i className="far fa-edit" />
             <span style={{ marginLeft: 4 }}>Edit Picture</span>
           </a>
         </div>
 
         <div className="field has-text-centered">
-          <label className="label">membership status</label>
+          <label className="label">Name</label>
           <div className="control has-text-centered">
-            <div className="control has-text-centered">{membershipStatusDisplay} </div>
+            <div className="control has-text-centered">{displayName}</div>
           </div>
         </div>
-
         <div className="field has-text-centered">
-          <label className="label">Global Rating</label>
-          <div className="control has-text-centered">{`global ${globalRating}`}</div>
+          <label className="label">Status</label>
+          <div className="control has-text-centered">
+            <div className="control has-text-centered">{membershipStatusDisplay}</div>
+          </div>
         </div>
         <div className="field has-text-centered">
+          <label className="label">Rating</label>
+          <div className="control has-text-centered">{globalRating}</div>
+        </div>
+        {/* <div className="field has-text-centered">
           <label className="label">Fullfilled Jobs</label>
           <div className="control has-text-centered">{`${fulfilledJobs}`}</div>
         </div>
@@ -328,7 +338,7 @@ const userImageAndStats = (
         <div className="field has-text-centered">
           <label className="label">Cancelled Bids</label>
           <div className="control has-text-centered">{`${canceledBids}`}</div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );
@@ -362,6 +372,7 @@ class VerifyEmail extends React.Component {
       inputFieldValue: '',
       isSubmitting: false,
       wrongCode: false,
+      isResendDisabled: false,
     };
   }
 
@@ -374,34 +385,39 @@ class VerifyEmail extends React.Component {
   handleVerify = async () => {
     try {
       const { inputFieldValue } = this.state;
+      const { getCurrentUser } = this.props;
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyEmail, {
         data: { code: inputFieldValue },
       });
 
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
-        document.location.reload();
+        getCurrentUser();
       } else {
         this.setState({ wrongCode: true, isSubmitting: false });
       }
     } catch (e) {
-      alert('we are unable to send the verification email, please contact bidorboocrew@gmail.com');
+      alert('we are unable to verify you, please contact bidorboocrew@gmail.com');
       this.setState({ isSubmitting: false });
     }
   };
   handleSendNewCode = async () => {
-    try {
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationEmail);
-      if (verifyReq && verifyReq.success) {
-        alert('you should recieve an email shortly , please give 10-15 minutes');
+    this.setState({ isResendDisabled: true }, async () => {
+      try {
+        const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationEmail);
+        if (verifyReq && verifyReq.success) {
+          alert('you should recieve an email shortly , please give 10-15 minutes');
+        }
+      } catch (e) {
+        // some alert
+        alert(
+          'we are unable to send the verification email, please contact bidorboocrew@gmail.com',
+        );
+        this.setState({ isSubmitting: false });
       }
-    } catch (e) {
-      // some alert
-      alert('we are unable to send the verification email, please contact bidorboocrew@gmail.com');
-      this.setState({ isSubmitting: false });
-    }
+    });
   };
   render() {
-    const { inputFieldValue, isSubmitting, wrongCode } = this.state;
+    const { inputFieldValue, isSubmitting, wrongCode, isResendDisabled } = this.state;
 
     const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
     const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
@@ -442,8 +458,9 @@ class VerifyEmail extends React.Component {
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
                 className={resendButtonClass}
+                disabled={isResendDisabled}
               >
-                resend code
+                {`${isResendDisabled ? 'code sent' : 'resend code'}`}
               </button>
             </p>
           </div>
@@ -461,6 +478,7 @@ class VerifyPhone extends React.Component {
       inputFieldValue: '',
       isSubmitting: false,
       wrongCode: false,
+      isResendDisabled: false,
     };
   }
 
@@ -473,12 +491,14 @@ class VerifyPhone extends React.Component {
   handleVerify = async () => {
     try {
       const { inputFieldValue } = this.state;
+      const { getCurrentUser } = this.props;
+
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
         data: { code: inputFieldValue },
       });
-
+      debugger;
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
-        document.location.reload();
+        getCurrentUser();
       } else {
         this.setState({ wrongCode: true, isSubmitting: false });
       }
@@ -488,19 +508,21 @@ class VerifyPhone extends React.Component {
     }
   };
   handleSendNewCode = async () => {
-    try {
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
-      if (verifyReq && verifyReq.success) {
-        alert('you should recieve a text shortly , please give 10-15 minutes');
+    this.setState({}, async () => {
+      try {
+        const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
+        if (verifyReq && verifyReq.success) {
+          alert('you should recieve a text shortly , please give 10-15 minutes');
+        }
+      } catch (e) {
+        // some alert
+        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+        this.setState({ isSubmitting: false });
       }
-    } catch (e) {
-      // some alert
-      alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-      this.setState({ isSubmitting: false });
-    }
+    });
   };
   render() {
-    const { inputFieldValue, isSubmitting, wrongCode } = this.state;
+    const { inputFieldValue, isSubmitting, wrongCode, isResendDisabled } = this.state;
 
     const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
     const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
@@ -541,8 +563,9 @@ class VerifyPhone extends React.Component {
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
                 className={resendButtonClass}
+                disabled={isResendDisabled}
               >
-                resend pin
+                {`${isResendDisabled ? 'pin sent' : 'resend pin'}`}
               </button>
             </p>
           </div>
