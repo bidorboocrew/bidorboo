@@ -243,7 +243,7 @@ module.exports = (app) => {
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
-            folder: `${userMongoDBId}/`,
+            folder: `${userMongoDBId}/profilePic`,
           },
           updateUserWithNewProfileImg
         );

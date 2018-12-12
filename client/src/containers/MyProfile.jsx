@@ -302,10 +302,10 @@ const userImageAndStats = (
 
           <a className="button is-outlined is-small has-text-centered">
             <i className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Edit Picture</span>
+            <span style={{ marginLeft: 4 }}>Edit</span>
           </a>
         </div>
-
+        <br />
         <div className="field has-text-centered">
           <label className="label">Name</label>
           <div className="control has-text-centered">

@@ -135,7 +135,7 @@ class MyForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group has-text-centered">
           <input
             id="files"
             className="input is-invisible"
