@@ -426,7 +426,8 @@ input[type='checkbox'] {
   }
   cursor: pointer;
   height: 100%;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.35);
+  // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.bdb-infoBoxCard {
     border: 1px solid #00d1b2;
     box-shadow: $shadow-space;
