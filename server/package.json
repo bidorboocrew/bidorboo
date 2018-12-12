@@ -12,8 +12,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "olderstart": "node index.js",
-    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "start": "node index.js",
+    "startwithpm2": "pm2-runtime start ecosystem.config.js --env production",
     "oldStart": "pm2 start index.js",
     "dev": "nodemon index.js",
     "debug": "node --nolazy --inspect-brk=9229 index.js"
