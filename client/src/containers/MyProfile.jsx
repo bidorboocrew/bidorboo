@@ -431,7 +431,7 @@ class VerifyEmail extends React.Component {
 
     return (
       <div className="field is-horizontal">
-        <div className="field">
+        {/* <div className="field">
           <p>
             <input
               disabled={isSubmitting}
@@ -443,17 +443,17 @@ class VerifyEmail extends React.Component {
             />
             {helpField}
           </p>
-        </div>
+        </div> */}
         <div className="field-body">
           <div className="field">
             <p className="control">
-              <button
+              {/* <button
                 onClick={this.handleVerify}
                 style={{ marginLeft: 6 }}
                 className={submitButtonClass}
               >
                 verify email
-              </button>
+              </button> */}
               <button
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
@@ -536,7 +536,7 @@ class VerifyPhone extends React.Component {
 
     return (
       <div className="field is-horizontal">
-        <div className="field">
+        {/* <div className="field">
           <p>
             <input
               disabled={isSubmitting}
@@ -548,17 +548,17 @@ class VerifyPhone extends React.Component {
             />
             {helpField}
           </p>
-        </div>
+        </div> */}
         <div className="field-body">
           <div className="field">
             <p className="control">
-              <button
+              {/* <button
                 onClick={this.handleVerify}
                 style={{ marginLeft: 6 }}
                 className={submitButtonClass}
               >
                 verify phone
-              </button>
+              </button> */}
               <button
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}

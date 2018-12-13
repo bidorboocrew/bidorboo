@@ -176,9 +176,9 @@ exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
         'bidorboocrew@gmail.com',
         updatedUser.email.emailAddress,
         'BidOrBoo: Email verification',
-        `Please click ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(
+        `To verify your email Please click: ${ROUTES.CLIENT.VERIFICATION_emailDynamic(
           emailVerificationCode
-        )} to verify your email
+        )}
         `
       );
 
