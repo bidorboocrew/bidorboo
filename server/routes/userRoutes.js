@@ -11,14 +11,13 @@ const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
-    requireBidorBooHost,
     requireLogin,
+    requireBidorBooHost,
     async (req, res) => {
       try {
-        const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
-        if (user && user.email && req.body.data.code) {
-          const { code } = req.body.data;
+        const { code, userId } = req.body.data;
+        if (code && userId && req.user.userId === userId) {
+          const user = await userDataAccess.findOneByUserId(req.user.userId);
 
           const emailVerification = user.verification.email;
           const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
@@ -47,10 +46,10 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
-        if (user && user.phone && req.body.data.code) {
-          const { code } = req.body.data;
+        const { code, userId } = req.body.data;
+
+        if (code && userId && req.user.userId === userId) {
+          const user = await userDataAccess.findOneByUserId(req.user.userId);
 
           const phoneVerification = user.verification.phone;
           const phoneNumberCorrespondingToTheCode =

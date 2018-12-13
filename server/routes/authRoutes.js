@@ -7,6 +7,7 @@ module.exports = (app) => {
     ROUTES.API.AUTH.GOOGLE,
     passport.authenticate('google', {
       scope: ['profile', 'email'],
+      state: JSON.stringify({ blah: 'test' }),
     })
   );
   app.get(

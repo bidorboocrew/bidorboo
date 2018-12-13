@@ -7,7 +7,6 @@ import requestImg from '../assets/images/jobs.png';
 
 class HomePage extends React.Component {
   render() {
-
     return (
       <div id="bdb-home-content" className="bdbPage">
         <section className="hero has-text-centered is-dark">
@@ -58,7 +57,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.root);
                           }}
                         >
-                          <div className="title has-text-black-bis">Start Bidding</div>
+                          <div className="title has-text-black-bis">Offer A Service</div>
                         </a>
                       }
                     />

@@ -27,6 +27,7 @@ import {
   CurrentAwardedJob,
   CurrentAwardedBid,
   NewPostedJob,
+  Verification,
 } from './index';
 
 class App extends React.Component {
@@ -122,6 +123,8 @@ class App extends React.Component {
           />
           {/* <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} /> */}
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
+
+          <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={Verification} />
           {/* redirect any unknown route to the home component */}
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>

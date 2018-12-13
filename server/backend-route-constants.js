@@ -78,6 +78,9 @@ module.exports = {
   },
   CLIENT: {
     ENTRY: '/',
+    VERIFICATION: '/verification/:field/:userId/:code',
+    VERIFICATION_emailDynamic: (code) => `https://www.bidorboo.com/verification/Email/${code}`,
+    VERIFICATION_phoneDynamic: (code) => `https://www.bidorboo.com/verification/Phone/${code}`,
     HOME: '/home',
     PROPOSER: {
       root: '/proposer-root',

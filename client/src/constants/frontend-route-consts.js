@@ -79,6 +79,7 @@ export const API = {
 export const CLIENT = {
   ENTRY: '/',
   HOME: '/home',
+  VERIFICATION: '/verification/:field/:code',
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
