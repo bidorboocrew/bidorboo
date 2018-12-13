@@ -81,8 +81,11 @@ const BidOrBooCard = (props) => {
       <div style={{ backgroundColor: '#363636' }} className="card-image">
         <img src={`${logoImg}`} className="bdb-home-page" />
       </div>
-      <div style={{ backgroundColor: '#363636', paddingBottom: '0.7rem' }} className="card-content">
-        <div className="content has-text-centered ">{cardContent}</div>
+      <div
+        style={{ backgroundColor: '#363636', paddingBottom: '0.7rem' }}
+        className="card-content"
+      >
+        <div className="content has-text-centered is-title">{cardContent}</div>
       </div>
     </div>
   );
