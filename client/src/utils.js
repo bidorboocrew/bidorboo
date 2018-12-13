@@ -54,6 +54,9 @@ export const BULMA_RESPONSIVE_SCREEN_SIZES = {
 };
 //push notification
 export const payloadFromSubscription = function(subscription) {
+  if(!subscription){
+    return;
+  }
   var key = subscription.getKey ? subscription.getKey('p256dh') : '';
   var auth = subscription.getKey ? subscription.getKey('auth') : '';
   // NOTE: p256dg and auth are encoded into std base64, NOT urlsafe base64

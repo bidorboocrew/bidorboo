@@ -11,6 +11,7 @@ class WebPush extends Component {
 
     this.onRegisterServiceWorker = this.onRegisterServiceWorker.bind(this);
     this.onSubscribeUser = this.onSubscribeUser.bind(this);
+    this.unsubscribeUser = this.unsubscribeUser.bind(this);
   }
 
   componentWillMount() {
@@ -53,6 +54,23 @@ class WebPush extends Component {
       }
     });
   }
+  unsubscribeUser() {
+    swRegistration.pushManager
+      .getSubscription()
+      .then((subscription) => {
+        if (subscription) {
+          return subscription.unsubscribe();
+        }
+      })
+      .catch((error) => {
+        console.log('Error unsubscribing', error);
+      })
+      .then(() => {
+        this.props.onUpdateSubscriptionOnServer(null);
+
+        console.log('User is unsubscribed.');
+      });
+  }
 
   onRegisterServiceWorker() {
     navigator.serviceWorker
@@ -64,6 +82,7 @@ class WebPush extends Component {
 
         swRegistration = swReg;
         this.onSubscribeUser();
+       // this.unsubscribeUser();
       });
   }
 
