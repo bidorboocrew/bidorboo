@@ -39,7 +39,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.PROPOSER.root);
                           }}
                         >
-                          <div className="title has-text-black-bis">Request a Service</div>
+                          <div className="title has-text-white">Request a Service</div>
                         </a>
                       }
                     />
@@ -57,7 +57,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.root);
                           }}
                         >
-                          <div className="title has-text-black-bis">Offer A Service</div>
+                          <div className="title has-text-white">Offer A Service</div>
                         </a>
                       }
                     />
@@ -78,11 +78,14 @@ const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
     <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
-      <div className="card-image">
+      <div style={{ backgroundColor: '#363636' }} className="card-image">
         <img src={`${logoImg}`} className="bdb-home-page" />
       </div>
-      <div className="card-content">
-        <div className="content has-text-centered is-title has-text-black-bis">{cardContent}</div>
+      <div
+        style={{ backgroundColor: '#363636', paddingBottom: '0.7rem' }}
+        className="card-content"
+      >
+        <div className="content has-text-centered is-title">{cardContent}</div>
       </div>
     </div>
   );

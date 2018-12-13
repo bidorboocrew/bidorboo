@@ -62,7 +62,6 @@ class Verification extends React.Component {
   componentDidMount() {
     const { match, a_showLoginDialog, isLoggedIn } = this.props;
     const { code, field } = match.params;
-    debugger;
     if (!isLoggedIn) {
       a_showLoginDialog(true);
     } else {
