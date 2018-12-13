@@ -12,11 +12,11 @@ const initialState = {
   // applicationMode: C.APP_MODE.BIDDER
 };
 
-const closeLoginDialog = (state = initialState, { payload }) => ({
+const closeLoginDialog = (state = initialState) => ({
   ...state,
   shouldShowLoginDialog: false,
 });
-const openLoginDialog = (state = initialState, { payload }) => ({
+const openLoginDialog = (state = initialState) => ({
   ...state,
   shouldShowLoginDialog: true,
 });

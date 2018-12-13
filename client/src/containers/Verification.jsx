@@ -34,7 +34,7 @@ class Verification extends React.Component {
         this.setState({ verificationSuccess: 'fail', isLoading: false });
       }
     } catch (e) {
-      alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+      alert('we are unable toverify your number, please contact bidorboocrew@gmail.com');
       this.setState({ verificationSuccess: 'fail', isLoading: false });
     }
   };
@@ -55,7 +55,7 @@ class Verification extends React.Component {
         this.setState({ verificationSuccess: 'fail', isLoading: false });
       }
     } catch (e) {
-      alert('we are unable to verify you, please contact bidorboocrew@gmail.com');
+      alert('we are unable to verify your email, please contact bidorboocrew@gmail.com');
       this.setState({ verificationSuccess: 'fail', isLoading: false });
     }
   };
@@ -67,6 +67,8 @@ class Verification extends React.Component {
     if (!isLoggedIn) {
       a_showLoginDialog(true);
     } else {
+      a_showLoginDialog(false);
+      debugger;
       if (!code || !field) {
         switchRoute(`${ROUTES.CLIENT.HOME}`);
       } else {
@@ -78,23 +80,41 @@ class Verification extends React.Component {
             this.verifyPhone();
             break;
           default:
+            debugger;
             switchRoute(`${ROUTES.CLIENT.HOME}`);
-
             break;
         }
       }
     }
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // only update if user was not logged in and they are
+    // or if the verificatoin is done
+    return (
+      this.props.isLoggedIn !== nextProps.isLoggedIn || this.state.isLoading !== nextState.isLoading
+    );
+  }
+
   render() {
     const { match, isLoggedIn } = this.props;
     const { code, field } = match.params;
     const { isLoading, verificationSuccess } = this.state;
 
-    if (!code || !field || !isLoggedIn) {
-      return null;
+    if (isLoggedIn && isLoading) {
+      switch (field) {
+        case 'Email':
+          this.verifyEmail();
+          break;
+        case 'Phone':
+          this.verifyPhone();
+          break;
+        default:
+          debugger;
+          switchRoute(`${ROUTES.CLIENT.HOME}`);
+          break;
+      }
     }
-
-    debugger;
     return (
       <div id="bdb-home-content" className="bdbPage">
         <section className="hero is-small is-dark">
@@ -110,12 +130,13 @@ class Verification extends React.Component {
         <section className="section">
           <div>{isLoading && <Spinner isLoading={isLoading} size={'large'} />}</div>
           {verificationSuccess === 'success' && (
-            <section class="hero is-success">
-              <div class="hero-body">
-                <div class="container">
-                  <h1 class="title">{`SUCCESSFULLY verified your ${field}`}</h1>
-                  <h2 class="subtitle">
+            <section className="hero is-success">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 className="title">{`Successfullly verified your ${field}`}</h1>
+                  <h2 className="subtitle">
                     <a
+                      className="button is-info"
                       onClick={(e) => {
                         e.preventDefault();
                         switchRoute(`${ROUTES.CLIENT.HOME}`);
@@ -129,11 +150,11 @@ class Verification extends React.Component {
             </section>
           )}
           {verificationSuccess === 'fail' && (
-            <section class="hero is-danger">
-              <div class="hero-body">
-                <div class="container">
-                  <h1 class="title">>{`Failed to verify your ${field}`}</h1>
-                  <h2 class="subtitle">
+            <section className="hero is-danger">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 className="title">{`Failed to verify your ${field}`}</h1>
+                  <h2 className="subtitle">
                     login and go to myprofile to request a new code or contact us at
                     bidorboocrew@gmail.com
                   </h2>

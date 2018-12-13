@@ -41,7 +41,7 @@ export const getCurrentUser = () => (dispatch) =>
           });
         } else {
           //rediret user to sign up page
-          switchRoute(ROUTES.CLIENT.ENTRY);
+          // switchRoute(ROUTES.CLIENT.ENTRY);
         }
       })
       .catch((error) => {
