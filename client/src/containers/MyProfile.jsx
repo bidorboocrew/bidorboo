@@ -496,7 +496,6 @@ class VerifyPhone extends React.Component {
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
         data: { code: inputFieldValue },
       });
-      debugger;
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
         getCurrentUser();
       } else {

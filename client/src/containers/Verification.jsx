@@ -27,7 +27,7 @@ class Verification extends React.Component {
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
         data: { code },
       });
-      debugger;
+
       if (verifyReq && verifyReq.data && verifyReq.data.success) {
         this.setState({ verificationSuccess: 'success', isLoading: false });
       } else {
@@ -43,7 +43,6 @@ class Verification extends React.Component {
     try {
       const { match } = this.props;
       const { code } = match.params;
-      debugger;
 
       const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyEmail, {
         data: { code },
@@ -68,7 +67,7 @@ class Verification extends React.Component {
       a_showLoginDialog(true);
     } else {
       a_showLoginDialog(false);
-      debugger;
+
       if (!code || !field) {
         switchRoute(`${ROUTES.CLIENT.HOME}`);
       } else {
@@ -80,7 +79,6 @@ class Verification extends React.Component {
             this.verifyPhone();
             break;
           default:
-            debugger;
             switchRoute(`${ROUTES.CLIENT.HOME}`);
             break;
         }
@@ -110,7 +108,6 @@ class Verification extends React.Component {
           this.verifyPhone();
           break;
         default:
-          debugger;
           switchRoute(`${ROUTES.CLIENT.HOME}`);
           break;
       }
