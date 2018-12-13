@@ -1,10 +1,16 @@
 import React from 'react';
+import axios from 'axios';
 import classNames from 'classnames';
 import * as ROUTES from '../constants/frontend-route-consts';
 
 export const LoginOrRegisterModal = (props) => {
   const { isActive, handleCancel } = props;
   const openModalClass = classNames('modal', { 'is-active': isActive });
+
+  const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${window.location.pathname || '/'}`;
+  const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${window.location.pathname ||
+    '/'}`;
+
   return isActive ? (
     <div className={openModalClass}>
       <div onClick={handleCancel} className="modal-background" />
@@ -18,7 +24,13 @@ export const LoginOrRegisterModal = (props) => {
             <a
               rel="noopener noreferrer"
               className="button is-danger  is-large is-fullwidth"
-              href={ROUTES.API.AUTH.GOOGLE}
+              href={googleAuthPath}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   const apipath=  ROUTES.API.AUTH.GOOGLE;
+
+              //   axios.get(apipath);
+              // }}
               style={{ marginTop: 8 }}
             >
               <span>
@@ -30,7 +42,7 @@ export const LoginOrRegisterModal = (props) => {
             </a>
             <a
               rel="noopener noreferrer"
-              href={ROUTES.API.AUTH.FACEBOOK}
+              href={facebookAuthPath}
               className="button is-link is-large is-fullwidth"
               style={{ marginTop: 16 }}
             >
