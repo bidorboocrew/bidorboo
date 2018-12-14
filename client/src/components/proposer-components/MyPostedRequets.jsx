@@ -6,11 +6,12 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
-class AwardedJobsList extends React.Component {
+class MyPostedRequets extends React.Component {
   static propTypes = {
     userDetails: PropTypes.object.isRequired,
     jobsList: PropTypes.array.isRequired,
     deleteJob: PropTypes.func,
+    notificationFeed: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -20,37 +21,31 @@ class AwardedJobsList extends React.Component {
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
+    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+      ? 'column is-half'
+      : 'column is-one-fifth';
 
     return userHasPostedJobs ? (
-      <React.Fragment>
-        <JobsWithBids {...this.props} />
-      </React.Fragment>
+      <MyRequests {...this.props} columnCount={columnCount} />
     ) : (
       <EmptyStateComponent />
     );
   }
 }
 
-export default AwardedJobsList;
+export default MyPostedRequets;
 
-const JobsWithBids = (props) => {
-  const { jobsList } = props;
+const MyRequests = (props) => {
+  const { jobsList, columnCount } = props;
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
-
-  const jobsWithBids = jobsList
-    .filter((job) => {
-      return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className={columnCount}>
-          <MyAwardedJobSummaryCard job={job} areThereAnyBidders {...props} />
-        </div>
-      );
-    });
+  const jobsWithBids = jobsList.map((job) => {
+    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+    return (
+      <div key={job._id} className={columnCount}>
+        <MyPostedJobSummaryCard job={job} areThereAnyBidders={areThereAnyBidders} {...props} />
+      </div>
+    );
+  });
   return jobsWithBids;
 };
 
@@ -59,7 +54,7 @@ const EmptyStateComponent = () => (
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">Sorry nothing is scheduled.</div>
+          <div className="is-size-5">Sorry you have not posted any jobs.</div>
           <br />
           <a
             className="button is-primary "
@@ -76,10 +71,10 @@ const EmptyStateComponent = () => (
   </div>
 );
 
-class MyAwardedJobSummaryCard extends React.Component {
+class MyPostedJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
-    const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;
+    const { job, userDetails, areThereAnyBidders, deleteJob, notificationFeed } = this.props;
+    const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
@@ -87,9 +82,6 @@ class MyAwardedJobSummaryCard extends React.Component {
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
-
-    // set border for jobs with reviews
-    let specialBorder = areThereAnyBidders ? { border: '1px solid #23d160' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -103,8 +95,22 @@ class MyAwardedJobSummaryCard extends React.Component {
       console.error(e);
     }
 
+    let doesthisJobHaveNewBids = false;
+    let numberOfNewBids = 0;
+
+    if (notificationFeed.jobIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+          doesthisJobHaveNewBids = true;
+          numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+          break;
+        }
+      }
+    }
     return (
-      <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
+      <div
+        className={`card postedJobToBidOnCard is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -138,19 +144,19 @@ class MyAwardedJobSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }} className="card-content">
-          {/* <div className="media">
-            <div className="media-left">
+          {/* <div className="media"> */}
+          {/* <div className="media-left">
               {profileImage && profileImage.url && (
                 <figure style={{ margin: '0 auto' }} className="image is-48x48">
                   <img src={profileImage.url} alt="user" />
                 </figure>
               )}
-            </div>
-            <div className="media-content">
+            </div> */}
+          {/* <div className="media-content">
               <p className="title is-6">{displayName}</p>
               {/* <p className="subtitle is-6">{email}</p>
-            </div>
-          </div> */}
+            </div> */}
+          {/* </div> */}
 
           <div className="content">
             <p className="is-size-7">
@@ -177,15 +183,21 @@ class MyAwardedJobSummaryCard extends React.Component {
 
             {areThereAnyBidders && (
               <a
-                className="button is-success is-fullwidth "
+                className="button is-fullwidth is-danger"
                 onClick={(e) => {
                   e.preventDefault();
-                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+                  switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
                 }}
               >
-                <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Contact
+                <span className="icon">
+                  <i className="fa fa-hand-paper" />
                 </span>
+                <span style={{ marginLeft: 4 }}>Bids</span>
+                {areThereAnyBidders && doesthisJobHaveNewBids && (
+                  <span style={{ marginLeft: 4 }} className="tag is-dark">
+                    +{numberOfNewBids}
+                  </span>
+                )}
               </a>
             )}
           </div>

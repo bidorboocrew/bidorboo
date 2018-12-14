@@ -204,10 +204,10 @@ exports.createNewUser = async (userDetails) => {
         this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
       }
 
-      const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
+      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
         _id: newUser._id.toString(),
         email: newUser.email.emailAddress,
-        userId: newUser.userID,
+        userId: newUser.userId,
         displayName: newUser.displayName,
       });
 
