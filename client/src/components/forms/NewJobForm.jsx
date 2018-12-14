@@ -41,7 +41,7 @@ class NewJobForm extends React.Component {
     }
     this.state = {
       forceSetAddressValue: '',
-      isFlexibleTimeSelected: true,
+      isFlexibleTimeSelected: false,
     };
 
     autoBind(
@@ -224,8 +224,7 @@ class NewJobForm extends React.Component {
           minutesFieldId="minutesField"
           periodFieldId="periodField"
           type="text"
-          label="Starting time Details"
-          placeholder="select Starting time"
+          label="Approximate Starting time"
           error={touched.startTime && errors.startTime}
           onChange={handleChange}
           onBlur={handleBlur}

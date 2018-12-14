@@ -55,10 +55,17 @@ class CreateAJob extends React.Component {
 
     const content = () => (
       <div className="card noShadow is-clipped">
-        <section class="hero is-small is-dark">
-          <div class="hero-body">
-            <div class="container">
-              <div class="title">{jobDetails.title} Request</div>
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
+            <div className="container">
+              <nav class="level">
+                <div class="level-left">
+                  <figure className="level-item">
+                    <img className="bdb-title-img-service-req" src={jobDetails.imageUrl} />
+                  </figure>
+                  <div className="level-item title">{jobDetails.title} Request</div>
+                </div>
+              </nav>
             </div>
           </div>
         </section>
