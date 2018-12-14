@@ -57,7 +57,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.root);
                           }}
                         >
-                          <div className="title has-text-white">Offer A Service</div>
+                          <div className="title has-text-white">Offer a Service</div>
                         </a>
                       }
                     />
@@ -77,12 +77,25 @@ export default HomePage;
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
+    <div
+      style={{ cursor: 'pointer', height: '18rem', position: 'relative' }}
+      onClick={onClickHandler}
+      className="card is-clipped"
+    >
       <div style={{ backgroundColor: '#363636' }} className="card-image">
         <img src={`${logoImg}`} className="bdb-home-page" />
-      </div>
-      <div style={{ backgroundColor: '#363636', paddingBottom: '0.7rem' }} className="card-content">
-        <div className="content has-text-centered ">{cardContent}</div>
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            bottom: 0,
+            width: ' 100%',
+            background: 'rgba(54,54,54,0.8)',
+            padding: '1.25rem',
+          }}
+        >
+          <div className="title has-text-centered has-text-white">{cardContent}</div>
+        </div>
       </div>
     </div>
   );

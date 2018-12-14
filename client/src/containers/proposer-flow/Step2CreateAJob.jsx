@@ -56,9 +56,27 @@ class CreateAJob extends React.Component {
     const content = () => (
       <div className="card noShadow is-clipped">
         <section className="hero is-small is-dark">
-          <div style={{ backgroundImage: `url("${jobDetails.imageUrl}")` }} className="hero-body">
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.7)' }} className="container">
-              <div className="title has-text-dark">{jobDetails.title} Request</div>
+          <div
+            style={{
+              position: 'relative',
+              height: '6rem',
+              backgroundImage: `url("${jobDetails.imageUrl}")`,
+            }}
+            className="hero-body"
+          >
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                /* height: 24px, */
+                width: ' 100%',
+                background: 'rgba(54,54,54,0.7)',
+                padding: '0.25rem 1.5rem',
+              }}
+              className="container"
+            >
+              <div className="title has-text-white">{jobDetails.title} Request</div>
             </div>
           </div>
         </section>
