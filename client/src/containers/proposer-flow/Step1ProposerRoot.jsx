@@ -5,8 +5,14 @@ import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import ProposerStepper from './ProposerStepper';
+import { getCurrentUser } from '../../app-state/actions/authActions';
 
 class ProposerRoot extends React.Component {
+  componentDidMount() {
+    if (!this.props.isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
+  }
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
 
@@ -39,6 +45,7 @@ const mapStateToProps = ({ userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

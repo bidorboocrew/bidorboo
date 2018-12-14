@@ -6,7 +6,6 @@ import { getCurrentUserNotifications, getCurrentUser } from '../app-state/action
 
 class ScrollToTopOnRouteChange extends React.Component {
   componentDidUpdate(prevProps) {
-    debugger
     if (!this.props.s_isLoggedIn) {
       this.props.a_getCurrentUser();
     }
