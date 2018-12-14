@@ -40,7 +40,7 @@ const JobsWithBids = (props) => {
 
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-fifth';
+    : 'column is-one-quarter';
 
   const jobsWithBids = jobsList
     .filter((job) => {
@@ -60,7 +60,7 @@ const JobsWithoutBids = (props) => {
   const { jobsList } = props;
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-fifth';
+    : 'column is-one-quarter';
   const jobsWithoutBids = jobsList
     .filter((job) => {
       return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);

@@ -99,6 +99,7 @@ class MyJobs extends React.Component {
             )}
             {activeTab === TAB_IDS.inQueue && (
               <AwardedJobsList
+                changeActiveTab={this.changeActiveTab}
                 notificationFeed={notificationFeed}
                 userDetails={userDetails}
                 jobsList={myAwardedJobsList}
