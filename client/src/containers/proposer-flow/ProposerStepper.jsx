@@ -26,8 +26,9 @@ export default class ProposerStepper extends React.Component {
             style={{
               paddingTop: 10,
               background: '#EEEEEE',
-              boxShadow:
-                '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
+              //   boxShadow:
+              //     '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
+              // }}
             }}
             className="steps is-small is-horizontal has-content-centered"
           >
@@ -42,7 +43,7 @@ export default class ProposerStepper extends React.Component {
                 </span>
               </span>
               <div className="steps-content">
-                <p className="is-size-7">Select task</p>
+                <p className="is-size-7">Service Selected</p>
               </div>
             </li>
             <li

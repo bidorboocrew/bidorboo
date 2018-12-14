@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import autoBind from 'react-autobind';
-import ReactDOM from 'react-dom';
 
 import { withFormik } from 'formik';
 
@@ -24,6 +23,7 @@ import {
   Checkbox,
 } from './FormsHelpers';
 import moment from 'moment';
+
 import { alphanumericField } from './FormsValidators';
 import ActionSheet from '../ActionSheet';
 // for reverse geocoding , get address from lat lng
@@ -132,7 +132,6 @@ class NewJobForm extends React.Component {
         <DateInput
           id="DateInputField"
           type="text"
-          helpText="click to change date"
           label="Service Start Date"
           placeholder="specify starting date"
           onChangeEvent={(e) => {
@@ -143,43 +142,6 @@ class NewJobForm extends React.Component {
               e.preventDefault();
             }
           }}
-        />
-        <input
-          id="hoursField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.hoursField || 1}
-        />
-        <input
-          id="minutesField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.minutesField || 0}
-        />
-        <input
-          id="periodField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.periodField || 'AM'}
-        />
-        <Checkbox
-          type="checkbox"
-          className="flexibleTimeCheckbox"
-          label="Flexibe Time"
-          checked={this.state.isFlexibleTimeSelected}
-          onChange={this.handleFlexibleTimeChecked}
-        />
-        <TimeInput
-          hoursFieldId="hoursField"
-          minutesFieldId="minutesField"
-          periodFieldId="periodField"
-          type="text"
-          label="Starting time Details"
-          placeholder="select Starting time"
-          error={touched.startTime && errors.startTime}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          disabled={this.state.isFlexibleTimeSelected}
         />
         <TextInput
           id="durationOfJobField"
@@ -231,6 +193,44 @@ class NewJobForm extends React.Component {
               });
           }}
         />
+
+        <input
+          id="hoursField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.hoursField || 1}
+        />
+        <input
+          id="minutesField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.minutesField || 0}
+        />
+        <input
+          id="periodField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.periodField || 'AM'}
+        />
+        {/* <Checkbox
+          type="checkbox"
+          className="flexibleTimeCheckbox"
+          label="Flexibe Time"
+          checked={this.state.isFlexibleTimeSelected}
+          onChange={this.handleFlexibleTimeChecked}
+        /> */}
+        <TimeInput
+          hoursFieldId="hoursField"
+          minutesFieldId="minutesField"
+          periodFieldId="periodField"
+          type="text"
+          label="Starting time Details"
+          placeholder="select Starting time"
+          error={touched.startTime && errors.startTime}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          disabled={this.state.isFlexibleTimeSelected}
+        />
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
@@ -246,7 +246,7 @@ class NewJobForm extends React.Component {
           <button
             style={{ borderRadius: 0 }}
             type="button"
-            className="button is-outlined "
+            className="button is-outlined is-medium"
             disabled={isSubmitting}
             onClick={(e) => {
               e.preventDefault();
@@ -257,7 +257,7 @@ class NewJobForm extends React.Component {
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className={`button is-primary  ${isSubmitting ? 'is-loading' : ''}`}
+            className={`button is-primary is-medium  ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
             onClick={(e) => {

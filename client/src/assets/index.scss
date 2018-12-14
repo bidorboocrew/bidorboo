@@ -363,6 +363,12 @@ img {
   background-color: white;
 }
 
+.bdb-title-img-service-req {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 2rem !important;
+  background-color: white;
+}
 .bdb-home-page {
   object-fit: cover !important;
   width: 100% !important;
@@ -413,6 +419,13 @@ input[type='checkbox'] {
 .card {
   &.disabled {
     cursor: not-allowed;
+    box-shadow: none !important;
+    border: 1px solid lightgrey;
+    &:hover {
+      animation: none !important;
+    }
+  }
+  &.noShadow {
     box-shadow: none !important;
     border: 1px solid lightgrey;
     &:hover {

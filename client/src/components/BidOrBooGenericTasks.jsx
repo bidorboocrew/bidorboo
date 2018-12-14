@@ -18,14 +18,14 @@ class BidOrBooGenericTasks extends React.Component {
 
     this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
-      : 'column is-one-fifth';
+      : 'column is-one-quarter';
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.windowWidth !== this.props.windowWidth) {
       let newColumnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
         ? 'column is-half'
-        : 'column is-one-fifth';
+        : 'column is-one-quarter';
       if (this.columnCount !== newColumnCount) {
         this.columnCount = newColumnCount;
         return true;
@@ -40,7 +40,7 @@ class BidOrBooGenericTasks extends React.Component {
 
     this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
-      : 'column is-one-fifth';
+      : 'column is-one-quarter';
 
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];

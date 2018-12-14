@@ -13,11 +13,11 @@ class ProposerRoot extends React.Component {
     return (
       <React.Fragment>
         {/* <ProposerStepper currentStepNumber={1} /> */}
-        <section className="hero is-small is-dark">
+        <section className="hero is-small is-dark has-text-centered">
           <div className="hero-body">
             <div>
               <h1 style={{ color: 'white' }} className="title">
-                Post Tasks
+                Request A Service
               </h1>
             </div>
           </div>
