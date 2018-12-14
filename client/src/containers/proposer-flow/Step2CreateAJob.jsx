@@ -57,10 +57,7 @@ class CreateAJob extends React.Component {
       <div className="card noShadow is-clipped">
         <section className="hero is-small is-dark">
           <div style={{ backgroundImage: `url("${jobDetails.imageUrl}")` }} className="hero-body">
-            <div
-              style={{ backgroundColor: 'rgba(255,255,255,0.7)'}}
-              className="container"
-            >
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.7)' }} className="container">
               <div className="title has-text-dark">{jobDetails.title} Request</div>
             </div>
           </div>

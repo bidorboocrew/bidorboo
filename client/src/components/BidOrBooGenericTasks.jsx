@@ -22,6 +22,11 @@ class BidOrBooGenericTasks extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    // cases when we re render
+    if (nextProps.isLoggedIn !== this.props.isLoggedIn) {
+      return true;
+    }
+
     if (nextProps.windowWidth !== this.props.windowWidth) {
       let newColumnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
         ? 'column is-half'
