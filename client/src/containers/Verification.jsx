@@ -132,7 +132,7 @@ class Verification extends React.Component {
                   <h1 className="title">{`Successfullly verified your ${field}`}</h1>
                   <h2 className="subtitle">
                     <a
-                      className="button is-info"
+                      className="button is-link"
                       onClick={(e) => {
                         e.preventDefault();
                         switchRoute(`${ROUTES.CLIENT.HOME}`);

@@ -42,6 +42,7 @@ const EnhancedForms = withFormik({
       displayName: values.displayName,
       email: { emailAddress: values.email },
       phone: { phoneNumber: values.phoneNumber },
+      personalParagraph: values.personalParagraph,
     });
   },
   displayName: 'ProfileForm',

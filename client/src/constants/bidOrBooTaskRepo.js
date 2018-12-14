@@ -118,7 +118,7 @@ Extra comments:
   //   [parking fits 2 cars ...,etc]
   //   What is your expectations?
   //   [ I expect to see no ice othe drive through , ]
-  //   extra comments :
+  //   extra comments :o
   //   [mention any specific instructions or info relevant to this task]`
   // },
   //////

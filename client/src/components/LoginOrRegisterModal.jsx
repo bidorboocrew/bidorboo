@@ -19,7 +19,7 @@ export const LoginOrRegisterModal = (props) => {
           <button onClick={handleCancel} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
-          <div style={{ textAlign: 'cetner' }}>
+          <div style={{ textAlign: 'center' }}>
             <a
               rel="noopener noreferrer"
               className="button is-danger  is-large is-fullwidth"

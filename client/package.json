@@ -65,7 +65,8 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
+    "oldstart": "npm-run-all -p watch-css start-js",
+    "start": "react-scripts start",
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",

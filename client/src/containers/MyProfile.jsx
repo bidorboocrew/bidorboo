@@ -9,7 +9,6 @@ import ProfileForm from '../components/forms/ProfileForm';
 import axios from 'axios';
 import PaymentForm from '../components/forms/PaymentForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
-// import PaymentHandling from './PaymentHandling';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
@@ -289,7 +288,10 @@ const userImageAndStats = (
   const { canceledJobs, canceledBids, fulfilledBids, fulfilledJobs, globalRating } = rating;
   return (
     <React.Fragment>
-      <div style={{ backgroundColor: 'white', padding: '0.25rem' }} className="has-text-centered">
+      <div
+        style={{ backgroundColor: 'white', padding: '0.25rem', height: '100%' }}
+        className="has-text-centered"
+      >
         <div
           onClick={(e) => {
             e.preventDefault();
@@ -364,154 +366,23 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
   ) : null;
 };
 
-class VerifyEmail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputFieldValue: '',
-      isSubmitting: false,
-      wrongCode: false,
-      isResendDisabled: false,
-    };
-  }
-
-  handleInputChange = (e) => {
-    e.preventDefault();
-    let inputText = e.target.value;
-    this.setState({ inputFieldValue: inputText });
-  };
-
-  handleVerify = async () => {
-    try {
-      const { inputFieldValue } = this.state;
-      const { getCurrentUser } = this.props;
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyEmail, {
-        data: { code: inputFieldValue },
-      });
-
-      if (verifyReq && verifyReq.data && verifyReq.data.success) {
-        getCurrentUser();
-      } else {
-        this.setState({ wrongCode: true, isSubmitting: false });
-      }
-    } catch (e) {
-      alert('we are unable to verify you, please contact bidorboocrew@gmail.com');
-      this.setState({ isSubmitting: false });
-    }
-  };
-  handleSendNewCode = async () => {
-    this.setState({ isResendDisabled: true }, async () => {
-      try {
-        const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationEmail);
-        if (verifyReq && verifyReq.success) {
-          alert('you should recieve an email shortly , please give 10-15 minutes');
-        }
-      } catch (e) {
-        // some alert
-        alert(
-          'we are unable to send the verification email, please contact bidorboocrew@gmail.com',
-        );
-        this.setState({ isSubmitting: false });
-      }
-    });
-  };
-  render() {
-    const { inputFieldValue, isSubmitting, wrongCode, isResendDisabled } = this.state;
-
-    const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
-    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
-    const inputFieldClass = `${!wrongCode ? 'input is-success' : 'input is-danger'}`;
-
-    const helpField = !wrongCode ? (
-      <span className="help">* we sent a verification code to your email</span>
-    ) : (
-      <span className="help is-danger">* invalid Code. check again or request a new code</span>
-    );
-
-    return (
-      <div className="field is-horizontal">
-        {/* <div className="field">
-          <p>
-            <input
-              disabled={isSubmitting}
-              value={inputFieldValue}
-              className={inputFieldClass}
-              type="text"
-              placeholder="Verification code"
-              onChange={this.handleInputChange}
-            />
-            {helpField}
-          </p>
-        </div> */}
-        <div className="field-body">
-          <div className="field">
-            <p className="control">
-              {/* <button
-                onClick={this.handleVerify}
-                style={{ marginLeft: 6 }}
-                className={submitButtonClass}
-              >
-                verify email
-              </button> */}
-              <button
-                onClick={this.handleSendNewCode}
-                style={{ marginLeft: 6 }}
-                className={resendButtonClass}
-                disabled={isResendDisabled}
-              >
-                {`${isResendDisabled ? 'code sent' : 'resend code'}`}
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
 class VerifyPhone extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      inputFieldValue: '',
       isSubmitting: false,
-      wrongCode: false,
       isResendDisabled: false,
     };
   }
 
-  handleInputChange = (e) => {
-    e.preventDefault();
-    let inputText = e.target.value;
-    this.setState({ inputFieldValue: inputText });
-  };
-
-  handleVerify = async () => {
-    try {
-      const { inputFieldValue } = this.state;
-      const { getCurrentUser } = this.props;
-
-      const verifyReq = await axios.post(ROUTES.API.USER.POST.verifyPhone, {
-        data: { code: inputFieldValue },
-      });
-      if (verifyReq && verifyReq.data && verifyReq.data.success) {
-        getCurrentUser();
-      } else {
-        this.setState({ wrongCode: true, isSubmitting: false });
-      }
-    } catch (e) {
-      alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-      this.setState({ isSubmitting: false });
-    }
-  };
   handleSendNewCode = async () => {
-    this.setState({}, async () => {
+    this.setState({ isSubmitting: true }, async () => {
       try {
-        const verifyReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
-        if (verifyReq && verifyReq.success) {
+        const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
+        if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');
+          this.setState({ isSubmitting: true, isResendDisabled: true });
         }
       } catch (e) {
         // some alert
@@ -521,43 +392,66 @@ class VerifyPhone extends React.Component {
     });
   };
   render() {
-    const { inputFieldValue, isSubmitting, wrongCode, isResendDisabled } = this.state;
+    const { isSubmitting, isResendDisabled } = this.state;
 
-    const submitButtonClass = `button is-success ${isSubmitting ? 'is-loading ' : null}`;
     const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
-    const inputFieldClass = `${!wrongCode ? 'input is-success' : 'input is-danger'}`;
-
-    const helpField = !wrongCode ? (
-      <span className="help">* we sent a pincode to your phone number</span>
-    ) : (
-      <span className="help is-danger">* invalid Code. check again or request a new code</span>
-    );
-
     return (
       <div className="field is-horizontal">
-        {/* <div className="field">
-          <p>
-            <input
-              disabled={isSubmitting}
-              value={inputFieldValue}
-              className={inputFieldClass}
-              type="text"
-              placeholder="PIN code"
-              onChange={this.handleInputChange}
-            />
-            {helpField}
-          </p>
-        </div> */}
         <div className="field-body">
           <div className="field">
             <p className="control">
-              {/* <button
-                onClick={this.handleVerify}
+              <button
+                onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
-                className={submitButtonClass}
+                className={resendButtonClass}
+                disabled={isResendDisabled}
               >
-                verify phone
-              </button> */}
+                {`${isResendDisabled ? 'pin sent' : 'resend pin'}`}
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class VerifyEmail extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSubmitting: false,
+      isResendDisabled: false,
+    };
+  }
+
+  handleSendNewCode = async () => {
+    this.setState({ isSubmitting: true }, async () => {
+      try {
+        const resendVerificationReq = await axios.post(
+          ROUTES.API.USER.POST.resendVerificationEmail,
+        );
+        if (resendVerificationReq && resendVerificationReq.success) {
+          alert('you should recieve a text shortly , please give 10-15 minutes');
+          this.setState({ isSubmitting: true, isResendDisabled: true });
+        }
+      } catch (e) {
+        // some alert
+        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+        this.setState({ isSubmitting: false });
+      }
+    });
+  };
+  render() {
+    const { isSubmitting, isResendDisabled } = this.state;
+
+    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
+    return (
+      <div className="field is-horizontal">
+        <div className="field-body">
+          <div className="field">
+            <p className="control">
               <button
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
