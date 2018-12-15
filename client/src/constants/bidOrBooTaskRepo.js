@@ -19,6 +19,27 @@ special comments:
   [mention any specific instructions or info relevant to this task]
 `,
   },
+  petSitting: {
+    id: 'petSitting',
+    themeColor: '#363636',
+    allowUploadImages: false,
+    category: '',
+    title: 'Pet Sitting',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://vid.alarabiya.net/images/2017/03/14/35be08d5-c5c1-4fa0-bbb6-66dcbf393095/35be08d5-c5c1-4fa0-bbb6-66dcbf393095.jpg',
+    description:
+      'Whether you need to run some errands for the day or go on a week-long vacation, keep your pet in the safe hands of a pet-loving sitter. Set your own expectations and share your pet needs with your pet sitter, and that leaves one less thing for you to worry about!',
+    suggestedDetailsText: `Use the suggested text below or provide your own description. Provide as much details as possible to ensure more accurate bids.
+Pet Type & Breed:
+Examples: Poodle dog, Persian cat, Chinese hamster, etc.
+Expectations:
+Examples: I expect you to walk the dog outside twice a day, 1 hour outdoor play every 2 days, feed twice a day, cage cleaning, shower, etc.
+Special Instructions:
+Examples: Doesn't do well with other pets, allergic to a food, don't let outside, etc.
+`,
+  },
   lawnMowing: {
     id: 'lawnMowing',
     category: '',

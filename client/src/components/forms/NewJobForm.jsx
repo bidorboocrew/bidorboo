@@ -173,7 +173,7 @@ class NewJobForm extends React.Component {
           onBlur={handleBlur}
           iconLeft="far fa-clock"
         />
-
+        <br />
         <GeoAddressInput
           id="geoInputField"
           type="text"
@@ -211,10 +211,11 @@ class NewJobForm extends React.Component {
               });
           }}
         />
-
+        <br />
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
+          helpText={'Provide as much details as possible to ensure more accurate bids.'}
           label="Detailed Description"
           placeholder={'Please supply job details and your expectations'}
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}

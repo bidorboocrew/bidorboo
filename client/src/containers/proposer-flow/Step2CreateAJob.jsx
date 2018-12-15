@@ -80,7 +80,10 @@ class CreateAJob extends React.Component {
             </div>
           </div>
         </section>
+
         <div className="card-content ">
+          <p className="has-text-grey">{this.state.chosenTemplate.description}</p>
+          <br />
           {currentStepNumber === 2 && (
             <React.Fragment>
               {/* <PicturesUploaderContainer
