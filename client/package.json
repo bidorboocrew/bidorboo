@@ -47,6 +47,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
+    "react-show-more": "^2.0.0",
     "react-stars": "^2.2.5",
     "react-stripe-checkout": "^2.6.3",
     "react-stripe-elements": "^2.0.1",

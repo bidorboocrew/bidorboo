@@ -21,6 +21,7 @@
     "node_modules"
   ],
   "scripts": {
+    "devstart": "cd client && rm -rf node_modules && yarn install && cd ../server && rm -rf node_modules && yarn install",
     "start": "cd server && yarn run startwithpm2",
     "heroku-postbuild": "cd client && yarn install && yarn run build && cd ../server && yarn install",
     "start-server-prod": "npm run start --prefix server",

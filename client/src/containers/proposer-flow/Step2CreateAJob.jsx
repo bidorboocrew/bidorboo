@@ -82,7 +82,10 @@ class CreateAJob extends React.Component {
         </section>
 
         <div className="card-content ">
-          <p className="has-text-grey">{this.state.chosenTemplate.description}</p>
+          <ShowMore className="has-text-grey" lines={2} more="Show more" less="Show less">
+            {this.state.chosenTemplate.description}
+          </ShowMore>
+
           <br />
           {currentStepNumber === 2 && (
             <React.Fragment>
