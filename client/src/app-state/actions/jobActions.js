@@ -159,18 +159,18 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   });
 };
 
-export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
+export const addJob = ({ initialDetails }) => (dispatch) => {
   const {
     locationField,
     detailedDescriptionField,
     dateField,
-    hoursField,
-    minutesField,
-    periodField,
+    timeField,
     durationOfJobField,
     addressTextField,
     fromTemplateIdField,
   } = initialDetails;
+
+  debugger;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 
@@ -210,10 +210,8 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
       coordinates: [parseFloat(lng), parseFloat(lat)],
     },
     startingDateAndTime: {
-      date: moment.utc(dateField).toDate(),
-      hours: hoursField,
-      minutes: minutesField,
-      period: periodField,
+      date: dateField,
+      time: timeField,
     },
     durationOfJob: durationOfJobField,
     addressText: addressTextField,

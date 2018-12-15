@@ -1,6 +1,8 @@
 export const templatesRepo = {
   dogSitting: {
     id: 'dogSitting',
+    themeColor: '#363636',
+    allowUploadImages: false,
     category: '',
     title: 'Dog Sitting',
     subTitle: '',
@@ -75,7 +77,8 @@ Extra comments:
     title: 'Tutoring',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl: 'https://s3.amazonaws.com/edscoop-media/uploads/_articlesCenterImages/tutoring.jpg?mtime=20160815152118',
+    imageUrl:
+      'https://s3.amazonaws.com/edscoop-media/uploads/_articlesCenterImages/tutoring.jpg?mtime=20160815152118',
     description:
       "Need help tutoring? Why don't you let one of our handy BidorBooers help you with that?",
     suggestedDetailsText: `What subject do you need help with:
@@ -85,41 +88,35 @@ What is your expectations:
 Extra comments:
   [mention any specific instructions or info relevant to this task]`,
   },
-  // HairServices: {
-  //   id: 'HairServices',
-  //   category: '',
-  //   title: 'Hair services',
-  //   subTitle: '',
-  //   actionButtonDescription: '',
-  //   imageUrl:
-  //     'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-  //   description:
-  //     "Help with Tutoring",
-  //   suggestedDetailsText:
-  // `How Big is your drivethru ?
-  //   [parking fits 2 cars ...,etc]
-  //   What is your expectations?
-  //   [ I expect to see no ice othe drive through , ]
-  //   extra comments :
-  //   [mention any specific instructions or info relevant to this task]`
-  // },
-  // Catering: {
-  //   id: 'Catering',
-  //   category: '',
-  //   title: 'Catering',
-  //   subTitle: '',
-  //   actionButtonDescription: '',
-  //   imageUrl:
-  //     'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-  //   description:
-  //     "Help with Tutoring",
-  //   suggestedDetailsText:
-  // `How Big is your drivethru ?
-  //   [parking fits 2 cars ...,etc]
-  //   What is your expectations?
-  //   [ I expect to see no ice othe drive through , ]
-  //   extra comments :o
-  //   [mention any specific instructions or info relevant to this task]`
-  // },
-  //////
+  HairServices: {
+    id: 'HairServices',
+    category: '',
+    title: 'Hair services',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl: 'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
+    description: 'Help with Tutoring',
+    suggestedDetailsText: `How Big is your drivethru ?
+    [parking fits 2 cars ...,etc]
+    What is your expectations?
+    [ I expect to see no ice othe drive through , ]
+    extra comments :
+    [mention any specific instructions or info relevant to this task]`,
+  },
+  Catering: {
+    id: 'Catering',
+    category: '',
+    title: 'Catering',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl: 'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
+    description: 'Help with Tutoring',
+    suggestedDetailsText: `How Big is your drivethru ?
+    [parking fits 2 cars ...,etc]
+    What is your expectations?
+    [ I expect to see no ice othe drive through , ]
+    extra comments :o
+    [mention any specific instructions or info relevant to this task]`,
+  },
+  ////
 };

@@ -12,9 +12,7 @@ const StatsSchema = {
 
 const DateTimeSchema = {
   date: Date,
-  hours: Number,
-  minutes: Number,
-  period: String,
+  time: { type: String, trim: true },
 };
 const MAX_ADDRESS_LENGTH = 300;
 

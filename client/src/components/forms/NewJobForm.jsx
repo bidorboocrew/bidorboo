@@ -21,11 +21,12 @@ import {
   DateInput,
   TimeInput,
   Checkbox,
+  HelpText,
 } from './FormsHelpers';
 import moment from 'moment';
 
 import { alphanumericField } from './FormsValidators';
-import ActionSheet from '../ActionSheet';
+
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -52,6 +53,10 @@ class NewJobForm extends React.Component {
       'handleFlexibleTimeChecked',
     );
   }
+
+  componentDidMount() {
+    navigator.geolocation && this.getCurrentAddress();
+  }
   handleFlexibleTimeChecked() {
     this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
   }
@@ -76,8 +81,6 @@ class NewJobForm extends React.Component {
       isSubmitting,
       setFieldValue,
     } = this.props;
-    const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
-
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
         <span>
@@ -133,20 +136,36 @@ class NewJobForm extends React.Component {
           id="DateInputField"
           type="text"
           label="Service Start Date"
-          placeholder="specify starting date"
-          onChangeEvent={(e) => {
-            if (e && e instanceof moment) {
-              let val = e.toDate();
-              setFieldValue('dateField', val, false);
-            } else {
-              e.preventDefault();
-            }
+          onChangeEvent={(val) => {
+            setFieldValue('dateField', val, false);
           }}
         />
+        <input
+          id="timeField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.timeField || ''}
+        />
+
+        {/* <Checkbox
+          type="checkbox"
+          className="flexibleTimeCheckbox"
+          label="Flexibe Time"
+          checked={this.state.isFlexibleTimeSelected}
+          onChange={this.handleFlexibleTimeChecked}
+        /> */}
+        <TimeInput
+          id="TimeInputField"
+          label="Approximate Start time"
+          onChangeEvent={(val) => {
+            setFieldValue('timeField', val, false);
+          }}
+        />
+
         <TextInput
           id="durationOfJobField"
           type="text"
-          helpText="for example : 1 hour , 1 week ...etc"
+          helpText="for example : not sure, 1 hour , 1 day"
           label="Service Duration"
           error={touched.durationOfJobField && errors.durationOfJobField}
           value={values.durationOfJobField}
@@ -179,7 +198,6 @@ class NewJobForm extends React.Component {
             }
           }}
           handleSelect={(address) => {
-            console.log(`onChangeEvent={(e) => ${address}`);
             setFieldValue('addressTextField', address, false);
             geocodeByAddress(address)
               .then((results) => getLatLng(results[0]))
@@ -194,42 +212,6 @@ class NewJobForm extends React.Component {
           }}
         />
 
-        <input
-          id="hoursField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.hoursField || 1}
-        />
-        <input
-          id="minutesField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.minutesField || 0}
-        />
-        <input
-          id="periodField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.periodField || 'AM'}
-        />
-        {/* <Checkbox
-          type="checkbox"
-          className="flexibleTimeCheckbox"
-          label="Flexibe Time"
-          checked={this.state.isFlexibleTimeSelected}
-          onChange={this.handleFlexibleTimeChecked}
-        /> */}
-        <TimeInput
-          hoursFieldId="hoursField"
-          minutesFieldId="minutesField"
-          periodFieldId="periodField"
-          type="text"
-          label="Approximate Starting time"
-          error={touched.startTime && errors.startTime}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          disabled={this.state.isFlexibleTimeSelected}
-        />
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
@@ -267,6 +249,12 @@ class NewJobForm extends React.Component {
             Post it!
           </button>
         </div>
+        <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
+        <HelpText helpText={`*Once you post you will not be able to edit.`} />
+        <HelpText helpText={`*Bidders will only see an approximate location.`} />
+        <HelpText
+          helpText={`*Upon awarding a bidder you will get their contact info and finalize the details.`}
+        />
       </form>
     );
   }
@@ -320,8 +308,6 @@ class NewJobForm extends React.Component {
         getCurrentPositionOptions,
       );
     } else {
-      // Browser doesn't support Geolocation
-      // try the googlemap apis
       console.log('no html 5 geo location');
     }
   }

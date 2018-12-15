@@ -2,6 +2,7 @@ import React from 'react';
 import GeoSearch from '../googleMapsComponents/GeoSearch';
 import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
+import TimePickerInput from '../forms/TimePickerInput';
 
 const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{error}</p> : null);
 
@@ -13,7 +14,7 @@ const Label = ({ error, className, children, id, ...props }) => {
   );
 };
 
-const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
+export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
 
 export const Checkbox = ({
   type,
@@ -129,6 +130,7 @@ export const TextAreaInput = ({
       />
 
       <HelpText helpText={helpText} />
+
       <InputFeedback error={error} />
     </div>
   );
@@ -156,7 +158,16 @@ export const DateInput = ({
   );
 };
 
-export const TimeInput = ({
+export const TimeInput = ({ label, onChangeEvent }) => {
+  return (
+    <div className="field">
+      <Label>{label}</Label>
+      <TimePickerInput onChangeEvent={onChangeEvent} />
+    </div>
+  );
+};
+
+export const TimeInput2 = ({
   id,
   label,
   helpText,
@@ -274,6 +285,7 @@ export class GeoAddressInput extends React.Component {
         />
         {autoDetectComponent}
         {!autoDetectComponent && <HelpText helpText={helpText} />}
+
         <InputFeedback error={error} />
       </div>
     );

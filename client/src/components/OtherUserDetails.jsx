@@ -80,7 +80,7 @@ const UserDetails = ({ otherUserDetails }) => {
     phone = { phoneNumber: 'none provided' },
     personalParagraph = 'none provided',
   } = otherUserDetails;
-  debugger;
+  
   return (
     <React.Fragment>
       <br />
