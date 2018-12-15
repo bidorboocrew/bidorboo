@@ -22,7 +22,6 @@ export default class JobDetailsView extends React.Component {
 
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
-    const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
 
@@ -95,9 +94,7 @@ export default class JobDetailsView extends React.Component {
             <p className="heading">
               <span>Start Time</span>
               <br />
-              <span className="has-text-weight-semibold">
-                {hours}:{minutes === 0 ? '00' : minutes} {period}
-              </span>
+              <span className="has-text-weight-semibold">{startingDateAndTime.time} </span>
             </p>
             <p className="heading">
               <span>Duration Required</span>
