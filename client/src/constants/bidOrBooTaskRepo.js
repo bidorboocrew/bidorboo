@@ -109,35 +109,6 @@ What is your expectations:
 Extra comments:
   [mention any specific instructions or info relevant to this task]`,
   },
-  HairServices: {
-    id: 'HairServices',
-    category: '',
-    title: 'Hair services',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl: 'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-    description: 'Help with Tutoring',
-    suggestedDetailsText: `How Big is your drivethru ?
-    [parking fits 2 cars ...,etc]
-    What is your expectations?
-    [ I expect to see no ice othe drive through , ]
-    extra comments :
-    [mention any specific instructions or info relevant to this task]`,
-  },
-  Catering: {
-    id: 'Catering',
-    category: '',
-    title: 'Catering',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl: 'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-    description: 'Help with Tutoring',
-    suggestedDetailsText: `How Big is your drivethru ?
-    [parking fits 2 cars ...,etc]
-    What is your expectations?
-    [ I expect to see no ice othe drive through , ]
-    extra comments :o
-    [mention any specific instructions or info relevant to this task]`,
-  },
+ 
   ////
 };
