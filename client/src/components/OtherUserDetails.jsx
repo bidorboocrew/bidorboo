@@ -76,10 +76,11 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
 const UserDetails = ({ otherUserDetails }) => {
   const {
     displayName,
-    email,
+    email = { emailAddress: 'none provided' },
     phone = { phoneNumber: 'none provided' },
     personalParagraph = 'none provided',
   } = otherUserDetails;
+  
   return (
     <React.Fragment>
       <br />

@@ -280,30 +280,31 @@ exports.jobDataAccess = {
   getJobsNear: ({ searchLocation, searchRaduisInMeters = 15000, jobTypeFilter = [] }) => {
     return new Promise(async (resolve, reject) => {
       try {
+        let aggregateSearchQuery = {
+          $geoNear: {
+            near: {
+              type: 'Point',
+              coordinates: [searchLocation.lng, searchLocation.lat],
+            },
+            distanceField: 'dist.calculated',
+            includeLocs: 'dist.location',
+            // limit: 50,
+            distanceMultiplier: 1 / 1000, //meters
+            maxDistance: searchRaduisInMeters, //meters
+            spherical: true,
+            uniqueDocs: true,
+          },
+        };
         if (jobTypeFilter && jobTypeFilter.length > 0) {
           //filter categories of jobs
-          geoNearQuery.$geoNear.query = {
+          aggregateSearchQuery.$geoNear.query = {
             fromTemplateId: { $in: jobTypeFilter },
           };
         }
 
         JobModel.aggregate(
           [
-            {
-              $geoNear: {
-                near: {
-                  type: 'Point',
-                  coordinates: [searchLocation.lng, searchLocation.lat],
-                },
-                distanceField: 'dist.calculated',
-                includeLocs: 'dist.location',
-                // limit: 50,
-                distanceMultiplier: 1 / 1000, //meters
-                maxDistance: searchRaduisInMeters, //meters
-                spherical: true,
-                uniqueDocs: true,
-              },
-            },
+            aggregateSearchQuery,
             {
               $project: {
                 _id: 1,
@@ -326,7 +327,13 @@ exports.jobDataAccess = {
                   })
                     .populate({
                       path: '_ownerRef',
-                      select: { displayName: 1, profileImage: 1 },
+                      select: {
+                        displayName: 1,
+                        profileImage: 1,
+                        membershipStatus: 1,
+                        rating: 1,
+                        createdAt: 1,
+                      },
                     })
                     .lean(true)
                     .exec();

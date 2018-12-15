@@ -1,49 +1,56 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
 
-class JobsWithNoBids extends React.Component {
+class MyPostedRequets extends React.Component {
+  static propTypes = {
+    userDetails: PropTypes.object.isRequired,
+    jobsList: PropTypes.array.isRequired,
+    deleteJob: PropTypes.func,
+    notificationFeed: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    deleteJob: null,
+  };
+
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
+    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
+      ? 'column is-half'
+      : 'column is-one-quarter';
 
-    return userHasPostedJobs ? <JobsWithoutBids {...this.props} /> : <EmptyStateComponent />;
+    return userHasPostedJobs ? (
+      <MyRequests {...this.props} columnCount={columnCount} />
+    ) : (
+      <EmptyStateComponent />
+    );
   }
 }
 
-export default JobsWithNoBids;
+export default MyPostedRequets;
 
-const JobsWithoutBids = (props) => {
-  const { jobsList } = props;
+const MyRequests = (props) => {
+  const { jobsList, columnCount } = props;
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-quarter';
-
-  const jobsWithoutBids = jobsList
-    .filter((job) => {
-      return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
-    })
-    .map((job) => {
-      return (
-        <div key={job._id} className={columnCount}>
-          <MyPostedJobSummaryCard job={job} {...props} />
-        </div>
-      );
-    });
-  return jobsWithoutBids.length > 0 ? (
-    <React.Fragment>{jobsWithoutBids}</React.Fragment>
-  ) : (
-    <EmptyStateComponent />
-  );
+  const jobsWithBids = jobsList.map((job) => {
+    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+    return (
+      <div key={job._id} className={columnCount}>
+        <MyPostedJobSummaryCard job={job} areThereAnyBidders={areThereAnyBidders} {...props} />
+      </div>
+    );
+  });
+  return jobsWithBids;
 };
 
 const EmptyStateComponent = () => (
-  <div className="HorizontalAligner-center">
+  <div className="column">
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
@@ -66,7 +73,7 @@ const EmptyStateComponent = () => (
 
 class MyPostedJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, areThereAnyBidders, deleteJob, disabled } = this.props;
+    const { job, userDetails, areThereAnyBidders, deleteJob, notificationFeed } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
 
     // get details about the user
@@ -75,9 +82,6 @@ class MyPostedJobSummaryCard extends React.Component {
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
-
-    // set border for jobs with reviews
-    let specialBorder = areThereAnyBidders ? { border: '1px solid #00d1b2' } : {};
 
     try {
       daysSinceCreated = createdAt
@@ -91,14 +95,25 @@ class MyPostedJobSummaryCard extends React.Component {
       console.error(e);
     }
 
+    let doesthisJobHaveNewBids = false;
+    let numberOfNewBids = 0;
+
+    if (notificationFeed.jobIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+          doesthisJobHaveNewBids = true;
+          numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+          break;
+        }
+      }
+    }
     return (
       <div
-        style={specialBorder}
-        className={`card postedJobToBidOnCard is-clipped ${disabled ? 'disabled' : ''}`}
+        className={`card postedJobToBidOnCard is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header  is-clipped"
+          className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
@@ -129,6 +144,20 @@ class MyPostedJobSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }} className="card-content">
+          {/* <div className="media"> */}
+          {/* <div className="media-left">
+              {profileImage && profileImage.url && (
+                <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                  <img src={profileImage.url} alt="user" />
+                </figure>
+              )}
+            </div> */}
+          {/* <div className="media-content">
+              <p className="title is-6">{displayName}</p>
+              {/* <p className="subtitle is-6">{email}</p>
+            </div> */}
+          {/* </div> */}
+
           <div className="content">
             <p className="is-size-7">
               Start Date
@@ -151,17 +180,24 @@ class MyPostedJobSummaryCard extends React.Component {
               </a>
             )}
             {/* show as enabled cuz there is bidders */}
+
             {areThereAnyBidders && (
               <a
-                className="button is-primary is-fullwidth "
+                className="button is-fullwidth is-danger"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
                 }}
               >
-                <span style={{ marginLeft: 4 }}>
-                  <i className="fa fa-hand-paper" /> Review Bids
+                <span className="icon">
+                  <i className="fa fa-hand-paper" />
                 </span>
+                <span style={{ marginLeft: 4 }}>Bids</span>
+                {areThereAnyBidders && doesthisJobHaveNewBids && (
+                  <span style={{ marginLeft: 4 }} className="tag is-dark">
+                    +{numberOfNewBids}
+                  </span>
+                )}
               </a>
             )}
           </div>

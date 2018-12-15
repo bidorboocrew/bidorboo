@@ -45,7 +45,9 @@ class JobsLocationFilterForm extends React.Component {
       'updateSearchRaduisSelection',
     );
   }
-
+  componentDidMount() {
+    navigator.geolocation && this.getCurrentAddress();
+  }
   updateSearchRaduisSelection(raduisKm) {
     this.props.setFieldValue('searchRaduisField', raduisKm, false);
   }
@@ -129,7 +131,6 @@ class JobsLocationFilterForm extends React.Component {
         }}
         onSubmit={handleSubmit}
       >
-
         <input
           id="searchRaduisField"
           className="input is-invisible"
@@ -150,7 +151,7 @@ class JobsLocationFilterForm extends React.Component {
           type="hidden"
           value={values.addressTextField || ''}
         />
-                <input
+        <input
           id="locationField"
           className="input is-invisible"
           type="hidden"

@@ -317,7 +317,15 @@ class Header extends React.Component {
                   <div className="field is-grouped">
                     <div className="navbar-item">
                       <div className="navbar-item has-dropdown is-hoverable">
-                        <a className="navbar-link">
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.closeMenuThenExecute(() => {
+                              switchRoute(ROUTES.CLIENT.MY_PROFILE);
+                            });
+                          }}
+                          className="navbar-link"
+                        >
                           <figure style={{ margin: '0 auto' }} className="image is-32x32">
                             <img
                               style={{ paddingRight: 4 }}

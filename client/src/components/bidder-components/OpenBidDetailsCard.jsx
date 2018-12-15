@@ -17,9 +17,7 @@ export default class OpenBidDetailsCard extends React.Component {
 
     const jobTitleText = _jobRef.title;
     const fromTemplateId = _jobRef.fromTemplateId;
-    const startingDateText = `${_jobRef.startingDateAndTime.hours}:${
-      _jobRef.startingDateAndTime.minutes
-    }  ${_jobRef.startingDateAndTime.period}`;
+    const startingDateText = _jobRef.startingDateAndTime.time;
 
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;

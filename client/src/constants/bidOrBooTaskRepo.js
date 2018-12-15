@@ -1,20 +1,22 @@
 export const templatesRepo = {
-  dogSitting: {
-    id: 'dogSitting',
+  petSitting: {
+    id: 'petSitting',
+    themeColor: '#363636',
+    allowUploadImages: false,
     category: '',
-    title: 'Dog Sitting',
+    title: 'Pet Sitting',
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
       'https://vid.alarabiya.net/images/2017/03/14/35be08d5-c5c1-4fa0-bbb6-66dcbf393095/35be08d5-c5c1-4fa0-bbb6-66dcbf393095.jpg',
     description:
-      'Pamper your dog with a beautiful day with one of our dog loving BidaBooers. They will be your dog companion for the duration you need them to be.',
-    suggestedDetailsText: `Dog Breed:
-  [poodle , chitsoo, lab...,etc]
+      'Whether you need to run some errands for the day or go on a week-long vacation, keep your pet in the safe hands of a pet-loving sitter. Set your own expectations and share your pet needs with your pet sitter, and that leaves one less thing for you to worry about!',
+    suggestedDetailsText: `Pet Type & Breed:
+  [E.g. Poodle dog, Persian cat, Chinese hamster ... ]
 Expectations:
-  [I expect you to walk the dog outside for 1 hour , feed , shower ..etc]
-special comments:
-  [mention any specific instructions or info relevant to this task]
+  [E.g. I expect you to walk the dog outside, feed, clean the cage, shower, daily/every 2 days ... ]
+Special Instructions:
+  [E.g. Doesn't do well with other pets, allergic to .., not allowed to be outside ... ]
 `,
   },
   lawnMowing: {
@@ -75,7 +77,8 @@ Extra comments:
     title: 'Tutoring',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl: 'https://s3.amazonaws.com/edscoop-media/uploads/_articlesCenterImages/tutoring.jpg?mtime=20160815152118',
+    imageUrl:
+      'https://s3.amazonaws.com/edscoop-media/uploads/_articlesCenterImages/tutoring.jpg?mtime=20160815152118',
     description:
       "Need help tutoring? Why don't you let one of our handy BidorBooers help you with that?",
     suggestedDetailsText: `What subject do you need help with:
@@ -85,41 +88,6 @@ What is your expectations:
 Extra comments:
   [mention any specific instructions or info relevant to this task]`,
   },
-  // HairServices: {
-  //   id: 'HairServices',
-  //   category: '',
-  //   title: 'Hair services',
-  //   subTitle: '',
-  //   actionButtonDescription: '',
-  //   imageUrl:
-  //     'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-  //   description:
-  //     "Help with Tutoring",
-  //   suggestedDetailsText:
-  // `How Big is your drivethru ?
-  //   [parking fits 2 cars ...,etc]
-  //   What is your expectations?
-  //   [ I expect to see no ice othe drive through , ]
-  //   extra comments :
-  //   [mention any specific instructions or info relevant to this task]`
-  // },
-  // Catering: {
-  //   id: 'Catering',
-  //   category: '',
-  //   title: 'Catering',
-  //   subTitle: '',
-  //   actionButtonDescription: '',
-  //   imageUrl:
-  //     'https://www.dropbox.com/s/xdmaa67ikfcbbd2/tutoring-banner.png',
-  //   description:
-  //     "Help with Tutoring",
-  //   suggestedDetailsText:
-  // `How Big is your drivethru ?
-  //   [parking fits 2 cars ...,etc]
-  //   What is your expectations?
-  //   [ I expect to see no ice othe drive through , ]
-  //   extra comments :
-  //   [mention any specific instructions or info relevant to this task]`
-  // },
-  //////
+
+  ////
 };

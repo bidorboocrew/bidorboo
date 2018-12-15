@@ -3,7 +3,6 @@ import * as A from './app-state/actionTypes';
 import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
-  console.log(routeAndParams);
   if (stateContent) {
     appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
   } else {

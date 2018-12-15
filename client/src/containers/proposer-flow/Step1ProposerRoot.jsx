@@ -5,19 +5,25 @@ import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import ProposerStepper from './ProposerStepper';
+import { getCurrentUser } from '../../app-state/actions/authActions';
 
 class ProposerRoot extends React.Component {
+  componentDidMount() {
+    if (!this.props.isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
+  }
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
 
     return (
       <React.Fragment>
         {/* <ProposerStepper currentStepNumber={1} /> */}
-        <section className="hero is-small is-dark">
+        <section className="hero is-small is-dark has-text-centered">
           <div className="hero-body">
             <div>
               <h1 style={{ color: 'white' }} className="title">
-                Post Tasks
+                Request A Service
               </h1>
             </div>
           </div>
@@ -39,6 +45,7 @@ const mapStateToProps = ({ userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

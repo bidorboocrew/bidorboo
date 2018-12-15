@@ -199,7 +199,6 @@ class AwardedJobDetails extends React.Component {
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 
-    const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
 
@@ -277,9 +276,7 @@ class AwardedJobDetails extends React.Component {
                 <p className="is-size-6">
                   <span>Start Time</span>
                   <br />
-                  <span className="has-text-weight-semibold">
-                    {hours}:{minutes === 0 ? '00' : minutes} {period}
-                  </span>
+                  <span className="has-text-weight-semibold">{startingDateAndTime.time} </span>
                 </p>
                 <p className="is-size-6">
                   <span>Duration Required</span>

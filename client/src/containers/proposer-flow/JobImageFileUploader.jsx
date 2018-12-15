@@ -36,7 +36,9 @@ export default class JobImageFileUploader extends React.Component {
   componentWillUnmount() {
     const { acceptedFile } = this.state;
     // clean up memory
-    acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
+    if (acceptedFile) {
+      window.URL.revokeObjectURL(acceptedFile.preview);
+    }
   }
 
   render() {

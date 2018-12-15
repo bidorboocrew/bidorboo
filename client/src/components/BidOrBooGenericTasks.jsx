@@ -18,14 +18,19 @@ class BidOrBooGenericTasks extends React.Component {
 
     this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
-      : 'column is-one-fifth';
+      : 'column is-one-quarter';
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    // cases when we re render
+    if (nextProps.isLoggedIn !== this.props.isLoggedIn) {
+      return true;
+    }
+
     if (nextProps.windowWidth !== this.props.windowWidth) {
       let newColumnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
         ? 'column is-half'
-        : 'column is-one-fifth';
+        : 'column is-one-quarter';
       if (this.columnCount !== newColumnCount) {
         this.columnCount = newColumnCount;
         return true;
@@ -36,12 +41,11 @@ class BidOrBooGenericTasks extends React.Component {
   }
 
   render() {
-    console.log('we will render BidOrBooGenericTasks');
     const { isLoggedIn, showLoginDialog } = this.props;
 
     this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
-      : 'column is-one-fifth';
+      : 'column is-one-quarter';
 
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];
@@ -51,9 +55,13 @@ class BidOrBooGenericTasks extends React.Component {
         format: 'rgba',
         alpha: 0.9,
       })}`;
+
       return (
         <div key={id} className={this.columnCount}>
           <div
+            style={{
+              backgroundColor: bgcolor,
+            }}
             onClick={(e) => {
               e.preventDefault();
               if (!isLoggedIn) {
@@ -70,35 +78,19 @@ class BidOrBooGenericTasks extends React.Component {
                   backgroundColor: bgcolor,
                   border: 'none',
                 }}
-                className="button is-primary is-size-6 is-fullwidth has-text-white has-text-centered is-capitalized"
+                className="title button is-primary is-size-6 is-fullwidth has-text-white has-text-centered is-capitalized"
               >
                 {title}
               </p>
             </header>
-            <div className="card-image">
+            <div className="card-image bdb-cover-img">
               <img src={`${imageUrl}`} className="bdb-cover-img" />
             </div>
-            <div style={{ paddingBottom: '0.25rem' }} className="card-content">
-              {/* <h1>
-                <div className="HorizontalAligner-center">
-                  <a
-                    style={{
-                      marginTop: '-70px',
-                      color: 'white',
-                      borderRadius: '50%',
-                      borderColor: 'transparent',
-                      backgroundColor: bgcolor,
-                    }}
-                    className="button is-primary is-size-4  bdb-AddJobButton"
-                  >
-                    <span>+</span>
-                  </a>
-                </div>
-              </h1> */}
-              <div className="content">
+            {/* <div style={{ paddingBottom: '0.25rem' }} className="card-content">
+             <div className="content">
                 <div className="has-text-grey is-size-7">{description}</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       );

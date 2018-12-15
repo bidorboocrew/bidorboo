@@ -26,6 +26,7 @@ const updateUserProfile = (state = initialState, { payload }) => {
   return {
     ...state,
     userDetails: payload,
+    isLoggedIn: true,
   };
 };
 

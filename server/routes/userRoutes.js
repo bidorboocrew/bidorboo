@@ -16,9 +16,9 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
-        if (user && user.email && req.body.data.code) {
-          const { code } = req.body.data;
+        const { code } = req.body.data;
+        if (code) {
+          const user = await userDataAccess.findOneByUserId(userId);
 
           const emailVerification = user.verification.email;
           const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
@@ -48,9 +48,10 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
-        if (user && user.phone && req.body.data.code) {
-          const { code } = req.body.data;
+        const { code } = req.body.data;
+
+        if (code) {
+          const user = await userDataAccess.findOneByUserId(req.user.userId);
 
           const phoneVerification = user.verification.phone;
           const phoneNumberCorrespondingToTheCode =
@@ -243,7 +244,7 @@ module.exports = (app) => {
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
-            folder: `${userMongoDBId}/`,
+            folder: `${userMongoDBId}/profilePic`,
           },
           updateUserWithNewProfileImg
         );

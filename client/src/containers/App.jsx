@@ -27,15 +27,14 @@ import {
   CurrentAwardedJob,
   CurrentAwardedBid,
   NewPostedJob,
+  Verification,
 } from './index';
 
 class App extends React.Component {
   componentDidMount() {
-    // just remvoe a loading indicator till app is loaded
-    // document.getElementById('fullscreen-preloader') &&
-    //   document.getElementById('fullscreen-preloader').remove();
-
-    this.props.a_getCurrentUser();
+    if (!this.props.s_isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
   }
 
   componentDidCatch(error, info) {
@@ -122,6 +121,8 @@ class App extends React.Component {
           />
           {/* <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} /> */}
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
+
+          <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={Verification} />
           {/* redirect any unknown route to the home component */}
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>

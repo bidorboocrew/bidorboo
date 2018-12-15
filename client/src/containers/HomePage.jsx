@@ -7,7 +7,6 @@ import requestImg from '../assets/images/jobs.png';
 
 class HomePage extends React.Component {
   render() {
-
     return (
       <div id="bdb-home-content" className="bdbPage">
         <section className="hero has-text-centered is-dark">
@@ -40,7 +39,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.PROPOSER.root);
                           }}
                         >
-                          <div className="title has-text-black-bis">Request a Service</div>
+                          <div className="title has-text-white">Request a Service</div>
                         </a>
                       }
                     />
@@ -58,7 +57,7 @@ class HomePage extends React.Component {
                             switchRoute(ROUTES.CLIENT.BIDDER.root);
                           }}
                         >
-                          <div className="title has-text-black-bis">Start Bidding</div>
+                          <div className="title has-text-white">Offer a Service</div>
                         </a>
                       }
                     />
@@ -78,12 +77,25 @@ export default HomePage;
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div style={{ cursor: 'pointer' }} onClick={onClickHandler} className="card">
-      <div className="card-image">
+    <div
+      style={{ cursor: 'pointer', height: '18rem', position: 'relative' }}
+      onClick={onClickHandler}
+      className="card is-clipped"
+    >
+      <div style={{ backgroundColor: '#363636' }} className="card-image">
         <img src={`${logoImg}`} className="bdb-home-page" />
-      </div>
-      <div className="card-content">
-        <div className="content has-text-centered is-title has-text-black-bis">{cardContent}</div>
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            bottom: 0,
+            width: ' 100%',
+            background: 'rgba(54,54,54,0.8)',
+            padding: '1.25rem',
+          }}
+        >
+          <div className="title has-text-centered has-text-white">{cardContent}</div>
+        </div>
       </div>
     </div>
   );

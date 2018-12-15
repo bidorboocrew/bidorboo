@@ -87,7 +87,172 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
   });
 };
 
-export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
+export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
+  dispatch({
+    type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.jobFullDetailsById, { params: { jobId } })
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const awardBidder = (jobId, bidId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId,
+      bidId,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.AWARD_BIDDER,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = {
+    data: {
+      jobId,
+      bidId,
+    },
+  };
+
+  const response = dispatch({
+    type: A.JOB_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
+    payload: axios.put(ROUTES.API.BID.PUT.markBidAsSeen, postData, config),
+  });
+  response.then(({ value }) => {
+    if (value) {
+      dispatch({
+        type: A.JOB_ACTIONS.MARK_BID_AS_SEEN,
+        payload: { jobId, bidId },
+      });
+    }
+  });
+};
+
+export const addJob = ({ initialDetails }) => (dispatch) => {
+  const {
+    locationField,
+    detailedDescriptionField,
+    dateField,
+    timeField,
+    durationOfJobField,
+    addressTextField,
+    fromTemplateIdField,
+  } = initialDetails;
+
+  debugger;
+  //map form fields to the mongodb schema expected fields
+  // for more ddetails look at jobModel.js
+
+  //  offset the location for security
+  // https://www.npmjs.com/package/haversine-offset
+  let lng = -75.6972; //ottawa
+  let lat = 45.4215;
+  try {
+    lng = parseFloat(locationField.lng);
+    lat = parseFloat(locationField.lat);
+    let preOffset = { latitude: lat, longitude: lng };
+    let offset = {
+      x: Math.floor(Math.random() * Math.floor(1000)),
+      y: Math.floor(Math.random() * Math.floor(1000)),
+    };
+
+    let postOffset = haversineOffset(preOffset, offset);
+
+    if (postOffset.lat > 0) {
+      lat = Math.min(postOffset.lat, 90).toFixed(5);
+    } else if (postOffset.lat < 0) {
+      lat = Math.max(postOffset.lat, -90).toFixed(5);
+    }
+    if (postOffset.lng > 0) {
+      lng = Math.min(postOffset.lng, 180).toFixed(5);
+    } else if (postOffset.lng < 0) {
+      lng = Math.max(postOffset.lng, -180).toFixed(5);
+    }
+  } catch (e) {
+    console.log('failed to create location default to ottawa'); //if not set to ottawa coords
+  }
+
+  const mapFieldsToSchema = {
+    detailedDescription: detailedDescriptionField,
+    location: {
+      type: 'Point',
+      coordinates: [parseFloat(lng), parseFloat(lat)],
+    },
+    startingDateAndTime: {
+      date: dateField,
+      time: timeField,
+    },
+    durationOfJob: durationOfJobField,
+    addressText: addressTextField,
+    state: 'OPEN',
+    fromTemplateId: fromTemplateIdField,
+  };
+
+  return dispatch({
+    type: A.JOB_ACTIONS.ADD_NEW_JOB,
+    payload: axios
+      .post(ROUTES.API.JOB.POST.newJob, {
+        data: {
+          jobDetails: mapFieldsToSchema,
+        },
+      })
+      .then((resp) => {
+        //on successful creation of a job redirect the user to my jobs
+        if (resp.data && resp.data._id) {
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`);
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Service Request was sucessfully created.',
+              },
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+/**
+ * example add job with images
+ */
+
+export const addJobWithImages = ({ initialDetails, jobImages }) => (dispatch) => {
   const {
     locationField,
     detailedDescriptionField,
@@ -216,77 +381,5 @@ export const addJob = ({ initialDetails, jobImages }) => (dispatch) => {
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
-  });
-};
-
-export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
-  dispatch({
-    type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
-    payload: axios
-      .get(ROUTES.API.JOB.GET.jobFullDetailsById, { params: { jobId } })
-      .then((resp) => {
-        // update recently added job
-        if (resp && resp.data) {
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
-            payload: { data: resp.data },
-          });
-        }
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
-
-export const awardBidder = (jobId, bidId) => (dispatch) => {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const postData = JSON.stringify({
-    data: {
-      jobId,
-      bidId,
-    },
-  });
-
-  dispatch({
-    type: A.JOB_ACTIONS.AWARD_BIDDER,
-    payload: axios
-      .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
-      .then((resp) => {
-        // update recently added job
-        if (resp && resp.data) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
-        }
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
-
-export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const postData = {
-    data: {
-      jobId,
-      bidId,
-    },
-  };
-
-  const response = dispatch({
-    type: A.JOB_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
-    payload: axios.put(ROUTES.API.BID.PUT.markBidAsSeen, postData, config),
-  });
-  response.then(({ value }) => {
-    if (value) {
-      dispatch({
-        type: A.JOB_ACTIONS.MARK_BID_AS_SEEN,
-        payload: { jobId, bidId },
-      });
-    }
   });
 };

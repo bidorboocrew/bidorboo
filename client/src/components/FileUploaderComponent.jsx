@@ -37,8 +37,13 @@ class MyForm extends React.Component {
   componentWillUnmount() {
     const { acceptedFile, croppedFile } = this.state;
     // clean up memory
-    acceptedFile ? window.URL.revokeObjectURL(acceptedFile.preview) : null;
-    croppedFile ? window.URL.revokeObjectURL(croppedFile) : null;
+    if (acceptedFile) {
+      window.URL.revokeObjectURL(acceptedFile.preview);
+    }
+    if (croppedFile) {
+      window.URL.revokeObjectURL(croppedFile);
+    }
+
     this.reader = null;
   }
 
@@ -135,7 +140,7 @@ class MyForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group has-text-centered">
           <input
             id="files"
             className="input is-invisible"

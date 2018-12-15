@@ -8,24 +8,25 @@ import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-class CustomDateButton extends React.Component {
+class CustomTimeButton extends React.Component {
   static propTypes = {
     onClick: PropTypes.func,
     value: PropTypes.string,
   };
+
   render() {
     return (
       <a className="button is-info is-outlined" onClick={this.props.onClick}>
         <span className="icon">
-          <i className="far fa-calendar-alt" />
+          <i className="far fa-clock" />
         </span>
-        <span>{this.props.value || 'Select Date'}</span>
+        <span>{this.props.value || 'Select Time'}</span>
       </a>
     );
   }
 }
 
-export default class DatePickerInput extends React.Component {
+export default class TimePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string]),
@@ -36,6 +37,7 @@ export default class DatePickerInput extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       startDate: '',
     };
@@ -43,12 +45,11 @@ export default class DatePickerInput extends React.Component {
   }
 
   handleChange(date) {
-    const dateWithTimeZone = moment.utc(date).toDate();
-
+    const dateString = date.format('hh:mm a');
     this.setState({
       startDate: date,
     });
-    this.props.onChangeEvent(dateWithTimeZone);
+    this.props.onChangeEvent(dateString);
   }
 
   render() {
@@ -56,19 +57,23 @@ export default class DatePickerInput extends React.Component {
       <DatePicker
         selected={this.state.startDate}
         onChange={this.handleChange}
-        locale="en-gb"
-        minDate={moment()}
-        maxDate={moment().add(6, 'month')}
-        customInput={<CustomDateButton />}
+        showTimeSelect
+        showTimeSelectOnly
+        timeIntervals={30}
+        dateFormat="h:mm a"
+        timeCaption="time"
+        customInput={<CustomTimeButton />}
         className="input is-overlay"
       />
     ) : (
       <DatePicker
         onChange={this.handleChange}
-        locale="en-gb"
-        minDate={moment()}
-        maxDate={moment().add(6, 'month')}
-        customInput={<CustomDateButton />}
+        showTimeSelect
+        showTimeSelectOnly
+        timeIntervals={30}
+        dateFormat="h:mm a"
+        timeCaption="time"
+        customInput={<CustomTimeButton />}
         className="input is-overlay"
       />
     );

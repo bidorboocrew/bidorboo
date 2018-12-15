@@ -5,6 +5,7 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
+const ROUTES = require('../backend-route-constants');
 
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
@@ -137,7 +138,8 @@ exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
 
       await sendTextService.sendText(
         updatedUser.phone.phoneNumber,
-        `BidOrBoo: Phone verification. pinCode: ${phoneVerificationCode}. visit https://www.bidorboo.com`
+        `BidOrBoo: click on the link to verify your phone Phone verification.
+        ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(phoneVerificationCode)}`
       );
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
@@ -174,8 +176,9 @@ exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
         'bidorboocrew@gmail.com',
         updatedUser.email.emailAddress,
         'BidOrBoo: Email verification',
-        `Your Email verification Code : ${emailVerificationCode}.
-         Please visit https://www.bidorboo.com to verify your profile details
+        `To verify your email Please click: ${ROUTES.CLIENT.VERIFICATION_emailDynamic(
+          emailVerificationCode
+        )}
         `
       );
 
@@ -201,10 +204,10 @@ exports.createNewUser = async (userDetails) => {
         this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
       }
 
-      const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
+      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
         _id: newUser._id.toString(),
         email: newUser.email.emailAddress,
-        userId: newUser.userID,
+        userId: newUser.userId,
         displayName: newUser.displayName,
       });
 

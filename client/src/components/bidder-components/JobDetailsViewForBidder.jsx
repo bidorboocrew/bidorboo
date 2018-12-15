@@ -22,7 +22,6 @@ export default class JobDetailsViewForBidder extends React.Component {
 
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
-    const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
 
@@ -74,9 +73,7 @@ export default class JobDetailsViewForBidder extends React.Component {
             <p className="is-size-7">
               <span>Start Time</span>
               <br />
-              <span className="has-text-weight-semibold is-size-6">
-                {hours}:{minutes === 0 ? '00' : minutes} {period}
-              </span>
+              <span className="has-text-weight-semibold">{startingDateAndTime.time} </span>
             </p>
             <p className="is-size-7">
               <span>Duration Required</span>
