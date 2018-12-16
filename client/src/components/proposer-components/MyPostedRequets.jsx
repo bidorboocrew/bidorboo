@@ -23,7 +23,7 @@ class MyPostedRequets extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
     const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
       ? 'column is-half'
-      : 'column is-one-quarter';
+      : 'column is-one-fifth';
 
     return userHasPostedJobs ? (
       <MyRequests {...this.props} columnCount={columnCount} />

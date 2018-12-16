@@ -40,7 +40,7 @@ const OtherPeoplesJobs = (props) => {
 
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-quarter';
+    : 'column is-one-fifth';
 
   const components = otherPeopleJobs.map((job) => {
     const cardFooter = (
@@ -77,7 +77,7 @@ const MyJobs = (props) => {
   const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-quarter';
+    : 'column is-one-fifth';
 
   const components = myjobs.map((job) => {
     const cardFooter = (

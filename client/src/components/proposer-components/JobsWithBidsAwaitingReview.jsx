@@ -33,7 +33,7 @@ const JobsWithBids = (props) => {
 
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-quarter';
+    : 'column is-one-fifth';
 
   const jobsWithBids = jobsList
     .filter((job) => {

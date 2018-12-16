@@ -4,14 +4,13 @@ import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
-// import ProposerStepper from './ProposerStepper';
-// import PicturesUploaderContainer from './PicturesUploaderContainer';
+import ProposerStepper from './ProposerStepper';
+import PicturesUploaderContainer from './PicturesUploaderContainer';
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -83,10 +82,7 @@ class CreateAJob extends React.Component {
         </section>
 
         <div className="card-content ">
-          <ShowMore className="has-text-grey" lines={2} more="Show more" less="Show less">
-            {this.state.chosenTemplate.description}
-          </ShowMore>
-
+          <p className="has-text-grey">{this.state.chosenTemplate.description}</p>
           <br />
           {currentStepNumber === 2 && (
             <React.Fragment>

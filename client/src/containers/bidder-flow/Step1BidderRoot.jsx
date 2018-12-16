@@ -22,30 +22,34 @@ const TAB_IDS = {
   postedBids: 'Posted Bids',
   mine: 'Mine',
 };
+const google = window.google;
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       address: '',
-      showFilterDialog: false,
       hideMyJobs: false,
-      displayedJobList: null,
+      displayedJobList: this.props.ListOfJobsToBidOn,
+      centerOfMap: {
+        lng: -75.6972,
+        lat: 45.4215,
+      },
       activeTab: TAB_IDS.openRequests,
     };
-    autoBind(this, 'toggleFilterDialog', 'changeActiveTab');
+    autoBind(this, 'updateMapCenter', 'toggleFilterDialog', 'changeActiveTab', 'handleGeoSearch');
+  }
+  updateMapCenter(position) {
+    debugger;
+    this.setState({
+      centerOfMap: {
+        lng: position.lng,
+        lat: position.lat,
+      },
+    });
   }
 
   changeActiveTab(tabId) {
     this.setState({ activeTab: tabId });
-  }
-
-  toggleFilterDialog(e) {
-    e.preventDefault();
-
-    this.setState({
-      ...this.state,
-      showFilterDialog: !this.state.showFilterDialog,
-    });
   }
 
   componentDidMount() {
@@ -54,6 +58,35 @@ class BidderRoot extends React.Component {
     }
 
     this.props.a_getAllJobsToBidOn();
+  }
+
+  handleGeoSearch(vals) {
+    const { locationField, searchRaduisField } = vals;
+
+    let searchArea = new google.maps.Circle({
+      center: new google.maps.LatLng(locationField.lat, locationField.lng),
+      radius: searchRaduisField * 1000, //in KM
+    });
+    const center = searchArea.getCenter();
+    const raduis = searchArea.getRadius();
+
+    let filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
+      let marker = new google.maps.LatLng(job.location.coordinates[1], job.location.coordinates[0]);
+
+      if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
+        debugger;
+        return true;
+      }
+      return false;
+    });
+    debugger;
+    this.setState({
+      displayedJobList: filteredJobs,
+      centerOfMap: {
+        lat: locationField.lat,
+        lng: locationField.lng,
+      },
+    });
   }
 
   render() {
@@ -74,46 +107,21 @@ class BidderRoot extends React.Component {
       return <Spinner isLoading={isLoading} size={'large'} />;
     }
 
-    const { activeTab } = this.state;
+    const { activeTab, displayedJobList, centerOfMap } = this.state;
+    debugger;
 
     let currentlyViewedjobs = [];
-    let jobsList =
-      this.state.displayedJobList === null ? ListOfJobsToBidOn : this.state.displayedJobList;
-
+    let currentJobsList =
+      displayedJobList && displayedJobList.length > 0 ? displayedJobList : ListOfJobsToBidOn;
     if (activeTab === TAB_IDS.openRequests) {
-      currentlyViewedjobs = jobsList.filter((job) => job._ownerRef._id !== currentUserId);
+      currentlyViewedjobs = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
     } else if (activeTab === TAB_IDS.mine) {
-      currentlyViewedjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
+      currentlyViewedjobs = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
     }
 
     return (
       <React.Fragment>
         {/* <BidderStepper currentStepNumber={1} /> */}
-
-        {this.state.showFilterDialog && (
-          <div className="modal is-active">
-            <div onClick={this.toggleFilterDialog} className="modal-background" />
-            <div className="modal-card">
-              <header className="modal-card-head">
-                <p className="modal-card-title">Filter Jobs</p>
-                <button onClick={this.toggleFilterDialog} className="delete" aria-label="close" />
-              </header>
-              <section style={{ padding: 0 }} className="modal-card-body">
-                <JobsLocationFilterForm
-                  onCancel={() => {
-                    this.setState({ showFilterDialog: false });
-                  }}
-                  onSubmit={(vals) => {
-                    a_searchByLocation(vals);
-                    this.setState({ showFilterDialog: false });
-                  }}
-                />
-              </section>
-            </div>
-
-            <button onClick={this.toggleFilterDialog} className="modal-close " aria-label="close" />
-          </div>
-        )}
 
         <div className="" id="bdb-bidder-root">
           <section className="hero is-small is-dark">
@@ -127,34 +135,26 @@ class BidderRoot extends React.Component {
           </section>
           <section style={{ padding: 0 }} className="modal-card-body">
             <JobsLocationFilterForm
+              updateMapCenter={this.updateMapCenter}
               onCancel={() => {
                 this.setState({ showFilterDialog: false });
               }}
               onSubmit={(vals) => {
-                a_searchByLocation(vals);
+                this.handleGeoSearch(vals);
+                // a_searchByLocation(vals);
                 this.setState({ showFilterDialog: false });
               }}
             />
           </section>
           <section style={{ paddingBottom: 0 }} className="section">
-            {/* {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
-              <a
-                style={{ marginBottom: '1.5rem' }}
-                onClick={this.toggleFilterDialog}
-                className="button"
-              >
-                Filter Jobs
-              </a>
-            )} */}
-
             <div>
               <BidderMapSection
                 selectJobToBidOn={a_selectJobToBidOn}
-                mapCenterPoint={mapCenterPoint}
+                mapCenterPoint={centerOfMap}
                 isLoggedIn={isLoggedIn}
                 showLoginDialog={a_showLoginDialog}
                 currentUserId={userDetails._id}
-                jobsList={currentlyViewedjobs}
+                jobsList={currentJobsList}
               />
             </div>
           </section>
@@ -190,7 +190,7 @@ class BidderRoot extends React.Component {
                 showLoginDialog={a_showLoginDialog}
                 currentUserId={userDetails._id}
                 selectJobToBidOn={a_selectJobToBidOn}
-                jobsList={currentlyViewedjobs}
+                jobsList={currentJobsList}
                 {...this.props}
               />
             </div>

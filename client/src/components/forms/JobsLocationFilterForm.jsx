@@ -300,6 +300,8 @@ class JobsLocationFilterForm extends React.Component {
             },
             this.successfullGeoCoding,
           );
+
+          this.props.updateMapCenter(pos);
         }
       };
 
@@ -312,6 +314,7 @@ class JobsLocationFilterForm extends React.Component {
     } else {
       // Browser doesn't support Geolocation
       // try the googlemap apis
+      console.log('Browser doesnt support geolcoation');
     }
   }
 }
