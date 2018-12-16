@@ -46,7 +46,6 @@ class BidderRoot extends React.Component {
     );
   }
   updateMapCenter(position) {
-    debugger;
     this.setState({
       centerOfMap: {
         lng: position.lng,
@@ -55,7 +54,6 @@ class BidderRoot extends React.Component {
     });
   }
   clearFilter() {
-    debugger;
     this.setState({
       displayedJobList: this.props.ListOfJobsToBidOn,
     });
@@ -86,12 +84,11 @@ class BidderRoot extends React.Component {
       let marker = new google.maps.LatLng(job.location.coordinates[1], job.location.coordinates[0]);
 
       if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
-        debugger;
         return true;
       }
       return false;
     });
-    debugger;
+
     this.setState({
       displayedJobList: filteredJobs,
       centerOfMap: {
@@ -120,7 +117,6 @@ class BidderRoot extends React.Component {
     }
 
     const { activeTab, displayedJobList, centerOfMap } = this.state;
-    debugger;
 
     let currentlyViewedjobs = [];
     let currentJobsList =

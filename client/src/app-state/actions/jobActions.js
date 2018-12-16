@@ -170,7 +170,6 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
     fromTemplateIdField,
   } = initialDetails;
 
-  debugger;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 

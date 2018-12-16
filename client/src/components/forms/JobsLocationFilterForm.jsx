@@ -46,7 +46,12 @@ class JobsLocationFilterForm extends React.Component {
     );
   }
   componentDidMount() {
+    this.mount = true;
     navigator.geolocation && this.getCurrentAddress();
+  }
+
+  componentWillUnmount() {
+    this.mount = false;
   }
   updateSearchRaduisSelection(raduisKm) {
     this.props.setFieldValue('searchRaduisField', raduisKm, false);
@@ -67,11 +72,11 @@ class JobsLocationFilterForm extends React.Component {
   }
 
   clearForceSetAddressValue() {
-    this.setState({ forceSetAddressValue: '' });
+    this.mount && this.setState({ forceSetAddressValue: '' });
   }
 
   autoSetGeoLocation(addressText) {
-    this.setState(() => ({ forceSetAddressValue: addressText }));
+    this.mount && this.setState({ forceSetAddressValue: addressText });
     // update the form field with the current position coordinates
     this.props.setFieldValue('addressTextField', addressText, false);
   }
@@ -200,14 +205,6 @@ class JobsLocationFilterForm extends React.Component {
           <div className="buttons has-addons">
             <span className="button is-static">Search Raduis</span>
             <span
-              onClick={() => this.updateSearchRaduisSelection(5)}
-              className={classNames('button', {
-                'is-info is-selected': values.searchRaduisField === 5,
-              })}
-            >
-              5km
-            </span>
-            <span
               onClick={() => this.updateSearchRaduisSelection(15)}
               className={classNames('button', {
                 'is-info is-selected': values.searchRaduisField === 15,
@@ -222,6 +219,22 @@ class JobsLocationFilterForm extends React.Component {
               })}
             >
               25km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(50)}
+              className={classNames('button', {
+                'is-info is-selected': values.searchRaduisField === 50,
+              })}
+            >
+              50km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(100)}
+              className={classNames('button', {
+                'is-info is-selected': values.searchRaduisField === 100,
+              })}
+            >
+              100km
             </span>
           </div>
         </div>
@@ -249,7 +262,7 @@ class JobsLocationFilterForm extends React.Component {
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
               resetForm();
               setFieldValue('locationField', '', false);
-              setFieldValue('searchRaduisField', 15, false);
+              setFieldValue('searchRaduisField', '', false);
               setFieldValue('filterJobsByCategoryField', [], false);
               this.clearForceSetAddressValue();
               this.props.onCancel();
