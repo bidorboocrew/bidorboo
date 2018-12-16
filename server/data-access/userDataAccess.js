@@ -204,16 +204,18 @@ exports.createNewUser = async (userDetails) => {
         this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
       }
 
-      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+      // intentionally did not await on this to speed up login
+      const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
         _id: newUser._id.toString(),
         email: newUser.email.emailAddress,
         userId: newUser.userId,
         displayName: newUser.displayName,
       });
-
       this.updateUserProfileDetails(newUser.userId, {
         stripeConnect: { accId: newStripeConnectAcc.id },
       });
+      // do this behind the scene  ^
+
       resolve(newUser.toObject());
     } catch (e) {
       reject(e);

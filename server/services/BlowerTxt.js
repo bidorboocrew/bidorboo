@@ -8,6 +8,9 @@ exports.TxtMsgingService = {
     if (process.env.NODE_ENV !== 'production') {
       return;
     }
+    if (process.env.NODE_ENV === 'production') {
+      return;
+    }
     request.post(
       {
         headers: {

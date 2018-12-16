@@ -99,7 +99,7 @@ const UserSchema = new Schema(
     settings: { type: Object },
     extras: { type: Object },
     stripeConnect: {
-      accId: { type: String, unique: true },
+      accId: { type: String },
       isVerified: { type: Boolean, default: false },
       last4BankAcc: { type: String },
     },
