@@ -40,14 +40,12 @@ class JobsLocationFilterForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue',
       'toggleJobCategorySelection',
       'updateSearchRaduisSelection',
     );
   }
   componentDidMount() {
     this.mount = true;
-    navigator.geolocation && this.getCurrentAddress();
   }
 
   componentWillUnmount() {
@@ -71,10 +69,6 @@ class JobsLocationFilterForm extends React.Component {
     this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
   }
 
-  clearForceSetAddressValue() {
-    this.mount && this.setState({ forceSetAddressValue: '' });
-  }
-
   autoSetGeoLocation(addressText) {
     this.mount && this.setState({ forceSetAddressValue: addressText });
     // update the form field with the current position coordinates
@@ -93,6 +87,7 @@ class JobsLocationFilterForm extends React.Component {
       handleBlur,
       handleSubmit,
       isValid,
+      dirty,
       isSubmitting,
       setFieldValue,
       resetForm,
@@ -247,13 +242,9 @@ class JobsLocationFilterForm extends React.Component {
         </div>
 
         <div className="field">
-          <button
-            style={{ marginRight: 6 }}
-            className="button is-primary is-meduim"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            search
+          <button style={{ marginRight: 6 }} className="button is-primary is-meduim" type="submit">
+            <i className="fas fa-search-location" />
+            <span style={{ marginLeft: 4 }}>Search</span>
           </button>
           <button
             type="button"
@@ -264,11 +255,11 @@ class JobsLocationFilterForm extends React.Component {
               setFieldValue('locationField', '', false);
               setFieldValue('searchRaduisField', '', false);
               setFieldValue('filterJobsByCategoryField', [], false);
-              this.clearForceSetAddressValue();
               this.props.onCancel();
             }}
           >
-            Clear All Filters
+            <i className="far fa-times-circle" />
+            <span style={{ marginLeft: 4 }}>Clear All Filters</span>
           </button>
         </div>
       </form>

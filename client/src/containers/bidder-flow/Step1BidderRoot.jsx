@@ -72,20 +72,22 @@ class BidderRoot extends React.Component {
   }
 
   handleGeoSearch(vals) {
-    const { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
+    let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
+    let filteredJobs = this.props.ListOfJobsToBidOn;
 
-    // filter by type first
-    let filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
-      if (
-        filterJobsByCategoryField &&
-        filterJobsByCategoryField.length > 0 &&
-        !filterJobsByCategoryField.includes(job.fromTemplateId)
-      ) {
-        debugger;
-        return false;
-      }
-      return true;
-    });
+    if (filterJobsByCategoryField && filterJobsByCategoryField.length > 0) {
+      // filter by type first
+      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
+        if (
+          filterJobsByCategoryField &&
+          filterJobsByCategoryField.length > 0 &&
+          !filterJobsByCategoryField.includes(job.fromTemplateId)
+        ) {
+          return false;
+        }
+        return true;
+      });
+    }
 
     if (locationField && searchRaduisField) {
       let searchArea = new google.maps.Circle({
@@ -95,7 +97,7 @@ class BidderRoot extends React.Component {
       const center = searchArea.getCenter();
       const raduis = searchArea.getRadius();
 
-      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
+      filteredJobs = filteredJobs.filter((job) => {
         let marker = new google.maps.LatLng(
           job.location.coordinates[1],
           job.location.coordinates[0],
@@ -107,12 +109,18 @@ class BidderRoot extends React.Component {
         return false;
       });
     }
+    if (!locationField || !locationField.lat || !locationField.lng) {
+      locationField = {
+        lat: 45.4215,
+        lng: -75.6972,
+      };
+    }
     this.setState({
       isSearchTermActive: true,
       displayedJobList: filteredJobs,
       centerOfMap: {
-        lat: locationField.lat || 45.4215,
-        lng: locationField.lng || -75.6972,
+        lat: locationField.lat,
+        lng: locationField.lng,
       },
     });
   }
@@ -139,7 +147,6 @@ class BidderRoot extends React.Component {
     } else if (activeTab === TAB_IDS.mine) {
       currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
     }
-    debugger;
 
     return (
       <React.Fragment>
