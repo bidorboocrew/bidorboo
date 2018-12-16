@@ -27,7 +27,7 @@ class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
+      isSearchTermActive: false,
       hideMyJobs: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
       centerOfMap: {
@@ -56,6 +56,7 @@ class BidderRoot extends React.Component {
   clearFilter() {
     this.setState({
       displayedJobList: this.props.ListOfJobsToBidOn,
+      isSearchTermActive: false,
     });
   }
   changeActiveTab(tabId) {
@@ -71,29 +72,47 @@ class BidderRoot extends React.Component {
   }
 
   handleGeoSearch(vals) {
-    const { locationField, searchRaduisField } = vals;
+    const { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
 
-    let searchArea = new google.maps.Circle({
-      center: new google.maps.LatLng(locationField.lat, locationField.lng),
-      radius: searchRaduisField * 1000, //in KM
-    });
-    const center = searchArea.getCenter();
-    const raduis = searchArea.getRadius();
-
+    // filter by type first
     let filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
-      let marker = new google.maps.LatLng(job.location.coordinates[1], job.location.coordinates[0]);
-
-      if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
-        return true;
+      if (
+        filterJobsByCategoryField &&
+        filterJobsByCategoryField.length > 0 &&
+        !filterJobsByCategoryField.includes(job.fromTemplateId)
+      ) {
+        debugger;
+        return false;
       }
-      return false;
+      return true;
     });
 
+    if (locationField && searchRaduisField) {
+      let searchArea = new google.maps.Circle({
+        center: new google.maps.LatLng(locationField.lat, locationField.lng),
+        radius: searchRaduisField * 1000, //in KM
+      });
+      const center = searchArea.getCenter();
+      const raduis = searchArea.getRadius();
+
+      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
+        let marker = new google.maps.LatLng(
+          job.location.coordinates[1],
+          job.location.coordinates[0],
+        );
+
+        if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
+          return true;
+        }
+        return false;
+      });
+    }
     this.setState({
+      isSearchTermActive: true,
       displayedJobList: filteredJobs,
       centerOfMap: {
-        lat: locationField.lat,
-        lng: locationField.lng,
+        lat: locationField.lat || 45.4215,
+        lng: locationField.lng || -75.6972,
       },
     });
   }
@@ -111,16 +130,16 @@ class BidderRoot extends React.Component {
 
     const currentUserId = userDetails._id;
 
-    const { activeTab, displayedJobList, centerOfMap } = this.state;
+    const { activeTab, displayedJobList, centerOfMap, isSearchTermActive } = this.state;
 
-    let currentlyViewedjobs = [];
-    let currentJobsList =
-      displayedJobList && displayedJobList.length > 0 ? displayedJobList : ListOfJobsToBidOn;
+    let currentJobsList = isSearchTermActive ? displayedJobList : ListOfJobsToBidOn;
+
     if (activeTab === TAB_IDS.openRequests) {
-      currentlyViewedjobs = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
+      currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
     } else if (activeTab === TAB_IDS.mine) {
-      currentlyViewedjobs = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
+      currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
     }
+    debugger;
 
     return (
       <React.Fragment>
@@ -163,7 +182,7 @@ class BidderRoot extends React.Component {
                     isLoggedIn={isLoggedIn}
                     showLoginDialog={a_showLoginDialog}
                     currentUserId={userDetails._id}
-                    jobsList={currentlyViewedjobs}
+                    jobsList={currentJobsList}
                   />
                 </div>
               </section>
@@ -199,7 +218,7 @@ class BidderRoot extends React.Component {
                     showLoginDialog={a_showLoginDialog}
                     currentUserId={userDetails._id}
                     selectJobToBidOn={a_selectJobToBidOn}
-                    jobsList={currentlyViewedjobs}
+                    jobsList={currentJobsList}
                     {...this.props}
                   />
                 </div>
