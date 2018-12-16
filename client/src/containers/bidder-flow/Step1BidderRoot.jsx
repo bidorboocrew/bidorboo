@@ -104,17 +104,12 @@ class BidderRoot extends React.Component {
       ListOfJobsToBidOn,
       userDetails,
       a_searchByLocation,
-      mapCenterPoint,
       a_selectJobToBidOn,
       isLoggedIn,
       a_showLoginDialog,
     } = this.props;
 
     const currentUserId = userDetails._id;
-
-    if (isLoading) {
-      return <Spinner isLoading={isLoading} size={'large'} />;
-    }
 
     const { activeTab, displayedJobList, centerOfMap } = this.state;
 
@@ -141,64 +136,76 @@ class BidderRoot extends React.Component {
               </div>
             </div>
           </section>
-          <section style={{ padding: 0 }} className="modal-card-body">
-            <JobsLocationFilterForm
-              updateMapCenter={this.updateMapCenter}
-              onCancel={this.clearFilter}
-              onSubmit={(vals) => {
-                this.handleGeoSearch(vals);
-              }}
-            />
-          </section>
-          <section style={{ paddingBottom: 0 }} className="section">
-            <div>
-              <BidderMapSection
-                selectJobToBidOn={a_selectJobToBidOn}
-                mapCenterPoint={centerOfMap}
-                isLoggedIn={isLoggedIn}
-                showLoginDialog={a_showLoginDialog}
-                currentUserId={userDetails._id}
-                jobsList={currentJobsList}
-              />
-            </div>
-          </section>
-          <section className="section">
-            <div className="tabs">
-              <ul>
-                <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.changeActiveTab(TAB_IDS.openRequests);
-                    }}
-                  >
-                    {TAB_IDS.openRequests}
-                  </a>
-                </li>
-                <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.changeActiveTab(TAB_IDS.mine);
-                    }}
-                  >
-                    {TAB_IDS.mine}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <JobsToBidOnListView
-                activeTab={activeTab}
-                isLoggedIn={isLoggedIn}
-                showLoginDialog={a_showLoginDialog}
-                currentUserId={userDetails._id}
-                selectJobToBidOn={a_selectJobToBidOn}
-                jobsList={currentJobsList}
-                {...this.props}
-              />
-            </div>
-          </section>
+
+          {isLoading && (
+            <section className="section">
+              <div className="container">
+                <Spinner isLoading={isLoading} size={'large'} />
+              </div>
+            </section>
+          )}
+          {!isLoading && (
+            <React.Fragment>
+              <section style={{ padding: 0 }} className="modal-card-body">
+                <JobsLocationFilterForm
+                  updateMapCenter={this.updateMapCenter}
+                  onCancel={this.clearFilter}
+                  onSubmit={(vals) => {
+                    this.handleGeoSearch(vals);
+                  }}
+                />
+              </section>
+              <section style={{ paddingBottom: 0 }} className="section">
+                <div>
+                  <BidderMapSection
+                    selectJobToBidOn={a_selectJobToBidOn}
+                    mapCenterPoint={centerOfMap}
+                    isLoggedIn={isLoggedIn}
+                    showLoginDialog={a_showLoginDialog}
+                    currentUserId={userDetails._id}
+                    jobsList={currentlyViewedjobs}
+                  />
+                </div>
+              </section>
+              <section className="section">
+                <div className="tabs">
+                  <ul>
+                    <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.changeActiveTab(TAB_IDS.openRequests);
+                        }}
+                      >
+                        {TAB_IDS.openRequests}
+                      </a>
+                    </li>
+                    <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.changeActiveTab(TAB_IDS.mine);
+                        }}
+                      >
+                        {TAB_IDS.mine}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <JobsToBidOnListView
+                    activeTab={activeTab}
+                    isLoggedIn={isLoggedIn}
+                    showLoginDialog={a_showLoginDialog}
+                    currentUserId={userDetails._id}
+                    selectJobToBidOn={a_selectJobToBidOn}
+                    jobsList={currentlyViewedjobs}
+                    {...this.props}
+                  />
+                </div>
+              </section>
+            </React.Fragment>
+          )}
         </div>
       </React.Fragment>
     );

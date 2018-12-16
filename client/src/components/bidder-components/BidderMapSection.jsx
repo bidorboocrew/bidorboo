@@ -12,7 +12,7 @@ export default class BidderMapSection extends React.Component {
       showLoginDialog,
       markersRef,
     } = this.props;
-    return jobsList && jobsList.length > 0 ? (
+    return jobsList ? (
       <MapWithAMarkerClusterer
         selectJobToBidOn={selectJobToBidOn}
         mapCenterPoint={mapCenterPoint}
