@@ -36,7 +36,14 @@ class BidderRoot extends React.Component {
       },
       activeTab: TAB_IDS.openRequests,
     };
-    autoBind(this, 'updateMapCenter', 'toggleFilterDialog', 'changeActiveTab', 'handleGeoSearch');
+    autoBind(
+      this,
+      'clearFilter',
+      'updateMapCenter',
+      'toggleFilterDialog',
+      'changeActiveTab',
+      'handleGeoSearch',
+    );
   }
   updateMapCenter(position) {
     debugger;
@@ -47,7 +54,12 @@ class BidderRoot extends React.Component {
       },
     });
   }
-
+  clearFilter() {
+    debugger;
+    this.setState({
+      displayedJobList: this.props.ListOfJobsToBidOn,
+    });
+  }
   changeActiveTab(tabId) {
     this.setState({ activeTab: tabId });
   }
@@ -136,13 +148,9 @@ class BidderRoot extends React.Component {
           <section style={{ padding: 0 }} className="modal-card-body">
             <JobsLocationFilterForm
               updateMapCenter={this.updateMapCenter}
-              onCancel={() => {
-                this.setState({ showFilterDialog: false });
-              }}
+              onCancel={this.clearFilter}
               onSubmit={(vals) => {
                 this.handleGeoSearch(vals);
-                // a_searchByLocation(vals);
-                this.setState({ showFilterDialog: false });
               }}
             />
           </section>

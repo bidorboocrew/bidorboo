@@ -252,6 +252,7 @@ class JobsLocationFilterForm extends React.Component {
               setFieldValue('searchRaduisField', 15, false);
               setFieldValue('filterJobsByCategoryField', [], false);
               this.clearForceSetAddressValue();
+              this.props.onCancel();
             }}
           >
             Clear All Filters
