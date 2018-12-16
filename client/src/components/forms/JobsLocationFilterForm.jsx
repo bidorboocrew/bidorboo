@@ -101,7 +101,7 @@ class JobsLocationFilterForm extends React.Component {
         <span
           key={key}
           onClick={() => this.toggleJobCategorySelection(key)}
-          className={classNames('button', {
+          className={classNames('button is-small', {
             'is-info is-selected': isThisJobSelected,
           })}
         >
@@ -198,10 +198,10 @@ class JobsLocationFilterForm extends React.Component {
         />
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Search Raduis</span>
+            <span className="button is-small is-static">Search Raduis</span>
             <span
               onClick={() => this.updateSearchRaduisSelection(15)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 15,
               })}
             >
@@ -209,7 +209,7 @@ class JobsLocationFilterForm extends React.Component {
             </span>
             <span
               onClick={() => this.updateSearchRaduisSelection(25)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 25,
               })}
             >
@@ -217,7 +217,7 @@ class JobsLocationFilterForm extends React.Component {
             </span>
             <span
               onClick={() => this.updateSearchRaduisSelection(50)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 50,
               })}
             >
@@ -225,7 +225,7 @@ class JobsLocationFilterForm extends React.Component {
             </span>
             <span
               onClick={() => this.updateSearchRaduisSelection(100)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 100,
               })}
             >
@@ -236,19 +236,19 @@ class JobsLocationFilterForm extends React.Component {
 
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Filter by category</span>
+            <span className="button  is-small is-static">Filter by category</span>
             {staticJobCategoryButtons}
           </div>
         </div>
 
         <div className="field">
-          <button style={{ marginRight: 6 }} className="button is-primary is-meduim" type="submit">
+          <button style={{ marginRight: 6 }} className="button is-primary is-small" type="submit">
             <i className="fas fa-search-location" />
             <span style={{ marginLeft: 4 }}>Search</span>
           </button>
           <button
             type="button"
-            className="button is-outlined is-meduim"
+            className="button is-small is-outlined"
             onClick={() => {
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
               resetForm();
