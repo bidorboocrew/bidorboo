@@ -40,6 +40,9 @@ class BidOrBooGenericTasks extends React.Component {
             }}
             className="card is-clipped"
           >
+            <div className="card-image bdb-cover-img">
+              <img src={`${imageUrl}`} className="bdb-cover-img" />
+            </div>
             <header>
               <p
                 style={{
@@ -51,9 +54,6 @@ class BidOrBooGenericTasks extends React.Component {
                 {title}
               </p>
             </header>
-            <div className="card-image bdb-cover-img">
-              <img src={`${imageUrl}`} className="bdb-cover-img" />
-            </div>
           </div>
         </div>
       );
