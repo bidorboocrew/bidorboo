@@ -33,15 +33,7 @@ class HomePage extends React.Component {
                       onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       }}
-                      cardContent={
-                        <a
-                          onClick={() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                          }}
-                        >
-                          <div className="title has-text-white">Request a Service</div>
-                        </a>
-                      }
+                      cardContent={<div className="title has-text-dark">Request a Service</div>}
                     />
                   </div>
                   <div className="column is-half">
@@ -50,16 +42,7 @@ class HomePage extends React.Component {
                       onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       }}
-                      cardContent={
-                        <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            switchRoute(ROUTES.CLIENT.BIDDER.root);
-                          }}
-                        >
-                          <div className="title has-text-white">Offer a Service</div>
-                        </a>
-                      }
+                      cardContent={<div className="title has-text-dark">Offer a Service</div>}
                     />
                   </div>
                 </div>
@@ -77,25 +60,12 @@ export default HomePage;
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div
-      style={{ cursor: 'pointer', height: '18rem', position: 'relative' }}
-      onClick={onClickHandler}
-      className="card is-clipped"
-    >
+    <div onClick={onClickHandler} className="card saeedSpecialLarge">
       <div className="card-image">
-        <img src={`${logoImg}`} className="bdb-home-page" />
-        <div
-          style={{
-            position: 'absolute',
-            left: 0,
-            bottom: 0,
-            width: ' 100%',
-            background: 'rgba(54,54,54,0.8)',
-            padding: '1.25rem',
-          }}
-        >
-          <div className="title has-text-centered has-text-white">{cardContent}</div>
-        </div>
+        <img src={`${logoImg}`} />
+      </div>
+      <div className="title  is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
+        {cardContent}
       </div>
     </div>
   );

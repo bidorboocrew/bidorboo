@@ -18,11 +18,7 @@ class BidOrBooGenericTasks extends React.Component {
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];
       const { title, subtitle, description, imageUrl, id } = defaultTask;
-      const bgcolor = `${randomColor({
-        luminosity: 'dark',
-        format: 'rgba',
-        alpha: 0.9,
-      })}`;
+      const bgcolor = 'white';
 
       return (
         <div key={id} className="column">
@@ -38,22 +34,19 @@ class BidOrBooGenericTasks extends React.Component {
                 switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
               }
             }}
-            className="card is-clipped"
+            className="card saeedSpecial"
           >
-            <div className="card-image bdb-cover-img">
-              <img src={`${imageUrl}`} className="bdb-cover-img" />
+            <div
+              style={{
+                backgroundColor: bgcolor,
+              }}
+              className="card-image"
+            >
+              <img src={`${imageUrl}`} />
             </div>
-            <header>
-              <p
-                style={{
-                  backgroundColor: bgcolor,
-                  border: 'none',
-                }}
-                className="title button is-primary is-size-6 is-fullwidth has-text-white has-text-centered is-capitalized"
-              >
-                {title}
-              </p>
-            </header>
+            <div className="title  is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
+              {title}
+            </div>
           </div>
         </div>
       );
