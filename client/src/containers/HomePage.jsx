@@ -82,7 +82,7 @@ const BidOrBooCard = (props) => {
       onClick={onClickHandler}
       className="card is-clipped"
     >
-      <div style={{ backgroundColor: '#363636' }} className="card-image">
+      <div className="card-image">
         <img src={`${logoImg}`} className="bdb-home-page" />
         <div
           style={{

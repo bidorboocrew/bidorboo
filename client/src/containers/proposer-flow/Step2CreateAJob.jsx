@@ -4,13 +4,14 @@ import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
+import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
-import ProposerStepper from './ProposerStepper';
-import PicturesUploaderContainer from './PicturesUploaderContainer';
+// import ProposerStepper from './ProposerStepper';
+// import PicturesUploaderContainer from './PicturesUploaderContainer';
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -57,22 +58,24 @@ class CreateAJob extends React.Component {
       <div className="card noShadow is-clipped">
         <section className="hero is-small is-dark">
           <div
-            style={{
-              position: 'relative',
-              height: '6rem',
-              backgroundImage: `url("${jobDetails.imageUrl}")`,
-            }}
+            // style={{
+            //   position: 'relative',
+            //   height: '4rem',
+            //   backgroundImage: `url("${jobDetails.imageUrl}")`,
+            // }}
             className="hero-body"
           >
             <div
               style={{
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
+                // position: 'absolute',
+                // left: 0,
+                // right: 1,
+                // top: 0,
+                // bottom: 0,
                 /* height: 24px, */
-                width: ' 100%',
-                background: 'rgba(54,54,54,0.7)',
-                padding: '0.25rem 1.5rem',
+                // width: '100%',
+                background: 'rgba(54,54,54,0.8)',
+                padding: '1rem',
               }}
               className="container"
             >
@@ -82,14 +85,18 @@ class CreateAJob extends React.Component {
         </section>
 
         <div className="card-content ">
-          <p className="has-text-grey">{this.state.chosenTemplate.description}</p>
+          <ShowMore
+            className="has-text-grey"
+            lines={2}
+            more="Show more"
+            less="Show less"
+            anchorClass=""
+          >
+            {this.state.chosenTemplate.description}
+          </ShowMore>
           <br />
           {currentStepNumber === 2 && (
             <React.Fragment>
-              {/* <PicturesUploaderContainer
-                collectedDetails={this.collectedJobDetails}
-                onImageChange={this.collectJobImageDetails}
-              /> */}
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}
                 jobTitleField={jobDetails.title}
