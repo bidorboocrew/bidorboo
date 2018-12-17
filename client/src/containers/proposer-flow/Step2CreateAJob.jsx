@@ -55,7 +55,7 @@ class CreateAJob extends React.Component {
     const { currentStepNumber } = this.state;
 
     const content = () => (
-      <div className="card noShadow is-clipped">
+      <div className="card noShadow">
         <section className="hero is-small is-dark">
           <div
             // style={{
@@ -65,20 +65,7 @@ class CreateAJob extends React.Component {
             // }}
             className="hero-body"
           >
-            <div
-              style={{
-                // position: 'absolute',
-                // left: 0,
-                // right: 1,
-                // top: 0,
-                // bottom: 0,
-                /* height: 24px, */
-                // width: '100%',
-                background: 'rgba(54,54,54,0.8)',
-                padding: '1rem',
-              }}
-              className="container"
-            >
+            <div className="container">
               <div className="title has-text-white">{jobDetails.title} Request</div>
             </div>
           </div>
