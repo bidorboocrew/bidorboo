@@ -44,9 +44,9 @@ class BidOrBooGenericTasks extends React.Component {
             >
               <img src={`${imageUrl}`} />
             </div>
-            <div className="title  is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
+            <p className="title is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
               {title}
-            </div>
+            </p>
           </div>
         </div>
       );

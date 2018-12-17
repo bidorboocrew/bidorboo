@@ -29,7 +29,7 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <section className="section">
-          <div className="columns  is-multiline is-mobile">
+          <div className="columns is-mobile is-multiline">
             <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
         </section>

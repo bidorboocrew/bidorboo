@@ -419,12 +419,12 @@ input[type='checkbox'] {
   &.saeedSpecial {
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 10rem;
-    width: 100%;
+    height: auto;
+    min-width: 10rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
     &:hover {
-      animation: none !important;
+      animation: none;
       div.card-image {
         img {
           animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -432,14 +432,13 @@ input[type='checkbox'] {
       }
     }
     div.card-image {
-      width: calc(100% - 20px);
       background-color: white;
       height: 8rem;
       position: relative;
       img {
-        object-fit: cover !important;
-        width: 100% !important;
-        height: 8rem !important;
+        object-fit: cover;
+        width: calc(100% - 20px);
+        height: 8rem;
         border-radius: 4px;
         background-color: white;
         position: absolute;
@@ -449,16 +448,19 @@ input[type='checkbox'] {
           0 8px 10px -5px rgba(0, 0, 0, 0.2);
       }
     }
+    p {
+      padding-bottom: 0.5rem;
+    }
   }
   &.saeedSpecialLarge {
     margin-top: 30px;
     margin-bottom: 30px;
-    height: 20rem;
-    width: 100%;
+    height: auto;
+    min-width: 16rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
     &:hover {
-      animation: none !important;
+      animation: none;
       div.card-image {
         img {
           animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -466,14 +468,13 @@ input[type='checkbox'] {
       }
     }
     div.card-image {
-      width: calc(100% - 20px);
       background-color: white;
       height: 16rem;
       position: relative;
       img {
-        object-fit: cover !important;
-        width: 100% !important;
-        height: 16rem !important;
+        object-fit: cover;
+        width: calc(100% - 20px);
+        height: 16rem;
         border-radius: 4px;
         background-color: white;
         position: absolute;
@@ -482,6 +483,9 @@ input[type='checkbox'] {
         box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
           0 8px 10px -5px rgba(0, 0, 0, 0.2);
       }
+    }
+    p {
+      padding-bottom: 1rem;
     }
   }
 
