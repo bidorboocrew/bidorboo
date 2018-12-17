@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 class MyPostedRequets extends React.Component {
   static propTypes = {
@@ -21,12 +21,9 @@ class MyPostedRequets extends React.Component {
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
-    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-one-fifth';
 
     return userHasPostedJobs ? (
-      <MyRequests {...this.props} columnCount={columnCount} />
+      <MyRequests {...this.props} columnCount="column" />
     ) : (
       <EmptyStateComponent />
     );

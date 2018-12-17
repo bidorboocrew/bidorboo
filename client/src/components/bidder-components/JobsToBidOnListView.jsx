@@ -4,7 +4,7 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 const TAB_IDS = {
   openRequests: 'Open Tasks',
@@ -19,7 +19,7 @@ class JobsToBidOnListView extends React.Component {
     const postedJobsList =
       jobsList && jobsList.map && jobsList.length > 0 ? (
         <React.Fragment>
-          <div className="columns  is-multiline is-mobile">
+          <div className="columns is-multiline is-mobile">
             {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
 
             {activeTab === TAB_IDS.mine && <MyJobs {...this.props} />}
@@ -38,24 +38,11 @@ const OtherPeoplesJobs = (props) => {
 
   const otherPeopleJobs = jobsList.filter((job) => job._ownerRef._id !== currentUserId);
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
-
   const components = otherPeopleJobs.map((job) => {
-    const cardFooter = (
-      <CardBottomSection
-        isLoggedIn={isLoggedIn}
-        currentUserId={currentUserId}
-        showLoginDialog={showLoginDialog}
-        selectJobToBidOn={selectJobToBidOn}
-        job={job}
-      />
-    );
     return (
       <div
         key={job._id}
-        className={columnCount}
+        className="column"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -64,7 +51,7 @@ const OtherPeoplesJobs = (props) => {
           }
         }}
       >
-        <JobsToBidOnSummaryCard footer={cardFooter} job={job} />
+        <JobsToBidOnSummaryCard job={job} />
       </div>
     );
   });
@@ -75,24 +62,12 @@ const MyJobs = (props) => {
   const { isLoggedIn, currentUserId, showLoginDialog, selectJobToBidOn, jobsList } = props;
 
   const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
 
   const components = myjobs.map((job) => {
-    const cardFooter = (
-      <CardBottomSection
-        isLoggedIn={isLoggedIn}
-        currentUserId={currentUserId}
-        showLoginDialog={showLoginDialog}
-        selectJobToBidOn={selectJobToBidOn}
-        job={job}
-      />
-    );
     return (
       <div
         key={job._id}
-        className={columnCount}
+        className="column"
         onClick={() => {
           if (!isLoggedIn) {
             showLoginDialog(true);
@@ -101,7 +76,7 @@ const MyJobs = (props) => {
           }
         }}
       >
-        <JobsToBidOnSummaryCard myJob footer={cardFooter} job={job} />
+        <JobsToBidOnSummaryCard myJob job={job} />
       </div>
     );
   });
@@ -130,37 +105,6 @@ const EmptyStateComponent = () => {
   );
 };
 
-const CardBottomSection = (props) => {
-  const { isLoggedIn, showLoginDialog, selectJobToBidOn, job, currentUserId } = props;
-  return null;
-  return (
-    <footer className="card-footer">
-      {currentUserId !== job._ownerRef._id ? (
-        <div className="card-footer-item">
-          <a
-            onClick={() => {
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                selectJobToBidOn(job);
-              }
-            }}
-            className="button is-primary is-fullwidth"
-          >
-            View Details
-          </a>
-        </div>
-      ) : (
-        <div className="card-footer-item">
-          <a disabled className="button is-outline is-fullwidth">
-            My Request
-          </a>
-        </div>
-      )}
-    </footer>
-  );
-};
-
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
     const { job, specialStyle, footer, myJob } = this.props;
@@ -183,16 +127,13 @@ class JobsToBidOnSummaryCard extends React.Component {
       console.error(e);
     }
 
-    const newStyle = { ...specialStyle, height: '100%' };
+    // const newStyle = { ...specialStyle, height: '100%' };
 
     return (
-      <div
-        style={newStyle}
-        className={`card postedJobToBidOnCard is-clipped ${myJob ? 'disabled' : ''}`}
-      >
+      <div className={`card is-clipped ${myJob ? 'disabled' : ''}`}>
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header  is-clipped"
+          className="card-header is-clipped"
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
         </header>

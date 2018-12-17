@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 class MyJobsList extends React.Component {
   static propTypes = {
@@ -33,14 +32,10 @@ class MyJobsList extends React.Component {
   }
 }
 
-export default windowSize(MyJobsList);
+export default MyJobsList;
 
 const JobsWithBids = (props) => {
   const { jobsList } = props;
-
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
 
   const jobsWithBids = jobsList
     .filter((job) => {
@@ -48,7 +43,7 @@ const JobsWithBids = (props) => {
     })
     .map((job) => {
       return (
-        <div key={job._id} className={columnCount}>
+        <div key={job._id} className="column">
           <MyPostedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
@@ -58,16 +53,14 @@ const JobsWithBids = (props) => {
 
 const JobsWithoutBids = (props) => {
   const { jobsList } = props;
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
+
   const jobsWithoutBids = jobsList
     .filter((job) => {
       return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
     })
     .map((job) => {
       return (
-        <div key={job._id} className={columnCount}>
+        <div key={job._id} className="column">
           <MyPostedJobSummaryCard job={job} {...props} />
         </div>
       );

@@ -12,9 +12,8 @@ import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterFor
 import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import windowSize from 'react-window-size';
 
-import BidderStepper from './BidderStepper';
+// import BidderStepper from './BidderStepper';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 const TAB_IDS = {
@@ -262,4 +261,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(windowSize(BidderRoot));
+)(BidderRoot);

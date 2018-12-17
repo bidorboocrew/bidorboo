@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 class JobsWithBidsAwaitingReview extends React.Component {
   static propTypes = {
@@ -31,17 +31,13 @@ export default JobsWithBidsAwaitingReview;
 const JobsWithBids = (props) => {
   const { jobsList } = props;
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-fifth';
-
   const jobsWithBids = jobsList
     .filter((job) => {
       return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
     })
     .map((job) => {
       return (
-        <div key={job._id} className={columnCount}>
+        <div key={job._id} className="column">
           <MyPostedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );

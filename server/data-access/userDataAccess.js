@@ -110,13 +110,13 @@ exports.findUserImgDetails = (userId) =>
     .lean(true)
     .exec();
 
-exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
+exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
   return new Promise(async (resolve, reject) => {
     try {
       let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
       // updte user with this new info
-      const updatedUser = await User.findOneAndUpdate(
+      const updatedUser = User.findOneAndUpdate(
         { userId },
         {
           $set: {
@@ -143,11 +143,11 @@ exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
       );
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
-      reject(e);
+      reject({ error: e, success: true });
     }
   });
 };
-exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
+exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
   return new Promise(async (resolve, reject) => {
     try {
       let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
@@ -182,9 +182,9 @@ exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
         `
       );
 
-      resolve({ success: true, updatedUser: updatedUser });
+      resolve({ success: true });
     } catch (e) {
-      reject(e);
+      reject({ error: e, success: false });
     }
   });
 };
@@ -205,15 +205,15 @@ exports.createNewUser = async (userDetails) => {
       }
 
       // intentionally did not await on this to speed up login
-      const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount({
-        _id: newUser._id.toString(),
-        email: newUser.email.emailAddress,
-        userId: newUser.userId,
-        displayName: newUser.displayName,
-      });
-      this.updateUserProfileDetails(newUser.userId, {
-        stripeConnect: { accId: newStripeConnectAcc.id },
-      });
+      // const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount(
+      //   {
+      //     _id: newUser._id.toString(),
+      //     email: newUser.email.emailAddress,
+      //     userId: newUser.userId,
+      //     displayName: newUser.displayName,
+      //   }
+      // );
+
       // do this behind the scene  ^
 
       resolve(newUser.toObject());

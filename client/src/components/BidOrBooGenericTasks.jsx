@@ -1,11 +1,10 @@
 import React from 'react';
 import { randomColor } from 'randomcolor';
-import windowSize from 'react-window-size';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../utils';
+import { switchRoute } from '../utils';
 
 class BidOrBooGenericTasks extends React.Component {
   static propTypes = {
@@ -13,39 +12,8 @@ class BidOrBooGenericTasks extends React.Component {
     showLoginDialog: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-one-quarter';
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // cases when we re render
-    if (nextProps.isLoggedIn !== this.props.isLoggedIn) {
-      return true;
-    }
-
-    if (nextProps.windowWidth !== this.props.windowWidth) {
-      let newColumnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-        ? 'column is-half'
-        : 'column is-one-quarter';
-      if (this.columnCount !== newColumnCount) {
-        this.columnCount = newColumnCount;
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
-
   render() {
     const { isLoggedIn, showLoginDialog } = this.props;
-
-    this.columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-one-quarter';
 
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];
@@ -57,7 +25,7 @@ class BidOrBooGenericTasks extends React.Component {
       })}`;
 
       return (
-        <div key={id} className={this.columnCount}>
+        <div key={id} className="column">
           <div
             style={{
               backgroundColor: bgcolor,
@@ -100,4 +68,4 @@ class BidOrBooGenericTasks extends React.Component {
   }
 }
 
-export default windowSize(BidOrBooGenericTasks);
+export default BidOrBooGenericTasks;
