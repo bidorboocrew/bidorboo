@@ -421,6 +421,7 @@ input[type='checkbox'] {
     margin-bottom: 20px;
     height: auto;
     min-width: 10rem;
+    max-width: 20rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
     &:hover {
@@ -457,6 +458,7 @@ input[type='checkbox'] {
     margin-bottom: 30px;
     height: auto;
     min-width: 16rem;
+    max-width: 28rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
     &:hover {
