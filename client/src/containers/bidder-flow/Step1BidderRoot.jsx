@@ -17,7 +17,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 const TAB_IDS = {
-  openRequests: 'Open Tasks',
+  openRequests: 'Requests',
   postedBids: 'Posted Bids',
   mine: 'Mine',
 };
@@ -180,55 +180,53 @@ class BidderRoot extends React.Component {
                   }}
                 />
               </section>
-              <section style={{ paddingBottom: 0 }} className="section">
-                <div>
-                  <BidderMapSection
-                    selectJobToBidOn={a_selectJobToBidOn}
-                    mapCenterPoint={centerOfMap}
-                    isLoggedIn={isLoggedIn}
-                    showLoginDialog={a_showLoginDialog}
-                    currentUserId={userDetails._id}
-                    jobsList={currentJobsList}
-                  />
-                </div>
-              </section>
-              <section className="section">
-                <div className="tabs">
-                  <ul>
-                    <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.changeActiveTab(TAB_IDS.openRequests);
-                        }}
-                      >
-                        {TAB_IDS.openRequests}
-                      </a>
-                    </li>
-                    <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.changeActiveTab(TAB_IDS.mine);
-                        }}
-                      >
-                        {TAB_IDS.mine}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <JobsToBidOnListView
-                    activeTab={activeTab}
-                    isLoggedIn={isLoggedIn}
-                    showLoginDialog={a_showLoginDialog}
-                    currentUserId={userDetails._id}
-                    selectJobToBidOn={a_selectJobToBidOn}
-                    jobsList={currentJobsList}
-                    {...this.props}
-                  />
-                </div>
-              </section>
+              <div className="tabs is-marginless">
+                <ul>
+                  <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.changeActiveTab(TAB_IDS.openRequests);
+                      }}
+                    >
+                      {TAB_IDS.openRequests}
+                    </a>
+                  </li>
+                  <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.changeActiveTab(TAB_IDS.mine);
+                      }}
+                    >
+                      {TAB_IDS.mine}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <br />
+              <div>
+                <BidderMapSection
+                  selectJobToBidOn={a_selectJobToBidOn}
+                  mapCenterPoint={centerOfMap}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
+                  jobsList={currentJobsList}
+                />
+              </div>
+              <br />
+              <div>
+                <JobsToBidOnListView
+                  activeTab={activeTab}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
+                  selectJobToBidOn={a_selectJobToBidOn}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
+              </div>
             </React.Fragment>
           )}
         </div>

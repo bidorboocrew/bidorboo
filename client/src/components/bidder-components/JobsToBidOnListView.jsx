@@ -7,7 +7,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 const TAB_IDS = {
-  openRequests: 'Open Tasks',
+  openRequests: 'Requests',
   postedBids: 'Posted Bids',
   mine: 'Mine',
 };

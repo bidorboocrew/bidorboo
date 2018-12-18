@@ -72,8 +72,7 @@ body {
 
 .nav-bottom-border {
   border-bottom: $border-divider !important;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
