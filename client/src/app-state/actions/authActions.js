@@ -134,7 +134,7 @@ export const onLogout = () => (dispatch) =>
 //                   error: '#F44235',
 //                   inProgress: '#0078FF',
 //                   complete: '#20B832',
-//                   sourceBg: '#eeeeee',
+//                   sourceBg: '#eee',
 //                 },
 //                 fonts: {
 //                   Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500',

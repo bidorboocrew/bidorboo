@@ -60,7 +60,7 @@ class Header extends React.Component {
 
     return (
       <React.Fragment>
-        <nav style={{ height: '3.25rem' }} className={navbarStylesBasedOnRoute}>
+        <nav className={navbarStylesBasedOnRoute}>
           {/* brand */}
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -388,6 +388,8 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
+        {/* this to make up for the flex size of the navbar on desktop */}
+        <div className="is-hidden-touch" style={{ height: '1.8rem' }} />
       </React.Fragment>
     );
   }

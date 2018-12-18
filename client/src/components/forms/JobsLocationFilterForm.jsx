@@ -127,7 +127,7 @@ class JobsLocationFilterForm extends React.Component {
       <form
         style={{
           padding: 10,
-          backgroundColor: '#eeee',
+          backgroundColor: '#eee',
         }}
         onSubmit={handleSubmit}
       >
