@@ -7,6 +7,7 @@ const initialState = {
   userDetails: {
     rating: {},
     userId: '',
+    _id: '',
     displayName: 'Join Us for Free',
     email: {},
     profileImage: {

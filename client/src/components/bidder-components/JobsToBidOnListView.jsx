@@ -51,7 +51,7 @@ const OtherPeoplesJobs = (props) => {
           }
         }}
       >
-        <JobsToBidOnSummaryCard job={job} />
+        <JobsToBidOnSummaryCard job={job} currentUserId={currentUserId} />
       </div>
     );
   });
@@ -76,7 +76,7 @@ const MyJobs = (props) => {
           }
         }}
       >
-        <JobsToBidOnSummaryCard myJob job={job} />
+        <JobsToBidOnSummaryCard myJob job={job} currentUserId={currentUserId} />
       </div>
     );
   });
@@ -107,8 +107,15 @@ const EmptyStateComponent = () => {
 
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
-    const { job, myJob } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId, _ownerRef } = job;
+    const { job, myJob, currentUserId } = this.props;
+    const {
+      startingDateAndTime,
+      createdAt,
+      fromTemplateId,
+      _ownerRef,
+      _bidsListRef,
+      booedBy,
+    } = job;
     let temp = _ownerRef
       ? _ownerRef
       : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
@@ -136,6 +143,16 @@ class JobsToBidOnSummaryCard extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
+          <a className="card-header-icon">
+            <span className="has-text-grey">{`${
+              _bidsListRef ? _bidsListRef.length : 0
+            } Bid `}</span>
+            {booedBy && booedBy.length > 0 && (
+              <span style={{ marginLeft: 10 }} className="has-text-danger">{` ${
+                booedBy.length
+              } Boo`}</span>
+            )}
+          </a>
         </header>
         <div className="card-image is-clipped">
           <img
@@ -148,15 +165,15 @@ class JobsToBidOnSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
+          <div className="media">
+            <div className="media-left">
+              <figure className="image is-48x48">
                 <img src={profileImage.url} alt="Placeholder image" />
               </figure>
             </div>
-            <div class="media-content">
-              <p class="is-size-6">{displayName}</p>
-              <p class="is-size-7">{rating.globalRating}</p>
+            <div className="media-content">
+              <p className="is-size-6">{displayName}</p>
+              <p className="is-size-7">{rating.globalRating}</p>
             </div>
           </div>
           <div className="content">
@@ -172,7 +189,58 @@ class JobsToBidOnSummaryCard extends React.Component {
             </div>
           </div>
         </div>
+        {!myJob && associatedUserActions(job, currentUserId)}
       </div>
     );
   }
 }
+
+const associatedUserActions = (job, currentUserId) => {
+  let viewed = didUserAlreadyView(job, currentUserId);
+  let bid = didUserAlreadyBid(job, currentUserId);
+  let booed = didUserAlreadyBoo(job, currentUserId);
+
+  return viewed || bid || booed ? (
+    <footer className="card-footer">
+      <div style={{ textAlign: 'center', padding: 10 }} className="tags are-medium">
+        <div className="has-text-grey tag is-light">You already: </div>
+        {viewed && <div className="tag is-info">Viewed</div>}
+        {bid && <div className="tag is-success">Bid</div>}
+        {booed && !didUserAlreadyBid && <div className="tag is-danger">Booed</div>}
+      </div>
+    </footer>
+  ) : null;
+};
+
+const didUserAlreadyBid = (job, currentUserId) => {
+  if (!job._bidsListRef || !job._bidsListRef.length > 0) {
+    return false;
+  }
+
+  let didUserAlreadyBid = job._bidsListRef.some((bid) => {
+    return bid._bidderRef === currentUserId;
+  });
+  return didUserAlreadyBid;
+};
+
+const didUserAlreadyView = (job, currentUserId) => {
+  if (!job.viewedBy || !job.viewedBy.length > 0) {
+    return false;
+  }
+
+  let didUserAlreadyView = job.viewedBy.some((usrId) => {
+    return usrId === currentUserId;
+  });
+  return didUserAlreadyView;
+};
+
+const didUserAlreadyBoo = (job, currentUserId) => {
+  if (!job.booedBy || !job.booedBy.length > 0) {
+    return false;
+  }
+
+  let didUserAlreadyBoo = job.booedBy.some((usrId) => {
+    return usrId === currentUserId;
+  });
+  return didUserAlreadyBoo;
+};

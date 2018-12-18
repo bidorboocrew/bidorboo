@@ -9,11 +9,10 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import JobDetailsViewForBidder from '../../components/bidder-components/JobDetailsViewForBidder';
 import PostYourBid from '../../components/forms/PostYourBid';
 import { switchRoute } from '../../utils';
-import BidderStepper from './BidderStepper';
-
+import { updateBooedBy } from '../../app-state/actions/jobActions';
 class BidNow extends React.Component {
   render() {
-    const { jobDetails, a_submitBid } = this.props;
+    const { jobDetails, a_submitBid, a_updateBooedBy } = this.props;
 
     //if user tried to manually set the url to this page without selecting a job
     if (!jobDetails || !jobDetails._ownerRef) {
@@ -31,6 +30,7 @@ class BidNow extends React.Component {
                   a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
                 }}
                 onCancel={() => {
+                  a_updateBooedBy(jobDetails);
                   switchRoute(ROUTES.CLIENT.BIDDER.root);
                 }}
               />
@@ -51,6 +51,7 @@ const mapStateToProps = ({ bidsReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_submitBid: bindActionCreators(submitBid, dispatch),
+    a_updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
   };
 };
 

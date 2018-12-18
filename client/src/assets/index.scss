@@ -413,7 +413,10 @@ input[type='checkbox'] {
 }
 .card {
   min-width: 10rem;
-
+  &.bidderRootSpecial {
+    max-width: 25rem;
+    // margin: auto;
+  }
   cursor: pointer;
   height: 100%;
 

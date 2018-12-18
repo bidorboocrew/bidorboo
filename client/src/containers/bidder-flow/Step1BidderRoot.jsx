@@ -9,7 +9,11 @@ import { Spinner } from '../../components/Spinner';
 import JobsToBidOnListView from '../../components/bidder-components/JobsToBidOnListView';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
-import { getAllJobsToBidOn, searchByLocation } from '../../app-state/actions/jobActions';
+import {
+  updateBooedBy,
+  getAllJobsToBidOn,
+  searchByLocation,
+} from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
@@ -133,6 +137,7 @@ class BidderRoot extends React.Component {
       a_selectJobToBidOn,
       isLoggedIn,
       a_showLoginDialog,
+      a_updateBooedBy,
     } = this.props;
 
     const currentUserId = userDetails._id;
@@ -206,28 +211,24 @@ class BidderRoot extends React.Component {
                 </ul>
               </div>
               <section className="section">
-                <div>
-                  <BidderMapSection
-                    selectJobToBidOn={a_selectJobToBidOn}
-                    mapCenterPoint={centerOfMap}
-                    isLoggedIn={isLoggedIn}
-                    showLoginDialog={a_showLoginDialog}
-                    currentUserId={userDetails._id}
-                    jobsList={currentJobsList}
-                  />
-                </div>
+                <BidderMapSection
+                  selectJobToBidOn={a_selectJobToBidOn}
+                  mapCenterPoint={centerOfMap}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
+                  jobsList={currentJobsList}
+                />
                 <br />
-                <div>
-                  <JobsToBidOnListView
-                    activeTab={activeTab}
-                    isLoggedIn={isLoggedIn}
-                    showLoginDialog={a_showLoginDialog}
-                    currentUserId={userDetails._id}
-                    selectJobToBidOn={a_selectJobToBidOn}
-                    jobsList={currentJobsList}
-                    {...this.props}
-                  />
-                </div>
+                <JobsToBidOnListView
+                  activeTab={activeTab}
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  currentUserId={userDetails._id}
+                  selectJobToBidOn={a_selectJobToBidOn}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
               </section>
             </React.Fragment>
           )}

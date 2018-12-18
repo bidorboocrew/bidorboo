@@ -55,6 +55,8 @@ module.exports = {
       PUT: {
         jobImage: '/api/job/uploadImages',
         awardBidder: '/api/job/awardBidder',
+        updateViewedBy: '/api/job/updateViewedBy',
+        updateBooedBy: '/api/job/updateBooedBy',
       },
       DELETE: {
         jobById: '/api/job',

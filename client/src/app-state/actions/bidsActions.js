@@ -4,6 +4,19 @@ import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const selectJobToBidOn = (jobDetails) => (dispatch) => {
+  dispatch({
+    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.updateViewedBy, {
+        data: {
+          jobId: jobDetails._id,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
