@@ -42,7 +42,7 @@ class HomePage extends React.Component {
                       onClickHandler={() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       }}
-                      cardContent={'Offer a Service'}
+                      cardContent={'Provide a Service'}
                     />
                   </div>
                 </div>
@@ -64,9 +64,7 @@ const BidOrBooCard = (props) => {
       <div className="card-image">
         <img src={`${logoImg}`} />
       </div>
-      <p className="title  is-fullwidth has-text-dark has-text-centered is-capitalized">
-        {cardContent}
-      </p>
+      <p className="title  is-fullwidth has-text-dark has-text-centered">{cardContent}</p>
     </div>
   );
 };
