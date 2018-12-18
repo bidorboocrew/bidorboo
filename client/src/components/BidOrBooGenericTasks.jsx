@@ -34,7 +34,7 @@ class BidOrBooGenericTasks extends React.Component {
                 switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
               }
             }}
-            className="card proposerRootCards"
+            className="card proposerRootCardSpecial"
           >
             <div
               style={{

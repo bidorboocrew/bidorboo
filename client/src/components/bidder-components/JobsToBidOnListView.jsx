@@ -144,13 +144,17 @@ class JobsToBidOnSummaryCard extends React.Component {
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
           <a className="card-header-icon">
-            <span className="has-text-grey">{`${
-              _bidsListRef ? _bidsListRef.length : 0
-            } Bid `}</span>
+            <span className="has-text-success">
+              <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
+              {`${_bidsListRef ? _bidsListRef.length : 0}`}
+            </span>
             {booedBy && booedBy.length > 0 && (
-              <span style={{ marginLeft: 10 }} className="has-text-danger">{` ${
-                booedBy.length
-              } Boo`}</span>
+              <React.Fragment>
+                <span style={{ marginLeft: 10 }} className="has-text-danger">
+                  <i className="fas fa-thumbs-down has-text-danger" />
+                  {` ${booedBy.length}`}
+                </span>
+              </React.Fragment>
             )}
           </a>
         </header>
@@ -202,9 +206,9 @@ const associatedUserActions = (job, currentUserId) => {
 
   return viewed || bid || booed ? (
     <footer className="card-footer">
-      <div style={{ textAlign: 'center', padding: 10 }} className="tags are-medium">
-        <div className="has-text-grey tag is-light">You already: </div>
-        {viewed && <div className="tag is-info">Viewed</div>}
+      <div style={{ padding: 10 }} className="tags are-medium">
+        <div className="has-text-grey tag is-white">You already: </div>
+        {viewed && <div className="tag is-light">Viewed</div>}
         {bid && <div className="tag is-success">Bid</div>}
         {booed && !didUserAlreadyBid && <div className="tag is-danger">Booed</div>}
       </div>
