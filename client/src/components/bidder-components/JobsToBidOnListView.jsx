@@ -107,11 +107,13 @@ const EmptyStateComponent = () => {
 
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
-    const { job, specialStyle, footer, myJob } = this.props;
-    const { startingDateAndTime, title, createdAt, fromTemplateId, _ownerRef, location } = job;
-    let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
+    const { job, myJob } = this.props;
+    const { startingDateAndTime, createdAt, fromTemplateId, _ownerRef } = job;
+    let temp = _ownerRef
+      ? _ownerRef
+      : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
 
-    const { profileImage, displayName } = temp;
+    const { profileImage, displayName, rating } = temp;
 
     let daysSinceCreated = '';
     let createdAtToLocal = '';
@@ -127,10 +129,8 @@ class JobsToBidOnSummaryCard extends React.Component {
       console.error(e);
     }
 
-    // const newStyle = { ...specialStyle, height: '100%' };
-
     return (
-      <div className={`card is-clipped ${myJob ? 'disabled' : ''}`}>
+      <div className={`card bidderRootSpecial is-clipped ${myJob ? 'disabled' : ''}`}>
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -148,6 +148,17 @@ class JobsToBidOnSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src={profileImage.url} alt="Placeholder image" />
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="is-size-6">{displayName}</p>
+              <p class="is-size-7">{rating.globalRating}</p>
+            </div>
+          </div>
           <div className="content">
             <div className="is-size-7">
               Due on:
@@ -161,7 +172,6 @@ class JobsToBidOnSummaryCard extends React.Component {
             </div>
           </div>
         </div>
-        {footer}
       </div>
     );
   }

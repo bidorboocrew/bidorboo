@@ -60,7 +60,7 @@ export default HomePage;
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div onClick={onClickHandler} className="card saeedSpecialLarge">
+    <div onClick={onClickHandler} className="card homePageSpecial">
       <div className="card-image">
         <img src={`${logoImg}`} />
       </div>

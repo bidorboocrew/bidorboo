@@ -180,6 +180,7 @@ class BidderRoot extends React.Component {
                   }}
                 />
               </section>
+
               <div className="tabs is-marginless">
                 <ul>
                   <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
@@ -204,29 +205,30 @@ class BidderRoot extends React.Component {
                   </li>
                 </ul>
               </div>
-              <br />
-              <div>
-                <BidderMapSection
-                  selectJobToBidOn={a_selectJobToBidOn}
-                  mapCenterPoint={centerOfMap}
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  currentUserId={userDetails._id}
-                  jobsList={currentJobsList}
-                />
-              </div>
-              <br />
-              <div>
-                <JobsToBidOnListView
-                  activeTab={activeTab}
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  currentUserId={userDetails._id}
-                  selectJobToBidOn={a_selectJobToBidOn}
-                  jobsList={currentJobsList}
-                  {...this.props}
-                />
-              </div>
+              <section className="section">
+                <div>
+                  <BidderMapSection
+                    selectJobToBidOn={a_selectJobToBidOn}
+                    mapCenterPoint={centerOfMap}
+                    isLoggedIn={isLoggedIn}
+                    showLoginDialog={a_showLoginDialog}
+                    currentUserId={userDetails._id}
+                    jobsList={currentJobsList}
+                  />
+                </div>
+                <br />
+                <div>
+                  <JobsToBidOnListView
+                    activeTab={activeTab}
+                    isLoggedIn={isLoggedIn}
+                    showLoginDialog={a_showLoginDialog}
+                    currentUserId={userDetails._id}
+                    selectJobToBidOn={a_selectJobToBidOn}
+                    jobsList={currentJobsList}
+                    {...this.props}
+                  />
+                </div>
+              </section>
             </React.Fragment>
           )}
         </div>

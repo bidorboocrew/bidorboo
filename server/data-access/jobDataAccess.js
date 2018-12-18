@@ -184,7 +184,7 @@ exports.jobDataAccess = {
         updatedAt: 1,
         location: 1,
       };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
+      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
       JobModel.find({}, jobFields, {
         sort: { createdAt: -1 },
