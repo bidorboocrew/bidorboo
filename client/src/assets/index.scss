@@ -413,6 +413,15 @@ input[type='checkbox'] {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 }
 .card {
+  min-width: 15rem;
+  max-width: 30rem;
+  cursor: pointer;
+  height: 100%;
+
+  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  // 0 0 20px 0 rgba(0, 0, 0, 0.35);
+
+  // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.saeedSpecial {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -446,7 +455,10 @@ input[type='checkbox'] {
         position: absolute;
         top: -20px;
         left: 10px;
-        box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+          0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+        // light 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
         // heavy shado 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
         //   0 8px 10px -5px rgba(0, 0, 0, 0.2);
@@ -489,10 +501,8 @@ input[type='checkbox'] {
         position: absolute;
         top: -30px;
         left: 10px;
-        box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-
-        // heavey box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
-        //   0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+          0 8px 10px -5px rgba(0, 0, 0, 0.2);
       }
     }
     p {
@@ -520,14 +530,6 @@ input[type='checkbox'] {
     animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     // box-shadow: $shadow-space;
   }
-  cursor: pointer;
-  height: 100%;
-
-  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
-    0 8px 10px -5px rgba(0, 0, 0, 0.2);
-  // 0 0 20px 0 rgba(0, 0, 0, 0.35);
-
-  // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 
   &.bdb-infoBoxCard {
     border: 1px solid #00d1b2;

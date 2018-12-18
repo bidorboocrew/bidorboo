@@ -22,33 +22,24 @@ class BidNow extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <BidderStepper currentStepNumber={2} />
-
-        <div className="container bdbPage pageWithStepper desktop">
-          <section className="bdbPage">
-            <div className="container">
-              <div className="columns  is-multiline">
-                <div className="column is-6">
-                  {jobDetails && jobDetails._id && (
-                    <React.Fragment>
-                      <PostYourBid
-                        onSubmit={(values) => {
-                          a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-                        }}
-                        onCancel={() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        }}
-                      />
-                      <JobDetailsViewForBidder job={jobDetails} />
-                    </React.Fragment>
-                  )}
-                </div>
-              </div>
-            </div>
-          </section>
+      <section className="section">
+        <div className="container">
+          {jobDetails && jobDetails._id && (
+            <React.Fragment>
+              <PostYourBid
+                onSubmit={(values) => {
+                  a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+                }}
+                onCancel={() => {
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+              <JobDetailsViewForBidder job={jobDetails} />
+              <br />
+            </React.Fragment>
+          )}
         </div>
-      </React.Fragment>
+      </section>
     );
   }
 }
