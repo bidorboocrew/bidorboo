@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
+import axios from 'axios';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
@@ -42,6 +43,41 @@ class CreateAJob extends React.Component {
   postJob(values) {
     this.collectedJobDetails.initialDetails = values;
     this.props.a_addJob(this.collectedJobDetails);
+
+    //// This is how we make a call to notification. this is just a test. everytime you post we send a notification
+    //We need the service worker registration to check for a subscription
+    navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
+      // Do we already have a push message subscription?
+      serviceWorkerRegistration.pushManager
+        .getSubscription()
+        .then((subscription) => {
+          axios
+            .post('/api/pushNotification', {
+              data: JSON.stringify(subscription),
+              payLoad: this.collectedJobDetails,
+              headers: {
+                'content-type': 'application/json',
+              },
+            })
+            .catch((err) => console.error('Push subscription error: ', err));
+
+          if (!subscription) {
+            // We aren’t subscribed to push, so set UI
+            // to allow the user to enable push
+            return;
+          }
+
+          // // Keep your server in sync with the latest subscriptionId
+          // sendSubscriptionToServer(subscription);
+
+          // showCurlCommand(subscription);
+        })
+        .catch(function(err) {
+          console.log('Error during getSubscription()', err);
+        });
+    });
+
+    ///
   }
 
   render() {

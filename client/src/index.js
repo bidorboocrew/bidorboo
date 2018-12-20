@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
-import axios from 'axios';
 
 //materialize css
 // import 'typeface-roboto';
@@ -57,36 +56,5 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
     document.getElementById('BidOrBoo-app'),
   );
 }
-
+//Register Notification Worker
 registerServiceWorker();
-
-// We need the service worker registration to check for a subscription
-navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
-  // Do we already have a push message subscription?
-  serviceWorkerRegistration.pushManager
-    .getSubscription()
-    .then((subscription) => {
-      axios
-        .post('/api/pushNotification', {
-          data: JSON.stringify(subscription),
-          headers: {
-            'content-type': 'application/json',
-          },
-        })
-        .catch((err) => console.error('Push subscription error: ', err));
-
-      if (!subscription) {
-        // We aren’t subscribed to push, so set UI
-        // to allow the user to enable push
-        return;
-      }
-
-      // // Keep your server in sync with the latest subscriptionId
-      // sendSubscriptionToServer(subscription);
-
-      // showCurlCommand(subscription);
-    })
-    .catch(function(err) {
-      console.log('Error during getSubscription()', err);
-    });
-});
