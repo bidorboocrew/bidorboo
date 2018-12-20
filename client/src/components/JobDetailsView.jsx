@@ -36,6 +36,10 @@ export default class JobDetailsView extends React.Component {
       console.error(e);
     }
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
+
     return (
       <div className="card">
         <header style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }} className="card-header">

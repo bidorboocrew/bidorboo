@@ -79,7 +79,9 @@ class MyAwardedJobSummaryCard extends React.Component {
   render() {
     const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;
-
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;

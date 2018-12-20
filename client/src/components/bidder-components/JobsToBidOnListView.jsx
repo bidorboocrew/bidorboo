@@ -116,6 +116,9 @@ class JobsToBidOnSummaryCard extends React.Component {
       _bidsListRef,
       booedBy,
     } = job;
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     let temp = _ownerRef
       ? _ownerRef
       : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };

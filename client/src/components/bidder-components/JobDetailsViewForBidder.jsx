@@ -19,7 +19,9 @@ export default class JobDetailsViewForBidder extends React.Component {
       _ownerRef,
       detailedDescription,
     } = job;
-
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
     let daysSinceCreated = '';

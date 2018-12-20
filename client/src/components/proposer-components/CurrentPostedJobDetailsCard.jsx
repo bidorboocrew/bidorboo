@@ -305,6 +305,10 @@ class PostedJobsDetails extends React.Component {
       jobImages,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
+
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 
