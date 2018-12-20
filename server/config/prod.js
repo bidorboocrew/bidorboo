@@ -14,7 +14,8 @@ module.exports = {
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   sendGridKey: process.env.SEND_GRID_KEY,
   cloudinaryURL: process.env.CLOUDINARY_URL,
-  cloudinaryCloudName:  process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinaryPublicApiKey: process.env.CLOUDINARY_PUBLIC_API_KEY,
-  cloudinarySecretApiKey: process.env.CLOUDINARY_SECRET_API_KEY
+  cloudinarySecretApiKey: process.env.CLOUDINARY_SECRET_API_KEY,
+  blowerText: process.env.BLOWERIO_URL,
 };

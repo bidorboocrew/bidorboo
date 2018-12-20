@@ -4,6 +4,10 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
  */
 module.exports = async (req, res, next) => {
   try {
+    if (process.env.NODE_ENV !== 'production') {
+      next();
+      return;
+    }
     const { stripeTransactionToken, jobId, bidderId, chargeAmount } = req.body.data;
 
     const mongoDbUserId = req.user._id;
@@ -21,7 +25,7 @@ module.exports = async (req, res, next) => {
         errorMsg: 'We did NOT process the payment. You are NOT authorized to pay for this job',
       });
     }
-    const {_awardedBidRef} = finishedJob;
+    const { _awardedBidRef } = finishedJob;
     if (!_awardedBidRef || !_awardedBidRef._bidderRef || !_awardedBidRef._bidderRef._id) {
       return res
         .status(403)
@@ -36,8 +40,7 @@ module.exports = async (req, res, next) => {
 
     if (!_awardedBidRef || !_awardedBidRef.bidAmount) {
       return res.status(403).send({
-        errorMsg:
-          'We did NOT process the payment. no bid amount found!',
+        errorMsg: 'We did NOT process the payment. no bid amount found!',
       });
     }
     const { bidAmount } = _awardedBidRef;
@@ -49,9 +52,9 @@ module.exports = async (req, res, next) => {
     }
 
     if (bidAmount.value !== chargeAmount) {
-      return res
-        .status(403)
-        .send({ errorMsg: 'We did NOT process the payment. bid value does not match charge amount' });
+      return res.status(403).send({
+        errorMsg: 'We did NOT process the payment. bid value does not match charge amount',
+      });
     }
     next();
   } catch (e) {

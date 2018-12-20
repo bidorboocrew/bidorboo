@@ -15,6 +15,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import windowSize from 'react-window-size';
 
 import BidderStepper from './BidderStepper';
+import { getCurrentUser } from '../../app-state/actions/authActions';
 
 const TAB_IDS = {
   openRequests: 'Open Tasks',
@@ -33,6 +34,7 @@ class BidderRoot extends React.Component {
     };
     autoBind(this, 'toggleFilterDialog', 'changeActiveTab');
   }
+
   changeActiveTab(tabId) {
     this.setState({ activeTab: tabId });
   }
@@ -47,6 +49,10 @@ class BidderRoot extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
+
     this.props.a_getAllJobsToBidOn();
   }
 
@@ -119,8 +125,19 @@ class BidderRoot extends React.Component {
               </div>
             </div>
           </section>
+          <section style={{ padding: 0 }} className="modal-card-body">
+            <JobsLocationFilterForm
+              onCancel={() => {
+                this.setState({ showFilterDialog: false });
+              }}
+              onSubmit={(vals) => {
+                a_searchByLocation(vals);
+                this.setState({ showFilterDialog: false });
+              }}
+            />
+          </section>
           <section style={{ paddingBottom: 0 }} className="section">
-            {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
+            {/* {!isLoading && ListOfJobsToBidOn && ListOfJobsToBidOn.length > 0 && (
               <a
                 style={{ marginBottom: '1.5rem' }}
                 onClick={this.toggleFilterDialog}
@@ -128,7 +145,7 @@ class BidderRoot extends React.Component {
               >
                 Filter Jobs
               </a>
-            )}
+            )} */}
 
             <div>
               <BidderMapSection
@@ -201,6 +218,7 @@ const mapDispatchToProps = (dispatch) => {
     a_searchByLocation: bindActionCreators(searchByLocation, dispatch),
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
+    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

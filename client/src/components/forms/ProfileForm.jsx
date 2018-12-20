@@ -28,17 +28,22 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { displayName, personalParagraph, phoneNumber, email } = userDetails;
+    const { displayName, personalParagraph, phone, email } = userDetails;
 
     return {
       displayName: displayName,
-      phoneNumber: phoneNumber,
-      email: email,
+      phoneNumber: phone.phoneNumber,
+      email: email.emailAddress,
       personalParagraph: personalParagraph,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit(values);
+    props.onSubmit({
+      displayName: values.displayName,
+      email: { emailAddress: values.email },
+      phone: { phoneNumber: values.phoneNumber },
+      personalParagraph: values.personalParagraph,
+    });
   },
   displayName: 'ProfileForm',
 });
@@ -107,26 +112,31 @@ const ProfileForm = (props) => {
         onBlur={handleBlur}
       />
 
-      <div className="field">
-        <button
-          style={{ marginRight: 6 }}
-          className="button is-primary is-medium"
-          type="submit"
-          disabled={isSubmitting || !isValid}
-        >
-          Submit
-        </button>
-        <button
-          className="button is-outlined is-medium"
-          type="submit"
-          disabled={isSubmitting}
-          onClick={(e) => {
-            e.preventDefault();
-            onCancel(e);
-          }}
-        >
-          Cancel
-        </button>
+      <div className="field is-grouped">
+        <div className="control">
+          <button
+            style={{ marginRight: 6 }}
+            className="button is-primary"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Submit
+          </button>
+        </div>
+
+        <div className="control">
+          <button
+            className="button is-outlined"
+            type="submit"
+            disabled={isSubmitting}
+            onClick={(e) => {
+              e.preventDefault();
+              onCancel(e);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </form>
   );

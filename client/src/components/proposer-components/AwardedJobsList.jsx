@@ -5,6 +5,10 @@ import moment from 'moment';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+const TAB_IDS = {
+  reviewBids: 'My Requests',
+  inQueue: 'Awarded',
+};
 
 class AwardedJobsList extends React.Component {
   static propTypes = {
@@ -22,11 +26,9 @@ class AwardedJobsList extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     return userHasPostedJobs ? (
-      <React.Fragment>
-        <JobsWithBids {...this.props} />
-      </React.Fragment>
+      <JobsWithBids {...this.props} />
     ) : (
-      <EmptyStateComponent />
+      <EmptyStateComponent {...this.props} />
     );
   }
 }
@@ -38,7 +40,7 @@ const JobsWithBids = (props) => {
 
   const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
     ? 'column is-half'
-    : 'column is-one-fifth';
+    : 'column is-one-quarter';
 
   const jobsWithBids = jobsList
     .filter((job) => {
@@ -54,21 +56,22 @@ const JobsWithBids = (props) => {
   return jobsWithBids;
 };
 
-const EmptyStateComponent = () => (
-  <div className="HorizontalAligner-center">
+const EmptyStateComponent = (props) => (
+  <div className="column">
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">Sorry nothing is scheduled.</div>
+          <div className="is-size-5">You have no awarded bidders.</div>
+          <div className="help">Go to your requests tab, review the bids and select a bidder.</div>
           <br />
           <a
             className="button is-primary "
             onClick={(e) => {
               e.preventDefault();
-              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+              props.changeActiveTab(TAB_IDS.reviewBids);
             }}
           >
-            Request a Service
+            My Requests
           </a>
         </div>
       </div>

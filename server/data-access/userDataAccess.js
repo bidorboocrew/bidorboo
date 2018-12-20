@@ -1,9 +1,11 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
-const JobModel = mongoose.model('JobModel');
-const BidModel = mongoose.model('BidModel');
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+const stripeServiceUtil = require('../services/stripeService').util;
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
+const ROUTES = require('../backend-route-constants');
 
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
@@ -108,10 +110,116 @@ exports.findUserImgDetails = (userId) =>
     .lean(true)
     .exec();
 
-exports.createNewUser = async (userDetails) =>
-  await new User({
-    ...userDetails,
-  }).save();
+exports.resetAndSendPhoneVerificationPin = async (userId, phoneNumber) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
+
+      // updte user with this new info
+      const updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: {
+            phone: {
+              phoneNumber: phoneNumber,
+              isVerified: false,
+            },
+            'verification.phone': {
+              [`${phoneVerificationCode}`]: `${phoneNumber}`,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      )
+        .lean(true)
+        .exec();
+
+      await sendTextService.sendText(
+        updatedUser.phone.phoneNumber,
+        `BidOrBoo: click on the link to verify your phone Phone verification.
+        ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(phoneVerificationCode)}`
+      );
+      resolve({ success: true, updatedUser: updatedUser });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+exports.resetAndSendEmailVerificationCode = async (userId, emailAddress) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let emailVerificationCode = Math.floor(100000 + Math.random() * 900000);
+
+      const updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: {
+            email: {
+              emailAddress: emailAddress,
+              isVerified: false,
+            },
+            'verification.email': {
+              [`${emailVerificationCode}`]: `${emailAddress}`,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      )
+        .lean(true)
+        .exec();
+
+      sendGridEmailing.sendEmail(
+        'bidorboocrew@gmail.com',
+        updatedUser.email.emailAddress,
+        'BidOrBoo: Email verification',
+        `To verify your email Please click: ${ROUTES.CLIENT.VERIFICATION_emailDynamic(
+          emailVerificationCode
+        )}
+        `
+      );
+
+      resolve({ success: true, updatedUser: updatedUser });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+exports.createNewUser = async (userDetails) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const newUser = await new User({
+        ...userDetails,
+      }).save();
+
+      if (newUser.email.emailAddress) {
+        this.resetAndSendEmailVerificationCode(newUser.userId, newUser.email.emailAddress);
+      }
+
+      if (newUser.phone.phoneNumber) {
+        this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
+      }
+
+      const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+        _id: newUser._id.toString(),
+        email: newUser.email.emailAddress,
+        userId: newUser.userId,
+        displayName: newUser.displayName,
+      });
+
+      this.updateUserProfileDetails(newUser.userId, {
+        stripeConnect: { accId: newStripeConnectAcc.id },
+      });
+      resolve(newUser.toObject());
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
   User.findOneAndUpdate(
@@ -131,8 +239,68 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .lean(true)
     .exec();
 
-exports.updateUserProfileDetails = (userId, userDetails) =>
-  User.findOneAndUpdate(
+exports.updateUserProfileDetails = (userId, userDetails) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let updatedUser = {};
+
+      if (userDetails.email || userDetails.phone) {
+        const currentUser = await this.findOneByUserId(userId);
+
+        const isDifferentEmailThanTheOneOnFile =
+          userDetails.email &&
+          userDetails.email.emailAddress &&
+          userDetails.email.emailAddress !== currentUser.email.emailAddress;
+
+        if (isDifferentEmailThanTheOneOnFile) {
+          emailVerificationReq = await this.resetAndSendEmailVerificationCode(
+            userId,
+            userDetails.email.emailAddress
+          );
+
+          updatedUser = emailVerificationReq.updatedUser;
+        }
+
+        const isDifferentPhoneThanTheOneOnFile =
+          userDetails.phone &&
+          userDetails.phone.phoneNumber &&
+          userDetails.phone.phoneNumber !== currentUser.phone.phoneNumber;
+        if (isDifferentPhoneThanTheOneOnFile) {
+          phoneVerificationReq = await this.resetAndSendPhoneVerificationPin(
+            userId,
+            userDetails.phone.phoneNumber
+          );
+          updatedUser = phoneVerificationReq.updatedUser;
+        }
+
+        // dealt with these fields and updated the user with the approperiate shit
+        userDetails.email && delete userDetails.email;
+        userDetails.phone && delete userDetails.phone;
+      }
+
+      if (userDetails && Object.keys(userDetails).length > 0) {
+        updatedUser = await User.findOneAndUpdate(
+          { userId },
+          {
+            $set: { ...userDetails },
+          },
+          {
+            new: true,
+          }
+        )
+          .lean(true)
+          .exec();
+      }
+
+      resolve(updatedUser);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+exports.findByUserIdAndUpdate = (userId, userDetails) => {
+  return User.findOneAndUpdate(
     { userId },
     {
       $set: { ...userDetails },
@@ -143,3 +311,16 @@ exports.updateUserProfileDetails = (userId, userDetails) =>
   )
     .lean(true)
     .exec();
+};
+exports.getUserStripeAccount = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await User.findOne({ userId }, { stripeConnect: 1 })
+        .lean(true)
+        .exec();
+      resolve(user.stripeConnect);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};

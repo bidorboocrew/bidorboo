@@ -13,12 +13,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "startwithpm2": "pm2-runtime start ecosystem.config.js --env production",
     "oldStart": "pm2 start index.js",
     "dev": "nodemon index.js",
     "debug": "node --nolazy --inspect-brk=9229 index.js"
   },
   "dependencies": {
     "async": "^2.6.1",
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "bugsnag": "^2.4.3",
@@ -48,6 +50,7 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "pm2": "^3.2.2",
+    "request": "^2.88.0",
     "sendgrid": "^5.2.3",
     "stripe": "^6.15.0"
   }

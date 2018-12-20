@@ -3,9 +3,141 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const requireUserHasNoStripeAccount = require('../middleware/requireUserHasNoStripeAccount');
+
 const cloudinary = require('cloudinary');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 module.exports = (app) => {
+  app.post(
+    ROUTES.API.USER.POST.verifyEmail,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+        const { code } = req.body.data;
+        if (code) {
+          const user = await userDataAccess.findOneByUserId(userId);
+
+          const emailVerification = user.verification.email;
+          const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
+          if (user.email.emailAddress === emailCorrespondingToTheCode) {
+            const userData = {
+              email: { ...user.email, isVerified: true },
+            };
+            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
+            return res.send({ success: true });
+          } else {
+            return res.send({ success: false });
+          }
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.verifyPhone,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+        const { code } = req.body.data;
+
+        if (code) {
+          const user = await userDataAccess.findOneByUserId(req.user.userId);
+
+          const phoneVerification = user.verification.phone;
+          const phoneNumberCorrespondingToTheCode =
+            phoneVerification && phoneVerification[`${code}`];
+          if (user.phone.phoneNumber === phoneNumberCorrespondingToTheCode) {
+            const userData = {
+              phone: { ...user.phone, isVerified: true },
+            };
+            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
+            return res.send({ success: true });
+          } else {
+            return res.send({ success: false });
+          }
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyPhone failed due to missing params',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.resendVerificationEmail,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+
+        if (user) {
+          const verificationRequest = await userDataAccess.resetAndSendEmailVerificationCode(
+            userId,
+            user.email.emailAddress
+          );
+          if (verificationRequest.success) {
+            return res.send(verificationRequest);
+          } else {
+            return res.status(500).send({
+              errorMsg: 'unexpected error occured sendVerificationEmail',
+            });
+          }
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To sendVerificationEmail', details: e });
+      }
+    }
+  );
+  app.post(
+    ROUTES.API.USER.POST.resendVerificationMsg,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+        const user = await userDataAccess.findOneByUserId(userId);
+
+        if (user) {
+          const verificationRequest = await userDataAccess.resetAndSendPhoneVerificationPin(
+            userId,
+            user.phone.phoneNumber
+          );
+          if (verificationRequest.success) {
+            res.send(verificationRequest);
+          } else {
+            return res.status(500).send({
+              errorMsg: 'unexpected error occured sendVerificationMsg',
+            });
+          }
+        } else {
+          return res.status(403).send({
+            errorMsg: 'verifyEmail failed due to missing params',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: e });
+      }
+    }
+  );
+
   app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
     try {
       let existingUser = null;
@@ -28,7 +160,7 @@ module.exports = (app) => {
 
       // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
       Object.keys(newProfileDetails).forEach((property) => {
-        newProfileDetails[`${property}`] = newProfileDetails[`${property}`].trim();
+        newProfileDetails[`${property}`] = newProfileDetails[`${property}`];
       });
 
       const userAfterUpdates = await userDataAccess.updateUserProfileDetails(
@@ -40,6 +172,39 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
     }
   });
+
+  app.put(
+    ROUTES.API.USER.PUT.setupPaymentDetails,
+    requireBidorBooHost,
+    requireLogin,
+    requireUserHasNoStripeAccount,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+
+        const reqData = req.body.data;
+        const { connectedAccountDetails, metaData } = reqData;
+
+        const connectedAccount = await stripeServiceUtil.createConnectedAccount(
+          connectedAccountDetails,
+          {
+            ...metaData,
+          }
+        );
+        const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+          agreedToServiceTerms: true,
+          membershipStatus: 'VERIFIED_MEMBER',
+          stripeConnect: {
+            accId: connectedAccount.id,
+            ownerId: connectedAccount.metadata._id,
+          },
+        });
+        return res.send({ success: true, updatedUser: updatedUser });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: e });
+      }
+    }
+  );
 
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
     try {
@@ -79,7 +244,7 @@ module.exports = (app) => {
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
-            folder: `${userMongoDBId}/`,
+            folder: `${userMongoDBId}/profilePic`,
           },
           updateUserWithNewProfileImg
         );

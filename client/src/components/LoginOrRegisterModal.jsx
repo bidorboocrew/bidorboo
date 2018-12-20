@@ -5,6 +5,11 @@ import * as ROUTES from '../constants/frontend-route-consts';
 export const LoginOrRegisterModal = (props) => {
   const { isActive, handleCancel } = props;
   const openModalClass = classNames('modal', { 'is-active': isActive });
+
+  const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${window.location.pathname || '/'}`;
+  const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${window.location.pathname ||
+    '/'}`;
+
   return isActive ? (
     <div className={openModalClass}>
       <div onClick={handleCancel} className="modal-background" />
@@ -14,11 +19,17 @@ export const LoginOrRegisterModal = (props) => {
           <button onClick={handleCancel} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
-          <div style={{ textAlign: 'cetner' }}>
+          <div style={{ textAlign: 'center' }}>
             <a
               rel="noopener noreferrer"
-              className="button is-danger   is-fullwidth"
-              href={ROUTES.API.AUTH.GOOGLE}
+              className="button is-danger  is-large is-fullwidth"
+              href={googleAuthPath}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   const apipath=  ROUTES.API.AUTH.GOOGLE;
+
+              //   axios.get(apipath);
+              // }}
               style={{ marginTop: 8 }}
             >
               <span>
@@ -30,8 +41,8 @@ export const LoginOrRegisterModal = (props) => {
             </a>
             <a
               rel="noopener noreferrer"
-              href={ROUTES.API.AUTH.FACEBOOK}
-              className="button is-link  is-fullwidth"
+              href={facebookAuthPath}
+              className="button is-link is-large is-fullwidth"
               style={{ marginTop: 16 }}
             >
               <span>

@@ -21,3 +21,5 @@ export { default as BidNow } from './bidder-flow/Step2BidNow';
 export { default as MyBids } from './bidder-flow/MyBids';
 export { default as BidderRoot } from './bidder-flow/Step1BidderRoot';
 export { default as MyAwardedBids } from './bidder-flow/MyAwardedBids';
+
+export { default as Verification } from './Verification';

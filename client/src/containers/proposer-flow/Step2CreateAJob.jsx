@@ -5,13 +5,14 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
+import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
-import ProposerStepper from './ProposerStepper';
-import PicturesUploaderContainer from './PicturesUploaderContainer';
+// import ProposerStepper from './ProposerStepper';
+// import PicturesUploaderContainer from './PicturesUploaderContainer';
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -90,23 +91,45 @@ class CreateAJob extends React.Component {
     const { currentStepNumber } = this.state;
 
     const content = () => (
-      <div
-        style={{
-          marginBottom: '1rem',
-          marginTop: '1rem',
-          borderBottom: '1px solid #bdbdbd',
-          boxShadow: 'none',
-        }}
-        className="card noShadow"
-      >
-        <div className="card-content">
-          <h1 className="title">{jobDetails.title} Request</h1>
+      <div className="card noShadow is-clipped">
+        <section className="hero is-small is-dark">
+          <div
+            style={{
+              position: 'relative',
+              height: '6rem',
+              backgroundImage: `url("${jobDetails.imageUrl}")`,
+            }}
+            className="hero-body"
+          >
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                /* height: 24px, */
+                width: ' 100%',
+                background: 'rgba(54,54,54,0.7)',
+                padding: '0.25rem 1.5rem',
+              }}
+              className="container"
+            >
+              <div className="title has-text-white">{jobDetails.title} Request</div>
+            </div>
+          </div>
+        </section>
+
+        <div className="card-content ">
+          <ShowMore className="has-text-grey" lines={2} more="Show more" less="Show less">
+            {this.state.chosenTemplate.description}
+          </ShowMore>
+
+          <br />
           {currentStepNumber === 2 && (
             <React.Fragment>
-              <PicturesUploaderContainer
+              {/* <PicturesUploaderContainer
                 collectedDetails={this.collectedJobDetails}
                 onImageChange={this.collectJobImageDetails}
-              />
+              /> */}
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}
                 jobTitleField={jobDetails.title}
@@ -123,9 +146,11 @@ class CreateAJob extends React.Component {
 
     return (
       <React.Fragment>
-        <ProposerStepper currentStepNumber={currentStepNumber} />
-
-        <div className="container bdbPage pageWithStepper desktop">{content()}</div>
+        {/* <ProposerStepper currentStepNumber={currentStepNumber} /> */}
+        {/* <div className="container bdbPage pageWithStepper mobile">{content()}</div> */}
+        <section className="section">
+          <div className="container bdbPage">{content()}</div>
+        </section>
       </React.Fragment>
     );
   }

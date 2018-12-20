@@ -16,13 +16,14 @@
     "yarn": "1.12.1"
   },
   "cacheDirectories": [
-    "node_modules",
     "client/node_modules",
-    "server/node_modules"
+    "server/node_modules",
+    "node_modules"
   ],
   "scripts": {
-    "start": "cd server && yarn install && yarn run start",
-    "heroku-postbuild": "cd client && yarn install && yarn run build",
+    "devstart": "cd client && rm -rf node_modules && yarn install && cd ../server && rm -rf node_modules && yarn install",
+    "start": "cd server && yarn run startwithpm2",
+    "heroku-postbuild": "cd client && yarn install && yarn run build && cd ../server && yarn install",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""

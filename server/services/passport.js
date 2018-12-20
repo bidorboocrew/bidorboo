@@ -41,14 +41,15 @@ passport.use(
       const userDetails = {
         displayName: profile.displayName,
         userId: profile.id,
-        email: userEmail,
+        email: { emailAddress: userEmail },
         profileImage: {
           url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
         },
       };
 
       const user = await userDataAccess.createNewUser(userDetails);
-      return done(null, user);
+
+      return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
       return done({ errorMsg: 'Failed To facebook Auth', details: e }, null);
     }
@@ -73,18 +74,17 @@ passport.use(
       const userDetails = {
         displayName: profile.displayName,
         userId: profile.id,
-        email: userEmail,
+        email: { emailAddress: userEmail },
         profileImage: {
           url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
         },
       };
 
-      const userWithMongoSchema = await userDataAccess.createNewUser(userDetails);
-      // to save data usage ommit all the mongoose specific magic and remove it from the obj
-      const userObject = userWithMongoSchema.toObject();
-      return done(null, userObject);
+      const user = await userDataAccess.createNewUser(userDetails);
+
+      return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To Google Auth', details: e }, null);
+      return done({ errorMsg: 'Failed To create user via google login', details: e }, null);
     }
   })
 );

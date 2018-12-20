@@ -20,11 +20,20 @@ export const API = {
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
       profilePicture: '/api/user/updateProfileImage',
+      setupPaymentDetails: '/api/user/setupPaymentDetails',
+    },
+    POST: {
+      verifyEmail: '/api/user/verifyEmail',
+      verifyPhone: '/api/user/verifyPhone',
+      resendVerificationEmail: '/api/user/resendVerificationEmail',
+      resendVerificationMsg: '/api/user/resendVerificationMsg',
     },
   },
   PAYMENT: {
     POST: {
       payment: '/api/payment',
+      myaccountWebhook: '/api/stripewebhook/myaccount',
+      connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
     },
     GET: {
       payment: '/api/payment',
@@ -70,6 +79,7 @@ export const API = {
 export const CLIENT = {
   ENTRY: '/',
   HOME: '/home',
+  VERIFICATION: '/verification/:field/:code',
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',

@@ -17,6 +17,8 @@ module.exports = {
     PAYMENT: {
       POST: {
         payment: '/api/payment',
+        myaccountWebhook: '/api/stripewebhook/myaccount',
+        connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
       },
       GET: {
         payment: '/api/payment',
@@ -28,7 +30,14 @@ module.exports = {
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
+        setupPaymentDetails: '/api/user/setupPaymentDetails',
         profilePicture: '/api/user/updateProfileImage',
+      },
+      POST: {
+        verifyEmail: '/api/user/verifyEmail',
+        verifyPhone: '/api/user/verifyPhone',
+        resendVerificationEmail: '/api/user/resendVerificationEmail',
+        resendVerificationMsg: '/api/user/resendVerificationMsg',
       },
     },
     JOB: {
@@ -69,6 +78,9 @@ module.exports = {
   },
   CLIENT: {
     ENTRY: '/',
+    VERIFICATION: '/verification/:field/:userId/:code',
+    VERIFICATION_emailDynamic: (code) => `https://www.bidorboo.com/verification/Email/${code}`,
+    VERIFICATION_phoneDynamic: (code) => `https://www.bidorboo.com/verification/Phone/${code}`,
     HOME: '/home',
     PROPOSER: {
       root: '/proposer-root',

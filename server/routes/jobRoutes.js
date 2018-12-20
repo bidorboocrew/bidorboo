@@ -101,36 +101,31 @@ module.exports = (app) => {
     }
   });
 
-  app.post(
-    ROUTES.API.JOB.POST.searchJobs,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res, done) => {
-      try {
-        const { searchParams } = req.body.data;
-        if (!searchParams) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request JobId searchQuery params was Not Specified',
-          });
-        }
-
-        let searchQuery = {
-          searchLocation: searchParams.searchLocation,
-          searchRaduisInMeters: searchParams.searchRaduis,
-          jobTypeFilter: searchParams.jobTypeFilter,
-        };
-
-        existingJob = await jobDataAccess.getJobsNear(searchQuery);
-        if (existingJob) {
-          return res.send(existingJob);
-        } else {
-          return res.send({ errorMsg: 'JobId Was Not Specified' });
-        }
-      } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To perform the search', details: e });
+  app.post(ROUTES.API.JOB.POST.searchJobs, requireBidorBooHost, async (req, res, done) => {
+    try {
+      const { searchParams } = req.body.data;
+      if (!searchParams) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request JobId searchQuery params was Not Specified',
+        });
       }
+
+      let searchQuery = {
+        searchLocation: searchParams.searchLocation,
+        searchRaduisInMeters: searchParams.searchRaduis,
+        jobTypeFilter: searchParams.jobTypeFilter,
+      };
+
+      existingJob = await jobDataAccess.getJobsNear(searchQuery);
+      if (existingJob) {
+        return res.send(existingJob);
+      } else {
+        return res.send({ errorMsg: 'JobId Was Not Specified' });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To perform the search', details: e });
     }
-  );
+  });
 
   app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
     try {

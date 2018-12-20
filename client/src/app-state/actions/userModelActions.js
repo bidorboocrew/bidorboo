@@ -3,7 +3,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const updateProfileDetails = (profileDetails) => (dispatch, getState) => {
+export const updateProfileDetails = (profileDetails) => (dispatch) => {
   const updateProfileCall = axios
     .put(ROUTES.API.USER.PUT.userDetails, {
       data: profileDetails,

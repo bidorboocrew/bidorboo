@@ -114,7 +114,7 @@ export default class AwardedJobFullDetailsCard extends React.Component {
 }
 
 const ContactMeDialog = ({ user, close }) => {
-  const { displayName, email, phoneNumber = 'none provided' } = user;
+  const { displayName, email, phone = { phoneNumber: 'none provided' } } = user;
 
   return (
     <div className="modal is-active">
@@ -126,8 +126,8 @@ const ContactMeDialog = ({ user, close }) => {
         </header>
         <section className="modal-card-body">
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <DisplayLabelValue labelText="Email:" labelValue={email} />
-          <DisplayLabelValue labelText="Phone Number:" labelValue={phoneNumber} />
+          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
 
           <NotesDisplayAndValue
             labelText="We Advice You To:"
@@ -199,7 +199,6 @@ class AwardedJobDetails extends React.Component {
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 
-    const { hours, minutes, period } = startingDateAndTime;
     let daysSinceCreated = '';
     let createdAtToLocal = '';
 
@@ -277,9 +276,7 @@ class AwardedJobDetails extends React.Component {
                 <p className="is-size-6">
                   <span>Start Time</span>
                   <br />
-                  <span className="has-text-weight-semibold">
-                    {hours}:{minutes === 0 ? '00' : minutes} {period}
-                  </span>
+                  <span className="has-text-weight-semibold">{startingDateAndTime.time} </span>
                 </p>
                 <p className="is-size-6">
                   <span>Duration Required</span>

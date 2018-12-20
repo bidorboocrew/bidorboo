@@ -12,12 +12,12 @@ import autoBind from 'react-autobind';
 
 import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
 import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
+import MyPostedRequets from '../../components/proposer-components/MyPostedRequets';
 import windowSize from 'react-window-size';
 
 const TAB_IDS = {
-  reviewBids: 'Review Bids',
-  inQueue: 'In Queue',
-  noBids: 'No Bids',
+  reviewBids: 'My Requests',
+  inQueue: 'Awarded',
 };
 
 class MyJobs extends React.Component {
@@ -82,44 +82,27 @@ class MyJobs extends React.Component {
                 {TAB_IDS.inQueue}
               </a>
             </li>
-            <li className={`${activeTab === TAB_IDS.noBids ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.noBids);
-                }}
-              >
-                {TAB_IDS.noBids}
-              </a>
-            </li>
           </ul>
         </div>
         <section className="section" style={{ paddingBottom: '0.25rem' }}>
           <div className="columns is-multiline is-mobile">
             {activeTab === TAB_IDS.reviewBids && (
-              <JobsWithBidsAwaitingReview
-                userDetails={userDetails}
-                jobsList={myOpenJobsList}
-                deleteJob={a_deleteJobById}
-                notificationFeed={notificationFeed}
-                {...this.props}
-              />
+              <React.Fragment>
+                <MyPostedRequets
+                  userDetails={userDetails}
+                  jobsList={myOpenJobsList}
+                  deleteJob={a_deleteJobById}
+                  notificationFeed={notificationFeed}
+                  {...this.props}
+                />
+              </React.Fragment>
             )}
             {activeTab === TAB_IDS.inQueue && (
               <AwardedJobsList
+                changeActiveTab={this.changeActiveTab}
                 notificationFeed={notificationFeed}
                 userDetails={userDetails}
                 jobsList={myAwardedJobsList}
-                {...this.props}
-              />
-            )}
-            {activeTab === TAB_IDS.noBids && (
-              <JobsWithNoBids
-                userDetails={userDetails}
-                jobsList={myOpenJobsList}
-                deleteJob={a_deleteJobById}
-                disabled
-                notificationFeed={notificationFeed}
                 {...this.props}
               />
             )}
