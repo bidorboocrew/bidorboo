@@ -41,18 +41,18 @@ const OtherPeoplesJobs = (props) => {
 
   const components = otherPeopleJobs.map((job) => {
     return (
-      <div
-        key={job._id}
-        className="column"
-        onClick={() => {
-          if (!isLoggedIn) {
-            showLoginDialog(true);
-          } else {
-            selectJobToBidOn(job);
-          }
-        }}
-      >
-        <JobsToBidOnSummaryCard job={job} currentUserId={currentUserId} />
+      <div key={job._id} className="column">
+        <JobsToBidOnSummaryCard
+          onClickHandler={() => {
+            if (!isLoggedIn) {
+              showLoginDialog(true);
+            } else {
+              selectJobToBidOn(job);
+            }
+          }}
+          job={job}
+          currentUserId={currentUserId}
+        />
       </div>
     );
   });
@@ -66,18 +66,19 @@ const MyJobs = (props) => {
 
   const components = myjobs.map((job) => {
     return (
-      <div
-        key={job._id}
-        className="column"
-        onClick={() => {
-          if (!isLoggedIn) {
-            showLoginDialog(true);
-          } else {
-            // selectJobToBidOn(job);
-          }
-        }}
-      >
-        <JobsToBidOnSummaryCard myJob job={job} currentUserId={currentUserId} />
+      <div key={job._id} className="column">
+        <JobsToBidOnSummaryCard
+          onClickHandler={() => {
+            if (!isLoggedIn) {
+              showLoginDialog(true);
+            } else {
+              // selectJobToBidOn(job);
+            }
+          }}
+          myJob
+          job={job}
+          currentUserId={currentUserId}
+        />
       </div>
     );
   });
@@ -108,7 +109,7 @@ const EmptyStateComponent = () => {
 
 class JobsToBidOnSummaryCard extends React.Component {
   render() {
-    const { job, myJob, currentUserId } = this.props;
+    const { job, myJob, currentUserId, onClickHandler } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -141,29 +142,23 @@ class JobsToBidOnSummaryCard extends React.Component {
     }
 
     return (
-      <div className={`card bidderRootSpecial is-clipped ${myJob ? 'disabled' : ''}`}>
+      <div
+        onClick={onClickHandler}
+        className={`card bidderRootSpecial is-clipped ${myJob ? 'disabled' : ''}`}
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
-        </header>
-        <div>
           <a className="card-header-icon">
             <span className="has-text-success">
               <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
               {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
             </span>
-            {/* {booedBy && booedBy.length > 0 && (
-              <React.Fragment>
-                <span style={{ marginLeft: 10 }} className="has-text-danger">
-                  <i className="fas fa-thumbs-down has-text-danger" />
-                  {` ${booedBy.length}`}
-                </span>
-              </React.Fragment>
-            )} */}
           </a>
-        </div>
+        </header>
+
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
@@ -187,32 +182,31 @@ class JobsToBidOnSummaryCard extends React.Component {
             </div>
           </div>
           <div className="content">
-            <div className="is-size-7">
-              Due on:
+            <div className="is-size-6">
+              <span className="is-size-7">Due on:</span>
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </div>
             <div className="is-size-7">
-              {/* Active since {createdAtToLocal} */}
+              <Countdown
+                date={startingDateAndTime.date}
+                intervalDelay={1000}
+                renderer={({ total, days, hours, minutes, seconds, milliseconds, completed }) => {
+                  return completed ? (
+                    <Expired />
+                  ) : (
+                    <div>{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                  );
+                }}
+              />
+            </div>
+            {/* <div className="is-size-7">
               <span style={{ fontSize: '10px', color: 'grey' }}>
                 {`posted (${daysSinceCreated} ago)`}
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
         {!myJob && associatedUserActions(job, currentUserId)}
-        <div className="has-text-info has-text-centered">
-          <Countdown
-            date={startingDateAndTime.date}
-            intervalDelay={1000}
-            renderer={({ total, days, hours, minutes, seconds, milliseconds, completed }) => {
-              return completed ? (
-                <Expired />
-              ) : (
-                <div>{`${days}days ${hours}:${minutes}:${seconds}`}</div>
-              );
-            }}
-          />
-        </div>
       </div>
     );
   }
