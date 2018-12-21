@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Countdown from 'react-countdown-now';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -146,21 +147,23 @@ class JobsToBidOnSummaryCard extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
+        </header>
+        <div>
           <a className="card-header-icon">
             <span className="has-text-success">
               <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-              {`${_bidsListRef ? _bidsListRef.length : 0}`}
+              {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
             </span>
-            {booedBy && booedBy.length > 0 && (
+            {/* {booedBy && booedBy.length > 0 && (
               <React.Fragment>
                 <span style={{ marginLeft: 10 }} className="has-text-danger">
                   <i className="fas fa-thumbs-down has-text-danger" />
                   {` ${booedBy.length}`}
                 </span>
               </React.Fragment>
-            )}
+            )} */}
           </a>
-        </header>
+        </div>
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
@@ -197,6 +200,19 @@ class JobsToBidOnSummaryCard extends React.Component {
           </div>
         </div>
         {!myJob && associatedUserActions(job, currentUserId)}
+        <div className="has-text-info has-text-centered">
+          <Countdown
+            date={startingDateAndTime.date}
+            intervalDelay={1000}
+            renderer={({ total, days, hours, minutes, seconds, milliseconds, completed }) => {
+              return completed ? (
+                <Expired />
+              ) : (
+                <div>{`${days}days ${hours}:${minutes}:${seconds}`}</div>
+              );
+            }}
+          />
+        </div>
       </div>
     );
   }
@@ -205,15 +221,15 @@ class JobsToBidOnSummaryCard extends React.Component {
 const associatedUserActions = (job, currentUserId) => {
   let viewed = didUserAlreadyView(job, currentUserId);
   let bid = didUserAlreadyBid(job, currentUserId);
-  let booed = didUserAlreadyBoo(job, currentUserId);
+  // let booed = didUserAlreadyBoo(job, currentUserId);
 
-  return viewed || bid || booed ? (
+  return viewed || bid ? (
     <footer className="card-footer">
       <div style={{ padding: 10 }} className="tags are-medium">
-        <div className="has-text-grey tag is-white">You already: </div>
+        <div className="has-text-grey tag is-white">You: </div>
         {viewed && <div className="tag is-light">Viewed</div>}
         {bid && <div className="tag is-success">Bid</div>}
-        {booed && !didUserAlreadyBid && <div className="tag is-danger">Booed</div>}
+        {/* {booed && !didUserAlreadyBid && <div className="tag is-danger">Booed</div>} */}
       </div>
     </footer>
   ) : null;
@@ -251,3 +267,5 @@ const didUserAlreadyBoo = (job, currentUserId) => {
   });
   return didUserAlreadyBoo;
 };
+
+const Expired = () => <div className="has-text-danger">Expired!</div>;

@@ -25,7 +25,7 @@ class HomePage extends React.Component {
         <section className="hero">
           <div className="hero-body">
             <div className="container">
-              <div className="container is-fluid">
+              <div className="container">
                 <div className="columns is-centered is-multiline">
                   <div className="column is-half">
                     <BidOrBooCard
