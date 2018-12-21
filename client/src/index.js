@@ -32,25 +32,10 @@ window.BidorBoo = {
   stripe,
 };
 
-if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production') {
-  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-  const ErrorBoundary = bugsnagClient.use(createPlugin(React));
-  ReactDOM.render(
-    <ErrorBoundary>
-      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
-        <Provider store={store}>
-          <Router history={appHistory}>
-            <ScrollToTopOnRouteChange>
-              <App />
-            </ScrollToTopOnRouteChange>
-          </Router>
-        </Provider>
-      </StripeProvider>
-    </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app'),
-  );
-} else {
-  ReactDOM.render(
+const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+ReactDOM.render(
+  <ErrorBoundary>
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
@@ -59,10 +44,10 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'production')
           </ScrollToTopOnRouteChange>
         </Router>
       </Provider>
-    </StripeProvider>,
-    document.getElementById('BidOrBoo-app'),
-  );
-}
+    </StripeProvider>
+  </ErrorBoundary>,
+  document.getElementById('BidOrBoo-app'),
+);
 
 // unregister();
 // registerServiceWorker();
