@@ -69,7 +69,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
-
+    const { fromTemplateId } = job;
     const reviewBidderbreadCrumb = () => {
       return (
         <div style={{ marginBottom: '1rem' }}>
@@ -86,7 +86,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </li>
               <li>
                 <a onClick={this.closeReviewModal} aria-current="page">
-                  {job.title}
+                  {templatesRepo[fromTemplateId].title}
                 </a>
               </li>
               <li className="is-active">
@@ -101,40 +101,65 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     const cardTitle = () => {
       return (
         <header className="card-header">
-          <p className="card-header-title">
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              Review Bidder
-            </span>
-          </p>
+          <p className="card-header-title">Bidder Info</p>
         </header>
       );
     };
 
     const cardFooter = () => {
       return (
-        <React.Fragment>
-          <div className="has-text-centered is-size-2 ">
-            Bid Amount :
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {` ${this.state.bidText}`}
-            </span>
+        <div className="card">
+          <header className="card-header">
+            <p className="card-header-title">{`${
+              this.state.userUnderReview.displayName
+            } 's Bid`}</p>
+          </header>
+          <div className="card-content">
+            <div className="content">
+              <p>
+                <div className="has-text-dark is-size-7"> Bid Amount :</div>
+                <div className="is-size-3 has-text-primary has-text-weight-bold">
+                  {` ${this.state.bidText}`}
+                </div>
+              </p>
+              <p>
+                <div className="has-text-grey is-size-7"> What's Next?</div>
+                <div className="help">
+                  * If you Accept the bid you will be asked to put your payment details and we will
+                  put a hold for the amount of this bid.
+                </div>
+                <div className="help">
+                  * Both of you and the bidder will recieve an email which will share your contact
+                  details
+                </div>
+                <div className="help">
+                  * When the job is completed. You will get a chance to rate the Bidder and the bid
+                  amount will be deducted
+                </div>
+                <div className="help">
+                  * review full details and our cancelation policy{' '}
+                  <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+                    {` BidOrBoo Service Agreement `}
+                  </a>
+                </div>
+              </p>
+            </div>
+            <a
+              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+              onClick={this.awardBidderHandler}
+              className="button is-primary is-large"
+            >
+              Accept Bid
+            </a>
+            <a
+              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+              onClick={this.closeReviewModal}
+              className=" button is-danger is-outlined is-large"
+            >
+              Go Back
+            </a>
           </div>
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <a onClick={this.awardBidderHandler} className="button is-primary is-fullwidth ">
-                Accept Bid
-              </a>
-            </div>
-            <div className="card-footer-item">
-              <a
-                onClick={this.closeReviewModal}
-                className="button is-danger is-outlined is-fullwidth"
-              >
-                Go Back
-              </a>
-            </div>
-          </footer>
-        </React.Fragment>
+        </div>
       );
     };
 
@@ -184,7 +209,7 @@ class BidsTable extends React.Component {
                   {bid._bidderRef &&
                     bid._bidderRef.profileImage &&
                     bid._bidderRef.profileImage.url && (
-                      <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                      <figure style={{ margin: '0 auto' }} className="image is-32x32">
                         <img alt="profile" src={bid._bidderRef.profileImage.url} />
                       </figure>
                     )}
@@ -203,13 +228,6 @@ class BidsTable extends React.Component {
                 {bid.isNewBid ? (
                   <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-dark">
                     new bid
-                    {/* <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        markBidAsSeen(jobId, bid._id);
-                      }}
-                      className="delete"
-                    /> */}
                   </div>
                 ) : null}
               </td>
@@ -240,7 +258,7 @@ class BidsTable extends React.Component {
 
       return (
         <div className="columns  is-multiline">
-          <div className="column is-half">
+          <div className="column">
             <table
               style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
               className="table is-hoverable table is-striped is-fullwidth"
@@ -261,7 +279,7 @@ class BidsTable extends React.Component {
     // no bids yet
     return (
       <div className="columns  is-multiline">
-        <div className="column is-half">
+        <div className="column">
           <table className="table is-hoverable table is-striped is-fullwidth">
             <thead>
               <tr>
@@ -343,7 +361,7 @@ class PostedJobsDetails extends React.Component {
 
     return (
       <div className="columns  is-multiline">
-        <div className="column is-half">
+        <div className="column">
           <div className="card noShadow is-clipped">
             <header
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

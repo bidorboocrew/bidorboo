@@ -127,19 +127,19 @@ class JobsToBidOnSummaryCard extends React.Component {
 
     const { profileImage, displayName, rating } = temp;
 
-    let daysSinceCreated = '';
-    let createdAtToLocal = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-      createdAtToLocal = moment(createdAt)
-        .local()
-        .format('YYYY-MM-DD hh:mm A');
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
+    // let daysSinceCreated = '';
+    // let createdAtToLocal = '';
+    // try {
+    //   daysSinceCreated = createdAt
+    //     ? moment.duration(moment().diff(moment(createdAt))).humanize()
+    //     : 0;
+    //   createdAtToLocal = moment(createdAt)
+    //     .local()
+    //     .format('YYYY-MM-DD hh:mm A');
+    // } catch (e) {
+    //   //xxx we dont wana fail simply cuz we did not get the diff in time
+    //   console.error(e);
+    // }
 
     return (
       <div

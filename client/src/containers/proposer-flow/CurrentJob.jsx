@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import {
   awardBidder,
@@ -41,7 +42,9 @@ class CurrentJob extends React.Component {
   }
   render() {
     const { selectedActivePostedJob, userDetails, a_awardBidder, a_markBidAsSeen } = this.props;
-
+    if (!selectedActivePostedJob || !selectedActivePostedJob._id) {
+      return null;
+    }
     const breadCrumb = (
       <div style={{ marginBottom: '1rem' }}>
         <nav className="breadcrumb" aria-label="breadcrumbs">
@@ -56,7 +59,9 @@ class CurrentJob extends React.Component {
               </a>
             </li>
             <li className="is-active">
-              <a aria-current="page">Selected Service</a>
+              <a aria-current="page">{`${
+                templatesRepo[selectedActivePostedJob.fromTemplateId].title
+              }`}</a>
             </li>
           </ul>
         </nav>
@@ -65,16 +70,18 @@ class CurrentJob extends React.Component {
 
     return (
       <section className="section">
-        {selectedActivePostedJob && selectedActivePostedJob._id ? (
-          <CurrentPostedJobDetailsCard
-            breadCrumb={breadCrumb}
-            currentUser={userDetails}
-            job={selectedActivePostedJob}
-            awardBidder={a_awardBidder}
-            markBidAsSeen={a_markBidAsSeen}
-            hideBidTable={this.isNewlyPostedJob}
-          />
-        ) : null}
+        <div className="container">
+          {selectedActivePostedJob && selectedActivePostedJob._id ? (
+            <CurrentPostedJobDetailsCard
+              breadCrumb={breadCrumb}
+              currentUser={userDetails}
+              job={selectedActivePostedJob}
+              awardBidder={a_awardBidder}
+              markBidAsSeen={a_markBidAsSeen}
+              hideBidTable={this.isNewlyPostedJob}
+            />
+          ) : null}
+        </div>
       </section>
     );
   }

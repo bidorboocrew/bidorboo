@@ -5,9 +5,9 @@ import * as C from '../constants/constants';
 
 export default class OtherUserDetails extends React.Component {
   render() {
-    const { breadCrumb } = this.props;
+    const { breadCrumb, cardFooter } = this.props;
     return (
-      <div className="slide-in-left" id="bdb-user-under-review">
+      <div id="bdb-user-under-review">
         {/* if user passes breadcrumb use it */}
         {breadCrumb}
 
@@ -45,62 +45,50 @@ const OtherUserProfileCard = ({ otherUserDetails, cardFooter, cardTitle }) => {
   const { profileImage, displayName, membershipStatus } = otherUserDetails;
 
   const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-
-  return (
-    <div className="columns is-multiline">
-      <div className="column is-half">
-        <div className="card is-clipped">
-          {cardTitle}
-          <div className="card-content">
-            <div className="has-text-centered">
-              <img src={`${profileImage.url}`} />
-              <div>{displayName}</div>
-              <DisplayLabelValue
-                labelText="Membership Status:"
-                labelValue={membershipStatusDisplay}
-              />
-            </div>
-
-            <div className="content has-text-centered">
-              <UserDetails otherUserDetails={otherUserDetails} />
-            </div>
-          </div>
-
-          {cardFooter}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const UserDetails = ({ otherUserDetails }) => {
   const {
-    displayName,
+    rating,
+
     email = { emailAddress: 'none provided' },
     phone = { phoneNumber: 'none provided' },
     personalParagraph = 'none provided',
   } = otherUserDetails;
-  
   return (
     <React.Fragment>
+      {cardFooter}
       <br />
-      <HeaderTitle title="Member Details" />
+      <div className="card disabled is-clipped">
+        {cardTitle}
+        <div className="card-content">
+          <div>
+            <img src={`${profileImage.url}`} />
+            <div>{displayName}</div>
+            <DisplayLabelValue
+              labelText="Membership Status:"
+              labelValue={membershipStatusDisplay}
+            />
+            <DisplayLabelValue labelText="Rating:" labelValue={rating.globalRating} />
+            <HeaderTitle specialMarginVal={8} title="About Me" />
+            <TextareaAutosize
+              value={personalParagraph}
+              className="textarea is-marginless is-paddingless"
+              style={{
+                resize: 'none',
+                border: 'none',
+                color: '#4a4a4a',
+                background: 'white',
+              }}
+              readOnly
+            />
+          </div>
+          {/*
+          <HeaderTitle title="Member Details" />
 
-      <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-      <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
-      <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
-      <HeaderTitle specialMarginVal={8} title="About Me" />
-      <TextareaAutosize
-        value={personalParagraph}
-        className="textarea is-marginless is-paddingless has-text-centered"
-        style={{
-          resize: 'none',
-          border: 'none',
-          color: '#4a4a4a',
-          background: 'white',
-        }}
-        readOnly
-      />
+
+          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
+         */}
+        </div>
+      </div>
     </React.Fragment>
   );
 };
