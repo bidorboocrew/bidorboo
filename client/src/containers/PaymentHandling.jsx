@@ -29,7 +29,7 @@ class PaymentHandling extends React.Component {
 
   componentDidMount() {
     const { beforePayment } = this.props;
-    if (beforePayment && typeof beforePayment === 'fucntion') {
+    if (beforePayment && typeof beforePayment === 'function') {
       beforePayment();
     }
   }

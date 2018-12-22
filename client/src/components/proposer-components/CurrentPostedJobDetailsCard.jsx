@@ -64,12 +64,12 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     this.setState({ showReviewBidder: false, userUnderReview: null, bidText: '', bidId: null });
   }
 
-  awardBidderHandler(e) {
+  awardBidderHandler() {
     const { awardBidder, job } = this.props;
+
     const { bidId } = this.state;
-    e.preventDefault();
+
     awardBidder && awardBidder(job._id, bidId);
-    this.closeReviewModal({ preventDefault: () => null });
   }
 
   componentDidCatch() {
@@ -556,7 +556,6 @@ class AcceptBidModal extends React.Component {
               beforePayment={awardBidderHandler}
               onCompleteHandler={() => {
                 handleCancel();
-                switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
               }}
             />
 
