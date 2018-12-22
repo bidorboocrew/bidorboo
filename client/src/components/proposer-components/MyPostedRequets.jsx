@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 class MyPostedRequets extends React.Component {
   static propTypes = {
@@ -21,12 +21,9 @@ class MyPostedRequets extends React.Component {
   render() {
     const { jobsList } = this.props;
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
-    const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(this.props)
-      ? 'column is-half'
-      : 'column is-one-quarter';
 
     return userHasPostedJobs ? (
-      <MyRequests {...this.props} columnCount={columnCount} />
+      <MyRequests {...this.props} columnCount="column" />
     ) : (
       <EmptyStateComponent />
     );
@@ -75,7 +72,9 @@ class MyPostedJobSummaryCard extends React.Component {
   render() {
     const { job, userDetails, areThereAnyBidders, deleteJob, notificationFeed } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
-
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
@@ -109,7 +108,7 @@ class MyPostedJobSummaryCard extends React.Component {
     }
     return (
       <div
-        className={`card postedJobToBidOnCard is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
+        className={`card bidderRootSpecial is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
@@ -117,7 +116,6 @@ class MyPostedJobSummaryCard extends React.Component {
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
-          {/* xxxx delete button */}
           {deleteJob && (
             <a
               className="card-header-icon"
@@ -192,7 +190,7 @@ class MyPostedJobSummaryCard extends React.Component {
                 <span className="icon">
                   <i className="fa fa-hand-paper" />
                 </span>
-                <span style={{ marginLeft: 4 }}>Bids</span>
+                <span style={{ marginLeft: 4 }}>Review Bids</span>
                 {areThereAnyBidders && doesthisJobHaveNewBids && (
                   <span style={{ marginLeft: 4 }} className="tag is-dark">
                     +{numberOfNewBids}

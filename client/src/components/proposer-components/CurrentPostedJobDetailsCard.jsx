@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import moment from 'moment';
+import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -11,6 +12,9 @@ import { switchRoute } from '../../utils';
 import OtherUserDetails from '../OtherUserDetails';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import { awardBidder } from './../../app-state/actions/jobActions';
+
+import PaymentHandling from '../../containers/PaymentHandling';
 
 export default class CurrentPostedJobDetailsCard extends React.Component {
   static propTypes = {
@@ -36,8 +40,19 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       bidText: '',
       bidId: null,
       userUnderReview: null,
+      showAcceptBidModal: false,
     };
-    autoBind(this, 'closeReviewModal', 'showReviewModal', 'awardBidderHandler');
+    autoBind(
+      this,
+      'closeReviewModal',
+      'showReviewModal',
+      'awardBidderHandler',
+      'toggleShowAcceptBidModal',
+    );
+  }
+
+  toggleShowAcceptBidModal(e) {
+    this.setState({ showAcceptBidModal: !this.state.showAcceptBidModal });
   }
 
   showReviewModal(e, userUnderReview, bidText, bidId) {
@@ -50,12 +65,12 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     this.setState({ showReviewBidder: false, userUnderReview: null, bidText: '', bidId: null });
   }
 
-  awardBidderHandler(e) {
+  awardBidderHandler() {
     const { awardBidder, job } = this.props;
+
     const { bidId } = this.state;
-    e.preventDefault();
+
     awardBidder && awardBidder(job._id, bidId);
-    this.closeReviewModal({ preventDefault: () => null });
   }
 
   componentDidCatch() {
@@ -69,7 +84,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
-
+    const { fromTemplateId } = job;
     const reviewBidderbreadCrumb = () => {
       return (
         <div style={{ marginBottom: '1rem' }}>
@@ -86,7 +101,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </li>
               <li>
                 <a onClick={this.closeReviewModal} aria-current="page">
-                  {job.title}
+                  {templatesRepo[fromTemplateId].title}
                 </a>
               </li>
               <li className="is-active">
@@ -101,40 +116,57 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     const cardTitle = () => {
       return (
         <header className="card-header">
-          <p className="card-header-title">
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              Review Bidder
-            </span>
-          </p>
+          <p className="card-header-title">Bidder Info</p>
         </header>
       );
     };
 
     const cardFooter = () => {
       return (
-        <React.Fragment>
-          <div className="has-text-centered is-size-2 ">
-            Bid Amount :
-            <span className="has-text-primary is-capitalized has-text-weight-bold ">
-              {` ${this.state.bidText}`}
-            </span>
+        <div className="card">
+          <header className="card-header">
+            <p className="card-header-title">{`${
+              this.state.userUnderReview.displayName
+            } 's Bid`}</p>
+          </header>
+          <div className="card-content">
+            <div className="content">
+              <div className="has-text-dark is-size-7"> Bid Amount :</div>
+              <div className="is-size-3 has-text-primary has-text-weight-bold">
+                {` ${this.state.bidText}`}
+              </div>
+              <div className="has-text-grey is-size-7">What's Next?</div>
+              <div className="help">
+                <ShowMore
+                  className="has-text-grey help"
+                  lines={2}
+                  more="Show more"
+                  less="Show less"
+                  anchorClass=""
+                >
+                  {`* When you Accept a bid you will be asked to put your payment details
+                  * When the payment is secured both you and the bidder will recieve an email which will share
+                  your contact details
+                  * When the job is completed. You will get a chance to rate the Bidder and the bid amount will be deducted`}
+                </ShowMore>
+              </div>
+            </div>
+            <a
+              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+              onClick={this.toggleShowAcceptBidModal}
+              className="button is-primary"
+            >
+              Accept Bid
+            </a>
+            <a
+              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+              onClick={this.closeReviewModal}
+              className=" button is-outlined"
+            >
+              Go Back
+            </a>
           </div>
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <a onClick={this.awardBidderHandler} className="button is-primary is-fullwidth ">
-                Accept Bid
-              </a>
-            </div>
-            <div className="card-footer-item">
-              <a
-                onClick={this.closeReviewModal}
-                className="button is-danger is-outlined is-fullwidth"
-              >
-                Go Back
-              </a>
-            </div>
-          </footer>
-        </React.Fragment>
+        </div>
       );
     };
 
@@ -163,7 +195,19 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       </React.Fragment>
     );
 
-    return <React.Fragment>{pageContent}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {this.state.showAcceptBidModal && (
+          <AcceptBidModal
+            handleCancel={this.toggleShowAcceptBidModal}
+            {...this.state}
+            awardBidderHandler={this.awardBidderHandler}
+            {...this.props}
+          />
+        )}
+        {pageContent}
+      </React.Fragment>
+    );
   }
 }
 
@@ -184,7 +228,7 @@ class BidsTable extends React.Component {
                   {bid._bidderRef &&
                     bid._bidderRef.profileImage &&
                     bid._bidderRef.profileImage.url && (
-                      <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                      <figure style={{ margin: '0 auto' }} className="image is-32x32">
                         <img alt="profile" src={bid._bidderRef.profileImage.url} />
                       </figure>
                     )}
@@ -203,13 +247,6 @@ class BidsTable extends React.Component {
                 {bid.isNewBid ? (
                   <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-dark">
                     new bid
-                    {/* <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        markBidAsSeen(jobId, bid._id);
-                      }}
-                      className="delete"
-                    /> */}
                   </div>
                 ) : null}
               </td>
@@ -228,9 +265,9 @@ class BidsTable extends React.Component {
                         bid._id,
                       );
                     }}
-                    className="button is-primary is-outlined"
+                    className="button is-primary"
                   >
-                    Review Bid
+                    View
                   </a>
                 )}
               </td>
@@ -240,7 +277,7 @@ class BidsTable extends React.Component {
 
       return (
         <div className="columns  is-multiline">
-          <div className="column is-half">
+          <div className="column">
             <table
               style={{ border: '1px solid rgba(10, 10, 10, 0.1)' }}
               className="table is-hoverable table is-striped is-fullwidth"
@@ -261,7 +298,7 @@ class BidsTable extends React.Component {
     // no bids yet
     return (
       <div className="columns  is-multiline">
-        <div className="column is-half">
+        <div className="column">
           <table className="table is-hoverable table is-striped is-fullwidth">
             <thead>
               <tr>
@@ -305,6 +342,10 @@ class PostedJobsDetails extends React.Component {
       jobImages,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
+
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 
@@ -339,7 +380,7 @@ class PostedJobsDetails extends React.Component {
 
     return (
       <div className="columns  is-multiline">
-        <div className="column is-half">
+        <div className="column">
           <div className="card noShadow is-clipped">
             <header
               style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
@@ -429,6 +470,103 @@ class PostedJobsDetails extends React.Component {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+// confirm award and pay
+const BIDORBOO_SERVICECHARGE = 0.06;
+class AcceptBidModal extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showStripeCheckout: false,
+    };
+  }
+
+  toggleStripeCheckout = () => {
+    this.setState({ showStripeCheckout: !this.state.showStripeCheckout });
+  };
+
+  render() {
+    const {
+      handleCancel,
+      handlePayment,
+      userUnderReview,
+      bidText,
+      awardBidderHandler,
+      job,
+    } = this.props;
+    const { showStripeCheckout } = this.state;
+    if (!bidText || !userUnderReview) {
+      return null;
+    }
+
+    let bidAmount = bidText.replace('CAD', '');
+    bidAmount = parseInt(bidAmount, 10);
+    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
+    const totalAmount = bidAmount + bidOrBooServiceFee;
+    return (
+      <div className="modal is-active">
+        <div onClick={handleCancel} className="modal-background" />
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">Accept {`${userUnderReview.displayName}`}'s Bid</p>
+            <button onClick={handleCancel} className="delete" aria-label="close" />
+          </header>
+          <section className="modal-card-body">
+            <table className="table is-fullwidth  is-bordered is-striped is-narrow ">
+              <thead>
+                <tr>
+                  <th>Charge Detail</th>
+                  <th />
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th>{Math.ceil(bidAmount + bidOrBooServiceFee)} $CAD</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>Bid Amount</td>
+                  <td>{bidAmount} $CAD</td>
+                </tr>
+                <tr>
+                  <td>BidOrBoo Service Fee (6%) </td>
+                  <td>{bidOrBooServiceFee} $CAD</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="has-text-grey is-size-7"> What's Next?</div>
+            <div className="help">* The amount of {`${totalAmount}`} CAD will be put on hold.</div>
+            <div className="help">* When the job is completed this amount will be deducted.</div>
+            <div className="help">
+              * By proceeding you confirm that You agree with all
+              <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+                {` BidOrBoo Service Agreement Terms`}
+              </a>
+            </div>
+          </section>
+          <footer className="modal-card-foot">
+            <PaymentHandling
+              amount={totalAmount * 100}
+              jobId={job._id}
+              bidderId={userUnderReview._id}
+              beforePayment={awardBidderHandler}
+              onCompleteHandler={() => {
+                handleCancel();
+              }}
+            />
+
+            <button style={{ marginLeft: 4 }} onClick={handleCancel} className="button">
+              Cancel
+            </button>
+          </footer>
         </div>
       </div>
     );

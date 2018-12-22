@@ -47,7 +47,7 @@
 //       <div className="slide-in-left bdbPage">
 //         <section className="hero is-small is-dark">
 //           <div className="hero-body">
-//             <div className="container is-fluid">
+//             <div className="container">
 //               <h1 style={{ color: 'white' }} className="title">
 //                 Request Queue
 //               </h1>
@@ -55,7 +55,7 @@
 //           </div>
 //         </section>
 //         <section className="section">
-//           <div className="container is-fluid">
+//           <div className="container">
 //             <div style={{ padding: '1rem', background: 'white' }}>
 //               <BigCalendar
 //                 localizer={localizer}
@@ -66,7 +66,7 @@
 //             </div>
 //           </div>
 //         </section>
-//         <div className="container is-fluid">
+//         <div className="container">
 //           <div className="columns is-multiline">
 //             <AwardedJobsList userDetails={userDetails} jobsList={myAwardedJobsList} />
 //           </div>

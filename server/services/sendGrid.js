@@ -9,6 +9,7 @@ exports.EmailService = {
     if (process.env.NODE_ENV !== 'production') {
       return;
     }
+
     var from_email = new helper.Email(from);
     var to_email = new helper.Email(to);
     var subject = subject;

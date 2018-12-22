@@ -55,45 +55,35 @@ class CreateAJob extends React.Component {
     const { currentStepNumber } = this.state;
 
     const content = () => (
-      <div className="card noShadow is-clipped">
+      <div className="card noShadow">
         <section className="hero is-small is-dark">
           <div
-            style={{
-              position: 'relative',
-              height: '6rem',
-              backgroundImage: `url("${jobDetails.imageUrl}")`,
-            }}
+            // style={{
+            //   position: 'relative',
+            //   height: '4rem',
+            //   backgroundImage: `url("${jobDetails.imageUrl}")`,
+            // }}
             className="hero-body"
           >
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                /* height: 24px, */
-                width: ' 100%',
-                background: 'rgba(54,54,54,0.7)',
-                padding: '0.25rem 1.5rem',
-              }}
-              className="container"
-            >
+            <div className="container">
               <div className="title has-text-white">{jobDetails.title} Request</div>
             </div>
           </div>
         </section>
 
         <div className="card-content ">
-          <ShowMore className="has-text-grey" lines={2} more="Show more" less="Show less">
+          <ShowMore
+            className="has-text-grey"
+            lines={2}
+            more="Show more"
+            less="Show less"
+            anchorClass=""
+          >
             {this.state.chosenTemplate.description}
           </ShowMore>
-
           <br />
           {currentStepNumber === 2 && (
             <React.Fragment>
-              {/* <PicturesUploaderContainer
-                collectedDetails={this.collectedJobDetails}
-                onImageChange={this.collectJobImageDetails}
-              /> */}
               <NewJobForm
                 fromTemplateIdField={jobDetails.id}
                 jobTitleField={jobDetails.title}

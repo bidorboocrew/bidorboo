@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
@@ -10,11 +9,10 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import JobDetailsViewForBidder from '../../components/bidder-components/JobDetailsViewForBidder';
 import PostYourBid from '../../components/forms/PostYourBid';
 import { switchRoute } from '../../utils';
-import BidderStepper from './BidderStepper';
-
+import { updateBooedBy } from '../../app-state/actions/jobActions';
 class BidNow extends React.Component {
   render() {
-    const { jobDetails, a_submitBid } = this.props;
+    const { jobDetails, a_submitBid, a_updateBooedBy } = this.props;
 
     //if user tried to manually set the url to this page without selecting a job
     if (!jobDetails || !jobDetails._ownerRef) {
@@ -23,33 +21,25 @@ class BidNow extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <BidderStepper currentStepNumber={2} />
-
-        <div className="container bdbPage pageWithStepper desktop">
-          <section className="bdbPage">
-            <div className="container">
-              <div className="columns  is-multiline">
-                <div className="column is-6">
-                  {jobDetails && jobDetails._id && (
-                    <React.Fragment>
-                      <PostYourBid
-                        onSubmit={(values) => {
-                          a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-                        }}
-                        onCancel={() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        }}
-                      />
-                      <JobDetailsViewForBidder job={jobDetails} />
-                    </React.Fragment>
-                  )}
-                </div>
-              </div>
-            </div>
-          </section>
+      <section className="section">
+        <div className="container">
+          {jobDetails && jobDetails._id && (
+            <React.Fragment>
+              <PostYourBid
+                onSubmit={(values) => {
+                  a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+                }}
+                onCancel={() => {
+                  a_updateBooedBy(jobDetails);
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+              <JobDetailsViewForBidder job={jobDetails} />
+              <br />
+            </React.Fragment>
+          )}
         </div>
-      </React.Fragment>
+      </section>
     );
   }
 }
@@ -61,6 +51,7 @@ const mapStateToProps = ({ bidsReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_submitBid: bindActionCreators(submitBid, dispatch),
+    a_updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
   };
 };
 

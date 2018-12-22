@@ -31,7 +31,9 @@ const JobSchema = new Schema(
       default: 'OPEN',
       enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'EXPIRED'],
     },
-    hideForUserIds: [{ type: String }], //array of people who saw this/booed no longer wish to see it ..etc
+    hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
+    viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
+    booedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
     detailedDescription: { type: String, trim: true },
     stats: StatsSchema,
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },

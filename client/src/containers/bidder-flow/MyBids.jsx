@@ -66,7 +66,7 @@ class MyBids extends React.Component {
         </section>
 
         <section className="section">
-          <div className="container is-fluid">
+          <div className="container">
             <div className="tabs">
               <ul>
                 <li className="is-active">
@@ -81,7 +81,7 @@ class MyBids extends React.Component {
         </section>
 
         <section className="section">
-          <div className="container is-fluid">
+          <div className="container">
             <div className="tabs">
               <ul>
                 <li className="is-active">

@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 const TAB_IDS = {
   reviewBids: 'My Requests',
   inQueue: 'Awarded',
@@ -38,17 +38,13 @@ export default AwardedJobsList;
 const JobsWithBids = (props) => {
   const { jobsList } = props;
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-quarter';
-
   const jobsWithBids = jobsList
     .filter((job) => {
       return job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0;
     })
     .map((job) => {
       return (
-        <div key={job._id} className={columnCount}>
+        <div key={job._id} className="column">
           <MyAwardedJobSummaryCard job={job} areThereAnyBidders {...props} />
         </div>
       );
@@ -83,7 +79,9 @@ class MyAwardedJobSummaryCard extends React.Component {
   render() {
     const { job, userDetails, areThereAnyBidders, deleteJob } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId, state } = job;
-
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
@@ -107,7 +105,7 @@ class MyAwardedJobSummaryCard extends React.Component {
     }
 
     return (
-      <div style={specialBorder} className="card postedJobToBidOnCard is-clipped">
+      <div style={specialBorder} className="card bidderRootSpecial is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -141,20 +139,6 @@ class MyAwardedJobSummaryCard extends React.Component {
           />
         </div>
         <div style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }} className="card-content">
-          {/* <div className="media">
-            <div className="media-left">
-              {profileImage && profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-48x48">
-                  <img src={profileImage.url} alt="user" />
-                </figure>
-              )}
-            </div>
-            <div className="media-content">
-              <p className="title is-6">{displayName}</p>
-              {/* <p className="subtitle is-6">{email}</p>
-            </div>
-          </div> */}
-
           <div className="content">
             <p className="is-size-7">
               Start Date

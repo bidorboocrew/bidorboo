@@ -58,19 +58,18 @@ class PostYourBid extends React.Component {
                   style={{ borderRadius: 0 }}
                   onClick={this.openShowBidDialog}
                   type="button"
-                  className="button is-primary "
+                  className="button  is-medium is-primary "
                 >
-                  <i style={{ marginRight: 4 }} className="fas fa-hand-paper" />
+                  <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
                   Bid
                 </a>
-
                 <a
                   style={{ borderRadius: 0, marginLeft: '2.25rem' }}
-                  className="button is-danger is-outlined "
+                  className="button is-medium  is-danger is-outlined "
                   type="submit"
                   onClick={onCancel}
                 >
-                  <i style={{ marginRight: 4 }} className="fas fa-thumbs-down" />
+                  <i className="fas fa-thumbs-down" />
                   Booo
                 </a>
               </ActionSheet>,
@@ -81,7 +80,7 @@ class PostYourBid extends React.Component {
                 <div className="modal-background" />
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <p className="modal-card-title">Bidder Contact Info</p>
+                    <p className="modal-card-title">Enter Your Bid</p>
                     <button
                       onClick={this.closeShowBidDialog}
                       className="delete"
@@ -112,7 +111,7 @@ class PostYourBid extends React.Component {
                       onClick={handleSubmit}
                       className="button is-primary"
                     >
-                      Submit
+                      Submit Bid
                     </button>
                     <button onClick={this.closeShowBidDialog} className="button is-outline">
                       Cancel

@@ -119,6 +119,10 @@ class PostedJobsDetails extends React.Component {
       detailedDescription,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
+
     let temp = _ownerRef ? _ownerRef : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 

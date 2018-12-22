@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, BULMA_RESPONSIVE_SCREEN_SIZES } from '../../utils';
+import { switchRoute } from '../../utils';
 
 class JobsWithNoBids extends React.Component {
   render() {
@@ -20,17 +20,13 @@ export default JobsWithNoBids;
 const JobsWithoutBids = (props) => {
   const { jobsList } = props;
 
-  const columnCount = BULMA_RESPONSIVE_SCREEN_SIZES.isMobile(props)
-    ? 'column is-half'
-    : 'column is-one-quarter';
-
   const jobsWithoutBids = jobsList
     .filter((job) => {
       return !(job._bidsListRef && job._bidsListRef.map && job._bidsListRef.length > 0);
     })
     .map((job) => {
       return (
-        <div key={job._id} className={columnCount}>
+        <div key={job._id} className="column">
           <MyPostedJobSummaryCard job={job} {...props} />
         </div>
       );
@@ -68,7 +64,9 @@ class MyPostedJobSummaryCard extends React.Component {
   render() {
     const { job, userDetails, areThereAnyBidders, deleteJob, disabled } = this.props;
     const { startingDateAndTime, title, createdAt, fromTemplateId } = job;
-
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     // get details about the user
     let temp = userDetails ? userDetails : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
@@ -94,7 +92,7 @@ class MyPostedJobSummaryCard extends React.Component {
     return (
       <div
         style={specialBorder}
-        className={`card postedJobToBidOnCard is-clipped ${disabled ? 'disabled' : ''}`}
+        className={`card bidderRootSpecial is-clipped ${disabled ? 'disabled' : ''}`}
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

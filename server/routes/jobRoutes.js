@@ -39,10 +39,8 @@ module.exports = (app) => {
       const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
 
       const isUserLoggedIn = !!(userId && mongoDbUserId);
-      // userJobsList = isUserLoggedIn
-      //   ? await jobDataAccess.getAllJobsToBidOnForLoggedInUser(userId, mongoDbUserId)
-      //   : await jobDataAccess.getAllJobsToBidOnForLoggedOutUser();
-      userJobsList = await jobDataAccess.getAllJobsToBidOnForLoggedOutUser();
+
+      userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });
@@ -197,6 +195,41 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To award bidder', details: e });
+    }
+  });
+
+  app.put(ROUTES.API.JOB.PUT.updateViewedBy, requireLogin, async (req, res) => {
+    try {
+      const data = req.body.data;
+      const { jobId } = data;
+      if (!jobId) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request forupdateViewedBy, jobId param was Not Specified',
+        });
+      }
+      const userMongoDBId = req.user._id;
+
+      await jobDataAccess.updateViewedBy(jobId, userMongoDBId);
+      return res.send({ success: true });
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: e });
+    }
+  });
+  app.put(ROUTES.API.JOB.PUT.updateBooedBy, requireLogin, async (req, res) => {
+    try {
+      const data = req.body.data;
+      const { jobId } = data;
+      if (!jobId) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for updateBooedBy, jobId param was Not Specified',
+        });
+      }
+      const userMongoDBId = req.user._id;
+
+      await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
+      return res.send({ success: true });
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: e });
     }
   });
 };

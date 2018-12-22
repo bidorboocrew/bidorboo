@@ -100,6 +100,30 @@ exports.jobDataAccess = {
       throw e;
     }
   },
+  updateViewedBy: (jobId, mongoDbUserId) => {
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $addToSet: {
+          viewedBy: mongoDbUserId,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
+  updateBooedBy: (jobId, mongoDbUserId) => {
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $addToSet: {
+          booedBy: mongoDbUserId,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
   addJobImages: async (jobId, images) => {
     try {
       let jobImagesArray = [];
@@ -167,11 +191,12 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOnForLoggedOutUser: () => {
+  getAllJobsToBidOn: () => {
     // wil return all jobs in the system
     return new Promise((resolve, reject) => {
       const jobFields = {
         _ownerRef: 1,
+        _bidsListRef: 1,
         title: 1,
         state: 1,
         detailedDescription: 1,
@@ -183,15 +208,23 @@ exports.jobDataAccess = {
         createdAt: 1,
         updatedAt: 1,
         location: 1,
+        viewedBy: 1,
+        booedBy: 1,
       };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
+      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
       JobModel.find({}, jobFields, {
         sort: { createdAt: -1 },
       })
+        .where('startingDateAndTime.date')
+        .gt(new Date())
         .populate({
           path: '_ownerRef',
           select: jobOwnerFields,
+        })
+        .populate({
+          path: '_bidsListRef',
+          select: { _bidderRef: 1, bidAmount: 1 },
         })
         .lean(true)
         .exec((error, results) => {

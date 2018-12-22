@@ -15,7 +15,7 @@ const MapWithAMarkerClusterer = compose(
     containerElement: (
       <div
         style={{
-          height: `30rem`,
+          height: `20rem`,
           boxShadow:
             '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
         }}
@@ -40,7 +40,7 @@ class TheMap extends React.Component {
           streetViewControl: false,
         }}
         defaultZoom={8}
-        defaultCenter={mapCenterPoint}
+        center={mapCenterPoint}
       >
         <Cluster {...this.props} />
       </GoogleMap>
@@ -65,7 +65,14 @@ class Cluster extends React.Component {
     // console.log(clickedMarkers);
   }
   render() {
-    const { markers, selectJobToBidOn, currentUserId, isLoggedIn, showLoginDialog } = this.props;
+    const {
+      markersRef,
+      markers,
+      selectJobToBidOn,
+      currentUserId,
+      isLoggedIn,
+      showLoginDialog,
+    } = this.props;
     if (markers && markers.length > 0) {
       const jobsMarkersOnTheMap = markers.map((marker) => (
         <JobMarker
@@ -79,6 +86,8 @@ class Cluster extends React.Component {
       ));
       return (
         <MarkerClusterer
+          defaultMinimumClusterSize={3}
+          ref={markersRef}
           onClick={this.onMarkerClustererClick}
           averageCenter
           enableRetinaIcons

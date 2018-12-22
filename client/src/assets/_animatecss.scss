@@ -343,8 +343,8 @@
 }
 
 .shadow-drop-2-center {
-  -webkit-animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation: shadow-drop-2-center 0.4s both;
+  animation: shadow-drop-2-center 0.4s both;
 }
 @-webkit-keyframes shadow-drop-2-center {
   0% {
@@ -355,7 +355,8 @@
   100% {
     -webkit-transform: translateZ(50px);
     transform: translateZ(50px);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.35);
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.2);
   }
 }
 @keyframes shadow-drop-2-center {
@@ -367,6 +368,7 @@
   100% {
     -webkit-transform: translateZ(50px);
     transform: translateZ(50px);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.35);
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.2);
   }
 }

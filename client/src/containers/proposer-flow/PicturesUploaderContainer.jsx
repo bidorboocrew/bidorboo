@@ -18,7 +18,7 @@ export default class PicturesUploaderContainer extends React.Component {
     const previewContent = [];
     for (let i = 0; i < 5; i++) {
       const temp = (
-        <div key={Math.random()} className="column is-one-quarter">
+        <div key={Math.random()} className="column is-one-fifth">
           <JobImageFileUploader imgIndex={i} onImageChange={onImageChange} />
         </div>
       );

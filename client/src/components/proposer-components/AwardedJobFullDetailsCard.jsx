@@ -196,6 +196,10 @@ class AwardedJobDetails extends React.Component {
       detailedDescription,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
+
     let temp = currentUser ? currentUser : { profileImage: '', displayName: '' };
     const { profileImage, displayName } = temp;
 

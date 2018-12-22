@@ -60,7 +60,7 @@ class Header extends React.Component {
 
     return (
       <React.Fragment>
-        <nav style={{ height: '3.25rem' }} className={navbarStylesBasedOnRoute}>
+        <nav className={navbarStylesBasedOnRoute}>
           {/* brand */}
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -165,7 +165,7 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-child" aria-hidden="true" />
                   </span>
-                  <span>Requests</span>
+                  <span>Request a Service</span>
                   {notificationFeed &&
                     notificationFeed.jobIdsWithNewBids &&
                     notificationFeed.jobIdsWithNewBids.length > 0 && (
@@ -194,7 +194,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Add a Request</span>
+                    <span>New Request</span>
                   </a>
                   {isLoggedIn && (
                     <React.Fragment>
@@ -236,7 +236,7 @@ class Header extends React.Component {
                   <span style={{ marginRight: 4 }}>
                     <i className="fa fa-hand-paper" aria-hidden="true" />
                   </span>
-                  <span>Bids</span>
+                  <span>Provide a Service</span>
                   {notificationFeed &&
                     notificationFeed.myBidsWithNewStatus &&
                     notificationFeed.myBidsWithNewStatus.length > 0 && (
@@ -265,7 +265,7 @@ class Header extends React.Component {
                     <span style={{ marginRight: 4 }}>
                       <i className="fas fa-plus-circle" />
                     </span>
-                    <span>Add a Bid</span>
+                    <span>New Bid</span>
                   </a>
                   {isLoggedIn && (
                     <React.Fragment>
@@ -388,6 +388,8 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
+        {/* this to make up for the flex size of the navbar on desktop */}
+        <div className="is-hidden-touch" style={{ height: '1.8rem' }} />
       </React.Fragment>
     );
   }

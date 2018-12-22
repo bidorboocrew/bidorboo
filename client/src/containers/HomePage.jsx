@@ -22,47 +22,26 @@ class HomePage extends React.Component {
           </div>
         </section>
 
-        <section className="hero">
-          <div className="hero-body">
-            <div className="container">
-              <div className="container is-fluid">
-                <div className="columns is-centered is-multiline">
-                  <div className="column is-half">
-                    <BidOrBooCard
-                      logoImg={requestImg}
-                      onClickHandler={() => {
-                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                      }}
-                      cardContent={
-                        <a
-                          onClick={() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                          }}
-                        >
-                          <div className="title has-text-white">Request a Service</div>
-                        </a>
-                      }
-                    />
-                  </div>
-                  <div className="column is-half">
-                    <BidOrBooCard
-                      logoImg={bidsImg}
-                      onClickHandler={() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                      }}
-                      cardContent={
-                        <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            switchRoute(ROUTES.CLIENT.BIDDER.root);
-                          }}
-                        >
-                          <div className="title has-text-white">Offer a Service</div>
-                        </a>
-                      }
-                    />
-                  </div>
-                </div>
+        <section className="section">
+          <div className="container">
+            <div className="columns is-multiline">
+              <div className="column is-half">
+                <BidOrBooCard
+                  logoImg={requestImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                  cardContent={'Request a Service'}
+                />
+              </div>
+              <div className="column is-half">
+                <BidOrBooCard
+                  logoImg={bidsImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                  cardContent={'Provide a Service'}
+                />
               </div>
             </div>
           </div>
@@ -77,26 +56,11 @@ export default HomePage;
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div
-      style={{ cursor: 'pointer', height: '18rem', position: 'relative' }}
-      onClick={onClickHandler}
-      className="card is-clipped"
-    >
-      <div style={{ backgroundColor: '#363636' }} className="card-image">
-        <img src={`${logoImg}`} className="bdb-home-page" />
-        <div
-          style={{
-            position: 'absolute',
-            left: 0,
-            bottom: 0,
-            width: ' 100%',
-            background: 'rgba(54,54,54,0.8)',
-            padding: '1.25rem',
-          }}
-        >
-          <div className="title has-text-centered has-text-white">{cardContent}</div>
-        </div>
+    <div onClick={onClickHandler} className="card homePageSpecial">
+      <div className="card-image">
+        <img src={`${logoImg}`} />
       </div>
+      <p className="title  is-fullwidth has-text-dark has-text-centered">{cardContent}</p>
     </div>
   );
 };

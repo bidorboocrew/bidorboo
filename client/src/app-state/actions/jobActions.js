@@ -5,6 +5,20 @@ import moment from 'moment';
 import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
+export const updateBooedBy = (jobDetails) => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.updateBooedBy, {
+        data: {
+          jobId: jobDetails._id,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+
 export const getAllMyOpenJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
@@ -125,7 +139,8 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+
         }
       })
       .catch((error) => {
@@ -170,7 +185,6 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
     fromTemplateIdField,
   } = initialDetails;
 
-  debugger;
   //map form fields to the mongodb schema expected fields
   // for more ddetails look at jobModel.js
 

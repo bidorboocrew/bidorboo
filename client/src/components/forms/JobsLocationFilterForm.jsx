@@ -40,13 +40,16 @@ class JobsLocationFilterForm extends React.Component {
       'getCurrentAddress',
       'autoSetGeoLocation',
       'successfullGeoCoding',
-      'clearForceSetAddressValue',
       'toggleJobCategorySelection',
       'updateSearchRaduisSelection',
     );
   }
   componentDidMount() {
-    navigator.geolocation && this.getCurrentAddress();
+    this.mount = true;
+  }
+
+  componentWillUnmount() {
+    this.mount = false;
   }
   updateSearchRaduisSelection(raduisKm) {
     this.props.setFieldValue('searchRaduisField', raduisKm, false);
@@ -66,12 +69,8 @@ class JobsLocationFilterForm extends React.Component {
     this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
   }
 
-  clearForceSetAddressValue() {
-    this.setState({ forceSetAddressValue: '' });
-  }
-
   autoSetGeoLocation(addressText) {
-    this.setState(() => ({ forceSetAddressValue: addressText }));
+    this.mount && this.setState({ forceSetAddressValue: addressText });
     // update the form field with the current position coordinates
     this.props.setFieldValue('addressTextField', addressText, false);
   }
@@ -88,6 +87,7 @@ class JobsLocationFilterForm extends React.Component {
       handleBlur,
       handleSubmit,
       isValid,
+      dirty,
       isSubmitting,
       setFieldValue,
       resetForm,
@@ -101,7 +101,7 @@ class JobsLocationFilterForm extends React.Component {
         <span
           key={key}
           onClick={() => this.toggleJobCategorySelection(key)}
-          className={classNames('button', {
+          className={classNames('button is-small', {
             'is-info is-selected': isThisJobSelected,
           })}
         >
@@ -127,7 +127,7 @@ class JobsLocationFilterForm extends React.Component {
       <form
         style={{
           padding: 10,
-          backgroundColor: '#eeee',
+          backgroundColor: '#eee',
         }}
         onSubmit={handleSubmit}
       >
@@ -198,18 +198,10 @@ class JobsLocationFilterForm extends React.Component {
         />
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Search Raduis</span>
-            <span
-              onClick={() => this.updateSearchRaduisSelection(5)}
-              className={classNames('button', {
-                'is-info is-selected': values.searchRaduisField === 5,
-              })}
-            >
-              5km
-            </span>
+            <span className="button is-small is-static">Search Raduis</span>
             <span
               onClick={() => this.updateSearchRaduisSelection(15)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 15,
               })}
             >
@@ -217,44 +209,57 @@ class JobsLocationFilterForm extends React.Component {
             </span>
             <span
               onClick={() => this.updateSearchRaduisSelection(25)}
-              className={classNames('button', {
+              className={classNames('button is-small', {
                 'is-info is-selected': values.searchRaduisField === 25,
               })}
             >
               25km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(50)}
+              className={classNames('button is-small', {
+                'is-info is-selected': values.searchRaduisField === 50,
+              })}
+            >
+              50km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(100)}
+              className={classNames('button is-small', {
+                'is-info is-selected': values.searchRaduisField === 100,
+              })}
+            >
+              100km
             </span>
           </div>
         </div>
 
         <div className="field">
           <div className="buttons has-addons">
-            <span className="button is-static">Filter by category</span>
+            <span className="button  is-small is-static">Filter by category</span>
             {staticJobCategoryButtons}
           </div>
         </div>
 
         <div className="field">
-          <button
-            style={{ marginRight: 6 }}
-            className="button is-primary is-meduim"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            search
+          <button style={{ marginRight: 6 }} className="button is-primary is-small" type="submit">
+            <i className="fas fa-search-location" />
+            <span style={{ marginLeft: 4 }}>Search</span>
           </button>
           <button
             type="button"
-            className="button is-outlined is-meduim"
+            className="button is-small is-outlined"
             onClick={() => {
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
               resetForm();
               setFieldValue('locationField', '', false);
-              setFieldValue('searchRaduisField', 15, false);
+              setFieldValue('searchRaduisField', '', false);
               setFieldValue('filterJobsByCategoryField', [], false);
-              this.clearForceSetAddressValue();
+              this.props.onCancel();
             }}
           >
-            Clear All Filters
+            <i className="far fa-times-circle" />
+            <span style={{ marginLeft: 4 }}>Clear All Filters</span>
           </button>
         </div>
       </form>
@@ -300,6 +305,8 @@ class JobsLocationFilterForm extends React.Component {
             },
             this.successfullGeoCoding,
           );
+
+          this.props.updateMapCenter(pos);
         }
       };
 
@@ -312,6 +319,7 @@ class JobsLocationFilterForm extends React.Component {
     } else {
       // Browser doesn't support Geolocation
       // try the googlemap apis
+      console.log('Browser doesnt support geolcoation');
     }
   }
 }

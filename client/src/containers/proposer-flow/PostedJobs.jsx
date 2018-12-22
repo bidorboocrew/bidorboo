@@ -10,10 +10,9 @@ import {
 import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
 import autoBind from 'react-autobind';
 
-import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
-import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
+// import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
+// import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
 import MyPostedRequets from '../../components/proposer-components/MyPostedRequets';
-import windowSize from 'react-window-size';
 
 const TAB_IDS = {
   reviewBids: 'My Requests',
@@ -133,4 +132,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(windowSize(MyJobs));
+)(MyJobs);
