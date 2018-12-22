@@ -11,6 +11,9 @@ import { switchRoute } from '../../utils';
 import OtherUserDetails from '../OtherUserDetails';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import { awardBidder } from './../../app-state/actions/jobActions';
+
+import PaymentHandling from '../../containers/PaymentHandling';
 
 export default class CurrentPostedJobDetailsCard extends React.Component {
   static propTypes = {
@@ -36,8 +39,19 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       bidText: '',
       bidId: null,
       userUnderReview: null,
+      showAcceptBidModal: false,
     };
-    autoBind(this, 'closeReviewModal', 'showReviewModal', 'awardBidderHandler');
+    autoBind(
+      this,
+      'closeReviewModal',
+      'showReviewModal',
+      'awardBidderHandler',
+      'toggleShowAcceptBidModal',
+    );
+  }
+
+  toggleShowAcceptBidModal(e) {
+    this.setState({ showAcceptBidModal: !this.state.showAcceptBidModal });
   }
 
   showReviewModal(e, userUnderReview, bidText, bidId) {
@@ -116,45 +130,34 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
           </header>
           <div className="card-content">
             <div className="content">
-              <p>
-                <div className="has-text-dark is-size-7"> Bid Amount :</div>
-                <div className="is-size-3 has-text-primary has-text-weight-bold">
-                  {` ${this.state.bidText}`}
-                </div>
-              </p>
-              <p>
-                <div className="has-text-grey is-size-7"> What's Next?</div>
-                <div className="help">
-                  * If you Accept the bid you will be asked to put your payment details and we will
-                  put a hold for the amount of this bid.
-                </div>
-                <div className="help">
-                  * Both of you and the bidder will recieve an email which will share your contact
-                  details
-                </div>
-                <div className="help">
-                  * When the job is completed. You will get a chance to rate the Bidder and the bid
-                  amount will be deducted
-                </div>
-                <div className="help">
-                  * review full details and our cancelation policy{' '}
-                  <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
-                    {` BidOrBoo Service Agreement `}
-                  </a>
-                </div>
-              </p>
+              <div className="has-text-dark is-size-7"> Bid Amount :</div>
+              <div className="is-size-3 has-text-primary has-text-weight-bold">
+                {` ${this.state.bidText}`}
+              </div>
+              <div className="has-text-grey is-size-7"> What's Next?</div>
+              <div className="help">
+                * When you Accept a bid you will be asked to put your payment details
+              </div>
+              <div className="help">
+                * When the payment is secured both you and the bidder will recieve an email which
+                will share your contact details
+              </div>
+              <div className="help">
+                * When the job is completed. You will get a chance to rate the Bidder and the bid
+                amount will be deducted
+              </div>
             </div>
             <a
               style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
-              onClick={this.awardBidderHandler}
-              className="button is-primary is-large"
+              onClick={this.toggleShowAcceptBidModal}
+              className="button is-primary"
             >
               Accept Bid
             </a>
             <a
               style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
               onClick={this.closeReviewModal}
-              className=" button is-danger is-outlined is-large"
+              className=" button is-outlined"
             >
               Go Back
             </a>
@@ -188,7 +191,19 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
       </React.Fragment>
     );
 
-    return <React.Fragment>{pageContent}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {this.state.showAcceptBidModal && (
+          <AcceptBidModal
+            handleCancel={this.toggleShowAcceptBidModal}
+            {...this.state}
+            awardBidderHandler={this.awardBidderHandler}
+            {...this.props}
+          />
+        )}
+        {pageContent}
+      </React.Fragment>
+    );
   }
 }
 
@@ -451,6 +466,104 @@ class PostedJobsDetails extends React.Component {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+// confirm award and pay
+const BIDORBOO_SERVICECHARGE = 0.06;
+class AcceptBidModal extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showStripeCheckout: false,
+    };
+  }
+
+  toggleStripeCheckout = () => {
+    this.setState({ showStripeCheckout: !this.state.showStripeCheckout });
+  };
+
+  render() {
+    const {
+      handleCancel,
+      handlePayment,
+      userUnderReview,
+      bidText,
+      awardBidderHandler,
+      job,
+    } = this.props;
+    const { showStripeCheckout } = this.state;
+    if (!bidText || !userUnderReview) {
+      return null;
+    }
+
+    let bidAmount = bidText.replace('CAD', '');
+    bidAmount = parseInt(bidAmount, 10);
+    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
+    const totalAmount = bidAmount + bidOrBooServiceFee;
+    return (
+      <div className="modal is-active">
+        <div onClick={handleCancel} className="modal-background" />
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">Accept {`${userUnderReview.displayName}`}'s Bid</p>
+            <button onClick={handleCancel} className="delete" aria-label="close" />
+          </header>
+          <section className="modal-card-body">
+            <table className="table is-fullwidth  is-bordered is-striped is-narrow ">
+              <thead>
+                <tr>
+                  <th>Charge Detail</th>
+                  <th />
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th>{Math.ceil(bidAmount + bidOrBooServiceFee)} $CAD</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>Bid Amount</td>
+                  <td>{bidAmount} $CAD</td>
+                </tr>
+                <tr>
+                  <td>BidOrBoo Service Fee (6%) </td>
+                  <td>{bidOrBooServiceFee} $CAD</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="has-text-grey is-size-7"> What's Next?</div>
+            <div className="help">* The amount of {`${totalAmount}`} CAD will be put on hold.</div>
+            <div className="help">* When the job is completed this amount will be deducted.</div>
+            <div className="help">
+              * By proceeding you confirm that You agree with all
+              <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+                {` BidOrBoo Service Agreement Terms`}
+              </a>
+            </div>
+          </section>
+          <footer className="modal-card-foot">
+            <PaymentHandling
+              amount={totalAmount * 100}
+              jobId={job._id}
+              bidderId={userUnderReview._id}
+              beforePayment={awardBidderHandler}
+              onCompleteHandler={() => {
+                handleCancel();
+                switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+              }}
+            />
+
+            <button style={{ marginLeft: 4 }} onClick={handleCancel} className="button">
+              Cancel
+            </button>
+          </footer>
         </div>
       </div>
     );

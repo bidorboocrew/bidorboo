@@ -14,23 +14,34 @@ class PaymentHandling extends React.Component {
   }
 
   onTokenResponse(clientStripeToken) {
+    const { amount, bidderId, jobId, a_submitPayment, onCompleteHandler } = this.props;
+
     if (clientStripeToken && clientStripeToken.id) {
-      this.props.a_submitPayment({
+      a_submitPayment({
         stripeTransactionToken: clientStripeToken.id,
-        jobId: '5beb7cbc344b040068aa8347',
-        bidderId: '10102122975013661',
-        chargeAmount: 100 * 100,
+        jobId: jobId,
+        bidderId: bidderId,
+        chargeAmount: this.amount,
       });
+      onCompleteHandler();
     }
   }
 
+  componentDidMount() {
+    const { beforePayment } = this.props;
+    if (beforePayment && typeof beforePayment === 'fucntion') {
+      beforePayment();
+    }
+  }
   render() {
+    const { amount, bidderId, jobId, a_submitPayment } = this.props;
+
     return (
       <StripeCheckout
         name="BidOrBoo"
         image={logoImg}
         description="Secure payment using Stripe"
-        amount={100 * 100 * 1.07}
+        amount={amount}
         currency="CAD"
         zipCode
         billingAddress
@@ -38,7 +49,7 @@ class PaymentHandling extends React.Component {
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >
-        <button className="button">Pay for a job example</button>
+        <button className="button is-primary">Secure Payment</button>
       </StripeCheckout>
     );
   }

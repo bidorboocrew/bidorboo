@@ -34,10 +34,10 @@ const HeaderTitle = (props) => {
 };
 const DisplayLabelValue = (props) => {
   return (
-    <p>
+    <React.Fragment>
       <div className="has-text-grey is-size-7">{props.labelText}</div>
       <div className="is-size-6"> {props.labelValue || 'none provided'}</div>
-    </p>
+    </React.Fragment>
   );
 };
 

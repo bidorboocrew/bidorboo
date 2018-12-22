@@ -139,7 +139,8 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+
         }
       })
       .catch((error) => {
