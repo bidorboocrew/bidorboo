@@ -53,29 +53,30 @@ const AwardedRequests = (props) => {
   const { jobsList } = props;
 
   const myAwardedJobs = jobsList.map((job) => {
+    let renderFooter = () => (
+      <footer className="card-footer">
+        <div className="card-footer-item">
+          <a
+            className="button is-success is-fullwidth "
+            onClick={(e) => {
+              e.preventDefault();
+              switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+            }}
+          >
+            <span style={{ marginLeft: 4 }}>
+              <i className="fa fa-hand-paper" /> Contact
+            </span>
+          </a>
+        </div>
+      </footer>
+    );
     return (
       <div key={job._id} className="column">
         <JobSummaryCard
           cardClassName="card bidderRootSpecial is-clipped"
           {...props}
           job={job}
-          renderFooter={() => (
-            <footer className="card-footer">
-              <div className="card-footer-item">
-                <a
-                  className="button is-success is-fullwidth "
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
-                  }}
-                >
-                  <span style={{ marginLeft: 4 }}>
-                    <i className="fa fa-hand-paper" /> Contact
-                  </span>
-                </a>
-              </div>
-            </footer>
-          )}
+          renderFooter={renderFooter}
         />
       </div>
     );

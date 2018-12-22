@@ -10,7 +10,7 @@ export { default as MyOpenJobsPage } from './proposer-flow/MyOpenJobsPage';
 // export { default as PostedJobs } from './proposer-flow/MyOpenJobsPage';
 export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
 
-export { default as CurrentJob } from './proposer-flow/CurrentJob';
+export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 
 // bidder flow
 export { default as CurrentPostedBid } from './bidder-flow/Step3PostedBid';

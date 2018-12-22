@@ -19,9 +19,9 @@ module.exports = (app) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
-        const userId = req.user.userId;
+        const mongoDbUserId = req.user._id;
 
-        const jobDetails = await jobDataAccess.getMyPostedJobs(userId, jobId);
+        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoDbUserId, jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({

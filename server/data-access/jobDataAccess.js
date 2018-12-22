@@ -33,6 +33,45 @@ exports.jobDataAccess = {
     });
   },
 
+  getJobWithBidDetails: async (mongDbUserId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+
+        const jobWithBidDetails = await JobModel.findOne(
+          { _id: jobId, _ownerRef: mongDbUserId },
+          { ...schemaHelpers.JobFull }
+        )
+          .populate({ path: '_ownerRef', select: jobOwnerFields })
+          .populate({
+            path: '_bidsListRef',
+            select: schemaHelpers.BidFull,
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _asBidderReviewsRef: 1,
+                _asProposerReviewsRef: 1,
+                rating: 1,
+                userId: 1,
+                displayName: 1,
+                profileImage: 1,
+                personalParagraph: 1,
+                membershipStatus: 1,
+                agreedToServiceTerms: 1,
+                createdAt: 1,
+              },
+            },
+          })
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
   getMyPostedJobs: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {

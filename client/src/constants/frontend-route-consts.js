@@ -54,8 +54,8 @@ export const API = {
     PUT: {
       jobImage: '/api/job/uploadImages',
       awardBidder: '/api/job/awardBidder',
-      updateViewedBy:'/api/job/updateViewedBy',
-      updateBooedBy:'/api/job/updateBooedBy',
+      updateViewedBy: '/api/job/updateViewedBy',
+      updateBooedBy: '/api/job/updateBooedBy',
     },
     DELETE: {
       jobById: '/api/job',
@@ -86,7 +86,7 @@ export const CLIENT = {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
     myOpenJobs: '/proposer/my-open-jobs',
-    selectedPostedJobPage: '/proposer/job-details',
+    reviewRequestAndBidsPage: '/proposer/review-request-details',
     newlyPostedJob: '/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',

@@ -99,7 +99,7 @@ export default class JobSummaryCard extends React.Component {
           className="is-size-7 has-text-white has-text-centered"
         >
           <Countdown
-            date={startingDateAndTime.date}
+            date={startingDateAndTime.date || new Date()}
             intervalDelay={1000}
             renderer={({ days, hours, minutes, seconds, completed }) => {
               return completed ? (

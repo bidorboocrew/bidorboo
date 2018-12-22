@@ -63,6 +63,39 @@ const MyRequests = (props) => {
       }
     }
 
+    let renderFooter = () => (
+      <footer className="card-footer">
+        <div className="card-footer-item">
+          {!areThereAnyBidders && (
+            <a disabled className="button is-outlined is-fullwidth ">
+              <span style={{ marginLeft: 4 }}>
+                <i className="fa fa-hand-paper" /> No Bids Yet
+              </span>
+            </a>
+          )}
+
+          {areThereAnyBidders && (
+            <a
+              className="button is-fullwidth is-danger"
+              onClick={(e) => {
+                e.preventDefault();
+                switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+              }}
+            >
+              <span className="icon">
+                <i className="fa fa-hand-paper" />
+              </span>
+              <span style={{ marginLeft: 4 }}>Review Bids</span>
+              {areThereAnyBidders && doesthisJobHaveNewBids && (
+                <span style={{ marginLeft: 4 }} className="tag is-dark">
+                  +{numberOfNewBids}
+                </span>
+              )}
+            </a>
+          )}
+        </div>
+      </footer>
+    );
     return (
       <div key={job._id} className="column">
         <JobSummaryCard
@@ -72,39 +105,7 @@ const MyRequests = (props) => {
           {...props}
           job={job}
           areThereAnyBidders={areThereAnyBidders}
-          renderFooter={() => (
-            <footer className="card-footer">
-              <div className="card-footer-item">
-                {!areThereAnyBidders && (
-                  <a disabled className="button is-outlined is-fullwidth ">
-                    <span style={{ marginLeft: 4 }}>
-                      <i className="fa fa-hand-paper" /> No Bids Yet
-                    </span>
-                  </a>
-                )}
-
-                {areThereAnyBidders && (
-                  <a
-                    className="button is-fullwidth is-danger"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/${job._id}`);
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="fa fa-hand-paper" />
-                    </span>
-                    <span style={{ marginLeft: 4 }}>Review Bids</span>
-                    {areThereAnyBidders && doesthisJobHaveNewBids && (
-                      <span style={{ marginLeft: 4 }} className="tag is-dark">
-                        +{numberOfNewBids}
-                      </span>
-                    )}
-                  </a>
-                )}
-              </div>
-            </footer>
-          )}
+          renderFooter={renderFooter}
         />
       </div>
     );

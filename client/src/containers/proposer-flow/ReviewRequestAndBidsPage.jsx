@@ -1,0 +1,107 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import { Spinner } from '../../components/Spinner';
+
+import {
+  awardBidder,
+  getPostedJobDetails,
+  markBidAsSeen,
+} from '../../app-state/actions/jobActions';
+
+import JobFullDetailsCard from './components/JobFullDetailsCard';
+
+import { switchRoute } from '../../utils';
+
+class ReviewRequestAndBidsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.jobId = null;
+
+    if (props.match && props.match.params && props.match.params.jobId) {
+      this.jobId = props.match.params.jobId;
+    }
+  }
+
+  componentDidMount() {
+    if (!this.jobId) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return null;
+    }
+
+    this.props.a_getPostedJobDetails(this.jobId);
+  }
+
+  render() {
+    const { selectedJobWithBids } = this.props;
+    // while fetching the job
+    if (!selectedJobWithBids || !selectedJobWithBids._id) {
+      return (
+        <section className="section">
+          <div className="container">
+            <Spinner isLoading={true} size={'large'} />
+          </div>
+        </section>
+      );
+    }
+
+    const title = templatesRepo[selectedJobWithBids.fromTemplateId].title;
+    return (
+      <section className="section">
+        <div className="container">
+          {breadCrumbs({
+            activePageTitle: title,
+          })}
+          <JobFullDetailsCard job={selectedJobWithBids} />
+        </div>
+      </section>
+    );
+  }
+}
+
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
+  return {
+    selectedJobWithBids: jobsReducer.selectedJobWithBids,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    a_awardBidder: bindActionCreators(awardBidder, dispatch),
+    a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
+    a_markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewRequestAndBidsPage);
+
+const breadCrumbs = (props) => {
+  const { activePageTitle } = props;
+  return (
+    <div style={{ marginBottom: '1rem' }}>
+      <nav className="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+              }}
+            >
+              My Requests
+            </a>
+          </li>
+          <li className="is-active">
+            <a aria-current="page">{activePageTitle}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+};

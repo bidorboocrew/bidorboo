@@ -20,7 +20,7 @@ import {
   MyProfile,
   BidNow,
   MyBids,
-  CurrentJob,
+  ReviewRequestAndBidsPage,
   CurrentPostedBid,
   CurrentAwardedJob,
   CurrentAwardedBid,
@@ -73,9 +73,10 @@ class App extends React.Component {
 
           <Route
             exact
-            path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
-            component={CurrentJob}
+            path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
+            component={ReviewRequestAndBidsPage}
           />
+
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
