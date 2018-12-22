@@ -2,16 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
-
-import * as ROUTES from '../../constants/frontend-route-consts';
 import ShowMore from 'react-show-more';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
-// import ProposerStepper from './ProposerStepper';
-// import PicturesUploaderContainer from './PicturesUploaderContainer';
+
 class CreateAJob extends React.Component {
   constructor(props) {
     super(props);
@@ -23,87 +21,63 @@ class CreateAJob extends React.Component {
 
     this.state = {
       chosenTemplate: templateToStartWith,
-      currentStepNumber: 2,
     };
-    this.collectedJobDetails = { initialDetails: {}, jobImages: [] };
-    autoBind(this, 'goBack', 'collectJobImageDetails', 'postJob');
   }
 
-  goBack(e) {
+  goBack = (e) => {
     e.preventDefault();
-    // until then
     switchRoute(ROUTES.CLIENT.PROPOSER.root);
-  }
+  };
 
-  collectJobImageDetails(index, imgFile) {
-    this.collectedJobDetails.jobImages[index] = imgFile;
-  }
-
-  // final step
-  postJob(values) {
-    this.collectedJobDetails.initialDetails = values;
-    this.props.a_addJob(this.collectedJobDetails);
-  }
+  postJob = (values) => {
+    const { a_addJob } = this.props;
+    a_addJob({ initialDetails: { ...values } });
+  };
 
   render() {
+    const { chosenTemplate } = this.state;
+
     const jobDetails = {
-      title: this.state.chosenTemplate.title,
-      imageUrl: this.state.chosenTemplate.imageUrl,
-      id: this.state.chosenTemplate.id,
-      suggestedDetailsText: this.state.chosenTemplate.suggestedDetailsText,
+      title: chosenTemplate.title,
+      imageUrl: chosenTemplate.imageUrl,
+      id: chosenTemplate.id,
+      suggestedDetailsText: chosenTemplate.suggestedDetailsText,
     };
-    const { currentStepNumber } = this.state;
-
-    const content = () => (
-      <div className="card noShadow">
-        <section className="hero is-small is-dark">
-          <div
-            // style={{
-            //   position: 'relative',
-            //   height: '4rem',
-            //   backgroundImage: `url("${jobDetails.imageUrl}")`,
-            // }}
-            className="hero-body"
-          >
-            <div className="container">
-              <div className="title has-text-white">{jobDetails.title} Request</div>
-            </div>
-          </div>
-        </section>
-
-        <div className="card-content ">
-          <ShowMore
-            className="has-text-grey"
-            lines={2}
-            more="Show more"
-            less="Show less"
-            anchorClass=""
-          >
-            {this.state.chosenTemplate.description}
-          </ShowMore>
-          <br />
-          {currentStepNumber === 2 && (
-            <React.Fragment>
-              <NewJobForm
-                fromTemplateIdField={jobDetails.id}
-                jobTitleField={jobDetails.title}
-                suggestedDetailsText={jobDetails.suggestedDetailsText}
-                onGoBack={this.goBack}
-                onNext={this.postJob}
-              />
-            </React.Fragment>
-          )}
-          {currentStepNumber === 3 && <div />}
-        </div>
-      </div>
-    );
 
     return (
       <React.Fragment>
-        {/* <ProposerStepper currentStepNumber={currentStepNumber} /> */}
-        {/* <div className="container bdbPage pageWithStepper mobile">{content()}</div> */}
         <section className="section">
-          <div className="container bdbPage">{content()}</div>
+          <div className="container">
+            <div className="card noShadow">
+              <section className="hero is-small is-dark">
+                <div className="hero-body">
+                  <div className="container">
+                    <div className="title has-text-white">{jobDetails.title} Request</div>
+                  </div>
+                </div>
+              </section>
+
+              <div className="card-content">
+                <ShowMore
+                  className="has-text-grey"
+                  lines={2}
+                  more="Show more"
+                  less="Show less"
+                  anchorClass=""
+                >
+                  {this.state.chosenTemplate.description}
+                </ShowMore>
+                <br />
+                <NewJobForm
+                  fromTemplateIdField={jobDetails.id}
+                  jobTitleField={jobDetails.title}
+                  suggestedDetailsText={jobDetails.suggestedDetailsText}
+                  onGoBack={this.goBack}
+                  onNext={this.postJob}
+                />
+              </div>
+            </div>
+          </div>
         </section>
       </React.Fragment>
     );

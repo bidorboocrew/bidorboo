@@ -1,24 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import BidOrBooGenericTasks from '../../components/BidOrBooGenericTasks';
+import ServiceTemplates from '../../components/ServiceTemplates';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import ProposerStepper from './ProposerStepper';
-import { getCurrentUser } from '../../app-state/actions/authActions';
 
 class ProposerRoot extends React.Component {
-  componentDidMount() {
-    if (!this.props.isLoggedIn) {
-      this.props.a_getCurrentUser();
-    }
-  }
   render() {
     const { a_showLoginDialog, isLoggedIn } = this.props;
 
     return (
       <React.Fragment>
-        {/* <ProposerStepper currentStepNumber={1} /> */}
         <section className="hero is-small is-dark has-text-centered">
           <div className="hero-body">
             <div>
@@ -29,8 +21,8 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <section className="section">
-          <div className="columns is-mobile is-multiline">
-            <BidOrBooGenericTasks showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+          <div className="container">
+            <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
           </div>
         </section>
       </React.Fragment>
@@ -45,7 +37,6 @@ const mapStateToProps = ({ userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

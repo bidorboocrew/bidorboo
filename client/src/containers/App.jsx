@@ -15,7 +15,7 @@ import {
   HomePage,
   ProposerRoot,
   CreateAJob,
-  PostedJobs,
+  MyOpenJobsPage,
   BidderRoot,
   MyProfile,
   BidNow,
@@ -24,7 +24,6 @@ import {
   CurrentPostedBid,
   CurrentAwardedJob,
   CurrentAwardedBid,
-  NewPostedJob,
   Verification,
 } from './index';
 
@@ -70,16 +69,12 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
             component={CreateAJob}
           />
-          <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
+          <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={MyOpenJobsPage} />
+
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
             component={CurrentJob}
-          />
-          <Route
-            exact
-            path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
-            component={NewPostedJob}
           />
           <Route
             exact

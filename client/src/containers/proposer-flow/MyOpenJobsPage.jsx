@@ -7,19 +7,15 @@ import {
   deleteJobById,
   getAllMyAwardedJobs,
 } from '../../app-state/actions/jobActions';
-import AwardedJobsList from '../../components/proposer-components/AwardedJobsList';
-import autoBind from 'react-autobind';
-
-// import JobsWithBidsAwaitingReview from '../../components/proposer-components/JobsWithBidsAwaitingReview';
-// import JobsWithNoBids from '../../components/proposer-components/JobsWithNoBids';
-import MyPostedRequets from '../../components/proposer-components/MyPostedRequets';
+import MyAwardedJobsTab from './MyAwardedJobsTab';
+import MyRequestsTab from './MyRequestsTab';
 
 const TAB_IDS = {
   reviewBids: 'My Requests',
   inQueue: 'Awarded',
 };
 
-class MyJobs extends React.Component {
+class MyOpenJobsPage extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyOpenJobs();
     this.props.a_getAllMyAwardedJobs();
@@ -30,22 +26,14 @@ class MyJobs extends React.Component {
     this.state = {
       activeTab: TAB_IDS.reviewBids,
     };
-    autoBind(this, 'changeActiveTab');
   }
 
-  changeActiveTab(tabId) {
+  changeActiveTab = (tabId) => {
     this.setState({ activeTab: tabId });
-  }
+  };
 
   render() {
-    const {
-      myOpenJobsList,
-      userDetails,
-      a_deleteJobById,
-      myAwardedJobsList,
-      notificationFeed,
-    } = this.props;
-
+    const { myOpenJobsList, a_deleteJobById, myAwardedJobsList } = this.props;
     const { activeTab } = this.state;
 
     return (
@@ -83,25 +71,20 @@ class MyJobs extends React.Component {
             </li>
           </ul>
         </div>
-        <section className="section" style={{ paddingBottom: '0.25rem' }}>
-          <div className="columns is-multiline is-mobile">
+        <section className="section">
+          <div className="container">
             {activeTab === TAB_IDS.reviewBids && (
-              <React.Fragment>
-                <MyPostedRequets
-                  userDetails={userDetails}
-                  jobsList={myOpenJobsList}
-                  deleteJob={a_deleteJobById}
-                  notificationFeed={notificationFeed}
-                  {...this.props}
-                />
-              </React.Fragment>
+              <MyRequestsTab
+                jobsList={myOpenJobsList}
+                deleteJob={a_deleteJobById}
+                changeActiveTab={this.changeActiveTab}
+                {...this.props}
+              />
             )}
             {activeTab === TAB_IDS.inQueue && (
-              <AwardedJobsList
-                changeActiveTab={this.changeActiveTab}
-                notificationFeed={notificationFeed}
-                userDetails={userDetails}
+              <MyAwardedJobsTab
                 jobsList={myAwardedJobsList}
+                changeActiveTab={this.changeActiveTab}
                 {...this.props}
               />
             )}
@@ -113,11 +96,10 @@ class MyJobs extends React.Component {
 }
 const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
-    error: jobsReducer.error,
     myOpenJobsList: jobsReducer.myOpenJobsList,
+    myAwardedJobsList: jobsReducer.myAwardedJobsList,
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
-    myAwardedJobsList: jobsReducer.myAwardedJobsList,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
@@ -132,4 +114,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyJobs);
+)(MyOpenJobsPage);
