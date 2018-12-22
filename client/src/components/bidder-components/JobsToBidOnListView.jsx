@@ -186,19 +186,7 @@ class JobsToBidOnSummaryCard extends React.Component {
               <span className="is-size-7">Due on:</span>
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </div>
-            <div className="is-size-7">
-              <Countdown
-                date={startingDateAndTime.date}
-                intervalDelay={1000}
-                renderer={({ total, days, hours, minutes, seconds, milliseconds, completed }) => {
-                  return completed ? (
-                    <Expired />
-                  ) : (
-                    <div>{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                  );
-                }}
-              />
-            </div>
+
             {/* <div className="is-size-7">
               <span style={{ fontSize: '10px', color: 'grey' }}>
                 {`posted (${daysSinceCreated} ago)`}
@@ -207,6 +195,19 @@ class JobsToBidOnSummaryCard extends React.Component {
           </div>
         </div>
         {!myJob && associatedUserActions(job, currentUserId)}
+        <div className="is-size-7 has-text-white has-text-centered">
+          <Countdown
+            date={startingDateAndTime.date}
+            intervalDelay={1000}
+            renderer={({ total, days, hours, minutes, seconds, milliseconds, completed }) => {
+              return completed ? (
+                <Expired />
+              ) : (
+                <div style={{background: 'lightgrey'}}>{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+              );
+            }}
+          />
+        </div>
       </div>
     );
   }
