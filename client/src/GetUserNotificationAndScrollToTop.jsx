@@ -18,6 +18,10 @@ class GetUserNotificationAndScrollToTop extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.a_getCurrentUser();
+  }
+
   render() {
     return this.props.children;
   }
