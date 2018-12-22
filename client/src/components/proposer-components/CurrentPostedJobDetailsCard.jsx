@@ -137,18 +137,15 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               </div>
               <div className="has-text-grey is-size-7">What's Next?</div>
               <div className="help">
-                <ShowMore
-                  className="has-text-grey help"
-                  lines={2}
-                  more="Show more"
-                  less="Show less"
-                  anchorClass=""
-                >
-                  {`* When you Accept a bid you will be asked to put your payment details
-                  * When the payment is secured both you and the bidder will recieve an email which will share
-                  your contact details
-                  * When the job is completed. You will get a chance to rate the Bidder and the bid amount will be deducted`}
-                </ShowMore>
+                * When you Accept a bid you will be asked to put your payment details
+              </div>
+              <div className="help">
+                * When the payment is secured both you and the bidder will recieve an email which
+                will share your contact details
+              </div>
+              <div className="help">
+                * When the job is completed. You will get a chance to rate the Bidder and the bid
+                amount will be deducted`}
               </div>
             </div>
             <a

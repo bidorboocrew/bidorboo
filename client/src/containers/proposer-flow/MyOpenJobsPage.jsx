@@ -7,8 +7,8 @@ import {
   deleteJobById,
   getAllMyAwardedJobs,
 } from '../../app-state/actions/jobActions';
-import MyAwardedJobsTab from './MyAwardedJobsTab';
-import MyRequestsTab from './MyRequestsTab';
+import MyAwardedJobsTab from './components/MyAwardedJobsTab';
+import MyRequestsTab from './components/MyRequestsTab';
 
 const TAB_IDS = {
   reviewBids: 'My Requests',

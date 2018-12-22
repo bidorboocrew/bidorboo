@@ -209,7 +209,11 @@ class JobsToBidOnSummaryCard extends React.Component {
               return completed ? (
                 <Expired />
               ) : (
-                <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                <React.Fragment>
+                  {days && !`${days}`.includes('NaN') ? (
+                    <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                  ) : null}
+                </React.Fragment>
               );
             }}
           />
