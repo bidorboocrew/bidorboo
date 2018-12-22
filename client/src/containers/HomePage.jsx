@@ -22,30 +22,26 @@ class HomePage extends React.Component {
           </div>
         </section>
 
-        <section className="hero">
-          <div className="hero-body">
-            <div className="container">
-              <div className="container">
-                <div className="columns is-centered is-multiline">
-                  <div className="column is-half">
-                    <BidOrBooCard
-                      logoImg={requestImg}
-                      onClickHandler={() => {
-                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                      }}
-                      cardContent={'Request a Service'}
-                    />
-                  </div>
-                  <div className="column is-half">
-                    <BidOrBooCard
-                      logoImg={bidsImg}
-                      onClickHandler={() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                      }}
-                      cardContent={'Provide a Service'}
-                    />
-                  </div>
-                </div>
+        <section className="section">
+          <div className="container">
+            <div className="columns is-multiline">
+              <div className="column is-half">
+                <BidOrBooCard
+                  logoImg={requestImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                  cardContent={'Request a Service'}
+                />
+              </div>
+              <div className="column is-half">
+                <BidOrBooCard
+                  logoImg={bidsImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                  cardContent={'Provide a Service'}
+                />
               </div>
             </div>
           </div>

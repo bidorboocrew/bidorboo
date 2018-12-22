@@ -165,8 +165,8 @@ class NewJobForm extends React.Component {
         <TextInput
           id="durationOfJobField"
           type="text"
-          helpText="for example : not sure, 1 hour , 1 day"
-          label="Service Duration"
+          helpText="E.g: 1 hour, 2 hours , 1 day, not sure ...etc"
+          label="Request Duration"
           error={touched.durationOfJobField && errors.durationOfJobField}
           value={values.durationOfJobField}
           onChange={handleChange}

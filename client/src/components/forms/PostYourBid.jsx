@@ -80,7 +80,7 @@ class PostYourBid extends React.Component {
                 <div className="modal-background" />
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <p className="modal-card-title">Bidder Contact Info</p>
+                    <p className="modal-card-title">Enter Your Bid</p>
                     <button
                       onClick={this.closeShowBidDialog}
                       className="delete"
@@ -111,7 +111,7 @@ class PostYourBid extends React.Component {
                       onClick={handleSubmit}
                       className="button is-primary"
                     >
-                      Submit
+                      Submit Bid
                     </button>
                     <button onClick={this.closeShowBidDialog} className="button is-outline">
                       Cancel

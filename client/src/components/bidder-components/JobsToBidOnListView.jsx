@@ -186,12 +186,6 @@ class JobsToBidOnSummaryCard extends React.Component {
               <span className="is-size-7">Due on:</span>
               {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
             </div>
-
-            {/* <div className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`posted (${daysSinceCreated} ago)`}
-              </span>
-            </div> */}
           </div>
         </div>
         {!myJob && associatedUserActions(job, currentUserId)}
@@ -203,7 +197,9 @@ class JobsToBidOnSummaryCard extends React.Component {
               return completed ? (
                 <Expired />
               ) : (
-                <div style={{background: 'lightgrey'}}>{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                <div
+                  style={{ background: 'lightgrey' }}
+                >{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
               );
             }}
           />
