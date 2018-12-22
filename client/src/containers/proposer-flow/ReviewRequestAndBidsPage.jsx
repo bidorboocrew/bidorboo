@@ -13,6 +13,7 @@ import {
 } from '../../app-state/actions/jobActions';
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
+import BidsTable from './components/BidsTable';
 
 import { switchRoute } from '../../utils';
 
@@ -36,7 +37,7 @@ class ReviewRequestAndBidsPage extends React.Component {
   }
 
   render() {
-    const { selectedJobWithBids } = this.props;
+    const { selectedJobWithBids, a_markBidAsSeen } = this.props;
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
@@ -55,7 +56,19 @@ class ReviewRequestAndBidsPage extends React.Component {
           {breadCrumbs({
             activePageTitle: title,
           })}
-          <JobFullDetailsCard job={selectedJobWithBids} />
+
+          <div className="columns is-multiline">
+            <div className="column">
+              <BidsTable
+                jobId={selectedJobWithBids._id}
+                bidList={selectedJobWithBids._bidsListRef}
+                markBidAsSeen={a_markBidAsSeen}
+              />
+            </div>
+            <div className="column">
+              <JobFullDetailsCard job={selectedJobWithBids} />
+            </div>
+          </div>
         </div>
       </section>
     );
