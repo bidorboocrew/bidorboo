@@ -3,17 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import StripeCheckout from 'react-stripe-checkout';
-import autoBind from 'react-autobind';
+
 import logoImg from '../assets/images/android-chrome-192x192.png';
 import { submitPayment } from '../app-state/actions/paymentActions';
 
 class PaymentHandling extends React.Component {
-  constructor(props) {
-    super(props);
-    autoBind(this, 'onTokenResponse');
-  }
-
-  onTokenResponse(clientStripeToken) {
+  onTokenResponse = (clientStripeToken) => {
     const { amount, bidderId, jobId, a_submitPayment, onCompleteHandler } = this.props;
 
     if (clientStripeToken && clientStripeToken.id) {
@@ -25,7 +20,7 @@ class PaymentHandling extends React.Component {
       });
       onCompleteHandler();
     }
-  }
+  };
 
   componentDidMount() {
     const { beforePayment } = this.props;
@@ -45,7 +40,6 @@ class PaymentHandling extends React.Component {
         currency="CAD"
         zipCode
         billingAddress
-        // panelLabel=""
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >

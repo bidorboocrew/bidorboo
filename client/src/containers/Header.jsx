@@ -1,49 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
 import { onLogout } from '../app-state/actions/authActions';
 import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
 import { showLoginDialog } from '../app-state/actions/uiActions';
-import autoBind from 'react-autobind';
 
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { switchRoute } from '../utils';
 import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
 
 class Header extends React.Component {
   static propTypes = {
     userEmail: PropTypes.string,
     isLoggedIn: PropTypes.bool.isRequired,
-    userDetails: PropTypes.shape({
-      displayName: PropTypes.string.isRequired,
-      profileImage: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        public_id: PropTypes.string,
-      }),
-    }).isRequired,
+    userDetails: PropTypes.object.isRequired,
     a_onLogout: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     userEmail: '',
+    isLoggedIn: false,
   };
 
   constructor(props) {
     super(props);
-    autoBind(this, 'toggleLoginDialog', 'closeMenuThenExecute');
+
     this.state = {
       isHamburgerOpen: false,
     };
   }
 
-  closeMenuThenExecute(func) {
+  closeMenuThenExecute = (func) => {
     this.setState({ isHamburgerOpen: false }, func);
-  }
-  toggleLoginDialog() {
+  };
+  toggleLoginDialog = () => {
     this.props.a_showLoginDialog(!this.props.shouldShowLoginDialog);
-  }
+  };
 
   render() {
     const {
@@ -56,20 +51,17 @@ class Header extends React.Component {
     } = this.props;
     const { profileImage } = userDetails;
 
-    let navbarStylesBasedOnRoute = classNames('navbar is-fixed-top nav-bottom-border');
-
     return (
       <React.Fragment>
-        <nav className={navbarStylesBasedOnRoute}>
-          {/* brand */}
+        <nav className="navbar is-fixed-top nav-bottom-border">
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
             handleCancel={this.toggleLoginDialog}
           />
+
           <div className="navbar-brand">
             <a
               onClick={(e) => {
-                e.preventDefault();
                 this.closeMenuThenExecute(() => {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
@@ -86,13 +78,11 @@ class Header extends React.Component {
               <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
             </a>
 
-            {/* show on mobile if not  */}
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
                   className="button is-danger heartbeat"
                   onClick={(e) => {
-                    e.preventDefault();
                     this.closeMenuThenExecute(() => {
                       this.toggleLoginDialog();
                     });
@@ -121,10 +111,9 @@ class Header extends React.Component {
                   </span>
                 </div>
               )}
-            {/* burger menu */}
+
             <a
               onClick={(e) => {
-                e.preventDefault();
                 this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
               }}
               className={classNames('navbar-burger', {
@@ -139,8 +128,6 @@ class Header extends React.Component {
               <span aria-hidden="true" />
               <span aria-hidden="true" />
             </a>
-
-            {/* end of burger */}
           </div>
 
           <div
@@ -149,13 +136,10 @@ class Header extends React.Component {
               'is-active': this.state.isHamburgerOpen,
             })}
           >
-            {/* start */}
-
             <div className="navbar-start">
               <div className="navbar-item has-dropdown is-hoverable">
                 <a
                   onClick={(e) => {
-                    e.preventDefault();
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     });
@@ -185,7 +169,6 @@ class Header extends React.Component {
                   <a
                     className="navbar-item"
                     onClick={(e) => {
-                      e.preventDefault();
                       this.closeMenuThenExecute(() => {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       });
@@ -197,36 +180,32 @@ class Header extends React.Component {
                     <span>New Request</span>
                   </a>
                   {isLoggedIn && (
-                    <React.Fragment>
-                      <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-list" />
-                        </span>
-                        <span>My Requests</span>
-                        {notificationFeed &&
-                          notificationFeed.jobIdsWithNewBids &&
-                          notificationFeed.jobIdsWithNewBids.length > 0 && (
-                            <span style={{ marginLeft: 4 }} className="tag is-dark">
-                              {notificationFeed.jobIdsWithNewBids.length}
-                            </span>
-                          )}
-                      </a>
-                    </React.Fragment>
+                    <a
+                      className="navbar-item"
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                        });
+                      }}
+                    >
+                      <span style={{ marginRight: 4 }}>
+                        <i className="fas fa-list" />
+                      </span>
+                      <span>My Requests</span>
+                      {notificationFeed &&
+                        notificationFeed.jobIdsWithNewBids &&
+                        notificationFeed.jobIdsWithNewBids.length > 0 && (
+                          <span style={{ marginLeft: 4 }} className="tag is-dark">
+                            {notificationFeed.jobIdsWithNewBids.length}
+                          </span>
+                        )}
+                    </a>
                   )}
                 </div>
               </div>
               <div className="navbar-item has-dropdown is-hoverable">
                 <a
                   onClick={(e) => {
-                    e.preventDefault();
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     });
@@ -256,7 +235,6 @@ class Header extends React.Component {
                   <a
                     className="navbar-item"
                     onClick={(e) => {
-                      e.preventDefault();
                       this.closeMenuThenExecute(() => {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       });
@@ -268,43 +246,26 @@ class Header extends React.Component {
                     <span>New Bid</span>
                   </a>
                   {isLoggedIn && (
-                    <React.Fragment>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                          });
-                        }}
-                        className="navbar-item"
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-money-check-alt" />
-                        </span>
-                        <span>My Bids</span>
-                        {notificationFeed &&
-                          notificationFeed.myBidsWithNewStatus &&
-                          notificationFeed.myBidsWithNewStatus.length > 0 && (
-                            <span style={{ marginLeft: 4 }} className="tag is-dark">
-                              {notificationFeed.myBidsWithNewStatus.length}
-                            </span>
-                          )}
-                      </a>
-                      {/* <a
-                        className="navbar-item"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.myAwardedBids);
-                          });
-                        }}
-                      >
-                        <span style={{ marginRight: 4 }}>
-                          <i className="fas fa-handshake" />
-                        </span>
-                        <span>Scheduled Work</span>
-                      </a> */}
-                    </React.Fragment>
+                    <a
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                        });
+                      }}
+                      className="navbar-item"
+                    >
+                      <span style={{ marginRight: 4 }}>
+                        <i className="fas fa-money-check-alt" />
+                      </span>
+                      <span>My Bids</span>
+                      {notificationFeed &&
+                        notificationFeed.myBidsWithNewStatus &&
+                        notificationFeed.myBidsWithNewStatus.length > 0 && (
+                          <span style={{ marginLeft: 4 }} className="tag is-dark">
+                            {notificationFeed.myBidsWithNewStatus.length}
+                          </span>
+                        )}
+                    </a>
                   )}
                 </div>
               </div>
@@ -319,7 +280,6 @@ class Header extends React.Component {
                       <div className="navbar-item has-dropdown is-hoverable">
                         <a
                           onClick={(e) => {
-                            e.preventDefault();
                             this.closeMenuThenExecute(() => {
                               switchRoute(ROUTES.CLIENT.MY_PROFILE);
                             });
@@ -338,7 +298,6 @@ class Header extends React.Component {
                         <div className="navbar-dropdown is-boxed">
                           <a
                             onClick={(e) => {
-                              e.preventDefault();
                               this.closeMenuThenExecute(() => {
                                 switchRoute(ROUTES.CLIENT.MY_PROFILE);
                               });
@@ -374,7 +333,6 @@ class Header extends React.Component {
                     <a
                       className="button is-danger is-medium heartbeat"
                       onClick={(e) => {
-                        e.preventDefault();
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();
                         });
