@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import moment from 'moment';
+import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -134,17 +135,20 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               <div className="is-size-3 has-text-primary has-text-weight-bold">
                 {` ${this.state.bidText}`}
               </div>
-              <div className="has-text-grey is-size-7"> What's Next?</div>
+              <div className="has-text-grey is-size-7">What's Next?</div>
               <div className="help">
-                * When you Accept a bid you will be asked to put your payment details
-              </div>
-              <div className="help">
-                * When the payment is secured both you and the bidder will recieve an email which
-                will share your contact details
-              </div>
-              <div className="help">
-                * When the job is completed. You will get a chance to rate the Bidder and the bid
-                amount will be deducted
+                <ShowMore
+                  className="has-text-grey help"
+                  lines={2}
+                  more="Show more"
+                  less="Show less"
+                  anchorClass=""
+                >
+                  {`* When you Accept a bid you will be asked to put your payment details
+                  * When the payment is secured both you and the bidder will recieve an email which will share
+                  your contact details
+                  * When the job is completed. You will get a chance to rate the Bidder and the bid amount will be deducted`}
+                </ShowMore>
               </div>
             </div>
             <a
@@ -261,9 +265,9 @@ class BidsTable extends React.Component {
                         bid._id,
                       );
                     }}
-                    className="button is-primary is-outlined"
+                    className="button is-primary"
                   >
-                    Review Bid
+                    View
                   </a>
                 )}
               </td>

@@ -108,7 +108,7 @@ class MyPostedJobSummaryCard extends React.Component {
     }
     return (
       <div
-        className={`card postedJobToBidOnCard is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
+        className={`card bidderRootSpecial is-clipped ${areThereAnyBidders ? null : 'disabled'}`}
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
@@ -116,7 +116,6 @@ class MyPostedJobSummaryCard extends React.Component {
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
-          {/* xxxx delete button */}
           {deleteJob && (
             <a
               className="card-header-icon"
@@ -191,7 +190,7 @@ class MyPostedJobSummaryCard extends React.Component {
                 <span className="icon">
                   <i className="fa fa-hand-paper" />
                 </span>
-                <span style={{ marginLeft: 4 }}>Bids</span>
+                <span style={{ marginLeft: 4 }}>Review Bids</span>
                 {areThereAnyBidders && doesthisJobHaveNewBids && (
                   <span style={{ marginLeft: 4 }} className="tag is-dark">
                     +{numberOfNewBids}

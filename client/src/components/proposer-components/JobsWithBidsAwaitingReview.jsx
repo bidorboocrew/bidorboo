@@ -104,7 +104,7 @@ class MyPostedJobSummaryCard extends React.Component {
       }
     }
     return (
-      <div className="card postedJobToBidOnCard is-clipped">
+      <div className="card bidderRootSpecial is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
