@@ -8,13 +8,11 @@ import requestImg from '../assets/images/jobs.png';
 class HomePage extends React.Component {
   render() {
     return (
-      <div id="bdb-home-content" className="bdbPage">
+      <div>
         <section className="hero has-text-centered is-dark">
           <div className="hero-body">
             <div className="container">
-              {/* <Rotate delay={300} top left cascade> */}
               <h1 className="title is-size-1">BidOrBoo</h1>
-              {/* </Rotate> */}
               <h2 className="is-size-6">
                 Get the services you need for the price you want. Earn money doing what you love.
               </h2>
@@ -24,7 +22,7 @@ class HomePage extends React.Component {
 
         <section className="section">
           <div className="container">
-            <div className="columns is-multiline">
+            <div className="columns is-centered">
               <div className="column is-half">
                 <BidOrBooCard
                   logoImg={requestImg}

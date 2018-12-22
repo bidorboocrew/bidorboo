@@ -182,7 +182,9 @@ const markBidAsSeen = (state = initialState, { payload }) => {
     };
   }
 };
-
+const setLoggedOutState = () => {
+  return { ...initialState };
+};
 export default handleActions(
   {
     // open jobs
@@ -208,6 +210,7 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB}`]: updateSelectedActivePostedJob,
     [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
     [`${A.JOB_ACTIONS.MARK_BID_AS_SEEN}`]: markBidAsSeen,
+    [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
   },
-  initialState
+  initialState,
 );

@@ -110,7 +110,9 @@ const getMyAwardedBids = {
     };
   },
 };
-
+const setLoggedOutState = () => {
+  return { ...initialState };
+};
 export default handleActions(
   {
     [`${A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
@@ -125,6 +127,7 @@ export default handleActions(
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._PENDING}`]: getMyAwardedBids.isPending,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._FULFILLED}`]: getMyAwardedBids.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._REJECTED}`]: getMyAwardedBids.isRejected,
+    [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
   },
-  initialState
+  initialState,
 );

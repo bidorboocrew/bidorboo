@@ -158,7 +158,6 @@ class JobsToBidOnSummaryCard extends React.Component {
             </span>
           </a>
         </header>
-
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
@@ -169,7 +168,10 @@ class JobsToBidOnSummaryCard extends React.Component {
             }`}
           />
         </div>
-        <div style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem' }} className="card-content">
+        <div
+          style={{ paddingBottom: '0.25rem', paddingTop: '0.25rem', position: 'relative' }}
+          className="card-content"
+        >
           <div className="media">
             <div className="media-left">
               <figure className="image is-48x48">
@@ -189,7 +191,17 @@ class JobsToBidOnSummaryCard extends React.Component {
           </div>
         </div>
         {!myJob && associatedUserActions(job, currentUserId)}
-        <div className="is-size-7 has-text-white has-text-centered">
+        <br />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            background: 'lightgrey',
+          }}
+          className="is-size-7 has-text-white has-text-centered"
+        >
           <Countdown
             date={startingDateAndTime.date}
             intervalDelay={1000}
@@ -197,9 +209,7 @@ class JobsToBidOnSummaryCard extends React.Component {
               return completed ? (
                 <Expired />
               ) : (
-                <div
-                  style={{ background: 'lightgrey' }}
-                >{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
               );
             }}
           />
