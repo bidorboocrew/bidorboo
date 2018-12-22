@@ -39,10 +39,8 @@ module.exports = (app) => {
       const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
 
       const isUserLoggedIn = !!(userId && mongoDbUserId);
-      // userJobsList = isUserLoggedIn
-      //   ? await jobDataAccess.getAllJobsToBidOnForLoggedInUser(userId, mongoDbUserId)
-      //   : await jobDataAccess.getAllJobsToBidOnForLoggedOutUser();
-      userJobsList = await jobDataAccess.getAllJobsToBidOnForLoggedOutUser();
+
+      userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });

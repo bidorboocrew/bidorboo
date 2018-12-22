@@ -191,7 +191,7 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOnForLoggedOutUser: () => {
+  getAllJobsToBidOn: () => {
     // wil return all jobs in the system
     return new Promise((resolve, reject) => {
       const jobFields = {
@@ -216,6 +216,8 @@ exports.jobDataAccess = {
       JobModel.find({}, jobFields, {
         sort: { createdAt: -1 },
       })
+        .where('startingDateAndTime.date')
+        .gt(new Date())
         .populate({
           path: '_ownerRef',
           select: jobOwnerFields,
