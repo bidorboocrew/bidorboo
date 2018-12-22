@@ -29,16 +29,11 @@ import {
 } from './index';
 
 class App extends React.Component {
-  componentDidMount() {
-    if (!this.props.s_isLoggedIn) {
-      this.props.a_getCurrentUser();
-    }
-  }
-
   componentDidCatch(error, info) {
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
+
   render() {
     const { s_toastDetails } = this.props;
     return (
@@ -67,6 +62,8 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
             component={ProposerRoot}
           />
+
+          {/* proposer related routes */}
           <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
           <Route
             exact
@@ -89,6 +86,8 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
             component={CurrentAwardedJob}
           />
+
+          {/* proposer related routes */}
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}

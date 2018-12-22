@@ -1,33 +1,22 @@
 import 'babel-polyfill';
+import 'typeface-roboto';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
-
-import 'typeface-roboto';
-
-//offline mode support
-// xxx said fix this default serviceworker is
-// intercepting login auth flowhttps://www.reddit.com/r/javascript/comments/7evkzu/my_service_worker_is_intercepting_my/
-// import registerServiceWorker from './registerServiceWorker';
-// import { unregister } from './registerServiceWorker';
-
-//redux
 import { Provider } from 'react-redux';
 import { StripeProvider } from 'react-stripe-elements';
 
 import App from './containers/App';
 
-// import the store like this after moving this code somewhere else
 import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
-import ScrollToTopOnRouteChange from './containers/ScrollToTopOnRouteChange';
-// registerServiceWorker();
-// add bugsnag support to capture errors
-// https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
+import GetUserNotificationAndScrollToTop from './GetUserNotificationAndScrollToTop';
 
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+
 window.BidorBoo = {
   stripe,
 };
@@ -39,15 +28,25 @@ ReactDOM.render(
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
-          <ScrollToTopOnRouteChange>
+          <GetUserNotificationAndScrollToTop>
             <App />
-          </ScrollToTopOnRouteChange>
+          </GetUserNotificationAndScrollToTop>
         </Router>
       </Provider>
     </StripeProvider>
   </ErrorBoundary>,
   document.getElementById('BidOrBoo-app'),
 );
+
+//offline mode support
+// xxx said fix this default serviceworker is
+// intercepting login auth flowhttps://www.reddit.com/r/javascript/comments/7evkzu/my_service_worker_is_intercepting_my/
+// import registerServiceWorker from './registerServiceWorker';
+// import { unregister } from './registerServiceWorker';
+
+// registerServiceWorker();
+// add bugsnag support to capture errors
+// https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
 
 // unregister();
 // registerServiceWorker();
