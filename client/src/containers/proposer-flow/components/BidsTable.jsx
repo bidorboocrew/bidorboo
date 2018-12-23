@@ -1,8 +1,20 @@
 import React from 'react';
 
 export default class BidsTable extends React.Component {
+  openBidDetailsModal = (bid) => {
+    const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
+
+    if (bid.isNewBid) {
+      markBidAsSeen(jobId, bid._id);
+    }
+
+    if (showBidReviewModal) {
+      showBidReviewModal(bid);
+    }
+  };
+
   render() {
-    const { bidList, markBidAsSeen, jobId } = this.props;
+    const { bidList, onViewBidDetails } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
 
@@ -50,7 +62,7 @@ export default class BidsTable extends React.Component {
               <a
                 onClick={(e) => {
                   e.preventDefault();
-                  markBidAsSeen(jobId, bid._id);
+                  this.openBidDetailsModal(bid);
                 }}
                 className="button is-primary"
               >

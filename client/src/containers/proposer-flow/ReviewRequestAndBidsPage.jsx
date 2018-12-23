@@ -14,7 +14,7 @@ import {
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
-
+import ReviewBidAndBidder from './components/ReviewBidAndBidder';
 import { switchRoute } from '../../utils';
 
 class ReviewRequestAndBidsPage extends React.Component {
@@ -25,6 +25,10 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     }
+    this.state = {
+      showBidReviewModal: false,
+      bidUnderReview: {},
+    };
   }
 
   componentDidMount() {
@@ -35,6 +39,13 @@ class ReviewRequestAndBidsPage extends React.Component {
 
     this.props.a_getPostedJobDetails(this.jobId);
   }
+
+  showBidReviewModal = (bid) => {
+    this.setState({ showBidReviewModal: true, bidUnderReview: bid });
+  };
+  hideBidReviewModal = () => {
+    this.setState({ showBidReviewModal: false, bidUnderReview: {} });
+  };
 
   render() {
     const { selectedJobWithBids, a_markBidAsSeen } = this.props;
@@ -50,25 +61,36 @@ class ReviewRequestAndBidsPage extends React.Component {
     }
 
     const title = templatesRepo[selectedJobWithBids.fromTemplateId].title;
+    const { showBidReviewModal, bidUnderReview } = this.state;
+
     return (
       <section className="section">
         <div className="container">
-          {breadCrumbs({
-            activePageTitle: title,
-          })}
+          {showBidReviewModal && (
+            <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+          )}
 
-          <div className="columns is-multiline">
-            <div className="column">
-              <BidsTable
-                jobId={selectedJobWithBids._id}
-                bidList={selectedJobWithBids._bidsListRef}
-                markBidAsSeen={a_markBidAsSeen}
-              />
-            </div>
-            <div className="column">
-              <JobFullDetailsCard job={selectedJobWithBids} />
-            </div>
-          </div>
+          {!showBidReviewModal && (
+            <React.Fragment>
+              {breadCrumbs({
+                activePageTitle: title,
+              })}
+
+              <div className="columns is-multiline">
+                <div className="column">
+                  <BidsTable
+                    jobId={selectedJobWithBids._id}
+                    bidList={selectedJobWithBids._bidsListRef}
+                    markBidAsSeen={a_markBidAsSeen}
+                    showBidReviewModal={this.showBidReviewModal}
+                  />
+                </div>
+                <div className="column">
+                  <JobFullDetailsCard job={selectedJobWithBids} />
+                </div>
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </section>
     );

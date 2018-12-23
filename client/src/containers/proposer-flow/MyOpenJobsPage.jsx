@@ -25,6 +25,7 @@ class MyOpenJobsPage extends React.Component {
     super(props);
     this.state = {
       activeTab: TAB_IDS.reviewBids,
+      showBidReviewModal: false,
     };
   }
 

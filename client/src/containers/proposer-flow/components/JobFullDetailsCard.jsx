@@ -79,7 +79,6 @@ export default class JobFullDetailsCard extends React.Component {
 
             <p className="is-size-7">{`Biders:  ${_bidsListRef.length}`}</p>
             <p className="is-size-7">{`viewed:  ${viewedBy.length} times`}</p>
-            <p className="is-size-7">{`location:  ${location}`}</p>
             <p className="is-size-7">{`addressText:  ${addressText}`}</p>
             <p className="is-size-7">{`durationOfJob:  ${durationOfJob}`}</p>
             <p className="is-size-7">{`state:  ${state}`}</p>

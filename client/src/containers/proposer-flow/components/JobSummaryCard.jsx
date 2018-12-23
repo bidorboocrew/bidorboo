@@ -88,35 +88,42 @@ export default class JobSummaryCard extends React.Component {
         </div>
         {renderFooter()}
         <br />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            width: '100%',
-            background: 'lightgrey',
-          }}
-          className="is-size-7 has-text-white has-text-centered"
-        >
-          <Countdown
-            date={startingDateAndTime.date || new Date()}
-            intervalDelay={1000}
-            renderer={({ days, hours, minutes, seconds, completed }) => {
-              return completed ? (
-                <Expired />
-              ) : (
-                <React.Fragment>
-                  {days && !`${days}`.includes('NaN') ? (
-                    <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                  ) : null}
-                </React.Fragment>
-              );
-            }}
-          />
-        </div>
+        {countDownToStart({ startingDate: startingDateAndTime.date })}
       </div>
     );
   }
 }
 
 const Expired = () => <div className="has-text-danger">Expired!</div>;
+
+const countDownToStart = (props) => {
+  const { startingDate } = props;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        background: 'lightgrey',
+      }}
+      className="is-size-7 has-text-white has-text-centered"
+    >
+      <Countdown
+        date={startingDate || new Date()}
+        intervalDelay={1000}
+        renderer={({ days, hours, minutes, seconds, completed }) => {
+          return completed ? (
+            <Expired />
+          ) : (
+            <React.Fragment>
+              {days && !`${days}`.includes('NaN') ? (
+                <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+              ) : null}
+            </React.Fragment>
+          );
+        }}
+      />
+    </div>
+  );
+};
