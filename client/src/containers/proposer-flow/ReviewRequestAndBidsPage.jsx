@@ -7,7 +7,6 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
 import {
-  awardBidder,
   getPostedJobDetails,
   markBidAsSeen,
 } from '../../app-state/actions/jobActions';
@@ -106,7 +105,6 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_awardBidder: bindActionCreators(awardBidder, dispatch),
     a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
     a_markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };

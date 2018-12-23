@@ -5,45 +5,50 @@ import { bindActionCreators } from 'redux';
 import StripeCheckout from 'react-stripe-checkout';
 
 import logoImg from '../../../assets/images/android-chrome-192x192.png';
+
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 
-class PaymentHandling extends React.Component {
+const BIDORBOO_SERVICECHARGE = 0.06;
+
+class AcceptBidPaymentHandling extends React.Component {
   onTokenResponse = (clientStripeToken) => {
-    const { amount, bidderId, jobId, a_submitPayment, onCompleteHandler } = this.props;
+    const { bid, onCompleteHandler, a_submitPayment } = this.props;
 
     if (clientStripeToken && clientStripeToken.id) {
       a_submitPayment({
         stripeTransactionToken: clientStripeToken.id,
-        jobId: jobId,
-        bidderId: bidderId,
-        chargeAmount: this.amount,
+        bid: bid,
+        chargeAmount: this.chargeAmount,
       });
-      onCompleteHandler();
+
+      if (onCompleteHandler && typeof onCompleteHandler === 'function') {
+        onCompleteHandler();
+      }
     }
   };
 
-  componentDidMount() {
-    const { beforePayment } = this.props;
-    if (beforePayment && typeof beforePayment === 'function') {
-      beforePayment();
-    }
-  }
   render() {
-    const { amount, bidderId, jobId, a_submitPayment } = this.props;
+    const { bid } = this.props;
 
+    // confirm award and pay
+    const bidAmount = bid.bidAmount.value;
+    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
+    let totalAmount = bidAmount + bidOrBooServiceFee;
+
+    this.chargeAmount = totalAmount * 100; // as stipe checkout expects cents so 100 cent is 1 dollar
     return (
       <StripeCheckout
         name="BidOrBoo"
         image={logoImg}
         description="Secure payment using Stripe"
-        amount={amount}
+        amount={this.chargeAmount}
         currency="CAD"
         zipCode
         billingAddress
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >
-        <button className="button is-primary">Secure Payment</button>
+        <button className="button is-primary">BidOrBoo Payment</button>
       </StripeCheckout>
     );
   }
@@ -58,4 +63,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   null,
   mapDispatchToProps,
-)(PaymentHandling);
+)(AcceptBidPaymentHandling);

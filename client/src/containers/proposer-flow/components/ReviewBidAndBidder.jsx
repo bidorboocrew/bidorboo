@@ -1,6 +1,7 @@
 import React from 'react';
-
+import moment from 'moment';
 import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
+import * as C from '../../../constants/constants';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
@@ -36,7 +37,10 @@ export default class ReviewBidAndBidder extends React.Component {
 
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
-
+    const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+    const daysSinceCreated = createdAt
+      ? moment.duration(moment().diff(moment(createdAt))).humanize()
+      : 0;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
@@ -46,45 +50,68 @@ export default class ReviewBidAndBidder extends React.Component {
     return (
       <React.Fragment>
         {showAcceptModal && (
-          <AcceptBidAndBidderModal closeModal={this.toggleAcceptModal} bit={bid} />
+          <AcceptBidAndBidderModal closeModal={this.toggleAcceptModal} bid={bid} />
         )}
-        <div className="card">
-          <header className="card-header">
-            <p className="card-header-title">{`${displayName} 's Bid`}</p>
-          </header>
-          <div className="card-content">
-            <div className="content">
-              <div className="has-text-dark is-size-7"> Bid Amount :</div>
-              <div className="is-size-3 has-text-primary has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
-              <div className="has-text-grey is-size-7">What's Next?</div>
-              <div className="help">
-                * When you Accept a bid you will be asked to put your payment details
+        {!showAcceptModal && (
+          <div className="card">
+            <header className="card-header">
+              <p className="card-header-title">{`${displayName} 's Bid`}</p>
+            </header>
+            <div className="card-content">
+              <div className="media">
+                <div className="media-left">
+                  <figure className="image is-48x48">
+                    <img src={bidderProfileImgUrl} alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div className="media-content">
+                  <p className="is-size-6">{displayName}</p>
+                  <p className="is-size-6">{bidderOverallRating}</p>
+                </div>
               </div>
-              <div className="help">
-                * When the payment is secured both you and the bidder will recieve an email which
-                will share your contact details
+              <div className="is-size-7">
+                {membershipStatusDisplay} active since {daysSinceCreated} ago
               </div>
-              <div className="help">
-                * When the job is completed. You will get a chance to rate the Bidder and the bid
-                amount will be deducted`}
+
+              <div className="is-size-7">
+                <a target="_blank" rel="noopener noreferrer" href="www.google.com">
+                  {`View ${displayName} profile page.`}
+                </a>
               </div>
+              <br />
+              <div className="content">
+                <div className="has-text-dark is-size-7"> Bid Amount :</div>
+                <div className="is-size-3 has-text-primary has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
+                <div className="has-text-grey is-size-7">What's Next?</div>
+                <div className="help">
+                  * When you Accept a bid you will be asked to put your payment details
+                </div>
+                <div className="help">
+                  * When the payment is secured both you and the bidder will recieve an email which
+                  will share your contact details
+                </div>
+                <div className="help">
+                  * When the job is completed. You will get a chance to rate the Bidder and the bid
+                  amount will be deducted`}
+                </div>
+              </div>
+              <a
+                style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+                onClick={this.toggleAcceptModal}
+                className="button is-primary"
+              >
+                Accept Bid
+              </a>
+              <a
+                style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
+                onClick={handleCancel}
+                className=" button is-outlined"
+              >
+                Go Back
+              </a>
             </div>
-            <a
-              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
-              onClick={this.toggleAcceptModal}
-              className="button is-primary"
-            >
-              Accept Bid
-            </a>
-            <a
-              style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
-              onClick={handleCancel}
-              className=" button is-outlined"
-            >
-              Go Back
-            </a>
           </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }

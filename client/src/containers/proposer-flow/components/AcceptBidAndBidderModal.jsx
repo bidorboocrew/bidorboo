@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PaymentHandling from './PaymentHandling';
+import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
@@ -65,22 +65,27 @@ export default class ReviewBidAndBidder extends React.Component {
             <div className="help">* The amount of {`${totalAmount}`} CAD will be put on hold.</div>
             <div className="help">* When the job is completed this amount will be deducted.</div>
             <div className="help">
-              * By proceeding you confirm that You agree with all
+              * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
                 {` BidOrBoo Service Agreement Terms`}
+              </a>
+              {` and the`}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://stripe.com/connect-account/legal"
+              >
+                {` Stripe Connected Account Agreement`}
               </a>
             </div>
           </section>
           <footer className="modal-card-foot">
-            {/* <PaymentHandling
-              amount={totalAmount * 100}
-              jobId={job._id}
-              bidderId={userUnderReview._id}
-              beforePayment={awardBidderHandler}
+            <AcceptBidPaymentHandling
+              bid={bid}
               onCompleteHandler={() => {
                 closeModal();
               }}
-            /> */}
+            />
 
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
               Cancel
