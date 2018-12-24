@@ -16,7 +16,6 @@ export default class JobFullDetailsCard extends React.Component {
       viewedBy,
       booedBy,
       detailedDescription,
-      location,
       addressText,
       durationOfJob,
       fromTemplateId,

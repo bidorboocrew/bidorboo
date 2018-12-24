@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import autoBind from 'react-autobind';
 import { bindActionCreators } from 'redux';
 import ShowMore from 'react-show-more';
 

@@ -8,7 +8,7 @@ export { default as CreateAJob } from './proposer-flow/Step2CreateAJob';
 export { default as MyOpenJobsPage } from './proposer-flow/MyOpenJobsPage';
 
 // export { default as PostedJobs } from './proposer-flow/MyOpenJobsPage';
-export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
+export { default as ReviewAwardedJobAndBidsPage } from './proposer-flow/ReviewAwardedJobAndBidsPage';
 
 export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 

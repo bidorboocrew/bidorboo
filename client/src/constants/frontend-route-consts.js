@@ -81,12 +81,13 @@ export const API = {
 export const CLIENT = {
   ENTRY: '/',
   HOME: '/home',
+  USER_ROFILE: '/user-profile/:userId',
   VERIFICATION: '/verification/:field/:code',
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
-    getMyOpenJobsAwardedJobsTab:()=>'/proposer/my-open-jobs/awardedJobs',
-    getMyOpenJobReviewBidsTab:()=>'/proposer/my-open-jobs/reviewBids',
+    getMyOpenJobsAwardedJobsTab: () => '/proposer/my-open-jobs/awardedJobs',
+    getMyOpenJobReviewBidsTab: () => '/proposer/my-open-jobs/reviewBids',
     myOpenJobs: '/proposer/my-open-jobs',
     reviewRequestAndBidsPage: '/proposer/review-request-details',
     newlyPostedJob: '/proposer/new-job-details',

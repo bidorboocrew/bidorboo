@@ -66,33 +66,23 @@ const MyRequests = (props) => {
     let renderFooter = () => (
       <footer className="card-footer">
         <div className="card-footer-item">
-          {!areThereAnyBidders && (
-            <a disabled className="button is-outlined is-fullwidth ">
-              <span style={{ marginLeft: 4 }}>
-                <i className="fa fa-hand-paper" /> No Bids Yet
+          <a
+            className={`button is-fullwidth ${areThereAnyBidders ? 'is-primary' : 'is-outline'}`}
+            onClick={(e) => {
+              e.preventDefault();
+              switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+            }}
+          >
+            <span className="icon">
+              <i className="fa fa-hand-paper" />
+            </span>
+            <span style={{ marginLeft: 4 }}>View Bids</span>
+            {areThereAnyBidders && doesthisJobHaveNewBids && (
+              <span style={{ marginLeft: 4 }} className="tag is-dark">
+                +{numberOfNewBids}
               </span>
-            </a>
-          )}
-
-          {areThereAnyBidders && (
-            <a
-              className="button is-fullwidth is-danger"
-              onClick={(e) => {
-                e.preventDefault();
-                switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-              }}
-            >
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span style={{ marginLeft: 4 }}>Review Bids</span>
-              {areThereAnyBidders && doesthisJobHaveNewBids && (
-                <span style={{ marginLeft: 4 }} className="tag is-dark">
-                  +{numberOfNewBids}
-                </span>
-              )}
-            </a>
-          )}
+            )}
+          </a>
         </div>
       </footer>
     );

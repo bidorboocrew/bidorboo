@@ -15,14 +15,8 @@ const TAB_IDS = {
   reviewBids: 'Posted',
 };
 class MyOpenJobsPage extends React.Component {
-  componentDidMount() {
-    this.props.a_getAllMyOpenJobs();
-    this.props.a_getAllMyAwardedJobs();
-  }
-
   constructor(props) {
     super(props);
-    debugger;
     let initialTabSelection = TAB_IDS.reviewBids;
     if (props.match && props.match.params && props.match.params.tabId) {
       const { tabId } = props.match.params;
@@ -35,6 +29,11 @@ class MyOpenJobsPage extends React.Component {
       activeTab: initialTabSelection,
       showBidReviewModal: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.a_getAllMyOpenJobs();
+    this.props.a_getAllMyAwardedJobs();
   }
 
   changeActiveTab = (tabId) => {

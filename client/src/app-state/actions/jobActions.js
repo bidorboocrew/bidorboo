@@ -140,7 +140,6 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
         // update recently added job
         if (resp && resp.data) {
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
-
         }
       })
       .catch((error) => {
@@ -244,7 +243,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab()}`);
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

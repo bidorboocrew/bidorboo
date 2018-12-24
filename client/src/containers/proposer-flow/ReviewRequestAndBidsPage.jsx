@@ -6,10 +6,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
-import {
-  getPostedJobDetails,
-  markBidAsSeen,
-} from '../../app-state/actions/jobActions';
+import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobActions';
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
