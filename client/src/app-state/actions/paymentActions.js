@@ -1,6 +1,7 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
+import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => (dispatch) => {
   if (!bid || !bid._id || !bid._bidderRef) {
@@ -18,10 +19,11 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
   }
 
   dispatch({
-    type: A.BIDDER_ACTIONS.POST_A_BID,
+    type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
     payload: axios
       .post(ROUTES.API.PAYMENT.POST.payment, {
         data: {
+          jobIdToUpdate: bid._jobRef,
           stripeTransactionToken,
           bidId: bid._id,
           chargeAmount: chargeAmount,
@@ -30,7 +32,7 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
       .then((resp) => {
         axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
         // update recently added job
-        debugger
+        debugger;
         if (resp.data && resp.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -41,18 +43,11 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
               },
             },
           });
+          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
         }
       })
       .catch((error) => {
-        dispatch({
-          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          payload: {
-            toastDetails: {
-              type: 'error',
-              msg: 'Your transaction was not successful. Please try again',
-            },
-          },
-        });
+        throwErrorNotification(dispatch, error);
       }),
   });
 };

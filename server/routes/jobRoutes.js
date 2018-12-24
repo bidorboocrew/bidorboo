@@ -4,6 +4,7 @@ const utils = require('../utils/utilities');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const requireUserCanPost = require('../middleware/requireUserCanPost');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -125,7 +126,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, requireUserCanPost, async (req, res) => {
     try {
       const { jobDetails } = req.body.data;
       const userMongoDBId = req.user._id;

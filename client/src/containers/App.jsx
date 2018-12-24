@@ -69,7 +69,12 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
             component={CreateAJob}
           />
-          <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={MyOpenJobsPage} />
+
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}/:tabId`}
+            component={MyOpenJobsPage}
+          />
 
           <Route
             exact

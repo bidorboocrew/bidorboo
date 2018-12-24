@@ -32,7 +32,12 @@ exports.jobDataAccess = {
       }
     });
   },
-
+  getJobById: (jobId) => {
+    return JobModel.findById(jobId)
+      .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
+      .lean(true)
+      .exec();
+  },
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -59,6 +64,7 @@ exports.jobDataAccess = {
                 membershipStatus: 1,
                 agreedToServiceTerms: 1,
                 createdAt: 1,
+                email: 1,
               },
             },
           })
@@ -430,6 +436,28 @@ exports.jobDataAccess = {
       }
     });
   },
+
+  updateJobAwardedBid: async (jobId, bidId) => {
+    return Promise.all([
+      BidModel.findOneAndUpdate(
+        { _id: bidId },
+        {
+          $set: { state: 'WON' },
+        }
+      )
+        .lean(true)
+        .exec(),
+      JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+    ]);
+  },
+
   awardedBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(

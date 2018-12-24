@@ -11,10 +11,9 @@ import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
 
 const TAB_IDS = {
-  reviewBids: 'My Requests',
-  inQueue: 'Awarded',
+  awardedJobs: 'Awarded',
+  reviewBids: 'Posted',
 };
-
 class MyOpenJobsPage extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyOpenJobs();
@@ -23,8 +22,17 @@ class MyOpenJobsPage extends React.Component {
 
   constructor(props) {
     super(props);
+    debugger;
+    let initialTabSelection = TAB_IDS.reviewBids;
+    if (props.match && props.match.params && props.match.params.tabId) {
+      const { tabId } = props.match.params;
+      if (tabId && TAB_IDS[`${tabId}`]) {
+        initialTabSelection = TAB_IDS[`${tabId}`];
+      }
+    }
+
     this.state = {
-      activeTab: TAB_IDS.reviewBids,
+      activeTab: initialTabSelection,
       showBidReviewModal: false,
     };
   }
@@ -60,14 +68,14 @@ class MyOpenJobsPage extends React.Component {
                 {TAB_IDS.reviewBids}
               </a>
             </li>
-            <li className={`${activeTab === TAB_IDS.inQueue ? 'is-active' : null}`}>
+            <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
               <a
                 onClick={(e) => {
                   e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.inQueue);
+                  this.changeActiveTab(TAB_IDS.awardedJobs);
                 }}
               >
-                {TAB_IDS.inQueue}
+                {TAB_IDS.awardedJobs}
               </a>
             </li>
           </ul>
@@ -82,7 +90,7 @@ class MyOpenJobsPage extends React.Component {
                 {...this.props}
               />
             )}
-            {activeTab === TAB_IDS.inQueue && (
+            {activeTab === TAB_IDS.awardedJobs && (
               <MyAwardedJobsTab
                 jobsList={myAwardedJobsList}
                 changeActiveTab={this.changeActiveTab}

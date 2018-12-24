@@ -12,17 +12,7 @@ export default class ReviewBidAndBidder extends React.Component {
       return null;
     }
 
-    const {
-      rating,
-      membershipStatus,
-      createdAt,
-      displayName,
-      profileImage,
-      userId,
-    } = bid._bidderRef;
-
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
+    const { displayName } = bid._bidderRef;
 
     const bidAmount = bid.bidAmount.value;
     const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
