@@ -86,11 +86,9 @@ export default class ReviewBidAndBidder extends React.Component {
 
 const DisplayLabelValue = (props) => {
   return (
-    <div style={{ padding: 4, marginBottom: 4 }}>
-      <div className="has-text-light" style={{ fontSize: 12 }}>
-        {props.labelText}
-      </div>
-      <div className="has-text-weight-bold is-size-5 is-primary">{props.labelValue}</div>
+    <div>
+      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ export default class AwardedJobTimeLineView extends React.Component {
       booedBy,
       _awardedBidRef,
       fromTemplateId,
-      reportThisJob,
+      reported,
       createdAt,
     } = job;
 

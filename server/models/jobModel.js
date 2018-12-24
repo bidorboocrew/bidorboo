@@ -41,7 +41,7 @@ const JobSchema = new Schema(
     startingDateAndTime: DateTimeSchema,
     durationOfJob: { type: String, trim: true },
     fromTemplateId: { type: String, trim: true },
-    reportThisJob: { type: Number },
+    reported: { type: Number },
     jobImages: {
       type: [
         {

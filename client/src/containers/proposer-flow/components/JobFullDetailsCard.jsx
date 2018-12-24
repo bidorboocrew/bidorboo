@@ -19,7 +19,7 @@ export default class JobFullDetailsCard extends React.Component {
       addressText,
       durationOfJob,
       fromTemplateId,
-      reportThisJob,
+      reported,
       createdAt,
     } = job;
 
@@ -70,34 +70,49 @@ export default class JobFullDetailsCard extends React.Component {
             </div>
           </div>
           <div className="content">
-            <p className="is-size-7">
-              {startingDateAndTime &&
-                `Start Date ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
-            </p>
+            <DisplayLabelValue
+              labelText="Start Date:"
+              labelValue={
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+              }
+            />
+            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
+            <DisplayLabelValue labelText="State:" labelValue={state} />
 
-            <p className="is-size-7">{`Biders:  ${_bidsListRef.length}`}</p>
-            <p className="is-size-7">{`viewed:  ${viewedBy.length} times`}</p>
-            <p className="is-size-7">{`addressText:  ${addressText}`}</p>
-            <p className="is-size-7">{`durationOfJob:  ${durationOfJob}`}</p>
-            <p className="is-size-7">{`state:  ${state}`}</p>
-            <p className="is-size-7">{`Booed:  ${booedBy.length} times`}</p>
-            <p className="is-size-7">{`reported:  ${reportThisJob} times`}</p>
-            <p className="is-size-7">
-              <span>Detailed Description</span>
-              <br />
-              <span className="is-size-7">
-                <TextareaAutosize
-                  value={detailedDescription}
-                  className="textarea is-marginless is-paddingless is-size-7"
-                  style={{
-                    resize: 'none',
-                    border: 'none',
-                    color: '#4a4a4a',
-                  }}
-                  readOnly
-                />
-              </span>
-            </p>
+            <DisplayLabelValue
+              labelText="Bids:"
+              labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
+            />
+            <DisplayLabelValue
+              labelText="Viewed:"
+              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
+            />
+            <DisplayLabelValue
+              labelText="Booed:"
+              labelValue={`${booedBy ? booedBy.length : 0} times`}
+            />
+            <DisplayLabelValue
+              labelText="Reported:"
+              labelValue={`${reported ? reported.length : 0} times`}
+            />
+
+            <div className="has-text-dark is-size-7">Detailed Description</div>
+            <span className="is-size-7">
+              <TextareaAutosize
+                value={detailedDescription}
+                className="textarea is-marginless is-paddingless is-size-6"
+                style={{
+                  resize: 'none',
+                  border: 'none',
+                  color: '#4a4a4a',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                }}
+                readOnly
+              />
+            </span>
+
             <p className="is-size-7">
               <span style={{ fontSize: '10px', color: 'grey' }}>
                 {`Posted (${daysSinceCreated} ago)`}
@@ -146,3 +161,12 @@ const countDownToStart = (props) => {
   );
 };
 const Expired = () => <div className="has-text-danger">Expired!</div>;
+
+const DisplayLabelValue = (props) => {
+  return (
+    <div>
+      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+    </div>
+  );
+};

@@ -71,7 +71,7 @@ exports.JobFull = {
   startingDateAndTime: 1,
   durationOfJob: 1,
   fromTemplateId: 1,
-  reportThisJob: 1,
+  reported: 1,
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
