@@ -6,7 +6,15 @@ import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
 export default class JobSummaryCard extends React.Component {
   render() {
-    const { cardClassName, job, userDetails, deleteJob, renderFooter } = this.props;
+    const {
+      cardClassName,
+      job,
+      userDetails,
+      deleteJob,
+      renderFooter,
+      showBidCount = true,
+      showDelete = true,
+    } = this.props;
     const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, booedBy } = job;
 
     // in case we cant find the job
@@ -36,28 +44,34 @@ export default class JobSummaryCard extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
-          <a className="card-header-icon">
-            <span
-              className={`${
-                _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
-              }`}
+
+          {showBidCount && (
+            <a className="card-header-icon">
+              <span
+                className={`${
+                  _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
+                }`}
+              >
+                <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
+                {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
+              </span>
+            </a>
+          )}
+
+          {showDelete && deleteJob && (
+            <a
+              className="card-header-icon"
+              aria-label="more options"
+              onClick={(e) => {
+                e.preventDefault();
+                deleteJob(job._id);
+              }}
             >
-              <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-              {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
-            </span>
-          </a>
-          <a
-            className="card-header-icon"
-            aria-label="more options"
-            onClick={(e) => {
-              e.preventDefault();
-              deleteJob(job._id);
-            }}
-          >
-            <span style={{ color: 'grey' }} className="icon">
-              <i className="far fa-trash-alt" aria-hidden="true" />
-            </span>
-          </a>
+              <span style={{ color: 'grey' }} className="icon">
+                <i className="far fa-trash-alt" aria-hidden="true" />
+              </span>
+            </a>
+          )}
         </header>
 
         <div className="card-image is-clipped">

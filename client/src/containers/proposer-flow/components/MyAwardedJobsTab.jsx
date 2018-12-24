@@ -73,6 +73,7 @@ const AwardedRequests = (props) => {
     return (
       <div key={job._id} className="column">
         <JobSummaryCard
+        showBidCount={false}
           cardClassName="card bidderRootSpecial is-clipped"
           {...props}
           job={job}
