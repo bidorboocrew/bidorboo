@@ -81,7 +81,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     const { job, currentUser, breadCrumb, markBidAsSeen, hideBidTable } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
       return null;
     }
     const { fromTemplateId } = job;
@@ -93,7 +93,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                    switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
                   }}
                 >
                   My Requests
@@ -325,7 +325,7 @@ class PostedJobsDetails extends React.Component {
     const { job, currentUser } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
       return null;
     }
 

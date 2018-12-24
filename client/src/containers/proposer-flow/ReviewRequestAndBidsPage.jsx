@@ -29,7 +29,7 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentDidMount() {
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
       return null;
     }
 
@@ -121,7 +121,7 @@ const breadCrumbs = (props) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
               }}
             >
               My Requests
