@@ -10,7 +10,7 @@ import { Spinner } from '../../components/Spinner';
 import { getAwardedBidFullDetails } from '../../app-state/actions/jobActions';
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
-import FullBidAndBidderDetails from './components/FullBidAndBidderDetails';
+import BidAndBidderFullDetails from './components/BidAndBidderFullDetails';
 
 class ReviewAwardedJobAndBidsPage extends React.Component {
   constructor(props) {
@@ -66,10 +66,10 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
               activePageTitle: title,
             })}
             <div className="columns is-multiline">
-              <div classNames="column">
-                <FullBidAndBidderDetails bid={_awardedBidRef} />
+              <div className="column">
+                <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
               </div>
-              <div classNames="column">
+              <div className="column">
                 <JobFullDetailsCard job={selectedAwardedJob} />
               </div>
             </div>

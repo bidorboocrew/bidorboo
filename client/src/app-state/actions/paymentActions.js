@@ -32,7 +32,6 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
       .then((resp) => {
         axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
         // update recently added job
-        debugger;
         if (resp.data && resp.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

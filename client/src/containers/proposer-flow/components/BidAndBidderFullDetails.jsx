@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
-import * as C from '../../../constants/constants';
+
+import { AddAwardedJobToCalendar } from './commonComponents';
 
 export default class ReviewBidAndBidder extends React.Component {
   constructor(props) {
@@ -12,21 +12,13 @@ export default class ReviewBidAndBidder extends React.Component {
   }
 
   render() {
-    const { bid } = this.props;
+    const { bid, job } = this.props;
 
     if (!bid || !bid._id || !bid._bidderRef) {
       return null;
     }
 
-    const {
-      rating,
-      membershipStatus,
-      createdAt,
-      displayName,
-      profileImage,
-      email,
-      phone,
-    } = bid._bidderRef;
+    const { rating, displayName, profileImage, email, phone } = bid._bidderRef;
 
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
@@ -36,16 +28,17 @@ export default class ReviewBidAndBidder extends React.Component {
     return (
       <div
         style={{ borderRight: 0, background: '#363636', color: 'white' }}
-        className="card bidderRootSpecial is-clipped disabled"
+        className="card bidderRootSpecial disabled"
       >
+        <header
+          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+          className="card-header is-clipped"
+        >
+          <p style={{ color: 'white' }} className="card-header-title">
+            Awarded Bidder Details
+          </p>
+        </header>
         <div className="card-content">
-          <div
-            style={{ paddingTop: '0.5rem' }}
-            className="has-text-weight-bold is-size-5 has-text-success"
-          >
-            Awarded Bidder
-          </div>
-
           <div className="media">
             <div className="media-left">
               <figure className="image is-48x48">
@@ -55,20 +48,19 @@ export default class ReviewBidAndBidder extends React.Component {
             <div className="media-content">
               <p className="is-size-6">{displayName}</p>
               <p className="is-size-6">{bidderOverallRating}</p>
+              <a
+                style={{ textDecoration: 'underline' }}
+                className=" has-text-light"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="www.google.com"
+              >
+                {`View Full Profile`}
+              </a>
             </div>
           </div>
 
-          <div className="is-size-7">
-            <a
-              style={{ textDecoration: 'underline' }}
-              className=" has-text-light"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="www.google.com"
-            >
-              {`View ${displayName} profile page.`}
-            </a>
-          </div>
+          <div className="is-size-7" />
           <br />
           <div className="has-text-weight-bold is-size-5 has-text-success">Contact Info</div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
@@ -78,6 +70,8 @@ export default class ReviewBidAndBidder extends React.Component {
             labelValue={phone.phoneNumber || 'not provided'}
           />
           <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
+          <br />
+          <AddAwardedJobToCalendar job={job} />
         </div>
       </div>
     );
@@ -87,7 +81,7 @@ export default class ReviewBidAndBidder extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div>
-      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-light is-size-7">{props.labelText}</div>
       <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
     </div>
   );
