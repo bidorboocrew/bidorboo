@@ -11,7 +11,15 @@ import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
     const { job, userDetails, deleteJob, notificationFeed } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, booedBy } = job;
+    const {
+      startingDateAndTime,
+      createdAt,
+      fromTemplateId,
+      _bidsListRef,
+      booedBy,
+      addressText,
+      viewedBy,
+    } = job;
 
     // in case we cant find the job
     if (!templatesRepo[fromTemplateId]) {
@@ -73,22 +81,20 @@ export default class JobSummaryForPostedJobs extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="media">
-            <div className="media-left">
-              <figure className="image is-48x48">
-                <img src={profileImage.url} alt="Placeholder image" />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="is-size-6">{displayName}</p>
-              <p className="is-size-7">{rating.globalRating}</p>
-            </div>
-          </div>
           <div className="content">
-            <p className="is-size-7">
-              Start Date
-              {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
-            </p>
+            <DisplayLabelValue
+              labelText="Start Date:"
+              labelValue={
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+              }
+            />
+
+            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+            <DisplayLabelValue
+              labelText="Viewed:"
+              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
+            />
+
             <p className="is-size-7">
               <span style={{ fontSize: '10px', color: 'grey' }}>
                 {`Posted (${daysSinceCreated} ago)`}
@@ -175,5 +181,14 @@ const renderFooter = ({ job, notificationFeed }) => {
         </a>
       </div>
     </footer>
+  );
+};
+
+const DisplayLabelValue = (props) => {
+  return (
+    <div>
+      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+    </div>
   );
 };
