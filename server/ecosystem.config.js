@@ -8,6 +8,7 @@ module.exports = {
       // args: 'one two',
       instances: 3,
       autorestart: true,
+      max_restarts: 10,
       watch: false,
       max_memory_restart: '512M',
       env: {
