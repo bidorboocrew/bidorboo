@@ -1,4 +1,4 @@
-const { bidDataAccess } = require('../data-access/BidDataAccess');
+const { bidDataAccess } = require('../data-access/bidDataAccess');
 const userDataAccess = require('../data-access/userDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
 
