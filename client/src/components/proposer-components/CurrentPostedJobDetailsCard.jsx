@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import moment from 'moment';
-import ShowMore from 'react-show-more';
 
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
@@ -81,7 +80,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
     const { job, currentUser, breadCrumb, markBidAsSeen, hideBidTable } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
       return null;
     }
     const { fromTemplateId } = job;
@@ -93,7 +92,7 @@ export default class CurrentPostedJobDetailsCard extends React.Component {
               <li>
                 <a
                   onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
+                    switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
                   }}
                 >
                   My Requests
@@ -325,7 +324,7 @@ class PostedJobsDetails extends React.Component {
     const { job, currentUser } = this.props;
 
     if (!job || !job._id) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
       return null;
     }
 

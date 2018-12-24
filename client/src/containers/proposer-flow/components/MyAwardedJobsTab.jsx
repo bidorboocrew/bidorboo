@@ -1,14 +1,11 @@
 import React from 'react';
 
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
-import JobSummaryCard from './JobSummaryCard';
+import JobSummaryForAwarded from './JobSummaryForAwarded';
 
 const TAB_IDS = {
-  reviewBids: 'My Requests',
-  inQueue: 'Awarded',
+  awardedJobs: 'Awarded',
+  postedJobs: 'Posted',
 };
-
 class MyAwardedJobsTab extends React.Component {
   render() {
     const { jobsList } = this.props;
@@ -31,14 +28,14 @@ const EmptyStateComponent = (props) => (
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">You have no awarded bidders.</div>
+          <div className="is-size-5">You have no awarded Jobs.</div>
           <div className="help">Go to your requests tab, review the bids and select a bidder.</div>
           <br />
           <a
             className="button is-primary "
             onClick={(e) => {
               e.preventDefault();
-              props.changeActiveTab(TAB_IDS.reviewBids);
+              props.changeActiveTab(TAB_IDS.postedJobs);
             }}
           >
             My Requests
@@ -53,32 +50,9 @@ const AwardedRequests = (props) => {
   const { jobsList } = props;
 
   const myAwardedJobs = jobsList.map((job) => {
-    let renderFooter = () => (
-      <footer className="card-footer">
-        <div className="card-footer-item">
-          <a
-            className="button is-success is-fullwidth "
-            onClick={(e) => {
-              e.preventDefault();
-              switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
-            }}
-          >
-            <span style={{ marginLeft: 4 }}>
-              <i className="fa fa-hand-paper" /> Contact
-            </span>
-          </a>
-        </div>
-      </footer>
-    );
     return (
       <div key={job._id} className="column">
-        <JobSummaryCard
-        showBidCount={false}
-          cardClassName="card bidderRootSpecial is-clipped"
-          {...props}
-          job={job}
-          renderFooter={renderFooter}
-        />
+        <JobSummaryForAwarded showBidCount={false} job={job} />
       </div>
     );
   });

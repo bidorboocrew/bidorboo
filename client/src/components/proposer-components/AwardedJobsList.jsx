@@ -57,7 +57,7 @@ const EmptyStateComponent = (props) => (
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">You have no awarded bidders.</div>
+          <div className="is-size-5">You have no awarded Jobs.</div>
           <div className="help">Go to your requests tab, review the bids and select a bidder.</div>
           <br />
           <a

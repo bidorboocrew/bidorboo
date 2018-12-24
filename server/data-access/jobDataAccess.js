@@ -8,29 +8,48 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 
 exports.jobDataAccess = {
   // get jobs for a user and filter by a given state
+  getUserAwardedJobs: async (userId) => {
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: {
+          addressText: 1,
+          fromTemplateId: 1,
+          startingDateAndTime: 1,
+          _awardedBidRef: 1,
+        },
+        match: { state: { $eq: 'AWARDED' } },
+        options: { sort: { createdAt: -1 } },
+        populate: {
+          path: '_awardedBidRef',
+          select: {
+            _bidderRef: 1,
+            bidAmount: 1,
+          },
+          populate: {
+            path: '_bidderRef',
+            select: {
+              profileImage: 1,
+              displayName: 1,
+              rating: 1,
+            },
+          },
+        },
+      })
+      .lean(true)
+      .exec();
+  },
+  // get jobs for a user and filter by a given state
   getUserJobsByState: async (userId, stateFilter) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-          .populate({
-            path: '_postedJobsRef',
-            select: schemaHelpers.JobFull,
-            options: { sort: { createdAt: -1 } },
-          })
-          .lean(true)
-          .exec();
-
-        if (jobs && jobs._postedJobsRef && stateFilter) {
-          const filteredJobs = jobs._postedJobsRef.filter((job) => {
-            return job.state === stateFilter;
-          });
-
-          resolve(filteredJobs);
-        }
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: schemaHelpers.JobFull,
+        match: { state: { $eq: stateFilter } },
+        options: { sort: { createdAt: -1 } },
+      })
+      .lean(true)
+      .exec();
   },
   getJobById: (jobId) => {
     return JobModel.findById(jobId)

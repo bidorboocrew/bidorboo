@@ -243,7 +243,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab()}`);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab()}`);
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

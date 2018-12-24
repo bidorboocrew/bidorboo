@@ -10,7 +10,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
-      return res.send({ _postedJobsRef: userJobsList });
+      return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
     }
@@ -94,8 +94,8 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'AWARDED');
-      return res.send({ _postedJobsRef: userJobsList });
+      userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
+      return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
     }

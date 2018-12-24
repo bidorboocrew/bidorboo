@@ -12,12 +12,12 @@ import MyRequestsTab from './components/MyRequestsTab';
 
 const TAB_IDS = {
   awardedJobs: 'Awarded',
-  reviewBids: 'Posted',
+  postedJobs: 'Posted',
 };
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);
-    let initialTabSelection = TAB_IDS.reviewBids;
+    let initialTabSelection = TAB_IDS.postedJobs;
     if (props.match && props.match.params && props.match.params.tabId) {
       const { tabId } = props.match.params;
       if (tabId && TAB_IDS[`${tabId}`]) {
@@ -57,14 +57,15 @@ class MyOpenJobsPage extends React.Component {
         </section>
         <div className="tabs">
           <ul>
-            <li className={`${activeTab === TAB_IDS.reviewBids ? 'is-active' : null}`}>
+            <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
               <a
                 onClick={(e) => {
                   e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.reviewBids);
+                  this.changeActiveTab(TAB_IDS.postedJobs);
+                  // switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
                 }}
               >
-                {TAB_IDS.reviewBids}
+                {TAB_IDS.postedJobs}
               </a>
             </li>
             <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
@@ -72,6 +73,7 @@ class MyOpenJobsPage extends React.Component {
                 onClick={(e) => {
                   e.preventDefault();
                   this.changeActiveTab(TAB_IDS.awardedJobs);
+                  // switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
                 }}
               >
                 {TAB_IDS.awardedJobs}
@@ -81,7 +83,7 @@ class MyOpenJobsPage extends React.Component {
         </div>
         <section className="section">
           <div className="container">
-            {activeTab === TAB_IDS.reviewBids && (
+            {activeTab === TAB_IDS.postedJobs && (
               <MyRequestsTab
                 jobsList={myOpenJobsList}
                 deleteJob={a_deleteJobById}

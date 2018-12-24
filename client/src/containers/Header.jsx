@@ -184,7 +184,7 @@ class Header extends React.Component {
                       className="navbar-item"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobReviewBidsTab());
+                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
                         });
                       }}
                     >

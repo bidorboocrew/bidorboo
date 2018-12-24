@@ -8,21 +8,19 @@ import Countdown from 'react-countdown-now';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
-export default class JobSummaryForAwarded extends React.Component {
+export default class JobSummaryForPostedJobs extends React.Component {
   render() {
-    const { job } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId } = job;
+    const { job, userDetails, deleteJob, notificationFeed } = this.props;
+    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, booedBy } = job;
 
     // in case we cant find the job
     if (!templatesRepo[fromTemplateId]) {
       return null;
     }
 
-    let temp = {
-      profileImage: { url: '' },
-      displayName: '',
-      rating: { globalRating: 'No Ratings Yet' },
-    };
+    let temp = userDetails
+      ? userDetails
+      : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
 
     const { profileImage, displayName, rating } = temp;
     let daysSinceCreated = '';
@@ -42,6 +40,30 @@ export default class JobSummaryForAwarded extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+
+          <a className="card-header-icon">
+            <span
+              className={`${
+                _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
+              }`}
+            >
+              <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
+              {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
+            </span>
+          </a>
+
+          <a
+            className="card-header-icon"
+            aria-label="more options"
+            onClick={(e) => {
+              e.preventDefault();
+              deleteJob(job._id);
+            }}
+          >
+            <span style={{ color: 'grey' }} className="icon">
+              <i className="far fa-trash-alt" aria-hidden="true" />
+            </span>
+          </a>
         </header>
 
         <div className="card-image is-clipped">
@@ -74,7 +96,7 @@ export default class JobSummaryForAwarded extends React.Component {
             </p>
           </div>
         </div>
-        {renderFooter({ job })}
+        {renderFooter({ job, notificationFeed })}
         <br />
         {countDownToStart({ startingDate: startingDateAndTime.date })}
       </div>
@@ -93,7 +115,7 @@ const countDownToStart = (props) => {
         bottom: 0,
         left: 0,
         width: '100%',
-        background: '#363636',
+        background: 'lightgrey',
       }}
       className="is-size-7 has-text-white has-text-centered"
     >
@@ -106,7 +128,7 @@ const countDownToStart = (props) => {
           ) : (
             <React.Fragment>
               {days && !`${days}`.includes('NaN') ? (
-                <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
               ) : null}
             </React.Fragment>
           );
@@ -115,20 +137,43 @@ const countDownToStart = (props) => {
     </div>
   );
 };
-let renderFooter = ({ job }) => (
-  <footer className="card-footer">
-    <div className="card-footer-item">
-      <a
-        className="button is-success is-fullwidth "
-        onClick={(e) => {
-          e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
-        }}
-      >
-        <span style={{ marginLeft: 4 }}>
-          <i className="fa fa-hand-paper" /> Contact
-        </span>
-      </a>
-    </div>
-  </footer>
-);
+
+const renderFooter = ({ job, notificationFeed }) => {
+  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+  let doesthisJobHaveNewBids = false;
+  let numberOfNewBids = 0;
+
+  if (notificationFeed.jobIdsWithNewBids) {
+    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+        doesthisJobHaveNewBids = true;
+        numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+        break;
+      }
+    }
+  }
+
+  return (
+    <footer className="card-footer">
+      <div className="card-footer-item">
+        <a
+          className={`button is-fullwidth ${areThereAnyBidders ? 'is-primary' : 'is-outline'}`}
+          onClick={(e) => {
+            e.preventDefault();
+            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+          }}
+        >
+          <span className="icon">
+            <i className="fa fa-hand-paper" />
+          </span>
+          <span style={{ marginLeft: 4 }}>View Bids</span>
+          {areThereAnyBidders && doesthisJobHaveNewBids && (
+            <span style={{ marginLeft: 4 }} className="tag is-dark">
+              +{numberOfNewBids}
+            </span>
+          )}
+        </a>
+      </div>
+    </footer>
+  );
+};

@@ -87,7 +87,7 @@ export const CLIENT = {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
     getMyOpenJobsAwardedJobsTab: () => '/proposer/my-open-jobs/awardedJobs',
-    getMyOpenJobReviewBidsTab: () => '/proposer/my-open-jobs/reviewBids',
+    getMyOpenJobsPostedJobsTab: () => '/proposer/my-open-jobs/postedJobs',
     myOpenJobs: '/proposer/my-open-jobs',
     reviewRequestAndBidsPage: '/proposer/review-request-details',
     newlyPostedJob: '/proposer/new-job-details',
