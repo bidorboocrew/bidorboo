@@ -56,10 +56,10 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
             activePageTitle: title,
           })}
           <div className="columns is-multiline">
-            <div classNames="column is-narrow">
+            <div classNames="column">
               <FullBidAndBidderDetails bid={_awardedBidRef} />
             </div>
-            <div classNames="column is-narrow">
+            <div classNames="column">
               <JobFullDetailsCard job={selectedAwardedJob} />
             </div>
           </div>
