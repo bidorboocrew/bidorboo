@@ -60,35 +60,46 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     return (
-      <section className="section">
-        <div className="container">
-          {showBidReviewModal && (
-            <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
-          )}
+      <div className="bdbPage">
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
+            <div>
+              <h1 style={{ color: 'white' }} className="title">
+                My Requests
+              </h1>
+            </div>
+          </div>
+        </section>
+        <section className="section">
+          <div className="container">
+            {showBidReviewModal && (
+              <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+            )}
 
-          {!showBidReviewModal && (
-            <React.Fragment>
-              {breadCrumbs({
-                activePageTitle: title,
-              })}
+            {!showBidReviewModal && (
+              <React.Fragment>
+                {breadCrumbs({
+                  activePageTitle: title,
+                })}
 
-              <div className="columns is-multiline">
-                <div className="column">
-                  <BidsTable
-                    jobId={selectedJobWithBids._id}
-                    bidList={selectedJobWithBids._bidsListRef}
-                    markBidAsSeen={a_markBidAsSeen}
-                    showBidReviewModal={this.showBidReviewModal}
-                  />
+                <div className="columns is-multiline">
+                  <div className="column">
+                    <BidsTable
+                      jobId={selectedJobWithBids._id}
+                      bidList={selectedJobWithBids._bidsListRef}
+                      markBidAsSeen={a_markBidAsSeen}
+                      showBidReviewModal={this.showBidReviewModal}
+                    />
+                  </div>
+                  <div className="column">
+                    <JobFullDetailsCard job={selectedJobWithBids} />
+                  </div>
                 </div>
-                <div className="column">
-                  <JobFullDetailsCard job={selectedJobWithBids} />
-                </div>
-              </div>
-            </React.Fragment>
-          )}
-        </div>
-      </section>
+              </React.Fragment>
+            )}
+          </div>
+        </section>
+      </div>
     );
   }
 }
