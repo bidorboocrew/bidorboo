@@ -110,7 +110,7 @@ const breadCrumbs = (props) => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
               }}
             >
-              Awarded Jobs
+              Awarded
             </a>
           </li>
           <li className="is-active">

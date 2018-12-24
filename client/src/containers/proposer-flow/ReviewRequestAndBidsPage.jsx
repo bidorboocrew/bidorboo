@@ -135,7 +135,7 @@ const breadCrumbs = (props) => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
               }}
             >
-              My Requests
+              Posted
             </a>
           </li>
           <li className="is-active">
