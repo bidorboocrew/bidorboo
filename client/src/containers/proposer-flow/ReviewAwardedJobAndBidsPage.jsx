@@ -9,7 +9,8 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 import { getAwardedBidFullDetails } from '../../app-state/actions/jobActions';
 
-import { BidderContactModal } from './components/BidderContactModal';
+import JobFullDetailsCard from './components/JobFullDetailsCard';
+import FullBidAndBidderDetails from './components/FullBidAndBidderDetails';
 
 class ReviewAwardedJobAndBidsPage extends React.Component {
   constructor(props) {
@@ -19,10 +20,6 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     }
-    this.state = {
-      showTimeLineDetails: false,
-      jobUnderReview: {},
-    };
   }
 
   componentDidMount() {
@@ -35,13 +32,6 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
 
     a_getAwardedBidFullDetails(this.jobId);
   }
-
-  showTimeLineDetails = (jobWithFullDetails) => {
-    this.setState({ showTimeLineDetails: true, jobUnderReview: jobWithFullDetails });
-  };
-  hideTimeLineDetails = () => {
-    this.setState({ showTimeLineDetails: false, jobUnderReview: {} });
-  };
 
   render() {
     const { selectedAwardedJob } = this.props;
@@ -56,29 +46,23 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
       );
     }
 
+    const { _awardedBidRef } = selectedAwardedJob;
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
-    const { showTimeLineDetails, jobUnderReview } = this.state;
 
     return (
       <section className="section">
         <div className="container">
-          {showTimeLineDetails && (
-            <BidderContactModal job={jobUnderReview} close={this.hideTimeLineDetails} />
-          )}
-
-          {!showTimeLineDetails && (
-            <React.Fragment>
-              {breadCrumbs({
-                activePageTitle: title,
-              })}
-
-              <div className="columns is-multiline">
-                <div className="column">
-                  <div>hello</div>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
+          {breadCrumbs({
+            activePageTitle: title,
+          })}
+          <div className="columns is-multiline">
+            <div classNames="column is-narrow">
+              <FullBidAndBidderDetails bid={_awardedBidRef} />
+            </div>
+            <div classNames="column is-narrow">
+              <JobFullDetailsCard job={selectedAwardedJob} />
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -112,7 +96,7 @@ const breadCrumbs = (props) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
               }}
             >
               Awarded Jobs

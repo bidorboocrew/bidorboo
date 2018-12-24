@@ -39,12 +39,11 @@ export default class JobFullDetailsCard extends React.Component {
         ? moment.duration(moment().diff(moment(createdAt))).humanize()
         : 0;
     } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
       console.error(e);
     }
 
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div className="card is-clipped disabled">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -106,6 +105,7 @@ export default class JobFullDetailsCard extends React.Component {
             </p>
           </div>
         </div>
+        <br />
         {countDownToStart({ startingDate: startingDateAndTime.date })}
       </div>
     );
@@ -116,7 +116,6 @@ const countDownToStart = (props) => {
   const { startingDate } = props;
   return (
     <React.Fragment>
-      <br />
       <div
         style={{
           position: 'absolute',

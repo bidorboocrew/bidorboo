@@ -82,7 +82,7 @@ export default class ReviewBidAndBidder extends React.Component {
                 </div>
                 <div className="help">
                   * When the job is completed. You will get a chance to rate the Bidder and the bid
-                  amount will be deducted`}
+                  amount will be deducted
                 </div>
               </div>
               <a
