@@ -38,10 +38,13 @@ export default class ReviewBidAndBidder extends React.Component {
         style={{ borderRight: 0, background: '#363636', color: 'white' }}
         className="card bidderRootSpecial is-clipped disabled"
       >
-        <header className="card-header" />
         <div className="card-content">
-          <br />
-          <div className="has-text-weight-bold is-size-5 has-text-success">Awarded Bidder</div>
+          <div
+            style={{ paddingTop: '0.5rem' }}
+            className="has-text-weight-bold is-size-5 has-text-success"
+          >
+            Awarded Bidder
+          </div>
 
           <div className="media">
             <div className="media-left">
