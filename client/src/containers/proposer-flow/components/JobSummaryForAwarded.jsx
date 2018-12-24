@@ -18,11 +18,16 @@ export default class JobSummaryForAwarded extends React.Component {
       return null;
     }
 
-    let temp = {
-      profileImage: { url: '' },
-      displayName: '',
-      rating: { globalRating: 'No Ratings Yet' },
-    };
+    const { _awardedBidRef } = job;
+    const { bidAmount, _bidderRef } = _awardedBidRef;
+
+    let temp = _bidderRef
+      ? _bidderRef
+      : {
+          profileImage: { url: '' },
+          displayName: '',
+          rating: { globalRating: 'No Ratings Yet' },
+        };
 
     const { profileImage, displayName, rating } = temp;
     let daysSinceCreated = '';
@@ -51,27 +56,23 @@ export default class JobSummaryForAwarded extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="media">
-            <div className="media-left">
-              <figure className="image is-48x48">
-                <img src={profileImage.url} alt="Placeholder image" />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="is-size-6">{displayName}</p>
-              <p className="is-size-7">{rating.globalRating}</p>
-            </div>
-          </div>
           <div className="content">
-            <p className="is-size-7">
-              Start Date
-              {startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`}
-            </p>
-            <p className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`Posted (${daysSinceCreated} ago)`}
-              </span>
-            </p>
+            <DisplayLabelValue
+              labelText="Bid Amount:"
+              labelValue={bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
+            />
+
+            <DisplayLabelValue labelText="Awarded Bidder Name:" labelValue={displayName} />
+            <DisplayLabelValue
+              labelText="Awarded Bidder Rating:"
+              labelValue={rating.globalRating}
+            />
+            <DisplayLabelValue
+              labelText="Job Start Date:"
+              labelValue={
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+              }
+            />
           </div>
         </div>
         {renderFooter({ job })}
@@ -93,7 +94,7 @@ const countDownToStart = (props) => {
         bottom: 0,
         left: 0,
         width: '100%',
-        background: '#363636',
+        background: 'lightgrey',
       }}
       className="is-size-7 has-text-white has-text-centered"
     >
@@ -132,3 +133,12 @@ let renderFooter = ({ job }) => (
     </div>
   </footer>
 );
+
+const DisplayLabelValue = (props) => {
+  return (
+    <div>
+      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+    </div>
+  );
+};

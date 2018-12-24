@@ -17,6 +17,8 @@ exports.jobDataAccess = {
           fromTemplateId: 1,
           startingDateAndTime: 1,
           _awardedBidRef: 1,
+          createdAt: 1,
+          _id: 1,
         },
         match: { state: { $eq: 'AWARDED' } },
         options: { sort: { createdAt: -1 } },
