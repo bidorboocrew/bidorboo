@@ -38,12 +38,7 @@ export default class ReviewBidAndBidder extends React.Component {
         style={{ borderRight: 0, background: '#363636', color: 'white' }}
         className="card bidderRootSpecial is-clipped disabled"
       >
-        <header className="card-header">
-          <p
-            style={{ background: 'white' }}
-            className="card-header-title"
-          >{`Contact ${displayName}`}</p>
-        </header>
+        <header className="card-header" />
         <div className="card-content">
           <br />
           <div className="has-text-weight-bold is-size-5 has-text-success">Awarded Bidder</div>
@@ -72,7 +67,7 @@ export default class ReviewBidAndBidder extends React.Component {
             </a>
           </div>
           <br />
-          <div className="has-text-weight-bold is-size-5 has-text-success">Contact Info:</div>
+          <div className="has-text-weight-bold is-size-5 has-text-success">Contact Info</div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
           <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
           <DisplayLabelValue
