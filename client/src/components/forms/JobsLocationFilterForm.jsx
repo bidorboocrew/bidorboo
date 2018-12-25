@@ -311,8 +311,6 @@ class JobsLocationFilterForm extends React.Component {
             },
             this.successfullGeoCoding,
           );
-
-          this.props.updateMapCenter && this.props.updateMapCenter(pos);
         }
       };
 

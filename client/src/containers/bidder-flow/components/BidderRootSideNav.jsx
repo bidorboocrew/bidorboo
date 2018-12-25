@@ -84,9 +84,7 @@ const SearchControls = ({ updateMapCenter, clearFilter, handleGeoSearch }) => {
     <JobsLocationFilterForm
       updateMapCenter={updateMapCenter}
       onCancel={clearFilter}
-      onSubmit={(vals) => {
-        handleGeoSearch(vals);
-      }}
+      onSubmit={handleGeoSearch}
     />
   );
 };
