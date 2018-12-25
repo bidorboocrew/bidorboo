@@ -9200,6 +9200,11 @@ react-show-more@^2.0.0:
   dependencies:
     react-truncate "^2.3.0"
 
+react-simple-sidenav@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-simple-sidenav/-/react-simple-sidenav-1.0.1.tgz#54b3fec4865e8157d387e924bfae653234e35be6"
+  integrity sha1-VLP+xIZegVfTh+kkv65lMjTjW+Y=
+
 react-stars@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-stars/-/react-stars-2.2.5.tgz#911852018e1574a0f9a2c1dfa4f0bc9af071b921"
