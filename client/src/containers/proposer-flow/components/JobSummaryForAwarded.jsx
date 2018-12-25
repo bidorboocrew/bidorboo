@@ -31,14 +31,14 @@ export default class JobSummaryForAwarded extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
+          <div className="has-text-dark is-size-7">Awarded Bidder:</div>
+          <UserImageAndRating userDetails={_bidderRef} />
+
           <div className="content">
             <DisplayLabelValue
               labelText="Bid Amount:"
               labelValue={bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
             />
-
-            <div className="has-text-dark is-size-7">Awarded Bidder:</div>
-            <UserImageAndRating userDetails={_bidderRef} />
 
             <DisplayLabelValue
               labelText="Job Start Date:"
