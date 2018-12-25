@@ -37,7 +37,7 @@ export default class MyJobSummaryCard extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <DisplayLabelValue labelText="Owner:" labelValue={'Me'} />
+          <DisplayLabelValue labelText="Requester:" labelValue={'Me'} />
           <div className="content">
             <DisplayLabelValue
               labelText="Start Date:"
@@ -50,7 +50,6 @@ export default class MyJobSummaryCard extends React.Component {
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
-        <br />
         <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );

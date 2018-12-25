@@ -88,7 +88,6 @@ export default class JobSummaryForPostedJobs extends React.Component {
           </div>
         </div>
         {renderFooter({ job, notificationFeed })}
-        <br />
         <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );

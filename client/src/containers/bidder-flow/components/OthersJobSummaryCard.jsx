@@ -40,7 +40,7 @@ export default class OthersJobSummaryCard extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Owner:</div>
+          <div className="has-text-dark is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
 
           <div className="content">
@@ -55,7 +55,6 @@ export default class OthersJobSummaryCard extends React.Component {
           </div>
         </div>
         {associatedUserActions(job, currentUserId)}
-        <br />
         <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );

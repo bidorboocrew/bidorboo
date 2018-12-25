@@ -47,9 +47,10 @@ export const DisplayLabelValue = (props) => {
 };
 
 export const CountDownComponent = (props) => {
-  const { startingDate, render, isJobStart = true } = props;
+  const { startingDate, isJobStart = true } = props;
   return (
     <React.Fragment>
+      <br />
       <div
         style={{
           position: 'absolute',
@@ -57,6 +58,7 @@ export const CountDownComponent = (props) => {
           left: 0,
           width: '100%',
           background: 'lightgrey',
+          marginTop: 6,
         }}
         className="is-size-7 has-text-white has-text-centered"
       >

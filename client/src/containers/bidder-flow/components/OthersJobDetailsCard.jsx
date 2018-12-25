@@ -8,11 +8,12 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
+  MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
-export default class JobFullDetailsCard extends React.Component {
+export default class JobDetailsForBidder extends React.Component {
   render() {
-    const { job, cardClass = 'card bidderRootSpecial is-clipped disabled' } = this.props;
+    const { job } = this.props;
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -21,17 +22,19 @@ export default class JobFullDetailsCard extends React.Component {
       viewedBy,
       booedBy,
       detailedDescription,
-      addressText,
       durationOfJob,
       fromTemplateId,
       reported,
       createdAt,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className={cardClass}>
+      <div className="card disabled is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -46,6 +49,7 @@ export default class JobFullDetailsCard extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
+          <div className="has-text-dark is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <DisplayLabelValue
@@ -54,9 +58,9 @@ export default class JobFullDetailsCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
+            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
 
             <DisplayLabelValue
               labelText="Bids:"

@@ -7,10 +7,9 @@ import { submitBid } from '../../app-state/actions/bidsActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import JobDetailsViewForBidder from '../../components/bidder-components/JobDetailsViewForBidder';
 import PostYourBid from '../../components/forms/PostYourBid';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
-
+import OthersJobDetailsCard from './components/OthersJobDetailsCard';
 class BidOnJobPage extends React.Component {
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
@@ -49,7 +48,8 @@ class BidOnJobPage extends React.Component {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             />
-            <JobDetailsViewForBidder job={jobDetails} />
+
+            <OthersJobDetailsCard job={jobDetails} />
             <br />
           </div>
         </section>

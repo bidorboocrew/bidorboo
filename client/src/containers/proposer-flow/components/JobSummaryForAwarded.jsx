@@ -57,7 +57,6 @@ export default class JobSummaryForAwarded extends React.Component {
           </div>
         </div>
         {renderFooter()}
-        <br />
         <CountDownComponent startingDate={startingDateAndTime.date} />
       </div>
     );
