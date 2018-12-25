@@ -8,6 +8,7 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
+  JobStats,
   MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
@@ -90,24 +91,7 @@ export default class JobDetailsForBidder extends React.Component {
                 readOnly
               />
             </span>
-
-            <nav className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <span style={{ fontSize: '10px', color: 'grey' }}>
-                    {`Posted (${daysSinceCreated} ago)`}
-                  </span>
-                </div>
-              </div>
-
-              <div className="level-right">
-                <p className="level-item">
-                  <span style={{ fontSize: '10px', color: 'grey' }}>
-                    {`Viewed ${viewedBy ? viewedBy.length : 0} times`}
-                  </span>
-                </p>
-              </div>
-            </nav>
+            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime.date} />

@@ -5,7 +5,12 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent, getDaysSinceCreated } from '../../commonComponents';
+import {
+  DisplayLabelValue,
+  CountDownComponent,
+  getDaysSinceCreated,
+  JobStats,
+} from '../../commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
@@ -75,16 +80,8 @@ export default class JobSummaryForPostedJobs extends React.Component {
             />
 
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue
-              labelText="Viewed:"
-              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
-            />
 
-            <p className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`Posted (${daysSinceCreated} ago)`}
-              </span>
-            </p>
+            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         {renderFooter({ job, notificationFeed })}
