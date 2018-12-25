@@ -48,10 +48,15 @@ class BidderRoot extends React.Component {
   }
 
   clearFilter = () => {
-    this.setState({
-      displayedJobList: this.props.ListOfJobsToBidOn,
-      hasActiveSearch: false,
-    });
+    this.setState(
+      {
+        displayedJobList: this.props.ListOfJobsToBidOn,
+        hasActiveSearch: false,
+      },
+      () => {
+        this.toggleSideNav();
+      },
+    );
   };
 
   handleGeoSearch = (vals) => {
@@ -98,20 +103,33 @@ class BidderRoot extends React.Component {
         lng: -75.6972,
       };
     }
-    this.setState({
-      hasActiveSearch: true,
-      displayedJobList: filteredJobs,
-      mapCenterPoint: {
-        lat: locationField.lat,
-        lng: locationField.lng,
+    this.setState(
+      {
+        hasActiveSearch: true,
+        displayedJobList: filteredJobs,
+        mapCenterPoint: {
+          lat: locationField.lat,
+          lng: locationField.lng,
+        },
       },
-    });
+      () => {
+        this.toggleSideNav();
+      },
+    );
   };
 
   changeActiveTab = (tabId) => {
     this.setState({ activeTab: tabId });
   };
 
+  updateMapCenter = (pos) => {
+    debugger;
+    this.setState({
+      mapCenterPoint: {
+        ...pos,
+      },
+    });
+  };
   toggleSideNav = () => {
     this.setState({ showSideNav: !this.state.showSideNav });
   };

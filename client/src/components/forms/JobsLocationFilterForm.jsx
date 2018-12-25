@@ -261,7 +261,7 @@ class JobsLocationFilterForm extends React.Component {
               setFieldValue('locationField', '', false);
               setFieldValue('searchRaduisField', '', false);
               setFieldValue('filterJobsByCategoryField', [], false);
-              this.props.onCancel();
+              this.props.onCancel && this.props.onCancel();
             }}
           >
             <i className="far fa-times-circle" />
@@ -312,7 +312,7 @@ class JobsLocationFilterForm extends React.Component {
             this.successfullGeoCoding,
           );
 
-          this.props.updateMapCenter(pos);
+          this.props.updateMapCenter && this.props.updateMapCenter(pos);
         }
       };
 
