@@ -28,12 +28,9 @@ export default class ReviewBidAndBidder extends React.Component {
     return (
       <div
         style={{ borderRight: 0, background: '#363636', color: 'white' }}
-        className="card bidderRootSpecial disabled"
+        className="card disabled"
       >
-        <header
-          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header is-clipped"
-        >
+        <header style={{ borderBottom: '1px solid white' }} className="card-header is-clipped">
           <p style={{ color: 'white' }} className="card-header-title">
             Awarded Bidder Details
           </p>

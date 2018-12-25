@@ -10,7 +10,7 @@ import { DisplayLabelValue, CountDownComponent, UserImageAndRating } from '../..
 export default class JobSummaryForAwarded extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId } = job;
+    const { startingDateAndTime, fromTemplateId } = job;
 
     const { _awardedBidRef } = job;
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -22,6 +22,13 @@ export default class JobSummaryForAwarded extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+
+          <a className="card-header-icon">
+            <span className="has-text-success">
+              <i style={{ marginRight: 2 }} className="fas fa-hand-holding-usd" />
+              {bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
+            </span>
+          </a>
         </header>
 
         <div className="card-image is-clipped">
@@ -35,11 +42,6 @@ export default class JobSummaryForAwarded extends React.Component {
           <UserImageAndRating userDetails={_bidderRef} />
 
           <div className="content">
-            <DisplayLabelValue
-              labelText="Bid Amount:"
-              labelValue={bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
-            />
-
             <DisplayLabelValue
               labelText="Job Start Date:"
               labelValue={

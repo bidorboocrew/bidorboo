@@ -70,7 +70,10 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
                 <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
               </div>
               <div className="column">
-                <JobFullDetailsCard job={selectedAwardedJob} />
+                <JobFullDetailsCard
+                  job={selectedAwardedJob}
+                  cardClass={'card is-clipped disabled'}
+                />
               </div>
             </div>
           </div>
