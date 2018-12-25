@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
-import * as C from '../constants/constants';
+import * as C from '../constants/enumConstants';
 import ProfileForm from '../components/forms/ProfileForm';
 import axios from 'axios';
 import PaymentForm from '../components/forms/PaymentForm';

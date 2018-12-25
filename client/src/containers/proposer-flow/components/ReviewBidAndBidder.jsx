@@ -1,10 +1,7 @@
 import React from 'react';
-import moment from 'moment';
-import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
-import * as C from '../../../constants/constants';
 
-// confirm award and pay
-const BIDORBOO_SERVICECHARGE = 0.06;
+import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
+
 export default class ReviewBidAndBidder extends React.Component {
   constructor(props) {
     super(props);
