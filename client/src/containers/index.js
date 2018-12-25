@@ -16,7 +16,7 @@ export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewReque
 export { default as CurrentPostedBid } from './bidder-flow/Step3PostedBid';
 export { default as CurrentAwardedBid } from './bidder-flow/CurrentAwardedBid';
 
-export { default as BidNow } from './bidder-flow/Step2BidNow';
+export { default as BidOnJobPage } from './bidder-flow/Step2BidOnJobPage';
 export { default as MyBids } from './bidder-flow/MyBids';
 export { default as BidderRoot } from './bidder-flow/Step1BidderRoot';
 export { default as MyAwardedBids } from './bidder-flow/MyAwardedBids';

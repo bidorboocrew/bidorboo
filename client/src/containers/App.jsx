@@ -18,7 +18,7 @@ import {
   MyOpenJobsPage,
   BidderRoot,
   MyProfile,
-  BidNow,
+  BidOnJobPage,
   MyBids,
   ReviewRequestAndBidsPage,
   CurrentPostedBid,
@@ -95,7 +95,7 @@ class App extends React.Component {
             component={BidderRoot}
           />
           <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
           <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
           <Route
             exact

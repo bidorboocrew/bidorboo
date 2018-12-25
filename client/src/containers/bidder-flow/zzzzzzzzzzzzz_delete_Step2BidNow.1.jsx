@@ -10,7 +10,7 @@ import JobDetailsViewForBidder from '../../components/bidder-components/JobDetai
 import PostYourBid from '../../components/forms/PostYourBid';
 import { switchRoute } from '../../utils';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
-class BidNow extends React.Component {
+class BidOnJobPage extends React.Component {
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy } = this.props;
 
@@ -58,4 +58,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BidNow);
+)(BidOnJobPage);

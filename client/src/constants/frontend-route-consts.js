@@ -96,7 +96,7 @@ export const CLIENT = {
   },
   BIDDER: {
     root: '/bidder-root',
-    bidNow: '/bidder/bid-now',
+    BidOnJobPage: '/bidder/bid-on-job',
     mybids: '/bidder/my-bids',
     currentPostedBid: '/bidder/bid-details',
     reviewJobPage: '/review-page',

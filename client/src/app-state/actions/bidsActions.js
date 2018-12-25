@@ -25,7 +25,7 @@ export const selectJobToBidOn = (jobDetails) => (dispatch) => {
     },
   });
   // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.BIDDER.bidNow);
+  switchRoute(ROUTES.CLIENT.BIDDER.BidOnJobPage);
 };
 
 export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
