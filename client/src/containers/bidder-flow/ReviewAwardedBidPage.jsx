@@ -9,7 +9,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-import OthersJobDetailsCard from './components/OthersJobDetailsCard';
+import OthersAwardedJobDetailsCard from './components/OthersAwardedJobDetailsCard';
 import RequesterAndMyAwardedBidDetailsCard from './components/RequesterAndMyAwardedBidDetailsCard';
 
 class ReviewAwardedBidPage extends React.Component {
@@ -27,7 +27,6 @@ class ReviewAwardedBidPage extends React.Component {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
       return null;
     }
-debugger
     this.props.a_getAwardedBidDetails(this.bidId);
   }
 
@@ -41,7 +40,6 @@ debugger
   render() {
     const { selectedAwardedBid } = this.props;
     // while fetching the job
-    debugger;
 
     if (
       !selectedAwardedBid ||
@@ -65,17 +63,14 @@ debugger
       <div className="bdbPage">
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <nav className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <p className="subtitle has-text-light is-5">
-                    <strong className="title has-text-light">My Bids</strong>
-                  </p>
-                </div>
-              </div>
-            </nav>
+            <div>
+              <h1 style={{ color: 'white' }} className="title">
+                My Bids
+              </h1>
+            </div>
           </div>
         </section>
+
         <section className="section">
           <div className="container">
             {breadCrumbs({ activePageTitle: title })}
@@ -87,7 +82,7 @@ debugger
                 />
               </div>
               <div className="column">
-                <OthersJobDetailsCard job={selectedAwardedJob} />
+                <OthersAwardedJobDetailsCard job={selectedAwardedJob} />
               </div>
             </div>
           </div>

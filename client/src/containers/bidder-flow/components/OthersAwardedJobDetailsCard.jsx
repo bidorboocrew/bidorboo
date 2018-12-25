@@ -12,7 +12,7 @@ import {
   MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
-export default class JobDetailsForBidder extends React.Component {
+export default class OthersAwardedJobDetailsCard extends React.Component {
   render() {
     const { job } = this.props;
     const {
@@ -25,6 +25,7 @@ export default class JobDetailsForBidder extends React.Component {
       durationOfJob,
       fromTemplateId,
       createdAt,
+      addressText,
     } = job;
 
     if (!templatesRepo[fromTemplateId]) {
@@ -57,6 +58,7 @@ export default class JobDetailsForBidder extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
+            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
             <MinBidDisplayLabelValue bidsList={_bidsListRef} />
