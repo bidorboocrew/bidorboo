@@ -22,7 +22,13 @@ export default class JobSummaryForPostedJobs extends React.Component {
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+        }}
+        className="card bidderRootSpecial is-clipped"
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -107,13 +113,7 @@ const renderFooter = ({ job, notificationFeed }) => {
   return (
     <footer className="card-footer">
       <div className="card-footer-item">
-        <a
-          className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}
-          onClick={(e) => {
-            e.preventDefault();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-          }}
-        >
+        <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
           <span className="icon">
             <i className="fa fa-hand-paper" />
           </span>

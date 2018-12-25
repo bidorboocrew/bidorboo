@@ -141,7 +141,7 @@ class BidderRoot extends React.Component {
     if (isLoading) {
       return (
         <section className="section">
-          <div className="container is-fluid">
+          <div className="container">
             <Spinner isLoading={isLoading} size={'large'} />
           </div>
         </section>

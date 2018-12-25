@@ -16,7 +16,13 @@ export default class JobSummaryForAwarded extends React.Component {
     const { bidAmount, _bidderRef } = _awardedBidRef;
 
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+        }}
+        className="card bidderRootSpecial is-clipped"
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -50,7 +56,7 @@ export default class JobSummaryForAwarded extends React.Component {
             />
           </div>
         </div>
-        {renderFooter({ job })}
+        {renderFooter()}
         <br />
         <CountDownComponent startingDate={startingDateAndTime.date} />
       </div>
@@ -58,16 +64,10 @@ export default class JobSummaryForAwarded extends React.Component {
   }
 }
 
-let renderFooter = ({ job }) => (
+let renderFooter = () => (
   <footer className="card-footer">
     <div className="card-footer-item">
-      <a
-        className="button is-success is-fullwidth "
-        onClick={(e) => {
-          e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
-        }}
-      >
+      <a className="button is-success is-fullwidth ">
         <span style={{ marginLeft: 4 }}>
           <i className="fa fa-hand-paper" /> Contact
         </span>
