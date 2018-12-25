@@ -31,7 +31,7 @@ export const MinBidDisplayLabelValue = ({ bidsList }) => {
   let minBid = findMinBidInBidsList(bidsList);
   let lowestBidLabel = minBid ? (
     <div className="has-text-success">
-      <DisplayLabelValue labelText="Min Bid:" labelValue={`${minBid} CAD`} />
+      <DisplayLabelValue labelText="Lowest Bid:" labelValue={`${minBid} CAD`} />
     </div>
   ) : null;
   return lowestBidLabel;

@@ -51,7 +51,6 @@ export default class OthersJobSummaryCard extends React.Component {
               }
             />
             <MinBidDisplayLabelValue bidsList={_bidsListRef} />
-
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
