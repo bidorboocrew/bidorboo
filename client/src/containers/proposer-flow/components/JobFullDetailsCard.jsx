@@ -13,7 +13,7 @@ import {
 
 export default class JobFullDetailsCard extends React.Component {
   render() {
-    const { job, cardClass = 'card bidderRootSpecial is-clipped disabled' } = this.props;
+    const { job } = this.props;
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -32,7 +32,7 @@ export default class JobFullDetailsCard extends React.Component {
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className={cardClass}>
+      <div className="card is-clipped disabled">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
