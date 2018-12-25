@@ -14,6 +14,8 @@ import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
 
+import AllJobsToBidView from './components/AllJobsToBidView';
+
 const google = window.google;
 
 class BidderRoot extends React.Component {
@@ -184,6 +186,8 @@ class BidderRoot extends React.Component {
           {hasActiveSearch && <ActiveSearchFilters />}
 
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} />
+          <br />
+          <AllJobsToBidView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
         </div>
       </div>
     );
