@@ -76,7 +76,7 @@ const OtherPeoplesJobs = (props) => {
 };
 
 const MyJobs = (props) => {
-  const { isLoggedIn, userDetails, a_showLoginDialog, a_selectJobToBidOn, jobsList } = props;
+  const { userDetails, jobsList } = props;
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
@@ -86,11 +86,7 @@ const MyJobs = (props) => {
       <div key={job._id} className="column">
         <MyJobSummaryCard
           onClickHandler={() => {
-            if (!isLoggedIn) {
-              a_showLoginDialog(true);
-            } else {
-              a_selectJobToBidOn(job);
-            }
+            //xxx add handler to take you to the job page
           }}
           job={job}
           userDetails={userDetails}

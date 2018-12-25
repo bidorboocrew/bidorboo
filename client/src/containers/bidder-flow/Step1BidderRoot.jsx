@@ -232,9 +232,9 @@ const HeaderTitleAndSearch = ({ toggleSideNav }) => {
             <p className="level-item">
               <a onClick={toggleSideNav} className="button is-link">
                 <span className="icon">
-                  <i className="fas fa-search" />
+                  <i className="fas fa-filter" />
                 </span>
-                <span>Search</span>
+                <span>Filter</span>
               </a>
             </p>
           </div>

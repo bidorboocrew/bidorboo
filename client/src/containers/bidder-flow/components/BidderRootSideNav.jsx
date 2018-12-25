@@ -63,7 +63,7 @@ const SideNavTitle = ({ toggleSideNav }) => {
       <div className="level-left">
         <div className="level-item">
           <p className="subtitle has-text-light is-5">
-            <strong className="subtitle has-text-light">Search Jobs</strong>
+            <strong className="subtitle has-text-light">Filter Jobs</strong>
           </p>
         </div>
       </div>
@@ -79,11 +79,11 @@ const SideNavTitle = ({ toggleSideNav }) => {
   );
 };
 
-const SearchControls = ({ updateMapCenter, clearFilter, handleGeoSearch }) => {
+const SearchControls = ({ updateMapCenter, onCancel, handleGeoSearch }) => {
   return (
     <JobsLocationFilterForm
       updateMapCenter={updateMapCenter}
-      onCancel={clearFilter}
+      onCancel={onCancel}
       onSubmit={handleGeoSearch}
     />
   );

@@ -245,11 +245,11 @@ class JobsLocationFilterForm extends React.Component {
         <div className="field">
           <button
             style={{ marginRight: 6, marginTop: 8 }}
-            className="button is-primary "
+            className="button is-link "
             type="submit"
           >
-            <i className="fas fa-search" />
-            <span style={{ marginLeft: 4 }}>Search</span>
+            <i className="fas fa-filter" />
+            <span style={{ marginLeft: 4 }}>Apply</span>
           </button>
           <button
             style={{ marginRight: 6, marginTop: 8 }}
@@ -265,7 +265,7 @@ class JobsLocationFilterForm extends React.Component {
             }}
           >
             <i className="far fa-times-circle" />
-            <span style={{ marginLeft: 4 }}>Clear All Filters</span>
+            <span style={{ marginLeft: 4 }}>Clear All</span>
           </button>
         </div>
       </form>

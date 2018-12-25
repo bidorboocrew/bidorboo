@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-import { switchRoute } from '../../../utils';
-import * as ROUTES from '../../../constants/frontend-route-consts';
+// import { switchRoute } from '../../../utils';
+// import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import { DisplayLabelValue, CountDownComponent } from './commonComponents';
