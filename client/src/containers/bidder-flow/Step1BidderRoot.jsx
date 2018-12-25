@@ -19,15 +19,21 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 // import BidderStepper from './BidderStepper';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-const TAB_IDS = {
-  openRequests: 'Requests',
-  postedBids: 'Posted Bids',
-  mine: 'Mine',
-};
+import { TAB_IDS } from './components/commonComponents';
+
 const google = window.google;
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
+
+    let initialTabSelection = TAB_IDS.openRequests;
+    if (props.match && props.match.params && props.match.params.tabId) {
+      const { tabId } = props.match.params;
+      if (tabId && TAB_IDS[`${tabId}`]) {
+        initialTabSelection = TAB_IDS[`${tabId}`];
+      }
+    }
+
     this.state = {
       isSearchTermActive: false,
       hideMyJobs: false,
@@ -36,9 +42,22 @@ class BidderRoot extends React.Component {
         lng: -75.6972,
         lat: 45.4215,
       },
-      activeTab: TAB_IDS.openRequests,
+      activeTab: initialTabSelection,
     };
   }
+
+  componentDidMount() {
+    if (!this.props.isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
+
+    this.props.a_getAllJobsToBidOn();
+  }
+
+  changeActiveTab = (tabId) => {
+    this.setState({ activeTab: tabId });
+  };
+
   updateMapCenter = (position) => {
     this.setState({
       centerOfMap: {
@@ -53,17 +72,6 @@ class BidderRoot extends React.Component {
       isSearchTermActive: false,
     });
   };
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
-
-  componentDidMount() {
-    if (!this.props.isLoggedIn) {
-      this.props.a_getCurrentUser();
-    }
-
-    this.props.a_getAllJobsToBidOn();
-  }
 
   handleGeoSearch = (vals) => {
     let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
@@ -139,7 +147,7 @@ class BidderRoot extends React.Component {
 
     if (activeTab === TAB_IDS.openRequests) {
       currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
-    } else if (activeTab === TAB_IDS.mine) {
+    } else if (activeTab === TAB_IDS.myRequests) {
       currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
     }
 
@@ -189,14 +197,14 @@ class BidderRoot extends React.Component {
                       {TAB_IDS.openRequests}
                     </a>
                   </li>
-                  <li className={`${activeTab === TAB_IDS.mine ? 'is-active' : null}`}>
+                  <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
                     <a
                       onClick={(e) => {
                         e.preventDefault();
-                        this.changeActiveTab(TAB_IDS.mine);
+                        this.changeActiveTab(TAB_IDS.myRequests);
                       }}
                     >
-                      {TAB_IDS.mine}
+                      {TAB_IDS.myRequests}
                     </a>
                   </li>
                 </ul>
