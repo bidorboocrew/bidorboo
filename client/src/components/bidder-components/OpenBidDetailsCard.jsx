@@ -62,7 +62,7 @@ export default class OpenBidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
+              switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`);
             }}
             className="card-footer-item"
           >

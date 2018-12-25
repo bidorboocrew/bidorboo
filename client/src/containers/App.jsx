@@ -21,7 +21,7 @@ import {
   BidOnJobPage,
   MyBids,
   ReviewRequestAndBidsPage,
-  CurrentPostedBid,
+  ReviewBidAndRequestPage,
   ReviewAwardedJobAndBidsPage,
   CurrentAwardedBid,
   Verification,
@@ -99,8 +99,8 @@ class App extends React.Component {
           <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
           <Route
             exact
-            path={`${ROUTES.CLIENT.BIDDER.currentPostedBid}/:bidId`}
-            component={CurrentPostedBid}
+            path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/:bidId`}
+            component={ReviewBidAndRequestPage}
           />
           <Route
             exact

@@ -98,7 +98,7 @@ export const CLIENT = {
     root: '/bidder-root',
     BidOnJobPage: '/bidder/bid-on-job',
     mybids: '/bidder/my-bids',
-    currentPostedBid: '/bidder/bid-details',
+    reviewMyBidAndTheRequestDetails: '/bidder/review-my-bid-details',
     reviewJobPage: '/review-page',
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',

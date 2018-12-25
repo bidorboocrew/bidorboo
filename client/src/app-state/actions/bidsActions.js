@@ -44,7 +44,7 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${resp.data._id}`);
+          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${resp.data._id}`);
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

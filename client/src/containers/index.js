@@ -13,7 +13,7 @@ export { default as ReviewAwardedJobAndBidsPage } from './proposer-flow/ReviewAw
 export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 
 // bidder flow
-export { default as CurrentPostedBid } from './bidder-flow/Step3PostedBid';
+export { default as ReviewBidAndRequestPage } from './bidder-flow/ReviewBidAndRequestPage';
 export { default as CurrentAwardedBid } from './bidder-flow/CurrentAwardedBid';
 
 export { default as BidOnJobPage } from './bidder-flow/Step2BidOnJobPage';

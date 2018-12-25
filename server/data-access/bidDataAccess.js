@@ -101,8 +101,9 @@ exports.bidDataAccess = {
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
             populate: {
-              path: '_jobRef',
+              path: '_jobRef _bidderRef',
               select: {
+                _id: 1,
                 _ownerRef: 1,
                 title: 1,
                 state: 1,
@@ -115,13 +116,18 @@ exports.bidDataAccess = {
                 reported: 1,
                 createdAt: 1,
                 updatedAt: 1,
+                displayName: 1,
+                rating: 1,
+                profileImage: 1,
+                email: 1,
+                phone: 1,
               },
               populate: {
                 path: '_ownerRef',
                 select: {
                   _id: 1,
                   displayName: 1,
-                  globalRating: 1,
+                  rating: 1,
                   profileImage: 1,
                 },
               },

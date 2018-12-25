@@ -66,7 +66,7 @@ const associatedUserActions = (job, currentUserId) => {
   let bid = didUserAlreadyBid(job, currentUserId);
   // let booed = didUserAlreadyBoo(job, currentUserId);
 
-  return viewed || bid ? (
+  return viewed ? (
     <footer className="card-footer">
       <div style={{ padding: 10 }} className="tags are-medium">
         <div className="has-text-grey tag is-white">You: </div>
@@ -104,13 +104,13 @@ const didUserAlreadyView = (job, currentUserId) => {
   return didUserAlreadyView;
 };
 
-const didUserAlreadyBoo = (job, currentUserId) => {
-  if (!job.booedBy || !job.booedBy.length > 0) {
-    return false;
-  }
+// const didUserAlreadyBoo = (job, currentUserId) => {
+//   if (!job.booedBy || !job.booedBy.length > 0) {
+//     return false;
+//   }
 
-  let didUserAlreadyBoo = job.booedBy.some((usrId) => {
-    return usrId === currentUserId;
-  });
-  return didUserAlreadyBoo;
-};
+//   let didUserAlreadyBoo = job.booedBy.some((usrId) => {
+//     return usrId === currentUserId;
+//   });
+//   return didUserAlreadyBoo;
+// };
