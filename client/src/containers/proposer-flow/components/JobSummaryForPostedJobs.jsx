@@ -5,11 +5,11 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from './commonComponents';
+import { DisplayLabelValue, CountDownComponent } from '../../commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
-    const { job, userDetails, deleteJob, notificationFeed } = this.props;
+    const { job, deleteJob, notificationFeed } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -19,16 +19,6 @@ export default class JobSummaryForPostedJobs extends React.Component {
       viewedBy,
     } = job;
 
-    // in case we cant find the job
-    if (!templatesRepo[fromTemplateId]) {
-      return null;
-    }
-
-    let temp = userDetails
-      ? userDetails
-      : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
-
-    const { profileImage, displayName, rating } = temp;
     let daysSinceCreated = '';
     try {
       daysSinceCreated = createdAt
@@ -101,18 +91,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
         </div>
         {renderFooter({ job, notificationFeed })}
         <br />
-        <CountDownComponent
-          startingDate={startingDateAndTime.date}
-          render={({ days, hours, minutes, seconds }) => {
-            return (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
+        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );
   }

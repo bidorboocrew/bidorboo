@@ -9,7 +9,7 @@ import {
 } from '../../app-state/actions/jobActions';
 import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
-import { TAB_IDS } from './components/commonComponents';
+import { TAB_IDS } from './components/helperComponents';
 
 class MyOpenJobsPage extends React.Component {
   constructor(props) {

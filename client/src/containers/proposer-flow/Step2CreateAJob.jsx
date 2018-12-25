@@ -62,7 +62,7 @@ class CreateAJob extends React.Component {
                   lines={2}
                   more="Show more"
                   less="Show less"
-                  anchorClass=""
+                  anchorclassName=""
                 >
                   {this.state.chosenTemplate.description}
                 </ShowMore>

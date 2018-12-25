@@ -6,7 +6,7 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
-import { TAB_IDS } from './components/commonComponents';
+import { TAB_IDS } from './components/helperComponents';
 import BidderRootSideNav from './components/BidderRootSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
 

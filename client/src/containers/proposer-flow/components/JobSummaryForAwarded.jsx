@@ -5,39 +5,15 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from './commonComponents';
+import { DisplayLabelValue, CountDownComponent, UserImageAndRating } from '../../commonComponents';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
     const { job } = this.props;
     const { startingDateAndTime, createdAt, fromTemplateId } = job;
 
-    // in case we cant find the job
-    if (!templatesRepo[fromTemplateId]) {
-      return null;
-    }
-
     const { _awardedBidRef } = job;
     const { bidAmount, _bidderRef } = _awardedBidRef;
-
-    let temp = _bidderRef
-      ? _bidderRef
-      : {
-          profileImage: { url: '' },
-          displayName: '',
-          rating: { globalRating: 'No Ratings Yet' },
-        };
-
-    const { profileImage, displayName, rating } = temp;
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
 
     return (
       <div className="card bidderRootSpecial is-clipped">
@@ -61,11 +37,9 @@ export default class JobSummaryForAwarded extends React.Component {
               labelValue={bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
             />
 
-            <DisplayLabelValue labelText="Awarded Bidder Name:" labelValue={displayName} />
-            <DisplayLabelValue
-              labelText="Awarded Bidder Rating:"
-              labelValue={rating.globalRating}
-            />
+            <div className="has-text-dark is-size-7">Awarded Bidder:</div>
+            <UserImageAndRating userDetails={_bidderRef} />
+
             <DisplayLabelValue
               labelText="Job Start Date:"
               labelValue={
@@ -76,18 +50,7 @@ export default class JobSummaryForAwarded extends React.Component {
         </div>
         {renderFooter({ job })}
         <br />
-        <CountDownComponent
-          startingDate={startingDateAndTime.date}
-          render={({ days, hours, minutes, seconds }) => {
-            return (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
+        <CountDownComponent startingDate={startingDateAndTime.date} />
       </div>
     );
   }

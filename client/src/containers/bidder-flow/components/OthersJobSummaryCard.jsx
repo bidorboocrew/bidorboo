@@ -5,11 +5,18 @@ import moment from 'moment';
 // import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from './commonComponents';
+import {
+  MinBidDisplayLabelValue,
+  DisplayLabelValue,
+  CountDownComponent,
+  UserImageAndRating,
+  JobStats,
+  CardTitleWithBidCount,
+} from '../../commonComponents';
 
 export default class OthersJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, isLoggedIn } = this.props;
+    const { job, userDetails } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -18,16 +25,6 @@ export default class OthersJobSummaryCard extends React.Component {
       viewedBy,
       _ownerRef,
     } = job;
-
-    // in case we cant find the job
-    if (!templatesRepo[fromTemplateId]) {
-      return null;
-    }
-    let temp = _ownerRef
-      ? _ownerRef
-      : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
-
-    const { profileImage, displayName, rating } = temp;
 
     let daysSinceCreated = '';
     try {
@@ -39,22 +36,9 @@ export default class OthersJobSummaryCard extends React.Component {
       console.error(e);
     }
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-    const areThereAnyBidders = _bidsListRef && _bidsListRef.length > 0;
     return (
       <div className="card bidderRootSpecial is-clipped">
-        <header
-          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header is-clipped"
-        >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
-
-          <a className="card-header-icon">
-            <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
-              <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-              {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
-            </span>
-          </a>
-        </header>
+        <CardTitleWithBidCount fromTemplateId={fromTemplateId} bidsList={_bidsListRef} />
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
         </div>
@@ -63,18 +47,8 @@ export default class OthersJobSummaryCard extends React.Component {
           className="card-content"
         >
           <div className="has-text-dark is-size-7">Owner:</div>
+          <UserImageAndRating userDetails={_ownerRef} />
 
-          <div className="media">
-            <div className="media-left">
-              <figure className="image is-48x48">
-                <img src={profileImage.url} alt="Placeholder image" />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="is-size-6">{displayName}</p>
-              <p className="is-size-7">{rating.globalRating}</p>
-            </div>
-          </div>
           <div className="content">
             <DisplayLabelValue
               labelText="Start Date:"
@@ -82,38 +56,18 @@ export default class OthersJobSummaryCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
+            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
 
-            <DisplayLabelValue
-              labelText="Viewed:"
-              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
-            />
-
-            <p className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`Posted (${daysSinceCreated} ago)`}
-              </span>
-            </p>
+            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         {associatedUserActions(job, currentUserId)}
         <br />
-        <CountDownComponent
-          startingDate={startingDateAndTime.date}
-          render={({ days, hours, minutes, seconds }) => {
-            return (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
+        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );
   }
 }
-
 
 const associatedUserActions = (job, currentUserId) => {
   let viewed = didUserAlreadyView(job, currentUserId);
@@ -125,7 +79,11 @@ const associatedUserActions = (job, currentUserId) => {
       <div style={{ padding: 10 }} className="tags are-medium">
         <div className="has-text-grey tag is-white">You: </div>
         {viewed && <div className="tag is-light">Viewed</div>}
-        {bid && <div className="tag is-success">Bid</div>}
+        {bid && (
+          <div className="tag is-light">
+            <span className="has-text-success">Bid</span>
+          </div>
+        )}
         {/* {booed && !didUserAlreadyBid && <div className="tag is-danger">Booed</div>} */}
       </div>
     </footer>

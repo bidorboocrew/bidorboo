@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
-import { TAB_IDS } from './commonComponents';
+import { TAB_IDS } from './helperComponents';
 
 import OthersJobSummaryCard from './OthersJobSummaryCard';
 import MyJobSummaryCard from './MyJobSummaryCard';

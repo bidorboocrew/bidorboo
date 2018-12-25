@@ -19,7 +19,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 // import BidderStepper from './BidderStepper';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { TAB_IDS } from './components/commonComponents';
+import { TAB_IDS } from './components/helperComponents';
 
 const google = window.google;
 class BidderRoot extends React.Component {

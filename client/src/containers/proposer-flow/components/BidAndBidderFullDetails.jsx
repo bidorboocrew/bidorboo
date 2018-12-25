@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AddAwardedJobToCalendar } from './commonComponents';
+import { AddAwardedJobToCalendar } from './helperComponents';
 
 export default class ReviewBidAndBidder extends React.Component {
   constructor(props) {
