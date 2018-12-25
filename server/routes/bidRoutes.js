@@ -52,7 +52,7 @@ module.exports = (app) => {
       if (req.query && req.query.awardedBidId) {
         const { awardedBidId } = req.query;
         const userMongoDBId = req.user._id;
-        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, awardedBidId);
+        const userBid = await bidDataAccess.getAwardedBidDetails(userMongoDBId, awardedBidId);
         return res.send(userBid);
       } else {
         return res.status(400).send({

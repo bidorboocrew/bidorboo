@@ -21,11 +21,9 @@ export default class JobDetailsForBidder extends React.Component {
       _ownerRef,
       state,
       viewedBy,
-      booedBy,
       detailedDescription,
       durationOfJob,
       fromTemplateId,
-      reported,
       createdAt,
     } = job;
 
@@ -62,19 +60,6 @@ export default class JobDetailsForBidder extends React.Component {
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
             <MinBidDisplayLabelValue bidsList={_bidsListRef} />
-
-            <DisplayLabelValue
-              labelText="Bids:"
-              labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
-            />
-            <DisplayLabelValue
-              labelText="Booed:"
-              labelValue={`${booedBy ? booedBy.length : 0} times`}
-            />
-            <DisplayLabelValue
-              labelText="Reported:"
-              labelValue={`${reported ? reported.length : 0} times`}
-            />
 
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">

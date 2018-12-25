@@ -127,7 +127,6 @@ class BidderRoot extends React.Component {
   };
 
   updateMapCenter = (pos) => {
-    debugger;
     this.setState({
       mapCenterPoint: {
         ...pos,

@@ -8,7 +8,7 @@ export default class MyAwardedBidDetails extends React.Component {
       return null;
     }
 
-    const { rating, displayName, profileImage, email, phone } = job._ownerRef;
+    const { rating, displayName, profileImage } = job._ownerRef;
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
@@ -21,11 +21,14 @@ export default class MyAwardedBidDetails extends React.Component {
       >
         <header style={{ borderBottom: '1px solid white' }} className="card-header is-clipped">
           <p style={{ color: 'white' }} className="card-header-title">
-            Requester Details
+            Bid Details
           </p>
         </header>
         <div className="card-content">
           <br />
+          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+            Requester Info
+          </div>
           <div className="media">
             <div
               style={{
@@ -45,30 +48,22 @@ export default class MyAwardedBidDetails extends React.Component {
               <p className="is-size-6">{bidderOverallRating}</p>
             </div>
           </div>
-
-          <div className="is-size-7" />
-          <br />
-          <div
-            style={{ marginBottom: 6 }}
-            className="has-text-weight-bold is-size-5 has-text-success"
-          >
-            Your Info
-          </div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
-          <DisplayLabelValue
-            labelText="Phone Number:"
-            labelValue={phone.phoneNumber || 'not provided'}
-          />
-          <div style={{ marginBottom: 6 }}>
-            <div className="has-text-light is-size-7">Bid Amount :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
+          <div className="help">* contact info will be displayed when you are awarded</div>
+
+          <br />
+          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+            Your Bid Info
           </div>
           <div style={{ marginBottom: 6 }}>
-            <div className="has-text-light is-size-7">Bid Status :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-success">Awarded</div>
+            <div className="has-text-light is-size-7">Your Bid:</div>
+            <div className="has-text-weight-bold is-size-6 has-text-warning">{`${bidAmount} ${bidCurrency}`}</div>
           </div>
-          <div className="help">* you will recieve the payment after completing the task</div>
+          <div style={{ marginBottom: 6 }}>
+            <div className="has-text-light is-size-7">Your Bid Status :</div>
+            <div className="has-text-weight-bold is-size-6 has-text-warning">Pending</div>
+          </div>
+          <div className="help">* Requester did not award this job to anyone yet</div>
         </div>
       </div>
     );

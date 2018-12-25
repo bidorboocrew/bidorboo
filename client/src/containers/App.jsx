@@ -23,7 +23,7 @@ import {
   ReviewRequestAndBidsPage,
   ReviewBidAndRequestPage,
   ReviewAwardedJobAndBidsPage,
-  CurrentAwardedBid,
+  ReviewAwardedBidPage,
   Verification,
 } from './index';
 
@@ -105,7 +105,7 @@ class App extends React.Component {
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
-            component={CurrentAwardedBid}
+            component={ReviewAwardedBidPage}
           />
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={Verification} />

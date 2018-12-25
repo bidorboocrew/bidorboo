@@ -95,12 +95,12 @@ export const getMyAwardedBids = () => (dispatch) => {
   });
 };
 
-export const getAwardedBidDetails = (openBidId) => (dispatch) => {
+export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    type: A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS,
     payload: axios
-      .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .get(ROUTES.API.BID.GET.awardedBidDetails, { params: { awardedBidId } })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),

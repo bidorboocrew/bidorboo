@@ -6,17 +6,16 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
-import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
+import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 import OthersJobDetailsCard from './components/OthersJobDetailsCard';
-import RequesterAndMyOpenBidDetailsCard from './components/RequesterAndMyOpenBidDetailsCard';
+import RequesterAndMyAwardedBidDetailsCard from './components/RequesterAndMyAwardedBidDetailsCard';
 
-class ReviewOpenBidAndRequestPage extends React.Component {
+class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
     super(props);
     this.bidId = null;
-
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
@@ -28,8 +27,8 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
       return null;
     }
-
-    this.props.a_getOpenBidDetails(this.bidId);
+debugger
+    this.props.a_getAwardedBidDetails(this.bidId);
   }
 
   showBidReviewModal = (bid) => {
@@ -40,13 +39,15 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid } = this.props;
+    const { selectedAwardedBid } = this.props;
     // while fetching the job
+    debugger;
+
     if (
-      !selectedOpenBid ||
-      !selectedOpenBid._id ||
-      !selectedOpenBid._jobRef ||
-      !selectedOpenBid._jobRef._id
+      !selectedAwardedBid ||
+      !selectedAwardedBid._id ||
+      !selectedAwardedBid._jobRef ||
+      !selectedAwardedBid._jobRef._id
     ) {
       return (
         <section className="section">
@@ -57,7 +58,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       );
     }
 
-    const selectedAwardedJob = selectedOpenBid._jobRef;
+    const selectedAwardedJob = selectedAwardedBid._jobRef;
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
@@ -80,7 +81,10 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
               <div className="column is-4">
-                <RequesterAndMyOpenBidDetailsCard bid={selectedOpenBid} job={selectedAwardedJob} />
+                <RequesterAndMyAwardedBidDetailsCard
+                  bid={selectedAwardedBid}
+                  job={selectedAwardedJob}
+                />
               </div>
               <div className="column">
                 <OthersJobDetailsCard job={selectedAwardedJob} />
@@ -95,7 +99,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
 const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
-    selectedOpenBid: bidsReducer.selectedOpenBid,
+    selectedAwardedBid: bidsReducer.selectedAwardedBid,
     isLoading: bidsReducer.isLoadingBids,
     currentUserDetails: userReducer.userDetails,
   };
@@ -103,14 +107,14 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+    a_getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewOpenBidAndRequestPage);
+)(ReviewAwardedBidPage);
 
 const breadCrumbs = ({ activePageTitle }) => {
   return (

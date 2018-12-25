@@ -108,7 +108,7 @@ export const UserImageAndRating = ({ userDetails }) => {
 
 export const JobStats = ({ daysSinceCreated, viewedBy }) => {
   return (
-    <nav style={{ marginTop: 6 }} className="level">
+    <nav style={{ marginTop: 6 }} className="level is-mobile">
       <div className="level-left">
         <div className="level-item">
           <span style={{ fontSize: '10px', color: 'grey' }}>

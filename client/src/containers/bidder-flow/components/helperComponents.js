@@ -1,7 +1,6 @@
 import React from 'react';
 import AddToCalendar from 'react-add-to-calendar';
 import moment from 'moment';
-import Countdown from 'react-countdown-now';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
@@ -15,18 +14,15 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     return null;
   }
 
-  const { startingDateAndTime, _awardedBidRef, addressText, fromTemplateId } = job;
-  const { _bidderRef } = _awardedBidRef;
+  const { startingDateAndTime, addressText, fromTemplateId } = job;
 
-  const { email, phone } = _bidderRef;
+  const { email, phone, displayName } = job._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
   const title = `BidOrBoo: ${templatesRepo[fromTemplateId].title} request`;
-  const description = `${
-    _bidderRef.displayName
-  } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;
+  const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   let event = {
     title,
@@ -45,5 +41,3 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     />
   );
 };
-
-
