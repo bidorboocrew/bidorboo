@@ -14,7 +14,7 @@ export default class BidsTable extends React.Component {
   };
 
   render() {
-    const { bidList, onViewBidDetails } = this.props;
+    const { bidList } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
 

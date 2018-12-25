@@ -48,7 +48,6 @@ const EmptyStateComponent = (props) => (
 
 const AwardedRequests = (props) => {
   const { jobsList } = props;
-
   const myAwardedJobs = jobsList.map((job) => {
     return (
       <div key={job._id} className="column">
