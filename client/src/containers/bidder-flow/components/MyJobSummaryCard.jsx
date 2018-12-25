@@ -6,6 +6,7 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   CardTitleWithBidCount,
+  JobStats,
 } from '../../commonComponents';
 
 export default class MyJobSummaryCard extends React.Component {
@@ -41,17 +42,7 @@ export default class MyJobSummaryCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-
-            <DisplayLabelValue
-              labelText="Viewed:"
-              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
-            />
-
-            <p className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`Posted (${daysSinceCreated} ago)`}
-              </span>
-            </p>
+            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         <br />
