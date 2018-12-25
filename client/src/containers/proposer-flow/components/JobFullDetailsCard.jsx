@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import Countdown from 'react-countdown-now';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import { DisplayLabelValue, CountDownComponent } from './commonComponents';
 
 export default class JobFullDetailsCard extends React.Component {
   render() {
@@ -121,52 +121,19 @@ export default class JobFullDetailsCard extends React.Component {
           </div>
         </div>
         <br />
-        {countDownToStart({ startingDate: startingDateAndTime.date })}
-      </div>
-    );
-  }
-}
-
-const countDownToStart = (props) => {
-  const { startingDate } = props;
-  return (
-    <React.Fragment>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          background: 'lightgrey',
-        }}
-        className="is-size-7 has-text-white has-text-centered"
-      >
-        <Countdown
-          date={startingDate || new Date()}
-          intervalDelay={1000}
-          renderer={({ days, hours, minutes, seconds, completed }) => {
-            return completed ? (
-              <Expired />
-            ) : (
+        <CountDownComponent
+          startingDate={startingDateAndTime.date}
+          render={({ days, hours, minutes, seconds }) => {
+            return (
               <React.Fragment>
                 {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                  <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
                 ) : null}
               </React.Fragment>
             );
           }}
         />
       </div>
-    </React.Fragment>
-  );
-};
-const Expired = () => <div className="has-text-danger">Expired!</div>;
-
-const DisplayLabelValue = (props) => {
-  return (
-    <div>
-      <div className="has-text-dark is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
-    </div>
-  );
-};
+    );
+  }
+}

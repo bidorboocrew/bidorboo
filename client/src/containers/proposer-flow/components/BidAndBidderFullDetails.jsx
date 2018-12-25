@@ -62,7 +62,12 @@ export default class ReviewBidAndBidder extends React.Component {
 
           <div className="is-size-7" />
           <br />
-          <div className="has-text-weight-bold is-size-5 has-text-success">Contact Info</div>
+          <div
+            style={{ marginBottom: 6 }}
+            className="has-text-weight-bold is-size-5 has-text-success"
+          >
+            Contact Info
+          </div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
           <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
           <DisplayLabelValue
@@ -80,7 +85,7 @@ export default class ReviewBidAndBidder extends React.Component {
 
 const DisplayLabelValue = (props) => {
   return (
-    <div>
+    <div style={{ marginBottom: 6 }}>
       <div className="has-text-light is-size-7">{props.labelText}</div>
       <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
     </div>

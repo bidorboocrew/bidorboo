@@ -4,9 +4,8 @@ import moment from 'moment';
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
-import Countdown from 'react-countdown-now';
-
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import { DisplayLabelValue, CountDownComponent } from './commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
@@ -16,7 +15,6 @@ export default class JobSummaryForPostedJobs extends React.Component {
       createdAt,
       fromTemplateId,
       _bidsListRef,
-      booedBy,
       addressText,
       viewedBy,
     } = job;
@@ -73,7 +71,6 @@ export default class JobSummaryForPostedJobs extends React.Component {
             </span>
           </a>
         </header>
-
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
         </div>
@@ -104,45 +101,22 @@ export default class JobSummaryForPostedJobs extends React.Component {
         </div>
         {renderFooter({ job, notificationFeed })}
         <br />
-        {countDownToStart({ startingDate: startingDateAndTime.date })}
+        <CountDownComponent
+          startingDate={startingDateAndTime.date}
+          render={({ days, hours, minutes, seconds }) => {
+            return (
+              <React.Fragment>
+                {days && !`${days}`.includes('NaN') ? (
+                  <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                ) : null}
+              </React.Fragment>
+            );
+          }}
+        />
       </div>
     );
   }
 }
-
-const Expired = () => <div className="has-text-danger">Expired!</div>;
-
-const countDownToStart = (props) => {
-  const { startingDate } = props;
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        background: 'lightgrey',
-      }}
-      className="is-size-7 has-text-white has-text-centered"
-    >
-      <Countdown
-        date={startingDate || new Date()}
-        intervalDelay={1000}
-        renderer={({ days, hours, minutes, seconds, completed }) => {
-          return completed ? (
-            <Expired />
-          ) : (
-            <React.Fragment>
-              {days && !`${days}`.includes('NaN') ? (
-                <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-              ) : null}
-            </React.Fragment>
-          );
-        }}
-      />
-    </div>
-  );
-};
 
 const renderFooter = ({ job, notificationFeed }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
@@ -181,14 +155,5 @@ const renderFooter = ({ job, notificationFeed }) => {
         </a>
       </div>
     </footer>
-  );
-};
-
-const DisplayLabelValue = (props) => {
-  return (
-    <div>
-      <div className="has-text-dark is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
-    </div>
   );
 };

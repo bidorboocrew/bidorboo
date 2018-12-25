@@ -215,7 +215,7 @@ class JobsToBidOnSummaryCard extends React.Component {
               ) : (
                 <React.Fragment>
                   {days && !`${days}`.includes('NaN') ? (
-                    <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                    <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
                   ) : null}
                 </React.Fragment>
               );

@@ -1,6 +1,7 @@
 import React from 'react';
 import AddToCalendar from 'react-add-to-calendar';
 import moment from 'moment';
+import Countdown from 'react-countdown-now';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
@@ -39,3 +40,45 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     />
   );
 };
+
+export const DisplayLabelValue = (props) => {
+  return (
+    <div>
+      <div className="has-text-dark is-size-7">{props.labelText}</div>
+      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+    </div>
+  );
+};
+
+export const CountDownComponent = (props) => {
+  const { startingDate, render } = props;
+  return (
+    <React.Fragment>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          background: 'lightgrey',
+        }}
+        className="is-size-7 has-text-white has-text-centered"
+      >
+        <Countdown
+          date={startingDate || new Date()}
+          intervalDelay={1000}
+          renderer={({ days, hours, minutes, seconds, completed }) => {
+            return completed ? (
+              <Expired />
+            ) : (
+              <React.Fragment>
+                {render({ days, hours, minutes, seconds, completed })}
+              </React.Fragment>
+            );
+          }}
+        />
+      </div>
+    </React.Fragment>
+  );
+};
+const Expired = () => <div className="has-text-danger">Expired!</div>;
