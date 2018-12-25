@@ -5,6 +5,12 @@ import Countdown from 'react-countdown-now';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
+
+export const TAB_IDS = {
+  awardedJobs: 'Awarded',
+  postedJobs: 'Posted',
+};
+
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;

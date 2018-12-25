@@ -9,11 +9,8 @@ import {
 } from '../../app-state/actions/jobActions';
 import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
+import { TAB_IDS } from './components/commonComponents';
 
-const TAB_IDS = {
-  awardedJobs: 'Awarded',
-  postedJobs: 'Posted',
-};
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);

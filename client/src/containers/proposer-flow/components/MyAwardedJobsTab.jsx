@@ -1,11 +1,8 @@
 import React from 'react';
 
 import JobSummaryForAwarded from './JobSummaryForAwarded';
+import { TAB_IDS } from './commonComponents';
 
-const TAB_IDS = {
-  awardedJobs: 'Awarded',
-  postedJobs: 'Posted',
-};
 class MyAwardedJobsTab extends React.Component {
   render() {
     const { jobsList } = this.props;

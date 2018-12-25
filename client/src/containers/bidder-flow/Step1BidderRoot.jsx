@@ -1,5 +1,4 @@
 import React from 'react';
-import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -39,32 +38,24 @@ class BidderRoot extends React.Component {
       },
       activeTab: TAB_IDS.openRequests,
     };
-    autoBind(
-      this,
-      'clearFilter',
-      'updateMapCenter',
-      'toggleFilterDialog',
-      'changeActiveTab',
-      'handleGeoSearch',
-    );
   }
-  updateMapCenter(position) {
+  updateMapCenter = (position) => {
     this.setState({
       centerOfMap: {
         lng: position.lng,
         lat: position.lat,
       },
     });
-  }
-  clearFilter() {
+  };
+  clearFilter = () => {
     this.setState({
       displayedJobList: this.props.ListOfJobsToBidOn,
       isSearchTermActive: false,
     });
-  }
-  changeActiveTab(tabId) {
+  };
+  changeActiveTab = (tabId) => {
     this.setState({ activeTab: tabId });
-  }
+  };
 
   componentDidMount() {
     if (!this.props.isLoggedIn) {
@@ -74,7 +65,7 @@ class BidderRoot extends React.Component {
     this.props.a_getAllJobsToBidOn();
   }
 
-  handleGeoSearch(vals) {
+  handleGeoSearch = (vals) => {
     let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
     let filteredJobs = this.props.ListOfJobsToBidOn;
 
@@ -126,7 +117,7 @@ class BidderRoot extends React.Component {
         lng: locationField.lng,
       },
     });
-  }
+  };
 
   render() {
     const {
