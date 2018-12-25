@@ -12,6 +12,10 @@ import ActiveSearchFilters from './components/ActiveSearchFilters';
 
 import { Spinner } from '../../components/Spinner';
 
+import MapSection from './map/MapSection';
+
+const google = window.google;
+
 class BidderRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -25,8 +29,13 @@ class BidderRoot extends React.Component {
     }
 
     this.state = {
+      displayedJobList: this.props.ListOfJobsToBidOn,
       activeTab: initialTabSelection,
       showSideNav: false,
+      mapCenterPoint: {
+        lng: -75.6972,
+        lat: 45.4215,
+      },
     };
   }
 
@@ -38,6 +47,67 @@ class BidderRoot extends React.Component {
     a_getAllJobsToBidOn();
   }
 
+  clearFilter = () => {
+    this.setState({
+      displayedJobList: this.props.ListOfJobsToBidOn,
+      hasActiveSearch: false,
+    });
+  };
+
+  handleGeoSearch = (vals) => {
+    let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
+    let filteredJobs = this.props.ListOfJobsToBidOn;
+
+    if (filterJobsByCategoryField && filterJobsByCategoryField.length > 0) {
+      // filter by type first
+      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
+        if (
+          filterJobsByCategoryField &&
+          filterJobsByCategoryField.length > 0 &&
+          !filterJobsByCategoryField.includes(job.fromTemplateId)
+        ) {
+          return false;
+        }
+        return true;
+      });
+    }
+
+    if (locationField && searchRaduisField) {
+      let searchArea = new google.maps.Circle({
+        center: new google.maps.LatLng(locationField.lat, locationField.lng),
+        radius: searchRaduisField * 1000, //in KM
+      });
+      const center = searchArea.getCenter();
+      const raduis = searchArea.getRadius();
+
+      filteredJobs = filteredJobs.filter((job) => {
+        let marker = new google.maps.LatLng(
+          job.location.coordinates[1],
+          job.location.coordinates[0],
+        );
+
+        if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
+          return true;
+        }
+        return false;
+      });
+    }
+    if (!locationField || !locationField.lat || !locationField.lng) {
+      locationField = {
+        lat: 45.4215,
+        lng: -75.6972,
+      };
+    }
+    this.setState({
+      hasActiveSearch: true,
+      displayedJobList: filteredJobs,
+      mapCenterPoint: {
+        lat: locationField.lat,
+        lng: locationField.lng,
+      },
+    });
+  };
+
   changeActiveTab = (tabId) => {
     this.setState({ activeTab: tabId });
   };
@@ -47,34 +117,56 @@ class BidderRoot extends React.Component {
   };
 
   render() {
-    const { isLoading } = this.props;
-    const { activeTab, showSideNav } = this.state;
+    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
       return (
         <section className="section">
-          <div className="container">
+          <div className="container is-fluid">
             <Spinner isLoading={isLoading} size={'large'} />
           </div>
         </section>
       );
     }
 
+    const {
+      activeTab,
+      showSideNav,
+      displayedJobList,
+      mapCenterPoint,
+      hasActiveSearch,
+    } = this.state;
+
+    let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
+    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
+
+    if (isLoggedIn) {
+      if (activeTab === TAB_IDS.openRequests) {
+        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
+      } else if (activeTab === TAB_IDS.myRequests) {
+        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
+      }
+    }
+
     return (
       <div className="bdbPage">
         <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
-        <Tabs activeTab={activeTab} changeActiveTab={this.changeActiveTab} />
-        <section style={{ paddingTop: '0.5rem' }} className="section">
-          <div className="container">
-            <ActiveSearchFilters />
-            <BidderRootSideNav
-              isSideNavOpen={showSideNav}
-              toggleSideNav={this.toggleSideNav}
-              updateMapCenter={this.updateMapCenter}
-              onCancel={this.clearFilter}
-              handleGeoSearch={this.handleGeoSearch}
-            />
-          </div>
-        </section>
+        <Tabs
+          activeTab={activeTab}
+          changeActiveTab={this.changeActiveTab}
+          isLoggedIn={isLoggedIn}
+        />
+        <BidderRootSideNav
+          isSideNavOpen={showSideNav}
+          toggleSideNav={this.toggleSideNav}
+          updateMapCenter={this.updateMapCenter}
+          onCancel={this.clearFilter}
+          handleGeoSearch={this.handleGeoSearch}
+        />
+        <div style={{ padding: '0.5rem' }}>
+          {hasActiveSearch && <ActiveSearchFilters />}
+
+          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} />
+        </div>
       </div>
     );
   }
@@ -82,12 +174,10 @@ class BidderRoot extends React.Component {
 
 const mapStateToProps = ({ jobsReducer, userReducer }) => {
   return {
-    error: jobsReducer.error,
     isLoading: jobsReducer.isLoading,
-    ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
-    mapCenterPoint: jobsReducer.mapCenterPoint,
     userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
+    ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
   };
 };
 
@@ -132,7 +222,7 @@ const HeaderTitleAndSearch = ({ toggleSideNav }) => {
   );
 };
 
-const Tabs = ({ activeTab, changeActiveTab }) => {
+const Tabs = ({ activeTab, changeActiveTab, isLoggedIn }) => {
   return (
     <div className="tabs is-marginless">
       <ul>
@@ -146,16 +236,18 @@ const Tabs = ({ activeTab, changeActiveTab }) => {
             {TAB_IDS.openRequests}
           </a>
         </li>
-        <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              changeActiveTab(TAB_IDS.myRequests);
-            }}
-          >
-            {TAB_IDS.myRequests}
-          </a>
-        </li>
+        {isLoggedIn && (
+          <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                changeActiveTab(TAB_IDS.myRequests);
+              }}
+            >
+              {TAB_IDS.myRequests}
+            </a>
+          </li>
+        )}
       </ul>
     </div>
   );

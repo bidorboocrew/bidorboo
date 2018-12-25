@@ -39,26 +39,20 @@ export default class BidderRootSideNav extends React.Component {
     const { isSideNavOpen } = this.props;
     const { titleHeight } = this.state;
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            <SideNav
-              navStyle={{ background: '#eee', overflowY: 'auto', overflowX: 'hidden' }}
-              openFromRight
-              showNav={isSideNavOpen}
-              titleStyle={{
-                marginTop: `${titleHeight}rem`,
-                lineHeight: 'none',
-                background: '#3273dc',
-                padding: '1.5rem 1rem',
-              }}
-              itemStyle={{ padding: 0 }}
-              title={<SideNavTitle {...this.props} />}
-              items={[<SearchControls {...this.props} />]}
-            />
-          </div>
-        </section>
-      </div>
+      <SideNav
+        navStyle={{ background: '#eee', overflowY: 'auto', overflowX: 'hidden' }}
+        openFromRight
+        showNav={isSideNavOpen}
+        titleStyle={{
+          marginTop: `${titleHeight}rem`,
+          lineHeight: 'none',
+          background: '#3273dc',
+          padding: '1.5rem 1rem',
+        }}
+        itemStyle={{ padding: 0 }}
+        title={<SideNavTitle {...this.props} />}
+        items={[<SearchControls {...this.props} />]}
+      />
     );
   }
 }

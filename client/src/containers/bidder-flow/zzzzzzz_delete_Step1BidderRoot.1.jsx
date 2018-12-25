@@ -209,6 +209,9 @@ class BidderRoot extends React.Component {
                   </li>
                 </ul>
               </div>
+
+
+
               <section className="section">
                 <BidderMapSection
                   selectJobToBidOn={a_selectJobToBidOn}
