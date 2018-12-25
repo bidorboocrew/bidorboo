@@ -8,15 +8,15 @@ export default class BidderRootSideNav extends React.Component {
     super(props);
 
     this.state = {
-      titleHeight: window.innerWidth > 1024 ? 5 : 3.25,
+      titleHeight: window.innerWidth >= 1087 ? 5 : 3.25,
     };
 
     this.handleWindowSizeChange = () => {
-      if (window.innerWidth > 1024 && this.state.titleHeight !== 5.25) {
+      if (window.innerWidth >= 1087 && this.state.titleHeight !== 5) {
         this.setState({
           titleHeight: 5,
         });
-      } else if (window.innerWidth < 1024 && this.state.titleHeight !== 3.25) {
+      } else if (window.innerWidth < 1087 && this.state.titleHeight !== 3.25) {
         this.setState({
           titleHeight: 3.25,
         });
@@ -36,18 +36,21 @@ export default class BidderRootSideNav extends React.Component {
   }
 
   render() {
-    const { showNav } = this.props;
+    const { isSideNavOpen } = this.props;
     const { titleHeight } = this.state;
     return (
       <div className="bdbPage">
         <section className="section">
           <div className="container">
             <SideNav
+              navStyle={{ background: '#eee' }}
               openFromRight
-              showNav={showNav}
+              showNav={isSideNavOpen}
               titleStyle={{
                 marginTop: `${titleHeight}rem`,
                 lineHeight: 'none',
+                background: '#3273dc',
+                padding: '1.5rem 1rem',
               }}
               itemStyle={{ padding: 0 }}
               title={<SideNavTitle {...this.props} />}

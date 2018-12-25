@@ -125,8 +125,9 @@ class JobsLocationFilterForm extends React.Component {
     return (
       <form
         style={{
-          padding: 10,
+          padding: '1rem',
           backgroundColor: '#eee',
+          height: '100%',
         }}
         onSubmit={handleSubmit}
       >
