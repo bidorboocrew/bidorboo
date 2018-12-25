@@ -12,7 +12,6 @@ import autoBind from 'react-autobind';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import classNames from 'classnames';
 import { withFormik } from 'formik';
-import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput } from './FormsHelpers';
 

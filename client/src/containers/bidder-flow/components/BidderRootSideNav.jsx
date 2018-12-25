@@ -1,20 +1,57 @@
 import React from 'react';
 // https://github.com/gauravchl/react-simple-sidenav
 import SideNav from 'react-simple-sidenav';
+import JobsLocationFilterForm from '../../../components/forms/JobsLocationFilterForm';
 
 export default class BidderRootSideNav extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      titleHeight: window.innerWidth > 1024 ? 5 : 3.25,
+    };
+
+    this.handleWindowSizeChange = () => {
+      if (window.innerWidth > 1024 && this.state.titleHeight !== 5.25) {
+        this.setState({
+          titleHeight: 5,
+        });
+      } else if (window.innerWidth < 1024 && this.state.titleHeight !== 3.25) {
+        this.setState({
+          titleHeight: 3.25,
+        });
+      }
+    };
+  }
+
+  componentDidCatch() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+  componentDidMount() {
+    window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
   render() {
     const { showNav } = this.props;
-
+    const { titleHeight } = this.state;
     return (
       <div className="bdbPage">
         <section className="section">
           <div className="container">
             <SideNav
+              openFromRight
               showNav={showNav}
-              titleStyle={{ marginTop: '3rem', lineHeight: 'none' }}
+              titleStyle={{
+                marginTop: `${titleHeight}rem`,
+                lineHeight: 'none',
+              }}
+              itemStyle={{ padding: 0 }}
               title={<SideNavTitle {...this.props} />}
-              items={['Item 1', 'Item 2']}
+              items={[<SearchControls {...this.props} />]}
             />
           </div>
         </section>
@@ -42,5 +79,17 @@ const SideNavTitle = ({ toggleSideNav }) => {
         </p>
       </div>
     </nav>
+  );
+};
+
+const SearchControls = ({ updateMapCenter, clearFilter, handleGeoSearch }) => {
+  return (
+    <JobsLocationFilterForm
+      updateMapCenter={updateMapCenter}
+      onCancel={clearFilter}
+      onSubmit={(vals) => {
+        handleGeoSearch(vals);
+      }}
+    />
   );
 };

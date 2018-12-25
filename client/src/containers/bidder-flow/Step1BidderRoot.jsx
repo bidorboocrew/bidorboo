@@ -93,8 +93,14 @@ class BidderRoot extends React.Component {
         <Tabs activeTab={activeTab} changeActiveTab={this.changeActiveTab} />
         <section style={{ paddingTop: '0.5rem' }} className="section">
           <div className="container">
-            <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />
-            <BidderRootSideNav showNav={showSideNav} toggleSideNav={this.toggleSideNav} />
+            <ActiveSearchFilters />
+            <BidderRootSideNav
+              showNav={showSideNav}
+              toggleSideNav={this.toggleSideNav}
+              updateMapCenter={this.updateMapCenter}
+              onCancel={this.clearFilter}
+              handleGeoSearch={this.handleGeoSearch}
+            />
           </div>
         </section>
       </div>
