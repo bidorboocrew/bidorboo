@@ -1,6 +1,19 @@
 import React from 'react';
 import Countdown from 'react-countdown-now';
+import moment from 'moment';
+
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+
+export const getDaysSinceCreated = (createdAt) => {
+  let daysSinceCreated = '';
+  try {
+    daysSinceCreated = createdAt ? moment.duration(moment().diff(moment(createdAt))).humanize() : 0;
+  } catch (e) {
+    //xxx we dont wana fail simply cuz we did not get the diff in time
+    console.error(e);
+  }
+  return daysSinceCreated;
+};
 
 export const findMinBidInBidsList = (bidsList) => {
   let hasBids = bidsList && bidsList.length > 0;

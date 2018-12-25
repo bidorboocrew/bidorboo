@@ -12,6 +12,7 @@ import {
   UserImageAndRating,
   JobStats,
   CardTitleWithBidCount,
+  getDaysSinceCreated,
 } from '../../commonComponents';
 
 export default class OthersJobSummaryCard extends React.Component {
@@ -26,15 +27,8 @@ export default class OthersJobSummaryCard extends React.Component {
       _ownerRef,
     } = job;
 
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
+    let daysSinceCreated = getDaysSinceCreated(createdAt);
+
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     return (
       <div className="card bidderRootSpecial is-clipped">

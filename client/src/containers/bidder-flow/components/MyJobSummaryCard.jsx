@@ -7,6 +7,7 @@ import {
   CountDownComponent,
   CardTitleWithBidCount,
   JobStats,
+  getDaysSinceCreated
 } from '../../commonComponents';
 
 export default class MyJobSummaryCard extends React.Component {
@@ -14,15 +15,8 @@ export default class MyJobSummaryCard extends React.Component {
     const { job } = this.props;
     const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, viewedBy } = job;
 
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
+    let daysSinceCreated = getDaysSinceCreated(createdAt);
+
     return (
       <div className="card bidderRootSpecial is-clipped disabled">
         <CardTitleWithBidCount fromTemplateId={fromTemplateId} bidsList={_bidsListRef} />

@@ -3,7 +3,12 @@ import moment from 'moment';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent, UserImageAndRating } from '../../commonComponents';
+import {
+  DisplayLabelValue,
+  CountDownComponent,
+  UserImageAndRating,
+  getDaysSinceCreated,
+} from '../../commonComponents';
 
 export default class JobFullDetailsCard extends React.Component {
   render() {
@@ -23,14 +28,7 @@ export default class JobFullDetailsCard extends React.Component {
       createdAt,
     } = job;
 
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      console.error(e);
-    }
+    let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
       <div className="card bidderRootSpecial is-clipped disabled">

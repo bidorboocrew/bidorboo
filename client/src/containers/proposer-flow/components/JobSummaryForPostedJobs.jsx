@@ -5,7 +5,7 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from '../../commonComponents';
+import { DisplayLabelValue, CountDownComponent, getDaysSinceCreated } from '../../commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
@@ -19,15 +19,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
       viewedBy,
     } = job;
 
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
+    let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
       <div className="card bidderRootSpecial is-clipped">
