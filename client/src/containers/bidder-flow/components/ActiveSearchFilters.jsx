@@ -2,16 +2,14 @@ import React from 'react';
 
 export default class ActiveSearchFilters extends React.Component {
   render() {
-    const { toggleSideNav } = this.props;
+    const { filters } = this.props;
+    if (!filters || !filters.length > 0) {
+      return null;
+    }
 
     return (
       <div>
-        <a onClick={toggleSideNav} className="button is-outline">
-          <span className="icon">
-            <i className="fas fa-search" />
-          </span>
-          <span>Search</span>
-        </a>
+        <div>Filters Applies</div>
       </div>
     );
   }

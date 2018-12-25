@@ -63,15 +63,35 @@ class BidderRoot extends React.Component {
       <div className="bdbPage">
         <section className="hero is-small is-dark">
           <div className="hero-body">
-            <div>
+            <nav className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  <p className="subtitle has-text-light is-5">
+                    <strong className="subtitle has-text-light">Provide a Service</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div className="level-right">
+                <p className="level-item">
+                  <a onClick={this.toggleSideNav} className="button is-outline">
+                    <span className="icon">
+                      <i className="fas fa-search" />
+                    </span>
+                    <span>Search</span>
+                  </a>
+                </p>
+              </div>
+            </nav>
+            {/* <div>
               <h1 style={{ color: 'white' }} className="title">
                 Provide A Service
               </h1>
-            </div>
+            </div> */}
           </div>
         </section>
         <Tabs activeTab={activeTab} changeActiveTab={this.changeActiveTab} />
-        <section className="section">
+        <section style={{ paddingTop: '0.5rem' }} className="section">
           <div className="container">
             <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />
             <BidderRootSideNav showNav={showSideNav} toggleSideNav={this.toggleSideNav} />
