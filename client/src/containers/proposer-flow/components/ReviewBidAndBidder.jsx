@@ -43,13 +43,20 @@ export default class ReviewBidAndBidder extends React.Component {
           <AcceptBidAndBidderModal closeModal={this.toggleAcceptModal} bid={bid} />
         )}
         {!showAcceptModal && (
-          <div className="card">
+          <div className="card disabled">
             <header className="card-header">
               <p className="card-header-title">{`${displayName} 's Bid`}</p>
             </header>
             <div className="card-content">
               <div className="media">
-                <div className="media-left">
+                <div
+                  style={{
+                    border: '1px solid #eee',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)',
+                  }}
+                  className="media-left"
+                >
                   <figure className="image is-48x48">
                     <img src={bidderProfileImgUrl} alt="Placeholder image" />
                   </figure>
@@ -59,16 +66,6 @@ export default class ReviewBidAndBidder extends React.Component {
                   <p className="is-size-6">{bidderOverallRating}</p>
                 </div>
               </div>
-              <div className="is-size-7">
-                {membershipStatusDisplay} active since {daysSinceCreated} ago
-              </div>
-
-              <div className="is-size-7">
-                <a target="_blank" rel="noopener noreferrer" href="www.google.com">
-                  {`View ${displayName} profile page.`}
-                </a>
-              </div>
-              <br />
               <div className="content">
                 <div className="has-text-dark is-size-7"> Bid Amount :</div>
                 <div className="is-size-3 has-text-primary has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
@@ -84,21 +81,22 @@ export default class ReviewBidAndBidder extends React.Component {
                   * When the job is completed. You will get a chance to rate the Bidder and the bid
                   amount will be deducted
                 </div>
+
+                <a
+                  style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}
+                  onClick={this.toggleAcceptModal}
+                  className="button is-primary"
+                >
+                  Accept Bid
+                </a>
+                <a
+                  style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}
+                  onClick={handleCancel}
+                  className=" button is-outlined"
+                >
+                  Go Back
+                </a>
               </div>
-              <a
-                style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
-                onClick={this.toggleAcceptModal}
-                className="button is-primary"
-              >
-                Accept Bid
-              </a>
-              <a
-                style={{ marginLeft: 4, marginTop: 6, width: '15rem' }}
-                onClick={handleCancel}
-                className=" button is-outlined"
-              >
-                Go Back
-              </a>
             </div>
           </div>
         )}

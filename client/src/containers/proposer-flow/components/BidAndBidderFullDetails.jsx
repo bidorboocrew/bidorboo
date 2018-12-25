@@ -40,7 +40,15 @@ export default class ReviewBidAndBidder extends React.Component {
         </header>
         <div className="card-content">
           <div className="media">
-            <div className="media-left">
+            <div
+              style={{
+                border: '1px solid #eee',
+                cursor: 'pointer',
+                boxShadow:
+                  '0 4px 6px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
+              }}
+              className="media-left"
+            >
               <figure className="image is-48x48">
                 <img src={bidderProfileImgUrl} alt="Placeholder image" />
               </figure>
@@ -48,15 +56,6 @@ export default class ReviewBidAndBidder extends React.Component {
             <div className="media-content">
               <p className="is-size-6">{displayName}</p>
               <p className="is-size-6">{bidderOverallRating}</p>
-              <a
-                style={{ textDecoration: 'underline' }}
-                className=" has-text-light"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="www.google.com"
-              >
-                {`View Full Profile`}
-              </a>
             </div>
           </div>
 

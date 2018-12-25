@@ -137,7 +137,7 @@ const renderFooter = ({ job, notificationFeed }) => {
     <footer className="card-footer">
       <div className="card-footer-item">
         <a
-          className={`button is-fullwidth ${areThereAnyBidders ? 'is-primary' : 'is-outline'}`}
+          className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}
           onClick={(e) => {
             e.preventDefault();
             switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
