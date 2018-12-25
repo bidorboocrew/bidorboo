@@ -3,11 +3,13 @@ import * as A from './app-state/actionTypes';
 import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
-  if (stateContent) {
-    appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
-  } else {
-    appHistory.push(routeAndParams);
-  }
+  setTimeout(() => {
+    if (stateContent) {
+      appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
+    } else {
+      appHistory.push(routeAndParams);
+    }
+  }, 0);
 };
 
 export const throwErrorNotification = (dispatch, error) => {

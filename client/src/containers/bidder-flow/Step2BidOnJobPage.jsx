@@ -15,8 +15,8 @@ class BidOnJobPage extends React.Component {
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
 
-    //if user tried to manually set the url to this page without selecting a job
-    if (!jobDetails || !jobDetails._ownerRef || !isLoggedIn) {
+    let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
+    if (dontShowThisPage) {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
@@ -36,24 +36,21 @@ class BidOnJobPage extends React.Component {
           </div>
         </section>
 
-        {breadCrumbs()}
         <section className="section">
           <div className="container">
-            {jobDetails && jobDetails._id && (
-              <React.Fragment>
-                <PostYourBid
-                  onSubmit={(values) => {
-                    a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-                  }}
-                  onCancel={() => {
-                    a_updateBooedBy(jobDetails);
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                />
-                <JobDetailsViewForBidder job={jobDetails} />
-                <br />
-              </React.Fragment>
-            )}
+            {breadCrumbs()}
+
+            <PostYourBid
+              onSubmit={(values) => {
+                a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+              }}
+              onCancel={() => {
+                a_updateBooedBy(jobDetails);
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            />
+            <JobDetailsViewForBidder job={jobDetails} />
+            <br />
           </div>
         </section>
       </div>

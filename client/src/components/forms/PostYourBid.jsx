@@ -55,22 +55,26 @@ class PostYourBid extends React.Component {
           ? ReactDOM.createPortal(
               <ActionSheet>
                 <a
-                  style={{ borderRadius: 0 }}
+                  style={{ borderRadius: 0, width: '10rem' }}
                   onClick={this.openShowBidDialog}
                   type="button"
                   className="button  is-medium is-primary "
                 >
-                  <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-                  Bid
+                  <span className="icon">
+                    <i className="fas fa-hand-paper" />
+                  </span>
+                  <span>Bid</span>
                 </a>
                 <a
-                  style={{ borderRadius: 0, marginLeft: '2.25rem' }}
+                  style={{ borderRadius: 0, marginLeft: '2.25rem', width: '10rem' }}
                   className="button is-medium  is-danger is-outlined "
                   type="submit"
                   onClick={onCancel}
                 >
-                  <i className="fas fa-thumbs-down" />
-                  Booo
+                  <span className="icon">
+                    <i className="fas fa-thumbs-down" />
+                  </span>
+                  <span>Boo</span>
                 </a>
               </ActionSheet>,
               actionsSheetRoot,
@@ -130,7 +134,7 @@ const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
-      .max(1000000, 'The maximum amout is 100000')
+      .max(10000, 'The maximum amout is 100000')
       .required('amount is required.'),
   }),
   initialValues: {

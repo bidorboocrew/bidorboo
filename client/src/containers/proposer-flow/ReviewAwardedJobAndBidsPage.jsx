@@ -72,7 +72,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
               <div className="column">
                 <JobFullDetailsCard
                   job={selectedAwardedJob}
-                  cardClass={'card is-clipped disabled'}
+                  cardclassName={'card is-clipped disabled'}
                 />
               </div>
             </div>
