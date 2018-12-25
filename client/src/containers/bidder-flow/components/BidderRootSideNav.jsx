@@ -43,7 +43,7 @@ export default class BidderRootSideNav extends React.Component {
         <section className="section">
           <div className="container">
             <SideNav
-              navStyle={{ background: '#eee' }}
+              navStyle={{ background: '#eee', overflowY: 'auto', overflowX: 'hidden' }}
               openFromRight
               showNav={isSideNavOpen}
               titleStyle={{
