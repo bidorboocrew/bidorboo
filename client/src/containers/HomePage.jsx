@@ -22,7 +22,7 @@ class HomePage extends React.Component {
 
         <section className="section">
           <div className="container">
-            <div className="columns is-centered">
+            <div className="columns is-multiline is-centered">
               <div className="column is-half">
                 <BidOrBooCard
                   logoImg={requestImg}

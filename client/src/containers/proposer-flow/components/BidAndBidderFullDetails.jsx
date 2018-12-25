@@ -36,6 +36,7 @@ export default class ReviewBidAndBidder extends React.Component {
           </p>
         </header>
         <div className="card-content">
+          <br />
           <div className="media">
             <div
               style={{

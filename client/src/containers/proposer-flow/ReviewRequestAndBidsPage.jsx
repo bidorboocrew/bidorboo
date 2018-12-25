@@ -92,7 +92,10 @@ class ReviewRequestAndBidsPage extends React.Component {
                     />
                   </div>
                   <div className="column">
-                    <JobFullDetailsCard job={selectedJobWithBids} />
+                    <JobFullDetailsCard
+                      cardClass={'card is-clipped disabled'}
+                      job={selectedJobWithBids}
+                    />
                   </div>
                 </div>
               </React.Fragment>
