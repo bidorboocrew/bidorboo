@@ -17,7 +17,7 @@ import {
 
 export default class OthersJobSummaryCard extends React.Component {
   render() {
-    const { job, userDetails } = this.props;
+    const { job, userDetails, onClickHandler } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -31,7 +31,7 @@ export default class OthersJobSummaryCard extends React.Component {
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div onClick={onClickHandler} className="card bidderRootSpecial is-clipped">
         <CardTitleWithBidCount fromTemplateId={fromTemplateId} bidsList={_bidsListRef} />
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />

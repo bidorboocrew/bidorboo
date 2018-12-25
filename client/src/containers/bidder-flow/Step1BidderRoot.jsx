@@ -6,6 +6,8 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
+import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
+
 import { TAB_IDS } from './components/helperComponents';
 import BidderRootSideNav from './components/BidderRootSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
@@ -185,7 +187,7 @@ class BidderRoot extends React.Component {
         <div style={{ padding: '0.5rem' }}>
           {hasActiveSearch && <ActiveSearchFilters />}
 
-          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} />
+          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
           <br />
           <AllJobsToBidView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
         </div>
@@ -205,6 +207,7 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
     a_getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
