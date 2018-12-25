@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class MyOpenBidDetailsCard extends React.Component {
+export default class MyAwardedBidDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -70,13 +70,13 @@ export default class MyOpenBidDetailsCard extends React.Component {
           />
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Bid Amount :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-warning">{`${bidAmount} ${bidCurrency}`}</div>
+            <div className="has-text-weight-bold is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Bid Status :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-warning">Pending</div>
+            <div className="has-text-weight-bold is-size-6 has-text-success">Awarded</div>
           </div>
-          <div className="help">* owner did not select a winner yet</div>
+          <div className="help">* you will recieve the payment after completing the task</div>
         </div>
       </div>
     );

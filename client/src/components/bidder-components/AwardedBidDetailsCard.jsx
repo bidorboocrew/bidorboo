@@ -39,22 +39,23 @@ export default class AwardedBidDetailsCard extends React.Component {
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <img className="bdb-cover-img" src={`${profileImage.url}`} />
-                  <div>
-                    <p className="subtitle">{displayName}</p>
-                  </div>
+                  <p className="heading">Requester</p>
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                    <img alt="profile" src={profileImage.url} />
+                  </figure>
+                  <div className="help">{displayName}</div>
                 </div>
               </div>
 
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="is-size-6">Service Type</p>
+                  <p className="heading">Service Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="is-size-6">Bid Amount</p>
+                  <p className="heading">Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -70,7 +71,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             }}
             className="card-footer-item"
           >
-            Review Details
+            View Details
             {updatedStatus && (
               <span
                 style={{
@@ -83,9 +84,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             )}
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY',
-            )} at ${startingDateText}`}
+            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
