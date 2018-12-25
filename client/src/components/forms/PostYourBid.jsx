@@ -85,10 +85,9 @@ class PostYourBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Enter Your Bid</p>
+                  <p className="modal-card-title">Bid Now</p>
                   <button
                     onClick={(e) => {
-                      setFieldValue('bidAmountField', '', false);
                       resetForm();
                       this.closeShowBidDialog();
                     }}
