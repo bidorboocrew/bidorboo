@@ -19,7 +19,7 @@ import {
   BidderRoot,
   MyProfile,
   BidOnJobPage,
-  MyBids,
+  MyBidsPage,
   ReviewRequestAndBidsPage,
   ReviewBidAndRequestPage,
   ReviewAwardedJobAndBidsPage,
@@ -96,7 +96,7 @@ class App extends React.Component {
           />
           <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
           <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/:bidId`}

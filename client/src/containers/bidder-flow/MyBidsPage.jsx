@@ -12,7 +12,7 @@ import { switchRoute } from '../../utils';
 import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
 import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
 
-class MyBids extends React.Component {
+class MyBidsPage extends React.Component {
   componentDidMount() {
     // get all posted bids
     this.props.a_getAllPostedBids();
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyBids);
+)(MyBidsPage);
 
 const EmptyStateComponent = () => {
   return (
@@ -126,7 +126,7 @@ const EmptyStateComponent = () => {
       <div className="card is-fullwidth">
         <div className="card-content">
           <div className="content has-text-centered">
-            <div className="is-size-5">You have not bid yet click here to start bidding!</div>
+            <div className="is-size-5">You have no bids. Start bidding to earn money!</div>
             <br />
             <a
               className="button is-primary "
