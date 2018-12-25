@@ -24,5 +24,5 @@
  */
 
 import createBrowserHistory from 'history/createBrowserHistory';
-
-export default createBrowserHistory();
+const browserHistory = createBrowserHistory();
+export default browserHistory;

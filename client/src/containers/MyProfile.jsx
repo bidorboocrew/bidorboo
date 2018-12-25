@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
 import * as C from '../constants/constants';
-import autoBind from 'react-autobind';
 import ProfileForm from '../components/forms/ProfileForm';
 import axios from 'axios';
 import PaymentForm from '../components/forms/PaymentForm';
@@ -20,31 +19,24 @@ class MyProfile extends React.Component {
       showAddPaymentDetails: false,
       showImageUploadDialog: false,
     };
-    autoBind(
-      this,
-      'toggleAddPaymentDetails',
-      'toggleEditProfile',
-      'closeFormAndSubmit',
-      'toggleShowUploadProfileImageDialog',
-    );
   }
 
-  toggleEditProfile() {
+  toggleEditProfile = () => {
     this.setState({ isEditProfile: !this.state.isEditProfile });
-  }
+  };
 
-  toggleAddPaymentDetails() {
+  toggleAddPaymentDetails = () => {
     this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
-  }
+  };
 
-  toggleShowUploadProfileImageDialog() {
+  toggleShowUploadProfileImageDialog = () => {
     this.setState({ showImageUploadDialog: !this.state.showImageUploadDialog });
-  }
+  };
 
-  closeFormAndSubmit(vals) {
+  closeFormAndSubmit = (vals) => {
     this.toggleEditProfile();
     this.props.a_updateProfileDetails(vals);
-  }
+  };
 
   render() {
     const { userDetails, a_updateProfileImage, isLoggedIn, a_getCurrentUser } = this.props;

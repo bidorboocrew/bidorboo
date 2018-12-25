@@ -9,7 +9,7 @@ const initialState = {
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
   // the currently selected active job
-  selectedActivePostedJob: {},
+  selectedJobWithBids: {},
   // the currently selected awarded job
   selectedAwardedJob: {},
 };
@@ -98,7 +98,7 @@ const searchJob = {
 const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
   return {
     ...state,
-    selectedActivePostedJob: payload.data,
+    selectedJobWithBids: payload.data,
   };
 };
 
@@ -125,7 +125,7 @@ const deleteJob = {
       return {
         ...state,
         myOpenJobsList: filteredResults,
-        selectedActivePostedJob: {},
+        selectedJobWithBids: {},
         isLoading: false,
       };
     }
@@ -161,8 +161,8 @@ const markBidAsSeen = (state = initialState, { payload }) => {
     });
 
     const updateBidStateForCurrentActiveJob =
-      state.selectedActivePostedJob._bidsListRef &&
-      state.selectedActivePostedJob._bidsListRef.map((bid) => {
+      state.selectedJobWithBids._bidsListRef &&
+      state.selectedJobWithBids._bidsListRef.map((bid) => {
         if (bid._id === bidId) {
           return { ...bid, isNewBid: false };
         } else {
@@ -171,14 +171,14 @@ const markBidAsSeen = (state = initialState, { payload }) => {
       });
 
     const updatedSelectedActivePostedJob = {
-      ...state.selectedActivePostedJob,
+      ...state.selectedJobWithBids,
       _bidsListRef: updateBidStateForCurrentActiveJob,
     };
 
     return {
       ...state,
       myOpenJobsList: [...updatedMyOpenJobsList],
-      selectedActivePostedJob: { ...updatedSelectedActivePostedJob },
+      selectedJobWithBids: { ...updatedSelectedActivePostedJob },
     };
   }
 };

@@ -5,13 +5,12 @@ export { default as HomePage } from './HomePage';
 // proposer flow
 export { default as ProposerRoot } from './proposer-flow/Step1ProposerRoot';
 export { default as CreateAJob } from './proposer-flow/Step2CreateAJob';
-export { default as NewPostedJob } from './proposer-flow/Step3PostedJob';
+export { default as MyOpenJobsPage } from './proposer-flow/MyOpenJobsPage';
 
-export { default as PostedJobs } from './proposer-flow/PostedJobs';
-export { default as AwardedJobs } from './proposer-flow/AwardedJobs';
-export { default as CurrentAwardedJob } from './proposer-flow/CurrentAwardedJob';
+// export { default as PostedJobs } from './proposer-flow/MyOpenJobsPage';
+export { default as ReviewAwardedJobAndBidsPage } from './proposer-flow/ReviewAwardedJobAndBidsPage';
 
-export { default as CurrentJob } from './proposer-flow/CurrentJob';
+export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 
 // bidder flow
 export { default as CurrentPostedBid } from './bidder-flow/Step3PostedBid';

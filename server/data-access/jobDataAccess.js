@@ -8,25 +8,91 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 
 exports.jobDataAccess = {
   // get jobs for a user and filter by a given state
+  getUserAwardedJobs: async (userId) => {
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: {
+          addressText: 1,
+          fromTemplateId: 1,
+          startingDateAndTime: 1,
+          _awardedBidRef: 1,
+          createdAt: 1,
+          _id: 1,
+        },
+        match: { state: { $eq: 'AWARDED' } },
+        options: { sort: { createdAt: -1 } },
+        populate: {
+          path: '_awardedBidRef',
+          select: {
+            _bidderRef: 1,
+            bidAmount: 1,
+          },
+          populate: {
+            path: '_bidderRef',
+            select: {
+              profileImage: 1,
+              displayName: 1,
+              rating: 1,
+            },
+          },
+        },
+      })
+      .lean(true)
+      .exec();
+  },
+  // get jobs for a user and filter by a given state
   getUserJobsByState: async (userId, stateFilter) => {
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: schemaHelpers.JobFull,
+        match: { state: { $eq: stateFilter } },
+        options: { sort: { createdAt: -1 } },
+      })
+      .lean(true)
+      .exec();
+  },
+  getJobById: (jobId) => {
+    return JobModel.findById(jobId)
+      .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
+      .lean(true)
+      .exec();
+  },
+  getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+        const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+
+        const jobWithBidDetails = await JobModel.findOne(
+          { _id: jobId, _ownerRef: mongDbUserId },
+          { ...schemaHelpers.JobFull }
+        )
+          .populate({ path: '_ownerRef', select: jobOwnerFields })
           .populate({
-            path: '_postedJobsRef',
-            select: schemaHelpers.JobFull,
-            options: { sort: { createdAt: -1 } },
+            path: '_bidsListRef',
+            select: schemaHelpers.BidFull,
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _asBidderReviewsRef: 1,
+                _asProposerReviewsRef: 1,
+                rating: 1,
+                userId: 1,
+                displayName: 1,
+                profileImage: 1,
+                personalParagraph: 1,
+                membershipStatus: 1,
+                agreedToServiceTerms: 1,
+                createdAt: 1,
+                email: 1,
+              },
+            },
           })
           .lean(true)
           .exec();
 
-        if (jobs && jobs._postedJobsRef && stateFilter) {
-          const filteredJobs = jobs._postedJobsRef.filter((job) => {
-            return job.state === stateFilter;
-          });
-
-          resolve(filteredJobs);
-        }
+        resolve(jobWithBidDetails);
       } catch (e) {
         reject(e);
       }
@@ -171,15 +237,26 @@ exports.jobDataAccess = {
               select: {
                 _postedJobsRef: 0,
                 _postedBidsRef: 0,
-                addressText: 0,
-                userRole: 0,
+                _asBidderReviewsRef: 0,
+                _asProposerReviewsRef: 0,
+                verification: 0,
                 settings: 0,
                 extras: 0,
-                verificationIdImage: 0,
-                canBid: 0,
-                canPost: 0,
-                updatedAt: 0,
+                stripeConnect: 0,
               },
+            },
+          })
+          .populate({
+            path: '_ownerRef',
+            select: {
+              _postedJobsRef: 0,
+              _postedBidsRef: 0,
+              _asBidderReviewsRef: 0,
+              _asProposerReviewsRef: 0,
+              verification: 0,
+              settings: 0,
+              extras: 0,
+              stripeConnect: 0,
             },
           })
           .lean(true)
@@ -204,7 +281,7 @@ exports.jobDataAccess = {
         startingDateAndTime: 1,
         durationOfJob: 1,
         fromTemplateId: 1,
-        reportThisJob: 1,
+        reported: 1,
         createdAt: 1,
         updatedAt: 1,
         location: 1,
@@ -252,7 +329,7 @@ exports.jobDataAccess = {
         startingDateAndTime: 1,
         durationOfJob: 1,
         fromTemplateId: 1,
-        reportThisJob: 1,
+        reported: 1,
         createdAt: 1,
         updatedAt: 1,
         location: 1,
@@ -391,6 +468,28 @@ exports.jobDataAccess = {
       }
     });
   },
+
+  updateJobAwardedBid: async (jobId, bidId) => {
+    return Promise.all([
+      BidModel.findOneAndUpdate(
+        { _id: bidId },
+        {
+          $set: { state: 'WON' },
+        }
+      )
+        .lean(true)
+        .exec(),
+      JobModel.findOneAndUpdate(
+        { _id: jobId },
+        {
+          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
+        }
+      )
+        .lean(true)
+        .exec(),
+    ]);
+  },
+
   awardedBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(
@@ -439,7 +538,7 @@ exports.jobDataAccess = {
             _postedJobsRef: 0,
             _postedBidsRef: 0,
             userRole: 0,
-            hasAgreedToServiceTerms: 0,
+            agreedToServiceTerms: 0,
             extras: 0,
             settings: 0,
             creditCards: 0,

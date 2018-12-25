@@ -152,7 +152,11 @@ class JobsToBidOnSummaryCard extends React.Component {
         >
           <p className="card-header-title">{`${templatesRepo[fromTemplateId].title}`}</p>
           <a className="card-header-icon">
-            <span className="has-text-success">
+            <span
+              className={`${
+                _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
+              }`}
+            >
               <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
               {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
             </span>
@@ -209,7 +213,11 @@ class JobsToBidOnSummaryCard extends React.Component {
               return completed ? (
                 <Expired />
               ) : (
-                <div className="has-text-white">{`Job Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                <React.Fragment>
+                  {days && !`${days}`.includes('NaN') ? (
+                    <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
+                  ) : null}
+                </React.Fragment>
               );
             }}
           />

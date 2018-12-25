@@ -4,12 +4,13 @@ const utils = require('../utils/utilities');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const requireUserCanPost = require('../middleware/requireUserCanPost');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
-      return res.send({ _postedJobsRef: userJobsList });
+      return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
     }
@@ -19,9 +20,9 @@ module.exports = (app) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
-        const userId = req.user.userId;
+        const mongoDbUserId = req.user._id;
 
-        const jobDetails = await jobDataAccess.getMyPostedJobs(userId, jobId);
+        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoDbUserId, jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({
@@ -73,6 +74,7 @@ module.exports = (app) => {
     ROUTES.API.JOB.GET.jobFullDetailsById,
     requireBidorBooHost,
     requireLogin,
+
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {
@@ -92,8 +94,8 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'AWARDED');
-      return res.send({ _postedJobsRef: userJobsList });
+      userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
+      return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
     }
@@ -125,7 +127,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, requireUserCanPost, async (req, res) => {
     try {
       const { jobDetails } = req.body.data;
       const userMongoDBId = req.user._id;

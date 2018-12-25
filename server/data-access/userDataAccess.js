@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
-const stripeServiceUtil = require('../services/stripeService').util;
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
@@ -14,6 +13,18 @@ exports.findSessionUserById = (id) =>
 
 exports.findOneByUserId = (userId) =>
   User.findOne({ userId })
+    .lean(true)
+    .exec();
+
+exports.findByIdAndGetPopulatedJobs = (userId) =>
+  User.findOne({ userId })
+    .populate({ path: '_postedJobsRef' })
+    .lean(true)
+    .exec();
+
+exports.findByIdAndGetPopulatedBids = (userId) =>
+  User.findOne({ userId })
+    .populate({ path: '_bidsListRef' })
     .lean(true)
     .exec();
 
@@ -314,10 +325,10 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
     .lean(true)
     .exec();
 };
-exports.getUserStripeAccount = async (userId) => {
+exports.getUserStripeAccount = async (mongodbUserId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await User.findOne({ userId }, { stripeConnect: 1 })
+      const user = await User.findOne({ _id: mongodbUserId }, { stripeConnect: 1 })
         .lean(true)
         .exec();
       resolve(user.stripeConnect);

@@ -1,5 +1,6 @@
 // must be up to date with your models in the model folder
 exports.UserFull = {
+  _id: 1,
   _postedJobsRef: 1,
   _postedBidsRef: 1,
   _asBidderReviewsRef: 1,
@@ -27,6 +28,7 @@ exports.UserFull = {
 };
 
 exports.BidFull = {
+  _id: 1,
   _bidderRef: 1,
   _jobRef: 1,
   isNewBid: 1,
@@ -38,6 +40,7 @@ exports.BidFull = {
 };
 
 exports.ReviewFull = {
+  _id: 1,
   jobId: 1,
   bidderId: 1,
   proposerId: 1,
@@ -51,21 +54,24 @@ exports.ReviewFull = {
 };
 
 exports.JobFull = {
+  _id: 1,
   _ownerRef: 1,
   _bidsListRef: 1,
   _awardedBidRef: 1,
   _reviewRef: 1,
   title: 1,
   state: 1,
-  hideForUserIds: 1,
+  hideFrom: 1,
+  viewedBy: 1,
+  booedBy: 1,
   detailedDescription: 1,
-  location: 1,
   stats: 1,
+  location: 1,
   addressText: 1,
   startingDateAndTime: 1,
   durationOfJob: 1,
   fromTemplateId: 1,
-  reportThisJob: 1,
+  reported: 1,
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
@@ -73,6 +79,7 @@ exports.JobFull = {
 };
 
 exports.PaymentFull = {
+  _id: 1,
   _jobRef: 1,
   _from: 1,
   _to: 1,

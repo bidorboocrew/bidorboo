@@ -1,0 +1,106 @@
+import React from 'react';
+import moment from 'moment';
+import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
+import * as C from '../../../constants/constants';
+
+// confirm award and pay
+const BIDORBOO_SERVICECHARGE = 0.06;
+export default class ReviewBidAndBidder extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showAcceptModal: false,
+    };
+  }
+
+  toggleAcceptModal = () => {
+    this.setState({ showAcceptModal: !this.state.showAcceptModal });
+  };
+
+  render() {
+    const { bid, handleCancel } = this.props;
+
+    if (!bid || !bid._id || !bid._bidderRef) {
+      return null;
+    }
+
+    const { showAcceptModal } = this.state;
+    const { rating, membershipStatus, createdAt, displayName, profileImage } = bid._bidderRef;
+
+    const bidderProfileImgUrl = profileImage.url;
+    const bidderOverallRating = rating.globalRating;
+    const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+    const daysSinceCreated = createdAt
+      ? moment.duration(moment().diff(moment(createdAt))).humanize()
+      : 0;
+    const bidAmount = bid.bidAmount.value;
+    const bidCurrency = bid.bidAmount.currency;
+
+    return (
+      <React.Fragment>
+        {showAcceptModal && (
+          <AcceptBidAndBidderModal closeModal={this.toggleAcceptModal} bid={bid} />
+        )}
+        {!showAcceptModal && (
+          <div className="card disabled">
+            <header className="card-header">
+              <p className="card-header-title">{`${displayName} 's Bid`}</p>
+            </header>
+            <div className="card-content">
+              <div className="media">
+                <div
+                  style={{
+                    border: '1px solid #eee',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)',
+                  }}
+                  className="media-left"
+                >
+                  <figure className="image is-48x48">
+                    <img src={bidderProfileImgUrl} alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div className="media-content">
+                  <p className="is-size-6">{displayName}</p>
+                  <p className="is-size-6">{bidderOverallRating}</p>
+                </div>
+              </div>
+              <div className="content">
+                <div className="has-text-dark is-size-7"> Bid Amount :</div>
+                <div className="is-size-3 has-text-primary has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
+                <div className="has-text-grey is-size-7">What's Next?</div>
+                <div className="help">
+                  * When you Accept a bid you will be asked to put your payment details
+                </div>
+                <div className="help">
+                  * When the payment is secured both you and the bidder will recieve an email which
+                  will share your contact details
+                </div>
+                <div className="help">
+                  * When the job is completed. You will get a chance to rate the Bidder and the bid
+                  amount will be deducted
+                </div>
+
+                <a
+                  style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}
+                  onClick={this.toggleAcceptModal}
+                  className="button is-primary"
+                >
+                  Accept Bid
+                </a>
+                <a
+                  style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}
+                  onClick={handleCancel}
+                  className=" button is-outlined"
+                >
+                  Go Back
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </React.Fragment>
+    );
+  }
+}

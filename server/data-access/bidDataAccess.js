@@ -6,6 +6,27 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.bidDataAccess = {
+  getBidById: (bidId) => {
+    return BidModel.findById(bidId)
+      .populate({
+        path: '_bidderRef',
+        select: {
+          _asBidderReviewsRef: 1,
+          _asProposerReviewsRef: 1,
+          rating: 1,
+          userId: 1,
+          displayName: 1,
+          profileImage: 1,
+          personalParagraph: 1,
+          membershipStatus: 1,
+          agreedToServiceTerms: 1,
+          createdAt: 1,
+          email: 1,
+        },
+      })
+      .lean(true)
+      .exec();
+  },
   getAllBidsForUser: (mongoDbUserId) => {
     return UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
       .populate({
@@ -47,7 +68,7 @@ exports.bidDataAccess = {
                 startingDateAndTime: 1,
                 durationOfJob: 1,
                 fromTemplateId: 1,
-                reportThisJob: 1,
+                reported: 1,
                 createdAt: 1,
                 updatedAt: 1,
               },
@@ -91,7 +112,7 @@ exports.bidDataAccess = {
                 startingDateAndTime: 1,
                 durationOfJob: 1,
                 fromTemplateId: 1,
-                reportThisJob: 1,
+                reported: 1,
                 createdAt: 1,
                 updatedAt: 1,
               },

@@ -15,32 +15,24 @@ import {
   HomePage,
   ProposerRoot,
   CreateAJob,
-  PostedJobs,
+  MyOpenJobsPage,
   BidderRoot,
   MyProfile,
   BidNow,
   MyBids,
-  CurrentJob,
+  ReviewRequestAndBidsPage,
   CurrentPostedBid,
-  MyAwardedBids,
-  AwardedJobs,
-  CurrentAwardedJob,
+  ReviewAwardedJobAndBidsPage,
   CurrentAwardedBid,
-  NewPostedJob,
   Verification,
 } from './index';
 
 class App extends React.Component {
-  componentDidMount() {
-    if (!this.props.s_isLoggedIn) {
-      this.props.a_getCurrentUser();
-    }
-  }
-
   componentDidCatch(error, info) {
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
+
   render() {
     const { s_toastDetails } = this.props;
     return (
@@ -62,52 +54,48 @@ class App extends React.Component {
 
         <Header id="bidorboo-header" />
         <Switch>
-          {/* redirect and force login */}
           <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
-          {/* redirect and force login */}
           <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-          {/* redirect and force login */}
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
             component={ProposerRoot}
           />
-          {/* unprotected routes user is allowed to enter without logging in */}
+
+          {/* proposer related routes */}
           <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
             component={CreateAJob}
           />
-          {/* protected routes , user will be redirected to corresponding root route and asked to login */}
-          <Route exact path={ROUTES.CLIENT.PROPOSER.myOpenJobs} component={PostedJobs} />
+
           <Route
             exact
-            path={`${ROUTES.CLIENT.PROPOSER.selectedPostedJobPage}/:jobId`}
-            component={CurrentJob}
+            path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}/:tabId`}
+            component={MyOpenJobsPage}
           />
+
           <Route
             exact
-            path={`${ROUTES.CLIENT.PROPOSER.newlyPostedJob}/:jobId`}
-            component={NewPostedJob}
+            path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
+            component={ReviewRequestAndBidsPage}
           />
-          {/* <Route exact path={ROUTES.CLIENT.PROPOSER.awardedJobsPage} component={AwardedJobs} /> */}
+
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
-            component={CurrentAwardedJob}
+            component={ReviewAwardedJobAndBidsPage}
           />
 
-          {/* redirect and force login */}
+          {/* proposer related routes */}
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
             component={BidderRoot}
           />
-          {/* unprotected routes user is allowed to enter without logging in */}
           <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
           <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
-          {/* protected routes , user will be redirected to corresponding root route and asked to login */}
           <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
           <Route
             exact
@@ -119,11 +107,8 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
             component={CurrentAwardedBid}
           />
-          {/* <Route exact path={ROUTES.CLIENT.BIDDER.myAwardedBids} component={MyAwardedBids} /> */}
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
-
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={Verification} />
-          {/* redirect any unknown route to the home component */}
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
       </div>

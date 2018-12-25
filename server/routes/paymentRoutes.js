@@ -1,10 +1,13 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const requirePaymentChecks = require('../middleware/requirePaymentChecks');
+const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
+const requireJobOwner = require('../middleware/requireJobOwner');
+const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
+const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
@@ -14,34 +17,55 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.POST.payment,
     requireBidorBooHost,
     requireLogin,
-    requirePaymentChecks,
+    requireJobOwner,
+    requireJobIsNotAwarded,
+    requiresCheckPayBidderDetails,
     async (req, res) => {
       try {
-        const { stripeTransactionToken, bidderId, chargeAmount } = req.body.data;
-        const BIDORBOO_COMMISSION_RATE = 0.12;
+        const { stripeTransactionToken, chargeAmount } = req.body.data;
+        // requiresPayBidderCheck will ensure we are setup
+        const { _jobRef, _id, _bidderRef, bidAmount } = res.locals.bidOrBooPayBider.theBid;
 
-        const bidOrBooCommission = 10000 * BIDORBOO_COMMISSION_RATE;
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
 
-        const userMongoDBId = req.user._id;
-
-        const stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
         if (stripeAccDetails.accId) {
+          /**
+           * chargeAmount already includes the 6% charged to the end user
+           * so we need to do :
+           * BidOrBoo charges proposer 6%
+           * BidOrBoo charges Bidder 4%
+           *
+           * chargeAmount passed in includes the 6% charge on the proposer
+           *
+           */
+
+          const originalBidAmount = bidAmount.value * 100;
+
+          const bidOrBooChargeOnBidder = Math.ceil(originalBidAmount * 0.04);
+          const bidOrBooChargeOnProposer = chargeAmount - originalBidAmount; //100 as we expect in cents
+          const bidOrBooTotalCommission = bidOrBooChargeOnBidder + bidOrBooChargeOnProposer;
+
+          const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+
           const charge = await stripe.charges.create({
-            amount: 10000,
+            amount: chargeAmount,
             currency: 'CAD',
             description: 'BidOrBoo - Service Charge',
             source: stripeTransactionToken,
             destination: {
-              amount: chargeAmount - bidOrBooCommission, // the final # sent to awarded bidder
+              amount: bidderPayoutAmount, // the final # sent to awarded bidder
               account: stripeAccDetails.accId,
             },
           });
-          if (charge) {
+          if (charge && charge.status === 'succeeded') {
+            // update the job and bidder with the chosen awarded bid
+            await jobDataAccess.updateJobAwardedBid(_jobRef.toString(), _id.toString());
+
             res.send({ success: true });
           }
         } else {
           return res.status(400).send({
-            errorMsg: 'Bad Request. missing payment details ',
+            errorMsg: 'Did Not Process the payment. Could not locate the bidder Account info',
           });
         }
       } catch (e) {

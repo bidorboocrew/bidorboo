@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
-  initializeConnectedAccount: async ({ _id, email, userId, displayName }) => {
+  initializeConnectedAccount: async ({ user_id, userId, displayName, email }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
@@ -12,7 +12,7 @@ exports.util = {
           type: 'custom', //HARD CODED
           email: email || '',
           default_currency: 'CAD', //HARD CODED
-          metadata: { _id, email, userId, displayName },
+          metadata: { user_id, email, userId, displayName },
           payout_statement_descriptor: 'BidOrBoo Fee', //HARD CODED
         });
         resolve(account);
@@ -21,6 +21,7 @@ exports.util = {
       }
     });
   },
+
   createConnectedAccount: async (
     connectedAccountDetails,
     { _id, email, userId, displayName, phoneNumber }

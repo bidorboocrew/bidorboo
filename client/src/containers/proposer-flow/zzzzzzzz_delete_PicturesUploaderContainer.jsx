@@ -1,6 +1,6 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-import JobImageFileUploader from './JobImageFileUploader';
+import JobImageFileUploader from './z_delete_JobImageFileUploader';
 export default class PicturesUploaderContainer extends React.Component {
   constructor(props) {
     super(props);

@@ -1,12 +1,11 @@
 import React from 'react';
-import { randomColor } from 'randomcolor';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
-class BidOrBooGenericTasks extends React.Component {
+class ServiceTemplates extends React.Component {
   static propTypes = {
     isLoggedIn: PropTypes.bool,
     showLoginDialog: PropTypes.func,
@@ -17,15 +16,11 @@ class BidOrBooGenericTasks extends React.Component {
 
     const genericTasks = Object.keys(templatesRepo).map((key) => {
       const defaultTask = templatesRepo[key];
-      const { title, subtitle, description, imageUrl, id } = defaultTask;
-      const bgcolor = 'white';
+      const { title, imageUrl, id } = defaultTask;
 
       return (
         <div key={id} className="column">
           <div
-            style={{
-              backgroundColor: bgcolor,
-            }}
             onClick={(e) => {
               e.preventDefault();
               if (!isLoggedIn) {
@@ -36,12 +31,7 @@ class BidOrBooGenericTasks extends React.Component {
             }}
             className="card proposerRootCardSpecial"
           >
-            <div
-              style={{
-                backgroundColor: bgcolor,
-              }}
-              className="card-image"
-            >
+            <div className="card-image">
               <img src={`${imageUrl}`} />
             </div>
             <p className="title is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
@@ -52,8 +42,8 @@ class BidOrBooGenericTasks extends React.Component {
       );
     });
 
-    return <React.Fragment>{genericTasks}</React.Fragment>;
+    return <div className="columns is-mobile is-multiline">{genericTasks}</div>;
   }
 }
 
-export default BidOrBooGenericTasks;
+export default ServiceTemplates;

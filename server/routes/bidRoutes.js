@@ -1,4 +1,6 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
+const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
+const requireUserCanBid = require('../middleware/requireUserCanBid');
 
 const ROUTES = require('../backend-route-constants');
 
@@ -18,7 +20,10 @@ module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, ['WON', 'WON_SEEN']);
+      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, [
+        'WON',
+        'WON_SEEN',
+      ]);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: e });
@@ -59,31 +64,37 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.BID.POST.bid, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const { data } = req.body;
+  app.post(
+    ROUTES.API.BID.POST.bid,
+    requireLogin,
+    requireUserCanBid,
+    requireUserHasNotAlreadyBidOnJob,
+    async (req, res, done) => {
+      try {
+        // create new job for this user
+        const { data } = req.body;
 
-      if (data && data.bidAmount && data.jobId) {
-        const { jobId, bidAmount } = data;
+        if (data && data.bidAmount && data.jobId) {
+          const { jobId, bidAmount } = data;
 
-        const userMongoDBId = req.user._id;
+          const userMongoDBId = req.user._id;
 
-        const newBid = await bidDataAccess.postNewBid({
-          userMongoDBId,
-          jobId,
-          bidAmount,
-        });
-        return res.send(newBid);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request post new Bid, missing param',
-        });
+          const newBid = await bidDataAccess.postNewBid({
+            userMongoDBId,
+            jobId,
+            bidAmount,
+          });
+          return res.send(newBid);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request post new Bid, missing param',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
       }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
     }
-  });
+  );
 
   app.put(ROUTES.API.BID.PUT.markBidAsSeen, requireLogin, async (req, res, done) => {
     try {

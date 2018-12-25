@@ -1,6 +1,9 @@
 @import './_variables.scss';
 @import './_animatecss.scss';
-@import './_bigCalendar.scss';
+@import './_addToCalendar.scss';
+
+// @import './_bigCalendar.scss';
+// @import './_timelineBulma.scss';
 
 // @import './_commonClasses.scss';
 // --------------------------------------------------
@@ -448,7 +451,7 @@ input[type='checkbox'] {
     margin-bottom: 30px;
     height: auto;
     min-width: 16rem;
-    max-width: 34.75rem;
+    // max-width: 34.75rem;
     border-radius: 6px;
     box-shadow: none;
     &:hover {
@@ -483,7 +486,8 @@ input[type='checkbox'] {
   }
 
   &.disabled {
-    cursor: not-allowed;
+    // cursor: not-allowed;
+    cursor: default;
     box-shadow: none !important;
     border: 1px solid lightgrey;
     &:hover {
