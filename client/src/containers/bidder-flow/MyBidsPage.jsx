@@ -67,7 +67,7 @@ class MyBidsPage extends React.Component {
 
         <section className="section">
           <div className="container">
-            <div className="tabs">
+            <div className="tabs is-centered">
               <ul>
                 <li className="is-active">
                   <a>Awarded Bids</a>
@@ -80,12 +80,12 @@ class MyBidsPage extends React.Component {
           </div>
         </section>
 
-        <section className="section">
+        <section style={{ paddingTop: 0 }} className="section">
           <div className="container">
-            <div className="tabs">
+            <div className="tabs is-centered">
               <ul>
                 <li className="is-active">
-                  <a>Pending</a>
+                  <a>Pending Bids</a>
                 </li>
               </ul>
             </div>
