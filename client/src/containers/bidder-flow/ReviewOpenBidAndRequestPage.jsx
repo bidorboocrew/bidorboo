@@ -12,7 +12,7 @@ import { Spinner } from '../../components/Spinner';
 import OthersJobDetailsCard from './components/OthersJobDetailsCard';
 import MyOpenBidDetailsCard from './components/MyOpenBidDetailsCard';
 
-class ReviewBidAndRequestPage extends React.Component {
+class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
     super(props);
     this.bidId = null;
@@ -43,7 +43,7 @@ class ReviewBidAndRequestPage extends React.Component {
   render() {
     const { selectedOpenBid } = this.props;
     // while fetching the job
-    debugger
+    debugger;
     if (
       !selectedOpenBid ||
       !selectedOpenBid._id ||
@@ -60,6 +60,7 @@ class ReviewBidAndRequestPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedOpenBid._jobRef;
+    const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
       <div className="bdbPage">
@@ -69,7 +70,7 @@ class ReviewBidAndRequestPage extends React.Component {
               <div className="level-left">
                 <div className="level-item">
                   <p className="subtitle has-text-light is-5">
-                    <strong className="title has-text-light">Provide A Service</strong>
+                    <strong className="title has-text-light">My Bids</strong>
                   </p>
                 </div>
               </div>
@@ -78,6 +79,7 @@ class ReviewBidAndRequestPage extends React.Component {
         </section>
         <section className="section">
           <div className="container">
+            {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
               <div className="column is-4">
                 <MyOpenBidDetailsCard bid={selectedOpenBid} />
@@ -110,4 +112,27 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewBidAndRequestPage);
+)(ReviewOpenBidAndRequestPage);
+
+const breadCrumbs = ({ activePageTitle }) => {
+  return (
+    <div style={{ marginBottom: '1rem' }}>
+      <nav className="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+              }}
+            >
+              My Bids
+            </a>
+          </li>
+          <li className="is-active">
+            <a aria-current="page">{activePageTitle}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+};
