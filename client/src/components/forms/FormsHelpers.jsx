@@ -1,5 +1,5 @@
 import React from 'react';
-import GeoSearch from '../googleMapsComponents/GeoSearch';
+import GeoSearch from './GeoSearch';
 import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 import TimePickerInput from '../forms/TimePickerInput';
