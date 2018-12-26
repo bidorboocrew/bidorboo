@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import autoBind from 'react-autobind';
 import ReactTimeout from 'react-timeout';
 
 const toastDisplayDuration = 3000;
@@ -24,21 +23,21 @@ class Toast extends React.Component {
   constructor(props) {
     super(props);
     this.state = { shouldRemoveOldToast: false };
-    autoBind(this, 'userCloseToast', 'autoCloseToast');
   }
 
-  userCloseToast() {
+  userCloseToast = () => {
     this.props.clearTimeout();
     this.setState({ shouldRemoveOldToast: true });
-  }
-  autoCloseToast() {
+  };
+  autoCloseToast = () => {
     this.props.clearTimeout();
     this.setState({ shouldRemoveOldToast: true });
-  }
+  };
 
   componentWillUnmount() {
     this.props.clearTimeout();
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     const closeExistingToast = nextState.shouldRemoveOldToast === true;
     if (closeExistingToast) {
@@ -70,7 +69,7 @@ class Toast extends React.Component {
       { 'is-success': type === 'success' },
       { 'is-info': type === 'info' },
       { 'is-warning': type === 'warning' },
-      { 'is-danger': type === 'error' }
+      { 'is-danger': type === 'error' },
     );
     //force it to go off in 3 secs unelss if you are a error toast . we leave you forever
     if (displayToast && type !== 'error' && !shouldRemoveOldToast) {
