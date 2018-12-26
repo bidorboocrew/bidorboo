@@ -1,6 +1,8 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
+const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+
 
 const ROUTES = require('../backend-route-constants');
 
@@ -68,6 +70,7 @@ module.exports = (app) => {
     ROUTES.API.BID.POST.bid,
     requireLogin,
     requireUserCanBid,
+    requireJobIsNotAwarded,
     requireUserHasNotAlreadyBidOnJob,
     async (req, res, done) => {
       try {

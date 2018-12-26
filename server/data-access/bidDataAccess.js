@@ -122,6 +122,7 @@ exports.bidDataAccess = {
                 profileImage: 1,
                 email: 1,
                 phone: 1,
+                viewedBy: 1,
               },
               populate: {
                 path: '_ownerRef',
