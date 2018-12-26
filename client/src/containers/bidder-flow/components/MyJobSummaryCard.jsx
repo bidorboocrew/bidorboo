@@ -17,7 +17,7 @@ import {
 export default class MyJobSummaryCard extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, viewedBy } = job;
+    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, viewedBy, state } = job;
 
     let daysSinceCreated = getDaysSinceCreated(createdAt);
     return (
@@ -28,7 +28,11 @@ export default class MyJobSummaryCard extends React.Component {
         }}
         className="card bidderRootSpecial is-clipped"
       >
-        <CardTitleWithBidCount fromTemplateId={fromTemplateId} bidsList={_bidsListRef} />
+        <CardTitleWithBidCount
+          jobState={state}
+          fromTemplateId={fromTemplateId}
+          bidsList={_bidsListRef}
+        />
 
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />

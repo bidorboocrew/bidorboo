@@ -61,7 +61,6 @@ export default class OthersAwardedJobDetailsCard extends React.Component {
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
-            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
 
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">
@@ -78,6 +77,8 @@ export default class OthersAwardedJobDetailsCard extends React.Component {
                 readOnly
               />
             </span>
+            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
+
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>

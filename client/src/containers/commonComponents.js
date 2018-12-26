@@ -128,21 +128,25 @@ export const JobStats = ({ daysSinceCreated, viewedBy }) => {
   );
 };
 
-export const CardTitleWithBidCount = ({ fromTemplateId, bidsList }) => {
+export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
+  debugger;
+  const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
     <header
       style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
       className="card-header is-clipped"
     >
       <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
-
       <a className="card-header-icon">
-        <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
-          <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-          {bidsCountLabel}
-        </span>
+        {!isAwarded && (
+          <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
+            <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
+            {bidsCountLabel}
+          </span>
+        )}
+        {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
       </a>
     </header>
   );

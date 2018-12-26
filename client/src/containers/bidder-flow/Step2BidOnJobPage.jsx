@@ -27,7 +27,7 @@ class BidOnJobPage extends React.Component {
               <div className="level-left">
                 <div className="level-item">
                   <p className="subtitle has-text-light is-5">
-                    <strong className="title has-text-light">Provide A Service</strong>
+                    <strong className="title has-text-light">Bid Now</strong>
                   </p>
                 </div>
               </div>

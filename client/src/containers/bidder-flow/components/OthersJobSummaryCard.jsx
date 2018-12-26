@@ -22,14 +22,26 @@ export default class OthersJobSummaryCard extends React.Component {
       _bidsListRef,
       viewedBy,
       _ownerRef,
+      state,
     } = job;
 
     let daysSinceCreated = getDaysSinceCreated(createdAt);
+    let isAwarded = state && state.toLowerCase() === 'awarded';
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     return (
-      <div onClick={onClickHandler} className="card bidderRootSpecial is-clipped">
-        <CardTitleWithBidCount fromTemplateId={fromTemplateId} bidsList={_bidsListRef} />
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          !isAwarded && onClickHandler();
+        }}
+        className={`card bidderRootSpecial is-clipped  ${isAwarded ? 'disabled' : ''}`}
+      >
+        <CardTitleWithBidCount
+          jobState={state}
+          fromTemplateId={fromTemplateId}
+          bidsList={_bidsListRef}
+        />
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
         </div>

@@ -59,8 +59,6 @@ export default class OthersOpenJobDetailsCard extends React.Component {
             />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
-            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
-
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
@@ -75,6 +73,7 @@ export default class OthersOpenJobDetailsCard extends React.Component {
                 }}
                 readOnly
               />
+              <MinBidDisplayLabelValue bidsList={_bidsListRef} />
             </span>
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
