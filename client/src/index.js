@@ -13,12 +13,12 @@ import App from './containers/App';
 import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
-import GetUserNotificationAndScrollToTop from './GetUserNotificationAndScrollToTop';
+import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 
 window.BidorBoo = {
-  stripe,
+  stripe: Object.freeze(stripe),
 };
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
@@ -28,9 +28,9 @@ ReactDOM.render(
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
-          <GetUserNotificationAndScrollToTop>
+          <GetNotificationsAndScroll>
             <App />
-          </GetUserNotificationAndScrollToTop>
+          </GetNotificationsAndScroll>
         </Router>
       </Provider>
     </StripeProvider>

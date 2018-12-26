@@ -42,14 +42,3 @@ export const getLocalDate = (UTCdate, formatPattern = 'YYYY-MM-DD HH:mm z') => {
       .format(formatPattern);
   }
 };
-
-export const BULMA_RESPONSIVE_SCREEN_SIZES = {
-  mobile: 768,
-  tablet: 769,
-  desktop: 1024,
-  widescreen: 1216,
-  fullhd: 1408,
-  isMobile: ({ windowWidth }) => {
-    return windowWidth < 768;
-  },
-};

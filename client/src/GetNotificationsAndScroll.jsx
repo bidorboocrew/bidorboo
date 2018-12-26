@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
 
-class GetUserNotificationAndScrollToTop extends React.Component {
+class GetNotificationsAndScroll extends React.Component {
   componentDidUpdate(prevProps) {
     const { s_isLoggedIn, a_getCurrentUser, location, a_getCurrentUserNotifications } = this.props;
     if (!s_isLoggedIn) {
@@ -42,5 +42,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(GetUserNotificationAndScrollToTop),
+  )(GetNotificationsAndScroll),
 );
