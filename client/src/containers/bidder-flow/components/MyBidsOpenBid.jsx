@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
+import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
 export default class MyOpenBidDetailsCard extends React.Component {
   render() {
@@ -13,7 +14,7 @@ export default class MyOpenBidDetailsCard extends React.Component {
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = `${bidDetails.state}`;
+    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 
@@ -41,7 +42,7 @@ export default class MyOpenBidDetailsCard extends React.Component {
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Bid Amount</p>
+                  <p className="heading">Your Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -61,7 +62,7 @@ export default class MyOpenBidDetailsCard extends React.Component {
             View Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

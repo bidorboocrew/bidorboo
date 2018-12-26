@@ -5,13 +5,13 @@ import moment from 'moment';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
 export const BID_STATUS_TO_DISPLAYLABEL = {
-  OPEN: 'Open',
+  OPEN: 'Pending',
   BOO: 'Boo',
-  WON: 'Won',
-  CANCEL: 'Cancelled',
-  WON_SEEN: 'Won',
-  CANCEL_SEEN: 'Cancel',
   BOO_SEEN: 'Boo',
+  WON: 'Won',
+  WON_SEEN: 'Won',
+  CANCEL: 'Cancelled',
+  CANCEL_SEEN: 'Cancelled',
 };
 
 export const TAB_IDS = {

@@ -4,6 +4,7 @@ import moment from 'moment';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
+import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 export default class AwardedBidDetailsCard extends React.Component {
   render() {
     const { bidDetails, notificationFeed, updateBidState } = this.props;
@@ -14,7 +15,7 @@ export default class AwardedBidDetailsCard extends React.Component {
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = `${bidDetails.state}`;
+    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 
@@ -83,7 +84,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             )}
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            {`Starts on : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
