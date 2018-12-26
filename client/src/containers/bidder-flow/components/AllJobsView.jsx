@@ -85,7 +85,7 @@ const MyJobs = (props) => {
       <div key={job._id} className="column">
         <MineTabSummaryCard
           onClickHandler={() => {
-            //xxx add handler to take you to the job page
+            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
           }}
           job={job}
           userDetails={userDetails}

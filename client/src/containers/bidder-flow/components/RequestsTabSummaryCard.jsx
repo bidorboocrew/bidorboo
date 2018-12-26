@@ -14,7 +14,15 @@ import {
 
 export default class RequestsTabSummaryCard extends React.Component {
   render() {
-    const { job, userDetails, onClickHandler } = this.props;
+    const {
+      job,
+      userDetails,
+      showCoverImg = true,
+      cardSpecialClass = 'bidderRootSpecial',
+      onClickHandler = () => null,
+      onCloseHandler = () => null,
+      withButtons = false,
+    } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -33,18 +41,22 @@ export default class RequestsTabSummaryCard extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          !isAwarded && onClickHandler();
+          if (!withButtons) {
+            !isAwarded && onClickHandler();
+          }
         }}
-        className={`card bidderRootSpecial is-clipped  ${isAwarded ? 'disabled' : ''}`}
+        className={`card is-clipped ${cardSpecialClass} ${isAwarded ? 'disabled' : ''}`}
       >
         <CardTitleWithBidCount
           jobState={state}
           fromTemplateId={fromTemplateId}
           bidsList={_bidsListRef}
         />
-        <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
-        </div>
+        {showCoverImg && (
+          <div className="card-image is-clipped">
+            <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          </div>
+        )}
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
@@ -63,6 +75,21 @@ export default class RequestsTabSummaryCard extends React.Component {
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
+        {withButtons && (
+          <footer className="card-footer">
+            <div className="card-footer-item">
+              <a onClick={onClickHandler} className="button is-success is-fullwidth">
+                Bid
+              </a>
+            </div>
+            <div className="card-footer-item">
+              <a onClick={onCloseHandler} className="button is-outlined is-fullwidth">
+                Close
+              </a>
+            </div>
+          </footer>
+        )}
+
         {associatedUserActions(job, currentUserId)}
         <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
