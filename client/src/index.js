@@ -20,11 +20,11 @@ const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 window.BidorBoo = {
   stripe: Object.freeze(stripe),
 };
-
+console.log();
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 const ErrorBoundary = bugsnagClient.use(createPlugin(React));
-ReactDOM.render(
-  <ErrorBoundary>
+if (process.env.NODE_ENV === 'development') {
+  ReactDOM.render(
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
@@ -33,10 +33,25 @@ ReactDOM.render(
           </GetNotificationsAndScroll>
         </Router>
       </Provider>
-    </StripeProvider>
-  </ErrorBoundary>,
-  document.getElementById('BidOrBoo-app'),
-);
+    </StripeProvider>,
+    document.getElementById('BidOrBoo-app'),
+  );
+} else {
+  ReactDOM.render(
+    <ErrorBoundary>
+      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
+        <Provider store={store}>
+          <Router history={appHistory}>
+            <GetNotificationsAndScroll>
+              <App />
+            </GetNotificationsAndScroll>
+          </Router>
+        </Provider>
+      </StripeProvider>
+    </ErrorBoundary>,
+    document.getElementById('BidOrBoo-app'),
+  );
+}
 
 //offline mode support
 // xxx said fix this default serviceworker is
