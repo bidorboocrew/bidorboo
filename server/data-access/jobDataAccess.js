@@ -290,7 +290,7 @@ exports.jobDataAccess = {
       };
       const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
-      JobModel.find({}, jobFields, {
+      JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
         sort: { createdAt: -1 },
       })
         .where('startingDateAndTime.date')
