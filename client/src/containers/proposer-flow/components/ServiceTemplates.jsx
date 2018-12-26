@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import PropTypes from 'prop-types';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
 
 class ServiceTemplates extends React.Component {
   static propTypes = {

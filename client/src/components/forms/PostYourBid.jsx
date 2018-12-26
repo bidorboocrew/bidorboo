@@ -100,7 +100,7 @@ class PostYourBid extends React.Component {
                     setFocusImmediately={true}
                     label="Enter Bid Amount"
                     id="bidAmountField"
-                    className="input is-focused shadow-drop-center"
+                    className="input is-focused"
                     type="text"
                     onBlur={handleBlur}
                     helpText="Bid Amount are in CAD. E.g 50"

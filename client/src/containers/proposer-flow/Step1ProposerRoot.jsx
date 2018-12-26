@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ServiceTemplates from '../../components/ServiceTemplates';
+import ServiceTemplates from './components/ServiceTemplates';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
