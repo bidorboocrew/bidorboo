@@ -16,7 +16,7 @@ class PaymentHandling extends React.Component {
         stripeTransactionToken: clientStripeToken.id,
         jobId: jobId,
         bidderId: bidderId,
-        chargeAmount: this.amount,
+        chargeAmount: amount,
       });
       onCompleteHandler();
     }

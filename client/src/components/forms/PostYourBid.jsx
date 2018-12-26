@@ -116,6 +116,7 @@ class PostYourBid extends React.Component {
                 </section>
                 <footer className="modal-card-foot">
                   <button
+                    type="submit"
                     disabled={isSubmitting || !isValid}
                     onClick={handleSubmit}
                     className="button is-primary"

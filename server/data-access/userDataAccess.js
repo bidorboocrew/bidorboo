@@ -31,7 +31,7 @@ exports.findByIdAndGetPopulatedBids = (userId) =>
 exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const bidsWithUpdatedStatus = ['BOO', 'WIN', 'CANCEL', 'AWARDED'];
+      const bidsWithUpdatedStatus = ['OPEN', 'BOO', 'WON', 'CANCEL'];
       const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
