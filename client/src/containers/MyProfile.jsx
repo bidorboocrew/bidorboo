@@ -183,7 +183,7 @@ class MyProfile extends React.Component {
                       />
                     </div>
                   )}
-                <br />
+                  <br />
                   {!showAddPaymentDetails && (
                     <div>
                       <HeaderTitle title="Payment Setup" />
@@ -281,8 +281,8 @@ const userImageAndStats = (
   return (
     <React.Fragment>
       <div
-        style={{ backgroundColor: 'white', padding: '0.25rem', height: '100%' }}
-        className="has-text-centered"
+        style={{ backgroundColor: '#363636', padding: '0.25rem', height: '100%' }}
+        className="has-text-centered has-text-white"
       >
         <div
           onClick={(e) => {
@@ -301,19 +301,19 @@ const userImageAndStats = (
         </div>
         <br />
         <div className="field has-text-centered">
-          <label className="label">Name</label>
+          <label className="label has-text-white">Name</label>
           <div className="control has-text-centered">
             <div className="control has-text-centered">{displayName}</div>
           </div>
         </div>
         <div className="field has-text-centered">
-          <label className="label">Status</label>
+          <label className="label has-text-white">Status</label>
           <div className="control has-text-centered">
             <div className="control has-text-centered">{membershipStatusDisplay}</div>
           </div>
         </div>
         <div className="field has-text-centered">
-          <label className="label">Rating</label>
+          <label className="label has-text-white">Rating</label>
           <div className="control has-text-centered">{globalRating}</div>
         </div>
         {/* <div className="field has-text-centered">
