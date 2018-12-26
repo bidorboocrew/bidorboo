@@ -185,7 +185,7 @@ class BidderRootPage extends React.Component {
           handleGeoSearch={this.handleGeoSearch}
         />
         <div style={{ padding: '0.5rem' }}>
-          {hasActiveSearch && <ActiveSearchFilters clearFilters={this.clearFilter} />}
+          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav}/>}
 
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
           <br />
