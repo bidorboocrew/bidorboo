@@ -5,11 +5,16 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from './commonComponents';
+import {
+  DisplayLabelValue,
+  CountDownComponent,
+  getDaysSinceCreated,
+  JobStats,
+} from '../../commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
   render() {
-    const { job, userDetails, deleteJob, notificationFeed } = this.props;
+    const { job, deleteJob, notificationFeed } = this.props;
     const {
       startingDateAndTime,
       createdAt,
@@ -19,28 +24,16 @@ export default class JobSummaryForPostedJobs extends React.Component {
       viewedBy,
     } = job;
 
-    // in case we cant find the job
-    if (!templatesRepo[fromTemplateId]) {
-      return null;
-    }
-
-    let temp = userDetails
-      ? userDetails
-      : { profileImage: { url: '' }, displayName: '', rating: { globalRating: 'No Ratings Yet' } };
-
-    const { profileImage, displayName, rating } = temp;
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
+    let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+        }}
+        className="card bidderRootSpecial is-clipped"
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -87,32 +80,12 @@ export default class JobSummaryForPostedJobs extends React.Component {
             />
 
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue
-              labelText="Viewed:"
-              labelValue={`${viewedBy ? viewedBy.length : 0} times`}
-            />
 
-            <p className="is-size-7">
-              <span style={{ fontSize: '10px', color: 'grey' }}>
-                {`Posted (${daysSinceCreated} ago)`}
-              </span>
-            </p>
+            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         {renderFooter({ job, notificationFeed })}
-        <br />
-        <CountDownComponent
-          startingDate={startingDateAndTime.date}
-          render={({ days, hours, minutes, seconds }) => {
-            return (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`expires in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
+        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
       </div>
     );
   }
@@ -136,13 +109,7 @@ const renderFooter = ({ job, notificationFeed }) => {
   return (
     <footer className="card-footer">
       <div className="card-footer-item">
-        <a
-          className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}
-          onClick={(e) => {
-            e.preventDefault();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-          }}
-        >
+        <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
           <span className="icon">
             <i className="fa fa-hand-paper" />
           </span>

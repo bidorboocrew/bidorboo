@@ -5,47 +5,36 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent } from './commonComponents';
+import { DisplayLabelValue, CountDownComponent, UserImageAndRating } from '../../commonComponents';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId } = job;
-
-    // in case we cant find the job
-    if (!templatesRepo[fromTemplateId]) {
-      return null;
-    }
+    const { startingDateAndTime, fromTemplateId } = job;
 
     const { _awardedBidRef } = job;
     const { bidAmount, _bidderRef } = _awardedBidRef;
 
-    let temp = _bidderRef
-      ? _bidderRef
-      : {
-          profileImage: { url: '' },
-          displayName: '',
-          rating: { globalRating: 'No Ratings Yet' },
-        };
-
-    const { profileImage, displayName, rating } = temp;
-    let daysSinceCreated = '';
-    try {
-      daysSinceCreated = createdAt
-        ? moment.duration(moment().diff(moment(createdAt))).humanize()
-        : 0;
-    } catch (e) {
-      //xxx we dont wana fail simply cuz we did not get the diff in time
-      console.error(e);
-    }
-
     return (
-      <div className="card bidderRootSpecial is-clipped">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+        }}
+        className="card bidderRootSpecial is-clipped"
+      >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+
+          <a className="card-header-icon">
+            <span className="has-text-success">
+              <i style={{ marginRight: 2 }} className="fas fa-hand-holding-usd" />
+              {bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
+            </span>
+          </a>
         </header>
 
         <div className="card-image is-clipped">
@@ -55,17 +44,10 @@ export default class JobSummaryForAwarded extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="content">
-            <DisplayLabelValue
-              labelText="Bid Amount:"
-              labelValue={bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
-            />
+          <div className="has-text-dark is-size-7">Awarded Bidder:</div>
+          <UserImageAndRating userDetails={_bidderRef} />
 
-            <DisplayLabelValue labelText="Awarded Bidder Name:" labelValue={displayName} />
-            <DisplayLabelValue
-              labelText="Awarded Bidder Rating:"
-              labelValue={rating.globalRating}
-            />
+          <div className="content">
             <DisplayLabelValue
               labelText="Job Start Date:"
               labelValue={
@@ -74,35 +56,17 @@ export default class JobSummaryForAwarded extends React.Component {
             />
           </div>
         </div>
-        {renderFooter({ job })}
-        <br />
-        <CountDownComponent
-          startingDate={startingDateAndTime.date}
-          render={({ days, hours, minutes, seconds }) => {
-            return (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`Starts in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
+        {renderFooter()}
+        <CountDownComponent startingDate={startingDateAndTime.date} />
       </div>
     );
   }
 }
 
-let renderFooter = ({ job }) => (
+let renderFooter = () => (
   <footer className="card-footer">
     <div className="card-footer-item">
-      <a
-        className="button is-success is-fullwidth "
-        onClick={(e) => {
-          e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
-        }}
-      >
+      <a className="button is-success is-fullwidth ">
         <span style={{ marginLeft: 4 }}>
           <i className="fa fa-hand-paper" /> Contact
         </span>

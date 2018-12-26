@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
-import * as C from '../constants/constants';
+import * as C from '../constants/enumConstants';
 import ProfileForm from '../components/forms/ProfileForm';
 import axios from 'axios';
-import PaymentForm from '../components/forms/PaymentForm';
+import PaymentSetupForm from '../components/forms/PaymentSetupForm';
 import FileUploaderComponent from '../components/FileUploaderComponent';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
@@ -83,141 +83,141 @@ class MyProfile extends React.Component {
         </section>
 
         <section className="section">
-          <div className="columns">
-            <div className="column is-2">
-              {userImageAndStats(
-                this.toggleShowUploadProfileImageDialog,
-                profileImage,
-                membershipStatusDisplay,
-                rating,
-                displayName,
-              )}
-            </div>
-            <div className="column">
-              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
-                {!isEditProfile && (
-                  <div className="field">
-                    <HeaderTitle title="My Details" />
-                    <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                    <DisplayLabelValue
-                      labelText="Email:"
-                      labelValue={
-                        <div>
-                          <span>{email.emailAddress}</span>
-                          {email.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-success">
-                              <i className="fas fa-check is-success" />
-                              <span style={{ marginLeft: 2 }}>Verified</span>
-                            </span>
-                          )}
-                          {!email.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-grey">
-                              <span style={{ marginLeft: 2 }}>Not Verified</span>
-                            </span>
-                          )}
-                        </div>
-                      }
-                    />
+          <div className="container">
+            <div className="columns is-gapless">
+              <div className="column is-narrow">
+                {userImageAndStats(
+                  this.toggleShowUploadProfileImageDialog,
+                  profileImage,
+                  membershipStatusDisplay,
+                  rating,
+                  displayName,
+                )}
+              </div>
+              <div className="column">
+                <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+                  {!isEditProfile && (
+                    <div className="field">
+                      <HeaderTitle title="My Details" />
+                      <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                      <DisplayLabelValue
+                        labelText="Email:"
+                        labelValue={
+                          <div>
+                            <span>{email.emailAddress}</span>
+                            {email.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <i className="fas fa-check is-success" />
+                                <span style={{ marginLeft: 2 }}>Verified</span>
+                              </span>
+                            )}
+                            {!email.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                <span style={{ marginLeft: 2 }}>Not Verified</span>
+                              </span>
+                            )}
+                          </div>
+                        }
+                      />
 
-                    {shouldShowEmailVerification && (
-                      <VerifyEmail getCurrentUser={a_getCurrentUser} />
-                    )}
+                      {shouldShowEmailVerification && (
+                        <VerifyEmail getCurrentUser={a_getCurrentUser} />
+                      )}
 
-                    <DisplayLabelValue
-                      labelText="Phone Number:"
-                      labelValue={
-                        <div>
-                          <span>{phoneNumber}</span>
-                          {phone.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-success">
-                              <i className="fas fa-check is-success" />
-                              <span style={{ marginLeft: 2 }}>Verified</span>
-                            </span>
-                          )}
-                          {!phone.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-grey">
-                              <span style={{ marginLeft: 2 }}>Not Verified</span>
-                            </span>
-                          )}
-                        </div>
-                      }
-                    />
-                    {shouldShowPhoneVerification && (
-                      <VerifyPhone getCurrentUser={a_getCurrentUser} />
-                    )}
+                      <DisplayLabelValue
+                        labelText="Phone Number:"
+                        labelValue={
+                          <div>
+                            <span>{phoneNumber}</span>
+                            {phone.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <i className="fas fa-check is-success" />
+                                <span style={{ marginLeft: 2 }}>Verified</span>
+                              </span>
+                            )}
+                            {!phone.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                <span style={{ marginLeft: 2 }}>Not Verified</span>
+                              </span>
+                            )}
+                          </div>
+                        }
+                      />
+                      {shouldShowPhoneVerification && (
+                        <VerifyPhone getCurrentUser={a_getCurrentUser} />
+                      )}
 
-                    <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <TextareaAutosize
-                      value={personalParagraph}
-                      className="textarea is-marginless is-paddingless"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a',
-                      }}
-                      readOnly
-                    />
+                      <HeaderTitle specialMarginVal={8} title="About Me" />
+                      <TextareaAutosize
+                        value={personalParagraph}
+                        className="textarea is-marginless is-paddingless"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                          color: '#4a4a4a',
+                        }}
+                        readOnly
+                      />
 
+                      <div>
+                        <a
+                          className="button is-primary"
+                          onClick={() => {
+                            this.toggleEditProfile();
+                          }}
+                        >
+                          <i className="far fa-edit" />
+                          <span style={{ marginLeft: 4 }}>Edit Details</span>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  {isEditProfile && (
                     <div>
+                      <HeaderTitle title="Edit My Details" />
+
+                      <ProfileForm
+                        userDetails={userDetails}
+                        onCancel={this.toggleEditProfile}
+                        onSubmit={this.closeFormAndSubmit}
+                      />
+                    </div>
+                  )}
+                <br />
+                  {!showAddPaymentDetails && (
+                    <div>
+                      <HeaderTitle title="Payment Setup" />
                       <a
                         className="button is-primary"
                         onClick={() => {
-                          this.toggleEditProfile();
+                          this.toggleAddPaymentDetails();
                         }}
                       >
                         <i className="far fa-edit" />
-                        <span style={{ marginLeft: 4 }}>Edit Details</span>
+                        <span style={{ marginLeft: 4 }}>Add Payment Details</span>
                       </a>
                     </div>
-                  </div>
-                )}
-                {isEditProfile && (
-                  <div>
-                    <HeaderTitle title="Edit My Details" />
-
-                    <ProfileForm
-                      userDetails={userDetails}
-                      onCancel={this.toggleEditProfile}
-                      onSubmit={this.closeFormAndSubmit}
-                    />
-                  </div>
-                )}
-              </section>
-              <br />
-              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
-                {!showAddPaymentDetails && (
-                  <div>
-                    <HeaderTitle title="Payout Details" />
-                    <a
-                      className="button is-primary"
-                      onClick={() => {
-                        this.toggleAddPaymentDetails();
-                      }}
-                    >
-                      <i className="far fa-edit" />
-                      <span style={{ marginLeft: 4 }}>Add Payment Details</span>
-                    </a>
-                  </div>
-                )}
-                {showAddPaymentDetails && (
-                  <div>
-                    <HeaderTitle title="Add Payment Details" />
-                    <React.Fragment>
-                      Data is secured via
-                      <a href="https://stripe.com/ca" target="_blank">
-                        {` Stripe payment gateway.`}
-                      </a>
-                      {` BidOrBoo will NOT be storing any sensitive info.`}
-                    </React.Fragment>
-                    <br /> <br />
-                    <PaymentForm
-                      userDetails={userDetails}
-                      onCancel={this.toggleAddPaymentDetails}
-                      onSubmit={(vals) => console.log(vals)}
-                    />
-                  </div>
-                )}
-              </section>
+                  )}
+                  {showAddPaymentDetails && (
+                    <div>
+                      <HeaderTitle title="Add Payment Details" />
+                      <React.Fragment>
+                        Data is secured via
+                        <a href="https://stripe.com/ca" target="_blank">
+                          {` Stripe payment gateway.`}
+                        </a>
+                        {` BidOrBoo will NOT be storing any sensitive info.`}
+                      </React.Fragment>
+                      <br /> <br />
+                      <PaymentSetupForm
+                        userDetails={userDetails}
+                        onCancel={this.toggleAddPaymentDetails}
+                        onSubmit={(vals) => console.log(vals)}
+                      />
+                    </div>
+                  )}
+                </section>
+              </div>
             </div>
           </div>
         </section>

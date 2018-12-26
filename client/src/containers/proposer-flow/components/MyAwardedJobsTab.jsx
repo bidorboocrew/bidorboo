@@ -1,7 +1,7 @@
 import React from 'react';
 
 import JobSummaryForAwarded from './JobSummaryForAwarded';
-import { TAB_IDS } from './commonComponents';
+import { TAB_IDS } from './helperComponents';
 
 class MyAwardedJobsTab extends React.Component {
   render() {

@@ -80,6 +80,37 @@ const getOpenBidDetails = {
   },
 };
 
+const getAwardedBidDetail = {
+  isPending: (state = initialState) => ({
+    ...state,
+    selectedAwardedBid: {},
+    isLoadingBids: true,
+  }),
+  isFullfilled: (state = initialState, { payload }) => {
+    if (payload) {
+      const bid = payload && payload.data;
+
+      return {
+        ...state,
+        isLoadingBids: false,
+        selectedAwardedBid: bid,
+      };
+    }
+  },
+  isRejected: (state = initialState, { payload }) => {
+    const getBidsErrorMsg =
+      payload && payload.data
+        ? payload.data
+        : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
+    return {
+      ...state,
+      isLoadingBids: false,
+      selectedAwardedBid: {},
+      getBidsErrorMsg: getBidsErrorMsg,
+    };
+  },
+};
+
 const getMyAwardedBids = {
   isPending: (state = initialState) => ({
     ...state,
@@ -123,6 +154,13 @@ export default handleActions(
     [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._PENDING}`]: getOpenBidDetails.isPending,
     [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._FULFILLED}`]: getOpenBidDetails.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._REJECTED}`]: getOpenBidDetails.isRejected,
+
+    // get awarded bid details
+    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._PENDING}`]: getAwardedBidDetail.isPending,
+    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${
+      A._FULFILLED
+    }`]: getAwardedBidDetail.isFullfilled,
+    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
     // get awarded bids
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._PENDING}`]: getMyAwardedBids.isPending,
     [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._FULFILLED}`]: getMyAwardedBids.isFullfilled,

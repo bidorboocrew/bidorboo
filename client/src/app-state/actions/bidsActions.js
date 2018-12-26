@@ -25,7 +25,7 @@ export const selectJobToBidOn = (jobDetails) => (dispatch) => {
     },
   });
   // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.BIDDER.bidNow);
+  switchRoute(ROUTES.CLIENT.BIDDER.BidOnJobPage);
 };
 
 export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
@@ -44,7 +44,7 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${resp.data._id}`);
+          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${resp.data._id}`);
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -95,12 +95,12 @@ export const getMyAwardedBids = () => (dispatch) => {
   });
 };
 
-export const getAwardedBidDetails = (openBidId) => (dispatch) => {
+export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    type: A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS,
     payload: axios
-      .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
+      .get(ROUTES.API.BID.GET.awardedBidDetails, { params: { awardedBidId } })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),

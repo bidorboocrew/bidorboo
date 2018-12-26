@@ -1,6 +1,8 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
+const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+
 
 const ROUTES = require('../backend-route-constants');
 
@@ -52,7 +54,7 @@ module.exports = (app) => {
       if (req.query && req.query.awardedBidId) {
         const { awardedBidId } = req.query;
         const userMongoDBId = req.user._id;
-        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, awardedBidId);
+        const userBid = await bidDataAccess.getAwardedBidDetails(userMongoDBId, awardedBidId);
         return res.send(userBid);
       } else {
         return res.status(400).send({
@@ -68,6 +70,7 @@ module.exports = (app) => {
     ROUTES.API.BID.POST.bid,
     requireLogin,
     requireUserCanBid,
+    requireJobIsNotAwarded,
     requireUserHasNotAlreadyBidOnJob,
     async (req, res, done) => {
       try {

@@ -72,30 +72,27 @@ class ReviewRequestAndBidsPage extends React.Component {
         </section>
         <section className="section">
           <div className="container">
+            {breadCrumbs({
+              activePageTitle: title,
+            })}
             {showBidReviewModal && (
               <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
             )}
 
             {!showBidReviewModal && (
-              <React.Fragment>
-                {breadCrumbs({
-                  activePageTitle: title,
-                })}
-
-                <div className="columns is-multiline">
-                  <div className="column">
-                    <BidsTable
-                      jobId={selectedJobWithBids._id}
-                      bidList={selectedJobWithBids._bidsListRef}
-                      markBidAsSeen={a_markBidAsSeen}
-                      showBidReviewModal={this.showBidReviewModal}
-                    />
-                  </div>
-                  <div className="column">
-                    <JobFullDetailsCard job={selectedJobWithBids} />
-                  </div>
+              <div className="columns is-multiline">
+                <div className="column">
+                  <BidsTable
+                    jobId={selectedJobWithBids._id}
+                    bidList={selectedJobWithBids._bidsListRef}
+                    markBidAsSeen={a_markBidAsSeen}
+                    showBidReviewModal={this.showBidReviewModal}
+                  />
                 </div>
-              </React.Fragment>
+                <div className="column">
+                  <JobFullDetailsCard job={selectedJobWithBids} />
+                </div>
+              </div>
             )}
           </div>
         </section>

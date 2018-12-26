@@ -1,10 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
 
-export default class AwardedBidDetailsCard extends React.Component {
+import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
+
+export default class MyBidsAwardedBid extends React.Component {
   render() {
     const { bidDetails, notificationFeed, updateBidState } = this.props;
 
@@ -14,11 +16,10 @@ export default class AwardedBidDetailsCard extends React.Component {
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = `${bidDetails.state}`;
+    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
-    const jobTitleText = _jobRef.title;
     const fromTemplateId = _jobRef.fromTemplateId;
-    const startingDateText = _jobRef.startingDateAndTime.time;
+
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
 
@@ -33,28 +34,29 @@ export default class AwardedBidDetailsCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: 14 }} className="card">
-        <div className="card-content">
+      <div style={{ marginBottom: '3rem' }} className="card">
+        <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="content">
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
                 <div>
-                  <img className="bdb-cover-img" src={`${profileImage.url}`} />
-                  <div>
-                    <p className="subtitle">{displayName}</p>
-                  </div>
+                  <p className="heading">Requester</p>
+                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
+                    <img alt="profile" src={profileImage.url} />
+                  </figure>
+                  <div className="help">{displayName}</div>
                 </div>
               </div>
 
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="is-size-6">Service Type</p>
+                  <p className="heading">Service Type</p>
                   <p className="subtitle">{fromTemplateId}</p>
                 </div>
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="is-size-6">Bid Amount</p>
+                  <p className="heading">Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -70,7 +72,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             }}
             className="card-footer-item"
           >
-            Review Details
+            View Details
             {updatedStatus && (
               <span
                 style={{
@@ -83,9 +85,7 @@ export default class AwardedBidDetailsCard extends React.Component {
             )}
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY',
-            )} at ${startingDateText}`}
+            {`Starts on : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

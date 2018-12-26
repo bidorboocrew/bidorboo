@@ -13,18 +13,22 @@ import '../assets/index.css';
 import {
   Header,
   HomePage,
-  ProposerRoot,
-  CreateAJob,
-  MyOpenJobsPage,
-  BidderRoot,
   MyProfile,
-  BidNow,
-  MyBids,
-  ReviewRequestAndBidsPage,
-  CurrentPostedBid,
+  VerificationPage,
+
+  ProposerRootPage,
+  CreateAJobPage,
+  MyOpenJobsPage,
   ReviewAwardedJobAndBidsPage,
-  CurrentAwardedBid,
-  Verification,
+  ReviewRequestAndBidsPage,
+
+
+  BidderRootPage,
+  BidOnJobPage,
+  ReviewBidAndRequestPage,
+  ReviewAwardedBidPage,
+  MyBidsPage,
+
 } from './index';
 
 class App extends React.Component {
@@ -59,15 +63,15 @@ class App extends React.Component {
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
-            component={ProposerRoot}
+            component={ProposerRootPage}
           />
 
           {/* proposer related routes */}
-          <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRoot} />
+          <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
-            component={CreateAJob}
+            component={CreateAJobPage}
           />
 
           <Route
@@ -92,23 +96,23 @@ class App extends React.Component {
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
-            component={BidderRoot}
+            component={BidderRootPage}
           />
-          <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRoot} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.bidNow} component={BidNow} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBids} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
           <Route
             exact
-            path={`${ROUTES.CLIENT.BIDDER.currentPostedBid}/:bidId`}
-            component={CurrentPostedBid}
+            path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/:bidId`}
+            component={ReviewBidAndRequestPage}
           />
           <Route
             exact
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
-            component={CurrentAwardedBid}
+            component={ReviewAwardedBidPage}
           />
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
-          <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={Verification} />
+          <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
       </div>

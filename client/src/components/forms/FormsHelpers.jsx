@@ -1,5 +1,5 @@
 import React from 'react';
-import GeoSearch from '../googleMapsComponents/GeoSearch';
+import GeoSearch from './GeoSearch';
 import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 import TimePickerInput from '../forms/TimePickerInput';
@@ -54,6 +54,7 @@ export const TextInput = ({
   className,
   helpText,
   iconLeft,
+  setFocusImmediately,
   ...props
 }) => {
   let inputClassName = className || 'input';
@@ -70,6 +71,7 @@ export const TextInput = ({
       <div className="control">
         {!iconLeft && (
           <input
+            autoFocus={setFocusImmediately}
             id={id}
             className={inputClassName}
             type={type}

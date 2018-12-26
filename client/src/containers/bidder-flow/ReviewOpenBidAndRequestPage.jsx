@@ -6,37 +6,48 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
+import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
+
 import { Spinner } from '../../components/Spinner';
-import { getAwardedBidFullDetails } from '../../app-state/actions/jobActions';
+import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+import RequesterAndOpenBid from './components/RequesterAndOpenBid';
 
-import JobFullDetailsCard from './components/JobFullDetailsCard';
-import BidAndBidderFullDetails from './components/BidAndBidderFullDetails';
-
-class ReviewAwardedJobAndBidsPage extends React.Component {
+class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
     super(props);
-    this.jobId = null;
+    this.bidId = null;
 
-    if (props.match && props.match.params && props.match.params.jobId) {
-      this.jobId = props.match.params.jobId;
+    if (props.match && props.match.params && props.match.params.bidId) {
+      this.bidId = props.match.params.bidId;
     }
+    // http://localhost:3000/bidder/review-my-bid-details/5c22963be212a73af0a12f28
   }
 
   componentDidMount() {
-    const { a_getAwardedBidFullDetails } = this.props;
-
-    if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+    if (!this.bidId) {
+      switchRoute(ROUTES.CLIENT.BIDDER.root);
       return null;
     }
 
-    a_getAwardedBidFullDetails(this.jobId);
+    this.props.a_getOpenBidDetails(this.bidId);
   }
 
-  render() {
-    const { selectedAwardedJob } = this.props;
+  showBidReviewModal = (bid) => {
+    this.setState({ showBidReviewModal: true, bidUnderReview: bid });
+  };
+  hideBidReviewModal = () => {
+    this.setState({ showBidReviewModal: false, bidUnderReview: {} });
+  };
 
-    if (!selectedAwardedJob || !selectedAwardedJob._id) {
+  render() {
+    const { selectedOpenBid } = this.props;
+    // while fetching the job
+    if (
+      !selectedOpenBid ||
+      !selectedOpenBid._id ||
+      !selectedOpenBid._jobRef ||
+      !selectedOpenBid._jobRef._id
+    ) {
       return (
         <section className="section">
           <div className="container">
@@ -46,7 +57,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
       );
     }
 
-    const { _awardedBidRef } = selectedAwardedJob;
+    const selectedAwardedJob = selectedOpenBid._jobRef;
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
@@ -55,24 +66,21 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
           <div className="hero-body">
             <div>
               <h1 style={{ color: 'white' }} className="title">
-                My Requests
+                My Bids
               </h1>
             </div>
           </div>
         </section>
+
         <section className="section">
           <div className="container">
-            {breadCrumbs({
-              activePageTitle: title,
-            })}
+            {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
               <div className="column is-4">
-                <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
+                <RequesterAndOpenBid bid={selectedOpenBid} job={selectedAwardedJob} />
               </div>
               <div className="column">
-                <JobFullDetailsCard
-                  job={selectedAwardedJob}
-                />
+                <MyOpenBidJobDetails job={selectedAwardedJob} />
               </div>
             </div>
           </div>
@@ -82,26 +90,26 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
+    selectedOpenBid: bidsReducer.selectedOpenBid,
+    isLoading: bidsReducer.isLoadingBids,
+    currentUserDetails: userReducer.userDetails,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
+    a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewAwardedJobAndBidsPage);
+)(ReviewOpenBidAndRequestPage);
 
-const breadCrumbs = (props) => {
-  const { activePageTitle } = props;
+const breadCrumbs = ({ activePageTitle }) => {
   return (
     <div style={{ marginBottom: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
@@ -109,10 +117,10 @@ const breadCrumbs = (props) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
               }}
             >
-              Awarded
+              My Bids
             </a>
           </li>
           <li className="is-active">

@@ -1,10 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
+import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
-export default class OpenBidDetailsCard extends React.Component {
+export default class MyBidsOpenBid extends React.Component {
   render() {
     const { bidDetails } = this.props;
     if (!bidDetails) {
@@ -13,20 +14,15 @@ export default class OpenBidDetailsCard extends React.Component {
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = `${bidDetails.state}`;
+    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
-    const jobTitleText = _jobRef.title;
     const fromTemplateId = _jobRef.fromTemplateId;
-    const startingDateText = _jobRef.startingDateAndTime.time;
 
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
     return (
       <div style={{ marginBottom: 14 }} className="card">
-        <header className="card-header">
-          <p className="card-header-title">{jobTitleText}</p>
-        </header>
-        <div className="card-content">
+        <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="content">
             <div className="level is-clipped">
               <div className="level-item has-text-centered">
@@ -35,12 +31,7 @@ export default class OpenBidDetailsCard extends React.Component {
                   <figure style={{ margin: '0 auto' }} className="image is-48x48">
                     <img alt="profile" src={profileImage.url} />
                   </figure>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Requester Name</p>
-                  <p className="subtitle">{displayName}</p>
+                  <div className="help">{displayName}</div>
                 </div>
               </div>
               <div className="level-item has-text-centered">
@@ -51,7 +42,7 @@ export default class OpenBidDetailsCard extends React.Component {
               </div>
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="heading">Bid Amount</p>
+                  <p className="heading">Your Bid Amount</p>
                   <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
                 </div>
               </div>
@@ -62,16 +53,16 @@ export default class OpenBidDetailsCard extends React.Component {
           <a
             onClick={(e) => {
               e.preventDefault();
-              switchRoute(`${ROUTES.CLIENT.BIDDER.currentPostedBid}/${bidDetails._id}`);
+              switchRoute(
+                `${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`,
+              );
             }}
             className="card-footer-item"
           >
-            Bid Details
+            View Details
           </a>
           <div className="card-footer-item">
-            {`Due : ${moment(_jobRef.startingDateAndTime.date).format(
-              'MMMM Do YYYY',
-            )} at ${startingDateText}`}
+            {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

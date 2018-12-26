@@ -1,25 +1,14 @@
 import React from 'react';
 
-import { AddAwardedJobToCalendar } from './helperComponents';
-
-export default class ReviewBidAndBidder extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showAcceptModal: false,
-    };
-  }
-
+export default class RequesterAndOpenBid extends React.Component {
   render() {
     const { bid, job } = this.props;
 
-    if (!bid || !bid._id || !bid._bidderRef) {
+    if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
     }
 
-    const { rating, displayName, profileImage, email, phone } = bid._bidderRef;
-
+    const { rating, displayName, profileImage } = job._ownerRef;
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
@@ -32,11 +21,14 @@ export default class ReviewBidAndBidder extends React.Component {
       >
         <header style={{ borderBottom: '1px solid white' }} className="card-header is-clipped">
           <p style={{ color: 'white' }} className="card-header-title">
-            Awarded Bidder Details
+            Bid Details
           </p>
         </header>
         <div className="card-content">
           <br />
+          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+            Requester Info
+          </div>
           <div className="media">
             <div
               style={{
@@ -56,24 +48,22 @@ export default class ReviewBidAndBidder extends React.Component {
               <p className="is-size-6">{bidderOverallRating}</p>
             </div>
           </div>
-
-          <div className="is-size-7" />
-          <br />
-          <div
-            style={{ marginBottom: 6 }}
-            className="has-text-weight-bold is-size-5 has-text-success"
-          >
-            Contact Info
-          </div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
-          <DisplayLabelValue
-            labelText="Phone Number:"
-            labelValue={phone.phoneNumber || 'not provided'}
-          />
-          <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
+          <div className="help">* contact info will be displayed when you are awarded</div>
+
           <br />
-          <AddAwardedJobToCalendar job={job} />
+          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+            Your Bid Info
+          </div>
+          <div style={{ marginBottom: 6 }}>
+            <div className="has-text-light is-size-7">Your Bid:</div>
+            <div className="has-text-weight-bold is-size-6 has-text-warning">{`${bidAmount} ${bidCurrency}`}</div>
+          </div>
+          <div style={{ marginBottom: 6 }}>
+            <div className="has-text-light is-size-7">Your Bid Status :</div>
+            <div className="has-text-weight-bold is-size-6 has-text-warning">Pending</div>
+          </div>
+          <div className="help">* Requester did not award this job to anyone yet</div>
         </div>
       </div>
     );

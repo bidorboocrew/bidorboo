@@ -5,7 +5,7 @@ import { switchRoute } from '../utils';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
-class HomePage extends React.Component {
+export default class HomePage extends React.Component {
   render() {
     return (
       <div>
@@ -22,7 +22,7 @@ class HomePage extends React.Component {
 
         <section className="section">
           <div className="container">
-            <div className="columns is-centered">
+            <div className="columns is-multiline is-centered">
               <div className="column is-half">
                 <BidOrBooCard
                   logoImg={requestImg}
@@ -48,8 +48,6 @@ class HomePage extends React.Component {
     );
   }
 }
-
-export default HomePage;
 
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;

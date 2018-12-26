@@ -9,9 +9,10 @@ import {
   UserImageAndRating,
   getDaysSinceCreated,
   JobStats,
+  MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
-export default class JobFullDetailsCard extends React.Component {
+export default class MyOpenBidJobDetails extends React.Component {
   render() {
     const { job } = this.props;
     const {
@@ -20,19 +21,19 @@ export default class JobFullDetailsCard extends React.Component {
       _ownerRef,
       state,
       viewedBy,
-      booedBy,
       detailedDescription,
-      addressText,
       durationOfJob,
       fromTemplateId,
-      reported,
       createdAt,
     } = job;
 
+    if (!templatesRepo[fromTemplateId]) {
+      return null;
+    }
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className="card is-clipped disabled">
+      <div className="card disabled is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
@@ -47,6 +48,7 @@ export default class JobFullDetailsCard extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
+          <div className="has-text-dark is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <DisplayLabelValue
@@ -55,23 +57,8 @@ export default class JobFullDetailsCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
-
-            <DisplayLabelValue
-              labelText="Bids:"
-              labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
-            />
-            <DisplayLabelValue
-              labelText="Booed:"
-              labelValue={`${booedBy ? booedBy.length : 0} times`}
-            />
-            <DisplayLabelValue
-              labelText="Reported:"
-              labelValue={`${reported ? reported.length : 0} times`}
-            />
-
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
@@ -86,6 +73,7 @@ export default class JobFullDetailsCard extends React.Component {
                 }}
                 readOnly
               />
+              <MinBidDisplayLabelValue bidsList={_bidsListRef} />
             </span>
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
