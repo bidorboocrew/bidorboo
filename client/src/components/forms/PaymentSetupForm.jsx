@@ -179,10 +179,10 @@ const EnhancedForms = withFormik({
 
     // stripe.createToken('bank_account', bankAccountData);
   },
-  displayName: 'PaymentForm',
+  displayName: 'PaymentSetupForm',
 });
 
-const PaymentForm = (props) => {
+const PaymentSetupForm = (props) => {
   const {
     values,
     touched,
@@ -497,4 +497,4 @@ const PaymentForm = (props) => {
   );
 };
 
-export default EnhancedForms(PaymentForm);
+export default EnhancedForms(PaymentSetupForm);
