@@ -116,7 +116,6 @@ class PostYourBid extends React.Component {
                 </section>
                 <footer className="modal-card-foot">
                   <button
-                    type="submit"
                     disabled={isSubmitting || !isValid}
                     onClick={handleSubmit}
                     className="button is-primary"
@@ -147,18 +146,9 @@ const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
-      .max(10000, 'The maximum amout is 100000')
+      .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
   }),
-  initialValues: {
-    hasReviewedDetails: false, // we should have a checkbox to make user review etails
-  },
-  mapPropsToValues: (props) => {
-    return {
-      hasReviewedDetails: false,
-    };
-  },
-
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);
     setSubmitting(false);
