@@ -1,16 +1,18 @@
 import React from 'react';
-import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { Spinner } from '../../components/Spinner';
 
 import { getMyOpenBids } from '../../app-state/actions/bidsActions';
-import OpenBidDetailsCard from '../../components/bidder-components/OpenBidDetailsCard';
-import { switchRoute } from '../../utils';
-import AwardedBidDetailsCard from '../../components/bidder-components/AwardedBidDetailsCard';
 import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
+
+import MyBidsOpenBid from './components/MyBidsOpenBid';
+import MyBidsAwardedBid from './components/MyBidsAwardedBid';
 
 class MyBidsPage extends React.Component {
   componentDidMount() {
@@ -31,7 +33,7 @@ class MyBidsPage extends React.Component {
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
-          return <OpenBidDetailsCard key={bidDetails._id} bidDetails={bidDetails} />;
+          return <MyBidsOpenBid key={bidDetails._id} bidDetails={bidDetails} />;
         })
       ) : (
         <EmptyStateComponent />
@@ -41,7 +43,7 @@ class MyBidsPage extends React.Component {
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
           return (
-            <AwardedBidDetailsCard
+            <MyBidsAwardedBid
               key={bidDetails._id}
               bidDetails={bidDetails}
               notificationFeed={notificationFeed}
@@ -58,19 +60,17 @@ class MyBidsPage extends React.Component {
         <section className="hero is-small is-dark">
           <div className="hero-body">
             <div>
-              <h1 style={{ color: 'white' }} className="title">
-                My Bids
-              </h1>
+              <h1 className="title">My Bids</h1>
             </div>
           </div>
         </section>
 
         <section className="section">
           <div className="container">
-            <div className="tabs is-centered">
+            <div style={{ background: '#363636' }} className="tabs is-centered">
               <ul>
-                <li className="is-active">
-                  <a>Awarded Bids</a>
+                <li>
+                  <a className="has-text-white has-text-weight-bold">Awarded Bids</a>
                 </li>
               </ul>
             </div>
@@ -82,10 +82,10 @@ class MyBidsPage extends React.Component {
 
         <section style={{ paddingTop: 0 }} className="section">
           <div className="container">
-            <div className="tabs is-centered">
+            <div style={{ background: '#363636' }} className="tabs is-centered">
               <ul>
-                <li className="is-active">
-                  <a>Pending Bids</a>
+                <li>
+                  <a className="has-text-white has-text-weight-bold">Pending Bids</a>
                 </li>
               </ul>
             </div>
