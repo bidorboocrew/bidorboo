@@ -9,8 +9,8 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-import OthersOpenJobDetailsCard from './components/OthersOpenJobDetailsCard';
-import RequesterAndMyOpenBidDetailsCard from './components/RequesterAndMyOpenBidDetailsCard';
+import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+import RequesterAndOpenBid from './components/RequesterAndOpenBid';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -77,10 +77,10 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
               <div className="column is-4">
-                <RequesterAndMyOpenBidDetailsCard bid={selectedOpenBid} job={selectedAwardedJob} />
+                <RequesterAndOpenBid bid={selectedOpenBid} job={selectedAwardedJob} />
               </div>
               <div className="column">
-                <OthersOpenJobDetailsCard job={selectedAwardedJob} />
+                <MyOpenBidJobDetails job={selectedAwardedJob} />
               </div>
             </div>
           </div>

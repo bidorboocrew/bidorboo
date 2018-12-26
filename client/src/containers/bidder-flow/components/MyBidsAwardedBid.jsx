@@ -5,7 +5,8 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
-export default class AwardedBidDetailsCard extends React.Component {
+
+export default class MyBidsAwardedBid extends React.Component {
   render() {
     const { bidDetails, notificationFeed, updateBidState } = this.props;
 

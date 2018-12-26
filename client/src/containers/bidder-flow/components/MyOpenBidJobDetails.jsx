@@ -12,7 +12,7 @@ import {
   MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
-export default class OthersAwardedJobDetailsCard extends React.Component {
+export default class MyOpenBidJobDetails extends React.Component {
   render() {
     const { job } = this.props;
     const {
@@ -25,7 +25,6 @@ export default class OthersAwardedJobDetailsCard extends React.Component {
       durationOfJob,
       fromTemplateId,
       createdAt,
-      addressText,
     } = job;
 
     if (!templatesRepo[fromTemplateId]) {
@@ -58,10 +57,8 @@ export default class OthersAwardedJobDetailsCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
-
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
@@ -76,9 +73,8 @@ export default class OthersAwardedJobDetailsCard extends React.Component {
                 }}
                 readOnly
               />
+              <MinBidDisplayLabelValue bidsList={_bidsListRef} />
             </span>
-            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
-
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>

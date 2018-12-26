@@ -5,7 +5,7 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
-export default class MyOpenBidDetailsCard extends React.Component {
+export default class MyBidsOpenBid extends React.Component {
   render() {
     const { bidDetails } = this.props;
     if (!bidDetails) {

@@ -3,7 +3,7 @@ import React from 'react';
 import SideNav from 'react-simple-sidenav';
 import JobsLocationFilterForm from '../../../components/forms/JobsLocationFilterForm';
 
-export default class BidderRootSideNav extends React.Component {
+export default class FilterSideNav extends React.Component {
   constructor(props) {
     super(props);
 

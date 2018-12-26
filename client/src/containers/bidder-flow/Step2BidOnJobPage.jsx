@@ -9,7 +9,7 @@ import { switchRoute } from '../../utils';
 
 import PostYourBid from '../../components/forms/PostYourBid';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
-import OthersOpenJobDetailsCard from './components/OthersOpenJobDetailsCard';
+import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
 class BidOnJobPage extends React.Component {
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
@@ -49,7 +49,7 @@ class BidOnJobPage extends React.Component {
               }}
             />
 
-            <OthersOpenJobDetailsCard job={jobDetails} />
+            <MyOpenBidJobDetails job={jobDetails} />
             <br />
           </div>
         </section>

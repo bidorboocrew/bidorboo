@@ -12,7 +12,7 @@ import {
   getDaysSinceCreated,
 } from '../../commonComponents';
 
-export default class OthersJobSummaryCard extends React.Component {
+export default class RequestsTabSummaryCard extends React.Component {
   render() {
     const { job, userDetails, onClickHandler } = this.props;
     const {

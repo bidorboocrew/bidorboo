@@ -9,14 +9,14 @@ import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
 import { TAB_IDS } from './components/helperComponents';
-import BidderRootSideNav from './components/BidderRootSideNav';
+import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
 
 import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
 
-import AllJobsToBidView from './components/AllJobsToBidView';
+import AllJobsView from './components/AllJobsView';
 
 const google = window.google;
 
@@ -176,7 +176,7 @@ class BidderRoot extends React.Component {
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         />
-        <BidderRootSideNav
+        <FilterSideNav
           isSideNavOpen={showSideNav}
           toggleSideNav={this.toggleSideNav}
           updateMapCenter={this.updateMapCenter}
@@ -188,7 +188,7 @@ class BidderRoot extends React.Component {
 
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
           <br />
-          <AllJobsToBidView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+          <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
         </div>
       </div>
     );

@@ -14,7 +14,7 @@ import {
   MinBidDisplayLabelValue,
 } from '../../commonComponents';
 
-export default class MyJobSummaryCard extends React.Component {
+export default class MineTabSummaryCard extends React.Component {
   render() {
     const { job } = this.props;
     const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, viewedBy, state } = job;

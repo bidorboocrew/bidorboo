@@ -3,10 +3,10 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
-import OthersJobSummaryCard from './OthersJobSummaryCard';
-import MyJobSummaryCard from './MyJobSummaryCard';
+import RequestsTabSummaryCard from './RequestsTabSummaryCard';
+import MineTabSummaryCard from './MineTabSummaryCard';
 
-class AllJobsToBidView extends React.Component {
+export default class AllJobsView extends React.Component {
   render() {
     const { jobsList, activeTab } = this.props;
 
@@ -23,7 +23,6 @@ class AllJobsToBidView extends React.Component {
     );
   }
 }
-export default AllJobsToBidView;
 
 const EmptyStateComponent = () => {
   return (
@@ -57,7 +56,7 @@ const OtherPeoplesJobs = (props) => {
     .map((job) => {
       return (
         <div key={job._id} className="column">
-          <OthersJobSummaryCard
+          <RequestsTabSummaryCard
             onClickHandler={() => {
               if (!isLoggedIn) {
                 a_showLoginDialog(true);
@@ -84,7 +83,7 @@ const MyJobs = (props) => {
   const components = myjobs.map((job) => {
     return (
       <div key={job._id} className="column">
-        <MyJobSummaryCard
+        <MineTabSummaryCard
           onClickHandler={() => {
             //xxx add handler to take you to the job page
           }}

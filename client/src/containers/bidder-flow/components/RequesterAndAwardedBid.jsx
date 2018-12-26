@@ -1,6 +1,7 @@
 import React from 'react';
+import { AddAwardedJobToCalendar } from './helperComponents';
 
-export default class MyAwardedBidDetails extends React.Component {
+export default class RequesterAndAwardedBid extends React.Component {
   render() {
     const { bid, job } = this.props;
 
@@ -8,7 +9,13 @@ export default class MyAwardedBidDetails extends React.Component {
       return null;
     }
 
-    const { rating, displayName, profileImage } = job._ownerRef;
+    const {
+      rating,
+      displayName,
+      profileImage,
+      email = { emailAddress: 'not provided' },
+      phone = { phoneNumber: 'not provided' },
+    } = job._ownerRef;
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
@@ -49,21 +56,23 @@ export default class MyAwardedBidDetails extends React.Component {
             </div>
           </div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-          <div className="help">* contact info will be displayed when you are awarded</div>
-
+          <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
+          <DisplayLabelValue labelText="Phone Number:" labelValue={phone.phoneNumber} />
           <br />
           <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
             Your Bid Info
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Your Bid:</div>
-            <div className="has-text-weight-bold is-size-6 has-text-warning">{`${bidAmount} ${bidCurrency}`}</div>
+            <div className="has-text-weight-bold is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Your Bid Status :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-warning">Pending</div>
+            <div className="has-text-weight-bold is-size-6 has-text-success">Awarded</div>
           </div>
-          <div className="help">* Requester did not award this job to anyone yet</div>
+          <div className="help">* you will recieve the payment after completing the task</div>
+          <br />
+          <AddAwardedJobToCalendar job={job} />
         </div>
       </div>
     );
