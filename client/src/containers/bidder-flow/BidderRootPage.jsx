@@ -20,7 +20,7 @@ import AllJobsView from './components/AllJobsView';
 
 const google = window.google;
 
-class BidderRoot extends React.Component {
+class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -215,7 +215,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BidderRoot);
+)(BidderRootPage);
 
 const HeaderTitleAndSearch = ({ toggleSideNav }) => {
   return (

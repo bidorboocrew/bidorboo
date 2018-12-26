@@ -9,7 +9,7 @@ import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
 
-class CreateAJob extends React.Component {
+class CreateAJobPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -92,4 +92,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   null,
   mapDispatchToProps,
-)(CreateAJob);
+)(CreateAJobPage);

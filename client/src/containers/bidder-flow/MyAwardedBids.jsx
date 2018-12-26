@@ -9,6 +9,7 @@ import MyBidsAwardedBid from './components/MyBidsAwardedBid';
 
 import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
 import { switchRoute } from '../../utils';
+
 class MyAwardedBids extends React.Component {
   componentDidMount() {
     this.props.a_getMyAwardedBids();
