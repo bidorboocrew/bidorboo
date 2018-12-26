@@ -23,8 +23,8 @@ class MapSection extends React.Component {
         mapCenterPoint={mapCenterPoint}
         isLoggedIn={isLoggedIn}
         showLoginDialog={a_showLoginDialog}
-        currentUserId={userDetails._id}
-        markers={jobsList}
+        userDetails={userDetails}
+        jobsList={jobsList}
       />
     ) : null;
   }

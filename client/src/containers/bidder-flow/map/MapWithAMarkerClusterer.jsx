@@ -14,15 +14,14 @@ const MapWithAMarkerClusterer = compose(
     containerElement: (
       <div
         style={{
-          height: `20rem`,
+          height: `25rem`,
           boxShadow:
-            '0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
+            '0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
         }}
       />
     ),
     mapElement: <div id="bdb-map" style={{ height: '100%' }} />,
   }),
-  // withScriptjs,
   withGoogleMap,
 )((props) => {
   return <TheMap {...props} />;
@@ -48,32 +47,38 @@ class TheMap extends React.Component {
 }
 
 class Cluster extends React.Component {
-  onMarkerClustererClick = (markerClusterer) => {
-    const clickedMarkers = markerClusterer.getMarkers();
-    // console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-    // console.log(clickedMarkers);
+  // onMarkerClustererClick = (markerClusterer) => {
+  //   const clickedMarkers = markerClusterer.getMarkers();
+  // };
+  // onMarkerClustereringEnd = (markerClusterer) => {
+  //   const clickedMarkers = markerClusterer.getMarkers();
+  // };
+  constructor(props) {
+    super(props);
+    this.state = { showInfoBoxForJobId: '' };
+  }
+
+  showInfoBox = (jobId) => {
+    this.setState({ showInfoBoxForJobId: jobId });
   };
-  onMarkerClustereringEnd = (markerClusterer) => {
-    const clickedMarkers = markerClusterer.getMarkers();
-    // console.log(`Current clicked markers length: ${clickedMarkers.length}`);
-    // console.log(clickedMarkers);
+  closeInfoBox = () => {
+    this.setState({ showInfoBoxForJobId: '' });
   };
+
   render() {
-    const {
-      markersRef,
-      markers,
-      selectJobToBidOn,
-      currentUserId,
-      isLoggedIn,
-      showLoginDialog,
-    } = this.props;
-    if (markers && markers.length > 0) {
-      const jobsMarkersOnTheMap = markers.map((marker) => (
+    const { jobsList, selectJobToBidOn, userDetails, isLoggedIn, showLoginDialog } = this.props;
+    const { showInfoBoxForJobId } = this.state;
+
+    if (jobsList && jobsList.length > 0) {
+      const jobsMarkersOnTheMap = jobsList.map((job) => (
         <JobMarker
+          showInfoBox={this.showInfoBox}
+          closeInfoBox={this.closeInfoBox}
+          showInfoBoxForJobId={showInfoBoxForJobId}
           selectJobToBidOn={selectJobToBidOn}
-          key={marker._id}
-          marker={marker}
-          currentUserId={currentUserId}
+          key={job._id}
+          job={job}
+          currentUserId={userDetails._id}
           isLoggedIn={isLoggedIn}
           showLoginDialog={showLoginDialog}
         />
@@ -81,12 +86,9 @@ class Cluster extends React.Component {
       return (
         <MarkerClusterer
           defaultMinimumClusterSize={3}
-          ref={markersRef}
-          onClick={this.onMarkerClustererClick}
           averageCenter
           enableRetinaIcons
           gridSize={100}
-          onClusteringEnd={this.onMarkerClustereringEnd}
         >
           {jobsMarkersOnTheMap}
         </MarkerClusterer>
@@ -102,106 +104,109 @@ class JobMarker extends React.Component {
     this.state = { showInfoBox: false };
   }
 
-  toggleShow = () => {
-    this.setState({ showInfoBox: !this.state.showInfoBox });
-  };
-
   bidOnThisJob = () => {
-    const { marker, selectJobToBidOn } = this.props;
-    selectJobToBidOn(marker);
+    const { job, selectJobToBidOn } = this.props;
+    selectJobToBidOn(job);
   };
-
+  toggleShow = () => {
+    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
+    if (showInfoBoxForJobId === job._id) {
+      closeInfoBox();
+    } else {
+      showInfoBox(job._id);
+    }
+  };
   render() {
-    const { marker, currentUserId, isLoggedIn, showLoginDialog } = this.props;
-    return marker && marker.location ? (
-      <Marker
-        opacity={0.8}
-        icon={require('../../../assets/images/mapMarker.png')}
-        onClick={this.toggleShow}
-        key={marker._id}
-        position={{
-          lng: marker.location.coordinates[0],
-          lat: marker.location.coordinates[1],
-        }}
-      >
-        {this.state.showInfoBox && (
-          <InfoBox
-            className="info-Box-map"
-            options={{
-              pixelOffset: new google.maps.Size(-50, -10),
-              zIndex: 999,
-              boxStyle: {
-                padding: '0px 0px 0px 0px',
-                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-              },
-              closeBoxURL: '',
-              infoBoxClearance: new google.maps.Size(1, 1),
-              isHidden: false,
-              pane: 'mapPane',
-              enableEventPropagation: true,
-            }}
-          >
-            <div className="card is-clipped bdb-infoBoxCard">
-              <header className="card-header">
-                <p
-                  style={{ borderBottom: '1px solid #dbdbdb', padding: '4px 0.75rem' }}
-                  className="card-header-title"
-                >
-                  {marker.title}
-                </p>
-                <a
-                  style={{ borderBottom: '1px solid #dbdbdb', padding: '4px 0.75rem' }}
-                  onClick={this.toggleShow}
-                  className="is-paddingless card-header-icon is-outline"
-                >
-                  <span style={{ color: '#a7a7a7' }} className="icon">
-                    <i className="fa fa-times fa-w-12" />
-                  </span>
-                </a>
-              </header>
-              <div style={{ padding: '0.25rem 0.75rem' }} className="card-content">
-                <div className="content">
-                  <div>
-                    <figure className="image is-48x48 is-marginless">
-                      <img alt="profile" src={marker._ownerRef.profileImage.url} />
-                    </figure>
-                  </div>
-                  <div className="level-item">
-                    <p className="has-text-weight-bold">{marker._ownerRef.displayName}</p>
+    const { job, currentUserId, isLoggedIn, showLoginDialog, showInfoBoxForJobId } = this.props;
+    if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
+      const shouldShowInfoBox = showInfoBoxForJobId === job._id;
+      return (
+        <Marker
+          opacity={0.8}
+          icon={require('../../../assets/images/mapMarker.png')}
+          onClick={this.toggleShow}
+          key={job._id}
+          position={{
+            lng: job.location.coordinates[0],
+            lat: job.location.coordinates[1],
+          }}
+        >
+          {shouldShowInfoBox && (
+            <InfoBox
+              className="info-Box-map"
+              options={{
+                pixelOffset: new google.maps.Size(-50, -10),
+                zIndex: 999,
+                boxStyle: {
+                  padding: '0px 0px 0px 0px',
+                  boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+                },
+                closeBoxURL: '',
+                infoBoxClearance: new google.maps.Size(1, 1),
+                isHidden: false,
+                pane: 'mapPane',
+                enableEventPropagation: false,
+              }}
+            >
+              <div className="card is-clipped bdb-infoBoxCard">
+                <header className="card-header">
+                  <a
+                    style={{ borderBottom: '1px solid #dbdbdb', padding: '4px 0.75rem' }}
+                    onClick={this.toggleShow}
+                    className="is-paddingless card-header-icon is-outline"
+                  >
+                    <span style={{ color: '#a7a7a7' }} className="icon">
+                      <i className="fa fa-times fa-w-12" />
+                    </span>
+                  </a>
+                </header>
+                <div style={{ padding: '0.25rem 0.75rem' }} className="card-content">
+                  <div className="content">
+                    <div>
+                      <figure className="image is-48x48 is-marginless">
+                        <img alt="profile" src={job._ownerRef.profileImage.url} />
+                      </figure>
+                    </div>
+                    <div className="level-item">
+                      <p className="has-text-weight-bold">{job._ownerRef.displayName}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <footer style={{ padding: '2px' }} className="card-footer">
-                <div className="card-footer-item is-paddingless">
-                  {(!isLoggedIn || marker._ownerRef._id !== currentUserId) && (
-                    <a
-                      style={{ borderRadius: 0 }}
-                      className="button is-primary is-fullwidth"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (!isLoggedIn) {
-                          showLoginDialog(true);
-                        } else {
-                          if (marker._ownerRef._id !== currentUserId) {
-                            this.bidOnThisJob();
+                <footer style={{ padding: '2px' }} className="card-footer">
+                  <div className="card-footer-item is-paddingless">
+                    {(!isLoggedIn || job._ownerRef._id !== currentUserId) && (
+                      <a
+                        style={{ borderRadius: 0 }}
+                        className="button is-primary is-fullwidth"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (!isLoggedIn) {
+                            showLoginDialog(true);
+                          } else {
+                            if (job._ownerRef._id !== currentUserId) {
+                              this.bidOnThisJob();
+                            }
                           }
-                        }
-                      }}
-                    >
-                      <span style={{ marginLeft: 4 }}>
-                        <i className="fas fa-dollar-sign" /> Bid
-                      </span>
-                    </a>
-                  )}
-                  {isLoggedIn && marker._ownerRef._id === currentUserId && (
-                    <a className="button is-static disabled is-fullwidth">My Request</a>
-                  )}
-                </div>
-              </footer>
-            </div>
-          </InfoBox>
-        )}
-      </Marker>
-    ) : null;
+                        }}
+                      >
+                        <span style={{ marginLeft: 4 }}>
+                          <i className="fas fa-dollar-sign" /> Bid
+                        </span>
+                      </a>
+                    )}
+                    {isLoggedIn && job._ownerRef._id === currentUserId && (
+                      <a className="button is-static disabled is-fullwidth">My Request</a>
+                    )}
+                  </div>
+                </footer>
+              </div>
+            </InfoBox>
+          )}
+        </Marker>
+      );
+    } else {
+      // do not render the marker
+      return null;
+    }
   }
 }
