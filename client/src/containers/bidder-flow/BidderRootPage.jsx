@@ -176,6 +176,7 @@ class BidderRootPage extends React.Component {
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         />
+
         <FilterSideNav
           isSideNavOpen={showSideNav}
           toggleSideNav={this.toggleSideNav}
@@ -184,7 +185,7 @@ class BidderRootPage extends React.Component {
           handleGeoSearch={this.handleGeoSearch}
         />
         <div style={{ padding: '0.5rem' }}>
-          {hasActiveSearch && <ActiveSearchFilters />}
+          {hasActiveSearch && <ActiveSearchFilters clearFilters={this.clearFilter} />}
 
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
           <br />

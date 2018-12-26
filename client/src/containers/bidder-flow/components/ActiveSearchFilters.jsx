@@ -2,14 +2,14 @@ import React from 'react';
 
 export default class ActiveSearchFilters extends React.Component {
   render() {
-    const { filters } = this.props;
-    if (!filters || !filters.length > 0) {
-      return null;
-    }
+    const { clearFilters } = this.props;
 
     return (
-      <div>
-        <div>Filters Applies</div>
+      <div style={{ margin: 10 }} className="container has-text-info has-text-centered">
+        <span>Filters Applied. if you can't find what you are looking for try to </span>
+        <a onClick={clearFilters} className="button is-outlined is-small">
+          Clear All Filters
+        </a>
       </div>
     );
   }

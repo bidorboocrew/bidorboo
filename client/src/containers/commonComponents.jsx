@@ -131,7 +131,6 @@ export const JobStats = ({ daysSinceCreated, viewedBy }) => {
 export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
-  debugger;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
     <header

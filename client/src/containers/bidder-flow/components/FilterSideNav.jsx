@@ -59,7 +59,7 @@ export default class FilterSideNav extends React.Component {
 
 const SideNavTitle = ({ toggleSideNav }) => {
   return (
-    <nav className="level">
+    <nav className="level is-mobile">
       <div className="level-left">
         <div className="level-item">
           <p className="subtitle has-text-light is-5">
