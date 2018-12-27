@@ -431,6 +431,13 @@ input[type='checkbox'] {
   // padding-bottom: 0.25rem;
 }
 
+// review these as they affect lots of UI elements
 .section {
-  padding-top: 0.75rem;
+  padding-top: 1rem;
+}
+
+.columns.forJobSummary {
+  div.column {
+    max-width: 25rem !important;
+  }
 }

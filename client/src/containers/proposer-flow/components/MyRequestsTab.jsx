@@ -12,7 +12,7 @@ class MyRequestsTab extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     return userHasPostedJobs ? (
-      <div className="columns is-multiline is-centered is-mobile">
+      <div className="columns forJobSummary is-multiline is-centered is-mobile">
         <MyRequests {...this.props} />
       </div>
     ) : (
