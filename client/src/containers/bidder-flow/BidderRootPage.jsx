@@ -184,9 +184,9 @@ class BidderRootPage extends React.Component {
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
         />
-        <div style={{ padding: '1rem' }}>
+        <div>
           <div
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: 6 }}
             className="help container has-text-grey has-text-centered"
           >
             {` ${(currentJobsList && currentJobsList.length) || 0} requests`}

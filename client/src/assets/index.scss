@@ -303,8 +303,8 @@ input[type='checkbox'] {
   cursor: pointer;
   height: 100%;
 
-  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-  // 0 0 20px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+    0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
   // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.proposerRootCardSpecial {
@@ -314,8 +314,8 @@ input[type='checkbox'] {
     min-width: 10rem;
     max-width: 22.75rem;
     border-radius: 6px;
-    // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
-    box-shadow: none;
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.2);
     &:hover {
       animation: none;
       div.card-image {
@@ -346,13 +346,14 @@ input[type='checkbox'] {
     }
   }
   &.homePageSpecial {
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.2);
     margin-top: 30px;
     margin-bottom: 30px;
     height: auto;
     min-width: 16rem;
     // max-width: 34.75rem;
     border-radius: 6px;
-    box-shadow: none;
     &:hover {
       animation: none;
       div.card-image {
@@ -429,4 +430,8 @@ input[type='checkbox'] {
 .card-content {
   padding-top: 0.25rem;
   // padding-bottom: 0.25rem;
+}
+
+.section {
+  padding-top: 0.75rem;
 }
