@@ -7,19 +7,21 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 class ProposerRoot extends React.Component {
   render() {
-    const { a_showLoginDialog, isLoggedIn } = this.props;
+    const { a_showLoginDialog, isLoggedIn, isForMainPage = false } = this.props;
 
     return (
       <React.Fragment>
-        <section className="hero is-small is-dark has-text-centered">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                Request A Service
-              </h1>
+        {!isForMainPage && (
+          <section className="hero is-small is-dark has-text-centered">
+            <div className="hero-body">
+              <div>
+                <h1 style={{ color: 'white' }} className="title">
+                  Request A Service
+                </h1>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <section className="section">
           <div className="container">
             <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />

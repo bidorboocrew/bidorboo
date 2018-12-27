@@ -138,7 +138,13 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
+    const {
+      isLoading,
+      isLoggedIn,
+      ListOfJobsToBidOn,
+      userDetails,
+      isForMainPage = false,
+    } = this.props;
     if (isLoading) {
       return (
         <section className="section">
@@ -170,32 +176,36 @@ class BidderRootPage extends React.Component {
 
     return (
       <div className="bdbPage">
-        <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
-        <Tabs
-          activeTab={activeTab}
-          changeActiveTab={this.changeActiveTab}
-          isLoggedIn={isLoggedIn}
-        />
+        {!isForMainPage && (
+          <React.Fragment>
+            <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
+            <Tabs
+              activeTab={activeTab}
+              changeActiveTab={this.changeActiveTab}
+              isLoggedIn={isLoggedIn}
+            />
+            <FilterSideNav
+              isSideNavOpen={showSideNav}
+              toggleSideNav={this.toggleSideNav}
+              updateMapCenter={this.updateMapCenter}
+              onCancel={this.clearFilter}
+              handleGeoSearch={this.handleGeoSearch}
+            />
+            <div
+              style={{ marginBottom: 6 }}
+              className="help container has-text-grey has-text-centered"
+            >
+              {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
+            </div>
+            {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
+          </React.Fragment>
+        )}
 
-        <FilterSideNav
-          isSideNavOpen={showSideNav}
-          toggleSideNav={this.toggleSideNav}
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          handleGeoSearch={this.handleGeoSearch}
-        />
-        <div>
-          <div
-            style={{ marginBottom: 6 }}
-            className="help container has-text-grey has-text-centered"
-          >
-            {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
-          </div>
-          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
-          <br />
+        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <br />
+        {!isForMainPage && (
           <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
-        </div>
+        )}
       </div>
     );
   }
