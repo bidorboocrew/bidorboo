@@ -19,20 +19,20 @@ export const findAvgBidInBidList = (bidsList) => {
   let hasBids = bidsList && bidsList.length > 0;
 
   if (hasBids) {
-    const minBid = bidsList
+    const bidsTotal = bidsList
       .map((bid) => bid.bidAmount.value)
       .reduce((accumulator, bidAmount) => accumulator + bidAmount);
-    return minBid;
+    return Math.ceil(bidsTotal / bidsList.length);
   }
   return null;
 };
 
 export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let minBid = findAvgBidInBidList(bidsList);
-  let lowestBidLabel = minBid ? (
+  let avgBidLabel = minBid ? (
     <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid} CAD`} />
   ) : null;
-  return lowestBidLabel;
+  return avgBidLabel;
 };
 
 export const DisplayLabelValue = (props) => {
@@ -118,7 +118,7 @@ export const JobStats = ({ daysSinceCreated, viewedBy }) => {
       <div className="level-right">
         <p className="level-item">
           <span style={{ fontSize: '10px', color: 'grey' }}>
-            {`Viewed ${viewedBy ? viewedBy.length : 0} times`}
+            {`Viewed by ${viewedBy ? viewedBy.length : 0} bidders`}
           </span>
         </p>
       </div>
