@@ -52,7 +52,13 @@ export default class HomePage extends React.Component {
           <div className="tabs is-mobile is-centered">
             <ul>
               <li>
-                <a>Task Templates</a>
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                >
+                  Task Templates
+                </a>
               </li>
             </ul>
           </div>
@@ -62,7 +68,13 @@ export default class HomePage extends React.Component {
           <div className="tabs is-mobile is-centered">
             <ul>
               <li>
-                <a>Offer Your Service</a>
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                >
+                  Offer Your Service
+                </a>
               </li>
             </ul>
           </div>
