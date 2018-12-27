@@ -9,7 +9,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <section className="hero has-text-centered is-dark">
+        <section className="hero has-text-centered is-small is-dark">
           <div className="hero-body">
             <div className="container">
               <h1 className="title is-size-1">BidOrBoo</h1>
@@ -52,11 +52,15 @@ export default class HomePage extends React.Component {
 const BidOrBooCard = (props) => {
   const { cardContent, onClickHandler, logoImg } = props;
   return (
-    <div onClick={onClickHandler} className="card homePageSpecial">
-      <div className="card-image">
-        <img src={`${logoImg}`} />
+    <div onClick={onClickHandler} className="card">
+      <div className="card-image is-clipped">
+        <img className="bdb-homepage-img" src={`${logoImg}`} />
       </div>
-      <p className="title  is-fullwidth has-text-dark has-text-centered">{cardContent}</p>
+      <div className="card-content">
+        <div className="content">
+          <p className="title  is-fullwidth has-text-dark has-text-centered">{cardContent}</p>
+        </div>
+      </div>
     </div>
   );
 };
