@@ -39,8 +39,6 @@ module.exports = (app) => {
       const userId = req.user && req.user.userId ? req.user.userId : null;
       const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
 
-      const isUserLoggedIn = !!(userId && mongoDbUserId);
-
       userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {

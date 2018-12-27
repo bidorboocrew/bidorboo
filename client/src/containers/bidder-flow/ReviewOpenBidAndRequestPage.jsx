@@ -6,7 +6,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
-import { getOpenBidDetails } from '../../app-state/actions/bidsActions';
+import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
@@ -40,7 +40,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid } = this.props;
+    const { selectedOpenBid, a_updateBid } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -77,7 +77,11 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
               <div className="column is-4">
-                <RequesterAndOpenBid bid={selectedOpenBid} job={selectedAwardedJob} />
+                <RequesterAndOpenBid
+                  bid={selectedOpenBid}
+                  job={selectedAwardedJob}
+                  updateBidAction={a_updateBid}
+                />
               </div>
               <div className="column">
                 <MyOpenBidJobDetails job={selectedAwardedJob} />
@@ -101,6 +105,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+    a_updateBid: bindActionCreators(updateBid, dispatch),
   };
 };
 

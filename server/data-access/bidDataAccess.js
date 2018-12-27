@@ -229,6 +229,17 @@ exports.bidDataAccess = {
       .exec();
     return !!isSuccessful;
   },
+  updateBidValue: ({ userMongoDBId, bidId, bidAmount }) => {
+    return BidModel.findOneAndUpdate(
+      { _id: bidId, _bidderRef: userMongoDBId },
+      {
+        $set: { 'bidAmount.value': bidAmount, isNewBid: false },
+      },
+      { new: true }
+    )
+      .lean(true)
+      .exec();
+  },
   postNewBid: ({ userMongoDBId, jobId, bidAmount }) => {
     return new Promise(async (resolve, reject) => {
       try {

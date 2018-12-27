@@ -3,7 +3,6 @@ const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNo
 const requireUserCanBid = require('../middleware/requireUserCanBid');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 
-
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
@@ -95,6 +94,37 @@ module.exports = (app) => {
         }
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
+      }
+    }
+  );
+
+  app.post(
+    ROUTES.API.BID.PUT.updateMyBid,
+    requireLogin,
+    requireUserCanBid,
+    async (req, res, done) => {
+      try {
+        // create new job for this user
+        const { data } = req.body;
+
+        if (data && data.bidAmount && data.bidId) {
+          const { bidId, bidAmount } = data;
+
+          const userMongoDBId = req.user._id.toString();
+
+          const newBid = await bidDataAccess.updateBidValue({
+            userMongoDBId,
+            bidId,
+            bidAmount,
+          });
+          return res.send(newBid);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request post new Bid, missing param',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To update your bid', details: e });
       }
     }
   );

@@ -72,6 +72,7 @@ export const API = {
       awardedBidDetails: '/api/bids/awardedBidDetails',
     },
     PUT: {
+      updateMyBid: '/api/bids/updateMyBid',
       markBidAsSeen: '/api/bids/markBidAsSeen',
       updateBidState: '/api/bids/updateBidState',
     },

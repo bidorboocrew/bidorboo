@@ -59,7 +59,7 @@ export default class MyBidsOpenBid extends React.Component {
             }}
             className="card-footer-item"
           >
-            View Details
+            View Or Change
           </a>
           <div className="card-footer-item">
             {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}

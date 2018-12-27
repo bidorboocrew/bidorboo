@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import autoBind from 'react-autobind';
 
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';

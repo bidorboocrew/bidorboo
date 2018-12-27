@@ -63,6 +63,40 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
   });
 };
 
+export const updateBid = ({ bidId, bidAmount }) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.UPDATE_A_BID,
+    payload: axios
+      .post(ROUTES.API.BID.PUT.updateMyBid, {
+        data: {
+          bidId,
+          bidAmount,
+        },
+      })
+      .then((resp) => {
+        // update recently added job
+        if (resp.data && resp.data._id) {
+          // xxxx update some store value instead of reloading the page
+          window.location.reload();
+
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'You have udpated your bid. Good Luck!',
+              },
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const getMyOpenBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
