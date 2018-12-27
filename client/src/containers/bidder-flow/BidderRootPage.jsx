@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
@@ -49,7 +48,39 @@ class BidderRootPage extends React.Component {
       a_getCurrentUser();
     }
     a_getAllJobsToBidOn();
+    navigator && navigator.geolocation && this.getCurrentAddress();
   }
+
+  getCurrentAddress = () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      const getCurrentPositionOptions = {
+        maximumAge: 10000,
+        timeout: 5000,
+        enableHighAccuracy: true,
+      };
+      const errorHandling = () => {
+        console.error('can not auto detect address');
+      };
+      const successfulRetrieval = (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        this.updateMapCenter(pos);
+      };
+
+      //get the current location
+      navigator.geolocation.getCurrentPosition(
+        successfulRetrieval,
+        errorHandling,
+        getCurrentPositionOptions,
+      );
+    } else {
+      console.log('no html 5 geo location');
+    }
+  };
 
   clearFilter = () => {
     this.setState(

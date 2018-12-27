@@ -20,12 +20,10 @@ import {
   TextInput,
   DateInput,
   TimeInput,
-  Checkbox,
   HelpText,
 } from './FormsHelpers';
 import moment from 'moment';
 
-import { alphanumericField } from './FormsValidators';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
