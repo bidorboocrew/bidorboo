@@ -29,11 +29,11 @@ export default class JobSummaryForAwarded extends React.Component {
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
-          <a className="card-header-icon">
-            <span className="has-text-success">
-              <i style={{ marginRight: 2 }} className="fas fa-hand-holding-usd" />
-              {bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
+          <a className="card-header-icon has-text-success">
+            <span className="icon">
+              <i className="fas fa-hand-holding-usd" />
             </span>
+            <span>{bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}</span>
           </a>
         </header>
 
@@ -67,9 +67,10 @@ let renderFooter = () => (
   <footer className="card-footer">
     <div className="card-footer-item">
       <a className="button is-success is-fullwidth ">
-        <span style={{ marginLeft: 4 }}>
-          <i className="fa fa-hand-paper" /> Contact
+        <span className="icon">
+          <i className="fa fa-hand-paper" />
         </span>
+        <span>Contact</span>
       </a>
     </div>
   </footer>

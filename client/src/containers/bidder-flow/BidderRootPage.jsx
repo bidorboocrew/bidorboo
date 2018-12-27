@@ -185,8 +185,10 @@ class BidderRootPage extends React.Component {
           handleGeoSearch={this.handleGeoSearch}
         />
         <div style={{ padding: '0.5rem' }}>
-          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav}/>}
-
+          <div style={{ margin: 10 }} className="help container has-text-grey has-text-centered">
+            {` displaying ${(currentJobsList && currentJobsList.length) || 0} requests`}
+          </div>
+          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
           <br />
           <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
@@ -249,7 +251,7 @@ const HeaderTitleAndSearch = ({ toggleSideNav }) => {
 
 const Tabs = ({ activeTab, changeActiveTab, isLoggedIn }) => {
   return (
-    <div className="tabs is-marginless">
+    <div className="tabs is-medium is-marginless">
       <ul>
         <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
           <a

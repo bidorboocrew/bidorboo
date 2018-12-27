@@ -107,8 +107,10 @@ class MyProfile extends React.Component {
                             <span>{email.emailAddress}</span>
                             {email.isVerified && (
                               <span style={{ marginLeft: 6 }} className="has-text-success">
-                                <i className="fas fa-check is-success" />
-                                <span style={{ marginLeft: 2 }}>Verified</span>
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
+                                </span>
+                                <span>Verified</span>
                               </span>
                             )}
                             {!email.isVerified && (
@@ -131,8 +133,10 @@ class MyProfile extends React.Component {
                             <span>{phoneNumber}</span>
                             {phone.isVerified && (
                               <span style={{ marginLeft: 6 }} className="has-text-success">
-                                <i className="fas fa-check is-success" />
-                                <span style={{ marginLeft: 2 }}>Verified</span>
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
+                                </span>
+                                <span>Verified</span>
                               </span>
                             )}
                             {!phone.isVerified && (
@@ -166,8 +170,10 @@ class MyProfile extends React.Component {
                             this.toggleEditProfile();
                           }}
                         >
-                          <i className="far fa-edit" />
-                          <span style={{ marginLeft: 4 }}>Edit Details</span>
+                          <span className="icon">
+                            <i className="far fa-edit" />
+                          </span>
+                          <span>Edit My Details</span>
                         </a>
                       </div>
                     </div>
@@ -193,9 +199,14 @@ class MyProfile extends React.Component {
                           this.toggleAddPaymentDetails();
                         }}
                       >
-                        <i className="far fa-edit" />
-                        <span style={{ marginLeft: 4 }}>Add Payment Details</span>
+                        <span className="icon">
+                          <i className="fas fa-plus-circle" />
+                        </span>
+                        <span>Add Payout Details</span>
                       </a>
+                      <div className="help">
+                        * NOTE: you only need to do this if you are planning to OFFER a Service
+                      </div>
                     </div>
                   )}
                   {showAddPaymentDetails && (
@@ -295,8 +306,10 @@ const userImageAndStats = (
           </div>
 
           <a className="button is-outlined is-small has-text-centered">
-            <i className="far fa-edit" />
-            <span style={{ marginLeft: 4 }}>Edit</span>
+            <span className="icon">
+              <i className="fa fa-camera" />
+            </span>
+            <span>upload</span>
           </a>
         </div>
         <br />

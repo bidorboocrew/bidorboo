@@ -248,8 +248,10 @@ class JobsLocationFilterForm extends React.Component {
             className="button is-link "
             type="submit"
           >
-            <i className="fas fa-filter" />
-            <span style={{ marginLeft: 4 }}>Apply</span>
+            <span className="icon">
+              <i className="fas fa-filter" />
+            </span>
+            <span>Apply</span>
           </button>
           <button
             style={{ marginRight: 6, marginTop: 8 }}
@@ -264,8 +266,10 @@ class JobsLocationFilterForm extends React.Component {
               this.props.onCancel && this.props.onCancel();
             }}
           >
-            <i className="far fa-times-circle" />
-            <span style={{ marginLeft: 4 }}>Clear All</span>
+            <span className="icon">
+              <i className="far fa-times-circle" />
+            </span>
+            <span>Clear All</span>
           </button>
         </div>
       </form>

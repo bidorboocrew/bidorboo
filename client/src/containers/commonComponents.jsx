@@ -141,8 +141,10 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) =>
       <a className="card-header-icon">
         {!isAwarded && (
           <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
-            <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-            {bidsCountLabel}
+            <span className="icon">
+              <i className="fas fa-hand-paper" />
+            </span>
+            <span>{bidsCountLabel}</span>
           </span>
         )}
         {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}

@@ -104,8 +104,6 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       resolve({
         ...user,
-        _postedJobsRef: null,
-        _postedBidsRef: null,
         z_notify_jobsWithNewBids,
         z_notify_myBidsWithNewStatus,
         z_track_reviewsToBeFilled,

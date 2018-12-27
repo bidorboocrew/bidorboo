@@ -40,15 +40,15 @@ export default class JobSummaryForPostedJobs extends React.Component {
         >
           <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
-          <a className="card-header-icon">
-            <span
-              className={`${
-                _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
-              }`}
-            >
-              <i style={{ marginRight: 2 }} className="fas fa-hand-paper" />
-              {`${_bidsListRef ? _bidsListRef.length : 0} bids`}
+          <a
+            className={`card-header-icon ${
+              _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
+            }`}
+          >
+            <span className="icon">
+              <i className="fas fa-hand-paper" />
             </span>
+            <span>{`${_bidsListRef ? _bidsListRef.length : 0} bids`}</span>
           </a>
 
           <a

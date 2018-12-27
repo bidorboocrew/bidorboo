@@ -52,17 +52,16 @@ class MyOpenJobsPage extends React.Component {
             </div>
           </div>
         </section>
-        <div className="tabs">
+        <div className="tabs is-medium">
           <ul>
             <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
               <a
                 onClick={(e) => {
                   e.preventDefault();
                   this.changeActiveTab(TAB_IDS.postedJobs);
-                  // switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
                 }}
               >
-                {TAB_IDS.postedJobs}
+                {`${TAB_IDS.postedJobs} (${(myOpenJobsList && myOpenJobsList.length) || 0})`}
               </a>
             </li>
             <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
@@ -70,10 +69,9 @@ class MyOpenJobsPage extends React.Component {
                 onClick={(e) => {
                   e.preventDefault();
                   this.changeActiveTab(TAB_IDS.awardedJobs);
-                  // switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
                 }}
               >
-                {TAB_IDS.awardedJobs}
+                {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) || 0})`}
               </a>
             </li>
           </ul>

@@ -146,10 +146,11 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <span style={{ marginRight: 4 }}>
-                    <i className="fa fa-child" aria-hidden="true" />
+                  <span className="icon">
+                    <i className="fa fa-child" />
                   </span>
                   <span>Request a Service</span>
+
                   {notificationFeed &&
                     notificationFeed.jobIdsWithNewBids &&
                     notificationFeed.jobIdsWithNewBids.length > 0 && (
@@ -174,7 +175,7 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    <span style={{ marginRight: 4 }}>
+                    <span className="icon">
                       <i className="far fa-plus-square" />
                     </span>
                     <span>New Request</span>
@@ -188,7 +189,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span style={{ marginRight: 4 }}>
+                      <span className="icon">
                         <i className="fas fa-list" />
                       </span>
                       <span>My Requests</span>
@@ -212,7 +213,7 @@ class Header extends React.Component {
                   }}
                   className="navbar-link"
                 >
-                  <span style={{ marginRight: 4 }}>
+                  <span className="icon">
                     <i className="fa fa-hand-paper" aria-hidden="true" />
                   </span>
                   <span>Provide a Service</span>
@@ -240,7 +241,7 @@ class Header extends React.Component {
                       });
                     }}
                   >
-                    <span style={{ marginRight: 4 }}>
+                    <span className="icon">
                       <i className="fas fa-plus-circle" />
                     </span>
                     <span>New Bid</span>
@@ -254,7 +255,7 @@ class Header extends React.Component {
                       }}
                       className="navbar-item"
                     >
-                      <span style={{ marginRight: 4 }}>
+                      <span className="icon">
                         <i className="fas fa-money-check-alt" />
                       </span>
                       <span>My Bids</span>
@@ -304,7 +305,7 @@ class Header extends React.Component {
                             }}
                             className="navbar-item"
                           >
-                            <span style={{ marginRight: 4 }}>
+                            <span className="icon">
                               <i className="far fa-user" aria-hidden="true" />
                             </span>
                             <span>My Profile</span>
@@ -318,7 +319,7 @@ class Header extends React.Component {
                             }
                             className="navbar-item"
                           >
-                            <span style={{ marginRight: 4 }}>
+                            <span className="icon">
                               <i className="fas fa-sign-out-alt" />
                             </span>
                             <span>Logout</span>

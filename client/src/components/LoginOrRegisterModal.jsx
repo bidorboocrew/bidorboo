@@ -32,12 +32,10 @@ export const LoginOrRegisterModal = (props) => {
               // }}
               style={{ marginTop: 8 }}
             >
-              <span>
+              <span className="icon">
                 <i className="fab fa-google" />
               </span>
-              <span style={{ marginLeft: 4 }} className="text">
-                login using Google
-              </span>
+              <span>login using Google</span>
             </a>
             <a
               rel="noopener noreferrer"
@@ -45,12 +43,10 @@ export const LoginOrRegisterModal = (props) => {
               className="button is-link is-large is-fullwidth"
               style={{ marginTop: 16 }}
             >
-              <span>
+              <span className="icon">
                 <i className="fab fa-facebook-square" />
               </span>
-              <span style={{ marginLeft: 4 }} className="text">
-                login using Facebook
-              </span>
+              <span>login using Facebook</span>
             </a>
           </div>
         </section>
