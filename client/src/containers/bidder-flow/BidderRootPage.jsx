@@ -184,9 +184,12 @@ class BidderRootPage extends React.Component {
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
         />
-        <div style={{ padding: '0.5rem' }}>
-          <div style={{ margin: 10 }} className="help container has-text-grey has-text-centered">
-            {` displaying ${(currentJobsList && currentJobsList.length) || 0} requests`}
+        <div style={{ padding: '1rem' }}>
+          <div
+            style={{ marginBottom: 10 }}
+            className="help container has-text-grey has-text-centered"
+          >
+            {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
           </div>
           {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
           <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />

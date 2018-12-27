@@ -1,10 +1,10 @@
 /*global google*/
 import React from 'react';
+import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
-import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import RequestsTabSummaryCard from '../components/RequestsTabSummaryCard';
 
 import MineTabSummaryCard from './../components/MineTabSummaryCard';
@@ -27,7 +27,7 @@ export default class JobInfoBox extends React.Component {
               switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
             }}
             onCloseHandler={toggleShowInfoBox}
-            cardSpecialclassName="bdb-infoBoxCard"
+            cardSpecialClass="bdb-infoBoxCard"
             showCoverImg={false}
             withButtons={true}
             job={job}
@@ -44,7 +44,7 @@ export default class JobInfoBox extends React.Component {
               }
             }}
             onCloseHandler={toggleShowInfoBox}
-            cardSpecialclassName="bdb-infoBoxCard"
+            cardSpecialClass="bdb-infoBoxCard"
             showCoverImg={false}
             withButtons={true}
             job={job}
@@ -55,14 +55,15 @@ export default class JobInfoBox extends React.Component {
       <InfoBox
         className="info-Box-map"
         options={{
-          pixelOffset: new google.maps.Size(-50, -10),
+          pixelOffset: new google.maps.Size(-50, -50),
           zIndex: 999,
           boxStyle: {
+            zIndex: '30',
             padding: '0px 0px 0px 0px',
             boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
           },
           closeBoxURL: '',
-          infoBoxClearance: new google.maps.Size(1, 1),
+          infoBoxClearance: new google.maps.Size(10, 10),
           isHidden: false,
           pane: 'mapPane',
           enableEventPropagation: true,
