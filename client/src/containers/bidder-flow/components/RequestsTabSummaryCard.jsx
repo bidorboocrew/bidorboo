@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
-  MinBidDisplayLabelValue,
+  AvgBidDisplayLabelAndValue,
   DisplayLabelValue,
   CountDownComponent,
   UserImageAndRating,
@@ -71,19 +71,19 @@ export default class RequestsTabSummaryCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
+            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         {withButtons && (
           <footer className="card-footer">
             <div className="card-footer-item">
-              <a onClick={onClickHandler} className="button is-success is-fullwidth">
-                Bid
+              <a onClick={onClickHandler} className="button is-success is-fullwidth is-small">
+                View
               </a>
             </div>
             <div className="card-footer-item">
-              <a onClick={onCloseHandler} className="button is-outlined is-fullwidth">
+              <a onClick={onCloseHandler} className="button is-outlined is-fullwidth is-small">
                 Close
               </a>
             </div>
@@ -91,7 +91,10 @@ export default class RequestsTabSummaryCard extends React.Component {
         )}
 
         {associatedUserActions(job, currentUserId)}
-        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
+
+        {!withButtons && (
+          <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
+        )}
       </div>
     );
   }

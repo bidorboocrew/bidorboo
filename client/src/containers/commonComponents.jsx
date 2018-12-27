@@ -15,24 +15,22 @@ export const getDaysSinceCreated = (createdAt) => {
   return daysSinceCreated;
 };
 
-export const findMinBidInBidsList = (bidsList) => {
+export const findAvgBidInBidList = (bidsList) => {
   let hasBids = bidsList && bidsList.length > 0;
 
   if (hasBids) {
     const minBid = bidsList
       .map((bid) => bid.bidAmount.value)
-      .reduce((min, bidAmount) => Math.min(min, bidAmount));
+      .reduce((accumulator, bidAmount) => accumulator + bidAmount);
     return minBid;
   }
   return null;
 };
 
-export const MinBidDisplayLabelValue = ({ bidsList }) => {
-  let minBid = findMinBidInBidsList(bidsList);
+export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
+  let minBid = findAvgBidInBidList(bidsList);
   let lowestBidLabel = minBid ? (
-    <div className="has-text-success">
-      <DisplayLabelValue labelText="Lowest Bid:" labelValue={`${minBid} CAD`} />
-    </div>
+    <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid} CAD`} />
   ) : null;
   return lowestBidLabel;
 };

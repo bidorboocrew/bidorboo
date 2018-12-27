@@ -8,7 +8,7 @@ import {
   CardTitleWithBidCount,
   JobStats,
   getDaysSinceCreated,
-  MinBidDisplayLabelValue,
+  AvgBidDisplayLabelAndValue,
 } from '../../commonComponents';
 
 export default class MineTabSummaryCard extends React.Component {
@@ -57,7 +57,7 @@ export default class MineTabSummaryCard extends React.Component {
                 startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
               }
             />
-            <MinBidDisplayLabelValue bidsList={_bidsListRef} />
+            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
@@ -77,7 +77,9 @@ export default class MineTabSummaryCard extends React.Component {
           </footer>
         )}
 
-        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
+        {!withButtons && (
+          <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
+        )}
       </div>
     );
   }

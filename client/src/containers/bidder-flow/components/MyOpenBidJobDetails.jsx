@@ -9,7 +9,7 @@ import {
   UserImageAndRating,
   getDaysSinceCreated,
   JobStats,
-  MinBidDisplayLabelValue,
+  AvgBidDisplayLabelAndValue,
 } from '../../commonComponents';
 
 export default class MyOpenBidJobDetails extends React.Component {
@@ -73,7 +73,7 @@ export default class MyOpenBidJobDetails extends React.Component {
                 }}
                 readOnly
               />
-              <MinBidDisplayLabelValue bidsList={_bidsListRef} />
+              <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             </span>
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
