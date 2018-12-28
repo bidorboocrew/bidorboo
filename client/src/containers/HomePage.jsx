@@ -46,23 +46,7 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container">
-          <div className="tabs is-mobile is-centered">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                >
-                  Task List
-                </a>
-              </li>
-            </ul>
-          </div>
-
-
-        </div>
+        
       </div>
     );
   }
