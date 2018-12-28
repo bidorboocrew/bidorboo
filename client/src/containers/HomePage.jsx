@@ -61,7 +61,7 @@ export default class HomePage extends React.Component {
             </ul>
           </div>
 
-          <ProposerRoot isForMainPage />
+
         </div>
       </div>
     );
