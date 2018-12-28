@@ -442,3 +442,12 @@ input[type='checkbox'] {
     max-width: 25rem !important;
   }
 }
+.react-add-to-calendar__dropdown {
+  font-size: 18px;
+  ul {
+    li {
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+  }
+}
