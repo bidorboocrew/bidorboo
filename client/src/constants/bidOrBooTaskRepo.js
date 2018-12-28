@@ -8,7 +8,7 @@ export const templatesRepo = {
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'https://vid.alarabiya.net/images/2017/03/14/35be08d5-c5c1-4fa0-bbb6-66dcbf393095/35be08d5-c5c1-4fa0-bbb6-66dcbf393095.jpg',
+      'https://static1.squarespace.com/static/5325d497e4b0eeecbb676139/t/56cb1ef522482e3aa7437ffd/1456152323491/',
     description:
       'Whether you need to run some errands for the day or go on a week-long vacation, keep your pet in the safe hands of a pet-loving sitter. Set your own expectations and share your pet needs with your pet sitter, and that leaves one less thing for you to worry about!',
     suggestedDetailsText: `Pet Type & Breed:
@@ -26,7 +26,7 @@ Special Instructions:
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'https://i.amz.mshcdn.com/7U-h0YvpfBdWp6NZyIyrS9iNZRU=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F554950%2F9518ba08-75eb-434a-a529-968c355628de.jpg',
+      'https://trk.localvox.com/sites/default/files/styles/480x240/public/content_images/suffield-lawn-mowing.jpg?itok=ieSi8K1p',
     description:
       "Tired of mowing ? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `How Big is your backyard ?
