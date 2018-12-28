@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const registerServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
     send();
   }
 };
