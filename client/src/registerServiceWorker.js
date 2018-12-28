@@ -27,13 +27,17 @@ const send = () => {
         scope: '/',
       });
       console.log('Service worker Registered \n');
+
+      registration = await registration.update();
     } catch (e) {
       console.error(e);
     }
+
     try {
       if (!registration) {
         return;
       }
+
       console.log('registering webpush');
       const vapidPublicKey = `${process.env.REACT_APP_VAPID_PUSH_PUBLIC_KEY}`;
       const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
