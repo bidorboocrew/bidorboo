@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Reveal from 'react-reveal/Reveal';
+
 import ServiceTemplates from './components/ServiceTemplates';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
@@ -24,7 +26,9 @@ class ProposerRoot extends React.Component {
         )}
         <section className="section">
           <div className="container">
-            <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+            <Reveal delay={350} effect="swing-in-top-fwd">
+              <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+            </Reveal>
           </div>
         </section>
       </React.Fragment>

@@ -101,16 +101,11 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   background: #eee;
 }
 
-$family-sans-serif: 'Roboto', sans-serif;
+
 $family-primary: 'Roboto', sans-serif;
 $body-background-color: #eee; //#3b549c;
 $navbar-background-color: white;
-$section-padding: 3rem 0.5rem;
-$navbar-height: 3.25rem;
-$box-radius: 0;
-.navbar-dropdown .navbar-item {
-  font-size: 16px;
-}
+$navbar-item-hover-color: black;
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
 
