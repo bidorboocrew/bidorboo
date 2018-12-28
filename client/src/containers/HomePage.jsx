@@ -17,7 +17,7 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <Flip delay={500} left cascade>
+              <Flip delay={350} left cascade>
                 <h1 className="title is-size-1">BidOrBoo</h1>
                 <h2 className="is-size-6">
                   Get the services you need for the price you want. Earn money doing what you love.
@@ -29,7 +29,7 @@ export default class HomePage extends React.Component {
 
         <section className="section">
           <div className="container">
-            <Reveal delay={950} effect="swing-in-top-fwd">
+            <Reveal delay={350} effect="swing-in-top-fwd">
               <div className="columns is-multiline is-centered">
                 <div className="column is-half">
                   <BidOrBooCard
@@ -54,7 +54,7 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <div className="container">
-          <Reveal delay={1250} effect="swing-in-top-fwd">
+          <Reveal delay={350} effect="swing-in-top-fwd">
             <div className="tabs is-mobile is-centered">
               <ul>
                 <li>
