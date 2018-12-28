@@ -105,7 +105,7 @@ class Header extends React.Component {
                       width: 24,
                       borderRadius: 100,
                     }}
-                    className="tag is-dark has-text-weight-semibold"
+                    className="tag is-danger has-text-weight-semibold"
                   >
                     <i className="far fa-bell" />
                   </span>
@@ -160,7 +160,7 @@ class Header extends React.Component {
                           width: 24,
                           borderRadius: 100,
                         }}
-                        className="tag is-dark has-text-weight-semibold"
+                        className="tag is-danger has-text-weight-semibold"
                       >
                         <i className="far fa-bell" />
                       </span>
@@ -196,7 +196,7 @@ class Header extends React.Component {
                       {notificationFeed &&
                         notificationFeed.jobIdsWithNewBids &&
                         notificationFeed.jobIdsWithNewBids.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-dark">
+                          <span style={{ marginLeft: 4 }} className="tag is-danger">
                             {notificationFeed.jobIdsWithNewBids.length}
                           </span>
                         )}
@@ -226,7 +226,7 @@ class Header extends React.Component {
                           width: 24,
                           borderRadius: 100,
                         }}
-                        className="tag is-dark has-text-weight-semibold"
+                        className="tag is-danger has-text-weight-semibold"
                       >
                         <i className="far fa-bell" />
                       </span>
@@ -262,7 +262,7 @@ class Header extends React.Component {
                       {notificationFeed &&
                         notificationFeed.myBidsWithNewStatus &&
                         notificationFeed.myBidsWithNewStatus.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-dark">
+                          <span style={{ marginLeft: 4 }} className="tag is-danger">
                             {notificationFeed.myBidsWithNewStatus.length}
                           </span>
                         )}

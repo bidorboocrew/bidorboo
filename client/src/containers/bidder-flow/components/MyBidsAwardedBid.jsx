@@ -78,7 +78,7 @@ export default class MyBidsAwardedBid extends React.Component {
                 style={{
                   marginLeft: 4,
                 }}
-                className="tag is-dark"
+                className="tag is-danger"
               >
                 New
               </span>

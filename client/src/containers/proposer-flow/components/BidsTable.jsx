@@ -51,7 +51,7 @@ export default class BidsTable extends React.Component {
               {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
             </div>
             {bid.isNewBid ? (
-              <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-dark">
+              <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-danger">
                 new bid
               </div>
             ) : null}

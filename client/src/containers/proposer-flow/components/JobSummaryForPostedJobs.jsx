@@ -115,7 +115,7 @@ const renderFooter = ({ job, notificationFeed }) => {
           </span>
           <span style={{ marginLeft: 4 }}>View Bids</span>
           {areThereAnyBidders && doesthisJobHaveNewBids && (
-            <span style={{ marginLeft: 4 }} className="tag is-dark">
+            <span style={{ marginLeft: 4 }} className="tag is-danger">
               +{numberOfNewBids}
             </span>
           )}
