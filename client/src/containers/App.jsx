@@ -15,20 +15,16 @@ import {
   HomePage,
   MyProfile,
   VerificationPage,
-
   ProposerRootPage,
   CreateAJobPage,
   MyOpenJobsPage,
   ReviewAwardedJobAndBidsPage,
   ReviewRequestAndBidsPage,
-
-
   BidderRootPage,
   BidOnJobPage,
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
-
 } from './index';
 
 class App extends React.Component {

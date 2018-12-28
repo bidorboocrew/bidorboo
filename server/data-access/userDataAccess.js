@@ -6,6 +6,12 @@ const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 
+exports.getUserPushSubscription = (userId) => {
+  return User.findOne({ userId }, { pushSubscription: 1 })
+    .lean(true)
+    .exec();
+};
+
 exports.findSessionUserById = (id) =>
   User.findOne({ userId: id }, { userId: 1, _id: 1 })
     .lean(true)

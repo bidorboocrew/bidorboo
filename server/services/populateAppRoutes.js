@@ -12,4 +12,5 @@ module.exports = (app) => {
   require('../routes/bidRoutes')(app);
   require('../routes/paymentRoutes')(app);
   require('../routes/utilityRoutes')(app);
+  require('../routes/pushNotificationRoutes')(app);
 };
