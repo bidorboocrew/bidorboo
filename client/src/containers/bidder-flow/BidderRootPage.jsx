@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Reveal from 'react-reveal/Reveal';
+
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
@@ -240,7 +242,9 @@ class BidderRootPage extends React.Component {
             />
             <br />
             {!isForMainPage && (
-              <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+              <Reveal delay={350} effect="swing-in-top-fwd">
+                <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+              </Reveal>
             )}
           </div>
         </section>

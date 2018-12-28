@@ -1,4 +1,6 @@
 import React from 'react';
+import Flip from 'react-reveal/Flip';
+import Reveal from 'react-reveal/Reveal';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
@@ -7,7 +9,6 @@ import ProposerRoot from './proposer-flow/ProposerRootPage';
 
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
-import BidderRootPage from './bidder-flow/BidderRootPage';
 
 export default class HomePage extends React.Component {
   render() {
@@ -16,69 +17,60 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title is-size-1">BidOrBoo</h1>
-              <h2 className="is-size-6">
-                Get the services you need for the price you want. Earn money doing what you love.
-              </h2>
+              <Flip delay={500} left cascade>
+                <h1 className="title is-size-1">BidOrBoo</h1>
+                <h2 className="is-size-6">
+                  Get the services you need for the price you want. Earn money doing what you love.
+                </h2>
+              </Flip>
             </div>
           </div>
         </section>
 
         <section className="section">
           <div className="container">
-            <div className="columns is-multiline is-centered">
-              <div className="column is-half">
-                <BidOrBooCard
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                  cardContent={'Request a Service'}
-                />
+            <Reveal delay={950} effect="swing-in-top-fwd">
+              <div className="columns is-multiline is-centered">
+                <div className="column is-half">
+                  <BidOrBooCard
+                    logoImg={requestImg}
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    }}
+                    cardContent={'Request a Service'}
+                  />
+                </div>
+                <div className="column is-half">
+                  <BidOrBooCard
+                    logoImg={bidsImg}
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    }}
+                    cardContent={'Provide a Service'}
+                  />
+                </div>
               </div>
-              <div className="column is-half">
-                <BidOrBooCard
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                  cardContent={'Provide a Service'}
-                />
-              </div>
-            </div>
+            </Reveal>
           </div>
         </section>
         <div className="container">
-          <div className="tabs is-mobile is-centered">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                >
-                  Task Templates
-                </a>
-              </li>
-            </ul>
-          </div>
-          <ProposerRoot isForMainPage />
-        </div>
-        <div className="container">
-          <div className="tabs is-mobile is-centered">
-            <ul>
-              <li>
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                >
-                  Offer Your Service
-                </a>
-              </li>
-            </ul>
-          </div>
-          <BidderRootPage isForMainPage />
+          <Reveal delay={1250} effect="swing-in-top-fwd">
+            <div className="tabs is-mobile is-centered">
+              <ul>
+                <li>
+                  <a
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    }}
+                  >
+                    Task Templates
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <ProposerRoot isForMainPage />
+          </Reveal>
         </div>
       </div>
     );
