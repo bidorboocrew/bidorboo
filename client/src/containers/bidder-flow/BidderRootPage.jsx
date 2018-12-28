@@ -231,12 +231,19 @@ class BidderRootPage extends React.Component {
             {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
           </React.Fragment>
         )}
-
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
-        <br />
-        {!isForMainPage && (
-          <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
-        )}
+        <section className="section">
+          <div className="container">
+            <MapSection
+              mapCenterPoint={mapCenterPoint}
+              jobsList={currentJobsList}
+              {...this.props}
+            />
+            <br />
+            {!isForMainPage && (
+              <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+            )}
+          </div>
+        </section>
       </div>
     );
   }
