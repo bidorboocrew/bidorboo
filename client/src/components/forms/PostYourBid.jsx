@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
@@ -57,7 +56,7 @@ class PostYourBid extends React.Component {
                 style={{ borderRadius: 0, width: '10rem' }}
                 onClick={this.openShowBidDialog}
                 type="button"
-                className="button  is-medium is-primary "
+                className="button is-medium is-primary "
               >
                 <span className="icon">
                   <i className="fas fa-hand-paper" />

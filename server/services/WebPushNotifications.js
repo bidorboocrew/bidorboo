@@ -14,7 +14,7 @@ exports.WebPushNotifications = {
         const payload = JSON.stringify({
           title,
           body,
-          icon: icon || 'https://image.flaticon.com/icons/svg/753/753078.svg',
+          icon: icon || 'https://res-console.cloudinary.com/hr6bwgs1p/thumbnails/v1/image/upload/v1545981752/QmlkT3JCb28vYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mg==/grid',
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
         const sendWebPush = await webpush.sendNotification(

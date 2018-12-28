@@ -8,7 +8,9 @@ self.addEventListener('push', (event) => {
   const title = data.title;
   const options = {
     body: data.body,
-    icon: data.icon,
+    icon:
+      data.icon ||
+      'https://res-console.cloudinary.com/hr6bwgs1p/thumbnails/v1/image/upload/v1545981752/QmlkT3JCb28vYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mg==/grid',
     // badge: 'images/badge.png',
   };
 
@@ -21,5 +23,5 @@ self.addEventListener('notificationclick', (event) => {
 
   event.notification.close();
   //this needs to change, need to come need to be dybamic
-  event.waitUntil(clients.openWindow(data.urlToLaunch));
+  event.waitUntil(clients.openWindow(data.urlToLaunch || 'www.bidorboo.com'));
 });
