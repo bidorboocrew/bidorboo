@@ -133,7 +133,7 @@ const EmptyStateComponent = () => {
             <div className="is-size-5">You have no bids. Start bidding to earn money!</div>
             <br />
             <a
-              className="button is-primary "
+              className="button is-success "
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}

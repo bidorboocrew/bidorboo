@@ -48,24 +48,27 @@ class CreateAJobPage extends React.Component {
         <section className="section">
           <div className="container">
             <div className="card noShadow">
-              <section className="hero is-small is-dark">
+              <section
+                style={{ borderBottom: '1px solid #eee' }}
+                className="hero is-small is-white"
+              >
                 <div className="hero-body">
                   <div className="container">
-                    <div className="title has-text-white">{jobDetails.title} Request</div>
+                    <div className="title has-text-dark">{jobDetails.title} Request</div>
+                    <ShowMore
+                      className="has-text-grey"
+                      lines={2}
+                      more="Show more"
+                      less="Show less"
+                      anchorclassName=""
+                    >
+                      {this.state.chosenTemplate.description}
+                    </ShowMore>
                   </div>
                 </div>
               </section>
 
               <div className="card-content">
-                <ShowMore
-                  className="has-text-grey"
-                  lines={2}
-                  more="Show more"
-                  less="Show less"
-                  anchorclassName=""
-                >
-                  {this.state.chosenTemplate.description}
-                </ShowMore>
                 <br />
                 <NewJobForm
                   fromTemplateIdField={jobDetails.id}

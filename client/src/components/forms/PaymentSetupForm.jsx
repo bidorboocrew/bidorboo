@@ -471,7 +471,7 @@ const PaymentSetupForm = (props) => {
         <div className="control">
           <button
             style={{ marginRight: 6 }}
-            className="button is-primary is-medium"
+            className="button is-success is-medium"
             type="submit"
             disabled={isSubmitting || !isValid}
           >

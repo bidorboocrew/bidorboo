@@ -31,15 +31,17 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let minBid = findAvgBidInBidList(bidsList);
   let avgBidLabel = minBid ? (
     <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid} CAD`} />
-  ) : null;
+  ) : (
+    <DisplayLabelValue labelText="Avg Bid:" labelValue={`None yet!`} />
+  );
   return avgBidLabel;
 };
 
 export const DisplayLabelValue = (props) => {
   return (
     <div>
-      <div className="has-text-dark is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );
 };
@@ -105,6 +107,7 @@ export const UserImageAndRating = ({ userDetails }) => {
 };
 
 export const JobStats = ({ daysSinceCreated, viewedBy }) => {
+  return null;
   return (
     <nav style={{ marginTop: 6 }} className="level is-mobile">
       <div className="level-left">

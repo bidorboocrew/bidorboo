@@ -111,7 +111,7 @@ class RequesterAndOpenBid extends React.Component {
                 <button
                   disabled={isSubmitting || !isValid}
                   onClick={this.submitUpdateBid}
-                  className="button is-primary"
+                  className="button is-success"
                 >
                   Update
                 </button>
@@ -171,7 +171,7 @@ class RequesterAndOpenBid extends React.Component {
             <div style={{ marginBottom: 6 }}>
               <div className="has-text-light is-size-7">Your Bid:</div>
 
-              <div className="has-text-weight-bold is-size-6 has-text-warning">
+              <div className="is-size-6 has-text-warning">
                 <span>{`${bidAmount} ${bidCurrency}`}</span>
                 <a
                   onClick={() => {
@@ -192,7 +192,7 @@ class RequesterAndOpenBid extends React.Component {
             </div>
             <div style={{ marginBottom: 6 }}>
               <div className="has-text-light is-size-7">Your Bid Status :</div>
-              <div className="has-text-weight-bold is-size-6 has-text-warning">Pending</div>
+              <div className="is-size-6 has-text-warning">Pending</div>
             </div>
             <div className="help">* Requester did not award this job to anyone yet</div>
           </div>
@@ -205,8 +205,8 @@ class RequesterAndOpenBid extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div style={{ marginBottom: 6 }}>
-      <div className="has-text-light is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );
 };

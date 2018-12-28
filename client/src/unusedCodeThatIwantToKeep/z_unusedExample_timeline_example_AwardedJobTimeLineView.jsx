@@ -83,7 +83,7 @@ export default class AwardedJobTimeLineView extends React.Component {
               </div>
             </div>
 
-            <div className="timeline-item is-primary">
+            <div className="timeline-item is-success">
               <div className="timeline-marker is-warning is-image is-32x32">
                 <img src="http://bulma.io/images/placeholders/32x32.png" />
               </div>
@@ -93,7 +93,7 @@ export default class AwardedJobTimeLineView extends React.Component {
               </div>
             </div>
             <header className="timeline-header">
-              <span className="tag is-primary">2017</span>
+              <span className="tag is-success">2017</span>
             </header>
             <div className="timeline-item is-danger">
               <div className="timeline-marker is-danger is-icon">

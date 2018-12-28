@@ -214,7 +214,7 @@ class MyForm extends React.Component {
                   this.saveCrop(values);
                 }}
                 type="submit"
-                className="button is-primary"
+                className="button is-success"
               >
                 {`Save & Upload`}
               </button>
@@ -236,7 +236,7 @@ class MyForm extends React.Component {
                   handleSubmit(values, { ...this.props });
                 }}
                 type="submit"
-                className="button is-primary"
+                className="button is-success"
               >
                 Upload
               </button>

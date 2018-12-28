@@ -69,7 +69,6 @@ export default class MyOpenBidJobDetails extends React.Component {
                   border: 'none',
                   color: '#4a4a4a',
                   fontSize: '1rem',
-                  fontWeight: '700',
                 }}
                 readOnly
               />

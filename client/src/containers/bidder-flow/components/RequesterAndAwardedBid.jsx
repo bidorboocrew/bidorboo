@@ -64,11 +64,11 @@ export default class RequesterAndAwardedBid extends React.Component {
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Your Bid:</div>
-            <div className="has-text-weight-bold is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
+            <div className="is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="has-text-light is-size-7">Your Bid Status :</div>
-            <div className="has-text-weight-bold is-size-6 has-text-success">Awarded</div>
+            <div className="is-size-6 has-text-success">Awarded</div>
           </div>
           <div className="help">* you will recieve the payment after completing the task</div>
           <br />
@@ -82,8 +82,8 @@ export default class RequesterAndAwardedBid extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div style={{ marginBottom: 6 }}>
-      <div className="has-text-light is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );
 };

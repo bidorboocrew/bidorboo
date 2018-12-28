@@ -209,7 +209,7 @@ export default class ReviewPage extends React.Component {
         <div>
           <footer className="card-footer">
             <button
-              className="button is-primary is-fullwidth "
+              className="button is-success is-fullwidth "
               disabled={!this.state.isValid}
               onClick={() => {
                 // onSubmit();

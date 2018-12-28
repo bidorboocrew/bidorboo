@@ -64,7 +64,7 @@ export default class BidsTable extends React.Component {
                   e.preventDefault();
                   this.openBidDetailsModal(bid);
                 }}
-                className="button is-primary"
+                className="button is-success"
               >
                 View
               </a>

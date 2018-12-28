@@ -56,7 +56,7 @@ class PostYourBid extends React.Component {
                 style={{ borderRadius: 0, width: '10rem' }}
                 onClick={this.openShowBidDialog}
                 type="button"
-                className="button is-medium is-primary "
+                className="button is-medium is-success "
               >
                 <span className="icon">
                   <i className="fas fa-hand-paper" />
@@ -117,7 +117,7 @@ class PostYourBid extends React.Component {
                     type="submit"
                     disabled={isSubmitting || !isValid}
                     onClick={handleSubmit}
-                    className="button is-primary"
+                    className="button is-success"
                   >
                     Submit Bid
                   </button>

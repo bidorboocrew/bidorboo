@@ -43,7 +43,7 @@ class PaymentHandling extends React.Component {
         token={this.onTokenResponse}
         stripeKey={process.env.REACT_APP_STRIPE_KEY}
       >
-        <button className="button is-primary">Secure Payment</button>
+        <button className="button is-success">Secure Payment</button>
       </StripeCheckout>
     );
   }

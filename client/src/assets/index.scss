@@ -293,6 +293,11 @@ input[type='checkbox'] {
 .tabs {
   background: white;
 }
+
+header.card-header {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .card {
   // min-width: 15rem;
 
