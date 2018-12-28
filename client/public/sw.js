@@ -11,7 +11,7 @@ self.addEventListener('push', (event) => {
     icon:
       data.icon ||
       'https://res-console.cloudinary.com/hr6bwgs1p/thumbnails/v1/image/upload/v1545981752/QmlkT3JCb28vYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mg==/grid',
-    // badge: 'images/badge.png',
+    badge: 'android-chrome-192x192.png',
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
