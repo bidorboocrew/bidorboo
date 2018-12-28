@@ -71,8 +71,8 @@ module.exports = (app) => {
               // send push
               const bidId = _id.toString();
               WebPushNotifications.sendPush(awardedBidder.pushSubscription, {
-                title: 'BidOrBoo: Job Awarded',
-                body: `You have been awarded a new Job`,
+                title: `Good News ${_bidderRef.displayName}!`,
+                body: `You have been awarded a job. click for details`,
                 urlToLaunch: `https://www.bidorboo.com/bidder/review-my-bid-details/${bidId}`,
               });
             }
