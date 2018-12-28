@@ -294,11 +294,11 @@ input[type='checkbox'] {
   background: white;
 }
 .card {
-  min-width: 15rem;
+  // min-width: 15rem;
 
   &.bidderRootSpecial {
-    min-width: 20rem;
-    max-width: 20rem;
+    // min-width: 20rem;
+    // max-width: 20rem;
     margin: auto;
   }
   cursor: pointer;
@@ -312,9 +312,9 @@ input[type='checkbox'] {
     margin-top: 20px;
     margin-bottom: 20px;
     height: auto;
-    min-width: 10rem;
-    max-width: 22.75rem;
-    border-radius: 6px;
+    // min-width: 10rem;
+    // max-width: 22.75rem;
+    // border-radius: 6px;
     box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
       0 8px 10px -5px rgba(0, 0, 0, 0.2);
     &:hover {
@@ -390,14 +390,14 @@ input[type='checkbox'] {
     // cursor: not-allowed;
     cursor: default;
     box-shadow: none !important;
-    border: 1px solid lightgrey;
+    // border: 1px solid lightgrey;
     &:hover {
       animation: none !important;
     }
   }
   &.noShadow {
     box-shadow: none !important;
-    border: 1px solid lightgrey;
+    // border: 1px solid lightgrey;
     &:hover {
       animation: none !important;
     }
