@@ -72,10 +72,10 @@ class Header extends React.Component {
               <img
                 src="https://image.flaticon.com/icons/svg/753/753078.svg"
                 alt="BidOrBoo"
-                width="24"
-                height="24"
+                width="32"
+                height="32"
               />
-              <span style={{ paddingLeft: 6 }}>BidOrBoo</span>
+              <span style={{ paddingLeft: 6 }} className="has-text-dark has-text-weight-bold is-size-4">BidOrBoo</span>
             </a>
 
             {!isLoggedIn && (
