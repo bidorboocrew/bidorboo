@@ -26,14 +26,11 @@ const send = () => {
       registration = await navigator.serviceWorker.register('sw.js', {
         scope: '/',
       });
-      debugger;
       console.log('Service worker Registered \n');
     } catch (e) {
-      debugger;
       console.error(e);
     }
     try {
-      debugger;
       if (!registration) {
         return;
       }
@@ -50,12 +47,9 @@ const send = () => {
           subscription: JSON.stringify(subscription),
         },
       });
-      debugger;
     } catch (e) {
       console.error(e);
     }
-
-    debugger;
   });
 };
 
