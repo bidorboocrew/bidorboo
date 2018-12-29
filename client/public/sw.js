@@ -8,12 +8,8 @@ self.addEventListener('push', (event) => {
   const title = data.title;
   const options = {
     body: data.body,
-    icon:
-      'https://res-console.cloudinary.com/hr6bwgs1p/thumbnails/v1/image/upload/v1545981752/QmlkT3JCb28vYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mg==/grid',
-
-    badge:
-      'https://res-console.cloudinary.com/hr6bwgs1p/thumbnails/v1/image/upload/v1545981752/QmlkT3JCb28vYW5kcm9pZC1jaHJvbWUtMTkyeDE5Mg==/grid',
-
+    icon: '/android-chrome-192x192.png',
+    badge: '/android-chrome-192x192.png',
 
     data: data.urlToLaunch || 'https://www.bidorboo.com',
   };
