@@ -37,6 +37,7 @@ export default class HomePage extends React.Component {
                   cardContent={'Provide a Service'}
                 />
               </div>
+             </div>
             </div>
           </div>
         </section>
