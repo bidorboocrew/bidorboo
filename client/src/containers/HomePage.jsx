@@ -10,7 +10,7 @@ import requestImg from '../assets/images/jobs.png';
 export default class HomePage extends React.Component {
   render() {
     return (
-      <div>
+      
         <section className="hero has-text-centered is-small is-dark">
           <div className="hero-body">
             <div className="container">
@@ -42,8 +42,8 @@ export default class HomePage extends React.Component {
         </section>
 
 
-        
-      </div>
+  
+
     );
   }
 }
