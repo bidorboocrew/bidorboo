@@ -11,13 +11,14 @@ export default class HomePage extends React.Component {
   render() {
     return (
       
-        <section className="hero has-text-centered is-small is-dark">
+        <section className="hero has-text-centered s-white">
           <div className="hero-body">
             <div className="container">
               
-              <h2 className="is-size-6">
+              <h2>
                 Get the services you need for the price you want. Earn money doing what you love.
               </h2>
+              <br />
               <div className="columns is-multiline is-centered">
               <div className="column is-half">
                 <BidOrBooCard
