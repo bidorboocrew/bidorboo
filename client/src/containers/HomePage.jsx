@@ -14,17 +14,11 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-small is-dark">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title is-size-1">BidOrBoo</h1>
+              
               <h2 className="is-size-6">
                 Get the services you need for the price you want. Earn money doing what you love.
               </h2>
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container">
-            <div className="columns is-multiline is-centered">
+              <div className="columns is-multiline is-centered">
               <div className="column is-half">
                 <BidOrBooCard
                   logoImg={requestImg}
@@ -46,6 +40,8 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
+
+
         
       </div>
     );
