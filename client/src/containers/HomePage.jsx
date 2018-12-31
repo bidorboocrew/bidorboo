@@ -15,9 +15,9 @@ export default class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               
-              <h2>
+              <h1>
                 Get the services you need for the price you want. Earn money doing what you love.
-              </h2>
+              </h1>
               <br />
               <div className="columns is-multiline is-centered">
               <div className="column is-half">
