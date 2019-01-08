@@ -18,7 +18,7 @@ html body {
   -webkit-font-smoothing: antialiased;
   // overflow-x: hidden;
   // overflow-y: auto;
-  font-family: $font-family;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   min-height: calc(100%-3.25rem);
   height: calc(100%-3.25rem);
 }
@@ -101,7 +101,8 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   background: #eee;
 }
 
-$family-primary: 'Roboto', sans-serif;
+$family-primary: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+$family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 $body-background-color: #eee; //#3b549c;
 $navbar-background-color: white;
 $navbar-item-hover-color: black;
