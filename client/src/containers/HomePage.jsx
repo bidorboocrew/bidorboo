@@ -2,24 +2,20 @@ import React from 'react';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
-import ProposerRoot from './proposer-flow/ProposerRootPage';
-
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
 export default class HomePage extends React.Component {
   render() {
     return (
-      
-        <section className="hero has-text-centered s-white">
-          <div className="hero-body">
-            <div className="container">
-              
-              <h1>
-                Get the services you need for the price you want. Earn money doing what you love.
-              </h1>
-              <br />
-              <div className="columns is-multiline is-centered">
+      <section className="hero has-text-centered s-white">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="subtitle">
+              Get the services you need for the price you want. Earn money doing what you love.
+            </h1>
+            <br />
+            <div className="columns is-multiline is-centered">
               <div className="column is-half">
                 <BidOrBooCard
                   logoImg={requestImg}
@@ -38,14 +34,10 @@ export default class HomePage extends React.Component {
                   cardContent={'Provide a Service'}
                 />
               </div>
-             </div>
             </div>
           </div>
-        </section>
-
-
-  
-
+        </div>
+      </section>
     );
   }
 }
