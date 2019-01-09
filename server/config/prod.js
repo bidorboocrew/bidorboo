@@ -18,4 +18,6 @@ module.exports = {
   cloudinaryPublicApiKey: process.env.CLOUDINARY_PUBLIC_API_KEY,
   cloudinarySecretApiKey: process.env.CLOUDINARY_SECRET_API_KEY,
   blowerText: process.env.BLOWERIO_URL,
+  vapidPublicApiKey: process.env.VAPID_PUBLIC_API_KEY,
+  vapidPrivateApiKey: process.env.VAPID_PRIVATE_API_KEY,
 };

@@ -236,31 +236,31 @@
 .timeline .timeline-item .timeline-marker.is-dark.is-outlined.is-icon > i {
   color: #363636 !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary {
+.timeline .timeline-item .timeline-marker.is-success {
   background-color: #00d1b2 !important;
   border-color: #00d1b2 !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary .image {
+.timeline .timeline-item .timeline-marker.is-success .image {
   border-color: #00d1b2 !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-icon {
+.timeline .timeline-item .timeline-marker.is-success.is-icon {
   background-color: #00d1b2 !important;
   border-color: #00d1b2 !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-icon > i {
+.timeline .timeline-item .timeline-marker.is-success.is-icon > i {
   color: #fff !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-outlined {
+.timeline .timeline-item .timeline-marker.is-success.is-outlined {
   background-color: #fff !important;
   border-color: #00d1b2 !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-outlined .image {
+.timeline .timeline-item .timeline-marker.is-success.is-outlined .image {
   background-color: #fff !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-outlined.is-icon {
+.timeline .timeline-item .timeline-marker.is-success.is-outlined.is-icon {
   background-color: #fff !important;
 }
-.timeline .timeline-item .timeline-marker.is-primary.is-outlined.is-icon > i {
+.timeline .timeline-item .timeline-marker.is-success.is-outlined.is-icon > i {
   color: #00d1b2 !important;
 }
 .timeline .timeline-item .timeline-marker.is-link {
@@ -417,7 +417,7 @@
 .timeline .timeline-item.is-dark::before {
   background-color: #363636;
 }
-.timeline .timeline-item.is-primary::before {
+.timeline .timeline-item.is-success::before {
   background-color: #00d1b2;
 }
 .timeline .timeline-item.is-link::before {
@@ -518,7 +518,7 @@
 .timeline.is-centered .timeline-item.is-dark::before {
   background-color: #363636;
 }
-.timeline.is-centered .timeline-item.is-primary::before {
+.timeline.is-centered .timeline-item.is-success::before {
   background-color: #00d1b2;
 }
 .timeline.is-centered .timeline-item.is-link::before {

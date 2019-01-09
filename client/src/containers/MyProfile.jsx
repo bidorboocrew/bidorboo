@@ -165,7 +165,7 @@ class MyProfile extends React.Component {
 
                       <div>
                         <a
-                          className="button is-primary"
+                          className="button is-success"
                           onClick={() => {
                             this.toggleEditProfile();
                           }}
@@ -194,7 +194,7 @@ class MyProfile extends React.Component {
                     <div>
                       <HeaderTitle title="Payment Setup" />
                       <a
-                        className="button is-primary"
+                        className="button is-success"
                         onClick={() => {
                           this.toggleAddPaymentDetails();
                         }}
@@ -263,7 +263,6 @@ const HeaderTitle = (props) => {
       style={{
         marginTop: specialMarginVal || 0,
         marginBottom: 4,
-        fontWeight: 500,
         fontSize: 20,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}

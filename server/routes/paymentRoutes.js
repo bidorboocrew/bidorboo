@@ -5,6 +5,7 @@ const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBid
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
@@ -59,8 +60,22 @@ module.exports = (app) => {
           });
           if (charge && charge.status === 'succeeded') {
             // update the job and bidder with the chosen awarded bid
-            await jobDataAccess.updateJobAwardedBid(_jobRef.toString(), _id.toString());
-
+            const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
+              _jobRef.toString(),
+              _id.toString()
+            );
+            const awardedBidder = _bidderRef.userId
+              ? await userDataAccess.getUserPushSubscription(_bidderRef.userId)
+              : false;
+            if (awardedBidder && awardedBidder.pushSubscription) {
+              // send push
+              const bidId = _id.toString();
+              WebPushNotifications.sendPush(awardedBidder.pushSubscription, {
+                title: `Good News ${_bidderRef.displayName}!`,
+                body: `You have been awarded a job. click for details`,
+                urlToLaunch: `https://www.bidorboo.com/bidder/awarded-bid-details/${bidId}`,
+              });
+            }
             res.send({ success: true });
           }
         } else {

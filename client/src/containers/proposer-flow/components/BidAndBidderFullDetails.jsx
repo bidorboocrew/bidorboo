@@ -83,8 +83,8 @@ export default class ReviewBidAndBidder extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div style={{ marginBottom: 6 }}>
-      <div className="has-text-light is-size-7">{props.labelText}</div>
-      <div className="has-text-weight-bold is-size-6 is-primary">{props.labelValue}</div>
+      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );
 };

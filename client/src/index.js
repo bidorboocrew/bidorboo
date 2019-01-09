@@ -14,13 +14,14 @@ import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
+import { registerServiceWorker } from './registerServiceWorker';
 
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 
 window.BidorBoo = {
   stripe: Object.freeze(stripe),
 };
-console.log();
+
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 if (process.env.NODE_ENV === 'development') {
@@ -53,15 +54,4 @@ if (process.env.NODE_ENV === 'development') {
   );
 }
 
-//offline mode support
-// xxx said fix this default serviceworker is
-// intercepting login auth flowhttps://www.reddit.com/r/javascript/comments/7evkzu/my_service_worker_is_intercepting_my/
-// import registerServiceWorker from './registerServiceWorker';
-// import { unregister } from './registerServiceWorker';
-
-// registerServiceWorker();
-// add bugsnag support to capture errors
-// https://docs.bugsnag.com/platforms/browsers/react/#basic-configuration
-
-// unregister();
-// registerServiceWorker();
+registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);

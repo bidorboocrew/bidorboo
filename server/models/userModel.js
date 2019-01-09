@@ -90,6 +90,7 @@ const UserSchema = new Schema(
       ],
       default: 'NEW_MEMBER',
     },
+    pushSubscription: { type: String },
     userRole: {
       type: String,
       enum: ['ADMIN', 'REGULAR'],

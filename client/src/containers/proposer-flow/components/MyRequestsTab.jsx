@@ -31,7 +31,7 @@ const EmptyStateComponent = () => (
           <div className="is-size-5">Sorry you have not posted any jobs.</div>
           <br />
           <a
-            className="button is-primary "
+            className="button is-success "
             onClick={(e) => {
               e.preventDefault();
               switchRoute(ROUTES.CLIENT.PROPOSER.root);

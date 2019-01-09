@@ -79,7 +79,7 @@ export default class ReviewBidAndBidder extends React.Component {
                 <a
                   style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}
                   onClick={this.toggleAcceptModal}
-                  className="button is-primary"
+                  className="button is-success"
                 >
                   Accept Bid
                 </a>

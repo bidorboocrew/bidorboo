@@ -24,7 +24,6 @@ import {
 } from './FormsHelpers';
 import moment from 'moment';
 
-
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -130,6 +129,45 @@ class NewJobForm extends React.Component {
           type="hidden"
           value={values.dateField || moment().toDate()}
         />
+
+        <GeoAddressInput
+          id="geoInputField"
+          type="text"
+          helpText={'You must select an address from the drop down menu'}
+          label="Service Address"
+          placeholder="specify your job address"
+          autoDetectComponent={autoDetectCurrentLocation}
+          error={touched.addressTextField && errors.addressTextField}
+          value={values.addressTextField || ''}
+          onError={(e) => {
+            errors.addressTextField = 'google api error ' + e;
+          }}
+          onChangeEvent={(e) => {
+            console.log(`onChangeEvent={(e) => ${e}`);
+            setFieldValue('addressTextField', e, true);
+          }}
+          onBlurEvent={(e) => {
+            if (e && e.target) {
+              console.log(`onChangeEvent={(e) => ${e}`);
+              e.target.id = 'addressTextField';
+              handleBlur(e);
+            }
+          }}
+          handleSelect={(address) => {
+            setFieldValue('addressTextField', address, false);
+            geocodeByAddress(address)
+              .then((results) => getLatLng(results[0]))
+              .then((latLng) => {
+                setFieldValue('locationField', latLng, false);
+                console.log('Success', latLng);
+              })
+              .catch((error) => {
+                errors.addressTextField = 'error getting lat lng ' + error;
+                console.error('Error', error);
+              });
+          }}
+        />
+        <br />
         <DateInput
           id="DateInputField"
           type="text"
@@ -172,44 +210,6 @@ class NewJobForm extends React.Component {
           iconLeft="far fa-clock"
         />
         <br />
-        <GeoAddressInput
-          id="geoInputField"
-          type="text"
-          helpText={'You must select an address from the drop down menu'}
-          label="Service Address"
-          placeholder="specify your job address"
-          autoDetectComponent={autoDetectCurrentLocation}
-          error={touched.addressTextField && errors.addressTextField}
-          value={values.addressTextField || ''}
-          onError={(e) => {
-            errors.addressTextField = 'google api error ' + e;
-          }}
-          onChangeEvent={(e) => {
-            console.log(`onChangeEvent={(e) => ${e}`);
-            setFieldValue('addressTextField', e, true);
-          }}
-          onBlurEvent={(e) => {
-            if (e && e.target) {
-              console.log(`onChangeEvent={(e) => ${e}`);
-              e.target.id = 'addressTextField';
-              handleBlur(e);
-            }
-          }}
-          handleSelect={(address) => {
-            setFieldValue('addressTextField', address, false);
-            geocodeByAddress(address)
-              .then((results) => getLatLng(results[0]))
-              .then((latLng) => {
-                setFieldValue('locationField', latLng, false);
-                console.log('Success', latLng);
-              })
-              .catch((error) => {
-                errors.addressTextField = 'error getting lat lng ' + error;
-                console.error('Error', error);
-              });
-          }}
-        />
-        <br />
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
@@ -237,7 +237,7 @@ class NewJobForm extends React.Component {
           </button>
           <button
             style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className={`button is-primary is-medium  ${isSubmitting ? 'is-loading' : ''}`}
+            className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
             onClick={(e) => {

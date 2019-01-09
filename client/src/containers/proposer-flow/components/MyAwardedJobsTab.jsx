@@ -29,7 +29,7 @@ const EmptyStateComponent = (props) => (
           <div className="help">Go to your requests tab, review the bids and select a bidder.</div>
           <br />
           <a
-            className="button is-primary "
+            className="button is-success "
             onClick={(e) => {
               e.preventDefault();
               props.changeActiveTab(TAB_IDS.postedJobs);
