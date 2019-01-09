@@ -1,14 +1,16 @@
 import axios from 'axios';
 
-export const registerServiceWorker = () => {
+export const registerServiceWorker = (vapidKey) => {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    send();
+    send(vapidKey);
   }
 };
+
+
 const urlBase64ToUint8Array = (base64String) => {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-
+debugger
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
 
@@ -18,7 +20,8 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-const send = () => {
+const send = (vapidKey) => {
+  debugger
   window.addEventListener('load', async () => {
     let registration;
     try {
@@ -39,8 +42,7 @@ const send = () => {
       }
 
       console.log('registering webpush');
-      const vapidPublicKey = `${process.env.REACT_APP_VAPID_PUSH_PUBLIC_KEY}`;
-      const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+      const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: convertedVapidKey,
