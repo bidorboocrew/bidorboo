@@ -69,3 +69,59 @@ export const onLogout = () => (dispatch) =>
       });
     }),
   });
+
+export const bidOrBooLogin = (userData) => (dispatch) =>
+  dispatch({
+    type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
+    payload: axios
+      .post(ROUTES.API.AUTH.LOCAL_LOGIN, {
+        ...userData,
+      })
+      .then((resp) => {
+        debugger;
+        if (resp.data && resp.data.userId) {
+          dispatch({
+            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+            payload: resp.data,
+          });
+          //update everyone that user is now logged in
+          dispatch({
+            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          });
+        } else {
+          //rediret user to sign up page
+          // switchRoute(ROUTES.CLIENT.ENTRY);
+        }
+      })
+      .catch((error) => {
+        debugger
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+
+export const registerNewUser = (userData) => (dispatch) =>
+  dispatch({
+    type: A.AUTH_ACTIONS.REGISTER_NEW_USER,
+    payload: axios
+      .post(ROUTES.API.AUTH.REGISTER_NEW_USER, {
+        ...userData,
+      })
+      .then((resp) => {
+        if (resp.data && resp.data.userId) {
+          dispatch({
+            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+            payload: resp.data,
+          });
+          //update everyone that user is now logged in
+          dispatch({
+            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          });
+        } else {
+          //rediret user to sign up page
+          // switchRoute(ROUTES.CLIENT.ENTRY);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });

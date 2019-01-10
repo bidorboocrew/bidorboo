@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { onLogout } from '../app-state/actions/authActions';
-import { LoginOrRegisterModal } from '../components/LoginOrRegisterModal';
+import LoginOrRegisterModal from '../LoginOrRegisterModal';
 import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -75,7 +75,12 @@ class Header extends React.Component {
                 width="32"
                 height="32"
               />
-              <span style={{ paddingLeft: 6 }} className="has-text-dark has-text-weight-bold is-size-4">BidOrBoo</span>
+              <span
+                style={{ paddingLeft: 6 }}
+                className="has-text-dark has-text-weight-bold is-size-4"
+              >
+                BidOrBoo
+              </span>
             </a>
 
             {!isLoggedIn && (

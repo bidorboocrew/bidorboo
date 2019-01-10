@@ -10,6 +10,7 @@ module.exports = (app) => {
       state: JSON.stringify({ sourcePage: sourcePage }),
     })(req, res, next);
   });
+
   app.get(ROUTES.API.AUTH.GOOGLE_CALLBACK, (req, res, next) => {
     let sourcePage = '/';
     if (req.query.state) {
@@ -55,4 +56,20 @@ module.exports = (app) => {
     req.session = null;
     res.send({ success: 'logout successfully' });
   });
+
+  app.post(
+    ROUTES.API.AUTH.REGISTER_NEW_USER,
+    passport.authenticate('local-register', { failureRedirect: '/errorRoute' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  );
+
+  app.post(
+    ROUTES.API.AUTH.LOCAL_LOGIN,
+    passport.authenticate('local-login', { failureRedirect: '/errorRoute' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  );
 };

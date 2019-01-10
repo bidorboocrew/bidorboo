@@ -17,9 +17,9 @@ exports.findSessionUserById = (id) =>
     .lean(true)
     .exec();
 
-exports.findOneByUserId = (userId) =>
+exports.findOneByUserId = (userId, lean = true) =>
   User.findOne({ userId })
-    .lean(true)
+    .lean(lean)
     .exec();
 
 exports.findByIdAndGetPopulatedJobs = (userId) =>
