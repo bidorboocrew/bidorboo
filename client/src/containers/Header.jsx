@@ -53,7 +53,7 @@ class Header extends React.Component {
 
     return (
       <React.Fragment>
-        <nav className="navbar is-fixed-top nav-bottom-border">
+        <nav className="navbar is-fixed-top has-shadow is-spaced nav-bottom-border">
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
             handleCancel={this.toggleLoginDialog}
@@ -279,76 +279,65 @@ class Header extends React.Component {
 
             {/* end */}
             <div className="navbar-end">
-              <div className="navbar-item">
-                {isLoggedIn && (
-                  <div className="field is-grouped">
-                    <div className="navbar-item">
-                      <div className="navbar-item has-dropdown is-hoverable">
-                        <a
-                          onClick={(e) => {
-                            this.closeMenuThenExecute(() => {
-                              switchRoute(ROUTES.CLIENT.MY_PROFILE);
-                            });
-                          }}
-                          className="navbar-link"
-                        >
-                          <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                            <img
-                              style={{ paddingRight: 4 }}
-                              src={profileImage.url}
-                              alt="BidOrBoo"
-                            />
-                          </figure>
-                          {displayName}
-                        </a>
-                        <div className="navbar-dropdown is-boxed">
-                          <a
-                            onClick={(e) => {
-                              this.closeMenuThenExecute(() => {
-                                switchRoute(ROUTES.CLIENT.MY_PROFILE);
-                              });
-                            }}
-                            className="navbar-item"
-                          >
-                            <span className="icon">
-                              <i className="far fa-user" aria-hidden="true" />
-                            </span>
-                            <span>My Profile</span>
-                          </a>
-                          <hr className="dropdown-divider" />
-                          <a
-                            onClick={(e) =>
-                              this.closeMenuThenExecute(() => {
-                                a_onLogout();
-                              })
-                            }
-                            className="navbar-item"
-                          >
-                            <span className="icon">
-                              <i className="fas fa-sign-out-alt" />
-                            </span>
-                            <span>Logout</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {!isLoggedIn && (
-                  <div className="navbar-item">
+              {isLoggedIn && (
+                <div className="navbar-item has-dropdown is-hoverable">
+                  <a
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.MY_PROFILE);
+                      });
+                    }}
+                    className="navbar-link"
+                  >
+                    <figure className="image is-32x32">
+                      <img style={{ paddingRight: 4 }} src={profileImage.url} alt="BidOrBoo" />
+                    </figure>
+                    {displayName}
+                  </a>
+                  <div className="navbar-dropdown is-boxed">
                     <a
-                      className="button is-danger is-medium heartbeat"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          this.toggleLoginDialog();
+                          switchRoute(ROUTES.CLIENT.MY_PROFILE);
                         });
                       }}
+                      className="navbar-item"
                     >
-                      Login
+                      <span className="icon">
+                        <i className="far fa-user" aria-hidden="true" />
+                      </span>
+                      <span>My Profile</span>
+                    </a>
+                    <a
+                      onClick={(e) =>
+                        this.closeMenuThenExecute(() => {
+                          a_onLogout();
+                        })
+                      }
+                      className="navbar-item"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-sign-out-alt" />
+                      </span>
+                      <span>Logout</span>
                     </a>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+              {!isLoggedIn && (
+                <div className="navbar-item">
+                  <a
+                    className="button is-danger is-medium heartbeat"
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        this.toggleLoginDialog();
+                      });
+                    }}
+                  >
+                    Login
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </nav>

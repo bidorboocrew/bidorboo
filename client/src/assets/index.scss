@@ -14,7 +14,7 @@
 html body {
   color: $color1;
   // line-height: 1.5;
-  background: #eee;
+  background: white;
   -webkit-font-smoothing: antialiased;
   // overflow-x: hidden;
   // overflow-y: auto;
@@ -75,7 +75,6 @@ body {
 
 .nav-bottom-border {
   border-bottom: $border-divider !important;
-  box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 //over ride the date selector calendar to over flow anything else
@@ -104,7 +103,7 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
 $family-primary: 'Helvetica', 'Arial', sans-serif;
 $family-sans-serif: 'Helvetica', 'Arial', sans-serif;
 $body-background-color: white; //#3b549c;
-$navbar-background-color: white;
+// $navbar-background-color: white;
 $navbar-item-hover-color: black;
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
@@ -151,7 +150,7 @@ img {
 }
 
 .bdbPage {
-  background: #eee;
+  background: white;
 }
 
 // #StripeCheckout {
@@ -266,7 +265,7 @@ img {
   width: 100% !important;
   height: 8rem !important;
   width: 8rem !important;
-  background-color: #eee;
+  background-color: white;
   cursor: pointer;
   // border: 1px dashed white;
   input {
@@ -310,8 +309,8 @@ header.card-header {
   cursor: pointer;
   height: 100%;
 
-  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
-    0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+  //   0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
   // box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   &.proposerRootCardSpecial {
@@ -321,8 +320,8 @@ header.card-header {
     // min-width: 10rem;
     // max-width: 22.75rem;
     // border-radius: 6px;
-    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
-      0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    // box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+    //   0 8px 10px -5px rgba(0, 0, 0, 0.2);
     &:hover {
       animation: none;
       div.card-image {
@@ -340,12 +339,12 @@ header.card-header {
         object-fit: cover;
         width: calc(100% - 20px);
         height: 8rem;
-        border-radius: 6px;
+        // border-radius: 6px;
         background-color: white;
         position: absolute;
         top: -20px;
         left: 10px;
-        box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        // box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.24), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
       }
     }
     p {

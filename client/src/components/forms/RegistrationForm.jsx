@@ -2,10 +2,15 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
-import { alphanumericField, phoneNumber } from './FormsValidators';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
+    displayName: Yup.string()
+      .ensure()
+      .trim()
+      .min(3, 'your name must be at least 3 chars')
+      .max(35, 'your password can not be longer than 35 chars')
+      .required('name is required.'),
     password: Yup.string()
       .ensure()
       .trim()
@@ -47,6 +52,7 @@ const EnhancedForms = withFormik({
       email: values.email,
       password: values.password,
       originPath: values.originPath,
+      displayName: values.displayName,
     });
     setSubmitting(false);
   },
@@ -75,6 +81,16 @@ const NewUserRegistrationForm = (props) => {
         className="input is-invisible"
         type="hidden"
         value={values.originPath || '/'}
+      />
+      <TextInput
+        id="displayName"
+        type="text"
+        label="Name"
+        placeholder="Enter your name..."
+        error={touched.displayName && errors.displayName}
+        value={values.displayName || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
       />
       <TextInput
         id="email"

@@ -72,15 +72,6 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                My Profile
-              </h1>
-            </div>
-          </div>
-        </section>
 
         <section className="section">
           <div className="container">

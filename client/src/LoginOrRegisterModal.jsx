@@ -40,11 +40,11 @@ export class LoginOrRegisterModal extends React.Component {
             <button onClick={handleCancel} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-            <div className="tabs is-centered is-medium">
+            <div className="tabs is-centered is-medium is-boxed">
               <ul>
                 <li className={`${showRegistrationForm ? '' : 'is-active'}`}>
                   <a onClick={this.setShowLoginForm}>
-                    <span>Login</span>
+                    <span>Existing User</span>
                   </a>
                 </li>
                 <li className={`${showRegistrationForm ? 'is-active' : ''}`}>
