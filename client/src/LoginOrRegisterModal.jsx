@@ -100,7 +100,7 @@ export class LoginOrRegisterModal extends React.Component {
                     handleCancel();
                   }}
                 />
-              )}{' '}
+              )}
             </div>
           </div>
         </div>
