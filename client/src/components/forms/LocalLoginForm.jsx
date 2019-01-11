@@ -87,7 +87,7 @@ const LocalLoginForm = (props) => {
         <button
           style={{ marginRight: 6 }}
           className="button is-outline is-inline-flex"
-          type="submit"
+          onClick={() => alert('Not implemented yet')}
           disabled={isSubmitting}
         >
           reset credentials
