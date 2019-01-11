@@ -6,7 +6,8 @@ module.exports = {
       GOOGLE_CALLBACK: '/api/auth/google/callback',
       FACEBOOK: '/api/auth/facebook',
       FACEBOOK_CALLBACK: '/api/auth/facebook/callback',
-      REGISTER_NEW_USER: '/api/auth/register',
+      REGISTER_NEW_USER: '/api/auth/bidorboo/register',
+      LOCAL_LOGIN: '/api/auth/bidorboo/login',
       LOGOUT: '/api/auth/logout',
     },
     UTILS: {

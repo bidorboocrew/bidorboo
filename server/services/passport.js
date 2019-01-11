@@ -1,5 +1,6 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
+const LocalStrategy = require('passport-local').Strategy;
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -85,6 +86,76 @@ passport.use(
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
       return done({ errorMsg: 'Failed To create user via google login', details: e }, null);
+    }
+  })
+);
+
+const LocalStrategyConfig = {
+  successRedirect: '',
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true,
+};
+passport.use(
+  'local-register',
+  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
+    try {
+      if (!email || !password || !req.body.displayName) {
+        return done(
+          {
+            errorMsg: 'invalid inputs either username or password was not provided',
+          },
+          null
+        );
+      }
+
+      const existingUser = await userDataAccess.findOneByUserId(email);
+      if (existingUser) {
+        return done(
+          JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+          null
+        );
+      }
+
+      const userDetails = {
+        userId: email,
+        email: { emailAddress: email },
+        password: password,
+        displayName: req.body.displayName,
+        profileImgUrl: 'https://goo.gl/92gqPL',
+      };
+
+      const user = await userDataAccess.createNewUser(userDetails);
+      done(null, user);
+    } catch (err) {
+      done({ errorMsg: 'failed to register user', details: err }, null);
+    }
+  })
+);
+passport.use(
+  'local-login',
+  new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
+    try {
+      if (!email || !password) {
+        return done({
+          errorMsg: 'invalid inputs either username or password was not provided',
+        });
+      }
+
+      const existingUser = await userDataAccess.findOneByUserId(email, false);
+      if (!existingUser) {
+        return done({ errorMsg: 'invalid credentials' }, null);
+      }
+
+      const isTheRightPassword = await existingUser.checkUserPassword(password);
+
+      if (isTheRightPassword) {
+        return done(null, existingUser);
+      } else {
+        return done({ errorMsg: 'invalid credentials' }, null);
+      }
+    } catch (err) {
+      done({ errorMsg: 'failed to login user', details: err }, null);
     }
   })
 );
