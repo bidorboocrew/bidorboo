@@ -159,6 +159,7 @@ class MyProfile extends React.Component {
                           resize: 'none',
                           border: 'none',
                           color: '#4a4a4a',
+                          height: 'auto',
                         }}
                         readOnly
                       />

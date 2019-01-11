@@ -56,7 +56,13 @@ export class LoginOrRegisterModal extends React.Component {
             </div>
             {!showRegistrationForm && (
               <React.Fragment>
-                <LocalLoginForm originPath={currentPage} onSubmit={a_bidOrBooLogin} />
+                <LocalLoginForm
+                  originPath={currentPage}
+                  onSubmit={(vals) => {
+                    a_bidOrBooLogin(vals);
+                    handleCancel();
+                  }}
+                />
                 <br />
                 <div className="has-text-centered">
                   <h1 className="is-size-6">via social media</h1>
@@ -89,7 +95,13 @@ export class LoginOrRegisterModal extends React.Component {
             )}
 
             {showRegistrationForm && (
-              <RegistrationForm originPath={currentPage} onSubmit={a_registerNewUser} />
+              <RegistrationForm
+                originPath={currentPage}
+                onSubmit={(vals) => {
+                  a_registerNewUser(vals);
+                  handleCancel();
+                }}
+              />
             )}
           </section>
           <footer className="modal-card-foot">

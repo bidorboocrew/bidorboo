@@ -78,7 +78,6 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
         ...userData,
       })
       .then((resp) => {
-        debugger;
         if (resp.data && resp.data.userId) {
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
@@ -94,7 +93,6 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
         }
       })
       .catch((error) => {
-        debugger
         throwErrorNotification(dispatch, error);
       }),
   });
