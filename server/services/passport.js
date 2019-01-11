@@ -100,7 +100,7 @@ passport.use(
   'local-register',
   new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
-      if (!email || !password) {
+      if (!email || !password || !req.body.displayName) {
         return done(
           {
             errorMsg: 'invalid inputs either username or password was not provided',
@@ -111,13 +111,17 @@ passport.use(
 
       const existingUser = await userDataAccess.findOneByUserId(email);
       if (existingUser) {
-        return done({ errorMsg: 'a user with the same email already exists' }, null);
+        return done(
+          JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+          null
+        );
       }
 
       const userDetails = {
         userId: email,
         email: { emailAddress: email },
         password: password,
+        displayName: req.body.displayName,
         profileImgUrl: 'https://goo.gl/92gqPL',
       };
 

@@ -1,6 +1,5 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
-const userDataAccess = require('../data-access/userDataAccess');
 
 module.exports = (app) => {
   //google routes
@@ -60,19 +59,63 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.AUTH.REGISTER_NEW_USER,
-    passport.authenticate('local-register'),
+    async (req, res, next) => {
+      return passport.authenticate('local-register', (err, user, info) => {
+        if (err) {
+          return res.status(500).send({ errorMsg: 'Failed To Register user', details: err });
+        }
+        if (!user) {
+          return res.status(500).send({ errorMsg: 'Failed To Register user' });
+        }
+
+        // https://stackoverflow.com/questions/15711127/express-passport-node-js-error-handling
+        // ***********************************************************************
+        // "Note that when using a custom callback, it becomes the application's
+        // responsibility to establish a session (by calling req.login()) and send
+        // a response."
+        // Source: http://passportjs.org/docs
+        // ***********************************************************************
+        req.login(user, (loginErr) => {
+          if (loginErr) {
+            return next(loginErr);
+          }
+          return next(null, user);
+        });
+      })(req, res, next);
+    },
     (req, res) => {
-      const loggedinUser = await userDataAccess.findOneByUserId(req.user.userId);
-      return res.send(loggedinUser);
+      return res.send(req.user);
     }
   );
 
   app.post(
     ROUTES.API.AUTH.LOCAL_LOGIN,
-    passport.authenticate('local-login'),
+    async (req, res, next) => {
+      passport.authenticate('local-login', (err, user, info) => {
+        if (err) {
+          return res.status(401).send({ errorMsg: 'Failed To login', details: err });
+        }
+        if (!user) {
+          return res.status(401).send({ success: false, message: 'authentication failed' });
+        }
+
+        // https://stackoverflow.com/questions/15711127/express-passport-node-js-error-handling
+        // ***********************************************************************
+        // "Note that when using a custom callback, it becomes the application's
+        // responsibility to establish a session (by calling req.login()) and send
+        // a response."
+        // Source: http://passportjs.org/docs
+        // ***********************************************************************
+        req.login(user, (loginErr) => {
+          if (loginErr) {
+            return next(loginErr);
+          }
+          return next(null, user);
+        });
+      })(req, res, next);
+    },
     async (req, res, done) => {
-      const loggedinUser = await userDataAccess.findOneByUserId(req.user.userId);
-      return res.send(loggedinUser);
+      return res.send(req.user);
     }
   );
 };

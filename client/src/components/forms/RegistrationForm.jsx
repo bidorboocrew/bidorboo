@@ -76,6 +76,7 @@ const NewUserRegistrationForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1 className="title">Sign Up With BidOrBoo</h1>
       <input
         id="originPath"
         className="input is-invisible"

@@ -36,18 +36,18 @@ export class LoginOrRegisterModal extends React.Component {
         <div onClick={handleCancel} className="modal-background" />
 
         <div className="modal-content">
-          <div class="card">
-            <div class="card-content">
+          <div className="card">
+            <div className="card-content">
               <div className="tabs is-centered is-medium is-boxed">
                 <ul>
                   <li className={`${showRegistrationForm ? '' : 'is-active'}`}>
                     <a onClick={this.setShowLoginForm}>
-                      <span>Existing User Login</span>
+                      <span>Existing User</span>
                     </a>
                   </li>
                   <li className={`${showRegistrationForm ? 'is-active' : ''}`}>
                     <a onClick={this.setShowRegistrationForm}>
-                      <span>Register Now</span>
+                      <span>New User</span>
                     </a>
                   </li>
                 </ul>
@@ -104,7 +104,7 @@ export class LoginOrRegisterModal extends React.Component {
             </div>
           </div>
         </div>
-        <button class="modal-close is-large" onClick={handleCancel} aria-label="close" />
+        <button className="modal-close is-large" onClick={handleCancel} aria-label="close" />
       </div>
     ) : null;
   }
