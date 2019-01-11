@@ -127,16 +127,9 @@ UserSchema.pre('save', async function(next) {
   }
   next();
 });
-UserSchema.methods.checkUserPassword = async function(candidatePassword, cb) {
-  await compareEncryptedWithClearData(candidatePassword, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    if (!isMatch) {
-      return cb({ errorMsg: 'invalid Credentials' });
-    }
-    return cb(null, isMatch);
-  });
+UserSchema.methods.checkUserPassword = async function(candidatePassword) {
+  const isTheRightPassword = await compareEncryptedWithClearData(candidatePassword, this.password);
+  return isTheRightPassword;
 };
 
 mongoose.model('UserModel', UserSchema);

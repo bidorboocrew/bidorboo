@@ -16,13 +16,8 @@ exports.encryptData = async (dataToEncrypt) => {
   }
 };
 
-exports.compareEncryptedWithClearData = async (candidatePassword, encryptedPassword, cb) => {
-  await bcrypt.compare(candidatePassword, encryptedPassword, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, isMatch);
-  });
+exports.compareEncryptedWithClearData = async (candidatePassword, encryptedPassword) => {
+  return bcrypt.compare(candidatePassword, encryptedPassword);
 };
 
 // handles uploading file, returns file details + deletes temp file + calls back

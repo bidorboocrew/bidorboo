@@ -8,7 +8,7 @@ const EnhancedForms = withFormik({
     loginPassword: Yup.string()
       .ensure()
       .trim()
-      .min(3, 'your password must be at least 6 chars')
+      .min(6, 'your password must be at least 6 chars')
       .max(35, 'your password can not be longer than 35 chars')
       .required('password is required.'),
     loginEmail: Yup.string()
@@ -17,11 +17,16 @@ const EnhancedForms = withFormik({
       .email('please enter a valid email address')
       .required('email is required.'),
   }),
-
+  mapPropsToValues: (props) => {
+    return {
+      originPath: props.originPath,
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit({
       email: values.loginEmail,
       password: values.loginPassword,
+      originPath: values.originPath,
     });
     setSubmitting(false);
   },
@@ -45,6 +50,12 @@ const LocalLoginForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <input
+        id="originPath"
+        className="input is-invisible"
+        type="hidden"
+        value={values.originPath || '/'}
+      />
       <TextInput
         id="loginEmail"
         type="text"

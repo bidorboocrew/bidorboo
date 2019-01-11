@@ -26,10 +26,10 @@ export class LoginOrRegisterModal extends React.Component {
   render() {
     const { isActive, handleCancel, isLoggedIn, a_registerNewUser, a_bidOrBooLogin } = this.props;
     const { showRegistrationForm } = this.state;
-    const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${window.location.pathname ||
-      '/'}`;
-    const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${window.location.pathname ||
-      '/'}`;
+
+    const currentPage = `${window.location.pathname || '/'}`;
+    const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${currentPage}`;
+    const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${currentPage}`;
 
     return isActive && !isLoggedIn ? (
       <div className="modal is-active">
@@ -56,7 +56,7 @@ export class LoginOrRegisterModal extends React.Component {
             </div>
             {!showRegistrationForm && (
               <React.Fragment>
-                <LocalLoginForm onSubmit={a_bidOrBooLogin} />
+                <LocalLoginForm originPath={currentPage} onSubmit={a_bidOrBooLogin} />
                 <br />
                 <div className="has-text-centered">
                   <h1 className="is-size-6">via social media</h1>
@@ -88,7 +88,9 @@ export class LoginOrRegisterModal extends React.Component {
               </React.Fragment>
             )}
 
-            {showRegistrationForm && <RegistrationForm onSubmit={a_registerNewUser} />}
+            {showRegistrationForm && (
+              <RegistrationForm originPath={currentPage} onSubmit={a_registerNewUser} />
+            )}
           </section>
           <footer className="modal-card-foot">
             <button onClick={handleCancel} className="button">

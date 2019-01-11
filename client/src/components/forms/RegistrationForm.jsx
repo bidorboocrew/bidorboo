@@ -9,7 +9,7 @@ const EnhancedForms = withFormik({
     password: Yup.string()
       .ensure()
       .trim()
-      .min(3, 'your password must be at least 6 chars')
+      .min(6, 'your password must be at least 6 chars')
       .max(35, 'your password can not be longer than 35 chars')
       .required('password is required.'),
     passwordVerification: Yup.string()
@@ -37,12 +37,16 @@ const EnhancedForms = withFormik({
     }
     return errors;
   },
-
+  mapPropsToValues: (props) => {
+    return {
+      originPath: props.originPath,
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
     props.onSubmit({
       email: values.email,
       password: values.password,
+      originPath: values.originPath,
     });
     setSubmitting(false);
   },
@@ -66,6 +70,12 @@ const NewUserRegistrationForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <input
+        id="originPath"
+        className="input is-invisible"
+        type="hidden"
+        value={values.originPath || '/'}
+      />
       <TextInput
         id="email"
         type="text"

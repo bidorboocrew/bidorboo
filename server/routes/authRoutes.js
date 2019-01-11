@@ -1,5 +1,6 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
+const userDataAccess = require('../data-access/userDataAccess');
 
 module.exports = (app) => {
   //google routes
@@ -59,17 +60,19 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.AUTH.REGISTER_NEW_USER,
-    passport.authenticate('local-register', { failureRedirect: '/errorRoute' }),
+    passport.authenticate('local-register'),
     (req, res) => {
-      res.redirect('/');
+      const loggedinUser = await userDataAccess.findOneByUserId(req.user.userId);
+      return res.send(loggedinUser);
     }
   );
 
   app.post(
     ROUTES.API.AUTH.LOCAL_LOGIN,
-    passport.authenticate('local-login', { failureRedirect: '/errorRoute' }),
-    (req, res) => {
-      res.redirect('/');
+    passport.authenticate('local-login'),
+    async (req, res, done) => {
+      const loggedinUser = await userDataAccess.findOneByUserId(req.user.userId);
+      return res.send(loggedinUser);
     }
   );
 };

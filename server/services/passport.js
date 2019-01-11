@@ -133,12 +133,9 @@ passport.use(
   new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
       if (!email || !password) {
-        return done(
-          {
-            errorMsg: 'invalid inputs either username or password was not provided',
-          },
-          null
-        );
+        return done({
+          errorMsg: 'invalid inputs either username or password was not provided',
+        });
       }
 
       const existingUser = await userDataAccess.findOneByUserId(email, false);
@@ -146,13 +143,13 @@ passport.use(
         return done({ errorMsg: 'invalid credentials' }, null);
       }
 
-      existingUser.checkUserPassword(password, (err, isMatch) => {
-        if (isMatch) {
-          return done(null, existingUser);
-        }
-        return done({ errorMsg: 'invalid credentials ' }, null);
-      });
-      return done({ errorMsg: 'invalid credentials ' }, null);
+      const isTheRightPassword = await existingUser.checkUserPassword(password);
+
+      if (isTheRightPassword) {
+        return done(null, existingUser);
+      } else {
+        return done({ errorMsg: 'invalid credentials' }, null);
+      }
     } catch (err) {
       done({ errorMsg: 'failed to login user', details: err }, null);
     }
