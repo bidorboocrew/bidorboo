@@ -75,15 +75,24 @@ const LocalLoginForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-
-      <button
-        style={{ marginRight: 6 }}
-        className="button is-success is-fullwidth"
-        type="submit"
-        disabled={isSubmitting || !isValid}
-      >
-        Login Now
-      </button>
+      <div className="has-text-centered">
+        <button
+          style={{ marginRight: 6 }}
+          className="button is-success is-inline-flex"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          Login Now
+        </button>
+        <button
+          style={{ marginRight: 6 }}
+          className="button is-outline is-inline-flex"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          reset credentials
+        </button>
+      </div>
     </form>
   );
 };

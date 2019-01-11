@@ -120,15 +120,11 @@ const NewUserRegistrationForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-
-      <button
-        style={{ marginRight: 6 }}
-        className="button is-success is-fullwidth"
-        type="submit"
-        disabled={isSubmitting || !isValid}
-      >
-        Register
-      </button>
+      <div className="has-text-centered">
+        <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
+          Register
+        </button>
+      </div>
     </form>
   );
 };
