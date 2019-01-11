@@ -121,7 +121,11 @@ const NewUserRegistrationForm = (props) => {
         onBlur={handleBlur}
       />
       <div className="has-text-centered">
-        <button className="button is-success is-fullwidth" type="submit" disabled={isSubmitting || !isValid}>
+        <button
+          className="button is-success is-fullwidth"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
           BidOrBoo Sign Up
         </button>
       </div>
