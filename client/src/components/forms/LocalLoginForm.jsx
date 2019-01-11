@@ -50,7 +50,6 @@ const LocalLoginForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="title">BidOrBoo Login</h1>
       <input
         id="originPath"
         className="input is-invisible"

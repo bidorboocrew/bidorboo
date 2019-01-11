@@ -72,7 +72,7 @@ export class LoginOrRegisterModal extends React.Component {
                       <span className="icon">
                         <i className="fab fa-google" />
                       </span>
-                      <span>login using Google</span>
+                      <span>login via Google</span>
                     </a>
 
                     <a
@@ -84,7 +84,7 @@ export class LoginOrRegisterModal extends React.Component {
                       <span className="icon">
                         <i className="fab fa-facebook-square" />
                       </span>
-                      <span>login using Facebook</span>
+                      <span>login via Facebook</span>
                     </a>
                   </div>
                 </React.Fragment>
