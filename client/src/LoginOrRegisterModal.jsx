@@ -47,7 +47,7 @@ export class LoginOrRegisterModal extends React.Component {
                   </li>
                   <li className={`${showRegistrationForm ? 'is-active' : ''}`}>
                     <a onClick={this.setShowRegistrationForm}>
-                      <span>New User</span>
+                      <span>Sign Up</span>
                     </a>
                   </li>
                 </ul>
@@ -61,16 +61,13 @@ export class LoginOrRegisterModal extends React.Component {
                       handleCancel();
                     }}
                   />
-                  <br />
-                  <div className="has-text-centered">
+                  <div style={{ marginTop: 8 }} className="has-text-centered">
                     <h1 className="is-size-6">OR login via social media</h1>
-                    <br />
-
                     <a
                       rel="noopener noreferrer"
-                      className="button is-danger is-inline-flex"
+                      className="button is-danger is-fullwidth"
                       href={googleAuthPath}
-                      style={{ marginTop: 8, marginRight: 4 }}
+                      style={{ marginTop: 8 }}
                     >
                       <span className="icon">
                         <i className="fab fa-google" />
@@ -81,8 +78,8 @@ export class LoginOrRegisterModal extends React.Component {
                     <a
                       rel="noopener noreferrer"
                       href={facebookAuthPath}
-                      className="button is-link is-inline-flex"
-                      style={{ marginTop: 8, marginLeft: 4 }}
+                      className="button is-link is-fullwidth"
+                      style={{ marginTop: 8 }}
                     >
                       <span className="icon">
                         <i className="fab fa-facebook-square" />
