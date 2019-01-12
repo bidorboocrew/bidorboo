@@ -114,29 +114,11 @@ class Header extends React.Component {
               </div>
             )}
 
-            {notificationFeed &&
-              ((notificationFeed.myBidsWithNewStatus &&
-                notificationFeed.myBidsWithNewStatus.length > 0) ||
-                (notificationFeed.jobIdsWithNewBids &&
-                  notificationFeed.jobIdsWithNewBids.length > 0)) && (
-                <div className="is-hidden-desktop navbar-item">
-                  <span
-                    style={{
-                      marginLeft: 4,
-                      width: 24,
-                      borderRadius: 100,
-                    }}
-                    className="tag is-danger has-text-weight-semibold"
-                  >
-                    <i className="far fa-bell" />
-                  </span>
-                </div>
-              )}
-
             <a
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
               }}
+              style={{ position: 'relative' }}
               className={classNames('navbar-burger', {
                 'is-active': this.state.isHamburgerOpen,
               })}
@@ -148,6 +130,20 @@ class Header extends React.Component {
               <span aria-hidden="true" />
               <span aria-hidden="true" />
               <span aria-hidden="true" />
+              {notificationFeed &&
+                ((notificationFeed.myBidsWithNewStatus &&
+                  notificationFeed.myBidsWithNewStatus.length > 0) ||
+                  (notificationFeed.jobIdsWithNewBids &&
+                    notificationFeed.jobIdsWithNewBids.length > 0)) && (
+                  <React.Fragment>
+                    <div
+                      style={{ position: 'absolute', top: 8, right: 8, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </div>
+                  </React.Fragment>
+                )}
             </a>
           </div>
 
@@ -192,6 +188,7 @@ class Header extends React.Component {
                   <React.Fragment>
                     <a
                       className="navbar-item"
+                      style={{ position: 'relative' }}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
@@ -205,12 +202,28 @@ class Header extends React.Component {
                       {notificationFeed &&
                         notificationFeed.jobIdsWithNewBids &&
                         notificationFeed.jobIdsWithNewBids.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-danger">
-                            {notificationFeed.jobIdsWithNewBids.length}
+                          <span
+                            style={{
+                              fontSize: 10,
+                              position: 'absolute',
+                              top: 0,
+                              left: 8,
+                              background: 'red',
+                              borderRadius: '100%',
+                              minWidth: 15,
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span className="has-text-white">{`${
+                              notificationFeed.jobIdsWithNewBids.length > 9
+                                ? '9+'
+                                : notificationFeed.jobIdsWithNewBids.length
+                            }`}</span>
                           </span>
                         )}
                     </a>
                     <a
+                      style={{ position: 'relative' }}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -225,8 +238,23 @@ class Header extends React.Component {
                       {notificationFeed &&
                         notificationFeed.myBidsWithNewStatus &&
                         notificationFeed.myBidsWithNewStatus.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-danger">
-                            {notificationFeed.myBidsWithNewStatus.length}
+                          <span
+                            style={{
+                              fontSize: 10,
+                              position: 'absolute',
+                              top: 0,
+                              left: 8,
+                              background: 'red',
+                              borderRadius: '100%',
+                              minWidth: 15,
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span className="has-text-white">{`${
+                              notificationFeed.myBidsWithNewStatus.length > 9
+                                ? '9+'
+                                : notificationFeed.myBidsWithNewStatus.length
+                            }`}</span>
                           </span>
                         )}
                     </a>
@@ -248,7 +276,9 @@ class Header extends React.Component {
                             {displayName}
                           </a>
 
-                          <div className={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}>
+                          <div
+                            className={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}
+                          >
                             <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
