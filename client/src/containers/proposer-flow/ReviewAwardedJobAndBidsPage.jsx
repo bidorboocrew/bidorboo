@@ -50,25 +50,21 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {breadCrumbs({
-              activePageTitle: title,
-            })}
-            <div className="columns is-gapless is-multiline is-centered">
-              <div className="column is-4">
-                <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
-              </div>
-              <div className="column">
-                <JobFullDetailsCard
-                  job={selectedAwardedJob}
-                />
-              </div>
+      <section className="section">
+        <div className="container">
+          {breadCrumbs({
+            activePageTitle: title,
+          })}
+          <div className="columns is-gapless is-multiline is-centered">
+            <div className="column is-4">
+              <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
+            </div>
+            <div className="column">
+              <JobFullDetailsCard job={selectedAwardedJob} />
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     );
   }
 }

@@ -47,7 +47,7 @@ class CreateAJobPage extends React.Component {
       <React.Fragment>
         <section className="section">
           <div className="container">
-            <div className="card noShadow">
+            <div className="card">
               <section
                 style={{ borderBottom: '1px solid #eee' }}
                 className="hero is-small is-white"

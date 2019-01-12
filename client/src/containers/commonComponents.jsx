@@ -57,10 +57,10 @@ export const CountDownComponent = (props) => {
           bottom: 0,
           left: 0,
           width: '100%',
-          background: 'lightgrey',
           marginTop: 6,
+          borderRadius: 4,
         }}
-        className="is-size-7 has-text-white has-text-centered"
+        className="is-size-7  has-text-centered"
       >
         <Countdown
           date={startingDate || new Date()}
@@ -71,8 +71,8 @@ export const CountDownComponent = (props) => {
             ) : (
               <React.Fragment>
                 {days && !`${days}`.includes('NaN') ? (
-                  <div className="has-text-white">{`${
-                    isJobStart ? 'Starts' : 'Expires'
+                  <div style={{color: 'lightgrey'}}>{`${
+                    isJobStart ? 'Starts' : 'Deadline'
                   } in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
                 ) : null}
               </React.Fragment>

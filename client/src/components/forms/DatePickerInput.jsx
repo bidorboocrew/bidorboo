@@ -7,6 +7,7 @@ import moment from 'moment';
 import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { addMonths } from 'date-fns';
 
 class CustomDateButton extends React.Component {
   static propTypes = {
@@ -54,20 +55,22 @@ export default class DatePickerInput extends React.Component {
   render() {
     return this.state.startDate ? (
       <DatePicker
+        inline
         selected={this.state.startDate}
         onChange={this.handleChange}
         locale="en-gb"
-        minDate={moment()}
-        maxDate={moment().add(6, 'month')}
+        minDate={new Date()}
+        maxDate={addMonths(new Date(), 1)}
         customInput={<CustomDateButton />}
         className="input is-overlay"
       />
     ) : (
       <DatePicker
+        inline
         onChange={this.handleChange}
         locale="en-gb"
-        minDate={moment()}
-        maxDate={moment().add(6, 'month')}
+        minDate={new Date()}
+        maxDate={addMonths(new Date(), 1)}
         customInput={<CustomDateButton />}
         className="input is-overlay"
       />
