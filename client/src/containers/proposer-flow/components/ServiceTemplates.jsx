@@ -42,7 +42,7 @@ class ServiceTemplates extends React.Component {
       );
     });
 
-    return <div className="columns forJobSummary is-multiline">{genericTasks}</div>;
+    return <div className="columns forJobSummary is-multiline is-centered">{genericTasks}</div>;
   }
 }
 
