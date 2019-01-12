@@ -184,7 +184,7 @@ class Header extends React.Component {
                   }}
                 >
                   <span className="icon">
-                    <i className="fas fa-plus-circle" />
+                    <i className="fas fa-hand-rock" />
                   </span>
                   <span>Offer A Service</span>
                 </a>

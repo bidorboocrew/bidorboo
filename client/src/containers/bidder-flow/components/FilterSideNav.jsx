@@ -8,7 +8,7 @@ export default class FilterSideNav extends React.Component {
     super(props);
 
     this.state = {
-      titleHeight: window.innerWidth >= 1087 ? 5 : 3.25,
+      titleHeight: window.innerWidth >= 1087 ? 6 : 3.25,
     };
 
     this.handleWindowSizeChange = () => {
