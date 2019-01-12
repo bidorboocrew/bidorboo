@@ -105,6 +105,8 @@ $family-sans-serif: 'Helvetica', 'Arial', sans-serif;
 $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 $navbar-item-hover-color: black;
+
+$navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
 
@@ -318,7 +320,7 @@ header.card-header {
     margin-bottom: 20px;
     height: auto;
     min-width: 20rem;
-    width:20rem;
+    width: 20rem;
     &:hover {
       animation: none;
       div.card-image {
