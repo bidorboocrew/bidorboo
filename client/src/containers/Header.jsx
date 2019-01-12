@@ -294,7 +294,7 @@ class Header extends React.Component {
                       Login
                     </a>
                   </div>
-                )}{' '}
+                )}
               </React.Fragment>
             </div>
           </div>
