@@ -247,6 +247,8 @@ img {
   width: 100% !important;
   height: 16rem !important;
   background-color: white;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 .bdb-img-upload-placeholder {
@@ -305,8 +307,9 @@ header.card-header {
   height: 100%;
 
   &.bidderRootSpecial {
-    // min-width: 20rem;
-    // max-width: 20rem;
+    min-width: 20rem;
+    width: 20rem;
+    max-width: 20rem;
     margin: auto;
   }
 
@@ -314,6 +317,8 @@ header.card-header {
     margin-top: 20px;
     margin-bottom: 20px;
     height: auto;
+    min-width: 20rem;
+    width:20rem;
     &:hover {
       animation: none;
       div.card-image {
