@@ -53,6 +53,15 @@ class Header extends React.Component {
 
     return (
       <React.Fragment>
+        {this.state.isHamburgerOpen && (
+          <div
+            style={{ zIndex: 10 }}
+            onClick={(e) => {
+              this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
+            }}
+            className="modal-background"
+          />
+        )}
         <nav className="navbar is-fixed-top has-shadow is-spaced nav-bottom-border">
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
