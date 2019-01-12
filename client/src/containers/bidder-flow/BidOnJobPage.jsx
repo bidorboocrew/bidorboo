@@ -21,20 +21,6 @@ class BidOnJobPage extends React.Component {
 
     return (
       <div className="bdbPage">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <nav className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <p className="subtitle has-text-light is-5">
-                    <strong className="title has-text-light">Bid Now</strong>
-                  </p>
-                </div>
-              </div>
-            </nav>
-          </div>
-        </section>
-
         <section className="section">
           <div className="container">
             {breadCrumbs()}

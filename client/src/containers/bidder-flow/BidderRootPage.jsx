@@ -170,13 +170,7 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const {
-      isLoading,
-      isLoggedIn,
-      ListOfJobsToBidOn,
-      userDetails,
-      isForMainPage = false,
-    } = this.props;
+    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
       return (
         <section className="section">
@@ -207,45 +201,35 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <div className="bdbPage">
-        {!isForMainPage && (
-          <React.Fragment>
-            <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
-            <Tabs
-              activeTab={activeTab}
-              changeActiveTab={this.changeActiveTab}
-              isLoggedIn={isLoggedIn}
-            />
-            <FilterSideNav
-              isSideNavOpen={showSideNav}
-              toggleSideNav={this.toggleSideNav}
-              updateMapCenter={this.updateMapCenter}
-              onCancel={this.clearFilter}
-              handleGeoSearch={this.handleGeoSearch}
-            />
-            <div
-              style={{ marginBottom: 6 }}
-              className="help container has-text-grey has-text-centered"
-            >
-              {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
-            </div>
-            {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-          </React.Fragment>
-        )}
-        <section className="section">
-          <div className="container">
-            <MapSection
-              mapCenterPoint={mapCenterPoint}
-              jobsList={currentJobsList}
-              {...this.props}
-            />
-            <br />
-            {!isForMainPage && (
-              <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
-            )}
+      <section className="section">
+        <div className="container">
+          <Tabs
+            activeTab={activeTab}
+            changeActiveTab={this.changeActiveTab}
+            isLoggedIn={isLoggedIn}
+          />
+          <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
+          <FilterSideNav
+            isSideNavOpen={showSideNav}
+            toggleSideNav={this.toggleSideNav}
+            updateMapCenter={this.updateMapCenter}
+            onCancel={this.clearFilter}
+            handleGeoSearch={this.handleGeoSearch}
+          />
+          <div
+            style={{ marginBottom: 6 }}
+            className="help container has-text-grey has-text-centered"
+          >
+            {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
           </div>
-        </section>
-      </div>
+          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
+
+          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+          <br />
+
+          <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+        </div>
+      </section>
     );
   }
 }
@@ -274,30 +258,18 @@ export default connect(
 
 const HeaderTitleAndSearch = ({ toggleSideNav }) => {
   return (
-    <section className="hero is-small is-dark">
-      <div className="hero-body">
-        <nav className="level is-mobile">
-          <div className="level-left">
-            <div className="level-item">
-              <p className="subtitle has-text-light is-5">
-                <strong className="title has-text-light">Bid Now</strong>
-              </p>
-            </div>
-          </div>
-
-          <div className="level-right">
-            <p className="level-item">
-              <a onClick={toggleSideNav} className="button is-link">
-                <span className="icon">
-                  <i className="fas fa-filter" />
-                </span>
-                <span>Filter</span>
-              </a>
-            </p>
-          </div>
-        </nav>
+    <nav style={{ marginTop: -40, float: 'right' }} className="level is-mobile">
+      <div className="level-right">
+        <p className="level-item">
+          <a onClick={toggleSideNav} className="button is-link">
+            <span className="icon">
+              <i className="fas fa-filter" />
+            </span>
+            <span>Filter</span>
+          </a>
+        </p>
       </div>
-    </section>
+    </nav>
   );
 };
 

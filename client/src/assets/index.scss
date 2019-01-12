@@ -288,10 +288,10 @@ img {
 input[type='checkbox'] {
   transform: scale(1.5);
 }
-.button {
-  border-radius: 0;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-}
+// .button {
+//   border-radius: 0;
+//   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+// }
 .tabs {
   background: white;
 }
@@ -390,11 +390,6 @@ header.card-header {
 .card-content {
   padding-top: 0.25rem;
   // padding-bottom: 0.25rem;
-}
-
-// review these as they affect lots of UI elements
-.section {
-  padding-top: 1rem;
 }
 
 .columns.forJobSummary {

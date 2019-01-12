@@ -126,7 +126,7 @@ const NewUserRegistrationForm = (props) => {
           type="submit"
           disabled={isSubmitting || !isValid}
         >
-          BidOrBoo Sign Up
+          Join BidOrBoo
         </button>
       </div>
     </form>

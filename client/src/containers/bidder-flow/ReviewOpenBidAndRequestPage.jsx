@@ -62,16 +62,6 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
     return (
       <div className="bdbPage">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                My Bids
-              </h1>
-            </div>
-          </div>
-        </section>
-
         <section className="section">
           <div className="container">
             {breadCrumbs({ activePageTitle: title })}

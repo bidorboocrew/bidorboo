@@ -57,14 +57,6 @@ class MyBidsPage extends React.Component {
 
     return (
       <div id="bdb-bidder-my-bids">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 className="title">My Bids</h1>
-            </div>
-          </div>
-        </section>
-
         <section className="section">
           <div className="container">
             <div style={{ background: '#363636' }} className="tabs is-medium is-centered">

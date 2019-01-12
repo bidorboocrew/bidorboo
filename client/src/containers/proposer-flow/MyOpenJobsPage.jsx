@@ -43,15 +43,6 @@ class MyOpenJobsPage extends React.Component {
 
     return (
       <div className="bdbPage">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                My Requests
-              </h1>
-            </div>
-          </div>
-        </section>
         <div className="tabs is-medium">
           <ul>
             <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
