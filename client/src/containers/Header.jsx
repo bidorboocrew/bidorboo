@@ -109,7 +109,7 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  Login
+                  Login / Sign Up
                 </a>
               </div>
             )}
@@ -235,9 +235,9 @@ class Header extends React.Component {
                         isProfileMenuActive ? 'is-active' : ''
                       }`}
                     >
-                      <nav class="navbar" role="navigation" aria-label="dropdown navigation">
-                        <div class="navbar-item has-dropdown">
-                          <a onClick={this.toggleProfileMenu} class="navbar-link">
+                      <nav className="navbar" role="navigation" aria-label="dropdown navigation">
+                        <div className="navbar-item has-dropdown">
+                          <a onClick={this.toggleProfileMenu} className="navbar-link">
                             <figure className="image is-32x32">
                               <img
                                 style={{ paddingRight: 4 }}
@@ -248,7 +248,7 @@ class Header extends React.Component {
                             {displayName}
                           </a>
 
-                          <div class={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}>
+                          <div className={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}>
                             <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
@@ -291,7 +291,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      Login
+                      Login / Sign Up
                     </a>
                   </div>
                 )}
