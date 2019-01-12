@@ -17,6 +17,7 @@ import { Spinner } from '../../components/Spinner';
 import MapSection from './map/MapSection';
 
 import AllJobsView from './components/AllJobsView';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 const google = window.google;
 
@@ -248,6 +249,7 @@ const mapDispatchToProps = (dispatch) => {
     a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
     a_getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

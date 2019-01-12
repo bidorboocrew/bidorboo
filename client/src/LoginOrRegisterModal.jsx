@@ -36,7 +36,9 @@ export class LoginOrRegisterModal extends React.Component {
         <div onClick={handleCancel} className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
-            <p className="modal-card-title">BidOrBoo</p>
+            <p className="modal-card-title">
+              Join <strong>BidOrBoo</strong>
+            </p>
 
             <button onClick={handleCancel} className="delete" aria-label="close" />
           </header>
