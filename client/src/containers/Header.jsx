@@ -151,187 +151,122 @@ class Header extends React.Component {
             })}
           >
             <div className="navbar-start">
-              <div className="navbar-item has-dropdown is-hoverable">
-                <a
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    });
-                  }}
-                  className="navbar-link"
-                >
-                  <span className="icon">
-                    <i className="fa fa-child" />
-                  </span>
-                  <span>Request a Service</span>
-
-                  {notificationFeed &&
-                    notificationFeed.jobIdsWithNewBids &&
-                    notificationFeed.jobIdsWithNewBids.length > 0 && (
-                      <span
-                        style={{
-                          marginLeft: 4,
-                          width: 24,
-                          borderRadius: 100,
-                        }}
-                        className="tag is-danger has-text-weight-semibold"
-                      >
-                        <i className="far fa-bell" />
-                      </span>
-                    )}
-                </a>
-                <div className="navbar-dropdown is-boxed">
-                  <a
-                    className="navbar-item"
-                    onClick={(e) => {
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                      });
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="far fa-plus-square" />
-                    </span>
-                    <span>New Request</span>
-                  </a>
-                  {isLoggedIn && (
-                    <a
-                      className="navbar-item"
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-list" />
-                      </span>
-                      <span>My Requests</span>
-                      {notificationFeed &&
-                        notificationFeed.jobIdsWithNewBids &&
-                        notificationFeed.jobIdsWithNewBids.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-danger">
-                            {notificationFeed.jobIdsWithNewBids.length}
-                          </span>
-                        )}
-                    </a>
-                  )}
-                </div>
-              </div>
-              <div className="navbar-item has-dropdown is-hoverable">
-                <a
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    });
-                  }}
-                  className="navbar-link"
-                >
-                  <span className="icon">
-                    <i className="fa fa-hand-paper" aria-hidden="true" />
-                  </span>
-                  <span>Provide a Service</span>
-                  {notificationFeed &&
-                    notificationFeed.myBidsWithNewStatus &&
-                    notificationFeed.myBidsWithNewStatus.length > 0 && (
-                      <span
-                        style={{
-                          marginLeft: 4,
-                          width: 24,
-                          borderRadius: 100,
-                        }}
-                        className="tag is-danger has-text-weight-semibold"
-                      >
-                        <i className="far fa-bell" />
-                      </span>
-                    )}
-                </a>
-                <div className="navbar-dropdown is-boxed">
-                  <a
-                    className="navbar-item"
-                    onClick={(e) => {
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                      });
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-plus-circle" />
-                    </span>
-                    <span>New Bid</span>
-                  </a>
-                  {isLoggedIn && (
-                    <a
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                        });
-                      }}
-                      className="navbar-item"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-money-check-alt" />
-                      </span>
-                      <span>My Bids</span>
-                      {notificationFeed &&
-                        notificationFeed.myBidsWithNewStatus &&
-                        notificationFeed.myBidsWithNewStatus.length > 0 && (
-                          <span style={{ marginLeft: 4 }} className="tag is-danger">
-                            {notificationFeed.myBidsWithNewStatus.length}
-                          </span>
-                        )}
-                    </a>
-                  )}
-                </div>
-              </div>
+              <a
+                className="navbar-item"
+                onClick={(e) => {
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  });
+                }}
+              >
+                <span className="icon">
+                  <i className="far fa-plus-square" />
+                </span>
+                <span>Request a Service</span>
+              </a>
+              <a
+                className="navbar-item"
+                onClick={(e) => {
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  });
+                }}
+              >
+                <span className="icon">
+                  <i className="fas fa-plus-circle" />
+                </span>
+                <span>Offer A Service</span>
+              </a>
             </div>
 
             {/* end */}
             <div className="navbar-end">
               {isLoggedIn && (
-                <div className="navbar-item has-dropdown is-hoverable">
+                <React.Fragment>
+                  <a
+                    className="navbar-item"
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+                      });
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-list" />
+                    </span>
+                    <span>My Requests</span>
+                    {notificationFeed &&
+                      notificationFeed.jobIdsWithNewBids &&
+                      notificationFeed.jobIdsWithNewBids.length > 0 && (
+                        <span style={{ marginLeft: 4 }} className="tag is-danger">
+                          {notificationFeed.jobIdsWithNewBids.length}
+                        </span>
+                      )}
+                  </a>
                   <a
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.MY_PROFILE);
+                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                       });
                     }}
-                    className="navbar-link"
+                    className="navbar-item"
                   >
-                    <figure className="image is-32x32">
-                      <img style={{ paddingRight: 4 }} src={profileImage.url} alt="BidOrBoo" />
-                    </figure>
-                    {displayName}
+                    <span className="icon">
+                      <i className="fas fa-money-check-alt" />
+                    </span>
+                    <span>My Bids</span>
+                    {notificationFeed &&
+                      notificationFeed.myBidsWithNewStatus &&
+                      notificationFeed.myBidsWithNewStatus.length > 0 && (
+                        <span style={{ marginLeft: 4 }} className="tag is-danger">
+                          {notificationFeed.myBidsWithNewStatus.length}
+                        </span>
+                      )}
                   </a>
-                  <div className="navbar-dropdown is-boxed">
+                  <div className="navbar-item has-dropdown is-hoverable">
                     <a
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           switchRoute(ROUTES.CLIENT.MY_PROFILE);
                         });
                       }}
-                      className="navbar-item"
+                      className="navbar-link"
                     >
-                      <span className="icon">
-                        <i className="far fa-user" aria-hidden="true" />
-                      </span>
-                      <span>My Profile</span>
+                      <figure className="image is-32x32">
+                        <img style={{ paddingRight: 4 }} src={profileImage.url} alt="BidOrBoo" />
+                      </figure>
+                      {displayName}
                     </a>
-                    <a
-                      onClick={(e) =>
-                        this.closeMenuThenExecute(() => {
-                          a_onLogout();
-                        })
-                      }
-                      className="navbar-item"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-sign-out-alt" />
-                      </span>
-                      <span>Logout</span>
-                    </a>
-                  </div>
-                </div>
+                    <div className="navbar-dropdown is-boxed">
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.MY_PROFILE);
+                          });
+                        }}
+                        className="navbar-item"
+                      >
+                        <span className="icon">
+                          <i className="far fa-user" aria-hidden="true" />
+                        </span>
+                        <span>My Profile</span>
+                      </a>
+                      <a
+                        onClick={(e) =>
+                          this.closeMenuThenExecute(() => {
+                            a_onLogout();
+                          })
+                        }
+                        className="navbar-item"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-sign-out-alt" />
+                        </span>
+                        <span>Logout</span>
+                      </a>
+                    </div>
+                  </div>{' '}
+                </React.Fragment>
               )}
               {!isLoggedIn && (
                 <div className="navbar-item">
