@@ -60,11 +60,11 @@ class Header extends React.Component {
 
     return (
       <React.Fragment>
-        {this.state.isHamburgerOpen && (
+        {isHamburgerOpen && (
           <div
             style={{ zIndex: 10 }}
             onClick={(e) => {
-              this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
+              this.setState({ isHamburgerOpen: !isHamburgerOpen });
             }}
             className="modal-background"
           />
@@ -116,16 +116,16 @@ class Header extends React.Component {
 
             <a
               onClick={(e) => {
-                this.setState({ isHamburgerOpen: !this.state.isHamburgerOpen });
+                this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
               style={{ position: 'relative' }}
               className={classNames('navbar-burger', {
-                'is-active': this.state.isHamburgerOpen,
+                'is-active': isHamburgerOpen,
               })}
               data-target="navbarmenu"
               role="button"
               aria-label="menu"
-              aria-expanded={this.state.isHamburgerOpen}
+              aria-expanded={isHamburgerOpen}
             >
               <span aria-hidden="true" />
               <span aria-hidden="true" />
@@ -150,7 +150,7 @@ class Header extends React.Component {
           <div
             id="navbarmenu"
             className={classNames('navbar-menu', {
-              'is-active': this.state.isHamburgerOpen,
+              'is-active': isHamburgerOpen,
             })}
           >
             <div className="navbar-start" />
@@ -330,7 +330,7 @@ class Header extends React.Component {
           </div>
         </nav>
         {/* this to make up for the flex size of the navbar on desktop */}
-        <div className="is-hidden-touch" style={{ height: '1.8rem' }} />
+        <div className="is-hidden-touch" style={{ height: '0.75rem' }} />
       </React.Fragment>
     );
   }
