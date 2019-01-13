@@ -105,10 +105,13 @@ $family-sans-serif: 'Helvetica', 'Arial', sans-serif;
 $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 $navbar-item-hover-color: black;
-
+$navbar-item-active-color: hsl(217, 71%, 53%) !important;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
+a.navbar-item.is-active {
+  color: hsl(217, 71%, 53%);
+}
 
 .VerticalAligner {
   display: flex;
@@ -366,9 +369,10 @@ header.card-header {
 
 .columns.forJobSummary {
   div.column {
-    max-width: 25rem !important;
+    max-width:22rem !important;
   }
 }
+
 .react-add-to-calendar__dropdown {
   font-size: 18px;
   ul {

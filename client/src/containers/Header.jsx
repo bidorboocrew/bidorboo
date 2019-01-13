@@ -159,7 +159,9 @@ class Header extends React.Component {
             <div className="navbar-end">
               <React.Fragment>
                 <a
-                  className="navbar-item"
+                  className={`navbar-item ${
+                    window.location.pathname.includes('proposer-root') ? 'is-active' : ''
+                  }`}
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -172,7 +174,9 @@ class Header extends React.Component {
                   <span>Request a Service</span>
                 </a>
                 <a
-                  className="navbar-item"
+                  className={`navbar-item ${
+                    window.location.pathname.includes('bidder-root') ? 'is-active' : ''
+                  }`}
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -187,7 +191,11 @@ class Header extends React.Component {
                 {isLoggedIn && (
                   <React.Fragment>
                     <a
-                      className="navbar-item"
+                      className={`navbar-item ${
+                        window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
+                          ? 'is-active'
+                          : ''
+                      }`}
                       style={{ position: 'relative' }}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
@@ -229,7 +237,9 @@ class Header extends React.Component {
                           switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                         });
                       }}
-                      className="navbar-item"
+                      className={`navbar-item ${
+                        window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
+                      }`}
                     >
                       <span className="icon">
                         <i className="fas fa-money-check-alt" />
