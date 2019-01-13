@@ -17,7 +17,9 @@ class Header extends React.Component {
     isLoggedIn: PropTypes.bool.isRequired,
     userDetails: PropTypes.object.isRequired,
     a_onLogout: PropTypes.func.isRequired,
+    switchRole: PropTypes.func.isRequired,
     a_showLoginDialog: PropTypes.func.isRequired,
+    currentRole: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -53,11 +55,13 @@ class Header extends React.Component {
       a_onLogout,
       shouldShowLoginDialog,
       notificationFeed,
+      currentRole,
+      switchRole,
     } = this.props;
     const { profileImage } = userDetails;
 
     const { isHamburgerOpen, isProfileMenuActive } = this.state;
-
+    debugger;
     return (
       <React.Fragment>
         {isHamburgerOpen && (
@@ -158,116 +162,127 @@ class Header extends React.Component {
             {/* end */}
             <div className="navbar-end">
               <React.Fragment>
-                <a
-                  className={`navbar-item ${
-                    window.location.pathname.includes('proposer-root') ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-plus-square" />
-                  </span>
-                  <span>Request a Service</span>
-                </a>
-                <a
-                  className={`navbar-item ${
-                    window.location.pathname.includes('bidder-root') ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="fas fa-hand-rock" />
-                  </span>
-                  <span>Offer A Service</span>
-                </a>
+                {currentRole === 'proposer' && (
+                  <a
+                    className={`navbar-item ${
+                      window.location.pathname.includes('proposer-root') ? 'is-active' : ''
+                    }`}
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                      });
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-plus-square" />
+                    </span>
+                    <span>Request a Service</span>
+                  </a>
+                )}
+
+                {currentRole === 'bidder' && (
+                  <a
+                    className={`navbar-item ${
+                      window.location.pathname.includes('bidder-root') ? 'is-active' : ''
+                    }`}
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      });
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-hand-rock" />
+                    </span>
+                    <span>Offer A Service</span>
+                  </a>
+                )}
+
                 {isLoggedIn && (
                   <React.Fragment>
-                    <a
-                      className={`navbar-item ${
-                        window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
-                          ? 'is-active'
-                          : ''
-                      }`}
-                      style={{ position: 'relative' }}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-list" />
-                      </span>
-                      <span>My Requests</span>
-                      {notificationFeed &&
-                        notificationFeed.jobIdsWithNewBids &&
-                        notificationFeed.jobIdsWithNewBids.length > 0 && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              position: 'absolute',
-                              top: 0,
-                              left: 8,
-                              background: 'red',
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.jobIdsWithNewBids.length > 9
-                                ? '9+'
-                                : notificationFeed.jobIdsWithNewBids.length
-                            }`}</span>
-                          </span>
-                        )}
-                    </a>
-                    <a
-                      style={{ position: 'relative' }}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                        });
-                      }}
-                      className={`navbar-item ${
-                        window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
-                      }`}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-money-check-alt" />
-                      </span>
-                      <span>My Bids</span>
-                      {notificationFeed &&
-                        notificationFeed.myBidsWithNewStatus &&
-                        notificationFeed.myBidsWithNewStatus.length > 0 && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              position: 'absolute',
-                              top: 0,
-                              left: 8,
-                              background: 'red',
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.myBidsWithNewStatus.length > 9
-                                ? '9+'
-                                : notificationFeed.myBidsWithNewStatus.length
-                            }`}</span>
-                          </span>
-                        )}
-                    </a>
+                    {currentRole === 'proposer' && (
+                      <a
+                        className={`navbar-item ${
+                          window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
+                            ? 'is-active'
+                            : ''
+                        }`}
+                        style={{ position: 'relative' }}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+                          });
+                        }}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-list" />
+                        </span>
+                        <span>My Requests</span>
+                        {notificationFeed &&
+                          notificationFeed.jobIdsWithNewBids &&
+                          notificationFeed.jobIdsWithNewBids.length > 0 && (
+                            <span
+                              style={{
+                                fontSize: 10,
+                                position: 'absolute',
+                                top: 0,
+                                left: 8,
+                                background: 'red',
+                                borderRadius: '100%',
+                                minWidth: 15,
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-white">{`${
+                                notificationFeed.jobIdsWithNewBids.length > 9
+                                  ? '9+'
+                                  : notificationFeed.jobIdsWithNewBids.length
+                              }`}</span>
+                            </span>
+                          )}
+                      </a>
+                    )}
+
+                    {currentRole === 'bidder' && (
+                      <a
+                        style={{ position: 'relative' }}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
+                        }`}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-money-check-alt" />
+                        </span>
+                        <span>My Bids</span>
+                        {notificationFeed &&
+                          notificationFeed.myBidsWithNewStatus &&
+                          notificationFeed.myBidsWithNewStatus.length > 0 && (
+                            <span
+                              style={{
+                                fontSize: 10,
+                                position: 'absolute',
+                                top: 0,
+                                left: 8,
+                                background: 'red',
+                                borderRadius: '100%',
+                                minWidth: 15,
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-white">{`${
+                                notificationFeed.myBidsWithNewStatus.length > 9
+                                  ? '9+'
+                                  : notificationFeed.myBidsWithNewStatus.length
+                              }`}</span>
+                            </span>
+                          )}
+                      </a>
+                    )}
                     <div
                       className={`navbar-item dropdown is-right  ${
                         isProfileMenuActive ? 'is-active' : ''
@@ -289,6 +304,26 @@ class Header extends React.Component {
                           <div
                             className={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}
                           >
+                            <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRole();
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-exchange-alt" aria-hidden="true" />
+                              </span>
+                              <span>
+                                {`${
+                                  currentRole === 'proposer'
+                                    ? 'Offer Your Services'
+                                    : 'Request A Service'
+                                }`}
+                              </span>
+                            </a>
+
                             <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {

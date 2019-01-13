@@ -8,6 +8,7 @@ import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
+import { switchRoute } from '../utils';
 import '../assets/index.css';
 
 import {
@@ -33,8 +34,39 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentRole: 'proposer',
+    };
+  }
+
+  switchRole = () => {
+    let currentRole = this.state.currentRole;
+    if (currentRole === 'proposer') {
+      this.setState({ currentRole: 'bidder' });
+      switchRoute(ROUTES.CLIENT.BIDDER.root);
+    } else {
+      this.setState({ currentRole: 'proposer' });
+      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+    }
+  };
+
+  setRole = (role) => {
+    let currentRole = role;
+    if (currentRole === 'bidder') {
+      this.setState({ currentRole: 'bidder' });
+      switchRoute(ROUTES.CLIENT.BIDDER.root);
+    } else {
+      this.setState({ currentRole: 'proposer' });
+      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+    }
+  };
+
   render() {
     const { s_toastDetails } = this.props;
+    const { currentRole } = this.state;
     return (
       <div id="bidorboo-root-view">
         {/* this sill be where action sheets mount */}
@@ -52,10 +84,18 @@ class App extends React.Component {
           }}
         />
 
-        <Header id="bidorboo-header" />
+        <Header switchRole={this.switchRole} currentRole={currentRole} id="bidorboo-header" />
         <Switch>
-          <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
-          <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
+          <Route
+            exact
+            path={ROUTES.CLIENT.ENTRY}
+            component={() => <HomePage setRole={this.setRole} />}
+          />
+          <Route
+            exact
+            path={ROUTES.CLIENT.HOME}
+            component={() => <HomePage setRole={this.setRole} />}
+          />
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
