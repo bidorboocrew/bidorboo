@@ -248,12 +248,12 @@ class NewJobForm extends React.Component {
             Post it!
           </button>
         </div>
-        <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
+        {/* <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
         <HelpText helpText={`*Once you post you will not be able to edit.`} />
         <HelpText helpText={`*Bidders will only see an approximate location.`} />
         <HelpText
           helpText={`*Upon awarding a bidder you will get their contact info and finalize the details.`}
-        />
+        /> */}
       </form>
     );
   }
