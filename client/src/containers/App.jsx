@@ -8,6 +8,7 @@ import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
+import { switchRoute } from '../utils';
 import '../assets/index.css';
 
 import {

@@ -68,7 +68,7 @@ class GeoSearch extends React.Component {
               })}
             />
             <span className="icon is-small is-left">
-              <i className="fas fa-globe" />
+              <i className="fab fa-canadian-maple-leaf" />
             </span>
           </div>
           <div

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ShowMore from 'react-show-more';
+import ShowMoreText from 'react-show-more-text';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
@@ -47,24 +47,21 @@ class CreateAJobPage extends React.Component {
       <React.Fragment>
         <section className="section">
           <div className="container">
-            <div className="card noShadow">
+            <div className="card">
               <section
                 style={{ borderBottom: '1px solid #eee' }}
                 className="hero is-small is-white"
               >
                 <div className="hero-body">
-                  <div className="container">
-                    <div className="title has-text-dark">{jobDetails.title} Request</div>
-                    <ShowMore
-                      className="has-text-grey"
-                      lines={2}
-                      more="Show more"
-                      less="Show less"
-                      anchorclassName=""
-                    >
-                      {this.state.chosenTemplate.description}
-                    </ShowMore>
-                  </div>
+                  <div className="title has-text-dark">{jobDetails.title} Request</div>
+                  <ShowMoreText
+                    className="has-text-grey"
+                    lines={2}
+                    more="Show more"
+                    less="Show less"
+                  >
+                    {this.state.chosenTemplate.description}
+                  </ShowMoreText>
                 </div>
               </section>
 

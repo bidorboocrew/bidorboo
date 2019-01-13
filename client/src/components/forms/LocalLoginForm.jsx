@@ -85,7 +85,6 @@ const LocalLoginForm = (props) => {
           Login Now
         </button>
         <button
-          style={{ marginRight: 6 }}
           className="button is-outline is-inline-flex"
           onClick={() => alert('Not implemented yet')}
           disabled={isSubmitting}

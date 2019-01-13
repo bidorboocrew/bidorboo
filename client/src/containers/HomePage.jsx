@@ -1,14 +1,15 @@
 import React from 'react';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
 
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
+
 export default class HomePage extends React.Component {
   render() {
     return (
-      <section className="hero has-text-centered s-white">
+      <section className="hero has-text-centered">
         <div className="hero-body">
           <div className="container">
             <h1 className="subtitle">

@@ -60,43 +60,32 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     return (
-      <div className="bdbPage">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                My Requests
-              </h1>
-            </div>
-          </div>
-        </section>
-        <section className="section">
-          <div className="container">
-            {breadCrumbs({
-              activePageTitle: title,
-            })}
-            {showBidReviewModal && (
-              <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
-            )}
+      <section className="section">
+        <div className="container">
+          {breadCrumbs({
+            activePageTitle: title,
+          })}
+          {showBidReviewModal && (
+            <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+          )}
 
-            {!showBidReviewModal && (
-              <div className="columns is-multiline">
-                <div className="column">
-                  <BidsTable
-                    jobId={selectedJobWithBids._id}
-                    bidList={selectedJobWithBids._bidsListRef}
-                    markBidAsSeen={a_markBidAsSeen}
-                    showBidReviewModal={this.showBidReviewModal}
-                  />
-                </div>
-                <div className="column">
-                  <JobFullDetailsCard job={selectedJobWithBids} />
-                </div>
+          {!showBidReviewModal && (
+            <div className="columns is-multiline">
+              <div className="column">
+                <BidsTable
+                  jobId={selectedJobWithBids._id}
+                  bidList={selectedJobWithBids._bidsListRef}
+                  markBidAsSeen={a_markBidAsSeen}
+                  showBidReviewModal={this.showBidReviewModal}
+                />
               </div>
-            )}
-          </div>
-        </section>
-      </div>
+              <div className="column">
+                <JobFullDetailsCard job={selectedJobWithBids} />
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     );
   }
 }

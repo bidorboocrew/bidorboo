@@ -29,20 +29,24 @@ class ServiceTemplates extends React.Component {
                 switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
               }
             }}
-            className="card proposerRootCardSpecial"
+            className="card is-clipped bidderRootSpecial "
           >
-            <div className="card-image">
-              <img src={`${imageUrl}`} />
+            <div className="card-image is-clipped">
+              <figure className="bdb-cover-img">
+                <img src={`${imageUrl}`} />
+              </figure>
             </div>
-            <p className="title is-size-6 is-fullwidth has-text-dark has-text-centered is-capitalized">
-              {title}
-            </p>
+            <div style={{ padding: 8 }} className="card-content">
+              <p className="subtitle has-text-weight-semibold is-fullwidth has-text-dark has-text-centered is-capitalized">
+                {title}
+              </p>
+            </div>
           </div>
         </div>
       );
     });
 
-    return <div className="columns forJobSummary is-multiline">{genericTasks}</div>;
+    return <div className="columns forJobSummary is-mobile is-multiline is-centered">{genericTasks}</div>;
   }
 }
 

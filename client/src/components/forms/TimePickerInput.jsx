@@ -55,6 +55,7 @@ export default class TimePickerInput extends React.Component {
   render() {
     return this.state.startDate ? (
       <DatePicker
+        inline
         selected={this.state.startDate}
         onChange={this.handleChange}
         showTimeSelect
@@ -67,6 +68,7 @@ export default class TimePickerInput extends React.Component {
       />
     ) : (
       <DatePicker
+        inline
         onChange={this.handleChange}
         showTimeSelect
         showTimeSelectOnly

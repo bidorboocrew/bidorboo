@@ -176,12 +176,12 @@ class NewJobForm extends React.Component {
             setFieldValue('dateField', val, false);
           }}
         />
-        <input
+        {/* <input
           id="timeField"
           className="input is-invisible"
           type="hidden"
           value={values.timeField || ''}
-        />
+        /> */}
 
         {/* <Checkbox
           type="checkbox"
@@ -190,15 +190,15 @@ class NewJobForm extends React.Component {
           checked={this.state.isFlexibleTimeSelected}
           onChange={this.handleFlexibleTimeChecked}
         /> */}
-        <TimeInput
+        {/* <TimeInput
           id="TimeInputField"
           label="Approximate Start time"
           onChangeEvent={(val) => {
             setFieldValue('timeField', val, false);
           }}
-        />
+        /> */}
 
-        <TextInput
+        {/* <TextInput
           id="durationOfJobField"
           type="text"
           helpText="E.g: 1 hour, 2 hours , 1 day, not sure ...etc"
@@ -208,7 +208,7 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
           iconLeft="far fa-clock"
-        />
+        /> */}
         <br />
         <TextAreaInput
           id="detailedDescriptionField"
@@ -248,12 +248,12 @@ class NewJobForm extends React.Component {
             Post it!
           </button>
         </div>
-        <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
+        {/* <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
         <HelpText helpText={`*Once you post you will not be able to edit.`} />
         <HelpText helpText={`*Bidders will only see an approximate location.`} />
         <HelpText
           helpText={`*Upon awarding a bidder you will get their contact info and finalize the details.`}
-        />
+        /> */}
       </form>
     );
   }
