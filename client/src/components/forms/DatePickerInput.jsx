@@ -7,24 +7,6 @@ import moment from 'moment';
 import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { addMonths } from 'date-fns';
-
-class CustomDateButton extends React.Component {
-  static propTypes = {
-    onClick: PropTypes.func,
-    value: PropTypes.string,
-  };
-  render() {
-    return (
-      <a className="button is-info is-outlined" onClick={this.props.onClick}>
-        <span className="icon">
-          <i className="far fa-calendar-alt" />
-        </span>
-        <span>{this.props.value || 'Select Date'}</span>
-      </a>
-    );
-  }
-}
 
 export default class DatePickerInput extends React.Component {
   static propTypes = {
@@ -38,14 +20,15 @@ export default class DatePickerInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: '',
+      startDate: moment(new Date()).add(1, 'days'),
     };
     autoBind(this, 'handleChange');
   }
 
   handleChange(date) {
+    debugger;
     const dateWithTimeZone = moment.utc(date).toDate();
-
+    debugger;
     this.setState({
       startDate: date,
     });
@@ -53,26 +36,14 @@ export default class DatePickerInput extends React.Component {
   }
 
   render() {
-    return this.state.startDate ? (
+    return (
       <DatePicker
         inline
+        locale="en-GB"
         selected={this.state.startDate}
         onChange={this.handleChange}
-        locale="en-gb"
-        minDate={new Date()}
-        maxDate={addMonths(new Date(), 1)}
-        customInput={<CustomDateButton />}
-        className="input is-overlay"
-      />
-    ) : (
-      <DatePicker
-        inline
-        onChange={this.handleChange}
-        locale="en-gb"
-        minDate={new Date()}
-        maxDate={addMonths(new Date(), 1)}
-        customInput={<CustomDateButton />}
-        className="input is-overlay"
+        minDate={moment(new Date()).add(1, 'days')}
+        maxDate={moment(new Date()).add(30, 'days')}
       />
     );
   }
