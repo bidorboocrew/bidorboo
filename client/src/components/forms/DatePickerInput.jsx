@@ -26,9 +26,7 @@ export default class DatePickerInput extends React.Component {
   }
 
   handleChange(date) {
-    debugger;
     const dateWithTimeZone = moment.utc(date).toDate();
-    debugger;
     this.setState({
       startDate: date,
     });

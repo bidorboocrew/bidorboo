@@ -34,44 +34,8 @@ class App extends React.Component {
     console.log('failure info ' + info);
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentRole: '',
-    };
-  }
-
-  switchRole = () => {
-    let currentRole = this.state.currentRole;
-    if (currentRole === 'proposer') {
-      this.setState({ currentRole: 'bidder' });
-      switchRoute(ROUTES.CLIENT.BIDDER.root);
-    } else if (currentRole === 'bidder') {
-      this.setState({ currentRole: 'proposer' });
-      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-    } else {
-      this.setState({ currentRole: 'proposer' });
-      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-    }
-  };
-
-  setRole = (role) => {
-    let currentRole = role;
-    if (currentRole === 'bidder') {
-      this.setState({ currentRole: 'bidder' });
-      switchRoute(ROUTES.CLIENT.BIDDER.root);
-    } else if (currentRole === 'proposer') {
-      this.setState({ currentRole: 'proposer' });
-      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-    } else {
-      this.setState({ currentRole: '' });
-    }
-  };
-
   render() {
     const { s_toastDetails } = this.props;
-    const { currentRole } = this.state;
     return (
       <div id="bidorboo-root-view">
         {/* this sill be where action sheets mount */}
@@ -89,23 +53,10 @@ class App extends React.Component {
           }}
         />
 
-        <Header
-          setRole={this.setRole}
-          switchRole={this.switchRole}
-          currentRole={currentRole}
-          id="bidorboo-header"
-        />
+        <Header id="bidorboo-header" />
         <Switch>
-          <Route
-            exact
-            path={ROUTES.CLIENT.ENTRY}
-            component={() => <HomePage setRole={this.setRole} />}
-          />
-          <Route
-            exact
-            path={ROUTES.CLIENT.HOME}
-            component={() => <HomePage setRole={this.setRole} />}
-          />
+          <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
+          <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}

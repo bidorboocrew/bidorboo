@@ -106,6 +106,7 @@ $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 $navbar-item-hover-color: black;
 $navbar-item-active-color: hsl(217, 71%, 53%) !important;
+// $navbar-breakpoint: 769px;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
@@ -369,7 +370,7 @@ header.card-header {
 
 .columns.forJobSummary {
   div.column {
-    max-width:22rem !important;
+    max-width: 22rem !important;
   }
 }
 

@@ -3,9 +3,11 @@ import React from 'react';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
+
 export default class HomePage extends React.Component {
   render() {
-    const { setRole } = this.props;
     return (
       <section className="hero has-text-centered">
         <div className="hero-body">
@@ -19,7 +21,7 @@ export default class HomePage extends React.Component {
                 <BidOrBooCard
                   logoImg={requestImg}
                   onClickHandler={() => {
-                    setRole('proposer');
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
                   }}
                   cardContent={'Request a Service'}
                 />
@@ -28,7 +30,7 @@ export default class HomePage extends React.Component {
                 <BidOrBooCard
                   logoImg={bidsImg}
                   onClickHandler={() => {
-                    setRole('bidder');
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
                   }}
                   cardContent={'Provide a Service'}
                 />
