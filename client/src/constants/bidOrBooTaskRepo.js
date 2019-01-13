@@ -88,6 +88,23 @@ What is your expectations:
 Extra comments:
   [mention any specific instructions or info relevant to this task]`,
   },
-
+  //need to be fiinished///
+  Photography: {
+    id: 'Photography',
+    category: '',
+    title: 'Photography',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://horizonquest.ca/wp-content/uploads/2017/07/photography.jpg',
+    description:
+      "Photography for weddings ?",
+    suggestedDetailsText: `What type of event do you need help with:
+[I need help with my grade 11 math..., etc]
+What is your expectations:
+[I expect to be good at solving math problems , ]
+Extra comments:
+[mention any specific instructions or info relevant to this task]`,
+  },
   ////
 };
