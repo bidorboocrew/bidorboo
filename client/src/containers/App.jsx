@@ -38,7 +38,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentRole: 'proposer',
+      currentRole: '',
     };
   }
 
@@ -47,6 +47,9 @@ class App extends React.Component {
     if (currentRole === 'proposer') {
       this.setState({ currentRole: 'bidder' });
       switchRoute(ROUTES.CLIENT.BIDDER.root);
+    } else if (currentRole === 'bidder') {
+      this.setState({ currentRole: 'proposer' });
+      switchRoute(ROUTES.CLIENT.PROPOSER.root);
     } else {
       this.setState({ currentRole: 'proposer' });
       switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -58,9 +61,11 @@ class App extends React.Component {
     if (currentRole === 'bidder') {
       this.setState({ currentRole: 'bidder' });
       switchRoute(ROUTES.CLIENT.BIDDER.root);
-    } else {
+    } else if (currentRole === 'proposer') {
       this.setState({ currentRole: 'proposer' });
       switchRoute(ROUTES.CLIENT.PROPOSER.root);
+    } else {
+      this.setState({ currentRole: '' });
     }
   };
 
@@ -84,7 +89,12 @@ class App extends React.Component {
           }}
         />
 
-        <Header switchRole={this.switchRole} currentRole={currentRole} id="bidorboo-header" />
+        <Header
+          setRole={this.setRole}
+          switchRole={this.switchRole}
+          currentRole={currentRole}
+          id="bidorboo-header"
+        />
         <Switch>
           <Route
             exact

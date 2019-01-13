@@ -10,6 +10,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
+import { setObservableConfig } from 'recompose';
 
 class Header extends React.Component {
   static propTypes = {
@@ -57,6 +58,7 @@ class Header extends React.Component {
       notificationFeed,
       currentRole,
       switchRole,
+      setRole,
     } = this.props;
     const { profileImage } = userDetails;
 
@@ -83,6 +85,7 @@ class Header extends React.Component {
             <a
               onClick={(e) => {
                 this.closeMenuThenExecute(() => {
+                  setRole('');
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
