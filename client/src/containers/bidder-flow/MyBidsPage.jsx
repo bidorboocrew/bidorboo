@@ -64,7 +64,7 @@ class MyBidsPage extends React.Component {
       <div id="bdb-bidder-my-bids">
         <section className="section">
           <div className="container">
-            <div style={{ background: '#23d160' }} className="tabs is-medium is-centered">
+            <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
               <ul>
                 <li>
                   <a className="has-text-white has-text-weight-bold">
@@ -85,10 +85,10 @@ class MyBidsPage extends React.Component {
 
         <section style={{ paddingTop: 0 }} className="section">
           <div className="container">
-            <div style={{ background: '#ffdd57' }} className="tabs is-medium is-centered">
+            <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
               <ul>
                 <li>
-                  <a className="has-text-dark has-text-weight-bold">
+                  <a className="has-text-white has-text-weight-bold">
                     {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
                   </a>
                 </li>
