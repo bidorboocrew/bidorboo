@@ -55,7 +55,7 @@ const OtherPeoplesJobs = (props) => {
     .filter((job) => job._ownerRef._id !== currentUserId)
     .map((job) => {
       return (
-        <div key={job._id} className="column">
+        <div key={job._id} className="column limitMaxdWidth">
           <RequestsTabSummaryCard
             onClickHandler={() => {
               if (!isLoggedIn) {
@@ -82,7 +82,7 @@ const MyJobs = (props) => {
 
   const components = myjobs.map((job) => {
     return (
-      <div key={job._id} className="column">
+      <div key={job._id} className="column limitMaxdWidth">
         <MineTabSummaryCard
           onClickHandler={() => {
             switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);

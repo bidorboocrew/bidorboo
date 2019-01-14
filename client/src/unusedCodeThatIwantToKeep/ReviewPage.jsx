@@ -254,7 +254,7 @@ export default class ReviewPage extends React.Component {
         </section>
         <section className="mainSectionContainer">
           <div className="container">
-            <div className="columns  is-multiline is-mobile">
+            <div className="columns  is-multiline is-mobile is-centered">
               <div className="column is-half">
                 <div className="card">
                   <header className="card-header">

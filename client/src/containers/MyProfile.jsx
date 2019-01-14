@@ -75,7 +75,7 @@ class MyProfile extends React.Component {
 
         <section className="section">
           <div className="container">
-            <div className="columns is-gapless">
+            <div className="columns is-centered is-gapless">
               <div className="column is-narrow">
                 {userImageAndStats(
                   this.toggleShowUploadProfileImageDialog,

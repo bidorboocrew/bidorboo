@@ -34,7 +34,7 @@ class MyBidsPage extends React.Component {
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
           return (
-            <div key={bidDetails._id} className="column">
+            <div key={bidDetails._id} className="column limitMaxdWidth">
               <MyBidsOpenBid key={bidDetails._id} bidDetails={bidDetails} />
             </div>
           );
@@ -47,7 +47,7 @@ class MyBidsPage extends React.Component {
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
           return (
-            <div key={bidDetails._id} className="column">
+            <div key={bidDetails._id} className="column limitMaxdWidth">
               <MyBidsAwardedBid
                 bidDetails={bidDetails}
                 notificationFeed={notificationFeed}

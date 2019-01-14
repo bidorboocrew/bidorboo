@@ -376,7 +376,9 @@ header.card-header {
   }
 }
 .column {
-  max-width: 22rem !important;
+  &.limitMaxdWidth {
+    max-width: 22rem !important;
+  }
 }
 
 .react-add-to-calendar__dropdown {

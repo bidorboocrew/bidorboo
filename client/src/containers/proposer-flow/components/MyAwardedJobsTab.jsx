@@ -9,7 +9,7 @@ class MyAwardedJobsTab extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     return userHasPostedJobs ? (
-      <div className="columns is-multiline is-mobile">
+      <div className="columns is-multiline is-mobile is-centered">
         <AwardedRequests {...this.props} />
       </div>
     ) : (
@@ -21,7 +21,7 @@ class MyAwardedJobsTab extends React.Component {
 export default MyAwardedJobsTab;
 
 const EmptyStateComponent = (props) => (
-  <div className="column">
+  <div className="column limitMaxdWidth">
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
@@ -47,7 +47,7 @@ const AwardedRequests = (props) => {
   const { jobsList } = props;
   const myAwardedJobs = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column">
+      <div key={job._id} className="column limitMaxdWidth">
         <JobSummaryForAwarded showBidCount={false} job={job} />
       </div>
     );

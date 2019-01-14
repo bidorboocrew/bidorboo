@@ -11,10 +11,8 @@ export default class PicturesUploaderContainer extends React.Component {
     };
   }
 
-
-
   render() {
-    const {onImageChange} = this.props;
+    const { onImageChange } = this.props;
     const previewContent = [];
     for (let i = 0; i < 5; i++) {
       const temp = (
