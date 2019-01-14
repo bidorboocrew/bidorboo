@@ -14,10 +14,10 @@ module.exports = (app) => {
    * - backup the DB everynight
    */
 
-  //
-  CleanUpAllExpiredJobs = new CronJob('1 * * * * *', async () => {
+  // run at 1130 pm every day of the week
+  CleanUpAllExpiredJobs = new CronJob('00 00 12 * * 1-7', async () => {
     const expiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
-    console.log('You will see this message every minute');
+    console.log('running cron job will see this message every day at 1130');
   });
 
   //
