@@ -41,6 +41,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
       const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
+          match: { state: { $in: ['OPEN'] } },
           select: {
             _bidsListRef: 1,
             _reviewRef: 1,
