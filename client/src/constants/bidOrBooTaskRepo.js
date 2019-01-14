@@ -143,7 +143,7 @@ Extra comments:
     title: 'Furniture Assembly',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl: 'http://www.310move.com/wp-content/uploads/2015/03/furniture-assembly.jpg',
+    imageUrl: 'https://assets.vancouverisawesome.com/wp-content/uploads/2018/10/18103036/ikea-furniture-assembly-min.jpg',
     description:
       'Sick of reading the manuals and following instructions? Get your furniture assembled by our hardworking Bidders',
     suggestedDetailsText: `What type of furniture do you need help with:
