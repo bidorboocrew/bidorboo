@@ -3,10 +3,84 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
+const moment = require('moment');
 
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 
 exports.jobDataAccess = {
+  BidOrBooAdmin: {
+    CleanUpAllExpiredJobs: async () => {
+      const today = moment().startOf('day');
+
+      const expiredJobs = await JobModel.find({
+        'startingDateAndTime.date': { $lte: today },
+      })
+        .populate({
+          path: '_bidsListRef',
+          select: schemaHelpers.BidFull,
+          populate: {
+            path: '_bidderRef',
+            select: {
+              _asBidderReviewsRef: 1,
+              _asProposerReviewsRef: 1,
+              rating: 1,
+              userId: 1,
+              displayName: 1,
+              profileImage: 1,
+              personalParagraph: 1,
+              membershipStatus: 1,
+              agreedToServiceTerms: 1,
+              createdAt: 1,
+              email: 1,
+            },
+          },
+        })
+        .lean(true)
+        .exec();
+
+      expiredJobs.forEach(async (job) => {
+        const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+        if (areThereAnyBids) {
+          bidsIds = [];
+          biddersIds = [];
+          job._bidsListRef.forEach((bidRef) => {
+            bidsIds.push(bidRef._id.toString());
+            biddersIds.push(bidRef._bidderRef._id.toString());
+          });
+
+          biddersIds.forEach(async (bidderId) => {
+            // clean ref for bidders
+            await User.findOneAndUpdate(
+              { _id: bidderId },
+              { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+              { new: true }
+            )
+              .lean(true)
+              .exec();
+          });
+
+          bidsIds.forEach(async (bidId) => {
+            await BidModel.deleteOne({ _id: bidId });
+          });
+        }
+
+        await User.findOneAndUpdate(
+          { _id: job._ownerRef.toString() },
+          { $pull: { _postedJobsRef: { $in: [job._id] } } },
+          { new: true }
+        )
+          .lean(true)
+          .exec();
+
+        await JobModel.deleteOne({ _id: job._id.toString() })
+          .lean(true)
+          .exec();
+      });
+
+      return expiredJobs;
+    },
+  },
+
   // get jobs for a user and filter by a given state
   getUserAwardedJobs: async (userId) => {
     return User.findOne({ userId: userId }, { _postedJobsRef: 1 })

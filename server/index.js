@@ -30,6 +30,10 @@ require('./services/cloudinaryAndMulterFileUploader')(app);
 // initialize cookie session and body parser
 require('./services/cookieSessionAndParser')(app);
 
+// Automated tasks
+require('./services/CronCleanupJobs')(app);
+
+
 // instantiate passport
 app.use(passport.initialize());
 app.use(passport.session());
