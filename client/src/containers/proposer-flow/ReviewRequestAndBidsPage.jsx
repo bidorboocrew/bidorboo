@@ -71,7 +71,7 @@ class ReviewRequestAndBidsPage extends React.Component {
 
           {!showBidReviewModal && (
             <div className="columns is-centered is-multiline">
-              <div className="column limitMaxdWidth">
+              <div className="column">
                 <BidsTable
                   jobId={selectedJobWithBids._id}
                   bidList={selectedJobWithBids._bidsListRef}
@@ -79,7 +79,7 @@ class ReviewRequestAndBidsPage extends React.Component {
                   showBidReviewModal={this.showBidReviewModal}
                 />
               </div>
-              <div className="column limitMaxdWidth">
+              <div className="column">
                 <JobFullDetailsCard job={selectedJobWithBids} />
               </div>
             </div>
