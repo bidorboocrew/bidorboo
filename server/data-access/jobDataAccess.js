@@ -17,22 +17,9 @@ exports.jobDataAccess = {
       })
         .populate({
           path: '_bidsListRef',
-          select: schemaHelpers.BidFull,
+          select: { _id: 1, _bidderRef: 1 },
           populate: {
             path: '_bidderRef',
-            select: {
-              _asBidderReviewsRef: 1,
-              _asProposerReviewsRef: 1,
-              rating: 1,
-              userId: 1,
-              displayName: 1,
-              profileImage: 1,
-              personalParagraph: 1,
-              membershipStatus: 1,
-              agreedToServiceTerms: 1,
-              createdAt: 1,
-              email: 1,
-            },
           },
         })
         .lean(true)
@@ -650,25 +637,34 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  deleteJob: async (jobId, userId) => {
+  deleteJob: async (jobId, mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        const job = await JobModel.findById({ _id: jobId })
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoDbUserId })
+          .populate({
+            path: '_bidsListRef',
+            select: { _id: 1, _bidderRef: 1 },
+            populate: {
+              path: '_bidderRef',
+            },
+          })
           .lean(true)
           .exec();
 
-        // delete all bids associatedc
         const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
         if (areThereAnyBids) {
-          const referencedBidIds = job._bidsListRef.map((bidRef) => {
-            return bidRef.toString();
+          bidsIds = [];
+          biddersIds = [];
+          job._bidsListRef.forEach((bidRef) => {
+            bidsIds.push(bidRef._id.toString());
+            biddersIds.push(bidRef._bidderRef._id.toString());
           });
 
-          job.bidderIds.forEach(async (bidderId) => {
+          biddersIds.forEach(async (bidderId) => {
             // clean ref for bidders
             await User.findOneAndUpdate(
-              { userId: bidderId },
+              { _id: bidderId },
               { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
               { new: true }
             )
@@ -676,20 +672,20 @@ exports.jobDataAccess = {
               .exec();
           });
 
-          referencedBidIds.forEach(async (bidId) => {
+          bidsIds.forEach(async (bidId) => {
             await BidModel.deleteOne({ _id: bidId });
           });
         }
-        // delete job model
-        await JobModel.deleteOne({ _id: jobId })
-          .lean(true)
-          .exec();
-        // clean for owner
+
         await User.findOneAndUpdate(
-          { userId: userId },
-          { $pull: { _postedJobsRef: { $in: [jobId] } } },
+          { _id: job._ownerRef.toString() },
+          { $pull: { _postedJobsRef: { $in: [job._id] } } },
           { new: true }
         )
+          .lean(true)
+          .exec();
+
+        await JobModel.deleteOne({ _id: job._id.toString() })
           .lean(true)
           .exec();
 

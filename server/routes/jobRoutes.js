@@ -52,11 +52,11 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   app.delete(ROUTES.API.JOB.DELETE.jobById, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      const userId = req.user.userId;
+      const mongoDbUserId = req.user._id;
       const jobId = req.body.jobId;
 
       if (jobId) {
-        userJobsList = await jobDataAccess.deleteJob(jobId, userId);
+        userJobsList = await jobDataAccess.deleteJob(jobId, mongoDbUserId);
         return res.send(jobId);
       } else {
         return res.status(400).send({

@@ -42,6 +42,8 @@ export const deleteJobById = (jobId) => (dispatch) => {
           },
         },
       });
+
+      switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab()}`);
     }
   });
 };
