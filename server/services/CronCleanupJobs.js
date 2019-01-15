@@ -16,11 +16,11 @@ module.exports = (app) => {
 
   // run at 1230 am every day of the week
   // CleanUpAllExpiredJobs
-  const CleanUpAllExpiredJobs = new CronJob(
-    '00 30 00 * * *',
+  new CronJob(
+    '0 0 0 * * ? *',
     async () => {
       const expiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
-      console.log('running cron job will see this message every day at 1130');
+      console.log('running cron job: expiredJobs ' + new Date());
     },
     null,
     true,
@@ -31,11 +31,11 @@ module.exports = (app) => {
 
   // run at 11 pm every day of the week
   // Notify anyone who is assigned a task via email and sms
-  const NotifyAboutUpcomingJobs = new CronJob(
-    '00 25 23 * * *',
+  new CronJob(
+    '0 45 23 * * ? *',
     async () => {
       const jobsToBeNotifiedAbout = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
-      console.log('running cron job will see this message every day at 1130');
+      console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
     },
     null,
     true,
