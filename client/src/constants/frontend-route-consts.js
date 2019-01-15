@@ -104,7 +104,6 @@ export const CLIENT = {
     reviewJobPage: '/review-page',
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
-    myAwardedBidDetails: '/bidder/my-awarded-bid-details',
   },
   MY_PROFILE: '/my-profile',
 };

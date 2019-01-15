@@ -6,9 +6,6 @@ const helper = require('sendgrid').mail;
 
 exports.EmailService = {
   sendEmail: (from, to, subject, contentText, callback) => {
-    if (process.env.NODE_ENV !== 'production') {
-      return;
-    }
 
     var from_email = new helper.Email(from);
     var to_email = new helper.Email(to);
