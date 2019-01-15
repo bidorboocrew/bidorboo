@@ -1,5 +1,6 @@
 // cron jobs . cleanup tasks to run on the server
 // https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
+// https://www.npmjs.com/package/cron-parser
 
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const CronJob = require('cron').CronJob;
@@ -16,31 +17,29 @@ module.exports = (app) => {
 
   // run at 1230 am every day of the week
   // CleanUpAllExpiredJobs
+
+  // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
   new CronJob(
-    '0 0 0 * * * *',
+    '0 1 * * * *',
     async () => {
-      const expiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
+      // const expiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
       console.log('running cron job: expiredJobs ' + new Date());
     },
     null,
     true,
-    'America/Toronto',
-    null,
-    true
+    'America/Toronto'
   );
 
   // run at 11 pm every day of the week
   // Notify anyone who is assigned a task via email and sms
   new CronJob(
-    '0 45 23 * * * *',
+    '0 1 * * * *',
     async () => {
-      const jobsToBeNotifiedAbout = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
+      // const jobsToBeNotifiedAbout = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
       console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
     },
     null,
     true,
-    'America/Toronto',
-    null,
-    true
+    'America/Toronto'
   );
 };

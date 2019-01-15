@@ -15,12 +15,14 @@ exports.jobDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingJobs: async () => {
       const today = moment()
+        .startOf('day')
         .tz('America/Toronto')
         .toISOString();
 
       const theNext24Hours = moment()
+        .endOf('day')
         .tz('America/Toronto')
-        .add(24, 'h')
+        .add(1, 'd')
         .toISOString();
 
       const jobsWithintheNext24Hours = await JobModel.find({
