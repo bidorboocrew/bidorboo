@@ -20,9 +20,9 @@ module.exports = (app) => {
 
   // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
   new CronJob(
-    '0 12 * * *',
+    '00 00 00 * * *',
     async () => {
-      // const expiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
+      const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
       console.log('running cron job: expiredJobs ' + new Date());
     },
     null,
@@ -30,12 +30,12 @@ module.exports = (app) => {
     'America/Toronto'
   );
 
-  // run at 11 pm every day of the week
+  // run at midnight pm every day of the week
   // Notify anyone who is assigned a task via email and sms
   new CronJob(
-    '0 12 * * *',
+    '00 00 00 * * *',
     async () => {
-      // const jobsToBeNotifiedAbout = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
+      const NotifyAboutUpcomingJobs = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
       console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
     },
     null,

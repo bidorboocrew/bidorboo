@@ -15,25 +15,19 @@ exports.jobDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingJobs: async () => {
       const today = moment()
-        .startOf('day')
         .tz('America/Toronto')
+        .startOf('day')
         .toISOString();
 
       const theNext24Hours = moment()
-        .endOf('day')
         .tz('America/Toronto')
-        .add(1, 'd')
+        .endOf('day')
         .toISOString();
 
-      const jobsWithintheNext24Hours = await JobModel.find({
+      await JobModel.find({
         $and: [
           { _awardedBidRef: { $exists: true } },
-          {
-            'startingDateAndTime.date': {
-              $gt: today,
-              $lte: theNext24Hours,
-            },
-          },
+          { 'startingDateAndTime.date': { $exists: true } },
         ],
       })
         .populate({
@@ -49,106 +43,115 @@ exports.jobDataAccess = {
           },
         })
         .lean(true)
-        .exec();
+        .exec((err, res) => {
+          if (err) {
+            throw err;
+          }
+          if (res && res.length > 0) {
+            res.forEach(async (job) => {
+              const jobStartDate = job.startingDateAndTime.date;
 
-      jobsWithintheNext24Hours.forEach(async (job) => {
-        const jobId = job._id.toString();
-        const awardedBidId = job._awardedBidRef._id.toString();
+              // normalize the start date to the same timezone to comapre
+              const normalizedStartDate = moment(jobStartDate)
+                .tz('America/Toronto')
+                .toISOString();
 
-        const ownerDetails = job._ownerRef;
-
-        const ownerEmailAddress =
-          ownerDetails.email && ownerDetails.email.emailAddress
-            ? ownerDetails.email.emailAddress
-            : false;
-        const ownerPhoneNumber =
-          ownerDetails.phone && ownerDetails.phone.phoneNumber
-            ? ownerDetails.phone.phoneNumber
-            : false;
-
-        const linkForOwner = `https://www.bidorboo.com${
-          ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
-        }/${jobId}`;
-
-        const awardedBidderDetails = job._awardedBidRef._bidderRef;
-
-        const bidderEmailAddress =
-          awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-            ? awardedBidderDetails.email.emailAddress
-            : false;
-        const bidderPhoneNumber =
-          awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-            ? awardedBidderDetails.phone.phoneNumber
-            : false;
-        const linkForBidder = `https://www.bidorboo.com${
-          ROUTES.CLIENT.BIDDER.currentAwardedBid
-        }/${awardedBidId}`;
-
-        sendGridEmailing.sendEmail(
-          'bidorboocrew@gmail.com',
-          ownerEmailAddress,
-          `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-          `This is an automated reminder for your upcoming scheduled ${job.fromTemplateId} task.
-
-          To get in touch with your tasker feel free to contact them on:
-          email address : ${bidderEmailAddress}
-          phone number : ${bidderPhoneNumber}
-
-
-          for reference here is the link to your task ${linkForOwner}
-           `
-        );
-
-        sendGridEmailing.sendEmail(
-          'bidorboocrew@gmail.com',
-          bidderEmailAddress,
-          `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-          `This is an automated reminder for your upcoming scheduled ${job.fromTemplateId} task.
-
-          To get in touch with your task owner feel free to contact them on:
-          email address : ${ownerEmailAddress}
-          phone number : ${ownerPhoneNumber}
-
-
-          for reference here is the link to your task ${linkForBidder}
-           `
-        );
-
-        if (ownerPhoneNumber) {
-          await sendTextService.sendText(
-            ownerPhoneNumber,
-            `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-            view job schedule and Tasker details ${linkForOwner}`
-          );
-        }
-
-        if (bidderPhoneNumber) {
-          await sendTextService.sendText(
-            bidderPhoneNumber,
-            `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-            view job schedule and Task Owner details ${linkForBidder}`
-          );
-        }
-
-        WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
-          title: `${job.fromTemplateId} is happening soon!`,
-          body: `click to view schedule and tasker details`,
-          urlToLaunch: `${linkForOwner}`,
+              const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+              const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+                theNext24Hours
+              );
+              if (isJobHappeningAfterToday && isJobHappeningBeforeTomorrow) {
+                const x = 1;
+                const jobId = job._id.toString();
+                const awardedBidId = job._awardedBidRef._id.toString();
+                const ownerDetails = job._ownerRef;
+                const ownerEmailAddress =
+                  ownerDetails.email && ownerDetails.email.emailAddress
+                    ? ownerDetails.email.emailAddress
+                    : false;
+                const ownerPhoneNumber =
+                  ownerDetails.phone && ownerDetails.phone.phoneNumber
+                    ? ownerDetails.phone.phoneNumber
+                    : false;
+                const linkForOwner = `https://www.bidorboo.com${
+                  ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
+                }/${jobId}`;
+                const awardedBidderDetails = job._awardedBidRef._bidderRef;
+                const bidderEmailAddress =
+                  awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
+                    ? awardedBidderDetails.email.emailAddress
+                    : false;
+                const bidderPhoneNumber =
+                  awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
+                    ? awardedBidderDetails.phone.phoneNumber
+                    : false;
+                const linkForBidder = `https://www.bidorboo.com${
+                  ROUTES.CLIENT.BIDDER.currentAwardedBid
+                }/${awardedBidId}`;
+                sendGridEmailing.sendEmail(
+                  'bidorboocrew@gmail.com',
+                  ownerEmailAddress,
+                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                  `This is an automated reminder for your upcoming scheduled ${
+                    job.fromTemplateId
+                  } task.
+                To get in touch with your tasker feel free to contact them on:
+                email address : ${bidderEmailAddress}
+                phone number : ${bidderPhoneNumber}
+                for reference here is the link to your task ${linkForOwner}
+                 `
+                );
+                sendGridEmailing.sendEmail(
+                  'bidorboocrew@gmail.com',
+                  bidderEmailAddress,
+                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                  `This is an automated reminder for your upcoming scheduled ${
+                    job.fromTemplateId
+                  } task.
+                To get in touch with your task owner feel free to contact them on:
+                email address : ${ownerEmailAddress}
+                phone number : ${ownerPhoneNumber}
+                for reference here is the link to your task ${linkForBidder}
+                 `
+                );
+                if (ownerPhoneNumber) {
+                  await sendTextService.sendText(
+                    ownerPhoneNumber,
+                    `BidOrBoo: ${job.fromTemplateId} is happening soon!.
+                  view job schedule and Tasker details ${linkForOwner}`
+                  );
+                }
+                if (bidderPhoneNumber) {
+                  await sendTextService.sendText(
+                    bidderPhoneNumber,
+                    `BidOrBoo: ${job.fromTemplateId} is happening soon!.
+                  view job schedule and Task Owner details ${linkForBidder}`
+                  );
+                }
+                WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
+                  title: `${job.fromTemplateId} is happening soon!`,
+                  body: `click to view schedule and tasker details`,
+                  urlToLaunch: `${linkForOwner}`,
+                });
+                WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
+                  title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
+                  body: `It is happening soon ! . click for more details`,
+                  urlToLaunch: `${linkForBidder}`,
+                });
+              }
+            });
+          }
         });
-        WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
-          title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
-          body: `It is happening soon ! . click for more details`,
-          urlToLaunch: `${linkForBidder}`,
-        });
-      });
-
       return;
     },
     CleanUpAllExpiredJobs: async () => {
-      const today = moment().startOf('day');
+      const today = moment()
+        .tz('America/Toronto')
+        .startOf('day')
+        .toISOString();
 
-      const expiredJobs = await JobModel.find({
-        'startingDateAndTime.date': { $lte: today },
+      await JobModel.find({
+        'startingDateAndTime.date': { $exists: true },
       })
         .populate({
           path: '_bidsListRef',
@@ -158,48 +161,65 @@ exports.jobDataAccess = {
           },
         })
         .lean(true)
-        .exec();
+        .exec((err, res) => {
+          if (err) {
+            throw err;
+          }
 
-      expiredJobs.forEach(async (job) => {
-        const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
-        if (areThereAnyBids) {
-          bidsIds = [];
-          biddersIds = [];
-          job._bidsListRef.forEach((bidRef) => {
-            bidsIds.push(bidRef._id.toString());
-            biddersIds.push(bidRef._bidderRef._id.toString());
-          });
+          if (res && res.length > 0) {
+            res.forEach(async (job) => {
+              const jobStartDate = job.startingDateAndTime.date;
 
-          biddersIds.forEach(async (bidderId) => {
-            // clean ref for bidders
-            await User.findOneAndUpdate(
-              { _id: bidderId },
-              { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
-              { new: true }
-            )
-              .lean(true)
-              .exec();
-          });
+              // normalize the start date to the same timezone to comapre
+              const normalizedStartDate = moment(jobStartDate)
+                .tz('America/Toronto')
+                .toISOString();
 
-          bidsIds.forEach(async (bidId) => {
-            await BidModel.deleteOne({ _id: bidId });
-          });
-        }
+              const isJobPastDue = moment(normalizedStartDate).isBefore(today);
 
-        await User.findOneAndUpdate(
-          { _id: job._ownerRef.toString() },
-          { $pull: { _postedJobsRef: { $in: [job._id] } } },
-          { new: true }
-        )
-          .lean(true)
-          .exec();
+              if (isJobPastDue) {
+                const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+                if (areThereAnyBids) {
+                  bidsIds = [];
+                  biddersIds = [];
+                  job._bidsListRef.forEach((bidRef) => {
+                    bidsIds.push(bidRef._id.toString());
+                    biddersIds.push(bidRef._bidderRef._id.toString());
+                  });
 
-        await JobModel.deleteOne({ _id: job._id.toString() })
-          .lean(true)
-          .exec();
-      });
+                  biddersIds.forEach(async (bidderId) => {
+                    // clean ref for bidders
+                    await User.findOneAndUpdate(
+                      { _id: bidderId },
+                      { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+                      { new: true }
+                    )
+                      .lean(true)
+                      .exec();
+                  });
 
-      return expiredJobs;
+                  bidsIds.forEach(async (bidId) => {
+                    await BidModel.deleteOne({ _id: bidId });
+                  });
+                }
+
+                await User.findOneAndUpdate(
+                  { _id: job._ownerRef.toString() },
+                  { $pull: { _postedJobsRef: { $in: [job._id] } } },
+                  { new: true }
+                )
+                  .lean(true)
+                  .exec();
+
+                await JobModel.deleteOne({ _id: job._id.toString() })
+                  .lean(true)
+                  .exec();
+              }
+            });
+          }
+        });
+
+      return;
     },
   },
 
