@@ -26,6 +26,7 @@ import {
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
+  MyCalendar,
 } from './index';
 
 class App extends React.Component {
@@ -110,6 +111,8 @@ class App extends React.Component {
           />
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
+          <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />
+
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
       </div>

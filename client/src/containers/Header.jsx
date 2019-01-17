@@ -113,6 +113,25 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
+            {isLoggedIn && (
+              <div className="navbar-item is-hidden-touch">
+                <a
+                  className={`button is-outline ${
+                    window.location.pathname.includes('my-calendar') ? 'is-info' : ''
+                  }`}
+                  onClick={() => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.MYCALENDAR);
+                    });
+                  }}
+                >
+                  <span className="icon">
+                    <i className="far fa-calendar-alt" />
+                  </span>
+                  <span>My Agenda</span>
+                </a>
+              </div>
+            )}
 
             <a
               onClick={(e) => {

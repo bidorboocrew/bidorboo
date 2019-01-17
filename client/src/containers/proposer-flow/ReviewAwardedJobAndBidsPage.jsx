@@ -56,7 +56,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
             activePageTitle: title,
           })}
           <div className="columns is-gapless is-multiline is-centered">
-            <div className="column is-4">
+            <div className="column">
               <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
             </div>
             <div className="column">
