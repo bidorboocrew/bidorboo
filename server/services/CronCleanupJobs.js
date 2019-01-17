@@ -22,8 +22,10 @@ module.exports = (app) => {
   new CronJob(
     '00 00 00 * * *',
     async () => {
-      const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
-      console.log('running cron job: expiredJobs ' + new Date());
+      if (process.env.NODE_ENV === 'production') {
+        const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredJobs();
+        console.log('running cron job: expiredJobs ' + new Date());
+      }
     },
     null,
     true,
@@ -35,8 +37,10 @@ module.exports = (app) => {
   new CronJob(
     '00 00 00 * * *',
     async () => {
-      const NotifyAboutUpcomingJobs = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
-      console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
+      if (process.env.NODE_ENV === 'production') {
+        const NotifyAboutUpcomingJobs = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
+        console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
+      }
     },
     null,
     true,
