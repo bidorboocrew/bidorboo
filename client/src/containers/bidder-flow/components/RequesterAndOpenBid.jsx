@@ -128,18 +128,13 @@ class RequesterAndOpenBid extends React.Component {
           </div>
         )}
 
-        <div
-          style={{ borderRight: 0, background: '#363636', color: 'white' }}
-          className="card disabled"
-        >
-          <header style={{ borderBottom: '1px solid white' }} className="card-header is-clipped">
-            <p style={{ color: 'white' }} className="card-header-title">
-              Bid Details
-            </p>
+        <div className="card disabled">
+          <header className="card-header is-clipped">
+            <p className="card-header-title"> Your Bid Info</p>
           </header>
           <div className="card-content">
             <br />
-            <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+            {/* <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
               Requester Info
             </div>
             <div className="media">
@@ -166,13 +161,13 @@ class RequesterAndOpenBid extends React.Component {
 
             <br />
             <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
-              Your Bid Info
-            </div>
+            Your Bid Info
+            </div>*/}
             <div style={{ marginBottom: 6 }}>
-              <div className="has-text-light is-size-7">Your Bid:</div>
+              <div className="is-size-7">Your Bid:</div>
 
-              <div className="is-size-6 has-text-warning">
-                <span>{`${bidAmount} ${bidCurrency}`}</span>
+              <div className="is-size-6">
+                <span className="has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</span>
                 <a
                   onClick={() => {
                     this.showUpdateBidModal();
@@ -182,17 +177,18 @@ class RequesterAndOpenBid extends React.Component {
                       '0 2px 3px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
                     marginLeft: 10,
                   }}
-                  className="button is-warning is-small has-text-dark"
+                  className="button is-outline is-small has-text-dark"
                 >
                   <span className="icon">
                     <i className="far fa-edit" />
                   </span>
+                  <span>Edit</span>
                 </a>
               </div>
             </div>
             <div style={{ marginBottom: 6 }}>
-              <div className="has-text-light is-size-7">Your Bid Status :</div>
-              <div className="is-size-6 has-text-warning">Pending</div>
+              <div className="is-size-7">Your Bid Status :</div>
+              <div className="is-size-6">Pending</div>
             </div>
             <div className="help">* Requester did not award this job to anyone yet</div>
           </div>
@@ -205,7 +201,7 @@ class RequesterAndOpenBid extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div style={{ marginBottom: 6 }}>
-      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-7">{props.labelText}</div>
       <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );

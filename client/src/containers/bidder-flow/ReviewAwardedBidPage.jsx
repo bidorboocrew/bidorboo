@@ -64,8 +64,8 @@ class ReviewAwardedBidPage extends React.Component {
         <section className="section">
           <div className="container">
             {breadCrumbs({ activePageTitle: title })}
-            <div className="columns is-gapless is-multiline is-centered">
-              <div className="column is-4">
+            <div className="columns is-multiline is-centered">
+              <div className="column">
                 <RequesterAndAwardedBid bid={selectedAwardedBid} job={selectedAwardedJob} />
               </div>
               <div className="column">

@@ -22,13 +22,13 @@ export default class RequesterAndAwardedBid extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     return (
-      <div style={{ borderRight: 0 }} className="card disabled">
+      <div className="card disabled">
         <header className="card-header is-clipped">
-          <p className="card-header-title">Bid Details</p>
+          <p className="card-header-title">Your Bid Info</p>
         </header>
         <div className="card-content">
           <br />
-          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
+          {/*     <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
             Requester Info
           </div>
           <div className="media">
@@ -56,14 +56,14 @@ export default class RequesterAndAwardedBid extends React.Component {
           <br />
           <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
             Your Bid Info
-          </div>
+          </div>*/}
           <div style={{ marginBottom: 6 }}>
             <div className="is-size-7">Your Bid:</div>
-            <div className="is-size-6 has-text-success">{`${bidAmount} ${bidCurrency}`}</div>
+            <div className="is-size-6 has-text-success has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <div className="is-size-7">Your Bid Status :</div>
-            <div className="is-size-6 has-text-success">Awarded</div>
+            <div className="is-size-6 has-text-success has-text-weight-bold">Awarded</div>
           </div>
           <div className="help">* you will recieve the payment after completing the task</div>
           <br />
