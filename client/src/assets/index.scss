@@ -387,6 +387,12 @@ header.card-header {
     li {
       margin-top: 4px;
       margin-bottom: 4px;
+      a {
+        padding: 10;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+      }
     }
   }
 }

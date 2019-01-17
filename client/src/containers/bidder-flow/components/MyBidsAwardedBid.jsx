@@ -34,7 +34,14 @@ export default class MyBidsAwardedBid extends React.Component {
     }
 
     return (
-      <div className="card has-text-centered bidderRootSpecial">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          updateBidState(bidDetails._id, 'WON_SEEN');
+          switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
+        }}
+        className="card has-text-centered bidderRootSpecial"
+      >
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="content">
             <p className="heading">Requester</p>
@@ -49,14 +56,7 @@ export default class MyBidsAwardedBid extends React.Component {
           </div>
         </div>
         <footer className="card-footer">
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              updateBidState(bidDetails._id, 'WON_SEEN');
-              switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
-            }}
-            className="card-footer-item"
-          >
+          <a className="card-footer-item">
             View Details
             {updatedStatus && (
               <span

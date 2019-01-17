@@ -21,7 +21,13 @@ export default class MyBidsOpenBid extends React.Component {
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
     return (
-      <div className="card has-text-centered bidderRootSpecial">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`);
+        }}
+        className="card has-text-centered bidderRootSpecial"
+      >
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="content">
             <p className="heading">Requester</p>
@@ -38,17 +44,7 @@ export default class MyBidsOpenBid extends React.Component {
           </div>
         </div>
         <footer className="card-footer">
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              switchRoute(
-                `${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`,
-              );
-            }}
-            className="card-footer-item"
-          >
-            View Or Change
-          </a>
+          <a className="card-footer-item">View Or Change</a>
           <div className="card-footer-item">
             {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
           </div>
