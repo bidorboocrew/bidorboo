@@ -148,7 +148,6 @@ const getReviewJoblinks = (jobs, closeDialog) => {
 const getAwardedBidsDetailslinks = (bids, closeDialog) => {
   if (bids && bids.length > 0) {
     return bids.map((bid) => {
-      debugger;
       return (
         <div
           key={bid._id}
