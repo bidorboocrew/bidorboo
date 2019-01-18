@@ -118,14 +118,14 @@ exports.jobDataAccess = {
                   await sendTextService.sendText(
                     ownerPhoneNumber,
                     `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-                  view job schedule and Tasker details ${linkForOwner}`
+                    go to www.bidorboo.com for details`
                   );
                 }
                 if (bidderPhoneNumber) {
                   await sendTextService.sendText(
                     bidderPhoneNumber,
                     `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-                  view job schedule and Task Owner details ${linkForBidder}`
+                    go to www.bidorboo.com for details`
                   );
                 }
                 WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
