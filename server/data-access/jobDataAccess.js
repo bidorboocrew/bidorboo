@@ -61,7 +61,6 @@ exports.jobDataAccess = {
                 theNext24Hours
               );
               if (isJobHappeningAfterToday && isJobHappeningBeforeTomorrow) {
-                const x = 1;
                 const jobId = job._id.toString();
                 const awardedBidId = job._awardedBidRef._id.toString();
                 const ownerDetails = job._ownerRef;
@@ -152,6 +151,7 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         'startingDateAndTime.date': { $exists: true },
+        '_awardedBidRef': { $exists: false },
       })
         .populate({
           path: '_bidsListRef',

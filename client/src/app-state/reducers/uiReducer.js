@@ -32,6 +32,8 @@ const updateNotificationFeed = (state = initialState, { payload }) => {
     const myBidsWithNewStatus = payload.z_notify_myBidsWithNewStatus || [];
     const reviewsToBeFilled = payload.z_track_reviewsToBeFilled || [];
     const workTodo = payload.z_track_workToDo || [];
+    const jobsHappeningToday = payload.z_jobsHappeningToday || [];
+    const bidsHappeningToday = payload.z_bidsHappeningToday || [];
 
     return {
       ...state,
@@ -40,6 +42,8 @@ const updateNotificationFeed = (state = initialState, { payload }) => {
         myBidsWithNewStatus,
         reviewsToBeFilled,
         workTodo,
+        jobsHappeningToday,
+        bidsHappeningToday,
       },
     };
   }

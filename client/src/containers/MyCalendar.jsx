@@ -106,7 +106,13 @@ class MyCalendar extends React.Component {
     }
 
     if (isLoadingAwardedBids || isLoadingAwardedJobs) {
-      return <Spinner isLoading={isLoadingAwardedBids || isLoadingAwardedJobs} size={'large'} />;
+      return (
+        <section className="section">
+          <div className="container">
+            <Spinner isLoading={isLoadingAwardedBids || isLoadingAwardedJobs} size={'large'} />;
+          </div>
+        </section>
+      );
     }
 
     const allCalendarEvents = this.getEvents();
