@@ -21,7 +21,8 @@ exports.jobDataAccess = {
 
       const theNext24Hours = moment()
         .tz('America/Toronto')
-        .endOf('day')
+        .add(1, 'day')
+        .startOf('day')
         .toISOString();
 
       await JobModel.find({
@@ -151,7 +152,7 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         'startingDateAndTime.date': { $exists: true },
-        '_awardedBidRef': { $exists: false },
+        _awardedBidRef: { $exists: false },
       })
         .populate({
           path: '_bidsListRef',

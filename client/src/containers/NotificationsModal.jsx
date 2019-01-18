@@ -30,11 +30,11 @@ class NotificationsModal extends React.Component {
         <div className="modal-content">
           <div className="card">
             <div className="card-content">
-              <div className="content has-text-centered">
+              <div className="content">
                 {isAnythingHappeningToday && (
                   <React.Fragment>
-                    <div className="tabs is-centered">
-                      <ul>
+                    <div style={{ marginBottom: 8 }} className="tabs">
+                      <ul style={{ margin: 0 }}>
                         <li>
                           <a>Happening Today</a>
                         </li>
@@ -46,10 +46,10 @@ class NotificationsModal extends React.Component {
                 )}
                 {didRecieveNewBids && (
                   <React.Fragment>
-                    <div className="tabs is-centered">
-                      <ul>
+                    <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
+                      <ul style={{ margin: 0 }}>
                         <li>
-                          <a>Recieved New Bids</a>
+                          <a>Requests With New Bids</a>
                         </li>
                       </ul>
                     </div>
@@ -58,10 +58,10 @@ class NotificationsModal extends React.Component {
                 )}
                 {didMyBidsGetAwarded && (
                   <React.Fragment>
-                    <div className="tabs is-centered">
-                      <ul>
+                    <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
+                      <ul style={{ margin: 0 }}>
                         <li>
-                          <a>New Awarded Bids</a>
+                          <a>Your Awarded Bids</a>
                         </li>
                       </ul>
                     </div>
@@ -104,26 +104,47 @@ export default connect(
   null,
 )(NotificationsModal);
 
-const getAwardedJobDetailslinks = (jobIds, closeDialog) => {
-  if (jobIds && jobIds.length > 0) {
-    return jobIds.map((jobId) => {
+const getAwardedJobDetailslinks = (jobs, closeDialog) => {
+  if (jobs && jobs.length > 0) {
+    return jobs.map((job) => {
       return (
         <div
-          key={jobId}
+          key={job._id}
           onClick={() => {
             closeDialog();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+            switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
           }}
-          style={{ padding: 2 }}
+          style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification is-info"
         >
-          Job {`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`}
+          {`Your ${job.fromTemplateId} Request`}
         </div>
       );
     });
   }
   return null;
 };
+const getReviewJoblinks = (jobs, closeDialog) => {
+  if (jobs && jobs.length > 0) {
+    return jobs.map((job) => {
+      return (
+        <div
+          key={job._id}
+          onClick={() => {
+            closeDialog();
+            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+          }}
+          style={{ padding: '0.5em 1em', marginBottom: 6 }}
+          className="notification is-info"
+        >
+          {`${job._bidsListRef.length} new bid(s) for ${job.fromTemplateId}`}
+        </div>
+      );
+    });
+  }
+  return null;
+};
+
 const getAwardedBidsDetailslinks = (bids, closeDialog) => {
   if (bids && bids.length > 0) {
     return bids.map((bid) => {
@@ -135,38 +156,13 @@ const getAwardedBidsDetailslinks = (bids, closeDialog) => {
             closeDialog();
             switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bid._id}`);
           }}
-          style={{ padding: 2 }}
-          className="notification is-info"
+          style={{ padding: '0.5em 1em', marginBottom: 6 }}
+          className="notification is-success"
         >
-          Bid {`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bid._id}`}
+          {` ${bid._jobRef.fromTemplateId} for ${bid.bidAmount.value} CAD`}
         </div>
       );
     });
   }
   return null;
 };
-
-const getReviewJoblinks = (jobs, closeDialog) => {
-  if (jobs && jobs.length > 0) {
-    const notificationEvents = jobs.map((job) => {
-      return (
-        <div
-          key={job._id}
-          onClick={() => {
-            closeDialog();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-          }}
-          style={{ padding: 2 }}
-          className="notification is-info"
-        >
-          Job {`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`}
-        </div>
-      );
-    });
-
-    return notificationEvents;
-  }
-  return null;
-};
-
-const getReviewLinkds = () => {};

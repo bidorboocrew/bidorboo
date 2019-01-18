@@ -58,7 +58,9 @@ const JobSchema = new Schema(
 
 JobSchema.pre('save', async function(next) {
   if (this.startingDateAndTime && this.startingDateAndTime.date) {
-    this.startingDateAndTime.date = moment(this.startingDateAndTime.date).toISOString();
+    this.startingDateAndTime.date = moment(
+      moment(this.startingDateAndTime.date).set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+    ).toISOString();
   }
   next();
 });

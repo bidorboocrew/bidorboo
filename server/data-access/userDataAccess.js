@@ -42,10 +42,13 @@ exports.findUserAndAllNewNotifications = async (userId) => {
       const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
-          match: { state: { $in: ['OPEN'] } },
+          match: { state: { $in: ['OPEN', 'AWARDED'] } },
           select: {
             _bidsListRef: 1,
             _reviewRef: 1,
+            state: 1,
+            fromTemplateId: 1,
+            startingDateAndTime: 1,
           },
           populate: [
             {
@@ -69,6 +72,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             select: {
               _reviewRef: 1,
               startingDateAndTime: 1,
+              fromTemplateId: 1,
             },
             populate: {
               path: '_reviewRef',
@@ -118,7 +122,8 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       const theNext24Hours = moment()
         .tz('America/Toronto')
-        .endOf('day')
+        .add(1, 'day')
+        .startOf('day')
         .toISOString();
 
       const z_jobsHappeningToday =
@@ -146,7 +151,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
         user._postedBidsRef &&
         user._postedBidsRef
           .filter((myBid) => {
-            return myBid.state === 'AWARDED';
+            return myBid.state === 'WON';
           })
           .filter((myBid) => {
             const referenceJob = myBid._jobRef;

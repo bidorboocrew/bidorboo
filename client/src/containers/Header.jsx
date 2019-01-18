@@ -52,7 +52,6 @@ class Header extends React.Component {
   };
 
   toggleNotificationMenu = () => {
-    debugger;
     this.setState({ isNotificationMenuActive: !this.state.isNotificationMenuActive });
   };
 
