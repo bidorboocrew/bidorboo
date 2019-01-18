@@ -19,5 +19,5 @@ export { default as ReviewBidAndRequestPage } from './bidder-flow/ReviewOpenBidA
 export { default as ReviewAwardedBidPage } from './bidder-flow/ReviewAwardedBidPage';
 export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
 
-
 export { default as MyCalendar } from './MyCalendar';
+export { default as NotificationsModal } from './NotificationsModal';

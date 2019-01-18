@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
+import { NotificationsModal } from './index';
 
 class Header extends React.Component {
   static propTypes = {
@@ -31,11 +33,15 @@ class Header extends React.Component {
     this.state = {
       isHamburgerOpen: false,
       isProfileMenuActive: false,
+      isNotificationMenuActive: false,
     };
   }
 
   closeMenuThenExecute = (func) => {
-    this.setState({ isHamburgerOpen: false, isProfileMenuActive: false }, func);
+    this.setState(
+      { isHamburgerOpen: false, isProfileMenuActive: false, isNotificationMenuActive: false },
+      func,
+    );
   };
   toggleLoginDialog = () => {
     this.props.a_showLoginDialog(!this.props.shouldShowLoginDialog);
@@ -43,6 +49,11 @@ class Header extends React.Component {
 
   toggleProfileMenu = () => {
     this.setState({ isProfileMenuActive: !this.state.isProfileMenuActive });
+  };
+
+  toggleNotificationMenu = () => {
+    debugger;
+    this.setState({ isNotificationMenuActive: !this.state.isNotificationMenuActive });
   };
 
   render() {
@@ -56,8 +67,27 @@ class Header extends React.Component {
     } = this.props;
     const { profileImage } = userDetails;
 
-    const { isHamburgerOpen, isProfileMenuActive } = this.state;
+    const { isHamburgerOpen, isProfileMenuActive, isNotificationMenuActive } = this.state;
+    const modalRootNode = document.querySelector('#bidorboo-root-modals');
 
+    const {
+      jobIdsWithNewBids,
+      myBidsWithNewStatus,
+      reviewsToBeFilled,
+      workTodo,
+      jobsHappeningToday,
+      bidsHappeningToday,
+    } = notificationFeed;
+    const isAnythingHappeningToday =
+      (jobsHappeningToday && jobsHappeningToday.length > 0) ||
+      (bidsHappeningToday && bidsHappeningToday.length > 0);
+
+    const didRecieveNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+
+    const didMyBidsGetAwarded = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
+
+    const showNotificationButton =
+      isAnythingHappeningToday || didRecieveNewBids || didMyBidsGetAwarded;
     return (
       <React.Fragment>
         {isHamburgerOpen && (
@@ -98,7 +128,6 @@ class Header extends React.Component {
                 BidOrBoo
               </span>
             </a>
-
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
@@ -132,6 +161,21 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
+
+            {isLoggedIn && showNotificationButton && (
+              <div className="navbar-item">
+                <a onClick={this.toggleNotificationMenu} className="button is-danger">
+                  <span className="icon">
+                    <i className="fas fa-bell" />
+                  </span>
+                </a>
+              </div>
+            )}
+            {isNotificationMenuActive &&
+              ReactDOM.createPortal(
+                <NotificationsModal onClose={this.toggleNotificationMenu} />,
+                modalRootNode,
+              )}
 
             <a
               onClick={(e) => {
