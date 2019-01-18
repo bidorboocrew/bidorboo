@@ -36,7 +36,7 @@ class NotificationsModal extends React.Component {
                     <div style={{ marginBottom: 8 }} className="tabs">
                       <ul style={{ margin: 0 }}>
                         <li>
-                          <a>Happening Today</a>
+                          <a>HAPPENING TODAY</a>
                         </li>
                       </ul>
                     </div>
@@ -49,7 +49,7 @@ class NotificationsModal extends React.Component {
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
                         <li>
-                          <a>Requests With New Bids</a>
+                          <a>Request Updates</a>
                         </li>
                       </ul>
                     </div>
@@ -61,7 +61,7 @@ class NotificationsModal extends React.Component {
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
                         <li>
-                          <a>Your Awarded Bids</a>
+                          <a>Awarded Bids</a>
                         </li>
                       </ul>
                     </div>
@@ -115,9 +115,9 @@ const getAwardedJobDetailslinks = (jobs, closeDialog) => {
             switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
-          className="notification is-info"
+          className="notification is-danger"
         >
-          {`Your ${job.fromTemplateId} Request`}
+          {`Your ${job.fromTemplateId} Request is scheduled for today`}
         </div>
       );
     });
@@ -137,7 +137,7 @@ const getReviewJoblinks = (jobs, closeDialog) => {
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification is-info"
         >
-          {`${job._bidsListRef.length} new bid(s) for ${job.fromTemplateId}`}
+          {`${job._bidsListRef.length} new bid on your ${job.fromTemplateId} Request`}
         </div>
       );
     });
@@ -159,7 +159,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog) => {
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification is-success"
         >
-          {` ${bid._jobRef.fromTemplateId} for ${bid.bidAmount.value} CAD`}
+          {`Your ${bid.bidAmount.value} CAD bid for ${bid._jobRef.fromTemplateId} WON!`}
         </div>
       );
     });
