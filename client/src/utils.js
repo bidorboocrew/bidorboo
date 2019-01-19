@@ -33,12 +33,17 @@ export const throwErrorNotification = (dispatch, error) => {
   });
 };
 
-export const getLocalDate = (UTCdate, formatPattern = 'YYYY-MM-DD HH:mm z') => {
-  if (moment(UTCdate).isValid()) {
-    const localTimezone = moment.tz.guess() || 'America/Los_Angeles';
-    return moment
-      .utc(UTCdate)
-      .tz(localTimezone)
-      .format(formatPattern);
-  }
+export const isHappeningToday = (eventPlannedTimeISOString) => {
+  const localStartOfDay = moment()
+    .startOf('day')
+    .toISOString();
+  const localEndOfDay = moment()
+    .endOf('day')
+    .toISOString();
+
+  const eventPlannedTime = moment(eventPlannedTimeISOString).toISOString();
+  const isAfterStartOfTOday = moment(eventPlannedTime).isAfter(localStartOfDay);
+  const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
+
+  return isAfterStartOfTOday && isBeforeEndOfToday;
 };

@@ -50,11 +50,6 @@ export default class BidsTable extends React.Component {
             <div>
               {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
             </div>
-            {bid.isNewBid ? (
-              <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-danger">
-                new bid
-              </div>
-            ) : null}
           </td>
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -65,8 +60,19 @@ export default class BidsTable extends React.Component {
                   this.openBidDetailsModal(bid);
                 }}
                 className="button is-success"
+                style={{ position: 'relative' }}
               >
                 View
+                {bid.isNewBid && (
+                  <React.Fragment>
+                    <div
+                      style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </div>
+                  </React.Fragment>
+                )}
               </a>
             )}
           </td>

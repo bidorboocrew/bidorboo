@@ -35,7 +35,7 @@ class NotificationsModal extends React.Component {
                   <React.Fragment>
                     <div style={{ marginBottom: 8 }} className="tabs">
                       <ul style={{ margin: 0 }}>
-                        <li>
+                        <li className="is-active">
                           <a>HAPPENING TODAY</a>
                         </li>
                       </ul>
@@ -48,7 +48,7 @@ class NotificationsModal extends React.Component {
                   <React.Fragment>
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
-                        <li>
+                        <li className="is-active">
                           <a>Request Updates</a>
                         </li>
                       </ul>
@@ -60,7 +60,7 @@ class NotificationsModal extends React.Component {
                   <React.Fragment>
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
-                        <li>
+                        <li className="is-active">
                           <a>Awarded Bids</a>
                         </li>
                       </ul>

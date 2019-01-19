@@ -295,7 +295,8 @@ img {
 }
 
 // bulma overrides
-input[type='checkbox'] {
+input[type='checkbox'],
+input[type='radio'] {
   transform: scale(1.5);
 }
 // .button {

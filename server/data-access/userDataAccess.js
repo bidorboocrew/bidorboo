@@ -115,15 +115,14 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
 
-      const today = moment()
+      const startOfToday = moment()
         .tz('America/Toronto')
         .startOf('day')
         .toISOString();
 
-      const theNext24Hours = moment()
+      const endOfToday = moment()
         .tz('America/Toronto')
-        .add(1, 'day')
-        .startOf('day')
+        .endOf('day')
         .toISOString();
 
       const z_jobsHappeningToday =
@@ -140,9 +139,9 @@ exports.findUserAndAllNewNotifications = async (userId) => {
               .tz('America/Toronto')
               .toISOString();
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
             const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              theNext24Hours
+              endOfToday
             );
             return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
           });
@@ -163,9 +162,9 @@ exports.findUserAndAllNewNotifications = async (userId) => {
               .tz('America/Toronto')
               .toISOString();
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
             const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              theNext24Hours
+              theNendOfTodayext24Hours
             );
             return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
           });

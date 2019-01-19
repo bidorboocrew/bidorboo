@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
+import { isHappeningToday } from '../../../utils';
 
 export default class ReviewBidAndBidder extends React.Component {
   constructor(props) {
@@ -24,6 +25,9 @@ export default class ReviewBidAndBidder extends React.Component {
     const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
+
+    const { startingDateAndTime } = job;
+    const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
 
     return (
       <div className="card disabled">
@@ -68,7 +72,11 @@ export default class ReviewBidAndBidder extends React.Component {
           />
           <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
           <br />
-          <AddAwardedJobToCalendar job={job} />
+          {isJobHappeningToday ? (
+            <ProposerVerifiesJobCompletion />
+          ) : (
+            <AddAwardedJobToCalendar job={job} />
+          )}
         </div>
       </div>
     );
@@ -83,3 +91,52 @@ const DisplayLabelValue = (props) => {
     </div>
   );
 };
+
+class ProposerVerifiesJobCompletion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      successfulCompletion: true,
+      dispute: false,
+    };
+  }
+  render() {
+    const { successfulCompletion, dispute } = this.state;
+    return (
+      <div>
+        <div className="control">
+          <label className="radio">
+            <input
+              checked={successfulCompletion}
+              onChange={() => this.setState({ successfulCompletion: true, dispute: false })}
+              type="radio"
+              name="success"
+            />
+            {' By clicking this I confirm that this job was done to a satisfactory level '}
+          </label>
+        </div>
+        <a
+          disabled={!successfulCompletion}
+          style={{ marginTop: 6 }}
+          className={`button is-success ${successfulCompletion ? 'heartbeat' : ''}`}
+        >
+          Confirm Job is Completed
+        </a>
+        <div style={{ marginTop: 20 }} className="control">
+          <label className="radio">
+            <input
+              checked={dispute}
+              onChange={() => this.setState({ dispute: true, successfulCompletion: false })}
+              type="radio"
+              name="dispute"
+            />
+            {' I would like to file a dispute'}
+          </label>
+        </div>
+        <a disabled={!dispute} style={{ marginTop: 6 }} className="button is-danger is-outlined">
+          Report a dispute
+        </a>
+      </div>
+    );
+  }
+}

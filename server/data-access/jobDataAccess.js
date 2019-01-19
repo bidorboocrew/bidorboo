@@ -371,7 +371,7 @@ exports.jobDataAccess = {
         { _id: mongoDbUserId },
         {
           $push: {
-            _postedJobsRef: { $each: [newJob._id], $sort: { createdAt: -1 } },
+            _postedJobsRef: { $each: [newJob._id], $sort: { 'startingDateAndTime.date': -1 } },
           },
         },
         { projection: { _id: 1 } }
