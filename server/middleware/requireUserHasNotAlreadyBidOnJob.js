@@ -31,6 +31,6 @@ module.exports = async (req, res, next) => {
   } catch (e) {
     return res
       .status(500)
-      .send({ errorMsg: 'failed to validate requireUserHasNotAlreadyBidOnJob ', details: e });
+      .send({ errorMsg: 'failed to validate requireUserHasNotAlreadyBidOnJob ', details: `${e}` });
   }
 };

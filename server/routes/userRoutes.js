@@ -37,7 +37,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: `${e}` });
       }
     }
   );
@@ -71,7 +71,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: `${e}` });
       }
     }
   );
@@ -102,7 +102,9 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To sendVerificationEmail', details: e });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To sendVerificationEmail', details: `${e}` });
       }
     }
   );
@@ -133,7 +135,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: `${e}` });
       }
     }
   );
@@ -149,7 +151,7 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get current user', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get current user', details: `${e}` });
     }
   });
 
@@ -169,7 +171,7 @@ module.exports = (app) => {
       );
       return res.send(userAfterUpdates);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To update user details', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To update user details', details: `${e}` });
     }
   });
 
@@ -224,7 +226,9 @@ module.exports = (app) => {
               return res.send(userWithNewProfileImg);
             }
           } catch (e) {
-            return res.status(500).send({ errorMsg: 'Failed To upload to cloudinary', details: e });
+            return res
+              .status(500)
+              .send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
           }
         };
 
@@ -254,7 +258,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
     }
   });
 };
@@ -279,9 +283,9 @@ module.exports = (app) => {
 //             );
 //             return res.send(userWithNewProfileImg);
 //           }
-//           return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: e });
+//           return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
 //         } catch (e) {
-//           return res.status(500).send({ errorMsg: 'Failed To upload to cloudinary', details: e });
+//           return res.status(500).send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
 //         }
 //       };
 
@@ -291,7 +295,7 @@ module.exports = (app) => {
 //         callbackFunc
 //       );
 //     } catch (e) {
-//       return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: e });
+//       return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
 //     }
 //   }
 // );

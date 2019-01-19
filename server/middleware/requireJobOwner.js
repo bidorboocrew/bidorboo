@@ -22,6 +22,6 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'only the Job Owner can perform this operation.' });
     }
   } catch (e) {
-    return res.status(500).send({ errorMsg: 'failed to validate is jobOwner', details: e });
+    return res.status(500).send({ errorMsg: 'failed to validate is jobOwner', details: `${e}` });
   }
 };

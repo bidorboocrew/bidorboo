@@ -164,7 +164,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
             const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
             const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              theNendOfTodayext24Hours
+              endOfToday
             );
             return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
           });
