@@ -72,7 +72,7 @@ class PostYourBid extends React.Component {
                 <span className="icon">
                   <i className="fas fa-thumbs-down" />
                 </span>
-                <span>Boo</span>
+                <span>Go Back</span>
               </a>
             </ActionSheet>,
             actionsSheetRoot,

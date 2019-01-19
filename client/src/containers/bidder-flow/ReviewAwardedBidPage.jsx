@@ -30,6 +30,23 @@ class ReviewAwardedBidPage extends React.Component {
     this.props.a_getAwardedBidDetails(this.bidId);
   }
 
+  componentDidUpdate(prevProps) {
+    // if route changed reload the job
+    let newBidId = this.bidId;
+
+    if (this.props.match && this.props.match.params && this.props.match.params.bidId) {
+      newBidId = this.props.match.params.bidId;
+    }
+    if (newBidId !== this.bidId) {
+      this.bidId = newBidId;
+      if (!this.bidId) {
+        switchRoute(ROUTES.CLIENT.BIDDER.root);
+        return null;
+      }
+      this.props.a_getAwardedBidDetails(this.bidId);
+    }
+  }
+
   showBidReviewModal = (bid) => {
     this.setState({ showBidReviewModal: true, bidUnderReview: bid });
   };
