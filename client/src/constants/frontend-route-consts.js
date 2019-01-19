@@ -47,6 +47,8 @@ export const API = {
       jobById: '/api/job',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
+      setStateDoneByBidder: '/api/job/setStateDoneByBidder',
+      setStateApprovedByProposer: '/api/job/setStateApprovedByProposer',
     },
     POST: {
       searchJobs: '/api/job/search',

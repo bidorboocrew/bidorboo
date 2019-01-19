@@ -35,7 +35,6 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
         data: {
-          jobIdToUpdate: jobId,
           jobId: jobId,
           bidAmount: bidAmount,
         },

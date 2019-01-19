@@ -395,6 +395,18 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  updateState: (jobId, stateValue) => {
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: {
+          state: stateValue,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
   updateBooedBy: (jobId, mongoDbUserId) => {
     return JobModel.findOneAndUpdate(
       { _id: jobId },
@@ -781,10 +793,27 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  findOneByJobIdAndUpdateJobInfo: (jobIdToUpdate, newJobDetails, options) => {
+  isAwardedBidder: (currentSessionUserId, jobId) => {
+    return JobModel.findOne({ _id: jobId }, { _awardedBidRef: 1 })
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          _bidderRef: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: { _id: 1 },
+        },
+      })
+      .where('_awardedBidRef._bidderRef._id')
+      .equals(currentSessionUserId)
+      .lean(true)
+      .exec();
+  },
+  findOneByJobIdAndUpdateJobInfo: (jobId, newJobDetails, options) => {
     // xxx to do , validate user input and use some sanitizer tool to prevent coded content
     return JobModel.findOneAndUpdate(
-      { _id: jobIdToUpdate },
+      { _id: jobId },
       {
         $set: { ...newJobDetails },
       },

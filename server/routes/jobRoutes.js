@@ -5,6 +5,7 @@ const utils = require('../utils/utilities');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
+const requireJobOwner = require('../middleware/requireJobOwner');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -215,6 +216,45 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: e });
     }
   });
+
+  app.put(
+    ROUTES.API.JOB.PUT.setStateDoneByBidder,
+    requireLogin,
+    requireJobOwner,
+    async (req, res) => {
+      try {
+        const data = req.body.data;
+        const { jobId } = data;
+        if (!jobId) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request setStateDoneByBidder, jobId param was Not Specified',
+          });
+        }
+
+        await jobDataAccess.stateValue(jobId, 'DONE_BY_BIDDER');
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To setStateDoneByBidder', details: e });
+      }
+    }
+  );
+  app.put(ROUTES.API.JOB.PUT.setStateApprovedByProposer, requireLogin, async (req, res) => {
+    try {
+      const data = req.body.data;
+      const { jobId } = data;
+      if (!jobId) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request setStateApprovedByProposer, jobId param was Not Specified',
+        });
+      }
+
+      await jobDataAccess.stateValue(jobId, 'APPROVED_BY_PROPOSER');
+      return res.send({ success: true });
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To setStateApprovedByProposer', details: e });
+    }
+  });
+
   app.put(ROUTES.API.JOB.PUT.updateBooedBy, requireLogin, async (req, res) => {
     try {
       const data = req.body.data;

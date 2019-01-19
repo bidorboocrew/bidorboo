@@ -29,7 +29,15 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
-      enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'EXPIRED'],
+      enum: [
+        'OPEN',
+        'AWARDED',
+        'DONE_BY_BIDDER',
+        'APPROVED_BY_PROPOSER',
+        'DISPUTED',
+        'CANCELED',
+        'EXPIRED',
+      ],
     },
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
