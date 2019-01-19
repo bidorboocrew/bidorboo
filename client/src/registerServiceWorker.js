@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 export const registerServiceWorker = (vapidKey) => {
-  if ('serviceWorker' in navigator && 'PushManager' in window) {
-    send(vapidKey);
+  if (process.env.NODE_ENV === 'production') {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      send(vapidKey);
+    }
   }
 };
-
 
 const urlBase64ToUint8Array = (base64String) => {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);

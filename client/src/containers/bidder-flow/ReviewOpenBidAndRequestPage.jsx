@@ -66,7 +66,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
           <div className="container">
             {breadCrumbs({ activePageTitle: title })}
             <div className="columns is-gapless is-multiline is-centered">
-              <div className="column is-4">
+              <div className="column">
                 <RequesterAndOpenBid
                   bid={selectedOpenBid}
                   job={selectedAwardedJob}

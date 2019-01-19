@@ -85,6 +85,7 @@ export const CLIENT = {
   HOME: '/home',
   USER_ROFILE: '/user-profile/:userId',
   VERIFICATION: '/verification/:field/:code',
+  MYCALENDAR: '/my-calendar',
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
@@ -104,7 +105,6 @@ export const CLIENT = {
     reviewJobPage: '/review-page',
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
-    myAwardedBidDetails: '/bidder/my-awarded-bid-details',
   },
   MY_PROFILE: '/my-profile',
 };

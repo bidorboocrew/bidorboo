@@ -48,6 +48,7 @@ export const DisplayLabelValue = (props) => {
 
 export const CountDownComponent = (props) => {
   const { startingDate, isJobStart = true } = props;
+
   return (
     <React.Fragment>
       <br />
@@ -71,7 +72,7 @@ export const CountDownComponent = (props) => {
             ) : (
               <React.Fragment>
                 {days && !`${days}`.includes('NaN') ? (
-                  <div style={{color: 'lightgrey'}}>{`${
+                  <div style={{ color: 'lightgrey' }}>{`${
                     isJobStart ? 'Starts' : 'Deadline'
                   } in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
                 ) : null}
@@ -83,7 +84,7 @@ export const CountDownComponent = (props) => {
     </React.Fragment>
   );
 };
-const Expired = () => <div className="has-text-danger">Expired!</div>;
+const Expired = () => <div className="has-text-danger">Expiring soon!</div>;
 
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails

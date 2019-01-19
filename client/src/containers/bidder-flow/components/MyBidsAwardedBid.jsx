@@ -34,44 +34,29 @@ export default class MyBidsAwardedBid extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '3rem' }} className="card">
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          updateBidState(bidDetails._id, 'WON_SEEN');
+          switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
+        }}
+        className="card has-text-centered bidderRootSpecial"
+      >
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="content">
-            <div className="level is-clipped">
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Requester</p>
-                  <figure style={{ margin: '0 auto' }} className="image is-48x48">
-                    <img alt="profile" src={profileImage.url} />
-                  </figure>
-                  <div className="help">{displayName}</div>
-                </div>
-              </div>
-
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Service Type</p>
-                  <p className="subtitle">{fromTemplateId}</p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="heading">Bid Amount</p>
-                  <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
-                </div>
-              </div>
-            </div>
+            <p className="heading">Requester</p>
+            <figure style={{ margin: '0 auto' }} className="image is-48x48">
+              <img alt="profile" src={profileImage.url} />
+            </figure>
+            <div className="help">{displayName}</div>
+            <p className="heading">Service Type</p>
+            <p className="subtitle">{fromTemplateId}</p>
+            <p className="heading">Bid Amount</p>
+            <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
           </div>
         </div>
         <footer className="card-footer">
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              updateBidState(bidDetails._id, 'WON_SEEN');
-              switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
-            }}
-            className="card-footer-item"
-          >
+          <a className="card-footer-item">
             View Details
             {updatedStatus && (
               <span

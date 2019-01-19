@@ -20,7 +20,7 @@ export default class DatePickerInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(new Date()).add(1, 'days'),
+      startDate: moment(new Date()).add(1, 'd'),
     };
     autoBind(this, 'handleChange');
   }
@@ -40,8 +40,8 @@ export default class DatePickerInput extends React.Component {
         locale="en-GB"
         selected={this.state.startDate}
         onChange={this.handleChange}
-        minDate={moment(new Date()).add(1, 'days')}
-        maxDate={moment(new Date()).add(30, 'days')}
+        minDate={moment(new Date()).add(1, 'd')}
+        maxDate={moment(new Date()).add(30, 'd')}
       />
     );
   }

@@ -1,24 +1,4 @@
 export const templatesRepo = {
-  petSitting: {
-    id: 'petSitting',
-    themeColor: '#363636',
-    allowUploadImages: false,
-    category: '',
-    title: 'Pet Sitting',
-    subTitle: '',
-    actionButtonDescription: '',
-    imageUrl:
-      'https://static1.squarespace.com/static/5325d497e4b0eeecbb676139/t/56cb1ef522482e3aa7437ffd/1456152323491/',
-    description:
-      'Whether you need to run some errands for the day or go on a week-long vacation, keep your pet in the safe hands of a pet-loving sitter. Set your own expectations and share your pet needs with your pet sitter, and that leaves one less thing for you to worry about!',
-    suggestedDetailsText: `Pet Type & Breed:
-  [E.g. Poodle dog, Persian cat, Chinese hamster ... ]
-Expectations:
-  [E.g. I expect you to walk the dog outside, feed, clean the cage, shower, daily/every 2 days ... ]
-Special Instructions:
-  [E.g. Doesn't do well with other pets, allergic to .., not allowed to be outside ... ]
-`,
-  },
   lawnMowing: {
     id: 'lawnMowing',
     category: '',
@@ -88,6 +68,26 @@ What is your expectations:
 Extra comments:
   [mention any specific instructions or info relevant to this task]`,
   },
+  petSitting: {
+    id: 'petSitting',
+    themeColor: '#363636',
+    allowUploadImages: false,
+    category: '',
+    title: 'Pet Sitting',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://static1.squarespace.com/static/5325d497e4b0eeecbb676139/t/56cb1ef522482e3aa7437ffd/1456152323491/',
+    description:
+      'Whether you need to run some errands for the day or go on a week-long vacation, keep your pet in the safe hands of a pet-loving sitter. Set your own expectations and share your pet needs with your pet sitter, and that leaves one less thing for you to worry about!',
+    suggestedDetailsText: `Pet Type & Breed:
+  [E.g. Poodle dog, Persian cat, Chinese hamster ... ]
+Expectations:
+  [E.g. I expect you to walk the dog outside, feed, clean the cage, shower, daily/every 2 days ... ]
+Special Instructions:
+  [E.g. Doesn't do well with other pets, allergic to .., not allowed to be outside ... ]
+`,
+  },
   //need to be fiinished///
   Photography: {
     id: 'Photography',
@@ -95,16 +95,62 @@ Extra comments:
     title: 'Photography',
     subTitle: '',
     actionButtonDescription: '',
-    imageUrl:
-      'https://horizonquest.ca/wp-content/uploads/2017/07/photography.jpg',
-    description:
-      "Photography for weddings ?",
+    imageUrl: 'https://horizonquest.ca/wp-content/uploads/2017/07/photography.jpg',
+    description: 'Photography for weddings ?',
     suggestedDetailsText: `What type of event do you need help with:
-[I need help with my grade 11 math..., etc]
+[I need professional photographer to take pics in my event ..., etc]
 What is your expectations:
-[I expect to be good at solving math problems , ]
+[I expect to get the pictures on a USB card , ]
 Extra comments:
 [mention any specific instructions or info relevant to this task]`,
   },
-  ////
+  //need to be fiinished///
+  Movers: {
+    id: 'Movers',
+    category: '',
+    title: 'Movers',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://www.apartmentguide.com/blog/wp-content/uploads/2015/06/cost-of-hiring-movers-1-748x350.jpg',
+    description: 'Movers can do the heavy lifting while you enjoy settling into your new space  ?',
+    suggestedDetailsText: `What type of event do you need help with:
+  [Lifting things to my appartment..., etc]
+  What is your expectations:
+  [I need a car or a truck for moving , ]
+  Extra comments:
+  [mention any specific instructions or info relevant to this task]`,
+  },
+  Painter: {
+    id: 'Painter',
+    category: '',
+    title: 'Painter',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl:
+      'https://inspectorhawkeye.com.au/wp-content/uploads/2018/05/Blog-61-House-Painting-%E2%80%93-To-DIY-or-Not-to-DIY-that-is-the-Question.jpg',
+    description: 'Tired of your boring space ? get a professional to paint your space for you! ',
+    suggestedDetailsText: `What type of space do you need help with:
+  [Bedroom , full house  ..., etc]
+  What is your expectations:
+  [I have the paint and need someone to paint, I expect you to bring the tools ..etc]
+  Extra comments:
+  [mention any specific instructions or info relevant to this task]`,
+  },
+  FurnitureAssembly: {
+    id: 'FurnitureAssembly',
+    category: '',
+    title: 'Furniture Assembly',
+    subTitle: '',
+    actionButtonDescription: '',
+    imageUrl: 'https://assets.vancouverisawesome.com/wp-content/uploads/2018/10/18103036/ikea-furniture-assembly-min.jpg',
+    description:
+      'Sick of reading the manuals and following instructions? Get your furniture assembled by our hardworking Bidders',
+    suggestedDetailsText: `What type of furniture do you need help with:
+  [desk, bed ..., etc]
+  What is your expectations:
+  [I have a catalogue and need it built, I do not have the catalogue ]
+  Extra comments:
+  [mention any specific instructions or info relevant to this task]`,
+  },
 };

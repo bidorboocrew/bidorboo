@@ -33,7 +33,11 @@ class MyBidsPage extends React.Component {
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
-          return <MyBidsOpenBid key={bidDetails._id} bidDetails={bidDetails} />;
+          return (
+            <div key={bidDetails._id} className="column limitMaxdWidth">
+              <MyBidsOpenBid key={bidDetails._id} bidDetails={bidDetails} />
+            </div>
+          );
         })
       ) : (
         <EmptyStateComponent />
@@ -43,12 +47,13 @@ class MyBidsPage extends React.Component {
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
           return (
-            <MyBidsAwardedBid
-              key={bidDetails._id}
-              bidDetails={bidDetails}
-              notificationFeed={notificationFeed}
-              updateBidState={a_updateBidState}
-            />
+            <div key={bidDetails._id} className="column limitMaxdWidth">
+              <MyBidsAwardedBid
+                bidDetails={bidDetails}
+                notificationFeed={notificationFeed}
+                updateBidState={a_updateBidState}
+              />
+            </div>
           );
         })
       ) : (
@@ -70,7 +75,11 @@ class MyBidsPage extends React.Component {
             </div>
 
             {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-            {!isLoading && <React.Fragment>{awardedBidsListComponent}</React.Fragment>}
+            {!isLoading && (
+              <div className="columns is-multiline is-mobile is-centered">
+                {awardedBidsListComponent}
+              </div>
+            )}
           </div>
         </section>
 
@@ -86,7 +95,9 @@ class MyBidsPage extends React.Component {
               </ul>
             </div>
             {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-            {!isLoading && <React.Fragment>{pendingBidsList}</React.Fragment>}
+            {!isLoading && (
+              <div className="columns is-multiline is-mobile is-centered">{pendingBidsList} </div>
+            )}
           </div>
         </section>
       </div>

@@ -19,7 +19,7 @@ class ServiceTemplates extends React.Component {
       const { title, imageUrl, id } = defaultTask;
 
       return (
-        <div key={id} className="column">
+        <div key={id} className="column limitMaxdWidth">
           <div
             onClick={(e) => {
               e.preventDefault();

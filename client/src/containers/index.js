@@ -18,3 +18,6 @@ export { default as BidOnJobPage } from './bidder-flow/BidOnJobPage';
 export { default as ReviewBidAndRequestPage } from './bidder-flow/ReviewOpenBidAndRequestPage';
 export { default as ReviewAwardedBidPage } from './bidder-flow/ReviewAwardedBidPage';
 export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
+
+export { default as MyCalendar } from './MyCalendar';
+export { default as NotificationsModal } from './NotificationsModal';

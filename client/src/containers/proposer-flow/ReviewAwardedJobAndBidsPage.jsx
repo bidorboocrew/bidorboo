@@ -33,6 +33,24 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     a_getAwardedBidFullDetails(this.jobId);
   }
 
+  componentDidUpdate(prevProps) {
+    // if route changed reload the job
+    let newJobId = this.jobId;
+
+    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
+      newJobId = this.props.match.params.jobId;
+    }
+    if (newJobId !== this.jobId) {
+      this.jobId = newJobId;
+      if (!this.jobId) {
+        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+        return null;
+      }
+
+      this.props.a_getAwardedBidFullDetails(this.jobId);
+    }
+  }
+
   render() {
     const { selectedAwardedJob } = this.props;
 
@@ -56,7 +74,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
             activePageTitle: title,
           })}
           <div className="columns is-gapless is-multiline is-centered">
-            <div className="column is-4">
+            <div className="column">
               <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
             </div>
             <div className="column">

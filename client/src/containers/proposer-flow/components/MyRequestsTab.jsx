@@ -24,7 +24,7 @@ class MyRequestsTab extends React.Component {
 export default MyRequestsTab;
 
 const EmptyStateComponent = () => (
-  <div className="column">
+  <div className="column limitMaxdWidth">
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">
@@ -50,7 +50,7 @@ const MyRequests = (props) => {
 
   const jobCards = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column">
+      <div key={job._id} className="column limitMaxdWidth">
         <JobSummaryForPostedJobs {...props} job={job} />
       </div>
     );

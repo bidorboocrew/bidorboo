@@ -127,7 +127,7 @@ class NewJobForm extends React.Component {
           id="dateField"
           className="input is-invisible"
           type="hidden"
-          value={values.dateField || moment().toDate()}
+          value={values.dateField || moment(new Date()).add(1, 'd')}
         />
 
         <GeoAddressInput
@@ -320,6 +320,7 @@ const EnhancedForms = withFormik({
       periodField: 'PM',
       detailedDescriptionField: props.suggestedDetailsText,
       fromTemplateIdField: props.fromTemplateIdField,
+      dateField: moment(new Date()).add(1, 'd'),
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {

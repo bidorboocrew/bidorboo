@@ -32,8 +32,24 @@ class ReviewRequestAndBidsPage extends React.Component {
       switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
       return null;
     }
-
     this.props.a_getPostedJobDetails(this.jobId);
+  }
+
+  componentDidUpdate(prevProps) {
+    // if route changed reload the job
+    let newJobId = this.jobId;
+
+    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
+      newJobId = this.props.match.params.jobId;
+    }
+    if (newJobId !== this.jobId) {
+      this.jobId = newJobId;
+      if (!this.jobId) {
+        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+        return null;
+      }
+      this.props.a_getPostedJobDetails(this.jobId);
+    }
   }
 
   showBidReviewModal = (bid) => {
@@ -70,7 +86,7 @@ class ReviewRequestAndBidsPage extends React.Component {
           )}
 
           {!showBidReviewModal && (
-            <div className="columns is-multiline">
+            <div className="columns is-centered is-multiline">
               <div className="column">
                 <BidsTable
                   jobId={selectedJobWithBids._id}

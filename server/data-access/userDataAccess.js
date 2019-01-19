@@ -5,6 +5,7 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
+const moment = require('moment');
 
 exports.getUserPushSubscription = (userId) => {
   return User.findOne({ userId }, { pushSubscription: 1 })
@@ -41,9 +42,13 @@ exports.findUserAndAllNewNotifications = async (userId) => {
       const user = await User.findOne({ userId }, schemaHelpers.UserFull)
         .populate({
           path: '_postedJobsRef',
+          match: { state: { $in: ['OPEN', 'AWARDED'] } },
           select: {
             _bidsListRef: 1,
             _reviewRef: 1,
+            state: 1,
+            fromTemplateId: 1,
+            startingDateAndTime: 1,
           },
           populate: [
             {
@@ -54,7 +59,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             {
               path: '_reviewRef',
               select: { _id: 1 },
-              match: { $and: [{ bidderSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
+              match: { state: { $eq: 'AWAITING' } },
             },
           ],
         })
@@ -66,11 +71,13 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             path: '_jobRef',
             select: {
               _reviewRef: 1,
+              startingDateAndTime: 1,
+              fromTemplateId: 1,
             },
             populate: {
               path: '_reviewRef',
               select: { _id: 1 },
-              match: { $and: [{ bidderSubmitted: { $eq: true } }, { state: { $eq: 'AWAITING' } }] },
+              match: { state: { $eq: 'AWAITING' } },
             },
           },
         })
@@ -108,12 +115,69 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
 
+      const today = moment()
+        .tz('America/Toronto')
+        .startOf('day')
+        .toISOString();
+
+      const theNext24Hours = moment()
+        .tz('America/Toronto')
+        .add(1, 'day')
+        .startOf('day')
+        .toISOString();
+
+      const z_jobsHappeningToday =
+        user._postedJobsRef &&
+        user._postedJobsRef
+          .filter((job) => {
+            return job.state === 'AWARDED';
+          })
+          .filter((job) => {
+            const jobStartDate = job.startingDateAndTime.date;
+
+            // normalize the start date to the same timezone to comapre
+            const normalizedStartDate = moment(jobStartDate)
+              .tz('America/Toronto')
+              .toISOString();
+
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+              theNext24Hours
+            );
+            return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
+          });
+
+      let z_bidsHappeningToday =
+        user._postedBidsRef &&
+        user._postedBidsRef
+          .filter((myBid) => {
+            return myBid.state === 'WON';
+          })
+          .filter((myBid) => {
+            const referenceJob = myBid._jobRef;
+
+            const jobStartDate = referenceJob.startingDateAndTime.date;
+
+            // normalize the start date to the same timezone to comapre
+            const normalizedStartDate = moment(jobStartDate)
+              .tz('America/Toronto')
+              .toISOString();
+
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+              theNext24Hours
+            );
+            return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
+          });
+
       resolve({
         ...user,
         z_notify_jobsWithNewBids,
         z_notify_myBidsWithNewStatus,
         z_track_reviewsToBeFilled,
         z_track_workToDo,
+        z_jobsHappeningToday,
+        z_bidsHappeningToday,
       });
     } catch (e) {
       reject(e);

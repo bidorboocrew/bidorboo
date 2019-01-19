@@ -26,14 +26,9 @@ export default class ReviewBidAndBidder extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     return (
-      <div
-        style={{ borderRight: 0, background: '#363636', color: 'white' }}
-        className="card disabled"
-      >
-        <header style={{ borderBottom: '1px solid white' }} className="card-header is-clipped">
-          <p style={{ color: 'white' }} className="card-header-title">
-            Awarded Bidder Details
-          </p>
+      <div className="card disabled">
+        <header className="card-header is-clipped">
+          <p className="card-header-title">Awarded Bidder Details</p>
         </header>
         <div className="card-content">
           <br />
@@ -83,7 +78,7 @@ export default class ReviewBidAndBidder extends React.Component {
 const DisplayLabelValue = (props) => {
   return (
     <div style={{ marginBottom: 6 }}>
-      <div className="has-text-grey is-size-7">{props.labelText}</div>
+      <div className="is-size-7">{props.labelText}</div>
       <div className="is-size-6 is-success">{props.labelValue}</div>
     </div>
   );

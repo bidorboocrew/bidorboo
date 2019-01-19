@@ -8,7 +8,6 @@ import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 
-import { switchRoute } from '../utils';
 import '../assets/index.css';
 
 import {
@@ -26,6 +25,7 @@ import {
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
+  MyCalendar,
 } from './index';
 
 class App extends React.Component {
@@ -38,6 +38,7 @@ class App extends React.Component {
     const { s_toastDetails } = this.props;
     return (
       <div id="bidorboo-root-view">
+        <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
@@ -110,6 +111,8 @@ class App extends React.Component {
           />
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
+          <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />
+
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
       </div>
