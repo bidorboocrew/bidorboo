@@ -108,17 +108,17 @@ const getAwardedJobDetailslinks = (jobs, closeDialog) => {
   if (jobs && jobs.length > 0) {
     return jobs.map((job) => {
       return (
-        <div
+        <a
           key={job._id}
           onClick={() => {
             closeDialog();
             switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
-          className="notification is-danger"
+          className="button is-text"
         >
           {`Your ${job.fromTemplateId} Request is scheduled for today`}
-        </div>
+        </a>
       );
     });
   }
@@ -128,17 +128,17 @@ const getReviewJoblinks = (jobs, closeDialog) => {
   if (jobs && jobs.length > 0) {
     return jobs.map((job) => {
       return (
-        <div
+        <a
           key={job._id}
           onClick={() => {
             closeDialog();
             switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
-          className="notification is-info"
+          className="button is-text"
         >
           {`${job._bidsListRef.length} new bid on your ${job.fromTemplateId} Request`}
-        </div>
+        </a>
       );
     });
   }
@@ -149,17 +149,17 @@ const getAwardedBidsDetailslinks = (bids, closeDialog) => {
   if (bids && bids.length > 0) {
     return bids.map((bid) => {
       return (
-        <div
+        <a
           key={bid._id}
           onClick={() => {
             closeDialog();
             switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bid._id}`);
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
-          className="notification is-success"
+          className="button is-text"
         >
           {`Your ${bid.bidAmount.value} CAD bid for ${bid._jobRef.fromTemplateId} WON!`}
-        </div>
+        </a>
       );
     });
   }
