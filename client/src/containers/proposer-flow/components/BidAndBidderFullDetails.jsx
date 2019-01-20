@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
@@ -96,47 +97,82 @@ class ProposerVerifiesJobCompletion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      successfulCompletion: true,
-      dispute: false,
+      showConfirmationModal: false,
+      successfulCompletion: false,
     };
   }
+
+  toggleModal = () => {
+    this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
+  };
+
+  submitConfirmation = () => {};
   render() {
-    const { successfulCompletion, dispute } = this.state;
+    const { successfulCompletion, dispute, showConfirmationModal } = this.state;
     return (
-      <div>
-        <div className="control">
-          <label className="radio">
-            <input
-              checked={successfulCompletion}
-              onChange={() => this.setState({ successfulCompletion: true, dispute: false })}
-              type="radio"
-              name="success"
-            />
-            {' By clicking this I confirm that this job was done to a satisfactory level '}
-          </label>
+      <React.Fragment>
+        {showConfirmationModal &&
+          ReactDOM.createPortal(
+            <div className="modal is-active">
+              <div onClick={this.toggleModal} className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Congratulations</p>
+                </header>
+                <section className="modal-card-body">
+                  <p>We are happy to hear that we were able to help !</p>
+                  <p>
+                    Once you confirm the completion of this task you will get a chance to rate your
+                    Tasker and the overall experience.
+                  </p>
+                  <br />
+                  <div>
+                    <div className="control">
+                      <label className="radio">
+                        <input
+                          checked={successfulCompletion}
+                          onChange={() => this.setState({ successfulCompletion: true })}
+                          type="checkbox"
+                          name="success"
+                        />
+                        <span className="has-text-success has-text-weight-semibold">
+                          {` I Confirm that this task was done to my satisfaction.`}
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </section>
+                <footer className="modal-card-foot">
+                  <button
+                    type="submit"
+                    disabled={!successfulCompletion}
+                    onClick={this.submitConfirmation}
+                    className="button is-success"
+                  >
+                    Confirm
+                  </button>
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Cancel
+                  </button>
+                  <a
+                    disabled={!dispute}
+                    style={{ marginTop: 6 }}
+                    className="button has-text-grey is-text"
+                  >
+                    Report a Dispute
+                  </a>
+                </footer>
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-modals'),
+          )}
+        <div>
+          <p className="has-text-weight-semibold">Click here after you completed this task:</p>
+          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
+            This Task Was Completed
+          </a>
         </div>
-        <a
-          disabled={!successfulCompletion}
-          style={{ marginTop: 6 }}
-          className={`button is-success ${successfulCompletion ? 'heartbeat' : ''}`}
-        >
-          Confirm Job is Completed
-        </a>
-        <div style={{ marginTop: 20 }} className="control">
-          <label className="radio">
-            <input
-              checked={dispute}
-              onChange={() => this.setState({ dispute: true, successfulCompletion: false })}
-              type="radio"
-              name="dispute"
-            />
-            {' I would like to file a dispute'}
-          </label>
-        </div>
-        <a disabled={!dispute} style={{ marginTop: 6 }} className="button is-danger is-outlined">
-          Report a dispute
-        </a>
-      </div>
+      </React.Fragment>
     );
   }
 }

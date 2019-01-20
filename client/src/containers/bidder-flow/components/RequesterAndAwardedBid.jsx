@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
-import ReactDOM from 'react-dom';
 
 export default class RequesterAndAwardedBid extends React.Component {
   render() {
@@ -167,10 +168,7 @@ class BidderConfirmsJobIsDone extends React.Component {
           )}
         <div>
           <p className="has-text-weight-semibold">Click here after you completed this task:</p>
-          <a
-            onClick={this.toggleModal}
-            className="button is-meduim is-success heartbeat"
-          >
+          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
             I Completed this Task
           </a>
         </div>
