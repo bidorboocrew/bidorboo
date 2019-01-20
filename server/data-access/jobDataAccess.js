@@ -525,6 +525,7 @@ exports.jobDataAccess = {
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
         sort: { 'startingDateAndTime.date': 1 },
+        allowDiskUse: true
       })
         .where('startingDateAndTime.date')
         .gt(new Date())
