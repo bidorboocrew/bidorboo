@@ -167,9 +167,9 @@ class ProposerVerifiesJobCompletion extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div>
-          <p className="has-text-weight-semibold">Click here after you completed this task:</p>
+          <p className="has-text-weight-semibold">Click here after this task is fulfilled:</p>
           <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
-            This Task Was Completed
+            This Task is Done
           </a>
         </div>
       </React.Fragment>
