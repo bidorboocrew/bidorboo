@@ -15,7 +15,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
 
   render() {
     const { bid, job } = this.props;
-
+    debugger;
     if (!bid || !bid._id || !bid._bidderRef) {
       return null;
     }
@@ -27,8 +27,10 @@ export default class BidderAndMyAwardedJob extends React.Component {
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
-    const { startingDateAndTime } = job;
+    const { startingDateAndTime, jobCompletion } = job;
     const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
+
+    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     return (
       <div className="card disabled">
@@ -73,11 +75,15 @@ export default class BidderAndMyAwardedJob extends React.Component {
           />
           <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
           <br />
-          {isJobHappeningToday ? (
+          {/* job happened and is confirmed completion . show redirect to review page button */}
+          {didProposerConfirmCompletionAlready && <div>review redirect button</div>}
+
+          {/* job is happening today show confirm job completion flow*/}
+          {isJobHappeningToday && !didProposerConfirmCompletionAlready && (
             <ProposerVerifiesJobCompletion {...this.props} />
-          ) : (
-            <AddAwardedJobToCalendar job={job} />
           )}
+          {/* job is not happening today show add to calendar*/}
+          {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
         </div>
       </div>
     );

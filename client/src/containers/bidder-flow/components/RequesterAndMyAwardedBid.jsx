@@ -24,8 +24,11 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
-    const { startingDateAndTime } = job;
+    const { startingDateAndTime, jobCompletion } = job;
+    debugger
     const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
+
+    const didBidderConfirmCompletionAlready = jobCompletion.bidderConfirmed;
 
     return (
       <div className="card disabled">
@@ -74,11 +77,14 @@ export default class RequesterAndMyAwardedBid extends React.Component {
           <div className="help">* you will recieve the payment after completing the task</div>
           <br />
 
-          {isJobHappeningToday ? (
+          {/* job happened and is confirmed completion . show redirect to review page button */}
+          {didBidderConfirmCompletionAlready && <div>review redirect button</div>}
+          {/* job is happening today show confirm job completion flow*/}
+          {isJobHappeningToday && !didBidderConfirmCompletionAlready && (
             <BidderConfirmsJobIsDone {...this.props} />
-          ) : (
-            <AddAwardedJobToCalendar job={job} />
           )}
+          {/* job is not happening today show add to calendar*/}
+          {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
         </div>
       </div>
     );
