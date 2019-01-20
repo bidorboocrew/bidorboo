@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
 
-export default class RequesterAndAwardedBid extends React.Component {
+export default class RequesterAndMyAwardedBid extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, job, bidderConfirmsJobCompletion } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
@@ -75,7 +75,7 @@ export default class RequesterAndAwardedBid extends React.Component {
           <br />
 
           {isJobHappeningToday ? (
-            <BidderConfirmsJobIsDone />
+            <BidderConfirmsJobIsDone {...this.props} />
           ) : (
             <AddAwardedJobToCalendar job={job} />
           )}
@@ -107,7 +107,13 @@ class BidderConfirmsJobIsDone extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
 
-  submitConfirmation = () => {};
+  proposerConfirmJobCompletion = () => {
+    const { bidderConfirmsJobCompletion, job } = this.props;
+
+    this.setState({ showConfirmationModal: false }, () => {
+      bidderConfirmsJobCompletion(job._id);
+    });
+  };
   render() {
     const { successfulCompletion, dispute, showConfirmationModal } = this.state;
     return (
@@ -121,9 +127,12 @@ class BidderConfirmsJobIsDone extends React.Component {
                   <p className="modal-card-title">Congratulations</p>
                 </header>
                 <section className="modal-card-body">
+                  <p>You have completed this task!</p>
+                  <br />
                   <p>
-                    Your payment will be proccessed right after the task owner confirms completion
-                    as well and you will get a chance to rate your overall experience.
+                    We are getting in touch with the task owner to confirm the task completion. You
+                    will recieve your payment shortly after we verify it. You will also get a chance
+                    to rate the Task Owner and your overall experience.
                   </p>
                   <br />
                   <div>
@@ -146,7 +155,7 @@ class BidderConfirmsJobIsDone extends React.Component {
                   <button
                     type="submit"
                     disabled={!successfulCompletion}
-                    onClick={this.submitConfirmation}
+                    onClick={this.proposerConfirmJobCompletion}
                     className="button is-success"
                   >
                     Confirm

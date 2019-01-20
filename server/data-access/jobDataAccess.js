@@ -525,7 +525,7 @@ exports.jobDataAccess = {
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
         sort: { 'startingDateAndTime.date': 1 },
-        allowDiskUse: true
+        allowDiskUse: true,
       })
         .where('startingDateAndTime.date')
         .gt(new Date())
@@ -791,14 +791,14 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  isJobOwner: (currentSessionUserId, jobId) => {
+  isJobOwner: (mongoDbUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerRef: 1 })
       .where('_ownerRef')
-      .equals(currentSessionUserId)
+      .equals(mongoDbUserId)
       .lean(true)
       .exec();
   },
-  isAwardedBidder: (currentSessionUserId, jobId) => {
+  isAwardedBidder: (mongoDbUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _awardedBidRef: 1 })
       .populate({
         path: '_awardedBidRef',
@@ -807,11 +807,10 @@ exports.jobDataAccess = {
         },
         populate: {
           path: '_bidderRef',
+          match: { _id: { $eq: mongoDbUserId } },
           select: { _id: 1 },
         },
       })
-      .where('_awardedBidRef._bidderRef._id')
-      .equals(currentSessionUserId)
       .lean(true)
       .exec();
   },

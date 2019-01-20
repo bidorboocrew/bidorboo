@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
 
-export default class ReviewBidAndBidder extends React.Component {
+export default class BidderAndMyAwardedJob extends React.Component {
   constructor(props) {
     super(props);
 
@@ -74,7 +74,7 @@ export default class ReviewBidAndBidder extends React.Component {
           <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
           <br />
           {isJobHappeningToday ? (
-            <ProposerVerifiesJobCompletion />
+            <ProposerVerifiesJobCompletion {...this.props} />
           ) : (
             <AddAwardedJobToCalendar job={job} />
           )}
@@ -106,7 +106,13 @@ class ProposerVerifiesJobCompletion extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
 
-  submitConfirmation = () => {};
+  submitConfirmation = () => {
+    const { proposerConfirmsJobCompletion, job } = this.props;
+
+    this.setState({ showConfirmationModal: false }, () => {
+      proposerConfirmsJobCompletion(job._id);
+    });
+  };
   render() {
     const { successfulCompletion, dispute, showConfirmationModal } = this.state;
     return (

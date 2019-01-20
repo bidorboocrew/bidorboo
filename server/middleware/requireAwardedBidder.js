@@ -21,11 +21,11 @@ module.exports = async (req, res, next) => {
           .send({ errorMsg: 'only the awarded Bidder can perform this operation.' });
       }
     } else {
-      return res
-        .status(403)
-        .send({ errorMsg: 'only the awarded Bidder can perform this operation.' });
+      return res.status(403).send({ errorMsg: 'only logged in users can perform this operation.' });
     }
   } catch (e) {
-    return res.status(500).send({ errorMsg: 'failed to validate is awarded Bidder', details: `${e}` });
+    return res
+      .status(500)
+      .send({ errorMsg: 'failed to validate is awarded Bidder', details: `${e}` });
   }
 };

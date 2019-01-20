@@ -7,10 +7,13 @@ import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { Spinner } from '../../components/Spinner';
-import { getAwardedBidFullDetails } from '../../app-state/actions/jobActions';
+import {
+  getAwardedBidFullDetails,
+  proposerConfirmsJobCompletion,
+} from '../../app-state/actions/jobActions';
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
-import BidAndBidderFullDetails from './components/BidAndBidderFullDetails';
+import BidderAndMyAwardedJob from './components/BidderAndMyAwardedJob';
 
 class ReviewAwardedJobAndBidsPage extends React.Component {
   constructor(props) {
@@ -52,7 +55,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
   }
 
   render() {
-    const { selectedAwardedJob } = this.props;
+    const { selectedAwardedJob, a_proposerConfirmsJobCompletion } = this.props;
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
@@ -75,7 +78,11 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
           })}
           <div className="columns is-multiline is-centered">
             <div className="column">
-              <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
+              <BidderAndMyAwardedJob
+                proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
+                bid={_awardedBidRef}
+                job={selectedAwardedJob}
+              />
             </div>
             <div className="column">
               <JobFullDetailsCard job={selectedAwardedJob} />
@@ -97,6 +104,7 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
+    a_proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
   };
 };
 
