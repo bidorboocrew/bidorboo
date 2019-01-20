@@ -127,7 +127,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
               />
             </div>
             <br />
-            <label>Write your Feedback</label>
+            <label className="label">Add a personal comment</label>
             <TextareaAutosize
               className="textarea is-marginless is-paddingless"
               style={{
@@ -140,39 +140,22 @@ export default class ProposerReviewingCompletedJob extends React.Component {
               }}
               placeholder="The tasker did a great job .. etc"
             />
+            <div className="help">*note this will be visible to all users</div>
           </div>
         </React.Fragment>
       );
     };
-    const bodyFooter = () => {
-      return (
-        <div>
-          <footer className="card-footer">
-            <button
-              className="button is-success is-fullwidth "
-              disabled={!this.state.isValid}
-              onClick={() => {
-                // onSubmit();
-              }}
-            >
-              Submit Review
-            </button>
-          </footer>
-        </div>
-      );
-    };
-
     return (
       <section className="section">
-        <section className="hero is-small">
+        <section className="hero is-small is-dark">
           <div className="container">
-            <div style={{ backgroundColor: 'purple' }} className="hero-body">
+            <div className="hero-body">
               <div className="container">
-                <h1 style={{ color: 'white' }} className="title">
+                {/* <h1 style={{ color: 'white' }} className="title">
                   Review this Jobs
-                </h1>
+                </h1> */}
                 <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about this job.
+                  Give your feedback about Tasker and the quality of thier work
                 </h2>
               </div>
             </div>
@@ -183,7 +166,15 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             <form onSubmit={() => null}>
               <div className="card-content">
                 {bodyContent()}
-                {bodyFooter()}
+                <button
+                  className="button is-success is-large"
+                  disabled={!this.state.isValid}
+                  onClick={() => {
+                    // onSubmit();
+                  }}
+                >
+                  Submit Review
+                </button>
               </div>
             </form>
           </div>
