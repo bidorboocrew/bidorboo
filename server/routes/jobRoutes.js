@@ -234,7 +234,9 @@ module.exports = (app) => {
         await jobDataAccess.stateValue(jobId, 'DONE_BY_BIDDER');
         return res.send({ success: true });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To setStateDoneByBidder', details: `${e}` });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To setStateDoneByBidder', details: `${e}` });
       }
     }
   );
@@ -251,7 +253,9 @@ module.exports = (app) => {
       await jobDataAccess.stateValue(jobId, 'APPROVED_BY_PROPOSER');
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To setStateApprovedByProposer', details: `${e}` });
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To setStateApprovedByProposer', details: `${e}` });
     }
   });
 
@@ -272,4 +276,80 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
+
+  app.put(ROUTES.API.JOB.PUT.updateBooedBy, requireLogin, async (req, res) => {
+    try {
+      const data = req.body.data;
+      const { jobId } = data;
+      if (!jobId) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for updateBooedBy, jobId param was Not Specified',
+        });
+      }
+      const userMongoDBId = req.user._id;
+
+      await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
+      return res.send({ success: true });
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+    }
+  });
+
+  app.put(
+    ROUTES.API.JOB.PUT.proposerConfirmsJobCompleted,
+    requireLogin,
+    requireJobOwner,
+    async (req, res) => {
+      try {
+        const data = req.body.data;
+        const { jobId } = data;
+        if (!jobId) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
+          });
+        }
+        const userMongoDBId = req.user._id;
+
+        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
+          jobCompletion: {
+            proposerConfirmed: true,
+          },
+        });
+        return res.send({ success: true });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To proposerConfirmsJobCompleted', details: `${e}` });
+      }
+    }
+  );
+
+  app.put(
+    ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,
+    requireLogin,
+    requireJobOwner,
+    async (req, res) => {
+      try {
+        const data = req.body.data;
+        const { jobId } = data;
+        if (!jobId) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
+          });
+        }
+        const userMongoDBId = req.user._id;
+
+        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
+          jobCompletion: {
+            bidderConfirmed: true,
+          },
+        });
+        return res.send({ success: true });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
+      }
+    }
+  );
 };

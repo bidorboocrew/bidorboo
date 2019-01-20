@@ -58,8 +58,10 @@ module.exports = {
         awardBidder: '/api/job/awardBidder',
         updateViewedBy: '/api/job/updateViewedBy',
         updateBooedBy: '/api/job/updateBooedBy',
-        setStateDoneByBidder: '/api/job/setStateDoneByBidder',
-        setStateApprovedByProposer: '/api/job/setStateApprovedByProposer',
+        proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
+        bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
+        proposerDisputeJob: '/api/job/proposerDisputeJob',
+        bidderDisputeJob: '/api/job/bidderDisputeJob',
       },
       DELETE: {
         jobById: '/api/job',

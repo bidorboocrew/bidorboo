@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
       if (!jobId) {
         return res
           .status(403)
-          .send({ errorMsg: 'missing paramerters . can not confirm that you are the Job Owner.' });
+          .send({ errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.' });
       }
 
       const userId = req.user._id.toString();

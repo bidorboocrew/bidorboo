@@ -47,8 +47,6 @@ export const API = {
       jobById: '/api/job',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
-      setStateDoneByBidder: '/api/job/setStateDoneByBidder',
-      setStateApprovedByProposer: '/api/job/setStateApprovedByProposer',
     },
     POST: {
       searchJobs: '/api/job/search',
@@ -59,6 +57,10 @@ export const API = {
       awardBidder: '/api/job/awardBidder',
       updateViewedBy: '/api/job/updateViewedBy',
       updateBooedBy: '/api/job/updateBooedBy',
+      proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
+      bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
+      proposerDisputeJob: '/api/job/proposerDisputeJob',
+      bidderDisputeJob: '/api/job/bidderDisputeJob',
     },
     DELETE: {
       jobById: '/api/job',
