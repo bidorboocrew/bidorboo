@@ -68,7 +68,7 @@ export const CountDownComponent = (props) => {
           intervalDelay={1000}
           renderer={({ days, hours, minutes, seconds, completed }) => {
             return completed ? (
-              <Expired />
+              <ExpiringSoon startingDate={startingDate} />
             ) : (
               <React.Fragment>
                 {days && !`${days}`.includes('NaN') ? (
@@ -84,7 +84,19 @@ export const CountDownComponent = (props) => {
     </React.Fragment>
   );
 };
-const Expired = () => <div className="has-text-danger">Expiring soon!</div>;
+const ExpiringSoon = ({ startingDate }) => {
+  const today = moment()
+    .startOf('day')
+    .toISOString();
+
+  const jobStartingDate = moment(startingDate).toISOString();
+
+  if (moment(jobStartingDate).isBefore(today)) {
+    return <div className="has-text-danger">Expired Already!</div>;
+  } else {
+    return <div className="has-text-warning">Expiring Soon!</div>;
+  }
+};
 
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails
