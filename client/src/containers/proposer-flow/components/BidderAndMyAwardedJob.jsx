@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
 
 export default class BidderAndMyAwardedJob extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
   render() {
     const { bid, job } = this.props;
     debugger;
-    if (!bid || !bid._id || !bid._bidderRef) {
+    if (!bid || !bid._id || !bid._bidderRef || !job || !job._id) {
       return null;
     }
 
@@ -76,7 +78,22 @@ export default class BidderAndMyAwardedJob extends React.Component {
           <DisplayLabelValue labelText="Bid Amount :" labelValue={`${bidAmount} ${bidCurrency}`} />
           <br />
           {/* job happened and is confirmed completion . show redirect to review page button */}
-          {didProposerConfirmCompletionAlready && <div>review redirect button</div>}
+          {didProposerConfirmCompletionAlready && (
+            <a
+              className="button is-info"
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.REVIEW.getProposerJobReview(
+                    job._ownerRef._id,
+                    job._id,
+                    bid._bidderRef._id,
+                  ),
+                );
+              }}
+            >
+              Review This Task
+            </a>
+          )}
 
           {/* job is happening today show confirm job completion flow*/}
           {isJobHappeningToday && !didProposerConfirmCompletionAlready && (

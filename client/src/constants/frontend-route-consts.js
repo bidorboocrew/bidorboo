@@ -110,5 +110,14 @@ export const CLIENT = {
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
   },
+  REVIEW: {
+    proposerJobReview: `/proposer-review/:proposerId/job/:jobId/bidder/:bidderId`,
+    bidderJobReview: `/bidder-review/:bidderId/job/:jobId/proposer/:proposerId`,
+    getProposerJobReview: (proposerId, jobId, bidderId) =>
+      `/proposer-review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
+    getBidderJobReview: (bidderId, jobId, proposerId) =>
+      `/bidder-review/${bidderId}/job/${jobId}/proposer/${proposerId}`,
+  },
+
   MY_PROFILE: '/my-profile',
 };
