@@ -120,7 +120,8 @@ class ProposerVerifiesJobCompletion extends React.Component {
                   <p className="modal-card-title">Congratulations</p>
                 </header>
                 <section className="modal-card-body">
-                  <p>We are happy to hear that we were able to help !</p>
+                  <p>BidOrBoo crew was happy to help !</p>
+                  <br />
                   <p>
                     Once you confirm the completion of this task you will get a chance to rate your
                     Tasker and the overall experience.
@@ -136,7 +137,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
                           name="success"
                         />
                         <span className="has-text-success has-text-weight-semibold">
-                          {` I Confirm that this task was done to my satisfaction.`}
+                          {` I Confirm the task was done to my satisfaction.`}
                         </span>
                       </label>
                     </div>
