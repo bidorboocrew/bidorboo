@@ -27,31 +27,12 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
-  getAllBidsForUser: (mongoDbUserId) => {
-    return UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
-      .populate({
-        path: '_postedBidsRef',
-        populate: {
-          path: '_jobRef',
-          populate: {
-            path: '_ownerRef',
-            select: {
-              _id: 1,
-              displayName: 1,
-              globalRating: 1,
-              profileImage: 1,
-            },
-          },
-        },
-      })
-      .lean(true)
-      .exec();
-  },
+
   // get jobs for a user and filter by a given state
   getAllBidsForUserByState: async (mongoDbUserId, stateFilter) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const user = await UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
+        const user = await UserModel.findById(mongoDbUserId.toString(), { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
             match: { state: { $in: stateFilter } },
@@ -124,6 +105,7 @@ exports.bidDataAccess = {
                 phone: 1,
                 viewedBy: 1,
               },
+              options: { sort: { 'startingDateAndTime.date': 1 } },
               populate: {
                 path: '_ownerRef',
                 select: {

@@ -51,7 +51,7 @@ export default class JobSummaryForAwarded extends React.Component {
             <DisplayLabelValue
               labelText="Job Start Date:"
               labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
               }
             />
           </div>

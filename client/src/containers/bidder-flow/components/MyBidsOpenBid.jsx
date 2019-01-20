@@ -20,6 +20,11 @@ export default class MyBidsOpenBid extends React.Component {
 
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
+
+    const startingDateAndTime = moment(_jobRef.startingDateAndTime.date)
+      .format('DD/MMM/YYYY')
+      .toString();
+
     return (
       <div
         onClick={(e) => {
@@ -45,9 +50,7 @@ export default class MyBidsOpenBid extends React.Component {
         </div>
         <footer className="card-footer">
           <a className="card-footer-item">View Or Change</a>
-          <div className="card-footer-item">
-            {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
-          </div>
+          <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
           </div>

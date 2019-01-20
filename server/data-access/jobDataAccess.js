@@ -238,7 +238,7 @@ exports.jobDataAccess = {
           _id: 1,
         },
         match: { state: { $eq: 'AWARDED' } },
-        options: { sort: { createdAt: -1 } },
+        options: { sort: { 'startingDateAndTime.date': 1 } },
         populate: {
           path: '_awardedBidRef',
           select: {
@@ -265,7 +265,7 @@ exports.jobDataAccess = {
         path: '_postedJobsRef',
         select: schemaHelpers.JobFull,
         match: { state: { $eq: stateFilter } },
-        options: { sort: { createdAt: -1 } },
+        options: { sort: { 'startingDateAndTime.date': 1 } },
       })
       .lean(true)
       .exec();
@@ -323,6 +323,7 @@ exports.jobDataAccess = {
           .populate({
             path: '_postedJobsRef',
             select: schemaHelpers.JobFull,
+            options: { sort: { 'startingDateAndTime.date': 1 } },
             populate: {
               path: '_bidsListRef',
               select: schemaHelpers.BidFull,
@@ -371,7 +372,10 @@ exports.jobDataAccess = {
         { _id: mongoDbUserId },
         {
           $push: {
-            _postedJobsRef: { $each: [newJob._id], $sort: { 'startingDateAndTime.date': -1 } },
+            _postedJobsRef: {
+              $each: [newJob._id],
+              sort: { 'newJob.startingDateAndTime.date': 1 },
+            },
           },
         },
         { projection: { _id: 1 } }
@@ -520,7 +524,7 @@ exports.jobDataAccess = {
       const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
-        sort: { createdAt: -1 },
+        sort: { 'startingDateAndTime.date': 1 },
       })
         .where('startingDateAndTime.date')
         .gt(new Date())
@@ -545,69 +549,69 @@ exports.jobDataAccess = {
         });
     });
   },
-  getAllJobsToBidOnForLoggedInUser: (userId, mongoDbUserId) => {
-    // will return jobs that you did not bid on and that you are not owner of
-    return new Promise((resolve, reject) => {
-      const jobFields = {
-        _ownerRef: 1,
-        _bidsListRef: 1,
-        title: 1,
-        state: 1,
-        detailedDescription: 1,
-        stats: 1,
-        startingDateAndTime: 1,
-        durationOfJob: 1,
-        fromTemplateId: 1,
-        reported: 1,
-        createdAt: 1,
-        updatedAt: 1,
-        location: 1,
-      };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
+  // getAllJobsToBidOnForLoggedInUser: (userId, mongoDbUserId) => {
+  //   // will return jobs that you did not bid on and that you are not owner of
+  //   return new Promise((resolve, reject) => {
+  //     const jobFields = {
+  //       _ownerRef: 1,
+  //       _bidsListRef: 1,
+  //       title: 1,
+  //       state: 1,
+  //       detailedDescription: 1,
+  //       stats: 1,
+  //       startingDateAndTime: 1,
+  //       durationOfJob: 1,
+  //       fromTemplateId: 1,
+  //       reported: 1,
+  //       createdAt: 1,
+  //       updatedAt: 1,
+  //       location: 1,
+  //     };
+  //     const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
 
-      JobModel.find({ _ownerRef: { $not: { $eq: mongoDbUserId } } }, jobFields, {
-        sort: { createdAt: -1 },
-      })
-        .populate({
-          path: '_ownerRef',
-          select: jobOwnerFields,
-        })
-        .populate({
-          path: '_bidsListRef',
-          select: { _bidderRef: 1 },
-        })
-        .lean(true)
-        .exec((error, results) => {
-          try {
-            if (error) {
-              return reject(error);
-            } else {
-              // this will be hit if user is logged in
+  //     JobModel.find({ _ownerRef: { $not: { $eq: mongoDbUserId } } }, jobFields, {
+  //       sort: { 'startingDateAndTime.date': 1 },
+  //     })
+  //       .populate({
+  //         path: '_ownerRef',
+  //         select: jobOwnerFields,
+  //       })
+  //       .populate({
+  //         path: '_bidsListRef',
+  //         select: { _bidderRef: 1 },
+  //       })
+  //       .lean(true)
+  //       .exec((error, results) => {
+  //         try {
+  //           if (error) {
+  //             return reject(error);
+  //           } else {
+  //             // this will be hit if user is logged in
 
-              // remove jobs that user already bid on
-              let openJobsUserHasntBidOn =
-                results &&
-                results.filter((job) => {
-                  const isOpenState = job.state === 'OPEN';
-                  let didCurrentUserAlreadyBidOnThisJob = false;
-                  if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
-                    didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
-                      return (
-                        bid._bidderRef && bid._bidderRef.toString() === mongoDbUserId.toString()
-                      );
-                    });
-                  }
-                  // return jobs where the state is open and the current user did NOT bid on them yet
-                  return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
-                });
-              return resolve(openJobsUserHasntBidOn);
-            }
-          } catch (e) {
-            return reject(e);
-          }
-        });
-    });
-  },
+  //             // remove jobs that user already bid on
+  //             let openJobsUserHasntBidOn =
+  //               results &&
+  //               results.filter((job) => {
+  //                 const isOpenState = job.state === 'OPEN';
+  //                 let didCurrentUserAlreadyBidOnThisJob = false;
+  //                 if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
+  //                   didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
+  //                     return (
+  //                       bid._bidderRef && bid._bidderRef.toString() === mongoDbUserId.toString()
+  //                     );
+  //                   });
+  //                 }
+  //                 // return jobs where the state is open and the current user did NOT bid on them yet
+  //                 return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
+  //               });
+  //             return resolve(openJobsUserHasntBidOn);
+  //           }
+  //         } catch (e) {
+  //           return reject(e);
+  //         }
+  //       });
+  //   });
+  // },
   //-----------------------------------------------------------------------------------------------
   //-----------------------------------------------------------------------------------------------
   //-----------------------------------------------------------------------------------------------

@@ -19,7 +19,6 @@ class ReviewAwardedBidPage extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    // http://localhost:3000/bidder/review-my-bid-details/5c22963be212a73af0a12f28
   }
 
   componentDidMount() {

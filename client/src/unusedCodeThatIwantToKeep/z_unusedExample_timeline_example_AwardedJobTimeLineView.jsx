@@ -49,7 +49,7 @@ export default class AwardedJobTimeLineView extends React.Component {
                 <div className="timeline-marker is-info" />
                 <div className="timeline-content">
                   <p className="heading">
-                    {`Requested On ${moment(createdAt.date).format('MMMM Do YYYY')}`}
+                    {`Requested On ${moment(createdAt.date).format('DD/MMM/YYYY')}`}
                   </p>
                 </div>
               </div>

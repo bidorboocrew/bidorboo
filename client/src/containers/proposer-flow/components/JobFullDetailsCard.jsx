@@ -52,7 +52,7 @@ export default class JobFullDetailsCard extends React.Component {
             <DisplayLabelValue
               labelText="Start Date:"
               labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
               }
             />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />

@@ -70,7 +70,7 @@ export default class MyBidsAwardedBid extends React.Component {
             )}
           </a>
           <div className="card-footer-item">
-            {`Starts on : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            {`Task Date : ${moment(_jobRef.startingDateAndTime.date).format('DD/MMM/YYYY')}`}
           </div>
           <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
