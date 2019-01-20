@@ -77,7 +77,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 count={5}
                 value={this.state.acRatingValue}
                 onChange={this.acRatingChanged}
-                size={40}
+                size={50}
                 color2={'#ffd700'}
               />
             </div>
@@ -89,7 +89,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 count={5}
                 value={this.state.proRatingValue}
                 onChange={this.proRatingChanged}
-                size={40}
+                size={50}
                 color2={'#ffd700'}
               />
             </div>
@@ -100,7 +100,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 count={5}
                 value={this.state.onTimeRatingValue}
                 onChange={this.onTimeRatingChanged}
-                size={40}
+                size={50}
                 color2={'#ffd700'}
               />
             </div>
@@ -111,7 +111,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 count={5}
                 value={this.state.mannerRatingValue}
                 onChange={this.mannerRatingChanged}
-                size={40}
+                size={50}
                 color2={'#ffd700'}
               />
             </div>
@@ -122,7 +122,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 count={5}
                 value={this.state.cleanRatingValue}
                 onChange={this.cleanRatingChanged}
-                size={40}
+                size={50}
                 color2={'#ffd700'}
               />
             </div>
@@ -135,7 +135,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 border: 'none',
                 color: '#4a4a4a',
                 height: 'auto',
-                padding: '1rem',
+                padding: '1rem !important',
                 minHeight: 100,
               }}
               placeholder="The tasker did a great job .. etc"
