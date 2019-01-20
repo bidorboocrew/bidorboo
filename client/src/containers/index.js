@@ -21,3 +21,6 @@ export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
 
 export { default as MyCalendar } from './MyCalendar';
 export { default as NotificationsModal } from './NotificationsModal';
+
+export { default as ProposerReviewingCompletedJob } from './review-flow/ProposerReviewingCompletedJob';
+export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';
