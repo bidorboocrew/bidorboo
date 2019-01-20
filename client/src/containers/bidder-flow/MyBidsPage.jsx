@@ -18,7 +18,7 @@ class MyBidsPage extends React.Component {
   componentDidMount() {
     // get all posted bids
     this.props.a_getAllPostedBids();
-    // this.props.a_getMyAwardedBids();
+    this.props.a_getMyAwardedBids();
   }
 
   render() {
