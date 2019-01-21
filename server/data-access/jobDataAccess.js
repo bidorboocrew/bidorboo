@@ -278,8 +278,9 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  getJobReviewModel: async (jobId) => {
+  getJobWithReviewModel: async (jobId) => {
     return JobModel.findById(jobId)
+      .populate({ path: '_reviewRef' })
       .lean(true)
       .exec();
   },

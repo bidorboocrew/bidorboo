@@ -167,6 +167,7 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
+          window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
         }
@@ -194,6 +195,7 @@ export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
+          window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
         }

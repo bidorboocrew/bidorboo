@@ -91,7 +91,6 @@ export default class ProposerReviewingCompletedJob extends React.Component {
   };
 
   personalCommentOnChange = (e) => {
-    debugger;
     const fieldValue = e.target.value;
     this.setState({ personalComment: fieldValue });
   };

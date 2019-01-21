@@ -20,7 +20,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     super(props);
     this.jobId = null;
 
-    debugger;
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     }
@@ -28,7 +27,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
 
   componentDidMount() {
     const { a_getAwardedBidFullDetails } = this.props;
-    debugger;
     if (!this.jobId) {
       switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
       return null;

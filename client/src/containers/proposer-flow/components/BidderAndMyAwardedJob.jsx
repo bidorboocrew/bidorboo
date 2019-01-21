@@ -18,7 +18,6 @@ export default class BidderAndMyAwardedJob extends React.Component {
 
   render() {
     const { bid, job, isReadOnlyView = false } = this.props;
-    debugger;
     if (!bid || !bid._id || !bid._bidderRef || !job || !job._id) {
       return null;
     }

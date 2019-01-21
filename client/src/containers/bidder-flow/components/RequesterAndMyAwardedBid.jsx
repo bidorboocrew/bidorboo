@@ -26,7 +26,6 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     const { startingDateAndTime, jobCompletion } = job;
-    debugger;
     const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
 
     const didBidderConfirmCompletionAlready = jobCompletion.bidderConfirmed;

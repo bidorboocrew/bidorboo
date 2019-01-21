@@ -29,11 +29,17 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      const job = await jobDataAccess.getJobReviewModel(jobId);
+      const job = await jobDataAccess.getJobWithReviewModel(jobId);
 
       if (job && job._id && job._ownerRef._id.toString() === proposerId) {
         if (job._reviewRef) {
-          next();
+          if (job._reviewRef.bidderReview) {
+            return res
+              .status(403)
+              .send({ errorMsg: 'You have already submit a review on this job.' });
+          } else {
+            next();
+          }
         } else {
           const kickstartedTheReview = await jobDataAccess.kickStartReviewModel({
             jobId,
