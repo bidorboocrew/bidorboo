@@ -117,8 +117,8 @@ module.exports = (app) => {
 
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          proposerSubmitted: true,
-          proposerReview: {
+          bidderSubmitted: true,
+          bidderReview: {
             ratingCategories: [
               {
                 category: 'ACCURACY_OF_POST',

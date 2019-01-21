@@ -53,7 +53,8 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             ...this.props.match.params,
             ...this.state,
           },
-        }).then(()=>{
+        })
+        .then(() => {
           switchRoute(ROUTES.CLIENT.HOME);
         })
         .catch((error) => {
@@ -205,7 +206,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
 
               <button
                 style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-outlined has-text-dark"
+                className="button is-outlined has-text-dark  is-medium"
                 onClick={() => {
                   switchRoute(ROUTES.CLIENT.HOME);
                 }}
