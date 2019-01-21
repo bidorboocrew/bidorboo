@@ -112,11 +112,11 @@ export const CLIENT = {
   },
   REVIEW: {
     proposerJobReview: `/proposer-review/:proposerId/job/:jobId/bidder/:bidderId`,
-    bidderJobReview: `/bidder-review/:bidderId/job/:jobId/proposer/:proposerId`,
+    bidderJobReview: `/bidder-review/:bidderId/bid/:bidId/proposer/:proposerId`,
     getProposerJobReview: (proposerId, jobId, bidderId) =>
       `/proposer-review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-    getBidderJobReview: (bidderId, jobId, proposerId) =>
-      `/bidder-review/${bidderId}/job/${jobId}/proposer/${proposerId}`,
+    getBidderJobReview: (bidderId, bidId, proposerId) =>
+      `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}`,
   },
 
   MY_PROFILE: '/my-profile',

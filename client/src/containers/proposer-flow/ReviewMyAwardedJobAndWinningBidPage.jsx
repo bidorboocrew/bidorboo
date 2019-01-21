@@ -15,11 +15,12 @@ import {
 import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidderAndMyAwardedJob from './components/BidderAndMyAwardedJob';
 
-class ReviewAwardedJobAndBidsPage extends React.Component {
+class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
     super(props);
     this.jobId = null;
 
+    debugger;
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     }
@@ -27,7 +28,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
 
   componentDidMount() {
     const { a_getAwardedBidFullDetails } = this.props;
-
+    debugger;
     if (!this.jobId) {
       switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
       return null;
@@ -36,7 +37,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     a_getAwardedBidFullDetails(this.jobId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // if route changed reload the job
     let newJobId = this.jobId;
 
@@ -55,7 +56,11 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
   }
 
   render() {
-    const { selectedAwardedJob, a_proposerConfirmsJobCompletion } = this.props;
+    const {
+      selectedAwardedJob,
+      a_proposerConfirmsJobCompletion,
+      isReadOnlyView = false,
+    } = this.props;
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
@@ -73,15 +78,17 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          {breadCrumbs({
-            activePageTitle: title,
-          })}
+          {!isReadOnlyView &&
+            breadCrumbs({
+              activePageTitle: title,
+            })}
           <div className="columns is-multiline is-centered">
             <div className="column">
               <BidderAndMyAwardedJob
                 proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
                 bid={_awardedBidRef}
                 job={selectedAwardedJob}
+                isReadOnlyView={isReadOnlyView}
               />
             </div>
             <div className="column">
@@ -111,7 +118,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewAwardedJobAndBidsPage);
+)(ReviewMyAwardedJobAndWinningBidPage);
 
 const breadCrumbs = (props) => {
   const { activePageTitle } = props;

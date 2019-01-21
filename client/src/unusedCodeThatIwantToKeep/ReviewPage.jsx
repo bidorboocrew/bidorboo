@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactStars from 'react-stars';
-import { withFormik } from 'formik';
-import * as Yup from 'yup';
-import { TextAreaInput } from '../components/forms/FormsHelpers';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 

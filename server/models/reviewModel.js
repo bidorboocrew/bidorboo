@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const categories = {
   type: { category: String, rating: Number },
-  enum: ['ACCURACY_OF_POST', 'PROFICIENCY', 'ON_TIME', 'MANNERS', 'CLEANLINESS'],
+  enum: ['ACCURACY_OF_POST', 'QUALITY_OF_WORK', 'PUNCTULAITY', 'MANNERS', 'COMMUNICATION'],
 };
 const ReviewSchema = new Schema(
   {

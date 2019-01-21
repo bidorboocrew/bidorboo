@@ -7,7 +7,7 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 export default class RequesterAndMyAwardedBid extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, job, isReadOnlyView = false } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
@@ -78,29 +78,34 @@ export default class RequesterAndMyAwardedBid extends React.Component {
           <div className="help">* you will recieve the payment after completing the task</div>
           <br />
 
-          {/* job happened and is confirmed completion . show redirect to review page button */}
-          {didBidderConfirmCompletionAlready && (
-            <a
-              className="button is-info"
-              onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.REVIEW.getBidderJobReview(
-                    bid._bidderRef._id,
-                    job._id,
-                    job._ownerRef._id,
-                  ),
-                );
-              }}
-            >
-              Review This Task
-            </a>
+          {!isReadOnlyView && (
+            <div>
+              {/* job happened and is confirmed completion . show redirect to review page button */}
+
+              {didBidderConfirmCompletionAlready && (
+                <a
+                  className="button is-info"
+                  onClick={() => {
+                    switchRoute(
+                      ROUTES.CLIENT.REVIEW.getBidderJobReview(
+                        bid._bidderRef._id,
+                        bid._id,
+                        job._ownerRef._id,
+                      ),
+                    );
+                  }}
+                >
+                  Review This Task
+                </a>
+              )}
+              {/* job is happening today show confirm job completion flow*/}
+              {isJobHappeningToday && !didBidderConfirmCompletionAlready && (
+                <BidderConfirmsJobIsDone {...this.props} />
+              )}
+              {/* job is not happening today show add to calendar*/}
+              {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
+            </div>
           )}
-          {/* job is happening today show confirm job completion flow*/}
-          {isJobHappeningToday && !didBidderConfirmCompletionAlready && (
-            <BidderConfirmsJobIsDone {...this.props} />
-          )}
-          {/* job is not happening today show add to calendar*/}
-          {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
         </div>
       </div>
     );

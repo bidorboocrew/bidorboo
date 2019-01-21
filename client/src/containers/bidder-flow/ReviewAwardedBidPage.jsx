@@ -55,7 +55,11 @@ class ReviewAwardedBidPage extends React.Component {
   };
 
   render() {
-    const { selectedAwardedBid, a_bidderConfirmsJobCompletion } = this.props;
+    const {
+      selectedAwardedBid,
+      a_bidderConfirmsJobCompletion,
+      isReadOnlyView = false,
+    } = this.props;
     // while fetching the job
 
     if (
@@ -80,13 +84,14 @@ class ReviewAwardedBidPage extends React.Component {
       <div className="bdbPage">
         <section className="section">
           <div className="container">
-            {breadCrumbs({ activePageTitle: title })}
+            {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
             <div className="columns is-multiline is-centered">
               <div className="column">
                 <RequesterAndMyAwardedBid
                   bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
                   bid={selectedAwardedBid}
                   job={selectedAwardedJob}
+                  isReadOnlyView={isReadOnlyView}
                 />
               </div>
               <div className="column">
