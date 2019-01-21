@@ -181,7 +181,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
               {bodyContent()}
               <button
                 style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-success is-medium"
+                className="button is-success"
                 onClick={this.submitReview}
               >
                 Submit Review
@@ -189,7 +189,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
 
               <button
                 style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-outlined is-medium has-text-dark"
+                className="button is-outlined has-text-dark"
                 onClick={() => {
                   switchRoute(ROUTES.CLIENT.HOME);
                 }}

@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
       const job = await jobDataAccess.getJobReviewModel(jobId);
 
       if (job && job._id && job._ownerRef._id.toString() === proposerId) {
-        if (theJobtoUpdate._reviewRef) {
+        if (job._reviewRef) {
           next();
         } else {
           const kickstartedTheReview = await jobDataAccess.kickStartReviewModel({

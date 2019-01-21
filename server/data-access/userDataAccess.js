@@ -405,12 +405,12 @@ exports.proposerPushesAReview = async (
       { _id: proposeId },
       {
         $set: {
-          fulfilledJobs: newProposerFulfilledJobsCount,
+          'rating.fulfilledJobs': newProposerFulfilledJobsCount,
         },
+      },
+      {
+        new: true,
       }
-      // {
-      //   new: true,
-      // }
     )
       .lean(true)
       .exec(),
@@ -419,12 +419,12 @@ exports.proposerPushesAReview = async (
       {
         $push: { _asBidderReviewsRef: reviewId },
         $set: {
-          globalRating: newBidderGlobalRating,
+          'rating.globalRating': newBidderGlobalRating,
         },
+      },
+      {
+        new: true,
       }
-      // {
-      //   new: true,
-      // }
     )
       .lean(true)
       .exec(),
@@ -443,12 +443,12 @@ exports.bidderPushesAReview = async (
       { _id: bidderId },
       {
         $set: {
-          fulfilledBids: newBidderFulfilledBidsCount,
+          'rating.fulfilledBids': newBidderFulfilledBidsCount,
         },
+      },
+      {
+        new: true,
       }
-      // {
-      //   new: true,
-      // }
     )
       .lean(true)
       .exec(),
@@ -457,12 +457,12 @@ exports.bidderPushesAReview = async (
       {
         $push: { _asProposerReviewsRef: reviewId },
         $set: {
-          globalRating: newProposerGlobalRating,
+          'rating.globalRating': newProposerGlobalRating,
         },
+      },
+      {
+        new: true,
       }
-      // {
-      //   new: true,
-      // }
     )
       .lean(true)
       .exec(),

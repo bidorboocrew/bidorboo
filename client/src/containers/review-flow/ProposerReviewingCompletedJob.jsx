@@ -194,13 +194,17 @@ export default class ProposerReviewingCompletedJob extends React.Component {
           <div className="container">
             <div className="card-content">
               {bodyContent()}
-              <button className="button is-success is-large" onClick={this.submitReview}>
+              <button
+                style={{ marginLeft: 12, marginTop: 12 }}
+                className="button is-success is-medium"
+                onClick={this.submitReview}
+              >
                 Submit Review
               </button>
 
               <button
                 style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-outlined is-medium has-text-dark"
+                className="button is-outlined has-text-dark"
                 onClick={() => {
                   switchRoute(ROUTES.CLIENT.HOME);
                 }}

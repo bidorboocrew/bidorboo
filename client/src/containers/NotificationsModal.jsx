@@ -69,7 +69,7 @@ class NotificationsModal extends React.Component {
                   </React.Fragment>
                 )}
               </div>
-              <button onClick={onClose} className="modal-close is-large" aria-label="close" />
+              <button onClick={onClose} className="modal-close" aria-label="close" />
             </div>
           </div>
         </div>

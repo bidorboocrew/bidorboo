@@ -161,10 +161,10 @@ module.exports = (app) => {
           (currentProposerGlobalRating + thisTaskAvgRating) /
           proposerCurrentFulfilledJobsCountIncludingThisOne;
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
-          reviewRef,
+          reviewId,
           bidderId,
           newBidderFulfilledBidsCount,
-          proposeId,
+          proposerId,
           newProposerGlobalRating
         );
 

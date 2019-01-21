@@ -279,7 +279,7 @@ exports.jobDataAccess = {
       .exec();
   },
   getJobReviewModel: async (jobId) => {
-    return JobModel.findById(jobId, { _reviewRef: 1 })
+    return JobModel.findById(jobId)
       .lean(true)
       .exec();
   },
