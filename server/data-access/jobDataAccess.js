@@ -285,7 +285,7 @@ exports.jobDataAccess = {
   },
 
   kickStartReviewModel: async ({ jobId, bidderId, proposerId }) => {
-    const kickStartReviewModel = await new ReviewModal({
+    const kickStartReviewModel = await new ReviewModel({
       jobId,
       bidderId,
       proposerId,

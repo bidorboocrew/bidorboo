@@ -76,7 +76,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
           },
         })
         .catch((error) => {
-          alert('submitting the review failed '+error);
+          alert('submitting the review failed ' + error);
         });
     }
   };
@@ -169,8 +169,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             <div className="hero-body">
               <div className="container">
                 <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about
-                  <span className="is-size-4 has-text-weight-bold "> Task and the Task owner</span>
+                  Give your feedback about Task and the Task owner
                 </h2>
               </div>
             </div>

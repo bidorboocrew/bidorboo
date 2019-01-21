@@ -184,10 +184,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             <div className="hero-body">
               <div className="container">
                 <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about
-                  <span className="is-size-4 has-text-weight-bold">
-                    Tasker and the quality of thier work
-                  </span>
+                  Give your feedback about Tasker and the quality of thier work
                 </h2>
               </div>
             </div>
@@ -197,11 +194,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
           <div className="container">
             <div className="card-content">
               {bodyContent()}
-              <button
-                className="button is-success is-large"
-                disabled={!this.state.isValid}
-                onClick={this.submitReview}
-              >
+              <button className="button is-success is-large" onClick={this.submitReview}>
                 Submit Review
               </button>
 

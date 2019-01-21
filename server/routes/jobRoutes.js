@@ -74,7 +74,6 @@ module.exports = (app) => {
     ROUTES.API.JOB.GET.jobFullDetailsById,
     requireBidorBooHost,
     requireLogin,
-
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {

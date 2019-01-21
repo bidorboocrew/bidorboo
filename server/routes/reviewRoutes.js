@@ -9,7 +9,7 @@ const requireLogin = require('../middleware/requireLogin');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireAwardedBidder = require('../middleware/requireAwardedBidder');
 
-const requireProposerReviewPreChecksPass = require('../middleware/requireBidderReviewPreChecksPass');
+const requireProposerReviewPreChecksPass = require('../middleware/requireProposerReviewPreChecksPass');
 const requireBidderReviewPreChecksPass = require('../middleware/requireBidderReviewPreChecksPass');
 
 module.exports = (app) => {
@@ -31,7 +31,7 @@ module.exports = (app) => {
           personalComment,
         } = req.body.data;
 
-        const job = await jobDataAccess.getJobWithBidDetails(jobId);
+        const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
         // update the review model
@@ -67,13 +67,21 @@ module.exports = (app) => {
 
         const thisTaskAvgRating =
           (qualityOfWorkRating + punctualityRating + communicationRating + mannerRating) / 4;
+        // +1 for the current bid
+        const bidderFulfilledBidsCountIncludingThisOne = bidderRatingDetails.fulfilledBids + 1;
+
+        const currentBidderGlobalRating =
+          bidderRatingDetails.globalRating === 'No Ratings Yet'
+            ? 0
+            : bidderRatingDetails.globalRating;
+
         const newBidderGlobalRating =
-          (bidderRatingDetails.globalRating + thisTaskAvgRating) /
-          bidderRatingDetails.fulfilledBids;
+          (currentBidderGlobalRating + thisTaskAvgRating) /
+          bidderFulfilledBidsCountIncludingThisOne;
 
         const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
           reviewId,
-          proposeId,
+          proposerId,
           newProposerFulfilledJobsCount,
           bidderId,
           newBidderGlobalRating
@@ -106,7 +114,7 @@ module.exports = (app) => {
           personalComment,
         } = req.body.data;
 
-        const job = await jobDataAccess.getJobWithBidDetails(jobId);
+        const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
         // update the review model
@@ -142,9 +150,16 @@ module.exports = (app) => {
 
         const thisTaskAvgRating =
           (accuracyOfPostRating + punctualityRating + communicationRating + mannerRating) / 4;
+        const currentProposerGlobalRating =
+          ownerRatingDetails.globalRating === 'No Ratings Yet'
+            ? 0
+            : ownerRatingDetails.globalRating;
+        // +1 for this current job
+        const proposerCurrentFulfilledJobsCountIncludingThisOne =
+          ownerRatingDetails.fulfilledJobs + 1;
         const newProposerGlobalRating =
-          (ownerRatingDetails.globalRating + thisTaskAvgRating) / ownerRatingDetails.fulfilledBids;
-
+          (currentProposerGlobalRating + thisTaskAvgRating) /
+          proposerCurrentFulfilledJobsCountIncludingThisOne;
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
           reviewRef,
           bidderId,
