@@ -141,6 +141,7 @@ UserSchema.methods.checkUserPassword = async function(candidatePassword) {
 };
 
 UserSchema.pre('update', async function(next) {
+  // this probably does not work what so ever
   if (this.password) {
     this.password = await encryptData(this.password);
     if (this.password.errorMsg) {
