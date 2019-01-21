@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
@@ -11,7 +13,6 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
 import ReviewBidAndBidder from './components/ReviewBidAndBidder';
-import { switchRoute } from '../../utils';
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {

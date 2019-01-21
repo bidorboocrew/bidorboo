@@ -2,73 +2,86 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import TextareaAutosize from 'react-autosize-textarea';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 import ReviewAwardedBidPage from '../bidder-flow/ReviewAwardedBidPage';
+
 export default class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isValid: false,
       accuracyOfPostRating: 0,
       punctualityRating: 0,
       communicationRating: 0,
       mannerRating: 0,
-      starCount: 0,
-      acRatingClicked: false,
-      proRatingClicked: false,
-      onTimeRatingClicked: false,
-      mannerRatingClicked: false,
+      personalComment: '',
     };
   }
 
-  componentDidMount() {}
-
   accuracyOfPostChange = (newRating) => {
-    if (!this.state.acRatingClicked)
-      this.setState({ starCount: this.state.starCount + 1, acRatingClicked: true }, () => {
-        if (this.state.starCount === 5) this.setState({ isValid: true });
-      });
     this.setState({ accuracyOfPostRating: newRating });
   };
 
   punctualityChange = (newRating) => {
-    if (!this.state.proRatingClicked)
-      this.setState({ starCount: this.state.starCount + 1, proRatingClicked: true }, () => {
-        if (this.state.starCount === 5) this.setState({ isValid: true });
-      });
-
     this.setState({ punctualityRating: newRating });
   };
   communicationChange = (newRating) => {
-    if (!this.state.onTimeRatingClicked)
-      this.setState({ starCount: this.state.starCount + 1, onTimeRatingClicked: true }, () => {
-        if (this.state.starCount === 5) this.setState({ isValid: true });
-      });
-
     this.setState({ communicationRating: newRating });
   };
   mannerChange = (newRating) => {
-    if (!this.state.mannerRatingClicked)
-      this.setState({ starCount: this.state.starCount + 1, mannerRatingClicked: true }, () => {
-        if (this.state.starCount === 5) this.setState({ isValid: true });
-      });
-
     this.setState({ mannerRating: newRating });
+  };
+
+  personalCommentOnChange = (e) => {
+    debugger;
+    const fieldValue = e.target.value;
+    this.setState({ personalComment: fieldValue });
+  };
+
+  submitReview = () => {
+    const {
+      accuracyOfPostRating,
+      punctualityRating,
+      communicationRating,
+      mannerRating,
+      personalComment,
+    } = this.state;
+    const cleanPerosnalComment = personalComment && personalComment.trim();
+
+    if (accuracyOfPostRating === 0) {
+      alert('please fill in a value for the Accuracy of posting category');
+    } else if (punctualityRating === 0) {
+      alert('please fill in a value for the punctuality  category');
+    } else if (communicationRating === 0) {
+      alert('please fill in a value for the communication category');
+    } else if (mannerRating === 0) {
+      alert('please fill in a value for the manners category');
+    } else if (!cleanPerosnalComment || cleanPerosnalComment.length < 10) {
+      alert('please add a personal comment with at least 10 charachters');
+    }
   };
 
   render() {
     const bodyContent = () => {
       return (
         <React.Fragment>
+          <p>
+            Congratulations on fulfilling a job via our BidOrBoo platform. Rating and Reviews are
+            the best way to grow our community and provide the best quality services ever.
+          </p>
+          <br />
+          <label className="label">Please Rate the Task owner:</label>
           <div className="content">
             <div>
-              QUALITY OF WORK
+              ACCURACY OF POST
               <ReactStars
-                //id="accuracyOfPost"
                 half={false}
                 count={5}
                 value={this.state.accuracyOfPostRating}
                 onChange={this.accuracyOfPostChange}
                 size={50}
+                color1={'lightgrey'}
                 color2={'#ffd700'}
               />
             </div>
@@ -81,6 +94,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 value={this.state.punctualityRating}
                 onChange={this.punctualityChange}
                 size={50}
+                color1={'lightgrey'}
                 color2={'#ffd700'}
               />
             </div>
@@ -92,6 +106,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 value={this.state.communicationRating}
                 onChange={this.communicationChange}
                 size={50}
+                color1={'lightgrey'}
                 color2={'#ffd700'}
               />
             </div>
@@ -103,6 +118,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
                 value={this.state.mannerRating}
                 onChange={this.mannerChange}
                 size={50}
+                color1={'lightgrey'}
                 color2={'#ffd700'}
               />
             </div>
@@ -110,15 +126,16 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             <br />
             <label className="label">Add a personal comment</label>
             <TextareaAutosize
-              className="textarea is-marginless is-paddingless"
+              className="textarea is-marginless"
               style={{
                 resize: 'none',
-                border: 'none',
-                color: '#4a4a4a',
+                color: '#363636',
                 height: 'auto',
-                padding: '1rem !important',
+                padding: '0.5rem',
                 minHeight: 100,
               }}
+              value={this.state.personalComment}
+              onChange={this.personalCommentOnChange}
               placeholder="The tasker did a great job .. etc"
             />
             <div className="help">*note this will be visible to all users</div>
@@ -133,7 +150,8 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             <div className="hero-body">
               <div className="container">
                 <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about Task and the Task owner
+                  Give your feedback about
+                  <span className="is-size-4 has-text-weight-bold "> Task and the Task owner</span>
                 </h2>
               </div>
             </div>
@@ -141,23 +159,29 @@ export default class ProposerReviewingCompletedJob extends React.Component {
         </section>
         <section className="section">
           <div className="container">
-            <form onSubmit={() => null}>
-              <div className="card-content">
-                {bodyContent()}
-                <button
-                  className="button is-success is-large"
-                  disabled={!this.state.isValid}
-                  onClick={() => {
-                    // onSubmit();
-                  }}
-                >
-                  Submit Review
-                </button>
-              </div>
-            </form>
+            <div className="card-content">
+              {bodyContent()}
+              <button
+                style={{ marginLeft: 12, marginTop: 12 }}
+                className="button is-success is-medium"
+                onClick={this.submitReview}
+              >
+                Submit Review
+              </button>
+
+              <button
+                style={{ marginLeft: 12, marginTop: 12 }}
+                className="button is-outlined is-medium has-text-dark"
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.HOME);
+                }}
+              >
+                remind me later
+              </button>
+            </div>
           </div>
         </section>
-        <section className="hero is-small is-dark">
+        <section className="hero is-small is-dark ">
           <div className="container">
             <div className="hero-body">
               <div className="container">
