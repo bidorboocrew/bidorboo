@@ -75,7 +75,7 @@ class MyProfile extends React.Component {
           a_updateProfileImage,
         )}
 
-        <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <div className="columns is-centered is-gapless">
             <div className="column is-narrow">
               {userImageAndStats(

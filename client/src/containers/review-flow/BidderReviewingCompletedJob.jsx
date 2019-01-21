@@ -177,7 +177,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <div className="card-content">
             {bodyContent()}
             <button
@@ -210,7 +210,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <ReviewAwardedBidPage isReadOnlyView {...this.props} />
         </div>
       </React.Fragment>

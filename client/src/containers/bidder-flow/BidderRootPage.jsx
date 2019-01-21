@@ -174,7 +174,7 @@ class BidderRootPage extends React.Component {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
       return (
-        <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <Spinner isLoading={isLoading} size={'large'} />
         </div>
       );
@@ -200,7 +200,7 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen bidorbooAddTopMargin">
+      <div className="container is-widescreen bidorbooContainerMargins">
         <Tabs
           activeTab={activeTab}
           changeActiveTab={this.changeActiveTab}

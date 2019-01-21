@@ -116,8 +116,10 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 }
 
 .container {
-  &.bidorbooAddTopMargin {
+  &.bidorbooContainerMargins {
     margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
 // @import 'bulma-o-steps/bulma-steps.sass';

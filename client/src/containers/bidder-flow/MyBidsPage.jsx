@@ -62,7 +62,7 @@ class MyBidsPage extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
             <ul>
               <li>

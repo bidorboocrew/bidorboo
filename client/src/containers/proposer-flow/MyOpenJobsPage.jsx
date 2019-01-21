@@ -42,7 +42,7 @@ class MyOpenJobsPage extends React.Component {
     const { activeTab } = this.state;
 
     return (
-      <div className="container is-widescreen bidorbooAddTopMargin">
+      <div className="container is-widescreen bidorbooContainerMargins">
         <div className="tabs is-medium">
           <ul>
             <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
