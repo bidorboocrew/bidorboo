@@ -1,5 +1,7 @@
 import React from 'react';
 import Countdown from 'react-countdown-now';
+import ReactStars from 'react-stars';
+
 import moment from 'moment';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
@@ -113,7 +115,20 @@ export const UserImageAndRating = ({ userDetails }) => {
       </div>
       <div className="media-content">
         <p className="is-size-6">{displayName}</p>
-        <p className="is-size-7">{rating.globalRating}</p>
+        {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+          <p className="is-size-7">'No Ratings Yet' </p>
+        ) : (
+          <ReactStars
+            className="is-size-7"
+            half={false}
+            count={5}
+            value={rating.globalRating}
+            edit={false}
+            size={20}
+            color1={'lightgrey'}
+            color2={'#ffd700'}
+          />
+        )}
       </div>
     </div>
   );

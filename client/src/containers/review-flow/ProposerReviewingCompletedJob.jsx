@@ -53,6 +53,8 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             ...this.props.match.params,
             ...this.state,
           },
+        }).then(()=>{
+          switchRoute(ROUTES.CLIENT.HOME);
         })
         .catch((error) => {
           alert('submitting the review failed ' + error);

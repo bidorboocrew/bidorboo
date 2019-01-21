@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactStars from 'react-stars';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
@@ -318,7 +320,20 @@ const userImageAndStats = (
         </div>
         <div className="field has-text-centered">
           <label className="label">Rating</label>
-          <div className="control has-text-centered">{globalRating}</div>
+          {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+            <p className="is-size-7">'No Ratings Yet' </p>
+          ) : (
+            <ReactStars
+              className="control has-text-centered"
+              half={false}
+              count={5}
+              value={globalRating}
+              edit={false}
+              size={20}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          )}
         </div>
         {/* <div className="field has-text-centered">
           <label className="label">Fullfilled Jobs</label>

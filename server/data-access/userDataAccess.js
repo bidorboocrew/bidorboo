@@ -216,7 +216,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
 
       await sendTextService.sendText(
         updatedUser.phone.phoneNumber,
-        `BidOrBoo: click on the link to verify your phone Phone verification.
+        `BidOrBoo: Phone verification. click to verify
         ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(phoneVerificationCode)}`
       );
       resolve({ success: true, updatedUser: updatedUser });
@@ -395,18 +395,16 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
 
 exports.proposerPushesAReview = async (
   reviewId,
-  proposeId,
-  newProposerFulfilledJobsCount,
+  proposerId,
+  newFulfilledJobId,
   bidderId,
   newBidderGlobalRating
 ) => {
   return await Promise.all([
     await User.findOneAndUpdate(
-      { _id: proposeId },
+      { _id: proposerId },
       {
-        $set: {
-          'rating.fulfilledJobs': newProposerFulfilledJobsCount,
-        },
+        $push: { 'rating.fulfilledJobs': newFulfilledJobId },
       },
       {
         new: true,
@@ -434,16 +432,16 @@ exports.proposerPushesAReview = async (
 exports.bidderPushesAReview = async (
   reviewId,
   bidderId,
-  newBidderFulfilledBidsCount,
-  proposeId,
+  newFulfilledBidId,
+  proposerId,
   newProposerGlobalRating
 ) => {
   return await Promise.all([
     await User.findOneAndUpdate(
       { _id: bidderId },
       {
-        $set: {
-          'rating.fulfilledBids': newBidderFulfilledBidsCount,
+        $push: {
+          'rating.fulfilledBids': newFulfilledBidId,
         },
       },
       {
@@ -453,7 +451,7 @@ exports.bidderPushesAReview = async (
       .lean(true)
       .exec(),
     await User.findOneAndUpdate(
-      { _id: proposeId },
+      { _id: proposerId },
       {
         $push: { _asProposerReviewsRef: reviewId },
         $set: {

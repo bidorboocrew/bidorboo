@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactStars from 'react-stars';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isHappeningToday } from '../../../utils';
@@ -57,7 +58,20 @@ export default class BidderAndMyAwardedJob extends React.Component {
             </div>
             <div className="media-content">
               <p className="is-size-6">{displayName}</p>
-              <p className="is-size-6">{bidderOverallRating}</p>
+              {bidderOverallRating === 'No Ratings Yet' || bidderOverallRating === 0 ? (
+                <p className="is-size-6">'No Ratings Yet' </p>
+              ) : (
+                <ReactStars
+                  className="is-size-6"
+                  half={false}
+                  count={5}
+                  value={bidderOverallRating}
+                  edit={false}
+                  size={20}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              )}
             </div>
           </div>
 
@@ -201,9 +215,11 @@ class ProposerVerifiesJobCompletion extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div>
-          <p className="has-text-weight-semibold">Click here after this task is fulfilled:</p>
+          <p className="has-text-weight-semibold">
+            Click here After the Tasker is DONE thier work:
+          </p>
           <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
-            This Task is Done
+            Tasker Completed this task
           </a>
         </div>
       </React.Fragment>

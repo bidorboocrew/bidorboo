@@ -8,11 +8,19 @@ const MAX_PARAGRAPH_LENGTH = 500;
 const MAX_NAME_LENGTH = 50;
 
 const ratingSchema = {
-  globalRating: { type: String, default: 'No Ratings Yet' },
-  fulfilledBids: { type: Number, default: 0 },
-  canceledBids: { type: Number, default: 0 },
-  fulfilledJobs: { type: Number, default: 0 },
-  canceledJobs: { type: Number, default: 0 },
+  globalRating: { type: Number, default: 0 },
+  fulfilledBids: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+  },
+  canceledBids: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+  },
+  fulfilledJobs: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  },
+  canceledJobs: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  },
 };
 
 const UserSchema = new Schema(

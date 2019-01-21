@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactStars from 'react-stars';
 
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
@@ -27,6 +28,7 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
+      const bidderRating = bid._bidderRef && bid._bidderRef.rating;
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -40,9 +42,26 @@ export default class BidsTable extends React.Component {
             </div>
             <div>
               {/* bidder rating */}
-              {bid._bidderRef && bid._bidderRef.rating
-                ? `${bid._bidderRef.rating.globalRating}`
-                : null}
+              {bidderRating && (
+                <div>
+                  bidderRating
+                  {bidderRating.globalRating === 'No Ratings Yet' ||
+                  bidderRating.globalRating === 0 ? (
+                    <p className="is-size-7">'No Ratings Yet' </p>
+                  ) : (
+                    <ReactStars
+                      className="is-size-7"
+                      half={false}
+                      count={5}
+                      value={bidderRating.globalRating}
+                      edit={false}
+                      size={20}
+                      color1={'lightgrey'}
+                      color2={'#ffd700'}
+                    />
+                  )}
+                </div>
+              )}
             </div>
           </td>
 

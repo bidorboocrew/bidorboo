@@ -75,6 +75,9 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             ...this.state,
           },
         })
+        .then(() => {
+          switchRoute(ROUTES.CLIENT.HOME);
+        })
         .catch((error) => {
           alert('submitting the review failed ' + error);
         });
@@ -181,7 +184,7 @@ export default class ProposerReviewingCompletedJob extends React.Component {
               {bodyContent()}
               <button
                 style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-success"
+                className="button is-success is-medium"
                 onClick={this.submitReview}
               >
                 Submit Review

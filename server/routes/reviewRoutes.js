@@ -60,15 +60,13 @@ module.exports = (app) => {
           },
         });
 
-        const ownerRatingDetails = job._ownerRef.rating;
-        const newProposerFulfilledJobsCount = ownerRatingDetails.fulfilledJobs + 1;
-
         const bidderRatingDetails = job._awardedBidRef._bidderRef.rating;
 
         const thisTaskAvgRating =
           (qualityOfWorkRating + punctualityRating + communicationRating + mannerRating) / 4;
         // +1 for the current bid
-        const bidderFulfilledBidsCountIncludingThisOne = bidderRatingDetails.fulfilledBids + 1;
+        const bidderFulfilledBidsCountIncludingThisOne =
+          bidderRatingDetails.fulfilledBids.length + 1;
 
         const currentBidderGlobalRating =
           bidderRatingDetails.globalRating === 'No Ratings Yet'
@@ -82,7 +80,7 @@ module.exports = (app) => {
         const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
           reviewId,
           proposerId,
-          newProposerFulfilledJobsCount,
+          job._id,
           bidderId,
           newBidderGlobalRating
         );
@@ -143,9 +141,6 @@ module.exports = (app) => {
           },
         });
 
-        const bidderRatingDetails = job._awardedBidRef._bidderRef.rating;
-        const newBidderFulfilledBidsCount = bidderRatingDetails.fulfilledBids + 1;
-
         const ownerRatingDetails = job._ownerRef.rating;
 
         const thisTaskAvgRating =
@@ -156,14 +151,14 @@ module.exports = (app) => {
             : ownerRatingDetails.globalRating;
         // +1 for this current job
         const proposerCurrentFulfilledJobsCountIncludingThisOne =
-          ownerRatingDetails.fulfilledJobs + 1;
+          ownerRatingDetails.fulfilledJobs.length + 1;
         const newProposerGlobalRating =
           (currentProposerGlobalRating + thisTaskAvgRating) /
           proposerCurrentFulfilledJobsCountIncludingThisOne;
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
           reviewId,
           bidderId,
-          newBidderFulfilledBidsCount,
+          job._awardedBidRef._id,
           proposerId,
           newProposerGlobalRating
         );

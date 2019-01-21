@@ -76,7 +76,21 @@ export default class AwardedJobTimeLineView extends React.Component {
                     </div>
                     <div className="media-content">
                       <p className="is-size-6">{displayName}</p>
-                      <p className="is-size-7">{rating.globalRating}</p>
+                      {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+                        <p className="is-size-7">'No Ratings Yet' </p>
+                      ) : (
+                        <p className="is-size-7">
+                          <ReactStars
+                            half={false}
+                            count={5}
+                            value={rating.globalRating}
+                            edit={false}
+                            size={20}
+                            color1={'lightgrey'}
+                            color2={'#ffd700'}
+                          />
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}

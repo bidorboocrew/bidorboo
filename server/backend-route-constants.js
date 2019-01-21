@@ -95,6 +95,8 @@ module.exports = {
     HOME: '/home',
     USER_ROFILE: '/user-profile/:userId',
     VERIFICATION: '/verification/:field/:code',
+    VERIFICATION_phoneDynamic: (code) => `www.bidorboo.com/verification/Phone/${code}`,
+    VERIFICATION_emailDynamic: (code) => `www.bidorboo.com/verification/Email/${code}`,
     PROPOSER: {
       root: '/proposer-root',
       createjob: '/proposer/create-job',
