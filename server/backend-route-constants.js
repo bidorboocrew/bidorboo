@@ -41,6 +41,12 @@ module.exports = {
         resendVerificationMsg: '/api/user/resendVerificationMsg',
       },
     },
+    REVIEW: {
+      PUT: {
+        proposerSubmitReview: '/api/review/proposerSubmitReview',
+        bidderSubmitReview: '/api/review/bidderSubmitReview',
+      },
+    },
     JOB: {
       GET: {
         myOpenJobs: '/api/job/myOpenJobs',

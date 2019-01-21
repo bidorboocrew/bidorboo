@@ -181,7 +181,7 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
     try {
       // create new job for this user
       const data = req.body.data;
@@ -191,7 +191,7 @@ module.exports = (app) => {
       const { jobId, bidId } = data;
       let existingJob = null;
 
-      existingJob = await jobDataAccess.awardedBidder(jobId, bidId);
+      existingJob = await jobDataAccess.awardBidder(jobId, bidId);
       if (existingJob) {
         return res.send(existingJob);
       }

@@ -132,4 +132,14 @@ UserSchema.methods.checkUserPassword = async function(candidatePassword) {
   return isTheRightPassword;
 };
 
+UserSchema.pre('update', async function(next) {
+  if (this.password) {
+    this.password = await encryptData(this.password);
+    if (this.password.errorMsg) {
+      // error case
+      next(this.password);
+    }
+  }
+  next();
+});
 mongoose.model('UserModel', UserSchema);

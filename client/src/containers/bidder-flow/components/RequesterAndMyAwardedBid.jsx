@@ -91,6 +91,7 @@ export default class RequesterAndMyAwardedBid extends React.Component {
                         bid._bidderRef._id,
                         bid._id,
                         job._ownerRef._id,
+                        job._id,
                       ),
                     );
                   }}

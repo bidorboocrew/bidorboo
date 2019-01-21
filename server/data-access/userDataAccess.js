@@ -392,6 +392,83 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
     .lean(true)
     .exec();
 };
+
+exports.proposerPushesAReview = async (
+  reviewId,
+  proposeId,
+  newProposerFulfilledJobsCount,
+  bidderId,
+  newBidderGlobalRating
+) => {
+  return await Promise.all([
+    await User.findOneAndUpdate(
+      { _id: proposeId },
+      {
+        $set: {
+          fulfilledJobs: newProposerFulfilledJobsCount,
+        },
+      }
+      // {
+      //   new: true,
+      // }
+    )
+      .lean(true)
+      .exec(),
+    await User.findOneAndUpdate(
+      { _id: bidderId },
+      {
+        $push: { _asBidderReviewsRef: reviewId },
+        $set: {
+          globalRating: newBidderGlobalRating,
+        },
+      }
+      // {
+      //   new: true,
+      // }
+    )
+      .lean(true)
+      .exec(),
+  ]);
+};
+
+exports.bidderPushesAReview = async (
+  reviewId,
+  bidderId,
+  newBidderFulfilledBidsCount,
+  proposeId,
+  newProposerGlobalRating
+) => {
+  return await Promise.all([
+    await User.findOneAndUpdate(
+      { _id: bidderId },
+      {
+        $set: {
+          fulfilledBids: newBidderFulfilledBidsCount,
+        },
+      }
+      // {
+      //   new: true,
+      // }
+    )
+      .lean(true)
+      .exec(),
+    await User.findOneAndUpdate(
+      { _id: proposeId },
+      {
+        $push: { _asProposerReviewsRef: reviewId },
+        $set: {
+          globalRating: newProposerGlobalRating,
+        },
+      }
+      // {
+      //   new: true,
+      // }
+    )
+      .lean(true)
+      .exec(),
+  ]);
+};
+
 exports.getUserStripeAccount = async (mongodbUserId) => {
   return new Promise(async (resolve, reject) => {
     try {

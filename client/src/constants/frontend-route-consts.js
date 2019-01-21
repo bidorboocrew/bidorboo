@@ -40,6 +40,12 @@ export const API = {
       payment: '/api/payment',
     },
   },
+  REVIEW: {
+    PUT: {
+      proposerSubmitReview: '/api/review/proposerSubmitReview',
+      bidderSubmitReview: '/api/review/bidderSubmitReview',
+    },
+  },
   JOB: {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
@@ -112,11 +118,11 @@ export const CLIENT = {
   },
   REVIEW: {
     proposerJobReview: `/proposer-review/:proposerId/job/:jobId/bidder/:bidderId`,
-    bidderJobReview: `/bidder-review/:bidderId/bid/:bidId/proposer/:proposerId`,
+    bidderJobReview: `/bidder-review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
     getProposerJobReview: (proposerId, jobId, bidderId) =>
       `/proposer-review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-    getBidderJobReview: (bidderId, bidId, proposerId) =>
-      `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}`,
+    getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
+      `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
   },
 
   MY_PROFILE: '/my-profile',

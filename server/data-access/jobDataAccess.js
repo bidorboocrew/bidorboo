@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
+const ReviewModel = mongoose.model('ReviewModel');
+
 const moment = require('moment');
 const ROUTES = require('../backend-route-constants');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -276,10 +278,39 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  getJobReviewModel: async (jobId) => {
+    return JobModel.findById(jobId, { _reviewRef: 1 })
+      .lean(true)
+      .exec();
+  },
+
+  kickStartReviewModel: async ({ jobId, bidderId, proposerId }) => {
+    const kickStartReviewModel = await new ReviewModal({
+      jobId,
+      bidderId,
+      proposerId,
+    }).save();
+
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: {
+          _reviewRef: kickStartReviewModel._id,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+        const jobOwnerFields = {
+          displayName: 1,
+          profileImage: 1,
+          _id: 1,
+          rating: 1,
+        };
 
         const jobWithBidDetails = await JobModel.findOne(
           { _id: jobId, _ownerRef: mongDbUserId },
@@ -294,7 +325,6 @@ exports.jobDataAccess = {
               select: {
                 _asBidderReviewsRef: 1,
                 _asProposerReviewsRef: 1,
-                rating: 1,
                 userId: 1,
                 displayName: 1,
                 profileImage: 1,
@@ -303,6 +333,7 @@ exports.jobDataAccess = {
                 agreedToServiceTerms: 1,
                 createdAt: 1,
                 email: 1,
+                rating: 1,
               },
             },
           })
@@ -550,74 +581,6 @@ exports.jobDataAccess = {
         });
     });
   },
-  // getAllJobsToBidOnForLoggedInUser: (userId, mongoDbUserId) => {
-  //   // will return jobs that you did not bid on and that you are not owner of
-  //   return new Promise((resolve, reject) => {
-  //     const jobFields = {
-  //       _ownerRef: 1,
-  //       _bidsListRef: 1,
-  //       title: 1,
-  //       state: 1,
-  //       detailedDescription: 1,
-  //       stats: 1,
-  //       startingDateAndTime: 1,
-  //       durationOfJob: 1,
-  //       fromTemplateId: 1,
-  //       reported: 1,
-  //       createdAt: 1,
-  //       updatedAt: 1,
-  //       location: 1,
-  //     };
-  //     const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
-
-  //     JobModel.find({ _ownerRef: { $not: { $eq: mongoDbUserId } } }, jobFields, {
-  //       sort: { 'startingDateAndTime.date': 1 },
-  //     })
-  //       .populate({
-  //         path: '_ownerRef',
-  //         select: jobOwnerFields,
-  //       })
-  //       .populate({
-  //         path: '_bidsListRef',
-  //         select: { _bidderRef: 1 },
-  //       })
-  //       .lean(true)
-  //       .exec((error, results) => {
-  //         try {
-  //           if (error) {
-  //             return reject(error);
-  //           } else {
-  //             // this will be hit if user is logged in
-
-  //             // remove jobs that user already bid on
-  //             let openJobsUserHasntBidOn =
-  //               results &&
-  //               results.filter((job) => {
-  //                 const isOpenState = job.state === 'OPEN';
-  //                 let didCurrentUserAlreadyBidOnThisJob = false;
-  //                 if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
-  //                   didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
-  //                     return (
-  //                       bid._bidderRef && bid._bidderRef.toString() === mongoDbUserId.toString()
-  //                     );
-  //                   });
-  //                 }
-  //                 // return jobs where the state is open and the current user did NOT bid on them yet
-  //                 return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
-  //               });
-  //             return resolve(openJobsUserHasntBidOn);
-  //           }
-  //         } catch (e) {
-  //           return reject(e);
-  //         }
-  //       });
-  //   });
-  // },
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
@@ -724,7 +687,7 @@ exports.jobDataAccess = {
     ]);
   },
 
-  awardedBidder: async (jobId, bidId) => {
+  awardBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(
         { _id: bidId },

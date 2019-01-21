@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactStars from 'react-stars';
 import TextareaAutosize from 'react-autosize-textarea';
+import axios from 'axios';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -57,8 +58,26 @@ export default class ProposerReviewingCompletedJob extends React.Component {
       alert('please fill in a value for the communication category');
     } else if (mannerRating === 0) {
       alert('please fill in a value for the manners category');
-    } else if (!cleanPerosnalComment || cleanPerosnalComment.length < 10) {
-      alert('please add a personal comment with at least 10 charachters');
+    } else if (
+      !cleanPerosnalComment ||
+      cleanPerosnalComment.length < 10 ||
+      cleanPerosnalComment.length > 100
+    ) {
+      alert(
+        'please add a personal comment with at least 10 charachters and no more than 100 chars',
+      );
+    } else {
+      // SUBMIT REVIEW
+      axios
+        .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
+          data: {
+            ...this.props.match.params,
+            ...this.state,
+          },
+        })
+        .catch((error) => {
+          alert('submitting the review failed '+error);
+        });
     }
   };
 
