@@ -69,11 +69,9 @@ class ReviewAwardedBidPage extends React.Component {
       !selectedAwardedBid._jobRef._id
     ) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -81,25 +79,21 @@ class ReviewAwardedBidPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
-            <div className="columns is-multiline is-centered">
-              <div className="column">
-                <RequesterAndMyAwardedBid
-                  bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
-                  bid={selectedAwardedBid}
-                  job={selectedAwardedJob}
-                  isReadOnlyView={isReadOnlyView}
-                />
-              </div>
-              <div className="column">
-                <MyAwardedBidJobDetails job={selectedAwardedJob} />
-              </div>
-            </div>
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <RequesterAndMyAwardedBid
+              bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
+              bid={selectedAwardedBid}
+              job={selectedAwardedJob}
+              isReadOnlyView={isReadOnlyView}
+            />
           </div>
-        </section>
+          <div className="column">
+            <MyAwardedBidJobDetails job={selectedAwardedJob} />
+          </div>
+        </div>
       </div>
     );
   }

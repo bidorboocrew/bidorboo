@@ -174,11 +174,9 @@ class BidderRootPage extends React.Component {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={isLoading} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <Spinner isLoading={isLoading} size={'large'} />
+        </div>
       );
     }
 
@@ -202,35 +200,33 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <section className="section">
-        <div className="container">
-          <Tabs
-            activeTab={activeTab}
-            changeActiveTab={this.changeActiveTab}
-            isLoggedIn={isLoggedIn}
-          />
-          <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
-          <FilterSideNav
-            isSideNavOpen={showSideNav}
-            toggleSideNav={this.toggleSideNav}
-            updateMapCenter={this.updateMapCenter}
-            onCancel={this.clearFilter}
-            handleGeoSearch={this.handleGeoSearch}
-          />
-          <div
-            style={{ marginBottom: 6 }}
-            className="help container has-text-grey has-text-centered"
-          >
-            {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
-          </div>
-          {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-
-          <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
-          <br />
-
-          <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        <Tabs
+          activeTab={activeTab}
+          changeActiveTab={this.changeActiveTab}
+          isLoggedIn={isLoggedIn}
+        />
+        <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
+        <FilterSideNav
+          isSideNavOpen={showSideNav}
+          toggleSideNav={this.toggleSideNav}
+          updateMapCenter={this.updateMapCenter}
+          onCancel={this.clearFilter}
+          handleGeoSearch={this.handleGeoSearch}
+        />
+        <div
+          style={{ marginBottom: 6 }}
+          className="help container is-widescreen has-text-grey has-text-centered"
+        >
+          {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
         </div>
-      </section>
+        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
+
+        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <br />
+
+        <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+      </div>
     );
   }
 }

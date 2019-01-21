@@ -239,7 +239,7 @@ export default class ReviewPage extends React.Component {
       <div className="slide-in-left" id="bdb-review-root">
         <section className="hero is-small">
           <div style={{ backgroundColor: 'purple' }} className="hero-body  has-text-centered">
-            <div className="container">
+            <div className="container is-widescreen">
               <h1 style={{ color: 'white' }} className="title">
                 Review this Jobs
               </h1>
@@ -250,7 +250,7 @@ export default class ReviewPage extends React.Component {
           </div>
         </section>
         <section className="mainSectionContainer">
-          <div className="container">
+          <div className="container is-widescreen">
             <div className="columns  is-multiline is-mobile is-centered">
               <div className="column is-half">
                 <div className="card">

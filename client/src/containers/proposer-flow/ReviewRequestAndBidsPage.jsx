@@ -65,11 +65,9 @@ class ReviewRequestAndBidsPage extends React.Component {
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -77,32 +75,30 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     return (
-      <section className="section">
-        <div className="container">
-          {breadCrumbs({
-            activePageTitle: title,
-          })}
-          {showBidReviewModal && (
-            <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
-          )}
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        {breadCrumbs({
+          activePageTitle: title,
+        })}
+        {showBidReviewModal && (
+          <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+        )}
 
-          {!showBidReviewModal && (
-            <div className="columns is-centered is-multiline">
-              <div className="column">
-                <BidsTable
-                  jobId={selectedJobWithBids._id}
-                  bidList={selectedJobWithBids._bidsListRef}
-                  markBidAsSeen={a_markBidAsSeen}
-                  showBidReviewModal={this.showBidReviewModal}
-                />
-              </div>
-              <div className="column">
-                <JobFullDetailsCard job={selectedJobWithBids} />
-              </div>
+        {!showBidReviewModal && (
+          <div className="columns is-centered is-multiline">
+            <div className="column">
+              <BidsTable
+                jobId={selectedJobWithBids._id}
+                bidList={selectedJobWithBids._bidsListRef}
+                markBidAsSeen={a_markBidAsSeen}
+                showBidReviewModal={this.showBidReviewModal}
+              />
             </div>
-          )}
-        </div>
-      </section>
+            <div className="column">
+              <JobFullDetailsCard job={selectedJobWithBids} />
+            </div>
+          </div>
+        )}
+      </div>
     );
   }
 }

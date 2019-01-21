@@ -62,11 +62,9 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -74,27 +72,25 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <section className="section">
-        <div className="container">
-          {!isReadOnlyView &&
-            breadCrumbs({
-              activePageTitle: title,
-            })}
-          <div className="columns is-multiline is-centered">
-            <div className="column">
-              <BidderAndMyAwardedJob
-                proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
-                bid={_awardedBidRef}
-                job={selectedAwardedJob}
-                isReadOnlyView={isReadOnlyView}
-              />
-            </div>
-            <div className="column">
-              <JobFullDetailsCard job={selectedAwardedJob} />
-            </div>
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        {!isReadOnlyView &&
+          breadCrumbs({
+            activePageTitle: title,
+          })}
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <BidderAndMyAwardedJob
+              proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
+              bid={_awardedBidRef}
+              job={selectedAwardedJob}
+              isReadOnlyView={isReadOnlyView}
+            />
+          </div>
+          <div className="column">
+            <JobFullDetailsCard job={selectedAwardedJob} />
           </div>
         </div>
-      </section>
+      </div>
     );
   }
 }

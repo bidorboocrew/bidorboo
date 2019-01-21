@@ -180,11 +180,11 @@ export default class ProposerReviewingCompletedJob extends React.Component {
     };
 
     return (
-      <section className="section">
+      <React.Fragment>
         <section className="hero is-small is-dark">
-          <div className="container">
+          <div className="container is-widescreen">
             <div className="hero-body">
-              <div className="container">
+              <div className="container is-widescreen">
                 <h2 style={{ color: 'white' }} className="subtitle">
                   Give your feedback about Tasker and the quality of thier work
                 </h2>
@@ -192,34 +192,32 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <section className="section">
-          <div className="container">
-            <div className="card-content">
-              {bodyContent()}
-              <button
-                style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-success is-medium"
-                onClick={this.submitReview}
-              >
-                Submit Review
-              </button>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <div className="card-content">
+            {bodyContent()}
+            <button
+              style={{ marginLeft: 12, marginTop: 12 }}
+              className="button is-success is-medium"
+              onClick={this.submitReview}
+            >
+              Submit Review
+            </button>
 
-              <button
-                style={{ marginLeft: 12, marginTop: 12 }}
-                className="button is-outlined has-text-dark  is-medium"
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.HOME);
-                }}
-              >
-                remind me later
-              </button>
-            </div>
+            <button
+              style={{ marginLeft: 12, marginTop: 12 }}
+              className="button is-outlined has-text-dark  is-medium"
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.HOME);
+              }}
+            >
+              remind me later
+            </button>
           </div>
-        </section>
+        </div>
         <section className="hero is-small is-dark">
-          <div className="container">
+          <div className="container is-widescreen">
             <div className="hero-body">
-              <div className="container">
+              <div className="container is-widescreen">
                 <h2 style={{ color: 'white' }} className="subtitle">
                   Referenced Task Details
                 </h2>
@@ -227,10 +225,10 @@ export default class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container">
+        <div className="container is-widescreen">
           <ReviewMyAwardedJobAndWinningBidPage isReadOnlyView {...this.props} />
         </div>
-      </section>
+      </React.Fragment>
     );
   }
 }

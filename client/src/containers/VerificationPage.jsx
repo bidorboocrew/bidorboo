@@ -113,7 +113,7 @@ class Verification extends React.Component {
     }
     return (
       <section className="section">
-        <div className="container">
+        <div className="container is-widescreen">
           <section className="hero is-small is-dark">
             <div className="hero-body">
               <div>
@@ -129,7 +129,7 @@ class Verification extends React.Component {
             {verificationSuccess === 'success' && (
               <section className="hero is-success">
                 <div className="hero-body">
-                  <div className="container">
+                  <div className="container is-widescreen">
                     <h1 className="title">{`Successfullly verified your ${field}`}</h1>
                     <h2 className="subtitle">
                       <a
@@ -149,7 +149,7 @@ class Verification extends React.Component {
             {verificationSuccess === 'fail' && (
               <section className="hero is-danger">
                 <div className="hero-body">
-                  <div className="container">
+                  <div className="container is-widescreen">
                     <h1 className="title">{`Failed to verify your ${field}`}</h1>
                     <h2 className="subtitle">
                       login and go to myprofile to request a new code or contact us at

@@ -11,7 +11,7 @@ export default class HomePage extends React.Component {
     return (
       <section className="hero has-text-centered">
         <div className="hero-body">
-          <div className="container">
+          <div className="container is-widescreen">
             <h1 className="subtitle">
               Get the services you need for the price you want. Earn money doing what you love.
             </h1>

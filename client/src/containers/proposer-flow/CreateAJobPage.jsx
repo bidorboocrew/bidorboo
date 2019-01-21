@@ -45,39 +45,29 @@ class CreateAJobPage extends React.Component {
 
     return (
       <React.Fragment>
-        <section className="section">
-          <div className="container">
-            <div className="card">
-              <section
-                style={{ borderBottom: '1px solid #eee' }}
-                className="hero is-small is-white"
-              >
-                <div className="hero-body">
-                  <div className="title has-text-dark">{jobDetails.title} Request</div>
-                  <ShowMoreText
-                    className="has-text-grey"
-                    lines={2}
-                    more="Show more"
-                    less="Show less"
-                  >
-                    {this.state.chosenTemplate.description}
-                  </ShowMoreText>
-                </div>
-              </section>
-
-              <div className="card-content">
-                <br />
-                <NewJobForm
-                  fromTemplateIdField={jobDetails.id}
-                  jobTitleField={jobDetails.title}
-                  suggestedDetailsText={jobDetails.suggestedDetailsText}
-                  onGoBack={this.goBack}
-                  onNext={this.postJob}
-                />
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <div className="card">
+            <section style={{ borderBottom: '1px solid #eee' }} className="hero is-small is-white">
+              <div className="hero-body">
+                <div className="title has-text-dark">{jobDetails.title} Request</div>
+                <ShowMoreText className="has-text-grey" lines={2} more="Show more" less="Show less">
+                  {this.state.chosenTemplate.description}
+                </ShowMoreText>
               </div>
+            </section>
+
+            <div className="card-content">
+              <br />
+              <NewJobForm
+                fromTemplateIdField={jobDetails.id}
+                jobTitleField={jobDetails.title}
+                suggestedDetailsText={jobDetails.suggestedDetailsText}
+                onGoBack={this.goBack}
+                onNext={this.postJob}
+              />
             </div>
           </div>
-        </section>
+        </div>
       </React.Fragment>
     );
   }

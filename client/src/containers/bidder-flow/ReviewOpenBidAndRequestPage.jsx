@@ -49,11 +49,9 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       !selectedOpenBid._jobRef._id
     ) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooAddTopMargin">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -61,24 +59,20 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {breadCrumbs({ activePageTitle: title })}
-            <div className="columns is-multiline is-centered">
-              <div className="column">
-                <RequesterAndOpenBid
-                  bid={selectedOpenBid}
-                  job={selectedAwardedJob}
-                  updateBidAction={a_updateBid}
-                />
-              </div>
-              <div className="column">
-                <MyOpenBidJobDetails job={selectedAwardedJob} />
-              </div>
-            </div>
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        {breadCrumbs({ activePageTitle: title })}
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <RequesterAndOpenBid
+              bid={selectedOpenBid}
+              job={selectedAwardedJob}
+              updateBidAction={a_updateBid}
+            />
           </div>
-        </section>
+          <div className="column">
+            <MyOpenBidJobDetails job={selectedAwardedJob} />
+          </div>
+        </div>
       </div>
     );
   }

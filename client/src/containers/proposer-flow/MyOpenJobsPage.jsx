@@ -42,51 +42,46 @@ class MyOpenJobsPage extends React.Component {
     const { activeTab } = this.state;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            <div className="tabs is-medium">
-              <ul>
-                <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.changeActiveTab(TAB_IDS.postedJobs);
-                    }}
-                  >
-                    {`${TAB_IDS.postedJobs} (${(myOpenJobsList && myOpenJobsList.length) || 0})`}
-                  </a>
-                </li>
-                <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.changeActiveTab(TAB_IDS.awardedJobs);
-                    }}
-                  >
-                    {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) ||
-                      0})`}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {activeTab === TAB_IDS.postedJobs && (
-              <MyRequestsTab
-                jobsList={myOpenJobsList}
-                deleteJob={a_deleteJobById}
-                changeActiveTab={this.changeActiveTab}
-                {...this.props}
-              />
-            )}
-            {activeTab === TAB_IDS.awardedJobs && (
-              <MyAwardedJobsTab
-                jobsList={myAwardedJobsList}
-                changeActiveTab={this.changeActiveTab}
-                {...this.props}
-              />
-            )}
-          </div>
-        </section>
+      <div className="container is-widescreen bidorbooAddTopMargin">
+        <div className="tabs is-medium">
+          <ul>
+            <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.changeActiveTab(TAB_IDS.postedJobs);
+                }}
+              >
+                {`${TAB_IDS.postedJobs} (${(myOpenJobsList && myOpenJobsList.length) || 0})`}
+              </a>
+            </li>
+            <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.changeActiveTab(TAB_IDS.awardedJobs);
+                }}
+              >
+                {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) || 0})`}
+              </a>
+            </li>
+          </ul>
+        </div>
+        {activeTab === TAB_IDS.postedJobs && (
+          <MyRequestsTab
+            jobsList={myOpenJobsList}
+            deleteJob={a_deleteJobById}
+            changeActiveTab={this.changeActiveTab}
+            {...this.props}
+          />
+        )}
+        {activeTab === TAB_IDS.awardedJobs && (
+          <MyAwardedJobsTab
+            jobsList={myAwardedJobsList}
+            changeActiveTab={this.changeActiveTab}
+            {...this.props}
+          />
+        )}
       </div>
     );
   }
