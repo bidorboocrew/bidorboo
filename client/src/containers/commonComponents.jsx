@@ -53,6 +53,7 @@ export const CountDownComponent = (props) => {
 
   return (
     <React.Fragment>
+      <br />
       <div
         style={{
           position: 'absolute',

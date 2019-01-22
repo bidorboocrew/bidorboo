@@ -20,7 +20,10 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div
+        style={{ marginBottom: '3rem' }}
+        className="container is-widescreen bidorbooContainerMargins"
+      >
         {breadCrumbs()}
 
         <PostYourBid

@@ -55,7 +55,7 @@ export default class RequestsTabSummaryCard extends React.Component {
           jobState={state}
           fromTemplateId={fromTemplateId}
           bidsList={_bidsListRef}
-          userAlreadyView
+          userAlreadyView={userAlreadyView}
         />
         {showCoverImg && (
           <div className="card-image is-clipped">
