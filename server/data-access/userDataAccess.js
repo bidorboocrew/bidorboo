@@ -194,7 +194,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
       let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
       // updte user with this new info
-      const updatedUser = User.findOneAndUpdate(
+      const updatedUser = await User.findOneAndUpdate(
         { userId },
         {
           $set: {
