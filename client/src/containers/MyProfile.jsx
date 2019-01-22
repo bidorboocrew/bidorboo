@@ -311,28 +311,38 @@ const userImageAndStats = (
           </div>
         </div>
         <div className="field has-text-centered">
+          <label className="label">Rating</label>
+          {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+            <p className="is-size-7">'No Ratings Yet' </p>
+          ) : (
+            <div className="has-text-centered control">
+              <span>
+                <ReactStars
+                  half
+                  count={5}
+                  value={globalRating}
+                  edit={false}
+                  size={25}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </span>
+              <span
+                style={{ color: 'black' }}
+                className="has-text-weight-semibold has-text-centered"
+              >
+                ({globalRating})
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="field has-text-centered">
           <label className="label">Status</label>
           <div className="control has-text-centered">
             <div className="control has-text-centered">{membershipStatusDisplay}</div>
           </div>
         </div>
-        <div className="field has-text-centered">
-          <label className="label">Rating</label>
-          {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-            <p className="is-size-7">'No Ratings Yet' </p>
-          ) : (
-            <ReactStars
-              className="control has-text-centered"
-              half
-              count={5}
-              value={globalRating}
-              edit={false}
-              size={20}
-              color1={'lightgrey'}
-              color2={'#ffd700'}
-            />
-          )}
-        </div>
+
         {/* <div className="field has-text-centered">
           <label className="label">Fullfilled Jobs</label>
           <div className="control has-text-centered">{`${fulfilledJobs}`}</div>

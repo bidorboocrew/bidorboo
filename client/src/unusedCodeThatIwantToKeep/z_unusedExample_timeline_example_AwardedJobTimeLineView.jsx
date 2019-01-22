@@ -85,7 +85,7 @@ export default class AwardedJobTimeLineView extends React.Component {
                             count={5}
                             value={rating.globalRating}
                             edit={false}
-                            size={20}
+                            size={25}
                             color1={'lightgrey'}
                             color2={'#ffd700'}
                           />

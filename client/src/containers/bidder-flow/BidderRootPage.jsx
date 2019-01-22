@@ -256,7 +256,10 @@ export default connect(
 
 const HeaderTitleAndSearch = ({ toggleSideNav }) => {
   return (
-    <nav style={{ marginTop: -40, float: 'right' }} className="level is-mobile">
+    <nav
+      style={{ marginTop: -40, float: 'right', marginRight: '0.5rem' }}
+      className="level is-mobile"
+    >
       <div className="level-right">
         <p className="level-item">
           <a onClick={toggleSideNav} className="button is-link">

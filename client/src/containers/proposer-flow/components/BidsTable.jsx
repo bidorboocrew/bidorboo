@@ -44,7 +44,7 @@ export default class BidsTable extends React.Component {
               {/* bidder rating */}
               {bidderRating && (
                 <div>
-                  bidderRating
+                  User Rating
                   {bidderRating.globalRating === 'No Ratings Yet' ||
                   bidderRating.globalRating === 0 ? (
                     <p className="is-size-7">'No Ratings Yet' </p>
@@ -55,7 +55,7 @@ export default class BidsTable extends React.Component {
                       count={5}
                       value={bidderRating.globalRating}
                       edit={false}
-                      size={20}
+                      size={25}
                       color1={'lightgrey'}
                       color2={'#ffd700'}
                     />
