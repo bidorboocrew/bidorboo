@@ -106,7 +106,8 @@ $body-background-color: white; //#3b549c;
 $navbar-item-hover-color: black;
 $navbar-item-active-color: hsl(217, 71%, 53%) !important;
 $navbar-breakpoint: 900px;
-$navbar-height: 4rem;
+// xxx scary but it works
+$navbar-height: 3.9rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
