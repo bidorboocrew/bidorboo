@@ -121,7 +121,7 @@ export default connect(
 
 const breadCrumbs = ({ activePageTitle }) => {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>

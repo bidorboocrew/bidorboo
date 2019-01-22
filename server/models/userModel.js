@@ -23,6 +23,7 @@ const ratingSchema = {
   canceledJobs: {
     type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
   },
+  latestComment: { type: String, trim: true },
 };
 
 const UserSchema = new Schema(

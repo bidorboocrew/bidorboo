@@ -75,7 +75,8 @@ module.exports = (app) => {
           job._id,
           bidderId,
           newBidderGlobalRating,
-          newTotalOfAllRatings
+          newTotalOfAllRatings,
+          personalComment
         );
 
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
@@ -149,7 +150,8 @@ module.exports = (app) => {
           job._awardedBidRef._id,
           proposerId,
           newProposerGlobalRating,
-          newTotalOfAllRatings
+          newTotalOfAllRatings,
+          personalComment
         );
 
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });

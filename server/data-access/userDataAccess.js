@@ -399,7 +399,8 @@ exports.proposerPushesAReview = async (
   newFulfilledJobId,
   bidderId,
   newBidderGlobalRating,
-  newTotalOfAllRatings
+  newTotalOfAllRatings,
+  personalComment
 ) => {
   return await Promise.all([
     User.findOneAndUpdate(
@@ -420,6 +421,7 @@ exports.proposerPushesAReview = async (
         $set: {
           'rating.globalRating': newBidderGlobalRating,
           'rating.totalOfAllRatings': newTotalOfAllRatings,
+          'rating.latestComment': personalComment,
         },
         $inc: { 'rating.numberOfTimesBeenRated': 1 },
       },
@@ -438,7 +440,8 @@ exports.bidderPushesAReview = async (
   newFulfilledBidId,
   proposerId,
   newProposerGlobalRating,
-  newTotalOfAllRatings
+  newTotalOfAllRatings,
+  personalComment
 ) => {
   return await Promise.all([
     await User.findOneAndUpdate(
@@ -461,6 +464,7 @@ exports.bidderPushesAReview = async (
         $set: {
           'rating.globalRating': newProposerGlobalRating,
           'rating.totalOfAllRatings': newTotalOfAllRatings,
+          'rating.latestComment': personalComment,
         },
         $inc: { 'rating.numberOfTimesBeenRated': 1 },
       },
