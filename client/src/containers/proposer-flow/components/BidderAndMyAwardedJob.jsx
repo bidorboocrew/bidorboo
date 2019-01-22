@@ -62,7 +62,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
               ) : (
                 <ReactStars
                   className="is-size-6"
-                  half={false}
+                  half
                   count={5}
                   value={bidderOverallRating}
                   edit={false}

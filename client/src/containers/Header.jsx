@@ -99,7 +99,10 @@ class Header extends React.Component {
           />
         )}
         {/* is-spaced is a good prop to add  */}
-        <nav id="BID_OR_BOO_APP_HEADER" className="navbar is-fixed-top has-shadow nav-bottom-border">
+        <nav
+          id="BID_OR_BOO_APP_HEADER"
+          className="navbar is-fixed-top has-shadow nav-bottom-border"
+        >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
             handleCancel={this.toggleLoginDialog}
@@ -200,7 +203,7 @@ class Header extends React.Component {
                     notificationFeed.jobIdsWithNewBids.length > 0)) && (
                   <React.Fragment>
                     <div
-                      style={{ position: 'absolute', top: 8, right: 8, fontSize: 10 }}
+                      style={{ position: 'absolute', top: 16, right: 16, fontSize: 10 }}
                       className="has-text-danger"
                     >
                       <i className="fas fa-circle" />
@@ -279,7 +282,7 @@ class Header extends React.Component {
                             style={{
                               fontSize: 10,
                               position: 'absolute',
-                              top: 0,
+                              top: 12,
                               left: 8,
                               background: 'red',
                               borderRadius: '100%',
@@ -318,7 +321,7 @@ class Header extends React.Component {
                             style={{
                               fontSize: 10,
                               position: 'absolute',
-                              top: 0,
+                              top: 12,
                               left: 8,
                               background: 'red',
                               borderRadius: '100%',

@@ -51,7 +51,7 @@ export default class BidsTable extends React.Component {
                   ) : (
                     <ReactStars
                       className="is-size-7"
-                      half={false}
+                      half
                       count={5}
                       value={bidderRating.globalRating}
                       edit={false}

@@ -323,7 +323,7 @@ const userImageAndStats = (
           ) : (
             <ReactStars
               className="control has-text-centered"
-              half={false}
+              half
               count={5}
               value={globalRating}
               edit={false}

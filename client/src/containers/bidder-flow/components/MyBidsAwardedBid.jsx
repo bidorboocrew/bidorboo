@@ -52,29 +52,30 @@ export default class MyBidsAwardedBid extends React.Component {
             <p className="heading">Service Type</p>
             <p className="subtitle">{fromTemplateId}</p>
             <p className="heading">Bid Amount</p>
-            <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
+            <p style={{ marginBottom: 10 }} className="subtitle has-text-weight-bold">
+              {bidAmountText}
+            </p>
           </div>
         </div>
         <footer className="card-footer">
-          <a className="card-footer-item">
-            View Details
+          <div className="card-footer-item" style={{ position: 'relative' }}>
+            <a className="button is-outlined is-success">View Details</a>
             {updatedStatus && (
-              <span
-                style={{
-                  marginLeft: 4,
-                }}
-                className="tag is-danger"
+              <div
+                style={{ position: 'absolute', top: 14, right: 18, fontSize: 10 }}
+                className="has-text-danger"
               >
-                New
-              </span>
+                <i className="fas fa-circle" />
+              </div>
             )}
-          </a>
+          </div>
+
           <div className="card-footer-item">
             {`Task Date : ${moment(_jobRef.startingDateAndTime.date).format('DD/MMM/YYYY')}`}
           </div>
-          <div className="card-footer-item">
+          {/* <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
-          </div>
+          </div> */}
         </footer>
       </div>
     );

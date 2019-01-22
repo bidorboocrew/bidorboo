@@ -61,6 +61,7 @@ export default class MineTabSummaryCard extends React.Component {
 
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
+          <a className="button is-info is-outlined is-small is-fullwidth">View This Job Details</a>
         </div>
         {withButtons && (
           <footer className="card-footer">

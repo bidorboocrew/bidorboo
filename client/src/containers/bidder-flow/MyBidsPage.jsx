@@ -81,7 +81,7 @@ class MyBidsPage extends React.Component {
           )}
         </div>
 
-        <div className="container is-widescreen">
+        <div className="container is-widescreen bidorbooContainerMargins">
           <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
             <ul>
               <li>

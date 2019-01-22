@@ -53,7 +53,6 @@ export const CountDownComponent = (props) => {
 
   return (
     <React.Fragment>
-      <br />
       <div
         style={{
           position: 'absolute',
@@ -120,7 +119,7 @@ export const UserImageAndRating = ({ userDetails }) => {
         ) : (
           <ReactStars
             className="is-size-7"
-            half={false}
+            half
             count={5}
             value={rating.globalRating}
             edit={false}
@@ -157,7 +156,7 @@ export const JobStats = ({ daysSinceCreated, viewedBy }) => {
   );
 };
 
-export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) => {
+export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, userAlreadyView }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
@@ -167,7 +166,15 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) =>
       className="card-header is-clipped"
     >
       <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+
       <a className="card-header-icon">
+        {userAlreadyView && (
+          <span style={{ marginRight: 4 }} className="has-text-grey">
+            <span className="icon">
+              <i className="far fa-eye" />
+            </span>
+          </span>
+        )}
         {!isAwarded && (
           <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
             <span className="icon">

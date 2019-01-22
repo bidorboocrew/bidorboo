@@ -49,11 +49,13 @@ export default class MyBidsOpenBid extends React.Component {
           </div>
         </div>
         <footer className="card-footer">
-          <a className="card-footer-item">View Or Change</a>
-          <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
           <div className="card-footer-item">
-            <span className="has-text-weight-bold">{bidStateText}</span>
+            <a className="button is-outlined">View Or Change</a>
           </div>
+          <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
+          {/* <div className="card-footer-item">
+            <span className="has-text-weight-bold">{bidStateText}</span>
+          </div> */}
         </footer>
       </div>
     );
