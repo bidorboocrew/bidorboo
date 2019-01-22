@@ -8,6 +8,8 @@ const MAX_PARAGRAPH_LENGTH = 500;
 const MAX_NAME_LENGTH = 50;
 
 const ratingSchema = {
+  totalOfAllRatings: { type: Number, default: 0 },
+  numberOfTimesBeenRated: { type: Number, default: 0 },
   globalRating: { type: Number, default: 0 },
   fulfilledBids: {
     type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],

@@ -59,7 +59,7 @@ exports.bidDataAccess = {
                 select: {
                   _id: 1,
                   displayName: 1,
-                  globalRating: 1,
+                  rating: 1,
                   profileImage: 1,
                 },
               },

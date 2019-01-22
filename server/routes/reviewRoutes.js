@@ -64,25 +64,18 @@ module.exports = (app) => {
 
         const thisTaskAvgRating =
           (qualityOfWorkRating + punctualityRating + communicationRating + mannerRating) / 4;
-        // +1 for the current bid
-        const bidderFulfilledBidsCountIncludingThisOne =
-          bidderRatingDetails.fulfilledBids.length + 1;
 
-        const currentBidderGlobalRating =
-          bidderRatingDetails.globalRating === 'No Ratings Yet'
-            ? 0
-            : bidderRatingDetails.globalRating;
-
-        const newBidderGlobalRating =
-          (currentBidderGlobalRating + thisTaskAvgRating) /
-          bidderFulfilledBidsCountIncludingThisOne;
+        const totalNumberOfTimesBeenRated = bidderRatingDetails.numberOfTimesBeenRated + 1;
+        const newTotalOfAllRatings = bidderRatingDetails.totalOfAllRatings + thisTaskAvgRating;
+        const newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
 
         const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
           reviewId,
           proposerId,
           job._id,
           bidderId,
-          newBidderGlobalRating
+          newBidderGlobalRating,
+          newTotalOfAllRatings
         );
 
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
@@ -145,22 +138,18 @@ module.exports = (app) => {
 
         const thisTaskAvgRating =
           (accuracyOfPostRating + punctualityRating + communicationRating + mannerRating) / 4;
-        const currentProposerGlobalRating =
-          ownerRatingDetails.globalRating === 'No Ratings Yet'
-            ? 0
-            : ownerRatingDetails.globalRating;
-        // +1 for this current job
-        const proposerCurrentFulfilledJobsCountIncludingThisOne =
-          ownerRatingDetails.fulfilledJobs.length + 1;
-        const newProposerGlobalRating =
-          (currentProposerGlobalRating + thisTaskAvgRating) /
-          proposerCurrentFulfilledJobsCountIncludingThisOne;
+
+        const totalNumberOfTimesBeenRated = ownerRatingDetails.numberOfTimesBeenRated + 1;
+        const newTotalOfAllRatings = ownerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
+        const newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
           reviewId,
           bidderId,
           job._awardedBidRef._id,
           proposerId,
-          newProposerGlobalRating
+          newProposerGlobalRating,
+          newTotalOfAllRatings
         );
 
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });
