@@ -86,21 +86,16 @@ export default class RequestsTabSummaryCard extends React.Component {
           ) : (
             <a className="button is-success is-outlined is-small is-fullwidth">Bid On This Job</a>
           )}
+          {withButtons && (
+            <a
+              style={{ marginTop: 10 }}
+              onClick={onCloseHandler}
+              className="button is-outlined is-small is-fullwidth"
+            >
+              Close
+            </a>
+          )}
         </div>
-        {withButtons && (
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <a onClick={onClickHandler} className="button is-success is-fullwidth is-small">
-                View
-              </a>
-            </div>
-            <div className="card-footer-item">
-              <a onClick={onCloseHandler} className="button is-outlined is-fullwidth is-small">
-                Close
-              </a>
-            </div>
-          </footer>
-        )}
       </div>
     );
   }
