@@ -48,7 +48,6 @@ export const enforceNumericField = (value, previousValue) => {
 };
 
 export const phoneNumber = (value) => {
-  debugger
   const isValid = /^[0-9]\d{2}-\d{3}-\d{4}$/g.test(value);
   return isValid;
 };
