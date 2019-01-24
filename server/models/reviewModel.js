@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-require('mongoose-type-email');
 const { Schema } = mongoose;
 
 const categories = {
   type: { category: String, rating: Number },
-  enum: ['ACCURACY_OF_POST', 'PROFICIENCY', 'ON_TIME', 'MANNERS', 'CLEANLINESS'],
+  enum: ['ACCURACY_OF_POST', 'QUALITY_OF_WORK', 'PUNCTULAITY', 'MANNERS', 'COMMUNICATION'],
 };
 const ReviewSchema = new Schema(
   {
@@ -13,21 +12,14 @@ const ReviewSchema = new Schema(
     proposerId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
     proposerReview: {
       type: {
-        ratingCategories: { type: categories, RatingSchema: false },
-        jobRating: Number,
-        comment: String, //max 120 chars
+        ratingCategories: [{ type: categories }],
+        personalComment: String, //max 100 chars
       },
     },
-    state: {
-      type: String,
-      enum: ['AWAITING', 'REVEALED'],
-    },
-
     bidderReview: {
       type: {
-        ratingCategories: { type: categories, RatingSchema: false },
-        jobRating: Number,
-        comment: String, //max 120 chars
+        ratingCategories: [{ type: categories }],
+        personalComment: String, //max 120 chars
       },
     },
     proposerSubmitted: { type: Boolean, default: false },

@@ -8,11 +8,22 @@ const MAX_PARAGRAPH_LENGTH = 500;
 const MAX_NAME_LENGTH = 50;
 
 const ratingSchema = {
-  globalRating: { type: String, default: 'No Ratings Yet' },
-  fulfilledBids: { type: Number, default: 0 },
-  canceledBids: { type: Number, default: 0 },
-  fulfilledJobs: { type: Number, default: 0 },
-  canceledJobs: { type: Number, default: 0 },
+  totalOfAllRatings: { type: Number, default: 0 },
+  numberOfTimesBeenRated: { type: Number, default: 0 },
+  globalRating: { type: Number, default: 0 },
+  fulfilledBids: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+  },
+  canceledBids: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+  },
+  fulfilledJobs: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  },
+  canceledJobs: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  },
+  latestComment: { type: String, trim: true },
 };
 
 const UserSchema = new Schema(
@@ -132,4 +143,15 @@ UserSchema.methods.checkUserPassword = async function(candidatePassword) {
   return isTheRightPassword;
 };
 
+UserSchema.pre('update', async function(next) {
+  // this probably does not work what so ever
+  if (this.password) {
+    this.password = await encryptData(this.password);
+    if (this.password.errorMsg) {
+      // error case
+      next(this.password);
+    }
+  }
+  next();
+});
 mongoose.model('UserModel', UserSchema);

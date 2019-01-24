@@ -12,15 +12,14 @@
 // --------------------------------------------------
 
 html body {
-  color: $color1;
-  // line-height: 1.5;
+  color: #363636;
+  // line-height: 1
   background: white;
+
   -webkit-font-smoothing: antialiased;
-  // overflow-x: hidden;
-  // overflow-y: auto;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  min-height: calc(100%-3.25rem);
-  height: calc(100%-3.25rem);
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  min-height: calc(100%-4rem);
 }
 body {
   background-color: #222;
@@ -106,10 +105,25 @@ $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 $navbar-item-hover-color: black;
 $navbar-item-active-color: hsl(217, 71%, 53%) !important;
-// $navbar-breakpoint: 769px;
+$navbar-breakpoint: 900px;
+// xxx scary but it works
+$navbar-height: 3.9rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
+#BID_OR_BOO_APP_HEADER {
+  height: 4rem !important;
+}
+#BID_OR_BOO_APP_BODY {
+  padding-top: 4rem !important;
+}
+
+.container {
+  &.bidorbooContainerMargins {
+    margin-top: 0.5rem;
+  }
+}
 // @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma/bulma.sass';
+
 a.navbar-item.is-active {
   color: hsl(217, 71%, 53%);
 }
@@ -295,7 +309,8 @@ img {
 }
 
 // bulma overrides
-input[type='checkbox'] {
+input[type='checkbox'],
+input[type='radio'] {
   transform: scale(1.5);
 }
 // .button {

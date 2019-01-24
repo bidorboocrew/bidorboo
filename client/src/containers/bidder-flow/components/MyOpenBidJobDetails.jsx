@@ -54,7 +54,7 @@ export default class MyOpenBidJobDetails extends React.Component {
             <DisplayLabelValue
               labelText="Start Date:"
               labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
               }
             />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />

@@ -23,7 +23,7 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
     payload: axios
       .post(ROUTES.API.PAYMENT.POST.payment, {
         data: {
-          jobIdToUpdate: bid._jobRef,
+          jobId: bid._jobRef,
           stripeTransactionToken,
           bidId: bid._id,
           chargeAmount: chargeAmount,

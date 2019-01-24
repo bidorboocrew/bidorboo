@@ -20,25 +20,24 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {breadCrumbs()}
+      <div
+        style={{ marginBottom: '3rem' }}
+        className="container is-widescreen bidorbooContainerMargins"
+      >
+        {breadCrumbs()}
 
-            <PostYourBid
-              onSubmit={(values) => {
-                a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-              }}
-              onCancel={() => {
-                a_updateBooedBy(jobDetails);
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
-              }}
-            />
+        <PostYourBid
+          onSubmit={(values) => {
+            a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+          }}
+          onCancel={() => {
+            a_updateBooedBy(jobDetails);
+            switchRoute(ROUTES.CLIENT.BIDDER.root);
+          }}
+        />
 
-            <MyOpenBidJobDetails job={jobDetails} />
-            <br />
-          </div>
-        </section>
+        <MyOpenBidJobDetails job={jobDetails} />
+        <br />
       </div>
     );
   }
@@ -63,7 +62,7 @@ export default connect(
 
 const breadCrumbs = () => {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>

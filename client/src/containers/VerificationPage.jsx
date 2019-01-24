@@ -112,54 +112,56 @@ class Verification extends React.Component {
       }
     }
     return (
-      <div id="bdb-home-content" className="bdbPage">
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div>
-              <h1 style={{ color: 'white' }} className="title">
-                {`${field} Verification`}
-              </h1>
+      <section className="section">
+        <div className="container is-widescreen">
+          <section className="hero is-small is-dark">
+            <div className="hero-body">
+              <div>
+                <h1 style={{ color: 'white' }} className="title">
+                  {`${field} Verification`}
+                </h1>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="section">
-          <div>{isLoading && <Spinner isLoading={isLoading} size={'large'} />}</div>
-          {verificationSuccess === 'success' && (
-            <section className="hero is-success">
-              <div className="hero-body">
-                <div className="container">
-                  <h1 className="title">{`Successfullly verified your ${field}`}</h1>
-                  <h2 className="subtitle">
-                    <a
-                      className="button is-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        switchRoute(`${ROUTES.CLIENT.HOME}`);
-                      }}
-                    >
-                      go to home page
-                    </a>
-                  </h2>
+          <section className="section">
+            <div>{isLoading && <Spinner isLoading={isLoading} size={'large'} />}</div>
+            {verificationSuccess === 'success' && (
+              <section className="hero is-success">
+                <div className="hero-body">
+                  <div className="container is-widescreen">
+                    <h1 className="title">{`Successfullly verified your ${field}`}</h1>
+                    <h2 className="subtitle">
+                      <a
+                        className="button is-link"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          switchRoute(`${ROUTES.CLIENT.HOME}`);
+                        }}
+                      >
+                        go to home page
+                      </a>
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            </section>
-          )}
-          {verificationSuccess === 'fail' && (
-            <section className="hero is-danger">
-              <div className="hero-body">
-                <div className="container">
-                  <h1 className="title">{`Failed to verify your ${field}`}</h1>
-                  <h2 className="subtitle">
-                    login and go to myprofile to request a new code or contact us at
-                    bidorboocrew@gmail.com
-                  </h2>
+              </section>
+            )}
+            {verificationSuccess === 'fail' && (
+              <section className="hero is-danger">
+                <div className="hero-body">
+                  <div className="container is-widescreen">
+                    <h1 className="title">{`Failed to verify your ${field}`}</h1>
+                    <h2 className="subtitle">
+                      login and go to myprofile to request a new code or contact us at
+                      bidorboocrew@gmail.com
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            </section>
-          )}
-        </section>
-      </div>
+              </section>
+            )}
+          </section>
+        </div>
+      </section>
     );
   }
 }

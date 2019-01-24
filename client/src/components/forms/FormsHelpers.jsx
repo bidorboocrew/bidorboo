@@ -114,6 +114,7 @@ export const TextAreaInput = ({
   onChange,
   className,
   helpText,
+  startWithTemplateButton,
   ...props
 }) => {
   return (
@@ -121,6 +122,7 @@ export const TextAreaInput = ({
       <Label htmlFor={id} error={error}>
         {label}
       </Label>
+      {startWithTemplateButton && startWithTemplateButton}
       <textarea
         style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: '200px' }}
         className="input textarea"

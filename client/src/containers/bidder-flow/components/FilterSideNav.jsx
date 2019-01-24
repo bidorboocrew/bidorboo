@@ -4,47 +4,15 @@ import SideNav from 'react-simple-sidenav';
 import JobsLocationFilterForm from '../../../components/forms/JobsLocationFilterForm';
 
 export default class FilterSideNav extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      titleHeight: window.innerWidth >= 1087 ? 6 : 3.25,
-    };
-
-    this.handleWindowSizeChange = () => {
-      if (window.innerWidth >= 1087 && this.state.titleHeight !== 5) {
-        this.setState({
-          titleHeight: 5,
-        });
-      } else if (window.innerWidth < 1087 && this.state.titleHeight !== 3.25) {
-        this.setState({
-          titleHeight: 3.25,
-        });
-      }
-    };
-  }
-
-  componentDidCatch() {
-    window.removeEventListener('resize', this.handleWindowSizeChange);
-  }
-  componentDidMount() {
-    window.addEventListener('resize', this.handleWindowSizeChange);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleWindowSizeChange);
-  }
-
   render() {
     const { isSideNavOpen } = this.props;
-    const { titleHeight } = this.state;
     return (
       <SideNav
         navStyle={{ background: '#eee', overflowY: 'auto', overflowX: 'hidden' }}
         openFromRight
         showNav={isSideNavOpen}
         titleStyle={{
-          marginTop: `${titleHeight}rem`,
+          marginTop: `4rem`,
           lineHeight: 'none',
           background: '#3273dc',
           padding: '1.5rem 1rem',

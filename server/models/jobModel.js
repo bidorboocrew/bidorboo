@@ -14,6 +14,7 @@ const DateTimeSchema = {
   date: Date,
   time: { type: String, trim: true, default: 'Flexible, any time' },
 };
+
 const MAX_ADDRESS_LENGTH = 300;
 
 const JobSchema = new Schema(
@@ -29,7 +30,13 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
-      enum: ['OPEN', 'AWARDED', 'DONE', 'CANCELED', 'EXPIRED'],
+      enum: ['OPEN', 'AWARDED', 'DISPUTED', 'CANCELED', 'EXPIRED', 'DONE', 'PAIDOUT'],
+    },
+    jobCompletion: {
+      proposerConfirmed: { type: Boolean, default: false },
+      bidderConfirmed: { type: Boolean, default: false },
+      bidderDisputed: { type: Boolean, default: false },
+      proposerDisputed: { type: Boolean, default: false },
     },
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],

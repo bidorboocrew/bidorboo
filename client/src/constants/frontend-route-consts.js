@@ -40,6 +40,12 @@ export const API = {
       payment: '/api/payment',
     },
   },
+  REVIEW: {
+    PUT: {
+      proposerSubmitReview: '/api/review/proposerSubmitReview',
+      bidderSubmitReview: '/api/review/bidderSubmitReview',
+    },
+  },
   JOB: {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
@@ -57,6 +63,10 @@ export const API = {
       awardBidder: '/api/job/awardBidder',
       updateViewedBy: '/api/job/updateViewedBy',
       updateBooedBy: '/api/job/updateBooedBy',
+      proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
+      bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
+      proposerDisputeJob: '/api/job/proposerDisputeJob',
+      bidderDisputeJob: '/api/job/bidderDisputeJob',
     },
     DELETE: {
       jobById: '/api/job',
@@ -106,5 +116,14 @@ export const CLIENT = {
     currentAwardedBid: '/bidder/awarded-bid-details',
     myAwardedBids: '/bidder/my-awarded-bids',
   },
+  REVIEW: {
+    proposerJobReview: `/proposer-review/:proposerId/job/:jobId/bidder/:bidderId`,
+    bidderJobReview: `/bidder-review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
+    getProposerJobReview: (proposerId, jobId, bidderId) =>
+      `/proposer-review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
+    getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
+      `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
+  },
+
   MY_PROFILE: '/my-profile',
 };

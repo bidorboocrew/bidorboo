@@ -8,8 +8,8 @@ export { default as ProposerRootPage } from './proposer-flow/ProposerRootPage';
 export { default as CreateAJobPage } from './proposer-flow/CreateAJobPage';
 export { default as MyOpenJobsPage } from './proposer-flow/MyOpenJobsPage';
 export {
-  default as ReviewAwardedJobAndBidsPage,
-} from './proposer-flow/ReviewAwardedJobAndBidsPage';
+  default as ReviewMyAwardedJobAndWinningBidPage,
+} from './proposer-flow/ReviewMyAwardedJobAndWinningBidPage';
 export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 
 // bidder flow
@@ -21,3 +21,6 @@ export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
 
 export { default as MyCalendar } from './MyCalendar';
 export { default as NotificationsModal } from './NotificationsModal';
+
+export { default as ProposerReviewingCompletedJob } from './review-flow/ProposerReviewingCompletedJob';
+export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';

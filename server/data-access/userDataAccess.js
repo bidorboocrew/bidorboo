@@ -115,15 +115,14 @@ exports.findUserAndAllNewNotifications = async (userId) => {
 
       let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
 
-      const today = moment()
+      const startOfToday = moment()
         .tz('America/Toronto')
         .startOf('day')
         .toISOString();
 
-      const theNext24Hours = moment()
+      const endOfToday = moment()
         .tz('America/Toronto')
-        .add(1, 'day')
-        .startOf('day')
+        .endOf('day')
         .toISOString();
 
       const z_jobsHappeningToday =
@@ -140,9 +139,9 @@ exports.findUserAndAllNewNotifications = async (userId) => {
               .tz('America/Toronto')
               .toISOString();
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
             const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              theNext24Hours
+              endOfToday
             );
             return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
           });
@@ -163,9 +162,9 @@ exports.findUserAndAllNewNotifications = async (userId) => {
               .tz('America/Toronto')
               .toISOString();
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
             const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              theNext24Hours
+              endOfToday
             );
             return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
           });
@@ -195,7 +194,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
       let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
 
       // updte user with this new info
-      const updatedUser = User.findOneAndUpdate(
+      const updatedUser = await User.findOneAndUpdate(
         { userId },
         {
           $set: {
@@ -217,7 +216,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
 
       await sendTextService.sendText(
         updatedUser.phone.phoneNumber,
-        `BidOrBoo: click on the link to verify your phone Phone verification.
+        `BidOrBoo: Phone verification. click to verify
         ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(phoneVerificationCode)}`
       );
       resolve({ success: true, updatedUser: updatedUser });
@@ -393,6 +392,91 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
     .lean(true)
     .exec();
 };
+
+exports.proposerPushesAReview = async (
+  reviewId,
+  proposerId,
+  newFulfilledJobId,
+  bidderId,
+  newBidderGlobalRating,
+  newTotalOfAllRatings,
+  personalComment
+) => {
+  return await Promise.all([
+    User.findOneAndUpdate(
+      { _id: proposerId },
+      {
+        $push: { 'rating.fulfilledJobs': newFulfilledJobId },
+      },
+      {
+        new: true,
+      }
+    )
+      .lean(true)
+      .exec(),
+    User.findOneAndUpdate(
+      { _id: bidderId },
+      {
+        $push: { _asBidderReviewsRef: reviewId },
+        $set: {
+          'rating.globalRating': newBidderGlobalRating,
+          'rating.totalOfAllRatings': newTotalOfAllRatings,
+          'rating.latestComment': personalComment,
+        },
+        $inc: { 'rating.numberOfTimesBeenRated': 1 },
+      },
+      {
+        new: true,
+      }
+    )
+      .lean(true)
+      .exec(),
+  ]);
+};
+
+exports.bidderPushesAReview = async (
+  reviewId,
+  bidderId,
+  newFulfilledBidId,
+  proposerId,
+  newProposerGlobalRating,
+  newTotalOfAllRatings,
+  personalComment
+) => {
+  return await Promise.all([
+    await User.findOneAndUpdate(
+      { _id: bidderId },
+      {
+        $push: {
+          'rating.fulfilledBids': newFulfilledBidId,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .lean(true)
+      .exec(),
+    await User.findOneAndUpdate(
+      { _id: proposerId },
+      {
+        $push: { _asProposerReviewsRef: reviewId },
+        $set: {
+          'rating.globalRating': newProposerGlobalRating,
+          'rating.totalOfAllRatings': newTotalOfAllRatings,
+          'rating.latestComment': personalComment,
+        },
+        $inc: { 'rating.numberOfTimesBeenRated': 1 },
+      },
+      {
+        new: true,
+      }
+    )
+      .lean(true)
+      .exec(),
+  ]);
+};
+
 exports.getUserStripeAccount = async (mongodbUserId) => {
   return new Promise(async (resolve, reject) => {
     try {

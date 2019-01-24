@@ -242,9 +242,9 @@ class JobsLocationFilterForm extends React.Component {
         </div>
 
         <br />
-        <div className="field">
+        <div className="field has-text-centered">
           <button
-            style={{ marginRight: 6, marginTop: 8 }}
+            style={{ marginRight: 6, marginTop: 8, width: 150 }}
             className="button is-link "
             type="submit"
           >
@@ -254,9 +254,9 @@ class JobsLocationFilterForm extends React.Component {
             <span>Apply</span>
           </button>
           <button
-            style={{ marginRight: 6, marginTop: 8 }}
+            style={{ marginRight: 8, marginTop: 8, width: 150 }}
             type="button"
-            className="button is-outlined"
+            className="button is-outlined is-link"
             onClick={() => {
               //xxx saeed yo ucan do better . th reset func should auto clear all these fields
               resetForm();
@@ -267,9 +267,25 @@ class JobsLocationFilterForm extends React.Component {
             }}
           >
             <span className="icon">
+              <i className="fas fa-ban" />
+            </span>
+            <span>Clear All Filters</span>
+          </button>
+        </div>
+        <div className="field has-text-centered">
+          <button
+            style={{ marginRight: 6, marginTop: 24, width: 300 }}
+            type="button"
+            className="button is-outline"
+            onClick={() => {
+              //xxx saeed yo ucan do better . th reset func should auto clear all these fields
+              this.props.onCancel && this.props.onCancel();
+            }}
+          >
+            <span className="icon">
               <i className="far fa-times-circle" />
             </span>
-            <span>Clear All</span>
+            <span>Close Filter Panel</span>
           </button>
         </div>
       </form>

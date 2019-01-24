@@ -27,7 +27,7 @@ module.exports = (app) => {
       const payLoad = JSON.stringify(data);
       const notificationReq = await webpush.sendNotification(subscription, payLoad);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To send notification', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To send notification', details: `${e}` });
     }
   });
 
@@ -63,7 +63,7 @@ module.exports = (app) => {
     } catch (e) {
       return res
         .status(500)
-        .send({ errorMsg: 'Failed To register push notifications', details: e });
+        .send({ errorMsg: 'Failed To register push notifications', details: `${e}` });
     }
   });
 };

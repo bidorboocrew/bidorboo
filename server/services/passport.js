@@ -19,7 +19,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
-    return done({ errorMsg: 'Failed To deserializeUser', details: e }, null);
+    return done({ errorMsg: 'Failed To deserializeUser', details: `${e}` }, null);
   }
 });
 
@@ -52,7 +52,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To facebook Auth', details: e }, null);
+      return done({ errorMsg: 'Failed To facebook Auth', details: `${e}` }, null);
     }
   })
 );
@@ -85,7 +85,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To create user via google login', details: e }, null);
+      return done({ errorMsg: 'Failed To create user via google login', details: `${e}` }, null);
     }
   })
 );

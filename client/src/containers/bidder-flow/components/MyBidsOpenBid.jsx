@@ -3,6 +3,16 @@ import moment from 'moment';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
+import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import {
+  AvgBidDisplayLabelAndValue,
+  DisplayLabelValue,
+  CountDownComponent,
+  UserImageAndRating,
+  JobStats,
+  CardTitleWithBidCount,
+  getDaysSinceCreated,
+} from '../../commonComponents';
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
 export default class MyBidsOpenBid extends React.Component {
@@ -20,37 +30,46 @@ export default class MyBidsOpenBid extends React.Component {
 
     const { _ownerRef } = _jobRef;
     const { profileImage, displayName } = _ownerRef;
+
+    const startingDateAndTime = moment(_jobRef.startingDateAndTime.date)
+      .format('DD/MMM/YYYY')
+      .toString();
+
     return (
       <div
         onClick={(e) => {
           e.preventDefault();
           switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`);
         }}
-        className="card has-text-centered bidderRootSpecial"
+        className="card bidderRootSpecial"
       >
+        <div className="card-image is-clipped">
+          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+        </div>
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
+          <div className="has-text-dark is-size-7">Requester:</div>
+          <UserImageAndRating userDetails={_ownerRef} />
+
           <div className="content">
-            <p className="heading">Requester</p>
-            <figure style={{ margin: '0 auto' }} className="image is-48x48">
-              <img alt="profile" src={profileImage.url} />
-            </figure>
-            <div className="help">{displayName}</div>
-
-            <p className="heading">Service Type</p>
-            <p className="subtitle">{fromTemplateId}</p>
-
-            <p className="heading">Your Bid Amount</p>
-            <p className="subtitle has-text-weight-bold">{bidAmountText}</p>
+            <DisplayLabelValue
+              labelText="Start Date:"
+              labelValue={
+                _jobRef.startingDateAndTime.date &&
+                ` ${moment(_jobRef.startingDateAndTime.date).format('DD/MMM/YYYY')}`
+              }
+            />
+            <DisplayLabelValue labelText="Your Bid:" labelValue={bidAmountText} />
+            <div className="help">* waiting for requester to award.</div>
           </div>
         </div>
         <footer className="card-footer">
-          <a className="card-footer-item">View Or Change</a>
           <div className="card-footer-item">
-            {`Expires in : ${moment(_jobRef.startingDateAndTime.date).format('MMMM Do YYYY')}`}
+            <a className="button is-outlined">View Or Change</a>
           </div>
-          <div className="card-footer-item">
+          <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
+          {/* <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>
-          </div>
+          </div> */}
         </footer>
       </div>
     );

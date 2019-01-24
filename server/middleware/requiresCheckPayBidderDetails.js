@@ -7,7 +7,7 @@ const stripeServiceUtil = require('../services/stripeService').util;
  */
 module.exports = async (req, res, next) => {
   try {
-    const { stripeTransactionToken, bidId, chargeAmount, jobIdToUpdate } = req.body.data;
+    const { stripeTransactionToken, bidId, chargeAmount, jobId } = req.body.data;
     if (!stripeTransactionToken || !bidId || !chargeAmount) {
       return res.status(403).send({ errorMsg: 'We did NOT process the payment. missing params' });
     }
@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
         .send({ errorMsg: 'payment amount mismatch. we did NOT process the payment.' });
     }
 
-    if (theBid._jobRef.toString() !== jobIdToUpdate) {
+    if (theBid._jobRef.toString() !== jobId) {
       return res.status(403).send({
         errorMsg:
           'payment can not be processed as the job field does not match the selected job. we did NOT process the payment.',

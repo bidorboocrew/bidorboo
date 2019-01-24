@@ -7,10 +7,11 @@ import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
+import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 
 import { Spinner } from '../../components/Spinner';
 import MyAwardedBidJobDetails from './components/MyAwardedBidJobDetails';
-import RequesterAndAwardedBid from './components/RequesterAndAwardedBid';
+import RequesterAndMyAwardedBid from './components/RequesterAndMyAwardedBid';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -19,7 +20,6 @@ class ReviewAwardedBidPage extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    // http://localhost:3000/bidder/review-my-bid-details/5c22963be212a73af0a12f28
   }
 
   componentDidMount() {
@@ -55,7 +55,11 @@ class ReviewAwardedBidPage extends React.Component {
   };
 
   render() {
-    const { selectedAwardedBid } = this.props;
+    const {
+      selectedAwardedBid,
+      a_bidderConfirmsJobCompletion,
+      isReadOnlyView = false,
+    } = this.props;
     // while fetching the job
 
     if (
@@ -65,11 +69,9 @@ class ReviewAwardedBidPage extends React.Component {
       !selectedAwardedBid._jobRef._id
     ) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -77,20 +79,21 @@ class ReviewAwardedBidPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {breadCrumbs({ activePageTitle: title })}
-            <div className="columns is-multiline is-centered">
-              <div className="column">
-                <RequesterAndAwardedBid bid={selectedAwardedBid} job={selectedAwardedJob} />
-              </div>
-              <div className="column">
-                <MyAwardedBidJobDetails job={selectedAwardedJob} />
-              </div>
-            </div>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <RequesterAndMyAwardedBid
+              bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
+              bid={selectedAwardedBid}
+              job={selectedAwardedJob}
+              isReadOnlyView={isReadOnlyView}
+            />
           </div>
-        </section>
+          <div className="column">
+            <MyAwardedBidJobDetails job={selectedAwardedJob} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -107,6 +110,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
+    a_bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
   };
 };
 
@@ -117,7 +121,7 @@ export default connect(
 
 const breadCrumbs = ({ activePageTitle }) => {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>

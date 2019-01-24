@@ -61,46 +61,42 @@ class MyBidsPage extends React.Component {
       );
 
     return (
-      <div id="bdb-bidder-my-bids">
-        <section className="section">
-          <div className="container">
-            <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
-              <ul>
-                <li>
-                  <a className="has-text-white has-text-weight-bold">
-                    {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-            {!isLoading && (
-              <div className="columns is-multiline is-mobile is-centered">
-                {awardedBidsListComponent}
-              </div>
-            )}
+      <React.Fragment>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
+            <ul>
+              <li>
+                <a className="has-text-white has-text-weight-bold">
+                  {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
+                </a>
+              </li>
+            </ul>
           </div>
-        </section>
 
-        <section style={{ paddingTop: 0 }} className="section">
-          <div className="container">
-            <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
-              <ul>
-                <li>
-                  <a className="has-text-white has-text-weight-bold">
-                    {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
-                  </a>
-                </li>
-              </ul>
+          {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+          {!isLoading && (
+            <div className="columns is-multiline is-mobile is-centered">
+              {awardedBidsListComponent}
             </div>
-            {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-            {!isLoading && (
-              <div className="columns is-multiline is-mobile is-centered">{pendingBidsList} </div>
-            )}
+          )}
+        </div>
+
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
+            <ul>
+              <li>
+                <a className="has-text-white has-text-weight-bold">
+                  {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
+                </a>
+              </li>
+            </ul>
           </div>
-        </section>
-      </div>
+          {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+          {!isLoading && (
+            <div className="columns is-multiline is-mobile is-centered">{pendingBidsList} </div>
+          )}
+        </div>
+      </React.Fragment>
     );
   }
 }

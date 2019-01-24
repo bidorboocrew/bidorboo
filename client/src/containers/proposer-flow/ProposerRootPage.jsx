@@ -8,14 +8,12 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 class ProposerRoot extends React.Component {
   render() {
-    const { a_showLoginDialog, isLoggedIn} = this.props;
+    const { a_showLoginDialog, isLoggedIn } = this.props;
 
     return (
-        <section className="section">
-          <div className="container">
-            <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
-          </div>
-        </section>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+      </div>
     );
   }
 }

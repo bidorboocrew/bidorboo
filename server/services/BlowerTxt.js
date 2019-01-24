@@ -5,6 +5,12 @@ var request = require('request');
 
 exports.TxtMsgingService = {
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
+    let formattedMobileNumber = `1-${mobileNumber}`;
+
+    if (mobileNumber && mobileNumber.length > 0) {
+      formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
+      formattedMobileNumber = `+${formattedMobileNumber}`;
+    }
     request.post(
       {
         headers: {
@@ -13,7 +19,7 @@ exports.TxtMsgingService = {
         },
         url: keys.blowerText + '/messages',
         form: {
-          to: `+${mobileNumber}`,
+          to: formattedMobileNumber,
           message: `${msgContent}`,
         },
       },

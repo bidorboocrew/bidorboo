@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
+const ReviewModel = mongoose.model('ReviewModel');
+
 const moment = require('moment');
 const ROUTES = require('../backend-route-constants');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -238,7 +240,7 @@ exports.jobDataAccess = {
           _id: 1,
         },
         match: { state: { $eq: 'AWARDED' } },
-        options: { sort: { createdAt: -1 } },
+        options: { sort: { 'startingDateAndTime.date': 1 } },
         populate: {
           path: '_awardedBidRef',
           select: {
@@ -265,7 +267,7 @@ exports.jobDataAccess = {
         path: '_postedJobsRef',
         select: schemaHelpers.JobFull,
         match: { state: { $eq: stateFilter } },
-        options: { sort: { createdAt: -1 } },
+        options: { sort: { 'startingDateAndTime.date': 1 } },
       })
       .lean(true)
       .exec();
@@ -276,10 +278,40 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  getJobWithReviewModel: async (jobId) => {
+    return JobModel.findById(jobId)
+      .populate({ path: '_reviewRef' })
+      .lean(true)
+      .exec();
+  },
+
+  kickStartReviewModel: async ({ jobId, bidderId, proposerId }) => {
+    const kickStartReviewModel = await new ReviewModel({
+      jobId,
+      bidderId,
+      proposerId,
+    }).save();
+
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: {
+          _reviewRef: kickStartReviewModel._id,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+        const jobOwnerFields = {
+          displayName: 1,
+          profileImage: 1,
+          _id: 1,
+          rating: 1,
+        };
 
         const jobWithBidDetails = await JobModel.findOne(
           { _id: jobId, _ownerRef: mongDbUserId },
@@ -294,7 +326,6 @@ exports.jobDataAccess = {
               select: {
                 _asBidderReviewsRef: 1,
                 _asProposerReviewsRef: 1,
-                rating: 1,
                 userId: 1,
                 displayName: 1,
                 profileImage: 1,
@@ -303,6 +334,7 @@ exports.jobDataAccess = {
                 agreedToServiceTerms: 1,
                 createdAt: 1,
                 email: 1,
+                rating: 1,
               },
             },
           })
@@ -323,6 +355,7 @@ exports.jobDataAccess = {
           .populate({
             path: '_postedJobsRef',
             select: schemaHelpers.JobFull,
+            options: { sort: { 'startingDateAndTime.date': 1 } },
             populate: {
               path: '_bidsListRef',
               select: schemaHelpers.BidFull,
@@ -371,7 +404,10 @@ exports.jobDataAccess = {
         { _id: mongoDbUserId },
         {
           $push: {
-            _postedJobsRef: { $each: [newJob._id], $sort: { createdAt: -1 } },
+            _postedJobsRef: {
+              $each: [newJob._id],
+              sort: { 'newJob.startingDateAndTime.date': 1 },
+            },
           },
         },
         { projection: { _id: 1 } }
@@ -389,6 +425,18 @@ exports.jobDataAccess = {
       {
         $addToSet: {
           viewedBy: mongoDbUserId,
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  },
+  updateState: (jobId, stateValue) => {
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: {
+          state: stateValue,
         },
       }
     )
@@ -508,7 +556,8 @@ exports.jobDataAccess = {
       const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
-        sort: { createdAt: -1 },
+        sort: { 'startingDateAndTime.date': 1 },
+        allowDiskUse: true,
       })
         .where('startingDateAndTime.date')
         .gt(new Date())
@@ -533,74 +582,6 @@ exports.jobDataAccess = {
         });
     });
   },
-  getAllJobsToBidOnForLoggedInUser: (userId, mongoDbUserId) => {
-    // will return jobs that you did not bid on and that you are not owner of
-    return new Promise((resolve, reject) => {
-      const jobFields = {
-        _ownerRef: 1,
-        _bidsListRef: 1,
-        title: 1,
-        state: 1,
-        detailedDescription: 1,
-        stats: 1,
-        startingDateAndTime: 1,
-        durationOfJob: 1,
-        fromTemplateId: 1,
-        reported: 1,
-        createdAt: 1,
-        updatedAt: 1,
-        location: 1,
-      };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1 };
-
-      JobModel.find({ _ownerRef: { $not: { $eq: mongoDbUserId } } }, jobFields, {
-        sort: { createdAt: -1 },
-      })
-        .populate({
-          path: '_ownerRef',
-          select: jobOwnerFields,
-        })
-        .populate({
-          path: '_bidsListRef',
-          select: { _bidderRef: 1 },
-        })
-        .lean(true)
-        .exec((error, results) => {
-          try {
-            if (error) {
-              return reject(error);
-            } else {
-              // this will be hit if user is logged in
-
-              // remove jobs that user already bid on
-              let openJobsUserHasntBidOn =
-                results &&
-                results.filter((job) => {
-                  const isOpenState = job.state === 'OPEN';
-                  let didCurrentUserAlreadyBidOnThisJob = false;
-                  if (isOpenState && job._bidsListRef && job._bidsListRef.length > 0) {
-                    didCurrentUserAlreadyBidOnThisJob = job._bidsListRef.some((bid) => {
-                      return (
-                        bid._bidderRef && bid._bidderRef.toString() === mongoDbUserId.toString()
-                      );
-                    });
-                  }
-                  // return jobs where the state is open and the current user did NOT bid on them yet
-                  return isOpenState && !didCurrentUserAlreadyBidOnThisJob;
-                });
-              return resolve(openJobsUserHasntBidOn);
-            }
-          } catch (e) {
-            return reject(e);
-          }
-        });
-    });
-  },
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------------------------
-
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
@@ -707,7 +688,7 @@ exports.jobDataAccess = {
     ]);
   },
 
-  awardedBidder: async (jobId, bidId) => {
+  awardBidder: async (jobId, bidId) => {
     const updateRelevantItems = await Promise.all([
       BidModel.findOneAndUpdate(
         { _id: bidId },
@@ -774,17 +755,33 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  isJobOwner: (currentSessionUserId, jobId) => {
+  isJobOwner: (mongoDbUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerRef: 1 })
       .where('_ownerRef')
-      .equals(currentSessionUserId)
+      .equals(mongoDbUserId)
       .lean(true)
       .exec();
   },
-  findOneByJobIdAndUpdateJobInfo: (jobIdToUpdate, newJobDetails, options) => {
+  isAwardedBidder: (mongoDbUserId, jobId) => {
+    return JobModel.findOne({ _id: jobId }, { _awardedBidRef: 1 })
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          _bidderRef: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          match: { _id: { $eq: mongoDbUserId } },
+          select: { _id: 1 },
+        },
+      })
+      .lean(true)
+      .exec();
+  },
+  findOneByJobIdAndUpdateJobInfo: (jobId, newJobDetails, options) => {
     // xxx to do , validate user input and use some sanitizer tool to prevent coded content
     return JobModel.findOneAndUpdate(
-      { _id: jobIdToUpdate },
+      { _id: jobId },
       {
         $set: { ...newJobDetails },
       },

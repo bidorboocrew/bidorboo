@@ -7,12 +7,15 @@ import { switchRoute } from '../../utils';
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { Spinner } from '../../components/Spinner';
-import { getAwardedBidFullDetails } from '../../app-state/actions/jobActions';
+import {
+  getAwardedBidFullDetails,
+  proposerConfirmsJobCompletion,
+} from '../../app-state/actions/jobActions';
 
 import JobFullDetailsCard from './components/JobFullDetailsCard';
-import BidAndBidderFullDetails from './components/BidAndBidderFullDetails';
+import BidderAndMyAwardedJob from './components/BidderAndMyAwardedJob';
 
-class ReviewAwardedJobAndBidsPage extends React.Component {
+class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
     super(props);
     this.jobId = null;
@@ -24,7 +27,6 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
 
   componentDidMount() {
     const { a_getAwardedBidFullDetails } = this.props;
-
     if (!this.jobId) {
       switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
       return null;
@@ -33,7 +35,7 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     a_getAwardedBidFullDetails(this.jobId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // if route changed reload the job
     let newJobId = this.jobId;
 
@@ -52,15 +54,17 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
   }
 
   render() {
-    const { selectedAwardedJob } = this.props;
+    const {
+      selectedAwardedJob,
+      a_proposerConfirmsJobCompletion,
+      isReadOnlyView = false,
+    } = this.props;
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -68,21 +72,25 @@ class ReviewAwardedJobAndBidsPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <section className="section">
-        <div className="container">
-          {breadCrumbs({
+      <div className="container is-widescreen bidorbooContainerMargins">
+        {!isReadOnlyView &&
+          breadCrumbs({
             activePageTitle: title,
           })}
-          <div className="columns is-gapless is-multiline is-centered">
-            <div className="column">
-              <BidAndBidderFullDetails bid={_awardedBidRef} job={selectedAwardedJob} />
-            </div>
-            <div className="column">
-              <JobFullDetailsCard job={selectedAwardedJob} />
-            </div>
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <BidderAndMyAwardedJob
+              proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
+              bid={_awardedBidRef}
+              job={selectedAwardedJob}
+              isReadOnlyView={isReadOnlyView}
+            />
+          </div>
+          <div className="column">
+            <JobFullDetailsCard job={selectedAwardedJob} />
           </div>
         </div>
-      </section>
+      </div>
     );
   }
 }
@@ -97,18 +105,19 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
+    a_proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewAwardedJobAndBidsPage);
+)(ReviewMyAwardedJobAndWinningBidPage);
 
 const breadCrumbs = (props) => {
   const { activePageTitle } = props;
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>

@@ -6,12 +6,12 @@ module.exports = async (req, res, next) => {
       return res.status(401).send({ errorMsg: 'you must be logged in to perform this action.' });
     }
     //in the future redirect to login page
-    const { jobIdToUpdate } = req.body.data;
-    if (!jobIdToUpdate) {
+    const { jobId } = req.body.data;
+    if (!jobId) {
       return res.status(403).send({ errorMsg: 'missing paramerters . can not validate the job.' });
     }
 
-    const job = await jobDataAccess.getJobById(jobIdToUpdate);
+    const job = await jobDataAccess.getJobById(jobId);
     if (!job || !job._id) {
       return res.status(403).send({ errorMsg: 'We could not locate the job.' });
     }
@@ -31,6 +31,6 @@ module.exports = async (req, res, next) => {
   } catch (e) {
     return res
       .status(500)
-      .send({ errorMsg: 'failed to validate requireUserHasNotAlreadyBidOnJob ', details: e });
+      .send({ errorMsg: 'failed to validate requireUserHasNotAlreadyBidOnJob ', details: `${e}` });
   }
 };

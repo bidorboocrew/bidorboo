@@ -4,7 +4,7 @@ import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
-export default class ReviewBidAndBidder extends React.Component {
+export default class AcceptBidAndBidderModal extends React.Component {
   render() {
     const { bid, closeModal } = this.props;
 

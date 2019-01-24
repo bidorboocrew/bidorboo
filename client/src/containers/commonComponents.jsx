@@ -1,5 +1,7 @@
 import React from 'react';
 import Countdown from 'react-countdown-now';
+import ReactStars from 'react-stars';
+
 import moment from 'moment';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
@@ -68,7 +70,7 @@ export const CountDownComponent = (props) => {
           intervalDelay={1000}
           renderer={({ days, hours, minutes, seconds, completed }) => {
             return completed ? (
-              <Expired />
+              <ExpiringSoon startingDate={startingDate} />
             ) : (
               <React.Fragment>
                 {days && !`${days}`.includes('NaN') ? (
@@ -84,7 +86,19 @@ export const CountDownComponent = (props) => {
     </React.Fragment>
   );
 };
-const Expired = () => <div className="has-text-danger">Expiring soon!</div>;
+const ExpiringSoon = ({ startingDate }) => {
+  const today = moment()
+    .startOf('day')
+    .toISOString();
+
+  const jobStartingDate = moment(startingDate).toISOString();
+
+  if (moment(jobStartingDate).isBefore(today)) {
+    return <div className="has-text-danger">Expired Already!</div>;
+  } else {
+    return <div className="has-text-warning">Expiring Soon!</div>;
+  }
+};
 
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails
@@ -101,7 +115,20 @@ export const UserImageAndRating = ({ userDetails }) => {
       </div>
       <div className="media-content">
         <p className="is-size-6">{displayName}</p>
-        <p className="is-size-7">{rating.globalRating}</p>
+        {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+          <p className="is-size-7">No Ratings Yet</p>
+        ) : (
+          <ReactStars
+            className="is-size-7"
+            half
+            count={5}
+            value={rating.globalRating}
+            edit={false}
+            size={20}
+            color1={'lightgrey'}
+            color2={'#ffd700'}
+          />
+        )}
       </div>
     </div>
   );
@@ -130,7 +157,7 @@ export const JobStats = ({ daysSinceCreated, viewedBy }) => {
   );
 };
 
-export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) => {
+export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, userAlreadyView }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
@@ -140,7 +167,15 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList }) =>
       className="card-header is-clipped"
     >
       <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+
       <a className="card-header-icon">
+        {userAlreadyView && (
+          <span style={{ marginRight: 4 }} className="has-text-grey">
+            <span className="icon">
+              <i className="far fa-eye" />
+            </span>
+          </span>
+        )}
         {!isAwarded && (
           <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
             <span className="icon">

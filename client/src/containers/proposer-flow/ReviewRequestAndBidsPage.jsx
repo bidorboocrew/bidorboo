@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
@@ -11,7 +13,6 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
 import ReviewBidAndBidder from './components/ReviewBidAndBidder';
-import { switchRoute } from '../../utils';
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -64,11 +65,9 @@ class ReviewRequestAndBidsPage extends React.Component {
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -76,32 +75,30 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     return (
-      <section className="section">
-        <div className="container">
-          {breadCrumbs({
-            activePageTitle: title,
-          })}
-          {showBidReviewModal && (
-            <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
-          )}
+      <div className="container is-widescreen bidorbooContainerMargins">
+        {breadCrumbs({
+          activePageTitle: title,
+        })}
+        {showBidReviewModal && (
+          <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+        )}
 
-          {!showBidReviewModal && (
-            <div className="columns is-centered is-multiline">
-              <div className="column">
-                <BidsTable
-                  jobId={selectedJobWithBids._id}
-                  bidList={selectedJobWithBids._bidsListRef}
-                  markBidAsSeen={a_markBidAsSeen}
-                  showBidReviewModal={this.showBidReviewModal}
-                />
-              </div>
-              <div className="column">
-                <JobFullDetailsCard job={selectedJobWithBids} />
-              </div>
+        {!showBidReviewModal && (
+          <div className="columns is-centered is-multiline">
+            <div className="column">
+              <BidsTable
+                jobId={selectedJobWithBids._id}
+                bidList={selectedJobWithBids._bidsListRef}
+                markBidAsSeen={a_markBidAsSeen}
+                showBidReviewModal={this.showBidReviewModal}
+              />
             </div>
-          )}
-        </div>
-      </section>
+            <div className="column">
+              <JobFullDetailsCard job={selectedJobWithBids} />
+            </div>
+          </div>
+        )}
+      </div>
     );
   }
 }
@@ -128,7 +125,7 @@ export default connect(
 const breadCrumbs = (props) => {
   const { activePageTitle } = props;
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>

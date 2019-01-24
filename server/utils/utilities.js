@@ -12,7 +12,7 @@ exports.encryptData = async (dataToEncrypt) => {
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     return bcrypt.hash(dataToEncrypt, salt);
   } catch (e) {
-    return { errorMsg: 'Failed To encrypt the password', details: e };
+    return { errorMsg: 'Failed To encrypt the password', details: `${e}` };
   }
 };
 

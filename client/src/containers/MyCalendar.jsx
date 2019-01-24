@@ -107,11 +107,9 @@ class MyCalendar extends React.Component {
 
     if (isLoadingAwardedBids || isLoadingAwardedJobs) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={isLoadingAwardedBids || isLoadingAwardedJobs} size={'large'} />;
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={isLoadingAwardedBids || isLoadingAwardedJobs} size={'large'} />;
+        </div>
       );
     }
 
@@ -119,27 +117,25 @@ class MyCalendar extends React.Component {
     let calendarViews = ['month', 'week', 'day', 'agenda'];
 
     return (
-      <section className="section">
-        <div className="container">
-          <BigCalendar
-            localizer={localizer}
-            events={allCalendarEvents}
-            // startAccessor="start"
-            // endAccessor="end"
-            views={calendarViews}
-            // defaultView={BigCalendar.Views.AGENDA}
-            components={{
-              event: Event,
-              agenda: {
-                event: EventAgenda,
-              },
-              day: {
-                event: EventDay,
-              },
-            }}
-          />
-        </div>
-      </section>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        <BigCalendar
+          localizer={localizer}
+          events={allCalendarEvents}
+          // startAccessor="start"
+          // endAccessor="end"
+          views={calendarViews}
+          // defaultView={BigCalendar.Views.AGENDA}
+          components={{
+            event: Event,
+            agenda: {
+              event: EventAgenda,
+            },
+            day: {
+              event: EventDay,
+            },
+          }}
+        />
+      </div>
     );
   }
 }

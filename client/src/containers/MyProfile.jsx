@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactStars from 'react-stars';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
@@ -73,157 +75,155 @@ class MyProfile extends React.Component {
           a_updateProfileImage,
         )}
 
-        <section className="section">
-          <div className="container">
-            <div className="columns is-centered is-gapless">
-              <div className="column is-narrow">
-                {userImageAndStats(
-                  this.toggleShowUploadProfileImageDialog,
-                  profileImage,
-                  membershipStatusDisplay,
-                  rating,
-                  displayName,
-                )}
-              </div>
-              <div className="column">
-                <section style={{ backgroundColor: 'white', padding: '1rem' }}>
-                  {!isEditProfile && (
-                    <div className="field">
-                      <HeaderTitle title="My Details" />
-                      <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                      <DisplayLabelValue
-                        labelText="Email:"
-                        labelValue={
-                          <div>
-                            <span>{email.emailAddress}</span>
-                            {email.isVerified && (
-                              <span style={{ marginLeft: 6 }} className="has-text-success">
-                                <span className="icon">
-                                  <i className="fas fa-check is-success" />
-                                </span>
-                                <span>Verified</span>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <div className="columns is-centered is-gapless">
+            <div className="column is-narrow">
+              {userImageAndStats(
+                this.toggleShowUploadProfileImageDialog,
+                profileImage,
+                membershipStatusDisplay,
+                rating,
+                displayName,
+              )}
+            </div>
+            <div className="column">
+              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+                {!isEditProfile && (
+                  <div className="field">
+                    <HeaderTitle title="My Details" />
+                    <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                    <DisplayLabelValue
+                      labelText="Email:"
+                      labelValue={
+                        <div>
+                          <span>{email.emailAddress}</span>
+                          {email.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-success">
+                              <span className="icon">
+                                <i className="fas fa-check is-success" />
                               </span>
-                            )}
-                            {!email.isVerified && (
-                              <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                <span style={{ marginLeft: 2 }}>Not Verified</span>
+                              <span>Verified</span>
+                            </span>
+                          )}
+                          {!email.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-grey">
+                              <span style={{ marginLeft: 2 }}>Not Verified</span>
+                            </span>
+                          )}
+                        </div>
+                      }
+                    />
+
+                    {shouldShowEmailVerification && (
+                      <VerifyEmail getCurrentUser={a_getCurrentUser} />
+                    )}
+
+                    <DisplayLabelValue
+                      labelText="Phone Number:"
+                      labelValue={
+                        <div>
+                          <span>{phoneNumber}</span>
+                          {phone.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-success">
+                              <span className="icon">
+                                <i className="fas fa-check is-success" />
                               </span>
-                            )}
-                          </div>
-                        }
-                      />
+                              <span>Verified</span>
+                            </span>
+                          )}
+                          {!phone.isVerified && (
+                            <span style={{ marginLeft: 6 }} className="has-text-grey">
+                              <span style={{ marginLeft: 2 }}>Not Verified</span>
+                            </span>
+                          )}
+                        </div>
+                      }
+                    />
+                    {shouldShowPhoneVerification && (
+                      <VerifyPhone getCurrentUser={a_getCurrentUser} />
+                    )}
 
-                      {shouldShowEmailVerification && (
-                        <VerifyEmail getCurrentUser={a_getCurrentUser} />
-                      )}
+                    <HeaderTitle specialMarginVal={8} title="About Me" />
+                    <TextareaAutosize
+                      value={personalParagraph}
+                      className="textarea is-marginless is-paddingless"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                        color: '#4a4a4a',
+                        height: 'auto',
+                      }}
+                      readOnly
+                    />
 
-                      <DisplayLabelValue
-                        labelText="Phone Number:"
-                        labelValue={
-                          <div>
-                            <span>{phoneNumber}</span>
-                            {phone.isVerified && (
-                              <span style={{ marginLeft: 6 }} className="has-text-success">
-                                <span className="icon">
-                                  <i className="fas fa-check is-success" />
-                                </span>
-                                <span>Verified</span>
-                              </span>
-                            )}
-                            {!phone.isVerified && (
-                              <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                <span style={{ marginLeft: 2 }}>Not Verified</span>
-                              </span>
-                            )}
-                          </div>
-                        }
-                      />
-                      {shouldShowPhoneVerification && (
-                        <VerifyPhone getCurrentUser={a_getCurrentUser} />
-                      )}
-
-                      <HeaderTitle specialMarginVal={8} title="About Me" />
-                      <TextareaAutosize
-                        value={personalParagraph}
-                        className="textarea is-marginless is-paddingless"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          height: 'auto',
-                        }}
-                        readOnly
-                      />
-
-                      <div>
-                        <a
-                          className="button is-success"
-                          onClick={() => {
-                            this.toggleEditProfile();
-                          }}
-                        >
-                          <span className="icon">
-                            <i className="far fa-edit" />
-                          </span>
-                          <span>Edit My Details</span>
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                  {isEditProfile && (
                     <div>
-                      <HeaderTitle title="Edit My Details" />
-
-                      <ProfileForm
-                        userDetails={userDetails}
-                        onCancel={this.toggleEditProfile}
-                        onSubmit={this.closeFormAndSubmit}
-                      />
-                    </div>
-                  )}
-                  <br />
-                  {!showAddPaymentDetails && (
-                    <div>
-                      <HeaderTitle title="Payment Setup" />
                       <a
                         className="button is-success"
                         onClick={() => {
-                          this.toggleAddPaymentDetails();
+                          this.toggleEditProfile();
                         }}
                       >
                         <span className="icon">
-                          <i className="fas fa-plus-circle" />
+                          <i className="far fa-edit" />
                         </span>
-                        <span>Add Payout Details</span>
+                        <span>Edit My Details</span>
                       </a>
-                      <div className="help">
-                        * NOTE: you only need to do this if you are planning to OFFER a Service
-                      </div>
                     </div>
-                  )}
-                  {showAddPaymentDetails && (
-                    <div>
-                      <HeaderTitle title="Add Payment Details" />
-                      <React.Fragment>
-                        Data is secured via
-                        <a href="https://stripe.com/ca" target="_blank">
-                          {` Stripe payment gateway.`}
-                        </a>
-                        {` BidOrBoo will NOT be storing any sensitive info.`}
-                      </React.Fragment>
-                      <br /> <br />
-                      <PaymentSetupForm
-                        userDetails={userDetails}
-                        onCancel={this.toggleAddPaymentDetails}
-                        onSubmit={(vals) => console.log(vals)}
-                      />
+                  </div>
+                )}
+                {isEditProfile && (
+                  <div>
+                    <HeaderTitle title="Edit My Details" />
+
+                    <ProfileForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleEditProfile}
+                      onSubmit={this.closeFormAndSubmit}
+                    />
+                  </div>
+                )}
+                <br />
+                {!showAddPaymentDetails && (
+                  <div>
+                    <HeaderTitle title="Payment Setup" />
+                    <a
+                      className="button is-success"
+                      onClick={() => {
+                        this.toggleAddPaymentDetails();
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="fas fa-plus-circle" />
+                      </span>
+                      <span>Add Payout Details</span>
+                    </a>
+                    <div className="help">
+                      * NOTE: you only need to do this if you are planning to OFFER a Service
                     </div>
-                  )}
-                </section>
-              </div>
+                  </div>
+                )}
+                {showAddPaymentDetails && (
+                  <div>
+                    <HeaderTitle title="Add Payment Details" />
+                    <React.Fragment>
+                      Data is secured via
+                      <a href="https://stripe.com/ca" target="_blank">
+                        {` Stripe payment gateway.`}
+                      </a>
+                      {` BidOrBoo will NOT be storing any sensitive info.`}
+                    </React.Fragment>
+                    <br /> <br />
+                    <PaymentSetupForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleAddPaymentDetails}
+                      onSubmit={(vals) => console.log(vals)}
+                    />
+                  </div>
+                )}
+              </section>
             </div>
           </div>
-        </section>
+        </div>
       </React.Fragment>
     );
   }
@@ -311,15 +311,38 @@ const userImageAndStats = (
           </div>
         </div>
         <div className="field has-text-centered">
+          <label className="label">Rating</label>
+          {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+            <p className="is-size-7">No Ratings Yet</p>
+          ) : (
+            <div className="has-text-centered control">
+              <span>
+                <ReactStars
+                  half
+                  count={5}
+                  value={globalRating}
+                  edit={false}
+                  size={25}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </span>
+              <span
+                style={{ color: 'black' }}
+                className="has-text-weight-semibold has-text-centered"
+              >
+                ({globalRating})
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="field has-text-centered">
           <label className="label">Status</label>
           <div className="control has-text-centered">
             <div className="control has-text-centered">{membershipStatusDisplay}</div>
           </div>
         </div>
-        <div className="field has-text-centered">
-          <label className="label">Rating</label>
-          <div className="control has-text-centered">{globalRating}</div>
-        </div>
+
         {/* <div className="field has-text-centered">
           <label className="label">Fullfilled Jobs</label>
           <div className="control has-text-centered">{`${fulfilledJobs}`}</div>

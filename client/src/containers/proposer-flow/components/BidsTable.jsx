@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactStars from 'react-stars';
 
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
@@ -27,6 +28,7 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
+      const bidderRating = bid._bidderRef && bid._bidderRef.rating;
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -40,9 +42,26 @@ export default class BidsTable extends React.Component {
             </div>
             <div>
               {/* bidder rating */}
-              {bid._bidderRef && bid._bidderRef.rating
-                ? `${bid._bidderRef.rating.globalRating}`
-                : null}
+              {bidderRating && (
+                <div>
+                  User Rating
+                  {bidderRating.globalRating === 'No Ratings Yet' ||
+                  bidderRating.globalRating === 0 ? (
+                    <p className="is-size-7">No Ratings Yet</p>
+                  ) : (
+                    <ReactStars
+                      className="is-size-7"
+                      half
+                      count={5}
+                      value={bidderRating.globalRating}
+                      edit={false}
+                      size={25}
+                      color1={'lightgrey'}
+                      color2={'#ffd700'}
+                    />
+                  )}
+                </div>
+              )}
             </div>
           </td>
 
@@ -50,11 +69,6 @@ export default class BidsTable extends React.Component {
             <div>
               {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
             </div>
-            {bid.isNewBid ? (
-              <div style={{ verticalAlign: 'middle', marginLeft: 4 }} className="tag is-danger">
-                new bid
-              </div>
-            ) : null}
           </td>
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -65,8 +79,19 @@ export default class BidsTable extends React.Component {
                   this.openBidDetailsModal(bid);
                 }}
                 className="button is-success"
+                style={{ position: 'relative' }}
               >
                 View
+                {bid.isNewBid && (
+                  <React.Fragment>
+                    <div
+                      style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </div>
+                  </React.Fragment>
+                )}
               </a>
             )}
           </td>

@@ -84,7 +84,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To create charge', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
       }
     }
   );
@@ -95,7 +95,7 @@ module.exports = (app) => {
 
       res.send({ paymentsDetails: paymentsDetails });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To create charge', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
     }
   });
 
@@ -103,14 +103,14 @@ module.exports = (app) => {
     try {
       return res.status(200).send();
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: e });
+      return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
     }
   });
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res) => {
     try {
       return res.status(200).send();
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'connectedAccountsWebhook failured', details: e });
+      return res.status(500).send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
     }
   });
 };

@@ -54,28 +54,24 @@ export default class MineTabSummaryCard extends React.Component {
             <DisplayLabelValue
               labelText="Start Date:"
               labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('MMMM Do YYYY')}`
+                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
               }
             />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
+          <a className="button is-info is-outlined is-small is-fullwidth">View Job Details</a>
+          {withButtons && (
+            <a
+              style={{ marginTop: 10 }}
+              onClick={onCloseHandler}
+              className="button is-outlined is-small is-fullwidth"
+            >
+              Close
+            </a>
+          )}
         </div>
-        {withButtons && (
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <a onClick={onClickHandler} className="button is-success is-fullwidth">
-                View Bids
-              </a>
-            </div>
-            <div className="card-footer-item">
-              <a onClick={onCloseHandler} className="button is-outlined is-fullwidth">
-                Close
-              </a>
-            </div>
-          </footer>
-        )}
 
         {!withButtons && (
           <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />

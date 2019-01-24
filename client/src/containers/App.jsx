@@ -18,7 +18,7 @@ import {
   ProposerRootPage,
   CreateAJobPage,
   MyOpenJobsPage,
-  ReviewAwardedJobAndBidsPage,
+  ReviewMyAwardedJobAndWinningBidPage,
   ReviewRequestAndBidsPage,
   BidderRootPage,
   BidOnJobPage,
@@ -26,6 +26,8 @@ import {
   ReviewAwardedBidPage,
   MyBidsPage,
   MyCalendar,
+  ProposerReviewingCompletedJob,
+  BidderReviewingCompletedJob,
 } from './index';
 
 class App extends React.Component {
@@ -87,7 +89,7 @@ class App extends React.Component {
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
-            component={ReviewAwardedJobAndBidsPage}
+            component={ReviewMyAwardedJobAndWinningBidPage}
           />
 
           {/* proposer related routes */}
@@ -112,6 +114,16 @@ class App extends React.Component {
           <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
           <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
+            component={ProposerReviewingCompletedJob}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
+            component={BidderReviewingCompletedJob}
+          />
 
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>

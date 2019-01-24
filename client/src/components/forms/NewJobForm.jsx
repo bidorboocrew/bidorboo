@@ -64,6 +64,18 @@ class NewJobForm extends React.Component {
     this.props.setFieldValue('addressTextField', addressText, false);
   }
 
+  insertTemplateText = () => {
+    const existingText = this.props.values.detailedDescriptionField
+      ? `${this.props.values.detailedDescriptionField}\n`
+      : '';
+
+    this.props.setFieldValue(
+      'detailedDescriptionField',
+      `${existingText}${this.props.suggestedDetailsText}`,
+      false,
+    );
+  };
+
   render() {
     const {
       fromTemplateIdField,
@@ -215,7 +227,16 @@ class NewJobForm extends React.Component {
           type="text"
           helpText={'Provide as much details as possible to ensure more accurate bids.'}
           label="Detailed Description"
-          placeholder={'Please supply job details and your expectations'}
+          startWithTemplateButton={
+            <a
+              style={{ marginBottom: 4 }}
+              className="button is-info is-small"
+              onClick={this.insertTemplateText}
+            >
+              Start with Our Suggested Text
+            </a>
+          }
+          placeholder={this.props.suggestedDetailsText}
           error={touched.detailedDescriptionField && errors.detailedDescriptionField}
           value={values.detailedDescriptionField || ''}
           onChange={handleChange}
@@ -318,7 +339,6 @@ const EnhancedForms = withFormik({
       hoursField: 1,
       minutesField: 0,
       periodField: 'PM',
-      detailedDescriptionField: props.suggestedDetailsText,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment(new Date()).add(1, 'd'),
     };

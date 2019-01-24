@@ -150,6 +150,62 @@ export const awardBidder = (jobId, bidId) => (dispatch) => {
   });
 };
 
+export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.PROPOSER_CONFIRMS_JOB_COMPLETION,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.proposerConfirmsJobCompleted, postData, config)
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          window.location.reload();
+          // navigate to review page
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.PROPOSER_CONFIRMS_JOB_COMPLETION,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted, postData, config)
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          window.location.reload();
+          // navigate to review page
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },

@@ -49,7 +49,7 @@ export default class AwardedJobTimeLineView extends React.Component {
                 <div className="timeline-marker is-info" />
                 <div className="timeline-content">
                   <p className="heading">
-                    {`Requested On ${moment(createdAt.date).format('MMMM Do YYYY')}`}
+                    {`Requested On ${moment(createdAt.date).format('DD/MMM/YYYY')}`}
                   </p>
                 </div>
               </div>
@@ -76,7 +76,21 @@ export default class AwardedJobTimeLineView extends React.Component {
                     </div>
                     <div className="media-content">
                       <p className="is-size-6">{displayName}</p>
-                      <p className="is-size-7">{rating.globalRating}</p>
+                      {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+                        <p className="is-size-7">No Ratings Yet</p>
+                      ) : (
+                        <p className="is-size-7">
+                          <ReactStars
+                            half={false}
+                            count={5}
+                            value={rating.globalRating}
+                            edit={false}
+                            size={25}
+                            color1={'lightgrey'}
+                            color2={'#ffd700'}
+                          />
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}

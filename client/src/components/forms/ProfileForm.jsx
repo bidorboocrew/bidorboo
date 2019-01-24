@@ -20,9 +20,10 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
-    phoneNumber: Yup.number()
-      .positive('Phone number can only be of format 161312345678')
-      .test('phoneNumber', 'Phone number should match 1231231234', (inputText) => {
+    phoneNumber: Yup.string()
+      .ensure()
+      .trim()
+      .test('phoneNumber', 'invalid format. an example would be 613-867-7243', (inputText) => {
         return phoneNumber(inputText);
       }),
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
@@ -90,15 +91,10 @@ const ProfileForm = (props) => {
         type="text"
         label="Phone Number"
         placeholder="Enter Your Phone Number"
-        helpText="example : 61312345678"
+        helpText="Must Follow This format : xxx-xxx-xxxx"
         error={touched.phoneNumber && errors.phoneNumber}
         value={values.phoneNumber}
-        onChange={(e) => {
-          //run normalizer to get rid of alpha chars
-          const normalizedVal = enforceNumericField(e.target.value);
-          e.target.value = normalizedVal;
-          handleChange(e);
-        }}
+        onChange={handleChange}
         onBlur={handleBlur}
       />
       <TextAreaInput

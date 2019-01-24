@@ -5,6 +5,8 @@ const utils = require('../utils/utilities');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
+const requireJobOwner = require('../middleware/requireJobOwner');
+const requireAwardedBidder = require('../middleware/requireAwardedBidder');
 
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -12,7 +14,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
     }
   });
 
@@ -30,7 +32,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
     }
   });
 
@@ -42,7 +44,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
     }
   });
 
@@ -64,7 +66,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To delete job', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
     }
   });
 
@@ -72,7 +74,6 @@ module.exports = (app) => {
     ROUTES.API.JOB.GET.jobFullDetailsById,
     requireBidorBooHost,
     requireLogin,
-
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {
@@ -85,7 +86,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
       }
     }
   );
@@ -95,7 +96,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
     }
   });
 
@@ -121,7 +122,7 @@ module.exports = (app) => {
         return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To perform the search', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
     }
   });
 
@@ -133,7 +134,7 @@ module.exports = (app) => {
 
       return res.send(newJob);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To create new job', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To create new job', details: `${e}` });
     }
   });
   app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
@@ -175,11 +176,11 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload job image', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
     }
   });
 
-  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
     try {
       // create new job for this user
       const data = req.body.data;
@@ -189,12 +190,12 @@ module.exports = (app) => {
       const { jobId, bidId } = data;
       let existingJob = null;
 
-      existingJob = await jobDataAccess.awardedBidder(jobId, bidId);
+      existingJob = await jobDataAccess.awardBidder(jobId, bidId);
       if (existingJob) {
         return res.send(existingJob);
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To award bidder', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
     }
   });
 
@@ -212,9 +213,10 @@ module.exports = (app) => {
       await jobDataAccess.updateViewedBy(jobId, userMongoDBId);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
     }
   });
+
   app.put(ROUTES.API.JOB.PUT.updateBooedBy, requireLogin, async (req, res) => {
     try {
       const data = req.body.data;
@@ -229,7 +231,83 @@ module.exports = (app) => {
       await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
+
+  app.put(ROUTES.API.JOB.PUT.updateBooedBy, requireLogin, async (req, res) => {
+    try {
+      const data = req.body.data;
+      const { jobId } = data;
+      if (!jobId) {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for updateBooedBy, jobId param was Not Specified',
+        });
+      }
+      const userMongoDBId = req.user._id;
+
+      await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
+      return res.send({ success: true });
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+    }
+  });
+
+  app.put(
+    ROUTES.API.JOB.PUT.proposerConfirmsJobCompleted,
+    requireLogin,
+    requireJobOwner,
+    async (req, res) => {
+      try {
+        const data = req.body.data;
+        const { jobId } = data;
+        if (!jobId) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
+          });
+        }
+        const userMongoDBId = req.user._id;
+
+        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
+          jobCompletion: {
+            proposerConfirmed: true,
+          },
+        });
+        return res.send({ success: true });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To proposerConfirmsJobCompleted', details: `${e}` });
+      }
+    }
+  );
+
+  app.put(
+    ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,
+    requireLogin,
+    requireAwardedBidder,
+    async (req, res) => {
+      try {
+        const data = req.body.data;
+        const { jobId } = data;
+        if (!jobId) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
+          });
+        }
+        const userMongoDBId = req.user._id;
+
+        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
+          jobCompletion: {
+            bidderConfirmed: true,
+          },
+        });
+        return res.send({ success: true });
+      } catch (e) {
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
+      }
+    }
+  );
 };

@@ -41,6 +41,12 @@ module.exports = {
         resendVerificationMsg: '/api/user/resendVerificationMsg',
       },
     },
+    REVIEW: {
+      PUT: {
+        proposerSubmitReview: '/api/review/proposerSubmitReview',
+        bidderSubmitReview: '/api/review/bidderSubmitReview',
+      },
+    },
     JOB: {
       GET: {
         myOpenJobs: '/api/job/myOpenJobs',
@@ -58,6 +64,10 @@ module.exports = {
         awardBidder: '/api/job/awardBidder',
         updateViewedBy: '/api/job/updateViewedBy',
         updateBooedBy: '/api/job/updateBooedBy',
+        proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
+        bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
+        proposerDisputeJob: '/api/job/proposerDisputeJob',
+        bidderDisputeJob: '/api/job/bidderDisputeJob',
       },
       DELETE: {
         jobById: '/api/job',
@@ -85,6 +95,8 @@ module.exports = {
     HOME: '/home',
     USER_ROFILE: '/user-profile/:userId',
     VERIFICATION: '/verification/:field/:code',
+    VERIFICATION_phoneDynamic: (code) => `www.bidorboo.com/verification/Phone/${code}`,
+    VERIFICATION_emailDynamic: (code) => `www.bidorboo.com/verification/Email/${code}`,
     PROPOSER: {
       root: '/proposer-root',
       createjob: '/proposer/create-job',

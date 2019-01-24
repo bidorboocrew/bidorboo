@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactStars from 'react-stars';
 
 import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
 
@@ -57,7 +58,20 @@ export default class ReviewBidAndBidder extends React.Component {
                 </div>
                 <div className="media-content">
                   <p className="is-size-6">{displayName}</p>
-                  <p className="is-size-6">{bidderOverallRating}</p>
+                  {bidderOverallRating === 'No Ratings Yet' || bidderOverallRating === 0 ? (
+                    <p className="is-size-6">No Ratings Yet</p>
+                  ) : (
+                    <ReactStars
+                      className="is-size-6"
+                      half
+                      count={5}
+                      value={bidderOverallRating}
+                      edit={false}
+                      size={25}
+                      color1={'lightgrey'}
+                      color2={'#ffd700'}
+                    />
+                  )}
                 </div>
               </div>
               <div className="content">

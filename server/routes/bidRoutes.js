@@ -14,7 +14,7 @@ module.exports = (app) => {
       const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, ['OPEN']);
       return res.send(userBidsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
 
@@ -27,7 +27,7 @@ module.exports = (app) => {
       ]);
       return res.send(userBidsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
     }
   });
 
@@ -44,7 +44,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open bid details', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
     }
   });
 
@@ -61,7 +61,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded bid details', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
     }
   });
 
@@ -93,7 +93,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
       }
     }
   );
@@ -124,7 +124,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To update your bid', details: e });
+        return res.status(500).send({ errorMsg: 'Failed To update your bid', details: `${e}` });
       }
     }
   );
@@ -144,7 +144,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
     }
   });
   app.put(ROUTES.API.BID.PUT.updateBidState, requireLogin, async (req, res, done) => {
@@ -162,7 +162,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To update Bid State', details: e });
+      return res.status(500).send({ errorMsg: 'Failed To update Bid State', details: `${e}` });
     }
   });
 };

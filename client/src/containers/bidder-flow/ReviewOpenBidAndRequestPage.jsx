@@ -49,11 +49,9 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       !selectedOpenBid._jobRef._id
     ) {
       return (
-        <section className="section">
-          <div className="container">
-            <Spinner isLoading={true} size={'large'} />
-          </div>
-        </section>
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={true} size={'large'} />
+        </div>
       );
     }
 
@@ -61,24 +59,20 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="bdbPage">
-        <section className="section">
-          <div className="container">
-            {breadCrumbs({ activePageTitle: title })}
-            <div className="columns is-gapless is-multiline is-centered">
-              <div className="column">
-                <RequesterAndOpenBid
-                  bid={selectedOpenBid}
-                  job={selectedAwardedJob}
-                  updateBidAction={a_updateBid}
-                />
-              </div>
-              <div className="column">
-                <MyOpenBidJobDetails job={selectedAwardedJob} />
-              </div>
-            </div>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        {breadCrumbs({ activePageTitle: title })}
+        <div className="columns is-multiline is-centered">
+          <div className="column">
+            <RequesterAndOpenBid
+              bid={selectedOpenBid}
+              job={selectedAwardedJob}
+              updateBidAction={a_updateBid}
+            />
           </div>
-        </section>
+          <div className="column">
+            <MyOpenBidJobDetails job={selectedAwardedJob} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -106,7 +100,7 @@ export default connect(
 
 const breadCrumbs = ({ activePageTitle }) => {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
       <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
           <li>
