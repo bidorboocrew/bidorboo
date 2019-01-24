@@ -12,8 +12,10 @@ export default class HomePage extends React.Component {
       <section className="hero has-text-centered">
         <div className="hero-body">
           <div className="container is-widescreen">
-            <h1 className="subtitle">
-              Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+            <h1 style={{ transform: 'scaleY(1.4)' }} className="subtitle">
+              <strong>
+                Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+              </strong>
             </h1>
             <br />
             <div className="columns is-multiline is-centered">
@@ -24,7 +26,14 @@ export default class HomePage extends React.Component {
                     onClickHandler={() => {
                       switchRoute(ROUTES.CLIENT.PROPOSER.root);
                     }}
-                    cardContent={'Request a Service'}
+                    cardContent={
+                      <React.Fragment>
+                        <span class="icon">
+                          <i class="far fa-plus-square" />
+                        </span>
+                        <span>Request a Service</span>
+                      </React.Fragment>
+                    }
                   />
                 </div>
                 <br />
@@ -32,7 +41,7 @@ export default class HomePage extends React.Component {
                 <h1 className="subtitle">How it works?</h1>
                 <div>
                   <ul className="steps has-content-centered">
-                    <li className="steps-segment">
+                    <li className="steps-segment is-active">
                       <span className="steps-marker " />
                       <div className="steps-content">
                         <p className="is-size-5">Step 1</p>
@@ -63,7 +72,14 @@ export default class HomePage extends React.Component {
                     onClickHandler={() => {
                       switchRoute(ROUTES.CLIENT.BIDDER.root);
                     }}
-                    cardContent={'Provide a Service'}
+                    cardContent={
+                      <React.Fragment>
+                        <span class="icon">
+                          <i class="fas fa-hand-rock" />
+                        </span>
+                        <span>Offer a Service</span>
+                      </React.Fragment>
+                    }
                   />
                 </div>
                 <br />
@@ -71,7 +87,7 @@ export default class HomePage extends React.Component {
                 <h1 className="subtitle">How it works?</h1>
                 <div>
                   <ul className="steps has-content-centered">
-                    <li className="steps-segment">
+                    <li className="steps-segment is-active">
                       <span className="steps-marker" />
                       <div className="steps-content">
                         <p className="is-size-5">Step 1</p>
@@ -89,7 +105,7 @@ export default class HomePage extends React.Component {
                       <span className="steps-marker" />
                       <div className="steps-content">
                         <p className="is-size-5">Step 3</p>
-                        <p>Get Paid</p>
+                        <p>Get Paid.</p>
                       </div>
                     </li>
                   </ul>
