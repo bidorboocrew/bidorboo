@@ -163,7 +163,7 @@ class JobsLocationFilterForm extends React.Component {
           type="text"
           helpText={'You must select an address from the drop down menu'}
           label="Service Address"
-          placeholder="specify your job address"
+          placeholder="specify your task address"
           autoDetectComponent={autoDetectCurrentLocation}
           error={touched.addressTextField && errors.addressTextField}
           value={values.addressTextField || ''}

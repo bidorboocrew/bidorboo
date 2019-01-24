@@ -61,7 +61,7 @@ export default class MineTabSummaryCard extends React.Component {
 
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
-          <a className="button is-info is-outlined is-small is-fullwidth">View Job Details</a>
+          <a className="button is-info is-outlined is-small is-fullwidth">View Task Details</a>
           {withButtons && (
             <a
               style={{ marginTop: 10 }}

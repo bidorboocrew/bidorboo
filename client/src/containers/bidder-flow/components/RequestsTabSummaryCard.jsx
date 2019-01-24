@@ -84,7 +84,7 @@ export default class RequestsTabSummaryCard extends React.Component {
               You Already Bid
             </a>
           ) : (
-            <a className="button is-success is-outlined is-small is-fullwidth">Bid On This Job</a>
+            <a className="button is-success is-outlined is-small is-fullwidth">Bid On This Task</a>
           )}
           {withButtons && (
             <a
