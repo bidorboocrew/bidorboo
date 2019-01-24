@@ -13,27 +13,87 @@ export default class HomePage extends React.Component {
         <div className="hero-body">
           <div className="container is-widescreen">
             <h1 className="subtitle">
-              Get the services you need for the price you want. Earn money doing what you love.
+              Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
             </h1>
             <br />
             <div className="columns is-multiline is-centered">
               <div className="column is-half">
-                <BidOrBooCard
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                  cardContent={'Request a Service'}
-                />
+                <div>
+                  <BidOrBooCard
+                    logoImg={requestImg}
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    }}
+                    cardContent={'Request a Service'}
+                  />
+                </div>
+                <br />
+                <br />
+                <h1 className="subtitle">How it works?</h1>
+                <div>
+                  <ul className="steps has-content-centered">
+                    <li className="steps-segment">
+                      <span className="steps-marker " />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 1</p>
+                        <p>Select Task Template.</p>
+                      </div>
+                    </li>
+                    <li className="steps-segment">
+                      <span className="steps-marker" />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 2</p>
+                        <p>Get Bids From Taskers.</p>
+                      </div>
+                    </li>
+                    <li className="steps-segment ">
+                      <span className="steps-marker" />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 3</p>
+                        <p>Award A tasker.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div className="column is-half">
-                <BidOrBooCard
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                  cardContent={'Provide a Service'}
-                />
+                <div>
+                  <BidOrBooCard
+                    logoImg={bidsImg}
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    }}
+                    cardContent={'Provide a Service'}
+                  />
+                </div>
+                <br />
+                <br />
+                <h1 className="subtitle">How it works?</h1>
+                <div>
+                  <ul className="steps has-content-centered">
+                    <li className="steps-segment">
+                      <span className="steps-marker" />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 1</p>
+                        <p>Browse Requests.</p>
+                      </div>
+                    </li>
+                    <li className="steps-segment">
+                      <span className="steps-marker" />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 2</p>
+                        <p>Bid On Requests.</p>
+                      </div>
+                    </li>
+                    <li className="steps-segment ">
+                      <span className="steps-marker" />
+                      <div className="steps-content">
+                        <p className="is-size-5">Step 3</p>
+                        <p>Get Paid</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -52,7 +112,9 @@ const BidOrBooCard = (props) => {
       </div>
       <div className="card-content">
         <div className="content">
-          <p className="title  is-fullwidth has-text-dark has-text-centered">{cardContent}</p>
+          <a className="subtitle  is-fullwidth has-text-dark has-text-centered button is-success is-outlined">
+            <strong>{cardContent}</strong>
+          </a>
         </div>
       </div>
     </div>
