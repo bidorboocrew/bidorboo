@@ -65,7 +65,7 @@ class PostYourBid extends React.Component {
               </a>
               <a
                 style={{ borderRadius: 0, marginLeft: '2.25rem', width: '10rem' }}
-                className="button is-medium  is-danger is-outlined "
+                className="button is-medium is-outlined "
                 type="submit"
                 onClick={onCancel}
               >
@@ -129,7 +129,7 @@ class PostYourBid extends React.Component {
                     }}
                     className="button is-outline"
                   >
-                    go Back
+                    Go Back
                   </button>
                 </footer>
               </div>

@@ -11,6 +11,9 @@ import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
 import { TAB_IDS } from './components/helperComponents';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
+
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +69,9 @@ class MyOpenJobsPage extends React.Component {
               </a>
             </li>
           </ul>
+          <HeaderTitleAndSearch />
         </div>
+
         {activeTab === TAB_IDS.postedJobs && (
           <MyRequestsTab
             jobsList={myOpenJobsList}
@@ -107,3 +112,22 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MyOpenJobsPage);
+
+const HeaderTitleAndSearch = () => {
+  return (
+    <nav
+      style={{ float: 'left', marginRight: '0.5rem', borderBottom: '1px solid #dbdbdb' }}
+      className="level is-mobile"
+    >
+      <div className="level-right">
+        <p className="level-item">
+          <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)} className="button is-link">
+            <span className="icon">
+              <i className="fas fa-plus-circle" />
+            </span>
+          </a>
+        </p>
+      </div>
+    </nav>
+  );
+};

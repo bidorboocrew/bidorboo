@@ -72,12 +72,12 @@ const breadCrumbs = () => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             >
-              Requests
+              All Requests
             </a>
           </li>
 
           <li className="is-active">
-            <a>Bid</a>
+            <a>Place Your Bid</a>
           </li>
         </ul>
       </nav>
