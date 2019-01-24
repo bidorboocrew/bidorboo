@@ -47,7 +47,7 @@ export default class BidsTable extends React.Component {
                   User Rating
                   {bidderRating.globalRating === 'No Ratings Yet' ||
                   bidderRating.globalRating === 0 ? (
-                    <p className="is-size-7">'No Ratings Yet' </p>
+                    <p className="is-size-7">No Ratings Yet</p>
                   ) : (
                     <ReactStars
                       className="is-size-7"

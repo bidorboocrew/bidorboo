@@ -313,7 +313,7 @@ const userImageAndStats = (
         <div className="field has-text-centered">
           <label className="label">Rating</label>
           {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-            <p className="is-size-7">'No Ratings Yet' </p>
+            <p className="is-size-7">No Ratings Yet</p>
           ) : (
             <div className="has-text-centered control">
               <span>

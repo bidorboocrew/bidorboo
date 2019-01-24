@@ -59,7 +59,7 @@ export default class ReviewBidAndBidder extends React.Component {
                 <div className="media-content">
                   <p className="is-size-6">{displayName}</p>
                   {bidderOverallRating === 'No Ratings Yet' || bidderOverallRating === 0 ? (
-                    <p className="is-size-6">'No Ratings Yet' </p>
+                    <p className="is-size-6">No Ratings Yet</p>
                   ) : (
                     <ReactStars
                       className="is-size-6"

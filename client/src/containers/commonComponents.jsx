@@ -116,7 +116,7 @@ export const UserImageAndRating = ({ userDetails }) => {
       <div className="media-content">
         <p className="is-size-6">{displayName}</p>
         {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-          <p className="is-size-7">'No Ratings Yet' </p>
+          <p className="is-size-7">No Ratings Yet</p>
         ) : (
           <ReactStars
             className="is-size-7"
