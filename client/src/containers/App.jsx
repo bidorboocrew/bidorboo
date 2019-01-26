@@ -14,6 +14,8 @@ import {
   Header,
   HomePage,
   MyProfile,
+  PaymentSettings,
+  MyProgress,
   VerificationPage,
   ProposerRootPage,
   CreateAJobPage,
@@ -111,7 +113,15 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
             component={ReviewAwardedBidPage}
           />
-          <Route exact path={ROUTES.CLIENT.MY_PROFILE} component={MyProfile} />
+          {/* my profile */}
+          <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
+          <Route
+            exact
+            path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
+            component={PaymentSettings}
+          />
+          <Route exact path={ROUTES.CLIENT.MY_PROFILE.myProgress} component={MyProgress} />
+
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
           <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />
           <Route

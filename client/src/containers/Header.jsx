@@ -362,7 +362,7 @@ class Header extends React.Component {
                             <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE);
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
                                 });
                               }}
                               className="navbar-item"
@@ -372,6 +372,36 @@ class Header extends React.Component {
                               </span>
                               <span>My Profile</span>
                             </a>
+                            <hr class="navbar-divider" />
+
+                            <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="far fa-credit-card" aria-hidden="true" />
+                              </span>
+                              <span>Payment Settings</span>
+                            </a>
+                            <hr class="navbar-divider" />
+                            <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.myProgress);
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-chart-line" aria-hidden="true" />
+                              </span>
+                              <span>My Progress</span>
+                            </a>
+                            <hr class="navbar-divider" />
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {

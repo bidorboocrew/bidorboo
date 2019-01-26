@@ -1,6 +1,10 @@
 export { default as Header } from './Header';
 export { default as HomePage } from './HomePage';
-export { default as MyProfile } from './MyProfile';
+
+export { default as MyProfile } from './personal-profile/MyProfile';
+export { default as MyProgress } from './personal-profile/MyProgress';
+export { default as PaymentSettings } from './personal-profile/PaymentSettings';
+
 export { default as VerificationPage } from './VerificationPage';
 
 // proposer flow
@@ -22,5 +26,7 @@ export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
 export { default as MyCalendar } from './MyCalendar';
 export { default as NotificationsModal } from './NotificationsModal';
 
-export { default as ProposerReviewingCompletedJob } from './review-flow/ProposerReviewingCompletedJob';
+export {
+  default as ProposerReviewingCompletedJob,
+} from './review-flow/ProposerReviewingCompletedJob';
 export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';

@@ -4,14 +4,14 @@ import ReactStars from 'react-stars';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
-import { updateProfileDetails, updateProfileImage } from '../app-state/actions/userModelActions';
-import * as C from '../constants/enumConstants';
-import ProfileForm from '../components/forms/ProfileForm';
+import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
+import * as C from '../../constants/enumConstants';
+import ProfileForm from '../../components/forms/ProfileForm';
 import axios from 'axios';
-import PaymentSetupForm from '../components/forms/PaymentSetupForm';
-import FileUploaderComponent from '../components/FileUploaderComponent';
-import * as ROUTES from '../constants/frontend-route-consts';
-import { getCurrentUser } from '../app-state/actions/authActions';
+import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
+import FileUploaderComponent from '../../components/FileUploaderComponent';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { getCurrentUser } from '../../app-state/actions/authActions';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -282,10 +282,7 @@ const userImageAndStats = (
   const { canceledJobs, canceledBids, fulfilledBids, fulfilledJobs, globalRating } = rating;
   return (
     <React.Fragment>
-      <div
-        style={{ padding: '0.25rem', height: '100%' }}
-        className="has-text-centered has-text-dark"
-      >
+      <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
         <div
           onClick={(e) => {
             e.preventDefault();
@@ -296,7 +293,7 @@ const userImageAndStats = (
             <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
           </div>
 
-          <a className="button is-outlined is-small has-text-centered">
+          <a className="button is-outlined is-small">
             <span className="icon">
               <i className="fa fa-camera" />
             </span>
@@ -304,18 +301,18 @@ const userImageAndStats = (
           </a>
         </div>
         <br />
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Name</label>
-          <div className="control has-text-centered">
-            <div className="control has-text-centered">{displayName}</div>
+          <div className="control">
+            <div className="control">{displayName}</div>
           </div>
         </div>
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Rating</label>
           {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
             <p className="is-size-7">No Ratings Yet</p>
           ) : (
-            <div className="has-text-centered control">
+            <div className="control">
               <span>
                 <ReactStars
                   half
@@ -327,38 +324,35 @@ const userImageAndStats = (
                   color2={'#ffd700'}
                 />
               </span>
-              <span
-                style={{ color: 'black' }}
-                className="has-text-weight-semibold has-text-centered"
-              >
+              <span style={{ color: 'black' }} className="has-text-weight-semibold">
                 ({globalRating})
               </span>
             </div>
           )}
         </div>
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Status</label>
-          <div className="control has-text-centered">
-            <div className="control has-text-centered">{membershipStatusDisplay}</div>
+          <div className="control">
+            <div className="control">{membershipStatusDisplay}</div>
           </div>
         </div>
 
-        {/* <div className="field has-text-centered">
+        {/* <div className="field">
           <label className="label">Fullfilled Jobs</label>
-          <div className="control has-text-centered">{`${fulfilledJobs}`}</div>
+          <div className="control">{`${fulfilledJobs}`}</div>
         </div>
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Fulfilled Bids</label>
-          <div className="control has-text-centered">{`${fulfilledBids}`}</div>
+          <div className="control">{`${fulfilledBids}`}</div>
         </div>
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Cancelled Jobs</label>
-          <div className="control has-text-centered">{`${canceledJobs}`}</div>
+          <div className="control">{`${canceledJobs}`}</div>
         </div>
 
-        <div className="field has-text-centered">
+        <div className="field">
           <label className="label">Cancelled Bids</label>
-          <div className="control has-text-centered">{`${canceledBids}`}</div>
+          <div className="control">{`${canceledBids}`}</div>
         </div> */}
       </div>
     </React.Fragment>

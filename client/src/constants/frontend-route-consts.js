@@ -125,5 +125,9 @@ export const CLIENT = {
       `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
   },
 
-  MY_PROFILE: '/my-profile',
+  MY_PROFILE: {
+    basicSettings: '/my-profile/basic-settings',
+    paymentSettings: '/my-profile/payment-settings',
+    myProgress: '/my-profile/my-progress',
+  },
 };
