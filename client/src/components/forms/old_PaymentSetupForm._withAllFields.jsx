@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import Dropzone from 'react-dropzone';
-import moment from 'moment';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -23,7 +22,7 @@ const EnhancedForms = withFormik({
     const { displayName, phone, email } = userDetails;
 
     return {
-      // first_name: displayName,
+      first_name: displayName,
       phone_number: phone.phoneNumber,
       email: email.emailAddress,
     };
@@ -42,6 +41,17 @@ const EnhancedForms = withFormik({
     });
     if (tokenizedBankAccountError) {
       alert(tokenizedBankAccountError);
+      setSubmitting(false);
+      return;
+    }
+
+    const {
+      token: tokenizePii,
+      error: tokenizePiiError,
+    } = await window.BidorBoo.stripe.createToken('pii', { personal_id_number: '000000000' });
+
+    if (tokenizePiiError) {
+      alert(tokenizePiiError);
       setSubmitting(false);
       return;
     }
@@ -111,13 +121,14 @@ const EnhancedForms = withFormik({
       const connectedAccountDetails = {
         external_account: tokenizedBankAccount.id,
         tos_acceptance: {
-          date: Math.round(new Date().getTime() / 1000),
+          date: Math.floor(Date.now() / 1000),
           ip: tokenizedBankAccount.client_ip,
         },
         legal_entity: {
           first_name,
           last_name,
           phone_number,
+          personal_id_number: tokenizePii.id,
           type: 'individual',
           verification: {
             document: frontSideResp.data.id,
@@ -178,7 +189,6 @@ const PaymentSetupForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label className="label">Your Basic Info:</label>
       <div className="field is-grouped">
         <input
           id="account_holder_type"
@@ -186,193 +196,125 @@ const PaymentSetupForm = (props) => {
           type="hidden"
           value={'individual'}
         />
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="first_name"
-            type="text"
-            label="First Name"
-            error={touched.first_name && errors.first_name}
-            value={values.first_name || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>{' '}
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="last_name"
-            type="text"
-            label="Last Name"
-            error={touched.last_name && errors.last_name}
-            value={values.last_name || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
+
+        <TextInput
+          id="first_name"
+          type="text"
+          label="First Name"
+          placeholder="first name"
+          error={touched.first_name && errors.first_name}
+          value={values.first_name || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+        <TextInput
+          id="last_name"
+          type="text"
+          label="Last Name"
+          placeholder="Last name"
+          error={touched.last_name && errors.last_name}
+          value={values.last_name || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div style={{ marginTop: -20 }} className="help">
+        * Provide your name as it appears on your legal document such as your: Passport,
+        government-issued ID, or driver's license
+      </div>
+      <br />
+      <div className="field is-grouped">
+        <TextInput
+          id="dob_day"
+          type="text"
+          label="Birth Day"
+          error={touched.dob_day && errors.dob_day}
+          value={values.dob_day || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+        <TextInput
+          id="dob_month"
+          type="text"
+          label="month"
+          error={touched.dob_month && errors.dob_month}
+          value={values.dob_month || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="dob_year"
+          type="text"
+          label="Year"
+          error={touched.dob_year && errors.dob_year}
+          value={values.dob_year || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div style={{ marginTop: -20 }} className="help">
+        * Provide your name as it appears on your legal document such as your: Passport,
+        government-issued ID, or driver's license
       </div>
 
-      <TextInput
-        id="phone_number"
-        type="text"
-        labelClassName=" "
-        label="Phone Number"
-        error={touched.phone_number && errors.phone_number}
-        value={values.phone_number || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <label>Birth Date Info:</label>
+      <br />
       <div className="field is-grouped">
-        <div style={{ marginRight: 10 }} className="field">
-          <label>select day</label>
-
-          <div className="control">
-            <div className="select">
-              <select
-                error={touched.dob_day && errors.dob_day}
-                value={values.dob_day || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                id="dob_day"
-              >
-                <option>Day</option>
-                {(() => {
-                  const dayOptions = [];
-                  for (let i = 1; i <= 31; i++) {
-                    dayOptions.push(
-                      <option key={`day-${i}`} value={i}>
-                        {i}
-                      </option>,
-                    );
-                  }
-                  return dayOptions;
-                })()}
-              </select>
-            </div>
-          </div>
-        </div>
-        <div style={{ marginRight: 10 }} className="field">
-          <label>select month</label>
-          <div className="control">
-            <div className="select">
-              <select
-                error={touched.dob_month && errors.dob_month}
-                value={values.dob_month || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                id="dob_month"
-              >
-                <option>Month</option>
-                {(() => {
-                  const monthOptions = [];
-                  for (let i = 1; i <= 12; i++) {
-                    monthOptions.push(
-                      <option key={`month-${i}`} value={i}>
-                        {i}
-                      </option>,
-                    );
-                  }
-                  return monthOptions;
-                })()}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ marginRight: 10 }} className="field">
-          <label>select year</label>
-
-          <div className="control">
-            <div className="select">
-              <select
-                error={touched.dob_year && errors.dob_year}
-                value={values.dob_year || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                id="dob_year"
-              >
-                <option>Year</option>
-                {(() => {
-                  const yearOptions = [];
-                  const maxIs15YearsAgo = moment().subtract(15, 'year');
-                  const minIs60YearsAgo = moment().subtract(60, 'year');
-
-                  for (let i = maxIs15YearsAgo.year(); i >= minIs60YearsAgo.year(); i--) {
-                    yearOptions.push(
-                      <option key={`year-${i}`} value={i}>
-                        {i}
-                      </option>,
-                    );
-                  }
-                  return yearOptions;
-                })()}
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <label className="label">Billing Address Details:</label>
-      <div className="field is-grouped">
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="address_street"
-            type="text"
-            label="Street Address"
-            error={touched.address_street && errors.address_street}
-            value={values.address_street || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>{' '}
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="address_city"
-            type="text"
-            label="City"
-            error={touched.address_city && errors.address_city}
-            value={values.address_city || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
+        <TextInput
+          id="address_street"
+          type="text"
+          label="Street Address"
+          placeholder="Street Address"
+          error={touched.address_street && errors.address_street}
+          value={values.address_street || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="address_city"
+          type="text"
+          label="City"
+          placeholder="City you reside in"
+          error={touched.address_city && errors.address_city}
+          value={values.address_city || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
       </div>
       <div className="field is-grouped">
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="address_postalcode"
-            type="text"
-            label="Postal Code"
-            error={touched.address_postalcode && errors.address_postalcode}
-            value={values.address_postalcode || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />{' '}
-        </div>{' '}
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="address_province"
-            type="text"
-            label="Province"
-            error={touched.address_province && errors.address_province}
-            value={values.address_province || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
+        <TextInput
+          id="address_postalcode"
+          type="text"
+          label="Postal Code"
+          placeholder=""
+          error={touched.address_postalcode && errors.address_postalcode}
+          value={values.address_postalcode || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="address_province"
+          type="text"
+          label="Province"
+          placeholder="Province"
+          error={touched.address_province && errors.address_province}
+          value={values.address_province || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
       </div>
-      <label className="label">Payout Bank Details</label>
+      <div style={{ marginTop: -20 }} className="help">
+        * Provide your address as it shows on your legal document such as Passport,
+        government-issued ID, or driver's license
+      </div>
+      <br />
       <div className="field  is-grouped">
         <TextInput
-          labelClassName=" "
           id="bank_name"
           type="text"
           label="Bank Name"
+          placeholder="Bank Name"
           error={touched.bank_name && errors.bank_name}
           value={values.bank_name || ''}
           onChange={handleChange}
@@ -381,47 +323,74 @@ const PaymentSetupForm = (props) => {
       </div>
 
       <div className="field is-grouped">
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="transit_number"
-            type="text"
-            label="Transit Number"
-            error={touched.transit_number && errors.transit_number}
-            value={values.transit_number || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />{' '}
-        </div>
-
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="institution_number"
-            type="text"
-            label="Institution Number"
-            error={touched.institution_number && errors.institution_number}
-            value={values.institution_number || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="account_number"
-            type="text"
-            label="Account Number"
-            error={touched.account_number && errors.account_number}
-            value={values.account_number || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
+        <TextInput
+          id="transit_number"
+          type="text"
+          label="Transit Number"
+          placeholder="Transit number"
+          error={touched.transit_number && errors.transit_number}
+          value={values.transit_number || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="institution_number"
+          type="text"
+          label="Institution Number"
+          placeholder="Institution Number"
+          error={touched.institution_number && errors.institution_number}
+          value={values.institution_number || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="account_number"
+          type="text"
+          label="Account Number"
+          placeholder="bank account number"
+          error={touched.account_number && errors.account_number}
+          value={values.account_number || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+      <div className="field is-grouped">
+        <TextInput
+          id="personal_id_number"
+          type="text"
+          label="Social Insurance Number"
+          placeholder="SIN number"
+          error={touched.personal_id_number && errors.personal_id_number}
+          value={values.personal_id_number || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          helpText={
+            <React.Fragment>
+              * This is required by law in accordance with
+              <a href="https://stripe.com/ca" target="_blank">
+                {` Stripe payment gateway.`}
+              </a>
+              This will be encrypted and secured.
+              <br />
+              {` BidOrBoo will NOT store or share this info.`}
+            </React.Fragment>
+          }
+        />
+      </div>
+      <div className="field is-grouped">
+        <TextInput
+          id="phone_number"
+          type="text"
+          label="Phone Number"
+          error={touched.phone_number && errors.phone_number}
+          value={values.phone_number || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
       </div>
 
       <input id="idFrontImg" className="input is-invisible" type="hidden" />
-      <label className="label">ID Verification</label>
+      <label className="label">Upload ID scan or image:</label>
       <Dropzone
         className="file is-boxed"
         onDrop={(files) => {

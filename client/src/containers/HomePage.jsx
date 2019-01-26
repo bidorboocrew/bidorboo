@@ -28,8 +28,8 @@ export default class HomePage extends React.Component {
                     }}
                     cardContent={
                       <React.Fragment>
-                        <span class="icon">
-                          <i class="far fa-plus-square" />
+                        <span className="icon">
+                          <i className="far fa-plus-square" />
                         </span>
                         <span>Request a Service</span>
                       </React.Fragment>
@@ -74,8 +74,8 @@ export default class HomePage extends React.Component {
                     }}
                     cardContent={
                       <React.Fragment>
-                        <span class="icon">
-                          <i class="fas fa-hand-rock" />
+                        <span className="icon">
+                          <i className="fas fa-hand-rock" />
                         </span>
                         <span>Offer a Service</span>
                       </React.Fragment>

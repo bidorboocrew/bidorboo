@@ -372,7 +372,7 @@ class Header extends React.Component {
                               </span>
                               <span>My Profile</span>
                             </a>
-                            <hr class="navbar-divider" />
+                            <hr className="navbar-divider" />
 
                             <a
                               onClick={() => {
@@ -387,7 +387,7 @@ class Header extends React.Component {
                               </span>
                               <span>Payment Settings</span>
                             </a>
-                            <hr class="navbar-divider" />
+                            <hr className="navbar-divider" />
                             <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
@@ -401,7 +401,7 @@ class Header extends React.Component {
                               </span>
                               <span>My Progress</span>
                             </a>
-                            <hr class="navbar-divider" />
+                            <hr className="navbar-divider" />
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {

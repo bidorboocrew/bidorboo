@@ -82,7 +82,7 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
                 {!isEditProfile && (
                   <div className="field">
                     <HeaderTitle title="My Details" />

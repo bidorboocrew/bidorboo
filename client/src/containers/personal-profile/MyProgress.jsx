@@ -66,7 +66,7 @@ class MyProfile extends React.Component {
             {userImageAndStats(profileImage, membershipStatusDisplay, rating, displayName)}
           </div>
           <div className="column">
-            <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+            <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
               <HeaderTitle title="My Earnings last month" />
               <div> * this is fake data for now</div>
               <XYPlot height={300} width={500}>

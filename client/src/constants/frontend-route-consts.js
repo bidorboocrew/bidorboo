@@ -21,7 +21,6 @@ export const API = {
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
       profilePicture: '/api/user/updateProfileImage',
-      setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
     POST: {
       verifyEmail: '/api/user/verifyEmail',
@@ -38,6 +37,9 @@ export const API = {
     },
     GET: {
       payment: '/api/payment',
+    },
+    PUT: {
+      setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
   },
   REVIEW: {

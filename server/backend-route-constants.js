@@ -24,6 +24,9 @@ module.exports = {
       GET: {
         payment: '/api/payment',
       },
+      PUT: {
+        setupPaymentDetails: '/api/user/setupPaymentDetails',
+      },
     },
     USER: {
       GET: {
@@ -31,7 +34,6 @@ module.exports = {
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
-        setupPaymentDetails: '/api/user/setupPaymentDetails',
         profilePicture: '/api/user/updateProfileImage',
       },
       POST: {

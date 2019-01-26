@@ -3,22 +3,17 @@ import ReactStars from 'react-stars';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
 import * as C from '../../constants/enumConstants';
-import ProfileForm from '../../components/forms/ProfileForm';
-import axios from 'axios';
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
-import FileUploaderComponent from '../../components/FileUploaderComponent';
-import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAddPaymentDetails: false,
-      showImageUploadDialog: false,
+      showAddPaymentDetails: true,
     };
   }
 
@@ -33,18 +28,9 @@ class MyProfile extends React.Component {
       return null;
     }
 
-    let {
-      profileImage,
-      displayName,
-      email,
-      personalParagraph,
-      membershipStatus,
-      phone,
-      rating,
-    } = userDetails;
+    let { profileImage, displayName, personalParagraph, membershipStatus, rating } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
-    let phoneNumber = phone.phoneNumber || 'not provided';
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { showAddPaymentDetails } = this.state;
@@ -55,33 +41,30 @@ class MyProfile extends React.Component {
             {userImageAndStats(profileImage, membershipStatusDisplay, rating, displayName)}
           </div>
           <div className="column">
-            <section style={{ backgroundColor: 'white', padding: '1rem' }}>
+            <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
               <div>
                 <HeaderTitle title="BidOrBoo Tasker" />
                 <p className="is-size-6">
-                  - Are you planning to become a BidOrBoo Tasker ?<br />
-                  - Do you want to do things you like at the times you chose ?
+                  are you planning to become a BidOrBoo Tasker ?<br />
+                  do you want to do things you like at the time you wish ?
                   <br />
-                  - Are you looking for a side gig to earn more income? <br /> <br />
-                  if you said <strong>YES</strong> to any of these questions then let's start by
+                  are you looking for a side gig to earn more income? <br /> <br />
+                  if you answered <strong>YES</strong> to any of these questions then let's start by
                   setting up your payout details.
                 </p>
                 <br />
-                <div class="field">
+                <div className="field">
                   <input
-                    id="switchRoundedSuccess"
+                    id="showPayoutSetupForm"
                     type="checkbox"
-                    name="switchRoundedSuccess"
-                    class="switch is-rounded is-success"
+                    name="showPayoutSetupForm"
+                    className="switch is-rounded is-success"
                     checked={showAddPaymentDetails}
-                    onClick={this.toggleAddPaymentDetails}
+                    onChange={this.toggleAddPaymentDetails}
                   />
-                  <label for="switchRoundedSuccess">Add Payout Details</label>
+                  <label htmlFor="showPayoutSetupForm"><strong>Add Payout Details</strong></label>
                 </div>
 
-                <div className="help">
-                  * You only need this if you are planning to OFFER your Services and bid on jobs.
-                </div>
                 <div className="help">
                   * Your data is secured via
                   <a href="https://stripe.com/ca" target="_blank">
@@ -95,10 +78,14 @@ class MyProfile extends React.Component {
               {showAddPaymentDetails && (
                 <div>
                   <HeaderTitle title="Add Payout Details" />
-                  <p className="help">
+                  <div className="help">
                     * To speed up verification and avoid delays in payout please
-                    <strong>enter all your details accurately</strong>
-                  </p>
+                    <strong> enter all your details accurately</strong>
+                  </div>
+                  <div className="help">
+                    * Provide your info as it appears on your legal document such as your: Passport,
+                    government-issued ID, or driver's license
+                  </div>
                   <br />
                   <PaymentSetupForm
                     userDetails={userDetails}
