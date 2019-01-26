@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
         .send({ errorMsg: 'payment amount mismatch. we did NOT process the payment.' });
     }
 
-    if (theBid._jobRef.toString() !== jobId) {
+    if (theBid._jobRef._id.toString() !== jobId) {
       return res.status(403).send({
         errorMsg:
           'payment can not be processed as the job field does not match the selected job. we did NOT process the payment.',

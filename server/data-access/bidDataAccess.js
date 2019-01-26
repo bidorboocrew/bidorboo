@@ -24,6 +24,35 @@ exports.bidDataAccess = {
           email: 1,
         },
       })
+      .populate({
+        path: '_jobRef',
+        select: {
+          _ownerRef: 1,
+          title: 1,
+          state: 1,
+          detailedDescription: 1,
+          jobCompletion: 1,
+          location: 1,
+          stats: 1,
+          addressText: 1,
+          startingDateAndTime: 1,
+          durationOfJob: 1,
+          fromTemplateId: 1,
+          reported: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+        populate: {
+          path: '_ownerRef',
+          select: {
+            _id: 1,
+            displayName: 1,
+            rating: 1,
+            profileImage: 1,
+            email: 1,
+          },
+        },
+      })
       .lean(true)
       .exec();
   },

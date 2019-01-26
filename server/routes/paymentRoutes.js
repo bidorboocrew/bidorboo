@@ -48,20 +48,34 @@ module.exports = (app) => {
 
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
+          const description = `BidOrBoo - Service Charge for your ${
+            _jobRef.fromTemplateId
+          } request was recieved.`;
+
           const charge = await stripe.charges.create({
+            statement_descriptor: 'BidOrBoo Charge',
             amount: chargeAmount,
             currency: 'CAD',
-            description: 'BidOrBoo - Service Charge',
+            description,
             source: stripeTransactionToken,
             destination: {
               amount: bidderPayoutAmount, // the final # sent to awarded bidder
               account: stripeAccDetails.accId,
             },
+            receipt_email: _jobRef._ownerRef.email.emailAddress,
+            metadata: {
+              bidderId: _bidderRef._id.toString(),
+              bidderEmail: _bidderRef.email.emailAddress,
+              proposerId: req.user._id.toString(),
+              proposerEmail: _jobRef._ownerRef.email.emailAddress,
+              jobId: _jobRef._id.toString(),
+              bidId: _id.toString(),
+            },
           });
           if (charge && charge.status === 'succeeded') {
             // update the job and bidder with the chosen awarded bid
             const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-              _jobRef.toString(),
+              _jobRef._id.toString(),
               _id.toString()
             );
             const awardedBidder = _bidderRef.userId
@@ -110,7 +124,9 @@ module.exports = (app) => {
     try {
       return res.status(200).send();
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
+      return res
+        .status(500)
+        .send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
     }
   });
 };

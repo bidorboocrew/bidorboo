@@ -13,7 +13,11 @@ exports.util = {
           email: email || '',
           default_currency: 'CAD', //HARD CODED
           metadata: { user_id, email, userId, displayName },
-          payout_statement_descriptor: 'BidOrBoo Fee', //HARD CODED
+          payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
+          statement_descriptor: 'BidOrBoo Charge',
+          payout_schedule: {
+            interval: 'manual',
+          },
         });
         resolve(account);
       } catch (e) {
@@ -33,7 +37,7 @@ exports.util = {
         email: email || '',
         default_currency: 'CAD', //HARD CODED
         metadata: { _id, email, userId, displayName, phoneNumber },
-        payout_statement_descriptor: 'BidOrBoo Fee', //HARD CODED
+        payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
         ...connectedAccountDetails,
       });
 

@@ -119,15 +119,13 @@ exports.jobDataAccess = {
                 if (ownerPhoneNumber) {
                   await sendTextService.sendText(
                     ownerPhoneNumber,
-                    `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-                    go to www.bidorboo.com for details`
+                    `BidOrBoo: ${job.fromTemplateId} is happening soon! go to www.bidorboo.com for details`
                   );
                 }
                 if (bidderPhoneNumber) {
                   await sendTextService.sendText(
                     bidderPhoneNumber,
-                    `BidOrBoo: ${job.fromTemplateId} is happening soon!.
-                    go to www.bidorboo.com for details`
+                    `BidOrBoo: ${job.fromTemplateId} is happening soon! go to www.bidorboo.com for details`
                   );
                 }
                 WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
