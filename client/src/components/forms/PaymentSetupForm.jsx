@@ -142,13 +142,11 @@ const EnhancedForms = withFormik({
         },
       });
     } catch (e) {
-      debugger;
       let msg =
         e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
           : 'failed To Create Account please email us at bidorboocrew@gmail.com';
       alert(msg);
-      alert(JSON.stringify(e.errorMsg || e));
       setSubmitting(false);
       console.error(e);
     }
@@ -211,7 +209,6 @@ const PaymentSetupForm = (props) => {
           />
         </div>
       </div>
-
       <TextInput
         id="phone_number"
         type="text"
@@ -312,7 +309,6 @@ const PaymentSetupForm = (props) => {
           </div>
         </div>
       </div>
-
       <label className="label">Billing Address Details:</label>
       <div className="field is-grouped">
         <div style={{ marginRight: 10 }}>
@@ -405,7 +401,6 @@ const PaymentSetupForm = (props) => {
           onBlur={handleBlur}
         />
       </div>
-
       <div className="field is-grouped">
         <div style={{ marginRight: 10 }}>
           <TextInput
@@ -445,11 +440,10 @@ const PaymentSetupForm = (props) => {
           />
         </div>
       </div>
-
       <input id="idFrontImg" className="input is-invisible" type="hidden" />
       <label className="label">ID Verification</label>
       <Dropzone
-        className="file is-boxed"
+        className="file is-boxed idVerification"
         onDrop={(files) => {
           setFieldValue('idFrontImg', files[0], false);
         }}
@@ -470,7 +464,7 @@ const PaymentSetupForm = (props) => {
       <br />
       <input id="idBackImg" className="input is-invisible" type="hidden" />
       <Dropzone
-        className="file is-boxed"
+        className="file is-boxed idVerification"
         onDrop={(files) => {
           setFieldValue('idBackImg', files[0], false);
         }}
@@ -493,8 +487,7 @@ const PaymentSetupForm = (props) => {
       </div>
       <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
       <br />
-
-      <br />
+      <label className="label">Agreement and Terms</label>
       <div className="field">
         <div className="control has-text-weight-bold">
           <label className="checkbox">
@@ -515,7 +508,6 @@ const PaymentSetupForm = (props) => {
           </label>
         </div>
       </div>
-
       <div className="field is-grouped">
         <div className="control">
           <button
@@ -542,6 +534,7 @@ const PaymentSetupForm = (props) => {
           </button>
         </div>
       </div>
+      <br />
     </form>
   );
 };

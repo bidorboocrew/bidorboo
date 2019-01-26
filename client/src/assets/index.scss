@@ -123,13 +123,17 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
     margin-top: 0.5rem;
   }
 }
-@import 'bulma-o-steps/bulma-steps.sass';
-@import 'bulma-switch/dist/css/bulma-switch.sass';
-@import 'bulma/bulma.sass';
-
 a.navbar-item.is-active {
   color: hsl(217, 71%, 53%);
 }
+.file {
+  &.idVerification {
+    max-width: fit-content;
+  }
+}
+@import 'bulma-o-steps/bulma-steps.sass';
+@import 'bulma-switch/dist/css/bulma-switch.sass';
+@import 'bulma/bulma.sass';
 
 .VerticalAligner {
   display: flex;

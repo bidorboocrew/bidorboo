@@ -153,7 +153,6 @@ const EnhancedForms = withFormik({
         },
       });
     } catch (e) {
-      debugger;
       let msg =
         e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
