@@ -1,4 +1,4 @@
-@import "react-vis/dist/style";
+@import 'react-vis/dist/style';
 
 @import './_variables.scss';
 @import './_animatecss.scss';
@@ -124,6 +124,7 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
   }
 }
 @import 'bulma-o-steps/bulma-steps.sass';
+@import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';
 
 a.navbar-item.is-active {

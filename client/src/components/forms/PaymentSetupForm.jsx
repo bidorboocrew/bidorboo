@@ -1,43 +1,30 @@
 import React from 'react';
 import { withFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { TextInput } from './FormsHelpers';
 import Dropzone from 'react-dropzone';
+import { enforceNumericField, alphanumericField, phoneNumber } from './FormsValidators';
 
 import axios from 'axios';
 const EnhancedForms = withFormik({
-  // validationSchema: Yup.object().shape({
-  //   displayName: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .min(3, 'your name is longer than that. Must be at least 3 chars')
-  //     .max(25, 'your name is longer 25. Must be at most 25 chars')
-  //     .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
-  //       return alphanumericField(inputText);
-  //     })
-  //     .required('First name is required.'),
-  //   email: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .email('please enter a valid email address')
-  //     .required('email is required.'),
-  //   phone_number: Yup.number()
-  //     .positive('Phone number can only be of format 161312345678')
-  //     .test('phone_number', 'Phone number should match 1231231234', (inputText) => {
-  //       return phone_number(inputText);
-  //     }),
-  //   personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
-  // }),
-  // mapPropsToValues: ({ userDetails }) => {
-  //   const { displayName, personalParagraph, phone_number, email } = userDetails;
+  validationSchema: Yup.object().shape({
+    phone_number: Yup.string()
+      .ensure()
+      .trim()
+      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+        return phoneNumber(inputText);
+      }),
+  }),
+  mapPropsToValues: ({ userDetails }) => {
+    const { displayName, phone, email } = userDetails;
 
-  //   return {
-  //     displayName: displayName,
-  //     phone_number: phone_number,
-  //     email: email,
-  //     personalParagraph: personalParagraph,
-  //   };
-  // },
+    return {
+      first_name: displayName,
+      phone_number: phone.phoneNumber,
+      email: email.emailAddress,
+    };
+  },
   handleSubmit: async (values, { setSubmitting, props }) => {
     const {
       token: tokenizedBankAccount,
@@ -266,7 +253,8 @@ const PaymentSetupForm = (props) => {
         />
       </div>
       <div style={{ marginTop: -20 }} className="help">
-        * Provide your address as it shows on your legal document (driver license)
+        * Provide your name as it appears on your legal document such as your: Passport,
+        government-issued ID, or driver's license
       </div>
 
       <br />
@@ -376,11 +364,13 @@ const PaymentSetupForm = (props) => {
           onBlur={handleBlur}
           helpText={
             <React.Fragment>
-              This will be encrypted and secured via
+              * This is required by law in accordance with
               <a href="https://stripe.com/ca" target="_blank">
                 {` Stripe payment gateway.`}
               </a>
-              {` BidOrBoo will NOT be storing this info.`}
+              This will be encrypted and secured.
+              <br />
+              {` BidOrBoo will NOT store or share this info.`}
             </React.Fragment>
           }
         />
@@ -398,7 +388,7 @@ const PaymentSetupForm = (props) => {
       </div>
 
       <input id="idFrontImg" className="input is-invisible" type="hidden" />
-      <label className="label has-text-weight-normal">Upload ID scan or image:</label>
+      <label className="label">Upload ID scan or image:</label>
       <Dropzone
         className="file is-boxed"
         onDrop={(files) => {
@@ -447,9 +437,9 @@ const PaymentSetupForm = (props) => {
 
       <br />
       <div className="field">
-        <div className="control">
+        <div className="control has-text-weight-bold">
           <label className="checkbox">
-            <input style={{ scale: 1.5 }} type="checkbox" />
+            <input type="checkbox" />
             {` I have read and agree to`}
             <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
               {` BidOrBoo Service Agreement `}

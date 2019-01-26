@@ -27,7 +27,7 @@ class MyProfile extends React.Component {
   };
 
   render() {
-    const { userDetails, a_updateProfileImage, isLoggedIn, a_getCurrentUser } = this.props;
+    const { userDetails, isLoggedIn } = this.props;
 
     if (!isLoggedIn) {
       return null;
@@ -46,13 +46,8 @@ class MyProfile extends React.Component {
     personalParagraph = personalParagraph || 'not provided';
     let phoneNumber = phone.phoneNumber || 'not provided';
 
-    // phone number is provided but it is not verified
-    const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
-    // email is provided but it is not verified
-    const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
-
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-    const { isEditProfile, showAddPaymentDetails } = this.state;
+    const { showAddPaymentDetails } = this.state;
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
         <div className="columns is-centered is-gapless">
@@ -61,36 +56,50 @@ class MyProfile extends React.Component {
           </div>
           <div className="column">
             <section style={{ backgroundColor: 'white', padding: '1rem' }}>
-              {!showAddPaymentDetails && (
-                <div>
-                  <HeaderTitle title="Payment Setup" />
-                  <a
-                    className="button is-success"
-                    onClick={() => {
-                      this.toggleAddPaymentDetails();
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-plus-circle" />
-                    </span>
-                    <span>Add Payout Details</span>
-                  </a>
-                  <div className="help">
-                    * NOTE: you only need to do this if you are planning to OFFER a Service
-                  </div>
+              <div>
+                <HeaderTitle title="BidOrBoo Tasker" />
+                <p className="is-size-6">
+                  - Are you planning to become a BidOrBoo Tasker ?<br />
+                  - Do you want to do things you like at the times you chose ?
+                  <br />
+                  - Are you looking for a side gig to earn more income? <br /> <br />
+                  if you said <strong>YES</strong> to any of these questions then let's start by
+                  setting up your payout details.
+                </p>
+                <br />
+                <div class="field">
+                  <input
+                    id="switchRoundedSuccess"
+                    type="checkbox"
+                    name="switchRoundedSuccess"
+                    class="switch is-rounded is-success"
+                    checked={showAddPaymentDetails}
+                    onClick={this.toggleAddPaymentDetails}
+                  />
+                  <label for="switchRoundedSuccess">Add Payout Details</label>
                 </div>
-              )}
+
+                <div className="help">
+                  * You only need this if you are planning to OFFER your Services and bid on jobs.
+                </div>
+                <div className="help">
+                  * Your data is secured via
+                  <a href="https://stripe.com/ca" target="_blank">
+                    {` Stripe payment gateway.`}
+                  </a>
+                  {` A world class secure payment processing platform.`} <br />
+                  {`BidOrBoo will not store or share any of your sensitive details`}
+                </div>
+              </div>
+              <br />
               {showAddPaymentDetails && (
                 <div>
-                  <HeaderTitle title="Add Payment Details" />
-                  <React.Fragment>
-                    Data is secured via
-                    <a href="https://stripe.com/ca" target="_blank">
-                      {` Stripe payment gateway.`}
-                    </a>
-                    {` BidOrBoo will NOT be storing any sensitive info.`}
-                  </React.Fragment>
-                  <br /> <br />
+                  <HeaderTitle title="Add Payout Details" />
+                  <p className="help">
+                    * To speed up verification and avoid delays in payout please
+                    <strong>enter all your details accurately</strong>
+                  </p>
+                  <br />
                   <PaymentSetupForm
                     userDetails={userDetails}
                     onCancel={this.toggleAddPaymentDetails}

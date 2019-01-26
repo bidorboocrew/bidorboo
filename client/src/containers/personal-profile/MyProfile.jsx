@@ -18,17 +18,12 @@ class MyProfile extends React.Component {
     super(props);
     this.state = {
       isEditProfile: false,
-      showAddPaymentDetails: false,
       showImageUploadDialog: false,
     };
   }
 
   toggleEditProfile = () => {
     this.setState({ isEditProfile: !this.state.isEditProfile });
-  };
-
-  toggleAddPaymentDetails = () => {
-    this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
   };
 
   toggleShowUploadProfileImageDialog = () => {
@@ -66,7 +61,7 @@ class MyProfile extends React.Component {
     const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-    const { isEditProfile, showAddPaymentDetails } = this.state;
+    const { isEditProfile } = this.state;
     return (
       <React.Fragment>
         {uploadImageDialog(
@@ -183,43 +178,6 @@ class MyProfile extends React.Component {
                   </div>
                 )}
                 <br />
-                {!showAddPaymentDetails && (
-                  <div>
-                    <HeaderTitle title="Payment Setup" />
-                    <a
-                      className="button is-success"
-                      onClick={() => {
-                        this.toggleAddPaymentDetails();
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-plus-circle" />
-                      </span>
-                      <span>Add Payout Details</span>
-                    </a>
-                    <div className="help">
-                      * NOTE: you only need to do this if you are planning to OFFER a Service
-                    </div>
-                  </div>
-                )}
-                {showAddPaymentDetails && (
-                  <div>
-                    <HeaderTitle title="Add Payment Details" />
-                    <React.Fragment>
-                      Data is secured via
-                      <a href="https://stripe.com/ca" target="_blank">
-                        {` Stripe payment gateway.`}
-                      </a>
-                      {` BidOrBoo will NOT be storing any sensitive info.`}
-                    </React.Fragment>
-                    <br /> <br />
-                    <PaymentSetupForm
-                      userDetails={userDetails}
-                      onCancel={this.toggleAddPaymentDetails}
-                      onSubmit={(vals) => console.log(vals)}
-                    />
-                  </div>
-                )}
               </section>
             </div>
           </div>
