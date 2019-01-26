@@ -20,7 +20,7 @@ const EnhancedForms = withFormik({
       }),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { displayName, phone, email } = userDetails;
+    const { phone, email } = userDetails;
 
     return {
       // first_name: displayName,
@@ -197,7 +197,7 @@ const PaymentSetupForm = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-        </div>{' '}
+        </div>
         <div style={{ marginRight: 10 }}>
           <TextInput
             labelClassName=" "
@@ -326,7 +326,7 @@ const PaymentSetupForm = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-        </div>{' '}
+        </div>
         <div style={{ marginRight: 10 }}>
           <TextInput
             labelClassName=" "
@@ -351,19 +351,45 @@ const PaymentSetupForm = (props) => {
             value={values.address_postalcode || ''}
             onChange={handleChange}
             onBlur={handleBlur}
-          />{' '}
-        </div>{' '}
-        <div style={{ marginRight: 10 }}>
-          <TextInput
-            labelClassName=" "
-            id="address_province"
-            type="text"
-            label="Province"
-            error={touched.address_province && errors.address_province}
-            value={values.address_province || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
           />
+        </div>
+
+        <div style={{ marginRight: 10 }} className="field">
+          <label>Select Province</label>
+          <div className="control">
+            <div className="select">
+              <select
+                error={touched.address_province && errors.address_province}
+                value={values.address_province || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="address_province"
+              >
+                <option>Province</option>
+                {(() => {
+                  return [
+                    'AB',
+                    'BC',
+                    'MB',
+                    'NB',
+                    'NL',
+                    'NS',
+                    'NT',
+                    'NU',
+                    'ON',
+                    'PE',
+                    'QC',
+                    'SK',
+                    'YT',
+                  ].map((province) => (
+                    <option key={`province-${province}`} value={province}>
+                      {province}
+                    </option>
+                  ));
+                })()}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       <label className="label">Payout Bank Details</label>
@@ -391,7 +417,7 @@ const PaymentSetupForm = (props) => {
             value={values.transit_number || ''}
             onChange={handleChange}
             onBlur={handleBlur}
-          />{' '}
+          />
         </div>
 
         <div style={{ marginRight: 10 }}>

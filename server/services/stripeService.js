@@ -57,6 +57,29 @@ exports.util = {
       throw error;
     }
   },
+
+  updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
+    try {
+      const account = await stripe.accounts.update(stripeConnectAccId, {
+        ...connectedAccountDetails,
+      });
+
+      // will return something like this
+      // {
+      //   ...
+      //   "id": "acct_12QkqYGSOD4VcegJ",  <--- you wana store this in your DB
+      //   "keys": {
+      //     "secret": "sk_live_AxSI9q6ieYWjGIeRbURf6EG0",
+      //     "publishable": "pk_live_h9xguYGf2GcfytemKs5tHrtg"
+      //   },
+      //   "type": "custom"
+      //   ...
+      // }
+      return account;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 //

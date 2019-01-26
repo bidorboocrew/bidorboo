@@ -435,9 +435,9 @@ const PaymentSetupForm = (props) => {
         {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
       </div>
       <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
-      <br />
 
       <br />
+      <label className="label">Agreement and Terms</label>
       <div className="field">
         <div className="control has-text-weight-bold">
           <label className="checkbox">

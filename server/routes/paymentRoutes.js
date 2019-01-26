@@ -8,7 +8,7 @@ const userDataAccess = require('../data-access/userDataAccess');
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
-const requireUserHasNoStripeAccount = require('../middleware/requireUserHasNoStripeAccount');
+const requireUserHasAStripeAccount = require('../middleware/requireUserHasAStripeAccount');
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
@@ -137,27 +137,21 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
     requireBidorBooHost,
     requireLogin,
-    requireUserHasNoStripeAccount,
+    requireUserHasAStripeAccount,
     async (req, res) => {
       try {
         const userId = req.user.userId;
 
         const reqData = req.body.data;
-        const { connectedAccountDetails, metaData } = reqData;
-
-        const connectedAccount = await stripeServiceUtil.createConnectedAccount(
-          connectedAccountDetails,
-          {
-            ...metaData,
-          }
+        const { connectedAccountDetails } = reqData;
+        const { stripeConnectAccId } = res.locals.bidOrBoo;
+        const connectedAccount = await stripeServiceUtil.updateStripeConnectedAccountDetails(
+          stripeConnectAccId,
+          connectedAccountDetails
         );
         const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
           agreedToServiceTerms: true,
-          membershipStatus: 'VERIFIED_MEMBER',
-          stripeConnect: {
-            accId: connectedAccount.id,
-            ownerId: connectedAccount.metadata._id,
-          },
+          // membershipStatus: 'VERIFIED_MEMBER',
         });
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
