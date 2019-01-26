@@ -12,7 +12,7 @@ export default class HomePage extends React.Component {
       <section className="hero has-text-centered">
         <div className="hero-body">
           <div className="container is-widescreen">
-            <h1 style={{ transform: 'scaleY(1.4)' }} className="subtitle">
+            <h1 style={{ transform: 'scaleY(1.2)' }} className="subtitle">
               <strong>
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </strong>
@@ -36,7 +36,7 @@ export default class HomePage extends React.Component {
                     }
                   />
                 </div>
-                <br />
+                {/* <br />
                 <br />
                 <h1 className="subtitle">How it works?</h1>
                 <div>
@@ -63,7 +63,7 @@ export default class HomePage extends React.Component {
                       </div>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
               <div className="column is-half">
                 <div>
@@ -82,7 +82,7 @@ export default class HomePage extends React.Component {
                     }
                   />
                 </div>
-                <br />
+                {/* <br />
                 <br />
                 <h1 className="subtitle">How it works?</h1>
                 <div>
@@ -109,7 +109,7 @@ export default class HomePage extends React.Component {
                       </div>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
