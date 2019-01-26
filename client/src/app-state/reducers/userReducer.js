@@ -11,7 +11,8 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: {},
     profileImage: {
-      url: 'https://goo.gl/92gqPL',
+      url:
+        'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
     },
   },
   userUnderReviewDetails: {
@@ -19,7 +20,8 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: {},
     profileImage: {
-      url: 'https://goo.gl/92gqPL',
+      url:
+        'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
     },
   },
 };

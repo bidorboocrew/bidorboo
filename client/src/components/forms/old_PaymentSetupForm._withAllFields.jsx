@@ -438,12 +438,12 @@ const PaymentSetupForm = (props) => {
       <br />
       <label className="label">Agreement and Terms</label>
       <div className="field">
-        <div className="control has-text-weight-bold">
+        <div className="control">
           <label className="checkbox">
             <input type="checkbox" />
             {` I have read and agree to`}
             <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
-              {` BidOrBoo Service Agreement `}
+              <strong> {` BidOrBoo Service Agreement `}</strong>
             </a>
             and the
             <a
@@ -451,7 +451,7 @@ const PaymentSetupForm = (props) => {
               rel="noopener noreferrer"
               href="https://stripe.com/connect-account/legal"
             >
-              {` Stripe Connected Account Agreement`}
+              <strong>{` Stripe Connected Account Agreement`}</strong>
             </a>
             .
           </label>

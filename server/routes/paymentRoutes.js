@@ -143,7 +143,7 @@ module.exports = (app) => {
         const userId = req.user.userId;
 
         const reqData = req.body.data;
-        const { connectedAccountDetails } = reqData;
+        const { connectedAccountDetails, last4BankAcc } = reqData;
         const { stripeConnectAccId } = res.locals.bidOrBoo;
         const connectedAccount = await stripeServiceUtil.updateStripeConnectedAccountDetails(
           stripeConnectAccId,
@@ -151,6 +151,7 @@ module.exports = (app) => {
         );
         const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
           agreedToServiceTerms: true,
+          'stripeConnect.last4BankAcc': last4BankAcc,
           // membershipStatus: 'VERIFIED_MEMBER',
         });
         return res.send({ success: true, updatedUser: updatedUser });

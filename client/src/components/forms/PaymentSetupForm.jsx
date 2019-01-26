@@ -18,6 +18,39 @@ const EnhancedForms = withFormik({
       .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
         return phoneNumber(inputText);
       }),
+    dob_day: Yup.number().required('*This field is required'),
+    dob_month: Yup.number().required('*This field is required'),
+    dob_year: Yup.number().required('*This field is required'),
+    first_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    last_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_street: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_city: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_province: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_postalcode: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    phone_number: Yup.string()
+      .ensure()
+      .trim()
+      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+        return phoneNumber(inputText);
+      }),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { phone, email } = userDetails;
@@ -139,11 +172,12 @@ const EnhancedForms = withFormik({
       const accountSetup = await axios.put(`${ROUTES.API.PAYMENT.PUT.setupPaymentDetails}`, {
         data: {
           connectedAccountDetails,
+          last4BankAcc: tokenizedBankAccount.bank_account.last4,
         },
       });
     } catch (e) {
       let msg =
-        e.response.data && e.response.data.errorMsg
+        e && e.response && e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
           : 'failed To Create Account please email us at bidorboocrew@gmail.com';
       alert(msg);
@@ -222,7 +256,7 @@ const PaymentSetupForm = (props) => {
       <label>Birth Date Info:</label>
       <div className="field is-grouped">
         <div style={{ marginRight: 10 }} className="field">
-          <label>select day</label>
+          <label>Birth Day</label>
 
           <div className="control">
             <div className="select">
@@ -250,7 +284,7 @@ const PaymentSetupForm = (props) => {
           </div>
         </div>
         <div style={{ marginRight: 10 }} className="field">
-          <label>select month</label>
+          <label>Birth Month</label>
           <div className="control">
             <div className="select">
               <select
@@ -262,15 +296,22 @@ const PaymentSetupForm = (props) => {
               >
                 <option>Month</option>
                 {(() => {
-                  const monthOptions = [];
-                  for (let i = 1; i <= 12; i++) {
-                    monthOptions.push(
-                      <option key={`month-${i}`} value={i}>
-                        {i}
-                      </option>,
-                    );
-                  }
-                  return monthOptions;
+                  return (
+                    <React.Fragment>
+                      <option value={1}>Jan</option>
+                      <option value={2}>Feb</option>
+                      <option value={3}>Mar</option>
+                      <option value={4}>Apr</option>
+                      <option value={5}>May</option>
+                      <option value={6}>Jun</option>
+                      <option value={7}>Jul</option>
+                      <option value={8}>Aug</option>
+                      <option value={9}>Sep</option>
+                      <option value={10}>Oct</option>
+                      <option value={11}>Nov</option>
+                      <option value={12}>Dec</option>
+                    </React.Fragment>
+                  );
                 })()}
               </select>
             </div>
@@ -278,7 +319,7 @@ const PaymentSetupForm = (props) => {
         </div>
 
         <div style={{ marginRight: 10 }} className="field">
-          <label>select year</label>
+          <label>Birth Year</label>
 
           <div className="control">
             <div className="select">
@@ -489,12 +530,12 @@ const PaymentSetupForm = (props) => {
       <br />
       <label className="label">Agreement and Terms</label>
       <div className="field">
-        <div className="control has-text-weight-bold">
+        <div className="control">
           <label className="checkbox">
             <input type="checkbox" />
             {` I have read and agree to`}
             <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
-              {` BidOrBoo Service Agreement `}
+              <strong>{` BidOrBoo Service Agreement `}</strong>
             </a>
             and the
             <a
@@ -502,7 +543,7 @@ const PaymentSetupForm = (props) => {
               rel="noopener noreferrer"
               href="https://stripe.com/connect-account/legal"
             >
-              {` Stripe Connected Account Agreement`}
+              <strong>{` Stripe Connected Account Agreement`}</strong>
             </a>
             .
           </label>

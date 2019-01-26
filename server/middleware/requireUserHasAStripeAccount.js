@@ -1,11 +1,12 @@
-const { getUserStripeAccount } = require('../data-access/userDataAccess');
+const userDataAccess = require('../data-access/userDataAccess');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId) {
       //in the future redirect to login page
       const mongodbUserId = req.user._id;
-      const stripeConnect = await getUserStripeAccount(mongodbUserId);
+      const stripeConnect = await userDataAccess.getUserStripeAccount(mongodbUserId);
       if (stripeConnect && stripeConnect.accId && stripeConnect.accId.length > 0) {
         res.locals.bidOrBoo = {
           stripeConnectAccId: stripeConnect.accId,
@@ -15,13 +16,13 @@ module.exports = async (req, res, next) => {
         const currentUser = await userDataAccess.findOneByUserId(req.user.userId);
         // user does not have a stripe account , we must establish one
         const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
-          user_id: currentUser._id,
+          user_id: currentUser._id.toString(),
           userId: currentUser.userId,
           displayName: currentUser.displayName,
           email: currentUser.email.emailAddress,
         });
         if (newStripeConnectAcc.id) {
-          const updateUser = await userDataAccess.findByUserIdAndUpdate(_bidderRef.userId, {
+          const updateUser = await userDataAccess.findByUserIdAndUpdate(currentUser.userId, {
             stripeConnect: {
               accId: newStripeConnectAcc.id,
             },
@@ -29,6 +30,7 @@ module.exports = async (req, res, next) => {
           res.locals.bidOrBoo = {
             stripeConnectAccId: newStripeConnectAcc.id,
           };
+          next();
         } else {
           return res.status(400).send({
             errorMsg:
