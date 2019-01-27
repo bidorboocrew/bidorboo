@@ -15,7 +15,7 @@ const initialState = {
         'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
     },
   },
-  myStripeAccountDetails: {},
+  myStripeAccBalanceDetails: { balanceDetails: {}, basicDetails: {} },
   isLoadingStripeAccountDetails: false,
 };
 const updateUserProfile = (state = initialState, { payload }) => {
@@ -47,7 +47,6 @@ const updateUserStripeAccountDetails = {
     };
   },
   fulfilled: (state = initialState, { payload }) => {
-    debugger
     return {
       ...state,
       myStripeAccountDetails: payload.data,

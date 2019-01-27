@@ -5,20 +5,16 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
   getConnectedAccountDetails: async (connectedAccId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const basicAccDetails = await stripe.accounts.retrieve(connectedAccId);
-        const balanceAccDetails = await stripe.balance.retrieve(
-          {},
-          {
-            stripe_account: connectedAccId,
-          }
-        );
-        resolve({ basicDetails: basicAccDetails, balanceDetails: balanceAccDetails });
-      } catch (e) {
-        reject(e);
+    return stripe.accounts.retrieve(connectedAccId);
+  },
+
+  getConnectedAccountBalance: async (connectedAccId) => {
+    return stripe.balance.retrieve(
+      {},
+      {
+        stripe_account: connectedAccId,
       }
-    });
+    );
   },
   // await stripe.accounts.list({ limit: 300 }, function(err, accounts) {
   //   accounts.data.forEach(async (acc) => {

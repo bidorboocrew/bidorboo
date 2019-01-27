@@ -15,7 +15,7 @@ import {
   HomePage,
   MyProfile,
   PaymentSettings,
-  MyProgress,
+  // MyStats,
   VerificationPage,
   ProposerRootPage,
   CreateAJobPage,
@@ -120,7 +120,7 @@ class App extends React.Component {
             path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
             component={PaymentSettings}
           />
-          <Route exact path={ROUTES.CLIENT.MY_PROFILE.myProgress} component={MyProgress} />
+          {/* <Route exact path={ROUTES.CLIENT.MY_PROFILE.MyStats} component={MyStats} /> */}
 
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
           <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />

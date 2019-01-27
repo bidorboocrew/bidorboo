@@ -173,11 +173,11 @@ module.exports = (app) => {
 
         const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoDbUserId);
 
-        connectedAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
+        const accDetails = await stripeServiceUtil.getConnectedAccountBalance(
           paymentsDetails.accId
         );
 
-        res.send({ ...connectedAccDetails });
+        res.send({ balanceDetails: { ...accDetails } });
       } catch (e) {
         return res.status(500).send({
           errorMsg: 'Failed To retrieve your connected stripe account details',

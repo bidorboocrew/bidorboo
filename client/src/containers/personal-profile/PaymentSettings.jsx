@@ -10,8 +10,9 @@ import { Spinner } from '../../components/Spinner';
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
+import { XYPlot, YAxis, XAxis, VerticalBarSeries, HorizontalGridLines } from 'react-vis';
 
-class MyProfile extends React.Component {
+class PaymentSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,12 +29,7 @@ class MyProfile extends React.Component {
   }
 
   render() {
-    const {
-      userDetails,
-      isLoggedIn,
-      isLoadingStripeAccountDetails,
-      myStripeAccountDetails,
-    } = this.props;
+    const { isLoggedIn, isLoadingStripeAccountDetails, userDetails } = this.props;
 
     if (!isLoggedIn) {
       return null;
@@ -47,98 +43,22 @@ class MyProfile extends React.Component {
       );
     }
 
-    let { personalParagraph, stripeConnect } = userDetails;
+    let { stripeConnect } = userDetails;
 
-    personalParagraph = personalParagraph || 'not provided';
-
-    const { showAddPaymentDetails } = this.state;
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
         <div className="columns is-centered is-gapless">
           <div className="column">
-            {/* user without a registered account */}
             {(!stripeConnect || !stripeConnect.last4BankAcc) && (
-              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
-                <div>
-                  <HeaderTitle title="BidOrBoo Tasker" />
-                  <p className="is-size-6">
-                    are you planning to become a BidOrBoo Tasker ?<br />
-                    do you want to do things you like at the time you wish ?
-                    <br />
-                    are you looking for a side gig to earn more income? <br /> <br />
-                    if you answered <strong>YES</strong> to any of these questions then let's start
-                    by setting up your payout details.
-                  </p>
-                  <br />
-                  <div className="field">
-                    <input
-                      id="showPayoutSetupForm"
-                      type="checkbox"
-                      name="showPayoutSetupForm"
-                      className="switch is-rounded is-success"
-                      checked={showAddPaymentDetails}
-                      onChange={this.toggleAddPaymentDetails}
-                    />
-                    <label htmlFor="showPayoutSetupForm">
-                      <strong>Add Payout Details</strong>
-                    </label>
-                  </div>
-
-                  <div className="help">
-                    * Your data is secured via
-                    <a href="https://stripe.com/ca" target="_blank">
-                      {` Stripe payment gateway.`}
-                    </a>
-                    {` A world class secure payment processing platform.`} <br />
-                    {`BidOrBoo will not store or share any of your sensitive details`}
-                  </div>
-                  <br />
-                </div>
-
-                {showAddPaymentDetails && (
-                  <div>
-                    <HeaderTitle title="Add Payout Details" />
-                    <div className="help">
-                      * To speed up verification and avoid delays in payout please
-                      <strong> enter all your details accurately</strong>
-                    </div>
-                    <div className="help">
-                      * Provide your info as it appears on your legal document such as your:
-                      Passport, government-issued ID, or driver's license
-                    </div>
-                    <br />
-                    <PaymentSetupForm
-                      userDetails={userDetails}
-                      onCancel={this.toggleAddPaymentDetails}
-                      onSubmit={(vals) => console.log(vals)}
-                    />
-                  </div>
-                )}
-              </section>
+              <InitialAccountSetupView
+                {...this.props}
+                {...this.state}
+                toggleAddPaymentDetails={this.toggleAddPaymentDetails}
+              />
             )}
-            {stripeConnect && stripeConnect.last4BankAcc && (
-              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
-                <HeaderTitle title="Your Payout Account Details" />
-                <br />
-                <div className="field is-grouped">
-                  <div>Last 4 Digits of the bank account</div>
-                  <div className="has-text-weight-semibold" style={{ marginLeft: 10 }}>
-                    {stripeConnect.last4BankAcc}
-                  </div>
-                </div>
-                <div className="field is-grouped">
-                  <div>Verification Status</div>
-                  <div className="has-text-weight-semibold" style={{ marginLeft: 10 }}>
-                    {stripeConnect.isVerified ? ' verified account' : ' pending verification'}
-                  </div>
-                </div>
 
-                <p>
-                  {myStripeAccountDetails &&
-                    myStripeAccountDetails.balanceDetails &&
-                    JSON.stringify(myStripeAccountDetails.balanceDetails)}
-                </p>
-              </section>
+            {stripeConnect && stripeConnect.last4BankAcc && (
+              <EstablishedAccountView {...this.props} />
             )}
           </div>
         </div>
@@ -167,7 +87,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyProfile);
+)(PaymentSettings);
 
 const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;
@@ -184,60 +104,143 @@ const HeaderTitle = (props) => {
     </h2>
   );
 };
-const DisplayLabelValue = (props) => {
+
+const InitialAccountSetupView = (props) => {
+  const { toggleAddPaymentDetails, showAddPaymentDetails, userDetails } = props;
   return (
-    <div style={{ padding: 4, marginBottom: 4 }}>
-      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
-      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
-    </div>
+    <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+      <div>
+        <HeaderTitle title="BidOrBoo Tasker" />
+        <p className="is-size-6">
+          are you planning to become a BidOrBoo Tasker ?<br />
+          do you want to do things you like at the time you wish ?
+          <br />
+          are you looking for a side gig to earn more income? <br /> <br />
+          if you answered <strong>YES</strong> to any of these questions then let's start by setting
+          up your payout details.
+        </p>
+        <br />
+        <div className="field">
+          <input
+            id="showPayoutSetupForm"
+            type="checkbox"
+            name="showPayoutSetupForm"
+            className="switch is-rounded is-success"
+            checked={showAddPaymentDetails}
+            onChange={toggleAddPaymentDetails}
+          />
+          <label htmlFor="showPayoutSetupForm">
+            <strong>Add Payout Details</strong>
+          </label>
+        </div>
+
+        <div className="help">
+          * Your data is secured via
+          <a href="https://stripe.com/ca" target="_blank">
+            {` Stripe payment gateway.`}
+          </a>
+          {` A world class secure payment processing platform.`} <br />
+          {`BidOrBoo will not store or share any of your sensitive details`}
+        </div>
+        <br />
+      </div>
+
+      {showAddPaymentDetails && (
+        <div>
+          <HeaderTitle title="Add Payout Details" />
+          <div className="help">
+            * To speed up verification and avoid delays in payout please
+            <strong> enter all your details accurately</strong>
+          </div>
+          <div className="help">
+            * Provide your info as it appears on your legal document such as your: Passport,
+            government-issued ID, or driver's license
+          </div>
+          <br />
+          <PaymentSetupForm
+            userDetails={userDetails}
+            onCancel={toggleAddPaymentDetails}
+            onSubmit={(vals) => console.log(vals)}
+          />
+        </div>
+      )}
+    </section>
   );
 };
+const EstablishedAccountView = (props) => {
+  const { userDetails, myStripeAccountDetails } = props;
 
-const userImageAndStats = (profileImage, membershipStatusDisplay, rating, displayName) => {
-  const { globalRating } = rating;
+  let { stripeConnect } = userDetails;
+
+  const availableAmount =
+    myStripeAccountDetails.balanceDetails &&
+    myStripeAccountDetails.balanceDetails.available.length > 0
+      ? myStripeAccountDetails.balanceDetails.available[0].amount / 100
+      : 0;
+  const pendingAmount =
+    myStripeAccountDetails.balanceDetails &&
+    myStripeAccountDetails.balanceDetails.pending.length > 0
+      ? myStripeAccountDetails.balanceDetails.pending[0].amount / 100
+      : 0;
+
+  const tickCount = Math.max(availableAmount, pendingAmount, 20) / 5;
   return (
-    <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
-      <div>
-        <div>
-          <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-        </div>
-      </div>
+    <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+      <HeaderTitle title="Account Details" />
+      <br />
 
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <div className="control">{displayName}</div>
-        </div>
-      </div>
-      <div className="field">
-        <label className="label">Rating</label>
-        {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-          <p className="is-size-7">No Ratings Yet</p>
-        ) : (
+      <nav className="panel">
+        <div className="panel-heading">
           <div className="control">
-            <span>
-              <ReactStars
-                half
-                count={5}
-                value={globalRating}
-                edit={false}
-                size={25}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </span>
-            <span style={{ color: 'black' }} className="has-text-weight-semibold">
-              ({globalRating})
-            </span>
+            <label className="radio">
+              <input type="radio" name="foobar" checked readOnly />
+              {` Bank Account last 4 digits `}
+              <strong>{stripeConnect.last4BankAcc}</strong>
+            </label>
           </div>
-        )}
-      </div>
-      <div className="field">
-        <label className="label">Status</label>
-        <div className="control">
-          <div className="control">{membershipStatusDisplay}</div>
         </div>
-      </div>
-    </div>
+        <div className="panel-heading is-size-6 has-text-weight-semibold">Account Status</div>
+        <div className="panel-block is-active">
+          {(() => {
+            const verificationStatus = stripeConnect.isVerified ? (
+              <span className="has-text-success">
+                <span className="icon">
+                  <i className="fas fa-check is-success" />
+                </span>
+                <span>Congratulations your account is Verified</span>
+              </span>
+            ) : (
+              <span className="has-text-info">
+                <span className="icon">
+                  <i className="far fa-clock" />
+                </span>
+                <span>Awaiting Verification - we are working on it ! </span>
+              </span>
+            );
+            return verificationStatus;
+          })()}
+        </div>
+        <div className="panel-heading is-size-6 has-text-weight-semibold">Cash Flow</div>
+        <div className="panel-block is-active">
+          <XYPlot height={300} width={500} xType="ordinal">
+            <HorizontalGridLines />
+            <XAxis />
+            <YAxis tickTotal={tickCount} title="$ CAD" />
+            <VerticalBarSeries
+              data={[
+                {
+                  x: `Earned ${availableAmount}$`,
+                  y: availableAmount,
+                },
+                {
+                  x: `Pending Payouts ${pendingAmount}$`,
+                  y: pendingAmount,
+                },
+              ]}
+            />
+          </XYPlot>
+        </div>
+      </nav>
+    </section>
   );
 };

@@ -131,6 +131,6 @@ export const CLIENT = {
   MY_PROFILE: {
     basicSettings: '/my-profile/basic-settings',
     paymentSettings: '/my-profile/payment-settings',
-    myProgress: '/my-profile/my-progress',
+    // myProgress: '/my-profile/my-stats',
   },
 };

@@ -2,7 +2,7 @@ export { default as Header } from './Header';
 export { default as HomePage } from './HomePage';
 
 export { default as MyProfile } from './personal-profile/MyProfile';
-export { default as MyProgress } from './personal-profile/MyProgress';
+export { default as MyProgress } from './personal-profile/MyStats';
 export { default as PaymentSettings } from './personal-profile/PaymentSettings';
 
 export { default as VerificationPage } from './VerificationPage';

@@ -385,10 +385,10 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="far fa-credit-card" aria-hidden="true" />
                               </span>
-                              <span>Payment Settings</span>
+                              <span>Payment Info</span>
                             </a>
                             <hr className="navbar-divider" />
-                            <a
+                            {/* <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.myProgress);
@@ -401,7 +401,7 @@ class Header extends React.Component {
                               </span>
                               <span>My Progress</span>
                             </a>
-                            <hr className="navbar-divider" />
+                            <hr className="navbar-divider" /> */}
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
