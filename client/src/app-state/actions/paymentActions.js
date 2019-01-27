@@ -3,6 +3,12 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
+export const getMyStripeAccountDetails = () => (dispatch) =>
+  dispatch({
+    type: A.USER_MODEL_ACTIONS.GET_MY_STRIPE_ACCOUNT_DETAILS,
+    payload: axios.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails),
+  });
+
 export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => (dispatch) => {
   if (!bid || !bid._id || !bid._bidderRef) {
     dispatch({

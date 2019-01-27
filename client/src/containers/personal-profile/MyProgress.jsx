@@ -62,9 +62,6 @@ class MyProfile extends React.Component {
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
         <div className="columns is-centered is-gapless">
-          <div className="column is-narrow">
-            {userImageAndStats(profileImage, membershipStatusDisplay, rating, displayName)}
-          </div>
           <div className="column">
             <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
               <HeaderTitle title="My Earnings last month" />

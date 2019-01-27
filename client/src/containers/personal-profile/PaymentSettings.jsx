@@ -4,7 +4,9 @@ import ReactStars from 'react-stars';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
-import * as C from '../../constants/enumConstants';
+import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
+import { Spinner } from '../../components/Spinner';
+
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
@@ -21,80 +23,123 @@ class MyProfile extends React.Component {
     this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
   };
 
+  componentDidMount() {
+    this.props.a_getMyStripeAccountDetails();
+  }
+
   render() {
-    const { userDetails, isLoggedIn } = this.props;
+    const {
+      userDetails,
+      isLoggedIn,
+      isLoadingStripeAccountDetails,
+      myStripeAccountDetails,
+    } = this.props;
 
     if (!isLoggedIn) {
       return null;
     }
 
-    let { profileImage, displayName, personalParagraph, membershipStatus, rating } = userDetails;
+    if (isLoadingStripeAccountDetails) {
+      return (
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <Spinner isLoading={isLoadingStripeAccountDetails} size={'large'} />
+        </div>
+      );
+    }
+
+    let { personalParagraph, stripeConnect } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
 
-    const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { showAddPaymentDetails } = this.state;
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
         <div className="columns is-centered is-gapless">
-          <div className="column is-narrow">
-            {userImageAndStats(profileImage, membershipStatusDisplay, rating, displayName)}
-          </div>
           <div className="column">
-            <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
-              <div>
-                <HeaderTitle title="BidOrBoo Tasker" />
-                <p className="is-size-6">
-                  are you planning to become a BidOrBoo Tasker ?<br />
-                  do you want to do things you like at the time you wish ?
+            {/* user without a registered account */}
+            {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+                <div>
+                  <HeaderTitle title="BidOrBoo Tasker" />
+                  <p className="is-size-6">
+                    are you planning to become a BidOrBoo Tasker ?<br />
+                    do you want to do things you like at the time you wish ?
+                    <br />
+                    are you looking for a side gig to earn more income? <br /> <br />
+                    if you answered <strong>YES</strong> to any of these questions then let's start
+                    by setting up your payout details.
+                  </p>
                   <br />
-                  are you looking for a side gig to earn more income? <br /> <br />
-                  if you answered <strong>YES</strong> to any of these questions then let's start by
-                  setting up your payout details.
-                </p>
-                <br />
-                <div className="field">
-                  <input
-                    id="showPayoutSetupForm"
-                    type="checkbox"
-                    name="showPayoutSetupForm"
-                    className="switch is-rounded is-success"
-                    checked={showAddPaymentDetails}
-                    onChange={this.toggleAddPaymentDetails}
-                  />
-                  <label htmlFor="showPayoutSetupForm"><strong>Add Payout Details</strong></label>
+                  <div className="field">
+                    <input
+                      id="showPayoutSetupForm"
+                      type="checkbox"
+                      name="showPayoutSetupForm"
+                      className="switch is-rounded is-success"
+                      checked={showAddPaymentDetails}
+                      onChange={this.toggleAddPaymentDetails}
+                    />
+                    <label htmlFor="showPayoutSetupForm">
+                      <strong>Add Payout Details</strong>
+                    </label>
+                  </div>
+
+                  <div className="help">
+                    * Your data is secured via
+                    <a href="https://stripe.com/ca" target="_blank">
+                      {` Stripe payment gateway.`}
+                    </a>
+                    {` A world class secure payment processing platform.`} <br />
+                    {`BidOrBoo will not store or share any of your sensitive details`}
+                  </div>
+                  <br />
                 </div>
 
-                <div className="help">
-                  * Your data is secured via
-                  <a href="https://stripe.com/ca" target="_blank">
-                    {` Stripe payment gateway.`}
-                  </a>
-                  {` A world class secure payment processing platform.`} <br />
-                  {`BidOrBoo will not store or share any of your sensitive details`}
-                </div>
-              </div>
-              <br />
-              {showAddPaymentDetails && (
-                <div>
-                  <HeaderTitle title="Add Payout Details" />
-                  <div className="help">
-                    * To speed up verification and avoid delays in payout please
-                    <strong> enter all your details accurately</strong>
+                {showAddPaymentDetails && (
+                  <div>
+                    <HeaderTitle title="Add Payout Details" />
+                    <div className="help">
+                      * To speed up verification and avoid delays in payout please
+                      <strong> enter all your details accurately</strong>
+                    </div>
+                    <div className="help">
+                      * Provide your info as it appears on your legal document such as your:
+                      Passport, government-issued ID, or driver's license
+                    </div>
+                    <br />
+                    <PaymentSetupForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleAddPaymentDetails}
+                      onSubmit={(vals) => console.log(vals)}
+                    />
                   </div>
-                  <div className="help">
-                    * Provide your info as it appears on your legal document such as your: Passport,
-                    government-issued ID, or driver's license
+                )}
+              </section>
+            )}
+            {stripeConnect && stripeConnect.last4BankAcc && (
+              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+                <HeaderTitle title="Your Payout Account Details" />
+                <br />
+                <div className="field is-grouped">
+                  <div>Last 4 Digits of the bank account</div>
+                  <div className="has-text-weight-semibold" style={{ marginLeft: 10 }}>
+                    {stripeConnect.last4BankAcc}
                   </div>
-                  <br />
-                  <PaymentSetupForm
-                    userDetails={userDetails}
-                    onCancel={this.toggleAddPaymentDetails}
-                    onSubmit={(vals) => console.log(vals)}
-                  />
                 </div>
-              )}
-            </section>
+                <div className="field is-grouped">
+                  <div>Verification Status</div>
+                  <div className="has-text-weight-semibold" style={{ marginLeft: 10 }}>
+                    {stripeConnect.isVerified ? ' verified account' : ' pending verification'}
+                  </div>
+                </div>
+
+                <p>
+                  {myStripeAccountDetails &&
+                    myStripeAccountDetails.balanceDetails &&
+                    JSON.stringify(myStripeAccountDetails.balanceDetails)}
+                </p>
+              </section>
+            )}
           </div>
         </div>
       </div>
@@ -106,6 +151,8 @@ const mapStateToProps = ({ userReducer }) => {
   return {
     userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
+    myStripeAccountDetails: userReducer.myStripeAccountDetails,
+    isLoadingStripeAccountDetails: userReducer.isLoadingStripeAccountDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -113,6 +160,7 @@ const mapDispatchToProps = (dispatch) => {
     a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
     a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
   };
 };
 

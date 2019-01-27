@@ -23,6 +23,7 @@ module.exports = {
       },
       GET: {
         payment: '/api/payment',
+        myStripeAccountDetails: '/api/myStripeAccountDetails',
       },
       PUT: {
         setupPaymentDetails: '/api/user/setupPaymentDetails',

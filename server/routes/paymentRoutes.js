@@ -8,7 +8,8 @@ const userDataAccess = require('../data-access/userDataAccess');
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
-const requireUserHasAStripeAccount = require('../middleware/requireUserHasAStripeAccount');
+const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
+const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
@@ -137,7 +138,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
     requireBidorBooHost,
     requireLogin,
-    requireUserHasAStripeAccount,
+    requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
       try {
         const userId = req.user.userId;
@@ -157,6 +158,31 @@ module.exports = (app) => {
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
         return res.status(500).send({ errorMsg: e });
+      }
+    }
+  );
+
+  app.get(
+    ROUTES.API.PAYMENT.GET.myStripeAccountDetails,
+    requireBidorBooHost,
+    requireLogin,
+    requireHasAnExistingStripeAcc,
+    async (req, res) => {
+      try {
+        const mongoDbUserId = req.user._id.toString();
+
+        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoDbUserId);
+
+        connectedAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
+          paymentsDetails.accId
+        );
+
+        res.send({ ...connectedAccDetails });
+      } catch (e) {
+        return res.status(500).send({
+          errorMsg: 'Failed To retrieve your connected stripe account details',
+          details: `${e}`,
+        });
       }
     }
   );

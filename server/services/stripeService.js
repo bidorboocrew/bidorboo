@@ -4,6 +4,29 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  getConnectedAccountDetails: async (connectedAccId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const basicAccDetails = await stripe.accounts.retrieve(connectedAccId);
+        const balanceAccDetails = await stripe.balance.retrieve(
+          {},
+          {
+            stripe_account: connectedAccId,
+          }
+        );
+        resolve({ basicDetails: basicAccDetails, balanceDetails: balanceAccDetails });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  // await stripe.accounts.list({ limit: 300 }, function(err, accounts) {
+  //   accounts.data.forEach(async (acc) => {
+  //     console.log('deleting ' + acc.id);
+  //     await stripe.accounts.del(acc.id);
+  //     console.log('deleted \n');
+  //   });
+  // });
   initializeConnectedAccount: async ({ user_id, userId, displayName, email }) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -17,6 +40,7 @@ exports.util = {
           statement_descriptor: 'BidOrBoo Charge',
           payout_schedule: {
             interval: 'manual',
+            delay_days: 0,
           },
         });
         resolve(account);
@@ -24,38 +48,6 @@ exports.util = {
         reject(e);
       }
     });
-  },
-
-  createConnectedAccount: async (
-    connectedAccountDetails,
-    { _id, email, userId, displayName, phoneNumber }
-  ) => {
-    try {
-      const account = await stripe.accounts.create({
-        country: 'CA', //HARD CODED
-        type: 'custom', //HARD CODED
-        email: email || '',
-        default_currency: 'CAD', //HARD CODED
-        metadata: { _id, email, userId, displayName, phoneNumber },
-        payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
-        ...connectedAccountDetails,
-      });
-
-      // will return something like this
-      // {
-      //   ...
-      //   "id": "acct_12QkqYGSOD4VcegJ",  <--- you wana store this in your DB
-      //   "keys": {
-      //     "secret": "sk_live_AxSI9q6ieYWjGIeRbURf6EG0",
-      //     "publishable": "pk_live_h9xguYGf2GcfytemKs5tHrtg"
-      //   },
-      //   "type": "custom"
-      //   ...
-      // }
-      return account;
-    } catch (error) {
-      throw error;
-    }
   },
 
   updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
