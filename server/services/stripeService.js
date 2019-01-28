@@ -4,6 +4,22 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  processDestinationCharge: async (chargeDetails) => {
+    return stripe.charges.create({ ...chargeDetails });
+  },
+  payoutToBank: async (connectedAccId, { amount, metadata }) => {
+    return stripe.payouts.create(
+      {
+        amount,
+        metadata,
+        statement_descriptor: 'BidOrBoo Payout',
+        currency: 'cad',
+      },
+      {
+        stripe_account: connectedAccId,
+      }
+    );
+  },
   getConnectedAccountDetails: async (connectedAccId) => {
     return stripe.accounts.retrieve(connectedAccId);
   },

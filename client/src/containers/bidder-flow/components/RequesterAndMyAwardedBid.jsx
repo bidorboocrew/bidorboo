@@ -83,7 +83,7 @@ export default class RequesterAndMyAwardedBid extends React.Component {
 
               {didBidderConfirmCompletionAlready && (
                 <a
-                  className="button is-info"
+                  className="button is-info heartbeatInstant"
                   onClick={() => {
                     switchRoute(
                       ROUTES.CLIENT.REVIEW.getBidderJobReview(
@@ -204,7 +204,7 @@ class BidderConfirmsJobIsDone extends React.Component {
           )}
         <div>
           <p className="has-text-weight-semibold">Click here after you completed this task:</p>
-          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
+          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeatInstant">
             I Completed this Task
           </a>
         </div>

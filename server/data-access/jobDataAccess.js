@@ -669,7 +669,7 @@ exports.jobDataAccess = {
     });
   },
 
-  updateJobAwardedBid: async (jobId, bidId) => {
+  updateJobAwardedBid: async (jobId, bidId, processedPaymentDetails) => {
     return Promise.all([
       BidModel.findOneAndUpdate(
         { _id: bidId },
@@ -682,7 +682,11 @@ exports.jobDataAccess = {
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
-          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
+          $set: {
+            _awardedBidRef: bidId,
+            state: 'AWARDED',
+            processedPayment: { ...processedPaymentDetails },
+          },
         }
       )
         .lean(true)

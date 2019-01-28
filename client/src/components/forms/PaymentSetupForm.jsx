@@ -66,11 +66,11 @@ const EnhancedForms = withFormik({
       token: tokenizedBankAccount,
       error: tokenizedBankAccountError,
     } = await window.BidorBoo.stripe.createToken('bank_account', {
-      country: 'US',
-      currency: 'usd',
-      routing_number: '110000000',
+      country: 'CA',
+      currency: 'cad',
+      routing_number: '11000-000',
       account_number: '000123456789',
-      account_holder_name: 'Jenny Rosen',
+      account_holder_name: `${props.userDetails.displayName}`,
       account_holder_type: 'individual',
     });
     if (tokenizedBankAccountError) {

@@ -56,7 +56,7 @@ module.exports = (app) => {
             _jobRef.fromTemplateId
           } request was recieved.`;
 
-          const charge = await stripe.charges.create({
+          const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
             amount: chargeAmount,
             currency: 'CAD',
@@ -76,11 +76,18 @@ module.exports = (app) => {
               bidId: _id.toString(),
             },
           });
+
           if (charge && charge.status === 'succeeded') {
             // update the job and bidder with the chosen awarded bid
             const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
               _jobRef._id.toString(),
-              _id.toString()
+              _id.toString(),
+              {
+                bidderPayout: bidderPayoutAmount,
+                platformCharge: bidOrBooTotalCommission,
+                proposerPaid: chargeAmount,
+                bidderStripeAcc: stripeAccDetails.accId,
+              }
             );
             const awardedBidder = _bidderRef.userId
               ? await userDataAccess.getUserPushSubscription(_bidderRef.userId)
@@ -94,6 +101,7 @@ module.exports = (app) => {
                 urlToLaunch: `https://www.bidorboo.com/bidder/awarded-bid-details/${bidId}`,
               });
             }
+
             res.send({ success: true });
           }
         } else {

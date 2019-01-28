@@ -76,10 +76,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
 
           <div className="is-size-7" />
           <br />
-          <div
-            style={{ marginBottom: 6 }}
-            className="has-text-weight-bold is-size-5 has-text-success"
-          >
+          <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
             Contact Info
           </div>
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
@@ -95,7 +92,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
               {/* job happened and is confirmed completion . show redirect to review page button */}
               {didProposerConfirmCompletionAlready && (
                 <a
-                  className="button is-info"
+                  className="button is-info heartbeatInstant"
                   onClick={() => {
                     switchRoute(
                       ROUTES.CLIENT.REVIEW.getProposerJobReview(
@@ -146,6 +143,10 @@ class ProposerVerifiesJobCompletion extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
 
+  toggleConfirmation = () => {
+    this.setState({ successfulCompletion: !this.state.successfulCompletion });
+  };
+
   submitConfirmation = () => {
     const { proposerConfirmsJobCompletion, job } = this.props;
 
@@ -166,7 +167,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
                   <p className="modal-card-title">Congratulations</p>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBoo crew was happy to help !</p>
+                  <p>BidOrBoo crew is happy to help !</p>
                   <br />
                   <p>
                     Once you confirm the completion of this task you will get a chance to rate your
@@ -178,11 +179,11 @@ class ProposerVerifiesJobCompletion extends React.Component {
                       <label className="radio">
                         <input
                           checked={successfulCompletion}
-                          onChange={() => this.setState({ successfulCompletion: true })}
+                          onChange={this.toggleConfirmation}
                           type="checkbox"
                           name="success"
                         />
-                        <span className="has-text-success has-text-weight-semibold">
+                        <span className="has-text-weight-semibold">
                           {` I Confirm the task was done to my satisfaction.`}
                         </span>
                       </label>
@@ -217,7 +218,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
           <p className="has-text-weight-semibold">
             Click here After the Tasker is DONE thier work:
           </p>
-          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeat">
+          <a onClick={this.toggleModal} className="button is-meduim is-success heartbeatInstant">
             Tasker Completed this task
           </a>
         </div>
