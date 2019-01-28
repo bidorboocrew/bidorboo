@@ -119,13 +119,17 @@ exports.jobDataAccess = {
                 if (ownerPhoneNumber) {
                   await sendTextService.sendText(
                     ownerPhoneNumber,
-                    `BidOrBoo: ${job.fromTemplateId} is happening soon! go to www.bidorboo.com for details`
+                    `BidOrBoo: ${
+                      job.fromTemplateId
+                    } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
                 if (bidderPhoneNumber) {
                   await sendTextService.sendText(
                     bidderPhoneNumber,
-                    `BidOrBoo: ${job.fromTemplateId} is happening soon! go to www.bidorboo.com for details`
+                    `BidOrBoo: ${
+                      job.fromTemplateId
+                    } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
                 WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
@@ -557,8 +561,8 @@ exports.jobDataAccess = {
         sort: { 'startingDateAndTime.date': 1 },
         allowDiskUse: true,
       })
-        .where('startingDateAndTime.date')
-        .gt(new Date())
+        // .where('startingDateAndTime.date')
+        // .gt(new Date())
         .populate({
           path: '_ownerRef',
           select: jobOwnerFields,
