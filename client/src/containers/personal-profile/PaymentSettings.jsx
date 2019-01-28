@@ -1,5 +1,14 @@
 import React from 'react';
-import ReactStars from 'react-stars';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,7 +19,6 @@ import { Spinner } from '../../components/Spinner';
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
-import { XYPlot, YAxis, XAxis, VerticalBarSeries, HorizontalGridLines } from 'react-vis';
 
 class PaymentSettings extends React.Component {
   constructor(props) {
@@ -176,18 +184,19 @@ const EstablishedAccountView = (props) => {
     return null;
   }
 
-  const availableAmount =
+  const earnings =
     myStripeAccountDetails.balanceDetails &&
     myStripeAccountDetails.balanceDetails.available.length > 0
       ? myStripeAccountDetails.balanceDetails.available[0].amount / 100
       : 0;
-  const pendingAmount =
+  const pendingPayments =
     myStripeAccountDetails.balanceDetails &&
     myStripeAccountDetails.balanceDetails.pending.length > 0
       ? myStripeAccountDetails.balanceDetails.pending[0].amount / 100
       : 0;
 
-  const tickCount = Math.max(availableAmount, pendingAmount, 20) / 5;
+  const data = [{ name: 'Payments', pendingPayments: pendingPayments, earnings: earnings }];
+
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />
@@ -225,24 +234,17 @@ const EstablishedAccountView = (props) => {
           })()}
         </div>
         <div className="panel-heading is-size-6 has-text-weight-semibold">Cash Flow</div>
-        <div className="panel-block is-active">
-          <XYPlot height={300} width={500} xType="ordinal">
-            <HorizontalGridLines />
-            <XAxis />
-            <YAxis tickTotal={tickCount} title="$ CAD" />
-            <VerticalBarSeries
-              data={[
-                {
-                  x: `Earned ${availableAmount}$`,
-                  y: availableAmount,
-                },
-                {
-                  x: `Pending Payouts ${pendingAmount}$`,
-                  y: pendingAmount,
-                },
-              ]}
-            />
-          </XYPlot>
+        <div style={{ height: 400 }} className="panel-block is-active">
+          <ResponsiveContainer>
+            <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="pendingPayments" name="Pending" fill="#8884d8" />
+              <Bar dataKey="earnings" name="Earnings" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </nav>
     </section>
