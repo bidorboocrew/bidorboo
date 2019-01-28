@@ -16,27 +16,31 @@ exports.util = {
       }
     );
   },
-  // await stripe.accounts.list({ limit: 300 }, function(err, accounts) {
-  //   accounts.data.forEach(async (acc) => {
-  //     console.log('deleting ' + acc.id);
-  //     await stripe.accounts.del(acc.id);
-  //     console.log('deleted \n');
-  //   });
-  // });
+
+  deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {
+    if (iKnowWhatIamDoing) {
+      await stripe.accounts.list({ limit: 300 }, function(err, accounts) {
+        accounts.data.forEach(async (acc) => {
+          console.log('deleting ' + acc.id);
+          await stripe.accounts.del(acc.id);
+          console.log('deleted \n');
+        });
+      });
+    }
+  },
   initializeConnectedAccount: async ({ user_id, userId, displayName, email }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
           country: 'CA', //HARD CODED
           type: 'custom', //HARD CODED
-          email: email || '',
-          default_currency: 'CAD', //HARD CODED
-          metadata: { user_id, email, userId, displayName },
           payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
+          default_currency: 'CAD', //HARD CODED
+          email: email || '',
+          metadata: { user_id, email, userId, displayName },
           statement_descriptor: 'BidOrBoo Charge',
           payout_schedule: {
             interval: 'manual',
-            delay_days: 0,
           },
         });
         resolve(account);

@@ -175,6 +175,7 @@ const EnhancedForms = withFormik({
           last4BankAcc: tokenizedBankAccount.bank_account.last4,
         },
       });
+      window.location.reload();
     } catch (e) {
       let msg =
         e && e.response && e.response.data && e.response.data.errorMsg
@@ -253,7 +254,6 @@ const PaymentSetupForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <label>Birth Date Info:</label>
       <div className="field is-grouped">
         <div style={{ marginRight: 10 }} className="field">
           <label>Birth Day</label>

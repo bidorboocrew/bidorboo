@@ -16,7 +16,7 @@ class PaymentSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAddPaymentDetails: true,
+      showAddPaymentDetails: false,
     };
   }
 
@@ -171,6 +171,10 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
+
+  if (!myStripeAccountDetails) {
+    return null;
+  }
 
   const availableAmount =
     myStripeAccountDetails.balanceDetails &&
