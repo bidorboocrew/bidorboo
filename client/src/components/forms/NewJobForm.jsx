@@ -208,7 +208,7 @@ class NewJobForm extends React.Component {
         <DateInput
           id="DateInputField"
           type="text"
-          label="Service Start Date"
+          label="Start Date and Time"
           onChangeEvent={this.updateDateInputFieldValue}
         />
         <div className="buttons">
@@ -265,6 +265,18 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
+
+        {errors && errors.length > 0 && (
+          <div className="field is-grouped">
+            <div className="control">
+              {(() => {
+                return errors.map(({ error }) => {
+                  return error ? <p className="help is-danger">{error}</p> : null;
+                });
+              })()}
+            </div>
+          </div>
+        )}
 
         <div className="field">
           <button
@@ -357,6 +369,21 @@ class NewJobForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
+  validationSchema: Yup.object().shape({
+    fromTemplateIdField: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Template Id missing, This field is required'),
+    dateField: Yup.string().required('*Date Field is required'),
+    detailedDescriptionField: Yup.string()
+      .ensure()
+      .trim()
+      .min(
+        20,
+        'your description must be more than 20 chars , please be detailed in descibing the task',
+      )
+      .required('*Please provide a detailed description '),
+  }),
   mapPropsToValues: (props) => {
     return {
       timeField: 5,

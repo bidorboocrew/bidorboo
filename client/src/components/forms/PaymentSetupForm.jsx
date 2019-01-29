@@ -15,48 +15,57 @@ const EnhancedForms = withFormik({
     phone_number: Yup.string()
       .ensure()
       .trim()
-      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+      .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
         return phoneNumber(inputText);
       }),
-    dob_day: Yup.number().required('*This field is required'),
-    dob_month: Yup.number().required('*This field is required'),
-    dob_year: Yup.number().required('*This field is required'),
+    bank_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Bank Name is required'),
+    transit_number: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Transit Number is required'),
+    institution_number: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Institution number is required'),
+    account_number: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Account Number is required'),
+    dob_day: Yup.number().required('*Day of Birth is required'),
+    dob_month: Yup.number().required('*Month Of Birth  is required'),
+    dob_year: Yup.number().required('*Year Of Birth is required'),
     first_name: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
+      .required('*First Name is required'),
     last_name: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
+      .required('*Last Name is required'),
     address_street: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
+      .required('*Address Street is required'),
     address_city: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
+      .required('*Address City is required'),
     address_province: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
+      .required('*Address Province is required'),
     address_postalcode: Yup.string()
       .ensure()
       .trim()
-      .required('*This field is required'),
-    phone_number: Yup.string()
-      .ensure()
-      .trim()
-      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
-        return phoneNumber(inputText);
-      }),
+      .required('*Postal Code is required'),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { phone, email } = userDetails;
 
     return {
-      // first_name: displayName,
       phone_number: phone.phoneNumber,
       email: email.emailAddress,
     };
@@ -185,10 +194,6 @@ const EnhancedForms = withFormik({
       setSubmitting(false);
       console.error(e);
     }
-
-    // props.onSubmit(values);
-
-    // stripe.createToken('bank_account', bankAccountData);
   },
   displayName: 'PaymentSetupForm',
 });
@@ -208,6 +213,14 @@ const PaymentSetupForm = (props) => {
     setFieldValue,
     isSubmitting,
   } = props;
+
+  let errorsList = null;
+  if (errors && Object.keys(errors).length > 0) {
+    errorsList = Object.keys(errors).map((errorKey) => {
+      debugger;
+      return touched[`${errorKey}`] && <p className="help is-danger">{errors[`${errorKey}`]}</p>;
+    });
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -334,7 +347,7 @@ const PaymentSetupForm = (props) => {
                 {(() => {
                   const yearOptions = [];
                   const maxIs15YearsAgo = moment().subtract(15, 'year');
-                  const minIs60YearsAgo = moment().subtract(60, 'year');
+                  const minIs60YearsAgo = moment().subtract(70, 'year');
 
                   for (let i = maxIs15YearsAgo.year(); i >= minIs60YearsAgo.year(); i--) {
                     yearOptions.push(
@@ -549,11 +562,12 @@ const PaymentSetupForm = (props) => {
           </label>
         </div>
       </div>
+
       <div className="field is-grouped">
         <div className="control">
           <button
             style={{ marginRight: 6 }}
-            className="button is-success is-medium"
+            className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
             type="submit"
             disabled={isSubmitting || !isValid}
           >
@@ -575,6 +589,8 @@ const PaymentSetupForm = (props) => {
           </button>
         </div>
       </div>
+      {errorsList}
+
       <br />
     </form>
   );
