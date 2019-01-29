@@ -234,15 +234,15 @@ const EstablishedAccountView = (props) => {
           })()}
         </div>
         <div className="panel-heading is-size-6 has-text-weight-semibold">Cash Flow</div>
-        <div style={{ height: 400 }} className="panel-block is-active">
-          <ResponsiveContainer>
-            <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <div className="panel-block is-active">
+          <ResponsiveContainer minHeight={400}>
+            <BarChart data={data}>
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis name="$CAD" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="pendingPayments" name="Pending" fill="#8884d8" />
-              <Bar dataKey="earnings" name="Earnings" fill="#82ca9d" />
+              <Bar dataKey="pendingPayments" name="Pending Transactions" fill="#8884d8" />
+              <Bar dataKey="earnings" name="Verified Transactions" fill="#82ca9d" />
             </BarChart>
           </ResponsiveContainer>
         </div>
