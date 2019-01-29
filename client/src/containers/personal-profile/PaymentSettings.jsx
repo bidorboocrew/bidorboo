@@ -185,43 +185,69 @@ const EstablishedAccountView = (props) => {
             </label>
           </div>
         </div>
-        <div className="panel-heading is-size-6 has-text-weight-semibold">Account Status</div>
-        <div className="panel-block is-active">
-          {(() => {
-            const verificationStatus = stripeConnect.isVerified ? (
-              <span className="has-text-success">
-                <span className="icon">
-                  <i className="fas fa-check is-success" />
+        {(() => {
+          const verificationStatus = stripeConnect.isVerified ? (
+            <React.Fragment>
+              <div className="panel-heading is-size-6 has-text-weight-semibold">
+                <span className="has-text-success">
+                  <span className="icon">
+                    <i className="fas fa-check is-success" />
+                  </span>
+                  <span>Verified Account</span>
                 </span>
-                <span>Congratulations your account is Verified</span>
-              </span>
-            ) : (
-              <span className="has-text-link">
-                <span className="icon">
-                  <i className="far fa-clock" />
+              </div>
+
+              <div className="panel-block is-active">
+                <span className="has-text-success">
+                  <span className="icon">
+                    <i className="fas fa-check is-success" />
+                  </span>
+                  <span>
+                    Congratulations your account is Verified. All payments will be immediately paid
+                    into your bank account upon completing tasks.
+                  </span>
                 </span>
-                <span>Awaiting Verification - we are working on it ! </span>
-              </span>
-            );
-            return verificationStatus;
-          })()}
-        </div>
+              </div>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div className="panel-heading is-size-6 has-text-weight-semibold">
+                <span className="has-text-link">
+                  <span className="icon">
+                    <i className="far fa-clock" />
+                  </span>
+                  <span>Pending Verification</span>
+                </span>
+              </div>
+              <div className="panel-block is-active">
+                <p>
+                  <strong>Don't Worry !</strong>
+                  <br />
+                  The verifiation Process usually takes 5-10 days, however you are still able to bid
+                  and perform tasks. All your payments will be paid immediately once we verify your
+                  account.
+                </p>
+              </div>
+            </React.Fragment>
+          );
+          return verificationStatus;
+        })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
           <ResponsiveContainer minHeight={400}>
-            <BarChart data={data}>
+            <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
               <XAxis dataKey="name" />
               <YAxis unit="$" />
               <Tooltip formatter={(value) => `${value}$`} />
-              <Legend />
+              <Legend align="center" />
               <Bar
                 label={{ position: 'top' }}
                 dataKey="potentialFuturePayouts"
                 name="Pending Payments"
                 fill="#ffc658"
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={'#ffc658'} />
+                {data.map((value, index) => (
+                  <Cell fontWeight="bold" key={`cell-${index}`} fill={'#ffc658'} />
                 ))}
               </Bar>
 
@@ -231,8 +257,8 @@ const EstablishedAccountView = (props) => {
                 name="Paid Out"
                 fill="#82ca9d"
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={'#82ca9d'} />
+                {data.map((value, index) => (
+                  <Cell fontWeight="bold" key={`cell-${index}`} fill={'#82ca9d'} />
                 ))}
               </Bar>
             </BarChart>
