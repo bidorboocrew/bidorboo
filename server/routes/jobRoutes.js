@@ -1,4 +1,5 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+const stripeServiceUtil = require('../services/stripeService').util;
 const ROUTES = require('../backend-route-constants');
 const utils = require('../utils/utilities');
 
@@ -266,13 +267,27 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
-        const userMongoDBId = req.user._id;
 
-        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
-          jobCompletion: {
-            proposerConfirmed: true,
+        const jobDetails = await jobDataAccess.findOneByJobIdAndUpdateJobInfo(
+          jobId,
+          {
+            jobCompletion: { proposerConfirmed: true },
           },
-        });
+          { new: true }
+        );
+
+        if (!jobDetails || !jobDetails._id || !jobDetails.processedPayment) {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
+          });
+        }
+
+        // // RELEASE THE FUNDS
+        // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
+        //   amount: jobDetails.processedPayment.bidderPayout,
+        //   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
+        // });
+
         return res.send({ success: true });
       } catch (e) {
         return res

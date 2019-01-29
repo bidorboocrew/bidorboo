@@ -44,7 +44,7 @@ passport.use(
         userId: profile.id,
         email: { emailAddress: userEmail },
         profileImage: {
-          url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
+          url: profile.photos ? profile.photos[0].value : 'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
         },
       };
 
@@ -77,7 +77,7 @@ passport.use(
         userId: profile.id,
         email: { emailAddress: userEmail },
         profileImage: {
-          url: profile.photos ? profile.photos[0].value : 'https://goo.gl/92gqPL',
+          url: profile.photos ? profile.photos[0].value : 'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
         },
       };
 
@@ -122,7 +122,7 @@ passport.use(
         email: { emailAddress: email },
         password: password,
         displayName: req.body.displayName,
-        profileImgUrl: 'https://goo.gl/92gqPL',
+        profileImgUrl: 'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
       };
 
       const user = await userDataAccess.createNewUser(userDetails);

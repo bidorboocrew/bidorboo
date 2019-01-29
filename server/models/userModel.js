@@ -89,7 +89,7 @@ const UserSchema = new Schema(
       maxlength: MAX_NAME_LENGTH,
     },
     profileImage: {
-      url: { type: String, default: 'https://goo.gl/92gqPL' },
+      url: { type: String, default: 'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png' },
       public_id: { type: String },
     },
     addressText: { type: String, maxlength: MAX_PARAGRAPH_LENGTH },

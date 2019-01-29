@@ -6,9 +6,9 @@ import TimePickerInput from '../forms/TimePickerInput';
 
 const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{error}</p> : null);
 
-const Label = ({ error, className, children, id, ...props }) => {
+const Label = ({ error, labelClassName, children, id, ...props }) => {
   return (
-    <label htmlFor={id} className="label" {...props}>
+    <label htmlFor={id} className={labelClassName || 'label'} {...props}>
       {children}
     </label>
   );
@@ -52,6 +52,7 @@ export const TextInput = ({
   value,
   onChange,
   className,
+  labelClassName,
   helpText,
   iconLeft,
   setFocusImmediately,
@@ -65,7 +66,7 @@ export const TextInput = ({
 
   return (
     <div className="field">
-      <Label htmlFor={id} error={error}>
+      <Label labelClassName={labelClassName} htmlFor={id} error={error}>
         {label}
       </Label>
       <div className="control">

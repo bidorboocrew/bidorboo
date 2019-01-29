@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import autoBind from 'react-autobind';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -20,28 +19,26 @@ export default class DatePickerInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(new Date()).add(1, 'd'),
+      startDate: moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 }),
     };
-    autoBind(this, 'handleChange');
   }
 
-  handleChange(date) {
-    const dateWithTimeZone = moment.utc(date).toDate();
+  handleChange = (date) => {
+    const dateWithTimeZone = moment(date).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
     this.setState({
       startDate: date,
     });
     this.props.onChangeEvent(dateWithTimeZone);
-  }
+  };
 
   render() {
     return (
       <DatePicker
         inline
-        locale="en-GB"
         selected={this.state.startDate}
         onChange={this.handleChange}
-        minDate={moment(new Date()).add(1, 'd')}
-        maxDate={moment(new Date()).add(30, 'd')}
+        minDate={moment()}
+        maxDate={moment().add(60, 'd')}
       />
     );
   }

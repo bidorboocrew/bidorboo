@@ -4,16 +4,72 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  processDestinationCharge: async (chargeDetails) => {
+    return stripe.charges.create({ ...chargeDetails });
+  },
+  payoutToBank: async (connectedAccId, { amount, metadata }) => {
+    return stripe.payouts.create(
+      {
+        amount,
+        metadata,
+        statement_descriptor: 'BidOrBoo Payout',
+        currency: 'cad',
+      },
+      {
+        stripe_account: connectedAccId,
+      }
+    );
+  },
+  getConnectedAccountDetails: async (connectedAccId) => {
+    return stripe.accounts.retrieve(connectedAccId);
+  },
+
+  getConnectedAccountBalance: async (connectedAccId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountBalanceDetails = await Promise.all([
+          stripe.balance.retrieve(
+            {},
+            {
+              stripe_account: connectedAccId,
+            }
+          ),
+          stripe.payouts.list(
+            {},
+            {
+              stripe_account: connectedAccId,
+            }
+          ),
+        ]);
+
+        resolve(accountBalanceDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {
+    if (iKnowWhatIamDoing) {
+      await stripe.accounts.list({ limit: 300 }, function(err, accounts) {
+        accounts.data.forEach(async (acc) => {
+          console.log('deleting ' + acc.id);
+          await stripe.accounts.del(acc.id);
+          console.log('deleted \n');
+        });
+      });
+    }
+  },
   initializeConnectedAccount: async ({ user_id, userId, displayName, email }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
           country: 'CA', //HARD CODED
           type: 'custom', //HARD CODED
-          email: email || '',
-          default_currency: 'CAD', //HARD CODED
-          metadata: { user_id, email, userId, displayName },
           payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
+          default_currency: 'CAD', //HARD CODED
+          email: email || '',
+          metadata: { user_id, email, userId, displayName },
           statement_descriptor: 'BidOrBoo Charge',
           payout_schedule: {
             interval: 'manual',
@@ -26,18 +82,9 @@ exports.util = {
     });
   },
 
-  createConnectedAccount: async (
-    connectedAccountDetails,
-    { _id, email, userId, displayName, phoneNumber }
-  ) => {
+  updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
     try {
-      const account = await stripe.accounts.create({
-        country: 'CA', //HARD CODED
-        type: 'custom', //HARD CODED
-        email: email || '',
-        default_currency: 'CAD', //HARD CODED
-        metadata: { _id, email, userId, displayName, phoneNumber },
-        payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
+      const account = await stripe.accounts.update(stripeConnectAccId, {
         ...connectedAccountDetails,
       });
 

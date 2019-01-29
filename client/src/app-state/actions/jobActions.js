@@ -281,7 +281,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       coordinates: [parseFloat(lng), parseFloat(lat)],
     },
     startingDateAndTime: {
-      date: dateField,
+      date: dateField.toISOString,
       time: timeField,
     },
     durationOfJob: durationOfJobField,

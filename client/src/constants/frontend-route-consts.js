@@ -21,7 +21,6 @@ export const API = {
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
       profilePicture: '/api/user/updateProfileImage',
-      setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
     POST: {
       verifyEmail: '/api/user/verifyEmail',
@@ -38,6 +37,10 @@ export const API = {
     },
     GET: {
       payment: '/api/payment',
+      myStripeAccountDetails: '/api/myStripeAccountDetails',
+    },
+    PUT: {
+      setupPaymentDetails: '/api/user/setupPaymentDetails',
     },
   },
   REVIEW: {
@@ -125,5 +128,9 @@ export const CLIENT = {
       `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
   },
 
-  MY_PROFILE: '/my-profile',
+  MY_PROFILE: {
+    basicSettings: '/my-profile/basic-settings',
+    paymentSettings: '/my-profile/payment-settings',
+    // myProgress: '/my-profile/my-stats',
+  },
 };

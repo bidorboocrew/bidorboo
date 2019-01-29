@@ -23,6 +23,10 @@ module.exports = {
       },
       GET: {
         payment: '/api/payment',
+        myStripeAccountDetails: '/api/myStripeAccountDetails',
+      },
+      PUT: {
+        setupPaymentDetails: '/api/user/setupPaymentDetails',
       },
     },
     USER: {
@@ -31,7 +35,6 @@ module.exports = {
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
-        setupPaymentDetails: '/api/user/setupPaymentDetails',
         profilePicture: '/api/user/updateProfileImage',
       },
       POST: {

@@ -3,11 +3,8 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const requireUserHasNoStripeAccount = require('../middleware/requireUserHasNoStripeAccount');
 
 const cloudinary = require('cloudinary');
-const stripeServiceUtil = require('../services/stripeService').util;
-
 module.exports = (app) => {
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
@@ -175,38 +172,6 @@ module.exports = (app) => {
     }
   });
 
-  app.put(
-    ROUTES.API.USER.PUT.setupPaymentDetails,
-    requireBidorBooHost,
-    requireLogin,
-    requireUserHasNoStripeAccount,
-    async (req, res) => {
-      try {
-        const userId = req.user.userId;
-
-        const reqData = req.body.data;
-        const { connectedAccountDetails, metaData } = reqData;
-
-        const connectedAccount = await stripeServiceUtil.createConnectedAccount(
-          connectedAccountDetails,
-          {
-            ...metaData,
-          }
-        );
-        const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
-          agreedToServiceTerms: true,
-          membershipStatus: 'VERIFIED_MEMBER',
-          stripeConnect: {
-            accId: connectedAccount.id,
-            ownerId: connectedAccount.metadata._id,
-          },
-        });
-        return res.send({ success: true, updatedUser: updatedUser });
-      } catch (e) {
-        return res.status(500).send({ errorMsg: e });
-      }
-    }
-  );
 
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
     try {

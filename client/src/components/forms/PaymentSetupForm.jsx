@@ -1,68 +1,80 @@
 import React from 'react';
+import axios from 'axios';
+import Dropzone from 'react-dropzone';
+import moment from 'moment';
 import { withFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { TextInput } from './FormsHelpers';
-import Dropzone from 'react-dropzone';
 
-import axios from 'axios';
+import { phoneNumber } from './FormsValidators';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 const EnhancedForms = withFormik({
-  // validationSchema: Yup.object().shape({
-  //   displayName: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .min(3, 'your name is longer than that. Must be at least 3 chars')
-  //     .max(25, 'your name is longer 25. Must be at most 25 chars')
-  //     .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
-  //       return alphanumericField(inputText);
-  //     })
-  //     .required('First name is required.'),
-  //   email: Yup.string()
-  //     .ensure()
-  //     .trim()
-  //     .email('please enter a valid email address')
-  //     .required('email is required.'),
-  //   phone_number: Yup.number()
-  //     .positive('Phone number can only be of format 161312345678')
-  //     .test('phone_number', 'Phone number should match 1231231234', (inputText) => {
-  //       return phone_number(inputText);
-  //     }),
-  //   personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
-  // }),
-  // mapPropsToValues: ({ userDetails }) => {
-  //   const { displayName, personalParagraph, phone_number, email } = userDetails;
+  validationSchema: Yup.object().shape({
+    phone_number: Yup.string()
+      .ensure()
+      .trim()
+      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+        return phoneNumber(inputText);
+      }),
+    dob_day: Yup.number().required('*This field is required'),
+    dob_month: Yup.number().required('*This field is required'),
+    dob_year: Yup.number().required('*This field is required'),
+    first_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    last_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_street: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_city: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_province: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    address_postalcode: Yup.string()
+      .ensure()
+      .trim()
+      .required('*This field is required'),
+    phone_number: Yup.string()
+      .ensure()
+      .trim()
+      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+        return phoneNumber(inputText);
+      }),
+  }),
+  mapPropsToValues: ({ userDetails }) => {
+    const { phone, email } = userDetails;
 
-  //   return {
-  //     displayName: displayName,
-  //     phone_number: phone_number,
-  //     email: email,
-  //     personalParagraph: personalParagraph,
-  //   };
-  // },
+    return {
+      // first_name: displayName,
+      phone_number: phone.phoneNumber,
+      email: email.emailAddress,
+    };
+  },
   handleSubmit: async (values, { setSubmitting, props }) => {
     const {
       token: tokenizedBankAccount,
       error: tokenizedBankAccountError,
     } = await window.BidorBoo.stripe.createToken('bank_account', {
-      country: 'US',
-      currency: 'usd',
-      routing_number: '110000000',
+      country: 'CA',
+      currency: 'cad',
+      routing_number: '11000-000',
       account_number: '000123456789',
-      account_holder_name: 'Jenny Rosen',
+      account_holder_name: `${props.userDetails.displayName}`,
       account_holder_type: 'individual',
     });
     if (tokenizedBankAccountError) {
       alert(tokenizedBankAccountError);
-      setSubmitting(false);
-      return;
-    }
-
-    const {
-      token: tokenizePii,
-      error: tokenizePiiError,
-    } = await window.BidorBoo.stripe.createToken('pii', { personal_id_number: '000000000' });
-
-    if (tokenizePiiError) {
-      alert(tokenizePiiError);
       setSubmitting(false);
       return;
     }
@@ -132,14 +144,13 @@ const EnhancedForms = withFormik({
       const connectedAccountDetails = {
         external_account: tokenizedBankAccount.id,
         tos_acceptance: {
-          date: Math.floor(Date.now() / 1000),
+          date: Math.round(new Date().getTime() / 1000),
           ip: tokenizedBankAccount.client_ip,
         },
         legal_entity: {
           first_name,
           last_name,
           phone_number,
-          personal_id_number: tokenizePii.id,
           type: 'individual',
           verification: {
             document: frontSideResp.data.id,
@@ -158,21 +169,21 @@ const EnhancedForms = withFormik({
           },
         },
       };
-      // const accountSetup = await axios.put('/api/user/setupPaymentDetails', {
-      //   data: {
-      //     connectedAccountDetails,
-      //     metaData: {
-      //       ...props.userDetails,
-      //     },
-      //   },
-      // });
+      const accountSetup = await axios.put(`${ROUTES.API.PAYMENT.PUT.setupPaymentDetails}`, {
+        data: {
+          connectedAccountDetails,
+          last4BankAcc: tokenizedBankAccount.bank_account.last4,
+        },
+      });
+      window.location.reload();
     } catch (e) {
       let msg =
-        e.response.data && e.response.data.errorMsg
+        e && e.response && e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
           : 'failed To Create Account please email us at bidorboocrew@gmail.com';
       alert(msg);
       setSubmitting(false);
+      console.error(e);
     }
 
     // props.onSubmit(values);
@@ -200,6 +211,7 @@ const PaymentSetupForm = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label className="label">Your Basic Info:</label>
       <div className="field is-grouped">
         <input
           id="account_holder_type"
@@ -207,200 +219,272 @@ const PaymentSetupForm = (props) => {
           type="hidden"
           value={'individual'}
         />
-
-        <TextInput
-          id="first_name"
-          type="text"
-          label="First Name"
-          placeholder="first name"
-          error={touched.first_name && errors.first_name}
-          value={values.first_name || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-        <TextInput
-          id="last_name"
-          type="text"
-          label="Last Name"
-          placeholder="Last name"
-          error={touched.last_name && errors.last_name}
-          value={values.last_name || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="first_name"
+            type="text"
+            label="First Name"
+            error={touched.first_name && errors.first_name}
+            value={values.first_name || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="last_name"
+            type="text"
+            label="Last Name"
+            error={touched.last_name && errors.last_name}
+            value={values.last_name || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
       </div>
-      <div style={{ marginTop: -20 }} className="help">
-        * Provide your name as it appears on your legal document such as your: Passport,
-        government-issued ID, or driver's license
-      </div>
-      <br />
+      <TextInput
+        id="phone_number"
+        type="text"
+        labelClassName=" "
+        label="Phone Number"
+        error={touched.phone_number && errors.phone_number}
+        value={values.phone_number || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
       <div className="field is-grouped">
-        <TextInput
-          id="dob_day"
-          type="text"
-          label="Birth Day"
-          error={touched.dob_day && errors.dob_day}
-          value={values.dob_day || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <div style={{ marginRight: 10 }} className="field">
+          <label>Birth Day</label>
 
-        <TextInput
-          id="dob_month"
-          type="text"
-          label="month"
-          error={touched.dob_month && errors.dob_month}
-          value={values.dob_month || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="dob_year"
-          type="text"
-          label="Year"
-          error={touched.dob_year && errors.dob_year}
-          value={values.dob_year || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-      <div style={{ marginTop: -20 }} className="help">
-        * Provide your address as it shows on your legal document (driver license)
-      </div>
+          <div className="control">
+            <div className="select">
+              <select
+                error={touched.dob_day && errors.dob_day}
+                value={values.dob_day || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="dob_day"
+              >
+                <option>Day</option>
+                {(() => {
+                  const dayOptions = [];
+                  for (let i = 1; i <= 31; i++) {
+                    dayOptions.push(
+                      <option key={`day-${i}`} value={i}>
+                        {i}
+                      </option>,
+                    );
+                  }
+                  return dayOptions;
+                })()}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div style={{ marginRight: 10 }} className="field">
+          <label>Birth Month</label>
+          <div className="control">
+            <div className="select">
+              <select
+                error={touched.dob_month && errors.dob_month}
+                value={values.dob_month || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="dob_month"
+              >
+                <option>Month</option>
+                {(() => {
+                  return (
+                    <React.Fragment>
+                      <option value={1}>Jan</option>
+                      <option value={2}>Feb</option>
+                      <option value={3}>Mar</option>
+                      <option value={4}>Apr</option>
+                      <option value={5}>May</option>
+                      <option value={6}>Jun</option>
+                      <option value={7}>Jul</option>
+                      <option value={8}>Aug</option>
+                      <option value={9}>Sep</option>
+                      <option value={10}>Oct</option>
+                      <option value={11}>Nov</option>
+                      <option value={12}>Dec</option>
+                    </React.Fragment>
+                  );
+                })()}
+              </select>
+            </div>
+          </div>
+        </div>
 
-      <br />
+        <div style={{ marginRight: 10 }} className="field">
+          <label>Birth Year</label>
+
+          <div className="control">
+            <div className="select">
+              <select
+                error={touched.dob_year && errors.dob_year}
+                value={values.dob_year || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="dob_year"
+              >
+                <option>Year</option>
+                {(() => {
+                  const yearOptions = [];
+                  const maxIs15YearsAgo = moment().subtract(15, 'year');
+                  const minIs60YearsAgo = moment().subtract(60, 'year');
+
+                  for (let i = maxIs15YearsAgo.year(); i >= minIs60YearsAgo.year(); i--) {
+                    yearOptions.push(
+                      <option key={`year-${i}`} value={i}>
+                        {i}
+                      </option>,
+                    );
+                  }
+                  return yearOptions;
+                })()}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label className="label">Billing Address Details:</label>
       <div className="field is-grouped">
-        <TextInput
-          id="address_street"
-          type="text"
-          label="Street Address"
-          placeholder="Street Address"
-          error={touched.address_street && errors.address_street}
-          value={values.address_street || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="address_city"
-          type="text"
-          label="City"
-          placeholder="City you reside in"
-          error={touched.address_city && errors.address_city}
-          value={values.address_city || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="address_street"
+            type="text"
+            label="Street Address"
+            error={touched.address_street && errors.address_street}
+            value={values.address_street || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="address_city"
+            type="text"
+            label="City"
+            error={touched.address_city && errors.address_city}
+            value={values.address_city || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
       </div>
       <div className="field is-grouped">
-        <TextInput
-          id="address_postalcode"
-          type="text"
-          label="Postal Code"
-          placeholder=""
-          error={touched.address_postalcode && errors.address_postalcode}
-          value={values.address_postalcode || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="address_province"
-          type="text"
-          label="Province"
-          placeholder="Province"
-          error={touched.address_province && errors.address_province}
-          value={values.address_province || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="address_postalcode"
+            type="text"
+            label="Postal Code"
+            error={touched.address_postalcode && errors.address_postalcode}
+            value={values.address_postalcode || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
+
+        <div style={{ marginRight: 10 }} className="field">
+          <label>Select Province</label>
+          <div className="control">
+            <div className="select">
+              <select
+                error={touched.address_province && errors.address_province}
+                value={values.address_province || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="address_province"
+              >
+                <option>Province</option>
+                {(() => {
+                  return [
+                    'AB',
+                    'BC',
+                    'MB',
+                    'NB',
+                    'NL',
+                    'NS',
+                    'NT',
+                    'NU',
+                    'ON',
+                    'PE',
+                    'QC',
+                    'SK',
+                    'YT',
+                  ].map((province) => (
+                    <option key={`province-${province}`} value={province}>
+                      {province}
+                    </option>
+                  ));
+                })()}
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-      <div style={{ marginTop: -20 }} className="help">
-        * Provide your address as it shows on your legal document such as Passport,
-        government-issued ID, or driver's license
-      </div>
-      <br />
+      <label className="label">Payout Bank Details</label>
       <div className="field  is-grouped">
         <TextInput
+          labelClassName=" "
           id="bank_name"
           type="text"
           label="Bank Name"
-          placeholder="Bank Name"
           error={touched.bank_name && errors.bank_name}
           value={values.bank_name || ''}
           onChange={handleChange}
           onBlur={handleBlur}
         />
       </div>
+      <div className="field is-grouped">
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="transit_number"
+            type="text"
+            label="Transit Number"
+            error={touched.transit_number && errors.transit_number}
+            value={values.transit_number || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
 
-      <div className="field is-grouped">
-        <TextInput
-          id="transit_number"
-          type="text"
-          label="Transit Number"
-          placeholder="Transit number"
-          error={touched.transit_number && errors.transit_number}
-          value={values.transit_number || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="institution_number"
-          type="text"
-          label="Institution Number"
-          placeholder="Institution Number"
-          error={touched.institution_number && errors.institution_number}
-          value={values.institution_number || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextInput
-          id="account_number"
-          type="text"
-          label="Account Number"
-          placeholder="bank account number"
-          error={touched.account_number && errors.account_number}
-          value={values.account_number || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="institution_number"
+            type="text"
+            label="Institution Number"
+            error={touched.institution_number && errors.institution_number}
+            value={values.institution_number || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
+        <div style={{ marginRight: 10 }}>
+          <TextInput
+            labelClassName=" "
+            id="account_number"
+            type="text"
+            label="Account Number"
+            error={touched.account_number && errors.account_number}
+            value={values.account_number || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
       </div>
-      <div className="field is-grouped">
-        <TextInput
-          id="personal_id_number"
-          type="text"
-          label="Social Insurance Number"
-          placeholder="SIN number"
-          error={touched.personal_id_number && errors.personal_id_number}
-          value={values.personal_id_number || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          helpText={
-            <React.Fragment>
-              This will be encrypted and secured via
-              <a href="https://stripe.com/ca" target="_blank">
-                {` Stripe payment gateway.`}
-              </a>
-              {` BidOrBoo will NOT be storing this info.`}
-            </React.Fragment>
-          }
-        />
-      </div>
-      <div className="field is-grouped">
-        <TextInput
-          id="phone_number"
-          type="text"
-          label="Phone Number"
-          error={touched.phone_number && errors.phone_number}
-          value={values.phone_number || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </div>
-
       <input id="idFrontImg" className="input is-invisible" type="hidden" />
-      <label className="label has-text-weight-normal">Upload ID scan or image:</label>
+      <label className="label">ID Verification</label>
       <Dropzone
-        className="file is-boxed"
+        className="file is-boxed idVerification"
         onDrop={(files) => {
           setFieldValue('idFrontImg', files[0], false);
         }}
@@ -421,7 +505,7 @@ const PaymentSetupForm = (props) => {
       <br />
       <input id="idBackImg" className="input is-invisible" type="hidden" />
       <Dropzone
-        className="file is-boxed"
+        className="file is-boxed idVerification"
         onDrop={(files) => {
           setFieldValue('idBackImg', files[0], false);
         }}
@@ -444,15 +528,14 @@ const PaymentSetupForm = (props) => {
       </div>
       <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
       <br />
-
-      <br />
+      <label className="label">Agreement and Terms</label>
       <div className="field">
         <div className="control">
           <label className="checkbox">
-            <input style={{ scale: 1.5 }} type="checkbox" />
+            <input type="checkbox" />
             {` I have read and agree to`}
             <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
-              {` BidOrBoo Service Agreement `}
+              <strong>{` BidOrBoo Service Agreement `}</strong>
             </a>
             and the
             <a
@@ -460,13 +543,12 @@ const PaymentSetupForm = (props) => {
               rel="noopener noreferrer"
               href="https://stripe.com/connect-account/legal"
             >
-              {` Stripe Connected Account Agreement`}
+              <strong>{` Stripe Connected Account Agreement`}</strong>
             </a>
             .
           </label>
         </div>
       </div>
-
       <div className="field is-grouped">
         <div className="control">
           <button
@@ -493,6 +575,7 @@ const PaymentSetupForm = (props) => {
           </button>
         </div>
       </div>
+      <br />
     </form>
   );
 };
