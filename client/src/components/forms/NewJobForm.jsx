@@ -213,34 +213,34 @@ class NewJobForm extends React.Component {
         />
         <div className="buttons">
           <span
-            style={{ width: 160 }}
+            style={{ width: 120 }}
             onClick={() => this.selectTimeButton('morning')}
             className={`button is-info ${selectedTimeButtonId === 'morning' ? '' : 'is-outlined'}`}
           >
-            Morning (8-noon)
+            Morning
           </span>
           <span
-            style={{ width: 160 }}
+            style={{ width: 120 }}
             onClick={() => this.selectTimeButton('afternoon')}
             className={`button is-info ${
               selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
             }`}
           >
-            Afternoon (noon-5)
+            Afternoon
           </span>
           <span
-            style={{ width: 160 }}
+            style={{ width: 120 }}
             onClick={() => this.selectTimeButton('evening')}
             className={`button is-info ${selectedTimeButtonId === 'evening' ? '' : 'is-outlined'}`}
           >
-            Evening (5-midnight)
+            Evening
           </span>
           <span
-            style={{ width: 160 }}
+            style={{ width: 120 }}
             onClick={() => this.selectTimeButton('anytime')}
             className={`button is-info ${selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'}`}
           >
-            Anytime (24hrs)
+            Anytime
           </span>
         </div>
 
