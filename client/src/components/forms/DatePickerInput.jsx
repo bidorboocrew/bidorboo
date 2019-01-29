@@ -19,16 +19,16 @@ export default class DatePickerInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment().set({ hour: 8, minute: 0, second: 0, millisecond: 0 }),
+      startDate: moment(),
     };
   }
 
   handleChange = (date) => {
-    const dateWithTimeZone = moment(date).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+    const dateWithTimeZone = moment(date);
     this.setState({
       startDate: date,
     });
-    this.props.onChangeEvent(dateWithTimeZone);
+    this.props.onChangeEvent(dateWithTimeZone.toISOString());
   };
 
   render() {

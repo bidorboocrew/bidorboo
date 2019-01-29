@@ -8,7 +8,6 @@
 
 import React from 'react';
 
-import autoBind from 'react-autobind';
 
 import { withFormik } from 'formik';
 
@@ -17,10 +16,8 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   GeoAddressInput,
   TextAreaInput,
-  TextInput,
+
   DateInput,
-  TimeInput,
-  HelpText,
 } from './FormsHelpers';
 import moment from 'moment';
 
@@ -39,30 +36,19 @@ class NewJobForm extends React.Component {
     }
     this.state = {
       forceSetAddressValue: '',
-      isFlexibleTimeSelected: false,
+      selectedTimeButtonId: 'evening',
     };
-
-    autoBind(
-      this,
-      'getCurrentAddress',
-      'autoSetGeoLocation',
-      'successfullGeoCoding',
-      'handleFlexibleTimeChecked',
-    );
   }
 
   componentDidMount() {
     navigator.geolocation && this.getCurrentAddress();
   }
-  handleFlexibleTimeChecked() {
-    this.setState({ isFlexibleTimeSelected: !this.state.isFlexibleTimeSelected });
-  }
 
-  autoSetGeoLocation(addressText) {
+  autoSetGeoLocation = (addressText) => {
     this.setState(() => ({ forceSetAddressValue: addressText }));
     // update the form field with the current position coordinates
     this.props.setFieldValue('addressTextField', addressText, false);
-  }
+  };
 
   insertTemplateText = () => {
     const existingText = this.props.values.detailedDescriptionField
@@ -76,6 +62,53 @@ class NewJobForm extends React.Component {
     );
   };
 
+  selectTimeButton = (selectionId) => {
+    const { setFieldValue, values } = this.props;
+    let selectedTimeValue = 5;
+    switch (selectionId) {
+      case 'morning': {
+        selectedTimeValue = 5;
+        break;
+      }
+      case 'afternoon': {
+        selectedTimeValue = 12;
+        break;
+      }
+      case 'evening': {
+        selectedTimeValue = 17;
+        break;
+      }
+
+      case 'anytime': {
+        selectedTimeValue = 10;
+        break;
+      }
+      default: {
+        selectedTimeValue = 5;
+        break;
+      }
+    }
+
+    this.setState({ selectedTimeButtonId: selectionId }, () => {
+      debugger
+      setFieldValue('timeField', selectedTimeValue, false);
+      const newAdjustedTimeVal = moment(values.dateField)
+        .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
+        .toISOString();
+
+      setFieldValue('dateField', newAdjustedTimeVal, false);
+    });
+  };
+
+  updateDateInputFieldValue = (val) => {
+    const { setFieldValue, values } = this.props;
+
+    const adjustedTimeVal = moment(val)
+      .set({ hour: values.timeField, minute: 0, second: 0, millisecond: 0 })
+      .toISOString();
+
+    setFieldValue('dateField', adjustedTimeVal, false);
+  };
   render() {
     const {
       fromTemplateIdField,
@@ -90,6 +123,9 @@ class NewJobForm extends React.Component {
       isSubmitting,
       setFieldValue,
     } = this.props;
+
+    const { selectedTimeButtonId } = this.state;
+
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
         <span>
@@ -107,16 +143,6 @@ class NewJobForm extends React.Component {
     values.fromTemplateIdField = fromTemplateIdField;
     return (
       <form onSubmit={handleSubmit}>
-        {/* <TextInput
-          id="jobTitleField"
-          className="input"
-          type="text"
-          helpText="customize your job title"
-          error={touched.jobTitleField && errors.jobTitleField}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.jobTitleField || ''}
-        /> */}
         <input
           id="fromTemplateIdField"
           className="input is-invisible"
@@ -139,9 +165,14 @@ class NewJobForm extends React.Component {
           id="dateField"
           className="input is-invisible"
           type="hidden"
-          value={values.dateField || moment(new Date()).add(1, 'd')}
+          value={values.dateField}
         />
-
+        <input
+          id="timeField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.timeField || 5}
+        />
         <GeoAddressInput
           id="geoInputField"
           type="text"
@@ -184,43 +215,41 @@ class NewJobForm extends React.Component {
           id="DateInputField"
           type="text"
           label="Service Start Date"
-          onChangeEvent={(val) => {
-            setFieldValue('dateField', val, false);
-          }}
+          onChangeEvent={this.updateDateInputFieldValue}
         />
-        {/* <input
-          id="timeField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.timeField || ''}
-        /> */}
+        <div className="buttons">
+          <span
+            style={{ width: 160 }}
+            onClick={() => this.selectTimeButton('morning')}
+            className={`button is-info ${selectedTimeButtonId === 'morning' ? '' : 'is-outlined'}`}
+          >
+            Morning (8-noon)
+          </span>
+          <span
+            style={{ width: 160 }}
+            onClick={() => this.selectTimeButton('afternoon')}
+            className={`button is-info ${
+              selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
+            }`}
+          >
+            Afternoon (noon-5)
+          </span>
+          <span
+            style={{ width: 160 }}
+            onClick={() => this.selectTimeButton('evening')}
+            className={`button is-info ${selectedTimeButtonId === 'evening' ? '' : 'is-outlined'}`}
+          >
+            Evening (5-midnight)
+          </span>
+          <span
+            style={{ width: 160 }}
+            onClick={() => this.selectTimeButton('anytime')}
+            className={`button is-info ${selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'}`}
+          >
+            Anytime (24hrs)
+          </span>
+        </div>
 
-        {/* <Checkbox
-          type="checkbox"
-          className="flexibleTimeCheckbox"
-          label="Flexibe Time"
-          checked={this.state.isFlexibleTimeSelected}
-          onChange={this.handleFlexibleTimeChecked}
-        /> */}
-        {/* <TimeInput
-          id="TimeInputField"
-          label="Approximate Start time"
-          onChangeEvent={(val) => {
-            setFieldValue('timeField', val, false);
-          }}
-        /> */}
-
-        {/* <TextInput
-          id="durationOfJobField"
-          type="text"
-          helpText="E.g: 1 hour, 2 hours , 1 day, not sure ...etc"
-          label="Request Duration"
-          error={touched.durationOfJobField && errors.durationOfJobField}
-          value={values.durationOfJobField}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          iconLeft="far fa-clock"
-        /> */}
         <br />
         <TextAreaInput
           id="detailedDescriptionField"
@@ -279,7 +308,7 @@ class NewJobForm extends React.Component {
     );
   }
 
-  successfullGeoCoding(results, status) {
+  successfullGeoCoding = (results, status) => {
     // xxx handle the various error (api over limit ...etc)
     if (status !== this.google.maps.GeocoderStatus.OK) {
       alert(status);
@@ -289,8 +318,8 @@ class NewJobForm extends React.Component {
       var address = results[0].formatted_address;
       this.autoSetGeoLocation(address);
     }
-  }
-  getCurrentAddress() {
+  };
+  getCurrentAddress = () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       const getCurrentPositionOptions = {
@@ -330,17 +359,17 @@ class NewJobForm extends React.Component {
     } else {
       console.log('no html 5 geo location');
     }
-  }
+  };
 }
 
 const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
-      hoursField: 1,
-      minutesField: 0,
-      periodField: 'PM',
+      timeField: 5,
       fromTemplateIdField: props.fromTemplateIdField,
-      dateField: moment(new Date()).add(1, 'd'),
+      dateField: moment()
+        .set({ hour: 5, minute: 0, second: 0, millisecond: 0 })
+        .toISOString(),
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {

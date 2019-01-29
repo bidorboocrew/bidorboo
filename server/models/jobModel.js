@@ -12,7 +12,6 @@ const StatsSchema = {
 
 const DateTimeSchema = {
   date: Date,
-  time: { type: String, trim: true, default: 'Flexible, any time' },
 };
 
 const MAX_ADDRESS_LENGTH = 300;

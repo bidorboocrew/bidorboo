@@ -96,7 +96,7 @@ const ExpiringSoon = ({ startingDate }) => {
   if (moment(jobStartingDate).isBefore(today)) {
     return <div className="has-text-danger">Expired Already!</div>;
   } else {
-    return <div className="has-text-warning">Expiring Soon!</div>;
+    return <div className="has-text-danger">Expiring Soon!</div>;
   }
 };
 
