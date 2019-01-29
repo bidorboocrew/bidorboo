@@ -150,8 +150,8 @@ const InitialAccountSetupView = (props) => {
       </div>
       {!showAddPaymentDetails &&
         myStripeAccountDetails &&
-        myStripeAccountDetails.potentialFuturePayouts &&
-        myStripeAccountDetails.potentialFuturePayouts > 0 && (
+        myStripeAccountDetails.balanceDetails &&
+        myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
           <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
         )}
       {showAddPaymentDetails && (
@@ -265,24 +265,10 @@ const ProgressChart = ({ myStripeAccountDetails }) => {
       <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
         <XAxis dataKey="name" />
         <YAxis unit="$" />
-        <Tooltip formatter={(value) => `${value}$`} />
+        <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
         <Legend align="center" />
-        <Bar
-          label={{ position: 'top' }}
-          dataKey="potentialFuturePayouts"
-          name="Pending Payments"
-          fill="#ffc658"
-        >
-          {data.map((value, index) => (
-            <Cell fontWeight="bold" key={`cell-${index}`} fill={'#ffc658'} />
-          ))}
-        </Bar>
-
-        <Bar label={{ position: 'top' }} dataKey="pastEarnings" name="Paid Out" fill="#82ca9d">
-          {data.map((value, index) => (
-            <Cell fontWeight="bold" key={`cell-${index}`} fill={'#82ca9d'} />
-          ))}
-        </Bar>
+        <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
+        <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
       </BarChart>
     </ResponsiveContainer>
   );
