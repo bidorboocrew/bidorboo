@@ -132,7 +132,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             return job.state === 'AWARDED';
           })
           .filter((job) => {
-            const jobStartDate = job.startingDateAndTime.date;
+            const jobStartDate = job.startingDateAndTime;
 
             // normalize the start date to the same timezone to comapre
             const normalizedStartDate = moment(jobStartDate)
@@ -155,7 +155,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
           .filter((myBid) => {
             const referenceJob = myBid._jobRef;
 
-            const jobStartDate = referenceJob.startingDateAndTime.date;
+            const jobStartDate = referenceJob.startingDateAndTime;
 
             // normalize the start date to the same timezone to comapre
             const normalizedStartDate = moment(jobStartDate)

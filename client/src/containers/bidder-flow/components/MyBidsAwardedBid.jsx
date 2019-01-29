@@ -4,15 +4,7 @@ import moment from 'moment';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import {
-  AvgBidDisplayLabelAndValue,
-  DisplayLabelValue,
-  CountDownComponent,
-  UserImageAndRating,
-  JobStats,
-  CardTitleWithBidCount,
-  getDaysSinceCreated,
-} from '../../commonComponents';
+import { DisplayLabelValue, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
 export default class MyBidsAwardedBid extends React.Component {
@@ -62,13 +54,7 @@ export default class MyBidsAwardedBid extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
 
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                _jobRef.startingDateAndTime.date &&
-                ` ${moment(_jobRef.startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={_jobRef.startingDateAndTime} />
             <DisplayLabelValue labelText="Your pay:" labelValue={bidAmountText} />
             <div className="help">* After you complete the task.</div>
           </div>
@@ -88,7 +74,7 @@ export default class MyBidsAwardedBid extends React.Component {
           </div>
 
           <div className="card-footer-item">
-            {`Task Date : ${moment(_jobRef.startingDateAndTime.date).format('DD/MMM/YYYY')}`}
+            {`Task Date : ${moment(_jobRef.startingDateAndTime).format('DD/MMM/YYYY')}`}
           </div>
           {/* <div className="card-footer-item">
             <span className="has-text-weight-bold">{bidStateText}</span>

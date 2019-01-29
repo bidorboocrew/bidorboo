@@ -10,6 +10,7 @@ import {
   CountDownComponent,
   getDaysSinceCreated,
   JobStats,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class JobSummaryForPostedJobs extends React.Component {
@@ -72,12 +73,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
           className="card-content"
         >
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
 
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
 
@@ -85,7 +81,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
           </div>
         </div>
         {renderFooter({ job, notificationFeed })}
-        <CountDownComponent startingDate={startingDateAndTime.date} isJobStart={false} />
+        <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
       </div>
     );
   }

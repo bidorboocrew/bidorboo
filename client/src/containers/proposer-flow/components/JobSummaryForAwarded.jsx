@@ -5,7 +5,12 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import { DisplayLabelValue, CountDownComponent, UserImageAndRating } from '../../commonComponents';
+import {
+  DisplayLabelValue,
+  CountDownComponent,
+  UserImageAndRating,
+  StartDateAndTime,
+} from '../../commonComponents';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
@@ -48,16 +53,11 @@ export default class JobSummaryForAwarded extends React.Component {
           <UserImageAndRating userDetails={_bidderRef} />
 
           <div className="content">
-            <DisplayLabelValue
-              labelText="Task Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
           </div>
         </div>
         {renderFooter()}
-        <CountDownComponent startingDate={startingDateAndTime.date} />
+        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }

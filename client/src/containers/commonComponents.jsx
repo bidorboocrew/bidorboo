@@ -1,7 +1,6 @@
 import React from 'react';
 import Countdown from 'react-countdown-now';
 import ReactStars from 'react-stars';
-
 import moment from 'moment';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
@@ -187,5 +186,46 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, user
         {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
       </a>
     </header>
+  );
+};
+
+const timeToTextMap = {
+  '10': 'flexible, anytime.',
+  '8': 'morning',
+  '12': 'afternoon',
+  '17': 'evening',
+};
+export const StartDateAndTime = ({ date }) => {
+  const startingDate = moment(date).format('DD/MMM/YYYY');
+
+  const selectedTime = moment(date).get('hour');
+  let timeText = 'flexible, anytime.';
+  switch (`${selectedTime}`) {
+    case '10':
+      timeText = 'flexible, anytime.';
+      break;
+    case '8':
+      timeText = 'morning.';
+      break;
+    case '12':
+      timeText = 'afternoon.';
+      break;
+    case '17':
+      timeText = 'evening.';
+      break;
+    default:
+      timeText = 'flexible, anytime.';
+      break;
+  }
+
+  if (selectedTime && selectedTime > 0) {
+    timeText = timeToTextMap[`${selectedTime}`];
+  }
+
+  return (
+    <React.Fragment>
+      <DisplayLabelValue labelText="Start Date:" labelValue={startingDate} />
+      <DisplayLabelValue labelText="Start Time:" labelValue={timeText} />
+    </React.Fragment>
   );
 };

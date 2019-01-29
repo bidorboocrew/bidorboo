@@ -8,17 +8,11 @@
 
 import React from 'react';
 
-
 import { withFormik } from 'formik';
 
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import {
-  GeoAddressInput,
-  TextAreaInput,
-
-  DateInput,
-} from './FormsHelpers';
+import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
 import moment from 'moment';
 
 // for reverse geocoding , get address from lat lng
@@ -64,10 +58,11 @@ class NewJobForm extends React.Component {
 
   selectTimeButton = (selectionId) => {
     const { setFieldValue, values } = this.props;
-    let selectedTimeValue = 5;
+    let selectedTimeValue = 17;
+
     switch (selectionId) {
       case 'morning': {
-        selectedTimeValue = 5;
+        selectedTimeValue = 8;
         break;
       }
       case 'afternoon': {
@@ -84,13 +79,13 @@ class NewJobForm extends React.Component {
         break;
       }
       default: {
-        selectedTimeValue = 5;
+        selectedTimeValue = 17;
         break;
       }
     }
 
     this.setState({ selectedTimeButtonId: selectionId }, () => {
-      debugger
+      debugger;
       setFieldValue('timeField', selectedTimeValue, false);
       const newAdjustedTimeVal = moment(values.dateField)
         .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
@@ -368,7 +363,7 @@ const EnhancedForms = withFormik({
       timeField: 5,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
-        .set({ hour: 5, minute: 0, second: 0, millisecond: 0 })
+        .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
     };
   },

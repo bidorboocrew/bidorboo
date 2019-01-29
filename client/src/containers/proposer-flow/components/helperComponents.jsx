@@ -32,8 +32,8 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     title,
     description,
     location: addressText,
-    startTime: `${startingDateAndTime && moment(startingDateAndTime.date)}`,
-    endTime: `${startingDateAndTime && moment(startingDateAndTime.date)}`,
+    startTime: `${startingDateAndTime && moment(startingDateAndTime)}`,
+    endTime: `${startingDateAndTime && moment(startingDateAndTime)}`,
   };
   return (
     <AddToCalendar

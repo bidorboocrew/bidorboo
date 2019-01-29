@@ -9,6 +9,7 @@ import {
   UserImageAndRating,
   getDaysSinceCreated,
   JobStats,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class JobFullDetailsCard extends React.Component {
@@ -49,12 +50,8 @@ export default class JobFullDetailsCard extends React.Component {
         >
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
+
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
@@ -89,7 +86,7 @@ export default class JobFullDetailsCard extends React.Component {
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
-        <CountDownComponent startingDate={startingDateAndTime.date} />
+        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }

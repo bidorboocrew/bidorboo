@@ -44,12 +44,12 @@ class MyCalendar extends React.Component {
           <br />
           You will be charged ${bidDetails.bidAmount.value} CAD when the job is completed</p>`,
           start: moment(
-            moment(job.startingDateAndTime.date)
+            moment(job.startingDateAndTime)
               .toDate()
               .setHours(8, 0, 0),
           ).toDate(),
           end: moment(
-            moment(job.startingDateAndTime.date)
+            moment(job.startingDateAndTime)
               .toDate()
               .setHours(17, 0, 0),
           ).toDate(),
@@ -76,12 +76,12 @@ class MyCalendar extends React.Component {
           <br />
           Once the job is fullfilled you will recieve ${bid.bidAmount.value} CAD</p>`,
           start: moment(
-            moment(jobDetails.startingDateAndTime.date)
+            moment(jobDetails.startingDateAndTime)
               .toDate()
               .setHours(8, 0, 0),
           ).toDate(),
           end: moment(
-            moment(jobDetails.startingDateAndTime.date)
+            moment(jobDetails.startingDateAndTime)
               .toDate()
               .setHours(17, 0, 0),
           ).toDate(),

@@ -10,6 +10,7 @@ import {
   JobStats,
   CardTitleWithBidCount,
   getDaysSinceCreated,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class RequestsTabSummaryCard extends React.Component {
@@ -70,12 +71,8 @@ export default class RequestsTabSummaryCard extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
 
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
+
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>

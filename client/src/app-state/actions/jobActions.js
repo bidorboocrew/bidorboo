@@ -279,9 +279,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       type: 'Point',
       coordinates: [parseFloat(lng), parseFloat(lat)],
     },
-    startingDateAndTime: {
-      date: dateField,
-    },
+    startingDateAndTime: dateField,
     durationOfJob: durationOfJobField,
     addressText: addressTextField,
     state: 'OPEN',

@@ -28,10 +28,7 @@ exports.jobDataAccess = {
         .toISOString();
 
       await JobModel.find({
-        $and: [
-          { _awardedBidRef: { $exists: true } },
-          { 'startingDateAndTime.date': { $exists: true } },
-        ],
+        $and: [{ _awardedBidRef: { $exists: true } }, { startingDateAndTime: { $exists: true } }],
       })
         .populate({
           path: '_ownerRef',
@@ -52,7 +49,7 @@ exports.jobDataAccess = {
           }
           if (res && res.length > 0) {
             res.forEach(async (job) => {
-              const jobStartDate = job.startingDateAndTime.date;
+              const jobStartDate = job.startingDateAndTime;
 
               // normalize the start date to the same timezone to comapre
               const normalizedStartDate = moment(jobStartDate)
@@ -155,7 +152,7 @@ exports.jobDataAccess = {
         .toISOString();
 
       await JobModel.find({
-        'startingDateAndTime.date': { $exists: true },
+        startingDateAndTime: { $exists: true },
         _awardedBidRef: { $exists: false },
       })
         .populate({
@@ -173,7 +170,7 @@ exports.jobDataAccess = {
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
-              const jobStartDate = job.startingDateAndTime.date;
+              const jobStartDate = job.startingDateAndTime;
 
               // normalize the start date to the same timezone to comapre
               const normalizedStartDate = moment(jobStartDate)
@@ -242,7 +239,7 @@ exports.jobDataAccess = {
           _id: 1,
         },
         match: { state: { $eq: 'AWARDED' } },
-        options: { sort: { 'startingDateAndTime.date': 1 } },
+        options: { sort: { startingDateAndTime: 1 } },
         populate: {
           path: '_awardedBidRef',
           select: {
@@ -269,7 +266,7 @@ exports.jobDataAccess = {
         path: '_postedJobsRef',
         select: schemaHelpers.JobFull,
         match: { state: { $eq: stateFilter } },
-        options: { sort: { 'startingDateAndTime.date': 1 } },
+        options: { sort: { startingDateAndTime: 1 } },
       })
       .lean(true)
       .exec();
@@ -357,7 +354,7 @@ exports.jobDataAccess = {
           .populate({
             path: '_postedJobsRef',
             select: schemaHelpers.JobFull,
-            options: { sort: { 'startingDateAndTime.date': 1 } },
+            options: { sort: { startingDateAndTime: 1 } },
             populate: {
               path: '_bidsListRef',
               select: schemaHelpers.BidFull,
@@ -408,7 +405,7 @@ exports.jobDataAccess = {
           $push: {
             _postedJobsRef: {
               $each: [newJob._id],
-              sort: { 'newJob.startingDateAndTime.date': 1 },
+              sort: { 'newJob.startingDateAndTime': 1 },
             },
           },
         },
@@ -558,10 +555,10 @@ exports.jobDataAccess = {
       const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
-        sort: { 'startingDateAndTime.date': 1 },
+        sort: { startingDateAndTime: 1 },
         allowDiskUse: true,
       })
-        // .where('startingDateAndTime.date')
+        // .where('startingDateAndTime')
         // .gt(new Date())
         .populate({
           path: '_ownerRef',
