@@ -213,7 +213,8 @@ module.exports = (app) => {
           balanceDetails: {
             verifiedAmount: verifiedAmount / 100,
             pendingVerificationAmount: pendingVerificationAmount / 100,
-            paidoutAmount: paidoutAmount / 100,
+            potentialFuturePayouts: (verifiedAmount + pendingVerificationAmount) / 100,
+            pastEarnings: paidoutAmount / 100,
           },
         });
       } catch (e) {

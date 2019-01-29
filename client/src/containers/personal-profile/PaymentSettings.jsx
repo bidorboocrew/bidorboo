@@ -215,19 +215,16 @@ const EstablishedAccountView = (props) => {
             return verificationStatus;
           })()}
         </div>
-        <div className="panel-heading is-size-6 has-text-weight-semibold">Cash Flow</div>
+        <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
           <ResponsiveContainer minHeight={400}>
             <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis name="$CAD" />
-              <Tooltip />
+              <YAxis unit="$" />
+              <Tooltip formatter={(value) => `${value}$`} />
               <Legend />
-              <Bar dataKey="pendingVerificationAmount" name="Pending Verification" fill="#ffc658" />
-              <Bar dataKey="verifiedAmount" name="Verified Amounts" fill="#8884d8" />
-
-              <Bar dataKey="paidoutAmount" name="Paid Out" fill="#82ca9d" />
+              <Bar dataKey="potentialFuturePayouts" name="Pending Payments" fill="#ffc658" />
+              <Bar dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
             </BarChart>
           </ResponsiveContainer>
         </div>
