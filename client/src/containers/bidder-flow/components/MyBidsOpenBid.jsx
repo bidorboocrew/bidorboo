@@ -5,13 +5,8 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
-  AvgBidDisplayLabelAndValue,
   DisplayLabelValue,
-  CountDownComponent,
   UserImageAndRating,
-  JobStats,
-  CardTitleWithBidCount,
-  getDaysSinceCreated,
   StartDateAndTime,
 } from '../../commonComponents';
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
@@ -62,9 +57,6 @@ export default class MyBidsOpenBid extends React.Component {
             <a className="button is-outlined">View Or Change</a>
           </div>
           <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
-          {/* <div className="card-footer-item">
-            <span className="has-text-weight-bold">{bidStateText}</span>
-          </div> */}
         </footer>
       </div>
     );

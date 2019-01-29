@@ -133,30 +133,14 @@ export const UserImageAndRating = ({ userDetails }) => {
   );
 };
 
-export const JobStats = ({ daysSinceCreated, viewedBy }) => {
-  return null;
-  return (
-    <nav style={{ marginTop: 6 }} className="level is-mobile">
-      <div className="level-left">
-        <div className="level-item">
-          <span style={{ fontSize: '10px', color: 'grey' }}>
-            {`Posted (${daysSinceCreated} ago)`}
-          </span>
-        </div>
-      </div>
 
-      <div className="level-right">
-        <p className="level-item">
-          <span style={{ fontSize: '10px', color: 'grey' }}>
-            {`Viewed by ${viewedBy ? viewedBy.length : 0} bidders`}
-          </span>
-        </p>
-      </div>
-    </nav>
-  );
-};
-
-export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, userAlreadyView }) => {
+export const CardTitleWithBidCount = ({
+  jobState,
+  fromTemplateId,
+  bidsList = [],
+  userAlreadyView = false,
+  userAlreadyBid = false,
+}) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
@@ -168,6 +152,13 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, user
       <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
       <a className="card-header-icon">
+        {userAlreadyBid && (
+          <span style={{ marginRight: 4 }} className="has-text-grey">
+            <span className="icon">
+              <i className="fas fa-money-check-alt" />
+            </span>
+          </span>
+        )}
         {userAlreadyView && (
           <span style={{ marginRight: 4 }} className="has-text-grey">
             <span className="icon">

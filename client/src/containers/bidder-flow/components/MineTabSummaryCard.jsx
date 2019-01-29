@@ -6,7 +6,6 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   CardTitleWithBidCount,
-  JobStats,
   getDaysSinceCreated,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
@@ -54,8 +53,6 @@ export default class MineTabSummaryCard extends React.Component {
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
           <a className="button is-info is-outlined is-small is-fullwidth">View Task Details</a>
           {withButtons && (

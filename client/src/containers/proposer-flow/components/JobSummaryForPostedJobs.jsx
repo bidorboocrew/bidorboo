@@ -9,7 +9,6 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   getDaysSinceCreated,
-  JobStats,
   StartDateAndTime,
 } from '../../commonComponents';
 
@@ -76,8 +75,6 @@ export default class JobSummaryForPostedJobs extends React.Component {
             <StartDateAndTime date={startingDateAndTime} />
 
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         {renderFooter({ job, notificationFeed })}

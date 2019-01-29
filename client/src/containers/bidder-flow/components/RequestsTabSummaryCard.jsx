@@ -4,10 +4,7 @@ import moment from 'moment';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   AvgBidDisplayLabelAndValue,
-  DisplayLabelValue,
-  CountDownComponent,
   UserImageAndRating,
-  JobStats,
   CardTitleWithBidCount,
   getDaysSinceCreated,
   StartDateAndTime,
@@ -29,7 +26,6 @@ export default class RequestsTabSummaryCard extends React.Component {
       createdAt,
       fromTemplateId,
       _bidsListRef,
-      viewedBy,
       _ownerRef,
       state,
     } = job;
@@ -53,6 +49,7 @@ export default class RequestsTabSummaryCard extends React.Component {
         className={`card is-clipped ${cardSpecialClass} ${isAwarded ? 'disabled' : ''}`}
       >
         <CardTitleWithBidCount
+          userAlreadyBid={userAlreadyBid}
           jobState={state}
           fromTemplateId={fromTemplateId}
           bidsList={_bidsListRef}
@@ -74,7 +71,6 @@ export default class RequestsTabSummaryCard extends React.Component {
             <StartDateAndTime date={startingDateAndTime} />
 
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
           {userAlreadyBid ? (
             <a disabled className="button  is-outlined is-small is-fullwidth">

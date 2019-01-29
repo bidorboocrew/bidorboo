@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
@@ -8,7 +7,6 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
 } from '../../commonComponents';
@@ -21,7 +19,6 @@ export default class MyAwardedBidJobDetails extends React.Component {
       _bidsListRef,
       _ownerRef,
       state,
-      viewedBy,
       detailedDescription,
       fromTemplateId,
       createdAt,
@@ -71,8 +68,6 @@ export default class MyAwardedBidJobDetails extends React.Component {
               />
             </span>
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime} />

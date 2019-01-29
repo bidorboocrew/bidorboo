@@ -8,7 +8,6 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
 } from '../../commonComponents';
@@ -68,7 +67,6 @@ export default class MyOpenBidJobDetails extends React.Component {
               />
               <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             </span>
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime} />

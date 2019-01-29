@@ -8,7 +8,6 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
   StartDateAndTime,
 } from '../../commonComponents';
 
@@ -80,7 +79,6 @@ export default class JobFullDetailsCard extends React.Component {
                 readOnly
               />
             </span>
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime} />
