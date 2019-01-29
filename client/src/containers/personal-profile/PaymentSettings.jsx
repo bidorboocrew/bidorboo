@@ -55,21 +55,15 @@ class PaymentSettings extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <div className="columns is-centered is-gapless">
-          <div className="column">
-            {(!stripeConnect || !stripeConnect.last4BankAcc) && (
-              <InitialAccountSetupView
-                {...this.props}
-                {...this.state}
-                toggleAddPaymentDetails={this.toggleAddPaymentDetails}
-              />
-            )}
+        {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+          <InitialAccountSetupView
+            {...this.props}
+            {...this.state}
+            toggleAddPaymentDetails={this.toggleAddPaymentDetails}
+          />
+        )}
 
-            {stripeConnect && stripeConnect.last4BankAcc && (
-              <EstablishedAccountView {...this.props} />
-            )}
-          </div>
-        </div>
+        {stripeConnect && stripeConnect.last4BankAcc && <EstablishedAccountView {...this.props} />}
       </div>
     );
   }
