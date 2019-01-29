@@ -185,7 +185,37 @@ module.exports = (app) => {
           paymentsDetails.accId
         );
 
-        res.send({ balanceDetails: { ...accDetails } });
+        let verifiedAmount = 0;
+        let pendingVerificationAmount = 0;
+        let paidoutAmount = 0;
+
+        if (accDetails && accDetails.length === 2) {
+          const accountBalance = accDetails[0];
+          const accountPayouts = accDetails[1];
+
+          accountBalance.available &&
+            accountBalance.available.forEach((availableCash) => {
+              verifiedAmount += availableCash.amount;
+            });
+
+          accountBalance.pending &&
+            accountBalance.pending.forEach((pendingCash) => {
+              pendingVerificationAmount += pendingCash.amount;
+            });
+
+          accountPayouts.data &&
+            accountPayouts.data.forEach((paidoutCash) => {
+              paidoutAmount += paidoutCash.amount;
+            });
+        }
+
+        return res.send({
+          balanceDetails: {
+            verifiedAmount: verifiedAmount / 100,
+            pendingVerificationAmount: pendingVerificationAmount / 100,
+            paidoutAmount: paidoutAmount / 100,
+          },
+        });
       } catch (e) {
         return res.status(500).send({
           errorMsg: 'Failed To retrieve your connected stripe account details',

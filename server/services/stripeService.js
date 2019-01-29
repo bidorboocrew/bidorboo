@@ -25,12 +25,28 @@ exports.util = {
   },
 
   getConnectedAccountBalance: async (connectedAccId) => {
-    return stripe.balance.retrieve(
-      {},
-      {
-        stripe_account: connectedAccId,
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountBalanceDetails = await Promise.all([
+          stripe.balance.retrieve(
+            {},
+            {
+              stripe_account: connectedAccId,
+            }
+          ),
+          stripe.payouts.list(
+            {},
+            {
+              stripe_account: connectedAccId,
+            }
+          ),
+        ]);
+
+        resolve(accountBalanceDetails);
+      } catch (e) {
+        reject(e);
       }
-    );
+    });
   },
 
   deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {

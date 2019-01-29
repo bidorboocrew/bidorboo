@@ -184,19 +184,7 @@ const EstablishedAccountView = (props) => {
     return null;
   }
 
-  const earnings =
-    myStripeAccountDetails.balanceDetails &&
-    myStripeAccountDetails.balanceDetails.available.length > 0
-      ? myStripeAccountDetails.balanceDetails.available[0].amount / 100
-      : 0;
-  const pendingPayments =
-    myStripeAccountDetails.balanceDetails &&
-    myStripeAccountDetails.balanceDetails.pending.length > 0
-      ? myStripeAccountDetails.balanceDetails.pending[0].amount / 100
-      : 0;
-
-  const data = [{ name: 'Payments', pendingPayments: pendingPayments, earnings: earnings }];
-
+  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />
@@ -237,12 +225,15 @@ const EstablishedAccountView = (props) => {
         <div className="panel-block is-active">
           <ResponsiveContainer minHeight={400}>
             <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis name="$CAD" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="pendingPayments" name="Pending Transactions" fill="#8884d8" />
-              <Bar dataKey="earnings" name="Verified Transactions" fill="#82ca9d" />
+              <Bar dataKey="pendingVerificationAmount" name="Pending Verification" fill="#ffc658" />
+              <Bar dataKey="verifiedAmount" name="Verified Amounts" fill="#8884d8" />
+
+              <Bar dataKey="paidoutAmount" name="Paid Out" fill="#82ca9d" />
             </BarChart>
           </ResponsiveContainer>
         </div>
