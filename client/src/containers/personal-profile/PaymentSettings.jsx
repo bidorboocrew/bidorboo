@@ -46,8 +46,8 @@ class PaymentSettings extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <div className="columns is-centered">
-          <div className="column">
+        <div className="card">
+          <div className="card-content">
             {(!stripeConnect || !stripeConnect.last4BankAcc) && (
               <InitialAccountSetupView
                 {...this.props}
@@ -112,7 +112,7 @@ const InitialAccountSetupView = (props) => {
     myStripeAccountDetails,
   } = props;
   return (
-    <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+    <React.Fragment>
       <div>
         <HeaderTitle title="BidOrBoo Tasker" />
         <p className="is-size-6">
@@ -172,7 +172,7 @@ const InitialAccountSetupView = (props) => {
           />
         </div>
       )}
-    </section>
+    </React.Fragment>
   );
 };
 const EstablishedAccountView = (props) => {
