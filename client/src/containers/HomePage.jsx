@@ -18,8 +18,8 @@ export default class HomePage extends React.Component {
               </strong>
             </h1>
             <br />
-            <div className="columns is-multiline is-centered">
-              <div className="column is-half">
+            <div className="columns is-4 is-multiline is-centered">
+              <div className="column">
                 <RequestAService
                   logoImg={requestImg}
                   onClickHandler={() => {
@@ -27,7 +27,7 @@ export default class HomePage extends React.Component {
                   }}
                 />
               </div>
-              <div className="column is-half">
+              <div className="column">
                 <ProvideAService
                   logoImg={bidsImg}
                   onClickHandler={() => {
