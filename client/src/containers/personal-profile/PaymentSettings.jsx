@@ -234,7 +234,7 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
-          <ResponsiveContainer minHeight={400}>
+          <ResponsiveContainer width={'50%'} minHeight={400}>
             <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
               <XAxis dataKey="name" />
               <YAxis unit="$" />
