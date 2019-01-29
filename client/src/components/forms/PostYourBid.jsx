@@ -30,6 +30,12 @@ class PostYourBid extends React.Component {
     this.setState({ showBidDialog: true });
   };
 
+  onAutoBid = (val) => {
+    const { setFieldValue } = this.props;
+
+    setFieldValue('bidAmountField', val, true);
+  };
+
   render() {
     const {
       values,
@@ -70,7 +76,7 @@ class PostYourBid extends React.Component {
                 onClick={onCancel}
               >
                 <span className="icon">
-                  <i className="fas fa-thumbs-down" />
+                  <i className="far fa-arrow-alt-circle-left" />
                 </span>
                 <span>Go Back</span>
               </a>
@@ -99,7 +105,7 @@ class PostYourBid extends React.Component {
                     label="Enter Bid Amount"
                     id="bidAmountField"
                     className="input is-focused"
-                    type="text"
+                    type="number"
                     onBlur={handleBlur}
                     helpText="Bid Amount are in CAD. E.g 50"
                     error={touched.bidAmountField && errors.bidAmountField}
@@ -111,6 +117,39 @@ class PostYourBid extends React.Component {
                       handleChange(e);
                     }}
                   />
+                  <div className="buttons">
+                    <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+                    <span
+                      onClick={() => this.onAutoBid(25)}
+                      className="button is-success is-outlined is-small"
+                    >
+                      25$
+                    </span>
+                    <span
+                      onClick={() => this.onAutoBid(50)}
+                      className="button is-success is-outlined is-small"
+                    >
+                      50$
+                    </span>
+                    <span
+                      onClick={() => this.onAutoBid(100)}
+                      className="button is-success is-outlined is-small"
+                    >
+                      100$
+                    </span>
+                    <span
+                      onClick={() => this.onAutoBid(125)}
+                      className="button is-success is-outlined is-small"
+                    >
+                      125$
+                    </span>
+                    <span
+                      onClick={() => this.onAutoBid(150)}
+                      className="button is-success is-outlined is-small"
+                    >
+                      150$
+                    </span>
+                  </div>
                 </section>
                 <footer className="modal-card-foot">
                   <button
@@ -129,7 +168,7 @@ class PostYourBid extends React.Component {
                     }}
                     className="button is-outline"
                   >
-                    Go Back
+                    Cancel
                   </button>
                 </footer>
               </div>
