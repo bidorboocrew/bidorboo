@@ -416,3 +416,27 @@ header.card-header {
     }
   }
 }
+
+.card#bidOrBooMainPage-Provide,
+.card#bidOrBooMainPage-Request {
+  padding-top: 1rem;
+  height: 100%;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  &:hover {
+    border: 1px solid #23d160;
+    > div.card-content {
+      > p {
+        background: #23d160;
+        color: white;
+        transition: all 0.3s;
+      }
+    }
+  }
+  > div.card-content {
+    > p {
+      border: 1px solid #23d160;
+      border-radius: 4px;
+      padding: 0.5rem;
+    }
+  }
+}

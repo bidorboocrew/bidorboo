@@ -20,7 +20,7 @@ export default class HomePage extends React.Component {
             <br />
             <div className="columns is-multiline is-centered">
               <div className="column is-half">
-                <OfferAService
+                <RequestAService
                   logoImg={requestImg}
                   onClickHandler={() => {
                     switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -43,25 +43,21 @@ export default class HomePage extends React.Component {
   }
 }
 
-const OfferAService = (props) => {
+const RequestAService = (props) => {
   const { onClickHandler } = props;
   return (
     <div
-      style={{
-        paddingTop: '1rem',
-        height: '100%',
-        boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)',
-      }}
+      id="bidOrBooMainPage-Request"
       onClick={onClickHandler}
       className="card has-text-centered is-outlined"
     >
       <div className="card-content">
-        <a className="title button is-success is-outlined is-fullwidth">
+        <p className="title  is-success is-outlined is-fullwidth is-multiline">
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
           <span>{` Request a Service`}</span>
-        </a>
+        </p>
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
@@ -97,22 +93,14 @@ const OfferAService = (props) => {
 const ProvideAService = (props) => {
   const { onClickHandler } = props;
   return (
-    <div
-      style={{
-        paddingTop: '1rem',
-        height: '100%',
-        boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)',
-      }}
-      onClick={onClickHandler}
-      className="card has-text-centered"
-    >
+    <div id="bidOrBooMainPage-Provide" onClick={onClickHandler} className="card has-text-centered">
       <div className="card-content">
-        <a className="title button is-success is-outlined is-fullwidth">
+        <p className="title  is-success is-outlined is-fullwidth is-multiline">
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>
-          <span>{` Offer a Service`}</span>
-        </a>
+          <span>{` Provide a Service`}</span>
+        </p>
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
