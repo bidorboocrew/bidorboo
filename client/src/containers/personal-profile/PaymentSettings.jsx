@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -205,7 +196,7 @@ const EstablishedAccountView = (props) => {
                 <span>Congratulations your account is Verified</span>
               </span>
             ) : (
-              <span className="has-text-info">
+              <span className="has-text-link">
                 <span className="icon">
                   <i className="far fa-clock" />
                 </span>
@@ -223,8 +214,27 @@ const EstablishedAccountView = (props) => {
               <YAxis unit="$" />
               <Tooltip formatter={(value) => `${value}$`} />
               <Legend />
-              <Bar dataKey="potentialFuturePayouts" name="Pending Payments" fill="#ffc658" />
-              <Bar dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
+              <Bar
+                label={{ position: 'top' }}
+                dataKey="potentialFuturePayouts"
+                name="Pending Payments"
+                fill="#ffc658"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={'#ffc658'} />
+                ))}
+              </Bar>
+
+              <Bar
+                label={{ position: 'top' }}
+                dataKey="pastEarnings"
+                name="Paid Out"
+                fill="#82ca9d"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={'#82ca9d'} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
