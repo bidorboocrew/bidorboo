@@ -272,7 +272,7 @@ const PaymentSetupForm = (props) => {
           <label>Birth Day</label>
 
           <div className="control">
-            <div className="select">
+            <div className={`select ${touched.dob_day && errors.dob_day ? 'is-danger' : ''}`}>
               <select
                 error={touched.dob_day && errors.dob_day}
                 value={values.dob_day || ''}
@@ -299,7 +299,7 @@ const PaymentSetupForm = (props) => {
         <div style={{ marginRight: 10 }} className="field">
           <label>Birth Month</label>
           <div className="control">
-            <div className="select">
+            <div className={`select ${touched.dob_month && errors.dob_month ? 'is-danger' : ''}`}>
               <select
                 error={touched.dob_month && errors.dob_month}
                 value={values.dob_month || ''}
@@ -335,7 +335,7 @@ const PaymentSetupForm = (props) => {
           <label>Birth Year</label>
 
           <div className="control">
-            <div className="select">
+            <div className={`select ${touched.dob_year && errors.dob_year ? 'is-danger' : ''}`}>
               <select
                 error={touched.dob_year && errors.dob_year}
                 value={values.dob_year || ''}
@@ -407,7 +407,11 @@ const PaymentSetupForm = (props) => {
         <div style={{ marginRight: 10 }} className="field">
           <label>Select Province</label>
           <div className="control">
-            <div className="select">
+            <div
+              className={`select ${
+                touched.address_province && errors.address_province ? 'is-danger' : ''
+              }`}
+            >
               <select
                 error={touched.address_province && errors.address_province}
                 value={values.address_province || ''}
@@ -499,7 +503,7 @@ const PaymentSetupForm = (props) => {
       <Dropzone
         className="file is-boxed idVerification"
         onDrop={(files) => {
-          setFieldValue('idFrontImg', files[0], false);
+          setFieldValue('idFrontImg', files[0], true);
         }}
         accept={['image/png', 'image/jpeg']}
       >
@@ -520,7 +524,7 @@ const PaymentSetupForm = (props) => {
       <Dropzone
         className="file is-boxed idVerification"
         onDrop={(files) => {
-          setFieldValue('idBackImg', files[0], false);
+          setFieldValue('idBackImg', files[0], true);
         }}
         accept={['image/png', 'image/jpeg']}
       >

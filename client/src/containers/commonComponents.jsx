@@ -133,7 +133,6 @@ export const UserImageAndRating = ({ userDetails }) => {
   );
 };
 
-
 export const CardTitleWithBidCount = ({
   jobState,
   fromTemplateId,
@@ -153,21 +152,28 @@ export const CardTitleWithBidCount = ({
 
       <a className="card-header-icon">
         {userAlreadyBid && (
-          <span style={{ marginRight: 4 }} className="has-text-grey">
+          <span title="You've Bid Already" style={{ marginRight: 4 }} className="has-text-grey">
             <span className="icon">
               <i className="fas fa-money-check-alt" />
             </span>
           </span>
         )}
         {userAlreadyView && (
-          <span style={{ marginRight: 4 }} className="has-text-grey">
+          <span
+            title="You've Seen this Already"
+            style={{ marginRight: 4 }}
+            className="has-text-grey"
+          >
             <span className="icon">
               <i className="far fa-eye" />
             </span>
           </span>
         )}
         {!isAwarded && (
-          <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
+          <span
+            title="Bids Count"
+            className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}
+          >
             <span className="icon">
               <i className="fas fa-hand-paper" />
             </span>
