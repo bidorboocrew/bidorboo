@@ -213,14 +213,14 @@ class NewJobForm extends React.Component {
         />
         <div className="buttons">
           <span
-            style={{ width: 120 }}
+            style={{ width: 100 }}
             onClick={() => this.selectTimeButton('morning')}
             className={`button is-info ${selectedTimeButtonId === 'morning' ? '' : 'is-outlined'}`}
           >
             Morning
           </span>
           <span
-            style={{ width: 120 }}
+            style={{ width: 100 }}
             onClick={() => this.selectTimeButton('afternoon')}
             className={`button is-info ${
               selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
@@ -229,21 +229,20 @@ class NewJobForm extends React.Component {
             Afternoon
           </span>
           <span
-            style={{ width: 120 }}
+            style={{ width: 100 }}
             onClick={() => this.selectTimeButton('evening')}
             className={`button is-info ${selectedTimeButtonId === 'evening' ? '' : 'is-outlined'}`}
           >
             Evening
           </span>
           <span
-            style={{ width: 120 }}
+            style={{ width: 100 }}
             onClick={() => this.selectTimeButton('anytime')}
             className={`button is-info ${selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'}`}
           >
             Anytime
           </span>
         </div>
-
         <br />
         <TextAreaInput
           id="detailedDescriptionField"
@@ -265,7 +264,6 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
         <div className="field">
           <button
             style={{ borderRadius: 0 }}

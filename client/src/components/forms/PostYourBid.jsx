@@ -177,7 +177,11 @@ class PostYourBid extends React.Component {
                     className="input is-focused"
                     type="number"
                     onBlur={handleBlur}
-                    helpText="Bid Amount are in CAD. E.g 50"
+                    helpText={
+                      avgBid > 0
+                        ? `*Current Avg bid is ${avgBid}$`
+                        : 'Bid Amount are in CAD. E.g 50'
+                    }
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
                     onChange={(e) => {
@@ -189,6 +193,7 @@ class PostYourBid extends React.Component {
                   />
                   {autoBidOptions}
                 </section>
+
                 <footer className="modal-card-foot">
                   <button
                     type="submit"
