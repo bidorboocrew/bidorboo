@@ -52,7 +52,7 @@ class NewJobForm extends React.Component {
     this.props.setFieldValue(
       'detailedDescriptionField',
       `${existingText}${this.props.suggestedDetailsText}`,
-      false,
+      true,
     );
   };
 
@@ -265,18 +265,6 @@ class NewJobForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
-        {errors && errors.length > 0 && (
-          <div className="field is-grouped">
-            <div className="control">
-              {(() => {
-                return errors.map(({ error }) => {
-                  return error ? <p className="help is-danger">{error}</p> : null;
-                });
-              })()}
-            </div>
-          </div>
-        )}
 
         <div className="field">
           <button

@@ -20,25 +20,25 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div
-        style={{ marginBottom: '3rem' }}
-        className="container is-widescreen bidorbooContainerMargins"
-      >
-        {breadCrumbs()}
-
-        <PostYourBid
-          onSubmit={(values) => {
-            a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-          }}
-          onCancel={() => {
-            a_updateBooedBy(jobDetails);
-            switchRoute(ROUTES.CLIENT.BIDDER.root);
-          }}
-        />
-
-        <MyOpenBidJobDetails job={jobDetails} />
-        <br />
-      </div>
+      <React.Fragment>
+        <div
+          style={{ marginBottom: '3rem' }}
+          className="container is-widescreen bidorbooContainerMargins"
+        >
+          {breadCrumbs()}
+          <PostYourBid
+            onSubmit={(values) => {
+              a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+            }}
+            onCancel={() => {
+              a_updateBooedBy(jobDetails);
+              switchRoute(ROUTES.CLIENT.BIDDER.root);
+            }}
+          />
+          <MyOpenBidJobDetails job={jobDetails} />
+        </div>
+        <br /> <br />
+      </React.Fragment>
     );
   }
 }

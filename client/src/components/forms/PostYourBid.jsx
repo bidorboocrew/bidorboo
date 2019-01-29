@@ -32,7 +32,6 @@ class PostYourBid extends React.Component {
 
   onAutoBid = (val) => {
     const { setFieldValue } = this.props;
-
     setFieldValue('bidAmountField', val, true);
   };
 
