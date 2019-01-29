@@ -24,7 +24,6 @@ export default class JobFullDetailsCard extends React.Component {
       booedBy,
       detailedDescription,
       addressText,
-      durationOfJob,
       fromTemplateId,
       reported,
       createdAt,
@@ -51,9 +50,7 @@ export default class JobFullDetailsCard extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
-
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
 
             <DisplayLabelValue

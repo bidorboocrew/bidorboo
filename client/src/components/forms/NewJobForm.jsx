@@ -85,7 +85,6 @@ class NewJobForm extends React.Component {
     }
 
     this.setState({ selectedTimeButtonId: selectionId }, () => {
-      debugger;
       setFieldValue('timeField', selectedTimeValue, false);
       const newAdjustedTimeVal = moment(values.dateField)
         .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })

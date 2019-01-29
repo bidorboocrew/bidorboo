@@ -23,7 +23,6 @@ export default class MyAwardedBidJobDetails extends React.Component {
       state,
       viewedBy,
       detailedDescription,
-      durationOfJob,
       fromTemplateId,
       createdAt,
       addressText,
@@ -55,7 +54,6 @@ export default class MyAwardedBidJobDetails extends React.Component {
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
 
             <div className="has-text-dark is-size-7">Detailed Description</div>

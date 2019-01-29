@@ -34,12 +34,39 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const title = `BidOrBoo: ${templatesRepo[fromTemplateId].title} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
+  const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+  let startTime = moment(startingDateAndTime).startOf('day');
+  let endTime = moment(startingDateAndTime).endOf('day');
+
+  switch (`${selectedTime}`) {
+    case '10':
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    case '8':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(4, 'h');
+      break;
+    case '12':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(5, 'h');
+      break;
+    case '17':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    default:
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+  }
+
   let event = {
     title,
     description,
     location: addressText,
-    startTime: `${startingDateAndTime && moment(startingDateAndTime)}`,
-    endTime: `${startingDateAndTime && moment(startingDateAndTime)}`,
+    startTime: `${startTime}`,
+    endTime: `${endTime}`,
   };
   return (
     <AddToCalendar

@@ -32,6 +32,34 @@ class MyCalendar extends React.Component {
       awardedJobs = myAwardedJobsList.map((job) => {
         const bidDetails = job._awardedBidRef;
 
+        const { startingDateAndTime } = job;
+        const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+        let startTime = moment(startingDateAndTime).startOf('day');
+        let endTime = moment(startingDateAndTime).endOf('day');
+
+        switch (`${selectedTime}`) {
+          case '10':
+            startTime = moment(startingDateAndTime).startOf('day');
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+          case '8':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).add(4, 'h');
+            break;
+          case '12':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).add(5, 'h');
+            break;
+          case '17':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+          default:
+            startTime = moment(startingDateAndTime).startOf('day');
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+        }
+
         return {
           id: job._id,
           resource: `${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`,
@@ -43,16 +71,8 @@ class MyCalendar extends React.Component {
           Address :  ${job.addressText}
           <br />
           You will be charged ${bidDetails.bidAmount.value} CAD when the job is completed</p>`,
-          start: moment(
-            moment(job.startingDateAndTime)
-              .toDate()
-              .setHours(8, 0, 0),
-          ).toDate(),
-          end: moment(
-            moment(job.startingDateAndTime)
-              .toDate()
-              .setHours(17, 0, 0),
-          ).toDate(),
+          start: moment(startTime).toDate(),
+          end: moment(endTime).toDate(),
         };
       });
     }
@@ -61,6 +81,34 @@ class MyCalendar extends React.Component {
     if (awardedBidsList && awardedBidsList.length > 0) {
       awardedBids = awardedBidsList.map((bid) => {
         const jobDetails = bid._jobRef;
+
+        const { startingDateAndTime } = jobDetails;
+        const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+        let startTime = moment(startingDateAndTime).startOf('day');
+        let endTime = moment(startingDateAndTime).endOf('day');
+
+        switch (`${selectedTime}`) {
+          case '10':
+            startTime = moment(startingDateAndTime).startOf('day');
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+          case '8':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).add(4, 'h');
+            break;
+          case '12':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).add(5, 'h');
+            break;
+          case '17':
+            startTime = moment(startingDateAndTime);
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+          default:
+            startTime = moment(startingDateAndTime).startOf('day');
+            endTime = moment(startingDateAndTime).endOf('day');
+            break;
+        }
 
         return {
           id: jobDetails._id,
@@ -75,16 +123,8 @@ class MyCalendar extends React.Component {
           Address :  ${jobDetails.addressText}
           <br />
           Once the job is fullfilled you will recieve ${bid.bidAmount.value} CAD</p>`,
-          start: moment(
-            moment(jobDetails.startingDateAndTime)
-              .toDate()
-              .setHours(8, 0, 0),
-          ).toDate(),
-          end: moment(
-            moment(jobDetails.startingDateAndTime)
-              .toDate()
-              .setHours(17, 0, 0),
-          ).toDate(),
+          start: moment(startTime).toDate(),
+          end: moment(endTime).toDate(),
         };
       });
     }

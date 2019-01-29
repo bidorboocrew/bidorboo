@@ -23,7 +23,6 @@ export default class MyOpenBidJobDetails extends React.Component {
       state,
       viewedBy,
       detailedDescription,
-      durationOfJob,
       fromTemplateId,
       createdAt,
     } = job;
@@ -53,8 +52,6 @@ export default class MyOpenBidJobDetails extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
-
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">

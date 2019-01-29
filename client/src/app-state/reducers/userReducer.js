@@ -11,8 +11,7 @@ const initialState = {
     displayName: 'Join Us for Free',
     email: {},
     profileImage: {
-      url:
-        'https://www.clipartmax.com/png/small/4-44271_big-image-default-user-profile-image-png.png',
+      url: 'https://static.thenounproject.com/png/630729-200.png',
     },
   },
   myStripeAccBalanceDetails: { balanceDetails: {}, basicDetails: {} },
