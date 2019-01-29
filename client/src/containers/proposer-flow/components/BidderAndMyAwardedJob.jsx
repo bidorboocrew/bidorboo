@@ -182,6 +182,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
                           onChange={this.toggleConfirmation}
                           type="checkbox"
                           name="success"
+                          required
                         />
                         <span className="has-text-weight-semibold">
                           {` I Confirm the task was done to my satisfaction.`}
