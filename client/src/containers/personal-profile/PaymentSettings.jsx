@@ -150,7 +150,8 @@ const InitialAccountSetupView = (props) => {
       </div>
       {!showAddPaymentDetails &&
         myStripeAccountDetails &&
-        myStripeAccountDetails.potentialFuturePayouts && (
+        myStripeAccountDetails.potentialFuturePayouts &&
+        myStripeAccountDetails.potentialFuturePayouts > 0 && (
           <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
         )}
       {showAddPaymentDetails && (
@@ -260,7 +261,7 @@ const ProgressChart = ({ myStripeAccountDetails }) => {
   const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
 
   return (
-    <ResponsiveContainer width={'60%'} minHeight={400}>
+    <ResponsiveContainer minHeight={400}>
       <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
         <XAxis dataKey="name" />
         <YAxis unit="$" />
