@@ -203,11 +203,9 @@ const PaymentSetupForm = (props) => {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     onCancel,
     isValid,
     setFieldValue,
@@ -217,7 +215,6 @@ const PaymentSetupForm = (props) => {
   let errorsList = null;
   if (errors && Object.keys(errors).length > 0) {
     errorsList = Object.keys(errors).map((errorKey) => {
-      debugger;
       return touched[`${errorKey}`] && <p className="help is-danger">{errors[`${errorKey}`]}</p>;
     });
   }
