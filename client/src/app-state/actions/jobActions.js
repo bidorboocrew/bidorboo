@@ -43,7 +43,7 @@ export const deleteJobById = (jobId) => (dispatch) => {
         },
       });
 
-      switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab()}`);
+      switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab}`);
     }
   });
 };
@@ -297,7 +297,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab()}`);
+          switchRoute(`${ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(resp.data._id)}`);
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

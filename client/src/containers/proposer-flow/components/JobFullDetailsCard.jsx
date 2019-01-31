@@ -50,22 +50,22 @@ export default class JobFullDetailsCard extends React.Component {
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue labelText="State:" labelValue={state} />
-
+            {/* <DisplayLabelValue labelText="State:" labelValue={state} /> */}
+            {/*
             <DisplayLabelValue
               labelText="Bids:"
               labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
-            />
-            <DisplayLabelValue
+            /> */}
+            {/* <DisplayLabelValue
               labelText="Booed:"
               labelValue={`${booedBy ? booedBy.length : 0} times`}
-            />
-            <DisplayLabelValue
+            /> */}
+            {/* <DisplayLabelValue
               labelText="Reported:"
               labelValue={`${reported ? reported.length : 0} times`}
-            />
+            /> */}
 
-            <div className="has-text-dark is-size-7">Detailed Description</div>
+            <div className="has-text-grey is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}

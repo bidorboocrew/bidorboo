@@ -121,7 +121,7 @@ const TableWithNoBids = () => {
       <tbody>
         <tr>
           <td style={{ verticalAlign: 'middle' }}>
-            No one has made a bid Yet, Keep an eye and check again in a little while
+            Congrats on posting your job . Keep an eye and check in a little while to view the bids.
           </td>
         </tr>
       </tbody>

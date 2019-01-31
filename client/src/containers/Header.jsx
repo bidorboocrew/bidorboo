@@ -267,7 +267,7 @@ class Header extends React.Component {
                       style={{ position: 'relative' }}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
                         });
                       }}
                     >

@@ -30,7 +30,7 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentDidMount() {
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
       return null;
     }
     this.props.a_getPostedJobDetails(this.jobId);
@@ -46,7 +46,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
         return null;
       }
       this.props.a_getPostedJobDetails(this.jobId);
@@ -130,7 +130,7 @@ const breadCrumbs = (props) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
               }}
             >
               My Requests

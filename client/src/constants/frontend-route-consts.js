@@ -102,10 +102,11 @@ export const CLIENT = {
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',
-    getMyOpenJobsAwardedJobsTab: () => '/proposer/my-open-jobs/awardedJobs',
-    getMyOpenJobsPostedJobsTab: () => '/proposer/my-open-jobs/postedJobs',
+    getMyOpenJobsAwardedJobsTab: '/proposer/my-open-jobs/awardedJobs',
+    getMyOpenJobsPostedJobsTab: '/proposer/my-open-jobs/postedJobs',
     myOpenJobs: '/proposer/my-open-jobs',
     reviewRequestAndBidsPage: '/proposer/review-request-details',
+    dynamicReviewRequestAndBidsPage: (jobId) => `/proposer/review-request-details/${jobId}`,
     newlyPostedJob: '/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
