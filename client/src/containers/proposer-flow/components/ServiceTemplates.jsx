@@ -37,16 +37,16 @@ class ServiceTemplates extends React.Component {
               </figure>
             </div>
             <div style={{ padding: 8 }} className="card-content">
-              <p className="subtitle has-text-weight-semibold is-fullwidth has-text-dark has-text-centered is-capitalized">
-                {title}
-              </p>
+              <a className="has-text-weight-bold button is-outlined is-fullwidth">{title}</a>
             </div>
           </div>
         </div>
       );
     });
 
-    return <div className="columns forJobSummary is-mobile is-multiline is-centered">{genericTasks}</div>;
+    return (
+      <div className="columns forJobSummary is-mobile is-multiline is-centered">{genericTasks}</div>
+    );
   }
 }
 
