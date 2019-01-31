@@ -5,7 +5,7 @@ Getting Started
 - make sure to have the following requirements
 
 ```
-"node": "10.13.0",
+"node": "10.15.1",
 "npm": "6.4.1",
 "yarn": "1.12.1"
 ```
