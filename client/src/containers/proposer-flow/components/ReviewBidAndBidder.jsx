@@ -75,9 +75,9 @@ export default class ReviewBidAndBidder extends React.Component {
                 </div>
               </div>
               <div className="content">
-                <div className="has-text-dark is-size-7"> Bid Amount :</div>
-                <div className="is-size-3 has-text-primary has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
-                <div className="has-text-grey is-size-7">What's Next?</div>
+                <label className="label"> Bid Amount</label>
+                <div className="is-size-3 has-text-success has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
+                <label className="label">What's Next?</label>
                 <div className="help">
                   * When you Accept a bid you will be asked to put your payment details
                 </div>
