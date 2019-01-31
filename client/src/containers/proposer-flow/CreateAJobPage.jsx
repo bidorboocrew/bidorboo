@@ -35,7 +35,7 @@ class CreateAJobPage extends React.Component {
 
   render() {
     const { chosenTemplate } = this.state;
-
+    const { currentUserDetails } = this.props;
     const jobDetails = {
       title: chosenTemplate.title,
       imageUrl: chosenTemplate.imageUrl,
@@ -64,6 +64,7 @@ class CreateAJobPage extends React.Component {
                 suggestedDetailsText={jobDetails.suggestedDetailsText}
                 onGoBack={this.goBack}
                 onNext={this.postJob}
+                currentUserDetails={currentUserDetails}
               />
             </div>
           </div>
@@ -73,6 +74,12 @@ class CreateAJobPage extends React.Component {
   }
 }
 
+const mapStateToProps = ({ userReducer }) => {
+  return {
+    currentUserDetails: userReducer.userDetails,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     a_addJob: bindActionCreators(addJob, dispatch),
@@ -80,6 +87,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(CreateAJobPage);

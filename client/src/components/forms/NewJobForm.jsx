@@ -7,13 +7,21 @@
  */
 
 import React from 'react';
-
+import ReactDOM from 'react-dom';
+import {
+  StartDateAndTime,
+  UserImageAndRating,
+  DisplayLabelValue,
+} from '../../containers/commonComponents';
 import { withFormik } from 'formik';
+import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
 import moment from 'moment';
+import { relative } from 'upath';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -31,12 +39,25 @@ class NewJobForm extends React.Component {
     this.state = {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
+      showConfirmationDialog: false,
+      reviewConfirmation: false,
     };
   }
 
   componentDidMount() {
     navigator.geolocation && this.getCurrentAddress();
   }
+
+  toggleConfirmationDialog = () => {
+    this.setState({
+      showConfirmationDialog: !this.state.showConfirmationDialog,
+      reviewConfirmation: false,
+    });
+  };
+
+  toggleReviewConfirmation = () => {
+    this.setState({ reviewConfirmation: !this.state.reviewConfirmation });
+  };
 
   autoSetGeoLocation = (addressText) => {
     this.setState(() => ({ forceSetAddressValue: addressText }));
@@ -116,9 +137,10 @@ class NewJobForm extends React.Component {
       isValid,
       isSubmitting,
       setFieldValue,
+      currentUserDetails,
     } = this.props;
 
-    const { selectedTimeButtonId } = this.state;
+    const { selectedTimeButtonId, showConfirmationDialog, reviewConfirmation } = this.state;
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
@@ -136,167 +158,290 @@ class NewJobForm extends React.Component {
     //get an initial title from the job title
     values.fromTemplateIdField = fromTemplateIdField;
     return (
-      <form onSubmit={handleSubmit}>
-        <input
-          id="fromTemplateIdField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.fromTemplateIdField || fromTemplateIdField}
-        />
-        <input
-          id="addressTextField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.addressTextField || ''}
-        />
-        <input
-          id="locationField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.locationField || ''}
-        />
-        <input
-          id="dateField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.dateField}
-        />
-        <input
-          id="timeField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.timeField || 5}
-        />
-        <GeoAddressInput
-          id="geoInputField"
-          type="text"
-          helpText={'You must select an address from the drop down menu'}
-          label="Service Address"
-          placeholder="specify your task address"
-          autoDetectComponent={autoDetectCurrentLocation}
-          error={touched.addressTextField && errors.addressTextField}
-          value={values.addressTextField || ''}
-          onError={(e) => {
-            errors.addressTextField = 'google api error ' + e;
-          }}
-          onChangeEvent={(e) => {
-            console.log(`onChangeEvent={(e) => ${e}`);
-            setFieldValue('addressTextField', e, true);
-          }}
-          onBlurEvent={(e) => {
-            if (e && e.target) {
+      <React.Fragment>
+        {showConfirmationDialog &&
+          ReactDOM.createPortal(
+            <div className="modal is-active">
+              <div onClick={this.toggleConfirmationDialog} className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Review Task Details</p>
+                </header>
+                <section className="modal-card-body">
+                  <label className="label">Task Preview</label>
+                  <div className="card is-clipped">
+                    <header
+                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+                      className="card-header is-clipped"
+                    >
+                      <p className="card-header-title">
+                        {templatesRepo[fromTemplateIdField].title} Request
+                      </p>
+                    </header>
+                    <div className="card-image is-clipped">
+                      <img
+                        className="bdb-cover-img"
+                        src={`${templatesRepo[fromTemplateIdField].imageUrl}`}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        paddingTop: '0.25rem',
+                        paddingBottom: '0.25rem',
+                        position: 'relative',
+                      }}
+                      className="card-content"
+                    >
+                      <UserImageAndRating userDetails={currentUserDetails} />
+                      <div className="content">
+                        <StartDateAndTime date={values.dateField} />
+                        <DisplayLabelValue
+                          labelText="Address:"
+                          labelValue={values.addressTextField}
+                        />
+                        <div className="has-text-grey is-size-7">Detailed Description</div>
+                        <span className="is-size-7">
+                          <TextareaAutosize
+                            value={values.detailedDescriptionField}
+                            className="textarea is-marginless is-paddingless is-size-6"
+                            style={{
+                              resize: 'none',
+                              border: 'none',
+                              color: '#4a4a4a',
+                              fontSize: '1rem',
+                            }}
+                            readOnly
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
+                  <HelpText helpText={`*Once you post you will not be able to edit the job.`} />
+                  <HelpText helpText={`*Bidders will not be able to view the EXACT location.`} />
+                  <HelpText helpText={`*Upon awarding a tasker you will get their contact info.`} />
+                </section>
+                <footer
+                  style={{
+                    paddingTop: 6,
+                    borderRadius: 0,
+                    background: 'whitesmoke',
+                  }}
+                  className="modal-card-foot"
+                >
+                  <div className="control">
+                    <label className="radio">
+                      <input
+                        checked={reviewConfirmation}
+                        onChange={this.toggleReviewConfirmation}
+                        type="checkbox"
+                        name="success"
+                        required
+                      />
+                      <span>
+                        {` I Confirm that all details are accurate and matches my expectations.`}
+                      </span>
+                    </label>
+                  </div>
+                </footer>
+                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                  <button
+                    style={{ width: 140 }}
+                    onClick={this.toggleConfirmationDialog}
+                    className="button is-outline"
+                  >
+                    <span className="icon">
+                      <i className="far fa-edit" />
+                    </span>
+                    <span>Edit Details</span>
+                  </button>
+                  <button
+                    style={{ width: 140 }}
+                    type="submit"
+                    disabled={!reviewConfirmation}
+                    onClick={handleSubmit}
+                    className="button is-success"
+                  >
+                    <span className="icon">
+                      <i className="far fa-paper-plane" />
+                    </span>
+                    <span>Submit</span>
+                  </button>
+                </footer>
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-modals'),
+          )}
+
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input
+            id="fromTemplateIdField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.fromTemplateIdField || fromTemplateIdField}
+          />
+          <input
+            id="addressTextField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.addressTextField || ''}
+          />
+          <input
+            id="locationField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.locationField || ''}
+          />
+          <input
+            id="dateField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.dateField}
+          />
+          <input
+            id="timeField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.timeField || 5}
+          />
+          <GeoAddressInput
+            id="geoInputField"
+            type="text"
+            helpText={'You must select an address from the drop down menu'}
+            label="Service Address"
+            placeholder="specify your task address"
+            autoDetectComponent={autoDetectCurrentLocation}
+            error={touched.addressTextField && errors.addressTextField}
+            value={values.addressTextField || ''}
+            onError={(e) => {
+              errors.addressTextField = 'google api error ' + e;
+            }}
+            onChangeEvent={(e) => {
               console.log(`onChangeEvent={(e) => ${e}`);
-              e.target.id = 'addressTextField';
-              handleBlur(e);
-            }
-          }}
-          handleSelect={(address) => {
-            setFieldValue('addressTextField', address, false);
-            geocodeByAddress(address)
-              .then((results) => getLatLng(results[0]))
-              .then((latLng) => {
-                setFieldValue('locationField', latLng, false);
-                console.log('Success', latLng);
-              })
-              .catch((error) => {
-                errors.addressTextField = 'error getting lat lng ' + error;
-                console.error('Error', error);
-              });
-          }}
-        />
-        <br />
-        <DateInput
-          id="DateInputField"
-          type="text"
-          label="Start Date and Time"
-          onChangeEvent={this.updateDateInputFieldValue}
-        />
-        <div className="buttons">
-          <span
-            style={{ width: 100 }}
-            onClick={() => this.selectTimeButton('morning')}
-            className={`button is-info ${selectedTimeButtonId === 'morning' ? '' : 'is-outlined'}`}
-          >
-            Morning
-          </span>
-          <span
-            style={{ width: 100 }}
-            onClick={() => this.selectTimeButton('afternoon')}
-            className={`button is-info ${
-              selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
-            }`}
-          >
-            Afternoon
-          </span>
-          <span
-            style={{ width: 100 }}
-            onClick={() => this.selectTimeButton('evening')}
-            className={`button is-info ${selectedTimeButtonId === 'evening' ? '' : 'is-outlined'}`}
-          >
-            Evening
-          </span>
-          <span
-            style={{ width: 100 }}
-            onClick={() => this.selectTimeButton('anytime')}
-            className={`button is-info ${selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'}`}
-          >
-            Anytime
-          </span>
-        </div>
-        <br />
-        <TextAreaInput
-          id="detailedDescriptionField"
-          type="text"
-          helpText={'* PleaseProvide as much details as possible to ensure more accurate bids.'}
-          label="Detailed Description"
-          startWithTemplateButton={
-            <a
-              style={{ marginBottom: 4 }}
-              className="button is-info is-small"
-              onClick={this.insertTemplateText}
+              setFieldValue('addressTextField', e, true);
+            }}
+            onBlurEvent={(e) => {
+              if (e && e.target) {
+                console.log(`onChangeEvent={(e) => ${e}`);
+                e.target.id = 'addressTextField';
+                handleBlur(e);
+              }
+            }}
+            handleSelect={(address) => {
+              setFieldValue('addressTextField', address, false);
+              geocodeByAddress(address)
+                .then((results) => getLatLng(results[0]))
+                .then((latLng) => {
+                  setFieldValue('locationField', latLng, false);
+                  console.log('Success', latLng);
+                })
+                .catch((error) => {
+                  errors.addressTextField = 'error getting lat lng ' + error;
+                  console.error('Error', error);
+                });
+            }}
+          />
+          <br />
+          <DateInput
+            id="DateInputField"
+            type="text"
+            label="Start Date and Time"
+            onChangeEvent={this.updateDateInputFieldValue}
+          />
+          <div className="buttons">
+            <span
+              style={{ width: 100 }}
+              onClick={() => this.selectTimeButton('morning')}
+              className={`button is-info ${
+                selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
+              }`}
             >
-              Start by answering Questions
-            </a>
-          }
-          placeholder={this.props.suggestedDetailsText}
-          error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-          value={values.detailedDescriptionField || ''}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <div className="field">
-          <button
-            style={{ borderRadius: 0 }}
-            type="button"
-            className="button is-outlined is-medium"
-            disabled={isSubmitting}
-            onClick={(e) => {
-              e.preventDefault();
-              onGoBack(e);
-            }}
-          >
-            Back
-          </button>
-          <button
-            style={{ borderRadius: 0, marginLeft: '1rem' }}
-            className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
-            type="submit"
-            disabled={isSubmitting || !isValid}
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit(values, { ...this.props });
-            }}
-          >
-            Post it!
-          </button>
-        </div>
-        {/* <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
-        <HelpText helpText={`*Once you post you will not be able to edit.`} />
-        <HelpText helpText={`*Bidders will only see an approximate location.`} />
-        <HelpText
-          helpText={`*Upon awarding a bidder you will get their contact info and finalize the details.`}
-        /> */}
-      </form>
+              Morning
+            </span>
+            <span
+              style={{ width: 100 }}
+              onClick={() => this.selectTimeButton('afternoon')}
+              className={`button is-info ${
+                selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
+              }`}
+            >
+              Afternoon
+            </span>
+            <span
+              style={{ width: 100 }}
+              onClick={() => this.selectTimeButton('evening')}
+              className={`button is-info ${
+                selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
+              }`}
+            >
+              Evening
+            </span>
+            <span
+              style={{ width: 100 }}
+              onClick={() => this.selectTimeButton('anytime')}
+              className={`button is-info ${
+                selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
+              }`}
+            >
+              Anytime
+            </span>
+          </div>
+          <br />
+          <TextAreaInput
+            id="detailedDescriptionField"
+            type="text"
+            helpText={'* PleaseProvide as much details as possible to ensure more accurate bids.'}
+            label="Detailed Description"
+            startWithTemplateButton={
+              <a
+                style={{ marginBottom: 4 }}
+                className="button is-info is-small"
+                onClick={this.insertTemplateText}
+              >
+                Start by answering Questions
+              </a>
+            }
+            placeholder={this.props.suggestedDetailsText}
+            error={touched.detailedDescriptionField && errors.detailedDescriptionField}
+            value={values.detailedDescriptionField || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <div className="field">
+            <button
+              style={{ width: 140 }}
+              type="button"
+              className="button is-outlined is-medium"
+              disabled={isSubmitting}
+              onClick={(e) => {
+                e.preventDefault();
+                onGoBack(e);
+              }}
+            >
+              <span className="icon">
+                <i className="far fa-arrow-alt-circle-left" />
+              </span>
+              <span>Back</span>
+            </button>
+            <button
+              style={{ width: 140, marginLeft: '1rem' }}
+              className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
+              disabled={isSubmitting || !isValid}
+              onClick={(e) => {
+                e.preventDefault();
+                this.toggleConfirmationDialog();
+              }}
+            >
+              <span className="icon">
+                <i className="fas fa-glasses" />
+              </span>
+              <span>Review</span>
+            </button>
+          </div>
+        </form>
+      </React.Fragment>
     );
   }
 
@@ -389,3 +534,5 @@ const EnhancedForms = withFormik({
 });
 
 export default EnhancedForms(NewJobForm);
+
+export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);

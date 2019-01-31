@@ -5,11 +5,11 @@ import * as A from '../actionTypes';
 const initialState = {
   isLoggedIn: false,
   userDetails: {
-    rating: {},
-    userId: '',
-    _id: '',
-    displayName: 'Join Us for Free',
-    email: {},
+    rating: 5,
+    userId: 'new_bid_or_boo_user',
+    _id: 'new_bid_or_boo_user',
+    displayName: 'Your Name',
+    email: 'yourEmail',
     profileImage: {
       url: 'https://static.thenounproject.com/png/630729-200.png',
     },
