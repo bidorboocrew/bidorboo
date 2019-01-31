@@ -1,4 +1,4 @@
-# BidORBoo
+# BidOrBoo
 
 Getting Started
 
