@@ -36,7 +36,7 @@ export default class JobFullDetailsCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">My {templatesRepo[fromTemplateId].title} Request</p>
         </header>
 
         <div className="card-image is-clipped">

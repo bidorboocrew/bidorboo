@@ -247,7 +247,7 @@ class NewJobForm extends React.Component {
         <TextAreaInput
           id="detailedDescriptionField"
           type="text"
-          helpText={'Provide as much details as possible to ensure more accurate bids.'}
+          helpText={'* PleaseProvide as much details as possible to ensure more accurate bids.'}
           label="Detailed Description"
           startWithTemplateButton={
             <a
@@ -255,7 +255,7 @@ class NewJobForm extends React.Component {
               className="button is-info is-small"
               onClick={this.insertTemplateText}
             >
-              Start with Our Suggested Text
+              Start by answering Questions
             </a>
           }
           placeholder={this.props.suggestedDetailsText}

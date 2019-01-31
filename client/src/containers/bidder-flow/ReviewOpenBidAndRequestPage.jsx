@@ -68,8 +68,6 @@ class ReviewOpenBidAndRequestPage extends React.Component {
               job={selectedAwardedJob}
               updateBidAction={a_updateBid}
             />
-          </div>
-          <div className="column">
             <MyOpenBidJobDetails job={selectedAwardedJob} />
           </div>
         </div>

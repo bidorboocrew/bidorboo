@@ -20,11 +20,7 @@ export default class BidsTable extends React.Component {
     const areThereAnyBids = bidList && bidList.length > 0;
 
     if (!areThereAnyBids) {
-      return (
-        <React.Fragment>
-          <TableWithNoBids />
-        </React.Fragment>
-      );
+      return <TableWithNoBids />;
     }
 
     let tableRows = bidList.map((bid) => {

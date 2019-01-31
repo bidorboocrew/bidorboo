@@ -31,7 +31,7 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     const didBidderConfirmCompletionAlready = jobCompletion.bidderConfirmed;
 
     return (
-      <div className="card disabled">
+      <div style={{ height: 'auto' }} className="card disabled">
         <header className="card-header is-clipped">
           <p className="card-header-title">Your Bid Info</p>
         </header>

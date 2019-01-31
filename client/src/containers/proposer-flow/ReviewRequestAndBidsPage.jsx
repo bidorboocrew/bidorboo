@@ -92,8 +92,7 @@ class ReviewRequestAndBidsPage extends React.Component {
                 markBidAsSeen={a_markBidAsSeen}
                 showBidReviewModal={this.showBidReviewModal}
               />
-            </div>
-            <div className="column">
+
               <JobFullDetailsCard job={selectedJobWithBids} />
             </div>
           </div>

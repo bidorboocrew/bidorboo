@@ -35,7 +35,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     return (
-      <div className="card disabled">
+      <div style={{ height: 'auto' }} className="card disabled">
         <header className="card-header is-clipped">
           <p className="card-header-title">Awarded Bidder Details</p>
         </header>

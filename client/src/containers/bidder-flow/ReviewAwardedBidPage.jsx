@@ -89,8 +89,7 @@ class ReviewAwardedBidPage extends React.Component {
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
             />
-          </div>
-          <div className="column">
+
             <MyAwardedBidJobDetails job={selectedAwardedJob} />
           </div>
         </div>
