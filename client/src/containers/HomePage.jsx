@@ -40,16 +40,12 @@ export default class HomePage extends React.Component {
             </div>
           </div>
           <br />
-          <br />
-          <br />
         </section>
+
         <footer
           style={{
             borderTop: '1px solid #dbdbdb',
             maxHeight: '2rem',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
             background: '#eeeeee',
             width: '100%',
           }}
