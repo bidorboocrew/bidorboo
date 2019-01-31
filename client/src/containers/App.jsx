@@ -27,7 +27,7 @@ import {
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
-  MyCalendar,
+  MyAgenda,
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
 } from './index';
@@ -123,7 +123,7 @@ class App extends React.Component {
           {/* <Route exact path={ROUTES.CLIENT.MY_PROFILE.MyStats} component={MyStats} /> */}
 
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
-          <Route exact path={`${ROUTES.CLIENT.MYCALENDAR}`} component={MyCalendar} />
+          <Route exact path={`${ROUTES.CLIENT.MYAGENDA}`} component={MyAgenda} />
           <Route
             exact
             path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}

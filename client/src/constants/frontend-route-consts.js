@@ -98,7 +98,7 @@ export const CLIENT = {
   HOME: '/home',
   USER_ROFILE: '/user-profile/:userId',
   VERIFICATION: '/verification/:field/:code',
-  MYCALENDAR: '/my-calendar',
+  MYAGENDA: '/my-agenda',
   PROPOSER: {
     root: '/proposer-root',
     createjob: '/proposer/create-job',

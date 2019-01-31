@@ -153,7 +153,7 @@ class Header extends React.Component {
                   }`}
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.MYCALENDAR);
+                      switchRoute(ROUTES.CLIENT.MYAGENDA);
                     });
                   }}
                 >

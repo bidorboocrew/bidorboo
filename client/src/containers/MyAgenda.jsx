@@ -18,7 +18,7 @@ import moment from 'moment';
 import { Spinner } from '../components/Spinner';
 
 const localizer = BigCalendar.momentLocalizer(moment);
-class MyCalendar extends React.Component {
+class MyAgenda extends React.Component {
   componentDidMount() {
     this.props.a_getAllMyAwardedJobs();
     this.props.a_getMyAwardedBids();
@@ -161,10 +161,8 @@ class MyCalendar extends React.Component {
         <BigCalendar
           localizer={localizer}
           events={allCalendarEvents}
-          // startAccessor="start"
-          // endAccessor="end"
           views={calendarViews}
-          // defaultView={BigCalendar.Views.AGENDA}
+          defaultView={BigCalendar.Views.WEEK}
           components={{
             event: Event,
             agenda: {
@@ -200,7 +198,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyCalendar);
+)(MyAgenda);
 
 const Event = ({ event }) => {
   return (
