@@ -24,7 +24,13 @@ class PostYourBid extends React.Component {
   }
 
   closeShowBidDialog = () => {
-    this.setState({ showBidDialog: false });
+    const { resetForm, setFieldValue } = this.props;
+    setFieldValue('bidAmountField', '', false);
+    setFieldValue('confirmReadField', false, false);
+
+    resetForm();
+
+    this.setState({ showBidDialog: false, confirmRead: false });
   };
 
   openShowBidDialog = () => {
@@ -38,7 +44,7 @@ class PostYourBid extends React.Component {
   toggleConfirmRead = () => {
     const { setFieldValue } = this.props;
     this.setState({ confirmRead: !this.state.confirmRead }, () => {
-      setFieldValue('confirmReadField', true, true);
+      setFieldValue('confirmReadField', this.state.confirmRead, true);
     });
   };
   render() {
@@ -52,11 +58,9 @@ class PostYourBid extends React.Component {
       onCancel,
       isValid,
       isSubmitting,
-      resetForm,
-      setFieldValue,
       avgBid,
     } = this.props;
-    const { confirmRead } = this.state;
+    const { confirmRead, showBidDialog } = this.state;
     const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
 
     const autoBidOptions =
@@ -131,7 +135,7 @@ class PostYourBid extends React.Component {
       );
     return actionsSheetRoot ? (
       <React.Fragment>
-        {!this.state.showBidDialog &&
+        {!showBidDialog &&
           ReactDOM.createPortal(
             <ActionSheet>
               <a
@@ -159,21 +163,14 @@ class PostYourBid extends React.Component {
             </ActionSheet>,
             actionsSheetRoot,
           )}
-        {this.state.showBidDialog &&
+        {showBidDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
                   <p className="modal-card-title">Bid On This Task</p>
-                  <button
-                    onClick={(e) => {
-                      resetForm();
-                      this.closeShowBidDialog();
-                    }}
-                    className="delete"
-                    aria-label="close"
-                  />
+                  <button onClick={this.closeShowBidDialog} className="delete" aria-label="close" />
                 </header>
                 <section className="modal-card-body">
                   <TextInput
@@ -228,14 +225,7 @@ class PostYourBid extends React.Component {
                   >
                     Submit Bid
                   </button>
-                  <button
-                    onClick={(e) => {
-                      setFieldValue('bidAmountField', '', false);
-                      resetForm();
-                      this.closeShowBidDialog();
-                    }}
-                    className="button is-outline"
-                  >
+                  <button onClick={this.closeShowBidDialog} className="button is-outline">
                     Cancel
                   </button>
                 </footer>
@@ -253,7 +243,9 @@ const EnhancedForms = withFormik({
     confirmReadField: Yup.boolean()
       .required()
       .test('confirmReadField', 'Must Be Checked', (inputValue) => {
-        return !!inputValue;
+        debugger;
+
+        return inputValue;
       }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')

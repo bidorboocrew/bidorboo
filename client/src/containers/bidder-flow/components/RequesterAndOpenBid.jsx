@@ -10,17 +10,18 @@ class RequesterAndOpenBid extends React.Component {
 
     this.state = {
       showUpdateBidDialog: false,
+      confirmRead: false,
     };
   }
 
-  closeUpdateBidModal = (e) => {
-    e.preventDefault();
+  closeUpdateBidModal = () => {
+    const { resetForm, setFieldValue } = this.props;
+    setFieldValue('bidAmountField', '', false);
+    setFieldValue('confirmReadField', false, false);
 
-    this.props.resetForm();
+    resetForm();
 
-    this.setState({
-      showUpdateBidDialog: false,
-    });
+    this.setState({ showUpdateBidDialog: false, confirmRead: false });
   };
 
   showUpdateBidModal = () => {
@@ -40,6 +41,17 @@ class RequesterAndOpenBid extends React.Component {
     setSubmitting(false);
   };
 
+  onAutoBid = (val) => {
+    const { setFieldValue } = this.props;
+    setFieldValue('bidAmountField', val, true);
+  };
+  toggleConfirmRead = () => {
+    const { setFieldValue } = this.props;
+    this.setState({ confirmRead: !this.state.confirmRead }, () => {
+      setFieldValue('confirmReadField', this.state.confirmRead, true);
+    });
+  };
+
   render() {
     const {
       bid,
@@ -51,19 +63,56 @@ class RequesterAndOpenBid extends React.Component {
       handleBlur,
       isValid,
       isSubmitting,
+      avgBid,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
     }
-    const { showUpdateBidDialog } = this.state;
+
+    const { showUpdateBidDialog, confirmRead } = this.state;
 
     const { rating, displayName, profileImage } = job._ownerRef;
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
+
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
+    const autoBidOptions =
+      bidAmount > 10 ? (
+        <div className="buttons">
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span
+            onClick={() => this.onAutoBid(bidAmount - 10)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${bidAmount - 10}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(bidAmount - 5)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${bidAmount - 5}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(bidAmount)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${bidAmount}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(bidAmount + 5)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${bidAmount + 5}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(bidAmount + 10)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${bidAmount + 10}$`}
+          </span>
+        </div>
+      ) : null;
     return (
       <React.Fragment>
         {showUpdateBidDialog && (
@@ -72,13 +121,7 @@ class RequesterAndOpenBid extends React.Component {
             <div className="modal-card">
               <header className="modal-card-head">
                 <p className="modal-card-title">Update Your Bid</p>
-                <button
-                  onClick={(e) => {
-                    this.closeUpdateBidModal(e);
-                  }}
-                  className="delete"
-                  aria-label="close"
-                />
+                <button onClick={this.closeUpdateBidModal} className="delete" aria-label="close" />
               </header>
               <section className="modal-card-body">
                 <div>
@@ -94,9 +137,9 @@ class RequesterAndOpenBid extends React.Component {
                   label="Update Your Bid Amount"
                   id="bidAmountField"
                   className="input is-focused"
-                  type="text"
+                  type="number"
                   onBlur={handleBlur}
-                  helpText="* Enter a new bid . Bid Amount is in CAD. E.g 50"
+                  helpText="* Enter a new bid amount. Bid Amount is in CAD. E.g 50"
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}
                   onChange={(e) => {
@@ -106,6 +149,26 @@ class RequesterAndOpenBid extends React.Component {
                     handleChange(e);
                   }}
                 />
+                {autoBidOptions}
+                <br />
+                <div className="control">
+                  <label className="radio">
+                    <input
+                      id="confirmReadField"
+                      error={touched.confirmReadField && errors.confirmReadField}
+                      onBlur={handleBlur}
+                      checked={confirmRead}
+                      value={values.confirmReadField}
+                      onChange={this.toggleConfirmRead}
+                      type="checkbox"
+                      name="success"
+                      required
+                    />
+                    <span className="has-text-dark">
+                      {` I Confirm that I've Read the task description thoroughly and happy with my updated bid.`}
+                    </span>
+                  </label>
+                </div>
               </section>
               <footer className="modal-card-foot">
                 <button
@@ -113,14 +176,9 @@ class RequesterAndOpenBid extends React.Component {
                   onClick={this.submitUpdateBid}
                   className="button is-success"
                 >
-                  Update
+                  Update My Bid
                 </button>
-                <button
-                  onClick={(e) => {
-                    this.closeUpdateBidModal(e);
-                  }}
-                  className="button is-outline"
-                >
+                <button onClick={this.closeUpdateBidModal} className="button is-outline">
                   Cancel
                 </button>
               </footer>
@@ -134,35 +192,6 @@ class RequesterAndOpenBid extends React.Component {
           </header>
           <div className="card-content">
             <br />
-            {/* <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
-              Requester Info
-            </div>
-            <div className="media">
-              <div
-                style={{
-                  border: '1px solid #eee',
-                  cursor: 'pointer',
-                  boxShadow:
-                    '0 4px 6px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
-                }}
-                className="media-left"
-              >
-                <figure className="image is-48x48">
-                  <img src={bidderProfileImgUrl} alt="Placeholder image" />
-                </figure>
-              </div>
-              <div className="media-content">
-                <p className="is-size-6">{displayName}</p>
-                <p className="is-size-6">{bidderOverallRating}</p>
-              </div>
-            </div>
-            <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-            <div className="help">* contact info will be displayed when you are awarded</div>
-
-            <br />
-            <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
-            Your Bid Info
-            </div>*/}
             <div style={{ marginBottom: 6 }}>
               <div className="is-size-7">Your Bid:</div>
 
@@ -198,22 +227,25 @@ class RequesterAndOpenBid extends React.Component {
   }
 }
 
-const DisplayLabelValue = (props) => {
-  return (
-    <div style={{ marginBottom: 6 }}>
-      <div className="is-size-7">{props.labelText}</div>
-      <div className="is-size-6 is-success">{props.labelValue}</div>
-    </div>
-  );
-};
-
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
+    confirmReadField: Yup.boolean()
+      .required()
+      .test('confirmReadField', 'Must Be Checked', (inputValue) => {
+        debugger;
+        return inputValue;
+      }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
   }),
+
+  mapPropsToValues: (props) => {
+    return {
+      confirmReadField: false,
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.updateBidAction({ bidId: props.bid._id, bidAmount: values.bidAmountField });
     this.closeUpdateBidModal();
