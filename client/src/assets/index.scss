@@ -89,6 +89,9 @@ button.react-datepicker__navigation.react-datepicker__navigation--previous {
   border-right-color: #209cee !important;
   border-width: 10px !important;
 }
+div.react-datepicker {
+  font-size: 16px;
+}
 
 .flexibleTimeCheckbox {
   margin-top: 6px;
@@ -419,24 +422,24 @@ header.card-header {
 
 .card#bidOrBooMainPage-Provide,
 .card#bidOrBooMainPage-Request {
+  cursor: default;
   padding-top: 1rem;
+  margin-bottom: 1.5rem;
   height: 100%;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  &:hover {
-    border: 1px solid #23d160;
-    > div.card-content {
-      > p {
-        background: #23d160;
-        color: white;
-        transition: all 0.3s;
-      }
-    }
-  }
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
   > div.card-content {
-    > p {
+    > div.buttonlike {
+      cursor: pointer;
       border: 1px solid #23d160;
       border-radius: 4px;
-      padding: 0.5rem;
+      padding: 1rem 0.5rem;
+      &:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        background: #23d160;
+        color: white;
+        transition: all 0.3s ease-in;
+      }
     }
   }
 }

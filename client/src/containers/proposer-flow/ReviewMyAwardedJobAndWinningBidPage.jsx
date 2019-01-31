@@ -28,7 +28,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   componentDidMount() {
     const { a_getAwardedBidFullDetails } = this.props;
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+      switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab);
       return null;
     }
 
@@ -45,7 +45,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+        switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab);
         return null;
       }
 
@@ -85,8 +85,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
             />
-          </div>
-          <div className="column">
             <JobFullDetailsCard job={selectedAwardedJob} />
           </div>
         </div>
@@ -123,7 +121,7 @@ const breadCrumbs = (props) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab());
+                switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab);
               }}
             >
               Awarded

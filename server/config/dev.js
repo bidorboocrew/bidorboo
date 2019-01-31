@@ -1,0 +1,23 @@
+//dev key
+module.exports = {
+  googleClientID: '24863307203-a8tc9rk9uko554s0kl30add2sati6kn0.apps.googleusercontent.com',
+  googleClientSecret: 'Oh01FuNLMFSSoTcZVA1BdnxW',
+  mongoURI: 'mongodb://bidorboocrew:123bidorboocrew321@ds233218.mlab.com:33218/heroku_tr6v8hnj',
+  cookieKey: 'A4CABA6E3F7886CD23F9B43893D62',
+  cookieKey2: 'A4719F2E6DBD67DACF4627A3B74A1',
+  facebookClientID: '163507814292582',
+  facebookClientSecret: '4cefe64eda81119b9b8bcbaf5cd54563',
+  sessionSecret: '5fE3d89TwB6WnAF3Yb2MyQkb5rVcTe',
+  allowedHostName: 'localhost',
+  bugSnagApiKey: '73a5b07dd9df6ea352bebda9e3ce4f62',
+  stripePublishableKey: 'pk_test_PMfMPvRIAobaK1YXvpth2mEj',
+  stripeSecretKey: 'sk_test_RdEh2fJUQNRxz1wuFSG06VQy',
+  sendGridKey: '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',
+  cloudinaryCloudName: 'hr6bwgs1p',
+  cloudinaryPublicApiKey: '199892955566316',
+  cloudinarySecretApiKey: 'tWu-VkF7Dpn1b_AC5H9ymd2T_ak',
+  blowerText: 'https://70575a43-6449-4343-8bc0-b7cc97f2dda1:2CXIYS42rXe7XdAUSk-BPA@api.blower.io/',
+  vapidPublicApiKey:
+    'BNNIelsxMdODKuerQ6A28c0ASnc0YP7BygBjuTkR0qRgRSJXOonCx5Juk2VZgOLmiAbTl04zER-AbdRScMOzYfE',
+  vapidPrivateApiKey: 'mBs1Vn_RlkKliJjiOY8bZNAiifIj1HKOM3EHra-175M',
+};

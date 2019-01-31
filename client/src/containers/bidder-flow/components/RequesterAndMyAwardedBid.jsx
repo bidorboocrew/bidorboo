@@ -26,12 +26,12 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     const { startingDateAndTime, jobCompletion } = job;
-    const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
+    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
 
     const didBidderConfirmCompletionAlready = jobCompletion.bidderConfirmed;
 
     return (
-      <div className="card disabled">
+      <div style={{ height: 'auto' }} className="card disabled">
         <header className="card-header is-clipped">
           <p className="card-header-title">Your Bid Info</p>
         </header>
@@ -130,6 +130,10 @@ class BidderConfirmsJobIsDone extends React.Component {
     };
   }
 
+  toggleSuccessfulCompletion = () => {
+    this.setState({ successfulCompletion: !this.state.successfulCompletion });
+  };
+
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
@@ -167,9 +171,10 @@ class BidderConfirmsJobIsDone extends React.Component {
                       <label className="radio">
                         <input
                           checked={successfulCompletion}
-                          onChange={() => this.setState({ successfulCompletion: true })}
+                          onChange={this.toggleSuccessfulCompletion}
                           type="checkbox"
                           name="success"
+                          required
                         />
                         <span className="has-text-success has-text-weight-semibold">
                           {` I Confirm that I've completed this task.`}

@@ -1,7 +1,6 @@
 import React from 'react';
 import Countdown from 'react-countdown-now';
 import ReactStars from 'react-stars';
-
 import moment from 'moment';
 
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
@@ -96,7 +95,7 @@ const ExpiringSoon = ({ startingDate }) => {
   if (moment(jobStartingDate).isBefore(today)) {
     return <div className="has-text-danger">Expired Already!</div>;
   } else {
-    return <div className="has-text-warning">Expiring Soon!</div>;
+    return <div className="has-text-danger">Expiring Soon!</div>;
   }
 };
 
@@ -134,30 +133,13 @@ export const UserImageAndRating = ({ userDetails }) => {
   );
 };
 
-export const JobStats = ({ daysSinceCreated, viewedBy }) => {
-  return null;
-  return (
-    <nav style={{ marginTop: 6 }} className="level is-mobile">
-      <div className="level-left">
-        <div className="level-item">
-          <span style={{ fontSize: '10px', color: 'grey' }}>
-            {`Posted (${daysSinceCreated} ago)`}
-          </span>
-        </div>
-      </div>
-
-      <div className="level-right">
-        <p className="level-item">
-          <span style={{ fontSize: '10px', color: 'grey' }}>
-            {`Viewed by ${viewedBy ? viewedBy.length : 0} bidders`}
-          </span>
-        </p>
-      </div>
-    </nav>
-  );
-};
-
-export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, userAlreadyView }) => {
+export const CardTitleWithBidCount = ({
+  jobState,
+  fromTemplateId,
+  bidsList = [],
+  userAlreadyView = false,
+  userAlreadyBid = false,
+}) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
@@ -169,15 +151,29 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, user
       <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
 
       <a className="card-header-icon">
+        {userAlreadyBid && (
+          <span title="You've Bid Already" style={{ marginRight: 4 }} className="has-text-grey">
+            <span className="icon">
+              <i className="fas fa-money-check-alt" />
+            </span>
+          </span>
+        )}
         {userAlreadyView && (
-          <span style={{ marginRight: 4 }} className="has-text-grey">
+          <span
+            title="You've Seen this Already"
+            style={{ marginRight: 4 }}
+            className="has-text-grey"
+          >
             <span className="icon">
               <i className="far fa-eye" />
             </span>
           </span>
         )}
         {!isAwarded && (
-          <span className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
+          <span
+            title="Bids Count"
+            className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}
+          >
             <span className="icon">
               <i className="fas fa-hand-paper" />
             </span>
@@ -187,5 +183,46 @@ export const CardTitleWithBidCount = ({ jobState, fromTemplateId, bidsList, user
         {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
       </a>
     </header>
+  );
+};
+
+const timeToTextMap = {
+  '10': 'flexible, anytime.',
+  '8': 'morning',
+  '12': 'afternoon',
+  '17': 'evening',
+};
+export const StartDateAndTime = ({ date }) => {
+  const startingDate = moment(date).format('DD/MMM/YYYY');
+
+  const selectedTime = moment(date).get('hour');
+  let timeText = 'flexible, anytime.';
+  switch (`${selectedTime}`) {
+    case '10':
+      timeText = 'flexible, anytime.';
+      break;
+    case '8':
+      timeText = 'morning.';
+      break;
+    case '12':
+      timeText = 'afternoon.';
+      break;
+    case '17':
+      timeText = 'evening.';
+      break;
+    default:
+      timeText = 'flexible, anytime.';
+      break;
+  }
+
+  if (selectedTime && selectedTime > 0) {
+    timeText = timeToTextMap[`${selectedTime}`];
+  }
+
+  return (
+    <React.Fragment>
+      <DisplayLabelValue labelText="Start Date:" labelValue={startingDate} />
+      <DisplayLabelValue labelText="Start Time:" labelValue={timeText} />
+    </React.Fragment>
   );
 };

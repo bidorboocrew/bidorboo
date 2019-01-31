@@ -46,15 +46,21 @@ class PaymentSettings extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        {(!stripeConnect || !stripeConnect.last4BankAcc) && (
-          <InitialAccountSetupView
-            {...this.props}
-            {...this.state}
-            toggleAddPaymentDetails={this.toggleAddPaymentDetails}
-          />
-        )}
+        <div className="card">
+          <div className="card-content">
+            {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+              <InitialAccountSetupView
+                {...this.props}
+                {...this.state}
+                toggleAddPaymentDetails={this.toggleAddPaymentDetails}
+              />
+            )}
 
-        {stripeConnect && stripeConnect.last4BankAcc && <EstablishedAccountView {...this.props} />}
+            {stripeConnect && stripeConnect.last4BankAcc && (
+              <EstablishedAccountView {...this.props} />
+            )}
+          </div>
+        </div>
       </div>
     );
   }
@@ -99,9 +105,14 @@ const HeaderTitle = (props) => {
 };
 
 const InitialAccountSetupView = (props) => {
-  const { toggleAddPaymentDetails, showAddPaymentDetails, userDetails } = props;
+  const {
+    toggleAddPaymentDetails,
+    showAddPaymentDetails,
+    userDetails,
+    myStripeAccountDetails,
+  } = props;
   return (
-    <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
+    <React.Fragment>
       <div>
         <HeaderTitle title="BidOrBoo Tasker" />
         <p className="is-size-6">
@@ -137,7 +148,12 @@ const InitialAccountSetupView = (props) => {
         </div>
         <br />
       </div>
-
+      {!showAddPaymentDetails &&
+        myStripeAccountDetails &&
+        myStripeAccountDetails.balanceDetails &&
+        myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
+          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
+        )}
       {showAddPaymentDetails && (
         <div>
           <HeaderTitle title="Add Payout Details" />
@@ -157,7 +173,7 @@ const InitialAccountSetupView = (props) => {
           />
         </div>
       )}
-    </section>
+    </React.Fragment>
   );
 };
 const EstablishedAccountView = (props) => {
@@ -234,37 +250,26 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
-          <ResponsiveContainer width={'60%'} minHeight={400}>
-            <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
-              <XAxis dataKey="name" />
-              <YAxis unit="$" />
-              <Tooltip formatter={(value) => `${value}$`} />
-              <Legend align="center" />
-              <Bar
-                label={{ position: 'top' }}
-                dataKey="potentialFuturePayouts"
-                name="Pending Payments"
-                fill="#ffc658"
-              >
-                {data.map((value, index) => (
-                  <Cell fontWeight="bold" key={`cell-${index}`} fill={'#ffc658'} />
-                ))}
-              </Bar>
-
-              <Bar
-                label={{ position: 'top' }}
-                dataKey="pastEarnings"
-                name="Paid Out"
-                fill="#82ca9d"
-              >
-                {data.map((value, index) => (
-                  <Cell fontWeight="bold" key={`cell-${index}`} fill={'#82ca9d'} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
         </div>
       </nav>
     </section>
+  );
+};
+
+const ProgressChart = ({ myStripeAccountDetails }) => {
+  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
+
+  return (
+    <ResponsiveContainer minHeight={400}>
+      <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
+        <XAxis dataKey="name" />
+        <YAxis unit="$" />
+        <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
+        <Legend align="center" />
+        <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
+        <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 };

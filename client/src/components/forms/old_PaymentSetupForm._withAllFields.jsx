@@ -14,7 +14,7 @@ const EnhancedForms = withFormik({
     phone_number: Yup.string()
       .ensure()
       .trim()
-      .test('phone_number', 'invalid format. an example would be 613-867-7243', (inputText) => {
+      .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
         return phoneNumber(inputText);
       }),
   }),

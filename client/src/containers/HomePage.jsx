@@ -19,7 +19,7 @@ export default class HomePage extends React.Component {
             </h1>
             <br />
             <div className="columns is-multiline is-centered">
-              <div className="column is-half">
+              <div className="column">
                 <RequestAService
                   logoImg={requestImg}
                   onClickHandler={() => {
@@ -27,7 +27,7 @@ export default class HomePage extends React.Component {
                   }}
                 />
               </div>
-              <div className="column is-half">
+              <div className="column">
                 <ProvideAService
                   logoImg={bidsImg}
                   onClickHandler={() => {
@@ -38,6 +38,9 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </div>
+        <br />
+        <br />
+        <br />
       </section>
     );
   }
@@ -46,18 +49,12 @@ export default class HomePage extends React.Component {
 const RequestAService = (props) => {
   const { onClickHandler } = props;
   return (
-    <div
-      id="bidOrBooMainPage-Request"
-      onClick={onClickHandler}
-      className="card has-text-centered is-outlined"
-    >
+    <div id="bidOrBooMainPage-Request" className="card has-text-centered is-outlined">
       <div className="card-content">
-        <p className="title  is-success is-outlined is-fullwidth is-multiline">
-          <span className="icon">
-            <i className="far fa-plus-square" />
-          </span>
-          <span>{` Request a Service`}</span>
-        </p>
+        <div onClick={onClickHandler} className="buttonlike title is-size-2">
+          <i className="far fa-plus-square" />
+          <div>Request Services</div>
+        </div>
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
@@ -66,21 +63,21 @@ const RequestAService = (props) => {
               <span className="steps-marker " />
               <div className="steps-content">
                 <p className="is-size-5">Step 1</p>
-                <p>Select Task Template.</p>
+                <p>Select a Template.</p>
               </div>
             </li>
             <li className="steps-segment">
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 2</p>
-                <p>Get Bids From Taskers.</p>
+                <p>Wait for Bids.</p>
               </div>
             </li>
             <li className="steps-segment ">
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 3</p>
-                <p>Award A tasker.</p>
+                <p>Chose a Tasker.</p>
               </div>
             </li>
           </ul>
@@ -93,14 +90,12 @@ const RequestAService = (props) => {
 const ProvideAService = (props) => {
   const { onClickHandler } = props;
   return (
-    <div id="bidOrBooMainPage-Provide" onClick={onClickHandler} className="card has-text-centered">
+    <div id="bidOrBooMainPage-Provide" className="card has-text-centered">
       <div className="card-content">
-        <p className="title  is-success is-outlined is-fullwidth is-multiline">
-          <span className="icon">
-            <i className="fas fa-hand-rock" />
-          </span>
-          <span>{` Provide a Service`}</span>
-        </p>
+        <div onClick={onClickHandler} className="buttonlike title is-size-2">
+          <i className="fas fa-hand-rock" />
+          <div>Provide Services</div>
+        </div>
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
@@ -109,21 +104,21 @@ const ProvideAService = (props) => {
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 1</p>
-                <p>Browse Requests.</p>
+                <p>Browse Tasks.</p>
               </div>
             </li>
             <li className="steps-segment">
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 2</p>
-                <p>Bid On Requests.</p>
+                <p>Bid On Tasks.</p>
               </div>
             </li>
             <li className="steps-segment ">
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 3</p>
-                <p>Get Paid.</p>
+                <p>{`Win & Get Paid.`}</p>
               </div>
             </li>
           </ul>

@@ -19,6 +19,7 @@ class PostYourBid extends React.Component {
 
     this.state = {
       showBidDialog: false,
+      confirmRead: false,
     };
   }
 
@@ -30,6 +31,16 @@ class PostYourBid extends React.Component {
     this.setState({ showBidDialog: true });
   };
 
+  onAutoBid = (val) => {
+    const { setFieldValue } = this.props;
+    setFieldValue('bidAmountField', val, true);
+  };
+  toggleConfirmRead = () => {
+    const { setFieldValue } = this.props;
+    this.setState({ confirmRead: !this.state.confirmRead }, () => {
+      setFieldValue('confirmReadField', true, true);
+    });
+  };
   render() {
     const {
       values,
@@ -43,10 +54,81 @@ class PostYourBid extends React.Component {
       isSubmitting,
       resetForm,
       setFieldValue,
+      avgBid,
     } = this.props;
-
+    const { confirmRead } = this.state;
     const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
 
+    const autoBidOptions =
+      avgBid < 10 ? (
+        <div className="buttons">
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span
+            onClick={() => this.onAutoBid(25)}
+            className="button is-success is-outlined is-small"
+          >
+            25$
+          </span>
+          <span
+            onClick={() => this.onAutoBid(50)}
+            className="button is-success is-outlined is-small"
+          >
+            50$
+          </span>
+          <span
+            onClick={() => this.onAutoBid(100)}
+            className="button is-success is-outlined is-small"
+          >
+            100$
+          </span>
+          <span
+            onClick={() => this.onAutoBid(125)}
+            className="button is-success is-outlined is-small"
+          >
+            125$
+          </span>
+          <span
+            onClick={() => this.onAutoBid(150)}
+            className="button is-success is-outlined is-small"
+          >
+            150$
+          </span>
+        </div>
+      ) : (
+        <div className="buttons">
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span
+            onClick={() => this.onAutoBid(avgBid - 10)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${avgBid - 10}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(avgBid - 5)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${avgBid - 5}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(avgBid)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${avgBid}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(avgBid + 5)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${avgBid + 5}$`}
+          </span>
+          <span
+            onClick={() => this.onAutoBid(avgBid + 10)}
+            className="button is-success is-outlined is-small"
+          >
+            {`${avgBid + 10}$`}
+          </span>
+        </div>
+      );
     return actionsSheetRoot ? (
       <React.Fragment>
         {!this.state.showBidDialog &&
@@ -70,7 +152,7 @@ class PostYourBid extends React.Component {
                 onClick={onCancel}
               >
                 <span className="icon">
-                  <i className="fas fa-thumbs-down" />
+                  <i className="far fa-arrow-alt-circle-left" />
                 </span>
                 <span>Go Back</span>
               </a>
@@ -83,7 +165,7 @@ class PostYourBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Bid Now</p>
+                  <p className="modal-card-title">Bid On This Task</p>
                   <button
                     onClick={(e) => {
                       resetForm();
@@ -95,13 +177,17 @@ class PostYourBid extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <TextInput
-                    setFocusImmediately={true}
+                    // setFocusImmediately={true}
                     label="Enter Bid Amount"
                     id="bidAmountField"
                     className="input is-focused"
-                    type="text"
+                    type="number"
                     onBlur={handleBlur}
-                    helpText="Bid Amount are in CAD. E.g 50"
+                    helpText={
+                      avgBid > 0
+                        ? `*Current Avg bid is ${avgBid}$`
+                        : 'Bid Amount are in CAD. E.g 50'
+                    }
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
                     onChange={(e) => {
@@ -111,7 +197,28 @@ class PostYourBid extends React.Component {
                       handleChange(e);
                     }}
                   />
+                  {autoBidOptions}
+                  <br />
+                  <div className="control">
+                    <label className="radio">
+                      <input
+                        id="confirmReadField"
+                        error={touched.confirmReadField && errors.confirmReadField}
+                        onBlur={handleBlur}
+                        checked={confirmRead}
+                        value={values.confirmReadField}
+                        onChange={this.toggleConfirmRead}
+                        type="checkbox"
+                        name="success"
+                        required
+                      />
+                      <span className="has-text-dark">
+                        {` I Confirm that I've Read the task description thoroughly.`}
+                      </span>
+                    </label>
+                  </div>
                 </section>
+
                 <footer className="modal-card-foot">
                   <button
                     type="submit"
@@ -129,7 +236,7 @@ class PostYourBid extends React.Component {
                     }}
                     className="button is-outline"
                   >
-                    Go Back
+                    Cancel
                   </button>
                 </footer>
               </div>
@@ -143,15 +250,26 @@ class PostYourBid extends React.Component {
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
+    confirmReadField: Yup.boolean()
+      .required()
+      .test('confirmReadField', 'Must Be Checked', (inputValue) => {
+        return !!inputValue;
+      }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
   }),
+  mapPropsToValues: (props) => {
+    return {
+      confirmReadField: false,
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);
     setSubmitting(false);
   },
+
   displayName: 'BidOnJobForm',
 });
 

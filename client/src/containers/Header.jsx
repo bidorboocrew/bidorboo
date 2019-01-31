@@ -153,7 +153,7 @@ class Header extends React.Component {
                   }`}
                   onClick={() => {
                     this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.MYCALENDAR);
+                      switchRoute(ROUTES.CLIENT.MYAGENDA);
                     });
                   }}
                 >
@@ -267,7 +267,7 @@ class Header extends React.Component {
                       style={{ position: 'relative' }}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab());
+                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
                         });
                       }}
                     >

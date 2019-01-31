@@ -30,12 +30,12 @@ export default class BidderAndMyAwardedJob extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     const { startingDateAndTime, jobCompletion } = job;
-    const isJobHappeningToday = isHappeningToday(startingDateAndTime.date);
+    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
 
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     return (
-      <div className="card disabled">
+      <div style={{ height: 'auto' }} className="card disabled">
         <header className="card-header is-clipped">
           <p className="card-header-title">Awarded Bidder Details</p>
         </header>
@@ -182,6 +182,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
                           onChange={this.toggleConfirmation}
                           type="checkbox"
                           name="success"
+                          required
                         />
                         <span className="has-text-weight-semibold">
                           {` I Confirm the task was done to my satisfaction.`}

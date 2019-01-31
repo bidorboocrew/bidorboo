@@ -8,8 +8,8 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
   AvgBidDisplayLabelAndValue,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class MyOpenBidJobDetails extends React.Component {
@@ -22,7 +22,6 @@ export default class MyOpenBidJobDetails extends React.Component {
       state,
       viewedBy,
       detailedDescription,
-      durationOfJob,
       fromTemplateId,
       createdAt,
     } = job;
@@ -51,13 +50,7 @@ export default class MyOpenBidJobDetails extends React.Component {
           <div className="has-text-dark is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
+            <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
             <div className="has-text-dark is-size-7">Detailed Description</div>
             <span className="is-size-7">
@@ -74,10 +67,9 @@ export default class MyOpenBidJobDetails extends React.Component {
               />
               <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             </span>
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
-        <CountDownComponent startingDate={startingDateAndTime.date} />
+        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }

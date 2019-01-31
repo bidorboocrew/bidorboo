@@ -23,7 +23,7 @@ const EnhancedForms = withFormik({
     phoneNumber: Yup.string()
       .ensure()
       .trim()
-      .test('phoneNumber', 'invalid format. an example would be 613-867-7243', (inputText) => {
+      .test('phoneNumber', 'invalid format. an example would be 9053334444', (inputText) => {
         return phoneNumber(inputText);
       }),
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
@@ -91,7 +91,7 @@ const ProfileForm = (props) => {
         type="text"
         label="Phone Number"
         placeholder="Enter Your Phone Number"
-        helpText="Must Follow This format : xxx-xxx-xxxx"
+        helpText="Must Follow This format : 9053334444"
         error={touched.phoneNumber && errors.phoneNumber}
         value={values.phoneNumber}
         onChange={handleChange}

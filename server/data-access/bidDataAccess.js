@@ -136,7 +136,7 @@ exports.bidDataAccess = {
                 phone: 1,
                 viewedBy: 1,
               },
-              options: { sort: { 'startingDateAndTime.date': 1 } },
+              options: { sort: { 'startingDateAndTime': 1 } },
               populate: {
                 path: '_ownerRef',
                 select: {

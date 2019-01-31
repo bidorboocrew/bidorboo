@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
@@ -8,8 +7,8 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
   AvgBidDisplayLabelAndValue,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class MyAwardedBidJobDetails extends React.Component {
@@ -20,9 +19,7 @@ export default class MyAwardedBidJobDetails extends React.Component {
       _bidsListRef,
       _ownerRef,
       state,
-      viewedBy,
       detailedDescription,
-      durationOfJob,
       fromTemplateId,
       createdAt,
       addressText,
@@ -52,14 +49,8 @@ export default class MyAwardedBidJobDetails extends React.Component {
           <div className="has-text-dark is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
 
             <div className="has-text-dark is-size-7">Detailed Description</div>
@@ -77,11 +68,9 @@ export default class MyAwardedBidJobDetails extends React.Component {
               />
             </span>
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
-        <CountDownComponent startingDate={startingDateAndTime.date} />
+        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }

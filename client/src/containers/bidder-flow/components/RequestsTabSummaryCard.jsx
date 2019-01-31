@@ -4,12 +4,10 @@ import moment from 'moment';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   AvgBidDisplayLabelAndValue,
-  DisplayLabelValue,
-  CountDownComponent,
   UserImageAndRating,
-  JobStats,
   CardTitleWithBidCount,
   getDaysSinceCreated,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class RequestsTabSummaryCard extends React.Component {
@@ -28,7 +26,6 @@ export default class RequestsTabSummaryCard extends React.Component {
       createdAt,
       fromTemplateId,
       _bidsListRef,
-      viewedBy,
       _ownerRef,
       state,
     } = job;
@@ -46,12 +43,13 @@ export default class RequestsTabSummaryCard extends React.Component {
         onClick={(e) => {
           e.preventDefault();
           if (!withButtons) {
-            !isAwarded && onClickHandler();
+            !isAwarded && !userAlreadyBid && onClickHandler();
           }
         }}
         className={`card is-clipped ${cardSpecialClass} ${isAwarded ? 'disabled' : ''}`}
       >
         <CardTitleWithBidCount
+          userAlreadyBid={userAlreadyBid}
           jobState={state}
           fromTemplateId={fromTemplateId}
           bidsList={_bidsListRef}
@@ -70,17 +68,12 @@ export default class RequestsTabSummaryCard extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
 
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
+
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
           {userAlreadyBid ? (
-            <a disabled className="button is-success is-outlined is-small is-fullwidth">
+            <a disabled className="button  is-outlined is-small is-fullwidth">
               You Already Bid
             </a>
           ) : (

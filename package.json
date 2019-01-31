@@ -21,8 +21,14 @@
     "node_modules"
   ],
   "scripts": {
-    "devstart": "cd client && rm -rf node_modules && yarn install && cd ../server && rm -rf node_modules && yarn install",
+    "clientSetup": "cd client && rm -rf node_modules && yarn install",
+    "serverSetup": " cd server && rm -rf node_modules && yarn install",
+    "devSetup": "yarn install && npm run clientSetup && npm run serverSetup",
+    "startClient": "cd client && npm start",
+    "startServer": "cd server && npm run dev",
+    "devStart": "yarn install && concurrently --kill-others -c \"bgBlue.bold,bgMagenta.bold\" --names \"clientSetup,serverSetup\" -p \"{index}\" --success \"all\" --restart-tries 5 --restart-after 1000   \"npm run startClient\" \"npm run startServer\"",
     "start": "cd server && yarn run startwithpm2",
+    "oldDevStart": "cd client && rm -rf node_modules && yarn install && cd ../server && rm -rf node_modules && yarn install",
     "heroku-postbuild": "cd client && yarn install && yarn run build && cd ../server && yarn install",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",

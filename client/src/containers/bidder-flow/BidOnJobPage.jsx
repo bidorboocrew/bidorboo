@@ -10,6 +10,8 @@ import { switchRoute } from '../../utils';
 import PostYourBid from '../../components/forms/PostYourBid';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
 import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+import { findAvgBidInBidList } from '../commonComponents';
+
 class BidOnJobPage extends React.Component {
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
@@ -18,27 +20,32 @@ class BidOnJobPage extends React.Component {
     if (dontShowThisPage) {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
+    let avgBid = 0;
+    if (jobDetails && jobDetails._bidsListRef && jobDetails._bidsListRef.length > 0) {
+      avgBid = findAvgBidInBidList(jobDetails._bidsListRef);
+    }
 
     return (
-      <div
-        style={{ marginBottom: '3rem' }}
-        className="container is-widescreen bidorbooContainerMargins"
-      >
-        {breadCrumbs()}
-
-        <PostYourBid
-          onSubmit={(values) => {
-            a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
-          }}
-          onCancel={() => {
-            a_updateBooedBy(jobDetails);
-            switchRoute(ROUTES.CLIENT.BIDDER.root);
-          }}
-        />
-
-        <MyOpenBidJobDetails job={jobDetails} />
-        <br />
-      </div>
+      <React.Fragment>
+        <div
+          style={{ marginBottom: '3rem' }}
+          className="container is-widescreen bidorbooContainerMargins"
+        >
+          {breadCrumbs()}
+          <PostYourBid
+            avgBid={avgBid}
+            onSubmit={(values) => {
+              a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+            }}
+            onCancel={() => {
+              a_updateBooedBy(jobDetails);
+              switchRoute(ROUTES.CLIENT.BIDDER.root);
+            }}
+          />
+          <MyOpenBidJobDetails job={jobDetails} />
+        </div>
+        <br /> <br />
+      </React.Fragment>
     );
   }
 }

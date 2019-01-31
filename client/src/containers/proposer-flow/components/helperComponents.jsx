@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
-
 export const TAB_IDS = {
   awardedJobs: 'Awarded',
   postedJobs: 'Posted',
@@ -28,12 +27,39 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     _bidderRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;
 
+  const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+  let startTime = moment(startingDateAndTime).startOf('day');
+  let endTime = moment(startingDateAndTime).endOf('day');
+
+  switch (`${selectedTime}`) {
+    case '10':
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    case '8':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(4, 'h');
+      break;
+    case '12':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(5, 'h');
+      break;
+    case '17':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    default:
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+  }
+
   let event = {
     title,
     description,
     location: addressText,
-    startTime: `${startingDateAndTime && moment(startingDateAndTime.date)}`,
-    endTime: `${startingDateAndTime && moment(startingDateAndTime.date)}`,
+    startTime: `${startTime}`,
+    endTime: `${endTime}`,
   };
   return (
     <AddToCalendar

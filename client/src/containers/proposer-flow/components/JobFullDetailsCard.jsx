@@ -8,7 +8,7 @@ import {
   CountDownComponent,
   UserImageAndRating,
   getDaysSinceCreated,
-  JobStats,
+  StartDateAndTime,
 } from '../../commonComponents';
 
 export default class JobFullDetailsCard extends React.Component {
@@ -23,7 +23,6 @@ export default class JobFullDetailsCard extends React.Component {
       booedBy,
       detailedDescription,
       addressText,
-      durationOfJob,
       fromTemplateId,
       reported,
       createdAt,
@@ -37,7 +36,7 @@ export default class JobFullDetailsCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">My {templatesRepo[fromTemplateId].title} Request</p>
         </header>
 
         <div className="card-image is-clipped">
@@ -49,30 +48,24 @@ export default class JobFullDetailsCard extends React.Component {
         >
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
-            <DisplayLabelValue
-              labelText="Start Date:"
-              labelValue={
-                startingDateAndTime && ` ${moment(startingDateAndTime.date).format('DD/MMM/YYYY')}`
-              }
-            />
+            <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            <DisplayLabelValue labelText="Duration:" labelValue={durationOfJob} />
-            <DisplayLabelValue labelText="State:" labelValue={state} />
-
+            {/* <DisplayLabelValue labelText="State:" labelValue={state} /> */}
+            {/*
             <DisplayLabelValue
               labelText="Bids:"
               labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
-            />
-            <DisplayLabelValue
+            /> */}
+            {/* <DisplayLabelValue
               labelText="Booed:"
               labelValue={`${booedBy ? booedBy.length : 0} times`}
-            />
-            <DisplayLabelValue
+            /> */}
+            {/* <DisplayLabelValue
               labelText="Reported:"
               labelValue={`${reported ? reported.length : 0} times`}
-            />
+            /> */}
 
-            <div className="has-text-dark is-size-7">Detailed Description</div>
+            <div className="has-text-grey is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}
@@ -86,10 +79,9 @@ export default class JobFullDetailsCard extends React.Component {
                 readOnly
               />
             </span>
-            <JobStats daysSinceCreated={daysSinceCreated} viewedBy={viewedBy} />
           </div>
         </div>
-        <CountDownComponent startingDate={startingDateAndTime.date} />
+        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }
