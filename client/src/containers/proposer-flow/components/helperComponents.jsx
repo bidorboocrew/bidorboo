@@ -30,7 +30,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');
   let endTime = moment(startingDateAndTime).endOf('day');
-
+  debugger;
   switch (`${selectedTime}`) {
     case '10':
       startTime = moment(startingDateAndTime).startOf('day');
@@ -58,8 +58,8 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     title,
     description,
     location: addressText,
-    startTime: `${startTime}`,
-    endTime: `${endTime}`,
+    startTime: startTime.toISOString(),
+    endTime: endTime.toISOString(),
   };
   return (
     <AddToCalendar
