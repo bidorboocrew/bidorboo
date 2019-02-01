@@ -11,7 +11,7 @@ export const templatesRepo = {
       "Tired of mowing ? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `How Big is the area approximately ?
 
-Are their any obstacles  covering that area Ex, any rocks ?
+Are their any obstacles covering that area Ex, any rocks ?
 
 Will you provide the tools Ex Lawn Mower, grass cutter ?
 
@@ -31,7 +31,7 @@ Any additional instructions and details?
 
 How many hours will you need the service for?
 
-Are their any obstacles  covering that area? any special items like a rug or carpet ?
+Are their any obstacles covering that area? any special items like a rug or carpet ?
 
 Will you be providing the cleaning products?
 
@@ -49,7 +49,7 @@ Any additional instructions and details?
       "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
     suggestedDetailsText: `How Big is the area approximately ?
 
-Are their any obstacles  covering that area?
+Are their any obstacles covering that area?
 
 Any additional instructions and details?
 `,

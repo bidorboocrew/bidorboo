@@ -58,7 +58,7 @@ export default class MineTabSummaryCard extends React.Component {
             <span className="icon">
               <i className="fas fa-glasses" />
             </span>
-            <span>View Task Details</span>
+            <span>View Details</span>
           </a>
           {withButtons && (
             <a

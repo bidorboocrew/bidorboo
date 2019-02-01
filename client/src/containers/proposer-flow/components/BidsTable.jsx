@@ -118,13 +118,16 @@ const TableWithNoBids = () => {
     <table className="table is-hoverable table is-striped is-fullwidth">
       <thead>
         <tr>
-          <th>Bids Table</th>
+          <th />
         </tr>
       </thead>
       <tbody>
         <tr>
           <td style={{ verticalAlign: 'middle' }}>
-            Congrats on posting your job . Keep an eye and check in a little while to view the bids.
+            <span className="has-text-weight-semibold">
+              Congrats on posting your job . Keep an eye and check in a little while to view the
+              bids.
+            </span>
           </td>
         </tr>
       </tbody>

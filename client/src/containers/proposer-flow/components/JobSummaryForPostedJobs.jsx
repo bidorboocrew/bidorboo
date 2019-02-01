@@ -103,13 +103,10 @@ const renderFooter = ({ job, notificationFeed }) => {
     <footer className="card-footer">
       <div className="card-footer-item">
         <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
-          <span className="icon">
-            <i className="fa fa-hand-paper" />
-          </span>
           {areThereAnyBidders && (
             <span style={{ marginLeft: 4 }}>
               <span className="icon">
-                <i className="fas fa-glasses" />
+                <i className="fa fa-hand-paper" />
               </span>
               <span>View Bids</span>
             </span>
