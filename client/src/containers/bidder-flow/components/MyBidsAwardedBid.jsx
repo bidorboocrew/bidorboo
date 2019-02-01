@@ -70,7 +70,7 @@ export default class MyBidsAwardedBid extends React.Component {
             </a>
             {updatedStatus && (
               <div
-                style={{ position: 'absolute', top: 14, right: 18, fontSize: 10 }}
+                style={{ position: 'absolute', top: 14, right: 12, fontSize: 10 }}
                 className="has-text-danger"
               >
                 <i className="fas fa-circle" />
