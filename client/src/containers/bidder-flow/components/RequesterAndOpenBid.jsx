@@ -133,7 +133,6 @@ class RequesterAndOpenBid extends React.Component {
 
                 <br />
                 <TextInput
-                  setFocusImmediately={true}
                   label="Update Your Bid Amount"
                   id="bidAmountField"
                   className="input is-focused"
