@@ -77,7 +77,10 @@ export default class BidsTable extends React.Component {
                 className="button is-success"
                 style={{ position: 'relative' }}
               >
-                View
+                <span className="icon">
+                  <i className="fas fa-glasses" />
+                </span>
+                <span>View</span>
                 {bid.isNewBid && (
                   <React.Fragment>
                     <div

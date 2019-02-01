@@ -62,7 +62,12 @@ export default class MyBidsAwardedBid extends React.Component {
 
         <footer className="card-footer">
           <div className="card-footer-item" style={{ position: 'relative' }}>
-            <a className="button is-outlined is-success">View Details</a>
+            <a className="button is-outlined is-success">
+              <span className="icon">
+                <i className="fas fa-glasses" />
+              </span>
+              <span>View Details</span>
+            </a>
             {updatedStatus && (
               <div
                 style={{ position: 'absolute', top: 14, right: 18, fontSize: 10 }}

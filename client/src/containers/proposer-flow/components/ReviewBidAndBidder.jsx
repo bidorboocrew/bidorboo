@@ -102,7 +102,10 @@ export default class ReviewBidAndBidder extends React.Component {
                   onClick={handleCancel}
                   className=" button is-outlined"
                 >
-                  Go Back
+                  <span className="icon">
+                    <i className="far fa-arrow-alt-circle-left" />
+                  </span>
+                  <span>Go Back</span>
                 </a>
               </div>
             </div>

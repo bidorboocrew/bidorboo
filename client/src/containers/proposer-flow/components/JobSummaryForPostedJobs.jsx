@@ -106,8 +106,22 @@ const renderFooter = ({ job, notificationFeed }) => {
           <span className="icon">
             <i className="fa fa-hand-paper" />
           </span>
-          {areThereAnyBidders && <span style={{ marginLeft: 4 }}>View Bids</span>}
-          {!areThereAnyBidders && <span style={{ marginLeft: 4 }}>View Details</span>}
+          {areThereAnyBidders && (
+            <span style={{ marginLeft: 4 }}>
+              <span className="icon">
+                <i className="fas fa-glasses" />
+              </span>
+              <span>View Bids</span>
+            </span>
+          )}
+          {!areThereAnyBidders && (
+            <span style={{ marginLeft: 4 }}>
+              <span className="icon">
+                <i className="fas fa-glasses" />
+              </span>
+              <span>View Details</span>
+            </span>
+          )}
           {areThereAnyBidders && doesthisJobHaveNewBids && (
             <span style={{ marginLeft: 4 }} className="tag is-danger">
               +{numberOfNewBids}
