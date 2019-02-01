@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactStars from 'react-stars';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
-import { isHappeningToday } from '../../../utils';
+import { isBeforeToday } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
@@ -30,7 +30,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
     const bidCurrency = bid.bidAmount.currency;
 
     const { startingDateAndTime, jobCompletion } = job;
-    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
+    const isJobHappeningBeforeEndOfToday = isBeforeToday(startingDateAndTime);
 
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
@@ -108,11 +108,11 @@ export default class BidderAndMyAwardedJob extends React.Component {
               )}
 
               {/* job is happening today show confirm job completion flow*/}
-              {isJobHappeningToday && !didProposerConfirmCompletionAlready && (
+              {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
                 <ProposerVerifiesJobCompletion {...this.props} />
               )}
               {/* job is not happening today show add to calendar*/}
-              {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
+              {!isJobHappeningBeforeEndOfToday && <AddAwardedJobToCalendar job={job} />}
             </div>
           )}
         </div>

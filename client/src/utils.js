@@ -46,3 +46,13 @@ export const isHappeningToday = (eventPlannedTimeISOString) => {
   const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
   return isAfterStartOfTOday && isBeforeEndOfToday;
 };
+
+export const isBeforeToday = (eventPlannedTimeISOString) => {
+  const localEndOfDay = moment()
+    .endOf('day')
+    .toISOString();
+
+  const eventPlannedTime = moment(eventPlannedTimeISOString).toISOString();
+  const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
+  return isBeforeEndOfToday;
+};
