@@ -11,11 +11,12 @@ export const templatesRepo = {
       "Tired of mowing ? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `How Big is the area approximately ?
 
-Are their any obsticales covering that area Ex, any rocks ?
+Are their any obstacles  covering that area Ex, any rocks ?
 
 Will you provide the tools Ex Lawn Mower, grass cutter ?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   houseCleaning: {
     id: 'houseCleaning',
@@ -30,11 +31,12 @@ Any additional instructions and details?`,
 
 How many hours will you need the service for?
 
-Are their any obsticales covering that area? any special items like a rug or carpet ?
+Are their any obstacles  covering that area? any special items like a rug or carpet ?
 
 Will you be providing the cleaning products?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   snowRemoval: {
     id: 'snowRemoval',
@@ -47,9 +49,10 @@ Any additional instructions and details?`,
       "Tired of shovelling ? Why don't you let one of our handy BidorBooers Shovel your drive thru. You are one click away from getting your snow removed",
     suggestedDetailsText: `How Big is the area approximately ?
 
-Are their any obsticales covering that area?
+Are their any obstacles  covering that area?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   //need to be fiinished///
   Tutoring: {
@@ -66,7 +69,8 @@ Any additional instructions and details?`,
 
 How many hours will you need the service for?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   petSitting: {
     id: 'petSitting',
@@ -86,7 +90,8 @@ How many hours will you need the service for?
 
 What is your expectations , ex, walk outdoor or home sitting feed ,etc ?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   //need to be fiinished///
   Photography: {
@@ -105,7 +110,8 @@ Do you require any editing or touch up ?
 
 Is it ok to recieve the media via email/dropbox or do you require a physical USB?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   //need to be fiinished///
   Movers: {
@@ -127,7 +133,8 @@ List some of the heavy items that will require moving ?
 
 Do you require a truck ? will you provide the truck ?
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   Painter: {
     id: 'Painter',
@@ -145,7 +152,8 @@ How large is the area ? or approximately how many hours will you need the servic
 Do you need help packing up paint? (Yes / No )?
 (note: The Requester of this task is expected to provide and pay for the paint.)
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
   FurnitureAssembly: {
     id: 'FurnitureAssembly',
@@ -166,6 +174,7 @@ Will you provide the tools ?
 (note: The tasker will be expected to have the common tools, but if your piece require special tool you Must provide it.)
 
 
-Any additional instructions and details?`,
+Any additional instructions and details?
+`,
   },
 };

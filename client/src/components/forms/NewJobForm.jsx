@@ -169,7 +169,7 @@ class NewJobForm extends React.Component {
 
                   <div
                     style={{
-                      boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
+                      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
                       borderRaduis: 4,
                       border: '1px solid #bdbdbd',
                     }}
@@ -182,12 +182,12 @@ class NewJobForm extends React.Component {
                         {templatesRepo[fromTemplateIdField].title} Request
                       </p>
                     </header>
-                    {/* <div className="card-image is-clipped">
+                    <div className="card-image is-clipped">
                       <img
-                        className="bdb-cover-img"
+                        className="bdb-newjob-confirm-img"
                         src={`${templatesRepo[fromTemplateIdField].imageUrl}`}
                       />
-                    </div> */}
+                    </div>
 
                     <div
                       style={{
@@ -221,13 +221,14 @@ class NewJobForm extends React.Component {
                       </div>
                     </div>
                   </div>
-
-                  <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
-                  <HelpText helpText={`- Once you post you will not be able to edit the job.`} />
-                  <HelpText helpText={`- Bidders will not be able to view the EXACT location.`} />
-                  <HelpText
-                    helpText={`- Upon awarding a tasker you will get their contact info.`}
-                  />
+                  <div style={{ paddingLeft: 4, paddingTop: 4 }}>
+                    <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
+                    <HelpText helpText={`- Once you post you will not be able to edit the job.`} />
+                    <HelpText helpText={`- Bidders will not be able to view the EXACT location.`} />
+                    <HelpText
+                      helpText={`- Upon awarding a tasker you will get their contact info.`}
+                    />
+                  </div>
                 </section>
                 <footer
                   style={{
