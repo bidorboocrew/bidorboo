@@ -169,7 +169,7 @@ class NewJobForm extends React.Component {
 
                   <div
                     style={{
-                      backgroundColor: '#eeeeee',
+                      boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.34)',
                       borderRaduis: 4,
                       border: '1px solid #bdbdbd',
                     }}
@@ -182,12 +182,12 @@ class NewJobForm extends React.Component {
                         {templatesRepo[fromTemplateIdField].title} Request
                       </p>
                     </header>
-                    <div className="card-image is-clipped">
+                    {/* <div className="card-image is-clipped">
                       <img
                         className="bdb-cover-img"
                         src={`${templatesRepo[fromTemplateIdField].imageUrl}`}
                       />
-                    </div>
+                    </div> */}
 
                     <div
                       style={{
@@ -214,7 +214,6 @@ class NewJobForm extends React.Component {
                               border: 'none',
                               color: '#4a4a4a',
                               fontSize: '1rem',
-                              backgroundColor: '#eeeeee',
                             }}
                             readOnly
                           />
