@@ -14,7 +14,7 @@ import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
-import { registerServiceWorker } from './registerServiceWorker';
+import { registerServiceWorker, unregister } from './registerServiceWorker';
 
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 
@@ -54,4 +54,5 @@ if (process.env.NODE_ENV === 'development') {
   );
 }
 
-registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+// registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+unregister()
