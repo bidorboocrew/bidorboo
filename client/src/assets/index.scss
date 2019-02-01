@@ -313,9 +313,6 @@ img {
     border-right: 8px solid rgba(0, 0, 0, 0.2);
   }
 }
-.is-widescreen {
-  max-width: 900px !important;
-}
 // bulma overrides
 input[type='checkbox'],
 input[type='radio'] {
@@ -370,7 +367,8 @@ header.card-header {
   }
 
   &.bdb-infoBoxCard {
-    max-width: 10rem;
+    max-width: 15rem;
+    height: auto;
     header {
       a,
       p {
@@ -384,6 +382,9 @@ header.card-header {
       div {
         padding: 4px 2px !important;
       }
+    }
+    div.content {
+      margin-bottom: 2px;
     }
   }
 }
