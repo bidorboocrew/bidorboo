@@ -31,7 +31,7 @@ export default class JobFullDetailsCard extends React.Component {
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className="card is-clipped disabled">
+      <div style={{ height: 'auto' }} className="card is-clipped disabled">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"

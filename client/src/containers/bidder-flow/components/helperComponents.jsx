@@ -60,7 +60,6 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       endTime = moment(startingDateAndTime).endOf('day');
       break;
   }
-debugger
   let event = {
     title,
     description,

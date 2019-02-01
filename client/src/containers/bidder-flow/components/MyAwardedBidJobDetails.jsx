@@ -31,7 +31,7 @@ export default class MyAwardedBidJobDetails extends React.Component {
     let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
-      <div className="card disabled is-clipped">
+      <div style={{ height: 'auto' }} className="card disabled is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"

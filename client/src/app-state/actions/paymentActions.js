@@ -48,7 +48,7 @@ export const submitPayment = ({ stripeTransactionToken, bid, chargeAmount }) => 
               },
             },
           });
-          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsAwardedJobsTab);
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(bid._jobRef));
         }
       })
       .catch((error) => {

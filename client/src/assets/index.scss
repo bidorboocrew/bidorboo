@@ -313,7 +313,9 @@ img {
     border-right: 8px solid rgba(0, 0, 0, 0.2);
   }
 }
-
+.is-widescreen {
+  max-width: 900px !important;
+}
 // bulma overrides
 input[type='checkbox'],
 input[type='radio'] {

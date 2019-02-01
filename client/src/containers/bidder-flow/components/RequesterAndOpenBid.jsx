@@ -163,7 +163,7 @@ class RequesterAndOpenBid extends React.Component {
                       name="success"
                       required
                     />
-                    <span className="has-text-dark">
+                    <span className="has-text-weight-semibold">
                       {` I Confirm that I've Read the task description thoroughly and happy with my updated bid.`}
                     </span>
                   </label>
@@ -231,7 +231,6 @@ const EnhancedForms = withFormik({
     confirmReadField: Yup.boolean()
       .required()
       .test('confirmReadField', 'Must Be Checked', (inputValue) => {
-        debugger;
         return inputValue;
       }),
     bidAmountField: Yup.number()

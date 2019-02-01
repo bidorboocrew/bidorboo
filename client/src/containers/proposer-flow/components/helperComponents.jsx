@@ -30,7 +30,6 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');
   let endTime = moment(startingDateAndTime).endOf('day');
-  debugger;
   switch (`${selectedTime}`) {
     case '10':
       startTime = moment(startingDateAndTime).startOf('day');

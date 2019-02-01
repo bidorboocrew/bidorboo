@@ -110,6 +110,8 @@ export const CLIENT = {
     newlyPostedJob: '/proposer/new-job-details',
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
+    dynamicSelectedAwardedJobPage: (jobId) => `/proposer/awarded-job-details/${jobId}`,
+
   },
   BIDDER: {
     root: '/bidder-root',
