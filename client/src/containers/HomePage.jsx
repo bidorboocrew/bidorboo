@@ -9,60 +9,46 @@ import { switchRoute } from '../utils';
 export default class HomePage extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <section className="hero has-text-centered">
-          <div className="hero-body">
-            <div className="container is-widescreen">
-              <h1 style={{ transform: 'scaleY(1.2)' }} className="subtitle">
-                <strong>
-                  Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
-                </strong>
-              </h1>
-              <br />
-              <div className="columns is-multiline is-centered">
-                <div className="column">
-                  <RequestAService
-                    logoImg={requestImg}
-                    onClickHandler={() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    }}
-                  />
-                </div>
-                <div className="column">
-                  <ProvideAService
-                    logoImg={bidsImg}
-                    onClickHandler={() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <br />
-        </section>
+      <section className="hero has-text-centered">
+        <div className="hero-body">
+          <div className="container is-widescreen">
+            <h1 style={{ transform: 'scaleY(1.2)' }} className="subtitle">
+              <strong>
+                Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+              </strong>
+            </h1>
 
-        <footer
-          style={{
-            borderTop: '1px solid #dbdbdb',
-            maxHeight: '2rem',
-            background: '#eeeeee',
-            width: '100%',
-          }}
-          className="footer"
-        >
-          <div className="container is-fluid">
             <div className="has-text-centered">
-              <label className="label">BidOrBoo Available In</label>
+              <label className="label  has-text-grey">BidOrBoo is Availble in Canada</label>
               <img
                 width={25}
                 height={25}
                 src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
               />
             </div>
+            <br />
+            <div className="columns is-multiline is-centered">
+              <div className="column">
+                <RequestAService
+                  logoImg={requestImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                />
+              </div>
+              <div className="column">
+                <ProvideAService
+                  logoImg={bidsImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                />
+              </div>
+            </div>
           </div>
-        </footer>
-      </React.Fragment>
+        </div>
+        <br />
+      </section>
     );
   }
 }

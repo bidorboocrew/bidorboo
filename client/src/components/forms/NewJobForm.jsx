@@ -167,7 +167,13 @@ class NewJobForm extends React.Component {
                 <section className="modal-card-body">
                   <label className="label">Review Your Task Details</label>
 
-                  <div style={{ borderRaduis: 4, border: '1px solid #bdbdbd' }}>
+                  <div
+                    style={{
+                      backgroundColor: '#eeeeee',
+                      borderRaduis: 4,
+                      border: '1px solid #bdbdbd',
+                    }}
+                  >
                     <header
                       style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
                       className="card-header is-clipped"
@@ -208,6 +214,7 @@ class NewJobForm extends React.Component {
                               border: 'none',
                               color: '#4a4a4a',
                               fontSize: '1rem',
+                              backgroundColor: '#eeeeee',
                             }}
                             readOnly
                           />
@@ -217,13 +224,15 @@ class NewJobForm extends React.Component {
                   </div>
 
                   <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
-                  <HelpText helpText={`*Once you post you will not be able to edit the job.`} />
-                  <HelpText helpText={`*Bidders will not be able to view the EXACT location.`} />
-                  <HelpText helpText={`*Upon awarding a tasker you will get their contact info.`} />
+                  <HelpText helpText={`- Once you post you will not be able to edit the job.`} />
+                  <HelpText helpText={`- Bidders will not be able to view the EXACT location.`} />
+                  <HelpText
+                    helpText={`- Upon awarding a tasker you will get their contact info.`}
+                  />
                 </section>
                 <footer
                   style={{
-                    paddingTop: 6,
+                    paddingTop: 10,
                     borderRadius: 0,
                     background: 'whitesmoke',
                   }}
@@ -238,7 +247,7 @@ class NewJobForm extends React.Component {
                         name="success"
                         required
                       />
-                      <span>
+                      <span className="has-text-weight-semibold">
                         {` I Confirm that all details are accurate and matches my expectations.`}
                       </span>
                     </label>
@@ -253,7 +262,7 @@ class NewJobForm extends React.Component {
                     <span className="icon">
                       <i className="far fa-edit" />
                     </span>
-                    <span>Edit Details</span>
+                    <span>go Back</span>
                   </button>
                   <button
                     style={{ width: 140 }}
@@ -390,7 +399,7 @@ class NewJobForm extends React.Component {
           <TextAreaInput
             id="detailedDescriptionField"
             type="text"
-            helpText={'* PleaseProvide as much details as possible to ensure more accurate bids.'}
+            helpText={'* Please be detailed in your description.'}
             label="Detailed Description"
             startWithTemplateButton={
               <a
