@@ -31,6 +31,8 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
           select: {
             displayName: 1,
             profileImage: 1,
+            rating: 1,
+            _awardedBidRef: 1,
           },
         },
         {
@@ -42,6 +44,7 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
             location: 1,
             startingDateAndTime: 1,
             fromTemplateId: 1,
+            _ownerRef: 1,
           },
         },
       ],
@@ -74,6 +77,7 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
           select: {
             displayName: 1,
             profileImage: 1,
+            rating: 1,
           },
         },
         {
@@ -85,6 +89,7 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
             location: 1,
             startingDateAndTime: 1,
             fromTemplateId: 1,
+            _awardedBidRef: 1,
           },
         },
       ],

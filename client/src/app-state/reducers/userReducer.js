@@ -18,6 +18,8 @@ const initialState = {
   isLoadingStripeAccountDetails: false,
   isLoadingAnotherUserProfile: false,
   otherUserProfileInfo: {},
+  myPastProvidedServices: [],
+  myPastRequestedServices: [],
 };
 const updateUserProfile = (state = initialState, { payload }) => {
   return {
@@ -79,6 +81,49 @@ const getOtherUserProfileDetails = {
     };
   },
 };
+
+const getMyPastProvidedServices = {
+  pending: (state = initialState) => {
+    return {
+      ...state,
+      myPastProvidedServices: [],
+    };
+  },
+  rejected: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      myPastProvidedServices: [],
+    };
+  },
+  fulfilled: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      myPastProvidedServices: payload ? payload.data : [],
+    };
+  },
+};
+
+const getMyPastRequestedServices = {
+  pending: (state = initialState) => {
+    return {
+      ...state,
+      myPastRequestedServices: [],
+    };
+  },
+  rejected: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      myPastRequestedServices: [],
+    };
+  },
+  fulfilled: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      myPastRequestedServices: payload ? payload.data : [],
+    };
+  },
+};
+
 const setLoggedOutState = () => {
   return { ...initialState };
 };
@@ -109,6 +154,26 @@ export default handleActions(
     [`${A.USER_MODEL_ACTIONS.GET_OTHER_USER_PROFILE_INFO}${
       A._FULFILLED
     }`]: getOtherUserProfileDetails.fulfilled,
+
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES}${
+      A._PENDING
+    }`]: getMyPastProvidedServices.pending,
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES}${
+      A._FULFILLED
+    }`]: getMyPastProvidedServices.fulfilled,
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES}${
+      A._REJECTED
+    }`]: getMyPastProvidedServices.rejected,
+
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_REQUESTED_SERVICES}${
+      A._PENDING
+    }`]: getMyPastRequestedServices.pending,
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_REQUESTED_SERVICES}${
+      A._FULFILLED
+    }`]: getMyPastRequestedServices.fulfilled,
+    [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_REQUESTED_SERVICES}${
+      A._REJECTED
+    }`]: getMyPastRequestedServices.rejected,
   },
   initialState,
 );

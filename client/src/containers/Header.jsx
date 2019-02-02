@@ -400,7 +400,7 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="fas fa-history" aria-hidden="true" />
                               </span>
-                              <span>Past Requested Services</span>
+                              <span>Requested Services</span>
                             </a>
                             <hr className="navbar-divider" />
 
@@ -415,24 +415,10 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="fas fa-history" aria-hidden="true" />
                               </span>
-                              <span>Past Provided Services</span>
+                              <span>Provided Services</span>
                             </a>
                             <hr className="navbar-divider" />
 
-                            {/* <a
-                              onClick={() => {
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.myProgress);
-                                });
-                              }}
-                              className="navbar-item"
-                            >
-                              <span className="icon">
-                                <i className="fas fa-chart-line" aria-hidden="true" />
-                              </span>
-                              <span>My Progress</span>
-                            </a>
-                            <hr className="navbar-divider" /> */}
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {

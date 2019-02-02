@@ -154,11 +154,14 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res) => {
     try {
-      userWithAllPastRequestedServiceDetails = await userDataAccess.getMyPastRequestedServices(
+      pasrRequestedServices = await userDataAccess.getMyPastRequestedServices(
         req.user._id.toString()
       );
-      if (userWithAllPastRequestedServiceDetails) {
-        return res.send(userWithAllPastRequestedServiceDetails);
+      if (
+        pasrRequestedServices &&
+        pasrRequestedServices._asProposerReviewsRef
+      ) {
+        return res.send(pasrRequestedServices._asProposerReviewsRef);
       }
       return res.send({});
     } catch (e) {
@@ -170,11 +173,11 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res) => {
     try {
-      userWithAllPastProvidedServices = await userDataAccess.getMyPastProvidedServices(
+      pasProvidedServices = await userDataAccess.getMyPastProvidedServices(
         req.user._id.toString()
       );
-      if (userWithAllPastProvidedServices) {
-        return res.send(userWithAllPastProvidedServices);
+      if (pasProvidedServices && pasProvidedServices._asBidderReviewsRef) {
+        return res.send(pasProvidedServices._asBidderReviewsRef);
       }
       return res.send({});
     } catch (e) {
