@@ -33,6 +33,8 @@ module.exports = {
       GET: {
         currentUser: '/api/user/currentUser',
         otherUserProfileInfo: '/api/user/otherUserProfileInfo',
+        getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
+        getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',

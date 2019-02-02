@@ -31,6 +31,8 @@ import {
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
   OtherUserProfileForReviewPage,
+  PastProvidedServices,
+  PastRequestedServices,
 } from './index';
 
 class App extends React.Component {
@@ -140,7 +142,16 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
             component={OtherUserProfileForReviewPage}
           />
-
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
+            component={PastProvidedServices}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
+            component={PastRequestedServices}
+          />
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>
       </div>
@@ -149,7 +160,6 @@ class App extends React.Component {
 }
 const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
-    s_isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
   };
 };

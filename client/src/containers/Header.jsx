@@ -385,9 +385,40 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="far fa-credit-card" aria-hidden="true" />
                               </span>
-                              <span>Payment Info</span>
+                              <span>My Payouts</span>
                             </a>
                             <hr className="navbar-divider" />
+
+                            <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.pastRequestedServices);
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-history" aria-hidden="true" />
+                              </span>
+                              <span>Past Requested Services</span>
+                            </a>
+                            <hr className="navbar-divider" />
+
+                            <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-history" aria-hidden="true" />
+                              </span>
+                              <span>Past Provided Services</span>
+                            </a>
+                            <hr className="navbar-divider" />
+
                             {/* <a
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {

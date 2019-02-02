@@ -131,6 +131,10 @@ a.navbar-item.is-active {
     max-width: fit-content;
   }
 }
+.navbar-dropdown.is-active {
+  left: unset !important;
+  right: 0 !important;
+}
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';

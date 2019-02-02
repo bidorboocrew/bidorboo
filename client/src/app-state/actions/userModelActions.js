@@ -3,6 +3,24 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
+export const getMyPastRequestedServices = () => (dispatch) => {
+  return dispatch({
+    type: A.USER_MODEL_ACTIONS.GET_MY_PAST_REQUESTED_SERVICES,
+    payload: axios.get(ROUTES.API.USER.GET.getMyPastRequestedServices).catch((error) => {
+      throwErrorNotification(dispatch, error);
+    }),
+  });
+};
+
+export const getMyPastProvidedServices = () => (dispatch) => {
+  dispatch({
+    type: A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES,
+    payload: axios.get(ROUTES.API.USER.GET.getMyPastProvidedServices).catch((error) => {
+      throwErrorNotification(dispatch, error);
+    }),
+  });
+};
+
 export const updateProfileDetails = (profileDetails) => (dispatch) => {
   const updateProfileCall = axios
     .put(ROUTES.API.USER.PUT.userDetails, {

@@ -8,7 +8,6 @@ import { updateProfileDetails, updateProfileImage } from '../../app-state/action
 import * as C from '../../constants/enumConstants';
 import ProfileForm from '../../components/forms/ProfileForm';
 import axios from 'axios';
-import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 import FileUploaderComponent from '../../components/FileUploaderComponent';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { getCurrentUser } from '../../app-state/actions/authActions';
@@ -237,7 +236,7 @@ const userImageAndStats = (
   rating,
   displayName,
 ) => {
-  const { canceledJobs, canceledBids, fulfilledBids, fulfilledJobs, globalRating } = rating;
+  const { globalRating } = rating;
   return (
     <React.Fragment>
       <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
@@ -294,24 +293,6 @@ const userImageAndStats = (
             <div className="control">{membershipStatusDisplay}</div>
           </div>
         </div>
-
-        {/* <div className="field">
-          <label className="label">Fullfilled Jobs</label>
-          <div className="control">{`${fulfilledJobs}`}</div>
-        </div>
-        <div className="field">
-          <label className="label">Fulfilled Bids</label>
-          <div className="control">{`${fulfilledBids}`}</div>
-        </div>
-        <div className="field">
-          <label className="label">Cancelled Jobs</label>
-          <div className="control">{`${canceledJobs}`}</div>
-        </div>
-
-        <div className="field">
-          <label className="label">Cancelled Bids</label>
-          <div className="control">{`${canceledBids}`}</div>
-        </div> */}
       </div>
     </React.Fragment>
   );

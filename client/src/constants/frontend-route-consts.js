@@ -18,6 +18,8 @@ export const API = {
     GET: {
       currentUser: '/api/user/currentUser',
       otherUserProfileInfo: '/api/user/otherUserProfileInfo',
+      getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
+      getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
     },
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
@@ -131,10 +133,10 @@ export const CLIENT = {
     getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
       `/bidder-review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
   },
-
   MY_PROFILE: {
     basicSettings: '/my-profile/basic-settings',
     paymentSettings: '/my-profile/payment-settings',
-    // myProgress: '/my-profile/my-stats',
+    pastRequestedServices: '/my-profile/past-requested-services',
+    pastProvidedServices: '/my-profile/past-provided-services',
   },
 };
