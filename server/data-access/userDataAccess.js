@@ -7,6 +7,33 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
+exports.findUserPublicDetails = (mongodbUserId) => {
+  User.findOne(
+    { _id: mongodbUserId },
+    {
+      pushSubscription: 0,
+      userRole: 0,
+      agreedToServiceTerms: 0,
+      settings: 0,
+      extras: 0,
+      stripeConnect: 0,
+      canBid: 0,
+      canPost: 0,
+      addressText: 0,
+      verification: 0,
+      password: 0,
+      email: 0,
+      phone: 0,
+      _postedJobsRef: 0,
+      _postedBidsRef: 0,
+      _asBidderReviewsRef: 0,
+      _asProposerReviewsRef: 0,
+    }
+  )
+    .lean(true)
+    .exec();
+};
+
 exports.getUserPushSubscription = (userId) => {
   return User.findOne({ userId }, { pushSubscription: 1 })
     .lean(true)

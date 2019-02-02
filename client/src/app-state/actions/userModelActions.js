@@ -55,31 +55,12 @@ export const updateProfileImage = (imgFile) => (dispatch) => {
   });
 };
 
-// export const updateProfileImage = (files) => (dispatch) => {
-//   const config = {
-//     headers: { 'content-type': 'multipart/form-data' },
-//   };
-//   let data = new FormData();
-//   for (var i = 0; i < files.length; i++) {
-//     let file = files[i];
-//     data.append('filesToUpload', file, file.name);
-//   }
-
-//   dispatch({
-//     type: A.USER_MODEL_ACTIONS.UPDATE_USER_IMAGE,
-//     payload: axios
-//       .put(ROUTES.API.USER.PUT.profilePicture, data, config)
-//       .then((resp) => {
-//         if (resp.data && resp.data.userId) {
-//           //update profile data
-//           dispatch({
-//             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
-//             payload: resp.data,
-//           });
-//         }
-//       })
-//       .catch((error) => {
-//         throwErrorNotification(dispatch, error);
-//       }),
-//   });
-// };
+export const getOtherUserProfileInfo = (otherUserId) => (dispatch) =>
+  dispatch({
+    type: A.USER_MODEL_ACTIONS.GET_OTHER_USER_PROFILE_INFO,
+    payload: axios
+      .get(ROUTES.API.USER.GET.otherUserProfileInfo, { params: { otherUserId } })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });

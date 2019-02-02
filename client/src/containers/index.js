@@ -30,3 +30,5 @@ export {
   default as ProposerReviewingCompletedJob,
 } from './review-flow/ProposerReviewingCompletedJob';
 export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';
+
+export { default as OtherUserProfileForReviewPage } from './OtherUserProfileForReviewPage';

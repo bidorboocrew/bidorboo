@@ -17,6 +17,7 @@ export const API = {
   USER: {
     GET: {
       currentUser: '/api/user/currentUser',
+      otherUserProfileInfo: '/api/user/otherUserProfileInfo',
     },
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
@@ -96,7 +97,8 @@ export const API = {
 export const CLIENT = {
   ENTRY: '/',
   HOME: '/home',
-  USER_ROFILE: '/user-profile/:userId',
+  USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
+  dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   VERIFICATION: '/verification/:field/:code',
   MYAGENDA: '/my-agenda',
   PROPOSER: {
@@ -111,7 +113,6 @@ export const CLIENT = {
     awardedJobsPage: '/proposer/awarded-jobs',
     selectedAwardedJobPage: '/proposer/awarded-job-details',
     dynamicSelectedAwardedJobPage: (jobId) => `/proposer/awarded-job-details/${jobId}`,
-
   },
   BIDDER: {
     root: '/bidder-root',
