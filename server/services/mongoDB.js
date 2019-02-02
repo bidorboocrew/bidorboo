@@ -1,7 +1,7 @@
 // to log our customer encountered  bugs
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
-
+// https://eng.datafox.com/mongoose/2017/02/22/what-we-wish-we-had-known-about-mongoose/
 module.exports = (process) => {
   // require the application models
   require('../models/bidModel');
@@ -9,7 +9,6 @@ module.exports = (process) => {
   require('../models/reviewModel');
   require('../models/jobModel');
   require('../models/paymentModel');
-
 
   mongoose.Promise = global.Promise;
   if (process.env.NODE_ENV !== 'production') {
@@ -25,19 +24,15 @@ module.exports = (process) => {
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
-  mongoose.connect(
-    keys.mongoURI,
-    dbOptions,
-    (err) => {
-      if (err) {
-        console.log(
-          `Could not connect to mongodb on localhost.
+  mongoose.connect(keys.mongoURI, dbOptions, (err) => {
+    if (err) {
+      console.log(
+        `Could not connect to mongodb on localhost.
         Ensure that you have mongodb running mongodb accepts connections on standard ports! errorMsg: ${err}`
-        );
-        throw err;
-      }
+      );
+      throw err;
     }
-  );
+  });
 
   mongoose.set('useFindAndModify', false);
 

@@ -2,17 +2,17 @@ const compression = require('compression');
 const helmet = require('helmet');
 const csp = require('express-csp-header');
 
-module.exports = app => {
+module.exports = (app) => {
   // security
   const cspMiddleware = csp({
     policies: {
-      'block-all-mixed-content': true
-    }
+      'block-all-mixed-content': true,
+    },
   });
   app.use(cspMiddleware);
 
   // security package
-  app.use(helmet());
+  app.use(helmet({ xssFilter: false }));
   app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
 
   // performance
@@ -25,7 +25,7 @@ module.exports = app => {
         }
         // fallback to standard filter function
         return compression.filter(req, res);
-      }
+      },
     })
   );
 };
