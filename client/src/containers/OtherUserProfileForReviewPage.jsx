@@ -190,7 +190,10 @@ export default connect(
 
 const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
   return (
-    <article style={{ border: '1px solid #ededed', padding: 2 }} className="media">
+    <article
+      style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
+      className="media"
+    >
       <figure style={{ margin: '0.5rem' }} className="media-left">
         <p className="image is-64x64">
           <img src={commenterProfilePicUrl} />

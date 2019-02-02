@@ -2,7 +2,8 @@ import React from 'react';
 import Countdown from 'react-countdown-now';
 import ReactStars from 'react-stars';
 import moment from 'moment';
-
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 export const getDaysSinceCreated = (createdAt) => {
@@ -106,10 +107,26 @@ export const UserImageAndRating = ({ userDetails }) => {
 
   const { profileImage, displayName, rating } = temp;
   return (
-    <div className="media">
+    <div
+      style={{
+        cursor: 'pointer',
+        borderLeft: '1px solid #eee',
+        borderBottom: '1px solid #eee',
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
+      }}
+      className="media is-outline"
+    >
       <div className="media-left">
         <figure className="image is-48x48">
-          <img src={profileImage.url} alt="Placeholder image" />
+          <img
+            style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
+            src={profileImage.url}
+            alt="Placeholder image"
+          />
         </figure>
       </div>
       <div className="media-content">
@@ -118,6 +135,7 @@ export const UserImageAndRating = ({ userDetails }) => {
           <p className="is-size-7">No Ratings Yet</p>
         ) : (
           <ReactStars
+            style={{ cursor: 'pointer' }}
             className="is-size-7"
             half
             count={5}
