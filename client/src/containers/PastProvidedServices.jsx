@@ -54,10 +54,10 @@ class PastProvidedServices extends React.Component {
     );
     return (
       <React.Fragment>
-        <section class="hero is-dark">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">Past Requested Services</h1>
+        <section className="hero is-dark">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Past Requested Services</h1>
             </div>
           </div>
         </section>
