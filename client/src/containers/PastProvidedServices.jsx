@@ -42,8 +42,8 @@ class PastProvidedServices extends React.Component {
 
     let AllTheServicesProvidedByThisUser = null;
     if (myPastProvidedServices && myPastProvidedServices.length > 0) {
-      AllTheServicesProvidedByThisUser = myPastProvidedServices.map((serviceDetail) => {
-        return <RequestsTabSummaryCard key={serviceDetail._id} {...serviceDetail} />;
+      AllTheServicesProvidedByThisUser = myPastProvidedServices.map((serviceDetail, index) => {
+        return <RequestsTabSummaryCard index={index} key={serviceDetail._id} {...serviceDetail} />;
       });
     }
 
@@ -111,7 +111,14 @@ const EmptyHistory = () => {
 
 class RequestsTabSummaryCard extends React.Component {
   render() {
-    const { jobId, proposerId, proposerReview, proposerSubmitted, bidderSubmitted } = this.props;
+    const {
+      jobId,
+      proposerId,
+      proposerReview,
+      proposerSubmitted,
+      bidderSubmitted,
+      index,
+    } = this.props;
 
     const { startingDateAndTime, fromTemplateId, state } = jobId;
     const { ratingCategories } = proposerReview;
@@ -130,7 +137,7 @@ class RequestsTabSummaryCard extends React.Component {
         <div className="card">
           <div style={{ padding: '1rem' }} className="card-content">
             <div className="content">
-              <h1 className="is-size-5">Task Summary</h1>
+              <h1 className="is-size-5">#{index} Task Summary</h1>
               <div className={`is-clipped disabled`}>
                 <div style={{ paddingBottom: '0.5rem' }} className="card-content">
                   <div className="content">
