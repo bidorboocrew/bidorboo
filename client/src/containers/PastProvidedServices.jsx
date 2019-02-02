@@ -48,8 +48,17 @@ class PastProvidedServices extends React.Component {
       <EmptyHistory />
     );
     return (
-      <div style={{ maxWidth: 900 }} className="container is-widescreen bidorbooContainerMargins">
-        <div className="columns is-multiline is-centered ">{AllTheServicesProvidedByThisUser}</div>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        <section class="hero is-dark">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">Past Provided Services</h1>
+            </div>
+          </div>
+        </section>
+        <div style={{ maxWidth: 900 }} className="columns is-multiline is-centered ">
+          {AllTheServicesProvidedByThisUser}
+        </div>
       </div>
     );
   }
@@ -84,7 +93,7 @@ const EmptyHistory = () => {
             <div>
               <a
                 className="button is-link is-medium"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.BidOnJobPage)}
+                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}
               >
                 Start Bidding
               </a>

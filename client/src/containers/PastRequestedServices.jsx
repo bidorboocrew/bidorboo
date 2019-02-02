@@ -7,8 +7,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMyPastRequestedServices } from '../app-state/actions/userModelActions';
-
+import { DisplayLabelValue, StartDateAndTime } from './commonComponents';
+import ReactStars from 'react-stars';
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
+import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 
 class PastRequestedServices extends React.Component {
   componentDidUpdate(prevProps) {
@@ -19,7 +23,7 @@ class PastRequestedServices extends React.Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, myPastRequestedServices } = this.props;
 
     if (!isLoggedIn) {
       return (
@@ -29,9 +33,31 @@ class PastRequestedServices extends React.Component {
       );
     }
 
+    let AllTheRequestsByThisUser = null;
+    if (myPastRequestedServices && myPastRequestedServices.length > 0) {
+      AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails) => {
+        return <RequestsTabSummaryCard key={requestDetails._id} {...requestDetails} />;
+      });
+    }
+
+    AllTheRequestsByThisUser = AllTheRequestsByThisUser ? (
+      AllTheRequestsByThisUser
+    ) : (
+      <EmptyHistory />
+    );
+
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <div>under construction</div>
+        <section class="hero is-dark">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">Past Requested Services</h1>
+            </div>
+          </div>
+        </section>
+        <div style={{ maxWidth: 900 }} className="columns is-multiline is-centered ">
+          {AllTheRequestsByThisUser}
+        </div>
       </div>
     );
   }
@@ -41,6 +67,7 @@ const mapStateToProps = ({ userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     myPastRequestedServices: userReducer.myPastRequestedServices,
+    userDetails: userReducer.myPastProvidedServices,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -53,3 +80,187 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(PastRequestedServices);
+
+const EmptyHistory = () => {
+  return (
+    <div className="column">
+      <div className="card">
+        <div style={{ padding: '1rem' }} className="card-content">
+          <div className="content has-text-centered">
+            <label className="label">Seems you don't have any Requestes jobs yet. Go on and</label>
+            <br />
+            <div>
+              <a
+                className="button is-link is-medium"
+                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
+              >
+                Start Posting Tasks
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+class RequestsTabSummaryCard extends React.Component {
+  render() {
+    const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted } = this.props;
+
+    const { startingDateAndTime, fromTemplateId, state } = jobId;
+    const { ratingCategories } = bidderReview;
+
+    const ratingMapping = {};
+    ratingCategories.forEach((rating) => {
+      ratingMapping[`${rating.category}`] = rating.rating;
+    });
+
+    const didISubmitReview = proposerSubmitted;
+    const didBidderSubmitReview = bidderSubmitted;
+
+    const bothSubmittedReview = bidderSubmitted && proposerSubmitted;
+    return (
+      <div className="column">
+        <div className="card">
+          <div style={{ padding: '1rem' }} className="card-content">
+            <div className="content">
+              <h1 className="is-size-5">Task Summary</h1>
+              <div className={`is-clipped disabled`}>
+                <div style={{ paddingBottom: '0.5rem' }} className="card-content">
+                  <div className="content">
+                    <DisplayLabelValue
+                      labelText={'Request Type'}
+                      labelValue={`${templatesRepo[fromTemplateId].title} Task`}
+                    />
+
+                    <StartDateAndTime date={startingDateAndTime} />
+                    <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
+
+                    <div className="has-text-grey is-size-7">You Earned</div>
+                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
+                      100} CAD`}</div>
+                  </div>
+                </div>
+              </div>
+
+              <h1 className="is-size-5">Task Review</h1>
+              <div className={`is-clipped disabled`}>
+                <div style={{ paddingBottom: '0.5rem' }} className="card-content">
+                  {!didISubmitReview && <PleaseSubmitYourReview />}
+
+                  {!didBidderSubmitReview && (
+                    <ReviewComments comment="Review is Pending. Bidder did not finish the review  Yet  " />
+                  )}
+
+                  {bothSubmittedReview && (
+                    <ReviewComments
+                      commenterDisplayName={bidderId.displayName}
+                      commenterProfilePicUrl={bidderId.profileImage.url}
+                      comment={bidderReview.personalComment}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {bothSubmittedReview && (
+                <div className={`is-clipped disabled`}>
+                  <div style={{ paddingBottom: '0.5rem' }} className="card-content">
+                    <div>
+                      ACCURACY OF POST
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['ACCURACY_OF_POST']}
+                      />
+                    </div>
+
+                    <div>
+                      PUNCTULAITY:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['PUNCTULAITY']}
+                      />
+                    </div>
+                    <div>
+                      COMMUNICATION:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['COMMUNICATION']}
+                      />
+                    </div>
+                    <div>
+                      MANNERS:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['MANNERS']}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+const PleaseSubmitYourReview = () => {
+  return (
+    <div>
+      <label>
+        Your Review will be revealed when both (YOU) the Requester and the Bidder submit your
+        reviews
+      </label>
+
+      <a
+        onClick={() => alert('not added yet')}
+        className="button is-link is-medium heartbeatInstant"
+      >
+        Submit Your Review
+      </a>
+    </div>
+  );
+};
+
+const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
+  return (
+    <article
+      style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
+      className="media"
+    >
+      <figure style={{ margin: '0.5rem' }} className="media-left">
+        <p className="image is-64x64">
+          <img src={commenterProfilePicUrl} />
+        </p>
+      </figure>
+      <div style={{ padding: '0.5rem' }} className="media-content">
+        <div className="content">
+          <div>{commenterDisplayName} wrote:</div>
+          <p>{comment}</p>
+        </div>
+      </div>
+    </article>
+  );
+};
