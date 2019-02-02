@@ -400,7 +400,13 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="fas fa-history" aria-hidden="true" />
                               </span>
-                              <span>Requested Services</span>
+
+                              <span style={{ marginLeft: -10 }} className="icon">
+                                <i className="far fa-plus-square" aria-hidden="true" />
+                              </span>
+
+                              <span>Fulfilled Requests</span>
+                              <span />
                             </a>
                             <hr className="navbar-divider" />
 
@@ -415,7 +421,12 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="fas fa-history" aria-hidden="true" />
                               </span>
-                              <span>Provided Services</span>
+
+                              <span style={{ marginLeft: -10 }} className="icon">
+                                <i className="fas fa-hand-rock" aria-hidden="true" />
+                              </span>
+
+                              <span>Fulfilled Offers</span>
                             </a>
                             <hr className="navbar-divider" />
 

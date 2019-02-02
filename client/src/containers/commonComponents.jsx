@@ -5,6 +5,7 @@ import moment from 'moment';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+import { underline } from 'ansi-colors';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -110,15 +111,13 @@ export const UserImageAndRating = ({ userDetails }) => {
     <div
       style={{
         cursor: 'pointer',
-        borderLeft: '1px solid #eee',
-        borderBottom: '1px solid #eee',
       }}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
       }}
-      className="media is-outline"
+      className="media is-outline bidorbooUserImgAndRating"
     >
       <div className="media-left">
         <figure className="image is-48x48">
@@ -131,6 +130,7 @@ export const UserImageAndRating = ({ userDetails }) => {
       </div>
       <div className="media-content">
         <p className="is-size-6">{displayName}</p>
+
         {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
           <p className="is-size-7">No Ratings Yet</p>
         ) : (
@@ -146,6 +146,9 @@ export const UserImageAndRating = ({ userDetails }) => {
             color2={'#ffd700'}
           />
         )}
+        <p style={{ textDecoration: 'underline' }} className="is-size-7">
+          click to view full profile
+        </p>
       </div>
     </div>
   );

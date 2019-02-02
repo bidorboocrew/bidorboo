@@ -135,6 +135,14 @@ a.navbar-item.is-active {
   left: unset !important;
   right: 0 !important;
 }
+.bidorbooUserImgAndRating {
+  &:hover {
+    background: whitesmoke;
+    color: #0a0a0a;
+    border-radius: 4px;
+    transition: all 0.3s ease-in;
+  }
+}
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';

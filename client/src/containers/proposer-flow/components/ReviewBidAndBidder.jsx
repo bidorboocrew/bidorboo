@@ -2,7 +2,7 @@ import React from 'react';
 import ReactStars from 'react-stars';
 
 import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
-
+import { UserImageAndRating } from '../../commonComponents';
 export default class ReviewBidAndBidder extends React.Component {
   constructor(props) {
     super(props);
@@ -43,37 +43,8 @@ export default class ReviewBidAndBidder extends React.Component {
               <p className="card-header-title">{`${displayName} 's Bid`}</p>
             </header>
             <div className="card-content">
-              <div className="media">
-                <div
-                  style={{
-                    border: '1px solid #eee',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)',
-                  }}
-                  className="media-left"
-                >
-                  <figure className="image is-48x48">
-                    <img src={bidderProfileImgUrl} alt="Placeholder image" />
-                  </figure>
-                </div>
-                <div className="media-content">
-                  <p className="is-size-6">{displayName}</p>
-                  {bidderOverallRating === 'No Ratings Yet' || bidderOverallRating === 0 ? (
-                    <p className="is-size-6">No Ratings Yet</p>
-                  ) : (
-                    <ReactStars
-                      className="is-size-6"
-                      half
-                      count={5}
-                      value={bidderOverallRating}
-                      edit={false}
-                      size={25}
-                      color1={'lightgrey'}
-                      color2={'#ffd700'}
-                    />
-                  )}
-                </div>
-              </div>
+              <UserImageAndRating userDetails={bid._bidderRef} />
+
               <div className="content">
                 <label className="label"> Bid Amount</label>
                 <div className="is-size-3 has-text-success has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</div>
@@ -95,7 +66,10 @@ export default class ReviewBidAndBidder extends React.Component {
                   onClick={this.toggleAcceptModal}
                   className="button is-success"
                 >
-                  Accept Bid
+                  <span className="icon">
+                    <i className="far fa-handshake" />
+                  </span>
+                  <span>Accept Bid</span>
                 </a>
                 <a
                   style={{ marginLeft: 8, marginTop: 8, width: '15rem' }}

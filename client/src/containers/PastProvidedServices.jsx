@@ -24,10 +24,15 @@ class PastProvidedServices extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.isLoggedIn) {
+      this.props.a_getMyPastProvidedServices();
+    }
+  }
   render() {
-    const { isLoggedIn, myPastProvidedServices } = this.props;
+    const { isLoggedIn, myPastProvidedServices, myPastProvidedServicesIsLoading } = this.props;
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || myPastProvidedServicesIsLoading) {
       return (
         <div className="container is-widescreen bidorbooContainerMargins">
           <Spinner isLoading size={'large'} />
@@ -69,6 +74,7 @@ const mapStateToProps = ({ userReducer }) => {
     isLoggedIn: userReducer.isLoggedIn,
     myPastProvidedServices: userReducer.myPastProvidedServices,
     userDetails: userReducer.myPastProvidedServices,
+    myPastProvidedServicesIsLoading: userReducer.myPastProvidedServicesIsLoading,
   };
 };
 const mapDispatchToProps = (dispatch) => {

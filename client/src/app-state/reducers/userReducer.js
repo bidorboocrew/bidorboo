@@ -19,7 +19,9 @@ const initialState = {
   isLoadingAnotherUserProfile: false,
   otherUserProfileInfo: {},
   myPastProvidedServices: [],
+  myPastProvidedServicesIsLoading: false,
   myPastRequestedServices: [],
+  myPastRequestedServicesIsLoading: false,
 };
 const updateUserProfile = (state = initialState, { payload }) => {
   return {
@@ -86,18 +88,21 @@ const getMyPastProvidedServices = {
   pending: (state = initialState) => {
     return {
       ...state,
+      myPastProvidedServicesIsLoading: true,
       myPastProvidedServices: [],
     };
   },
   rejected: (state = initialState, { payload }) => {
     return {
       ...state,
+      myPastProvidedServicesIsLoading: false,
       myPastProvidedServices: [],
     };
   },
   fulfilled: (state = initialState, { payload }) => {
     return {
       ...state,
+      myPastProvidedServicesIsLoading: false,
       myPastProvidedServices: payload ? payload.data : [],
     };
   },
@@ -107,18 +112,21 @@ const getMyPastRequestedServices = {
   pending: (state = initialState) => {
     return {
       ...state,
+      myPastRequestedServicesIsLoading: true,
       myPastRequestedServices: [],
     };
   },
   rejected: (state = initialState, { payload }) => {
     return {
       ...state,
+      myPastRequestedServicesIsLoading: false,
       myPastRequestedServices: [],
     };
   },
   fulfilled: (state = initialState, { payload }) => {
     return {
       ...state,
+      myPastRequestedServicesIsLoading: false,
       myPastRequestedServices: payload ? payload.data : [],
     };
   },
