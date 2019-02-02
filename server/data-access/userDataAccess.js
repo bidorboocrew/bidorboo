@@ -21,9 +21,9 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
         _id: 1,
         jobId: 1,
         bidderSubmitted: 1,
+        proposerSubmitted: 1,
         bidderReview: 1,
         bidderId: 1,
-        reveal: 1,
       },
       populate: [
         {
@@ -67,9 +67,9 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
         _id: 1,
         jobId: 1,
         proposerSubmitted: 1,
+        bidderSubmitted: 1,
         proposerReview: 1,
         proposerId: 1,
-        reveal: 1,
       },
       populate: [
         {
@@ -113,7 +113,6 @@ exports.findUserPublicDetails = (mongodbUserId) => {
         bidderSubmitted: 1,
         bidderReview: 1,
         bidderId: 1,
-        reveal: 1,
       },
       populate: [
         {

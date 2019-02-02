@@ -98,7 +98,7 @@ const EmptyHistory = () => {
 
 class RequestsTabSummaryCard extends React.Component {
   render() {
-    const { jobId, proposerId, proposerReview, proposerSubmitted, reveal } = this.props;
+    const { jobId, proposerId, proposerReview, proposerSubmitted, bidderSubmitted } = this.props;
 
     const { startingDateAndTime, fromTemplateId, state } = jobId;
     const { ratingCategories } = proposerReview;
@@ -108,15 +108,16 @@ class RequestsTabSummaryCard extends React.Component {
       ratingMapping[`${rating.category}`] = rating.rating;
     });
 
-    const iTheBidderDidNotSubmitMyReview = !reveal && proposerSubmitted;
-    const bothBidderAndProposerSubmittedReview = reveal && proposerSubmitted;
-    const theProposerDidNotSubmit = !proposerSubmitted;
+    const didISubmitReview = bidderSubmitted;
+    const didProposerSubmitReview = proposerSubmitted;
+
+    const bothSubmittedReview = bidderSubmitted && proposerSubmitted;
     return (
       <div className="column">
         <div className="card">
           <div style={{ padding: '1rem' }} className="card-content">
             <div className="content">
-              <h1 className="is-size-5">The Task Summary</h1>
+              <h1 className="is-size-5">Task Summary</h1>
               <div className={`is-clipped disabled`}>
                 <div style={{ paddingBottom: '0.5rem' }} className="card-content">
                   <div className="content">
@@ -135,16 +136,16 @@ class RequestsTabSummaryCard extends React.Component {
                 </div>
               </div>
 
-              <h1 className="is-size-5">Requester's Review</h1>
+              <h1 className="is-size-5">Task Review</h1>
               <div className={`is-clipped disabled`}>
                 <div style={{ paddingBottom: '0.5rem' }} className="card-content">
-                  {iTheBidderDidNotSubmitMyReview && <PleaseSubmitYourReview />}
+                  {!didISubmitReview && <PleaseSubmitYourReview />}
 
-                  {theProposerDidNotSubmit && (
+                  {!didProposerSubmitReview && (
                     <ReviewComments comment="Review is Pending. Requester did not finish the review  Yet  " />
                   )}
 
-                  {bothBidderAndProposerSubmittedReview && (
+                  {bothSubmittedReview && (
                     <ReviewComments
                       commenterDisplayName={proposerId.displayName}
                       commenterProfilePicUrl={proposerId.profileImage.url}
@@ -154,63 +155,60 @@ class RequestsTabSummaryCard extends React.Component {
                 </div>
               </div>
 
-              {bothBidderAndProposerSubmittedReview && (
-                <React.Fragment>
-                  <h1 className="is-size-5">Rating Breakdown</h1>
-                  <div className={`is-clipped disabled`}>
-                    <div style={{ paddingBottom: '0.5rem' }} className="card-content">
-                      <div>
-                        QUALITY OF WORK
-                        <ReactStars
-                          half
-                          count={5}
-                          edit={false}
-                          size={25}
-                          color1={'lightgrey'}
-                          color2={'#ffd700'}
-                          value={ratingMapping['QUALITY_OF_WORK']}
-                        />
-                      </div>
+              {bothSubmittedReview && (
+                <div className={`is-clipped disabled`}>
+                  <div style={{ paddingBottom: '0.5rem' }} className="card-content">
+                    <div>
+                      QUALITY OF WORK
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['QUALITY_OF_WORK']}
+                      />
+                    </div>
 
-                      <div>
-                        PUNCTULAITY:
-                        <ReactStars
-                          half
-                          count={5}
-                          edit={false}
-                          size={25}
-                          color1={'lightgrey'}
-                          color2={'#ffd700'}
-                          value={ratingMapping['PUNCTULAITY']}
-                        />
-                      </div>
-                      <div>
-                        COMMUNICATION:
-                        <ReactStars
-                          half
-                          count={5}
-                          edit={false}
-                          size={25}
-                          color1={'lightgrey'}
-                          color2={'#ffd700'}
-                          value={ratingMapping['COMMUNICATION']}
-                        />
-                      </div>
-                      <div>
-                        MANNERS:
-                        <ReactStars
-                          half
-                          count={5}
-                          edit={false}
-                          size={25}
-                          color1={'lightgrey'}
-                          color2={'#ffd700'}
-                          value={ratingMapping['MANNERS']}
-                        />
-                      </div>
+                    <div>
+                      PUNCTULAITY:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['PUNCTULAITY']}
+                      />
+                    </div>
+                    <div>
+                      COMMUNICATION:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['COMMUNICATION']}
+                      />
+                    </div>
+                    <div>
+                      MANNERS:
+                      <ReactStars
+                        half
+                        count={5}
+                        edit={false}
+                        size={25}
+                        color1={'lightgrey'}
+                        color2={'#ffd700'}
+                        value={ratingMapping['MANNERS']}
+                      />
                     </div>
                   </div>
-                </React.Fragment>
+                </div>
               )}
             </div>
           </div>

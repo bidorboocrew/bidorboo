@@ -46,7 +46,6 @@ exports.ReviewFull = {
   proposerId: 1,
   proposerReview: 1,
   bidderReview: 1,
-  reveal: 1,
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
