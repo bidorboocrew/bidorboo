@@ -13,7 +13,7 @@ export const getMyPastRequestedServices = () => (dispatch) => {
 };
 
 export const getMyPastProvidedServices = () => (dispatch) => {
-  dispatch({
+  return dispatch({
     type: A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES,
     payload: axios.get(ROUTES.API.USER.GET.getMyPastProvidedServices).catch((error) => {
       throwErrorNotification(dispatch, error);

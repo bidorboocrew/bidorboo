@@ -137,7 +137,7 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
       let existingUser = null;
       if (req.user) {

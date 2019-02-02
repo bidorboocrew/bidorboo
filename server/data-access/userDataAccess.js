@@ -11,6 +11,7 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },
     {
+      _id: 0,
       _asProposerReviewsRef: 1,
     }
   )
@@ -53,6 +54,7 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },
     {
+      _id: 0,
       _asBidderReviewsRef: 1,
     }
   )
@@ -61,7 +63,7 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
       select: {
         _id: 1,
         jobId: 1,
-        bidderSubmitted: 1,
+        proposerSubmitted: 1,
         proposerReview: 1,
         proposerId: 1,
         reveal: 1,

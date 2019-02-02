@@ -14,7 +14,7 @@ class PastRequestedServices extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.a_getMyPastProvidedServices();
+      this.props.a_getMyPastRequestedServices();
     }
   }
 
