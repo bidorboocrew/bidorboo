@@ -123,34 +123,6 @@ export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
   });
 };
 
-// export const awardBidder = (jobId, bidId) => (dispatch) => {
-//   const config = {
-//     headers: { 'Content-Type': 'application/json' },
-//   };
-//   const postData = JSON.stringify({
-//     data: {
-//       jobId,
-//       bidId,
-//     },
-//   });
-
-//   dispatch({
-//     type: A.JOB_ACTIONS.AWARD_BIDDER,
-//     payload: axios
-//       .put(ROUTES.API.JOB.PUT.awardBidder, postData, config)
-//       .then((resp) => {
-//         // update recently added job
-//         debugger;
-//         if (resp && resp.data && resp.data._id) {
-//           switchRoute(ROUTES.CLIENT.PROPOSER.ddynamicSelectedAwardedJobPage(jobId));
-//         }
-//       })
-//       .catch((error) => {
-//         throwErrorNotification(dispatch, error);
-//       }),
-//   });
-// };
-
 export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },

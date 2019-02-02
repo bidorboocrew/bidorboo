@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactStars from 'react-stars';
+import { connect } from 'react-redux';
+
 import TextareaAutosize from 'react-autosize-textarea';
 import axios from 'axios';
+import * as A from '../../app-state/actionTypes';
 
 import ReviewMyAwardedJobAndWinningBidPage from '../proposer-flow/ReviewMyAwardedJobAndWinningBidPage';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-export default class ProposerReviewingCompletedJob extends React.Component {
+export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +31,10 @@ export default class ProposerReviewingCompletedJob extends React.Component {
       mannerRating,
       personalComment,
     } = this.state;
+    const { dispatch } = this.props;
+
     const cleanPerosnalComment = personalComment && personalComment.trim();
+
     if (qualityOfWorkRating === 0) {
       alert('please fill in a value for the Accuracy of posting category');
     } else if (punctualityRating === 0) {
@@ -56,9 +62,28 @@ export default class ProposerReviewingCompletedJob extends React.Component {
         })
         .then(() => {
           switchRoute(ROUTES.CLIENT.HOME);
+          dispatch &&
+            dispatch({
+              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+              payload: {
+                toastDetails: {
+                  type: 'success',
+                  msg: 'Thank you for submitting your review. Good luck BidOrBooing',
+                },
+              },
+            });
         })
         .catch((error) => {
-          alert('submitting the review failed ' + error);
+          dispatch &&
+            dispatch({
+              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+              payload: {
+                toastDetails: {
+                  type: 'error',
+                  msg: 'submitting the review failed please try again later .',
+                },
+              },
+            });
         });
     }
   };
@@ -232,3 +257,8 @@ export default class ProposerReviewingCompletedJob extends React.Component {
     );
   }
 }
+
+export default connect(
+  null,
+  null,
+)(ProposerReviewingCompletedJob);

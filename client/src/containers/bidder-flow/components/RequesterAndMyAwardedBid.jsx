@@ -176,7 +176,7 @@ class BidderConfirmsJobIsDone extends React.Component {
                           name="success"
                           required
                         />
-                        <span className="has-text-success has-text-weight-semibold">
+                        <span className="has-text-weight-semibold">
                           {` I Confirm that I've completed this task.`}
                         </span>
                       </label>
