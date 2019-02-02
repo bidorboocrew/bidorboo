@@ -35,8 +35,10 @@ class PastRequestedServices extends React.Component {
 
     let AllTheRequestsByThisUser = null;
     if (myPastRequestedServices && myPastRequestedServices.length > 0) {
-      AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails) => {
-        return <RequestsTabSummaryCard key={requestDetails._id} {...requestDetails} />;
+      AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails, index) => {
+        return (
+          <RequestsTabSummaryCard key={requestDetails._id} index={index} {...requestDetails} />
+        );
       });
     }
 
@@ -47,7 +49,7 @@ class PastRequestedServices extends React.Component {
     );
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <React.Fragment>
         <section class="hero is-dark">
           <div class="hero-body">
             <div class="container">
@@ -55,10 +57,10 @@ class PastRequestedServices extends React.Component {
             </div>
           </div>
         </section>
-        <div style={{ maxWidth: 900 }} className="columns is-multiline is-centered ">
-          {AllTheRequestsByThisUser}
+        <div className="container is-widescreen bidorbooContainerMargins">
+          <div>{AllTheRequestsByThisUser}</div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -83,20 +85,18 @@ export default connect(
 
 const EmptyHistory = () => {
   return (
-    <div className="column">
-      <div className="card">
-        <div style={{ padding: '1rem' }} className="card-content">
-          <div className="content has-text-centered">
-            <label className="label">Seems you don't have any Requestes jobs yet. Go on and</label>
-            <br />
-            <div>
-              <a
-                className="button is-link is-medium"
-                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
-              >
-                Start Posting Tasks
-              </a>
-            </div>
+    <div className="card">
+      <div style={{ padding: '1rem' }} className="card-content">
+        <div className="content has-text-centered">
+          <label className="label">Seems you don't have any Requestes jobs yet. Go on and</label>
+          <br />
+          <div>
+            <a
+              className="button is-link is-medium"
+              onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
+            >
+              Start Posting Tasks
+            </a>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const EmptyHistory = () => {
 
 class RequestsTabSummaryCard extends React.Component {
   render() {
-    const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted } = this.props;
+    const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted, index } = this.props;
 
     const { startingDateAndTime, fromTemplateId, state } = jobId;
     const { ratingCategories } = bidderReview;
@@ -121,11 +121,11 @@ class RequestsTabSummaryCard extends React.Component {
 
     const bothSubmittedReview = bidderSubmitted && proposerSubmitted;
     return (
-      <div className="column">
+      <div style={{ margin: '1rem 0' }}>
         <div className="card">
           <div style={{ padding: '1rem' }} className="card-content">
             <div className="content">
-              <h1 className="is-size-5">Task Summary</h1>
+              <h1 className="is-size-5">#{index} Task Summary</h1>
               <div className={`is-clipped disabled`}>
                 <div style={{ paddingBottom: '0.5rem' }} className="card-content">
                   <div className="content">
@@ -137,8 +137,8 @@ class RequestsTabSummaryCard extends React.Component {
                     <StartDateAndTime date={startingDateAndTime} />
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
 
-                    <div className="has-text-grey is-size-7">You Earned</div>
-                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
+                    <div className="has-text-grey is-size-7">You Paid</div>
+                    <div className="is-size-5 is-success">{`${jobId.processedPayment.proposerPaid /
                       100} CAD`}</div>
                   </div>
                 </div>
