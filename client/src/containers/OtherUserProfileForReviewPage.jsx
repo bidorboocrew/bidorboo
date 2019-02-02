@@ -18,7 +18,6 @@ import { Spinner } from '../components/Spinner';
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    debugger;
     if (props.match && props.match.params && props.match.params.userId) {
       const { userId } = props.match.params;
       this.userIdUnderReview = userId;
@@ -28,14 +27,12 @@ class OtherUserProfileForReviewPage extends React.Component {
   }
   componentDidMount() {
     if (this.userIdUnderReview) {
-      debugger;
       this.props.a_getOtherUserProfileInfo(this.userIdUnderReview);
     }
   }
 
   render() {
     const { isLoadingAnotherUserProfile, otherUserProfileInfo } = this.props;
-    debugger;
     if (!this.userIdUnderReview) {
       return null;
     }
@@ -108,13 +105,13 @@ class OtherUserProfileForReviewPage extends React.Component {
                 <img src={otherUserProfileInfo.profileImage.url} />
               </figure>
               <div className="is-size-5">{otherUserProfileInfo.displayName}</div>
-              {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <p className="is-size-7">No Ratings Yet</p>
               ) : (
                 <ReactStars
                   half
                   count={5}
-                  value={rating.globalRating}
+                  value={globalRating}
                   edit={false}
                   size={20}
                   color1={'lightgrey'}
