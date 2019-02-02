@@ -12,7 +12,6 @@ import { Spinner } from '../components/Spinner';
 
 class PastProvidedServices extends React.Component {
   componentDidUpdate(prevProps) {
-    debugger
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
       this.props.a_getMyPastProvidedServices();

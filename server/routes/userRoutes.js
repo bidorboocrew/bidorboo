@@ -152,6 +152,38 @@ module.exports = (app) => {
     }
   });
 
+  app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res) => {
+    try {
+      userWithAllPastRequestedServiceDetails = await userDataAccess.getMyPastRequestedServices(
+        req.user._id.toString()
+      );
+      if (userWithAllPastRequestedServiceDetails) {
+        return res.send(userWithAllPastRequestedServiceDetails);
+      }
+      return res.send({});
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To getMyPastRequestedServices user', details: `${e}` });
+    }
+  });
+
+  app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res) => {
+    try {
+      userWithAllPastProvidedServices = await userDataAccess.getMyPastProvidedServices(
+        req.user._id.toString()
+      );
+      if (userWithAllPastProvidedServices) {
+        return res.send(userWithAllPastProvidedServices);
+      }
+      return res.send({});
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To getMyPastProvidedServices user', details: `${e}` });
+    }
+  });
+
   app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res) => {
     try {
       if (!req.query || !req.query.otherUserId) {

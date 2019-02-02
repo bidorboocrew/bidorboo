@@ -7,56 +7,127 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
-exports.findUserPublicDetails = (mongodbUserId) => {
+exports.getMyPastRequestedServices = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },
     {
-      pushSubscription: 0,
-      userRole: 0,
-      agreedToServiceTerms: 0,
-      settings: 0,
-      extras: 0,
-      stripeConnect: 0,
-      canBid: 0,
-      canPost: 0,
-      addressText: 0,
-      verification: 0,
-      password: 0,
-      email: 0,
-      phone: 0,
-      _postedJobsRef: 0,
-      _postedBidsRef: 0,
+      _asProposerReviewsRef: 1,
+    }
+  )
+    .populate({
+      path: '_asProposerReviewsRef',
+      select: {
+        _id: 1,
+        jobId: 1,
+        bidderSubmitted: 1,
+        bidderReview: 1,
+        bidderId: 1,
+        reveal: 1,
+      },
+      populate: [
+        {
+          path: 'bidderId',
+          select: {
+            displayName: 1,
+            profileImage: 1,
+          },
+        },
+        {
+          path: 'jobId',
+          select: {
+            'processedPayment.proposerPaid': 1,
+            state: 1,
+            jobCompletion: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            fromTemplateId: 1,
+          },
+        },
+      ],
+    })
+    .lean(true)
+    .exec();
+};
+
+exports.getMyPastProvidedServices = (mongodbUserId) => {
+  return User.findOne(
+    { _id: mongodbUserId },
+    {
+      _asBidderReviewsRef: 1,
     }
   )
     .populate({
       path: '_asBidderReviewsRef',
       select: {
         _id: 1,
+        jobId: 1,
+        bidderSubmitted: 1,
         proposerReview: 1,
         proposerId: 1,
+        reveal: 1,
       },
-      populate: {
-        path: 'proposerId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
+      populate: [
+        {
+          path: 'proposerId',
+          select: {
+            displayName: 1,
+            profileImage: 1,
+          },
         },
-      },
+        {
+          path: 'jobId',
+          select: {
+            'processedPayment.bidderPayout': 1,
+            state: 1,
+            jobCompletion: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            fromTemplateId: 1,
+          },
+        },
+      ],
     })
+    .lean(true)
+    .exec();
+};
+
+exports.findUserPublicDetails = (mongodbUserId) => {
+  return User.findOne(
+    { _id: mongodbUserId },
+    {
+      _asProposerReviewsRef: 1,
+    }
+  )
     .populate({
       path: '_asProposerReviewsRef',
       select: {
         _id: 1,
+        jobId: 1,
+        bidderSubmitted: 1,
         bidderReview: 1,
         bidderId: 1,
+        reveal: 1,
       },
-      populate: {
-        path: 'bidderId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
+      populate: [
+        {
+          path: 'bidderId',
+          select: {
+            displayName: 1,
+            profileImage: 1,
+          },
         },
-      },
+        {
+          path: 'jobId',
+          select: {
+            'processedPayment.proposerPaid': 1,
+            state: 1,
+            jobCompletion: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            fromTemplateId: 1,
+          },
+        },
+      ],
     })
     .lean(true)
     .exec();
