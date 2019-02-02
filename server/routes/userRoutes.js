@@ -154,14 +154,14 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res) => {
     try {
-      if (req.query && req.query.otherUserId) {
+      if (!req.query || !req.query.otherUserId) {
         return res.status(403).send({
           errorMsg: 'get otherUserProfileInfo failed due to missing params',
         });
       }
       const { otherUserId } = req.query;
 
-      otherUserDetails = await userDataAccess.findUserPublicDetails(otherUserId);
+      const otherUserDetails = await userDataAccess.findUserPublicDetails(otherUserId);
       if (otherUserDetails) {
         return res.send(otherUserDetails);
       }

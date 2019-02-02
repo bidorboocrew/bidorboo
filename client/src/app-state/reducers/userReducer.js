@@ -74,7 +74,7 @@ const getOtherUserProfileDetails = {
   fulfilled: (state = initialState, { payload }) => {
     return {
       ...state,
-      otherUserProfileInfo: payload.data,
+      otherUserProfileInfo: payload ? payload.data : {},
       isLoadingAnotherUserProfile: false,
     };
   },

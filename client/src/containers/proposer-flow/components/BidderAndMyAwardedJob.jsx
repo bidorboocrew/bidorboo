@@ -22,7 +22,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
       return null;
     }
 
-    const { rating, displayName, profileImage, email, phone } = bid._bidderRef;
+    const { rating, displayName, profileImage, email, phone, _id } = bid._bidderRef;
 
     const bidderProfileImgUrl = profileImage.url;
     const bidderOverallRating = rating.globalRating;
@@ -48,6 +48,9 @@ export default class BidderAndMyAwardedJob extends React.Component {
                 cursor: 'pointer',
                 boxShadow:
                   '0 4px 6px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
+              }}
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
               }}
               className="media-left"
             >

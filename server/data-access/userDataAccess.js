@@ -8,7 +8,7 @@ const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
 exports.findUserPublicDetails = (mongodbUserId) => {
-  User.findOne(
+  return User.findOne(
     { _id: mongodbUserId },
     {
       pushSubscription: 0,
@@ -26,10 +26,38 @@ exports.findUserPublicDetails = (mongodbUserId) => {
       phone: 0,
       _postedJobsRef: 0,
       _postedBidsRef: 0,
-      _asBidderReviewsRef: 0,
-      _asProposerReviewsRef: 0,
     }
   )
+    .populate({
+      path: '_asBidderReviewsRef',
+      select: {
+        _id: 1,
+        proposerReview: 1,
+        proposerId: 1,
+      },
+      populate: {
+        path: 'proposerId',
+        select: {
+          displayName: 1,
+          profileImage: 1,
+        },
+      },
+    })
+    .populate({
+      path: '_asProposerReviewsRef',
+      select: {
+        _id: 1,
+        bidderReview: 1,
+        bidderId: 1,
+      },
+      populate: {
+        path: 'bidderId',
+        select: {
+          displayName: 1,
+          profileImage: 1,
+        },
+      },
+    })
     .lean(true)
     .exec();
 };

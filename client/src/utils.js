@@ -12,6 +12,12 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
   }, 0);
 };
 
+export const goBackToPreviousRoute = () => {
+  setTimeout(() => {
+    appHistory.goBack();
+  }, 0);
+};
+
 export const throwErrorNotification = (dispatch, error) => {
   let msg = 'sorry something went wrong';
   if (error && error.response && error.response.status === 404) {
