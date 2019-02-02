@@ -152,6 +152,26 @@ module.exports = (app) => {
     }
   });
 
+  app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res) => {
+    try {
+      if (!req.query || !req.query.otherUserId) {
+        return res.status(403).send({
+          errorMsg: 'get otherUserProfileInfo failed due to missing params',
+        });
+      }
+      const { otherUserId } = req.query;
+
+      const otherUserDetails = await userDataAccess.findUserPublicDetails(otherUserId);
+      if (otherUserDetails) {
+        return res.send(otherUserDetails);
+      }
+
+      return res.send({});
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+    }
+  });
+
   app.put(ROUTES.API.USER.PUT.userDetails, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       const newProfileDetails = req.body.data;
@@ -171,7 +191,6 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To update user details', details: `${e}` });
     }
   });
-
 
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
     try {

@@ -16,6 +16,8 @@ const initialState = {
   },
   myStripeAccBalanceDetails: { balanceDetails: {}, basicDetails: {} },
   isLoadingStripeAccountDetails: false,
+  isLoadingAnotherUserProfile: false,
+  otherUserProfileInfo: {},
 };
 const updateUserProfile = (state = initialState, { payload }) => {
   return {
@@ -54,6 +56,29 @@ const updateUserStripeAccountDetails = {
   },
 };
 
+const getOtherUserProfileDetails = {
+  pending: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      otherUserProfileInfo: {},
+      isLoadingAnotherUserProfile: true,
+    };
+  },
+  rejected: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      otherUserProfileInfo: {},
+      isLoadingAnotherUserProfile: false,
+    };
+  },
+  fulfilled: (state = initialState, { payload }) => {
+    return {
+      ...state,
+      otherUserProfileInfo: payload ? payload.data : {},
+      isLoadingAnotherUserProfile: false,
+    };
+  },
+};
 const setLoggedOutState = () => {
   return { ...initialState };
 };
@@ -72,6 +97,18 @@ export default handleActions(
     }`]: updateUserStripeAccountDetails.rejected,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_IN}`]: setLoggedInState,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
+
+    [`${A.USER_MODEL_ACTIONS.GET_OTHER_USER_PROFILE_INFO}${
+      A._REJECTED
+    }`]: getOtherUserProfileDetails.rejected,
+
+    [`${A.USER_MODEL_ACTIONS.GET_OTHER_USER_PROFILE_INFO}${
+      A._PENDING
+    }`]: getOtherUserProfileDetails.pending,
+
+    [`${A.USER_MODEL_ACTIONS.GET_OTHER_USER_PROFILE_INFO}${
+      A._FULFILLED
+    }`]: getOtherUserProfileDetails.fulfilled,
   },
   initialState,
 );

@@ -30,6 +30,7 @@ import {
   MyAgenda,
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
+  OtherUserProfileForReviewPage,
 } from './index';
 
 class App extends React.Component {
@@ -133,6 +134,11 @@ class App extends React.Component {
             exact
             path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
             component={BidderReviewingCompletedJob}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
+            component={OtherUserProfileForReviewPage}
           />
 
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />

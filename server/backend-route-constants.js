@@ -32,6 +32,7 @@ module.exports = {
     USER: {
       GET: {
         currentUser: '/api/user/currentUser',
+        otherUserProfileInfo: '/api/user/otherUserProfileInfo',
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
