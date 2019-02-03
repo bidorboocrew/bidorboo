@@ -39,6 +39,7 @@ module.exports = {
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
         profilePicture: '/api/user/updateProfileImage',
+        updateAppView: '/api/user/updateAppView',
       },
       POST: {
         verifyEmail: '/api/user/verifyEmail',

@@ -28,6 +28,11 @@ const ratingSchema = {
 
 const UserSchema = new Schema(
   {
+    appView: {
+      type: String,
+      default: 'PROPOSER',
+      enum: ['PROPOSER', 'BIDDER'],
+    },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
     }, //list of all jobs you have posted

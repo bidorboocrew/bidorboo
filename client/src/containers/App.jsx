@@ -63,13 +63,13 @@ class App extends React.Component {
 
         {userAppView === 'PROPOSER' && (
           <div className="VerticalAligner title" id="bidorboo-switch-role">
-            <span>Requester View...</span>
+            <p>Requester View</p>
           </div>
         )}
 
         {userAppView === 'BIDDER' && (
           <div className="VerticalAligner title " id="bidorboo-switch-role">
-            <span>Tasker View...</span>
+            <p>Tasker View</p>
           </div>
         )}
 

@@ -466,6 +466,22 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .lean(true)
     .exec();
 
+exports.updateUserAppView = (userId, appView) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await this.findOneAndUpdate(
+        { userId },
+        {
+          $set: { appView: `${appView}` },
+        }
+      );
+      resolve({ success: true });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 exports.updateUserProfileDetails = (userId, userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
