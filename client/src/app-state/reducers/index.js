@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { loadingBarReducer } from 'react-redux-loading-bar'
+import { loadingBarReducer } from 'react-redux-loading-bar';
 
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';

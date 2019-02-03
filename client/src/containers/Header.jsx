@@ -63,6 +63,7 @@ class Header extends React.Component {
       a_onLogout,
       shouldShowLoginDialog,
       notificationFeed,
+      userAppView,
     } = this.props;
     const { profileImage } = userDetails;
 
@@ -87,6 +88,8 @@ class Header extends React.Component {
 
     const showNotificationButton =
       isAnythingHappeningToday || didRecieveNewBids || didMyBidsGetAwarded;
+
+    const isActingAsBidder = userAppView === 'BIDDER';
     return (
       <React.Fragment>
         {isHamburgerOpen && (
@@ -179,7 +182,39 @@ class Header extends React.Component {
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,
                 modalRootNode,
               )}
-
+            {isLoggedIn && isActingAsBidder ? (
+              <a
+                onClick={(e) =>
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  })
+                }
+                className="navbar-item"
+              >
+                <span className="icon">
+                  <i className="fas fa-sync-alt" />
+                </span>
+                <span>
+                  <i className="far fa-plus-square" />
+                </span>
+              </a>
+            ) : (
+              <a
+                onClick={(e) =>
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  })
+                }
+                className="navbar-item"
+              >
+                <span className="icon">
+                  <i className="fas fa-sync-alt" />
+                </span>
+                <span>
+                  <i className="fas fa-hand-rock" />
+                </span>
+              </a>
+            )}
             <a
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
@@ -224,119 +259,124 @@ class Header extends React.Component {
             {/* end */}
             <div className="navbar-end">
               <React.Fragment>
-                <a
-                  className={`navbar-item ${
-                    window.location.pathname.includes('proposer-root') ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-plus-square" />
-                  </span>
-                  <span>Request a Service</span>
-                </a>
-
-                <a
-                  className={`navbar-item ${
-                    window.location.pathname.includes('bidder-root') ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="fas fa-hand-rock" />
-                  </span>
-                  <span>Offer A Service</span>
-                </a>
-
+                {(!isActingAsBidder || !isLoggedIn) && (
+                  <a
+                    className={`navbar-item ${
+                      window.location.pathname.includes('proposer-root') ? 'is-active' : ''
+                    }`}
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                      });
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-plus-square" />
+                    </span>
+                    <span>Request a Service</span>
+                  </a>
+                )}
+                {(isActingAsBidder || !isLoggedIn) && (
+                  <a
+                    className={`navbar-item ${
+                      window.location.pathname.includes('bidder-root') ? 'is-active' : ''
+                    }`}
+                    onClick={(e) => {
+                      this.closeMenuThenExecute(() => {
+                        switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      });
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-hand-rock" />
+                    </span>
+                    <span>Offer A Service</span>
+                  </a>
+                )}
                 {isLoggedIn && (
                   <React.Fragment>
-                    <a
-                      className={`navbar-item ${
-                        window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
-                          ? 'is-active'
-                          : ''
-                      }`}
-                      style={{ position: 'relative' }}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-list" />
-                      </span>
-                      <span>My Requests</span>
-                      {notificationFeed &&
-                        notificationFeed.jobIdsWithNewBids &&
-                        notificationFeed.jobIdsWithNewBids.length > 0 && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              position: 'absolute',
-                              top: 12,
-                              left: 8,
-                              background: 'red',
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.jobIdsWithNewBids.length > 9
-                                ? '9+'
-                                : notificationFeed.jobIdsWithNewBids.length
-                            }`}</span>
-                          </span>
-                        )}
-                    </a>
-
-                    <a
-                      style={{ position: 'relative' }}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                        });
-                      }}
-                      className={`navbar-item ${
-                        window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
-                      }`}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-money-check-alt" />
-                      </span>
-                      <span>My Bids</span>
-                      {notificationFeed &&
-                        notificationFeed.myBidsWithNewStatus &&
-                        notificationFeed.myBidsWithNewStatus.length > 0 && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              position: 'absolute',
-                              top: 12,
-                              left: 8,
-                              background: 'red',
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.myBidsWithNewStatus.length > 9
-                                ? '9+'
-                                : notificationFeed.myBidsWithNewStatus.length
-                            }`}</span>
-                          </span>
-                        )}
-                    </a>
+                    {!isActingAsBidder && (
+                      <a
+                        className={`navbar-item ${
+                          window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
+                            ? 'is-active'
+                            : ''
+                        }`}
+                        style={{ position: 'relative' }}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
+                          });
+                        }}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-list" />
+                        </span>
+                        <span>My Requests</span>
+                        {notificationFeed &&
+                          notificationFeed.jobIdsWithNewBids &&
+                          notificationFeed.jobIdsWithNewBids.length > 0 && (
+                            <span
+                              style={{
+                                fontSize: 10,
+                                position: 'absolute',
+                                top: 12,
+                                left: 8,
+                                background: 'red',
+                                borderRadius: '100%',
+                                minWidth: 15,
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-white">{`${
+                                notificationFeed.jobIdsWithNewBids.length > 9
+                                  ? '9+'
+                                  : notificationFeed.jobIdsWithNewBids.length
+                              }`}</span>
+                            </span>
+                          )}
+                      </a>
+                    )}
+                    {isActingAsBidder && (
+                      <a
+                        style={{ position: 'relative' }}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
+                        }`}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-money-check-alt" />
+                        </span>
+                        <span>My Bids</span>
+                        {notificationFeed &&
+                          notificationFeed.myBidsWithNewStatus &&
+                          notificationFeed.myBidsWithNewStatus.length > 0 && (
+                            <span
+                              style={{
+                                fontSize: 10,
+                                position: 'absolute',
+                                top: 12,
+                                left: 8,
+                                background: 'red',
+                                borderRadius: '100%',
+                                minWidth: 15,
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-white">{`${
+                                notificationFeed.myBidsWithNewStatus.length > 9
+                                  ? '9+'
+                                  : notificationFeed.myBidsWithNewStatus.length
+                              }`}</span>
+                            </span>
+                          )}
+                      </a>
+                    )}
 
                     <div
                       className={`navbar-item dropdown is-right  ${
@@ -374,62 +414,92 @@ class Header extends React.Component {
                             </a>
                             <hr className="navbar-divider" />
 
-                            <a
-                              onClick={() => {
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                                });
-                              }}
-                              className="navbar-item"
-                            >
-                              <span className="icon">
-                                <i className="far fa-credit-card" aria-hidden="true" />
-                              </span>
-                              <span>My Payouts</span>
-                            </a>
+                            {isActingAsBidder && (
+                              <React.Fragment>
+                                <a
+                                  onClick={() => {
+                                    this.closeMenuThenExecute(() => {
+                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                                    });
+                                  }}
+                                  className="navbar-item"
+                                >
+                                  <span className="icon">
+                                    <i className="far fa-credit-card" aria-hidden="true" />
+                                  </span>
+                                  <span>My Payouts</span>
+                                </a>
+                                <hr className="navbar-divider" />
+                                <a
+                                  onClick={() => {
+                                    this.closeMenuThenExecute(() => {
+                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
+                                    });
+                                  }}
+                                  className="navbar-item"
+                                >
+                                  <span className="icon">
+                                    <i className="fas fa-history" aria-hidden="true" />
+                                  </span>
+                                  <span>Fulfilled Offers</span>
+                                </a>
+                                <hr className="navbar-divider" />
+                              </React.Fragment>
+                            )}
+                            {!isActingAsBidder && (
+                              <React.Fragment>
+                                <a
+                                  onClick={() => {
+                                    this.closeMenuThenExecute(() => {
+                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastRequestedServices);
+                                    });
+                                  }}
+                                  className="navbar-item"
+                                >
+                                  <span className="icon">
+                                    <i className="fas fa-history" aria-hidden="true" />
+                                  </span>
+                                  <span>Fulfilled Requests</span>
+                                  <span />
+                                </a>
+                                <hr className="navbar-divider" />
+                              </React.Fragment>
+                            )}
+                            {isActingAsBidder ? (
+                              <a
+                                onClick={(e) =>
+                                  this.closeMenuThenExecute(() => {
+                                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                                  })
+                                }
+                                className="navbar-item"
+                              >
+                                <span className="icon">
+                                  <i className="fas fa-sync-alt" />
+                                </span>
+                                <span>
+                                  <i className="far fa-plus-square" /> {`  Switch to Requester`}
+                                </span>
+                              </a>
+                            ) : (
+                              <a
+                                onClick={(e) =>
+                                  this.closeMenuThenExecute(() => {
+                                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                                  })
+                                }
+                                className="navbar-item"
+                              >
+                                <span className="icon">
+                                  <i className="fas fa-sync-alt" />
+                                </span>
+                                <span>
+                                  <i className="fas fa-hand-rock" />
+                                  {`  Switch to Tasker`}
+                                </span>
+                              </a>
+                            )}
                             <hr className="navbar-divider" />
-
-                            <a
-                              onClick={() => {
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.pastRequestedServices);
-                                });
-                              }}
-                              className="navbar-item"
-                            >
-                              <span className="icon">
-                                <i className="fas fa-history" aria-hidden="true" />
-                              </span>
-
-                              <span style={{ marginLeft: -10 }} className="icon">
-                                <i className="far fa-plus-square" aria-hidden="true" />
-                              </span>
-
-                              <span>Fulfilled Requests</span>
-                              <span />
-                            </a>
-                            <hr className="navbar-divider" />
-
-                            <a
-                              onClick={() => {
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
-                                });
-                              }}
-                              className="navbar-item"
-                            >
-                              <span className="icon">
-                                <i className="fas fa-history" aria-hidden="true" />
-                              </span>
-
-                              <span style={{ marginLeft: -10 }} className="icon">
-                                <i className="fas fa-hand-rock" aria-hidden="true" />
-                              </span>
-
-                              <span>Fulfilled Offers</span>
-                            </a>
-                            <hr className="navbar-divider" />
-
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
@@ -482,6 +552,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     displayName: userDetails.displayName,
     shouldShowLoginDialog: uiReducer.shouldShowLoginDialog,
     notificationFeed: uiReducer.notificationFeed,
+    userAppView: uiReducer.userAppView,
   };
 };
 const mapDispatchToProps = (dispatch) => {

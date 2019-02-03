@@ -63,6 +63,6 @@ export const isBeforeToday = (eventPlannedTimeISOString) => {
   return isBeforeEndOfToday;
 };
 
-const isLoggedInAsBidder = () => {
+export const isBidderView = () => {
   return window.location.href.indexOf('bidder') > -1;
 };

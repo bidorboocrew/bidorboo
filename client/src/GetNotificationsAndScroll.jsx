@@ -3,8 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
+import { setAppBidderView, setAppProposerView } from './app-state/actions/uiActions';
 
-const EVERY_30_SECS = 30000; //MS
+const EVERY_30_SECS = 900000; //MS
 const EVERY_15_MINUTES = 900000; //MS
 const UPDATE_NOTIFICATION_INTERVAL =
   process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
@@ -25,20 +26,24 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { s_isLoggedIn, a_getCurrentUser, location } = this.props;
+    const {
+      s_isLoggedIn,
+      a_getCurrentUser,
+      location,
+      a_setAppBidderView,
+      a_setAppProposerView,
+    } = this.props;
 
     if (location !== prevProps.location) {
       if (!s_isLoggedIn) {
         a_getCurrentUser();
-
-        setTimeout(() => {
-          this.fetchUserAndNotificationUpdated();
-        }, UPDATE_NOTIFICATION_INTERVAL);
+      }
+      if (location.pathname.indexOf('bdb-request') > -1) {
+        a_setAppProposerView();
+      } else if (location.pathname.indexOf('bdb-offer') > -1) {
+        a_setAppBidderView();
       }
 
-      // if (s_isLoggedIn) {
-      //   a_getCurrentUserNotifications();
-      // }
       setTimeout(() => window.scrollTo(0, 0), 0);
     }
   }
@@ -52,7 +57,16 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidMount() {
-    this.props.a_getCurrentUser();
+    const { a_getCurrentUser, location, a_setAppBidderView, a_setAppProposerView } = this.props;
+    a_getCurrentUser();
+    if (location.pathname.indexOf('bdb-request') > -1) {
+      a_setAppProposerView();
+    } else if (location.pathname.indexOf('bdb-offer') > -1) {
+      a_setAppBidderView();
+    }
+    setTimeout(() => {
+      this.fetchUserAndNotificationUpdated();
+    }, UPDATE_NOTIFICATION_INTERVAL);
   }
 
   render() {
@@ -68,6 +82,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    a_setAppBidderView: bindActionCreators(setAppBidderView, dispatch),
+    a_setAppProposerView: bindActionCreators(setAppProposerView, dispatch),
   };
 };
 
@@ -76,5 +92,4 @@ export default withRouter(
     mapStateToProps,
     mapDispatchToProps,
   )(GetNotificationsAndScroll),
-  null,
 );
