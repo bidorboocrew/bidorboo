@@ -170,7 +170,7 @@ class Header extends React.Component {
 
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
-                <a onClick={this.toggleNotificationMenu} className="button is-danger">
+                <a onClick={this.toggleNotificationMenu} className="button is-outlined is-danger">
                   <span className="icon">
                     <i className="fas fa-bell" />
                   </span>
