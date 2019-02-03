@@ -442,7 +442,7 @@ class Header extends React.Component {
                               <i className="fas fa-sync-alt" />
                             </span>
                             <span>
-                              <i className="fas fa-hand-rock" /> {` Switch To Bidder`}
+                              <i className="fas fa-hand-rock" /> {` Switch To Tasker`}
                             </span>
                             {bidsGotAwardedToMe && (
                               <div
