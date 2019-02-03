@@ -31,6 +31,8 @@ import {
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
   OtherUserProfileForReviewPage,
+  PastProvidedServices,
+  PastRequestedServices,
 } from './index';
 
 class App extends React.Component {
@@ -40,7 +42,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { s_toastDetails } = this.props;
+    const { s_toastDetails, userAppView } = this.props;
     return (
       <div id="bidorboo-root-view">
         <div id="bidorboo-root-modals" />
@@ -59,50 +61,53 @@ class App extends React.Component {
           }}
         />
 
+        {userAppView === 'PROPOSER' && (
+          <div className="VerticalAligner title" id="bidorboo-switch-role">
+            <p>Requester View</p>
+          </div>
+        )}
+
+        {userAppView === 'BIDDER' && (
+          <div className="VerticalAligner title " id="bidorboo-switch-role">
+            <p>Tasker View</p>
+          </div>
+        )}
+
         <Header id="bidorboo-header" />
         <Switch>
+          {/* public paths */}
           <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
           <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-          <Route
-            exact
-            path={`${ROUTES.CLIENT.PROPOSER.root}/:showLoginDialog`}
-            component={ProposerRootPage}
-          />
-
-          {/* proposer related routes */}
           <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
             component={CreateAJobPage}
           />
+          <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
+            component={OtherUserProfileForReviewPage}
+          />
+          {/* loggedInPaths paths */}
 
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}/:tabId`}
             component={MyOpenJobsPage}
           />
-
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
             component={ReviewRequestAndBidsPage}
           />
-
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
             component={ReviewMyAwardedJobAndWinningBidPage}
           />
-
-          {/* proposer related routes */}
-          <Route
-            exact
-            path={`${ROUTES.CLIENT.BIDDER.root}/:showLoginDialog`}
-            component={BidderRootPage}
-          />
-          <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
           <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
           <Route
             exact
@@ -114,15 +119,12 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
             component={ReviewAwardedBidPage}
           />
-          {/* my profile */}
           <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
           <Route
             exact
             path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
             component={PaymentSettings}
           />
-          {/* <Route exact path={ROUTES.CLIENT.MY_PROFILE.MyStats} component={MyStats} /> */}
-
           <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
           <Route exact path={`${ROUTES.CLIENT.MYAGENDA}`} component={MyAgenda} />
           <Route
@@ -137,8 +139,13 @@ class App extends React.Component {
           />
           <Route
             exact
-            path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
-            component={OtherUserProfileForReviewPage}
+            path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
+            component={PastProvidedServices}
+          />
+          <Route
+            exact
+            path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
+            component={PastRequestedServices}
           />
 
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
@@ -149,8 +156,9 @@ class App extends React.Component {
 }
 const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
-    s_isLoggedIn: userReducer.isLoggedIn,
+    isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
+    userAppView: uiReducer.userAppView,
   };
 };
 

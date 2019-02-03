@@ -20,11 +20,12 @@ exports.UserFull = {
   agreedToServiceTerms: 1,
   settings: 1,
   extras: 1,
-  stripeConnect: 1,// we dont want this to go around
+  stripeConnect: 1, // we dont want this to go around
   canBid: 1,
   canPost: 1,
   createdAt: 1,
   updatedAt: 1,
+  appView: 1,
 };
 
 exports.BidFull = {
@@ -46,7 +47,6 @@ exports.ReviewFull = {
   proposerId: 1,
   proposerReview: 1,
   bidderReview: 1,
-  reveal: 1,
   extras: 1,
   createdAt: 1,
   updatedAt: 1,

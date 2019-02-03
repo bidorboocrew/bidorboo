@@ -4,12 +4,13 @@ import uuidv1 from 'uuid/v1';
 
 const initialState = {
   shouldShowLoginDialog: false,
+  userAppView: 'PROPOSER', //or BIDDER
+
   /**
    * toastDetails : {toastType : warning|successful|error , Msg: string, toastId: uuid}
    */
   toastDetails: {},
   notificationFeed: {},
-  // applicationMode: C.APP_MODE.BIDDER
 };
 
 const closeLoginDialog = (state = initialState) => ({
@@ -59,6 +60,13 @@ export default handleActions(
     [`${A.UI_ACTIONS.CLOSE_LOGIN_DIALOG}`]: closeLoginDialog,
     [`${A.UI_ACTIONS.SHOW_TOAST_MSG}`]: showToastNotification,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
+
+    [`${A.UI_ACTIONS.SET_APP_BIDDER_VIEW}`]: (state = initialState) => {
+      return { ...state, userAppView: 'BIDDER' };
+    },
+    [`${A.UI_ACTIONS.SET_APP_PROPOSER_VIEW}`]: (state = initialState) => {
+      return { ...state, userAppView: 'PROPOSER' };
+    },
   },
   initialState,
 );

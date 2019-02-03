@@ -62,3 +62,7 @@ export const isBeforeToday = (eventPlannedTimeISOString) => {
   const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
   return isBeforeEndOfToday;
 };
+
+export const isBidderView = () => {
+  return window.location.href.indexOf('bidder') > -1;
+};

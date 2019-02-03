@@ -7,6 +7,97 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
+exports.getMyPastRequestedServices = (mongodbUserId) => {
+  return User.findOne(
+    { _id: mongodbUserId },
+    {
+      _id: 0,
+      _asProposerReviewsRef: 1,
+    }
+  )
+    .populate({
+      path: '_asProposerReviewsRef',
+      select: {
+        _id: 1,
+        jobId: 1,
+        bidderSubmitted: 1,
+        proposerSubmitted: 1,
+        bidderReview: 1,
+        bidderId: 1,
+      },
+      populate: [
+        {
+          path: 'bidderId',
+          select: {
+            displayName: 1,
+            profileImage: 1,
+            rating: 1,
+            _awardedBidRef: 1,
+          },
+        },
+        {
+          path: 'jobId',
+          select: {
+            'processedPayment.proposerPaid': 1,
+            state: 1,
+            jobCompletion: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            fromTemplateId: 1,
+            _ownerRef: 1,
+          },
+        },
+      ],
+    })
+    .lean(true)
+    .exec();
+};
+
+exports.getMyPastProvidedServices = (mongodbUserId) => {
+  return User.findOne(
+    { _id: mongodbUserId },
+    {
+      _id: 0,
+      _asBidderReviewsRef: 1,
+    }
+  )
+    .populate({
+      path: '_asBidderReviewsRef',
+      select: {
+        _id: 1,
+        jobId: 1,
+        proposerSubmitted: 1,
+        bidderSubmitted: 1,
+        proposerReview: 1,
+        proposerId: 1,
+      },
+      populate: [
+        {
+          path: 'proposerId',
+          select: {
+            displayName: 1,
+            profileImage: 1,
+            rating: 1,
+          },
+        },
+        {
+          path: 'jobId',
+          select: {
+            'processedPayment.bidderPayout': 1,
+            state: 1,
+            jobCompletion: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            fromTemplateId: 1,
+            _awardedBidRef: 1,
+          },
+        },
+      ],
+    })
+    .lean(true)
+    .exec();
+};
+
 exports.findUserPublicDetails = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },
@@ -104,6 +195,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             state: 1,
             fromTemplateId: 1,
             startingDateAndTime: 1,
+            appView: 1,
           },
           populate: [
             {
@@ -374,6 +466,22 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
   )
     .lean(true)
     .exec();
+
+exports.updateUserAppView = (userId, appView) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await  User.findOneAndUpdate(
+        { userId },
+        {
+          $set: { appView: `${appView}` },
+        }
+      );
+      resolve({ success: true });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 exports.updateUserProfileDetails = (userId, userDetails) => {
   return new Promise(async (resolve, reject) => {

@@ -137,7 +137,7 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.USER.GET.currentUser, requireBidorBooHost, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
       let existingUser = null;
       if (req.user) {
@@ -149,6 +149,36 @@ module.exports = (app) => {
       return res.send({});
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+    }
+  });
+
+  app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res) => {
+    try {
+      pasrRequestedServices = await userDataAccess.getMyPastRequestedServices(
+        req.user._id.toString()
+      );
+      if (pasrRequestedServices && pasrRequestedServices._asProposerReviewsRef) {
+        return res.send(pasrRequestedServices._asProposerReviewsRef);
+      }
+      return res.send({});
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To getMyPastRequestedServices user', details: `${e}` });
+    }
+  });
+
+  app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res) => {
+    try {
+      pasProvidedServices = await userDataAccess.getMyPastProvidedServices(req.user._id.toString());
+      if (pasProvidedServices && pasProvidedServices._asBidderReviewsRef) {
+        return res.send(pasProvidedServices._asBidderReviewsRef);
+      }
+      return res.send({});
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To getMyPastProvidedServices user', details: `${e}` });
     }
   });
 
@@ -189,6 +219,17 @@ module.exports = (app) => {
       return res.send(userAfterUpdates);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To update user details', details: `${e}` });
+    }
+  });
+
+  app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res) => {
+    try {
+      const { appViewId } = req.body.data;
+      const userId = req.user.userId;
+      const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
+      return res.send(userAfterUpdates);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
     }
   });
 
