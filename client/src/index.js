@@ -7,7 +7,6 @@ import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
 import { Provider } from 'react-redux';
 import { StripeProvider } from 'react-stripe-elements';
-import UserAbilities from './app-state/Abilities';
 
 import App from './containers/App';
 

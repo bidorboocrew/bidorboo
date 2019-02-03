@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
-import { updateUserAbilities, ABILITIES_ENUM } from './app-state/Abilities';
 
 const EVERY_30_SECS = 30000; //MS
 const EVERY_15_MINUTES = 900000; //MS
@@ -16,7 +15,6 @@ class GetNotificationsAndScroll extends React.Component {
 
     this.fetchUserAndNotificationUpdated = () => {
       if (this.props.s_isLoggedIn) {
-        console.info('--- RUN THE FUNCTION fetchUserAndNotificationUpdated  ---');
         this.props.a_getCurrentUserNotifications();
       }
 
@@ -27,10 +25,8 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { s_isLoggedIn, a_getCurrentUser, location, a_getCurrentUserNotifications } = this.props;
-    if (prevProps.s_isLoggedIn !== s_isLoggedIn && !s_isLoggedIn) {
-      updateUserAbilities(ABILITIES_ENUM.loggedOut);
-    }
+    const { s_isLoggedIn, a_getCurrentUser, location } = this.props;
+
     if (location !== prevProps.location) {
       if (!s_isLoggedIn) {
         a_getCurrentUser();

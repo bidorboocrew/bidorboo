@@ -882,18 +882,6 @@
   resolved "https://registry.yarnpkg.com/@bugsnag/safe-json-stringify/-/safe-json-stringify-2.1.0.tgz#c7dd30a33bd888c39cd36d45216f7252f307ed36"
   integrity sha512-tE2cPhAq+WFnA9XrfMfP+u/6L63eH7+PmONMNSXtP6kPt/iUXnwkDsxc1Q6lUP1oM3LsmWBrxn+/93M8JE6fpA==
 
-"@casl/ability@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@casl/ability/-/ability-2.5.1.tgz#53f12af45295793472c65b539204226372904594"
-  integrity sha512-Ju1cl1R4xgPiiYxmjUAoO+rhNxp0ximyKZzWuw4/DLKHnbQNqbSVyDkRSVHuAuL+BWyeBsaD/sVSwxUitYlDyA==
-  dependencies:
-    sift "^7.0.1"
-
-"@casl/react@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@casl/react/-/react-0.8.1.tgz#a14c7f5467835617c797d06ea44bb7ef5b8667b7"
-  integrity sha512-YotoU25ElMMwByb3RqkKkFeB6BwgWp24QXKBj8pzBPtwbIW/sn35sZdYEZY1mzZqMBaystMp7yMihDv54ytt8w==
-
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -10279,11 +10267,6 @@ shimmer@^1.0.0, shimmer@^1.1.0, shimmer@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shimmer/-/shimmer-1.2.0.tgz#f966f7555789763e74d8841193685a5e78736665"
   integrity sha512-xTCx2vohXC2EWWDqY/zb4+5Mu28D+HYNSOuFzsyRDRvI/e1ICb69afwaUwfjr+25ZXldbOLyp+iDUZHq8UnTag==
-
-sift@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/sift/-/sift-7.0.1.tgz#47d62c50b159d316f1372f8b53f9c10cd21a4b08"
-  integrity sha512-oqD7PMJ+uO6jV9EQCl0LrRw1OwsiPsiFQR5AR30heR+4Dl7jBBbDLnNvWiak20tzZlSE1H7RB30SX/1j/YYT7g==
 
 signal-exit@3.0.2, signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
