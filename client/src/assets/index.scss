@@ -400,8 +400,8 @@ header.card-header {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  -webkit-animation: puff-out-center 1s cubic-bezier(0.165, 0.84, 0.44, 1) 1s both;
-  animation: puff-out-center 1s cubic-bezier(0.165, 0.84, 0.44, 1) 1s both;
+  -webkit-animation: puff-out-center 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.7s both;
+  animation: puff-out-center 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.7s both;
 }
 @-webkit-keyframes puff-out-center {
   0% {
