@@ -194,7 +194,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       })
                     }
-                    className="navbar-item"
+                    className="navbar-item is-hidden-desktop"
                     style={{ position: 'relative' }}
                   >
                     <span className="icon">
@@ -219,7 +219,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       })
                     }
-                    className="navbar-item"
+                    className="navbar-item is-hidden-desktop"
                     style={{ position: 'relative' }}
                   >
                     <span className="icon">
@@ -391,6 +391,80 @@ class Header extends React.Component {
                       </a>
                     )}
 
+                    {isLoggedIn && (
+                      <React.Fragment>
+                        {isActingAsBidder ? (
+                          <a
+                            onClick={(e) =>
+                              this.closeMenuThenExecute(() => {
+                                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                              })
+                            }
+                            className="navbar-item"
+                            style={{ position: 'relative' }}
+                          >
+                            <span className="icon">
+                              <i className="fas fa-sync-alt" />
+                            </span>
+                            <span>
+                              <i className="far fa-plus-square" />
+                              {` Switch To Requester`}
+                            </span>
+
+                            {jobRecievedNewBids && (
+                              <span
+                                style={{
+                                  fontSize: 8,
+                                  position: 'absolute',
+                                  top: 17,
+                                  left: 42,
+                                  borderRadius: '100%',
+                                  minWidth: 15,
+                                  textAlign: 'center',
+                                }}
+                                className="has-text-danger"
+                              >
+                                <i className="fas fa-circle" />
+                              </span>
+                            )}
+                          </a>
+                        ) : (
+                          <a
+                            onClick={(e) =>
+                              this.closeMenuThenExecute(() => {
+                                switchRoute(ROUTES.CLIENT.BIDDER.root);
+                              })
+                            }
+                            className="navbar-item"
+                            style={{ position: 'relative' }}
+                          >
+                            <span className="icon">
+                              <i className="fas fa-sync-alt" />
+                            </span>
+                            <span>
+                              <i className="fas fa-hand-rock" /> {` Switch To Bidder`}
+                            </span>
+                            {bidsGotAwardedToMe && (
+                              <div
+                                style={{
+                                  fontSize: 8,
+                                  position: 'absolute',
+                                  top: 17,
+                                  left: 42,
+                                  borderRadius: '100%',
+                                  minWidth: 15,
+                                  textAlign: 'center',
+                                }}
+                                className="has-text-danger"
+                              >
+                                <i className="fas fa-circle" />
+                              </div>
+                            )}
+                          </a>
+                        )}
+                      </React.Fragment>
+                    )}
+
                     <div
                       className={`navbar-item dropdown is-right  ${
                         isProfileMenuActive ? 'is-active' : ''
@@ -479,77 +553,6 @@ class Header extends React.Component {
                               </React.Fragment>
                             )}
 
-                            {isLoggedIn && (
-                              <React.Fragment>
-                                {isActingAsBidder ? (
-                                  <a
-                                    onClick={(e) =>
-                                      this.closeMenuThenExecute(() => {
-                                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                                      })
-                                    }
-                                    className="navbar-item"
-                                    style={{ position: 'relative' }}
-                                  >
-                                    <span className="icon">
-                                      <i className="fas fa-sync-alt" />
-                                    </span>
-                                    <span>
-                                      <i className="far fa-plus-square" />
-                                      {` Switch To Requester`}
-                                    </span>
-
-                                    {jobRecievedNewBids && (
-                                      <span
-                                        style={{
-                                          fontSize: 8,
-                                          position: 'absolute',
-                                          top: 8,
-                                          left: 14,
-                                          borderRadius: '100%',
-                                          minWidth: 15,
-                                          textAlign: 'center',
-                                        }}
-                                        className="has-text-danger"
-                                      >
-                                        <i className="fas fa-circle" />
-                                      </span>
-                                    )}
-                                  </a>
-                                ) : (
-                                  <a
-                                    onClick={(e) =>
-                                      this.closeMenuThenExecute(() => {
-                                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                                      })
-                                    }
-                                    className="navbar-item"
-                                    style={{ position: 'relative' }}
-                                  >
-                                    <span className="icon">
-                                      <i className="fas fa-sync-alt" />
-                                    </span>
-                                    <span>
-                                      <i className="fas fa-hand-rock" /> {` Switch To Bidder`}
-                                    </span>
-                                    {bidsGotAwardedToMe && (
-                                      <div
-                                        style={{
-                                          position: 'absolute',
-                                          top: 20,
-                                          right: 10,
-                                          fontSize: 6,
-                                        }}
-                                        className="has-text-danger"
-                                      >
-                                        <i className="fas fa-circle" />
-                                      </div>
-                                    )}
-                                  </a>
-                                )}
-                              </React.Fragment>
-                            )}
-                            <hr className="navbar-divider" />
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
