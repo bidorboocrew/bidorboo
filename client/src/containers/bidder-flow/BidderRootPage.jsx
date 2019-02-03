@@ -206,7 +206,7 @@ class BidderRootPage extends React.Component {
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         />
-        <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} />
+        <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
           toggleSideNav={this.toggleSideNav}
@@ -254,23 +254,33 @@ export default connect(
   mapDispatchToProps,
 )(BidderRootPage);
 
-const HeaderTitleAndSearch = ({ toggleSideNav }) => {
+const HeaderTitleAndSearch = ({ toggleSideNav, showSideNav }) => {
   return (
-    <nav
-      style={{ marginTop: -40, float: 'right', marginRight: '0.5rem' }}
-      className="level is-mobile"
+    <a
+      style={{
+        position: 'fixed',
+        bottom: '5%',
+        right: '12%',
+        zIndex: showSideNav ? 0 : 999,
+        width: 56,
+        height: 56,
+        borderRadius: '100%',
+        fontSize: 26,
+        fontWeight: 600,
+        boxShadow:
+          '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleSideNav();
+      }}
+      className="button is-link"
     >
-      <div className="level-right">
-        <p className="level-item">
-          <a onClick={toggleSideNav} className="button is-link">
-            <span className="icon">
-              <i className="fas fa-filter" />
-            </span>
-            <span>Filter</span>
-          </a>
-        </p>
-      </div>
-    </nav>
+      <span className="icon">
+        <i className="fas fa-filter" />
+      </span>
+    </a>
   );
 };
 

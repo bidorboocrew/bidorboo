@@ -21,14 +21,7 @@ export default class RequestsTabSummaryCard extends React.Component {
       onCloseHandler = () => null,
       withButtons = false,
     } = this.props;
-    const {
-      startingDateAndTime,
-      createdAt,
-      fromTemplateId,
-      _bidsListRef,
-      _ownerRef,
-      state,
-    } = job;
+    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, _ownerRef, state } = job;
 
     let daysSinceCreated = getDaysSinceCreated(createdAt);
     let isAwarded = state && state.toLowerCase() === 'awarded';
@@ -73,11 +66,11 @@ export default class RequestsTabSummaryCard extends React.Component {
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
           {userAlreadyBid ? (
-            <a disabled className="button  is-outlined is-small is-fullwidth">
+            <a disabled className="button  is-outlined is-fullwidth">
               You Already Bid
             </a>
           ) : (
-            <a className="button is-success is-outlined is-small is-fullwidth">Bid On This Task</a>
+            <a className="button is-success is-outlined is-fullwidth">Add Your Bid</a>
           )}
           {withButtons && (
             <a
