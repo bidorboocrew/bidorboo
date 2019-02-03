@@ -37,6 +37,9 @@ class Header extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.modalRootNode = document.querySelector('#bidorboo-root-modals');
+  }
   closeMenuThenExecute = (func) => {
     this.setState(
       { isHamburgerOpen: false, isProfileMenuActive: false, isNotificationMenuActive: false },
@@ -65,31 +68,30 @@ class Header extends React.Component {
       notificationFeed,
       userAppView,
     } = this.props;
+
     const { profileImage } = userDetails;
 
     const { isHamburgerOpen, isProfileMenuActive, isNotificationMenuActive } = this.state;
-    const modalRootNode = document.querySelector('#bidorboo-root-modals');
 
     const {
       jobIdsWithNewBids,
       myBidsWithNewStatus,
-      reviewsToBeFilled,
-      workTodo,
       jobsHappeningToday,
       bidsHappeningToday,
     } = notificationFeed;
-    const isAnythingHappeningToday =
-      (jobsHappeningToday && jobsHappeningToday.length > 0) ||
-      (bidsHappeningToday && bidsHappeningToday.length > 0);
 
-    const didRecieveNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+    const isThereJobsHappeningToday = jobsHappeningToday && jobsHappeningToday.length > 0;
+    const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
+    const isAnythingHappeningToday = isThereJobsHappeningToday || isThereBidsHappeningToday;
 
-    const didMyBidsGetAwarded = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
+    const jobRecievedNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+    const bidsGotAwardedToMe = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
 
     const showNotificationButton =
-      isAnythingHappeningToday || didRecieveNewBids || didMyBidsGetAwarded;
+      isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
 
     const isActingAsBidder = userAppView === 'BIDDER';
+
     return (
       <React.Fragment>
         {isHamburgerOpen && (
@@ -180,7 +182,7 @@ class Header extends React.Component {
             {isNotificationMenuActive &&
               ReactDOM.createPortal(
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,
-                modalRootNode,
+                this.modalRootNode,
               )}
             {isLoggedIn && isActingAsBidder ? (
               <a
@@ -190,6 +192,7 @@ class Header extends React.Component {
                   })
                 }
                 className="navbar-item"
+                style={{ position: 'relative' }}
               >
                 <span className="icon">
                   <i className="fas fa-sync-alt" />
@@ -197,6 +200,14 @@ class Header extends React.Component {
                 <span>
                   <i className="far fa-plus-square" />
                 </span>
+                {jobRecievedNewBids && (
+                  <div
+                    style={{ position: 'absolute', top: 20, right: 10, fontSize: 6 }}
+                    className="has-text-danger"
+                  >
+                    <i className="fas fa-circle" />
+                  </div>
+                )}
               </a>
             ) : (
               <a
@@ -206,6 +217,7 @@ class Header extends React.Component {
                   })
                 }
                 className="navbar-item"
+                style={{ position: 'relative' }}
               >
                 <span className="icon">
                   <i className="fas fa-sync-alt" />
@@ -213,6 +225,14 @@ class Header extends React.Component {
                 <span>
                   <i className="fas fa-hand-rock" />
                 </span>
+                {bidsGotAwardedToMe && (
+                  <div
+                    style={{ position: 'absolute', top: 20, right: 10, fontSize: 6 }}
+                    className="has-text-danger"
+                  >
+                    <i className="fas fa-circle" />
+                  </div>
+                )}
               </a>
             )}
             <a
@@ -231,20 +251,14 @@ class Header extends React.Component {
               <span aria-hidden="true" />
               <span aria-hidden="true" />
               <span aria-hidden="true" />
-              {notificationFeed &&
-                ((notificationFeed.myBidsWithNewStatus &&
-                  notificationFeed.myBidsWithNewStatus.length > 0) ||
-                  (notificationFeed.jobIdsWithNewBids &&
-                    notificationFeed.jobIdsWithNewBids.length > 0)) && (
-                  <React.Fragment>
-                    <div
-                      style={{ position: 'absolute', top: 16, right: 16, fontSize: 10 }}
-                      className="has-text-danger"
-                    >
-                      <i className="fas fa-circle" />
-                    </div>
-                  </React.Fragment>
-                )}
+              {(jobRecievedNewBids || bidsGotAwardedToMe) && (
+                <div
+                  style={{ position: 'absolute', top: 16, right: 16, fontSize: 10 }}
+                  className="has-text-danger"
+                >
+                  <i className="fas fa-circle" />
+                </div>
+              )}
             </a>
           </div>
 
@@ -313,28 +327,25 @@ class Header extends React.Component {
                           <i className="fas fa-list" />
                         </span>
                         <span>My Requests</span>
-                        {notificationFeed &&
-                          notificationFeed.jobIdsWithNewBids &&
-                          notificationFeed.jobIdsWithNewBids.length > 0 && (
-                            <span
-                              style={{
-                                fontSize: 10,
-                                position: 'absolute',
-                                top: 12,
-                                left: 8,
-                                background: 'red',
-                                borderRadius: '100%',
-                                minWidth: 15,
-                                textAlign: 'center',
-                              }}
-                            >
-                              <span className="has-text-white">{`${
-                                notificationFeed.jobIdsWithNewBids.length > 9
-                                  ? '9+'
-                                  : notificationFeed.jobIdsWithNewBids.length
-                              }`}</span>
-                            </span>
-                          )}
+                        {jobRecievedNewBids && (
+                          <span
+                            style={{
+                              fontSize: 8,
+                              position: 'absolute',
+                              top: 8,
+                              left: 14,
+                              borderRadius: '100%',
+                              minWidth: 15,
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span className="has-text-white">{`${
+                              notificationFeed.jobIdsWithNewBids.length > 9
+                                ? '9+'
+                                : notificationFeed.jobIdsWithNewBids.length
+                            }`}</span>
+                          </span>
+                        )}
                       </a>
                     )}
                     {isActingAsBidder && (
@@ -353,28 +364,25 @@ class Header extends React.Component {
                           <i className="fas fa-money-check-alt" />
                         </span>
                         <span>My Bids</span>
-                        {notificationFeed &&
-                          notificationFeed.myBidsWithNewStatus &&
-                          notificationFeed.myBidsWithNewStatus.length > 0 && (
-                            <span
-                              style={{
-                                fontSize: 10,
-                                position: 'absolute',
-                                top: 12,
-                                left: 8,
-                                background: 'red',
-                                borderRadius: '100%',
-                                minWidth: 15,
-                                textAlign: 'center',
-                              }}
-                            >
-                              <span className="has-text-white">{`${
-                                notificationFeed.myBidsWithNewStatus.length > 9
-                                  ? '9+'
-                                  : notificationFeed.myBidsWithNewStatus.length
-                              }`}</span>
-                            </span>
-                          )}
+                        {bidsGotAwardedToMe && (
+                          <span
+                            style={{
+                              fontSize: 8,
+                              position: 'absolute',
+                              top: 8,
+                              left: 14,
+                              borderRadius: '100%',
+                              minWidth: 15,
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span className="has-text-white">{`${
+                              notificationFeed.myBidsWithNewStatus.length > 9
+                                ? '9+'
+                                : notificationFeed.myBidsWithNewStatus.length
+                            }`}</span>
+                          </span>
+                        )}
                       </a>
                     )}
 
@@ -465,7 +473,7 @@ class Header extends React.Component {
                                 <hr className="navbar-divider" />
                               </React.Fragment>
                             )}
-                            {isActingAsBidder ? (
+                            {isLoggedIn && isActingAsBidder ? (
                               <a
                                 onClick={(e) =>
                                   this.closeMenuThenExecute(() => {
@@ -473,13 +481,32 @@ class Header extends React.Component {
                                   })
                                 }
                                 className="navbar-item"
+                                style={{ position: 'relative' }}
                               >
                                 <span className="icon">
                                   <i className="fas fa-sync-alt" />
                                 </span>
                                 <span>
-                                  <i className="far fa-plus-square" /> {`  Switch to Requester`}
+                                  <i className="far fa-plus-square" />
+                                  {` Switch To Requester`}
                                 </span>
+
+                                {jobRecievedNewBids && (
+                                  <span
+                                    style={{
+                                      fontSize: 8,
+                                      position: 'absolute',
+                                      top: 8,
+                                      left: 14,
+                                      borderRadius: '100%',
+                                      minWidth: 15,
+                                      textAlign: 'center',
+                                    }}
+                                    className="has-text-danger"
+                                  >
+                                    <i className="fas fa-circle" />
+                                  </span>
+                                )}
                               </a>
                             ) : (
                               <a
@@ -489,14 +516,28 @@ class Header extends React.Component {
                                   })
                                 }
                                 className="navbar-item"
+                                style={{ position: 'relative' }}
                               >
                                 <span className="icon">
                                   <i className="fas fa-sync-alt" />
                                 </span>
                                 <span>
-                                  <i className="fas fa-hand-rock" />
-                                  {`  Switch to Tasker`}
+                                  <i className="fas fa-hand-rock" /> {` Switch To Bidder`}
                                 </span>
+                                {bidsGotAwardedToMe && (
+                                  <div
+                                    style={{
+                                      position: 'absolute',
+                                      top: 20,
+                                      right: 10,
+                                      fontSize: 6,
+                                    }}
+                                    className="has-text-danger"
+                                  >
+                                    <i className="fas fa-circle" />
+                                    {` Switch To Tasker`}
+                                  </div>
+                                )}
                               </a>
                             )}
                             <hr className="navbar-divider" />
