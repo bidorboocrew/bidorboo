@@ -11,19 +11,19 @@ const UPDATE_NOTIFICATION_INTERVAL =
   process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
 
 class GetNotificationsAndScroll extends React.Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.fetchUserAndNotificationUpdated = () => {
-      if (this.props.s_isLoggedIn) {
-        this.props.a_getCurrentUserNotifications();
-      }
+  //   this.fetchUserAndNotificationUpdated = () => {
+  //     if (this.props.s_isLoggedIn) {
+  //       this.props.a_getCurrentUserNotifications();
+  //     }
 
-      setTimeout(() => {
-        this.fetchUserAndNotificationUpdated();
-      }, UPDATE_NOTIFICATION_INTERVAL);
-    };
-  }
+  //     setTimeout(() => {
+  //       this.fetchUserAndNotificationUpdated();
+  //     }, UPDATE_NOTIFICATION_INTERVAL);
+  //   };
+  // }
 
   componentDidUpdate(prevProps) {
     const {
@@ -38,6 +38,8 @@ class GetNotificationsAndScroll extends React.Component {
       if (!s_isLoggedIn) {
         a_getCurrentUser();
       }
+      this.props.a_getCurrentUserNotifications();
+
       if (location.pathname.indexOf('bdb-request') > -1) {
         a_setAppProposerView();
       } else if (location.pathname.indexOf('bdb-offer') > -1) {
@@ -49,11 +51,11 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidCatch() {
-    clearTimeout(this.fetchUserAndNotificationUpdated);
+    // clearTimeout(this.fetchUserAndNotificationUpdated);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.fetchUserAndNotificationUpdated);
+    // clearTimeout(this.fetchUserAndNotificationUpdated);
   }
 
   componentDidMount() {
@@ -64,9 +66,9 @@ class GetNotificationsAndScroll extends React.Component {
     } else if (location.pathname.indexOf('bdb-offer') > -1) {
       a_setAppBidderView();
     }
-    setTimeout(() => {
-      this.fetchUserAndNotificationUpdated();
-    }, UPDATE_NOTIFICATION_INTERVAL);
+    // setTimeout(() => {
+    //   this.fetchUserAndNotificationUpdated();
+    // }, UPDATE_NOTIFICATION_INTERVAL);
   }
 
   render() {
