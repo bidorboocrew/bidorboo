@@ -42,7 +42,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { s_toastDetails, isLoggedIn } = this.props;
+    const { s_toastDetails, userAppView } = this.props;
     return (
       <div id="bidorboo-root-view">
         <div id="bidorboo-root-modals" />
@@ -60,6 +60,18 @@ class App extends React.Component {
             height: '5px',
           }}
         />
+
+        {userAppView === 'PROPOSER' && (
+          <div className="VerticalAligner title" id="bidorboo-switch-role">
+            <span>Requester View...</span>
+          </div>
+        )}
+
+        {userAppView === 'BIDDER' && (
+          <div className="VerticalAligner title " id="bidorboo-switch-role">
+            <span>Tasker View...</span>
+          </div>
+        )}
 
         <Header id="bidorboo-header" />
         <Switch>
@@ -146,6 +158,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
+    userAppView: uiReducer.userAppView,
   };
 };
 
