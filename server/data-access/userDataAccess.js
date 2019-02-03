@@ -195,6 +195,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             state: 1,
             fromTemplateId: 1,
             startingDateAndTime: 1,
+            appView: 1,
           },
           populate: [
             {
@@ -469,7 +470,7 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
 exports.updateUserAppView = (userId, appView) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await this.findOneAndUpdate(
+      await  User.findOneAndUpdate(
         { userId },
         {
           $set: { appView: `${appView}` },

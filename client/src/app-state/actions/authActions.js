@@ -39,6 +39,12 @@ export const getCurrentUser = () => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
+          if (resp.data.appView) {
+            dispatch({
+              type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
+              payload: resp.data.appView === 'BIDDER' ? 'BIDDER' : 'PROPOSER',
+            });
+          }
         } else {
           //rediret user to sign up page
           // switchRoute(ROUTES.CLIENT.ENTRY);

@@ -224,7 +224,7 @@ module.exports = (app) => {
 
   app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res) => {
     try {
-      const appViewId = req.body.data;
+      const { appViewId } = req.body.data;
       const userId = req.user.userId;
       const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
       return res.send(userAfterUpdates);
