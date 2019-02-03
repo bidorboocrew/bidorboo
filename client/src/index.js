@@ -19,9 +19,8 @@ import { registerServiceWorker, unregister } from './registerServiceWorker';
 
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 
-window.BidorBoo = {
-  stripe: Object.freeze(stripe),
-};
+window.BidorBoo = window.BidorBoo || {};
+window.BidorBoo.stripe = Object.freeze(stripe);
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 const ErrorBoundary = bugsnagClient.use(createPlugin(React));

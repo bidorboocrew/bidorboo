@@ -5,7 +5,27 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
 import { updateUserAbilities, ABILITIES_ENUM } from './app-state/Abilities';
 
+const EVERY_30_SECS = 30000; //MS
+const EVERY_15_MINUTES = 900000; //MS
+const UPDATE_NOTIFICATION_INTERVAL =
+  process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
+
 class GetNotificationsAndScroll extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.fetchUserAndNotificationUpdated = () => {
+      if (this.props.s_isLoggedIn) {
+        console.info('--- RUN THE FUNCTION fetchUserAndNotificationUpdated  ---');
+        this.props.a_getCurrentUserNotifications();
+      }
+
+      setTimeout(() => {
+        this.fetchUserAndNotificationUpdated();
+      }, UPDATE_NOTIFICATION_INTERVAL);
+    };
+  }
+
   componentDidUpdate(prevProps) {
     const { s_isLoggedIn, a_getCurrentUser, location, a_getCurrentUserNotifications } = this.props;
     if (prevProps.s_isLoggedIn !== s_isLoggedIn && !s_isLoggedIn) {
@@ -14,13 +34,25 @@ class GetNotificationsAndScroll extends React.Component {
     if (location !== prevProps.location) {
       if (!s_isLoggedIn) {
         a_getCurrentUser();
+
+        setTimeout(() => {
+          this.fetchUserAndNotificationUpdated();
+        }, UPDATE_NOTIFICATION_INTERVAL);
       }
 
-      if (s_isLoggedIn) {
-        a_getCurrentUserNotifications();
-      }
+      // if (s_isLoggedIn) {
+      //   a_getCurrentUserNotifications();
+      // }
       setTimeout(() => window.scrollTo(0, 0), 0);
     }
+  }
+
+  componentDidCatch() {
+    clearTimeout(this.fetchUserAndNotificationUpdated);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.fetchUserAndNotificationUpdated);
   }
 
   componentDidMount() {
