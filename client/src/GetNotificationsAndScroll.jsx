@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
 import { setAppBidderView, setAppProposerView } from './app-state/actions/uiActions';
 
-const EVERY_30_SECS = 900000; //MS
-const EVERY_15_MINUTES = 900000; //MS
-const UPDATE_NOTIFICATION_INTERVAL =
-  process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
+// const EVERY_30_SECS = 900000; //MS
+// const EVERY_15_MINUTES = 900000; //MS
+// const UPDATE_NOTIFICATION_INTERVAL =
+//   process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
 
 class GetNotificationsAndScroll extends React.Component {
   // constructor(props) {
@@ -38,14 +38,15 @@ class GetNotificationsAndScroll extends React.Component {
       if (!s_isLoggedIn) {
         a_getCurrentUser();
       }
-      this.props.a_getCurrentUserNotifications();
+      if (s_isLoggedIn) {
+        this.props.a_getCurrentUserNotifications();
 
-      if (location.pathname.indexOf('bdb-request') > -1) {
-        a_setAppProposerView();
-      } else if (location.pathname.indexOf('bdb-offer') > -1) {
-        a_setAppBidderView();
+        if (location.pathname.indexOf('bdb-request') > -1) {
+          a_setAppProposerView();
+        } else if (location.pathname.indexOf('bdb-offer') > -1) {
+          a_setAppBidderView();
+        }
       }
-
       setTimeout(() => window.scrollTo(0, 0), 0);
     }
   }
@@ -59,12 +60,20 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidMount() {
-    const { a_getCurrentUser, location, a_setAppBidderView, a_setAppProposerView } = this.props;
+    const {
+      a_getCurrentUser,
+      location,
+      a_setAppBidderView,
+      a_setAppProposerView,
+      s_isLoggedIn,
+    } = this.props;
     a_getCurrentUser();
-    if (location.pathname.indexOf('bdb-request') > -1) {
-      a_setAppProposerView();
-    } else if (location.pathname.indexOf('bdb-offer') > -1) {
-      a_setAppBidderView();
+    if (s_isLoggedIn) {
+      if (location.pathname.indexOf('bdb-request') > -1) {
+        a_setAppProposerView();
+      } else if (location.pathname.indexOf('bdb-offer') > -1) {
+        a_setAppBidderView();
+      }
     }
     // setTimeout(() => {
     //   this.fetchUserAndNotificationUpdated();
