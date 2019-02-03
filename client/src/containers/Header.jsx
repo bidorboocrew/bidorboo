@@ -454,7 +454,7 @@ class Header extends React.Component {
                                 <hr className="navbar-divider" />
                               </React.Fragment>
                             )}
-                            {!isActingAsBidder && (
+                            {isLoggedIn && !isActingAsBidder && (
                               <React.Fragment>
                                 <a
                                   onClick={() => {
@@ -535,7 +535,6 @@ class Header extends React.Component {
                                     className="has-text-danger"
                                   >
                                     <i className="fas fa-circle" />
-                                    {` Switch To Tasker`}
                                   </div>
                                 )}
                               </a>
