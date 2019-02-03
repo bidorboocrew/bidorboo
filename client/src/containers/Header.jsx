@@ -406,18 +406,15 @@ class Header extends React.Component {
                             <span className="icon">
                               <i className="fas fa-sync-alt" />
                             </span>
-                            <span>
-                              <i className="far fa-plus-square" />
-                              {` Switch To Requester`}
-                            </span>
+                            <span>Switch To Requester</span>
 
                             {jobRecievedNewBids && (
                               <span
                                 style={{
                                   fontSize: 8,
                                   position: 'absolute',
-                                  top: 17,
-                                  left: 42,
+                                  top: 18,
+                                  left: 10,
                                   borderRadius: '100%',
                                   minWidth: 15,
                                   textAlign: 'center',
@@ -441,16 +438,14 @@ class Header extends React.Component {
                             <span className="icon">
                               <i className="fas fa-sync-alt" />
                             </span>
-                            <span>
-                              <i className="fas fa-hand-rock" /> {` Switch To Tasker`}
-                            </span>
+                            <span>Switch To Tasker</span>
                             {bidsGotAwardedToMe && (
                               <div
                                 style={{
                                   fontSize: 8,
                                   position: 'absolute',
-                                  top: 17,
-                                  left: 42,
+                                  top: 18,
+                                  left: 10,
                                   borderRadius: '100%',
                                   minWidth: 15,
                                   textAlign: 'center',
