@@ -46,29 +46,7 @@ class MyOpenJobsPage extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <a
-          style={{
-            position: 'fixed',
-            bottom: '5%',
-            right: '12%',
-            zIndex: 999,
-            width: 56,
-            height: 56,
-            borderRadius: '100%',
-            fontSize: 36,
-            fontWeight: 600,
-            boxShadow:
-              '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            switchRoute(ROUTES.CLIENT.PROPOSER.root);
-          }}
-          className="button is-link"
-        >
-          +
-        </a>
+        <FloatingAddNewRequestButton />
 
         <div style={{ position: 'relative' }} className="tabs">
           <ul>
@@ -149,3 +127,31 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MyOpenJobsPage);
+
+const FloatingAddNewRequestButton = () => {
+  return (
+    <a
+      style={{
+        position: 'fixed',
+        bottom: '5%',
+        right: '12%',
+        zIndex: 999,
+        width: 56,
+        height: 56,
+        borderRadius: '100%',
+        fontSize: 36,
+        fontWeight: 600,
+        boxShadow:
+          '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+      }}
+      className="button is-link"
+    >
+      +
+    </a>
+  );
+};

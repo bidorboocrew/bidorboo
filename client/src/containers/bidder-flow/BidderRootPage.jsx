@@ -206,7 +206,7 @@ class BidderRootPage extends React.Component {
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         />
-        <HeaderTitleAndSearch toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
+        <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
           toggleSideNav={this.toggleSideNav}
@@ -254,7 +254,7 @@ export default connect(
   mapDispatchToProps,
 )(BidderRootPage);
 
-const HeaderTitleAndSearch = ({ toggleSideNav, showSideNav }) => {
+const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
   return (
     <a
       style={{
