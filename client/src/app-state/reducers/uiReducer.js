@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1';
 
 const initialState = {
   shouldShowLoginDialog: false,
-  userAppView: 'PROPOSER', //or BIDDER
+  userAppView: '', //or BIDDER
 
   /**
    * toastDetails : {toastType : warning|successful|error , Msg: string, toastId: uuid}
