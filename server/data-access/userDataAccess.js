@@ -169,6 +169,11 @@ exports.findOneByUserId = (userId, lean = true) =>
     .lean(lean)
     .exec();
 
+exports.checkIfUserAlreadyExist = (userId, registrationEmail, lean = true) =>
+  User.findOne({ $or: [{ userId: userId }, { 'email.emailAddress': registrationEmail }] })
+    .lean(lean)
+    .exec();
+
 exports.findByIdAndGetPopulatedJobs = (userId) =>
   User.findOne({ userId })
     .populate({ path: '_postedJobsRef' })

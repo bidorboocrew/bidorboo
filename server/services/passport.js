@@ -112,8 +112,8 @@ passport.use(
           null
         );
       }
-
-      const existingUser = await userDataAccess.findOneByUserId(email);
+      const trimmedEmail = email.trim();
+      const existingUser = await userDataAccess.checkIfUserAlreadyExist(trimmedEmail, trimmedEmail);
       if (existingUser) {
         return done(
           JSON.stringify({ errorMsg: 'a user with the same email already exists' }),

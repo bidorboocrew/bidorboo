@@ -120,6 +120,9 @@ const NewUserRegistrationForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <div className="field">
+        <div className="g-recaptcha" data-sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`} />
+      </div>
       <div className="has-text-centered">
         <button
           className="button is-success is-fullwidth"
