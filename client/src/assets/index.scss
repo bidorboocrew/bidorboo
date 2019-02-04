@@ -400,42 +400,29 @@ header.card-header {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  -webkit-animation: puff-out-center 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.7s both;
-  animation: puff-out-center 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.7s both;
+  -webkit-animation: fade-out 1s ease-out 1s both;
+  animation: fade-out 1s ease-out 1s both;
 }
-@-webkit-keyframes puff-out-center {
+
+@-webkit-keyframes fade-out {
   0% {
-    overflow: hidden;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-filter: blur(0);
-    filter: blur(0);
     opacity: 1;
+    z-index: 999;
+    overflow: hidden;
   }
   100% {
-    overflow: hidden;
-    -webkit-transform: scale(2);
-    transform: scale(2);
-    -webkit-filter: blur(2px);
-    filter: blur(2px);
     opacity: 0;
     z-index: -999;
+    overflow: hidden;
   }
 }
-@keyframes puff-out-center {
+@keyframes fade-out {
   0% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-filter: blur(0);
-    filter: blur(0);
     opacity: 1;
+    z-index: 999;
     overflow: hidden;
   }
   100% {
-    -webkit-transform: scale(2);
-    transform: scale(2);
-    -webkit-filter: blur(2px);
-    filter: blur(2px);
     opacity: 0;
     z-index: -999;
     overflow: hidden;
