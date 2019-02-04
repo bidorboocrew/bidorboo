@@ -363,7 +363,8 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
 
       await sendTextService.sendText(
         updatedUser.phone.phoneNumber,
-        `BidOrBoo: click to verify your phone ${ROUTES.CLIENT.VERIFICATION_phoneDynamic(
+        `BidOrBoo: click to verify your phone ${ROUTES.CLIENT.dynamicVerification(
+          'Phone',
           phoneVerificationCode
         )}`
       );
@@ -402,7 +403,8 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         'bidorboocrew@gmail.com',
         updatedUser.email.emailAddress,
         'BidOrBoo: Email verification',
-        `To verify your email Please click: ${ROUTES.CLIENT.VERIFICATION_emailDynamic(
+        `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
+          'Email',
           emailVerificationCode
         )}
         `
@@ -470,7 +472,7 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
 exports.updateUserAppView = (userId, appView) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await  User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { userId },
         {
           $set: { appView: `${appView}` },

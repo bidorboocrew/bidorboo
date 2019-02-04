@@ -103,6 +103,7 @@ export const CLIENT = {
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   VERIFICATION: '/verification/:field/:code',
+  dynamicVerification: (field, code) => `/verification/${field}/${code}`,
   MYAGENDA: '/my-agenda',
   PROPOSER: {
     root: '/bdb-request',

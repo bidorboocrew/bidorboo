@@ -57,6 +57,7 @@ const UserSchema = new Schema(
         lowercase: true,
         trim: true,
         index: true,
+        unique: true,
       },
       isVerified: {
         type: Boolean,
