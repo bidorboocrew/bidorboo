@@ -87,7 +87,7 @@ class MyBidsPage extends React.Component {
       <div className="container is-widescreen bidorbooContainerMargins">
         <FloatingAddNewBidButton />
 
-        <div style={{ position: 'relative' }} className="tabs">
+        <div style={{ position: 'relative' }} className="tabs is-large">
           <ul>
             <li className={`${activeTab === MYBIDS_TAB_IDS.myBidsTab ? 'is-active' : null}`}>
               <a
@@ -123,7 +123,7 @@ class MyBidsPage extends React.Component {
               <div className="tabs is-medium ">
                 <ul>
                   <li>
-                    <a className="has-text-weight-bold has-text-success">
+                    <a className="has-text-weight-bold">
                       {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
                     </a>
                   </li>
@@ -140,14 +140,11 @@ class MyBidsPage extends React.Component {
                 </div>
               )}
             </div>
-            {/* <h1 className="is-size-5">
-              {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
-            </h1> */}
             <div className="container is-widescreen bidorbooContainerMargins">
               <div className="tabs is-medium">
                 <ul>
                   <li>
-                    <a className="has-text-weight-bold has-text-info">
+                    <a className="has-text-weight-bold">
                       {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
                     </a>
                   </li>
@@ -222,12 +219,12 @@ const FloatingAddNewBidButton = () => {
       style={{
         position: 'fixed',
         bottom: '5%',
-        right: '12%',
+        right: '10%',
         zIndex: 999,
         width: 56,
         height: 56,
         borderRadius: '100%',
-        fontSize: 26,
+        fontSize: 36,
         fontWeight: 600,
         boxShadow:
           '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
@@ -239,9 +236,7 @@ const FloatingAddNewBidButton = () => {
       }}
       className="button is-link"
     >
-      <span className="icon">
-        <i className="fas fa-dollar-sign" />
-      </span>
+      <span className="icon">+ </span>
     </a>
   );
 };

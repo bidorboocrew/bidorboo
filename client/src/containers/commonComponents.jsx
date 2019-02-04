@@ -146,9 +146,9 @@ export const UserImageAndRating = ({ userDetails }) => {
             color2={'#ffd700'}
           />
         )}
-        <p style={{ textDecoration: 'underline' }} className="is-size-7">
+        {/* <p style={{ textDecoration: 'underline' }} className="is-size-7">
           click to view full profile
-        </p>
+        </p> */}
       </div>
     </div>
   );

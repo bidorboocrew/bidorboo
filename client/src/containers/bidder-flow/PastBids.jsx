@@ -53,13 +53,6 @@ class PastBids extends React.Component {
     );
     return (
       <React.Fragment>
-        <section className="hero is-dark">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">Past Requested Services</h1>
-            </div>
-          </div>
-        </section>
         <div className="container is-widescreen bidorbooContainerMargins">
           {AllTheServicesProvidedByThisUser}
         </div>

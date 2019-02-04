@@ -134,7 +134,7 @@ const FloatingAddNewRequestButton = () => {
       style={{
         position: 'fixed',
         bottom: '5%',
-        right: '12%',
+        right: '10%',
         zIndex: 999,
         width: 56,
         height: 56,
