@@ -98,8 +98,8 @@ export const API = {
 };
 
 export const CLIENT = {
-  ENTRY: '/',
-  HOME: '/home',
+  ENTRY: '/BidOrBoo',
+  HOME: '/BidOrBoo',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   VERIFICATION: '/verification/:field/:code',

@@ -42,7 +42,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { s_toastDetails, userAppView } = this.props;
+    const { s_toastDetails, userAppView, isLoggedIn } = this.props;
     return (
       <div id="bidorboo-root-view">
         <div id="bidorboo-root-modals" />
@@ -61,22 +61,27 @@ class App extends React.Component {
           }}
         />
 
-        {userAppView === 'PROPOSER' && (
-          <div className="VerticalAligner title" id="bidorboo-switch-role">
-            <p>Requester View</p>
-          </div>
-        )}
+        {isLoggedIn &&
+          window.location &&
+          window.location.href &&
+          window.location.href.indexOf('BidOrBoo') < 0 && (
+            <React.Fragment>
+              {userAppView === 'PROPOSER' && (
+                <div className="VerticalAligner title" id="bidorboo-switch-role">
+                  <p>Requester View</p>
+                </div>
+              )}
 
-        {userAppView === 'BIDDER' && (
-          <div className="VerticalAligner title " id="bidorboo-switch-role">
-            <p>Tasker View</p>
-          </div>
-        )}
-
+              {userAppView === 'BIDDER' && (
+                <div className="VerticalAligner title " id="bidorboo-switch-role">
+                  <p>Tasker View</p>
+                </div>
+              )}
+            </React.Fragment>
+          )}
         <Header id="bidorboo-header" />
         <Switch>
           {/* public paths */}
-          <Route exact path={ROUTES.CLIENT.ENTRY} component={HomePage} />
           <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
           <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
           <Route

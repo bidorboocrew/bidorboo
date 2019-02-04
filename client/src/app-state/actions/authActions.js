@@ -16,7 +16,7 @@ export const getCurrentUserNotifications = () => (dispatch) =>
           });
         } else {
           //rediret user to sign up page
-          switchRoute(ROUTES.CLIENT.ENTRY);
+          switchRoute(ROUTES.CLIENT.HOME);
         }
       })
       .catch((error) => {
@@ -47,7 +47,7 @@ export const getCurrentUser = () => (dispatch) =>
           }
         } else {
           //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.ENTRY);
+          // switchRoute(ROUTES.CLIENT.HOME);
         }
       })
       .catch((error) => {
@@ -63,7 +63,7 @@ export const onLogout = () => (dispatch) =>
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT,
       });
       //rediret user to sign up page
-      switchRoute(ROUTES.CLIENT.ENTRY);
+      switchRoute(ROUTES.CLIENT.HOME);
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {
@@ -95,7 +95,7 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
           });
         } else {
           //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.ENTRY);
+          // switchRoute(ROUTES.CLIENT.HOME);
         }
       })
       .catch((error) => {
@@ -122,7 +122,7 @@ export const registerNewUser = (userData) => (dispatch) =>
           });
         } else {
           //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.ENTRY);
+          // switchRoute(ROUTES.CLIENT.HOME);
         }
       })
       .catch((error) => {
