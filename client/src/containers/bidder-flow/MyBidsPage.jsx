@@ -13,13 +13,34 @@ import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsAc
 
 import MyBidsOpenBid from './components/MyBidsOpenBid';
 import MyBidsAwardedBid from './components/MyBidsAwardedBid';
+import { MYBIDS_TAB_IDS } from './components/helperComponents';
+import PastBids from './PastBids';
 
 class MyBidsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    let initialTabSelection = MYBIDS_TAB_IDS.myBidsTab;
+    if (props.match && props.match.params && props.match.params.tabId) {
+      const { tabId } = props.match.params;
+      if (tabId && MYBIDS_TAB_IDS[`${tabId}`]) {
+        initialTabSelection = MYBIDS_TAB_IDS[`${tabId}`];
+      }
+    }
+
+    this.state = {
+      activeTab: initialTabSelection,
+    };
+  }
+
   componentDidMount() {
     // get all posted bids
     this.props.a_getAllPostedBids();
     this.props.a_getMyAwardedBids();
   }
+
+  changeActiveTab = (tabId) => {
+    this.setState({ activeTab: tabId });
+  };
 
   render() {
     const {
@@ -29,6 +50,8 @@ class MyBidsPage extends React.Component {
       notificationFeed,
       a_updateBidState,
     } = this.props;
+
+    const { activeTab } = this.state;
 
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
@@ -61,42 +84,89 @@ class MyBidsPage extends React.Component {
       );
 
     return (
-      <React.Fragment>
-        <div className="container is-widescreen bidorbooContainerMargins">
-          <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
-            <ul>
-              <li>
-                <a className="has-text-white has-text-weight-bold">
-                  {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
-                </a>
-              </li>
-            </ul>
-          </div>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        <FloatingAddNewBidButton />
 
-          {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-          {!isLoading && (
-            <div className="columns is-multiline is-mobile is-centered">
-              {awardedBidsListComponent}
+        <div style={{ position: 'relative' }} className="tabs">
+          <ul>
+            <li className={`${activeTab === MYBIDS_TAB_IDS.myBidsTab ? 'is-active' : null}`}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.changeActiveTab(MYBIDS_TAB_IDS.myBidsTab);
+                }}
+              >
+                {`${MYBIDS_TAB_IDS.myBidsTab}`}
+              </a>
+            </li>
+            <li className={`${activeTab === MYBIDS_TAB_IDS.pastBids ? 'is-active' : null}`}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.changeActiveTab(MYBIDS_TAB_IDS.pastBids);
+                }}
+              >
+                <span className="icon">
+                  <i className="fas fa-history" aria-hidden="true" />
+                </span>
+                <span>{`${MYBIDS_TAB_IDS.pastBids} `}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        {activeTab === MYBIDS_TAB_IDS.myBidsTab && (
+          <React.Fragment>
+            {/* <h1 className="is-size-5">{`Awarded Bids  (${(awardedBidsList &&
+              awardedBidsList.length) ||
+              0})`}</h1> */}
+            <div className="container is-widescreen bidorbooContainerMargins">
+              <div className="tabs is-medium ">
+                <ul>
+                  <li>
+                    <a className="has-text-weight-bold has-text-success">
+                      {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+              {!isLoading && (
+                <div
+                  style={{ borderLeft: '1px solid #23d160' }}
+                  className="columns is-multiline is-mobile is-centered"
+                >
+                  {awardedBidsListComponent}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-
-        <div className="container is-widescreen bidorbooContainerMargins">
-          <div style={{ background: '#363636' }} className="tabs is-medium is-centered">
-            <ul>
-              <li>
-                <a className="has-text-white has-text-weight-bold">
-                  {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
-                </a>
-              </li>
-            </ul>
-          </div>
-          {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-          {!isLoading && (
-            <div className="columns is-multiline is-mobile is-centered">{pendingBidsList} </div>
-          )}
-        </div>
-      </React.Fragment>
+            {/* <h1 className="is-size-5">
+              {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
+            </h1> */}
+            <div className="container is-widescreen bidorbooContainerMargins">
+              <div className="tabs is-medium">
+                <ul>
+                  <li>
+                    <a className="has-text-weight-bold has-text-info">
+                      {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+              {!isLoading && (
+                <div
+                  style={{ borderLeft: '1px solid #209cee' }}
+                  className="columns is-multiline is-mobile is-centered"
+                >
+                  {pendingBidsList}
+                </div>
+              )}
+            </div>
+          </React.Fragment>
+        )}
+        {activeTab === MYBIDS_TAB_IDS.pastBids && <PastBids />}
+      </div>
     );
   }
 }
@@ -143,5 +213,35 @@ const EmptyStateComponent = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const FloatingAddNewBidButton = () => {
+  return (
+    <a
+      style={{
+        position: 'fixed',
+        bottom: '5%',
+        right: '12%',
+        zIndex: 999,
+        width: 56,
+        height: 56,
+        borderRadius: '100%',
+        fontSize: 26,
+        fontWeight: 600,
+        boxShadow:
+          '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        switchRoute(ROUTES.CLIENT.BIDDER.root);
+      }}
+      className="button is-link"
+    >
+      <span className="icon">
+        <i className="fas fa-dollar-sign" />
+      </span>
+    </a>
   );
 };

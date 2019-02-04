@@ -54,7 +54,7 @@ export default class MineTabSummaryCard extends React.Component {
             <StartDateAndTime date={startingDateAndTime} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
-          <a className="button is-info is-outlined is-small is-fullwidth">
+          <a className="button is-info is-outlined is-fullwidth">
             <span className="icon">
               <i className="fas fa-glasses" />
             </span>

@@ -512,7 +512,7 @@ class Header extends React.Component {
                                   <span>My Payouts</span>
                                 </a>
                                 <hr className="navbar-divider" />
-                                <a
+                                {/* <a
                                   onClick={() => {
                                     this.closeMenuThenExecute(() => {
                                       switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
@@ -525,10 +525,10 @@ class Header extends React.Component {
                                   </span>
                                   <span>Fulfilled Offers</span>
                                 </a>
-                                <hr className="navbar-divider" />
+                                <hr className="navbar-divider" /> */}
                               </React.Fragment>
                             )}
-                            {isLoggedIn && !isActingAsBidder && (
+                            {/* {isLoggedIn && !isActingAsBidder && (
                               <React.Fragment>
                                 <a
                                   onClick={() => {
@@ -546,7 +546,7 @@ class Header extends React.Component {
                                 </a>
                                 <hr className="navbar-divider" />
                               </React.Fragment>
-                            )}
+                            )} */}
 
                             <a
                               onClick={(e) =>

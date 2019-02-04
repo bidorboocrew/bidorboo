@@ -392,7 +392,7 @@ header.card-header {
   background-color: rgba(#fff, 0.8);
   z-index: 999;
   padding-top: 25%;
-
+  overflow: hidden;
   > p {
     margin: 0;
     position: absolute;
@@ -405,6 +405,7 @@ header.card-header {
 }
 @-webkit-keyframes puff-out-center {
   0% {
+    overflow: hidden;
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-filter: blur(0);
@@ -412,6 +413,7 @@ header.card-header {
     opacity: 1;
   }
   100% {
+    overflow: hidden;
     -webkit-transform: scale(2);
     transform: scale(2);
     -webkit-filter: blur(2px);
@@ -427,6 +429,7 @@ header.card-header {
     -webkit-filter: blur(0);
     filter: blur(0);
     opacity: 1;
+    overflow: hidden;
   }
   100% {
     -webkit-transform: scale(2);
@@ -435,5 +438,6 @@ header.card-header {
     filter: blur(2px);
     opacity: 0;
     z-index: -999;
+    overflow: hidden;
   }
 }

@@ -7,8 +7,8 @@ import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 export const TAB_IDS = {
   awardedJobs: 'Awarded',
   postedJobs: 'Posted',
+  pastJobs: 'Past Jobs',
 };
-
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;

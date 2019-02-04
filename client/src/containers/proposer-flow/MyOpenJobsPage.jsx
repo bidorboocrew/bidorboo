@@ -13,7 +13,7 @@ import { TAB_IDS } from './components/helperComponents';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-
+import PastJobs from './PastJobs';
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +46,9 @@ class MyOpenJobsPage extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <div className="tabs is-medium">
+        <FloatingAddNewRequestButton />
+
+        <div style={{ position: 'relative' }} className="tabs">
           <ul>
             <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
               <a
@@ -68,8 +70,20 @@ class MyOpenJobsPage extends React.Component {
                 {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) || 0})`}
               </a>
             </li>
+            <li className={`${activeTab === TAB_IDS.pastJobs ? 'is-active' : null}`}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.changeActiveTab(TAB_IDS.pastJobs);
+                }}
+              >
+                <span className="icon">
+                  <i className="fas fa-history" aria-hidden="true" />
+                </span>
+                <span>{`${TAB_IDS.pastJobs} `}</span>
+              </a>
+            </li>
           </ul>
-          <HeaderTitleAndSearch />
         </div>
 
         {activeTab === TAB_IDS.postedJobs && (
@@ -87,6 +101,7 @@ class MyOpenJobsPage extends React.Component {
             {...this.props}
           />
         )}
+        {activeTab === TAB_IDS.pastJobs && <PastJobs />}
       </div>
     );
   }
@@ -113,21 +128,30 @@ export default connect(
   mapDispatchToProps,
 )(MyOpenJobsPage);
 
-const HeaderTitleAndSearch = () => {
+const FloatingAddNewRequestButton = () => {
   return (
-    <nav
-      style={{ float: 'left', marginRight: '0.5rem', borderBottom: '1px solid #dbdbdb' }}
-      className="level is-mobile"
+    <a
+      style={{
+        position: 'fixed',
+        bottom: '5%',
+        right: '12%',
+        zIndex: 999,
+        width: 56,
+        height: 56,
+        borderRadius: '100%',
+        fontSize: 36,
+        fontWeight: 600,
+        boxShadow:
+          '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+      }}
+      className="button is-link"
     >
-      <div className="level-right">
-        <p className="level-item">
-          <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)} className="button is-link">
-            <span className="icon">
-              <i className="fas fa-plus-circle" />
-            </span>
-          </a>
-        </p>
-      </div>
-    </nav>
+      +
+    </a>
   );
 };

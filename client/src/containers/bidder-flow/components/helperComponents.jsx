@@ -19,6 +19,10 @@ export const TAB_IDS = {
   myRequests: 'Mine',
 };
 
+export const MYBIDS_TAB_IDS = {
+  myBidsTab: 'My Bids',
+  pastBids: 'Past Bids',
+};
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;
