@@ -50,6 +50,7 @@ class App extends React.Component {
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
         <LoadingBar
+          updateTime={700}
           style={{
             position: 'fixed',
             bottom: 0,
