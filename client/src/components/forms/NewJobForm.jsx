@@ -293,15 +293,16 @@ class NewJobForm extends React.Component {
             value={values.recaptcha || ''}
           />
           <ReCAPTCHA
+            style={{ display: 'none' }}
             ref={this.recaptchaRef}
             size="invisible"
             badge="bottomright"
+            onExpired={() => this.recaptchaRef.current.execute()}
             onChange={(result) => {
               setFieldValue('recaptchaField', result, true);
             }}
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
-          {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
           <input
             id="fromTemplateIdField"
             className="input is-invisible"

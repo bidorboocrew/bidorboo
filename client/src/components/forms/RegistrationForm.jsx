@@ -142,7 +142,9 @@ class NewUserRegistrationForm extends React.Component {
           value={values.recaptcha || ''}
         />
         <ReCAPTCHA
+          style={{ display: 'none' }}
           ref={this.recaptchaRef}
+          onExpired={() => this.recaptchaRef.current.execute()}
           size="invisible"
           badge="bottomright"
           onChange={(result) => {

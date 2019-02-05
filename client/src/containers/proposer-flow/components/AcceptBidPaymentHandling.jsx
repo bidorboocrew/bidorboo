@@ -64,6 +64,8 @@ class AcceptBidPaymentHandling extends React.Component {
     return (
       <React.Fragment>
         <ReCAPTCHA
+          style={{ display: 'none' }}
+          onExpired={() => this.recaptchaRef.current.execute()}
           ref={this.recaptchaRef}
           size="invisible"
           badge="bottomright"

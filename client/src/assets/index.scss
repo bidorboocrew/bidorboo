@@ -19,7 +19,6 @@ html body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Helvetica', 'Arial', sans-serif;
-  min-height: calc(100%-4rem);
 }
 body {
   background-color: #222;
@@ -400,8 +399,8 @@ header.card-header {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  -webkit-animation: fade-out 1s ease-out 1s both;
-  animation: fade-out 1s ease-out 1s both;
+  -webkit-animation: fade-out 0.2s ease-out 0.5s both;
+  animation: fade-out 0.2s ease-out 0.5s both;
 }
 
 @-webkit-keyframes fade-out {
@@ -444,4 +443,15 @@ header.card-header {
   &.iconbutton {
     font-size: 26px !important;
   }
+}
+
+.bdbfooter {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  width: 100%;
+  background-color: #eeeeee;
+  text-align: center;
 }
