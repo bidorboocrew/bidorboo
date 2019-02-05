@@ -141,17 +141,22 @@ class NewUserRegistrationForm extends React.Component {
           type="hidden"
           value={values.recaptcha || ''}
         />
-        <ReCAPTCHA
-          style={{ display: 'none' }}
-          ref={this.recaptchaRef}
-          onExpired={() => this.recaptchaRef.current.execute()}
-          size="invisible"
-          badge="bottomright"
-          onChange={(result) => {
-            setFieldValue('recaptchaField', result, true);
-          }}
-          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-        />
+        <div className="field">
+          <ReCAPTCHA
+            ref={this.recaptchaRef}
+            onExpired={() => this.recaptchaRef.current.execute()}
+            size="invisible"
+            badge="inline"
+            onChange={(result) => {
+              setFieldValue('recaptchaField', result, true);
+            }}
+            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+          />
+          <p className="help">
+            *RECAPTCHA will automatically validate the security of your request
+          </p>
+        </div>
+
         {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
         <div className="has-text-centered">
           <button
