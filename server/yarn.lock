@@ -3402,6 +3402,11 @@ readdirp@^2.0.0:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
+recaptcha-verify@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/recaptcha-verify/-/recaptcha-verify-0.1.1.tgz#0f091d2ef0ae62ff738ba002cfae9affe8d91fae"
+  integrity sha1-DwkdLvCuYv9zi6ACz66a/+jZH64=
+
 rechoir@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"

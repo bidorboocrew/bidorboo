@@ -20,4 +20,5 @@ module.exports = {
   vapidPublicApiKey:
     'BNNIelsxMdODKuerQ6A28c0ASnc0YP7BygBjuTkR0qRgRSJXOonCx5Juk2VZgOLmiAbTl04zER-AbdRScMOzYfE',
   vapidPrivateApiKey: 'mBs1Vn_RlkKliJjiOY8bZNAiifIj1HKOM3EHra-175M',
+  recaptchaApiKey: '6LeYAIAUAAAAAAdNavYfiW2pOX376RxggEdl-n7h',
 };

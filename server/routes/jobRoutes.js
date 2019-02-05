@@ -1,5 +1,5 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
-const stripeServiceUtil = require('../services/stripeService').util;
+const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
 const utils = require('../utils/utilities');
 
@@ -127,17 +127,23 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, requireUserCanPost, async (req, res) => {
-    try {
-      const { jobDetails } = req.body.data;
-      const userMongoDBId = req.user._id;
-      const newJob = await jobDataAccess.addAJob(jobDetails, userMongoDBId);
+  app.post(
+    ROUTES.API.JOB.POST.newJob,
+    requireLogin,
+    requireUserCanPost,
+    requirePassesRecaptcha,
+    async (req, res) => {
+      try {
+        const { jobDetails } = req.body.data;
+        const userMongoDBId = req.user._id;
+        const newJob = await jobDataAccess.addAJob(jobDetails, userMongoDBId);
 
-      return res.send(newJob);
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To create new job', details: `${e}` });
+        return res.send(newJob);
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To create new job', details: `${e}` });
+      }
     }
-  });
+  );
   app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
     try {
       const filesList = req.files;

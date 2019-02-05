@@ -29,7 +29,7 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
-    recaptcha: Yup.string()
+    recaptchaField: Yup.string()
       .ensure()
       .trim()
       .required('passing recaptcha is required.'),
@@ -58,7 +58,7 @@ const EnhancedForms = withFormik({
       password: values.password,
       originPath: values.originPath,
       displayName: values.displayName,
-      recaptcha: values.recaptcha,
+      recaptchaField: values.recaptchaField,
     });
     setSubmitting(false);
   },
@@ -136,23 +136,21 @@ class NewUserRegistrationForm extends React.Component {
         />
 
         <input
-          id="recaptcha"
+          id="recaptchaField"
           className="input is-invisible"
           type="hidden"
           value={values.recaptcha || ''}
         />
-        <div className="field">
-          <ReCAPTCHA
-            ref={this.recaptchaRef}
-            size="invisible"
-            badge="bottomright"
-            onChange={(result) => {
-              setFieldValue('recaptcha', result, true);
-            }}
-            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-          />
-          {errors.recaptcha && <p className="help is-danger">{errors.recaptcha}</p>}
-        </div>
+        <ReCAPTCHA
+          ref={this.recaptchaRef}
+          size="invisible"
+          badge="bottomright"
+          onChange={(result) => {
+            setFieldValue('recaptchaField', result, true);
+          }}
+          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+        />
+        {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
         <div className="has-text-centered">
           <button
             className="button is-success is-fullwidth"

@@ -20,4 +20,5 @@ module.exports = {
   blowerText: process.env.BLOWERIO_URL,
   vapidPublicApiKey: process.env.VAPID_PUBLIC_API_KEY,
   vapidPrivateApiKey: process.env.VAPID_PRIVATE_API_KEY,
+  recaptchaApiKey: process.env.RECAPTCHA_PRIVATE_API_KEY,
 };

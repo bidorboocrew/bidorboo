@@ -30,7 +30,6 @@ class PastJobs extends React.Component {
   }
   render() {
     const { isLoggedIn, myPastRequestedServices, myPastRequestedServicesIsLoading } = this.props;
-    debugger;
     if (!isLoggedIn || myPastRequestedServicesIsLoading) {
       return (
         <div className="column limitMaxdWidth">

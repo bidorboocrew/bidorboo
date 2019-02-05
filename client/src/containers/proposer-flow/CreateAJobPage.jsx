@@ -63,7 +63,7 @@ class CreateAJobPage extends React.Component {
                 jobTitleField={jobDetails.title}
                 suggestedDetailsText={jobDetails.suggestedDetailsText}
                 onGoBack={this.goBack}
-                onNext={this.postJob}
+                onSubmit={this.postJob}
                 currentUserDetails={currentUserDetails}
               />
             </div>
