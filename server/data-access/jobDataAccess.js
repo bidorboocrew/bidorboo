@@ -193,7 +193,7 @@ exports.jobDataAccess = {
                     // clean ref for bidders
                     await User.findOneAndUpdate(
                       { _id: bidderId },
-                      { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+                      { $pull: { _postedBidsRef: { $in: bidsIds } } },
                       { new: true }
                     )
                       .lean(true)
@@ -821,7 +821,7 @@ exports.jobDataAccess = {
             // clean ref for bidders
             await User.findOneAndUpdate(
               { _id: bidderId },
-              { $pull: { _postedBidsRef: { $in: referencedBidIds } } },
+              { $pull: { _postedBidsRef: { $in: bidsIds } } },
               { new: true }
             )
               .lean(true)

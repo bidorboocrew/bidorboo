@@ -31,7 +31,7 @@ require('./services/cloudinaryAndMulterFileUploader')(app);
 require('./services/cookieSessionAndParser')(app);
 
 // Automated tasks
-require('./services/CronCleanupJobs')(app);
+require('./services/CronRepeatingJobs')(app);
 
 
 // instantiate passport
