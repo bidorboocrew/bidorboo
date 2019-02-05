@@ -33,7 +33,6 @@ require('./services/cookieSessionAndParser')(app);
 // Automated tasks
 require('./services/CronRepeatingJobs')(app);
 
-
 // instantiate passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,6 +42,7 @@ require('./services/populateAppRoutes')(app);
 
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {
+  console.log('IAM NODE process.env.NODE_APP_INSTANCE ' + process.env.NODE_APP_INSTANCE);
   // xxx not sure about this . I may remove
   // app.use(redirectToHTTPS());
 

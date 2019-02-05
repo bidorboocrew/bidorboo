@@ -141,32 +141,41 @@ class NewUserRegistrationForm extends React.Component {
           type="hidden"
           value={values.recaptcha || ''}
         />
-        <div className="field">
-          <ReCAPTCHA
-            ref={this.recaptchaRef}
-            onExpired={() => this.recaptchaRef.current.execute()}
-            size="invisible"
-            badge="inline"
-            onChange={(result) => {
-              setFieldValue('recaptchaField', result, true);
-            }}
-            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-          />
-          <p className="help">
-            *RECAPTCHA will automatically validate the security of your request
-          </p>
-        </div>
 
-        {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
         <div className="has-text-centered">
           <button
-            className="button is-success is-fullwidth"
+            className="button is-success is-medium is-fullwidth"
             type="submit"
             disabled={isSubmitting || !isValid}
           >
             Join BidOrBoo
           </button>
         </div>
+        <div style={{ marginTop: 10 }}>
+          <ReCAPTCHA
+            ref={this.recaptchaRef}
+            onExpired={() => this.recaptchaRef.current.execute()}
+            size="invisible"
+            badge="inline"
+            onChange={(result) => {
+              debugger
+              setFieldValue('recaptchaField', result, true);
+            }}
+            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+          />
+        </div>
+        {errors.recaptchaField && (
+          <p className="help is-danger">
+            {errors.recaptchaField}
+            <a
+              className="is-text is-small"
+              onClick={() => {
+                this.recaptchaRef.current.reset();
+              }}
+            />
+            recaptcha couldn't validate your request, click to try again
+          </p>
+        )}
       </form>
     );
   }
