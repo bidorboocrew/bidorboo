@@ -84,8 +84,8 @@ class ReviewRequestAndBidsPage extends React.Component {
         )}
 
         {!showBidReviewModal && (
-          <div className="columns is-centered is-multiline">
-            <div className="column">
+          <div className="columns is-centered">
+            <div className="column is-narrow">
               <BidsTable
                 jobId={selectedJobWithBids._id}
                 bidList={selectedJobWithBids._bidsListRef}
