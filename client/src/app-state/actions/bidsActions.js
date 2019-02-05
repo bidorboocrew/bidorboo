@@ -28,12 +28,13 @@ export const selectJobToBidOn = (jobDetails) => (dispatch) => {
   switchRoute(ROUTES.CLIENT.BIDDER.BidOnJobPage);
 };
 
-export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
+export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
+        recaptchaField,
         data: {
           jobId: jobId,
           bidAmount: bidAmount,
@@ -62,12 +63,13 @@ export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
   });
 };
 
-export const updateBid = ({ bidId, bidAmount }) => (dispatch) => {
+export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.UPDATE_A_BID,
     payload: axios
       .post(ROUTES.API.BID.PUT.updateMyBid, {
+        recaptchaField,
         data: {
           bidId,
           bidAmount,

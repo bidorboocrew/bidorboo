@@ -3,17 +3,27 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 class RequesterAndOpenBid extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showUpdateBidDialog: false,
       confirmRead: false,
+      recaptchaField: '',
     };
+
+    this.recaptchaRef = React.createRef();
   }
 
+  updateRecaptchaField = (value) => {
+    this.setState({ recaptchaField: value });
+  };
+
+  componentDidMount() {
+    this.recaptchaRef.current.execute();
+  }
   closeUpdateBidModal = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
@@ -32,9 +42,9 @@ class RequesterAndOpenBid extends React.Component {
 
   submitUpdateBid = (e) => {
     e.preventDefault();
-
+    const { recaptchaField } = this.state;
     const { updateBidAction, bid, setSubmitting, values } = this.props;
-    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField });
+    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField, recaptchaField });
     this.setState({
       showUpdateBidDialog: false,
     });
@@ -70,9 +80,7 @@ class RequesterAndOpenBid extends React.Component {
       return null;
     }
 
-    const { showUpdateBidDialog, confirmRead } = this.state;
-
-    const { rating, displayName, profileImage } = job._ownerRef;
+    const { showUpdateBidDialog, confirmRead, recaptchaField } = this.state;
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
@@ -115,6 +123,13 @@ class RequesterAndOpenBid extends React.Component {
       ) : null;
     return (
       <React.Fragment>
+        <ReCAPTCHA
+          ref={this.recaptchaRef}
+          size="invisible"
+          badge="bottomright"
+          onChange={this.updateRecaptchaField}
+          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+        />
         {showUpdateBidDialog && (
           <div className="modal is-active">
             <div className="modal-background" />

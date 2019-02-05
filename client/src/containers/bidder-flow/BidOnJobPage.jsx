@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
@@ -13,9 +14,25 @@ import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
 import { findAvgBidInBidList } from '../commonComponents';
 
 class BidOnJobPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recaptchaField: '',
+    };
+
+    this.recaptchaRef = React.createRef();
+  }
+
+  updateRecaptchaField = (value) => {
+    this.setState({ recaptchaField: value });
+  };
+
+  componentDidMount() {
+    this.recaptchaRef.current.execute();
+  }
   render() {
     const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
-
+    const { recaptchaField } = this.state;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -27,6 +44,13 @@ class BidOnJobPage extends React.Component {
 
     return (
       <React.Fragment>
+        <ReCAPTCHA
+          ref={this.recaptchaRef}
+          size="invisible"
+          badge="bottomright"
+          onChange={this.updateRecaptchaField}
+          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+        />
         <div
           style={{ marginBottom: '3rem' }}
           className="container is-widescreen bidorbooContainerMargins"
@@ -35,7 +59,11 @@ class BidOnJobPage extends React.Component {
           <PostYourBid
             avgBid={avgBid}
             onSubmit={(values) => {
-              a_submitBid({ jobId: jobDetails._id, bidAmount: values.bidAmountField });
+              a_submitBid({
+                jobId: jobDetails._id,
+                bidAmount: values.bidAmountField,
+                recaptchaField,
+              });
             }}
             onCancel={() => {
               a_updateBooedBy(jobDetails);
