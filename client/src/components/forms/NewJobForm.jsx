@@ -21,7 +21,7 @@ import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
 import moment from 'moment';
-import { relative } from 'upath';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -30,12 +30,14 @@ import { relative } from 'upath';
 class NewJobForm extends React.Component {
   constructor(props) {
     super(props);
+    this.recaptchaRef = React.createRef();
 
     this.google = window.google;
     const googleObj = this.google;
     if (this.google) {
       this.geocoder = new googleObj.maps.Geocoder();
     }
+
     this.state = {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
@@ -46,6 +48,7 @@ class NewJobForm extends React.Component {
 
   componentDidMount() {
     navigator.geolocation && this.getCurrentAddress();
+    this.recaptchaRef.current.execute();
   }
 
   toggleConfirmationDialog = () => {
@@ -284,6 +287,22 @@ class NewJobForm extends React.Component {
 
         <form onSubmit={(e) => e.preventDefault()}>
           <input
+            id="recaptchaField"
+            className="input is-invisible"
+            type="hidden"
+            value={values.recaptcha || ''}
+          />
+          <ReCAPTCHA
+            ref={this.recaptchaRef}
+            size="invisible"
+            badge="bottomright"
+            onChange={(result) => {
+              setFieldValue('recaptchaField', result, true);
+            }}
+            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+          />
+          {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
+          <input
             id="fromTemplateIdField"
             className="input is-invisible"
             type="hidden"
@@ -326,12 +345,10 @@ class NewJobForm extends React.Component {
               errors.addressTextField = 'google api error ' + e;
             }}
             onChangeEvent={(e) => {
-              console.log(`onChangeEvent={(e) => ${e}`);
               setFieldValue('addressTextField', e, true);
             }}
             onBlurEvent={(e) => {
               if (e && e.target) {
-                console.log(`onChangeEvent={(e) => ${e}`);
                 e.target.id = 'addressTextField';
                 handleBlur(e);
               }
@@ -508,6 +525,10 @@ class NewJobForm extends React.Component {
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
+    recaptchaField: Yup.string()
+      .ensure()
+      .trim()
+      .required('passing recaptcha is required.'),
     fromTemplateIdField: Yup.string()
       .ensure()
       .trim()
@@ -535,7 +556,7 @@ const EnhancedForms = withFormik({
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    props.onNext(values);
+    props.onSubmit(values);
   },
   displayName: 'NewJobForm',
 });

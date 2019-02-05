@@ -2,6 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -28,6 +29,10 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
+    recaptchaField: Yup.string()
+      .ensure()
+      .trim()
+      .required('passing recaptcha is required.'),
   }),
 
   validate: (values) => {
@@ -53,87 +58,111 @@ const EnhancedForms = withFormik({
       password: values.password,
       originPath: values.originPath,
       displayName: values.displayName,
+      recaptchaField: values.recaptchaField,
     });
     setSubmitting(false);
   },
   displayName: 'NewUserRegistrationForm',
 });
 
-const NewUserRegistrationForm = (props) => {
-  const {
-    values,
-    touched,
-    errors,
-    // dirty,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    // handleReset,
-    // onCancel,
-    isValid,
-    isSubmitting,
-  } = props;
+class NewUserRegistrationForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        id="originPath"
-        className="input is-invisible"
-        type="hidden"
-        value={values.originPath || '/'}
-      />
-      <TextInput
-        id="displayName"
-        type="text"
-        label="Name"
-        placeholder="Enter your name..."
-        error={touched.displayName && errors.displayName}
-        value={values.displayName || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <TextInput
-        id="email"
-        type="text"
-        label="Email"
-        placeholder="Enter your email..."
-        error={touched.email && errors.email}
-        value={values.email || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <TextInput
-        id="password"
-        type="password"
-        label="Password"
-        error={touched.password && errors.password}
-        value={values.password || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <TextInput
-        id="passwordVerification"
-        type="password"
-        label="Verify Your password"
-        error={touched.passwordVerification && errors.passwordVerification}
-        value={values.passwordVerification || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <div className="field">
-        <div className="g-recaptcha" data-sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`} />
-      </div>
-      <div className="has-text-centered">
-        <button
-          className="button is-success is-fullwidth"
-          type="submit"
-          disabled={isSubmitting || !isValid}
-        >
-          Join BidOrBoo
-        </button>
-      </div>
-    </form>
-  );
-};
+    this.recaptchaRef = React.createRef();
+  }
+  componentDidMount() {
+    this.recaptchaRef.current.execute();
+  }
+  render() {
+    const {
+      values,
+      touched,
+      errors,
+      // dirty,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      // handleReset,
+      setFieldValue,
+      isValid,
+      isSubmitting,
+    } = this.props;
+    return (
+      <form onSubmit={handleSubmit}>
+        <input
+          id="originPath"
+          className="input is-invisible"
+          type="hidden"
+          value={values.originPath || '/'}
+        />
+        <TextInput
+          id="displayName"
+          type="text"
+          label="Name"
+          placeholder="Enter your name..."
+          error={touched.displayName && errors.displayName}
+          value={values.displayName || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="email"
+          type="text"
+          label="Email"
+          placeholder="Enter your email..."
+          error={touched.email && errors.email}
+          value={values.email || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="password"
+          type="password"
+          label="Password"
+          error={touched.password && errors.password}
+          value={values.password || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="passwordVerification"
+          type="password"
+          label="Verify Your password"
+          error={touched.passwordVerification && errors.passwordVerification}
+          value={values.passwordVerification || ''}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+        <input
+          id="recaptchaField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.recaptcha || ''}
+        />
+        <ReCAPTCHA
+          ref={this.recaptchaRef}
+          size="invisible"
+          badge="bottomright"
+          onChange={(result) => {
+            setFieldValue('recaptchaField', result, true);
+          }}
+          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+        />
+        {errors.recaptchaField && <p className="help is-danger">{errors.recaptchaField}</p>}
+        <div className="has-text-centered">
+          <button
+            className="button is-success is-fullwidth"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Join BidOrBoo
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
 
 export default EnhancedForms(NewUserRegistrationForm);

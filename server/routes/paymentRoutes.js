@@ -6,6 +6,7 @@ const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
@@ -22,6 +23,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.POST.payment,
     requireBidorBooHost,
     requireLogin,
+    requirePassesRecaptcha,
     requireJobOwner,
     requireJobIsNotAwarded,
     requiresCheckPayBidderDetails,

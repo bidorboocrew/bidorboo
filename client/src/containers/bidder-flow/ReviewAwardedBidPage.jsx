@@ -82,7 +82,7 @@ class ReviewAwardedBidPage extends React.Component {
       <div className="container is-widescreen bidorbooContainerMargins">
         {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
         <div className="columns is-multiline is-centered">
-          <div className="column">
+          <div className="column is-narrow">
             <RequesterAndMyAwardedBid
               bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
               bid={selectedAwardedBid}

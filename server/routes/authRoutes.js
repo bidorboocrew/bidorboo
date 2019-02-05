@@ -1,5 +1,6 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
+const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 
 module.exports = (app) => {
   //google routes
@@ -59,6 +60,7 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.AUTH.REGISTER_NEW_USER,
+    requirePassesRecaptcha,
     async (req, res, next) => {
       return passport.authenticate('local-register', (err, user, info) => {
         if (err) {

@@ -258,24 +258,14 @@ const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
   return (
     <a
       style={{
-        position: 'fixed',
-        bottom: '5%',
-        right: '10%',
         zIndex: showSideNav ? 0 : 999,
-        width: 56,
-        height: 56,
-        borderRadius: '100%',
-        fontSize: 26,
-        fontWeight: 600,
-        boxShadow:
-          '0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2)',
       }}
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
         toggleSideNav();
       }}
-      className="button is-link"
+      className="button is-link bdbFloatingButtonText iconbutton"
     >
       <span className="icon">
         <i className="fas fa-filter" />

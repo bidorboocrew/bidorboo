@@ -212,6 +212,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
     durationOfJobField,
     addressTextField,
     fromTemplateIdField,
+    recaptchaField,
   } = initialDetails;
 
   //map form fields to the mongodb schema expected fields
@@ -263,6 +264,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
       .post(ROUTES.API.JOB.POST.newJob, {
+        recaptchaField,
         data: {
           jobDetails: mapFieldsToSchema,
         },

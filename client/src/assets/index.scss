@@ -428,3 +428,20 @@ header.card-header {
     overflow: hidden;
   }
 }
+
+.bdbFloatingButtonText {
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12) !important;
+  position: fixed !important;
+  bottom: 5% !important;
+  right: 10% !important;
+  z-index: 999;
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 100% !important;
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  &.iconbutton {
+    font-size: 26px !important;
+  }
+}

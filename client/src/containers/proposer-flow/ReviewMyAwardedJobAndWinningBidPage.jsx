@@ -77,8 +77,8 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
           breadCrumbs({
             activePageTitle: title,
           })}
-        <div className="columns is-multiline is-centered">
-          <div className="column">
+        <div className="columns is-centered">
+          <div className="column is-narrow">
             <BidderAndMyAwardedJob
               proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
               bid={_awardedBidRef}
