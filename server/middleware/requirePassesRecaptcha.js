@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
       } else {
         return res.status(401).send({
           errorMsg:
-            'For security reasons we can not process your response. RECAPTCHA had assessed this as a Bot Like Request',
+            'For security reasons we can not process your response. RECAPTCHA had assessed this as a Bot Like Request. refresh the page before trying again',
         });
       }
     };
