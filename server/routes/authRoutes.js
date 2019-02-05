@@ -92,6 +92,7 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.AUTH.LOCAL_LOGIN,
+    requirePassesRecaptcha,
     async (req, res, next) => {
       passport.authenticate('local-login', (err, user, info) => {
         if (err) {
