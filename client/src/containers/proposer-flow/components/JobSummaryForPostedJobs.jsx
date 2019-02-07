@@ -39,8 +39,8 @@ export default class JobSummaryForPostedJobs extends React.Component {
                   <p className="title">Delete {templatesRepo[fromTemplateId].title} Request</p>
                   <br />
                   <p className="subtitle">
-                    When you delete a job we will delete all the existing bids. you can always post
-                    a similar request at another time
+                    When you delete a job we will delete all the existing bids. <br /> You can
+                    always post a similar request at another time
                   </p>
                   <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
