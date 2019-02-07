@@ -68,6 +68,9 @@ module.exports = (app) => {
         const totalNumberOfTimesBeenRated = bidderRatingDetails.numberOfTimesBeenRated + 1;
         const newTotalOfAllRatings = bidderRatingDetails.totalOfAllRatings + thisTaskAvgRating;
         const newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        if (newBidderGlobalRating) {
+          newBidderGlobalRatingparseFloat(newBidderGlobalRating.toFixed(1));
+        }
 
         const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
           reviewId,
@@ -78,7 +81,6 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
-
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
         return res
@@ -143,6 +145,9 @@ module.exports = (app) => {
         const totalNumberOfTimesBeenRated = ownerRatingDetails.numberOfTimesBeenRated + 1;
         const newTotalOfAllRatings = ownerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
         const newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        if (newProposerGlobalRating) {
+          newBidderGlobalRatingparseFloat(newProposerGlobalRating.toFixed(1));
+        }
 
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
           reviewId,

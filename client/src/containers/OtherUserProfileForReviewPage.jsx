@@ -129,9 +129,9 @@ class OtherUserProfileForReviewPage extends React.Component {
                 />
               )}
 
-              <div>
+              {/* <div>
                 Global Rating <strong> {globalRating} </strong>
-              </div>
+              </div> */}
               <div>
                 was rated by <strong>{numberOfTimesBeenRated} </strong> user
               </div>
