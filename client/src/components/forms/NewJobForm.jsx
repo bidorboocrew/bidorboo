@@ -42,7 +42,6 @@ class NewJobForm extends React.Component {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
-      reviewConfirmation: false,
     };
   }
 
@@ -54,12 +53,7 @@ class NewJobForm extends React.Component {
   toggleConfirmationDialog = () => {
     this.setState({
       showConfirmationDialog: !this.state.showConfirmationDialog,
-      reviewConfirmation: false,
     });
-  };
-
-  toggleReviewConfirmation = () => {
-    this.setState({ reviewConfirmation: !this.state.reviewConfirmation });
   };
 
   autoSetGeoLocation = (addressText) => {
@@ -143,7 +137,7 @@ class NewJobForm extends React.Component {
       currentUserDetails,
     } = this.props;
 
-    const { selectedTimeButtonId, showConfirmationDialog, reviewConfirmation } = this.state;
+    const { selectedTimeButtonId, showConfirmationDialog } = this.state;
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
@@ -233,29 +227,6 @@ class NewJobForm extends React.Component {
                     />
                   </div>
                 </section>
-                <footer
-                  style={{
-                    paddingTop: 10,
-                    borderRadius: 0,
-                    background: 'whitesmoke',
-                  }}
-                  className="modal-card-foot"
-                >
-                  <div className="control">
-                    <label className="radio">
-                      <input
-                        checked={reviewConfirmation}
-                        onChange={this.toggleReviewConfirmation}
-                        type="checkbox"
-                        name="success"
-                        required
-                      />
-                      <span className="has-text-weight-semibold">
-                        {` I Confirm that all details are accurate and matches my expectations.`}
-                      </span>
-                    </label>
-                  </div>
-                </footer>
                 <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
                   <button
                     style={{ width: 140 }}
@@ -270,7 +241,7 @@ class NewJobForm extends React.Component {
                   <button
                     style={{ width: 140 }}
                     type="submit"
-                    disabled={!reviewConfirmation}
+                    disabled={isSubmitting}
                     onClick={handleSubmit}
                     className="button is-success"
                   >
@@ -462,7 +433,7 @@ class NewJobForm extends React.Component {
               <span className="icon">
                 <i className="fas fa-glasses" />
               </span>
-              <span>Review</span>
+              <span>Preview</span>
             </button>
           </div>
         </form>
