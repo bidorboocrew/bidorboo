@@ -125,8 +125,7 @@ const TableWithNoBids = () => {
         <tr>
           <td style={{ verticalAlign: 'middle' }}>
             <span className="has-text-weight-semibold">
-              Congrats on posting your job . Keep an eye and check in a little while to view the
-              bids.
+              Keep an eye and check in a little while to view the bids.
             </span>
           </td>
         </tr>
