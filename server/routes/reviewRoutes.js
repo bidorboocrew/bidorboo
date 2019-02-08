@@ -69,7 +69,7 @@ module.exports = (app) => {
         const newTotalOfAllRatings = bidderRatingDetails.totalOfAllRatings + thisTaskAvgRating;
         const newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
         if (newBidderGlobalRating) {
-          newBidderGlobalRatingparseFloat(newBidderGlobalRating.toFixed(1));
+          newBidderGlobalRating = parseFloat(newBidderGlobalRating.toFixed(1));
         }
 
         const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
@@ -146,7 +146,7 @@ module.exports = (app) => {
         const newTotalOfAllRatings = ownerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
         const newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
         if (newProposerGlobalRating) {
-          newBidderGlobalRatingparseFloat(newProposerGlobalRating.toFixed(1));
+          newProposerGlobalRating = parseFloat(newProposerGlobalRating.toFixed(1));
         }
 
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
