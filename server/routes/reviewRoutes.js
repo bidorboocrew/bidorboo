@@ -67,7 +67,7 @@ module.exports = (app) => {
 
         const totalNumberOfTimesBeenRated = bidderRatingDetails.numberOfTimesBeenRated + 1;
         const newTotalOfAllRatings = bidderRatingDetails.totalOfAllRatings + thisTaskAvgRating;
-        const newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        let newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
         if (newBidderGlobalRating) {
           newBidderGlobalRating = parseFloat(newBidderGlobalRating.toFixed(1));
         }
@@ -144,7 +144,7 @@ module.exports = (app) => {
 
         const totalNumberOfTimesBeenRated = ownerRatingDetails.numberOfTimesBeenRated + 1;
         const newTotalOfAllRatings = ownerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
-        const newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        let newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
         if (newProposerGlobalRating) {
           newProposerGlobalRating = parseFloat(newProposerGlobalRating.toFixed(1));
         }
