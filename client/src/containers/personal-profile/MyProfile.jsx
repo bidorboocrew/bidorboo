@@ -55,9 +55,9 @@ class MyProfile extends React.Component {
     let phoneNumber = phone.phoneNumber || 'not provided';
 
     // phone number is provided but it is not verified
-    const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
+    const shouldShowPhoneVerification = !phone.phoneNumber || !phone.isVerified;
     // email is provided but it is not verified
-    const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
+    const shouldShowEmailVerification = !email.emailAddress || !email.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { isEditProfile } = this.state;
@@ -324,7 +324,6 @@ class VerifyPhone extends React.Component {
 
     this.state = {
       isSubmitting: false,
-      isResendDisabled: false,
     };
   }
 
@@ -334,7 +333,6 @@ class VerifyPhone extends React.Component {
         const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
         if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');
-          this.setState({ isSubmitting: true, isResendDisabled: true });
         }
       } catch (e) {
         // some alert
@@ -344,9 +342,9 @@ class VerifyPhone extends React.Component {
     });
   };
   render() {
-    const { isSubmitting, isResendDisabled } = this.state;
+    const { isSubmitting } = this.state;
 
-    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
+    const resendButtonClass = `button is-info is-outlined`;
     return (
       <div className="field is-horizontal">
         <div className="field-body">
@@ -356,9 +354,9 @@ class VerifyPhone extends React.Component {
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
                 className={resendButtonClass}
-                disabled={isResendDisabled}
+                disabled={isSubmitting}
               >
-                {`${isResendDisabled ? 'pin sent' : 'resend pin'}`}
+                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
               </button>
             </p>
           </div>
@@ -374,7 +372,6 @@ class VerifyEmail extends React.Component {
 
     this.state = {
       isSubmitting: false,
-      isResendDisabled: false,
     };
   }
 
@@ -386,7 +383,6 @@ class VerifyEmail extends React.Component {
         );
         if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');
-          this.setState({ isSubmitting: true, isResendDisabled: true });
         }
       } catch (e) {
         // some alert
@@ -396,9 +392,9 @@ class VerifyEmail extends React.Component {
     });
   };
   render() {
-    const { isSubmitting, isResendDisabled } = this.state;
+    const { isSubmitting } = this.state;
 
-    const resendButtonClass = `button is-info is-outlined ${isSubmitting ? 'is-loading ' : null}`;
+    const resendButtonClass = `button is-info is-outlined`;
     return (
       <div className="field is-horizontal">
         <div className="field-body">
@@ -408,9 +404,9 @@ class VerifyEmail extends React.Component {
                 onClick={this.handleSendNewCode}
                 style={{ marginLeft: 6 }}
                 className={resendButtonClass}
-                disabled={isResendDisabled}
+                disabled={isSubmitting}
               >
-                {`${isResendDisabled ? 'pin sent' : 'resend pin'}`}
+                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
               </button>
             </p>
           </div>
