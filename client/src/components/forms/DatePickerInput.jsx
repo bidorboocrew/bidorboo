@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-
+const minDate = process.env.NODE_ENV === 'development' ? moment().add(1, 'day') : moment();
 export default class DatePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,
@@ -19,7 +19,7 @@ export default class DatePickerInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(),
+      startDate: minDate,
     };
   }
 
@@ -37,7 +37,7 @@ export default class DatePickerInput extends React.Component {
         inline
         selected={this.state.startDate}
         onChange={this.handleChange}
-        minDate={moment()}
+        minDate={minDate}
         maxDate={moment().add(60, 'd')}
       />
     );

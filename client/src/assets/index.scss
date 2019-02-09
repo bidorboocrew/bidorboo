@@ -142,6 +142,12 @@ a.navbar-item.is-active {
     transition: all 0.3s ease-in;
   }
 }
+.react-datepicker__day-names,
+.react-datepicker__day {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 20px;
+}
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';
