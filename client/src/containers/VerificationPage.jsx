@@ -78,7 +78,7 @@ class Verification extends React.Component {
             this.verifyPhone();
             break;
           default:
-            switchRoute(`${ROUTES.CLIENT.HOME}`);
+            switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
             break;
         }
       }
@@ -136,7 +136,7 @@ class Verification extends React.Component {
                         className="button is-dark"
                         onClick={(e) => {
                           e.preventDefault();
-                          switchRoute(`${ROUTES.CLIENT.HOME}`);
+                          switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
                         }}
                       >
                         go to home page
