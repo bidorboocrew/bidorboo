@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-const minDate = process.env.NODE_ENV === 'development' ? moment().add(1, 'day') : moment();
+const minDate = process.env.NODE_ENV === 'production' ? moment().add(1, 'day') : moment();
 export default class DatePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,

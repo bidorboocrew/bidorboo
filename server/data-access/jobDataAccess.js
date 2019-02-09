@@ -236,9 +236,16 @@ exports.jobDataAccess = {
           startingDateAndTime: 1,
           _awardedBidRef: 1,
           createdAt: 1,
+          _reviewRef: 1,
           _id: 1,
         },
-        match: { state: { $eq: 'AWARDED' } },
+        match: {
+          state: { $eq: 'AWARDED' },
+          $or: [
+            { _reviewRef: { $exists: false } },
+            { '_reviewRef.proposerSubmitted': { $eq: false } },
+          ],
+        },
         options: { sort: { startingDateAndTime: 1 } },
         populate: {
           path: '_awardedBidRef',
@@ -256,6 +263,7 @@ exports.jobDataAccess = {
           },
         },
       })
+
       .lean(true)
       .exec();
   },
