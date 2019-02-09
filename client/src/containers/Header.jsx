@@ -471,13 +471,7 @@ class Header extends React.Component {
                             <figure className="image is-32x32">
                               <img
                                 style={{
-                                  objectFit: 'cover !important',
-                                  width: '100% !important',
-                                  height: '8rem !important',
                                   paddingRight: 4,
-                                  borderRadius: '100%',
-                                  height: 'auto',
-                                  width: 32,
                                 }}
                                 src={profileImage.url}
                               />
