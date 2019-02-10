@@ -56,15 +56,81 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
-
-  // get jobs for a user and filter by a given state
-  getAllBidsForUserByState: async (mongoDbUserId, stateFilter) => {
+  getUserAwardedBids: async (mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {
         const user = await UserModel.findById(mongoDbUserId.toString(), { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
-            match: { state: { $in: stateFilter } },
+            match: { state: { $in: ['WON', 'WON_SEEN'] } },
+            populate: {
+              path: '_jobRef',
+              select: {
+                _ownerRef: 1,
+                title: 1,
+                state: 1,
+                detailedDescription: 1,
+                jobCompletion: 1,
+                location: 1,
+                stats: 1,
+                addressText: 1,
+                startingDateAndTime: 1,
+                durationOfJob: 1,
+                fromTemplateId: 1,
+                reported: 1,
+                createdAt: 1,
+                updatedAt: 1,
+                _reviewRef: 1,
+              },
+              match: {
+                $or: [
+                  { _reviewRef: { $exists: false } },
+                  { '_reviewRef.bidderSubmitted': { $eq: false } },
+                ],
+              },
+              populate: [
+                {
+                  path: '_ownerRef',
+                  select: {
+                    _id: 1,
+                    displayName: 1,
+                    rating: 1,
+                    profileImage: 1,
+                  },
+                },
+                {
+                  path: '_reviewRef',
+                },
+              ],
+            },
+          })
+          .lean(true)
+          .exec((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              let results = [];
+              if (res._postedBidsRef && res._postedBidsRef.length > 0) {
+                results = res._postedBidsRef.filter((postedBid) => {
+                  return postedBid && postedBid._jobRef;
+                });
+              }
+              resolve({ _postedBidsRef: results });
+            }
+          });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  // get jobs for a user and filter by a given state
+  getUserOpenBids: async (mongoDbUserId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findById(mongoDbUserId.toString(), { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            match: { state: { $in: ['OPEN'] } },
             populate: {
               path: '_jobRef',
               select: {
@@ -136,7 +202,7 @@ exports.bidDataAccess = {
                 phone: 1,
                 viewedBy: 1,
               },
-              options: { sort: { 'startingDateAndTime': 1 } },
+              options: { sort: { startingDateAndTime: 1 } },
               populate: {
                 path: '_ownerRef',
                 select: {

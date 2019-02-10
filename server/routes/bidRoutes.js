@@ -11,20 +11,17 @@ module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, ['OPEN']);
+      const userBidsList = await bidDataAccess.getUserOpenBids(userMongoDBId);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
 
-  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res, done) => {
+  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getAllBidsForUserByState(userMongoDBId, [
-        'WON',
-        'WON_SEEN',
-      ]);
+      const userBidsList = await bidDataAccess.getUserAwardedBids(userMongoDBId);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
