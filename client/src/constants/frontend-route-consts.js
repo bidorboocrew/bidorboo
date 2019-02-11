@@ -80,6 +80,9 @@ export const API = {
     },
   },
   BID: {
+    DELETE: {
+      deleteOpenBid: '/api/bids/deleteOpenBid',
+    },
     POST: {
       bid: '/api/bids/postABid',
     },

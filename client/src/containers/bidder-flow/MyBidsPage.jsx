@@ -9,7 +9,11 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
 
 import { getMyOpenBids } from '../../app-state/actions/bidsActions';
-import { getMyAwardedBids, updateBidState } from '../../app-state/actions/bidsActions';
+import {
+  getMyAwardedBids,
+  updateBidState,
+  deleteOpenBid,
+} from '../../app-state/actions/bidsActions';
 
 import MyBidsOpenBid from './components/MyBidsOpenBid';
 import MyBidsAwardedBid from './components/MyBidsAwardedBid';
@@ -49,6 +53,7 @@ class MyBidsPage extends React.Component {
       awardedBidsList,
       notificationFeed,
       a_updateBidState,
+      a_deleteOpenBid,
     } = this.props;
 
     const { activeTab } = this.state;
@@ -58,7 +63,11 @@ class MyBidsPage extends React.Component {
         openBidsList.map((bidDetails) => {
           return (
             <div key={bidDetails._id} className="column limitMaxdWidth">
-              <MyBidsOpenBid key={bidDetails._id} bidDetails={bidDetails} />
+              <MyBidsOpenBid
+                deleteOpenBid={a_deleteOpenBid}
+                key={bidDetails._id}
+                bidDetails={bidDetails}
+              />
             </div>
           );
         })
@@ -182,6 +191,7 @@ const mapDispatchToProps = (dispatch) => {
     a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
     a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
     a_updateBidState: bindActionCreators(updateBidState, dispatch),
+    a_deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
   };
 };
 

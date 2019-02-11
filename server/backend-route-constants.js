@@ -95,6 +95,9 @@ module.exports = {
         markBidAsSeen: '/api/bids/markBidAsSeen',
         updateBidState: '/api/bids/updateBidState',
       },
+      DELETE: {
+        deleteOpenBid: '/api/bids/deleteOpenBid',
+      },
     },
   },
   CLIENT: {

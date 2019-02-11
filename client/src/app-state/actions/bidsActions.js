@@ -63,6 +63,35 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
   });
 };
 
+export const deleteOpenBid = (bidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,
+    payload: axios
+      .delete(ROUTES.API.BID.DELETE.deleteOpenBid, {
+        data: { bidId },
+      })
+      .then((resp) => {
+        debugger;
+        // update recently added job
+        if (resp.data && resp.data.success) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'You have deleted your bid. Good Luck!',
+              },
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) => {
   //update store with the job details
   dispatch({

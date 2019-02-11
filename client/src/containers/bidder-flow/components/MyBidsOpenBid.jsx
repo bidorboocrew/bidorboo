@@ -4,28 +4,22 @@ import moment from 'moment';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import {
-  DisplayLabelValue,
-  UserImageAndRating,
-  StartDateAndTime,
-} from '../../commonComponents';
+import { DisplayLabelValue, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
 import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
 export default class MyBidsOpenBid extends React.Component {
   render() {
-    const { bidDetails } = this.props;
+    const { bidDetails, deleteOpenBid } = this.props;
     if (!bidDetails) {
       return null;
     }
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 
     const { _ownerRef } = _jobRef;
-    const { profileImage, displayName } = _ownerRef;
 
     const startingDateAndTime = moment(_jobRef.startingDateAndTime)
       .format('DD/MMM/YYYY')
@@ -39,6 +33,24 @@ export default class MyBidsOpenBid extends React.Component {
         }}
         className="card bidderRootSpecial"
       >
+        <header
+          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+          className="card-header is-clipped"
+        >
+          <a
+            className="card-header-icon"
+            aria-label="more options"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              deleteOpenBid(bidDetails._id);
+            }}
+          >
+            <span style={{ color: 'grey' }} className="icon">
+              <i className="far fa-trash-alt" aria-hidden="true" />
+            </span>
+          </a>
+        </header>
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
         </div>

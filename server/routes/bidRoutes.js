@@ -6,6 +6,7 @@ const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
+const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
@@ -17,6 +18,23 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
+
+  app.delete(
+    ROUTES.API.BID.DELETE.deleteOpenBid,
+    requireLogin,
+    requirePassDeleteBidChecks,
+    async (req, res) => {
+      try {
+        const userMongoDBId = req.user._id.toString();
+        const { bidId } = req.body;
+
+        const deleteResults = await bidDataAccess.deleteOpenBid(userMongoDBId,bidId);
+        return res.send(deleteResults);
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
+      }
+    }
+  );
 
   app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
     try {

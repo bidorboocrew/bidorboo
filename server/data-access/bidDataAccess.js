@@ -6,6 +6,50 @@ const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
 
 exports.bidDataAccess = {
+  confirmBidBelongsToOwner: (userMongoDBId, bidId) => {
+    return BidModel.findOne({ _id: bidId, _bidderRef: userMongoDBId })
+      .lean(true)
+      .exec();
+  },
+  deleteOpenBid: async (userMongoDBId, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const bidDetails = await BidModel.findById(bidId)
+          .populate({
+            path: '_jobRef',
+            select: {
+              _id: 1,
+            },
+          })
+          .lean(true)
+          .exec();
+        if (!bidDetails || !bidDetails._jobRef || !bidDetails._jobRef._id) {
+          reject('Error while deleting bid, Bid reference Not Found.');
+        } else {
+          const test = await Promise.all([
+            JobModel.findOneAndUpdate(
+              { _id: bidDetails._jobRef._id },
+              { $pull: { _bidsListRef: bidDetails._id } }
+            )
+              .lean(true)
+              .exec(),
+            UserModel.findOneAndUpdate(
+              { _id: userMongoDBId },
+              { $pull: { _postedBidsRef: bidDetails._id } }
+            )
+              .lean(true)
+              .exec(),
+            BidModel.findOneAndRemove(bidDetails._id)
+              .lean(true)
+              .exec(),
+          ]);
+          resolve({ success: true });
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getBidById: (bidId) => {
     return BidModel.findById(bidId)
       .populate({
