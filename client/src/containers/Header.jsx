@@ -131,8 +131,13 @@ class Header extends React.Component {
                 height="32"
               />
               <span
-                style={{ paddingLeft: 6, marginBottom: -2, transform: 'scaleY(1.2)' }}
-                className="has-text-dark has-text-weight-bold is-size-4"
+                style={{
+                  paddingLeft: 2,
+                  marginBottom: -2,
+                  transform: 'scaleY(1.1)',
+                  fontWeight: 500,
+                }}
+                className="has-text-dark is-size-4"
               >
                 BidOrBoo
               </span>

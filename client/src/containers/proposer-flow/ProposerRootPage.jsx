@@ -12,6 +12,14 @@ class ProposerRoot extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
+        <section class="hero is-white has-text-centered">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">Request a service</h1>
+              <h2 class="subtitle">Start by selecting one of our templates</h2>
+            </div>
+          </div>
+        </section>
         <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
       </div>
     );
