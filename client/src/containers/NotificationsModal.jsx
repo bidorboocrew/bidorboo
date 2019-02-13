@@ -29,7 +29,7 @@ class NotificationsModal extends React.Component {
         <div className="modal-background" onClick={onClose} />
         <div className="modal-content">
           <div className="card">
-            <div className="card-content">
+            <div style={{ padding: 0 }} className="card-content">
               <div className="content">
                 {isAnythingHappeningToday && (
                   <React.Fragment>
