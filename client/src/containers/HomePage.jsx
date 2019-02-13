@@ -57,7 +57,7 @@ const RequestAService = (props) => {
   return (
     <div id="bidOrBooMainPage-Request" className="card has-text-centered is-outlined">
       <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike title is-size-2">
+        <div onClick={onClickHandler} className="buttonlike title">
           <i className="far fa-plus-square" />
           <div>Request Services</div>
         </div>
@@ -98,7 +98,7 @@ const ProvideAService = (props) => {
   return (
     <div id="bidOrBooMainPage-Provide" className="card has-text-centered">
       <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike title is-size-2">
+        <div onClick={onClickHandler} className="buttonlike title">
           <i className="fas fa-hand-rock" />
           <div>Provide Services</div>
         </div>
