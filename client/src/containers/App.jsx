@@ -103,13 +103,13 @@ class App extends React.Component {
             <React.Fragment>
               {userAppView === 'PROPOSER' && (
                 <div className="VerticalAligner title" id="bidorboo-switch-role">
-                  <p>Requester View</p>
+                  <p className="title has-text-dark">Requester View</p>
                 </div>
               )}
 
               {userAppView === 'BIDDER' && (
                 <div className="VerticalAligner title " id="bidorboo-switch-role">
-                  <p>Tasker View</p>
+                  <p className="title has-text-dark">Tasker View</p>
                 </div>
               )}
             </React.Fragment>

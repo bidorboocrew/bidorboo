@@ -396,7 +396,7 @@ header.card-header {
   text-align: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(#fff, 0.8);
+  background-color: rgba(white, 0.8);
   z-index: 999;
   padding-top: 25%;
   overflow: hidden;
@@ -407,8 +407,8 @@ header.card-header {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  -webkit-animation: fade-out 0.2s ease-out 0.5s both;
-  animation: fade-out 0.2s ease-out 0.5s both;
+  -webkit-animation: fade-out 0.2s ease-out 0.3s both;
+  animation: fade-out 0.2s ease-out 0.3s both;
 }
 
 @-webkit-keyframes fade-out {
