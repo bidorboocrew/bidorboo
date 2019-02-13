@@ -243,7 +243,7 @@ export const StartDateAndTime = ({ date }) => {
   return (
     <React.Fragment>
       <DisplayLabelValue labelText="Start Date:" labelValue={startingDate} />
-      <DisplayLabelValue labelText="Start Time:" labelValue={timeText} />
+      <DisplayLabelValue labelText="Start Time:" labelValue={timeText || 'not specified'} />
     </React.Fragment>
   );
 };
