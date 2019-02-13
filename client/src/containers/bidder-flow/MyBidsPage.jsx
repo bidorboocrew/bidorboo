@@ -96,7 +96,7 @@ class MyBidsPage extends React.Component {
       <div className="container is-widescreen bidorbooContainerMargins">
         <FloatingAddNewBidButton />
 
-        <div style={{ position: 'relative' }} className="tabs is-large">
+        <div style={{ position: 'relative' }} className="tabs is-medium">
           <ul>
             <li className={`${activeTab === MYBIDS_TAB_IDS.myBidsTab ? 'is-active' : null}`}>
               <a
