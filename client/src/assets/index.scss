@@ -1,3 +1,7 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700,500');
+
 @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
@@ -18,7 +22,7 @@ html body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 body {
   background-color: #222;
@@ -101,14 +105,16 @@ div.react-datepicker {
   background: white;
 }
 
-$family-primary: 'Helvetica', 'Arial', sans-serif;
-$family-sans-serif: 'Helvetica', 'Arial', sans-serif;
+
+
+$family-primary: 'Poppins', sans-serif;
+$family-sans-serif: 'Poppins', sans-serif;
 $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 $navbar-item-hover-color: black;
 $navbar-item-active-color: hsl(217, 71%, 53%) !important;
 // xxx scary but it works
-$navbar-height: 3.9rem;
+$navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;

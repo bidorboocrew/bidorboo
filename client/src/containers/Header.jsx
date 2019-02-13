@@ -115,6 +115,7 @@ class Header extends React.Component {
 
           <div className="navbar-brand">
             <a
+              id="BidOrBoo-logo-step"
               onClick={() => {
                 this.closeMenuThenExecute(() => {
                   switchRoute(ROUTES.CLIENT.HOME);
@@ -461,11 +462,12 @@ class Header extends React.Component {
                     )}
 
                     <div
+                      id="myprofile-step"
                       className={`navbar-item dropdown is-right  ${
                         isProfileMenuActive ? 'is-active' : ''
                       }`}
                     >
-                      <nav className="navbar" role="navigation" aria-label="dropdown navigation">
+                      <nav>
                         <div className="navbar-item has-dropdown">
                           <a onClick={this.toggleProfileMenu} className="navbar-link">
                             <figure className="image is-32x32">
