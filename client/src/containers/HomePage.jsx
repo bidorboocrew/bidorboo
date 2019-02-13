@@ -83,7 +83,7 @@ const RequestAService = (props) => {
               <span className="steps-marker" />
               <div className="steps-content">
                 <p className="is-size-5">Step 3</p>
-                <p>Chose a Tasker.</p>
+                <p>Choose a Tasker.</p>
               </div>
             </li>
           </ul>

@@ -2,6 +2,7 @@
 // const sendGridEmailing = require('../services/sendGrid').EmailService;
 const keys = require('../config/keys');
 const Recaptcha = require('recaptcha-verify');
+// skip
 
 const recaptcha = new Recaptcha({
   secret: keys.recaptchaApiKey,
@@ -14,6 +15,10 @@ module.exports = async (req, res, next) => {
       errorMsg:
         'missing paramerters recaptchaField. can not confirm that you are not a robot. if this persists please contact bidorboocrew@gmail.com',
     });
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    // skip
+    next();
   }
   try {
     const recpatchaAssesmentResponse = (error, response) => {
