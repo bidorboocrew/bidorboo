@@ -40,8 +40,20 @@ class NotificationsModal extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    {getAwardedJobDetailslinks(jobsHappeningToday, onClose)}
-                    {getAwardedBidsDetailslinks(bidsHappeningToday, onClose)}
+                    {getAwardedJobDetailslinks(
+                      jobsHappeningToday,
+                      onClose,
+                      <span className="icon">
+                        <i className="far fa-clock" />
+                      </span>,
+                    )}
+                    {getAwardedBidsDetailslinks(
+                      bidsHappeningToday,
+                      onClose,
+                      <span className="icon">
+                        <i className="far fa-clock" />
+                      </span>,
+                    )}
                   </React.Fragment>
                 )}
                 {didRecieveNewBids && (
@@ -53,7 +65,13 @@ class NotificationsModal extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    {getReviewJoblinks(jobIdsWithNewBids, onClose)}
+                    {getReviewJoblinks(
+                      jobIdsWithNewBids,
+                      onClose,
+                      <span className="icon">
+                        <i className="far fa-plus-square" />
+                      </span>,
+                    )}
                   </React.Fragment>
                 )}
                 {didMyBidsGetAwarded && (
@@ -65,7 +83,13 @@ class NotificationsModal extends React.Component {
                         </li>
                       </ul>
                     </div>
-                    {getAwardedBidsDetailslinks(myBidsWithNewStatus, onClose)}
+                    {getAwardedBidsDetailslinks(
+                      myBidsWithNewStatus,
+                      onClose,
+                      <span className="icon">
+                        <i className="fas fa-hand-rock" />
+                      </span>,
+                    )}
                   </React.Fragment>
                 )}
               </div>
@@ -104,7 +128,7 @@ export default connect(
   null,
 )(NotificationsModal);
 
-const getAwardedJobDetailslinks = (jobs, closeDialog) => {
+const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
   if (jobs && jobs.length > 0) {
     return jobs.map((job) => {
       return (
@@ -117,14 +141,15 @@ const getAwardedJobDetailslinks = (jobs, closeDialog) => {
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"
         >
-          {`Your ${job.fromTemplateId} Request is scheduled for today`}
+          {icon && icon}
+          <span>{`Your ${job.fromTemplateId} Request is scheduled for today`}</span>
         </div>
       );
     });
   }
   return null;
 };
-const getReviewJoblinks = (jobs, closeDialog) => {
+const getReviewJoblinks = (jobs, closeDialog, icon) => {
   if (jobs && jobs.length > 0) {
     return jobs.map((job) => {
       return (
@@ -137,7 +162,8 @@ const getReviewJoblinks = (jobs, closeDialog) => {
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"
         >
-          {`${job._bidsListRef.length} new bid on your ${job.fromTemplateId} Request`}
+          {icon && icon}
+          <span>{`${job._bidsListRef.length} new bid on your ${job.fromTemplateId} Request`}</span>
         </div>
       );
     });
@@ -145,7 +171,7 @@ const getReviewJoblinks = (jobs, closeDialog) => {
   return null;
 };
 
-const getAwardedBidsDetailslinks = (bids, closeDialog) => {
+const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
   if (bids && bids.length > 0) {
     return bids.map((bid) => {
       return (
@@ -158,7 +184,10 @@ const getAwardedBidsDetailslinks = (bids, closeDialog) => {
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"
         >
-          {`Your ${bid.bidAmount.value} CAD bid for ${bid._jobRef.fromTemplateId} WON!`}
+          {icon && icon}
+          <span>
+            {`Your ${bid.bidAmount.value} CAD bid for ${bid._jobRef.fromTemplateId} WON!`}
+          </span>
         </div>
       );
     });
