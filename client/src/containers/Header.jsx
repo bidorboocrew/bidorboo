@@ -156,7 +156,7 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
-            {isLoggedIn && (
+            {/* {isLoggedIn && (
               <div className="navbar-item is-hidden-touch">
                 <a
                   className={`button is-outline ${
@@ -174,7 +174,7 @@ class Header extends React.Component {
                   <span>My Agenda</span>
                 </a>
               </div>
-            )}
+            )} */}
 
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
@@ -287,7 +287,7 @@ class Header extends React.Component {
                 {(!isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('proposer-root') ? 'is-active' : ''
+                      window.location.pathname.includes('bdb-request') ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -304,7 +304,7 @@ class Header extends React.Component {
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('bidder-root') ? 'is-active' : ''
+                      window.location.pathname.includes('bdb-offer') ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -323,9 +323,7 @@ class Header extends React.Component {
                     {!isActingAsBidder && (
                       <a
                         className={`navbar-item ${
-                          window.location.pathname.includes('proposer/my-open-jobs/postedJobs')
-                            ? 'is-active'
-                            : ''
+                          window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
                         }`}
                         style={{ position: 'relative' }}
                         onClick={(e) => {
@@ -368,7 +366,7 @@ class Header extends React.Component {
                           });
                         }}
                         className={`navbar-item ${
-                          window.location.pathname.includes('bidder/my-bids') ? 'is-active' : ''
+                          window.location.pathname.includes('my-bids') ? 'is-active' : ''
                         }`}
                       >
                         <span className="icon">

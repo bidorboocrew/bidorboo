@@ -111,9 +111,9 @@ export const CLIENT = {
   PROPOSER: {
     root: '/bdb-request',
     createjob: '/bdb-request/create-job',
-    getMyOpenJobsAwardedJobsTab: '/bdb-request/my-open-jobs/awardedJobs',
-    getMyOpenJobsPostedJobsTab: '/bdb-request/my-open-jobs/postedJobs',
-    myOpenJobs: '/bdb-request/my-open-jobs',
+    getMyOpenJobsAwardedJobsTab: '/my-open-jobs/awardedJobs',
+    getMyOpenJobsPostedJobsTab: '/my-open-jobs/postedJobs',
+    myOpenJobs: '/my-open-jobs',
     reviewRequestAndBidsPage: '/bdb-request/review-request-details',
     dynamicReviewRequestAndBidsPage: (jobId) => `/bdb-request/review-request-details/${jobId}`,
     newlyPostedJob: '/bdb-request/new-job-details',
@@ -124,10 +124,10 @@ export const CLIENT = {
   BIDDER: {
     root: '/bdb-offer',
     BidOnJobPage: '/bdb-offer/bid-on-job',
-    mybids: '/bdb-offer/my-bids',
-    reviewMyBidAndTheRequestDetails: '/bdb-offer/review-my-bid-details',
-    currentAwardedBid: '/bdb-offer/awarded-bid-details',
-    myAwardedBids: '/bdb-offer/my-awarded-bids',
+    mybids: '/my-bids',
+    reviewMyBidAndTheRequestDetails: '/review-my-bid-details',
+    currentAwardedBid: '/awarded-bid-details',
+    myAwardedBids: '/my-awarded-bids',
   },
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
