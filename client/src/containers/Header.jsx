@@ -410,7 +410,7 @@ class Header extends React.Component {
                             <span className="icon">
                               <i className="fas fa-sync-alt" />
                             </span>
-                            <span>Switch To Requester</span>
+                            <span>Request A Service</span>
 
                             {jobRecievedNewBids && (
                               <span
@@ -442,7 +442,7 @@ class Header extends React.Component {
                             <span className="icon">
                               <i className="fas fa-sync-alt" />
                             </span>
-                            <span>Switch To Tasker</span>
+                            <span>Provide A Service</span>
                             {bidsGotAwardedToMe && (
                               <div
                                 style={{
