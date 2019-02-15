@@ -105,17 +105,6 @@ div.react-datepicker {
   background: white;
 }
 
-
-
-$family-primary: 'Open Sans', sans-serif;
-$family-sans-serif: 'Open Sans', sans-serif;
-$body-background-color: white; //#3b549c;
-// $navbar-background-color: white;
-$navbar-item-hover-color: black;
-$navbar-item-active-color: hsl(217, 71%, 53%) !important;
-// xxx scary but it works
-$navbar-height: 4rem;
-$navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
 }
@@ -152,6 +141,30 @@ a.navbar-item.is-active {
 .react-datepicker__day {
   font-size: 18px;
 }
+
+$family-primary: 'Open Sans', sans-serif;
+$family-sans-serif: 'Open Sans', sans-serif;
+$body-background-color: white; //#3b549c;
+// $navbar-background-color: white;
+// xxx scary but it works
+$navbar-height: 4rem;
+$navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
+$orange: #e85255 !default;
+$yellow: #e19f00 !default;
+$green: #31c110 !default;
+$turquoise: #70cfd5 !default;
+$cyan: #14719f !default;
+$blue: #14719f !default;
+$purple: #bdaee6 !default;
+$red: #e85255 !default;
+$navbar-item-active-color: $cyan !important;
+$navbar-item-hover-color: black;
+
+// Typography
+
+$family-sans-serif: 'Open Sans', sans-serif !default;
+$family-monospace: monospace !default;
+$render-mode: optimizeLegibility !default;
 
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
@@ -207,7 +220,6 @@ img {
   width: 100% !important;
   height: 8rem !important;
   background-color: white;
-  max-width: 500px;
 }
 
 .bdb-newjob-confirm-img {
