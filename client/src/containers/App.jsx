@@ -91,7 +91,7 @@ class App extends React.Component {
             left: 0,
             right: 0,
             width: '100%',
-            backgroundColor: '#23d160',
+            backgroundColor: '#31c110',
             height: '5px',
           }}
         />
