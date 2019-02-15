@@ -78,7 +78,7 @@ export default class BidsTable extends React.Component {
                 style={{ position: 'relative' }}
               >
                 <span className="icon">
-                  <i className="fas fa-glasses" />
+                  <i className="fas fa-bullseye" />
                 </span>
                 <span>View</span>
                 {bid.isNewBid && (

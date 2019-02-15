@@ -64,7 +64,7 @@ export default class MyBidsAwardedBid extends React.Component {
           <div className="card-footer-item" style={{ position: 'relative' }}>
             <a className="button is-outlined is-success">
               <span className="icon">
-                <i className="fas fa-glasses" />
+                <i className="fas fa-bullseye" />
               </span>
               <span>View Details</span>
             </a>

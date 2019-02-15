@@ -56,7 +56,7 @@ export default class MineTabSummaryCard extends React.Component {
           </div>
           <a className="button is-info is-outlined is-fullwidth">
             <span className="icon">
-              <i className="fas fa-glasses" />
+              <i className="fas fa-bullseye" />
             </span>
             <span>View Details</span>
           </a>

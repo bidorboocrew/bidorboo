@@ -431,7 +431,7 @@ class NewJobForm extends React.Component {
               }}
             >
               <span className="icon">
-                <i className="fas fa-glasses" />
+                <i className="fas fa-bullseye" />
               </span>
               <span>Preview</span>
             </button>
