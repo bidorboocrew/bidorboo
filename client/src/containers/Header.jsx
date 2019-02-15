@@ -178,7 +178,11 @@ class Header extends React.Component {
 
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
-                <a onClick={this.toggleNotificationMenu} className="button is-outlined is-info">
+                <a
+                  style={{ border: '1px solid rgb(238, 238, 238)' }}
+                  onClick={this.toggleNotificationMenu}
+                  className="button is-outlined is-info"
+                >
                   <span className="icon">
                     <i className="fas fa-bell" />
                   </span>
