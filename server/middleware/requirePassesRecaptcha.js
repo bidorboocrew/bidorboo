@@ -16,10 +16,6 @@ module.exports = async (req, res, next) => {
         'missing paramerters recaptchaField. can not confirm that you are not a robot. if this persists please contact bidorboocrew@gmail.com',
     });
   }
-  if (process.env.NODE_ENV !== 'production') {
-    // skip
-    next();
-  }
   try {
     const recpatchaAssesmentResponse = (error, response) => {
       if (error) {
