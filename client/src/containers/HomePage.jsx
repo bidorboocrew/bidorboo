@@ -10,11 +10,11 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <section class="hero is-white has-text-centered">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">Bid Or Boo</h1>
-              <h2 class="subtitle">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Bid Or Boo</h1>
+              <h2 className="subtitle">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
             </div>
@@ -38,8 +38,8 @@ export default class HomePage extends React.Component {
             />
           </div>
         </div>
-        <footer class="footer">
-          <div class="content has-text-centered">
+        <footer className="footer">
+          <div className="content has-text-centered">
             <div className="has-text-centered">
               <label style={{ fontWeight: 400 }} className="label has-text-grey">
                 BidOrBoo is Availble in Canada

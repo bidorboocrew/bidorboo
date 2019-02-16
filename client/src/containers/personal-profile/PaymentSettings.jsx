@@ -45,9 +45,9 @@ class PaymentSettings extends React.Component {
     let { stripeConnect } = userDetails;
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
-        <div className="card">
-          <div className="card-content">
+      <section style={{ padding: '0.5rem' }} className="section">
+        <div className="columns is-centered">
+          <div className="column is-narrow is-half">
             {(!stripeConnect || !stripeConnect.last4BankAcc) && (
               <InitialAccountSetupView
                 {...this.props}
@@ -61,7 +61,7 @@ class PaymentSettings extends React.Component {
             )}
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

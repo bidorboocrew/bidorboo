@@ -68,10 +68,10 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
-        <section class="hero is-white is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">My Profile</h1>
+        <section className="hero is-white is-small">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Profile</h1>
             </div>
           </div>
         </section>
@@ -88,9 +88,9 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title">
+              <div className="card">
+                <header className="card-header">
+                  <p className="card-header-title">
                     {!isEditProfile ? 'My Details' : 'Edit My Details'}
                   </p>
                   {!isEditProfile && (
@@ -99,7 +99,7 @@ class MyProfile extends React.Component {
                         this.toggleEditProfile();
                       }}
                       href="#"
-                      class="card-header-icon has-text-success"
+                      className="card-header-icon has-text-success"
                       aria-label="more options"
                     >
                       <span className="icon">
@@ -108,8 +108,8 @@ class MyProfile extends React.Component {
                     </a>
                   )}
                 </header>
-                <div class="card-content">
-                  <div class="content">
+                <div className="card-content">
+                  <div className="content">
                     {!isEditProfile && (
                       <div>
                         <HeaderTitle title="Personal Info" />
@@ -249,9 +249,9 @@ const userImageAndStats = (
 ) => {
   const { globalRating } = rating;
   return (
-    <div class="card">
-      <div class="card-content">
-        <div class="content">
+    <div className="card">
+      <div className="card-content">
+        <div className="content">
           <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
             <div
               onClick={(e) => {

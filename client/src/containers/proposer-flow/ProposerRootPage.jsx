@@ -12,11 +12,11 @@ class ProposerRoot extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <section class="hero is-white has-text-centered">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">Request a service</h1>
-              <h2 class="subtitle">Start by selecting one of our templates</h2>
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Request a service</h1>
+              <h2 className="subtitle">Start by selecting one of our templates</h2>
             </div>
           </div>
         </section>
