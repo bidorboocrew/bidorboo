@@ -70,9 +70,7 @@ class MyProfile extends React.Component {
         )}
         <section className="hero is-white is-small">
           <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Profile</h1>
-            </div>
+            <h1 className="title">My Profile</h1>
           </div>
         </section>
 
@@ -223,7 +221,7 @@ const HeaderTitle = (props) => {
       style={{
         marginTop: 8,
         marginBottom: 4,
-        fontSize: 20,
+        fontSize: '1rem',
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >
@@ -272,13 +270,13 @@ const userImageAndStats = (
             </div>
             <br />
             <div className="field">
-              <label className="label">Name</label>
+              <HeaderTitle title="Name" />
               <div className="control">
                 <div className="control">{displayName}</div>
               </div>
             </div>
             <div className="field">
-              <label className="label">Rating</label>
+              <HeaderTitle title="Rating" />
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <p className="is-size-7">No Ratings Yet</p>
               ) : (
@@ -294,14 +292,11 @@ const userImageAndStats = (
                       color2={'#ffd700'}
                     />
                   </span>
-                  <span style={{ color: 'black' }} className="has-text-weight-semibold">
-                    ({globalRating})
-                  </span>
                 </div>
               )}
             </div>
             <div className="field">
-              <label className="label">Status</label>
+              <HeaderTitle title="Status" />
               <div className="control">
                 <div className="control">{membershipStatusDisplay}</div>
               </div>
