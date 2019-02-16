@@ -205,22 +205,21 @@ class Header extends React.Component {
                       })
                     }
                     className="navbar-item is-hidden-desktop"
-                    style={{ position: 'relative' }}
                   >
-                    <span className="icon">
+                    <span style={{ position: 'relative' }} className="icon">
                       <i className="fas fa-sync-alt" />
+                      {jobRecievedNewBids && (
+                        <div
+                          style={{ position: 'absolute', top: -6, right: -6, fontSize: 6 }}
+                          className="has-text-danger"
+                        >
+                          <i className="fas fa-circle" />
+                        </div>
+                      )}
                     </span>
                     <span>
                       <i className="far fa-plus-square" />
                     </span>
-                    {jobRecievedNewBids && (
-                      <div
-                        style={{ position: 'absolute', top: 20, right: 10, fontSize: 6 }}
-                        className="has-text-danger"
-                      >
-                        <i className="fas fa-circle" />
-                      </div>
-                    )}
                   </a>
                 ) : (
                   <a
@@ -230,22 +229,21 @@ class Header extends React.Component {
                       })
                     }
                     className="navbar-item is-hidden-desktop"
-                    style={{ position: 'relative' }}
                   >
-                    <span className="icon">
+                    <span style={{ position: 'relative' }} className="icon">
                       <i className="fas fa-sync-alt" />
+                      {bidsGotAwardedToMe && (
+                        <div
+                          style={{ position: 'absolute', top: -2, right: -3, fontSize: 6 }}
+                          className="has-text-danger"
+                        >
+                          <i className="fas fa-circle" />
+                        </div>
+                      )}
                     </span>
                     <span>
                       <i className="fas fa-hand-rock" />
                     </span>
-                    {bidsGotAwardedToMe && (
-                      <div
-                        style={{ position: 'absolute', top: 20, right: 10, fontSize: 6 }}
-                        className="has-text-danger"
-                      >
-                        <i className="fas fa-circle" />
-                      </div>
-                    )}
                   </a>
                 )}
               </React.Fragment>
@@ -267,12 +265,10 @@ class Header extends React.Component {
               <span aria-hidden="true" />
               <span aria-hidden="true" />
               {(jobRecievedNewBids || bidsGotAwardedToMe) && (
-                <div
-                  style={{ position: 'absolute', top: 16, right: 16, fontSize: 10 }}
-                  className="has-text-danger"
-                >
-                  <i className="fas fa-circle" />
-                </div>
+                <i
+                  style={{ position: 'absolute', top: 18, right: 18, fontSize: 8 }}
+                  className="has-text-danger fas fa-circle"
+                />
               )}
             </a>
           </div>
@@ -319,7 +315,7 @@ class Header extends React.Component {
                     <span className="icon">
                       <i className="fas fa-hand-rock" />
                     </span>
-                    <span>Offer A Service</span>
+                    <span>Provide A Service</span>
                   </a>
                 )}
                 {isLoggedIn && (
@@ -329,41 +325,35 @@ class Header extends React.Component {
                         className={`navbar-item ${
                           window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
                         }`}
-                        style={{ position: 'relative' }}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
                           });
                         }}
                       >
-                        <span className="icon">
+                        <span style={{ position: 'relative' }} className="icon">
                           <i className="fas fa-list" />
+                          {jobRecievedNewBids && (
+                            <span
+                              style={{
+                                fontSize: 8,
+                                position: 'absolute',
+                                top: -6,
+                                left: -6,
+                                borderRadius: '100%',
+                                textAlign: 'center',
+                              }}
+                              className="icon has-text-danger"
+                            >
+                              <i className="fas fa-circle" />
+                            </span>
+                          )}
                         </span>
                         <span>My Requests</span>
-                        {jobRecievedNewBids && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: 8,
-                              left: 14,
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.jobIdsWithNewBids.length > 9
-                                ? '9+'
-                                : notificationFeed.jobIdsWithNewBids.length
-                            }`}</span>
-                          </span>
-                        )}
                       </a>
                     )}
                     {isActingAsBidder && (
                       <a
-                        style={{ position: 'relative' }}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -373,29 +363,26 @@ class Header extends React.Component {
                           window.location.pathname.includes('my-bids') ? 'is-active' : ''
                         }`}
                       >
-                        <span className="icon">
+                        <span style={{ position: 'relative' }} className="icon">
                           <i className="fas fa-money-check-alt" />
+                          {bidsGotAwardedToMe && (
+                            <span
+                              style={{
+                                fontSize: 8,
+                                position: 'absolute',
+                                top: -6,
+                                left: -6,
+                                borderRadius: '100%',
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-danger icon">
+                                <i className="fas fa-circle" />
+                              </span>
+                            </span>
+                          )}
                         </span>
                         <span>My Bids</span>
-                        {bidsGotAwardedToMe && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: 8,
-                              left: 14,
-                              borderRadius: '100%',
-                              minWidth: 15,
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-white">{`${
-                              notificationFeed.myBidsWithNewStatus.length > 9
-                                ? '9+'
-                                : notificationFeed.myBidsWithNewStatus.length
-                            }`}</span>
-                          </span>
-                        )}
                       </a>
                     )}
 
@@ -409,29 +396,26 @@ class Header extends React.Component {
                               })
                             }
                             className="navbar-item"
-                            style={{ position: 'relative' }}
                           >
-                            <span className="icon">
+                            <span style={{ position: 'relative' }} className="icon">
                               <i className="fas fa-sync-alt" />
+                              {jobRecievedNewBids && (
+                                <span
+                                  style={{
+                                    fontSize: 8,
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    borderRadius: '100%',
+                                    textAlign: 'center',
+                                  }}
+                                  className="has-text-danger"
+                                >
+                                  <i className="fas fa-circle" />
+                                </span>
+                              )}
                             </span>
                             <span>Request A Service</span>
-
-                            {jobRecievedNewBids && (
-                              <span
-                                style={{
-                                  fontSize: 8,
-                                  position: 'absolute',
-                                  top: 18,
-                                  left: 10,
-                                  borderRadius: '100%',
-                                  minWidth: 15,
-                                  textAlign: 'center',
-                                }}
-                                className="has-text-danger"
-                              >
-                                <i className="fas fa-circle" />
-                              </span>
-                            )}
                           </a>
                         ) : (
                           <a
@@ -441,28 +425,26 @@ class Header extends React.Component {
                               })
                             }
                             className="navbar-item"
-                            style={{ position: 'relative' }}
                           >
-                            <span className="icon">
+                            <span style={{ position: 'relative' }} className="icon">
                               <i className="fas fa-sync-alt" />
+                              {bidsGotAwardedToMe && (
+                                <div
+                                  style={{
+                                    fontSize: 8,
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    borderRadius: '100%',
+                                    textAlign: 'center',
+                                  }}
+                                  className="has-text-danger"
+                                >
+                                  <i className="fas fa-circle" />
+                                </div>
+                              )}
                             </span>
                             <span>Provide A Service</span>
-                            {bidsGotAwardedToMe && (
-                              <div
-                                style={{
-                                  fontSize: 8,
-                                  position: 'absolute',
-                                  top: 18,
-                                  left: 10,
-                                  borderRadius: '100%',
-                                  minWidth: 15,
-                                  textAlign: 'center',
-                                }}
-                                className="has-text-danger"
-                              >
-                                <i className="fas fa-circle" />
-                              </div>
-                            )}
                           </a>
                         )}
                       </React.Fragment>
