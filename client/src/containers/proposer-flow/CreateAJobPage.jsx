@@ -8,6 +8,7 @@ import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
 import { switchRoute } from '../../utils';
 import NewJobForm from '../../components/forms/NewJobForm';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 class CreateAJobPage extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class CreateAJobPage extends React.Component {
 
   render() {
     const { chosenTemplate } = this.state;
-    const { currentUserDetails } = this.props;
+    const { currentUserDetails, a_showLoginDialog, isLoggedIn } = this.props;
     const jobDetails = {
       title: chosenTemplate.title,
       imageUrl: chosenTemplate.imageUrl,
@@ -59,6 +60,8 @@ class CreateAJobPage extends React.Component {
             <div className="card-content">
               <br />
               <NewJobForm
+                isLoggedIn={isLoggedIn}
+                showLoginDialog={a_showLoginDialog}
                 fromTemplateIdField={jobDetails.id}
                 jobTitleField={jobDetails.title}
                 suggestedDetailsText={jobDetails.suggestedDetailsText}
@@ -77,12 +80,14 @@ class CreateAJobPage extends React.Component {
 const mapStateToProps = ({ userReducer }) => {
   return {
     currentUserDetails: userReducer.userDetails,
+    isLoggedIn: userReducer.isLoggedIn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     a_addJob: bindActionCreators(addJob, dispatch),
+    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
