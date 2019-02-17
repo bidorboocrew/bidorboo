@@ -216,20 +216,18 @@ class BidderRootPage extends React.Component {
             <div className="container">
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
-              <div
-                style={{ marginBottom: 6 }}
-                className="help container is-widescreen has-text-centered"
-              >
-                <Switch
-                  uncheckedIcon={false}
-                  onChange={this.handleChange}
-                  checked={this.state.allowAutoDetect}
-                />
-                <div>
-                  {this.state.allowAutoDetect
+              <div className="field">
+                  <input
+                    id="switchRoundedSuccess"
+                    onChange={this.handleChange}
+                    type="checkbox"
+                    name="switchRoundedSuccess"
+                    className="switch is-rounded is-success"
+                    checked={this.state.allowAutoDetect} />
+                  <label for="switchRoundedSuccess"> {this.state.allowAutoDetect
                     ? 'BidOrBoo is serving custom results based on your location'
-                    : `Allow BidOrBoo to auto detect my location for better search results`}
-                </div>
+                    : `Allow BidOrBoo to detect location for better results`}
+                  </label>
               </div>
             </div>
           </div>
