@@ -59,6 +59,7 @@
     "react-stars": "^2.2.5",
     "react-stripe-checkout": "^2.6.3",
     "react-stripe-elements": "^2.0.1",
+    "react-switch": "^4.1.0",
     "react-timeout": "^1.1.2",
     "react-window-size": "^1.2.2",
     "reactour": "^1.13.1",

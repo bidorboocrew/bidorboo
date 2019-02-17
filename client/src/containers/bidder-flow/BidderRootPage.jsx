@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Switch from 'react-switch';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
@@ -34,6 +35,7 @@ class BidderRootPage extends React.Component {
     }
 
     this.state = {
+      allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
       activeTab: initialTabSelection,
       showSideNav: false,
@@ -172,6 +174,12 @@ class BidderRootPage extends React.Component {
     this.setState({ showSideNav: !this.state.showSideNav });
   };
 
+  handleChange = () => {
+    this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
+      navigator && navigator.geolocation && this.getCurrentAddress();
+    });
+  };
+
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
@@ -224,15 +232,30 @@ class BidderRootPage extends React.Component {
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
         />
+        <div style={{ marginBottom: 6 }} className="help container is-widescreen has-text-centered">
+          <label>
+            <Switch
+              uncheckedIcon={false}
+              onChange={this.handleChange}
+              checked={this.state.allowAutoDetect}
+            />
+            <div>
+              {this.state.allowAutoDetect
+                ? 'BidOrBoo is serving custom results based on your location'
+                : `Allow BidOrBoo to auto detect my location for better search results`}
+            </div>
+          </label>
+        </div>
+
+        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
+
+        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
         <div
           style={{ marginBottom: 6 }}
           className="help container is-widescreen has-text-grey has-text-centered"
         >
           {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
         </div>
-        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
         <br />
 
         <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
