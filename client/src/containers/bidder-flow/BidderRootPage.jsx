@@ -209,11 +209,11 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
-        <Tabs
+        {/* <Tabs
           activeTab={activeTab}
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
-        />
+        /> */}
         <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
@@ -226,7 +226,7 @@ class BidderRootPage extends React.Component {
           style={{ marginBottom: 6 }}
           className="help container is-widescreen has-text-grey has-text-centered"
         >
-          {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
+          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
         </div>
         {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
 

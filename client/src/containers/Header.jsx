@@ -167,26 +167,6 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
-            {/* {isLoggedIn && (
-              <div className="navbar-item is-hidden-touch">
-                <a
-                  className={`button is-outline ${
-                    window.location.pathname.includes('my-calendar') ? 'is-info' : ''
-                  }`}
-                  onClick={() => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.MYAGENDA);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-calendar-alt" />
-                  </span>
-                  <span>My Agenda</span>
-                </a>
-              </div>
-            )} */}
-
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
                 <a
@@ -499,8 +479,6 @@ class Header extends React.Component {
                               </span>
                               <span>My Profile</span>
                             </a>
-                            <hr className="navbar-divider" />
-
                             {isActingAsBidder && (
                               <React.Fragment>
                                 <a
@@ -516,43 +494,22 @@ class Header extends React.Component {
                                   </span>
                                   <span>My Payouts</span>
                                 </a>
-                                <hr className="navbar-divider" />
-                                {/* <a
-                                  onClick={() => {
-                                    this.closeMenuThenExecute(() => {
-                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
-                                    });
-                                  }}
-                                  className="navbar-item"
-                                >
-                                  <span className="icon">
-                                    <i className="fas fa-history" aria-hidden="true" />
-                                  </span>
-                                  <span>Fulfilled Offers</span>
-                                </a>
-                                <hr className="navbar-divider" /> */}
                               </React.Fragment>
                             )}
-                            {/* {isLoggedIn && !isActingAsBidder && (
-                              <React.Fragment>
-                                <a
-                                  onClick={() => {
-                                    this.closeMenuThenExecute(() => {
-                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastRequestedServices);
-                                    });
-                                  }}
-                                  className="navbar-item"
-                                >
-                                  <span className="icon">
-                                    <i className="fas fa-history" aria-hidden="true" />
-                                  </span>
-                                  <span>Fulfilled Requests</span>
-                                  <span />
-                                </a>
-                                <hr className="navbar-divider" />
-                              </React.Fragment>
-                            )} */}
-
+                            <a
+                              onClick={(e) =>
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.NotificationSettings);
+                                })
+                              }
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-bell" />
+                              </span>
+                              <span>Notifications</span>
+                            </a>
+                            <hr className="navbar-divider" />
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
