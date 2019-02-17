@@ -263,7 +263,6 @@ class Header extends React.Component {
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
-              style={{ position: 'relative' }}
               className={classNames('navbar-burger', {
                 'is-active': isHamburgerOpen,
               })}
@@ -272,15 +271,16 @@ class Header extends React.Component {
               aria-label="menu"
               aria-expanded={isHamburgerOpen}
             >
+              <span style={{ position: 'relative' }} aria-hidden="true">
+                {(jobRecievedNewBids || bidsGotAwardedToMe) && (
+                  <i
+                    style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
+                    className="has-text-danger fas fa-circle"
+                  />
+                )}
+              </span>
               <span aria-hidden="true" />
               <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              {(jobRecievedNewBids || bidsGotAwardedToMe) && (
-                <i
-                  style={{ position: 'absolute', top: 18, right: 1, fontSize: 8 }}
-                  className="has-text-danger fas fa-circle"
-                />
-              )}
             </a>
           </div>
 
