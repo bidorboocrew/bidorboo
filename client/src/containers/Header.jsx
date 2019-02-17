@@ -137,9 +137,20 @@ class Header extends React.Component {
                   transform: 'scaleY(1.1)',
                   fontWeight: 500,
                 }}
-                className="has-text-dark is-size-4"
+                className="has-text-dark is-size-4 is-hidden-touch"
               >
                 BidOrBoo
+              </span>
+              <span
+                style={{
+                  paddingLeft: 2,
+                  marginBottom: -2,
+                  transform: 'scaleY(1.1)',
+                  fontWeight: 500,
+                }}
+                className="has-text-dark is-size-4 is-hidden-desktop"
+              >
+                B.O.B
               </span>
             </a>
             {!isLoggedIn && (

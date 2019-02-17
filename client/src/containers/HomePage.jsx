@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Bid Or Boo</h1>
+              <h1 className="title">BidOrBoo</h1>
               <h2 className="subtitle">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
