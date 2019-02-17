@@ -107,7 +107,7 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}. You are now logged in`,
+                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
               },
             },
           });
