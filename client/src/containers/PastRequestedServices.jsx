@@ -55,7 +55,7 @@ class PastRequestedServices extends React.Component {
 
     return (
       <React.Fragment>
-        <section className="hero is-dark">
+        <section className="hero is-white">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Past Requested Services</h1>

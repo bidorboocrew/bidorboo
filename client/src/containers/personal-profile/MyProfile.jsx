@@ -68,9 +68,14 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
+        <section className="hero is-white is-small">
+          <div className="hero-body">
+            <h1 className="title">My Profile</h1>
+          </div>
+        </section>
 
         <div className="container is-widescreen bidorbooContainerMargins">
-          <div className="columns is-centered is-gapless">
+          <div className="columns is-centered">
             <div className="column is-narrow">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
@@ -81,103 +86,107 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
-                {!isEditProfile && (
-                  <div className="field">
-                    <HeaderTitle title="My Details" />
-                    <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
-                    <DisplayLabelValue
-                      labelText="Email:"
-                      labelValue={
-                        <div>
-                          <span>{email.emailAddress}</span>
-                          {email.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-success">
-                              <span className="icon">
-                                <i className="fas fa-check is-success" />
-                              </span>
-                              <span>Verified</span>
-                            </span>
-                          )}
-                          {!email.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-grey">
-                              <span style={{ marginLeft: 2 }}>Not Verified</span>
-                            </span>
-                          )}
-                        </div>
-                      }
-                    />
-
-                    {shouldShowEmailVerification && (
-                      <VerifyEmail getCurrentUser={a_getCurrentUser} />
-                    )}
-
-                    <DisplayLabelValue
-                      labelText="Phone Number:"
-                      labelValue={
-                        <div>
-                          <span>{phoneNumber}</span>
-                          {phone.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-success">
-                              <span className="icon">
-                                <i className="fas fa-check is-success" />
-                              </span>
-                              <span>Verified</span>
-                            </span>
-                          )}
-                          {!phone.isVerified && (
-                            <span style={{ marginLeft: 6 }} className="has-text-grey">
-                              <span style={{ marginLeft: 2 }}>Not Verified</span>
-                            </span>
-                          )}
-                        </div>
-                      }
-                    />
-                    {shouldShowPhoneVerification && (
-                      <VerifyPhone getCurrentUser={a_getCurrentUser} />
-                    )}
-
-                    <HeaderTitle specialMarginVal={8} title="About Me" />
-                    <TextareaAutosize
-                      value={personalParagraph}
-                      className="textarea is-marginless is-paddingless"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a',
-                        height: 'auto',
+              <div className="card">
+                <header className="card-header">
+                  <p className="card-header-title">
+                    {!isEditProfile ? 'My Details' : 'Edit My Details'}
+                  </p>
+                  {!isEditProfile && (
+                    <a
+                      onClick={() => {
+                        this.toggleEditProfile();
                       }}
-                      readOnly
-                    />
+                      href="#"
+                      className="card-header-icon has-text-success"
+                      aria-label="more options"
+                    >
+                      <span className="icon">
+                        <i className="far fa-edit" />
+                      </span>
+                    </a>
+                  )}
+                </header>
+                <div className="card-content">
+                  <div className="content">
+                    {!isEditProfile && (
+                      <div>
+                        <HeaderTitle title="Personal Info" />
+                        <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                        <DisplayLabelValue
+                          labelText="Email:"
+                          labelValue={
+                            <div>
+                              <span>{email.emailAddress}</span>
+                              {email.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-success">
+                                  <span className="icon">
+                                    <i className="fas fa-check is-success" />
+                                  </span>
+                                  <span>Verified</span>
+                                </span>
+                              )}
+                              {!email.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                </span>
+                              )}
+                            </div>
+                          }
+                        />
 
-                    <div>
-                      <a
-                        className="button is-success"
-                        onClick={() => {
-                          this.toggleEditProfile();
-                        }}
-                      >
-                        <span className="icon">
-                          <i className="far fa-edit" />
-                        </span>
-                        <span>Edit My Details</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-                {isEditProfile && (
-                  <div>
-                    <HeaderTitle title="Edit My Details" />
+                        {shouldShowEmailVerification && (
+                          <VerifyEmail getCurrentUser={a_getCurrentUser} />
+                        )}
 
-                    <ProfileForm
-                      userDetails={userDetails}
-                      onCancel={this.toggleEditProfile}
-                      onSubmit={this.closeFormAndSubmit}
-                    />
+                        <DisplayLabelValue
+                          labelText="Phone Number:"
+                          labelValue={
+                            <div>
+                              <span>{phoneNumber}</span>
+                              {phone.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-success">
+                                  <span className="icon">
+                                    <i className="fas fa-check is-success" />
+                                  </span>
+                                  <span>Verified</span>
+                                </span>
+                              )}
+                              {!phone.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                </span>
+                              )}
+                            </div>
+                          }
+                        />
+                        {shouldShowPhoneVerification && (
+                          <VerifyPhone getCurrentUser={a_getCurrentUser} />
+                        )}
+
+                        <HeaderTitle title="About Me" />
+                        <TextareaAutosize
+                          value={personalParagraph}
+                          className="textarea is-marginless is-paddingless"
+                          style={{
+                            resize: 'none',
+                            border: 'none',
+                            color: '#4a4a4a',
+                            height: 'auto',
+                          }}
+                          readOnly
+                        />
+                      </div>
+                    )}
+                    {isEditProfile && (
+                      <ProfileForm
+                        userDetails={userDetails}
+                        onCancel={this.toggleEditProfile}
+                        onSubmit={this.closeFormAndSubmit}
+                      />
+                    )}
                   </div>
-                )}
-                <br />
-              </section>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -206,13 +215,13 @@ export default connect(
 )(MyProfile);
 
 const HeaderTitle = (props) => {
-  const { title, specialMarginVal } = props;
+  const { title } = props;
   return (
     <h2
       style={{
-        marginTop: specialMarginVal || 0,
+        marginTop: 8,
         marginBottom: 4,
-        fontSize: 20,
+        fontSize: '1rem',
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >
@@ -238,63 +247,64 @@ const userImageAndStats = (
 ) => {
   const { globalRating } = rating;
   return (
-    <React.Fragment>
-      <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            toggleShowUploadProfileImageDialog();
-          }}
-        >
-          <div>
-            <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-          </div>
+    <div className="card">
+      <div className="card-content">
+        <div className="content">
+          <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                toggleShowUploadProfileImageDialog();
+              }}
+            >
+              <div>
+                <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
+              </div>
 
-          <a className="button is-outlined is-small">
-            <span className="icon">
-              <i className="fa fa-camera" />
-            </span>
-            <span>upload</span>
-          </a>
-        </div>
-        <br />
-        <div className="field">
-          <label className="label">Name</label>
-          <div className="control">
-            <div className="control">{displayName}</div>
-          </div>
-        </div>
-        <div className="field">
-          <label className="label">Rating</label>
-          {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-            <p className="is-size-7">No Ratings Yet</p>
-          ) : (
-            <div className="control">
-              <span>
-                <ReactStars
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={25}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              </span>
-              <span style={{ color: 'black' }} className="has-text-weight-semibold">
-                ({globalRating})
-              </span>
+              <a className="button is-outlined is-small">
+                <span className="icon">
+                  <i className="fa fa-camera" />
+                </span>
+                <span>upload</span>
+              </a>
             </div>
-          )}
-        </div>
-        <div className="field">
-          <label className="label">Status</label>
-          <div className="control">
-            <div className="control">{membershipStatusDisplay}</div>
+            <br />
+            <div className="field">
+              <HeaderTitle title="Name" />
+              <div className="control">
+                <div className="control">{displayName}</div>
+              </div>
+            </div>
+            <div className="field">
+              <HeaderTitle title="Rating" />
+              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                <p className="is-size-7">No Ratings Yet</p>
+              ) : (
+                <div className="control">
+                  <span>
+                    <ReactStars
+                      half
+                      count={5}
+                      value={globalRating}
+                      edit={false}
+                      size={25}
+                      color1={'lightgrey'}
+                      color2={'#ffd700'}
+                    />
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="field">
+              <HeaderTitle title="Status" />
+              <div className="control">
+                <div className="control">{membershipStatusDisplay}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

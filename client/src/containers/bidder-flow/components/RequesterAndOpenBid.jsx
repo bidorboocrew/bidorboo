@@ -4,7 +4,8 @@ import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
 import ReCAPTCHA from 'react-google-recaptcha';
-
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
 class RequesterAndOpenBid extends React.Component {
   constructor(props) {
     super(props);
@@ -122,7 +123,8 @@ class RequesterAndOpenBid extends React.Component {
         </div>
       ) : null;
     return (
-      <React.Fragment>
+      <div className="container is-widescreen bidorbooContainerMargins">
+        <FloatingAddNewBidButton />
         <ReCAPTCHA
           style={{ display: 'none' }}
           onExpired={() => this.recaptchaRef.current.execute()}
@@ -204,12 +206,12 @@ class RequesterAndOpenBid extends React.Component {
 
         <div style={{ height: 'auto' }} className="card disabled">
           <header className="card-header is-clipped">
-            <p className="card-header-title"> Your Bid Info</p>
+            <p className="card-header-title"> My Bid Info</p>
           </header>
           <div className="card-content">
             <br />
             <div style={{ marginBottom: 6 }}>
-              <div className="is-size-7">Your Bid:</div>
+              <div className="is-size-7">My Bid:</div>
 
               <div className="is-size-6">
                 <span className="has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</span>
@@ -222,7 +224,7 @@ class RequesterAndOpenBid extends React.Component {
                       '0 2px 3px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
                     marginLeft: 10,
                   }}
-                  className="button is-outline is-small has-text-dark"
+                  className="button is-outline is-small has-text-info"
                 >
                   <span className="icon">
                     <i className="far fa-edit" />
@@ -232,13 +234,13 @@ class RequesterAndOpenBid extends React.Component {
               </div>
             </div>
             <div style={{ marginBottom: 6 }}>
-              <div className="is-size-7">Your Bid Status :</div>
+              <div className="is-size-7">My Bid Status :</div>
               <div className="is-size-6">Pending</div>
             </div>
             <div className="help">* Requester did not award this job to anyone yet</div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -270,3 +272,18 @@ const EnhancedForms = withFormik({
 });
 
 export default EnhancedForms(RequesterAndOpenBid);
+
+const FloatingAddNewBidButton = () => {
+  return (
+    <a
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        switchRoute(ROUTES.CLIENT.BIDDER.root);
+      }}
+      className="button is-link bdbFloatingButtonText"
+    >
+      <span className="icon">+ </span>
+    </a>
+  );
+};

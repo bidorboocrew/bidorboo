@@ -51,6 +51,11 @@ class NewJobForm extends React.Component {
   }
 
   toggleConfirmationDialog = () => {
+    const { isLoggedIn, showLoginDialog } = this.props;
+    if (!isLoggedIn) {
+      showLoginDialog(true);
+      return;
+    }
     this.setState({
       showConfirmationDialog: !this.state.showConfirmationDialog,
     });
@@ -136,7 +141,6 @@ class NewJobForm extends React.Component {
       setFieldValue,
       currentUserDetails,
     } = this.props;
-
     const { selectedTimeButtonId, showConfirmationDialog } = this.state;
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
@@ -396,7 +400,10 @@ class NewJobForm extends React.Component {
                 className="button is-info is-small"
                 onClick={this.insertTemplateText}
               >
-                Start by answering Questions
+                <span className="icon">
+                  <i className="fas fa-pencil-alt" />
+                </span>
+                <span>Insert Template Questions </span>
               </a>
             }
             placeholder={this.props.suggestedDetailsText}
@@ -431,7 +438,7 @@ class NewJobForm extends React.Component {
               }}
             >
               <span className="icon">
-                <i className="fas fa-glasses" />
+                <i className="fas fa-bullseye" />
               </span>
               <span>Preview</span>
             </button>
@@ -516,6 +523,7 @@ const EnhancedForms = withFormik({
       .required('*Please provide a detailed description '),
   }),
   mapPropsToValues: (props) => {
+    debugger;
     return {
       timeField: 5,
       fromTemplateIdField: props.fromTemplateIdField,

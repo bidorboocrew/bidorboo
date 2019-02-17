@@ -201,6 +201,14 @@ class BidderRootPage extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Provide a Service</h1>
+              <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
+            </div>
+          </div>
+        </section>
         <Tabs
           activeTab={activeTab}
           changeActiveTab={this.changeActiveTab}

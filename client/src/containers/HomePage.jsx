@@ -9,45 +9,50 @@ import { switchRoute } from '../utils';
 export default class HomePage extends React.Component {
   render() {
     return (
-      <section className="hero has-text-centered">
-        <div className="hero-body">
-          <div className="container is-widescreen">
-            <h1 style={{ transform: 'scaleY(1.2)' }} className="subtitle">
-              <strong>
+      <React.Fragment>
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">BidOrBoo</h1>
+              <h2 className="subtitle">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
-              </strong>
-            </h1>
-
+              </h2>
+            </div>
+          </div>
+        </section>
+        <div className="columns is-multiline is-centered">
+          <div className="column is-4">
+            <RequestAService
+              logoImg={requestImg}
+              onClickHandler={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+              }}
+            />
+          </div>
+          <div className="column is-4">
+            <ProvideAService
+              logoImg={bidsImg}
+              onClickHandler={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            />
+          </div>
+        </div>
+        <footer className="footer">
+          <div className="content has-text-centered">
             <div className="has-text-centered">
-              <label className="label  has-text-grey">BidOrBoo is Availble in Canada</label>
+              <label style={{ fontWeight: 400 }} className="label has-text-grey">
+                BidOrBoo is Availble in Canada
+              </label>
               <img
                 width={25}
                 height={25}
                 src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
               />
             </div>
-            <br />
-            <div className="columns is-multiline is-centered">
-              <div className="column">
-                <RequestAService
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                />
-              </div>
-              <div className="column">
-                <ProvideAService
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                />
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
+        </footer>
+      </React.Fragment>
     );
   }
 }
@@ -57,7 +62,7 @@ const RequestAService = (props) => {
   return (
     <div id="bidOrBooMainPage-Request" className="card has-text-centered is-outlined">
       <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike title">
+        <div onClick={onClickHandler} className="buttonlike has-text-weight-semibold is-size-4">
           <i className="far fa-plus-square" />
           <div>Request Services</div>
         </div>
@@ -66,23 +71,23 @@ const RequestAService = (props) => {
         <div>
           <ul className="steps has-content-centered">
             <li className="steps-segment is-active">
-              <span className="steps-marker " />
+              <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 1</p>
+                <p className="is-size-6">Step 1</p>
                 <p>Select a Template.</p>
               </div>
             </li>
             <li className="steps-segment">
               <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 2</p>
+                <p className="is-size-6">Step 2</p>
                 <p>Wait for Bids.</p>
               </div>
             </li>
             <li className="steps-segment ">
               <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 3</p>
+                <p className="is-size-6">Step 3</p>
                 <p>Choose a Tasker.</p>
               </div>
             </li>
@@ -98,7 +103,7 @@ const ProvideAService = (props) => {
   return (
     <div id="bidOrBooMainPage-Provide" className="card has-text-centered">
       <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike title">
+        <div onClick={onClickHandler} className="buttonlike has-text-weight-semibold is-size-4">
           <i className="fas fa-hand-rock" />
           <div>Provide Services</div>
         </div>
@@ -109,21 +114,21 @@ const ProvideAService = (props) => {
             <li className="steps-segment is-active">
               <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 1</p>
+                <p className="is-size-6">Step 1</p>
                 <p>Browse Tasks.</p>
               </div>
             </li>
             <li className="steps-segment">
               <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 2</p>
+                <p className="is-size-6">Step 2</p>
                 <p>Bid On Tasks.</p>
               </div>
             </li>
             <li className="steps-segment ">
               <span className="steps-marker" />
               <div className="steps-content">
-                <p className="is-size-5">Step 3</p>
+                <p className="is-size-6">Step 3</p>
                 <p>{`Win & Get Paid.`}</p>
               </div>
             </li>

@@ -22,12 +22,7 @@ class ServiceTemplates extends React.Component {
         <div key={id} className="column limitMaxdWidth">
           <div
             onClick={(e) => {
-              e.preventDefault();
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
-              }
+              switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${id}`);
             }}
             className="card is-clipped bidderRootSpecial "
           >

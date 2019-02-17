@@ -96,7 +96,7 @@ class MyBidsPage extends React.Component {
       <div className="container is-widescreen bidorbooContainerMargins">
         <FloatingAddNewBidButton />
 
-        <div style={{ position: 'relative' }} className="tabs is-large">
+        <div style={{ position: 'relative' }} className="tabs is-medium">
           <ul>
             <li className={`${activeTab === MYBIDS_TAB_IDS.myBidsTab ? 'is-active' : null}`}>
               <a
@@ -142,7 +142,7 @@ class MyBidsPage extends React.Component {
               {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
               {!isLoading && (
                 <div
-                  style={{ borderLeft: '1px solid #23d160' }}
+                  style={{ borderLeft: '1px solid #31c110' }}
                   className="columns is-multiline is-mobile is-centered"
                 >
                   {awardedBidsListComponent}

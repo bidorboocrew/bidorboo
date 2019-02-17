@@ -1,3 +1,7 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,500');
+
 @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
@@ -18,7 +22,7 @@ html body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 body {
   background-color: #222;
@@ -101,15 +105,6 @@ div.react-datepicker {
   background: white;
 }
 
-$family-primary: 'Helvetica', 'Arial', sans-serif;
-$family-sans-serif: 'Helvetica', 'Arial', sans-serif;
-$body-background-color: white; //#3b549c;
-// $navbar-background-color: white;
-$navbar-item-hover-color: black;
-$navbar-item-active-color: hsl(217, 71%, 53%) !important;
-// xxx scary but it works
-$navbar-height: 3.9rem;
-$navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
 }
@@ -117,11 +112,11 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
   padding-top: 4rem !important;
 }
 
-.container {
-  &.bidorbooContainerMargins {
-    margin-top: 0.5rem;
-  }
-}
+// .container {
+//   &.bidorbooContainerMargins {
+//     // margin-top: 0.5rem;
+//   }
+// }
 a.navbar-item.is-active {
   color: hsl(217, 71%, 53%);
 }
@@ -146,6 +141,30 @@ a.navbar-item.is-active {
 .react-datepicker__day {
   font-size: 18px;
 }
+
+$family-primary: 'Open Sans', sans-serif;
+$family-sans-serif: 'Open Sans', sans-serif;
+$body-background-color: white; //#3b549c;
+// $navbar-background-color: white;
+// xxx scary but it works
+$navbar-height: 4rem;
+$navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
+$orange: #e85255 !default;
+$yellow: #e19f00 !default;
+$green: #31c110 !default;
+$turquoise: #70cfd5 !default;
+$cyan: #14719f !default;
+$blue: #14719f !default;
+$purple: #bdaee6 !default;
+$red: #e85255 !default;
+$navbar-item-active-color: $cyan !important;
+$navbar-item-hover-color: black;
+
+// Typography
+
+$family-sans-serif: 'Open Sans', sans-serif !default;
+$family-monospace: monospace !default;
+$render-mode: optimizeLegibility !default;
 
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
@@ -370,11 +389,11 @@ header.card-header {
   > div.card-content {
     > div.buttonlike {
       cursor: pointer;
-      border: 1px solid #23d160;
+      border: 1px solid #31c110;
       border-radius: 4px;
       padding: 1rem 0.5rem;
       &:hover {
-        background: #23d160;
+        background: #31c110;
         color: white;
         transition: all 0.3s ease-in;
       }
@@ -390,7 +409,7 @@ header.card-header {
   text-align: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(#fff, 0.8);
+  background-color: rgba(white, 0.8);
   z-index: 999;
   padding-top: 25%;
   overflow: hidden;
@@ -401,8 +420,8 @@ header.card-header {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  -webkit-animation: fade-out 0.2s ease-out 0.5s both;
-  animation: fade-out 0.2s ease-out 0.5s both;
+  -webkit-animation: fade-out 0.2s ease-out 0.3s both;
+  animation: fade-out 0.2s ease-out 0.3s both;
 }
 
 @-webkit-keyframes fade-out {

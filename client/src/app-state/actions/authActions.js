@@ -39,6 +39,15 @@ export const getCurrentUser = () => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+              },
+            },
+          });
           if (resp.data.appView) {
             dispatch({
               type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
@@ -92,6 +101,15 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
           //update everyone that user is now logged in
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          });
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+              },
+            },
           });
         } else {
           //rediret user to sign up page

@@ -90,24 +90,25 @@ class OtherUserProfileForReviewPage extends React.Component {
 
     return (
       <div className="container is-widescreen bidorbooContainerMargins">
-        <section className="hero is-dark">
-          <div style={{ margin: 0, padding: '1.5rem' }} className="hero-body">
-            <h3 className="subtitle">
+        <section className="hero is-white is-small">
+          <div className="hero-body">
+            <h1 className="title">
               <span className="icon">
                 <i className="far fa-user" />
               </span>
-              <span>{otherUserProfileInfo.displayName}'s Profile</span>
-            </h3>
+              <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
+            </h1>
+            <h2>
+              <a className="button is-link is-outlined" onClick={() => goBackToPreviousRoute()}>
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>Go Back</span>
+              </a>
+            </h2>
           </div>
         </section>
-        <br />
-        <a className="button is-link is-outlined" onClick={() => goBackToPreviousRoute()}>
-          <span className="icon">
-            <i className="far fa-arrow-alt-circle-left" />
-          </span>
-          <span>Go Back</span>
-        </a>
-        <br /> <br />
+
         <div className="card">
           <div className="card-content">
             <div className="content">
