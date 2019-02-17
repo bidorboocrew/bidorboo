@@ -46,7 +46,8 @@ class NewJobForm extends React.Component {
   }
 
   componentDidMount() {
-    navigator.geolocation && this.getCurrentAddress();
+    // xxx do not do that automatically it will scare people
+    // navigator.geolocation && this.getCurrentAddress();
     this.recaptchaRef.current.execute();
   }
 
@@ -145,13 +146,20 @@ class NewJobForm extends React.Component {
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
-        <span>
-          <a style={{ fontSize: 14 }} onClick={this.getCurrentAddress} className="is-link">
-            Auto Detect
+        <div>
+          <a
+            style={{ marginTop: 6, fontSize: 14 }}
+            onClick={this.getCurrentAddress}
+            className="button is-small is-info is-outlined"
+          >
+            <span className="icon">
+              <i className="fas fa-map-marker-alt" />
+            </span>
+            <span>Auto Detect My Address</span>
           </a>
-        </span>
+        </div>
         <span style={{ fontSize: 12, color: 'grey' }}>
-          {` or manually select an address from the drop down menu`}
+          {` or manually start typing an address in this field then select from the drop down suggestions`}
         </span>
       </React.Fragment>
     ) : null;
@@ -523,7 +531,6 @@ const EnhancedForms = withFormik({
       .required('*Please provide a detailed description '),
   }),
   mapPropsToValues: (props) => {
-    debugger;
     return {
       timeField: 5,
       fromTemplateIdField: props.fromTemplateIdField,

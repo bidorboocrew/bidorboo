@@ -137,7 +137,7 @@ class Header extends React.Component {
                   transform: 'scaleY(1.1)',
                   fontWeight: 500,
                 }}
-                className="has-text-dark is-size-4 is-hidden-touch"
+                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-touch"
               >
                 BidOrBoo
               </span>
@@ -148,7 +148,7 @@ class Header extends React.Component {
                   transform: 'scaleY(1.1)',
                   fontWeight: 500,
                 }}
-                className="has-text-dark is-size-4 is-hidden-desktop"
+                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-desktop"
               >
                 B.O.B
               </span>

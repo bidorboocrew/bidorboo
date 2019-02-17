@@ -72,7 +72,6 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
         data: { bidId },
       })
       .then((resp) => {
-        debugger;
         // update recently added job
         if (resp.data && resp.data.success) {
           dispatch({
