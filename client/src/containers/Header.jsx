@@ -482,7 +482,7 @@ class Header extends React.Component {
                           </a>
 
                           <div
-                            className={`navbar-dropdown ${isProfileMenuActive ? 'is-active' : ''}`}
+                            className={`navbar-dropdown is-boxed ${isProfileMenuActive ? 'is-active' : ''}`}
                           >
                             <a
                               onClick={() => {
