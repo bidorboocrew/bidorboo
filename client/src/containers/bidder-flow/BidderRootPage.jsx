@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Switch from 'react-switch';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
@@ -217,17 +216,20 @@ class BidderRootPage extends React.Component {
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
               <div className="field">
-                  <input
-                    id="switchRoundedSuccess"
-                    onChange={this.handleChange}
-                    type="checkbox"
-                    name="switchRoundedSuccess"
-                    className="switch is-rounded is-success"
-                    checked={this.state.allowAutoDetect} />
-                  <label for="switchRoundedSuccess"> {this.state.allowAutoDetect
+                <input
+                  id="switchRoundedSuccess"
+                  onChange={this.handleChange}
+                  type="checkbox"
+                  name="switchRoundedSuccess"
+                  className="switch is-rounded is-success"
+                  checked={this.state.allowAutoDetect}
+                />
+                <label for="switchRoundedSuccess">
+                  {' '}
+                  {this.state.allowAutoDetect
                     ? 'BidOrBoo is serving custom results based on your location'
                     : `Allow BidOrBoo to detect location for better results`}
-                  </label>
+                </label>
               </div>
             </div>
           </div>

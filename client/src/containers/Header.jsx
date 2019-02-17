@@ -499,7 +499,7 @@ class Header extends React.Component {
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.NotificationSettings);
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.notificationSettings);
                                 })
                               }
                               className="navbar-item"
