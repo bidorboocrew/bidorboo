@@ -216,6 +216,21 @@ class BidderRootPage extends React.Component {
             <div className="container">
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
+              <div
+                style={{ marginBottom: 6 }}
+                className="help container is-widescreen has-text-centered"
+              >
+                <Switch
+                  uncheckedIcon={false}
+                  onChange={this.handleChange}
+                  checked={this.state.allowAutoDetect}
+                />
+                <div>
+                  {this.state.allowAutoDetect
+                    ? 'BidOrBoo is serving custom results based on your location'
+                    : `Allow BidOrBoo to auto detect my location for better search results`}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -232,20 +247,6 @@ class BidderRootPage extends React.Component {
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
         />
-        <div style={{ marginBottom: 6 }} className="help container is-widescreen has-text-centered">
-          <label>
-            <Switch
-              uncheckedIcon={false}
-              onChange={this.handleChange}
-              checked={this.state.allowAutoDetect}
-            />
-            <div>
-              {this.state.allowAutoDetect
-                ? 'BidOrBoo is serving custom results based on your location'
-                : `Allow BidOrBoo to auto detect my location for better search results`}
-            </div>
-          </label>
-        </div>
 
         {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
 
