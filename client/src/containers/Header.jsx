@@ -420,7 +420,7 @@ class Header extends React.Component {
                                     borderRadius: '100%',
                                     textAlign: 'center',
                                   }}
-                                  className="has-text-danger"
+                                  className="has-text-info"
                                 >
                                   <i className="fas fa-circle" />
                                 </span>
@@ -449,7 +449,7 @@ class Header extends React.Component {
                                     borderRadius: '100%',
                                     textAlign: 'center',
                                   }}
-                                  className="has-text-danger"
+                                  className="has-text-info"
                                 >
                                   <i className="fas fa-circle" />
                                 </div>
@@ -482,7 +482,9 @@ class Header extends React.Component {
                           </a>
 
                           <div
-                            className={`navbar-dropdown is-boxed ${isProfileMenuActive ? 'is-active' : ''}`}
+                            className={`navbar-dropdown is-boxed ${
+                              isProfileMenuActive ? 'is-active' : ''
+                            }`}
                           >
                             <a
                               onClick={() => {

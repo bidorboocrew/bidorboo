@@ -5,7 +5,6 @@ import moment from 'moment';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { templatesRepo } from '../constants/bidOrBooTaskRepo';
-import { underline } from 'ansi-colors';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';

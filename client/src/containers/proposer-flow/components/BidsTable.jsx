@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactStars from 'react-stars';
-
+import { UserImageAndRating } from '../../../containers/commonComponents';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -25,44 +25,16 @@ export default class BidsTable extends React.Component {
 
     let tableRows = bidList.map((bid) => {
       const bidderRating = bid._bidderRef && bid._bidderRef.rating;
+      const doesUserHaveRating =
+        bidderRating.globalRating === 'No Ratings Yet' || bidderRating.globalRating === 0;
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-            <div>
-              {/* bidder image */}
-              {bid._bidderRef && bid._bidderRef.profileImage && bid._bidderRef.profileImage.url && (
-                <figure style={{ margin: '0 auto' }} className="image is-32x32">
-                  <img alt="profile" src={bid._bidderRef.profileImage.url} />
-                </figure>
-              )}
-            </div>
-            <div>
-              {/* bidder rating */}
-              {bidderRating && (
-                <div>
-                  User Rating
-                  {bidderRating.globalRating === 'No Ratings Yet' ||
-                  bidderRating.globalRating === 0 ? (
-                    <p className="is-size-7">No Ratings Yet</p>
-                  ) : (
-                    <ReactStars
-                      className="is-size-7"
-                      half
-                      count={5}
-                      value={bidderRating.globalRating}
-                      edit={false}
-                      size={25}
-                      color1={'lightgrey'}
-                      color2={'#ffd700'}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
+            <UserImageAndRating userDetails={bid._bidderRef} />
           </td>
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-            <div>
+            <div className="has-text-weight-bold">
               {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
             </div>
           </td>
@@ -80,7 +52,7 @@ export default class BidsTable extends React.Component {
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>View</span>
+                <span>Award</span>
                 {bid.isNewBid && (
                   <React.Fragment>
                     <div
@@ -102,8 +74,8 @@ export default class BidsTable extends React.Component {
       <table className="table is-bordered is-hoverable table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th className="has-text-centered">Bidder</th>
-            <th className="has-text-centered">$</th>
+            <th className="has-text-centered">Tasker</th>
+            <th className="has-text-centered">Bid $</th>
             <th className="has-text-centered">Bid Details</th>
           </tr>
         </thead>
