@@ -55,4 +55,3 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
 }
-unregister();

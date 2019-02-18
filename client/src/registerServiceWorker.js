@@ -37,6 +37,8 @@ const send = (vapidKey) => {
 
     try {
       if (!registration) {
+        console.log('could not register service worker or webpush \n');
+
         return;
       }
 
