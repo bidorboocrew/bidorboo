@@ -43,7 +43,6 @@ class GetNotificationsAndScroll extends React.Component {
     } = this.props;
 
     if (isLoggedIn) {
-      debugger
       if (userDetails.appView === 'PROPOSER') {
         a_setAppViewUIToProposer();
       } else if (userDetails.appView === 'BIDDER') {
