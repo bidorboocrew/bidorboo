@@ -95,37 +95,53 @@ exports.jobDataAccess = {
                   ROUTES.CLIENT.BIDDER.currentAwardedBid
                 }/${awardedBidId}`;
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
-                  sendGridEmailing.sendEmail(
-                    'bidorboocrew@gmail.com',
-                    ownerEmailAddress,
-                    `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    `This is an automated reminder for your upcoming scheduled ${
+                  sendGridEmailing.sendEmail({
+                    to: ownerEmailAddress,
+                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    contentText: `This is an automated reminder for your upcoming scheduled ${
                       job.fromTemplateId
                     } task.
-                To get in touch with your tasker feel free to contact them on:
-                email address : ${bidderEmailAddress}
-                phone number : ${bidderPhoneNumber}
-                for reference here is the link to your task ${linkForOwner}
-                 `
-                  );
+                  To get in touch with your tasker feel free to contact them on:
+                  email address : ${bidderEmailAddress}
+                  phone number : ${bidderPhoneNumber}
+                  for reference here is the link to your task ${linkForOwner}
+                   `,
+                    toDisplayName: `${ownerDetails.displayName}`,
+                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your tasker feel free to contact them on:
+                  email address : ${bidderEmailAddress}
+                  phone number : ${bidderPhoneNumber}`,
+                    clickLink: `${linkForOwner}`,
+                    clickDisplayName: `View This Task`,
+                  });
                 }
                 if (
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.email
                 ) {
-                  sendGridEmailing.sendEmail(
-                    'bidorboocrew@gmail.com',
-                    bidderEmailAddress,
-                    `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    `This is an automated reminder for your upcoming scheduled ${
+                  sendGridEmailing.sendEmail({
+                    to: bidderEmailAddress,
+                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    contentText: `This is an automated reminder for your upcoming scheduled ${
                       job.fromTemplateId
                     } task.
-                To get in touch with your task owner feel free to contact them on:
-                email address : ${ownerEmailAddress}
-                phone number : ${ownerPhoneNumber}
-                for reference here is the link to your task ${linkForBidder}
-                 `
-                  );
+                  To get in touch with your task owner feel free to contact them on:
+                  email address : ${ownerEmailAddress}
+                  phone number : ${ownerPhoneNumber}
+                  for reference here is the link to your task ${linkForBidder}
+                   `,
+                    toDisplayName: `${awardedBidderDetails.displayName}`,
+                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your task owner feel free to contact them on:
+                  email address : ${ownerEmailAddress}
+                  phone number : ${ownerPhoneNumber}`,
+                    clickLink: `${linkForBidder}`,
+                    clickDisplayName: `View This Task`,
+                  });
                 }
 
                 if (

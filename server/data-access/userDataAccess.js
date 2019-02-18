@@ -405,16 +405,19 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         .exec();
 
       if (updatedUser && updatedUser.notifications && updatedUser.notifications.email) {
-        sendGridEmailing.sendEmail(
-          'bidorboocrew@gmail.com',
-          updatedUser.email.emailAddress,
-          'BidOrBoo: Email verification',
-          `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
+        sendGridEmailing.sendEmail({
+          to: `${updatedUser.email.emailAddress}`,
+          subject: `BidOrBoo: Email verification`,
+          contentText: `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
             'Email',
             emailVerificationCode
           )}
-        `
-        );
+          `,
+          toDisplayName: `${updatedUser.displayName}`,
+          contentHtml: `Click to verify your email Address`,
+          clickLink: `${ROUTES.CLIENT.dynamicVerification('Email', emailVerificationCode)}`,
+          clickDisplayName: `Verify Email`,
+        });
       }
       resolve({ success: true });
     } catch (e) {

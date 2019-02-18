@@ -206,8 +206,7 @@ module.exports = (app) => {
     try {
       const notificationSettings = req.body.data;
       const userId = req.user.userId;
-
-      const userAfterUpdates = await userDataAccess.updateNotificationSettings(
+      await userDataAccess.updateNotificationSettings(
         userId,
         notificationSettings
       );

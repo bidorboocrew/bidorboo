@@ -19,6 +19,7 @@
     "debug": "node --nolazy --inspect-brk=9229 index.js"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "async": "^2.6.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
@@ -54,7 +55,6 @@
     "pm2": "^3.2.2",
     "recaptcha-verify": "^0.1.1",
     "request": "^2.88.0",
-    "sendgrid": "^5.2.3",
     "stripe": "^6.15.0",
     "web-push": "^3.3.3"
   }
