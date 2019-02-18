@@ -61,9 +61,11 @@ export const getCurrentUser = () => (dispatch) =>
               });
             }
           }
-        } else {
-          //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.HOME);
+
+          if(resp.data.membershipStatus === "NEW_MEMBER"){
+            switchRoute(ROUTES.CLIENT.ONBOARDING);
+          }
+
         }
       })
       .catch((error) => {

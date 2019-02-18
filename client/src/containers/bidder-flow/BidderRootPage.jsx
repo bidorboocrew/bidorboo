@@ -58,7 +58,7 @@ class BidderRootPage extends React.Component {
 
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
-    if (navigator.geolocation) {
+    if (navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
         maximumAge: 10000,
         timeout: 5000,

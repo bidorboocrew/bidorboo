@@ -62,7 +62,8 @@ class GetNotificationsAndScroll extends React.Component {
           location.pathname.indexOf('bdb-request') > -1 ||
           location.pathname.indexOf('bdb-offer') > -1 ||
           location.pathname.indexOf('/review') > -1 ||
-          location.pathname.indexOf('/my-profile') > -1
+          location.pathname.indexOf('/my-profile') > -1 ||
+          location.pathname.indexOf('/on-boarding') > -1
         ) {
           // do not fetch notifications on these pages above
         } else {

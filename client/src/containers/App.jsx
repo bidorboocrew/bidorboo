@@ -20,6 +20,7 @@ import {
   ProposerRootPage,
   CreateAJobPage,
   MyOpenJobsPage,
+  FirstTimeUser,
   ReviewMyAwardedJobAndWinningBidPage,
   ReviewRequestAndBidsPage,
   BidderRootPage,
@@ -132,11 +133,10 @@ class App extends React.Component {
           />
           {/* loggedInPaths paths */}
 
-          <Route
-            exact
-            path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`}
-            component={MyOpenJobsPage}
-          />
+          <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
+
+          <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyOpenJobsPage} />
+
           <Route
             exact
             path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
