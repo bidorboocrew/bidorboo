@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
+import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
+
 export class FirstTimeUser extends React.Component {
   constructor(props) {
     super(props);
@@ -41,23 +43,7 @@ export class FirstTimeUser extends React.Component {
   updatePhoneNumber = (event) => {
     this.setState({ phoneNumber: event.target.value });
   };
-  verifyAndSubmitOnBoarding = () => {
-    const { hasAgreedToTOS, phoneNumber } = this.state;
 
-    const isValidPhone = /^[0-9]\d{2}\d{3}\d{4}$/g.test(phoneNumber);
-
-    let errors = {};
-    if (phoneNumber && !isValidPhone) {
-      errors = { ...errors, phoneError: true };
-    }
-    if (!hasAgreedToTOS) {
-      errors = { ...errors, tosError: true };
-    }
-    if (errors.phoneError || errors.tosError) {
-      this.setState({ ...errors });
-    }
-    // no issues submit to server here
-  };
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
     if (navigator && navigator.geolocation) {
@@ -81,6 +67,32 @@ export class FirstTimeUser extends React.Component {
       console.log('Your Browser does not support auto detection');
     }
   };
+
+  verifyAndSubmitOnBoarding = () => {
+    const { hasAgreedToTOS, phoneNumber } = this.state;
+
+    const isValidPhone = /^[0-9]\d{2}\d{3}\d{4}$/g.test(phoneNumber);
+
+    let errors = {};
+    if (phoneNumber && !isValidPhone) {
+      errors = { ...errors, phoneError: true };
+    }
+    if (!hasAgreedToTOS) {
+      errors = { ...errors, tosError: true };
+    }
+    if (errors.phoneError || errors.tosError) {
+      this.setState({ ...errors });
+    }
+    // no issues submit to server here
+    const onBoardingDetails = {
+      phone: this.state.phoneNumber,
+      agreedToTOS: this.state.hasAgreedToTOS,
+      autoDetectlocation: this.state.allowAutoDetect,
+    };
+
+    this.props.a_updateOnBoardingDetails(onBoardingDetails);
+  };
+
   render() {
     const { displayName } = this.props;
     const { allowAutoDetect, phoneNumber, hasAgreedToTOS, phoneError, tosError } = this.state;
@@ -219,13 +231,16 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     isLoggedIn: userReducer.isLoggedIn,
     userDetails,
     displayName: userDetails.displayName,
-    shouldShowLoginDialog: uiReducer.shouldShowLoginDialog,
-    notificationFeed: uiReducer.notificationFeed,
-    userAppView: uiReducer.userAppView,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    a_updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(FirstTimeUser);

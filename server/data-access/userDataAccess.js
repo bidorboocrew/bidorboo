@@ -7,6 +7,12 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
+exports.updateOnboardingDetails = (mongodbUserId, onBoardingDetails) => {
+
+  this.updateUserProfileDetails(mongodbUserId, onBoardingDetails)
+
+};
+
 exports.getMyPastRequestedServices = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },

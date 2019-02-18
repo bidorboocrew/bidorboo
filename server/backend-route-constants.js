@@ -41,6 +41,7 @@ module.exports = {
         notificationSettings: '/api/user/notificationSettings',
         profilePicture: '/api/user/updateProfileImage',
         updateAppView: '/api/user/updateAppView',
+        updateOnboardingDetails: '/api/user/updateOnboardingDetails',
       },
       POST: {
         verifyEmail: '/api/user/verifyEmail',

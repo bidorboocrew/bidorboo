@@ -205,16 +205,58 @@ module.exports = (app) => {
   app.put(ROUTES.API.USER.PUT.notificationSettings, requireLogin, async (req, res) => {
     try {
       const notificationSettings = req.body.data;
+      if (!notificationSettings) {
+        return res.status(403).send({
+          errorMsg: 'notificationSettings failed due to missing params',
+        });
+      }
       const userId = req.user.userId;
-      await userDataAccess.updateNotificationSettings(
-        userId,
-        notificationSettings
-      );
+      await userDataAccess.updateNotificationSettings(userId, notificationSettings);
       return res.send({ success: true });
     } catch (e) {
       return res
         .status(500)
         .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
+    }
+  });
+
+  app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res) => {
+    try {
+      const onboardingDetails = req.body.data;
+      if (!onboardingDetails) {
+        return res.status(403).send({
+          errorMsg: 'updateOnboardingDetails failed due to missing params',
+        });
+      }
+      if (!onboardingDetails.agreedToTOS) {
+        return res.status(500).send({
+          errorMsg: 'You Must accept our Terms of Use in order to procceed',
+        });
+      }
+
+      let newDetails = {
+        tos_acceptance: {
+          Agreed: true,
+          date: Math.floor(Date.now() / 1000), //HARD CODED
+          ip: req.connection.remoteAddress, //HARD CODED
+        },
+        membershipStatus: 'ONBOARDED_MEMBER',
+        canBid: true,
+        canPost: true,
+      };
+      if (onboardingDetails.phone) {
+        newDetails = { ...newDetails, phone: onboardingDetails.phone };
+      }
+      if (onboardingDetails.autoDetectlocation) {
+        newDetails = { ...newDetails, autoDetectlocation: onboardingDetails.autoDetectlocation };
+      }
+      const userId = req.user.userId;
+      await userDataAccess.updateUserProfileDetails(userId, newDetails);
+      return res.send({ success: true });
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To update update Onboarding Details ', details: `${e}` });
     }
   });
 
