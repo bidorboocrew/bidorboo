@@ -20,7 +20,6 @@ module.exports = (app) => {
         icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
       };
 
-
       // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
       const payLoad = JSON.stringify(data);
       await webpush.sendNotification(subscription, payLoad);
