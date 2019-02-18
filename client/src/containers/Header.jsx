@@ -318,7 +318,7 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
                           });
                         }}
                       >

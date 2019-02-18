@@ -112,7 +112,8 @@ export const CLIENT = {
   PROPOSER: {
     root: '/bdb-request',
     createjob: '/bdb-request/create-job',
-    myOpenJobs: '/my-open-jobs',
+    myOpenJobs: '/my-open-jobs/:tabId',
+    dynamicMyOpenJobs: (tabId) => `/my-open-jobs/${tabId}`,
     reviewRequestAndBidsPage: '/my-request/review-request-details',
     dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
     selectedAwardedJobPage: '/my-request/awarded-job-details',
