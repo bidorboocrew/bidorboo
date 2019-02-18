@@ -215,19 +215,23 @@ class BidderRootPage extends React.Component {
             <div className="container">
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
+
+              {/* <div className="has-text-grey">
+                {this.state.allowAutoDetect
+                  ? 'BidOrBoo is serving custom results based on your location'
+                  : `Allow BidOrBoo to detect location for better results`}
+              </div> */}
               <div className="field">
                 <input
-                  id="switchRoundedSuccess"
+                  id="autoDetectLocation"
                   onChange={this.handleChange}
                   type="checkbox"
-                  name="switchRoundedSuccess"
+                  name="autoDetectLocation"
                   className="switch is-rounded is-success"
                   checked={this.state.allowAutoDetect}
                 />
-                <label htmlFor="switchRoundedSuccess">
-                  {this.state.allowAutoDetect
-                    ? 'BidOrBoo is serving custom results based on your location'
-                    : `Allow BidOrBoo to detect location for better results`}
+                <label className="has-text-grey" htmlFor="autoDetectLocation">
+                  Auto detect location
                 </label>
               </div>
             </div>
