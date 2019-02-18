@@ -224,8 +224,7 @@ class BidderRootPage extends React.Component {
                   className="switch is-rounded is-success"
                   checked={this.state.allowAutoDetect}
                 />
-                <label for="switchRoundedSuccess">
-                  {' '}
+                <label htmlFor="switchRoundedSuccess">
                   {this.state.allowAutoDetect
                     ? 'BidOrBoo is serving custom results based on your location'
                     : `Allow BidOrBoo to detect location for better results`}

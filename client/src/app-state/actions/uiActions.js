@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-
 export const showLoginDialog = (shouldOpen) => (dispatch) =>
   dispatch({
     type: shouldOpen ? A.UI_ACTIONS.OPEN_LOGIN_DIALOG : A.UI_ACTIONS.CLOSE_LOGIN_DIALOG,
@@ -15,7 +14,7 @@ export const showToastMessage = (toastDetails) => (dispatch) =>
     payload: { toastDetails: toastDetails },
   });
 
-export const setAppBidderView = () => (dispatch, getState) => {
+export const setServerAppBidderView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
 
   if (userAppView !== 'BIDDER') {
@@ -46,7 +45,7 @@ export const setAppBidderView = () => (dispatch, getState) => {
   }
 };
 
-export const setAppProposerView = () => (dispatch, getState) => {
+export const setServerAppProposerView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
   if (userAppView !== 'PROPOSER') {
     const config = {
@@ -73,4 +72,18 @@ export const setAppProposerView = () => (dispatch, getState) => {
       payload: 'PROPOSER',
     });
   }
+};
+
+export const setAppViewUIToProposer = () => (dispatch, getState) => {
+  return dispatch({
+    type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+    payload: 'PROPOSER',
+  });
+};
+
+export const setAppViewUIToBidder = () => (dispatch, getState) => {
+  return dispatch({
+    type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
+    payload: 'BIDDER',
+  });
 };

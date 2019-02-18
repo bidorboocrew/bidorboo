@@ -239,7 +239,7 @@ class NewJobForm extends React.Component {
                     />
                   </div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
                     style={{ width: 140 }}
                     onClick={this.toggleConfirmationDialog}

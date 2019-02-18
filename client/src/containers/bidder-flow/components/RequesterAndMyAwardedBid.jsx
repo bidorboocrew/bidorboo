@@ -80,7 +80,7 @@ export default class RequesterAndMyAwardedBid extends React.Component {
               </div>
             )}
           </div>
-        </div>{' '}
+        </div>
       </div>
     );
   }

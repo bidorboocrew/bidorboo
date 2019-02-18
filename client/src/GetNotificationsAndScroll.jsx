@@ -3,7 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
-import { setAppBidderView, setAppProposerView } from './app-state/actions/uiActions';
+import {
+  setAppViewUIToProposer,
+  setAppViewUIToBidder,
+  setServerAppProposerView,
+  setServerAppBidderView,
+} from './app-state/actions/uiActions';
 
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
@@ -30,8 +35,8 @@ class GetNotificationsAndScroll extends React.Component {
       s_isLoggedIn,
       a_getCurrentUser,
       location,
-      a_setAppBidderView,
-      a_setAppProposerView,
+      a_setServerAppProposerView,
+      a_setServerAppBidderView,
     } = this.props;
 
     if (location !== prevProps.location) {
@@ -53,9 +58,9 @@ class GetNotificationsAndScroll extends React.Component {
         }
 
         if (location.pathname.indexOf('bdb-request') > -1) {
-          a_setAppProposerView();
+          a_setServerAppProposerView();
         } else if (location.pathname.indexOf('bdb-offer') > -1) {
-          a_setAppBidderView();
+          a_setServerAppBidderView();
         }
       }
       setTimeout(() => window.scrollTo(0, 0), 0);
@@ -74,21 +79,20 @@ class GetNotificationsAndScroll extends React.Component {
     const {
       a_getCurrentUser,
       location,
-      a_setAppBidderView,
-      a_setAppProposerView,
+      a_setAppViewUIToBidder,
+      a_setAppViewUIToProposer,
       s_isLoggedIn,
     } = this.props;
-    a_getCurrentUser();
+
     if (s_isLoggedIn) {
       if (location.pathname.indexOf('bdb-request') > -1) {
-        a_setAppProposerView();
+        a_setAppViewUIToProposer();
       } else if (location.pathname.indexOf('bdb-offer') > -1) {
-        a_setAppBidderView();
+        a_setAppViewUIToBidder();
       }
+    } else {
+      a_getCurrentUser();
     }
-    // setTimeout(() => {
-    //   this.fetchUserAndNotificationUpdated();
-    // }, UPDATE_NOTIFICATION_INTERVAL);
   }
 
   render() {
@@ -104,8 +108,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     a_getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_setAppBidderView: bindActionCreators(setAppBidderView, dispatch),
-    a_setAppProposerView: bindActionCreators(setAppProposerView, dispatch),
+    a_setAppViewUIToBidder: bindActionCreators(setAppViewUIToBidder, dispatch),
+    a_setAppViewUIToProposer: bindActionCreators(setAppViewUIToProposer, dispatch),
+    a_setServerAppProposerView: bindActionCreators(setServerAppProposerView, dispatch),
+    a_setServerAppBidderView: bindActionCreators(setServerAppBidderView, dispatch),
   };
 };
 
