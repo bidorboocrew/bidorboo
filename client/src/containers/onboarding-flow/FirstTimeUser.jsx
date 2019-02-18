@@ -93,21 +93,21 @@ export class FirstTimeUser extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">BidOrBoo Welcomes You {displayName}</h1>
-              <h2 className="subtitle">We are please to see you joining our crew</h2>
+              <h1 className="title">Welcome to BidOrBoo {displayName}</h1>
+              <h2 className="subtitle">We are happy to see you joining our crew</h2>
             </div>
           </div>
         </section>
 
         <div style={{ maxWidth: 800 }} className="container">
-          <div style={{ padding: '1rem' }} className="card">
+          <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.7)' }} className="card">
             <div className="card-content">
               <div className="content">
                 <h2 className="has-text-centered subtitle has-text-grey has-text-weight-normal">
                   Let's Get you Started
                 </h2>
                 <p className="has-text-grey">
-                  Help BidOrBoo get the best results for you by providing some additional info. Your
+                  Providing some additional details will Help us serve you custom results. Your
                   information will be securely encrypted and will NOT be shared with anyone.
                 </p>
                 <br />
@@ -138,20 +138,27 @@ export class FirstTimeUser extends React.Component {
                 </div>
                 <br />
                 <div className="field">
-                  <input
-                    id="autoDetectLocation"
-                    onChange={this.toggleIsAutoDetectEnabled}
-                    type="checkbox"
-                    name="autoDetectLocation"
-                    className="switch is-rounded is-success"
-                    checked={allowAutoDetect}
-                  />
-                  <label className="label" htmlFor="autoDetectLocation">
-                    <span>Permit BidOrBoo to Auto detect Your location </span>
-                    <span className="icon">
-                      <i className="fas fa-globe-americas" />
-                    </span>
-                  </label>
+                  <div className="control">
+                    <label className="checkbox">
+                      <input
+                        id="autoDetectLocation"
+                        onChange={this.toggleIsAutoDetectEnabled}
+                        type="checkbox"
+                        name="autoDetectLocation"
+                        checked={allowAutoDetect}
+                      />
+
+                      <span>{` Allow BidOrBoo to Auto detect Your location`} </span>
+                      <span className="has-text-grey has-text-weight-normal">
+                        {`(`}
+                        <span className="icon">
+                          <i className="fas fa-globe-americas" />
+                        </span>
+                        <span>optional </span>
+                        {`)`}
+                      </span>
+                    </label>
+                  </div>
                 </div>
                 <hr className="divider" />
                 <div className={`field ${tosError ? 'has-text-danger' : ''}`}>
@@ -162,11 +169,11 @@ export class FirstTimeUser extends React.Component {
                         type="checkbox"
                         value={hasAgreedToTOS}
                       />
-                      {` I confirm that I have read and agree to`}
+                      {` I confirm that I have read and agreed to`}
                       <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
                         <strong>{` BidOrBoo Service Agreement `}</strong>
                       </a>
-                      and the
+                      and
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -176,9 +183,14 @@ export class FirstTimeUser extends React.Component {
                       </a>
                       .
                     </label>
-                    {tosError && (
+                    {tosError ? (
                       <p className="help is-danger">
                         * You Must Read And Accept Our Terms before continuing
+                      </p>
+                    ) : (
+                      <p className="help">
+                        * We use Stripe Secure Payment Gateway to secrue all payments through our
+                        site.
                       </p>
                     )}
                   </div>
