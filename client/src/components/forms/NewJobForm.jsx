@@ -174,8 +174,6 @@ class NewJobForm extends React.Component {
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <section className="modal-card-body">
-                  <label className="label">Review Your Task Details</label>
-
                   <div
                     style={{
                       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
@@ -188,7 +186,7 @@ class NewJobForm extends React.Component {
                       className="card-header is-clipped"
                     >
                       <p className="card-header-title">
-                        {templatesRepo[fromTemplateIdField].title} Request
+                        Preview: {templatesRepo[fromTemplateIdField].title}
                       </p>
                     </header>
                     <div className="card-image is-clipped">
