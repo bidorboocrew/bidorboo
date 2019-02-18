@@ -16,7 +16,6 @@ export const showToastMessage = (toastDetails) => (dispatch) =>
 
 export const setServerAppBidderView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
-
   if (userAppView !== 'BIDDER') {
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -75,15 +74,21 @@ export const setServerAppProposerView = () => (dispatch, getState) => {
 };
 
 export const setAppViewUIToProposer = () => (dispatch, getState) => {
-  return dispatch({
-    type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
-    payload: 'PROPOSER',
-  });
+  const { userAppView } = getState().uiReducer;
+  if (userAppView !== 'PROPOSER') {
+    return dispatch({
+      type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+      payload: 'PROPOSER',
+    });
+  }
 };
 
 export const setAppViewUIToBidder = () => (dispatch, getState) => {
-  return dispatch({
-    type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
-    payload: 'BIDDER',
-  });
+  const { userAppView } = getState().uiReducer;
+  if (userAppView !== 'BIDDER') {
+    return dispatch({
+      type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
+      payload: 'BIDDER',
+    });
+  }
 };

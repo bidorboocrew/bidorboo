@@ -20,7 +20,7 @@ class GetNotificationsAndScroll extends React.Component {
   //   super(props);
 
   //   this.fetchUserAndNotificationUpdated = () => {
-  //     if (this.props.s_isLoggedIn) {
+  //     if (this.props.isLoggedIn) {
   //       this.props.a_getCurrentUserNotifications();
   //     }
 
@@ -32,18 +32,31 @@ class GetNotificationsAndScroll extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {
-      s_isLoggedIn,
+      isLoggedIn,
       a_getCurrentUser,
       location,
+      userDetails,
       a_setServerAppProposerView,
       a_setServerAppBidderView,
+      a_setAppViewUIToBidder,
+      a_setAppViewUIToProposer,
     } = this.props;
 
+    if (isLoggedIn) {
+      debugger
+      if (userDetails.appView === 'PROPOSER') {
+        a_setAppViewUIToProposer();
+      } else if (userDetails.appView === 'BIDDER') {
+        a_setAppViewUIToBidder();
+      }
+    }
+
     if (location !== prevProps.location) {
-      if (!s_isLoggedIn) {
+      if (!isLoggedIn) {
         a_getCurrentUser();
       }
-      if (s_isLoggedIn) {
+
+      if (isLoggedIn) {
         if (
           location.pathname.indexOf('user-profile') > -1 ||
           location.pathname.indexOf('verification') > -1 ||
@@ -81,10 +94,10 @@ class GetNotificationsAndScroll extends React.Component {
       location,
       a_setAppViewUIToBidder,
       a_setAppViewUIToProposer,
-      s_isLoggedIn,
+      isLoggedIn,
     } = this.props;
 
-    if (s_isLoggedIn) {
+    if (isLoggedIn) {
       if (location.pathname.indexOf('bdb-request') > -1) {
         a_setAppViewUIToProposer();
       } else if (location.pathname.indexOf('bdb-offer') > -1) {
@@ -101,7 +114,8 @@ class GetNotificationsAndScroll extends React.Component {
 }
 const mapStateToProps = ({ userReducer }) => {
   return {
-    s_isLoggedIn: userReducer.isLoggedIn,
+    isLoggedIn: userReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
