@@ -49,17 +49,17 @@ module.exports = (app) => {
       const noPushWasSentBefore = !!currentUser.pushSubscription;
       if (!noPushWasSentBefore) {
         const payload = JSON.stringify({
-          title: 'BidOrBoo push notifications enabled.',
-          body: ' to unregister go to profile settings and disable notifications',
+          title: 'BidOrBoo Notifications enabled.',
+          body: ' Control Notification settings in your profile',
           icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
-          urlToLaunch: 'https://www.bidorboo.com',
+          urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
         });
-        const notificationReq = await webpush.sendNotification(JSON.parse(subscription), payload);
+        await webpush.sendNotification(JSON.parse(subscription), payload);
       }
       await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
         pushSubscription: subscription,
       });
-      return res.status(201).json({});
+      return res.status(201).json({ success: true });
     } catch (e) {
       return res
         .status(500)

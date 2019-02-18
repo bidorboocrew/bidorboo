@@ -47,7 +47,7 @@ const send = (vapidKey) => {
         applicationServerKey: convertedVapidKey,
       });
       console.log('WEBPUSH  Registered \n');
-      const registeringWithServer = await axios.post('/api/push/register', {
+      await axios.post('/api/push/register', {
         data: {
           subscription: JSON.stringify(subscription),
         },
