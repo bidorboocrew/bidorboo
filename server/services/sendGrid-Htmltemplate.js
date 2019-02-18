@@ -1,4 +1,4 @@
-exports.upcomingJob = ({ toDisplayName, contentHtml, clickLink, clickDisplayName }) => {
+exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDisplayName }) => {
   return `
   <!doctype html>
 <html>

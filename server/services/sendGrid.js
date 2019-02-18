@@ -2,7 +2,7 @@
 const sgMail = require('@sendgrid/mail');
 
 const keys = require('../config/keys');
-const upcomingJob = require('./sendGrid-template-upcomingJob').upcomingJob;
+const populateHtmlTemplate = require('./sendGrid-Htmltemplate').populateHtmlTemplate;
 sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {
@@ -22,7 +22,7 @@ exports.EmailService = {
       from,
       subject,
       text: contentText,
-      html: upcomingJob({
+      html: populateHtmlTemplate({
         toDisplayName: to || toDisplayName,
         contentHtml,
         clickLink,
