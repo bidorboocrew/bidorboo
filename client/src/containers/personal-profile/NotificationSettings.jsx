@@ -71,6 +71,7 @@ class NotificationSettings extends React.Component {
       email: !!enableEmailNotification,
       text: !!enableTxtNotifications,
     });
+    this.setState({ areThereChanges: false });
   };
 
   render() {
