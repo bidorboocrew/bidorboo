@@ -18,7 +18,7 @@ export const updateNotificationSettings = (notificationSettings) => (dispatch) =
     payload: axios
       .put(ROUTES.API.USER.PUT.notificationSettings, {
         data: {
-          notificationSettings,
+          ...notificationSettings,
         },
       })
       .catch((error) => {

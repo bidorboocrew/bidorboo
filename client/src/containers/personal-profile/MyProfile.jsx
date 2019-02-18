@@ -11,7 +11,7 @@ import axios from 'axios';
 import FileUploaderComponent from '../../components/FileUploaderComponent';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { getCurrentUser } from '../../app-state/actions/authActions';
-import NotificationSettings from './NotificationSettings'
+import NotificationSettings from './NotificationSettings';
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +68,7 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
-        <section className="hero is-white is-small">
+        <section className="hero container is-white is-small">
           <div className="hero-body">
             <h1 className="title">My Profile</h1>
           </div>
@@ -89,7 +89,21 @@ class MyProfile extends React.Component {
               <div className="card">
                 <header className="card-header">
                   <p className="card-header-title">
-                    {!isEditProfile ? 'My Details' : 'Edit My Details'}
+                    {!isEditProfile ? (
+                      <React.Fragment>
+                        <span className="icon">
+                          <i className="far fa-user" />
+                        </span>
+                        <span>My Details</span>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <span className="icon">
+                          <i className="far fa-edit" />
+                        </span>
+                        <span>Edit My Details</span>
+                      </React.Fragment>
+                    )}
                   </p>
                   {!isEditProfile && (
                     <a
@@ -187,6 +201,10 @@ class MyProfile extends React.Component {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="column">
+              <NotificationSettings />
             </div>
           </div>
         </div>

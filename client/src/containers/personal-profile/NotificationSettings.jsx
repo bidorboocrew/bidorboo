@@ -79,77 +79,70 @@ class NotificationSettings extends React.Component {
   };
 
   render() {
-    const { isLoggedIn } = this.props;
-
-    if (!isLoggedIn) {
-      return (
-        <section className="section">
-          <Spinner isLoading size={'large'} />
-        </section>
-      );
-    }
-
     return (
-      <section className="section">
-        <div className="card">
-          <header className="card-header">
-            <p className="card-header-title">Notification Settings</p>
-          </header>
-          <div className="card-content">
-            <div className="content">
-              <p>
-                Notifications will be sent to inform you about :
-                <br />
-                * Requests or Tasks that are happening today
-                <br />* Your Bids that were awarded.
-              </p>
-
-              <div className="field">
-                <input
-                  id="pushNotification"
-                  type="checkbox"
-                  name="pushNotification"
-                  className="switch is-rounded is-success"
-                  onChange={this.toggleEnablePushNotifications}
-                  checked={this.state.enablePushNotifications}
-                />
-                <label htmlFor="pushNotification">Enable Push Notifications</label>
-              </div>
-              <div className="field">
-                <input
-                  id="emailNotification"
-                  type="checkbox"
-                  name="emailNotification"
-                  className="switch is-rounded is-success"
-                  onChange={this.toggleEnableEmailNotification}
-                  checked={this.state.enableEmailNotification}
-                />
-                <label htmlFor="emailNotification">Enable Email Notifications</label>
-              </div>
-              <div className="field">
-                <input
-                  id="txtNotification"
-                  type="checkbox"
-                  name="txtNotification"
-                  className="switch is-rounded is-success"
-                  onChange={this.toggleEnableTxtNotifications}
-                  checked={this.state.enableTxtNotifications}
-                />
-                <label htmlFor="txtNotification">Enable Text Messages Notifications</label>
-                <p className="help">* Will only work if you provided your phone number</p>
-              </div>
+      <div className="card">
+        <header className="card-header">
+          <p className="card-header-title">
+            <span className="icon">
+              <i className="fas fa-bell" />
+            </span>
+            <span>Notification Settings</span>
+          </p>
+        </header>
+        <div className="card-content">
+          <div className="content">
+            <p>
+              Notifications will be sent to inform you about :
               <br />
-              <a
-                className="button is-success"
-                onClick={this.submit}
-                disabled={!this.state.areThereChanges}
-              >
-                Save Changes
-              </a>
+              * Requests or Tasks that are happening today
+              <br />* Your Bids that were awarded.
+            </p>
+
+            <div className="field">
+              <input
+                id="pushNotification"
+                type="checkbox"
+                name="pushNotification"
+                className="switch is-rounded is-success"
+                onChange={this.toggleEnablePushNotifications}
+                checked={this.state.enablePushNotifications}
+              />
+              <label htmlFor="pushNotification">Enable Push Notifications</label>
             </div>
+            <div className="field">
+              <input
+                id="emailNotification"
+                type="checkbox"
+                name="emailNotification"
+                className="switch is-rounded is-success"
+                onChange={this.toggleEnableEmailNotification}
+                checked={this.state.enableEmailNotification}
+              />
+              <label htmlFor="emailNotification">Enable Email Notifications</label>
+            </div>
+            <div className="field">
+              <input
+                id="txtNotification"
+                type="checkbox"
+                name="txtNotification"
+                className="switch is-rounded is-success"
+                onChange={this.toggleEnableTxtNotifications}
+                checked={this.state.enableTxtNotifications}
+              />
+              <label htmlFor="txtNotification">Enable Text Messages Notifications</label>
+              <p className="help">* Will only work if you provided your phone number</p>
+            </div>
+            <br />
+            <a
+              className="button is-success"
+              onClick={this.submit}
+              disabled={!this.state.areThereChanges}
+            >
+              Update Settings
+            </a>
           </div>
         </div>
-      </section>
+      </div>
     );
   }
 }

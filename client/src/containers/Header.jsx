@@ -496,19 +496,6 @@ class Header extends React.Component {
                                 </a>
                               </React.Fragment>
                             )}
-                            <a
-                              onClick={(e) =>
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.notificationSettings);
-                                })
-                              }
-                              className="navbar-item"
-                            >
-                              <span className="icon">
-                                <i className="fas fa-bell" />
-                              </span>
-                              <span>Notifications</span>
-                            </a>
                             <hr className="navbar-divider" />
                             <a
                               onClick={(e) =>

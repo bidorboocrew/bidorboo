@@ -143,6 +143,5 @@ export const CLIENT = {
     paymentSettings: '/my-profile/payment-settings',
     pastRequestedServices: '/my-profile/past-requested-services',
     pastProvidedServices: '/my-profile/past-provided-services',
-    notificationSettings: '/my-profile/notification-settings',
   },
 };
