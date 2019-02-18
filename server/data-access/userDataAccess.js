@@ -190,7 +190,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const bidsWithUpdatedStatus = ['BOO', 'WON', 'CANCEL', 'AWARDED'];
-      const user = await User.findOne({ userId }, schemaHelpers.UserFull)
+      const user = await User.findOne({ userId })
         .populate({
           path: '_postedJobsRef',
           match: { state: { $in: ['OPEN', 'AWARDED'] } },
@@ -484,6 +484,25 @@ exports.updateUserAppView = (userId, appView) => {
         }
       );
       resolve({ success: true });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+exports.updateNotificationSettings = (userId, notificationSettings) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: { notifications: { ...notificationSettings } },
+        }
+      )
+        .lean(true)
+        .exec();
+
+      resolve(updatedUser);
     } catch (e) {
       reject(e);
     }

@@ -16,7 +16,7 @@ export default class MineTabSummaryCard extends React.Component {
     const {
       job,
       showCoverImg = true,
-      cardSpecialClass = 'bidderRootSpecial',
+      cardSpecialStyle = 'bidderRootSpecial',
       onClickHandler = () => null,
       onCloseHandler = () => null,
       withButtons = false,
@@ -32,7 +32,7 @@ export default class MineTabSummaryCard extends React.Component {
             onClickHandler();
           }
         }}
-        className={`card is-clipped ${cardSpecialClass}`}
+        className={`card is-clipped ${cardSpecialStyle}`}
       >
         <CardTitleWithBidCount
           jobState={state}

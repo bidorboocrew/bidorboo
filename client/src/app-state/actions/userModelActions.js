@@ -12,6 +12,21 @@ export const getMyPastRequestedServices = () => (dispatch) => {
   });
 };
 
+export const updateNotificationSettings = (notificationSettings) => (dispatch) => {
+  return dispatch({
+    type: A.USER_MODEL_ACTIONS.UPDATE_USER_NOTIFICATION_SETTINGS,
+    payload: axios
+      .put(ROUTES.API.USER.PUT.notificationSettings, {
+        data: {
+          notificationSettings,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const getMyPastProvidedServices = () => (dispatch) => {
   return dispatch({
     type: A.USER_MODEL_ACTIONS.GET_MY_PAST_PROVIDED_SERVICES,

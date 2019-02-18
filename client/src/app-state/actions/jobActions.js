@@ -1,7 +1,6 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import moment from 'moment';
 import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 

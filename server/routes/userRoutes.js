@@ -202,7 +202,24 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.userDetails, requireBidorBooHost, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.notificationSettings, requireLogin, async (req, res) => {
+    try {
+      const notificationSettings = req.body.data;
+      const userId = req.user.userId;
+
+      const userAfterUpdates = await userDataAccess.updateNotificationSettings(
+        userId,
+        notificationSettings
+      );
+      return res.send({ success: true });
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
+    }
+  });
+
+  app.put(ROUTES.API.USER.PUT.userDetails, requireLogin, async (req, res) => {
     try {
       const newProfileDetails = req.body.data;
       const userId = req.user.userId;

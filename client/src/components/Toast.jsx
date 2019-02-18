@@ -102,7 +102,20 @@ class Toast extends React.Component {
             }}
             className="delete"
           />
+
           {msg && typeof msg === 'string' ? msg : JSON.stringify(msg)}
+          {displayToast && type === 'error' && (
+            <button
+              style={{ marginLeft: 6 }}
+              className="button is-small is-outlined"
+              onClick={() => window.location.reload()}
+            >
+              <span className="icon">
+                <i className="fas fa-redo" />
+              </span>
+              <span>Reload Page</span>
+            </button>
+          )}
         </div>
       )
     );

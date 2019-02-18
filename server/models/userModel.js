@@ -33,6 +33,20 @@ const UserSchema = new Schema(
       default: 'PROPOSER',
       enum: ['PROPOSER', 'BIDDER'],
     },
+    notifications: {
+      push: {
+        type: Boolean,
+        default: true,
+      },
+      email: {
+        type: Boolean,
+        default: true,
+      },
+      text: {
+        type: Boolean,
+        default: false,
+      },
+    },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
     }, //list of all jobs you have posted

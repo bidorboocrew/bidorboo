@@ -11,7 +11,7 @@ import axios from 'axios';
 import FileUploaderComponent from '../../components/FileUploaderComponent';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { getCurrentUser } from '../../app-state/actions/authActions';
-
+import NotificationSettings from './NotificationSettings'
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);

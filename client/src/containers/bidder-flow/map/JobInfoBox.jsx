@@ -27,7 +27,7 @@ export default class JobInfoBox extends React.Component {
               switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
             }}
             onCloseHandler={toggleShowInfoBox}
-            cardSpecialClass="bdb-infoBoxCard"
+            cardSpecialStyle="bdb-infoBoxCard"
             showCoverImg={false}
             withButtons={true}
             job={job}
@@ -44,7 +44,7 @@ export default class JobInfoBox extends React.Component {
               }
             }}
             onCloseHandler={toggleShowInfoBox}
-            cardSpecialClass="bdb-infoBoxCard"
+            cardSpecialStyle="bdb-infoBoxCard"
             showCoverImg={false}
             withButtons={true}
             job={job}
