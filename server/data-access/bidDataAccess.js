@@ -55,6 +55,7 @@ exports.bidDataAccess = {
       .populate({
         path: '_bidderRef',
         select: {
+          notifications: 1,
           _asBidderReviewsRef: 1,
           _asProposerReviewsRef: 1,
           rating: 1,
@@ -89,6 +90,7 @@ exports.bidDataAccess = {
         populate: {
           path: '_ownerRef',
           select: {
+            notifications: 1,
             _id: 1,
             displayName: 1,
             rating: 1,
@@ -140,6 +142,7 @@ exports.bidDataAccess = {
                     displayName: 1,
                     rating: 1,
                     profileImage: 1,
+                    notifications: 1,
                   },
                 },
                 {
@@ -196,6 +199,7 @@ exports.bidDataAccess = {
               populate: {
                 path: '_ownerRef',
                 select: {
+                  notifications: 1,
                   _id: 1,
                   displayName: 1,
                   rating: 1,
@@ -284,6 +288,7 @@ exports.bidDataAccess = {
             populate: {
               path: '_jobRef _bidderRef',
               select: {
+                notifications: 1,
                 _id: 1,
                 _ownerRef: 1,
                 title: 1,
@@ -306,6 +311,7 @@ exports.bidDataAccess = {
               populate: {
                 path: '_ownerRef',
                 select: {
+                  notifications: 1,
                   _id: 1,
                   displayName: 1,
                   rating: 1,

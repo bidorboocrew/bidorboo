@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export const registerServiceWorker = (vapidKey) => {
-  if (process.env.NODE_ENV === 'production') {
+  // if (process.env.NODE_ENV === 'production') {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       send(vapidKey);
     }
-  }
+  // }
 };
 
 const urlBase64ToUint8Array = (base64String) => {

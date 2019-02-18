@@ -32,14 +32,21 @@ exports.jobDataAccess = {
       })
         .populate({
           path: '_ownerRef',
-          select: { _id: 1, email: 1, phone: 1, _bidderRef: 1, pushSubscription: 1 },
+          select: {
+            _id: 1,
+            email: 1,
+            phone: 1,
+            _bidderRef: 1,
+            pushSubscription: 1,
+            notifications: 1,
+          },
         })
         .populate({
           path: '_awardedBidRef',
           select: { _bidderRef: 1 },
           populate: {
             path: '_bidderRef',
-            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1 },
+            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1, notifications: 1 },
           },
         })
         .lean(true)
@@ -279,6 +286,7 @@ exports.jobDataAccess = {
               profileImage: 1,
               displayName: 1,
               rating: 1,
+              notifications: 1,
             },
           },
         },
@@ -338,6 +346,7 @@ exports.jobDataAccess = {
           profileImage: 1,
           _id: 1,
           rating: 1,
+          notifications: 1,
         };
 
         const jobWithBidDetails = await JobModel.findOne(
@@ -362,6 +371,7 @@ exports.jobDataAccess = {
                 createdAt: 1,
                 email: 1,
                 rating: 1,
+                notifications: 1,
               },
             },
           })
@@ -399,6 +409,7 @@ exports.jobDataAccess = {
                   membershipStatus: 1,
                   agreedToServiceTerms: 1,
                   createdAt: 1,
+                  notifications: 1,
                 },
               },
             },
@@ -535,12 +546,14 @@ exports.jobDataAccess = {
                 settings: 0,
                 extras: 0,
                 stripeConnect: 0,
+                notifications: 1,
               },
             },
           })
           .populate({
             path: '_ownerRef',
             select: {
+              notifications: 1,
               _postedJobsRef: 0,
               _postedBidsRef: 0,
               _asBidderReviewsRef: 0,
@@ -580,7 +593,13 @@ exports.jobDataAccess = {
         viewedBy: 1,
         booedBy: 1,
       };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+      const jobOwnerFields = {
+        displayName: 1,
+        profileImage: 1,
+        _id: 1,
+        rating: 1,
+        notifications: 1,
+      };
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
         sort: { startingDateAndTime: 1 },
@@ -774,6 +793,7 @@ exports.jobDataAccess = {
             updatedAt: 0,
             __v: 0,
             verificationIdImage: 0,
+            notifications: 1,
           },
         },
       })

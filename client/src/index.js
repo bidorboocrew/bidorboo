@@ -52,6 +52,7 @@ if (process.env.NODE_ENV === 'development') {
     document.getElementById('BidOrBoo-app'),
   );
 }
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
+  debugger
   registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-}
+// }
