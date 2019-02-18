@@ -117,8 +117,6 @@ module.exports = {
       myOpenJobs: '/bdb-request/my-open-jobs',
       reviewRequestAndBidsPage: '/bdb-request/review-request-details',
       dynamicReviewRequestAndBidsPage: (jobId) => `/bdb-request/review-request-details/${jobId}`,
-      newlyPostedJob: '/bdb-request/new-job-details',
-      awardedJobsPage: '/bdb-request/awarded-jobs',
       selectedAwardedJobPage: '/bdb-request/awarded-job-details',
       dynamicSelectedAwardedJobPage: (jobId) => `/bdb-request/awarded-job-details/${jobId}`,
     },

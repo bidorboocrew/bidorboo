@@ -20,12 +20,11 @@ module.exports = (app) => {
         icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
       };
 
-      res.status(201).json({});
 
       // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
-
       const payLoad = JSON.stringify(data);
-      const notificationReq = await webpush.sendNotification(subscription, payLoad);
+      await webpush.sendNotification(subscription, payLoad);
+      res.status(201).json({});
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To send notification', details: `${e}` });
     }
@@ -49,7 +48,7 @@ module.exports = (app) => {
       const noPushWasSentBefore = !!currentUser.pushSubscription;
       if (!noPushWasSentBefore) {
         const payload = JSON.stringify({
-          title: 'BidOrBoo Notifications enabled.',
+          title: 'BidOrBoo Push Enabled.',
           body: ' Control Notification settings in your profile',
           icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
           urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
@@ -59,7 +58,7 @@ module.exports = (app) => {
       await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
         pushSubscription: subscription,
       });
-      return res.status(201).json({ success: true });
+      return res.status(201).json({});
     } catch (e) {
       return res
         .status(500)

@@ -87,33 +87,45 @@ exports.jobDataAccess = {
                 const linkForBidder = `https://www.bidorboo.com${
                   ROUTES.CLIENT.BIDDER.currentAwardedBid
                 }/${awardedBidId}`;
-                sendGridEmailing.sendEmail(
-                  'bidorboocrew@gmail.com',
-                  ownerEmailAddress,
-                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                  `This is an automated reminder for your upcoming scheduled ${
-                    job.fromTemplateId
-                  } task.
+                if (ownerDetails.notifications && ownerDetails.notifications.email) {
+                  sendGridEmailing.sendEmail(
+                    'bidorboocrew@gmail.com',
+                    ownerEmailAddress,
+                    `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
                 To get in touch with your tasker feel free to contact them on:
                 email address : ${bidderEmailAddress}
                 phone number : ${bidderPhoneNumber}
                 for reference here is the link to your task ${linkForOwner}
                  `
-                );
-                sendGridEmailing.sendEmail(
-                  'bidorboocrew@gmail.com',
-                  bidderEmailAddress,
-                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                  `This is an automated reminder for your upcoming scheduled ${
-                    job.fromTemplateId
-                  } task.
+                  );
+                }
+                if (
+                  awardedBidderDetails.notifications &&
+                  awardedBidderDetails.notifications.email
+                ) {
+                  sendGridEmailing.sendEmail(
+                    'bidorboocrew@gmail.com',
+                    bidderEmailAddress,
+                    `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
                 To get in touch with your task owner feel free to contact them on:
                 email address : ${ownerEmailAddress}
                 phone number : ${ownerPhoneNumber}
                 for reference here is the link to your task ${linkForBidder}
                  `
-                );
-                if (ownerPhoneNumber) {
+                  );
+                }
+
+                if (
+                  ownerPhoneNumber &&
+                  ownerDetails.notifications &&
+                  ownerDetails.notifications.phone
+                ) {
                   await sendTextService.sendText(
                     ownerPhoneNumber,
                     `BidOrBoo: ${
@@ -121,7 +133,11 @@ exports.jobDataAccess = {
                     } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
-                if (bidderPhoneNumber) {
+                if (
+                  bidderPhoneNumber &&
+                  awardedBidderDetails.notifications &&
+                  awardedBidderDetails.notifications.phone
+                ) {
                   await sendTextService.sendText(
                     bidderPhoneNumber,
                     `BidOrBoo: ${
@@ -129,16 +145,20 @@ exports.jobDataAccess = {
                     } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
-                WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
-                  title: `${job.fromTemplateId} is happening soon!`,
-                  body: `click to view schedule and tasker details`,
-                  urlToLaunch: `${linkForOwner}`,
-                });
-                WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
-                  title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
-                  body: `It is happening soon ! . click for more details`,
-                  urlToLaunch: `${linkForBidder}`,
-                });
+                if (ownerDetails.notifications && ownerDetails.notifications.push) {
+                  WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
+                    title: `${job.fromTemplateId} is happening soon!`,
+                    body: `click to view schedule and tasker details`,
+                    urlToLaunch: `${linkForOwner}`,
+                  });
+                }
+                if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
+                  WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
+                    title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
+                    body: `It is happening soon ! . click for more details`,
+                    urlToLaunch: `${linkForBidder}`,
+                  });
+                }
               }
             });
           }

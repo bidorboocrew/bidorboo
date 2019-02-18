@@ -124,7 +124,7 @@ class App extends React.Component {
             component={CreateAJobPage}
           />
           <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
-          <Route exact path={ROUTES.CLIENT.BIDDER.BidOnJobPage} component={BidOnJobPage} />
+          <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
           <Route
             exact
             path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}

@@ -39,7 +39,18 @@ class GetNotificationsAndScroll extends React.Component {
         a_getCurrentUser();
       }
       if (s_isLoggedIn) {
-        this.props.a_getCurrentUserNotifications();
+        if (
+          location.pathname.indexOf('user-profile') > -1 ||
+          location.pathname.indexOf('verification') > -1 ||
+          location.pathname.indexOf('bdb-request') > -1 ||
+          location.pathname.indexOf('bdb-offer') > -1 ||
+          location.pathname.indexOf('/review') > -1 ||
+          location.pathname.indexOf('/my-profile') > -1
+        ) {
+          // do not fetch notifications on these pages above
+        } else {
+          this.props.a_getCurrentUserNotifications();
+        }
 
         if (location.pathname.indexOf('bdb-request') > -1) {
           a_setAppProposerView();

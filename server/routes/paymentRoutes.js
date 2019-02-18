@@ -94,7 +94,12 @@ module.exports = (app) => {
             const awardedBidder = _bidderRef.userId
               ? await userDataAccess.getUserPushSubscription(_bidderRef.userId)
               : false;
-            if (awardedBidder && awardedBidder.pushSubscription) {
+            if (
+              awardedBidder &&
+              awardedBidder.pushSubscription &&
+              _bidderRef.notifications &&
+              _bidderRef.notifications.push
+            ) {
               // send push
               const bidId = _id.toString();
               WebPushNotifications.sendPush(awardedBidder.pushSubscription, {

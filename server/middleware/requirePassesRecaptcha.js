@@ -1,5 +1,4 @@
 // emailing services
-// const sendGridEmailing = require('../services/sendGrid').EmailService;
 const keys = require('../config/keys');
 const Recaptcha = require('recaptcha-verify');
 // skip
