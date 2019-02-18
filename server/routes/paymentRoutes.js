@@ -105,7 +105,7 @@ module.exports = (app) => {
               WebPushNotifications.sendPush(awardedBidder.pushSubscription, {
                 title: `Good News ${_bidderRef.displayName}!`,
                 body: `You have been awarded a job. click for details`,
-                urlToLaunch: `https://www.bidorboo.com/bidder/awarded-bid-details/${bidId}`,
+                urlToLaunch: `https://www.bidorboo.com/awarded-bid-details/${bidId}`,
               });
             }
 
