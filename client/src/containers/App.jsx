@@ -186,6 +186,7 @@ class App extends React.Component {
             path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
             component={PastRequestedServices}
           />
+          <Redirect path="*" to={ROUTES.CLIENT.ENTRY} />
 
           <Redirect path="*" to={ROUTES.CLIENT.HOME} />
         </Switch>

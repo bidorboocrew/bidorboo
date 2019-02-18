@@ -109,7 +109,7 @@ export const updateOnBoardingDetails = (onBoardingDetails) => (dispatch) => {
       })
       .then((resp) => {
         if (resp.data && resp.data.success) {
-          switchRoute(`${ROUTES.CLIENT.HOME}`);
+          switchRoute(`${ROUTES.CLIENT.EnteryWithGuidedTour}`);
         }
       })
       .catch((error) => {

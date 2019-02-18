@@ -103,7 +103,8 @@ export const API = {
 };
 
 export const CLIENT = {
-  ENTRY: '/BidOrBoo',
+  ENTRY: '/BidOrBoo/:withGuidedTour',
+  EnteryWithGuidedTour: '/BidOrBoo/withGuidedTour',
   HOME: '/BidOrBoo',
   ONBOARDING: '/on-boarding',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
