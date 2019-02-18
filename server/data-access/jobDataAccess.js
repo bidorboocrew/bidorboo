@@ -546,14 +546,12 @@ exports.jobDataAccess = {
                 settings: 0,
                 extras: 0,
                 stripeConnect: 0,
-                notifications: 1,
               },
             },
           })
           .populate({
             path: '_ownerRef',
             select: {
-              notifications: 1,
               _postedJobsRef: 0,
               _postedBidsRef: 0,
               _asBidderReviewsRef: 0,
@@ -793,7 +791,6 @@ exports.jobDataAccess = {
             updatedAt: 0,
             __v: 0,
             verificationIdImage: 0,
-            notifications: 1,
           },
         },
       })
