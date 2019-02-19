@@ -49,7 +49,6 @@ class GetNotificationsAndScroll extends React.Component {
       } else if (userDetails.appView === 'BIDDER') {
         a_setAppViewUIToBidder();
       }
-      debugger
       if (
         userDetails &&
         userDetails.notifications &&
