@@ -9,6 +9,7 @@ import {
   setServerAppProposerView,
   setServerAppBidderView,
 } from './app-state/actions/uiActions';
+import { registerServiceWorker } from './registerServiceWorker';
 
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
@@ -48,6 +49,17 @@ class GetNotificationsAndScroll extends React.Component {
       } else if (userDetails.appView === 'BIDDER') {
         a_setAppViewUIToBidder();
       }
+      debugger
+      if (
+        userDetails &&
+        userDetails.notifications &&
+        userDetails.notifications.push &&
+        !userDetails.pushSubscription
+      ) {
+        // if (process.env.NODE_ENV === 'production') {
+        registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+        // }
+      }
     }
 
     if (location !== prevProps.location) {
@@ -62,8 +74,9 @@ class GetNotificationsAndScroll extends React.Component {
           location.pathname.indexOf('bdb-request') > -1 ||
           location.pathname.indexOf('bdb-offer') > -1 ||
           location.pathname.indexOf('/review') > -1 ||
-          location.pathname.indexOf('/my-profile') > -1 ||
-          location.pathname.indexOf('/on-boarding') > -1
+          location.pathname.indexOf('my-profile') > -1 ||
+          location.pathname.indexOf('my-agenda') > -1 ||
+          location.pathname.indexOf('on-boarding') > -1
         ) {
           // do not fetch notifications on these pages above
         } else {
