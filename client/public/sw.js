@@ -1,7 +1,7 @@
 'use strict';
 
 self.addEventListener('push', (event) => {
-  debugger;
+  
   const data = event.data.json();
 
   const title = data.title;
