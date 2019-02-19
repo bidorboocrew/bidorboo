@@ -352,7 +352,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="${clickLink || 'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName || 'Open BidOrBoo'}</a> </td>
+                                      <td> <a style="background-color:#31c110;color:white;" href="${clickLink || 'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName || 'Open BidOrBoo'}</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
