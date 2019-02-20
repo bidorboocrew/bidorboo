@@ -248,7 +248,7 @@ class NewJobForm extends React.Component {
                 </section>
                 <footer className="modal-card-foot">
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     onClick={this.toggleConfirmationDialog}
                     className="button is-outline"
                   >
@@ -258,7 +258,7 @@ class NewJobForm extends React.Component {
                     <span>go Back</span>
                   </button>
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     type="submit"
                     disabled={isSubmitting}
                     onClick={handleSubmit}
@@ -429,7 +429,7 @@ class NewJobForm extends React.Component {
           />
           <div className="field">
             <button
-              style={{ width: 140 }}
+              style={{ width: 120 }}
               type="button"
               className="button is-outlined is-medium"
               disabled={isSubmitting}
@@ -444,7 +444,7 @@ class NewJobForm extends React.Component {
               <span>Back</span>
             </button>
             <button
-              style={{ width: 140, marginLeft: '1rem' }}
+              style={{ width: 120, marginLeft: '1rem' }}
               className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
               disabled={isSubmitting || !isValid}
               onClick={(e) => {
