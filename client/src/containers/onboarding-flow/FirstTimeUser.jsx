@@ -28,8 +28,11 @@ export class FirstTimeUser extends React.Component {
     }
   }
   toggleIsAutoDetectEnabled = () => {
-    this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
-      navigator && navigator.geolocation && this.getCurrentAddress();
+    const newAllowAutoDetectState = !this.state.allowAutoDetect;
+    this.setState({ allowAutoDetect: newAllowAutoDetectState }, () => {
+      if (newAllowAutoDetectState && navigator && navigator.geolocation) {
+        this.getCurrentAddress();
+      }
     });
   };
   toggleHasAgreedToTOS = () => {
