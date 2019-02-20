@@ -112,7 +112,7 @@ export class FirstTimeUser extends React.Component {
         </section>
 
         <div style={{ maxWidth: 800 }} className="container">
-          <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.7)' }} className="card">
+          <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.4)' }} className="card">
             <div className="card-content">
               <div className="content">
                 <h2 className="has-text-centered subtitle has-text-grey has-text-weight-normal">
