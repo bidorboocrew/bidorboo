@@ -7,7 +7,8 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import { TAB_IDS } from './components/helperComponents';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
@@ -215,26 +216,25 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
-
-              {/* <div className="has-text-grey">
-                {this.state.allowAutoDetect
-                  ? 'BidOrBoo is serving custom results based on your location'
-                  : `Allow BidOrBoo to detect location for better results`}
-              </div> */}
-              <div className="field">
-                <input
-                  id="autoDetectLocation"
-                  onChange={this.handleChange}
-                  type="checkbox"
-                  name="autoDetectLocation"
-                  className="switch is-rounded is-success"
-                  checked={this.state.allowAutoDetect}
-                />
-                <label className="has-text-grey" htmlFor="autoDetectLocation">
-                  Auto detect location
-                </label>
-              </div>
+              <h2 className="subtitle">
+                For custom results enable auto detect location in
+                {userDetails && !userDetails.autoDetectlocation && (
+                  <React.Fragment>
+                    <div style={{ marginTop: 6 }} className="help has-text-grey ">
+                      For custom results enable auto detect location in
+                    </div>
+                    <a
+                      style={{ marginTop: 0 }}
+                      className="help has-text-link has-text-weight-semibold"
+                      onClick={() => {
+                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                      }}
+                    >
+                      {` profile settings`}
+                    </a>
+                  </React.Fragment>
+                )}
+              </h2>
             </div>
           </div>
         </section>
