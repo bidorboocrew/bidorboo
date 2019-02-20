@@ -229,39 +229,6 @@ class MyProfile extends React.Component {
             </div>
           </div>
         </div>
-        <footer className="footer">
-          <nav className="level">
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="heading">Availablility</p>
-                <div>
-                  <img
-                    width={25}
-                    height={25}
-                    src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="heading">Terms Of Service</p>
-                <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
-                  {`BidOrBoo Terms`}
-                </a>
-                {` & `}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://stripe.com/connect-account/legal"
-                >
-                  {`Stripe Terms`}
-                </a>
-              </div>
-            </div>
-          </nav>
-        </footer>
       </React.Fragment>
     );
   }

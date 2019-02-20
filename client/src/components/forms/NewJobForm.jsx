@@ -46,8 +46,17 @@ class NewJobForm extends React.Component {
   }
 
   componentDidMount() {
+    const currentUserDetails = this.props;
     // xxx do not do that automatically it will scare people
-    // navigator.geolocation && this.getCurrentAddress();
+    if (
+      currentUserDetails &&
+      currentUserDetails.autoDetectlocation &&
+      navigator &&
+      navigator.geolocation
+    ) {
+      this.getCurrentAddress();
+    }
+
     this.recaptchaRef.current.execute();
   }
 

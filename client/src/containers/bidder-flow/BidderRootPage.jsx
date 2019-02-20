@@ -46,14 +46,15 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn } = this.props;
+    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
     if (!isLoggedIn) {
       a_getCurrentUser();
+    } else {
+      a_getAllJobsToBidOn();
+      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+        this.getCurrentAddress();
+      }
     }
-    a_getAllJobsToBidOn();
-
-    // xxx do not do that automatically it will scare people
-    // navigator && navigator.geolocation && this.getCurrentAddress();
   }
 
   getCurrentAddress = () => {
