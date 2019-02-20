@@ -76,9 +76,6 @@ class ReviewRequestAndBidsPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
-        {breadCrumbs({
-          activePageTitle: title,
-        })}
         {showBidReviewModal && (
           <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
         )}
@@ -86,6 +83,9 @@ class ReviewRequestAndBidsPage extends React.Component {
         {!showBidReviewModal && (
           <div className="columns is-centered">
             <div className="column is-narrow">
+              {breadCrumbs({
+                activePageTitle: title,
+              })}
               <BidsTable
                 jobId={selectedJobWithBids._id}
                 bidList={selectedJobWithBids._bidsListRef}

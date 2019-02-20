@@ -73,12 +73,12 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
-        {!isReadOnlyView &&
-          breadCrumbs({
-            activePageTitle: title,
-          })}
         <div className="columns is-centered">
           <div className="column is-narrow">
+            {!isReadOnlyView &&
+              breadCrumbs({
+                activePageTitle: title,
+              })}
             <BidderAndMyAwardedJob
               proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
               bid={_awardedBidRef}
