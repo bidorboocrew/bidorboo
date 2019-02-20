@@ -38,7 +38,7 @@ const commonTourSteps = [
   },
   {
     selector: '#BidOrBoo-logo-step',
-    content: 'Welcome to BidOrBoo! Click Here to go to the home page at anytime',
+    content: 'Click Here to go to the home page at anytime',
     style: { maxWidth: 'none' },
   },
   {
@@ -57,7 +57,7 @@ const desktopTour = [
   ...commonTourSteps,
   {
     selector: '#switch-role-step',
-    content: 'You can  alter your view to act as a Requester or a Tasker.',
+    content: 'You can switch your view to Request or to be a Tasker at anytime',
     style: { maxWidth: 'none' },
   },
   {
@@ -71,12 +71,12 @@ const mobileTour = [
   ...commonTourSteps,
   {
     selector: '#switch-role-mobile-step',
-    content: 'You can  alter your view to act as a Requester or a Tasker.',
+    content: 'You can switch your view to Request or to be a Tasker at anytime',
     style: { maxWidth: 'none' },
   },
   {
     selector: '#mobile-nav-burger',
-    content: 'Click here for more menu options and to access your profile settings',
+    content: 'To access your profile settings and more menu options click Here',
     style: { maxWidth: 'none' },
   },
 ];
