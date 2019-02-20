@@ -7,7 +7,6 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
-import Tour from 'reactour';
 
 import '../assets/index.css';
 
@@ -36,49 +35,16 @@ import {
   PastRequestedServices,
 } from './index';
 
-const desktopViewSteps = [
-  {
-    selector: '',
-    content: <h1 className="title">Welcome to Bid Or Boo </h1>,
-    style: { maxWidth: 'none' },
-  },
-  {
-    selector: '#BidOrBoo-logo-step',
-    content: 'Welcome to Bid Or Boo! Click on this to go to home page at anytime',
-  },
-  {
-    selector: '#myprofile-step',
-    content: 'Click to set up your details',
-  },
-];
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isTourOpen: false,
-    };
-  }
-
   componentDidCatch(error, info) {
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
 
-  toggleTour = () => {
-    this.setState({ isTourOpen: !this.state.isTourOpen });
-  };
-
   render() {
     const { s_toastDetails, userAppView, isLoggedIn } = this.props;
     return (
       <div id="bidorboo-root-view">
-        <Tour
-          closeWithMask
-          steps={desktopViewSteps}
-          isOpen={this.state.isTourOpen}
-          onRequestClose={this.toggleTour}
-        />
-
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
