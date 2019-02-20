@@ -41,7 +41,6 @@ const EnhancedForms = withFormik({
   },
 
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger
     props.onSubmit({
       displayName: values.displayName,
       email: { emailAddress: values.email },

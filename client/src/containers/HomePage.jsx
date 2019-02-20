@@ -41,18 +41,37 @@ export default class HomePage extends React.Component {
           </div>
         </div>
         <footer className="footer">
-          <div className="content has-text-centered">
-            <div className="has-text-centered">
-              <label style={{ fontWeight: 400 }} className="label has-text-grey">
-                BidOrBoo is Availble in Canada
-              </label>
-              <img
-                width={25}
-                height={25}
-                src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
-              />
+          <nav className="level">
+            <div className="level-item has-text-centered">
+              <div>
+                <p className="heading">Availablility</p>
+                <div>
+                  <img
+                    width={25}
+                    height={25}
+                    src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+
+            <div className="level-item has-text-centered">
+              <div>
+                <p className="heading">Terms Of Service</p>
+                <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+                  {`BidOrBoo Terms`}
+                </a>
+                {` & `}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://stripe.com/connect-account/legal"
+                >
+                  {` Stripe Terms`}
+                </a>
+              </div>
+            </div>
+          </nav>
         </footer>
       </React.Fragment>
     );
