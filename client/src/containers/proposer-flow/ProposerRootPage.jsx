@@ -11,7 +11,7 @@ class ProposerRoot extends React.Component {
     const { a_showLoginDialog, isLoggedIn } = this.props;
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">

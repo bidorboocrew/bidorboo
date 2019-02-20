@@ -147,7 +147,7 @@ class MyAgenda extends React.Component {
 
     if (isLoadingAwardedBids || isLoadingAwardedJobs) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading={isLoadingAwardedBids || isLoadingAwardedJobs} size={'large'} />;
         </div>
       );
@@ -157,7 +157,7 @@ class MyAgenda extends React.Component {
     let calendarViews = ['month', 'week', 'day', 'agenda'];
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <BigCalendar
           localizer={localizer}
           events={allCalendarEvents}

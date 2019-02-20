@@ -46,7 +46,7 @@ class CreateAJobPage extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <div className="card">
             <section style={{ borderBottom: '1px solid #eee' }} className="hero is-small is-white">
               <div className="hero-body">

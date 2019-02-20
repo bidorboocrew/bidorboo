@@ -32,7 +32,7 @@ class PastRequestedServices extends React.Component {
 
     if (!isLoggedIn || myPastRequestedServicesIsLoading) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading size={'large'} />
         </div>
       );
@@ -62,7 +62,7 @@ class PastRequestedServices extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <div>{AllTheRequestsByThisUser}</div>
         </div>
       </React.Fragment>

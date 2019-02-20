@@ -65,7 +65,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading={true} size={'large'} />
         </div>
       );
@@ -75,7 +75,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         {breadCrumbs({
           activePageTitle: title,
         })}

@@ -74,7 +74,7 @@ class MyProfile extends React.Component {
           </div>
         </section>
 
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <div className="columns is-centered">
             <div className="column is-narrow">
               {userImageAndStats(

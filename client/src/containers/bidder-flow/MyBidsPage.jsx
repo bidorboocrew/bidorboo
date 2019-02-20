@@ -93,7 +93,7 @@ class MyBidsPage extends React.Component {
       );
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <FloatingAddNewBidButton />
 
         <div style={{ position: 'relative' }} className="tabs is-medium">
@@ -128,7 +128,7 @@ class MyBidsPage extends React.Component {
             {/* <h1 className="is-size-5">{`Awarded Bids  (${(awardedBidsList &&
               awardedBidsList.length) ||
               0})`}</h1> */}
-            <div className="container is-widescreen bidorbooContainerMargins">
+            <div className="container is-widescreen">
               <div className="tabs is-medium ">
                 <ul>
                   <li>
@@ -149,7 +149,7 @@ class MyBidsPage extends React.Component {
                 </div>
               )}
             </div>
-            <div className="container is-widescreen bidorbooContainerMargins">
+            <div className="container is-widescreen">
               <div className="tabs is-medium">
                 <ul>
                   <li>
