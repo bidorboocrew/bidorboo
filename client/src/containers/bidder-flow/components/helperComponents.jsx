@@ -16,7 +16,7 @@ export const BID_STATUS_TO_DISPLAYLABEL = {
 
 export const TAB_IDS = {
   openRequests: 'Requests',
-  myRequests: 'Mine',
+  // myRequests: 'Mine',
 };
 
 export const MYBIDS_TAB_IDS = {

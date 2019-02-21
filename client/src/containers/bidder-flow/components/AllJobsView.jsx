@@ -15,7 +15,7 @@ export default class AllJobsView extends React.Component {
         <div className="columns forJobSummary is-multiline is-centered is-mobile">
           {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
 
-          {activeTab === TAB_IDS.myRequests && <MyJobs {...this.props} />}
+          {/* {activeTab === TAB_IDS.myRequests && <MyJobs {...this.props} />} */}
         </div>
       </React.Fragment>
     ) : (

@@ -5,6 +5,7 @@ exports.UserFull = {
   _postedBidsRef: 1,
   _asBidderReviewsRef: 1,
   _asProposerReviewsRef: 1,
+  notifications:1,
   rating: 1,
   userId: 1,
   email: 1,

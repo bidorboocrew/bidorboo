@@ -4,7 +4,13 @@ import * as A from '../actionTypes';
 
 const initialState = {
   isLoggedIn: false,
+  isFetchingNotificationSettings: true,
   userDetails: {
+    notifications: {
+      push: false,
+      email: false,
+      text: false,
+    },
     rating: 5,
     userId: 'new_bid_or_boo_user',
     _id: 'new_bid_or_boo_user',

@@ -25,7 +25,7 @@ export const selectJobToBidOn = (jobDetails) => (dispatch) => {
     },
   });
   // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.BIDDER.BidOnJobPage);
+  switchRoute(ROUTES.CLIENT.BIDDER.bidOnJobPage);
 };
 
 export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) => {
@@ -72,7 +72,6 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
         data: { bidId },
       })
       .then((resp) => {
-        debugger;
         // update recently added job
         if (resp.data && resp.data.success) {
           dispatch({

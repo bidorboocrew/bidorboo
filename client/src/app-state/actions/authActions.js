@@ -49,14 +49,22 @@ export const getCurrentUser = () => (dispatch) =>
             },
           });
           if (resp.data.appView) {
-            dispatch({
-              type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
-              payload: resp.data.appView === 'BIDDER' ? 'BIDDER' : 'PROPOSER',
-            });
+            if (resp.data.appView === 'BIDDER') {
+              dispatch({
+                type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
+                payload: 'BIDDER',
+              });
+            } else {
+              dispatch({
+                type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+                payload: 'PROPOSER',
+              });
+            }
           }
-        } else {
-          //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.HOME);
+
+          if (resp.data.membershipStatus === 'NEW_MEMBER') {
+            switchRoute(ROUTES.CLIENT.ONBOARDING);
+          }
         }
       })
       .catch((error) => {
@@ -138,9 +146,7 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-        } else {
-          //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.HOME);
+          switchRoute(ROUTES.CLIENT.ONBOARDING);
         }
       })
       .catch((error) => {

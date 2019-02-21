@@ -7,7 +7,8 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import { TAB_IDS } from './components/helperComponents';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
@@ -34,6 +35,7 @@ class BidderRootPage extends React.Component {
     }
 
     this.state = {
+      allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
       activeTab: initialTabSelection,
       showSideNav: false,
@@ -45,17 +47,20 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn } = this.props;
+    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
     if (!isLoggedIn) {
       a_getCurrentUser();
+    } else {
+      a_getAllJobsToBidOn();
+      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+        this.getCurrentAddress();
+      }
     }
-    a_getAllJobsToBidOn();
-    navigator && navigator.geolocation && this.getCurrentAddress();
   }
 
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
-    if (navigator.geolocation) {
+    if (navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
         maximumAge: 10000,
         timeout: 5000,
@@ -170,13 +175,19 @@ class BidderRootPage extends React.Component {
     this.setState({ showSideNav: !this.state.showSideNav });
   };
 
+  handleChange = () => {
+    this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
+      navigator && navigator.geolocation && this.getCurrentAddress();
+    });
+  };
+
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     if (isLoading) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <section className="section">
           <Spinner isLoading={isLoading} size={'large'} />
-        </div>
+        </section>
       );
     }
 
@@ -200,20 +211,38 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
+              <h2 className="subtitle">
+                For custom results enable auto detect location in
+                {userDetails && !userDetails.autoDetectlocation && (
+                  <React.Fragment>
+                    <div style={{ marginTop: 6 }} className="help has-text-grey ">
+                      For custom results enable auto detect location in
+                    </div>
+                    <a
+                      style={{ marginTop: 0 }}
+                      className="help has-text-link has-text-weight-semibold"
+                      onClick={() => {
+                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                      }}
+                    >
+                      {` profile settings`}
+                    </a>
+                  </React.Fragment>
+                )}
+              </h2>
             </div>
           </div>
         </section>
-        <Tabs
+        {/* <Tabs
           activeTab={activeTab}
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
-        />
+        /> */}
         <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
@@ -222,15 +251,16 @@ class BidderRootPage extends React.Component {
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
         />
+
+        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
+
+        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
         <div
           style={{ marginBottom: 6 }}
           className="help container is-widescreen has-text-grey has-text-centered"
         >
-          {` ${(currentJobsList && currentJobsList.length) || 0} requests`}
+          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
         </div>
-        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
         <br />
 
         <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />

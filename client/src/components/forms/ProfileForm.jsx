@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
-import { enforceNumericField, alphanumericField, phoneNumber } from './FormsValidators';
+import { alphanumericField, phoneNumber } from './FormsValidators';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -29,21 +29,24 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { displayName, personalParagraph, phone, email } = userDetails;
+    const { autoDetectlocation, displayName, personalParagraph, phone, email } = userDetails;
 
     return {
       displayName: displayName,
       phoneNumber: phone.phoneNumber,
       email: email.emailAddress,
       personalParagraph: personalParagraph,
+      autoDetectlocation,
     };
   },
+
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit({
       displayName: values.displayName,
       email: { emailAddress: values.email },
       phone: { phoneNumber: values.phoneNumber },
       personalParagraph: values.personalParagraph,
+      autoDetectlocation: values.autoDetectlocation,
     });
   },
   displayName: 'ProfileForm',
@@ -58,11 +61,33 @@ const ProfileForm = (props) => {
     handleChange,
     handleBlur,
     handleSubmit,
-    // handleReset,
+    setFieldValue,
     onCancel,
     isValid,
     isSubmitting,
   } = props;
+
+  const toggleIsAutoDetectEnabled = (val) => {
+    debugger;
+    if (val && navigator && navigator.geolocation) {
+      const getCurrentPositionOptions = {
+        maximumAge: 10000,
+        timeout: 5000,
+        enableHighAccuracy: true,
+      };
+      const errorHandling = (err) => {
+        console.error('BidOrBoo Could Not Auto Detect Address ' + err);
+      };
+      const successfulRetrieval = () => {};
+
+      //get the current location
+      navigator.geolocation.getCurrentPosition(
+        successfulRetrieval,
+        errorHandling,
+        getCurrentPositionOptions,
+      );
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -76,6 +101,30 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <div className="field">
+        <div className="control">
+          <label className="label">Auto Detect Location</label>
+          <label className="checkbox">
+            <input
+              id="autoDetectlocation"
+              onChange={(e) => {
+                handleChange(e);
+                toggleIsAutoDetectEnabled(e.target.checked);
+              }}
+              type="checkbox"
+              name="autoDetectlocation"
+              checked={values.autoDetectlocation}
+            />
+
+            <span>{` Enable Auto detect`} </span>
+            <span className="has-text-grey has-text-weight-normal">
+              <span className="icon">
+                <i className="fas fa-globe-americas" />
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
       <TextInput
         id="email"
         type="text"

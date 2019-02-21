@@ -158,7 +158,6 @@ class NewUserRegistrationForm extends React.Component {
             size="invisible"
             badge="inline"
             onChange={(result) => {
-              debugger
               setFieldValue('recaptchaField', result, true);
             }}
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}

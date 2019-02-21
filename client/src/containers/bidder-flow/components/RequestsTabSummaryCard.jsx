@@ -16,7 +16,7 @@ export default class RequestsTabSummaryCard extends React.Component {
       job,
       userDetails,
       showCoverImg = true,
-      cardSpecialClass = 'bidderRootSpecial',
+      cardSpecialStyle = 'bidderRootSpecial',
       onClickHandler = () => null,
       onCloseHandler = () => null,
       withButtons = false,
@@ -39,7 +39,7 @@ export default class RequestsTabSummaryCard extends React.Component {
             !isAwarded && !userAlreadyBid && onClickHandler();
           }
         }}
-        className={`card is-clipped ${cardSpecialClass} ${isAwarded ? 'disabled' : ''}`}
+        className={`card is-clipped ${cardSpecialStyle} ${isAwarded ? 'disabled' : ''}`}
       >
         <CardTitleWithBidCount
           userAlreadyBid={userAlreadyBid}

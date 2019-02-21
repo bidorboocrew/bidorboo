@@ -46,7 +46,17 @@ class NewJobForm extends React.Component {
   }
 
   componentDidMount() {
-    navigator.geolocation && this.getCurrentAddress();
+    const { currentUserDetails } = this.props;
+    // xxx do not do that automatically it will scare people
+    if (
+      currentUserDetails &&
+      currentUserDetails.autoDetectlocation &&
+      navigator &&
+      navigator.geolocation
+    ) {
+      this.getCurrentAddress();
+    }
+
     this.recaptchaRef.current.execute();
   }
 
@@ -145,13 +155,20 @@ class NewJobForm extends React.Component {
 
     const autoDetectCurrentLocation = navigator.geolocation ? (
       <React.Fragment>
-        <span>
-          <a style={{ fontSize: 14 }} onClick={this.getCurrentAddress} className="is-link">
-            Auto Detect
+        <div>
+          <a
+            style={{ marginTop: 6, fontSize: 14 }}
+            onClick={this.getCurrentAddress}
+            className="button is-small is-info is-outlined"
+          >
+            <span className="icon">
+              <i className="fas fa-map-marker-alt" />
+            </span>
+            <span>Auto Detect My Address</span>
           </a>
-        </span>
+        </div>
         <span style={{ fontSize: 12, color: 'grey' }}>
-          {` or manually select an address from the drop down menu`}
+          {` or manually start typing an address in this field then select from the drop down suggestions`}
         </span>
       </React.Fragment>
     ) : null;
@@ -166,8 +183,6 @@ class NewJobForm extends React.Component {
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <section className="modal-card-body">
-                  <label className="label">Review Your Task Details</label>
-
                   <div
                     style={{
                       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
@@ -180,7 +195,7 @@ class NewJobForm extends React.Component {
                       className="card-header is-clipped"
                     >
                       <p className="card-header-title">
-                        {templatesRepo[fromTemplateIdField].title} Request
+                        Preview: {templatesRepo[fromTemplateIdField].title}
                       </p>
                     </header>
                     <div className="card-image is-clipped">
@@ -231,9 +246,9 @@ class NewJobForm extends React.Component {
                     />
                   </div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     onClick={this.toggleConfirmationDialog}
                     className="button is-outline"
                   >
@@ -243,7 +258,7 @@ class NewJobForm extends React.Component {
                     <span>go Back</span>
                   </button>
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     type="submit"
                     disabled={isSubmitting}
                     onClick={handleSubmit}
@@ -414,7 +429,7 @@ class NewJobForm extends React.Component {
           />
           <div className="field">
             <button
-              style={{ width: 140 }}
+              style={{ width: 120 }}
               type="button"
               className="button is-outlined is-medium"
               disabled={isSubmitting}
@@ -429,7 +444,7 @@ class NewJobForm extends React.Component {
               <span>Back</span>
             </button>
             <button
-              style={{ width: 140, marginLeft: '1rem' }}
+              style={{ width: 120, marginLeft: '1rem' }}
               className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
               disabled={isSubmitting || !isValid}
               onClick={(e) => {
@@ -523,7 +538,6 @@ const EnhancedForms = withFormik({
       .required('*Please provide a detailed description '),
   }),
   mapPropsToValues: (props) => {
-    debugger;
     return {
       timeField: 5,
       fromTemplateIdField: props.fromTemplateIdField,

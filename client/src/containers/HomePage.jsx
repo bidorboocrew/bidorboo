@@ -1,4 +1,5 @@
 import React from 'react';
+import Tour from 'reactour';
 
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
@@ -6,16 +7,148 @@ import requestImg from '../assets/images/jobs.png';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
+const elementInViewport = (el) => {
+  if (el) {
+    var top = el.offsetTop;
+    var left = el.offsetLeft;
+    var width = el.offsetWidth;
+    var height = el.offsetHeight;
+
+    while (el.offsetParent) {
+      el = el.offsetParent;
+      top += el.offsetTop;
+      left += el.offsetLeft;
+    }
+
+    return (
+      top < window.pageYOffset + window.innerHeight &&
+      left < window.pageXOffset + window.innerWidth &&
+      top + height > window.pageYOffset &&
+      left + width > window.pageXOffset
+    );
+  } else {
+    return false;
+  }
+};
+
+const commonTourSteps = [
+  {
+    content: <h1 className="title">Welcome to BidOrBoo</h1>,
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+  {
+    selector: '#BidOrBoo-logo-step',
+    content: 'Click Here to go to the home page at anytime',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+  {
+    selector: '#Proposer-step',
+    content: 'If you have chores and want help getting them done, Click Here',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+  {
+    selector: '#Bidder-step',
+    content: 'Are you looking to make money doing tasks you enjoy? Click Here',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+];
+
+const desktopTour = [
+  ...commonTourSteps,
+  {
+    selector: '#switch-role-step',
+    content: 'You can switch your view to Request or to be a Tasker at anytime',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+  {
+    selector: '#myprofile-step',
+    content: 'Click on your profile to edit your details at any time',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+];
+
+const mobileTour = [
+  ...commonTourSteps,
+  {
+    selector: '#switch-role-mobile-step',
+    content: 'You can switch your view to Request or to be a Tasker at anytime',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+  {
+    selector: '#mobile-nav-burger',
+    content: 'To access your profile settings and more menu options click Here',
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+  },
+];
 export default class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTourOpen: false,
+    };
+  }
+
+  toggleTour = () => {
+    this.setState({ isTourOpen: !this.state.isTourOpen });
+  };
   render() {
+    const isDesktopView = !elementInViewport(document.querySelector('#mobile-nav-burger'));
+
     return (
       <React.Fragment>
+        {isDesktopView && (
+          <Tour
+            scrollDuration={800}
+            showNumber={false}
+            rounded={4}
+            startAt={0}
+            maskSpace={0}
+            accentColor={'#31c110'}
+            closeWithMask
+            isOpen={this.state.isTourOpen}
+            onRequestClose={this.toggleTour}
+            lastStepNextButton={
+              <a className="button is-text" onClick={this.toggleTour}>
+                Get Started
+              </a>
+            }
+            steps={desktopTour}
+          />
+        )}
+        {!isDesktopView && (
+          <Tour
+            scrollDuration={800}
+            showNumber={false}
+            rounded={4}
+            startAt={0}
+            maskSpace={0}
+            accentColor={'#31c110'}
+            closeWithMask
+            isOpen={this.state.isTourOpen}
+            onRequestClose={this.toggleTour}
+            lastStepNextButton={
+              <a className="button is-text" onClick={this.toggleTour}>
+                Get Started
+              </a>
+            }
+            steps={mobileTour}
+          />
+        )}
+
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">BidOrBoo</h1>
+              <h1 style={{ transform: 'scaleY(1.1)' }} className="title has-text-weight-bold">
+                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
+              </h1>
               <h2 className="subtitle">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+                <a onClick={this.toggleTour} className="help button is-text">
+                  <span className="help icon">
+                    <i className="fas fa-chalkboard-teacher" />
+                  </span>
+                  <span>View BidOrBoo Product Tour</span>
+                </a>
               </h2>
             </div>
           </div>
@@ -38,20 +171,6 @@ export default class HomePage extends React.Component {
             />
           </div>
         </div>
-        <footer className="footer">
-          <div className="content has-text-centered">
-            <div className="has-text-centered">
-              <label style={{ fontWeight: 400 }} className="label has-text-grey">
-                BidOrBoo is Availble in Canada
-              </label>
-              <img
-                width={25}
-                height={25}
-                src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
-              />
-            </div>
-          </div>
-        </footer>
       </React.Fragment>
     );
   }
@@ -61,8 +180,8 @@ const RequestAService = (props) => {
   const { onClickHandler } = props;
   return (
     <div id="bidOrBooMainPage-Request" className="card has-text-centered is-outlined">
-      <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike has-text-weight-semibold is-size-4">
+      <div onClick={onClickHandler} className="card-content">
+        <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="far fa-plus-square" />
           <div>Request Services</div>
         </div>
@@ -102,8 +221,8 @@ const ProvideAService = (props) => {
   const { onClickHandler } = props;
   return (
     <div id="bidOrBooMainPage-Provide" className="card has-text-centered">
-      <div className="card-content">
-        <div onClick={onClickHandler} className="buttonlike has-text-weight-semibold is-size-4">
+      <div onClick={onClickHandler} className="card-content">
+        <div id="Bidder-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="fas fa-hand-rock" />
           <div>Provide Services</div>
         </div>

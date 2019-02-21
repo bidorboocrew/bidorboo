@@ -11,6 +11,7 @@ import axios from 'axios';
 import FileUploaderComponent from '../../components/FileUploaderComponent';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { getCurrentUser } from '../../app-state/actions/authActions';
+import NotificationSettings from './NotificationSettings';
 
 class MyProfile extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class MyProfile extends React.Component {
       membershipStatus,
       phone,
       rating,
+      autoDetectlocation,
     } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
@@ -68,13 +70,13 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           a_updateProfileImage,
         )}
-        <section className="hero is-white is-small">
+        <section className="hero container is-white is-small">
           <div className="hero-body">
             <h1 className="title">My Profile</h1>
           </div>
         </section>
 
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <div className="columns is-centered">
             <div className="column is-narrow">
               {userImageAndStats(
@@ -89,7 +91,21 @@ class MyProfile extends React.Component {
               <div className="card">
                 <header className="card-header">
                   <p className="card-header-title">
-                    {!isEditProfile ? 'My Details' : 'Edit My Details'}
+                    {!isEditProfile ? (
+                      <React.Fragment>
+                        <span className="icon">
+                          <i className="far fa-user" />
+                        </span>
+                        <span>My Details</span>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <span className="icon">
+                          <i className="far fa-edit" />
+                        </span>
+                        <span>Edit My Details</span>
+                      </React.Fragment>
+                    )}
                   </p>
                   {!isEditProfile && (
                     <a
@@ -110,8 +126,27 @@ class MyProfile extends React.Component {
                   <div className="content">
                     {!isEditProfile && (
                       <div>
-                        <HeaderTitle title="Personal Info" />
                         <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                        <DisplayLabelValue
+                          labelValue={
+                            <React.Fragment>
+                              Auto Detect Location:
+                              {autoDetectlocation && (
+                                <span style={{ marginLeft: 6 }} className="has-text-success">
+                                  <span className="icon">
+                                    <i className="fas fa-check is-success" />
+                                  </span>
+                                  <span>Enabled</span>
+                                </span>
+                              )}
+                              {!autoDetectlocation && (
+                                <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                  <span style={{ marginLeft: 2 }}>Disabled</span>
+                                </span>
+                              )}
+                            </React.Fragment>
+                          }
+                        />
                         <DisplayLabelValue
                           labelText="Email:"
                           labelValue={
@@ -187,6 +222,10 @@ class MyProfile extends React.Component {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="column">
+              <NotificationSettings />
             </div>
           </div>
         </div>

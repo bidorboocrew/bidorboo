@@ -3,7 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
-import { setAppBidderView, setAppProposerView } from './app-state/actions/uiActions';
+import {
+  setAppViewUIToProposer,
+  setAppViewUIToBidder,
+  setServerAppProposerView,
+  setServerAppBidderView,
+} from './app-state/actions/uiActions';
+import { registerServiceWorker } from './registerServiceWorker';
 
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
@@ -15,7 +21,7 @@ class GetNotificationsAndScroll extends React.Component {
   //   super(props);
 
   //   this.fetchUserAndNotificationUpdated = () => {
-  //     if (this.props.s_isLoggedIn) {
+  //     if (this.props.isLoggedIn) {
   //       this.props.a_getCurrentUserNotifications();
   //     }
 
@@ -27,24 +33,59 @@ class GetNotificationsAndScroll extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {
-      s_isLoggedIn,
+      isLoggedIn,
       a_getCurrentUser,
       location,
-      a_setAppBidderView,
-      a_setAppProposerView,
+      userDetails,
+      a_setServerAppProposerView,
+      a_setServerAppBidderView,
+      a_setAppViewUIToBidder,
+      a_setAppViewUIToProposer,
     } = this.props;
 
+    if (isLoggedIn) {
+      if (userDetails.appView === 'PROPOSER') {
+        a_setAppViewUIToProposer();
+      } else if (userDetails.appView === 'BIDDER') {
+        a_setAppViewUIToBidder();
+      }
+      if (
+        userDetails &&
+        userDetails.notifications &&
+        userDetails.notifications.push &&
+        !userDetails.pushSubscription
+      ) {
+        // if (process.env.NODE_ENV === 'production') {
+        registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+        // }
+      }
+    }
+
     if (location !== prevProps.location) {
-      if (!s_isLoggedIn) {
+      if (!isLoggedIn) {
         a_getCurrentUser();
       }
-      if (s_isLoggedIn) {
-        this.props.a_getCurrentUserNotifications();
+
+      if (isLoggedIn) {
+        if (
+          location.pathname.indexOf('user-profile') > -1 ||
+          location.pathname.indexOf('verification') > -1 ||
+          location.pathname.indexOf('bdb-request') > -1 ||
+          location.pathname.indexOf('bdb-offer') > -1 ||
+          location.pathname.indexOf('/review') > -1 ||
+          location.pathname.indexOf('my-profile') > -1 ||
+          location.pathname.indexOf('my-agenda') > -1 ||
+          location.pathname.indexOf('on-boarding') > -1
+        ) {
+          // do not fetch notifications on these pages above
+        } else {
+          this.props.a_getCurrentUserNotifications();
+        }
 
         if (location.pathname.indexOf('bdb-request') > -1) {
-          a_setAppProposerView();
+          a_setServerAppProposerView();
         } else if (location.pathname.indexOf('bdb-offer') > -1) {
-          a_setAppBidderView();
+          a_setServerAppBidderView();
         }
       }
       setTimeout(() => window.scrollTo(0, 0), 0);
@@ -63,21 +104,20 @@ class GetNotificationsAndScroll extends React.Component {
     const {
       a_getCurrentUser,
       location,
-      a_setAppBidderView,
-      a_setAppProposerView,
-      s_isLoggedIn,
+      a_setAppViewUIToBidder,
+      a_setAppViewUIToProposer,
+      isLoggedIn,
     } = this.props;
-    a_getCurrentUser();
-    if (s_isLoggedIn) {
+
+    if (isLoggedIn) {
       if (location.pathname.indexOf('bdb-request') > -1) {
-        a_setAppProposerView();
+        a_setAppViewUIToProposer();
       } else if (location.pathname.indexOf('bdb-offer') > -1) {
-        a_setAppBidderView();
+        a_setAppViewUIToBidder();
       }
+    } else {
+      a_getCurrentUser();
     }
-    // setTimeout(() => {
-    //   this.fetchUserAndNotificationUpdated();
-    // }, UPDATE_NOTIFICATION_INTERVAL);
   }
 
   render() {
@@ -86,15 +126,18 @@ class GetNotificationsAndScroll extends React.Component {
 }
 const mapStateToProps = ({ userReducer }) => {
   return {
-    s_isLoggedIn: userReducer.isLoggedIn,
+    isLoggedIn: userReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     a_getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_setAppBidderView: bindActionCreators(setAppBidderView, dispatch),
-    a_setAppProposerView: bindActionCreators(setAppProposerView, dispatch),
+    a_setAppViewUIToBidder: bindActionCreators(setAppViewUIToBidder, dispatch),
+    a_setAppViewUIToProposer: bindActionCreators(setAppViewUIToProposer, dispatch),
+    a_setServerAppProposerView: bindActionCreators(setServerAppProposerView, dispatch),
+    a_setServerAppBidderView: bindActionCreators(setServerAppBidderView, dispatch),
   };
 };
 

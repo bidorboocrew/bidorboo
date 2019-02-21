@@ -4,6 +4,7 @@ export { default as HomePage } from './HomePage';
 export { default as MyProfile } from './personal-profile/MyProfile';
 export { default as MyProgress } from './personal-profile/MyStats';
 export { default as PaymentSettings } from './personal-profile/PaymentSettings';
+export { default as NotificationSettings } from './personal-profile/NotificationSettings';
 
 export { default as VerificationPage } from './VerificationPage';
 
@@ -34,3 +35,5 @@ export { default as BidderReviewingCompletedJob } from './review-flow/BidderRevi
 export { default as OtherUserProfileForReviewPage } from './OtherUserProfileForReviewPage';
 export { default as PastProvidedServices } from './PastProvidedServices';
 export { default as PastRequestedServices } from './PastRequestedServices';
+
+export { default as FirstTimeUser } from './onboarding-flow/FirstTimeUser';

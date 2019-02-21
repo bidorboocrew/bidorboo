@@ -137,7 +137,7 @@ class Header extends React.Component {
                   transform: 'scaleY(1.1)',
                   fontWeight: 500,
                 }}
-                className="has-text-dark is-size-4 is-hidden-touch"
+                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-touch"
               >
                 BidOrBoo
               </span>
@@ -148,7 +148,7 @@ class Header extends React.Component {
                   transform: 'scaleY(1.1)',
                   fontWeight: 500,
                 }}
-                className="has-text-dark is-size-4 is-hidden-desktop"
+                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-desktop"
               >
                 B.O.B
               </span>
@@ -167,26 +167,6 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
-            {/* {isLoggedIn && (
-              <div className="navbar-item is-hidden-touch">
-                <a
-                  className={`button is-outline ${
-                    window.location.pathname.includes('my-calendar') ? 'is-info' : ''
-                  }`}
-                  onClick={() => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.MYAGENDA);
-                    });
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-calendar-alt" />
-                  </span>
-                  <span>My Agenda</span>
-                </a>
-              </div>
-            )} */}
-
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
                 <a
@@ -215,6 +195,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       })
                     }
+                    id="switch-role-mobile-step"
                     className="navbar-item is-hidden-desktop"
                   >
                     <span style={{ position: 'relative' }} className="icon">
@@ -239,6 +220,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       })
                     }
+                    id="switch-role-mobile-step"
                     className="navbar-item is-hidden-desktop"
                   >
                     <span style={{ position: 'relative' }} className="icon">
@@ -263,6 +245,7 @@ class Header extends React.Component {
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
+              id="mobile-nav-burger"
               className={classNames('navbar-burger', {
                 'is-active': isHamburgerOpen,
               })}
@@ -338,7 +321,7 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
                           });
                         }}
                       >
@@ -401,6 +384,7 @@ class Header extends React.Component {
                       <React.Fragment>
                         {isActingAsBidder ? (
                           <a
+                            id="switch-role-step"
                             onClick={(e) =>
                               this.closeMenuThenExecute(() => {
                                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -430,6 +414,7 @@ class Header extends React.Component {
                           </a>
                         ) : (
                           <a
+                            id="switch-role-step"
                             onClick={(e) =>
                               this.closeMenuThenExecute(() => {
                                 switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -487,6 +472,7 @@ class Header extends React.Component {
                             }`}
                           >
                             <a
+                              id="myprofile-step"
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
@@ -499,8 +485,6 @@ class Header extends React.Component {
                               </span>
                               <span>My Profile</span>
                             </a>
-                            <hr className="navbar-divider" />
-
                             {isActingAsBidder && (
                               <React.Fragment>
                                 <a
@@ -516,43 +500,9 @@ class Header extends React.Component {
                                   </span>
                                   <span>My Payouts</span>
                                 </a>
-                                <hr className="navbar-divider" />
-                                {/* <a
-                                  onClick={() => {
-                                    this.closeMenuThenExecute(() => {
-                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastProvidedServices);
-                                    });
-                                  }}
-                                  className="navbar-item"
-                                >
-                                  <span className="icon">
-                                    <i className="fas fa-history" aria-hidden="true" />
-                                  </span>
-                                  <span>Fulfilled Offers</span>
-                                </a>
-                                <hr className="navbar-divider" /> */}
                               </React.Fragment>
                             )}
-                            {/* {isLoggedIn && !isActingAsBidder && (
-                              <React.Fragment>
-                                <a
-                                  onClick={() => {
-                                    this.closeMenuThenExecute(() => {
-                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.pastRequestedServices);
-                                    });
-                                  }}
-                                  className="navbar-item"
-                                >
-                                  <span className="icon">
-                                    <i className="fas fa-history" aria-hidden="true" />
-                                  </span>
-                                  <span>Fulfilled Requests</span>
-                                  <span />
-                                </a>
-                                <hr className="navbar-divider" />
-                              </React.Fragment>
-                            )} */}
-
+                            <hr className="navbar-divider" />
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
