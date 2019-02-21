@@ -360,8 +360,8 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                             </tr>
                           </tbody>
                         </table>
-                        <p>This is a really simple email template. Its sole purpose is to get the recipient to click the button with no distractions.</p>
-                        <p>Good luck!</p>
+                        <p>For an enjoyable effetive experience please communicate well and make sure to agree on meeting time</p>
+                        <p> BidOrBoo Wishes you the best of luck!</p>
                       </td>
                     </tr>
                   </table>
