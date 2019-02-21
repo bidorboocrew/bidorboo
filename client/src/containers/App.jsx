@@ -177,20 +177,6 @@ class App extends React.Component {
             </div>
             <div className="level-item has-text-centered">
               <div>
-                <p className="has-text-grey is-size-7">Availablility</p>
-                <div className="is-size-7">
-                  <img
-                    width={21}
-                    height={21}
-                    alt="Canada"
-                    style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                    src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="level-item has-text-centered">
-              <div>
                 <p className="has-text-grey is-size-7">Terms Of Service</p>
                 <a
                   className="is-size-7 button is-text"
@@ -209,6 +195,20 @@ class App extends React.Component {
                 >
                   {`Stripe Terms`}
                 </a>
+              </div>
+            </div>
+            <div className="level-item has-text-centered">
+              <div>
+                <p className="has-text-grey is-size-7">Availablility</p>
+                <div className="is-size-7">
+                  <img
+                    width={21}
+                    height={21}
+                    alt="Canada"
+                    style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
+                    src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
+                  />
+                </div>
               </div>
             </div>
             <div className="level-item has-text-centered">

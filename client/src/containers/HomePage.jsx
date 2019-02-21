@@ -34,22 +34,22 @@ const elementInViewport = (el) => {
 const commonTourSteps = [
   {
     content: <h1 className="title">Welcome to BidOrBoo</h1>,
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#BidOrBoo-logo-step',
     content: 'Click Here to go to the home page at anytime',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#Proposer-step',
     content: 'If you have chores and want help getting them done, Click Here',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#Bidder-step',
     content: 'Are you looking to make money doing tasks you enjoy? Click Here',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
 
@@ -58,12 +58,12 @@ const desktopTour = [
   {
     selector: '#switch-role-step',
     content: 'You can switch your view to Request or to be a Tasker at anytime',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#myprofile-step',
     content: 'Click on your profile to edit your details at any time',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
 
@@ -72,12 +72,12 @@ const mobileTour = [
   {
     selector: '#switch-role-mobile-step',
     content: 'You can switch your view to Request or to be a Tasker at anytime',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#mobile-nav-burger',
     content: 'To access your profile settings and more menu options click Here',
-    style: { maxWidth: 'none' },
+    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
 export default class HomePage extends React.Component {
@@ -98,7 +98,9 @@ export default class HomePage extends React.Component {
       <React.Fragment>
         {isDesktopView && (
           <Tour
+            scrollDuration={800}
             showNumber={false}
+            rounded={4}
             startAt={0}
             maskSpace={0}
             accentColor={'#31c110'}
@@ -115,7 +117,9 @@ export default class HomePage extends React.Component {
         )}
         {!isDesktopView && (
           <Tour
+            scrollDuration={800}
             showNumber={false}
+            rounded={4}
             startAt={0}
             maskSpace={0}
             accentColor={'#31c110'}
