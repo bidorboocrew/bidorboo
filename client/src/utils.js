@@ -3,13 +3,13 @@ import * as A from './app-state/actionTypes';
 import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
-  setTimeout(() => {
+  // setTimeout(() => {
     if (stateContent) {
       appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
     } else {
       appHistory.push(routeAndParams);
     }
-  }, 0);
+  // }, 0);
 };
 
 export const goBackToPreviousRoute = () => {

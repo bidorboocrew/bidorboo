@@ -68,7 +68,6 @@ const ProfileForm = (props) => {
   } = props;
 
   const toggleIsAutoDetectEnabled = (val) => {
-    debugger;
     if (val && navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
         maximumAge: 10000,

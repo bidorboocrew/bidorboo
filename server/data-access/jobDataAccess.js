@@ -74,11 +74,11 @@ exports.jobDataAccess = {
                 const ownerEmailAddress =
                   ownerDetails.email && ownerDetails.email.emailAddress
                     ? ownerDetails.email.emailAddress
-                    : false;
+                    : '';
                 const ownerPhoneNumber =
                   ownerDetails.phone && ownerDetails.phone.phoneNumber
                     ? ownerDetails.phone.phoneNumber
-                    : false;
+                    : '';
                 const linkForOwner = `https://www.bidorboo.com${
                   ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
                 }/${jobId}`;
@@ -86,11 +86,11 @@ exports.jobDataAccess = {
                 const bidderEmailAddress =
                   awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
                     ? awardedBidderDetails.email.emailAddress
-                    : false;
+                    : '';
                 const bidderPhoneNumber =
                   awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
                     ? awardedBidderDetails.phone.phoneNumber
-                    : false;
+                    : '';
                 const linkForBidder = `https://www.bidorboo.com${
                   ROUTES.CLIENT.BIDDER.currentAwardedBid
                 }/${awardedBidId}`;

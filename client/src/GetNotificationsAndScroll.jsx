@@ -1,5 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import React from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
@@ -30,7 +31,10 @@ class GetNotificationsAndScroll extends React.Component {
   //     }, UPDATE_NOTIFICATION_INTERVAL);
   //   };
   // }
-
+  constructor(props) {
+    super(props);
+    this.lastFetch = moment();
+  }
   componentDidUpdate(prevProps) {
     const {
       isLoggedIn,
@@ -42,13 +46,7 @@ class GetNotificationsAndScroll extends React.Component {
       a_setAppViewUIToBidder,
       a_setAppViewUIToProposer,
     } = this.props;
-
     if (isLoggedIn) {
-      if (userDetails.appView === 'PROPOSER') {
-        a_setAppViewUIToProposer();
-      } else if (userDetails.appView === 'BIDDER') {
-        a_setAppViewUIToBidder();
-      }
       if (
         userDetails &&
         userDetails.notifications &&
@@ -65,26 +63,29 @@ class GetNotificationsAndScroll extends React.Component {
       if (!isLoggedIn) {
         a_getCurrentUser();
       }
-
+      const currentUrlPathname = window.location.pathname;
       if (isLoggedIn) {
         if (
-          location.pathname.indexOf('user-profile') > -1 ||
-          location.pathname.indexOf('verification') > -1 ||
-          location.pathname.indexOf('bdb-request') > -1 ||
-          location.pathname.indexOf('bdb-offer') > -1 ||
-          location.pathname.indexOf('/review') > -1 ||
-          location.pathname.indexOf('my-profile') > -1 ||
-          location.pathname.indexOf('my-agenda') > -1 ||
-          location.pathname.indexOf('on-boarding') > -1
+          currentUrlPathname.indexOf('user-profile') > -1 ||
+          currentUrlPathname.indexOf('verification') > -1 ||
+          currentUrlPathname.indexOf('bdb-request') > -1 ||
+          currentUrlPathname.indexOf('bdb-offer') > -1 ||
+          currentUrlPathname.indexOf('/review') > -1 ||
+          currentUrlPathname.indexOf('my-profile') > -1 ||
+          currentUrlPathname.indexOf('my-agenda') > -1 ||
+          currentUrlPathname.indexOf('on-boarding') > -1
         ) {
           // do not fetch notifications on these pages above
         } else {
-          this.props.a_getCurrentUserNotifications();
+          if (moment().diff(this.lastFetch, 'minutes') > 1) {
+            this.lastFetch = moment();
+            this.props.a_getCurrentUserNotifications();
+          }
         }
 
-        if (location.pathname.indexOf('bdb-request') > -1) {
+        if (currentUrlPathname.indexOf('bdb-request') > -1) {
           a_setServerAppProposerView();
-        } else if (location.pathname.indexOf('bdb-offer') > -1) {
+        } else if (currentUrlPathname.indexOf('bdb-offer') > -1) {
           a_setServerAppBidderView();
         }
       }
@@ -107,12 +108,13 @@ class GetNotificationsAndScroll extends React.Component {
       a_setAppViewUIToBidder,
       a_setAppViewUIToProposer,
       isLoggedIn,
+      userDetails,
     } = this.props;
 
     if (isLoggedIn) {
-      if (location.pathname.indexOf('bdb-request') > -1) {
+      if (userDetails.appView === 'PROPOSER') {
         a_setAppViewUIToProposer();
-      } else if (location.pathname.indexOf('bdb-offer') > -1) {
+      } else if (userDetails.appView === 'BIDDER') {
         a_setAppViewUIToBidder();
       }
     } else {

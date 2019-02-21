@@ -298,7 +298,7 @@ class Header extends React.Component {
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('bdb-offer') ? 'is-active' : ''
+                      window.location.pathname.includes('/bdb-offer') ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
