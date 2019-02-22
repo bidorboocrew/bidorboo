@@ -61,9 +61,9 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     return (
       <div className="container is-widescreen">
         <div className="columns is-centered">
-          {breadCrumbs({ activePageTitle: title })}
-
           <div className="column is-narrow">
+            {breadCrumbs({ activePageTitle: title })}
+
             <RequesterAndOpenBid
               bid={selectedOpenBid}
               job={selectedAwardedJob}

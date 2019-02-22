@@ -47,12 +47,12 @@ export default class MyOpenBidJobDetails extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Requester:</div>
+          <div className="has-text-grey is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
-            <div className="has-text-dark is-size-7">Detailed Description</div>
+            <div className="has-text-grey is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}

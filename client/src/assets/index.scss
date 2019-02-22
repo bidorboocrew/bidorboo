@@ -19,14 +19,18 @@ html body {
   color: #363636;
   // line-height: 1
   background: white;
-
+  padding: 0;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Open Sans', sans-serif;
 }
 body {
   background-color: #222;
-  padding-top: 20px;
+}
+
+#RoutesWrapper {
+  min-height: 70vh !important;
 }
 
 .react-spinner {

@@ -57,34 +57,24 @@ export default class MyBidsAwardedBid extends React.Component {
             <StartDateAndTime date={_jobRef.startingDateAndTime} />
             <DisplayLabelValue labelText="Your pay:" labelValue={bidAmountText} />
             <div className="help">* After you complete the task.</div>
+            <div style={{ padding: '0.5rem 0px', position: 'relative' }}>
+              <a className="button is-outlined is-success is-fullwidth">
+                <span className="icon">
+                  <i className="fas fa-bullseye" />
+                </span>
+                <span>View Details</span>
+              </a>
+              {updatedStatus && (
+                <div
+                  style={{ position: 'absolute', top: 2, right: -4, fontSize: 10 }}
+                  className="has-text-danger"
+                >
+                  <i className="fas fa-circle" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        <footer className="card-footer">
-          <div className="card-footer-item" style={{ position: 'relative' }}>
-            <a className="button is-outlined is-success">
-              <span className="icon">
-                <i className="fas fa-bullseye" />
-              </span>
-              <span>View Details</span>
-            </a>
-            {updatedStatus && (
-              <div
-                style={{ position: 'absolute', top: 14, right: 12, fontSize: 10 }}
-                className="has-text-danger"
-              >
-                <i className="fas fa-circle" />
-              </div>
-            )}
-          </div>
-
-          <div className="card-footer-item">
-            {`Task Date : ${moment(_jobRef.startingDateAndTime).format('DD/MMM/YYYY')}`}
-          </div>
-          {/* <div className="card-footer-item">
-            <span className="has-text-weight-bold">{bidStateText}</span>
-          </div> */}
-        </footer>
       </div>
     );
   }
