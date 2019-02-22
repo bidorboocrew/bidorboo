@@ -100,7 +100,6 @@ export default class HomePage extends React.Component {
           <Tour
             scrollDuration={800}
             showNumber={false}
-            rounded={4}
             startAt={0}
             maskSpace={0}
             accentColor={'#31c110'}
@@ -119,7 +118,6 @@ export default class HomePage extends React.Component {
           <Tour
             scrollDuration={800}
             showNumber={false}
-            rounded={4}
             startAt={0}
             maskSpace={0}
             accentColor={'#31c110'}
