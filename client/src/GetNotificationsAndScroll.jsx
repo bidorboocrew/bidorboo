@@ -75,7 +75,7 @@ class GetNotificationsAndScroll extends React.Component {
         ) {
           // do not fetch notifications on these pages above
         } else {
-          if (moment().diff(this.lastFetch, 'minutes') > 1) {
+          if (moment().diff(this.lastFetch, 'minutes') > 3) {
             this.lastFetch = moment();
             // this.props.a_getCurrentUserNotifications();
           }
