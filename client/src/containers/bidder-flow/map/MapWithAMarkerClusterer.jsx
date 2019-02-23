@@ -2,14 +2,14 @@
 import React from 'react';
 
 import { compose, withProps } from 'recompose';
-import { withGoogleMap, GoogleMap, Marker /*,withScriptjs*/ } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
-import JobInfoBox from './JobInfoBox';
+import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
 const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places',
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry,drawing',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
@@ -39,50 +39,74 @@ class TheMap extends React.Component {
     this.state = {
       position: null,
       thingsNearMe: [],
+      directions: [],
     };
-    this.service = new google.maps.places.PlacesService(document.getElementById('placesmap'));
+    this.placesService = new google.maps.places.PlacesService(document.getElementById('placesmap'));
   }
 
   createMarkers = (places) => {
+    const myPositionlat = this.state.position.lat;
+    const myPositionlng = this.state.position.lng;
     let placesCluster = [];
-    debugger;
+    let pathLines = [];
 
     placesCluster =
       places &&
-      places.map((place) => {
-        var image = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-
+      places.map((place, index) => {
+        // var image = {
+        //   url: place.icon,
+        //   size: new google.maps.Size(71, 71),
+        //   origin: new google.maps.Point(0, 0),
+        //   anchor: new google.maps.Point(17, 34),
+        //   scaledSize: new google.maps.Size(25, 25),
+        // };
+        const Identifier = `${Math.random()}-${Math.random()}`;
         return (
-          <Marker
+          <SurveyMarker
+            key={`${Math.random()}-${Math.random()}`}
             opacity={0.8}
             title={place.name}
-            // icon={image}
-            icon={require('../../../assets/images/mapMarker.png')}
+            icon={require('../../../assets/images/rsz_1surveymonkey-logo.png')}
             position={place.geometry.location}
-            onClick={() => {}}
           />
         );
       });
 
-    for (var i = 0, place; (place = places[i]); i++) {}
-    debugger;
-    this.setState({ thingsNearMe: placesCluster });
+    pathLines =
+      places &&
+      places.map((place, index) => {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        const xPath = [
+          new google.maps.LatLng(myPositionlat, myPositionlng),
+          new google.maps.LatLng(lat, lng),
+        ];
+        return (
+          <Polyline
+            key={index}
+            defaultDraggable={false}
+            defaultEditable={false}
+            defaultVisible={true}
+            draggable={false}
+            editable={false}
+            options={{
+              strokeColor: '#00BF6F',
+              strokeWeight: 1,
+              visible: true,
+              strokeOpacity: 0.4,
+            }}
+            path={xPath}
+            visible={false}
+          />
+        );
+      });
+
+    this.setState({ thingsNearMe: placesCluster, directions: pathLines });
   };
-  callback = (results, status) => {
-    debugger;
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-      this.createMarkers(results);
-    }
-  };
+
   watchCurrentPosition = () => {
     const getCurrentPositionOptions = {
-      maximumAge: 0,
+      maximumAge: 5000,
       timeout: 5000,
       enableHighAccuracy: true,
     };
@@ -96,7 +120,11 @@ class TheMap extends React.Component {
             radius: '500',
             type: ['restaurant'],
           };
-          this.service.nearbySearch(request, this.callback);
+          this.placesService.nearbySearch(request, (results, status) => {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              this.createMarkers(results);
+            }
+          });
           // (res,status)=>(res,status)
         });
       },
@@ -112,125 +140,90 @@ class TheMap extends React.Component {
   }
   render() {
     const { mapCenterPoint } = this.props;
-    const { position, thingsNearMe } = this.state;
+    const { position, thingsNearMe, directions } = this.state;
     /*  */
     return (
       <GoogleMap
         options={{
           streetViewControl: true,
         }}
-        defaultZoom={20}
+        defaultZoom={16}
         center={mapCenterPoint}
       >
         {position && (
           <Marker
-            opacity={0.8}
+            opacity={1}
             icon={require('../../../assets/images/mapMarker.png')}
             position={position}
             onClick={() => {}}
           />
         )}
         <MarkerClusterer
-          defaultMinimumClusterSize={3}
+          maxZoom={18}
+          defaultMaxZoom={18}
+          defaultMinimumClusterSize={2}
           averageCenter
           enableRetinaIcons
           gridSize={100}
         >
           {thingsNearMe}
         </MarkerClusterer>
+        {directions}
       </GoogleMap>
     );
   }
 }
 
-class Cluster extends React.Component {
-  // onMarkerClustererClick = (markerClusterer) => {
-  //   const clickedMarkers = markerClusterer.getMarkers();
-  // };
-  // onMarkerClustereringEnd = (markerClusterer) => {
-  //   const clickedMarkers = markerClusterer.getMarkers();
-  // };
-  constructor(props) {
-    super(props);
-    this.state = { showInfoBoxForJobId: '' };
-  }
-
-  showInfoBox = (jobId) => {
-    this.setState({ showInfoBoxForJobId: jobId });
-  };
-  closeInfoBox = () => {
-    this.setState({ showInfoBoxForJobId: '' });
-  };
-
-  render() {
-    const { jobsList, selectJobToBidOn, userDetails, isLoggedIn, showLoginDialog } = this.props;
-    const { showInfoBoxForJobId } = this.state;
-
-    if (jobsList && jobsList.length > 0) {
-      const jobsMarkersOnTheMap = jobsList.map((job) => (
-        <JobMarker
-          showInfoBox={this.showInfoBox}
-          closeInfoBox={this.closeInfoBox}
-          showInfoBoxForJobId={showInfoBoxForJobId}
-          selectJobToBidOn={selectJobToBidOn}
-          key={job._id}
-          job={job}
-          userDetails={userDetails}
-          isLoggedIn={isLoggedIn}
-          showLoginDialog={showLoginDialog}
-        />
-      ));
-      return (
-        <MarkerClusterer
-          defaultMinimumClusterSize={3}
-          averageCenter
-          enableRetinaIcons
-          gridSize={100}
-        >
-          {jobsMarkersOnTheMap}
-        </MarkerClusterer>
-      );
-    }
-    return null;
-  }
-}
-
-class JobMarker extends React.Component {
+class SurveyMarker extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
-    if (showInfoBoxForJobId === job._id) {
-      closeInfoBox();
-    } else {
-      showInfoBox(job._id);
-    }
+    debugger;
+    this.setState({ showInfoBox: !this.state.showInfoBox });
   };
+
   render() {
-    const { job, showInfoBoxForJobId } = this.props;
-    if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
-      const shouldShowInfoBox = showInfoBoxForJobId === job._id;
-      return (
-        <Marker
-          opacity={0.8}
-          icon={require('../../../assets/images/mapMarker.png')}
-          onClick={this.toggleShowInfoBox}
-          key={job._id}
-          position={{
-            lng: job.location.coordinates[0],
-            lat: job.location.coordinates[1],
-          }}
-        >
-          {shouldShowInfoBox && (
-            <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
-          )}
-        </Marker>
-      );
-    } else {
-      // do not render the marker
-      return null;
-    }
+    const { showInfoBox } = this.state;
+    const infoBoxDom = showInfoBox ? (
+      <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} />
+    ) : null;
+    return (
+      <Marker {...this.props} onClick={this.toggleShowInfoBox}>
+        {infoBoxDom}
+      </Marker>
+    );
+  }
+}
+
+export class JobInfoBox extends React.Component {
+  render() {
+    // const {
+
+    // } = this.props;
+    const showJobSummaryCard = <div>Answer 1 Question to get 5% off</div>;
+    return (
+      <InfoBox
+        className="info-Box-map"
+        options={{
+          pixelOffset: new google.maps.Size(-50, -50),
+          zIndex: 999,
+          boxStyle: {
+            zIndex: '30',
+            padding: '0px 0px 0px 0px',
+            boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+            background: 'white',
+          },
+          closeBoxURL: '',
+          infoBoxClearance: new google.maps.Size(10, 10),
+          isHidden: false,
+          pane: 'mapPane',
+          enableEventPropagation: true,
+        }}
+      >
+        {showJobSummaryCard}
+      </InfoBox>
+    );
   }
 }

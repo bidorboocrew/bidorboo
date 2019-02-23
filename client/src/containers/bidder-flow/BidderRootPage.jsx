@@ -64,12 +64,12 @@ class BidderRootPage extends React.Component {
     // Try HTML5 geolocation.
     if (navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
-        maximumAge: 0,
+        maximumAge: 5000,
         timeout: 5000,
         enableHighAccuracy: true,
       };
-      const errorHandling = () => {
-        console.error('can not auto detect address');
+      const errorHandling = (e) => {
+        console.error('can not auto detect address ' + e);
       };
       const successfulRetrieval = (position) => {
         const pos = {
@@ -219,7 +219,7 @@ class BidderRootPage extends React.Component {
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         /> */}
-        <div id="placesmap"></div>
+        <div id="placesmap" />
         <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
       </div>
     );
