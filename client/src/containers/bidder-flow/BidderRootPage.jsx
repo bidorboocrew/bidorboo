@@ -47,23 +47,24 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
-    if (!isLoggedIn) {
-      a_getCurrentUser();
-    } else {
-      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
-        this.getCurrentAddress();
-      }
-    }
+    // const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
+    // if (!isLoggedIn) {
+    //   a_getCurrentUser();
+    // } else {
+    //   if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+    //     this.getCurrentAddress();
+    //   }
+    // }
+    this.getCurrentAddress();
 
-    a_getAllJobsToBidOn();
+    // a_getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
     if (navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
-        maximumAge: 10000,
+        maximumAge: 0,
         timeout: 5000,
         enableHighAccuracy: true,
       };
@@ -212,59 +213,14 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">
-                For custom results enable auto detect location in
-                {userDetails && !userDetails.autoDetectlocation && (
-                  <React.Fragment>
-                    <div style={{ marginTop: 6 }} className="help has-text-grey ">
-                      For custom results enable auto detect location in
-                    </div>
-                    <a
-                      style={{ marginTop: 0 }}
-                      className="help has-text-link has-text-weight-semibold"
-                      onClick={() => {
-                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
-                      }}
-                    >
-                      {` profile settings`}
-                    </a>
-                  </React.Fragment>
-                )}
-              </h2>
-            </div>
-          </div>
-        </section>
+      <div>
         {/* <Tabs
           activeTab={activeTab}
           changeActiveTab={this.changeActiveTab}
           isLoggedIn={isLoggedIn}
         /> */}
-        <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
-        <FilterSideNav
-          isSideNavOpen={showSideNav}
-          toggleSideNav={this.toggleSideNav}
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          handleGeoSearch={this.handleGeoSearch}
-        />
-
-        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-
+        <div id="placesmap"></div>
         <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
-        <div
-          style={{ marginBottom: 6 }}
-          className="help container is-widescreen has-text-grey has-text-centered"
-        >
-          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
-        </div>
-        <br />
-
-        <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
       </div>
     );
   }

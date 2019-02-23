@@ -80,7 +80,7 @@ class App extends React.Component {
               )}
             </React.Fragment>
           )}
-        <Header id="bidorboo-header" />
+        {/* <Header id="bidorboo-header" /> */}
         <div id="RoutesWrapper">
           <Switch>
             {/* public paths */}
@@ -158,7 +158,7 @@ class App extends React.Component {
             <Redirect path="*" to={ROUTES.CLIENT.HOME} />
           </Switch>
         </div>
-        {!(window.location.pathname.indexOf('/on-boarding') > -1) && (
+        {false && !(window.location.pathname.indexOf('/on-boarding') > -1) && (
           <footer className="footer">
             <nav className="level">
               <div className="level-item has-text-centered">

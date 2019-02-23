@@ -13,13 +13,19 @@ const MapWithAMarkerClusterer = compose(
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
+        id="googleMapId"
         style={{
-          height: `25rem`,
-          boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)',
+          height: `100vh`,
+          width: `100vw`,
         }}
       />
     ),
-    mapElement: <div id="bdb-map" style={{ height: '100%' }} />,
+    mapElement: (
+      <div
+        id="bdb-map"
+        style={{ height: '100%', boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)' }}
+      />
+    ),
   }),
   withGoogleMap,
 )((props) => {
@@ -28,18 +34,110 @@ const MapWithAMarkerClusterer = compose(
 export default MapWithAMarkerClusterer;
 
 class TheMap extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      position: null,
+      thingsNearMe: [],
+    };
+    this.service = new google.maps.places.PlacesService(document.getElementById('placesmap'));
+  }
+
+  createMarkers = (places) => {
+    let placesCluster = [];
+    debugger;
+
+    placesCluster =
+      places &&
+      places.map((place) => {
+        var image = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25),
+        };
+
+        return (
+          <Marker
+            opacity={0.8}
+            title={place.name}
+            // icon={image}
+            icon={require('../../../assets/images/mapMarker.png')}
+            position={place.geometry.location}
+            onClick={() => {}}
+          />
+        );
+      });
+
+    for (var i = 0, place; (place = places[i]); i++) {}
+    debugger;
+    this.setState({ thingsNearMe: placesCluster });
+  };
+  callback = (results, status) => {
+    debugger;
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      this.createMarkers(results);
+    }
+  };
+  watchCurrentPosition = () => {
+    const getCurrentPositionOptions = {
+      maximumAge: 0,
+      timeout: 5000,
+      enableHighAccuracy: true,
+    };
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const currentPosition = { lat: position.coords.latitude, lng: position.coords.longitude };
+
+        this.setState({ position: currentPosition }, () => {
+          const request = {
+            location: currentPosition,
+            radius: '500',
+            type: ['restaurant'],
+          };
+          this.service.nearbySearch(request, this.callback);
+          // (res,status)=>(res,status)
+        });
+      },
+      (error) => {
+        console.log(error);
+      },
+      getCurrentPositionOptions,
+    );
+  };
+  componentDidMount() {
+    // start watching location
+    this.watchCurrentPosition();
+  }
   render() {
     const { mapCenterPoint } = this.props;
+    const { position, thingsNearMe } = this.state;
+    /*  */
     return (
       <GoogleMap
         options={{
-          disableDefaultUI: true,
-          streetViewControl: false,
+          streetViewControl: true,
         }}
-        defaultZoom={8}
+        defaultZoom={20}
         center={mapCenterPoint}
       >
-        <Cluster {...this.props} />
+        {position && (
+          <Marker
+            opacity={0.8}
+            icon={require('../../../assets/images/mapMarker.png')}
+            position={position}
+            onClick={() => {}}
+          />
+        )}
+        <MarkerClusterer
+          defaultMinimumClusterSize={3}
+          averageCenter
+          enableRetinaIcons
+          gridSize={100}
+        >
+          {thingsNearMe}
+        </MarkerClusterer>
       </GoogleMap>
     );
   }
