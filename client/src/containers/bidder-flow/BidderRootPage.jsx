@@ -51,11 +51,12 @@ class BidderRootPage extends React.Component {
     if (!isLoggedIn) {
       a_getCurrentUser();
     } else {
-      a_getAllJobsToBidOn();
       if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
         this.getCurrentAddress();
       }
     }
+
+    a_getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {

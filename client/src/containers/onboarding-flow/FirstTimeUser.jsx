@@ -88,7 +88,7 @@ export class FirstTimeUser extends React.Component {
     }
     // no issues submit to server here
     const onBoardingDetails = {
-      phone: this.state.phoneNumber,
+      phone: { phoneNumber: this.state.phoneNumber },
       agreedToTOS: this.state.hasAgreedToTOS,
       autoDetectlocation: this.state.allowAutoDetect,
     };
