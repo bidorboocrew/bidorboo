@@ -214,11 +214,47 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
-        {/* <Tabs
-          activeTab={activeTab}
-          changeActiveTab={this.changeActiveTab}
-          isLoggedIn={isLoggedIn}
-        /> */}
+        <nav
+          style={{ background: '#00BF6F !important', color: 'white !important' }}
+          className="navbar"
+          role="navigation"
+          aria-label="main navigation"
+        >
+          <div className="navbar-brand">
+            <a className="navbar-item">
+              <img
+                src="https://cdn.smassets.net/wp-content/themes/survey-monkey-theme/images/surveymonkey_logo_dark.svg?ver=1.108.0"
+                width="112"
+                height="64"
+              />
+            </a>
+
+            <a
+              role="button"
+              className="navbar-burger burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasicExample"
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" className="navbar-menu">
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="buttons">
+                  <a style={{ background: '#F9BE00' }} className="button">
+                    <strong>Sign up</strong>
+                  </a>
+                  <a className="button is-light">Log in</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
         <div id="placesmap" />
         <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
       </div>

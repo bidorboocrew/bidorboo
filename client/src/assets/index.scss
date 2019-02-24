@@ -154,15 +154,13 @@ a.navbar-item.is-active {
 }
 
 #RoutesWrapper {
-  padding: 0.5rem;
 }
 
 $family-primary: 'Open Sans', sans-serif;
 $family-sans-serif: 'Open Sans', sans-serif;
 $body-background-color: white; //#3b549c;
-// $navbar-background-color: white;
+$navbar-background-color: #00bf6f;
 // xxx scary but it works
-$navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #e85255 !default;
 $yellow: #e19f00 !default;
@@ -184,7 +182,9 @@ $render-mode: optimizeLegibility !default;
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';
-
+.navbar-burger {
+  color: white;
+}
 .VerticalAligner {
   display: flex;
   align-items: center;
