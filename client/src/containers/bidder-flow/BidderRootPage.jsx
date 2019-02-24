@@ -235,6 +235,7 @@ class BidderRootPage extends React.Component {
               aria-label="menu"
               aria-expanded="false"
               data-target="navbarBasicExample"
+              href={'/api/auth/google'}
             >
               <span aria-hidden="true" />
               <span aria-hidden="true" />
