@@ -3,8 +3,9 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import bugsnag from 'bugsnag-js';
-import createPlugin from 'bugsnag-react';
+import bugsnag from '@bugsnag/js';
+import bugsnagReact from '@bugsnag/plugin-react';
+
 import { Provider } from 'react-redux';
 import { StripeProvider } from 'react-stripe-elements';
 
@@ -21,9 +22,11 @@ window.BidorBoo = window.BidorBoo || {};
 window.BidorBoo.stripe = Object.freeze(stripe);
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-const ErrorBoundary = bugsnagClient.use(createPlugin(React));
-if (process.env.NODE_ENV === 'development') {
-  ReactDOM.render(
+bugsnagClient.use(bugsnagReact, React);
+const ErrorBoundary = bugsnagClient.getPlugin('react');
+
+ReactDOM.render(
+  <ErrorBoundary>
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
@@ -32,22 +35,7 @@ if (process.env.NODE_ENV === 'development') {
           </GetNotificationsAndScroll>
         </Router>
       </Provider>
-    </StripeProvider>,
-    document.getElementById('BidOrBoo-app'),
-  );
-} else {
-  ReactDOM.render(
-    <ErrorBoundary>
-      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
-        <Provider store={store}>
-          <Router history={appHistory}>
-            <GetNotificationsAndScroll>
-              <App />
-            </GetNotificationsAndScroll>
-          </Router>
-        </Provider>
-      </StripeProvider>
-    </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app'),
-  );
-}
+    </StripeProvider>
+  </ErrorBoundary>,
+  document.getElementById('BidOrBoo-app'),
+);
