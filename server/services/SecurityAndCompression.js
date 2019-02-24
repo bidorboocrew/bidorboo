@@ -4,12 +4,12 @@ const csp = require('express-csp-header');
 
 module.exports = (app) => {
   // security
-  const cspMiddleware = csp({
-    policies: {
-      'block-all-mixed-content': true,
-    },
-  });
-  app.use(cspMiddleware);
+  // const cspMiddleware = csp({
+  //   policies: {
+  //     'block-all-mixed-content': true,
+  //   },
+  // });
+  // app.use(cspMiddleware);
 
   // security package
   app.use(helmet({ xssFilter: false }));

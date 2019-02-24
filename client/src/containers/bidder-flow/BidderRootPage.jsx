@@ -216,17 +216,17 @@ class BidderRootPage extends React.Component {
       <div>
         <nav
           style={{ background: '#00BF6F !important', color: 'white !important' }}
-          className="navbar"
+          className="navbar is-fixed-top"
           role="navigation"
           aria-label="main navigation"
         >
           <div className="navbar-brand">
             <a className="navbar-item">
-              <img
+              {/* <img
                 src="https://cdn.smassets.net/wp-content/themes/survey-monkey-theme/images/surveymonkey_logo_dark.svg?ver=1.108.0"
                 width="112"
                 height="64"
-              />
+              /> */}
             </a>
 
             <a

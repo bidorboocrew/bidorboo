@@ -61,10 +61,17 @@ class TheMap extends React.Component {
         //   scaledSize: new google.maps.Size(25, 25),
         // };
         const Identifier = `${Math.random()}-${Math.random()}`;
+
+        const placeImg =
+          (place && place.photos && place.photos.length > 0 && place.photos[0].getUrl()) ||
+          place.icon;
+
         return (
           <SurveyMarker
             key={`${Math.random()}-${Math.random()}`}
             opacity={0.8}
+            placeImg={placeImg}
+            placeName={place.name || 'no name'}
             title={place.name}
             icon={require('../../../assets/images/rsz_1surveymonkey-logo.png')}
             position={place.geometry.location}
@@ -180,14 +187,13 @@ class SurveyMarker extends React.Component {
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    debugger;
     this.setState({ showInfoBox: !this.state.showInfoBox });
   };
 
   render() {
     const { showInfoBox } = this.state;
     const infoBoxDom = showInfoBox ? (
-      <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} />
+      <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
     ) : null;
     return (
       <Marker {...this.props} onClick={this.toggleShowInfoBox}>
@@ -199,32 +205,42 @@ class SurveyMarker extends React.Component {
 
 export class JobInfoBox extends React.Component {
   render() {
-    // const {
+    const { placeImg, placeName, toggleShowInfoBox } = this.props;
 
-    // } = this.props;
     const showSurveyCard = (
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
-          </figure>
-        </div>
-        <div class="card-content">
+      <div style={{ maxWidth: '20rem' }} className="card has-text-centered">
+        <header style={{ padding: 2 }} class="card-header">
+          <p class="card-header-title" />
+          <a onClick={toggleShowInfoBox} class="card-header-icon" aria-label="more options">
+            <span style={{ fontSize: 21, color: 'black' }} class="icon">
+              <i class="fas fa-times-circle" aria-hidden="true" />
+            </span>
+          </a>
+        </header>
+        <div
+          style={{ paddingLeft: 2, marginLeft: 2, paddingRight: 2, marginRight: 2 }}
+          className="card-content"
+        >
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48">
-                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+                <img src={placeImg} />
               </figure>
             </div>
             <div class="media-content">
-              <p class="title is-4">John Smith</p>
-              <p class="subtitle is-6">@johnsmith</p>
+              <p class="title is-4">{placeName}</p>
             </div>
           </div>
+          <div className="content has-text-centered">
+            <img src={require('../../../assets/images/mapMarker.png')} alt="Placeholder image" />
 
-          <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.{' '}
-            <a>@bulmaio</a>.
+            <div>answer 1 question for a 10% discount coupon</div>
+            {(() => (
+              <iframe
+                style={{ height: '20rem !important' }}
+                src="https://www.surveymonkey.com/r/B3FSLSM"
+              />
+            ))()}
           </div>
         </div>
       </div>
