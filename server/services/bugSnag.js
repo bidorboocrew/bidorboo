@@ -1,10 +1,16 @@
 // to log our customer encountered  bugs
-const bugsnag = require('bugsnag');
-const keys = require('../config/keys');
 
-module.exports = app => {
+const keys = require('../config/keys');
+const bugsnag = require('@bugsnag/js');
+const bugsnagExpress = require('@bugsnag/plugin-express');
+
+const bugsnagClient = bugsnag(keys.bugSnagApiKey);
+bugsnagClient.use(bugsnagExpress);
+const middleware = bugsnagClient.getPlugin('express');
+
+module.exports = (app) => {
   // to log bugs into bugsnag
-  bugsnag.register(keys.bugSnagApiKey);
-  app.use(bugsnag.requestHandler);
-  app.use(bugsnag.errorHandler);
+
+  app.use(middleware.requestHandler);
+  app.use(middleware.errorHandler);
 };

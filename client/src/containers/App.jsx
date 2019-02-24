@@ -94,43 +94,6 @@ class App extends React.Component {
             <nav className="level">
               <div className="level-item has-text-centered">
                 <div>
-                  <div className="has-text-grey is-size-7">
-                    <img
-                      src="https://image.flaticon.com/icons/svg/753/753078.svg"
-                      alt="BidOrBoo"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      width={21}
-                      height={21}
-                    />
-                    {` BidOrBoo`}
-                  </div>
-                  <div className="has-text-grey is-size-7">Registration #: xxx-xxx-xxx</div>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="has-text-grey is-size-7">Terms Of Service</p>
-                  <a
-                    className="is-size-7 button is-text"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="bidorbooserviceAgreement"
-                  >
-                    {`BidOrBoo Terms`}
-                  </a>
-                  {` & `}
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://stripe.com/connect-account/legal"
-                    className="is-size-7 button is-text"
-                  >
-                    {`Stripe Terms`}
-                  </a>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
                   <p className="has-text-grey is-size-7">Availablility</p>
                   <div className="is-size-7">
                     <img
@@ -143,6 +106,40 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="level-item has-text-centered">
+                <div>
+                  <div className="has-text-grey is-size-7">
+                    <img
+                      src="https://image.flaticon.com/icons/svg/753/753078.svg"
+                      alt="BidOrBoo"
+                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
+                      width={21}
+                      height={21}
+                    />
+                    {` BidOrBoo`}
+                  </div>
+                  <div>
+                    <a
+                      className="is-size-7 button is-text"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="bidorbooserviceAgreement"
+                    >
+                      {`BidOrBoo Terms`}
+                    </a>
+                    {`&`}
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://stripe.com/connect-account/legal"
+                      className="is-size-7 button is-text"
+                    >
+                      {`Stripe Terms`}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <div className="level-item has-text-centered">
                 <div>
                   <p className="has-text-grey is-size-7">Contact Us</p>
