@@ -72,34 +72,34 @@ class TheMap extends React.Component {
         );
       });
 
-    pathLines =
-      places &&
-      places.map((place, index) => {
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        const xPath = [
-          new google.maps.LatLng(myPositionlat, myPositionlng),
-          new google.maps.LatLng(lat, lng),
-        ];
-        return (
-          <Polyline
-            key={index}
-            defaultDraggable={false}
-            defaultEditable={false}
-            defaultVisible={true}
-            draggable={false}
-            editable={false}
-            options={{
-              strokeColor: '#00BF6F',
-              strokeWeight: 1,
-              visible: true,
-              strokeOpacity: 0.4,
-            }}
-            path={xPath}
-            visible={false}
-          />
-        );
-      });
+    // pathLines =
+    //   places &&
+    //   places.map((place, index) => {
+    //     const lat = place.geometry.location.lat();
+    //     const lng = place.geometry.location.lng();
+    //     const xPath = [
+    //       new google.maps.LatLng(myPositionlat, myPositionlng),
+    //       new google.maps.LatLng(lat, lng),
+    //     ];
+    //     return (
+    //       <Polyline
+    //         key={index}
+    //         defaultDraggable={false}
+    //         defaultEditable={false}
+    //         defaultVisible={true}
+    //         draggable={false}
+    //         editable={false}
+    //         options={{
+    //           strokeColor: '#00BF6F',
+    //           strokeWeight: 1,
+    //           visible: true,
+    //           strokeOpacity: 0.4,
+    //         }}
+    //         path={xPath}
+    //         visible={false}
+    //       />
+    //     );
+    //   });
 
     this.setState({ thingsNearMe: placesCluster, directions: pathLines });
   };
