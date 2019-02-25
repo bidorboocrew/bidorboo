@@ -39,6 +39,7 @@ class BidderRootPage extends React.Component {
       displayedJobList: this.props.ListOfJobsToBidOn,
       activeTab: initialTabSelection,
       showSideNav: false,
+      obsessAboutMeToggle: false,
       mapCenterPoint: {
         lng: -75.6972,
         lat: 45.4215,
@@ -60,6 +61,9 @@ class BidderRootPage extends React.Component {
     // a_getAllJobsToBidOn();
   }
 
+  toggleObsessAboutMeToggle = () => {
+    this.setState({ obsessAboutMeToggle: !this.state.obsessAboutMeToggle });
+  };
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
     if (navigator && navigator.geolocation) {
@@ -193,13 +197,7 @@ class BidderRootPage extends React.Component {
       );
     }
 
-    const {
-      activeTab,
-      showSideNav,
-      displayedJobList,
-      mapCenterPoint,
-      hasActiveSearch,
-    } = this.state;
+    const { activeTab, displayedJobList, mapCenterPoint, hasActiveSearch } = this.state;
 
     let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
@@ -216,19 +214,33 @@ class BidderRootPage extends React.Component {
       <div>
         <nav
           style={{ background: '#00BF6F !important', color: 'white !important' }}
-          className="navbar is-fixed-top"
+          className={`navbar is-fixed-top ${
+            this.state.obsessAboutMeToggle ? 'color-change-2x' : ''
+          }`}
           role="navigation"
           aria-label="main navigation"
         >
           <div className="navbar-brand">
             <a className="navbar-item">
-              {/* <img
+              <img
                 src="https://cdn.smassets.net/wp-content/themes/survey-monkey-theme/images/surveymonkey_logo_dark.svg?ver=1.108.0"
                 width="112"
                 height="64"
-              /> */}
+              />
             </a>
-
+            <div class="navbar-item">
+              <input
+                id="switchRoundedSuccess"
+                type="checkbox"
+                name="switchRoundedSuccess"
+                class="switch is-rounded is-info"
+                onChange={this.toggleObsessAboutMeToggle}
+                checked={this.state.obsessAboutMeToggle}
+              />
+              <label style={{ color: 'white' }} for="switchRoundedSuccess">
+                Obsession
+              </label>
+            </div>
             <a
               role="button"
               className="navbar-burger burger"
@@ -257,7 +269,7 @@ class BidderRootPage extends React.Component {
           </div>
         </nav>
         <div id="placesmap" />
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <MapSection obsessAboutMe={this.state.obsessAboutMeToggle} mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
       </div>
     );
   }

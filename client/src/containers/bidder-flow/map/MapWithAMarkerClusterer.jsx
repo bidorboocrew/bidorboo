@@ -69,7 +69,7 @@ class TheMap extends React.Component {
         return (
           <SurveyMarker
             key={`${Math.random()}-${Math.random()}`}
-            opacity={0.8}
+            opacity={1}
             placeImg={placeImg}
             placeName={place.name || 'no name'}
             title={place.name}
@@ -78,35 +78,6 @@ class TheMap extends React.Component {
           />
         );
       });
-
-    // pathLines =
-    //   places &&
-    //   places.map((place, index) => {
-    //     const lat = place.geometry.location.lat();
-    //     const lng = place.geometry.location.lng();
-    //     const xPath = [
-    //       new google.maps.LatLng(myPositionlat, myPositionlng),
-    //       new google.maps.LatLng(lat, lng),
-    //     ];
-    //     return (
-    //       <Polyline
-    //         key={index}
-    //         defaultDraggable={false}
-    //         defaultEditable={false}
-    //         defaultVisible={true}
-    //         draggable={false}
-    //         editable={false}
-    //         options={{
-    //           strokeColor: '#00BF6F',
-    //           strokeWeight: 1,
-    //           visible: true,
-    //           strokeOpacity: 0.4,
-    //         }}
-    //         path={xPath}
-    //         visible={false}
-    //       />
-    //     );
-    //   });
 
     this.setState({ thingsNearMe: placesCluster, directions: pathLines });
   };
@@ -141,10 +112,17 @@ class TheMap extends React.Component {
       getCurrentPositionOptions,
     );
   };
-  componentDidMount() {
-    // start watching location
-    this.watchCurrentPosition();
+  // componentDidMount() {
+  //   // start watching location
+  //   this.watchCurrentPosition();
+  // }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.obsessAboutMe !== this.props.obsessAboutMe && this.props.obsessAboutMe) {
+      this.watchCurrentPosition();
+    }
   }
+
   render() {
     const { mapCenterPoint } = this.props;
     const { position, thingsNearMe, directions } = this.state;
@@ -209,32 +187,27 @@ export class JobInfoBox extends React.Component {
 
     const showSurveyCard = (
       <div style={{ maxWidth: '20rem' }} className="card has-text-centered">
-        <header style={{ padding: 2 }} class="card-header">
-          <p class="card-header-title" />
-          <a onClick={toggleShowInfoBox} class="card-header-icon" aria-label="more options">
-            <span style={{ fontSize: 21, color: 'black' }} class="icon">
-              <i class="fas fa-times-circle" aria-hidden="true" />
+        <header style={{ padding: 2 }} className="card-header is-clipped">
+          <figure className="image is-48x48">
+            <img src={placeImg} />
+          </figure>
+          <p className="card-header-title">{placeName}</p>
+          <a onClick={toggleShowInfoBox} className="card-header-icon" aria-label="more options">
+            <span style={{ fontSize: 21, color: 'black' }} className="icon">
+              <i className="fas fa-times-circle" aria-hidden="true" />
             </span>
           </a>
         </header>
         <div
-          style={{ paddingLeft: 2, marginLeft: 2, paddingRight: 2, marginRight: 2 }}
+          style={{ paddingLeft: 0, marginLeft: 0, paddingRight: 0, marginRight: 0 }}
           className="card-content"
         >
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img src={placeImg} />
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-4">{placeName}</p>
-            </div>
-          </div>
           <div className="content has-text-centered">
-            <img src={require('../../../assets/images/mapMarker.png')} alt="Placeholder image" />
+            <div>
+              <img src={require('../../../assets/images/mapMarker.png')} alt="Placeholder image" />
+              <div className="is-size-6">1 question to get 10% discount</div>
+            </div>
 
-            <div>answer 1 question for a 10% discount coupon</div>
             {(() => (
               <iframe
                 style={{ height: '20rem !important' }}
