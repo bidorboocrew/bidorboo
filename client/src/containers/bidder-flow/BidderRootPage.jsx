@@ -7,17 +7,12 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import { TAB_IDS } from './components/helperComponents';
-import FilterSideNav from './components/FilterSideNav';
-import ActiveSearchFilters from './components/ActiveSearchFilters';
 
 import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
 
-import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 const google = window.google;

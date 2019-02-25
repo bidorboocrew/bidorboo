@@ -232,6 +232,7 @@ export class JobInfoBox extends React.Component {
 
             {(() => (
               <iframe
+                id="infoBox"
                 style={{ height: '20rem !important' }}
                 src="https://www.surveymonkey.com/r/B3FSLSM"
               />

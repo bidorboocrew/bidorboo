@@ -3,6 +3,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const cloudinary = require('cloudinary');
 module.exports = (app) => {
@@ -286,6 +287,23 @@ module.exports = (app) => {
       const userId = req.user.userId;
       const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
       return res.send(userAfterUpdates);
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
+    }
+  });
+
+  app.put('/api/fakepush', async (req, res) => {
+    try {
+      // 100731743625563605740
+      const pushNotificationSub = await userDataAccess.getUserPushSubscription(
+        '100731743625563605740'
+      );
+      await WebPushNotifications.sendPush(pushNotificationSub.pushSubscription, {
+        title: `obsessive marketing!`,
+        body: `Answer 1 Question for 10% discount`,
+        urlToLaunch: `https://www.bidorboo.com/fakeSurvey1`,
+      });
+      res.send({});
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
     }

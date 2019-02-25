@@ -84,8 +84,9 @@ class App extends React.Component {
         <div id="RoutesWrapper">
           <Switch>
             {/* public paths */}
-            <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
-
+            <Route exact path={'/fakeSurvey1'} component={ProposerRootPage} />
+            <Route exact path={'/push'} component={MyProfile} />
+            PROPOSER
             <Redirect path="*" to={ROUTES.CLIENT.BIDDER.root} />
           </Switch>
         </div>

@@ -631,8 +631,11 @@ body {
   }
 }
 
-iframe {
+iframe#infoBox {
   height: 20rem !important;
+}
+iframe#testSurvey {
+  height: 100vh !important;
 }
 
 .color-change-2x {

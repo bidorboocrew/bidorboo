@@ -158,7 +158,7 @@ exports.findUserPublicDetails = (mongodbUserId) => {
 };
 
 exports.getUserPushSubscription = (userId) => {
-  return User.findOne({ userId }, { pushSubscription: 1 })
+  return User.findOne({ userId })
     .lean(true)
     .exec();
 };
