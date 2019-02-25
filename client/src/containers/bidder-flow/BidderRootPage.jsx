@@ -237,39 +237,24 @@ class BidderRootPage extends React.Component {
                 onChange={this.toggleObsessAboutMeToggle}
                 checked={this.state.obsessAboutMeToggle}
               />
-              <label style={{ color: 'white' }} for="switchRoundedSuccess">
+              <label style={{ color: 'white', fontWeight: 600 }} for="switchRoundedSuccess">
                 Obsession
               </label>
             </div>
-            <a
-              role="button"
-              className="navbar-burger burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarBasicExample"
-              href={'/api/auth/google'}
-            >
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-            </a>
           </div>
-
-          <div id="navbarBasicExample" className="navbar-menu">
-            <div className="navbar-end">
-              <div className="navbar-item">
-                <div className="buttons">
-                  <a style={{ background: '#F9BE00' }} className="button">
-                    <strong>Sign up</strong>
-                  </a>
-                  <a className="button is-light">Log in</a>
-                </div>
-              </div>
-            </div>
+          <div class="navbar-end navbar-item">
+            <a className="navbar-item button is-danger" href={'/api/auth/google'}>
+              Login
+            </a>
           </div>
         </nav>
         <div id="placesmap" />
-        <MapSection obsessAboutMe={this.state.obsessAboutMeToggle} mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <MapSection
+          obsessAboutMe={this.state.obsessAboutMeToggle}
+          mapCenterPoint={mapCenterPoint}
+          jobsList={currentJobsList}
+          {...this.props}
+        />
       </div>
     );
   }

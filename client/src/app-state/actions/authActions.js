@@ -39,15 +39,15 @@ export const getCurrentUser = () => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+          //     },
+          //   },
+          // });
           if (resp.data.appView) {
             if (resp.data.appView === 'BIDDER') {
               dispatch({
@@ -110,15 +110,15 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+          //     },
+          //   },
+          // });
         } else {
           //rediret user to sign up page
           // switchRoute(ROUTES.CLIENT.HOME);
