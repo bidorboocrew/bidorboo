@@ -36,10 +36,9 @@ class GetNotificationsAndScroll extends React.Component {
     this.lastFetch = moment();
   }
 
-  componentDidMount() {
-    const { a_getCurrentUser, isLoggedIn } = this.props;
-
-    if (isLoggedIn) {
+  componentDidMount(prevProp) {
+    if (this.props.isLoggedIn && (prevProp.isLoggedIn !== this.props.isLoggedIn)) {
+      registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
     } else {
       a_getCurrentUser();
     }
