@@ -45,8 +45,6 @@ class TheMap extends React.Component {
   }
 
   createMarkers = (places) => {
-    const myPositionlat = this.state.position.lat;
-    const myPositionlng = this.state.position.lng;
     let placesCluster = [];
     let pathLines = [];
 
@@ -90,11 +88,35 @@ class TheMap extends React.Component {
     };
     navigator.geolocation.watchPosition(
       (position) => {
-        const currentPosition = { lat: position.coords.latitude, lng: position.coords.longitude };
+        // ensure we do not UPDATE too often , user must move more than 300 meters to update
+        const myPositionlat = this.state.position ? this.state.position.lat : null;
+        const myPositionlng = this.state.position ? this.state.position.lng : null;
+        const livePosition = { lat: position.coords.latitude, lng: position.coords.longitude };
 
-        this.setState({ position: currentPosition }, () => {
+        // do not refresh unless we moved more than 1 meters
+        if (myPositionlat && myPositionlng) {
+          const livePositionMarker = new google.maps.LatLng(
+            position.coords.latitude,
+            position.coords.longitude,
+          );
+
+          if (
+            window.google.maps.geometry.spherical.computeDistanceBetween(
+              livePositionMarker,
+              new google.maps.LatLng(myPositionlat, myPositionlng),
+            ) <= 1
+          ) {
+            // do nothing
+            debugger;
+
+            return true;
+          }
+        }
+
+        // ensure we do not UPDATE too often , user must move more than 300 meters to update
+        this.setState({ position: livePosition }, () => {
           const request = {
-            location: currentPosition,
+            location: livePosition,
             radius: '500',
             type: ['restaurant'],
           };

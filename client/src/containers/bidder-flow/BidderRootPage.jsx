@@ -228,21 +228,21 @@ class BidderRootPage extends React.Component {
                 height="64"
               />
             </a>
-            <div class="navbar-item">
+            <div className="navbar-item">
               <input
                 id="switchRoundedSuccess"
                 type="checkbox"
                 name="switchRoundedSuccess"
-                class="switch is-rounded is-info"
+                className="switch is-rounded is-info"
                 onChange={this.toggleObsessAboutMeToggle}
                 checked={this.state.obsessAboutMeToggle}
               />
-              <label style={{ color: 'white', fontWeight: 600 }} for="switchRoundedSuccess">
+              <label style={{ color: 'white', fontWeight: 600 }} htmlFor="switchRoundedSuccess">
                 Obsession
               </label>
             </div>
           </div>
-          <div class="navbar-end navbar-item">
+          <div className="navbar-end navbar-item">
             <a className="navbar-item button is-danger" href={'/api/auth/google'}>
               Login
             </a>
