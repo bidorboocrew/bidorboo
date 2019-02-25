@@ -31,19 +31,18 @@ class GetNotificationsAndScroll extends React.Component {
   //     }, UPDATE_NOTIFICATION_INTERVAL);
   //   };
   // }
-  constructor(props) {
-    super(props);
-    this.lastFetch = moment();
-  }
+
   componentDidUpdate(prevProp) {
     if (this.props.isLoggedIn && (prevProp.isLoggedIn !== this.props.isLoggedIn)) {
       registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-    } else {
+    } else if(!this.props.isLoggedIn) {
       this.props.a_getCurrentUser();
     }
   }
   componentDidMount() {
-    this.props.a_getCurrentUser();
+    if(!this.props.isLoggedIn) {
+      this.props.a_getCurrentUser();
+    }
   }
   render() {
     return this.props.children;

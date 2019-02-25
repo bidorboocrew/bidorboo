@@ -104,7 +104,7 @@ class TheMap extends React.Component {
             window.google.maps.geometry.spherical.computeDistanceBetween(
               livePositionMarker,
               new google.maps.LatLng(myPositionlat, myPositionlng),
-            ) <= 1
+            ) <= 5
           ) {
             // do nothing
             debugger;
