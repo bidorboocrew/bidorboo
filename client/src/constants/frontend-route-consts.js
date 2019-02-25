@@ -122,7 +122,7 @@ export const CLIENT = {
     dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
   },
   BIDDER: {
-    root: '/bdb-offer',
+    root: '/map',
     bidOnJobPage: '/bdb-offer/bid-on-job',
     mybids: '/my-bids',
     reviewMyBidAndTheRequestDetails: '/review-my-bid-details',

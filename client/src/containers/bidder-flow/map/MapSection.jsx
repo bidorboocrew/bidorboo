@@ -14,21 +14,19 @@ class MapSection extends React.Component {
       isLoggedIn,
       a_showLoginDialog,
       userDetails,
-      jobsList,
-      obsessAboutMe
+      obsessAboutMe,
     } = this.props;
 
-    return jobsList ? (
+    return (
       <MapWithAMarkerClusterer
         selectJobToBidOn={a_selectJobToBidOn}
         mapCenterPoint={mapCenterPoint}
         isLoggedIn={isLoggedIn}
         showLoginDialog={a_showLoginDialog}
         userDetails={userDetails}
-        jobsList={jobsList}
         obsessAboutMe={obsessAboutMe}
       />
-    ) : null;
+    );
   }
 }
 

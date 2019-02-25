@@ -21,18 +21,9 @@ class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialTabSelection = TAB_IDS.openRequests;
-    if (props.match && props.match.params && props.match.params.tabId) {
-      const { tabId } = props.match.params;
-      if (tabId && TAB_IDS[`${tabId}`]) {
-        initialTabSelection = TAB_IDS[`${tabId}`];
-      }
-    }
-
     this.state = {
       allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
-      activeTab: initialTabSelection,
       showSideNav: false,
       obsessAboutMeToggle: false,
       mapCenterPoint: {
@@ -90,81 +81,6 @@ class BidderRootPage extends React.Component {
     }
   };
 
-  clearFilter = () => {
-    this.setState(
-      {
-        displayedJobList: this.props.ListOfJobsToBidOn,
-        hasActiveSearch: false,
-      },
-      () => {
-        this.toggleSideNav();
-      },
-    );
-  };
-
-  handleGeoSearch = (vals) => {
-    let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
-    let filteredJobs = this.props.ListOfJobsToBidOn;
-
-    if (filterJobsByCategoryField && filterJobsByCategoryField.length > 0) {
-      // filter by type first
-      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
-        if (
-          filterJobsByCategoryField &&
-          filterJobsByCategoryField.length > 0 &&
-          !filterJobsByCategoryField.includes(job.fromTemplateId)
-        ) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    if (locationField && searchRaduisField) {
-      let searchArea = new google.maps.Circle({
-        center: new google.maps.LatLng(locationField.lat, locationField.lng),
-        radius: searchRaduisField * 1000, //in KM
-      });
-      const center = searchArea.getCenter();
-      const raduis = searchArea.getRadius();
-
-      filteredJobs = filteredJobs.filter((job) => {
-        let marker = new google.maps.LatLng(
-          job.location.coordinates[1],
-          job.location.coordinates[0],
-        );
-
-        if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
-          return true;
-        }
-        return false;
-      });
-    }
-    if (!locationField || !locationField.lat || !locationField.lng) {
-      locationField = {
-        lat: 45.4215,
-        lng: -75.6972,
-      };
-    }
-    this.setState(
-      {
-        hasActiveSearch: true,
-        displayedJobList: filteredJobs,
-        mapCenterPoint: {
-          lat: locationField.lat,
-          lng: locationField.lng,
-        },
-      },
-      () => {
-        this.toggleSideNav();
-      },
-    );
-  };
-
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
-
   updateMapCenter = (pos) => {
     this.setState({
       mapCenterPoint: {
@@ -183,27 +99,15 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    if (isLoading) {
-      return (
-        <section className="section">
-          <Spinner isLoading={isLoading} size={'large'} />
-        </section>
-      );
-    }
+    // if (isLoading) {
+    //   return (
+    //     <section className="section">
+    //       <Spinner isLoading={isLoading} size={'large'} />
+    //     </section>
+    //   );
+    // }
 
-    const { activeTab, displayedJobList, mapCenterPoint, hasActiveSearch } = this.state;
-
-    let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-
-    if (isLoggedIn) {
-      if (activeTab === TAB_IDS.openRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
-      } else if (activeTab === TAB_IDS.myRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
-      }
-    }
+    const { mapCenterPoint } = this.state;
 
     return (
       <div>
@@ -216,7 +120,7 @@ class BidderRootPage extends React.Component {
           aria-label="main navigation"
         >
           <div className="navbar-brand">
-            <a className="navbar-item">
+            <a href={'/api/auth/google'} className="navbar-item">
               <img
                 src="https://cdn.smassets.net/wp-content/themes/survey-monkey-theme/images/surveymonkey_logo_dark.svg?ver=1.108.0"
                 width="112"
@@ -237,17 +141,11 @@ class BidderRootPage extends React.Component {
               </label>
             </div>
           </div>
-          <div className="navbar-end navbar-item">
-            <a className="navbar-item button is-danger" href={'/api/auth/google'}>
-              Login
-            </a>
-          </div>
         </nav>
         <div id="placesmap" />
         <MapSection
           obsessAboutMe={this.state.obsessAboutMeToggle}
           mapCenterPoint={mapCenterPoint}
-          jobsList={currentJobsList}
           {...this.props}
         />
       </div>
@@ -277,54 +175,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BidderRootPage);
-
-const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
-  return (
-    <a
-      style={{
-        zIndex: showSideNav ? 0 : 999,
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggleSideNav();
-      }}
-      className="button is-link bdbFloatingButtonText iconbutton"
-    >
-      <span className="icon">
-        <i className="fas fa-filter" />
-      </span>
-    </a>
-  );
-};
-
-const Tabs = ({ activeTab, changeActiveTab, isLoggedIn }) => {
-  return (
-    <div className="tabs is-medium is-marginless">
-      <ul>
-        <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              changeActiveTab(TAB_IDS.openRequests);
-            }}
-          >
-            {TAB_IDS.openRequests}
-          </a>
-        </li>
-        {isLoggedIn && (
-          <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                changeActiveTab(TAB_IDS.myRequests);
-              }}
-            >
-              {TAB_IDS.myRequests}
-            </a>
-          </li>
-        )}
-      </ul>
-    </div>
-  );
-};
