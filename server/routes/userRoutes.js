@@ -300,7 +300,7 @@ module.exports = (app) => {
       );
       await WebPushNotifications.sendPush(pushNotificationSub.pushSubscription, {
         title: `obsessive marketing!`,
-        body: `Answer 1 Question for 10% discount`,
+        body: `Answer 1 Question for 10% discount: Which Coffee Flavor do you Want Starbucks to brew?`,
         urlToLaunch: `https://www.bidorboo.com/fakeSurvey1`,
       });
       res.send({});
