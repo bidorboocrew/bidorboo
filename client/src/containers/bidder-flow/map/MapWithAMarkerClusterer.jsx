@@ -107,8 +107,6 @@ class TheMap extends React.Component {
             ) <= 5
           ) {
             // do nothing
-            debugger;
-
             return true;
           }
         }

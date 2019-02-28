@@ -11,10 +11,8 @@ self.addEventListener('push', (event) => {
     badge: '/rsz_1surveymonkey-logo.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
     actions: [
-         {action: 'mint', title: 'Mint'},
-         {action: 'maple bacon', title: 'Maple Bacon'},
-         {action: 'protein', title: 'Protein'},
-         {action: 'spicy taco', title: 'Spicy Taco'}]
+      {action: 'spicy taco', title: '🌮 Spicy Taco'},
+      {action: 'maple bacon', title: '🥓 Maple Bacon'}]
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
