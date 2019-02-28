@@ -10,7 +10,7 @@ import {
   setServerAppProposerView,
   setServerAppBidderView,
 } from './app-state/actions/uiActions';
-import { registerServiceWorker } from './registerServiceWorker';
+import { registerServiceWorker, unregister } from './registerServiceWorker';
 
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
@@ -35,6 +35,7 @@ class GetNotificationsAndScroll extends React.Component {
   componentDidUpdate(prevProp) {
     if (this.props.isLoggedIn && (prevProp.isLoggedIn !== this.props.isLoggedIn)) {
       // registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+      unregister()
     } else if(!this.props.isLoggedIn) {
       this.props.a_getCurrentUser();
     }
