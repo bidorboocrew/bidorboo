@@ -191,12 +191,12 @@ class SurveyMarker extends React.Component {
 
   render() {
     const { showInfoBox } = this.state;
-    // const infoBoxDom = showInfoBox ? (
-    //   <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
-    // ) : null;
+    const infoBoxDom = showInfoBox ? (
+      <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
+    ) : null;
     return (
       <Marker {...this.props} onClick={this.toggleShowInfoBox}>
-        {/* {infoBoxDom} */}
+        {infoBoxDom}
       </Marker>
     );
   }
@@ -212,8 +212,8 @@ export class JobInfoBox extends React.Component {
         style={{ maxWidth: '20rem' }}
         className="card has-text-centered"
       >
-        <div class="card-image">
-          <figure class="image is-4by3">
+        <div className="card-image">
+          <figure className="image is-4by3">
             <img src={placeImg} />
           </figure>
         </div>
@@ -232,6 +232,7 @@ export class JobInfoBox extends React.Component {
     return (
       <InfoBox
         className="info-Box-map"
+        onClick={toggleShowInfoBox}
         options={{
           pixelOffset: new google.maps.Size(-50, -50),
           zIndex: 999,
