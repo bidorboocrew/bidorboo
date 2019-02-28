@@ -147,7 +147,6 @@ class TheMap extends React.Component {
     const { mapCenterPoint } = this.props;
     const { position, thingsNearMe, directions } = this.state;
 
-
     /*  */
     return (
       <GoogleMap
@@ -192,12 +191,12 @@ class SurveyMarker extends React.Component {
 
   render() {
     const { showInfoBox } = this.state;
-    const infoBoxDom = showInfoBox ? (
-      <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
-    ) : null;
+    // const infoBoxDom = showInfoBox ? (
+    //   <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
+    // ) : null;
     return (
       <Marker {...this.props} onClick={this.toggleShowInfoBox}>
-        {infoBoxDom}
+        {/* {infoBoxDom} */}
       </Marker>
     );
   }
