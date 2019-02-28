@@ -213,8 +213,8 @@ export class JobInfoBox extends React.Component {
         className="card has-text-centered"
       >
         <div className="card-image">
-          <figure className="image is-4by3">
-            <img src={placeImg} />
+          <figure className="card-image is-clipped">
+            <img className="bdb-cover-img" src={placeImg} />
           </figure>
         </div>
 
