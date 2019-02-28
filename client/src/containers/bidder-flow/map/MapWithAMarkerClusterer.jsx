@@ -147,7 +147,6 @@ class TheMap extends React.Component {
     const { mapCenterPoint } = this.props;
     const { position, thingsNearMe, directions } = this.state;
 
-
     /*  */
     return (
       <GoogleMap
@@ -208,35 +207,23 @@ export class JobInfoBox extends React.Component {
     const { placeImg, placeName, toggleShowInfoBox } = this.props;
 
     const showSurveyCard = (
-      <div style={{ maxWidth: '20rem' }} className="card has-text-centered">
-        <header style={{ padding: 2 }} className="card-header is-clipped">
-          <figure className="image is-48x48">
+      <div
+        onClick={toggleShowInfoBox}
+        style={{ maxWidth: '20rem' }}
+        className="card has-text-centered"
+      >
+        <div class="card-image">
+          <figure class="image is-4by3">
             <img src={placeImg} />
           </figure>
-          <p className="card-header-title">{placeName}</p>
-          <a onClick={toggleShowInfoBox} className="card-header-icon" aria-label="more options">
-            <span style={{ fontSize: 21, color: 'black' }} className="icon">
-              <i className="fas fa-times-circle" aria-hidden="true" />
-            </span>
-          </a>
-        </header>
+        </div>
+
         <div
           style={{ paddingLeft: 0, marginLeft: 0, paddingRight: 0, marginRight: 0 }}
           className="card-content"
         >
           <div className="content has-text-centered">
-            <div>
-              <img src={require('../../../assets/images/mapMarker.png')} alt="Placeholder image" />
-              <div className="is-size-6">1 question to get 10% discount</div>
-            </div>
-
-            {(() => (
-              <iframe
-                id="infoBox"
-                style={{ height: '20rem !important' }}
-                src="https://www.surveymonkey.com/r/B3FSLSM"
-              />
-            ))()}
+            <p className="title">{placeName}</p>
           </div>
         </div>
       </div>
