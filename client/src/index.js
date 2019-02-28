@@ -27,4 +27,4 @@ ReactDOM.render(
   document.getElementById('BidOrBoo-app'),
 );
 // registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-unregister()
+// unregister()
