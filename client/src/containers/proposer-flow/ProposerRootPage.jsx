@@ -30,11 +30,6 @@ export default class ProposerRoot extends React.Component {
               />
             </a>
           </div>
-          <div className="navbar-end navbar-item">
-            <a className="navbar-item button is-danger" href={'/api/auth/google'}>
-              Login
-            </a>
-          </div>
         </nav>
         <div class="confetti-container">
           <div class="confetti"></div>
