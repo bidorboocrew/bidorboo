@@ -1,5 +1,4 @@
 'use strict';
-const ProposerRoot = require('../src/containers/proposer-flow/ProposerRootPage')
 
 self.addEventListener('push', (event) => {
   const data = event.data.json();
