@@ -34,7 +34,7 @@ class GetNotificationsAndScroll extends React.Component {
 
   componentDidUpdate(prevProp) {
     if (this.props.isLoggedIn && (prevProp.isLoggedIn !== this.props.isLoggedIn)) {
-      registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+      // registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
     } else if(!this.props.isLoggedIn) {
       this.props.a_getCurrentUser();
     }
