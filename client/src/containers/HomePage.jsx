@@ -42,13 +42,13 @@ const commonTourSteps = [
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
-    selector: '#Proposer-step',
-    content: 'If you have chores and want help getting them done, Click Here',
+    selector: '#Bidder-step',
+    content: 'Are you looking to make money doing tasks you enjoy? Click Here',
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
-    selector: '#Bidder-step',
-    content: 'Are you looking to make money doing tasks you enjoy? Click Here',
+    selector: '#Proposer-step',
+    content: 'If you have chores and want help getting them done, Click Here',
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
