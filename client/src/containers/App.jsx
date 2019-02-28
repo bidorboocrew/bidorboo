@@ -87,7 +87,7 @@ class App extends React.Component {
             <Route exact path={'/map'} component={BidderRootPage} />
             <Route exact path={'/fakeSurvey1'} component={ProposerRootPage} />
             <Route exact path={'/push'} component={MyProfile} />
-            <Redirect path="*" to={'/fakeSurvey1'} />
+            <Redirect path="*" to={'/map'} />
           </Switch>
         </div>
         {false && !(window.location.pathname.indexOf('/on-boarding') > -1) && (

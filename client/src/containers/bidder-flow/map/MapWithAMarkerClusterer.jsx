@@ -71,7 +71,7 @@ class TheMap extends React.Component {
             placeImg={placeImg}
             placeName={place.name || 'no name'}
             title={place.name}
-            icon={require('../../../assets/images/rsz_1surveymonkey-logo.png')}
+            icon={require('../../../assets/images/tesssst.png')}
             position={place.geometry.location}
           />
         );
@@ -146,6 +146,8 @@ class TheMap extends React.Component {
   render() {
     const { mapCenterPoint } = this.props;
     const { position, thingsNearMe, directions } = this.state;
+
+
     /*  */
     return (
       <GoogleMap
@@ -158,7 +160,7 @@ class TheMap extends React.Component {
         {position && (
           <Marker
             opacity={1}
-            icon={require('../../../assets/images/mapMarker.png')}
+            icon={require('../../../assets/images/myLocation.png')}
             position={position}
             onClick={() => {}}
           />

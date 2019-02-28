@@ -12,7 +12,7 @@ import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
-import { registerServiceWorker } from './registerServiceWorker';
+import { registerServiceWorker, unregister } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || {};
 
@@ -27,3 +27,4 @@ ReactDOM.render(
   document.getElementById('BidOrBoo-app'),
 );
 registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
+// unregister()

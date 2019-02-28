@@ -137,7 +137,7 @@ class BidderRootPage extends React.Component {
                 checked={this.state.obsessAboutMeToggle}
               />
               <label style={{ color: 'white', fontWeight: 600 }} htmlFor="switchRoundedSuccess">
-                Obsession
+                Obsess
               </label>
             </div>
           </div>
