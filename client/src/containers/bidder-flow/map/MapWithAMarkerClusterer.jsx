@@ -115,7 +115,7 @@ class TheMap extends React.Component {
         this.setState({ position: livePosition }, () => {
           const request = {
             location: livePosition,
-            radius: '500',
+            radius: '1000',
             type: ['restaurant'],
           };
           this.placesService.nearbySearch(request, (results, status) => {
