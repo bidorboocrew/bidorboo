@@ -5,6 +5,11 @@
   "homepage": "https://www.bidorboo.com",
   "description": "Get Services Done For the Price you desire. Offer Services and earn money.",
   "author": "Said Madi",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1",
+    "yarn": "1.13.0"
+  },
   "contributors": [
     {
       "name": "Yacoub Abdulla"
