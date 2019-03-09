@@ -159,7 +159,7 @@ class App extends React.Component {
           </Switch>
         </div>
         {!(window.location.pathname.indexOf('/on-boarding') > -1) && (
-          <footer className="footer">
+          <footer id="mainFooter" className="footer">
             <nav className="level">
               <div className="level-item has-text-centered">
                 <div>

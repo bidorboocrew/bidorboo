@@ -55,7 +55,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
               className="media-left"
             >
               <figure className="image is-48x48">
-                <img src={bidderProfileImgUrl} alt="Placeholder image" />
+                <img src={bidderProfileImgUrl} alt="img" />
               </figure>
             </div>
             <div className="media-content">

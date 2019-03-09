@@ -71,7 +71,7 @@ export default class AwardedJobTimeLineView extends React.Component {
                   <div className="media">
                     <div className="media-left">
                       <figure className="image is-32x32">
-                        <img src={profileImage.url} alt="Placeholder image" />
+                        <img src={profileImage.url} alt="img" />
                       </figure>
                     </div>
                     <div className="media-content">

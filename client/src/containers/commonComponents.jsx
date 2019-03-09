@@ -123,7 +123,7 @@ export const UserImageAndRating = ({ userDetails }) => {
           <img
             style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
             src={profileImage.url}
-            alt="Placeholder image"
+            alt="image"
           />
         </figure>
       </div>
