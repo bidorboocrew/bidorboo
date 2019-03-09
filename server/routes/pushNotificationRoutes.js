@@ -57,7 +57,7 @@ module.exports = (app) => {
       await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
         pushSubscription: subscription,
       });
-      return res.status(201).json({});
+      return res.status(201).json({ success: true });
     } catch (e) {
       return res
         .status(500)
