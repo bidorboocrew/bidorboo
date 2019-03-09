@@ -14,7 +14,7 @@ export default class FilterSideNav extends React.Component {
         titleStyle={{
           marginTop: `4rem`,
           lineHeight: 'none',
-          background: '#3273dc',
+          background: '#14719f',
           padding: '1.5rem 1rem',
         }}
         itemStyle={{ padding: 0 }}

@@ -39,7 +39,7 @@ class OtherUserProfileForReviewPage extends React.Component {
 
     if (isLoadingAnotherUserProfile || !otherUserProfileInfo._id) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading={isLoadingAnotherUserProfile} size={'large'} />;
         </div>
       );
@@ -89,7 +89,7 @@ class OtherUserProfileForReviewPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <section className="hero is-white is-small">
           <div className="hero-body">
             <h1 className="title">

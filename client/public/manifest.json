@@ -1,10 +1,10 @@
 {
   "manifest_version": 1,
   "short_name": "BoB",
-  "name": "Bid or Boo",
+  "name": "BidOrBoo",
   "homepage_url": "https://bidorboo.com",
   "version": "1.0.0",
-  "description": "Bid Or Boo platform",
+  "description": "BidOrBoo",
   "lang": "en-US",
   "start_url": "index.html",
   "display": "standalone",

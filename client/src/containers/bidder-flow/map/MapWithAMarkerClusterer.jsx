@@ -36,7 +36,7 @@ class TheMap extends React.Component {
           disableDefaultUI: true,
           streetViewControl: false,
         }}
-        defaultZoom={8}
+        defaultZoom={10}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />
@@ -112,14 +112,25 @@ class JobMarker extends React.Component {
   };
   render() {
     const { job, showInfoBoxForJobId } = this.props;
+
+    let imgurl = job && job._ownerRef ? job._ownerRef.profileImage.url : null;
+    debugger;
+    var image = {
+      url: imgurl,
+      size: new google.maps.Size(80, 80),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(32, 32),
+    };
     if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
       const shouldShowInfoBox = showInfoBoxForJobId === job._id;
       return (
         <Marker
           opacity={0.8}
-          icon={require('../../../assets/images/mapMarker.png')}
+          icon={image || require('../../../assets/images/mapMarker.png')}
           onClick={this.toggleShowInfoBox}
           key={job._id}
+          label={job.title}
           position={{
             lng: job.location.coordinates[0],
             lat: job.location.coordinates[1],

@@ -1,5 +1,4 @@
 // emailing services
-// const sendGridEmailing = require('../services/sendGrid').EmailService;
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 

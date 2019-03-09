@@ -49,7 +49,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       !selectedOpenBid._jobRef._id
     ) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading={true} size={'large'} />
         </div>
       );
@@ -59,10 +59,11 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
-        {breadCrumbs({ activePageTitle: title })}
+      <div className="container is-widescreen">
         <div className="columns is-centered">
           <div className="column is-narrow">
+            {breadCrumbs({ activePageTitle: title })}
+
             <RequesterAndOpenBid
               bid={selectedOpenBid}
               job={selectedAwardedJob}

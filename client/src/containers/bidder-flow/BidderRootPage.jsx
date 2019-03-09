@@ -7,7 +7,8 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import { TAB_IDS } from './components/helperComponents';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
@@ -46,10 +47,15 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn } = this.props;
+    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
     if (!isLoggedIn) {
       a_getCurrentUser();
+    } else {
+      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+        this.getCurrentAddress();
+      }
     }
+
     a_getAllJobsToBidOn();
 
     // xxx do not do that automatically it will scare people
@@ -58,7 +64,7 @@ class BidderRootPage extends React.Component {
 
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
-    if (navigator.geolocation) {
+    if (navigator && navigator.geolocation) {
       const getCurrentPositionOptions = {
         maximumAge: 10000,
         timeout: 5000,
@@ -209,28 +215,30 @@ class BidderRootPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
-              <div className="field">
-                <input
-                  id="switchRoundedSuccess"
-                  onChange={this.handleChange}
-                  type="checkbox"
-                  name="switchRoundedSuccess"
-                  className="switch is-rounded is-success"
-                  checked={this.state.allowAutoDetect}
-                />
-                <label for="switchRoundedSuccess">
-                  {' '}
-                  {this.state.allowAutoDetect
-                    ? 'BidOrBoo is serving custom results based on your location'
-                    : `Allow BidOrBoo to detect location for better results`}
-                </label>
-              </div>
+              <h2 className="subtitle">
+                For custom results enable auto detect location in
+                {userDetails && !userDetails.autoDetectlocation && (
+                  <React.Fragment>
+                    <div style={{ marginTop: 6 }} className="help has-text-grey ">
+                      For custom results enable auto detect location in
+                    </div>
+                    <a
+                      style={{ marginTop: 0 }}
+                      className="help has-text-link has-text-weight-semibold"
+                      onClick={() => {
+                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                      }}
+                    >
+                      {` profile settings`}
+                    </a>
+                  </React.Fragment>
+                )}
+              </h2>
             </div>
           </div>
         </section>

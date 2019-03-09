@@ -65,21 +65,30 @@ export default class RequestsTabSummaryCard extends React.Component {
 
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
-          {userAlreadyBid ? (
-            <a disabled className="button  is-outlined is-fullwidth">
-              You Already Bid
-            </a>
-          ) : (
-            <a className="button is-success is-outlined is-fullwidth">Add Your Bid</a>
+          {!withButtons && (
+            <React.Fragment>
+              {userAlreadyBid ? (
+                <a className="button  is-outlined is-fullwidth">You Already Bid</a>
+              ) : (
+                <a className="button is-success is-outlined is-fullwidth">Add Your Bid</a>
+              )}
+            </React.Fragment>
           )}
           {withButtons && (
-            <a
-              style={{ marginTop: 10 }}
-              onClick={onCloseHandler}
-              className="button is-outlined is-small is-fullwidth"
-            >
-              Close
-            </a>
+            <React.Fragment>
+              {userAlreadyBid ? (
+                <a className="button  is-outlined is-small is-fullwidth">You Already Bid</a>
+              ) : (
+                <a className="button is-success is-outlined is-small is-fullwidth">Add Your Bid</a>
+              )}
+              <a
+                style={{ marginTop: 10 }}
+                onClick={onCloseHandler}
+                className="button is-outlined is-small is-fullwidth"
+              >
+                Close
+              </a>
+            </React.Fragment>
           )}
         </div>
       </div>

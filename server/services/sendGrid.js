@@ -1,28 +1,39 @@
 // emailing services
-// const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sgMail = require('@sendgrid/mail');
+
 const keys = require('../config/keys');
-const sg = require('sendgrid')(keys.sendGridKey);
-const helper = require('sendgrid').mail;
+const populateHtmlTemplate = require('./sendGrid-Htmltemplate').populateHtmlTemplate;
+sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {
-  sendEmail: (from, to, subject, contentText, callback) => {
-
-    var from_email = new helper.Email(from);
-    var to_email = new helper.Email(to);
-    var subject = subject;
-    var content = new helper.Content('text/plain', contentText);
-    var mail = new helper.Mail(from_email, subject, to_email, content);
-
-    var request = sg.emptyRequest({
-      method: 'POST',
-      path: '/v3/mail/send',
-      body: mail.toJSON(),
-    });
+  sendEmail: ({
+    from = 'bidorboocrew@gmail.com',
+    to,
+    subject,
+    contentText,
+    toDisplayName,
+    contentHtml,
+    clickLink,
+    clickDisplayName,
+    callback,
+  }) => {
+    const msg = {
+      to,
+      from,
+      subject,
+      text: contentText,
+      html: populateHtmlTemplate({
+        toDisplayName: to || toDisplayName,
+        contentHtml,
+        clickLink,
+        clickDisplayName,
+      }),
+    };
     // function(error, response) {
     //   console.log(response.statusCode);
     //   console.log(response.body);
     //   console.log(response.headers);
     // }
-    sg.API(request, callback);
+    sgMail.send(msg);
   },
 };

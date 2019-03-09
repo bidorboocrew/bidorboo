@@ -1,5 +1,4 @@
 // emailing services
-// const sendGridEmailing = require('../services/sendGrid').EmailService;
 const keys = require('../config/keys');
 var request = require('request');
 

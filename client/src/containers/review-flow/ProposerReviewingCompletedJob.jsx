@@ -217,7 +217,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <div className="card-content">
             {bodyContent()}
             <button

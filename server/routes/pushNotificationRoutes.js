@@ -20,12 +20,10 @@ module.exports = (app) => {
         icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
       };
 
-      res.status(201).json({});
-
       // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
-
       const payLoad = JSON.stringify(data);
-      const notificationReq = await webpush.sendNotification(subscription, payLoad);
+      await webpush.sendNotification(subscription, payLoad);
+      res.status(201).json({});
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To send notification', details: `${e}` });
     }

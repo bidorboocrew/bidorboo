@@ -89,7 +89,6 @@ const getAwardedBidDetail = {
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
       const bid = payload && payload.data;
-
       return {
         ...state,
         isLoadingBids: false,

@@ -107,13 +107,25 @@ class Toast extends React.Component {
           {displayToast && type === 'error' && (
             <button
               style={{ marginLeft: 6 }}
-              className="button is-small is-outlined"
+              className="button is-small is-dark"
               onClick={() => window.location.reload()}
             >
               <span className="icon">
                 <i className="fas fa-redo" />
               </span>
-              <span>Reload Page</span>
+              <span>Reload</span>
+            </button>
+          )}
+          {displayToast && type === 'error' && (
+            <button
+              style={{ marginLeft: 6 }}
+              className="button is-small is-outlined"
+              onClick={() => this.userCloseToast()}
+            >
+              <span className="icon">
+                <i className="far fa-times-circle" />
+              </span>
+              <span>Close</span>
             </button>
           )}
         </div>

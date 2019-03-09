@@ -45,34 +45,44 @@ class CreateAJobPage extends React.Component {
     };
 
     return (
-      <React.Fragment>
-        <div className="container is-widescreen bidorbooContainerMargins">
-          <div className="card">
-            <section style={{ borderBottom: '1px solid #eee' }} className="hero is-small is-white">
-              <div className="hero-body">
-                <div className="title has-text-dark">{jobDetails.title} Request</div>
-                <ShowMoreText className="has-text-grey" lines={2} more="Show more" less="Show less">
-                  {this.state.chosenTemplate.description}
-                </ShowMoreText>
-              </div>
-            </section>
+      <div className="container is-widescreen">
+        <div className="columns is-centered">
+          <div className="column">
+            <div className="card">
+              <section
+                style={{ borderBottom: '1px solid #eee' }}
+                className="hero is-small is-white"
+              >
+                <div className="hero-body">
+                  <div className="title has-text-dark">{jobDetails.title} Request</div>
+                  <ShowMoreText
+                    className="has-text-grey"
+                    lines={2}
+                    more="Show more"
+                    less="Show less"
+                  >
+                    {this.state.chosenTemplate.description}
+                  </ShowMoreText>
+                </div>
+              </section>
 
-            <div className="card-content">
-              <br />
-              <NewJobForm
-                isLoggedIn={isLoggedIn}
-                showLoginDialog={a_showLoginDialog}
-                fromTemplateIdField={jobDetails.id}
-                jobTitleField={jobDetails.title}
-                suggestedDetailsText={jobDetails.suggestedDetailsText}
-                onGoBack={this.goBack}
-                onSubmit={this.postJob}
-                currentUserDetails={currentUserDetails}
-              />
+              <div className="card-content">
+                <br />
+                <NewJobForm
+                  isLoggedIn={isLoggedIn}
+                  showLoginDialog={a_showLoginDialog}
+                  fromTemplateIdField={jobDetails.id}
+                  jobTitleField={jobDetails.title}
+                  suggestedDetailsText={jobDetails.suggestedDetailsText}
+                  onGoBack={this.goBack}
+                  onSubmit={this.postJob}
+                  currentUserDetails={currentUserDetails}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
