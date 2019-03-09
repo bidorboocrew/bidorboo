@@ -217,25 +217,6 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-<<<<<<< HEAD
-              <h2 className="subtitle">Start by bidding on the available requests in your area</h2>
-              <div className="field">
-                <input
-                  id="switchRoundedSuccess"
-                  onChange={this.handleChange}
-                  type="checkbox"
-                  name="switchRoundedSuccess"
-                  className="switch is-rounded is-success"
-                  checked={this.state.allowAutoDetect}
-                />
-                <label for="switchRoundedSuccess">
-                  {' '}
-                  {this.state.allowAutoDetect
-                    ? 'BidOrBoo is serving custom results based on your location'
-                    : `Allow BidOrBoo to detect location for better results`}
-                </label>
-              </div>
-=======
               <h2 className="subtitle">
                 For custom results enable auto detect location in
                 {userDetails && !userDetails.autoDetectlocation && (
@@ -255,7 +236,6 @@ class BidderRootPage extends React.Component {
                   </React.Fragment>
                 )}
               </h2>
->>>>>>> 06e69d76c9f9e47a337534b330aaabbaecdf9eef
             </div>
           </div>
         </section>
