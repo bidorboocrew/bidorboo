@@ -47,7 +47,7 @@ class NewJobForm extends React.Component {
 
   componentDidMount() {
     const { currentUserDetails } = this.props;
-
+    // xxx do not do that automatically it will scare people
     if (
       currentUserDetails &&
       currentUserDetails.autoDetectlocation &&

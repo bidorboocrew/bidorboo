@@ -57,9 +57,6 @@ class BidderRootPage extends React.Component {
     }
 
     a_getAllJobsToBidOn();
-
-    // xxx do not do that automatically it will scare people
-    // navigator && navigator.geolocation && this.getCurrentAddress();
   }
 
   getCurrentAddress = () => {
