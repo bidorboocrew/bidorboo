@@ -114,7 +114,6 @@ class JobMarker extends React.Component {
     const { job, showInfoBoxForJobId } = this.props;
 
     let imgurl = job && job._ownerRef ? job._ownerRef.profileImage.url : null;
-    debugger;
     var image = {
       url: imgurl,
       size: new google.maps.Size(80, 80),
@@ -127,7 +126,7 @@ class JobMarker extends React.Component {
       return (
         <Marker
           opacity={0.8}
-          icon={image || require('../../../assets/images/mapMarker.png')}
+          icon={require('../../../assets/images/mapMarker.png')}
           onClick={this.toggleShowInfoBox}
           key={job._id}
           label={job.title}
