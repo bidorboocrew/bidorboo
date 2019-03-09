@@ -195,6 +195,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.PROPOSER.root);
                       })
                     }
+                    id="switch-role-mobile-step"
                     className="navbar-item is-hidden-desktop"
                   >
                     <span style={{ position: 'relative' }} className="icon">
@@ -219,6 +220,7 @@ class Header extends React.Component {
                         switchRoute(ROUTES.CLIENT.BIDDER.root);
                       })
                     }
+                    id="switch-role-mobile-step"
                     className="navbar-item is-hidden-desktop"
                   >
                     <span style={{ position: 'relative' }} className="icon">
@@ -243,6 +245,7 @@ class Header extends React.Component {
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
+              id="mobile-nav-burger"
               className={classNames('navbar-burger', {
                 'is-active': isHamburgerOpen,
               })}
@@ -295,7 +298,7 @@ class Header extends React.Component {
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('bdb-offer') ? 'is-active' : ''
+                      window.location.pathname.includes('/bdb-offer') ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -318,7 +321,7 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.getMyOpenJobsPostedJobsTab);
+                            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
                           });
                         }}
                       >
@@ -381,6 +384,7 @@ class Header extends React.Component {
                       <React.Fragment>
                         {isActingAsBidder ? (
                           <a
+                            id="switch-role-step"
                             onClick={(e) =>
                               this.closeMenuThenExecute(() => {
                                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -410,6 +414,7 @@ class Header extends React.Component {
                           </a>
                         ) : (
                           <a
+                            id="switch-role-step"
                             onClick={(e) =>
                               this.closeMenuThenExecute(() => {
                                 switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -467,6 +472,7 @@ class Header extends React.Component {
                             }`}
                           >
                             <a
+                              id="myprofile-step"
                               onClick={() => {
                                 this.closeMenuThenExecute(() => {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);

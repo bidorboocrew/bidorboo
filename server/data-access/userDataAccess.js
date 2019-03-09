@@ -7,6 +7,10 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
+exports.updateOnboardingDetails = (mongodbUserId, onBoardingDetails) => {
+  this.updateUserProfileDetails(mongodbUserId, onBoardingDetails);
+};
+
 exports.getMyPastRequestedServices = (mongodbUserId) => {
   return User.findOne(
     { _id: mongodbUserId },
@@ -404,17 +408,21 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         .lean(true)
         .exec();
 
-      sendGridEmailing.sendEmail(
-        'bidorboocrew@gmail.com',
-        updatedUser.email.emailAddress,
-        'BidOrBoo: Email verification',
-        `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
-          'Email',
-          emailVerificationCode
-        )}
-        `
-      );
-
+      if (updatedUser && updatedUser.notifications && updatedUser.notifications.email) {
+        sendGridEmailing.sendEmail({
+          to: `${updatedUser.email.emailAddress}`,
+          subject: `BidOrBoo: Email verification`,
+          contentText: `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
+            'Email',
+            emailVerificationCode
+          )}
+          `,
+          toDisplayName: `${updatedUser.displayName}`,
+          contentHtml: `Click to verify your email Address`,
+          clickLink: `${ROUTES.CLIENT.dynamicVerification('Email', emailVerificationCode)}`,
+          clickDisplayName: `Verify Email`,
+        });
+      }
       resolve({ success: true });
     } catch (e) {
       reject({ error: e, success: false });

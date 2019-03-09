@@ -46,8 +46,17 @@ class NewJobForm extends React.Component {
   }
 
   componentDidMount() {
+    const { currentUserDetails } = this.props;
     // xxx do not do that automatically it will scare people
-    // navigator.geolocation && this.getCurrentAddress();
+    if (
+      currentUserDetails &&
+      currentUserDetails.autoDetectlocation &&
+      navigator &&
+      navigator.geolocation
+    ) {
+      this.getCurrentAddress();
+    }
+
     this.recaptchaRef.current.execute();
   }
 
@@ -174,8 +183,6 @@ class NewJobForm extends React.Component {
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <section className="modal-card-body">
-                  <label className="label">Review Your Task Details</label>
-
                   <div
                     style={{
                       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
@@ -188,7 +195,7 @@ class NewJobForm extends React.Component {
                       className="card-header is-clipped"
                     >
                       <p className="card-header-title">
-                        {templatesRepo[fromTemplateIdField].title} Request
+                        Preview: {templatesRepo[fromTemplateIdField].title}
                       </p>
                     </header>
                     <div className="card-image is-clipped">
@@ -239,9 +246,9 @@ class NewJobForm extends React.Component {
                     />
                   </div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     onClick={this.toggleConfirmationDialog}
                     className="button is-outline"
                   >
@@ -251,7 +258,7 @@ class NewJobForm extends React.Component {
                     <span>go Back</span>
                   </button>
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 120 }}
                     type="submit"
                     disabled={isSubmitting}
                     onClick={handleSubmit}
@@ -422,7 +429,7 @@ class NewJobForm extends React.Component {
           />
           <div className="field">
             <button
-              style={{ width: 140 }}
+              style={{ width: 120 }}
               type="button"
               className="button is-outlined is-medium"
               disabled={isSubmitting}
@@ -437,7 +444,7 @@ class NewJobForm extends React.Component {
               <span>Back</span>
             </button>
             <button
-              style={{ width: 140, marginLeft: '1rem' }}
+              style={{ width: 120, marginLeft: '1rem' }}
               className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
               disabled={isSubmitting || !isValid}
               onClick={(e) => {

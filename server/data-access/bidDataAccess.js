@@ -1,6 +1,6 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
-
+const moment = require('moment');
 const UserModel = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
@@ -55,6 +55,7 @@ exports.bidDataAccess = {
       .populate({
         path: '_bidderRef',
         select: {
+          notifications: 1,
           _asBidderReviewsRef: 1,
           _asProposerReviewsRef: 1,
           rating: 1,
@@ -89,6 +90,7 @@ exports.bidDataAccess = {
         populate: {
           path: '_ownerRef',
           select: {
+            notifications: 1,
             _id: 1,
             displayName: 1,
             rating: 1,
@@ -121,10 +123,8 @@ exports.bidDataAccess = {
                 startingDateAndTime: 1,
                 durationOfJob: 1,
                 fromTemplateId: 1,
-                reported: 1,
                 createdAt: 1,
                 updatedAt: 1,
-                _reviewRef: 1,
               },
               match: {
                 $or: [
@@ -140,6 +140,7 @@ exports.bidDataAccess = {
                     displayName: 1,
                     rating: 1,
                     profileImage: 1,
+                    notifications: 1,
                   },
                 },
                 {
@@ -155,9 +156,17 @@ exports.bidDataAccess = {
             } else {
               let results = [];
               if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                results = res._postedBidsRef.filter((postedBid) => {
-                  return postedBid && postedBid._jobRef;
-                });
+                results = res._postedBidsRef
+                  .filter((postedBid) => {
+                    return postedBid && postedBid._jobRef;
+                  })
+                  .sort((a, b) => {
+                    return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
+                      moment(b._jobRef.startingDateAndTime)
+                    )
+                      ? 1
+                      : -1;
+                  });
               }
               resolve({ _postedBidsRef: results });
             }
@@ -196,6 +205,7 @@ exports.bidDataAccess = {
               populate: {
                 path: '_ownerRef',
                 select: {
+                  notifications: 1,
                   _id: 1,
                   displayName: 1,
                   rating: 1,
@@ -205,9 +215,28 @@ exports.bidDataAccess = {
             },
           })
           .lean(true)
-          .exec();
+          .exec((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              let results = [];
+              if (res._postedBidsRef && res._postedBidsRef.length > 0) {
+                results = res._postedBidsRef
+                  .filter((postedBid) => {
+                    return postedBid && postedBid._jobRef;
+                  })
+                  .sort((a, b) => {
+                    return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
+                      moment(b._jobRef.startingDateAndTime)
+                    )
+                      ? 1
+                      : -1;
+                  });
+              }
 
-        resolve(user);
+              resolve({ _postedBidsRef: results });
+            }
+          });
       } catch (e) {
         reject(e);
       }
@@ -221,34 +250,23 @@ exports.bidDataAccess = {
           .populate({
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
-            populate: {
-              path: '_jobRef _bidderRef',
-              select: {
-                _id: 1,
-                _ownerRef: 1,
-                title: 1,
-                state: 1,
-                detailedDescription: 1,
-                location: 1,
-                stats: 1,
-                jobCompletion: 1,
-                startingDateAndTime: 1,
-                durationOfJob: 1,
-                fromTemplateId: 1,
-                addressText: 1,
-                reported: 1,
-                createdAt: 1,
-                updatedAt: 1,
-                displayName: 1,
-                rating: 1,
-                profileImage: 1,
-                email: 1,
-                phone: 1,
-                viewedBy: 1,
+            populate: [
+              {
+                path: '_jobRef',
+                populate: {
+                  path: '_ownerRef',
+                  select: {
+                    _id: 1,
+                    displayName: 1,
+                    rating: 1,
+                    profileImage: 1,
+                    email: 1,
+                    phone: 1,
+                  },
+                },
               },
-              options: { sort: { startingDateAndTime: 1 } },
-              populate: {
-                path: '_ownerRef',
+              {
+                path: '_bidderRef',
                 select: {
                   _id: 1,
                   displayName: 1,
@@ -258,9 +276,9 @@ exports.bidDataAccess = {
                   phone: 1,
                 },
               },
-            },
+            ],
           })
-          .lean(true)
+          .lean()
           .exec();
         const theBid =
           user && user._postedBidsRef && user._postedBidsRef.length === 1
@@ -284,6 +302,7 @@ exports.bidDataAccess = {
             populate: {
               path: '_jobRef _bidderRef',
               select: {
+                notifications: 1,
                 _id: 1,
                 _ownerRef: 1,
                 title: 1,
@@ -306,6 +325,7 @@ exports.bidDataAccess = {
               populate: {
                 path: '_ownerRef',
                 select: {
+                  notifications: 1,
                   _id: 1,
                   displayName: 1,
                   rating: 1,

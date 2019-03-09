@@ -1,7 +1,7 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import { throwErrorNotification } from '../../utils';
+import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const getMyPastRequestedServices = () => (dispatch) => {
   return dispatch({
@@ -97,3 +97,23 @@ export const getOtherUserProfileInfo = (otherUserId) => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
+
+export const updateOnBoardingDetails = (onBoardingDetails) => (dispatch) => {
+  return dispatch({
+    type: A.USER_MODEL_ACTIONS.UPDATE_USER_ON_BOARDING_DETAILS,
+    payload: axios
+      .put(ROUTES.API.USER.PUT.updateOnboardingDetails, {
+        data: {
+          ...onBoardingDetails,
+        },
+      })
+      .then((resp) => {
+        if (resp.data && resp.data.success) {
+          switchRoute(`${ROUTES.CLIENT.HOME}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};

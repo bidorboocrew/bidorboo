@@ -2,11 +2,6 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
-
-import { getCurrentUser } from '../../app-state/actions/authActions';
-import { Spinner } from '../../components/Spinner';
-
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 
 class NotificationSettings extends React.Component {
@@ -76,6 +71,7 @@ class NotificationSettings extends React.Component {
       email: !!enableEmailNotification,
       text: !!enableTxtNotifications,
     });
+    this.setState({ areThereChanges: false });
   };
 
   render() {

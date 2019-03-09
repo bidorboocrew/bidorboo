@@ -33,7 +33,7 @@ class PastBids extends React.Component {
 
     if (!isLoggedIn || myPastProvidedServicesIsLoading) {
       return (
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           <Spinner isLoading size={'large'} />
         </div>
       );
@@ -53,7 +53,7 @@ class PastBids extends React.Component {
     );
     return (
       <React.Fragment>
-        <div className="container is-widescreen bidorbooContainerMargins">
+        <div className="container is-widescreen">
           {AllTheServicesProvidedByThisUser}
         </div>
       </React.Fragment>

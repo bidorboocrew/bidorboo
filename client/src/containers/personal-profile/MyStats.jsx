@@ -60,7 +60,7 @@
 //       { x: 9, y: 0 },
 //     ];
 //     return (
-//       <div className="container is-widescreen bidorbooContainerMargins">
+//       <div className="container is-widescreen">
 //         <div className="columns is-centered is-gapless">
 //           <div className="column">
 //             <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>

@@ -32,14 +32,21 @@ exports.jobDataAccess = {
       })
         .populate({
           path: '_ownerRef',
-          select: { _id: 1, email: 1, phone: 1, _bidderRef: 1, pushSubscription: 1 },
+          select: {
+            _id: 1,
+            email: 1,
+            phone: 1,
+            _bidderRef: 1,
+            pushSubscription: 1,
+            notifications: 1,
+          },
         })
         .populate({
           path: '_awardedBidRef',
           select: { _bidderRef: 1 },
           populate: {
             path: '_bidderRef',
-            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1 },
+            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1, notifications: 1 },
           },
         })
         .lean(true)
@@ -67,11 +74,11 @@ exports.jobDataAccess = {
                 const ownerEmailAddress =
                   ownerDetails.email && ownerDetails.email.emailAddress
                     ? ownerDetails.email.emailAddress
-                    : false;
+                    : '';
                 const ownerPhoneNumber =
                   ownerDetails.phone && ownerDetails.phone.phoneNumber
                     ? ownerDetails.phone.phoneNumber
-                    : false;
+                    : '';
                 const linkForOwner = `https://www.bidorboo.com${
                   ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
                 }/${jobId}`;
@@ -79,41 +86,69 @@ exports.jobDataAccess = {
                 const bidderEmailAddress =
                   awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
                     ? awardedBidderDetails.email.emailAddress
-                    : false;
+                    : '';
                 const bidderPhoneNumber =
                   awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
                     ? awardedBidderDetails.phone.phoneNumber
-                    : false;
+                    : '';
                 const linkForBidder = `https://www.bidorboo.com${
                   ROUTES.CLIENT.BIDDER.currentAwardedBid
                 }/${awardedBidId}`;
-                sendGridEmailing.sendEmail(
-                  'bidorboocrew@gmail.com',
-                  ownerEmailAddress,
-                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                  `This is an automated reminder for your upcoming scheduled ${
-                    job.fromTemplateId
-                  } task.
-                To get in touch with your tasker feel free to contact them on:
-                email address : ${bidderEmailAddress}
-                phone number : ${bidderPhoneNumber}
-                for reference here is the link to your task ${linkForOwner}
-                 `
-                );
-                sendGridEmailing.sendEmail(
-                  'bidorboocrew@gmail.com',
-                  bidderEmailAddress,
-                  `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                  `This is an automated reminder for your upcoming scheduled ${
-                    job.fromTemplateId
-                  } task.
-                To get in touch with your task owner feel free to contact them on:
-                email address : ${ownerEmailAddress}
-                phone number : ${ownerPhoneNumber}
-                for reference here is the link to your task ${linkForBidder}
-                 `
-                );
-                if (ownerPhoneNumber) {
+                if (ownerDetails.notifications && ownerDetails.notifications.email) {
+                  sendGridEmailing.sendEmail({
+                    to: ownerEmailAddress,
+                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    contentText: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your tasker feel free to contact them on:
+                  email address : ${bidderEmailAddress}
+                  phone number : ${bidderPhoneNumber}
+                  for reference here is the link to your task ${linkForOwner}
+                   `,
+                    toDisplayName: `${ownerDetails.displayName}`,
+                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your tasker feel free to contact them on:
+                  email address : ${bidderEmailAddress}
+                  phone number : ${bidderPhoneNumber}`,
+                    clickLink: `${linkForOwner}`,
+                    clickDisplayName: `View This Task`,
+                  });
+                }
+                if (
+                  awardedBidderDetails.notifications &&
+                  awardedBidderDetails.notifications.email
+                ) {
+                  sendGridEmailing.sendEmail({
+                    to: bidderEmailAddress,
+                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
+                    contentText: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your task owner feel free to contact them on:
+                  email address : ${ownerEmailAddress}
+                  phone number : ${ownerPhoneNumber}
+                  for reference here is the link to your task ${linkForBidder}
+                   `,
+                    toDisplayName: `${awardedBidderDetails.displayName}`,
+                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
+                      job.fromTemplateId
+                    } task.
+                  To get in touch with your task owner feel free to contact them on:
+                  email address : ${ownerEmailAddress}
+                  phone number : ${ownerPhoneNumber}`,
+                    clickLink: `${linkForBidder}`,
+                    clickDisplayName: `View This Task`,
+                  });
+                }
+
+                if (
+                  ownerPhoneNumber &&
+                  ownerDetails.notifications &&
+                  ownerDetails.notifications.phone
+                ) {
                   await sendTextService.sendText(
                     ownerPhoneNumber,
                     `BidOrBoo: ${
@@ -121,7 +156,11 @@ exports.jobDataAccess = {
                     } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
-                if (bidderPhoneNumber) {
+                if (
+                  bidderPhoneNumber &&
+                  awardedBidderDetails.notifications &&
+                  awardedBidderDetails.notifications.phone
+                ) {
                   await sendTextService.sendText(
                     bidderPhoneNumber,
                     `BidOrBoo: ${
@@ -129,16 +168,20 @@ exports.jobDataAccess = {
                     } is happening soon! go to www.bidorboo.com for details`
                   );
                 }
-                WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
-                  title: `${job.fromTemplateId} is happening soon!`,
-                  body: `click to view schedule and tasker details`,
-                  urlToLaunch: `${linkForOwner}`,
-                });
-                WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
-                  title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
-                  body: `It is happening soon ! . click for more details`,
-                  urlToLaunch: `${linkForBidder}`,
-                });
+                if (ownerDetails.notifications && ownerDetails.notifications.push) {
+                  WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
+                    title: `${job.fromTemplateId} is happening soon!`,
+                    body: `click to view schedule and tasker details`,
+                    urlToLaunch: `${linkForOwner}`,
+                  });
+                }
+                if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
+                  WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
+                    title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
+                    body: `It is happening soon ! . click for more details`,
+                    urlToLaunch: `${linkForBidder}`,
+                  });
+                }
               }
             });
           }
@@ -259,6 +302,7 @@ exports.jobDataAccess = {
               profileImage: 1,
               displayName: 1,
               rating: 1,
+              notifications: 1,
             },
           },
         },
@@ -318,6 +362,7 @@ exports.jobDataAccess = {
           profileImage: 1,
           _id: 1,
           rating: 1,
+          notifications: 1,
         };
 
         const jobWithBidDetails = await JobModel.findOne(
@@ -342,6 +387,7 @@ exports.jobDataAccess = {
                 createdAt: 1,
                 email: 1,
                 rating: 1,
+                notifications: 1,
               },
             },
           })
@@ -379,6 +425,7 @@ exports.jobDataAccess = {
                   membershipStatus: 1,
                   agreedToServiceTerms: 1,
                   createdAt: 1,
+                  notifications: 1,
                 },
               },
             },
@@ -560,7 +607,13 @@ exports.jobDataAccess = {
         viewedBy: 1,
         booedBy: 1,
       };
-      const jobOwnerFields = { displayName: 1, profileImage: 1, _id: 1, rating: 1 };
+      const jobOwnerFields = {
+        displayName: 1,
+        profileImage: 1,
+        _id: 1,
+        rating: 1,
+        notifications: 1,
+      };
 
       JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
         sort: { startingDateAndTime: 1 },

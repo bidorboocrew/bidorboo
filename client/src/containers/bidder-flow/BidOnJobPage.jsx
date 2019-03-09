@@ -55,7 +55,7 @@ class BidOnJobPage extends React.Component {
         />
         <div
           style={{ marginBottom: '3rem' }}
-          className="container is-widescreen bidorbooContainerMargins"
+          className="container is-widescreen"
         >
           {breadCrumbs()}
           <PostYourBid

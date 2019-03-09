@@ -62,14 +62,11 @@ export default class MyBidsOpenBid extends React.Component {
             <StartDateAndTime date={_jobRef.startingDateAndTime} />
             <DisplayLabelValue labelText="Your Bid:" labelValue={bidAmountText} />
             <div className="help">* waiting for requester to award.</div>
+            <div style={{ margin: '0.5rem 0px' }} className="has-text-centered">
+              <a className="button is-outlined is-fullwidth">View Or Change</a>
+            </div>
           </div>
         </div>
-        <footer className="card-footer">
-          <div className="card-footer-item">
-            <a className="button is-outlined">View Or Change</a>
-          </div>
-          <div className="card-footer-item">{`Task Date : ${startingDateAndTime}`}</div>
-        </footer>
       </div>
     );
   }

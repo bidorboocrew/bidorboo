@@ -24,11 +24,9 @@ export default class MyAwardedBidJobDetails extends React.Component {
       createdAt,
       addressText,
     } = job;
-
     if (!templatesRepo[fromTemplateId]) {
       return null;
     }
-    let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">
@@ -46,14 +44,14 @@ export default class MyAwardedBidJobDetails extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Requester:</div>
+          <div className="has-text-grey is-size-7">Requester:</div>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
 
-            <div className="has-text-dark is-size-7">Detailed Description</div>
+            <div className="has-text-grey is-size-7">Detailed Description</div>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}
@@ -67,7 +65,6 @@ export default class MyAwardedBidJobDetails extends React.Component {
                 readOnly
               />
             </span>
-            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime} />

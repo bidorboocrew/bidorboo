@@ -45,7 +45,7 @@ class MyOpenJobsPage extends React.Component {
     const { activeTab } = this.state;
 
     return (
-      <div className="container is-widescreen bidorbooContainerMargins">
+      <div className="container is-widescreen">
         <FloatingAddNewRequestButton />
 
         <div style={{ position: 'relative' }} className="tabs">
