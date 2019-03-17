@@ -218,7 +218,6 @@ class BidderRootPage extends React.Component {
             <div className="container">
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">
-                For custom results enable auto detect location in
                 {userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
