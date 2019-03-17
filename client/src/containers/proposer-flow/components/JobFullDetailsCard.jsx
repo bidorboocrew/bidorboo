@@ -65,7 +65,7 @@ export default class JobFullDetailsCard extends React.Component {
               labelValue={`${reported ? reported.length : 0} times`}
             /> */}
 
-            <div className="has-text-grey is-size-7">Detailed Description</div>
+            <label className="label">Detailed Description</label>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}

@@ -51,7 +51,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
                 </tr>
               </tbody>
             </table>
-            <div className="has-text-grey is-size-7"> What's Next?</div>
+            <label className="label"> What's Next?</label>
             <div className="help">* The amount of {`${totalAmount}`} CAD will be put on hold.</div>
             <div className="help">* When the Task is completed this amount will be deducted.</div>
             <div className="help">

@@ -88,9 +88,9 @@ export default class RequesterAndMyAwardedBid extends React.Component {
 
 const DisplayLabelValue = (props) => {
   return (
-    <div style={{ marginBottom: 6 }}>
-      <div className="is-size-7">{props.labelText}</div>
-      <div className="is-size-6 is-success">{props.labelValue}</div>
+    <div className="field">
+      <label className="label">{props.labelText}</label>
+      <div className="control is-success">{props.labelValue}</div>
     </div>
   );
 };
@@ -191,8 +191,6 @@ class BidderConfirmsJobIsDone extends React.Component {
     );
   }
 }
-
-
 
 const FloatingAddNewBidButton = () => {
   return (

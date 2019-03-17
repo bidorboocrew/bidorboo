@@ -143,7 +143,7 @@ class RequestsTabSummaryCard extends React.Component {
                     <StartDateAndTime date={startingDateAndTime} />
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
 
-                    <div className="has-text-grey is-size-7">You Earned</div>
+                    <label className="label">You Earned</label>
                     <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
                       100} CAD`}</div>
                   </div>
@@ -234,7 +234,7 @@ class RequestsTabSummaryCard extends React.Component {
 
 const PleaseSubmitYourReview = () => {
   return (
-    <div>
+    <div className="field">
       <label>
         Your Review will be revealed when both the Requester and the Bidder (YOU) submit your
         reviews

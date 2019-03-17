@@ -59,7 +59,7 @@
     "pm2": "^3.2.2",
     "recaptcha-verify": "^0.1.1",
     "request": "^2.88.0",
-    "stripe": "^6.15.0",
+    "stripe": "^6.27.0",
     "web-push": "^3.3.3"
   }
 }

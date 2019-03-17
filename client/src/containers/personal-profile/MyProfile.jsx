@@ -269,9 +269,9 @@ const HeaderTitle = (props) => {
 };
 const DisplayLabelValue = (props) => {
   return (
-    <div style={{ padding: 4, marginBottom: 4 }}>
-      <div style={{ color: 'grey', fontSize: 14 }}>{props.labelText}</div>
-      <div style={{ fontSize: 16 }}> {props.labelValue}</div>
+    <div className="field">
+      <label className="label">{props.labelText}</label>
+      <div className="control"> {props.labelValue}</div>
     </div>
   );
 };

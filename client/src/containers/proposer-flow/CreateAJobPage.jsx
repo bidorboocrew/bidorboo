@@ -48,7 +48,7 @@ class CreateAJobPage extends React.Component {
       <div className="container is-widescreen">
         <div className="columns is-centered">
           <div className="column">
-            <div className="card">
+            <div style={{ maxWidth: 'unset' }} className="card">
               <section
                 style={{ borderBottom: '1px solid #eee' }}
                 className="hero is-small is-white"

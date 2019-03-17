@@ -41,9 +41,9 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 
 export const DisplayLabelValue = (props) => {
   return (
-    <div>
-      <div className="has-text-grey is-size-7">{props.labelText}</div>
-      <div className="is-size-6 is-success">{props.labelValue}</div>
+    <div className="field">
+      <label className="label">{props.labelText}</label>
+      <div className="control is-success">{props.labelValue}</div>
     </div>
   );
 };

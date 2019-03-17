@@ -4,10 +4,17 @@ const bodyParser = require('body-parser');
 
 const keys = require('../config/keys');
 
-module.exports = app => {
+const isWebHookCall = (req) => req.url.indexOf('stripewebhook') > -1;
 
+module.exports = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use((req, res, next) => {
+    if (isWebHookCall(req)) {
+      bodyParser.raw({ type: '*/*' })(req, res, next);
+    } else {
+      bodyParser.json()(req, res, next);
+    }
+  });
 
   //https://github.com/expressjs/cookie-session
   const expiryDate = 10 * 24 * 60 * 60 * 1000; //10 days
@@ -19,8 +26,8 @@ module.exports = app => {
         secure: true,
         httpOnly: true,
         domain: 'bidorboo.com',
-        expires: new Date(Date.now() + expiryDate)
-      }
+        expires: new Date(Date.now() + expiryDate),
+      },
     })
   );
   app.use(cookieParser());

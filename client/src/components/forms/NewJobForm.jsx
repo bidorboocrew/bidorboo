@@ -220,20 +220,22 @@ class NewJobForm extends React.Component {
                           labelText="Address:"
                           labelValue={values.addressTextField}
                         />
-                        <div className="has-text-grey is-size-7">Detailed Description</div>
-                        <span className="is-size-7">
-                          <TextareaAutosize
-                            value={values.detailedDescriptionField}
-                            className="textarea is-marginless is-paddingless is-size-6"
-                            style={{
-                              resize: 'none',
-                              border: 'none',
-                              color: '#4a4a4a',
-                              fontSize: '1rem',
-                            }}
-                            readOnly
-                          />
-                        </span>
+                        <div className="field">
+                          <label className="label">Detailed Description</label>
+                          <span className="is-size-7">
+                            <TextareaAutosize
+                              value={values.detailedDescriptionField}
+                              className="textarea is-marginless is-paddingless is-size-6"
+                              style={{
+                                resize: 'none',
+                                border: 'none',
+                                color: '#4a4a4a',
+                                fontSize: '1rem',
+                              }}
+                              readOnly
+                            />
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

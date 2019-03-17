@@ -3,6 +3,9 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  validateSignature: (reqBody, sig, endpointSecret) => {
+    return stripe.webhooks.constructEvent(reqBody, sig, endpointSecret);
+  },
   processDestinationCharge: async (chargeDetails) => {
     return stripe.charges.create({ ...chargeDetails });
   },

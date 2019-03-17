@@ -37,7 +37,7 @@ body {
 
 #RoutesWrapper {
   padding: 0.5rem;
-  min-height: calc(100vh - 10rem) !important;
+  min-height: 100vh !important;
 }
 
 .react-spinner {
@@ -233,6 +233,12 @@ img {
   height: auto;
 }
 
+figure.image {
+  img {
+    height: 48px !important;
+    object-fit: cover;
+  }
+}
 .bdbPage {
   background: white;
 }
@@ -326,7 +332,9 @@ header.card-header {
     max-width: 20rem;
     margin: auto;
   }
-
+  &.noBordered {
+    border: none;
+  }
   &.disabled {
     // cursor: not-allowed;
     cursor: default;

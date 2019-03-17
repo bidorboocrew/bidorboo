@@ -15,9 +15,6 @@ const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistin
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 
-const keys = require('../config/keys');
-const stripe = require('stripe')(keys.stripeSecretKey);
-
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
@@ -64,9 +61,10 @@ module.exports = (app) => {
             currency: 'CAD',
             description,
             source: stripeTransactionToken,
-            destination: {
+            // application_fee_amount: bidOrBooTotalCommission,
+            transfer_data: {
               amount: bidderPayoutAmount, // the final # sent to awarded bidder
-              account: stripeAccDetails.accId,
+              destination: stripeAccDetails.accId,
             },
             receipt_email: _jobRef._ownerRef.email.emailAddress,
             metadata: {
@@ -129,23 +127,6 @@ module.exports = (app) => {
       res.send({ paymentsDetails: paymentsDetails });
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
-    }
-  });
-
-  app.post(ROUTES.API.PAYMENT.POST.myaccountWebhook, async (req, res) => {
-    try {
-      return res.status(200).send();
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
-    }
-  });
-  app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res) => {
-    try {
-      return res.status(200).send();
-    } catch (e) {
-      return res
-        .status(500)
-        .send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
     }
   });
 
@@ -232,4 +213,34 @@ module.exports = (app) => {
       }
     }
   );
+
+  app.post(ROUTES.API.PAYMENT.POST.myaccountWebhook, async (req, res, next) => {
+    try {
+      // sign key by strip
+      // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
+      const endpointSecret = 'whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG';
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      return res.status(200).end();
+    } catch (e) {
+      return res.status(400).end();
+
+      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+    }
+  });
+  app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
+    try {
+      // sign key by strip
+      // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
+      const endpointSecret = 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6';
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+
+      return res.status(200).end();
+    } catch (e) {
+      return res.status(400).end();
+
+      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+    }
+  });
 };
