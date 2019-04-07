@@ -6,7 +6,7 @@ export const templatesRepo = {
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'https://trk.localvox.com/sites/default/files/styles/480x240/public/content_images/suffield-lawn-mowing.jpg?itok=ieSi8K1p',
+      'https://www.clipartmax.com/png/middle/265-2659242_free-lawn-care-clip-art-for-logo-green-lawn-mower-clip-art.png',
     description:
       "Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `*How Big is the area approximately?

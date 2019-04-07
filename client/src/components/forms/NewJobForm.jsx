@@ -472,8 +472,13 @@ class NewJobForm extends React.Component {
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
-      var address = results[0].formatted_address;
-      this.autoSetGeoLocation(address);
+      debugger;
+      let address = results[0].formatted_address;
+      if (address && !address.toLowerCase().includes('canada')) {
+        alert('Sorry! Bid or Boo is only available in Canada.');
+      } else {
+        this.autoSetGeoLocation(address);
+      }
     }
   };
   getCurrentAddress = () => {
@@ -484,8 +489,25 @@ class NewJobForm extends React.Component {
         timeout: 5000,
         enableHighAccuracy: true,
       };
-      const errorHandling = () => {
+      const errorHandling = (err) => {
         console.error('can not auto detect address');
+        let msg = '';
+        if (err.code === 3) {
+          // Timed out
+          msg = "<p>Can't get your location (high accuracy attempt). Error = ";
+        }
+        if (err.code === 1) {
+          // Access denied by user
+          msg =
+            'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
+        } else if (err.code === 2) {
+          // Position unavailable
+          msg = 'POSITION_UNAVAILABLE';
+        } else {
+          // Unknown error
+          msg = ', msg = ' + err.message;
+        }
+        alert(msg);
       };
       const successfulRetrieval = (position) => {
         const pos = {
