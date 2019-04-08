@@ -8,8 +8,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { isLoggedIn, showLoginDialog } = this.props;
-    const { ID, TITLE } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION } = HOUSE_CLEANING_DEF;
 
     return (
       <div
@@ -30,10 +29,7 @@ export default class HouseCleaningConcept extends React.Component {
           </figure>
         </div>
         <div className="card-content">
-          <div className="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-            <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
-          </div>
+          <div className="content">{DESCRIPTION}</div>
         </div>
         <footer className="card-footer">
           <a className="card-footer-item has-text-weight-bold is-text is-fullwidth">Request Now</a>
