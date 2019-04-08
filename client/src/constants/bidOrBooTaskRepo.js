@@ -6,7 +6,7 @@ export const templatesRepo = {
     subTitle: '',
     actionButtonDescription: '',
     imageUrl:
-      'https://www.clipartmax.com/png/middle/265-2659242_free-lawn-care-clip-art-for-logo-green-lawn-mower-clip-art.png',
+      'https://www.turffox.com/wp-content/uploads/2018/02/10-Lawn-Mowing-Tips-For-A-Healthy-Lawn.jpg',
     description:
       "Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with a simple click",
     suggestedDetailsText: `*How Big is the area approximately?
