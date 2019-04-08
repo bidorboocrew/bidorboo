@@ -27,7 +27,7 @@ class ReviewAwardedBidPage extends React.Component {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
       return null;
     }
-    this.props.a_getAwardedBidDetails(this.bidId);
+    this.props.getAwardedBidDetails(this.bidId);
   }
 
   componentDidUpdate(prevProps) {
@@ -43,7 +43,7 @@ class ReviewAwardedBidPage extends React.Component {
         switchRoute(ROUTES.CLIENT.BIDDER.root);
         return null;
       }
-      this.props.a_getAwardedBidDetails(this.bidId);
+      this.props.getAwardedBidDetails(this.bidId);
     }
   }
 
@@ -57,7 +57,7 @@ class ReviewAwardedBidPage extends React.Component {
   render() {
     const {
       selectedAwardedBid,
-      a_bidderConfirmsJobCompletion,
+      bidderConfirmsJobCompletion,
       isReadOnlyView = false,
     } = this.props;
     // while fetching the job
@@ -85,7 +85,7 @@ class ReviewAwardedBidPage extends React.Component {
             {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
 
             <RequesterAndMyAwardedBid
-              bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
+              bidderConfirmsJobCompletion={bidderConfirmsJobCompletion}
               bid={selectedAwardedBid}
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
@@ -109,8 +109,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
-    a_bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
+    getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
+    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
   };
 };
 

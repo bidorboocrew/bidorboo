@@ -31,7 +31,7 @@ class BidOnJobPage extends React.Component {
     this.recaptchaRef.current.execute();
   }
   render() {
-    const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
+    const { jobDetails, submitBid, updateBooedBy, isLoggedIn } = this.props;
     const { recaptchaField } = this.state;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
@@ -61,14 +61,14 @@ class BidOnJobPage extends React.Component {
           <PostYourBid
             avgBid={avgBid}
             onSubmit={(values) => {
-              a_submitBid({
+              submitBid({
                 jobId: jobDetails._id,
                 bidAmount: values.bidAmountField,
                 recaptchaField,
               });
             }}
             onCancel={() => {
-              a_updateBooedBy(jobDetails);
+              updateBooedBy(jobDetails);
               switchRoute(ROUTES.CLIENT.BIDDER.root);
             }}
           />
@@ -87,8 +87,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_submitBid: bindActionCreators(submitBid, dispatch),
-    a_updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
+    submitBid: bindActionCreators(submitBid, dispatch),
+    updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
   };
 };
 

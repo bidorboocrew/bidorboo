@@ -93,7 +93,7 @@ export class FirstTimeUser extends React.Component {
       autoDetectlocation: this.state.allowAutoDetect,
     };
 
-    this.props.a_updateOnBoardingDetails(onBoardingDetails);
+    this.props.updateOnBoardingDetails(onBoardingDetails);
   };
 
   render() {
@@ -239,7 +239,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
+    updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
   };
 };
 

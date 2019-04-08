@@ -20,8 +20,8 @@ import { Spinner } from '../components/Spinner';
 const localizer = BigCalendar.momentLocalizer(moment);
 class MyAgenda extends React.Component {
   componentDidMount() {
-    this.props.a_getAllMyAwardedJobs();
-    this.props.a_getMyAwardedBids();
+    this.props.getAllMyAwardedJobs();
+    this.props.getMyAwardedBids();
   }
 
   getEvents = () => {
@@ -189,9 +189,9 @@ const mapStateToProps = ({ userReducer, bidsReducer, jobsReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
-    a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
+    getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
   };
 };
 

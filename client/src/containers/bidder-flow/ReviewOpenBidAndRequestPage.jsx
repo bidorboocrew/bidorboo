@@ -29,7 +29,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       return null;
     }
 
-    this.props.a_getOpenBidDetails(this.bidId);
+    this.props.getOpenBidDetails(this.bidId);
   }
 
   showBidReviewModal = (bid) => {
@@ -40,7 +40,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, a_updateBid } = this.props;
+    const { selectedOpenBid, updateBid } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -67,7 +67,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             <RequesterAndOpenBid
               bid={selectedOpenBid}
               job={selectedAwardedJob}
-              updateBidAction={a_updateBid}
+              updateBidAction={updateBid}
             />
             <MyOpenBidJobDetails job={selectedAwardedJob} />
           </div>
@@ -87,8 +87,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
-    a_updateBid: bindActionCreators(updateBid, dispatch),
+    getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+    updateBid: bindActionCreators(updateBid, dispatch),
   };
 };
 

@@ -32,8 +32,8 @@ class MyOpenJobsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.a_getAllMyOpenJobs();
-    this.props.a_getAllMyAwardedJobs();
+    this.props.getAllMyOpenJobs();
+    this.props.getAllMyAwardedJobs();
   }
 
   changeActiveTab = (tabId) => {
@@ -41,7 +41,7 @@ class MyOpenJobsPage extends React.Component {
   };
 
   render() {
-    const { myOpenJobsList, a_deleteJobById, myAwardedJobsList } = this.props;
+    const { myOpenJobsList, deleteJobById, myAwardedJobsList } = this.props;
     const { activeTab } = this.state;
 
     return (
@@ -89,7 +89,7 @@ class MyOpenJobsPage extends React.Component {
         {activeTab === TAB_IDS.postedJobs && (
           <MyRequestsTab
             jobsList={myOpenJobsList}
-            deleteJob={a_deleteJobById}
+            deleteJob={deleteJobById}
             changeActiveTab={this.changeActiveTab}
             {...this.props}
           />
@@ -117,9 +117,9 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
-    a_deleteJobById: bindActionCreators(deleteJobById, dispatch),
-    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
+    getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
+    deleteJobById: bindActionCreators(deleteJobById, dispatch),
+    getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
   };
 };
 

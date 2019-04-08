@@ -9,10 +9,10 @@ import { submitPayment } from '../app-state/actions/paymentActions';
 
 class PaymentHandling extends React.Component {
   onTokenResponse = (clientStripeToken) => {
-    const { amount, bidderId, jobId, a_submitPayment, onCompleteHandler } = this.props;
+    const { amount, bidderId, jobId, submitPayment, onCompleteHandler } = this.props;
 
     if (clientStripeToken && clientStripeToken.id) {
-      a_submitPayment({
+      submitPayment({
         stripeTransactionToken: clientStripeToken.id,
         jobId: jobId,
         bidderId: bidderId,
@@ -29,7 +29,7 @@ class PaymentHandling extends React.Component {
     }
   }
   render() {
-    const { amount, bidderId, jobId, a_submitPayment } = this.props;
+    const { amount, bidderId, jobId, submitPayment } = this.props;
 
     return (
       <StripeCheckout
@@ -51,7 +51,7 @@ class PaymentHandling extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_submitPayment: bindActionCreators(submitPayment, dispatch),
+    submitPayment: bindActionCreators(submitPayment, dispatch),
   };
 };
 

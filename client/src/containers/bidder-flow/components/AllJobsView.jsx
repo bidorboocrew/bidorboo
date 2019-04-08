@@ -48,7 +48,7 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesJobs = (props) => {
-  const { isLoggedIn, userDetails, a_showLoginDialog, a_selectJobToBidOn, jobsList } = props;
+  const { isLoggedIn, userDetails, showLoginDialog, selectJobToBidOn, jobsList } = props;
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const components = jobsList
@@ -59,9 +59,9 @@ const OtherPeoplesJobs = (props) => {
           <RequestsTabSummaryCard
             onClickHandler={() => {
               if (!isLoggedIn) {
-                a_showLoginDialog(true);
+                showLoginDialog(true);
               } else {
-                a_selectJobToBidOn(job);
+                selectJobToBidOn(job);
               }
             }}
             job={job}

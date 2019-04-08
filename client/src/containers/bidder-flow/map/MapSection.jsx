@@ -9,20 +9,20 @@ import { showLoginDialog } from '../../../app-state/actions/uiActions';
 class MapSection extends React.Component {
   render() {
     const {
-      a_selectJobToBidOn,
+      selectJobToBidOn,
       mapCenterPoint,
       isLoggedIn,
-      a_showLoginDialog,
+      showLoginDialog,
       userDetails,
       jobsList,
     } = this.props;
 
     return jobsList ? (
       <MapWithAMarkerClusterer
-        selectJobToBidOn={a_selectJobToBidOn}
+        selectJobToBidOn={selectJobToBidOn}
         mapCenterPoint={mapCenterPoint}
         isLoggedIn={isLoggedIn}
-        showLoginDialog={a_showLoginDialog}
+        showLoginDialog={showLoginDialog}
         userDetails={userDetails}
         jobsList={jobsList}
       />
@@ -39,8 +39,8 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

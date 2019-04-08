@@ -18,8 +18,8 @@ class Header extends React.Component {
     userEmail: PropTypes.string,
     isLoggedIn: PropTypes.bool.isRequired,
     userDetails: PropTypes.object.isRequired,
-    a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    showLoginDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -47,7 +47,7 @@ class Header extends React.Component {
     );
   };
   toggleLoginDialog = () => {
-    this.props.a_showLoginDialog(!this.props.shouldShowLoginDialog);
+    this.props.showLoginDialog(!this.props.shouldShowLoginDialog);
   };
 
   toggleProfileMenu = () => {
@@ -63,7 +63,7 @@ class Header extends React.Component {
       displayName,
       isLoggedIn,
       userDetails,
-      a_onLogout,
+      onLogout,
       shouldShowLoginDialog,
       notificationFeed,
       userAppView,
@@ -506,7 +506,7 @@ class Header extends React.Component {
                             <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
-                                  a_onLogout();
+                                  onLogout();
                                 })
                               }
                               className="navbar-item"
@@ -560,8 +560,8 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    onLogout: bindActionCreators(onLogout, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

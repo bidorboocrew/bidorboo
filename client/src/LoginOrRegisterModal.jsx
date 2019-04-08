@@ -24,7 +24,7 @@ export class LoginOrRegisterModal extends React.Component {
   };
 
   render() {
-    const { isActive, handleCancel, isLoggedIn, a_registerNewUser, a_bidOrBooLogin } = this.props;
+    const { isActive, handleCancel, isLoggedIn, registerNewUser, bidOrBooLogin } = this.props;
     const { showRegistrationForm } = this.state;
 
     const currentPage = `${window.location.pathname || '/'}`;
@@ -63,7 +63,7 @@ export class LoginOrRegisterModal extends React.Component {
                 <LocalLoginForm
                   originPath={currentPage}
                   onSubmit={(vals) => {
-                    a_bidOrBooLogin(vals);
+                    bidOrBooLogin(vals);
                     handleCancel();
                   }}
                 />
@@ -105,7 +105,7 @@ export class LoginOrRegisterModal extends React.Component {
               <RegistrationForm
                 originPath={currentPage}
                 onSubmit={(vals) => {
-                  a_registerNewUser(vals);
+                  registerNewUser(vals);
                   handleCancel();
                 }}
               />
@@ -124,8 +124,8 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
-    a_registerNewUser: bindActionCreators(registerNewUser, dispatch),
+    bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
+    registerNewUser: bindActionCreators(registerNewUser, dispatch),
   };
 };
 

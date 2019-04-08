@@ -38,8 +38,8 @@ class MyBidsPage extends React.Component {
 
   componentDidMount() {
     // get all posted bids
-    this.props.a_getAllPostedBids();
-    this.props.a_getMyAwardedBids();
+    this.props.getAllPostedBids();
+    this.props.getMyAwardedBids();
   }
 
   changeActiveTab = (tabId) => {
@@ -52,8 +52,8 @@ class MyBidsPage extends React.Component {
       openBidsList,
       awardedBidsList,
       notificationFeed,
-      a_updateBidState,
-      a_deleteOpenBid,
+      updateBidState,
+      deleteOpenBid,
     } = this.props;
 
     const { activeTab } = this.state;
@@ -64,7 +64,7 @@ class MyBidsPage extends React.Component {
           return (
             <div key={bidDetails._id} className="column limitMaxdWidth">
               <MyBidsOpenBid
-                deleteOpenBid={a_deleteOpenBid}
+                deleteOpenBid={deleteOpenBid}
                 key={bidDetails._id}
                 bidDetails={bidDetails}
               />
@@ -83,7 +83,7 @@ class MyBidsPage extends React.Component {
               <MyBidsAwardedBid
                 bidDetails={bidDetails}
                 notificationFeed={notificationFeed}
-                updateBidState={a_updateBidState}
+                updateBidState={updateBidState}
               />
             </div>
           );
@@ -185,10 +185,10 @@ const mapStateToProps = ({ bidsReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
-    a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
-    a_updateBidState: bindActionCreators(updateBidState, dispatch),
-    a_deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
+    getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
+    getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    updateBidState: bindActionCreators(updateBidState, dispatch),
+    deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
   };
 };
 

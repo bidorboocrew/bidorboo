@@ -18,13 +18,13 @@ class PastRequestedServices extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.a_getMyPastRequestedServices();
+      this.props.getMyPastRequestedServices();
     }
   }
 
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.a_getMyPastRequestedServices();
+      this.props.getMyPastRequestedServices();
     }
   }
   render() {
@@ -80,7 +80,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getMyPastRequestedServices: bindActionCreators(getMyPastRequestedServices, dispatch),
+    getMyPastRequestedServices: bindActionCreators(getMyPastRequestedServices, dispatch),
   };
 };
 

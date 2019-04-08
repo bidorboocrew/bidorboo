@@ -19,13 +19,13 @@ class PastBids extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.a_getMyPastProvidedServices();
+      this.props.getMyPastProvidedServices();
     }
   }
 
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.a_getMyPastProvidedServices();
+      this.props.getMyPastProvidedServices();
     }
   }
   render() {
@@ -71,7 +71,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getMyPastProvidedServices: bindActionCreators(getMyPastProvidedServices, dispatch),
+    getMyPastProvidedServices: bindActionCreators(getMyPastProvidedServices, dispatch),
   };
 };
 

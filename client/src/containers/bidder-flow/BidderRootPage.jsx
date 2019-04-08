@@ -47,16 +47,16 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
+    const { isLoggedIn, getCurrentUser, getAllJobsToBidOn, userDetails } = this.props;
     if (!isLoggedIn) {
-      a_getCurrentUser();
+      getCurrentUser();
     } else {
       if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
         this.getCurrentAddress();
       }
     }
 
-    a_getAllJobsToBidOn();
+    getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -280,10 +280,10 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-    a_getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
+    getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

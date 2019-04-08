@@ -24,7 +24,7 @@ class PaymentSettings extends React.Component {
   };
 
   componentDidMount() {
-    this.props.a_getMyStripeAccountDetails();
+    this.props.getMyStripeAccountDetails();
   }
 
   render() {
@@ -76,10 +76,10 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
-    a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
+    updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
+    updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
   };
 };
 

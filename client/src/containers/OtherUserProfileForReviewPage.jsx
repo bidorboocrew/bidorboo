@@ -27,7 +27,7 @@ class OtherUserProfileForReviewPage extends React.Component {
   }
   componentDidMount() {
     if (this.userIdUnderReview) {
-      this.props.a_getOtherUserProfileInfo(this.userIdUnderReview);
+      this.props.getOtherUserProfileInfo(this.userIdUnderReview);
     }
   }
 
@@ -187,7 +187,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getOtherUserProfileInfo: bindActionCreators(getOtherUserProfileInfo, dispatch),
+    getOtherUserProfileInfo: bindActionCreators(getOtherUserProfileInfo, dispatch),
   };
 };
 

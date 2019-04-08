@@ -234,7 +234,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

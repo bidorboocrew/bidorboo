@@ -33,7 +33,7 @@ class ReviewRequestAndBidsPage extends React.Component {
       switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
       return null;
     }
-    this.props.a_getPostedJobDetails(this.jobId);
+    this.props.getPostedJobDetails(this.jobId);
   }
 
   componentDidUpdate(prevProps) {
@@ -49,7 +49,7 @@ class ReviewRequestAndBidsPage extends React.Component {
         switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
         return null;
       }
-      this.props.a_getPostedJobDetails(this.jobId);
+      this.props.getPostedJobDetails(this.jobId);
     }
   }
 
@@ -61,7 +61,7 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   render() {
-    const { selectedJobWithBids, a_markBidAsSeen } = this.props;
+    const { selectedJobWithBids, markBidAsSeen } = this.props;
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
@@ -89,7 +89,7 @@ class ReviewRequestAndBidsPage extends React.Component {
               <BidsTable
                 jobId={selectedJobWithBids._id}
                 bidList={selectedJobWithBids._bidsListRef}
-                markBidAsSeen={a_markBidAsSeen}
+                markBidAsSeen={markBidAsSeen}
                 showBidReviewModal={this.showBidReviewModal}
               />
 
@@ -111,8 +111,8 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
-    a_markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
+    getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
+    markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };
 

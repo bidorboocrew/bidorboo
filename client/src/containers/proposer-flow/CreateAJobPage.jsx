@@ -30,13 +30,13 @@ class CreateAJobPage extends React.Component {
   };
 
   postJob = (values) => {
-    const { a_addJob } = this.props;
-    a_addJob({ initialDetails: { ...values } });
+    const { addJob } = this.props;
+    addJob({ initialDetails: { ...values } });
   };
 
   render() {
     const { chosenTemplate } = this.state;
-    const { currentUserDetails, a_showLoginDialog, isLoggedIn } = this.props;
+    const { currentUserDetails, showLoginDialog, isLoggedIn } = this.props;
     const jobDetails = {
       title: chosenTemplate.title,
       imageUrl: chosenTemplate.imageUrl,
@@ -70,7 +70,7 @@ class CreateAJobPage extends React.Component {
                 <br />
                 <NewJobForm
                   isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
+                  showLoginDialog={showLoginDialog}
                   fromTemplateIdField={jobDetails.id}
                   jobTitleField={jobDetails.title}
                   suggestedDetailsText={jobDetails.suggestedDetailsText}
@@ -96,8 +96,8 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_addJob: bindActionCreators(addJob, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    addJob: bindActionCreators(addJob, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

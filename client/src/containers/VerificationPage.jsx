@@ -60,12 +60,12 @@ class Verification extends React.Component {
   };
 
   componentDidMount() {
-    const { match, a_showLoginDialog, isLoggedIn } = this.props;
+    const { match, showLoginDialog, isLoggedIn } = this.props;
     const { code, field } = match.params;
     if (!isLoggedIn) {
-      a_showLoginDialog(true);
+      showLoginDialog(true);
     } else {
-      a_showLoginDialog(false);
+      showLoginDialog(false);
 
       if (!code || !field) {
         switchRoute(`${ROUTES.CLIENT.HOME}`);
@@ -174,7 +174,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

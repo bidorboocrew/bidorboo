@@ -26,13 +26,13 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   }
 
   componentDidMount() {
-    const { a_getAwardedBidFullDetails } = this.props;
+    const { getAwardedBidFullDetails } = this.props;
     if (!this.jobId) {
       switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('awardedJobs'));
       return null;
     }
 
-    a_getAwardedBidFullDetails(this.jobId);
+    getAwardedBidFullDetails(this.jobId);
   }
 
   componentDidUpdate() {
@@ -49,14 +49,14 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
         return null;
       }
 
-      this.props.a_getAwardedBidFullDetails(this.jobId);
+      this.props.getAwardedBidFullDetails(this.jobId);
     }
   }
 
   render() {
     const {
       selectedAwardedJob,
-      a_proposerConfirmsJobCompletion,
+      proposerConfirmsJobCompletion,
       isReadOnlyView = false,
     } = this.props;
 
@@ -80,7 +80,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
                 activePageTitle: title,
               })}
             <BidderAndMyAwardedJob
-              proposerConfirmsJobCompletion={a_proposerConfirmsJobCompletion}
+              proposerConfirmsJobCompletion={proposerConfirmsJobCompletion}
               bid={_awardedBidRef}
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
@@ -102,8 +102,8 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
-    a_proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
   };
 };
 
