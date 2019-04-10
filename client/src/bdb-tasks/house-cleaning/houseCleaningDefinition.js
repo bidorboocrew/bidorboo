@@ -4,7 +4,9 @@ export const HOUSE_CLEANING_DEF = {
   DESCRIPTION: `Does your place need a cleaning ? Tired and want to get someone to clean the bathrooms
   living room kitchen bedrooms and more ?`,
   SUGGESTION_TEXT: `*Any additional special instructions worth noting?
-  *Any heavy items obstructing the floors ?`,
+
+*Any heavy items obstructing the floors ?`,
+  IMG_URL: 'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
   customAttributes: {
     CLEANING_SUPPLIES: {
       notProvided: 'Tasker must bring the cleaning supplies.',

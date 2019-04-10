@@ -8,7 +8,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (
       <div
@@ -23,9 +23,7 @@ export default class HouseCleaningConcept extends React.Component {
 
         <div className="card-image is-clipped">
           <figure className="bdb-cover-img">
-            <img
-              src={`https://www.pinclipart.com/picdir/middle/13-139117_image-stock-collection-of-free-disinfecting-house-cleaning.png`}
-            />
+            <img src={IMG_URL} />
           </figure>
         </div>
         <div className="card-content">

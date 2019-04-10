@@ -9,6 +9,7 @@ import { addJob } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
+import HouseCleaningJobForm from './HouseCleaningJobForm';
 export default class HouseCleaningCreateJob extends React.Component {
   goBack = (e) => {
     e.preventDefault();
@@ -36,7 +37,7 @@ export default class HouseCleaningCreateJob extends React.Component {
         </section>
 
         <div className="card-content">
-          <NewJobForm
+          <HouseCleaningJobForm
             isLoggedIn={isLoggedIn}
             showLoginDialog={showLoginDialog}
             currentUserDetails={currentUserDetails}

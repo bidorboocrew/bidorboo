@@ -134,7 +134,7 @@ const InitialAccountSetupView = (props) => {
             onChange={toggleAddPaymentDetails}
           />
           <label htmlFor="showPayoutSetupForm">
-            <strong>Add Payout Details</strong>
+            <strong>Add My Payout Banking Details</strong>
           </label>
         </div>
 
