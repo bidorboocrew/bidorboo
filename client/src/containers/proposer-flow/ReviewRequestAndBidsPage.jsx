@@ -5,12 +5,10 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
 import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobActions';
 
-import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
 import ReviewBidAndBidder from './components/ReviewBidAndBidder';
 import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
@@ -19,7 +17,7 @@ class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
     this.jobId = null;
-    debugger;
+
     if (props.match && props.match.params && props.match.params.jobId) {
       this.jobId = props.match.params.jobId;
     }

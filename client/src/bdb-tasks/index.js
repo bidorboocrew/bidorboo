@@ -4,3 +4,7 @@ export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleanin
 export {
   default as HouseCleaningRequestDetails,
 } from './house-cleaning/HouseCleaningRequestDetails';
+
+export {
+  default as HouseCleaningRequestSummary,
+} from './house-cleaning/HouseCleaningRequestSummary';

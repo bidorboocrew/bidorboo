@@ -4,7 +4,7 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
 import JobSummaryForPostedJobs from './JobSummaryForPostedJobs';
-
+import getSummaryCardByTemplateJobId from '../../../bdb-tasks/getSummaryCardByTemplateJobId';
 class MyRequestsTab extends React.Component {
   render() {
     const { jobsList } = this.props;
@@ -49,9 +49,11 @@ const MyRequests = (props) => {
   const { jobsList } = props;
 
   const jobCards = jobsList.map((job) => {
+    debugger
     return (
       <div key={job._id} className="column limitMaxdWidth">
-        <JobSummaryForPostedJobs {...props} job={job} />
+        {getSummaryCardByTemplateJobId(job.fromTemplateId, job , props)}
+        {/* <JobSummaryForPostedJobs  job={job} /> */}
       </div>
     );
   });

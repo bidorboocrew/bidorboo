@@ -9,11 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import classNames from 'classnames';
 import { withFormik } from 'formik';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput } from './FormsHelpers';
+
+import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -93,7 +94,7 @@ class JobsLocationFilterForm extends React.Component {
     } = this.props;
 
     const filteredJobsList = values.filterJobsByCategoryField;
-    const staticJobCategoryButtons = Object.keys(templatesRepo).map((key) => {
+    const staticJobCategoryButtons = Object.keys(jobIdToDefinitionObjectMapper).map((key) => {
       const isThisJobSelected = filteredJobsList && filteredJobsList.includes(key);
 
       return (
@@ -104,7 +105,7 @@ class JobsLocationFilterForm extends React.Component {
             'is-info is-selected': isThisJobSelected,
           })}
         >
-          {templatesRepo[key].title}
+          {jobIdToDefinitionObjectMapper[key].TITLE}
         </span>
       );
     });
@@ -324,7 +325,8 @@ class JobsLocationFilterForm extends React.Component {
         }
         if (err.code === 1) {
           // Access denied by user
-          msg = 'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
+          msg =
+            'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
         } else if (err.code === 2) {
           // Position unavailable
           msg = 'POSITION_UNAVAILABLE';

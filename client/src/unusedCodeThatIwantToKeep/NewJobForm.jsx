@@ -12,14 +12,14 @@ import {
   StartDateAndTime,
   UserImageAndRating,
   DisplayLabelValue,
-} from '../../containers/commonComponents';
+} from '../containers/commonComponents';
 import { withFormik } from 'formik';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { GeoAddressInput, TextAreaInput, DateInput } from './FormsHelpers';
+import { GeoAddressInput, TextAreaInput, DateInput } from '../components/forms/FormsHelpers';
 import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 
