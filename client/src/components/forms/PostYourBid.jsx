@@ -66,7 +66,7 @@ class PostYourBid extends React.Component {
     const autoBidOptions =
       avgBid < 10 ? (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Suggested Bid `}</span>
           <span
             onClick={() => this.onAutoBid(25)}
             className="button is-success is-outlined is-small"
@@ -100,7 +100,7 @@ class PostYourBid extends React.Component {
         </div>
       ) : (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Suggested Bid `}</span>
           <span
             onClick={() => this.onAutoBid(avgBid - 10)}
             className="button is-success is-outlined is-small"

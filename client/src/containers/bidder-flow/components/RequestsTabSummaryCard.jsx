@@ -32,8 +32,8 @@ export default class RequestsTabSummaryCard extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          if (!withButtons) {
-            !isAwarded && !userAlreadyBid && onClickHandler();
+          if (!withButtons && !isAwarded && !userAlreadyBid) {
+            onClickHandler();
           }
         }}
         className={`card is-clipped ${cardSpecialStyle} ${isAwarded ? 'disabled' : ''}`}
@@ -79,7 +79,17 @@ export default class RequestsTabSummaryCard extends React.Component {
               {userAlreadyBid ? (
                 <a className="button  is-outlined is-small is-fullwidth">You Already Bid</a>
               ) : (
-                <a className="button is-success is-outlined is-small is-fullwidth">Add Your Bid</a>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (!isAwarded && !userAlreadyBid) {
+                      onClickHandler();
+                    }
+                  }}
+                  className="button is-success is-outlined is-small is-fullwidth"
+                >
+                  Add Your Bid
+                </a>
               )}
               <a
                 style={{ marginTop: 10 }}
