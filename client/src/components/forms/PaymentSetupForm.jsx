@@ -214,8 +214,14 @@ const PaymentSetupForm = (props) => {
 
   let errorsList = null;
   if (errors && Object.keys(errors).length > 0) {
-    errorsList = Object.keys(errors).map((errorKey) => {
-      return touched[`${errorKey}`] && <p className="help is-danger">{errors[`${errorKey}`]}</p>;
+    errorsList = Object.keys(errors).map((errorKey, index) => {
+      return (
+        touched[`${errorKey}`] && (
+          <p key={index} className="help is-danger">
+            {errors[`${errorKey}`]}
+          </p>
+        )
+      );
     });
   }
 

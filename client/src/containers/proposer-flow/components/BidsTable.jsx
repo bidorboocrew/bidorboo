@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactStars from 'react-stars';
+
+// https://www.react-spinners.com/
+import { css } from '@emotion/core';
+import { GridLoader } from 'react-spinners';
+
 import { UserImageAndRating } from '../../../containers/commonComponents';
+
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -86,6 +92,10 @@ export default class BidsTable extends React.Component {
 }
 
 const TableWithNoBids = () => {
+  const override = css`
+    display: block;
+    margin: 0 auto;
+  `;
   return (
     <table className="table is-hoverable table is-striped is-fullwidth">
       <thead>
@@ -96,8 +106,9 @@ const TableWithNoBids = () => {
       <tbody>
         <tr>
           <td style={{ verticalAlign: 'middle' }}>
+            <GridLoader css={override} sizeUnit={'px'} size={15} color={'#292929'} loading={true} />
             <span className="has-text-weight-semibold">
-              Keep an eye and check in a little while to view the bids.
+              We are notifying Taskers in your area. Check again soon to see the latest bids
             </span>
           </td>
         </tr>
