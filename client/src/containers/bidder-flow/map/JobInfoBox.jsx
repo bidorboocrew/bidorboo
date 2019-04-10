@@ -2,9 +2,6 @@
 import React from 'react';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
-
 import RequestsTabSummaryCard from '../components/RequestsTabSummaryCard';
 
 export default class JobInfoBox extends React.Component {

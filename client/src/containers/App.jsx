@@ -27,7 +27,6 @@ import {
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
-  MyAgenda,
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
   OtherUserProfileForReviewPage,
@@ -132,7 +131,6 @@ class App extends React.Component {
               component={PaymentSettings}
             />
             <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
-            <Route exact path={`${ROUTES.CLIENT.MYAGENDA}`} component={MyAgenda} />
             <Route
               exact
               path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
@@ -179,7 +177,7 @@ class App extends React.Component {
                 <div>
                   <div className="has-text-grey is-size-7">
                     <img
-                      src="https://image.flaticon.com/icons/svg/753/753078.svg"
+                      src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
                       alt="BidOrBoo"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
                       width={21}

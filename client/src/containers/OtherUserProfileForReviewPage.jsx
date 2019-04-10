@@ -11,8 +11,6 @@ import { getOtherUserProfileInfo } from '../app-state/actions/userModelActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 import ReactStars from 'react-stars';
-
-import { UserImageAndRating } from './commonComponents';
 import { Spinner } from '../components/Spinner';
 
 class OtherUserProfileForReviewPage extends React.Component {
@@ -53,7 +51,7 @@ class OtherUserProfileForReviewPage extends React.Component {
       canceledBids,
       fulfilledJobs,
       canceledJobs,
-      lastComment,
+      // lastComment
     } = rating;
 
     let asABidderReviews = null;

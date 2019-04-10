@@ -13,15 +13,6 @@ export default class RequesterAndMyAwardedBid extends React.Component {
       return null;
     }
 
-    const {
-      rating,
-      displayName,
-      profileImage,
-      email = { emailAddress: 'not provided' },
-      phone = { phoneNumber: 'not provided' },
-    } = job._ownerRef;
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
@@ -85,15 +76,6 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     );
   }
 }
-
-const DisplayLabelValue = (props) => {
-  return (
-    <div className="field">
-      <label className="label">{props.labelText}</label>
-      <div className="control is-success">{props.labelValue}</div>
-    </div>
-  );
-};
 
 class BidderConfirmsJobIsDone extends React.Component {
   constructor(props) {

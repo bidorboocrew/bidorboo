@@ -29,9 +29,9 @@ class NotificationSettings extends React.Component {
     } = this.props;
 
     if (
-      isEmailNotificationsEnabled != prevProps.isEmailNotificationsEnabled ||
-      isTextNotificationsEnabled != prevProps.isTextNotificationsEnabled ||
-      isPushNotificationsEnabled != prevProps.isPushNotificationsEnabled
+      isEmailNotificationsEnabled !== prevProps.isEmailNotificationsEnabled ||
+      isTextNotificationsEnabled !== prevProps.isTextNotificationsEnabled ||
+      isPushNotificationsEnabled !== prevProps.isPushNotificationsEnabled
     ) {
       this.setState({
         enablePushNotifications: isPushNotificationsEnabled,

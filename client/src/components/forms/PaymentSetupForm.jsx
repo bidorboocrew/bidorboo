@@ -178,7 +178,7 @@ const EnhancedForms = withFormik({
           },
         },
       };
-      const accountSetup = await axios.put(`${ROUTES.API.PAYMENT.PUT.setupPaymentDetails}`, {
+      await axios.put(`${ROUTES.API.PAYMENT.PUT.setupPaymentDetails}`, {
         data: {
           connectedAccountDetails,
           last4BankAcc: tokenizedBankAccount.bank_account.last4,

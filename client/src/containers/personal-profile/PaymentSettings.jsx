@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -185,7 +185,7 @@ const EstablishedAccountView = (props) => {
     return null;
   }
 
-  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
+  // const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />

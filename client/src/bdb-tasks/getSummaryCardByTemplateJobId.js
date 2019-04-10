@@ -6,6 +6,8 @@ const getSummaryCardByTemplateJobId = (templateId, job, otherProps) => {
   switch (templateId) {
     case `${HOUSE_CLEANING_DEF.ID}`:
       return <HouseCleaningRequestSummary job={job} {...otherProps} />;
+    default:
+      alert('unkown templateId ' + templateId);
   }
 };
 

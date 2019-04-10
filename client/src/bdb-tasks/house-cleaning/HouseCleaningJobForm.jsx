@@ -13,7 +13,6 @@ import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TextareaAutosize from 'react-autosize-textarea';
 import * as Yup from 'yup';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import {
   StartDateAndTime,
@@ -21,7 +20,6 @@ import {
   DisplayLabelValue,
 } from '../../containers/commonComponents';
 
-import { TextAreaInput } from '../../components/forms/FormsHelpers';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import {
   getCurrentAddress,

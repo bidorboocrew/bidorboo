@@ -74,14 +74,13 @@ class RequesterAndOpenBid extends React.Component {
       handleBlur,
       isValid,
       isSubmitting,
-      avgBid,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
     }
 
-    const { showUpdateBidDialog, confirmRead, recaptchaField } = this.state;
+    const { showUpdateBidDialog, confirmRead } = this.state;
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
@@ -258,7 +257,7 @@ const EnhancedForms = withFormik({
       .required('amount is required.'),
   }),
 
-  mapPropsToValues: (props) => {
+  mapPropsToValues: () => {
     return {
       confirmReadField: false,
     };

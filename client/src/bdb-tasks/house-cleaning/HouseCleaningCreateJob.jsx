@@ -20,7 +20,7 @@ export default class HouseCleaningCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, DESCRIPTION, SUGGESTION_TEXT, customAttributes } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, SUGGESTION_TEXT } = HOUSE_CLEANING_DEF;
 
     return (
       <div style={{ maxWidth: 'unset' }} className="card">

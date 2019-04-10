@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 import { Spinner } from '../../components/Spinner';

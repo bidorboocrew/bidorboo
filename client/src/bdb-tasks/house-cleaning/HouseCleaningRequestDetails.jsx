@@ -12,7 +12,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 export default class HouseCleaningRequestDetails extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, _ownerRef, detailedDescription, addressText, createdAt } = job;
+    const { startingDateAndTime, _ownerRef, detailedDescription, addressText } = job;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (

@@ -125,7 +125,7 @@ class Header extends React.Component {
               className="navbar-item"
             >
               <img
-                src="https://image.flaticon.com/icons/svg/753/753078.svg"
+                src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
                 alt="BidOrBoo"
                 width="32"
                 height="32"

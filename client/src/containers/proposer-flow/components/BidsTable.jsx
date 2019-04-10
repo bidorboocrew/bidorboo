@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactStars from 'react-stars';
 
 // https://www.react-spinners.com/
 import { css } from '@emotion/core';

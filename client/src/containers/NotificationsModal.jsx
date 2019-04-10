@@ -10,8 +10,6 @@ class NotificationsModal extends React.Component {
     const {
       jobIdsWithNewBids,
       myBidsWithNewStatus,
-      reviewsToBeFilled,
-      workTodo,
       jobsHappeningToday,
       bidsHappeningToday,
       onClose,

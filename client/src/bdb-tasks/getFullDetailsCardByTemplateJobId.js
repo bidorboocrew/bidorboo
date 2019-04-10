@@ -6,6 +6,8 @@ const getFullDetailsCardByTemplateJobId = (templateId, job) => {
   switch (templateId) {
     case `${HOUSE_CLEANING_DEF.ID}`:
       return <HouseCleaningRequestDetails job={job} />;
+    default:
+      alert('unkown templateId ' + templateId);
   }
 };
 

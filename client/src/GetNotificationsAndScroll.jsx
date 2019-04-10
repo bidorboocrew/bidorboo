@@ -102,7 +102,6 @@ class GetNotificationsAndScroll extends React.Component {
   componentDidMount() {
     const {
       getCurrentUser,
-      location,
       setAppViewUIToBidder,
       setAppViewUIToProposer,
       isLoggedIn,

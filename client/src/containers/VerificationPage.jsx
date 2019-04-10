@@ -95,7 +95,7 @@ class Verification extends React.Component {
 
   render() {
     const { match, isLoggedIn } = this.props;
-    const { code, field } = match.params;
+    const { field } = match.params;
     const { isLoading, verificationSuccess } = this.state;
 
     if (isLoggedIn && isLoading) {

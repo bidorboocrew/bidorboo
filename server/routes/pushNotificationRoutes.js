@@ -17,7 +17,7 @@ module.exports = (app) => {
       const data = {
         title: req.body.payLoad.initialDetails.fromTemplateIdField,
         body: "It's a success!",
-        icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
+        icon: 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
       };
 
       // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
@@ -49,7 +49,7 @@ module.exports = (app) => {
         const payload = JSON.stringify({
           title: 'BidOrBoo Push Enabled.',
           body: ' Control Notification settings in your profile',
-          icon: 'https://image.flaticon.com/icons/svg/753/753078.svg',
+          icon: 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
           urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
         });
         await webpush.sendNotification(JSON.parse(subscription), payload);

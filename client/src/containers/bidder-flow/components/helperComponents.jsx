@@ -77,7 +77,6 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       displayItemIcons={false}
       event={event}
       buttonClassClosed="button is-success"
-      buttonClassClosed="button is-success"
     />
   );
 };

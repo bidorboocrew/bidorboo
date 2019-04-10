@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';

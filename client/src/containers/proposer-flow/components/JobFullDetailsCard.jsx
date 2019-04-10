@@ -6,7 +6,6 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   UserImageAndRating,
-  getDaysSinceCreated,
   StartDateAndTime,
 } from '../../commonComponents';
 import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
@@ -16,19 +15,11 @@ export default class JobFullDetailsCard extends React.Component {
     const { job } = this.props;
     const {
       startingDateAndTime,
-      _bidsListRef,
       _ownerRef,
-      state,
-      viewedBy,
-      booedBy,
       detailedDescription,
       addressText,
       fromTemplateId,
-      reported,
-      createdAt,
     } = job;
-
-    let daysSinceCreated = getDaysSinceCreated(createdAt);
 
     return (
       <div style={{ height: 'auto' }} className="card is-clipped disabled">

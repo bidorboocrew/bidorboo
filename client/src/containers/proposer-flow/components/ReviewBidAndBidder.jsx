@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactStars from 'react-stars';
 
 import AcceptBidAndBidderModal from './AcceptBidAndBidderModal';
 import { UserImageAndRating } from '../../commonComponents';
@@ -24,10 +23,7 @@ export default class ReviewBidAndBidder extends React.Component {
     }
 
     const { showAcceptModal } = this.state;
-    const { rating, displayName, profileImage } = bid._bidderRef;
-
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
+    const { displayName } = bid._bidderRef;
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
