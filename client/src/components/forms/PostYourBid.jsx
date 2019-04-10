@@ -66,7 +66,7 @@ class PostYourBid extends React.Component {
     const autoBidOptions =
       avgBid < 10 ? (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Suggested Bid `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(25)}
             className="button is-success is-outlined is-small"
@@ -100,7 +100,7 @@ class PostYourBid extends React.Component {
         </div>
       ) : (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Suggested Bid `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(avgBid - 10)}
             className="button is-success is-outlined is-small"
@@ -175,15 +175,15 @@ class PostYourBid extends React.Component {
                 <section className="modal-card-body">
                   <TextInput
                     // setFocusImmediately={true}
-                    label="Enter Bid Amount"
+                    label="Enter the Total $ payment amount you want to get in order to fulfil this task"
                     id="bidAmountField"
                     className="input is-focused"
                     type="number"
                     onBlur={handleBlur}
                     helpText={
                       avgBid > 0
-                        ? `*Current Avg bid is ${avgBid}$`
-                        : 'Bid Amount are in CAD. E.g 50'
+                        ? `*Current Avg bid is $ ${avgBid} CAD`
+                        : `* Bid Amount are in CAD. E.g 50`
                     }
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}

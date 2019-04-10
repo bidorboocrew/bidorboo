@@ -89,7 +89,7 @@ class RequesterAndOpenBid extends React.Component {
     const autoBidOptions =
       bidAmount > 10 ? (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Suggested Bid `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(bidAmount - 10)}
             className="button is-success is-outlined is-small"
