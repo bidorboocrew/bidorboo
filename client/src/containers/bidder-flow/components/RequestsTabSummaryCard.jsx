@@ -1,14 +1,12 @@
 import React from 'react';
-import moment from 'moment';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   AvgBidDisplayLabelAndValue,
   UserImageAndRating,
   CardTitleWithBidCount,
-  getDaysSinceCreated,
   StartDateAndTime,
 } from '../../commonComponents';
+import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 export default class RequestsTabSummaryCard extends React.Component {
   render() {
@@ -21,9 +19,8 @@ export default class RequestsTabSummaryCard extends React.Component {
       onCloseHandler = () => null,
       withButtons = false,
     } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, _ownerRef, state } = job;
+    const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state } = job;
 
-    let daysSinceCreated = getDaysSinceCreated(createdAt);
     let isAwarded = state && state.toLowerCase() === 'awarded';
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
@@ -50,7 +47,10 @@ export default class RequestsTabSummaryCard extends React.Component {
         />
         {showCoverImg && (
           <div className="card-image is-clipped">
-            <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+            <img
+              className="bdb-cover-img"
+              src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+            />
           </div>
         )}
         <div

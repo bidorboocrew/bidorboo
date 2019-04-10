@@ -12,7 +12,8 @@ import ReactStars from 'react-stars';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+
+import jobIdToDefinitionObjectMapper from '../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 class PastRequestedServices extends React.Component {
   componentDidUpdate(prevProps) {
@@ -137,7 +138,7 @@ class RequestsTabSummaryCard extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${templatesRepo[fromTemplateId].title} Task`}
+                      labelValue={`${jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />

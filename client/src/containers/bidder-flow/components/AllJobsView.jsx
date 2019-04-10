@@ -4,7 +4,6 @@ import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
 import RequestsTabSummaryCard from './RequestsTabSummaryCard';
-import MineTabSummaryCard from './MineTabSummaryCard';
 
 export default class AllJobsView extends React.Component {
   render() {
@@ -71,27 +70,5 @@ const OtherPeoplesJobs = (props) => {
       );
     });
 
-  return components && components.length > 0 ? components : null;
-};
-
-const MyJobs = (props) => {
-  const { userDetails, jobsList } = props;
-  const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-
-  const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
-
-  const components = myjobs.map((job) => {
-    return (
-      <div key={job._id} className="column limitMaxdWidth">
-        <MineTabSummaryCard
-          onClickHandler={() => {
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-          }}
-          job={job}
-          userDetails={userDetails}
-        />
-      </div>
-    );
-  });
   return components && components.length > 0 ? components : null;
 };

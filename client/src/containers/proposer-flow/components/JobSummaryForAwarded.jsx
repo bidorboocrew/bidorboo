@@ -4,13 +4,8 @@ import moment from 'moment';
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import {
-  DisplayLabelValue,
-  CountDownComponent,
-  UserImageAndRating,
-  StartDateAndTime,
-} from '../../commonComponents';
+import { CountDownComponent, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
+import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
@@ -32,7 +27,7 @@ export default class JobSummaryForAwarded extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">{jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}</p>
 
           <a className="card-header-icon has-text-success">
             <span className="icon">
@@ -43,7 +38,10 @@ export default class JobSummaryForAwarded extends React.Component {
         </header>
 
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img
+            className="bdb-cover-img"
+            src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+          />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}

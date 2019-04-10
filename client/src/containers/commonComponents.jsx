@@ -4,7 +4,7 @@ import ReactStars from 'react-stars';
 import moment from 'moment';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
+import jobIdToDefinitionObjectMapper from '../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -168,7 +168,7 @@ export const CardTitleWithBidCount = ({
       style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
       className="card-header is-clipped"
     >
-      <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+      <p className="card-header-title">{jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}</p>
 
       <a className="card-header-icon">
         {userAlreadyBid && (

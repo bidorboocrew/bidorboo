@@ -1,8 +1,7 @@
 import React from 'react';
-import moment from 'moment';
+
 import TextareaAutosize from 'react-autosize-textarea';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   DisplayLabelValue,
   CountDownComponent,
@@ -10,6 +9,7 @@ import {
   getDaysSinceCreated,
   StartDateAndTime,
 } from '../../commonComponents';
+import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 export default class JobFullDetailsCard extends React.Component {
   render() {
@@ -36,11 +36,16 @@ export default class JobFullDetailsCard extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">My {templatesRepo[fromTemplateId].title} Request</p>
+          <p className="card-header-title">
+            My {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
+          </p>
         </header>
 
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img
+            className="bdb-cover-img"
+            src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+          />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
@@ -50,20 +55,6 @@ export default class JobFullDetailsCard extends React.Component {
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address:" labelValue={addressText} />
-            {/* <DisplayLabelValue labelText="State:" labelValue={state} /> */}
-            {/*
-            <DisplayLabelValue
-              labelText="Bids:"
-              labelValue={`${_bidsListRef ? _bidsListRef.length : 0}`}
-            /> */}
-            {/* <DisplayLabelValue
-              labelText="Booed:"
-              labelValue={`${booedBy ? booedBy.length : 0} times`}
-            /> */}
-            {/* <DisplayLabelValue
-              labelText="Reported:"
-              labelValue={`${reported ? reported.length : 0} times`}
-            /> */}
 
             <label className="label">Detailed Description</label>
             <span className="is-size-7">

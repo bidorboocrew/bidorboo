@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
 import RequesterAndOpenBid from './components/RequesterAndOpenBid';
+import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedOpenBid._jobRef;
-    const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
+    const title = jobIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">

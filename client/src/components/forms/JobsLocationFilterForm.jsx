@@ -86,9 +86,6 @@ class JobsLocationFilterForm extends React.Component {
       errors,
       handleBlur,
       handleSubmit,
-      isValid,
-      dirty,
-      isSubmitting,
       setFieldValue,
       resetForm,
     } = this.props;

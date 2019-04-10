@@ -1,16 +1,14 @@
 import React from 'react';
-import moment from 'moment';
 import TextareaAutosize from 'react-autosize-textarea';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   DisplayLabelValue,
   CountDownComponent,
   UserImageAndRating,
-  getDaysSinceCreated,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
 } from '../../commonComponents';
+import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 export default class MyOpenBidJobDetails extends React.Component {
   render() {
@@ -20,16 +18,15 @@ export default class MyOpenBidJobDetails extends React.Component {
       _bidsListRef,
       _ownerRef,
       state,
-      viewedBy,
       detailedDescription,
       fromTemplateId,
-      createdAt,
     } = job;
 
-    if (!templatesRepo[fromTemplateId]) {
+    if (!jobIdToDefinitionObjectMapper[fromTemplateId]) {
       return null;
     }
-    let daysSinceCreated = getDaysSinceCreated(createdAt);
+
+    const jobDefinition = jobIdToDefinitionObjectMapper[fromTemplateId];
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">
@@ -37,11 +34,11 @@ export default class MyOpenBidJobDetails extends React.Component {
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">{jobDefinition.TITLE}</p>
         </header>
 
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img className="bdb-cover-img" src={jobDefinition.IMG_URL} />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
 import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
@@ -12,6 +11,7 @@ import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions'
 import { Spinner } from '../../components/Spinner';
 import MyAwardedBidJobDetails from './components/MyAwardedBidJobDetails';
 import RequesterAndMyAwardedBid from './components/RequesterAndMyAwardedBid';
+import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -55,11 +55,7 @@ class ReviewAwardedBidPage extends React.Component {
   };
 
   render() {
-    const {
-      selectedAwardedBid,
-      bidderConfirmsJobCompletion,
-      isReadOnlyView = false,
-    } = this.props;
+    const { selectedAwardedBid, bidderConfirmsJobCompletion, isReadOnlyView = false } = this.props;
     // while fetching the job
 
     if (
@@ -76,7 +72,7 @@ class ReviewAwardedBidPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedAwardedBid._jobRef;
-    const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
+    const title = jobIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">

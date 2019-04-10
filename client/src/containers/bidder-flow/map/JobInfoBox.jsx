@@ -7,8 +7,6 @@ import { switchRoute } from '../../../utils';
 
 import RequestsTabSummaryCard from '../components/RequestsTabSummaryCard';
 
-import MineTabSummaryCard from './../components/MineTabSummaryCard';
-
 export default class JobInfoBox extends React.Component {
   render() {
     const {
@@ -19,38 +17,7 @@ export default class JobInfoBox extends React.Component {
       selectJobToBidOn,
       toggleShowInfoBox,
     } = this.props;
-    const isMyJob = job._ownerRef._id === userDetails._id;
-    const showJobSummaryCard = isMyJob
-      ? () => (
-          <MineTabSummaryCard
-            onClickHandler={() => {
-              switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-            }}
-            onCloseHandler={toggleShowInfoBox}
-            cardSpecialStyle="bdb-infoBoxCard"
-            showCoverImg={false}
-            withButtons={true}
-            job={job}
-            userDetails={userDetails}
-          />
-        )
-      : () => (
-          <RequestsTabSummaryCard
-            onClickHandler={() => {
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                selectJobToBidOn(job);
-              }
-            }}
-            onCloseHandler={toggleShowInfoBox}
-            cardSpecialStyle="bdb-infoBoxCard"
-            showCoverImg={false}
-            withButtons={true}
-            job={job}
-            userDetails={userDetails}
-          />
-        );
+
     return (
       <InfoBox
         className="info-Box-map"
@@ -69,7 +36,21 @@ export default class JobInfoBox extends React.Component {
           enableEventPropagation: true,
         }}
       >
-        {showJobSummaryCard()}
+        <RequestsTabSummaryCard
+          onClickHandler={() => {
+            if (!isLoggedIn) {
+              showLoginDialog(true);
+            } else {
+              selectJobToBidOn(job);
+            }
+          }}
+          onCloseHandler={toggleShowInfoBox}
+          cardSpecialStyle="bdb-infoBoxCard"
+          showCoverImg={false}
+          withButtons={true}
+          job={job}
+          userDetails={userDetails}
+        />
       </InfoBox>
     );
   }

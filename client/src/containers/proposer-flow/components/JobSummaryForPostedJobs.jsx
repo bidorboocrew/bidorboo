@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
 
 import { DisplayLabelValue, CountDownComponent, StartDateAndTime } from '../../commonComponents';
 
@@ -36,7 +36,9 @@ export default class JobSummaryForPostedJobs extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <section className="modal-card-body">
-                  <p className="title">Delete {templatesRepo[fromTemplateId].title} Request</p>
+                  <p className="title">
+                    Delete {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
+                  </p>
                   <br />
                   <p className="subtitle">
                     When you delete a job we will delete all the existing bids. <br /> You can
@@ -82,7 +84,9 @@ export default class JobSummaryForPostedJobs extends React.Component {
             style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
             className="card-header is-clipped"
           >
-            <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+            <p className="card-header-title">
+              {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+            </p>
 
             <a
               className={`card-header-icon ${
@@ -110,7 +114,10 @@ export default class JobSummaryForPostedJobs extends React.Component {
             </a>
           </header>
           <div className="card-image is-clipped">
-            <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+            <img
+              className="bdb-cover-img"
+              src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+            />
           </div>
           <div
             style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}

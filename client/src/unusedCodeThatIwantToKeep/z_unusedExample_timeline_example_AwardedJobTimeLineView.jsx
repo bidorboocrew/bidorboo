@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
 export default class AwardedJobTimeLineView extends React.Component {
   render() {
