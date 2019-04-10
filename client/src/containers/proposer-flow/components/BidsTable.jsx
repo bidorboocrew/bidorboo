@@ -30,9 +30,6 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-      const bidderRating = bid._bidderRef && bid._bidderRef.rating;
-      const doesUserHaveRating =
-        bidderRating.globalRating === 'No Ratings Yet' || bidderRating.globalRating === 0;
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
