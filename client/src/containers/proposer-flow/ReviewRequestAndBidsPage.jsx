@@ -14,6 +14,7 @@ import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
 import ReviewBidAndBidder from './components/ReviewBidAndBidder';
 import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import getFullDetailsCardByTemplateJobId from '../../bdb-tasks/getFullDetailsCardByTemplateJobId';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -98,7 +99,10 @@ class ReviewRequestAndBidsPage extends React.Component {
                 markBidAsSeen={markBidAsSeen}
                 showBidReviewModal={this.showBidReviewModal}
               />
-
+              {getFullDetailsCardByTemplateJobId(
+                selectedJobWithBids.fromTemplateId,
+                selectedJobWithBids,
+              )}
               {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
             </div>
           </div>

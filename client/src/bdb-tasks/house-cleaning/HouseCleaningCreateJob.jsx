@@ -4,9 +4,6 @@ import ShowMoreText from 'react-show-more-text';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import NewJobForm from '../../components/forms/NewJobForm';
-import { addJob } from '../../app-state/actions/jobActions';
-
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 import HouseCleaningJobForm from './HouseCleaningJobForm';
