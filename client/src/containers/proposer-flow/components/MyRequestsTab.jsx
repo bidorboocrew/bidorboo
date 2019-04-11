@@ -51,7 +51,7 @@ const MyRequests = (props) => {
     debugger;
     return (
       <div key={job._id} className="column limitMaxdWidth">
-        {getSummaryCardByTemplateJobId(job.fromTemplateId, job, props)}
+        {getSummaryCardByTemplateJobId(job, props)}
         {/* <JobSummaryForPostedJobs  job={job} /> */}
       </div>
     );

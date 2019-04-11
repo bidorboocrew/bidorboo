@@ -10,7 +10,8 @@ const middleware = bugsnagClient.getPlugin('express');
 
 module.exports = (app) => {
   // to log bugs into bugsnag
-
-  app.use(middleware.requestHandler);
-  app.use(middleware.errorHandler);
+  if (process.env.NODE_ENV === 'production') {
+    app.use(middleware.requestHandler);
+    app.use(middleware.errorHandler);
+  }
 };

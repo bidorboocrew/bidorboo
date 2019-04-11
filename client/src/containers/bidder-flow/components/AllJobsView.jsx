@@ -4,6 +4,7 @@ import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
 import RequestsTabSummaryCard from './RequestsTabSummaryCard';
+import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
 
 export default class AllJobsView extends React.Component {
   render() {
@@ -55,17 +56,16 @@ const OtherPeoplesJobs = (props) => {
     .map((job) => {
       return (
         <div key={job._id} className="column limitMaxdWidth">
-          <RequestsTabSummaryCard
-            onClickHandler={() => {
+          {getBidOnSummaryCardByTemplateJobId(job, {
+            onClickHandler: () => {
               if (!isLoggedIn) {
                 showLoginDialog(true);
               } else {
                 selectJobToBidOn(job);
               }
-            }}
-            job={job}
-            userDetails={userDetails}
-          />
+            },
+            userDetails: userDetails,
+          })}
         </div>
       );
     });

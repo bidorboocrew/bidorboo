@@ -97,10 +97,7 @@ class ReviewRequestAndBidsPage extends React.Component {
                 markBidAsSeen={markBidAsSeen}
                 showBidReviewModal={this.showBidReviewModal}
               />
-              {getFullDetailsCardByTemplateJobId(
-                selectedJobWithBids.fromTemplateId,
-                selectedJobWithBids,
-              )}
+              {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
               {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
             </div>
           </div>

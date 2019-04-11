@@ -8,3 +8,11 @@ export {
 export {
   default as HouseCleaningRequestSummary,
 } from './house-cleaning/HouseCleaningRequestSummary';
+
+export {
+  default as BidOnHouseCleaningJobSummary,
+} from './house-cleaning/BidOnHouseCleaningJobSummary';
+
+export {
+  default as BidOnHouseCleaningJobDetails,
+} from './house-cleaning/BidOnHouseCleaningJobDetails';
