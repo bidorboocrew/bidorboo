@@ -401,6 +401,45 @@ exports.jobDataAccess = {
     });
   },
 
+  getJobToBidOnDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobOwnerFields = {
+          displayName: 1,
+          profileImage: 1,
+          _id: 1,
+          rating: 1,
+        };
+
+        const jobWithBidDetails = await JobModel.findOne(
+          { _id: jobId },
+          {
+            _id: 1,
+            _ownerRef: 1,
+            title: 1,
+            state: 1,
+            jobCompletion: 1,
+            detailedDescription: 1,
+            stats: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            durationOfJob: 1,
+            fromTemplateId: 1,
+            reported: 1,
+            extras: 1,
+            createdAt: 1,
+          }
+        )
+          .populate({ path: '_ownerRef', select: jobOwnerFields })
+          .lean(true)
+          .exec();
+
+        resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getMyPostedJobs: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {

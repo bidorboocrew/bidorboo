@@ -27,7 +27,7 @@ export const getAllMyOpenJobs = () => (dispatch) =>
 export const deleteJobById = (jobId) => (dispatch) => {
   const req = dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios.delete(ROUTES.API.JOB.DELETE.jobById, { data: { jobId: jobId } }),
+    payload: axios.delete(ROUTES.API.JOB.DELETE.myJobById, { data: { jobId: jobId } }),
   });
 
   req.then((resp) => {
@@ -63,7 +63,7 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
     payload: axios
-      .get(ROUTES.API.JOB.GET.jobById, { params: { jobId } })
+      .get(ROUTES.API.JOB.GET.myJobById, { params: { jobId } })
       .then((resp) => {
         if (resp && resp.data) {
           dispatch({
@@ -76,6 +76,7 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
+
 
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {

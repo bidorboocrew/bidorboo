@@ -76,7 +76,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
         <div
           onClick={(e) => {
             e.preventDefault();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           className="card bidderRootSpecial is-clipped"
         >

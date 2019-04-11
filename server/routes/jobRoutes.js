@@ -19,13 +19,29 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.myJobById, requireLogin, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
         const mongoDbUserId = req.user._id;
 
         const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoDbUserId, jobId);
+        return res.send(jobDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+    }
+  });
+
+  app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, requireLogin, async (req, res) => {
+    try {
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        const jobDetails = await jobDataAccess.getJobToBidOnDetails(jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({
@@ -53,7 +69,7 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
-  app.delete(ROUTES.API.JOB.DELETE.jobById, requireBidorBooHost, requireLogin, async (req, res) => {
+  app.delete(ROUTES.API.JOB.DELETE.myJobById, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
       const mongoDbUserId = req.user._id;
       const jobId = req.body.jobId;

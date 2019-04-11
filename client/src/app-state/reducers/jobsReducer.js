@@ -101,6 +101,12 @@ const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
     selectedJobWithBids: payload.data,
   };
 };
+const updateSelectedJobToBidOn = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedJobWithBids: payload.data,
+  };
+};
 
 const updateSelectedAwardedJob = (state = initialState, { payload }) => {
   return {

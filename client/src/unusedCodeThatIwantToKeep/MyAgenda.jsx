@@ -62,7 +62,7 @@
 
 //         return {
 //           id: job._id,
-//           resource: `${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`,
+//           resource: `${switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id))}`,
 //           title: `Requested: ${job.fromTemplateId}`,
 //           desc: `<p>BidOrBoo Tasker ${
 //             bidDetails._bidderRef.displayName

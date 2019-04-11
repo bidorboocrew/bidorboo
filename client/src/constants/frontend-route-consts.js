@@ -59,13 +59,14 @@ export const API = {
     GET: {
       myOpenJobs: '/api/job/myOpenJobs',
       alljobsToBidOn: '/api/job/alljobsToBidOn',
-      jobById: '/api/job',
+      myJobById: '/api/job',
+      jobToBidDetailsById: '/api/job/jobToBidDetailsById',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
     },
     POST: {
       searchJobs: '/api/job/search',
-      newJob: '/api/job/createJob',
+      newJob: '/api/job/createJob/:templateId',
     },
     PUT: {
       jobImage: '/api/job/uploadImages',
@@ -78,7 +79,7 @@ export const API = {
       bidderDisputeJob: '/api/job/bidderDisputeJob',
     },
     DELETE: {
-      jobById: '/api/job',
+      myJobById: '/api/job',
     },
   },
   BID: {
@@ -115,17 +116,20 @@ export const CLIENT = {
     createjob: '/bdb-request/create-job',
     myOpenJobs: '/my-open-jobs/:tabId',
     dynamicMyOpenJobs: (tabId) => `/my-open-jobs/${tabId}`,
-    reviewRequestAndBidsPage: '/my-request/review-request-details',
+    reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',
     dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
-    selectedAwardedJobPage: '/my-request/awarded-job-details',
+    selectedAwardedJobPage: '/my-request/awarded-job-details/:jobId',
     dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
   },
   BIDDER: {
     root: '/bdb-offer',
-    bidOnJobPage: '/bdb-offer/bid-on-job',
+    bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
+    getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
     mybids: '/my-bids',
-    reviewMyBidAndTheRequestDetails: '/review-my-bid-details',
-    currentAwardedBid: '/awarded-bid-details',
+    reviewMyBidAndTheRequestDetails: '/review-my-bid-details/:bidId',
+    dynamicReviewMyBidAndTheRequestDetails: (bidId) => `/review-my-bid-details/${bidId}`,
+    currentAwardedBid: '/awarded-bid-details/:bidId',
+    dynamicCurrentAwardedBid: (bidId) => `/awarded-bid-details/${bidId}`
   },
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,

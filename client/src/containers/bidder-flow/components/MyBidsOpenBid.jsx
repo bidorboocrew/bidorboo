@@ -23,7 +23,7 @@ export default class MyBidsOpenBid extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`);
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bidDetails._id));
         }}
         className="card bidderRootSpecial"
       >

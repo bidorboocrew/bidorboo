@@ -87,7 +87,7 @@ class App extends React.Component {
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
             <Route
               exact
-              path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
+              path={`${ROUTES.CLIENT.PROPOSER.createjob}`}
               component={CreateAJobPage}
             />
             <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
@@ -105,23 +105,23 @@ class App extends React.Component {
 
             <Route
               exact
-              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
+              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
               component={ReviewRequestAndBidsPage}
             />
             <Route
               exact
-              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
+              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
               component={ReviewMyAwardedJobAndWinningBidPage}
             />
             <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/:bidId`}
+              path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}`}
               component={ReviewBidAndRequestPage}
             />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
+              path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}`}
               component={ReviewAwardedBidPage}
             />
             <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />

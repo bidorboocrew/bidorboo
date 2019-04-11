@@ -60,7 +60,8 @@ module.exports = {
       GET: {
         myOpenJobs: '/api/job/myOpenJobs',
         alljobsToBidOn: '/api/job/alljobsToBidOn',
-        jobById: '/api/job',
+        myJobById: '/api/job',
+        jobToBidDetailsById: '/api/job/jobToBidDetailsById',
         myAwardedJobs: '/api/job/myAwardedJobs',
         jobFullDetailsById: '/api/job/fullDetails',
       },
@@ -79,7 +80,7 @@ module.exports = {
         bidderDisputeJob: '/api/job/bidderDisputeJob',
       },
       DELETE: {
-        jobById: '/api/job',
+        myJobById: '/api/job',
       },
     },
     BID: {

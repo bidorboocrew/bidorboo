@@ -24,9 +24,45 @@ export const selectJobToBidOn = (jobDetails) => (dispatch) => {
       jobDetails: jobDetails,
     },
   });
-  // then rediret user to bid now page
-  switchRoute(ROUTES.CLIENT.BIDDER.bidOnJobPage);
+
+  switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(jobDetails._id), { jobDetails });
 };
+
+export const getJobToBidOnDetails = (jobId) => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_JOB_To_BID_ON_DETAILS_BY_ID,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.jobToBidDetailsById, { params: { jobId } })
+      .then((resp) => {
+        debugger;
+        if (resp && resp.data) {
+          debugger;
+          dispatch({
+            type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+            payload: axios
+              .put(ROUTES.API.JOB.PUT.updateViewedBy, {
+                data: {
+                  jobId: resp.data._id,
+                },
+              })
+              .catch((error) => {
+                throwErrorNotification(dispatch, error);
+              }),
+          });
+
+          //update store with the job details
+          dispatch({
+            type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
+            payload: {
+              jobDetails: resp.data,
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
 
 export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) => {
   //update store with the job details
@@ -44,7 +80,7 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${resp.data._id}`);
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(resp.data._id));
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
