@@ -10,8 +10,10 @@ import { switchRoute } from '../../utils';
 
 import PostYourBid from '../../components/forms/PostYourBid';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
-import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+
 import { findAvgBidInBidList } from '../commonComponents';
+
+import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
 
 class BidOnJobPage extends React.Component {
   constructor(props) {
@@ -53,10 +55,7 @@ class BidOnJobPage extends React.Component {
           onChange={this.updateRecaptchaField}
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
-        <div
-          style={{ marginBottom: '3rem' }}
-          className="container is-widescreen"
-        >
+        <div style={{ marginBottom: '3rem' }} className="container is-widescreen">
           {breadCrumbs()}
           <PostYourBid
             avgBid={avgBid}
@@ -72,7 +71,7 @@ class BidOnJobPage extends React.Component {
               switchRoute(ROUTES.CLIENT.BIDDER.root);
             }}
           />
-          <MyOpenBidJobDetails job={jobDetails} />
+          {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
         </div>
         <br /> <br />
       </React.Fragment>

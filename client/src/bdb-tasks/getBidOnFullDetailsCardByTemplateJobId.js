@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BidOnHouseCleaningJobDetails, HOUSE_CLEANING_DEF } from './index';
+import { BidOnHouseCleaningJobFullDetails, HOUSE_CLEANING_DEF } from './index';
 // map id to definition object
 const getBidOnFullDetailsCardByTemplateJobId = (job) => {
   if (!job || !job.fromTemplateId) {
@@ -12,7 +12,7 @@ const getBidOnFullDetailsCardByTemplateJobId = (job) => {
 
   switch (fromTemplateId) {
     case `${HOUSE_CLEANING_DEF.ID}`:
-      return <BidOnHouseCleaningJobDetails job={job} />;
+      return <BidOnHouseCleaningJobFullDetails job={job} />;
     default:
       alert('unkown fromTemplateId ' + fromTemplateId);
   }

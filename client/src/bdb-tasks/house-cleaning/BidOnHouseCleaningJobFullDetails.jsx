@@ -5,36 +5,39 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   UserImageAndRating,
+  AvgBidDisplayLabelAndValue,
   StartDateAndTime,
 } from '../../containers/commonComponents';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningRequestDetails extends React.Component {
+export default class BidOnHouseCleaningJobFullDetails extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, _ownerRef, detailedDescription, addressText } = job;
+    const { startingDateAndTime, _bidsListRef, _ownerRef, state, detailedDescription } = job;
+
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (
-      <div style={{ height: 'auto' }} className="card is-clipped disabled">
+      <div style={{ height: 'auto' }} className="card disabled is-clipped">
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">My {TITLE} Request</p>
+          <p className="card-header-title">{TITLE}</p>
         </header>
 
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${IMG_URL}`} />
+          <img className="bdb-cover-img" src={IMG_URL} />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
+          <label className="label">Requester:</label>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+            <DisplayLabelValue labelText="State:" labelValue={state} />
             <label className="label">Detailed Description</label>
             <span className="is-size-7">
               <TextareaAutosize
@@ -48,6 +51,7 @@ export default class HouseCleaningRequestDetails extends React.Component {
                 }}
                 readOnly
               />
+              <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
             </span>
           </div>
         </div>

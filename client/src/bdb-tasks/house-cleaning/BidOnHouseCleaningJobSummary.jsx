@@ -69,7 +69,7 @@ export default class RequestsTabSummaryCard extends React.Component {
               {userAlreadyBid ? (
                 <a className="button  is-outlined is-fullwidth">You Already Bid</a>
               ) : (
-                <a className="button is-success is-outlined is-fullwidth">Add Your Bid</a>
+                <a className="button is-success is-outlined is-fullwidth">Bid Now!</a>
               )}
             </React.Fragment>
           )}
@@ -87,7 +87,7 @@ export default class RequestsTabSummaryCard extends React.Component {
                   }}
                   className="button is-success is-outlined is-small is-fullwidth"
                 >
-                  Add Your Bid
+                  Bid Now!
                 </a>
               )}
               <a

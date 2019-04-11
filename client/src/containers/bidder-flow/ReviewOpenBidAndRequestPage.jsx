@@ -8,9 +8,10 @@ import { switchRoute } from '../../utils';
 import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+
 import RequesterAndOpenBid from './components/RequesterAndOpenBid';
 import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
               job={selectedAwardedJob}
               updateBidAction={updateBid}
             />
-            <MyOpenBidJobDetails job={selectedAwardedJob} />
+            {getBidOnFullDetailsCardByTemplateJobId(selectedAwardedJob)}
           </div>
         </div>
       </div>

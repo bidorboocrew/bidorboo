@@ -169,13 +169,13 @@ class PostYourBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Add Your Bid</p>
+                  <p className="modal-card-title">Bid Now!</p>
                   <button onClick={this.closeShowBidDialog} className="delete" aria-label="close" />
                 </header>
                 <section className="modal-card-body">
                   <TextInput
                     // setFocusImmediately={true}
-                    label="Enter the Total $ payment amount you want to get in order to fulfil this task"
+                    label="Enter a payment amount that you want to recieve in exchange for doing this task"
                     id="bidAmountField"
                     className="input is-focused"
                     type="number"

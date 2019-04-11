@@ -14,5 +14,5 @@ export {
 } from './house-cleaning/BidOnHouseCleaningJobSummary';
 
 export {
-  default as BidOnHouseCleaningJobDetails,
-} from './house-cleaning/BidOnHouseCleaningJobDetails';
+  default as BidOnHouseCleaningJobFullDetails,
+} from './house-cleaning/BidOnHouseCleaningJobFullDetails';
