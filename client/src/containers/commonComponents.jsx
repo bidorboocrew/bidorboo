@@ -275,7 +275,6 @@ export class LocationLabelAndValue extends React.Component {
           location: { lat: parseFloat(lattitude), lng: parseFloat(longitude) },
         },
         (results, status) => {
-          debugger;
           // xxx handle the various error (api over limit ...etc)
           if (status !== window.google.maps.GeocoderStatus.OK) {
             alert(status);
@@ -297,7 +296,7 @@ export class LocationLabelAndValue extends React.Component {
   }
   render() {
     const { location } = this.props;
-    debugger;
+
     if (!location || location.length !== 2) {
       alert('error location is invalid');
       return null;
@@ -312,3 +311,43 @@ export class LocationLabelAndValue extends React.Component {
     );
   }
 }
+
+export const HowItWorksRequest = ({ labelText, labelValue, step }) => {
+  return (
+    <div className="field">
+      <label className="label">{labelText}</label>
+      <div className="control is-success">{labelValue}</div>
+    </div>
+  );
+};
+
+export const StepsForRequest = ({ step }) => {
+  return (
+    <ul className="steps is-small has-content-centered">
+      <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
+        <span className="steps-marker" />
+        <div className="steps-content">
+          <p>Select a Template.</p>
+        </div>
+      </li>
+      <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
+        <span className="steps-marker" />
+        <div className="steps-content">
+          <p>Wait for Bids.</p>
+        </div>
+      </li>
+      <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+        <span className="steps-marker" />
+        <div className="steps-content">
+          <p>Choose a Tasker.</p>
+        </div>
+      </li>
+      <li className="steps-segment is-dashed">
+        <span className="steps-marker" />
+        <div className="steps-content">
+          <p>Get in touch to finalize details</p>
+        </div>
+      </li>
+    </ul>
+  );
+};

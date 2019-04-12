@@ -176,9 +176,6 @@ export function shouldShowAutodetectControl() {
             <span>Auto Detect My Address</span>
           </a>
         </div>
-        <span style={{ fontSize: 12, color: 'grey' }}>
-          {` or manually start typing an address in this field then select from the drop down suggestions`}
-        </span>
       </React.Fragment>
     )
   );
@@ -200,7 +197,7 @@ export function RenderDateAndTimeField() {
       <DateInput
         id="DateInputField"
         type="text"
-        label="Start Date and Time"
+        label="When do you want it done?"
         onChangeEvent={this.updateDateInputFieldValue}
       />
       <div className="buttons">
@@ -259,8 +256,8 @@ export function RenderLocationField() {
         id="geoInputField"
         type="text"
         helpText={'You must select an address from the drop down menu'}
-        label="Service Address"
-        placeholder="specify your task address"
+        label="What's the address where you need cleaning?"
+        placeholder="Enter your request's address"
         autoDetectComponent={this.shouldShowAutodetectControl()}
         error={touched.addressTextField && errors.addressTextField}
         value={values.addressTextField || ''}
@@ -301,8 +298,10 @@ export function RenderDetailedDescriptionField() {
     <TextAreaInput
       id="detailedDescriptionField"
       type="text"
-      helpText={'* Please be detailed in your description.'}
-      label="Detailed Description"
+      helpText={
+        '* The more details you put the more likely that you will get the task done to your satisfaction.'
+      }
+      label="Tell the tasker about any extra details."
       startWithTemplateButton={
         <a
           style={{ marginBottom: 4 }}
@@ -312,7 +311,7 @@ export function RenderDetailedDescriptionField() {
           <span className="icon">
             <i className="fas fa-pencil-alt" />
           </span>
-          <span>Insert Template Questions </span>
+          <span>Answer commonly asked Questions</span>
         </a>
       }
       placeholder={this.props.suggestedDetailsText}

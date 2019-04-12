@@ -113,7 +113,8 @@ export const CLIENT = {
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
   PROPOSER: {
     root: '/bdb-request',
-    createjob: '/bdb-request/create-job',
+    createjob: '/bdb-request/create-job/:templateId',
+    dynamicCreateJob: (templateId)=> `/bdb-request/create-job/${templateId}`,
     myOpenJobs: '/my-open-jobs/:tabId',
     dynamicMyOpenJobs: (tabId) => `/my-open-jobs/${tabId}`,
     reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',

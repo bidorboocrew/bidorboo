@@ -18,6 +18,8 @@ import {
   StartDateAndTime,
   UserImageAndRating,
   DisplayLabelValue,
+  HowItWorksRequest,
+  StepsForRequest,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -77,7 +79,7 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, IMG_URL, requesterExpectations } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
     return (
@@ -196,7 +198,14 @@ class HouseCleaningJobForm extends React.Component {
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
-
+          <br />
+          <StepsForRequest step={1} />
+          <HowItWorksRequest
+            labelText="About this task:"
+            labelValue={requesterExpectations}
+            step={1}
+          />
+          <br />
           {this.RenderLocationField()}
           <br />
           {this.RenderDateAndTimeField()}

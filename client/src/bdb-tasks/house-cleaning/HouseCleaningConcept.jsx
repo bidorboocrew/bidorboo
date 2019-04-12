@@ -13,7 +13,7 @@ export default class HouseCleaningConcept extends React.Component {
     return (
       <div
         onClick={(e) => {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.createjob}/${ID}`);
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
         }}
         className="card is-clipped bidderRootSpecial "
       >

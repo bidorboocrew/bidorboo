@@ -18,4 +18,9 @@ export const HOUSE_CLEANING_DEF = {
       moreThanEight: '8 - 12',
     },
   },
+  requesterExpectations:
+    `The Tasker will be bringing the common cleaning products to give your house a thourough cleaning.
+However you are expected to provide larger equipment such as vaccum cleaner or specialty cleaning product for extra care items.`,
+  taskerExpectations:
+    'You must bring general cleaning equipment (All purpose cleaner, window cleane). However, large cleaning items like vaccum cleaner or any specialty products required will be provided by the requester',
 };

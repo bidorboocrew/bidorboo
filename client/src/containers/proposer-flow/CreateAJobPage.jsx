@@ -16,7 +16,6 @@ const creatJobsByIdMap = {
 class CreateAJobPage extends React.Component {
   constructor(props) {
     super(props);
-
     let templateJobId = null;
     if (props.match && props.match.params && props.match.params.templateId) {
       templateJobId = props.match.params.templateId;
