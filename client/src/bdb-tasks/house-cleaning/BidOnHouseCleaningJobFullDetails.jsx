@@ -7,13 +7,21 @@ import {
   UserImageAndRating,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
+  LocationLabelAndValue,
 } from '../../containers/commonComponents';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class BidOnHouseCleaningJobFullDetails extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, _bidsListRef, _ownerRef, state, detailedDescription } = job;
+    const {
+      startingDateAndTime,
+      _bidsListRef,
+      _ownerRef,
+      state,
+      detailedDescription,
+      location,
+    } = job;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
@@ -37,6 +45,9 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
+            {location && location.coordinates && (
+              <LocationLabelAndValue location={location.coordinates} />
+            )}
             <DisplayLabelValue labelText="State:" labelValue={state} />
             <label className="label">Detailed Description</label>
             <span className="is-size-7">

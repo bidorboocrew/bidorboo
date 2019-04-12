@@ -39,10 +39,8 @@ class BidOnJobPage extends React.Component {
     const jobTobidOnExists = prevProps.jobDetails && this.props.jobDetails;
     const differentJobId =
       jobTobidOnExists && prevProps.jobDetails._id !== this.props.jobDetails._id;
-    debugger;
+
     if (newJobDetailsShowedUp || differentJobId) {
-      debugger;
-      debugger;
       this.setState({ jobDetails: this.props.jobDetails });
     }
   }
@@ -50,7 +48,6 @@ class BidOnJobPage extends React.Component {
   componentDidMount() {
     const { match, getJobToBidOnDetails } = this.props;
     const { jobDetails } = this.state;
-    debugger;
     if (!jobDetails || !jobDetails._id) {
       if (match.params && match.params.jobId) {
         getJobToBidOnDetails(match.params.jobId);

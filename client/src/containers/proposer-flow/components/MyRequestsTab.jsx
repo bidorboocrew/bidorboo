@@ -48,11 +48,9 @@ const MyRequests = (props) => {
   const { jobsList } = props;
 
   const jobCards = jobsList.map((job) => {
-    debugger;
     return (
       <div key={job._id} className="column limitMaxdWidth">
         {getSummaryCardByTemplateJobId(job, props)}
-        {/* <JobSummaryForPostedJobs  job={job} /> */}
       </div>
     );
   });

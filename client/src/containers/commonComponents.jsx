@@ -6,6 +6,8 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import jobIdToDefinitionObjectMapper from '../bdb-tasks/jobIdToDefinitionObjectMapper';
 
+const geocoder = new window.google.maps.Geocoder();
+
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
   try {
@@ -246,3 +248,67 @@ export const StartDateAndTime = ({ date }) => {
     </React.Fragment>
   );
 };
+
+export class LocationLabelAndValue extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      addressText: 'loading address...',
+    };
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+    if (!location || location.length !== 2) {
+      alert('error location is invalid');
+      return null;
+    }
+
+    if (window.google && geocoder && location && location.length === 2) {
+      const longitude = location[0];
+      const lattitude = location[1];
+
+      //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+      geocoder.geocode(
+        {
+          location: { lat: parseFloat(lattitude), lng: parseFloat(longitude) },
+        },
+        (results, status) => {
+          debugger;
+          // xxx handle the various error (api over limit ...etc)
+          if (status !== window.google.maps.GeocoderStatus.OK) {
+            alert(status);
+          }
+          // This is checking to see if the Geoeode Status is OK before proceeding
+          if (status === window.google.maps.GeocoderStatus.OK) {
+            let address = results[0].formatted_address;
+            if (address && !address.toLowerCase().includes('canada')) {
+              alert('Sorry! Bid or Boo is only available in Canada.');
+            } else {
+              this.setState({
+                addressText: address,
+              });
+            }
+          }
+        },
+      );
+    }
+  }
+  render() {
+    const { location } = this.props;
+    debugger;
+    if (!location || location.length !== 2) {
+      alert('error location is invalid');
+      return null;
+    }
+
+    return (
+      <div className="field">
+        <label className="label">Location Near:</label>
+        <div className="control is-success">{this.state.addressText}</div>
+        <p className="help">*For safety purposes location is approximate.</p>
+      </div>
+    );
+  }
+}

@@ -34,9 +34,9 @@ export const getJobToBidOnDetails = (jobId) => (dispatch) =>
     payload: axios
       .get(ROUTES.API.JOB.GET.jobToBidDetailsById, { params: { jobId } })
       .then((resp) => {
-        debugger;
+
         if (resp && resp.data) {
-          debugger;
+
           dispatch({
             type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
             payload: axios
