@@ -181,7 +181,7 @@ const RequestAService = (props) => {
       <div onClick={onClickHandler} className="card-content">
         <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="far fa-plus-square" />
-          <div>Request Services</div>
+          <div>Request A Service</div>
         </div>
         <br />
         <h1 className="subtitle">How it works?</h1>
@@ -222,7 +222,7 @@ const ProvideAService = (props) => {
       <div onClick={onClickHandler} className="card-content">
         <div id="Bidder-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="fas fa-hand-rock" />
-          <div>Provide Services</div>
+          <div>Provide A Service</div>
         </div>
         <br />
         <h1 className="subtitle">How it works?</h1>

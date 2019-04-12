@@ -14,7 +14,7 @@ const MapWithAMarkerClusterer = compose(
       <div
         style={{
           height: `25rem`,
-          boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)',
+          // boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)',
         }}
       />
     ),
