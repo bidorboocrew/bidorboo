@@ -85,7 +85,7 @@ class BidOnJobPage extends React.Component {
           onChange={this.updateRecaptchaField}
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
-        <div style={{ marginBottom: '3rem' }} className="container is-widescreen">
+        <div className="container is-widescreen">
           {breadCrumbs()}
           <PostYourBid
             avgBid={avgBid}
@@ -103,7 +103,6 @@ class BidOnJobPage extends React.Component {
           />
           {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
         </div>
-        <br /> <br />
       </React.Fragment>
     );
   }
@@ -144,7 +143,7 @@ const breadCrumbs = () => {
           </li>
 
           <li className="is-active">
-            <a>Place Your Bid</a>
+            <a>Bid Now!</a>
           </li>
         </ul>
       </nav>
