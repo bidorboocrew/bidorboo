@@ -40,28 +40,24 @@ export default class RequestsTabSummaryCard extends React.Component {
         }}
         className={`card is-clipped ${cardSpecialStyle} ${isAwarded ? 'disabled' : ''}`}
       >
-        <CardTitleWithBidCount
-          userAlreadyBid={userAlreadyBid}
-          jobState={state}
-          fromTemplateId={fromTemplateId}
-          bidsList={_bidsListRef}
-          userAlreadyView={userAlreadyView}
-        />
         {showCoverImg && (
           <div className="card-image is-clipped">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
         )}
-        <div
-          style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
-          className="card-content"
-        >
-          <div className="has-text-dark is-size-7">Requester:</div>
-          <UserImageAndRating userDetails={_ownerRef} />
-
+        <div style={{ paddingTop: '0px !important' }} className="card-content">
           <div className="content">
+            <CardTitleWithBidCount
+              userAlreadyBid={userAlreadyBid}
+              jobState={state}
+              fromTemplateId={fromTemplateId}
+              bidsList={_bidsListRef}
+              userAlreadyView={userAlreadyView}
+            />
+            <br />
+            <label className="label">Requester:</label>
+            <UserImageAndRating userDetails={_ownerRef} />
             <StartDateAndTime date={startingDateAndTime} />
-
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
           {!withButtons && (

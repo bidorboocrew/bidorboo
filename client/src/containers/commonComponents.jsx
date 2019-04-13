@@ -109,7 +109,7 @@ export const UserImageAndRating = ({ userDetails }) => {
 
   const { profileImage, displayName, rating } = temp;
   return (
-    <div
+    <article
       style={{
         cursor: 'pointer',
       }}
@@ -118,40 +118,43 @@ export const UserImageAndRating = ({ userDetails }) => {
         e.stopPropagation();
         switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
       }}
-      className="media is-outline bidorbooUserImgAndRating"
+      className="media"
     >
-      <div className="media-left">
-        <figure className="image is-48x48">
+      <figure style={{ margin: '0 6px 0 0' }} className="media-left">
+        <p className="image is-48x48">
           <img
             style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
             src={profileImage.url}
             alt="image"
           />
-        </figure>
-      </div>
-      <div className="media-content">
-        <p className="is-size-6">{displayName}</p>
+        </p>
+      </figure>
 
-        {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-          <p className="is-size-7">No Ratings Yet</p>
-        ) : (
-          <ReactStars
-            style={{ cursor: 'pointer' }}
-            className="is-size-7"
-            half
-            count={5}
-            value={rating.globalRating}
-            edit={false}
-            size={20}
-            color1={'lightgrey'}
-            color2={'#ffd700'}
-          />
-        )}
-        {/* <p style={{ textDecoration: 'underline' }} className="is-size-7">
+      <div className="media-content">
+        <div className="content">
+          <p className="is-size-6">{displayName}</p>
+
+          {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+            <p className="is-size-7">No Ratings Yet</p>
+          ) : (
+            <ReactStars
+              style={{ cursor: 'pointer' }}
+              className="is-size-7"
+              half
+              count={5}
+              value={rating.globalRating}
+              edit={false}
+              size={20}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          )}
+          {/* <p style={{ textDecoration: 'underline' }} className="is-size-7">
           click to view full profile
         </p> */}
+        </div>
       </div>
-    </div>
+    </article>
   );
 };
 
@@ -166,45 +169,45 @@ export const CardTitleWithBidCount = ({
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
-    <header
-      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-      className="card-header is-clipped"
-    >
-      <p className="card-header-title">{jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}</p>
-
-      <a className="card-header-icon">
-        {userAlreadyBid && (
-          <span title="You've Bid Already" style={{ marginRight: 4 }} className="has-text-grey">
-            <span className="icon">
-              <i className="fas fa-money-check-alt" />
+    <React.Fragment>
+      <div className="is-size-4 has-text-weight-semibold">
+        {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+      </div>
+      <div>
+        <a>
+          {userAlreadyBid && (
+            <span title="You've Bid Already" style={{ marginRight: 4 }} className="has-text-grey">
+              <span className="icon">
+                <i className="fas fa-money-check-alt" />
+              </span>
             </span>
-          </span>
-        )}
-        {userAlreadyView && (
-          <span
-            title="You've Seen this Already"
-            style={{ marginRight: 4 }}
-            className="has-text-grey"
-          >
-            <span className="icon">
-              <i className="far fa-eye" />
+          )}
+          {userAlreadyView && (
+            <span
+              title="You've Seen this Already"
+              style={{ marginRight: 4 }}
+              className="has-text-grey"
+            >
+              <span className="icon">
+                <i className="far fa-eye" />
+              </span>
             </span>
-          </span>
-        )}
-        {!isAwarded && (
-          <span
-            title="Bids Count"
-            className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}
-          >
-            <span className="icon">
-              <i className="fas fa-hand-paper" />
+          )}
+          {!isAwarded && (
+            <span
+              title="Bids Count"
+              className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}
+            >
+              <span className="icon">
+                <i className="fas fa-hand-paper" />
+              </span>
+              <span>{bidsCountLabel}</span>
             </span>
-            <span>{bidsCountLabel}</span>
-          </span>
-        )}
-        {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
-      </a>
-    </header>
+          )}
+          {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
+        </a>
+      </div>
+    </React.Fragment>
   );
 };
 
@@ -326,8 +329,8 @@ export const StepsForRequest = ({ step }) => {
     <ul className="steps is-small">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
-          <span class="icon">
-            <i class="fas fa-pencil-alt" />
+          <span className="icon">
+            <i className="fas fa-pencil-alt" />
           </span>
         </span>
         <div className="steps-content">
@@ -336,8 +339,8 @@ export const StepsForRequest = ({ step }) => {
       </li>
       <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
         <span className="steps-marker">
-          <span class="icon">
-            <i class="fas fa-hand-rock" />
+          <span className="icon">
+            <i className="fas fa-hand-rock" />
           </span>
         </span>
         <div className="steps-content">
@@ -346,8 +349,8 @@ export const StepsForRequest = ({ step }) => {
       </li>
       <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
         <span className="steps-marker">
-          <span class="icon">
-            <i class="fa fa-usd" />
+          <span className="icon">
+            <i className="fa fa-usd" />
           </span>
         </span>
         <div className="steps-content">
@@ -356,8 +359,8 @@ export const StepsForRequest = ({ step }) => {
       </li>
       <li className="steps-segment">
         <span className="steps-marker">
-          <span class="icon">
-            <i class="far fa-comments" />
+          <span className="icon">
+            <i className="far fa-comments" />
           </span>
         </span>
         <div className="steps-content">
@@ -366,8 +369,8 @@ export const StepsForRequest = ({ step }) => {
       </li>
       <li className="steps-segment is-dashed">
         <span className="steps-marker">
-          <span class="icon">
-            <i class="fas fa-check-circle" />
+          <span className="icon">
+            <i className="fas fa-check-circle" />
           </span>
         </span>
         <div className="steps-content">
