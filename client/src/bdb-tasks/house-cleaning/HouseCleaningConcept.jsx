@@ -27,10 +27,8 @@ export default class HouseCleaningConcept extends React.Component {
             <p className="is-size-4 has-text-weight-semibold">{TITLE}</p>
             {DESCRIPTION}
           </div>
+          <a className="button is-success is-outlined is-fullwidth">Request Now</a>
         </div>
-        <footer className="card-footer">
-          <a className="card-footer-item has-text-weight-bold is-text is-fullwidth">Request Now</a>
-        </footer>
       </div>
     );
   }
