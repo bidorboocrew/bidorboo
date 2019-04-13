@@ -66,7 +66,7 @@ export const API = {
     },
     POST: {
       searchJobs: '/api/job/search',
-      newJob: '/api/job/createJob/:templateId',
+      newJob: '/api/job/createJob',
     },
     PUT: {
       jobImage: '/api/job/uploadImages',

@@ -94,18 +94,19 @@ const TableWithNoBids = () => {
   `;
   return (
     <table className="table is-hoverable table is-striped is-fullwidth">
-      <thead>
-        <tr>
-          <th />
-        </tr>
-      </thead>
       <tbody>
         <tr>
-          <td style={{ verticalAlign: 'middle' }}>
+          <td className="has-text-centered">
             <GridLoader css={override} sizeUnit={'px'} size={15} color={'#292929'} loading={true} />
-            <span className="has-text-weight-semibold">
-              We are notifying Taskers in your area. Check again soon to see the latest bids
-            </span>
+            <div className="has-text-centered has-text-weight-semibold">
+              No Taskers have bid on this job yet!
+            </div>
+            <div className="has-text-centered has-text-weight-semibold">
+              BidOrBoo is notifying Taskers in your area
+            </div>
+            <div className="has-text-centered has-text-weight-semibold">
+              You will be notified when you recieve bids. Check again soon
+            </div>
           </td>
         </tr>
       </tbody>

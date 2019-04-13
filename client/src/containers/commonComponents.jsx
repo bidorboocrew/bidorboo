@@ -101,7 +101,9 @@ const ExpiringSoon = ({ startingDate }) => {
     return <div className="has-text-danger">Expiring Soon!</div>;
   }
 };
-
+export const JobTitleText = ({ title }) => {
+  return <p className="is-size-4 has-text-weight-semibold">{title}</p>;
+};
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails
     ? userDetails
