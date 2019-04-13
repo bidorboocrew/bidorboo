@@ -15,19 +15,18 @@ export default class HouseCleaningConcept extends React.Component {
         onClick={(e) => {
           switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
         }}
-        className="card is-clipped bidderRootSpecial "
+        className="card is-clipped limitWidthOfCard"
       >
-        <header className="card-header">
-          <p className="card-header-title">{TITLE}</p>
-        </header>
-
         <div className="card-image is-clipped">
           <figure className="bdb-cover-img">
             <img src={IMG_URL} />
           </figure>
         </div>
         <div className="card-content">
-          <div className="content">{DESCRIPTION}</div>
+          <div className="content">
+            <p className="is-size-4 has-text-weight-semibold">{TITLE}</p>
+            {DESCRIPTION}
+          </div>
         </div>
         <footer className="card-footer">
           <a className="card-footer-item has-text-weight-bold is-text is-fullwidth">Request Now</a>

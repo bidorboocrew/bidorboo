@@ -37,7 +37,7 @@ export default class MyBidsAwardedBid extends React.Component {
           updateBidState(bidDetails._id, 'WON_SEEN');
           switchRoute(ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(bidDetails._id));
         }}
-        className="card bidderRootSpecial"
+        className="card limitWidthOfCard"
       >
         <div className="card-image is-clipped">
           <img

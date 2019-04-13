@@ -312,7 +312,7 @@ export class LocationLabelAndValue extends React.Component {
   }
 }
 
-export const HowItWorksRequest = ({ labelText, labelValue, step }) => {
+export const HowItWorksRequest = ({ labelText, labelValue }) => {
   return (
     <div className="field">
       <label className="label">{labelText}</label>
@@ -323,29 +323,55 @@ export const HowItWorksRequest = ({ labelText, labelValue, step }) => {
 
 export const StepsForRequest = ({ step }) => {
   return (
-    <ul className="steps is-small has-content-centered">
+    <ul className="steps is-small">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
-        <span className="steps-marker" />
+        <span className="steps-marker">
+          <span class="icon">
+            <i class="fas fa-pencil-alt" />
+          </span>
+        </span>
         <div className="steps-content">
-          <p>Select a Template.</p>
+          <p>Fill Details</p>
         </div>
       </li>
       <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
-        <span className="steps-marker" />
+        <span className="steps-marker">
+          <span class="icon">
+            <i class="fas fa-hand-rock" />
+          </span>
+        </span>
         <div className="steps-content">
-          <p>Wait for Bids.</p>
+          <p>Wait for Bids</p>
         </div>
       </li>
       <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
-        <span className="steps-marker" />
+        <span className="steps-marker">
+          <span class="icon">
+            <i class="fa fa-usd" />
+          </span>
+        </span>
         <div className="steps-content">
-          <p>Choose a Tasker.</p>
+          <p>Choose a Tasker</p>
+        </div>
+      </li>
+      <li className="steps-segment">
+        <span className="steps-marker">
+          <span class="icon">
+            <i class="far fa-comments" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Finalize the details</p>
         </div>
       </li>
       <li className="steps-segment is-dashed">
-        <span className="steps-marker" />
+        <span className="steps-marker">
+          <span class="icon">
+            <i class="fas fa-check-circle" />
+          </span>
+        </span>
         <div className="steps-content">
-          <p>Get in touch to finalize details</p>
+          <p>Tasker gets it done</p>
         </div>
       </li>
     </ul>

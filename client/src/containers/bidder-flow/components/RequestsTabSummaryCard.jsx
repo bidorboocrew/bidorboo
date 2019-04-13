@@ -14,7 +14,7 @@ export default class RequestsTabSummaryCard extends React.Component {
       job,
       userDetails,
       showCoverImg = true,
-      cardSpecialStyle = 'bidderRootSpecial',
+      cardSpecialStyle = 'limitWidthOfCard',
       onClickHandler = () => null,
       onCloseHandler = () => null,
       withButtons = false,

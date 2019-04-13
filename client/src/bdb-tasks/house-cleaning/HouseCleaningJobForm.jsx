@@ -19,7 +19,6 @@ import {
   UserImageAndRating,
   DisplayLabelValue,
   HowItWorksRequest,
-  StepsForRequest,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -199,7 +198,6 @@ class HouseCleaningJobForm extends React.Component {
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
           <br />
-          <StepsForRequest step={1} />
           <HowItWorksRequest
             labelText="About this task:"
             labelValue={requesterExpectations}

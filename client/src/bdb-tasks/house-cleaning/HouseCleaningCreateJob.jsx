@@ -7,6 +7,9 @@ import { switchRoute } from '../../utils';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 import HouseCleaningJobForm from './HouseCleaningJobForm';
+
+import { StepsForRequest } from '../../containers/commonComponents';
+
 export default class HouseCleaningCreateJob extends React.Component {
   goBack = (e) => {
     e.preventDefault();
@@ -20,16 +23,23 @@ export default class HouseCleaningCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, DESCRIPTION, SUGGESTION_TEXT } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, SUGGESTION_TEXT } = HOUSE_CLEANING_DEF;
 
     return (
       <div style={{ maxWidth: 'unset' }} className="card">
-        <section style={{ borderBottom: '1px solid #eee' }} className="hero is-small is-white">
+        <section className="hero is-small is-white">
+          <div className="hero-body" />
+        </section>
+        <section className="hero is-small is-white">
           <div className="hero-body">
             <div className="title has-text-dark">{TITLE} Request</div>
-            <ShowMoreText className="has-text-grey" lines={2} more="Show more" less="Show less">
-              {DESCRIPTION}
-            </ShowMoreText>
+            <div
+              style={{ marginBottom: 4, marginTop: 0, marginLeft: 4 }}
+              className="subtitle has-text-grey"
+            >
+              How it works
+            </div>
+            <StepsForRequest step={1} />
           </div>
         </section>
 

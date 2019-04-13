@@ -25,7 +25,7 @@ export default class MyBidsOpenBid extends React.Component {
           e.preventDefault();
           switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bidDetails._id));
         }}
-        className="card bidderRootSpecial"
+        className="card limitWidthOfCard"
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
