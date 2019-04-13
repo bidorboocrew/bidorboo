@@ -11,15 +11,9 @@ import ReactDOM from 'react-dom';
 import { withFormik } from 'formik';
 import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
-import TextareaAutosize from 'react-autosize-textarea';
 import * as Yup from 'yup';
 
-import {
-  StartDateAndTime,
-  UserImageAndRating,
-  DisplayLabelValue,
-  HowItWorksRequest,
-} from '../../containers/commonComponents';
+import { HowItWorksRequest } from '../../containers/commonComponents';
 import HouseCleaningRequestDetails from './HouseCleaningRequestDetails';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import {
