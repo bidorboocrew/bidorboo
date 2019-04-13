@@ -8,6 +8,7 @@ import {
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
   LocationLabelAndValue,
+  JobTitleText,
 } from '../../containers/commonComponents';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
@@ -27,20 +28,11 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">
-        <header
-          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-          className="card-header is-clipped"
-        >
-          <p className="card-header-title">{TITLE}</p>
-        </header>
-
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
-        <div
-          style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
-          className="card-content"
-        >
+        <div className="card-content">
+          <JobTitleText title={TITLE} />
           <label className="label">Requester:</label>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">

@@ -104,9 +104,11 @@ class HouseCleaningJobForm extends React.Component {
                   <HouseCleaningRequestDetails job={newTaskDetails} />
                   <div className="field">
                     <label className="label">BidOrBoo Safety rules</label>
-                    <HelpText helpText={`*Once you post you will not be able to edit the job details.`} />
                     <HelpText
-                      helpText={`*For your privacy Taskers will not see an approximate naer by location.`}
+                      helpText={`*Once you post you will not be able to edit the job details.`}
+                    />
+                    <HelpText
+                      helpText={`*For your privacy Taskers will not see the request address.`}
                     />
                     <HelpText
                       helpText={`*Once you have chosen a Tasker you will get in touch to finalize the details.`}
