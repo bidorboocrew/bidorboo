@@ -340,7 +340,7 @@ export const StepsForRequest = ({ step }) => {
       <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
-            <i className="fas fa-hand-rock" />
+            <i className="far fa-clock" />
           </span>
         </span>
         <div className="steps-content">
