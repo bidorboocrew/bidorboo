@@ -305,13 +305,13 @@ export function RenderDetailedDescriptionField() {
       startWithTemplateButton={
         <a
           style={{ marginBottom: 4 }}
-          className="button is-info is-small"
+          className="button is-info is-outlined is-small"
           onClick={this.insertTemplateText}
         >
           <span className="icon">
             <i className="fas fa-pencil-alt" />
           </span>
-          <span>Answer commonly asked Questions</span>
+          <span>click to Answer FAQs</span>
         </a>
       }
       placeholder={this.props.suggestedDetailsText}

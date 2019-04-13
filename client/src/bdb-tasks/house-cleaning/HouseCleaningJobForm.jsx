@@ -163,7 +163,7 @@ class HouseCleaningJobForm extends React.Component {
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
           <br />
           <HowItWorksRequest
-            labelText="About this task:"
+            labelText="Sercvice Description"
             labelValue={requesterExpectations}
             step={1}
           />

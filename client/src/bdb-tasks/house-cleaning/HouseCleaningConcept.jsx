@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
+import { JobTitleText } from '../../containers/commonComponents';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
@@ -24,7 +25,7 @@ export default class HouseCleaningConcept extends React.Component {
         </div>
         <div className="card-content">
           <div className="content">
-            <p className="is-size-4 has-text-weight-semibold">{TITLE}</p>
+            <JobTitleText title={TITLE} />
             {DESCRIPTION}
           </div>
           <a className="button is-success is-outlined is-fullwidth">Request Now</a>
