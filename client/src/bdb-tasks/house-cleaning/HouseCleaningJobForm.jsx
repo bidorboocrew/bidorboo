@@ -20,7 +20,7 @@ import {
   DisplayLabelValue,
   HowItWorksRequest,
 } from '../../containers/commonComponents';
-
+import HouseCleaningRequestDetails from './HouseCleaningRequestDetails';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import {
   getCurrentAddress,
@@ -78,9 +78,16 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TITLE, IMG_URL, requesterExpectations } = HOUSE_CLEANING_DEF;
+    const { ID, requesterExpectations } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
+    const newTaskDetails = {
+      fromTemplateId: HOUSE_CLEANING_DEF.ID,
+      startingDateAndTime: values.dateField,
+      _ownerRef: currentUserDetails,
+      addressText: values.addressTextField,
+      detailedDescription: values.detailedDescriptionField,
+    };
     return (
       <React.Fragment>
         {showConfirmationDialog &&
@@ -88,64 +95,20 @@ class HouseCleaningJobForm extends React.Component {
             <div className="modal is-active">
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
-                <section className="modal-card-body">
-                  <div
-                    style={{
-                      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-                      borderRaduis: 4,
-                      border: '1px solid #bdbdbd',
-                    }}
-                  >
-                    <header
-                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-                      className="card-header is-clipped"
-                    >
-                      <p className="card-header-title">Preview: {TITLE}</p>
-                    </header>
-                    <div className="card-image is-clipped">
-                      <img className="bdb-newjob-confirm-img" src={IMG_URL} />
-                    </div>
+                <header class="modal-card-head">
+                  <p class="modal-card-title">Confirm Request Details</p>
+                  <button class="delete" aria-label="close" />
+                </header>
 
-                    <div
-                      style={{
-                        paddingTop: '0.25rem',
-                        paddingBottom: '0.25rem',
-                        position: 'relative',
-                      }}
-                      className="card-content"
-                    >
-                      <UserImageAndRating userDetails={currentUserDetails} />
-                      <div className="content">
-                        <StartDateAndTime date={values.dateField} />
-                        <DisplayLabelValue
-                          labelText="Address"
-                          labelValue={values.addressTextField}
-                        />
-                        <div className="field">
-                          <label className="label">Detailed Description</label>
-                          <span className="is-size-7">
-                            <TextareaAutosize
-                              value={values.detailedDescriptionField}
-                              className="textarea is-marginless is-paddingless is-size-6"
-                              style={{
-                                resize: 'none',
-                                border: 'none',
-                                color: '#4a4a4a',
-                                fontSize: '1rem',
-                              }}
-                              readOnly
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ paddingLeft: 4, paddingTop: 4 }}>
-                    <HelpText helpText={`BidOrBoo Fairness and Safety rules:`} />
-                    <HelpText helpText={`- Once you post you will not be able to edit the job.`} />
-                    <HelpText helpText={`- Bidders will not be able to view the EXACT location.`} />
+                <section className="modal-card-body">
+                  <HouseCleaningRequestDetails job={newTaskDetails} />
+                  <div className="field">
+                    <label className="label">BidOrBoo Safety rules</label>
+
+                    <HelpText helpText={`*Once you post you will not be able to edit the job.`} />
+                    <HelpText helpText={`*Taskers will not be able to view the EXACT location.`} />
                     <HelpText
-                      helpText={`- Upon awarding a tasker you will get their contact info.`}
+                      helpText={`*When you chose a Tasker you will get their contact info to finalize the details.`}
                     />
                   </div>
                 </section>
