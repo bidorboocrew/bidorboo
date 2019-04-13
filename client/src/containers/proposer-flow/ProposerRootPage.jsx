@@ -29,7 +29,8 @@ class ProposerRoot extends React.Component {
             <div className="container">
               <h1 className="title">Request a Service</h1>
               <h2 className="subtitle">
-                Start by selecting one of our templates
+                Start by filling out a service reqeuest and one of our BidOrBoo Taskers will do it
+                for you
                 {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
