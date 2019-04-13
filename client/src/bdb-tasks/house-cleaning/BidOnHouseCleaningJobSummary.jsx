@@ -45,7 +45,7 @@ export default class RequestsTabSummaryCard extends React.Component {
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
         )}
-        <div style={{ paddingTop: '0px !important' }} className="card-content">
+        <div className="card-content">
           <div className="content">
             <CardTitleWithBidCount
               userAlreadyBid={userAlreadyBid}

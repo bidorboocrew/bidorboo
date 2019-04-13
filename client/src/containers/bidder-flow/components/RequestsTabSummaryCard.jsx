@@ -46,7 +46,7 @@ export default class RequestsTabSummaryCard extends React.Component {
             />
           </div>
         )}
-        <div style={{ paddingTop: '0px !important' }} className="card-content">
+        <div className="card-content">
           <div className="content">
             <CardTitleWithBidCount
               userAlreadyBid={userAlreadyBid}
