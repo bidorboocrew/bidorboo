@@ -21,7 +21,7 @@ class MyAwardedJobsTab extends React.Component {
 export default MyAwardedJobsTab;
 
 const EmptyStateComponent = (props) => (
-  <div className="column limitMaxdWidth">
+  <div className="column">
     <div className="card is-fullwidth">
       <div className="card-content">
         <div className="content has-text-centered">

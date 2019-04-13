@@ -78,20 +78,18 @@ export default connect(
 
 const EmptyHistory = () => {
   return (
-    <div className="column">
-      <div className="card">
-        <div style={{ padding: '1rem' }} className="card-content">
-          <div className="content has-text-centered">
-            <label className="label">Seems you don't have any Requestes jobs yet. Go on and</label>
-            <br />
-            <div>
-              <a
-                className="button is-link is-medium"
-                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
-              >
-                Start Posting Tasks
-              </a>
-            </div>
+    <div className="card">
+      <div style={{ padding: '1rem' }} className="card-content">
+        <div className="content has-text-centered">
+          <div>You have no past fulfilled tasks. Go ahead and</div>
+          <br />
+          <div>
+            <a
+              className="button is-success"
+              onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
+            >
+              Request a Service
+            </a>
           </div>
         </div>
       </div>
