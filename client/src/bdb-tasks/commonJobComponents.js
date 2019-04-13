@@ -301,7 +301,7 @@ export function RenderDetailedDescriptionField() {
       helpText={
         '* The more details you put the more likely that you will get the task done to your satisfaction.'
       }
-      label="Tell the tasker about any extra details."
+      label="Give the Tasker more details about your expectations"
       startWithTemplateButton={
         <a
           style={{ marginBottom: 4 }}
@@ -311,7 +311,7 @@ export function RenderDetailedDescriptionField() {
           <span className="icon">
             <i className="fas fa-pencil-alt" />
           </span>
-          <span>click to Answer FAQs</span>
+          <span>Answer FAQs</span>
         </a>
       }
       placeholder={this.props.suggestedDetailsText}
