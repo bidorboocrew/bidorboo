@@ -23,11 +23,11 @@ class MyRequestsTab extends React.Component {
 export default MyRequestsTab;
 
 const EmptyStateComponent = () => (
-  <div className="column limitMaxdWidth">
-    <div className="card is-fullwidth">
+  <div className="has-text-centered">
+    <div style={{ maxWidth: 'unset' }} className="card">
       <div className="card-content">
         <div className="content has-text-centered">
-          <div className="is-size-5">Sorry you have not posted any jobs.</div>
+          <div className="is-size-5">You have not requested any services yet</div>
           <br />
           <a
             className="button is-success "

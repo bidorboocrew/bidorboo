@@ -78,12 +78,12 @@ export default connect(
 
 const EmptyHistory = () => {
   return (
-    <div className="card">
-      <div style={{ padding: '1rem' }} className="card-content">
-        <div className="content has-text-centered">
-          <div>You have no past fulfilled tasks. Go ahead and</div>
-          <br />
-          <div>
+    <div className="has-text-centered">
+      <div style={{ maxWidth: 'unset' }} className="card">
+        <div className="card-content">
+          <div className="content has-text-centered">
+            <div className="is-size-5">You have no past fulfilled tasks. Go ahead and</div>
+            <br />
             <a
               className="button is-success"
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}

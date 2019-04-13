@@ -21,8 +21,8 @@ class MyAwardedJobsTab extends React.Component {
 export default MyAwardedJobsTab;
 
 const EmptyStateComponent = (props) => (
-  <div className="column">
-    <div className="card is-fullwidth">
+  <div className="has-text-centered">
+    <div style={{ maxWidth: 'unset' }} className="card">
       <div className="card-content">
         <div className="content has-text-centered">
           <div className="is-size-5">You have no awarded Jobs.</div>
