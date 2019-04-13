@@ -380,3 +380,60 @@ export const StepsForRequest = ({ step }) => {
     </ul>
   );
 };
+
+export const StepsForTasker = ({ step }) => {
+  return (
+    <ul className="steps is-small">
+      <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fas fa-crosshairs" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Select a Job</p>
+        </div>
+      </li>
+      <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fas fa-pencil-alt" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Bid On it</p>
+        </div>
+      </li>
+      <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="far fa-clock" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Wait to be awarded</p>
+        </div>
+      </li>
+      <li className="steps-segment">
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="far fa-comments" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Finalize the details</p>
+        </div>
+      </li>
+      <li className="steps-segment is-dashed">
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fa fa-usd" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p>Do it and get paid</p>
+        </div>
+      </li>
+    </ul>
+  );
+};

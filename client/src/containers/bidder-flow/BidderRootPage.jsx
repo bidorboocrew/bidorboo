@@ -20,6 +20,8 @@ import MapSection from './map/MapSection';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
+import { StepsForTasker } from '../commonComponents';
+
 const google = window.google;
 
 class BidderRootPage extends React.Component {
@@ -217,6 +219,7 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
+              <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
               <h2 className="subtitle">
                 {userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
@@ -238,6 +241,8 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
+        <StepsForTasker step={1} />
+
         <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
