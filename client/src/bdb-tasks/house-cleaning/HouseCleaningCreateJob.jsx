@@ -31,12 +31,6 @@ export default class HouseCleaningCreateJob extends React.Component {
         <section className="hero is-small is-white">
           <div className="hero-body">
             <div className="title has-text-dark">{TITLE} Request</div>
-            <div
-              style={{ marginBottom: 4, marginTop: 0, marginLeft: 4 }}
-              className="subtitle has-text-grey"
-            >
-              How it works
-            </div>
             <StepsForRequest step={1} />
           </div>
         </section>
