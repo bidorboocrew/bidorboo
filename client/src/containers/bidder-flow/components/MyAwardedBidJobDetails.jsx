@@ -47,7 +47,7 @@ export default class MyAwardedBidJobDetails extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+            <DisplayLabelValue labelText="Address" labelValue={addressText} />
             <DisplayLabelValue labelText="State:" labelValue={state} />
 
             <label className="label">Detailed Description</label>

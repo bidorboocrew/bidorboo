@@ -118,7 +118,7 @@ class HouseCleaningJobForm extends React.Component {
                       <div className="content">
                         <StartDateAndTime date={values.dateField} />
                         <DisplayLabelValue
-                          labelText="Address:"
+                          labelText="Address"
                           labelValue={values.addressTextField}
                         />
                         <div className="field">

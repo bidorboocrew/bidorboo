@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ShowMoreText from 'react-show-more-text';
-
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';

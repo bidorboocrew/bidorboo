@@ -45,7 +45,7 @@ export default class JobFullDetailsCard extends React.Component {
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
-            <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+            <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
             <label className="label">Detailed Description</label>
             <span className="is-size-7">

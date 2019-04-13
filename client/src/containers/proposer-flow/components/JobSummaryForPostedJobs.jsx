@@ -126,7 +126,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
             <div className="content">
               <StartDateAndTime date={startingDateAndTime} />
 
-              <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+              <DisplayLabelValue labelText="Address" labelValue={addressText} />
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}

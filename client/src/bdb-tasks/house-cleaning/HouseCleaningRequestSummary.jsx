@@ -8,6 +8,7 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
+  JobTitleText,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -83,48 +84,45 @@ export default class HouseCleaningRequestSummary extends React.Component {
           }}
           className="card limitWidthOfCard is-clipped"
         >
-          <header
-            style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
-            className="card-header is-clipped"
-          >
-            <p className="card-header-title">{TITLE}</p>
-
-            <a
-              className={`card-header-icon ${
-                _bidsListRef && _bidsListRef.length === 0 ? 'has-text-grey' : 'has-text-success'
-              }`}
-            >
-              <span className="icon">
-                <i className="fas fa-hand-paper" />
-              </span>
-              <span>{`${_bidsListRef ? _bidsListRef.length : 0} bids`}</span>
-            </a>
-
-            <a
-              className="card-header-icon"
-              aria-label="more options"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.toggleDeleteConfirmationDialog();
-              }}
-            >
-              <span style={{ color: 'grey' }} className="icon">
-                <i className="far fa-trash-alt" aria-hidden="true" />
-              </span>
-            </a>
-          </header>
           <div className="card-image is-clipped">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
-          <div
-            style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
-            className="card-content"
-          >
+          <div className="card-content">
             <div className="content">
+              <JobTitleText title={TITLE} />
+              <div className="field">
+                <label className="label">Task info</label>
+                <div>
+                  <a
+                    className={`${
+                      _bidsListRef && _bidsListRef.length === 0
+                        ? 'has-text-grey'
+                        : 'has-text-success'
+                    }`}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-hand-paper" />
+                    </span>
+                    <span>{`${_bidsListRef ? _bidsListRef.length : 0} bids`}</span>
+                  </a>
+
+                  <a
+                    aria-label="more options"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.toggleDeleteConfirmationDialog();
+                    }}
+                  >
+                    <span style={{ color: 'grey' }} className="icon">
+                      <i className="far fa-trash-alt" aria-hidden="true" />
+                    </span>
+                  </a>
+                </div>
+              </div>
               <StartDateAndTime date={startingDateAndTime} />
 
-              <DisplayLabelValue labelText="Address:" labelValue={addressText} />
+              <DisplayLabelValue labelText="Address" labelValue={addressText} />
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}
@@ -151,32 +149,31 @@ const renderFooter = ({ job, notificationFeed }) => {
   }
 
   return (
-    <footer className="card-footer">
-      <div className="card-footer-item">
-        <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
-          {areThereAnyBidders && (
-            <span style={{ marginLeft: 4 }}>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>View Bids</span>
+    <React.Fragment>
+      <br />
+      <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
+        {areThereAnyBidders && (
+          <span style={{ marginLeft: 4 }}>
+            <span className="icon">
+              <i className="fa fa-hand-paper" />
             </span>
-          )}
-          {!areThereAnyBidders && (
-            <span style={{ marginLeft: 4 }}>
-              <span className="icon">
-                <i className="fas fa-bullseye" />
-              </span>
-              <span>View Details</span>
+            <span>View Bids</span>
+          </span>
+        )}
+        {!areThereAnyBidders && (
+          <span style={{ marginLeft: 4 }}>
+            <span className="icon">
+              <i className="far fa-eye" />
             </span>
-          )}
-          {areThereAnyBidders && doesthisJobHaveNewBids && (
-            <span style={{ marginLeft: 4 }} className="tag is-danger">
-              +{numberOfNewBids}
-            </span>
-          )}
-        </a>
-      </div>
-    </footer>
+            <span>View Details</span>
+          </span>
+        )}
+        {areThereAnyBidders && doesthisJobHaveNewBids && (
+          <span style={{ marginLeft: 4 }} className="tag is-danger">
+            +{numberOfNewBids}
+          </span>
+        )}
+      </a>
+    </React.Fragment>
   );
 };
