@@ -13,7 +13,7 @@ import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
-import { HowItWorksRequest } from '../../containers/commonComponents';
+import { DisplayLabelValue } from '../../containers/commonComponents';
 import HouseCleaningRequestDetails from './HouseCleaningRequestDetails';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import {
@@ -72,7 +72,7 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, requesterExpectations } = HOUSE_CLEANING_DEF;
+    const { ID, TASK_EXPECTATIONS } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
@@ -158,11 +158,7 @@ class HouseCleaningJobForm extends React.Component {
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
           <br />
-          <HowItWorksRequest
-            labelText="Sercvice Description"
-            labelValue={requesterExpectations}
-            step={1}
-          />
+          <DisplayLabelValue labelText="Sercvice Description" labelValue={TASK_EXPECTATIONS} />
           <br />
           {this.RenderLocationField()}
           <br />

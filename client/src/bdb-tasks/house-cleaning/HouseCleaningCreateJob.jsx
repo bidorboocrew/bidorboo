@@ -29,7 +29,7 @@ export default class HouseCleaningCreateJob extends React.Component {
           <div className="hero-body" />
         </section>
         <section className="hero is-small is-white">
-          <div className="hero-body">
+          <div>
             <div className="title has-text-dark">{TITLE} Request</div>
             <StepsForRequest step={1} />
           </div>

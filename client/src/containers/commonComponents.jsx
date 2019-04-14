@@ -45,7 +45,7 @@ export const DisplayLabelValue = (props) => {
   return (
     <div className="field">
       <label className="label">{props.labelText}</label>
-      <div className="control is-success">{props.labelValue}</div>
+      <div className="control">{props.labelValue}</div>
     </div>
   );
 };
@@ -317,18 +317,9 @@ export class LocationLabelAndValue extends React.Component {
   }
 }
 
-export const HowItWorksRequest = ({ labelText, labelValue }) => {
-  return (
-    <div className="field">
-      <label className="label">{labelText}</label>
-      <div className="control is-success">{labelValue}</div>
-    </div>
-  );
-};
-
 export const StepsForRequest = ({ step }) => {
   return (
-    <ul className="steps is-small">
+    <ul className="steps has-content-centered">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
@@ -385,7 +376,7 @@ export const StepsForRequest = ({ step }) => {
 
 export const StepsForTasker = ({ step }) => {
   return (
-    <ul className="steps is-small">
+    <ul className="steps has-content-centered">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
@@ -426,7 +417,7 @@ export const StepsForTasker = ({ step }) => {
           <p>Finalize the details</p>
         </div>
       </li>
-      <li className="steps-segment is-dashed">
+      <li className="steps-segment">
         <span className="steps-marker">
           <span className="icon">
             <i className="fa fa-usd" />
