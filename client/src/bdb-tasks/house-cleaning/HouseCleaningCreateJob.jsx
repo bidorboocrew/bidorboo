@@ -109,12 +109,9 @@ export default class HouseCleaningCreateJob extends React.Component {
 
     return (
       <div style={{ maxWidth: 'unset' }} className="card">
-        <section className="hero is-small is-white">
-          <div className="hero-body" />
-        </section>
-        <section className="hero is-small is-white">
+        <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
           <div>
-            <div className="title has-text-dark">{TITLE} Request</div>
+            <div className="title has-text-dark has-text-centered">{TITLE} Request</div>
             <StepsForRequest step={1} />
           </div>
         </section>
