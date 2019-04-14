@@ -107,9 +107,11 @@ export const JobTitleText = ({ title }) => {
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails
     ? userDetails
-    : { profileImage: { url: '' }, displayName: 'no user', rating: { globalRating: 'no user' } };
+    : { profileImage: { url: '' }, displayName: '--', rating: { globalRating: 'no rating' } };
 
   const { profileImage, displayName, rating } = temp;
+  let trimmedDisplayName =
+    displayName && displayName.length > 10 ? `${displayName.substring(0, 8)}...` : displayName;
   return (
     <article
       style={{
@@ -134,7 +136,7 @@ export const UserImageAndRating = ({ userDetails }) => {
 
       <div className="media-content">
         <div className="content">
-          <p className="is-size-6">{displayName}</p>
+          <p className="is-size-6">{trimmedDisplayName}</p>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <p className="is-size-7">No Ratings Yet</p>
@@ -245,7 +247,6 @@ export const StartDateAndTime = ({ date }) => {
   if (selectedTime && selectedTime > 0) {
     timeText = timeToTextMap[`${selectedTime}`];
   }
-  debugger
 
   return (
     <React.Fragment>

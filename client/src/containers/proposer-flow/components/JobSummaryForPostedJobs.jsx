@@ -169,7 +169,7 @@ const renderFooter = ({ job, notificationFeed }) => {
               <span className="icon">
                 <i className="fas fa-bullseye" />
               </span>
-              <span>View Details</span>
+              <span>Details</span>
             </span>
           )}
           {areThereAnyBidders && doesthisJobHaveNewBids && (

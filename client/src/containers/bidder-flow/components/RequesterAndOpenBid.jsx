@@ -125,7 +125,7 @@ class RequesterAndOpenBid extends React.Component {
         </div>
       ) : null;
     return (
-      <div className="container is-widescreen">
+      <div>
         <FloatingAddNewBidButton />
         <ReCAPTCHA
           style={{ display: 'none' }}

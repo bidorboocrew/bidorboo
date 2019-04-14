@@ -352,9 +352,6 @@ export function RenderFormActionButtons() {
             this.toggleConfirmationDialog();
           }}
         >
-          <span className="icon">
-            <i className="far fa-eye" />
-          </span>
           <span>Preview</span>
         </button>
       </div>

@@ -138,10 +138,7 @@ class MyBidsPage extends React.Component {
 
               {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
               {!isLoading && (
-                <div
-                  style={{ borderLeft: '1px solid #31c110' }}
-                  className="columns is-multiline is-mobile is-centered"
-                >
+                <div className="columns is-multiline is-mobile is-centered">
                   {awardedBidsListComponent}
                 </div>
               )}
@@ -158,12 +155,7 @@ class MyBidsPage extends React.Component {
               </div>
               {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
               {!isLoading && (
-                <div
-                  style={{ borderLeft: '1px solid #209cee' }}
-                  className="columns is-multiline is-mobile is-centered"
-                >
-                  {pendingBidsList}
-                </div>
+                <div className="columns is-multiline is-mobile is-centered">{pendingBidsList}</div>
               )}
             </div>
           </React.Fragment>

@@ -54,7 +54,7 @@ export default class BidsTable extends React.Component {
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>Award</span>
+                <span>Details</span>
                 {bid.isNewBid && (
                   <React.Fragment>
                     <div

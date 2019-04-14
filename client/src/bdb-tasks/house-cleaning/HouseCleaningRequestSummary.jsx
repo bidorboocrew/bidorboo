@@ -162,9 +162,6 @@ const renderFooter = ({ job, notificationFeed }) => {
         )}
         {!areThereAnyBidders && (
           <span style={{ marginLeft: 4 }}>
-            <span className="icon">
-              <i className="far fa-eye" />
-            </span>
             <span>View Details</span>
           </span>
         )}

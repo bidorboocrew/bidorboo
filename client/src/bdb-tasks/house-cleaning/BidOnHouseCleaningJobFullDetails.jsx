@@ -24,7 +24,7 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
       location,
       extras,
     } = job;
-    debugger;
+
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     const effortLevel =

@@ -61,7 +61,7 @@ export default class MyBidsAwardedBid extends React.Component {
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>View Details</span>
+                <span>Details</span>
               </a>
               {updatedStatus && (
                 <div
