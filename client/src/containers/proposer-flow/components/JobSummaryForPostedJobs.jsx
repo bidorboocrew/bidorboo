@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
-import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 import { DisplayLabelValue, CountDownComponent, StartDateAndTime } from '../../commonComponents';
 
@@ -37,7 +37,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
               <div className="modal-card">
                 <section className="modal-card-body">
                   <p className="title">
-                    Delete {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
+                    Delete {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
                   </p>
                   <br />
                   <p className="subtitle">
@@ -85,7 +85,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
             className="card-header is-clipped"
           >
             <p className="card-header-title">
-              {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+              {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
             </p>
 
             <a
@@ -116,7 +116,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
           <div className="card-image is-clipped">
             <img
               className="bdb-cover-img"
-              src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+              src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
             />
           </div>
           <div

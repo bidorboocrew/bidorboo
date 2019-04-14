@@ -11,7 +11,7 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 
 import BidsTable from './components/BidsTable';
 import ReviewBidAndBidder from './components/ReviewBidAndBidder';
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import getFullDetailsCardByTemplateJobId from '../../bdb-tasks/getFullDetailsCardByTemplateJobId';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class ReviewRequestAndBidsPage extends React.Component {
       );
     }
 
-    const jobDefinition = jobIdToDefinitionObjectMapper[selectedJobWithBids.fromTemplateId];
+    const jobDefinition = jobTemplateIdToDefinitionObjectMapper[selectedJobWithBids.fromTemplateId];
     if (!jobDefinition) {
       alert(`unknown job template ${selectedJobWithBids.fromTemplateId}`);
       return null;

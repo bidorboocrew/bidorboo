@@ -6,6 +6,7 @@ const keys = require('../config/keys');
 
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
+const jobTemplatesDefinitions = require('./bdb-job-templates-definitions');
 
 exports.encryptData = async (dataToEncrypt) => {
   try {
@@ -63,3 +64,7 @@ exports.signCloudinaryParams = async (paramsToSign) => {
 // await cloudinary.api.delete_resources_by_prefix(`${userMongoDbId}/Profile`, (error, result) => {
 //   console.log(result, error);
 // });
+
+exports.jobTemplateIdToDefinitionObjectMapper = {
+  [`${jobTemplatesDefinitions.HOUSE_CLEANING_DEF.ID}`]: jobTemplatesDefinitions.HOUSE_CLEANING_DEF,
+};

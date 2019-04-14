@@ -4,6 +4,9 @@ const moment = require('moment');
 const UserModel = mongoose.model('UserModel');
 const JobModel = mongoose.model('JobModel');
 const BidModel = mongoose.model('BidModel');
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const ROUTES = require('../backend-route-constants');
+const utils = require('../utils/utilities');
 
 exports.bidDataAccess = {
   confirmBidBelongsToOwner: (userMongoDBId, bidId) => {
@@ -411,6 +414,39 @@ exports.bidDataAccess = {
             .lean(true)
             .exec(),
         ]);
+
+        const jobDetails = await JobModel.findById(jobId)
+          .populate({
+            path: '_ownerRef',
+            select: {
+              _id: 1,
+              email: 1,
+              phone: 1,
+              _bidderRef: 1,
+              pushSubscription: 1,
+              notifications: 1,
+            },
+          })
+          .lean()
+          .exec();
+        const ownerDetails = jobDetails._ownerRef;
+        if (ownerDetails) {
+          const ownerEmailAddress =
+            ownerDetails.email && ownerDetails.email.emailAddress
+              ? ownerDetails.email.emailAddress
+              : '';
+
+          const jobTemplate =
+            utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.fromTemplateId}`];
+          const jobTitle = jobTemplate.TITLE || '';
+          sendGridEmailing.sendNewBidRecievedEmail({
+            to: ownerEmailAddress,
+            toDisplayName: ownerDetails.displayName,
+            taskName: jobTitle,
+            clickLink: `${ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId)}`,
+          });
+        }
+
         newBid && newBid.toObject ? resolve(newBid.toObject()) : resolve(newBid);
       } catch (e) {
         reject(e);

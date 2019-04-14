@@ -363,7 +363,6 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                             </tr>
                           </tbody>
                         </table>
-                        <p>For an enjoyable effetive experience please communicate well and make sure to agree on meeting time</p>
                         <p> BidOrBoo Wishes you the best of luck!</p>
                       </td>
                     </tr>

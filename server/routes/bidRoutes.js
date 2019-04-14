@@ -91,7 +91,7 @@ module.exports = (app) => {
     requirePassesRecaptcha,
     requireJobIsNotAwarded,
     requireUserHasNotAlreadyBidOnJob,
-    async (req, res, done) => {
+    async (req, res) => {
       try {
         // create new job for this user
         const { data } = req.body;

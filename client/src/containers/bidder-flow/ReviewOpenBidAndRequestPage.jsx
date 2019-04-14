@@ -10,7 +10,7 @@ import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsAction
 import { Spinner } from '../../components/Spinner';
 
 import RequesterAndOpenBid from './components/RequesterAndOpenBid';
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
@@ -57,7 +57,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedOpenBid._jobRef;
-    const title = jobIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
+    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">

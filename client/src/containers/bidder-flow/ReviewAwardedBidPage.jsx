@@ -11,7 +11,7 @@ import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions'
 import { Spinner } from '../../components/Spinner';
 import MyAwardedBidJobDetails from './components/MyAwardedBidJobDetails';
 import RequesterAndMyAwardedBid from './components/RequesterAndMyAwardedBid';
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -72,7 +72,7 @@ class ReviewAwardedBidPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedAwardedBid._jobRef;
-    const title = jobIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
+    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">

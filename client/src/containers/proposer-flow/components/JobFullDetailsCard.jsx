@@ -8,7 +8,7 @@ import {
   UserImageAndRating,
   StartDateAndTime,
 } from '../../commonComponents';
-import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export default class JobFullDetailsCard extends React.Component {
   render() {
@@ -28,14 +28,14 @@ export default class JobFullDetailsCard extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">
-            My {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
+            My {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Request
           </p>
         </header>
 
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
-            src={`${jobIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
           />
         </div>
         <div

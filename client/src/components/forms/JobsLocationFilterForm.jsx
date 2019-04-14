@@ -14,7 +14,7 @@ import { withFormik } from 'formik';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput } from './FormsHelpers';
 
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -91,7 +91,7 @@ class JobsLocationFilterForm extends React.Component {
     } = this.props;
 
     const filteredJobsList = values.filterJobsByCategoryField;
-    const staticJobCategoryButtons = Object.keys(jobIdToDefinitionObjectMapper).map((key) => {
+    const staticJobCategoryButtons = Object.keys(jobTemplateIdToDefinitionObjectMapper).map((key) => {
       const isThisJobSelected = filteredJobsList && filteredJobsList.includes(key);
 
       return (
@@ -102,7 +102,7 @@ class JobsLocationFilterForm extends React.Component {
             'is-info is-selected': isThisJobSelected,
           })}
         >
-          {jobIdToDefinitionObjectMapper[key].TITLE}
+          {jobTemplateIdToDefinitionObjectMapper[key].TITLE}
         </span>
       );
     });

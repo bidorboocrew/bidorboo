@@ -4,7 +4,7 @@ import ReactStars from 'react-stars';
 import moment from 'moment';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import jobIdToDefinitionObjectMapper from '../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 const geocoder = new window.google.maps.Geocoder();
 
@@ -175,7 +175,7 @@ export const CardTitleWithBidCount = ({
   return (
     <React.Fragment>
       <div className="is-size-4 has-text-weight-semibold">
-        {jobIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+        {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
       </div>
       <div>
         <a>

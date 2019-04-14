@@ -1,7 +1,7 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 
-import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import {
   DisplayLabelValue,
   CountDownComponent,
@@ -21,11 +21,11 @@ export default class MyAwardedBidJobDetails extends React.Component {
       addressText,
     } = job;
 
-    if (!jobIdToDefinitionObjectMapper[fromTemplateId]) {
+    if (!jobTemplateIdToDefinitionObjectMapper[fromTemplateId]) {
       return null;
     }
 
-    const jobDefintions = jobIdToDefinitionObjectMapper[fromTemplateId];
+    const jobDefintions = jobTemplateIdToDefinitionObjectMapper[fromTemplateId];
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">

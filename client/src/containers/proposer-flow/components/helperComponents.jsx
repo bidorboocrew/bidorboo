@@ -2,7 +2,7 @@ import React from 'react';
 import AddToCalendar from 'react-add-to-calendar';
 import moment from 'moment';
 
-import jobIdToDefinitionObjectMapper from '../../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export const TAB_IDS = {
   awardedJobs: 'Awarded',
@@ -22,7 +22,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
   const description = `${
     _bidderRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;

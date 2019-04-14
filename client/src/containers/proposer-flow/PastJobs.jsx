@@ -13,7 +13,7 @@ import { DisplayLabelValue, StartDateAndTime } from '../commonComponents';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { Spinner } from '../../components/Spinner';
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 class PastJobs extends React.Component {
   componentDidUpdate(prevProps) {
@@ -124,7 +124,7 @@ class RequestSummary extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${jobIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
+                      labelValue={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />

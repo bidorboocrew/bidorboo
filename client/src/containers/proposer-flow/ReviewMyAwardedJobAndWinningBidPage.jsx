@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import jobIdToDefinitionObjectMapper from '../../bdb-tasks/jobIdToDefinitionObjectMapper';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 import { Spinner } from '../../components/Spinner';
 import {
@@ -69,7 +69,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     }
 
     const { _awardedBidRef } = selectedAwardedJob;
-    const title = jobIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
+    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">
