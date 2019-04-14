@@ -8,7 +8,7 @@ const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireAwardedBidder = require('../middleware/requireAwardedBidder');
-
+const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
@@ -66,23 +66,28 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
-  app.delete(ROUTES.API.JOB.DELETE.myJobById, requireBidorBooHost, requireLogin, async (req, res) => {
-    try {
-      const mongoDbUserId = req.user._id;
-      const jobId = req.body.jobId;
+  app.delete(
+    ROUTES.API.JOB.DELETE.myJobById,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const mongoDbUserId = req.user._id;
+        const jobId = req.body.jobId;
 
-      if (jobId) {
-        userJobsList = await jobDataAccess.deleteJob(jobId, mongoDbUserId);
-        return res.send(jobId);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request JobId param was Not Specified',
-        });
+        if (jobId) {
+          userJobsList = await jobDataAccess.deleteJob(jobId, mongoDbUserId);
+          return res.send(jobId);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request JobId param was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
     }
-  });
+  );
 
   app.get(
     ROUTES.API.JOB.GET.jobFullDetailsById,

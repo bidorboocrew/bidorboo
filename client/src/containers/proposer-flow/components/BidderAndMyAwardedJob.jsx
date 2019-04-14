@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactStars from 'react-stars';
+import { UserImageAndRating } from '../../commonComponents';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
 import { isBeforeToday } from '../../../utils';
@@ -40,48 +41,11 @@ export default class BidderAndMyAwardedJob extends React.Component {
           <p className="card-header-title">Awarded Tasker Details</p>
         </header>
         <div className="card-content">
-          <br />
-          <div className="media">
-            <div
-              style={{
-                border: '1px solid #eee',
-                cursor: 'pointer',
-                boxShadow:
-                  '0 4px 6px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
-              }}
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-              }}
-              className="media-left"
-            >
-              <figure className="image is-48x48">
-                <img src={bidderProfileImgUrl} alt="img" />
-              </figure>
-            </div>
-            <div className="media-content">
-              <p className="is-size-6">{displayName}</p>
-              {bidderOverallRating === 'No Ratings Yet' || bidderOverallRating === 0 ? (
-                <p className="is-size-6">No Ratings Yet</p>
-              ) : (
-                <ReactStars
-                  className="is-size-6"
-                  half
-                  count={5}
-                  value={bidderOverallRating}
-                  edit={false}
-                  size={25}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
-            </div>
-          </div>
-
-          <div className="is-size-7" />
-          <br />
           <div style={{ marginBottom: 6 }} className="has-text-weight-bold is-size-5">
             Contact Info
           </div>
+          <UserImageAndRating userDetails={bid._bidderRef} />
+
           <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
           <DisplayLabelValue labelText="Email:" labelValue={email.emailAddress} />
           <DisplayLabelValue

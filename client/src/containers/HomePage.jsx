@@ -152,7 +152,7 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <div className="columns is-multiline is-centered">
-          <div className="column is-5">
+          <div className="column is-4">
             <RequestAService
               logoImg={requestImg}
               onClickHandler={() => {
@@ -160,7 +160,7 @@ export default class HomePage extends React.Component {
               }}
             />
           </div>
-          <div className="column is-5">
+          <div className="column is-4">
             <ProvideAService
               logoImg={bidsImg}
               onClickHandler={() => {
@@ -177,7 +177,11 @@ export default class HomePage extends React.Component {
 const RequestAService = (props) => {
   const { onClickHandler } = props;
   return (
-    <div id="bidOrBooMainPage-Request" className="card has-text-centered is-outlined">
+    <div
+      id="bidOrBooMainPage-Request"
+      style={{ maxWidth: 'unset' }}
+      className="card has-text-centered is-outlined"
+    >
       <div onClick={onClickHandler} className="card-content">
         <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="far fa-plus-square" />
@@ -218,7 +222,11 @@ const RequestAService = (props) => {
 const ProvideAService = (props) => {
   const { onClickHandler } = props;
   return (
-    <div id="bidOrBooMainPage-Provide" className="card has-text-centered">
+    <div
+      id="bidOrBooMainPage-Provide"
+      style={{ maxWidth: 'unset' }}
+      className="card has-text-centered"
+    >
       <div onClick={onClickHandler} className="card-content">
         <div id="Bidder-step" className="buttonlike has-text-weight-semibold is-size-4">
           <i className="fas fa-hand-rock" />
