@@ -15,5 +15,5 @@ export const HOUSE_CLEANING_DEF = {
     },
   },
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products to thouroughaly clean your house.
-The Requester is required to provide specialty cleaning products and large equipment such as vaccum cleaner, Mob..,etc`,
+The Requester is required to provide specialty cleaning products and large equipment such as vaccum cleaner, mop and others`,
 };

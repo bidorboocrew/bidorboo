@@ -353,7 +353,7 @@ export function RenderFormActionButtons() {
           }}
         >
           <span className="icon">
-            <i className="fas fa-bullseye" />
+            <i className="far fa-eye" />
           </span>
           <span>Preview</span>
         </button>
