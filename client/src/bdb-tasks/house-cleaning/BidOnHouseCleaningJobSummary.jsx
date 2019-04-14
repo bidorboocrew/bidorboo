@@ -9,7 +9,7 @@ import {
   StartDateAndTime,
 } from '../../containers/commonComponents';
 
-export default class RequestsTabSummaryCard extends React.Component {
+export default class BidOnHouseCleaningJobSummary extends React.Component {
   render() {
     const {
       job,

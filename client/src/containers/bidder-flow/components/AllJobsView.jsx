@@ -3,7 +3,6 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
-import RequestsTabSummaryCard from './RequestsTabSummaryCard';
 import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
 
 export default class AllJobsView extends React.Component {
