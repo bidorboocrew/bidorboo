@@ -69,6 +69,7 @@ exports.util = {
           type: 'custom', //HARD CODED
           default_currency: 'CAD', //HARD CODED
           email: email || '',
+          business_type: 'individual',
           metadata: { user_id, email, userId, displayName },
           settings: {
             payments: {

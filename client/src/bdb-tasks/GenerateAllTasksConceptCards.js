@@ -40,7 +40,7 @@ const ComingSoon1 = () => {
           Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with a
           simple click. Get rid of that grass and live life to the max
         </div>
-        <a className="button is-success is-outlined is-fullwidth">Coming Soon</a>
+        <a className="button is-outlined is-fullwidth">Coming Soon</a>
       </div>
     </div>
   );
@@ -76,7 +76,7 @@ const ComingSoon2 = () => {
           Need some Muscles to help you lift heavy items or move ? Movers can do the heavy lifting
           while you enjoy settling into your new space.
         </div>
-        <a className="button is-success is-outlined is-fullwidth">Coming Soon</a>
+        <a className="button is-outlined is-fullwidth">Coming Soon</a>
       </div>
     </div>
   );

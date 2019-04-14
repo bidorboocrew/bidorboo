@@ -156,14 +156,16 @@ const EnhancedForms = withFormik({
           date: Math.round(new Date().getTime() / 1000),
           ip: tokenizedBankAccount.client_ip,
         },
-        legal_entity: {
+        business_type: 'individual',
+        individual: {
           first_name,
           last_name,
-          phone_number,
-          type: 'individual',
+          phone: phone_number,
           verification: {
-            document: frontSideResp.data.id,
-            document_back: backSideResp.data.id,
+            document: {
+              front: frontSideResp.data.id,
+              back: backSideResp.data.id,
+            },
           },
           address: {
             city: address_city,
