@@ -338,7 +338,7 @@ export const StepsForRequest = ({ step }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p>Wait for Bids</p>
+          <p>Recieve Bids</p>
         </div>
       </li>
       <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
@@ -351,7 +351,7 @@ export const StepsForRequest = ({ step }) => {
           <p>Choose a Tasker</p>
         </div>
       </li>
-      <li className="steps-segment">
+      {/* <li className="steps-segment">
         <span className="steps-marker">
           <span className="icon">
             <i className="far fa-comments" />
@@ -360,7 +360,7 @@ export const StepsForRequest = ({ step }) => {
         <div className="steps-content">
           <p>Finalize the details</p>
         </div>
-      </li>
+      </li> */}
       <li className="steps-segment is-dashed">
         <span className="steps-marker">
           <span className="icon">
@@ -405,10 +405,10 @@ export const StepsForTasker = ({ step }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p>Wait to be awarded</p>
+          <p>Get Awarded</p>
         </div>
       </li>
-      <li className="steps-segment">
+      {/* <li className="steps-segment">
         <span className="steps-marker">
           <span className="icon">
             <i className="far fa-comments" />
@@ -417,7 +417,7 @@ export const StepsForTasker = ({ step }) => {
         <div className="steps-content">
           <p>Finalize the details</p>
         </div>
-      </li>
+      </li> */}
       <li className="steps-segment">
         <span className="steps-marker">
           <span className="icon">

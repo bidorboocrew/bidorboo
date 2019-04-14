@@ -3,6 +3,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 import {
   AvgBidDisplayLabelAndValue,
+  DisplayLabelValue,
   UserImageAndRating,
   CardTitleWithBidCount,
   StartDateAndTime,
@@ -21,7 +22,7 @@ export default class RequestsTabSummaryCard extends React.Component {
     } = this.props;
     const { IMG_URL } = HOUSE_CLEANING_DEF;
 
-    const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state } = job;
+    const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state, extras } = job;
 
     let isAwarded = state && state.toLowerCase() === 'awarded';
 
@@ -29,6 +30,13 @@ export default class RequestsTabSummaryCard extends React.Component {
 
     const userAlreadyBid = didUserAlreadyBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
+
+    const effortLevel =
+      extras && extras.effort ? (
+        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+      ) : (
+        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
+      );
 
     return (
       <div
@@ -58,6 +66,7 @@ export default class RequestsTabSummaryCard extends React.Component {
             <label className="label">Requester:</label>
             <UserImageAndRating userDetails={_ownerRef} />
             <StartDateAndTime date={startingDateAndTime} />
+            {effortLevel}
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
           {!withButtons && (

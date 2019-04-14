@@ -220,6 +220,7 @@ class BidderRootPage extends React.Component {
             <div className="container">
               <h1 className="title">Provide a Service</h1>
               <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
+              <StepsForTasker step={1} />
               <h2 className="subtitle">
                 {userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
@@ -241,7 +242,6 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
-        <StepsForTasker step={1} />
 
         <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav

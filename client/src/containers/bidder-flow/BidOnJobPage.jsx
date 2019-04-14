@@ -86,22 +86,26 @@ class BidOnJobPage extends React.Component {
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
         <div className="container is-widescreen">
-          {breadCrumbs()}
-          <PostYourBid
-            avgBid={avgBid}
-            onSubmit={(values) => {
-              submitBid({
-                jobId: jobDetails._id,
-                bidAmount: values.bidAmountField,
-                recaptchaField,
-              });
-            }}
-            onCancel={() => {
-              updateBooedBy(jobDetails);
-              switchRoute(ROUTES.CLIENT.BIDDER.root);
-            }}
-          />
-          {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
+          <div className="columns is-centered">
+            <div className="column is-narrow">
+              {breadCrumbs()}
+              <PostYourBid
+                avgBid={avgBid}
+                onSubmit={(values) => {
+                  submitBid({
+                    jobId: jobDetails._id,
+                    bidAmount: values.bidAmountField,
+                    recaptchaField,
+                  });
+                }}
+                onCancel={() => {
+                  updateBooedBy(jobDetails);
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+              {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
+            </div>
+          </div>
         </div>
       </React.Fragment>
     );

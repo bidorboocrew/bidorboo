@@ -19,7 +19,9 @@ export default class HouseCleaningRequestDetails extends React.Component {
     const effortLevel =
       extras && extras.effort ? (
         <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : null;
+      ) : (
+        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
+      );
     return (
       <div style={{ height: 'auto' }} className="card is-clipped disabled">
         <div className="card-image is-clipped">

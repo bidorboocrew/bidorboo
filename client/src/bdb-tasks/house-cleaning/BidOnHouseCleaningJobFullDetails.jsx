@@ -30,10 +30,12 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
     const effortLevel =
       extras && extras.effort ? (
         <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : null;
+      ) : (
+        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
+      );
 
     return (
-      <div style={{ height: 'auto' }} className="card disabled is-clipped">
+      <div style={{ height: 'auto'}} className="card disabled is-clipped">
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
