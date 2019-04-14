@@ -30,7 +30,9 @@ import {
   RenderLocationField,
   RenderDetailedDescriptionField,
   RenderFormActionButtons,
-} from '../commonJobComponents';
+  renderEffortField,
+  selectEffortLevel,
+} from '../commonJobFormComponents';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -45,6 +47,7 @@ class HouseCleaningJobForm extends React.Component {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
+      selectedEffortButtonId: HOUSE_CLEANING_DEF.extras.effort.small,
     };
 
     setupGoogleAndGeoCoder.bind(this)();
@@ -61,6 +64,8 @@ class HouseCleaningJobForm extends React.Component {
     this.RenderLocationField = RenderLocationField.bind(this);
     this.RenderDetailedDescriptionField = RenderDetailedDescriptionField.bind(this);
     this.RenderFormActionButtons = RenderFormActionButtons.bind(this);
+    this.selectEffortLevel = selectEffortLevel.bind(this);
+    this.renderEffortField = renderEffortField.bind(this);
   }
 
   componentDidMount() {
@@ -72,7 +77,7 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS } = HOUSE_CLEANING_DEF;
+    const { ID, TASK_EXPECTATIONS, extras } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
@@ -162,9 +167,11 @@ class HouseCleaningJobForm extends React.Component {
           <br />
           {this.RenderLocationField()}
           <br />
-          {this.RenderDateAndTimeField()}
+          {this.renderEffortField(extras.effort)}
           <br />
           {this.RenderDetailedDescriptionField()}
+          <br />
+          {this.RenderDateAndTimeField()}
           <br />
           {this.RenderFormActionButtons()}
         </form>

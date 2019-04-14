@@ -7,17 +7,13 @@ export const HOUSE_CLEANING_DEF = {
 
 *Any heavy items obstructing the floors ?`,
   IMG_URL: 'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
-  customAttributes: {
-    CLEANING_SUPPLIES: {
-      notProvided: 'Tasker must bring the cleaning supplies.',
-      provided: 'Cleaning supplies will be provided on site.',
-    },
-    TIME_REQUIREMENT: {
-      small: '1 - 3',
-      medium: '3 - 6',
-      large: '6 - 8',
+  extras: {
+    effort: {
+      small: 'small (1-3 hours)',
+      medium: 'medium (3-6 hours)',
+      large: 'large (6-8 hours)',
     },
   },
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products to thouroughaly clean your house.
-The Requester is required to provide specialty cleaning products and vaccum cleaner.`,
+The Requester is required to provide specialty cleaning products and large equipment such as vaccum cleaner, Mob..,etc`,
 };
