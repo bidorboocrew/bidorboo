@@ -2,7 +2,7 @@
 import React from 'react';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
-import RequestsTabSummaryCard from '../components/RequestsTabSummaryCard';
+import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
 
 export default class JobInfoBox extends React.Component {
   render() {
@@ -33,7 +33,7 @@ export default class JobInfoBox extends React.Component {
           enableEventPropagation: true,
         }}
       >
-        <RequestsTabSummaryCard
+        <getBidOnSummaryCardByTemplateJobId
           onClickHandler={() => {
             if (!isLoggedIn) {
               showLoginDialog(true);

@@ -43,7 +43,7 @@ class PastRequestedServices extends React.Component {
     if (myPastRequestedServices && myPastRequestedServices.length > 0) {
       AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails, index) => {
         return (
-          <RequestsTabSummaryCard key={requestDetails._id} index={index} {...requestDetails} />
+          <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />
         );
       });
     }
@@ -111,7 +111,7 @@ const EmptyHistory = () => {
   );
 };
 
-class RequestsTabSummaryCard extends React.Component {
+class RequestSummary extends React.Component {
   render() {
     const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted, index } = this.props;
 
