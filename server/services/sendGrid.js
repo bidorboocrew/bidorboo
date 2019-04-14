@@ -5,7 +5,6 @@ const keys = require('../config/keys');
 const populateHtmlTemplate = require('./sendGrid-Htmltemplate').populateHtmlTemplate;
 const populateNewBidHtmlTemplate = require('./sendGrid-Htmltemplate-newBid').populateHtmlTemplate;
 
-sendGrid-Htmltemplate-newBid
 sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {

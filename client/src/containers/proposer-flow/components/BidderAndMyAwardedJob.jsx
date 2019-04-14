@@ -25,8 +25,6 @@ export default class BidderAndMyAwardedJob extends React.Component {
 
     const { rating, displayName, profileImage, email, phone, _id } = bid._bidderRef;
 
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
