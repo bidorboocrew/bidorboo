@@ -26,7 +26,7 @@ const EmptyStateComponent = (props) => (
       <div className="card-content">
         <div className="content has-text-centered">
           <div className="is-size-5">You have no awarded Jobs.</div>
-          <div className="help">Go to your requests tab, review the bids and select a bidder.</div>
+          <div className="help">Go to your requests tab, review the bids and select a Tasker.</div>
           <br />
           <a
             className="button is-success "

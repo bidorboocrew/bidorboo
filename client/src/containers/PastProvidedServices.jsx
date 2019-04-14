@@ -240,7 +240,7 @@ const PleaseSubmitYourReview = () => {
   return (
     <div className="field">
       <label>
-        Your Review will be revealed when both the Requester and the Bidder (YOU) submit your
+        Your Review will be revealed when both the Requester and the Tasker (YOU) submit your
         reviews
       </label>
 

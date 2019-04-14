@@ -143,7 +143,7 @@ class RequestSummary extends React.Component {
                   {!didISubmitReview && <PleaseSubmitYourReview />}
 
                   {!didBidderSubmitReview && (
-                    <ReviewComments comment="Review is Pending. Bidder did not finish the review  Yet  " />
+                    <ReviewComments comment="Review is Pending. Tasker did not finish the review  Yet  " />
                   )}
 
                   {bothSubmittedReview && (
@@ -223,7 +223,7 @@ const PleaseSubmitYourReview = () => {
   return (
     <div className="field">
       <label>
-        Your Review will be revealed when both (YOU) the Requester and the Bidder submit your
+        Your Review will be revealed when both (YOU) the Requester and the Tasker submit your
         reviews
       </label>
 

@@ -49,11 +49,11 @@ export default class ReviewBidAndBidder extends React.Component {
                   * When you Accept a bid you will be asked to put your payment details
                 </div>
                 <div className="help">
-                  * When the payment is secured both you and the bidder will recieve an email which
+                  * When the payment is secured both you and the Tasker will recieve an email which
                   will share your contact details
                 </div>
                 <div className="help">
-                  * When the job is completed. You will get a chance to rate the Bidder and the bid
+                  * When the job is completed. You will get a chance to rate the Tasker and the bid
                   amount will be deducted
                 </div>
 

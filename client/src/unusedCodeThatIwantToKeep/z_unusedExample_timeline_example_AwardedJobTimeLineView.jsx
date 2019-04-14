@@ -121,7 +121,7 @@ export default class AwardedJobTimeLineView extends React.Component {
             <div className="timeline-item has-text-grey">
               <div className="timeline-marker has-text-grey" />
               <div className="timeline-content">
-                <p>Review Bidder</p>
+                <p>Review Tasker</p>
               </div>
             </div>
 

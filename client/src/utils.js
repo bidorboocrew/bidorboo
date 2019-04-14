@@ -4,11 +4,11 @@ import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
   // setTimeout(() => {
-    if (stateContent) {
-      appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
-    } else {
-      appHistory.push(routeAndParams);
-    }
+  if (stateContent) {
+    appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
+  } else {
+    appHistory.push(routeAndParams);
+  }
   // }, 0);
 };
 

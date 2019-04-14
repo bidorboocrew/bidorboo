@@ -37,7 +37,7 @@ export default class BidderAndMyAwardedJob extends React.Component {
     return (
       <div style={{ height: 'auto' }} className="card disabled">
         <header className="card-header is-clipped">
-          <p className="card-header-title">Awarded Bidder Details</p>
+          <p className="card-header-title">Awarded Tasker Details</p>
         </header>
         <div className="card-content">
           <br />

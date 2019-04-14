@@ -46,7 +46,7 @@ export default class JobSummaryForAwarded extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Awarded Bidder:</div>
+          <div className="has-text-dark is-size-7">Awarded Tasker</div>
           <UserImageAndRating userDetails={_bidderRef} />
 
           <div className="content">
