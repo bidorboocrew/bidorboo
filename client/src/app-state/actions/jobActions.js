@@ -1,7 +1,6 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import haversineOffset from 'haversine-offset';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const updateBooedBy = (jobDetails) => (dispatch) =>
@@ -204,61 +203,8 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   });
 };
 
-export const addJob = ({ initialDetails }) => (dispatch) => {
-  const {
-    locationField,
-    detailedDescriptionField,
-    dateField,
-    durationOfJobField,
-    addressTextField,
-    fromTemplateIdField,
-    recaptchaField,
-  } = initialDetails;
+export const addJob = (jobDetails, recaptchaField) => (dispatch) => {
 
-  //map form fields to the mongodb schema expected fields
-  // for more ddetails look at jobModel.js
-
-  //  offset the location for security
-  // https://www.npmjs.com/package/haversine-offset
-  let lng = -75.6972; //ottawa
-  let lat = 45.4215;
-  try {
-    lng = parseFloat(locationField.lng);
-    lat = parseFloat(locationField.lat);
-    let preOffset = { latitude: lat, longitude: lng };
-    let offset = {
-      x: Math.floor(Math.random() * Math.floor(1000)),
-      y: Math.floor(Math.random() * Math.floor(1000)),
-    };
-
-    let postOffset = haversineOffset(preOffset, offset);
-
-    if (postOffset.lat > 0) {
-      lat = Math.min(postOffset.lat, 90).toFixed(5);
-    } else if (postOffset.lat < 0) {
-      lat = Math.max(postOffset.lat, -90).toFixed(5);
-    }
-    if (postOffset.lng > 0) {
-      lng = Math.min(postOffset.lng, 180).toFixed(5);
-    } else if (postOffset.lng < 0) {
-      lng = Math.max(postOffset.lng, -180).toFixed(5);
-    }
-  } catch (e) {
-    console.log('failed to create location default to ottawa'); //if not set to ottawa coords
-  }
-
-  const mapFieldsToSchema = {
-    detailedDescription: detailedDescriptionField,
-    location: {
-      type: 'Point',
-      coordinates: [parseFloat(lng), parseFloat(lat)],
-    },
-    startingDateAndTime: dateField,
-    durationOfJob: durationOfJobField,
-    addressText: addressTextField,
-    state: 'OPEN',
-    fromTemplateId: fromTemplateIdField,
-  };
 
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
@@ -266,7 +212,7 @@ export const addJob = ({ initialDetails }) => (dispatch) => {
       .post(ROUTES.API.JOB.POST.newJob, {
         recaptchaField,
         data: {
-          jobDetails: mapFieldsToSchema,
+          jobDetails
         },
       })
       .then((resp) => {

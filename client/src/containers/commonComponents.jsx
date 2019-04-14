@@ -245,6 +245,7 @@ export const StartDateAndTime = ({ date }) => {
   if (selectedTime && selectedTime > 0) {
     timeText = timeToTextMap[`${selectedTime}`];
   }
+  debugger
 
   return (
     <React.Fragment>

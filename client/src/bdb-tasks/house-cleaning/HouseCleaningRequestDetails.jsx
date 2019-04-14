@@ -13,9 +13,13 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 export default class HouseCleaningRequestDetails extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, _ownerRef, detailedDescription, addressText } = job;
+    const { startingDateAndTime, _ownerRef, detailedDescription, addressText, extras } = job;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
+    const effortLevel =
+      extras && extras.effort ? (
+        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+      ) : null;
     return (
       <div style={{ height: 'auto' }} className="card is-clipped disabled">
         <div className="card-image is-clipped">
@@ -29,6 +33,7 @@ export default class HouseCleaningRequestDetails extends React.Component {
             <div className="content">
               <StartDateAndTime date={startingDateAndTime} />
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
+              {effortLevel}
               <label className="label">Detailed Description</label>
               <span className="is-size-7">
                 <TextareaAutosize

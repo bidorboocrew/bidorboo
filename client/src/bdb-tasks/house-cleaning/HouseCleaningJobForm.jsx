@@ -276,7 +276,8 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      timeField: 5,
+      timeField: 17,
+      effortField: HOUSE_CLEANING_DEF.extras.effort.small,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })

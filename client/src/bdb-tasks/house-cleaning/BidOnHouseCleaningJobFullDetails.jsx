@@ -22,9 +22,15 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
       state,
       detailedDescription,
       location,
+      extras,
     } = job;
-
+    debugger;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+
+    const effortLevel =
+      extras && extras.effort ? (
+        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+      ) : null;
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">
@@ -41,6 +47,7 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
               <LocationLabelAndValue location={location.coordinates} />
             )}
             <DisplayLabelValue labelText="State:" labelValue={state} />
+            {effortLevel}
             <label className="label">Detailed Description</label>
             <span className="is-size-7">
               <TextareaAutosize

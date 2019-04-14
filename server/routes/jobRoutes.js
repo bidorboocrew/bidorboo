@@ -55,9 +55,6 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.alljobsToBidOn, requireBidorBooHost, async (req, res) => {
     try {
-      const userId = req.user && req.user.userId ? req.user.userId : null;
-      const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
-
       userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {
