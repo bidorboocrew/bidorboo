@@ -44,7 +44,7 @@ const ComingSoon1 = () => {
         </div>
       </div>
       <footer className="card-footer">
-        <div className="card-footer-item">Want it sooner ?</div>
+        <div className="card-footer-item has-text-centered">Want it sooner?</div>
         <a href="#" className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />
@@ -98,7 +98,7 @@ const ComingSoon2 = () => {
       </div>
 
       <footer className="card-footer">
-        <div className="card-footer-item">Want it sooner ?</div>
+        <div className="card-footer-item has-text-centered">Want it sooner?</div>
         <a href="#" className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />
