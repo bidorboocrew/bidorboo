@@ -12,7 +12,7 @@ class ProposerRoot extends React.Component {
     super(props);
     this.AllTasks = GenerateAllTasksConceptCards(props).map((task, index) => {
       return (
-        <div key={index} className="column limitMaxdWidth">
+        <div key={index} className="column">
           {task}
         </div>
       );
