@@ -321,7 +321,7 @@ export class LocationLabelAndValue extends React.Component {
 
 export const StepsForRequest = ({ step }) => {
   return (
-    <ul className="steps has-content-centered">
+    <ul className="steps has-content-centered is-horizontal">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
@@ -369,7 +369,7 @@ export const StepsForRequest = ({ step }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p>Tasker gets it done</p>
+          <p>Get it done</p>
         </div>
       </li>
     </ul>
@@ -378,7 +378,7 @@ export const StepsForRequest = ({ step }) => {
 
 export const StepsForTasker = ({ step }) => {
   return (
-    <ul className="steps has-content-centered">
+    <ul className="steps has-content-centered is-horizontal">
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
@@ -399,7 +399,7 @@ export const StepsForTasker = ({ step }) => {
           <p>Bid On it</p>
         </div>
       </li>
-      <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+      {/* <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
             <i className="far fa-clock" />
@@ -408,7 +408,7 @@ export const StepsForTasker = ({ step }) => {
         <div className="steps-content">
           <p>Get Awarded</p>
         </div>
-      </li>
+      </li> */}
       {/* <li className="steps-segment">
         <span className="steps-marker">
           <span className="icon">

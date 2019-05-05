@@ -106,7 +106,9 @@ class Header extends React.Component {
         {/* is-spaced is a good prop to add  */}
         <nav
           id="BID_OR_BOO_APP_HEADER"
-          className="navbar is-fixed-top has-shadow nav-bottom-border"
+          className={`navbar is-fixed-top has-shadow nav-bottom-border ${
+            isActingAsBidder ? 'bidderAppBar' : ''
+          }  `}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
