@@ -75,11 +75,12 @@ class AcceptBidPaymentHandling extends React.Component {
         <StripeCheckout
           name="BidOrBoo"
           image={logoImg}
-          description="Secure payment using Stripe"
+          description="Secure payment via stripe"
           amount={this.chargeAmount}
           currency="CAD"
           zipCode
           billingAddress
+          allowRememberMe
           token={this.onTokenResponse}
           stripeKey={process.env.REACT_APP_STRIPE_KEY}
         >

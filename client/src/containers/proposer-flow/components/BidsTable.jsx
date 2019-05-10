@@ -59,19 +59,17 @@ export default class BidsTable extends React.Component {
                 className="button is-success is-outlined"
                 style={{ position: 'relative' }}
               >
-                <span className="icon">
+                <span className="icon" style={{ margin: 0 }}>
                   <i className="fas fa-bullseye" />
                 </span>
 
                 {bid.isNewBid && (
-                  <React.Fragment>
-                    <div
-                      style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
-                      className="has-text-danger"
-                    >
-                      <i className="fas fa-circle" />
-                    </div>
-                  </React.Fragment>
+                  <span
+                    style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                    className="has-text-danger"
+                  >
+                    <i className="fas fa-circle" />
+                  </span>
                 )}
               </a>
             )}
@@ -85,8 +83,8 @@ export default class BidsTable extends React.Component {
         <thead>
           <tr>
             <th>Tasker Details</th>
-            <th className="has-text-centered">Total Cost</th>
-            <th className="has-text-centered" />
+            <th className="has-text-centered">Cost $</th>
+            <th className="has-text-centered">Select One</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
