@@ -43,7 +43,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 
 export const DisplayLabelValue = (props) => {
   return (
-    <div className="field">
+    <div style={{ marginBottom: 0 }} className="field">
       <label className="label">{props.labelText}</label>
       <div className="control">{props.labelValue}</div>
     </div>
@@ -54,38 +54,26 @@ export const CountDownComponent = (props) => {
   const { startingDate, isJobStart = true } = props;
 
   return (
-    <React.Fragment>
-      <br />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          marginTop: 6,
-          borderRadius: 4,
+    <div className="is-size-7">
+      <Countdown
+        date={startingDate || new Date()}
+        intervalDelay={1000}
+        renderer={({ days, hours, minutes, seconds, completed }) => {
+          return completed ? (
+            <ExpiringSoon startingDate={startingDate} />
+          ) : (
+            <React.Fragment>
+              {days && !`${days}`.includes('NaN') ? (
+                <div
+                  className="help"
+                  style={{ marginBottom: '0.5rem', color: 'grey' }}
+                >{`* In ${days} days from now.`}</div>
+              ) : null}
+            </React.Fragment>
+          );
         }}
-        className="is-size-7  has-text-centered"
-      >
-        <Countdown
-          date={startingDate || new Date()}
-          intervalDelay={1000}
-          renderer={({ days, hours, minutes, seconds, completed }) => {
-            return completed ? (
-              <ExpiringSoon startingDate={startingDate} />
-            ) : (
-              <React.Fragment>
-                {days && !`${days}`.includes('NaN') ? (
-                  <div style={{ color: 'lightgrey' }}>{`${
-                    isJobStart ? 'Starts' : 'Deadline'
-                  } in ${days} days ${hours}h ${minutes}m ${seconds}s`}</div>
-                ) : null}
-              </React.Fragment>
-            );
-          }}
-        />
-      </div>
-    </React.Fragment>
+      />
+    </div>
   );
 };
 const ExpiringSoon = ({ startingDate }) => {
@@ -102,7 +90,7 @@ const ExpiringSoon = ({ startingDate }) => {
   }
 };
 export const JobTitleText = ({ title }) => {
-  return <p className="is-size-4 has-text-weight-semibold">{title}</p>;
+  return <p className="is-size-6 has-text-weight-semibold">{title}</p>;
 };
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails
@@ -248,12 +236,7 @@ export const StartDateAndTime = ({ date }) => {
     timeText = timeToTextMap[`${selectedTime}`];
   }
 
-  return (
-    <React.Fragment>
-      <DisplayLabelValue labelText="Start Date" labelValue={startingDate} />
-      <DisplayLabelValue labelText="Start Time" labelValue={timeText || 'not specified'} />
-    </React.Fragment>
-  );
+  return <DisplayLabelValue labelText="Start Date" labelValue={`${startingDate} - ${timeText}`} />;
 };
 
 export class LocationLabelAndValue extends React.Component {

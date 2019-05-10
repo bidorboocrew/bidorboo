@@ -163,7 +163,7 @@ class HouseCleaningJobForm extends React.Component {
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
           <br />
-          <DisplayLabelValue labelText="Sercvice Description" labelValue={TASK_EXPECTATIONS} />
+          <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
           <br />
           {this.RenderLocationField()}
           <br />

@@ -8,7 +8,6 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
-  JobTitleText,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -19,6 +18,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
 
     this.state = {
       showDeleteDialog: false,
+      showMoreOptionsContextMenu: false,
     };
   }
 
@@ -26,12 +26,33 @@ export default class HouseCleaningRequestSummary extends React.Component {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
+  toggleShowMoreOptionsContextMenu = () => {
+    this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
+      if (this.state.showMoreOptionsContextMenu) {
+        document.addEventListener('mousedown', this.handleClick, false);
+      } else {
+        document.removeEventListener('mousedown', this.handleClick, false);
+      }
+    });
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick, false);
+  }
+
+  handleClick = (e) => {
+    if (this.node && e.target && this.node.contains(e.target)) {
+      return;
+    } else {
+      this.toggleShowMoreOptionsContextMenu();
+    }
+  };
   render() {
     const { job, deleteJob, notificationFeed } = this.props;
 
     const { startingDateAndTime, _bidsListRef, addressText } = job;
 
-    const { showDeleteDialog } = this.state;
+    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (
@@ -42,24 +63,25 @@ export default class HouseCleaningRequestSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <section className="modal-card-body">
-                  <p className="title">Delete {TITLE} Request</p>
+                  <p className="title">Cancel your {TITLE} Request</p>
                   <br />
-                  <p className="subtitle">
-                    When you delete a job we will delete all the existing bids. <br /> You can
-                    always post a similar request at another time
-                  </p>
+                  <div className="content">
+                    When you cancel a request we will delete it and all associated bids within 24
+                    hours.
+                    <br /> You can always post a new request at any time
+                  </div>
                   <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
                 <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
-                    <span>Cancel</span>
+                    <span>Go Back</span>
                   </button>
                   <button
-                    style={{ width: 140 }}
+                    style={{ width: 160 }}
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
@@ -70,63 +92,79 @@ export default class HouseCleaningRequestSummary extends React.Component {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Delete</span>
+                    <span>Cancel Request</span>
                   </button>
                 </footer>
               </div>
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
-          }}
-          className="card limitWidthOfCard is-clipped"
-        >
-          <div className="card-image is-clipped">
+        <div className="card">
+          <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
           <div className="card-content">
             <div className="content">
-              <JobTitleText title={TITLE} />
-              <div className="field">
-                <label className="label">Task info</label>
-                <div>
-                  <a
-                    className={`${
-                      _bidsListRef && _bidsListRef.length === 0
-                        ? 'has-text-grey'
-                        : 'has-text-success'
-                    }`}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-hand-paper" />
-                    </span>
-                    <span>{`${_bidsListRef ? _bidsListRef.length : 0} bids`}</span>
-                  </a>
+              <div style={{ display: 'flex' }}>
+                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+                  {TITLE}
+                </div>
 
-                  <a
-                    aria-label="more options"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      this.toggleDeleteConfirmationDialog();
-                    }}
+                <div
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
+                      </div>
+                    </button>
+                  </div>
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className="dropdown-menu"
+                    id="dropdown-menu"
+                    role="menu"
                   >
-                    <span style={{ color: 'grey' }} className="icon">
-                      <i className="far fa-trash-alt" aria-hidden="true" />
-                    </span>
-                  </a>
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        href="#"
+                        className="dropdown-item"
+                      >
+                        <span style={{ color: 'grey' }} className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div
+                style={{
+                  backgroundColor: ' whitesmoke',
+                  border: 'none',
+                  display: 'block',
+                  height: 2,
+                  margin: '0.5rem 0',
+                }}
+                className="navbar-divider"
+              />
               <StartDateAndTime date={startingDateAndTime} />
+              <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
 
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}
-          <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
         </div>
       </React.Fragment>
     );
@@ -149,28 +187,44 @@ const renderFooter = ({ job, notificationFeed }) => {
   }
 
   return (
-    <React.Fragment>
-      <br />
-      <a className={`button is-fullwidth ${areThereAnyBidders ? 'is-success' : 'is-outline'}`}>
+    <div style={{ padding: '0.5rem' }}>
+      <a
+        style={{ position: 'relative' }}
+        onClick={() => {
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+        }}
+        className="button is-outlined is-success"
+        disabled={!areThereAnyBidders}
+      >
         {areThereAnyBidders && (
-          <span style={{ marginLeft: 4 }}>
+          <span>
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>View Bids</span>
+            <span>{`View (${job._bidsListRef.length}) ${
+              job._bidsListRef.length > 1 ? 'Bids' : 'Bid'
+            }`}</span>
           </span>
         )}
         {!areThereAnyBidders && (
-          <span style={{ marginLeft: 4 }}>
-            <span>View Details</span>
+          <span>
+            <span>No bids yet</span>
           </span>
         )}
         {areThereAnyBidders && doesthisJobHaveNewBids && (
+          <div
+            style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
+            className="has-text-danger"
+          >
+            <i className="fas fa-circle" />
+          </div>
+        )}
+        {/* {areThereAnyBidders && doesthisJobHaveNewBids && (
           <span style={{ marginLeft: 4 }} className="tag is-danger">
             +{numberOfNewBids}
           </span>
-        )}
+        )} */}
       </a>
-    </React.Fragment>
+    </div>
   );
 };

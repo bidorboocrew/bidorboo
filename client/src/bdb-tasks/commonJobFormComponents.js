@@ -202,32 +202,35 @@ export function RenderDateAndTimeField() {
       />
       <div className="buttons">
         <span
-          style={{ width: 100 }}
+          style={{ width: 160, fontSize: 14 }}
           onClick={() => this.selectTimeButton('morning')}
           className={`button is-info ${selectedTimeButtonId === 'morning' ? '' : 'is-outlined'}`}
         >
-          Morning
+          Morning (8AM-12PM)
         </span>
         <span
-          style={{ width: 100 }}
+          style={{ width: 160, fontSize: 14 }}
           onClick={() => this.selectTimeButton('afternoon')}
           className={`button is-info ${selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'}`}
         >
-          Afternoon
+          Afternoon (12PM-5PM)
         </span>
+      </div>
+
+      <div className="buttons">
         <span
-          style={{ width: 100 }}
+          style={{ width: 160, fontSize: 14 }}
           onClick={() => this.selectTimeButton('evening')}
           className={`button is-info ${selectedTimeButtonId === 'evening' ? '' : 'is-outlined'}`}
         >
-          Evening
+          Evening (5PM-12AM)
         </span>
         <span
-          style={{ width: 100 }}
+          style={{ width: 160, fontSize: 14 }}
           onClick={() => this.selectTimeButton('anytime')}
           className={`button is-info ${selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'}`}
         >
-          Anytime
+          Anytime (8AM-12AM)
         </span>
       </div>
     </React.Fragment>
@@ -311,7 +314,7 @@ export function RenderDetailedDescriptionField() {
           <span className="icon">
             <i className="fas fa-pencil-alt" />
           </span>
-          <span>Answer FAQs</span>
+          <span>Common Questions</span>
         </a>
       }
       placeholder={this.props.suggestedDetailsText}

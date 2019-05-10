@@ -120,9 +120,10 @@ div.react-datepicker {
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
   &.bidderAppBar {
-    background: lightgrey;
+    background: #eb5e28;
   }
 }
+
 #BID_OR_BOO_APP_BODY {
   padding-top: 4rem !important;
 }
@@ -395,12 +396,12 @@ header.card-header {
 
 .columns.forJobSummary {
   div.column {
-    max-width: 22rem !important;
+    max-width: 25rem !important;
   }
 }
 .column {
   &.limitMaxdWidth {
-    max-width: 22rem !important;
+    max-width: 25rem !important;
   }
 }
 
