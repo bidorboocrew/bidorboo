@@ -10,9 +10,12 @@ import { Spinner } from '../../components/Spinner';
 import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobActions';
 
 import BidsTable from './components/BidsTable';
-import ReviewBidAndBidder from './components/ReviewBidAndBidder';
+import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
+
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import getFullDetailsCardByTemplateJobId from '../../bdb-tasks/getFullDetailsCardByTemplateJobId';
+
+
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -82,37 +85,35 @@ class ReviewRequestAndBidsPage extends React.Component {
     return (
       <div className="container is-widescreen">
         {showBidReviewModal && (
-          <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+          <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
-        {!showBidReviewModal && (
-          <div className="columns is-centered">
-            <div className="column is-narrow">
-              {breadCrumbs({
-                activePageTitle: title,
-              })}
+        <div className="columns is-centered">
+          <div className="column is-narrow">
+            {breadCrumbs({
+              activePageTitle: title,
+            })}
 
-              {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
-              <br />
-              <section class="hero is-medium is-dark is-bold">
-                <div class="hero-body">
-                  <div>
-                    <h1 class="title has-text-centered">Chose a tasker</h1>
-                  </div>
+            {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
+            <br />
+            <section className="hero is-medium is-dark is-bold">
+              <div className="hero-body">
+                <div>
+                  <h1 className="title has-text-centered">Chose a tasker</h1>
                 </div>
-              </section>
+              </div>
+            </section>
 
-              <BidsTable
-                jobId={selectedJobWithBids._id}
-                bidList={selectedJobWithBids._bidsListRef}
-                markBidAsSeen={markBidAsSeen}
-                showBidReviewModal={this.showBidReviewModal}
-              />
+            <BidsTable
+              jobId={selectedJobWithBids._id}
+              bidList={selectedJobWithBids._bidsListRef}
+              markBidAsSeen={markBidAsSeen}
+              showBidReviewModal={this.showBidReviewModal}
+            />
 
-              {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
-            </div>
+            {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -140,23 +141,16 @@ export default connect(
 const breadCrumbs = (props) => {
   const { activePageTitle } = props;
   return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
-              }}
-            >
-              My Requests
-            </a>
-          </li>
-          <li className="is-active">
-            <a aria-current="page">{activePageTitle}</a>
-          </li>
-        </ul>
-      </nav>
+    <div style={{ marginBottom: '0.7rem' }}>
+      <a
+        className="button is-outlined is-small"
+        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'))}
+      >
+        <span className="icon">
+          <i className="far fa-arrow-alt-circle-left" />
+        </span>
+        <span>My Requests</span>
+      </a>
     </div>
   );
 };

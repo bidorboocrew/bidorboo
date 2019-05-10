@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
+import { UserImageAndRating } from '../../../containers/commonComponents';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
@@ -23,11 +24,23 @@ export default class AcceptBidAndBidderModal extends React.Component {
         <div onClick={closeModal} className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
-            <p className="modal-card-title">Accept {displayName}'s Bid</p>
+            <p className="modal-card-title">Offer Details</p>
             <button onClick={closeModal} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-            <table className="table is-fullwidth  is-bordered is-striped is-narrow ">
+            <UserImageAndRating userDetails={bid._bidderRef} />
+            <br />
+            <div className="field">
+              <label className="label">Offered to do this task for a total of</label>
+              <p className="control is-size-4 has-text-weight-bold has-text-success">
+                {Math.ceil(bidAmount + bidOrBooServiceFee)}$ (CAD)
+              </p>
+              <div className="help">
+                * When you accept you will be redirected to our Secure Checkout inorder to process
+                your payment
+              </div>
+            </div>
+            {/* <table className="table is-fullwidth  is-bordered is-striped is-narrow ">
               <thead>
                 <tr>
                   <th>Charge Detail</th>
@@ -50,10 +63,23 @@ export default class AcceptBidAndBidderModal extends React.Component {
                   <td>{bidOrBooServiceFee} $CAD</td>
                 </tr>
               </tbody>
-            </table>
-            <label className="label"> What's Next?</label>
-            <div className="help">* The amount of {`${totalAmount}`} CAD will be put on hold.</div>
-            <div className="help">* When the Task is completed this amount will be deducted.</div>
+            </table> */}
+            <div
+              style={{
+                backgroundColor: ' whitesmoke',
+                border: 'none',
+                display: 'block',
+                height: 2,
+                margin: '0.5rem 0',
+              }}
+              className="navbar-divider"
+            />
+            <label className="label">BidOrBoo Policy</label>
+            <div className="help">After you pay :</div>
+            <div className="help">* If the Tasker cancels. You will get a full refund.</div>
+            <div className="help">
+              * If YOU cancel this request you will only recieve a 50% refund.
+            </div>
             <div className="help">
               * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
@@ -78,7 +104,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
             />
 
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
-              Cancel
+              Go Back
             </button>
           </footer>
         </div>

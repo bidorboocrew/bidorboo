@@ -6,6 +6,8 @@ import { GridLoader } from 'react-spinners';
 
 import { UserImageAndRating } from '../../../containers/commonComponents';
 
+// confirm award and pay
+const BIDORBOO_SERVICECHARGE = 0.06;
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -29,6 +31,11 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
+      const totalCharge =
+        bid.bidAmount && bid.bidAmount.value
+          ? Math.ceil(bid.bidAmount.value * BIDORBOO_SERVICECHARGE) + bid.bidAmount.value
+          : 'not specified';
+
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -37,7 +44,8 @@ export default class BidsTable extends React.Component {
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             <div className="has-text-weight-bold">
-              {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
+              {totalCharge}
+              {bid.bidAmount && bid.bidAmount.currency}
             </div>
           </td>
 
@@ -48,13 +56,13 @@ export default class BidsTable extends React.Component {
                   e.preventDefault();
                   this.openBidDetailsModal(bid);
                 }}
-                className="button is-success"
+                className="button is-success is-outlined"
                 style={{ position: 'relative' }}
               >
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>Details</span>
+
                 {bid.isNewBid && (
                   <React.Fragment>
                     <div
@@ -76,8 +84,8 @@ export default class BidsTable extends React.Component {
       <table className="table is-bordered is-hoverable table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th>Tasker</th>
-            <th className="has-text-centered">Price</th>
+            <th>Tasker Details</th>
+            <th className="has-text-centered">Total Cost</th>
             <th className="has-text-centered" />
           </tr>
         </thead>
