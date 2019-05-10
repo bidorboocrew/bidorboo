@@ -51,7 +51,6 @@ export const DisplayLabelValue = (props) => {
 
 export const CountDownComponent = (props) => {
   const { startingDate } = props;
-  debugger;
   return (
     <div className="help" style={{ marginBottom: '0.5rem', color: 'grey' }}>{`${moment(
       startingDate,
