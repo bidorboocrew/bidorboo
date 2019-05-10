@@ -83,8 +83,8 @@ export default class BidsTable extends React.Component {
         <thead>
           <tr>
             <th>Tasker Details</th>
-            <th className="has-text-centered">Cost $</th>
-            <th className="has-text-centered">Select One</th>
+            <th className="has-text-centered">Total Cost</th>
+            <th className="has-text-centered">Pick One</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
