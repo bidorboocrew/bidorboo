@@ -29,7 +29,9 @@ export default class HouseCleaningRequestSummary extends React.Component {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
-  toggleShowMoreOptionsContextMenu = () => {
+  toggleShowMoreOptionsContextMenu = (e) => {
+    e.preventDefault();
+
     this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
       if (this.state.showMoreOptionsContextMenu) {
         document.addEventListener('mousedown', this.handleClick, false);
@@ -47,7 +49,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
     if (this.node && e.target && this.node.contains(e.target)) {
       return;
     } else {
-      this.toggleShowMoreOptionsContextMenu();
+      this.toggleShowMoreOptionsContextMenu(e);
     }
   };
   render() {
@@ -121,6 +123,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
                 </div>
 
                 <div
+                  ref={(node) => (this.node = node)}
                   className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
                 >
                   <div className="dropdown-trigger">
@@ -135,12 +138,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
                       </div>
                     </button>
                   </div>
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className="dropdown-menu"
-                    id="dropdown-menu"
-                    role="menu"
-                  >
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
                     <div className="dropdown-content">
                       <a
                         onClick={() => {
@@ -173,24 +171,25 @@ export default class HouseCleaningRequestSummary extends React.Component {
 
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (
-                <div style={{ margin: '0.5rem 0' }}>
-                  {effortLevel}
-
-                  <label className="label">Detailed Description</label>
-                  <span className="is-size-7">
-                    <TextareaAutosize
-                      value={detailedDescription}
-                      className="textarea is-marginless is-paddingless is-size-6"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a',
-                        fontSize: '1rem',
-                      }}
-                      readOnly
-                    />
-                  </span>
-                </div>
+                <React.Fragment>
+                  <div style={{ margin: '0.5rem 0' }}>{effortLevel}</div>
+                  <div style={{ margin: '0.5rem 0' }}>
+                    <label className="label">Detailed Description</label>
+                    <span className="is-size-7">
+                      <TextareaAutosize
+                        value={detailedDescription}
+                        className="textarea is-marginless is-paddingless is-size-6"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                          color: '#4a4a4a',
+                          fontSize: '1rem',
+                        }}
+                        readOnly
+                      />
+                    </span>
+                  </div>
+                </React.Fragment>
               )}
             </div>
           </div>
