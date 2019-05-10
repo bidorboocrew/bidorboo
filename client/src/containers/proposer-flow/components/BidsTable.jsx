@@ -76,9 +76,9 @@ export default class BidsTable extends React.Component {
       <table className="table is-bordered is-hoverable table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th className="has-text-centered">Tasker</th>
-            <th className="has-text-centered">Bid $</th>
-            <th className="has-text-centered">Bid Details</th>
+            <th>Tasker</th>
+            <th className="has-text-centered">Price</th>
+            <th className="has-text-centered" />
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>

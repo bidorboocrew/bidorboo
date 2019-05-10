@@ -50,7 +50,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
   render() {
     const { job, deleteJob, notificationFeed } = this.props;
 
-    const { startingDateAndTime, _bidsListRef, addressText } = job;
+    const { startingDateAndTime, addressText } = job;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
@@ -174,13 +174,13 @@ export default class HouseCleaningRequestSummary extends React.Component {
 const renderFooter = ({ job, notificationFeed }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
   let doesthisJobHaveNewBids = false;
-  let numberOfNewBids = 0;
+  // let numberOfNewBids = 0;
 
   if (notificationFeed.jobIdsWithNewBids) {
     for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
       if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
         doesthisJobHaveNewBids = true;
-        numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
         break;
       }
     }
@@ -219,11 +219,6 @@ const renderFooter = ({ job, notificationFeed }) => {
             <i className="fas fa-circle" />
           </div>
         )}
-        {/* {areThereAnyBidders && doesthisJobHaveNewBids && (
-          <span style={{ marginLeft: 4 }} className="tag is-danger">
-            +{numberOfNewBids}
-          </span>
-        )} */}
       </a>
     </div>
   );

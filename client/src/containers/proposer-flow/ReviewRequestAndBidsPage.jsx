@@ -91,13 +91,24 @@ class ReviewRequestAndBidsPage extends React.Component {
               {breadCrumbs({
                 activePageTitle: title,
               })}
+
+              {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
+              <br />
+              <section class="hero is-medium is-dark is-bold">
+                <div class="hero-body">
+                  <div>
+                    <h1 class="title has-text-centered">Chose a tasker</h1>
+                  </div>
+                </div>
+              </section>
+
               <BidsTable
                 jobId={selectedJobWithBids._id}
                 bidList={selectedJobWithBids._bidsListRef}
                 markBidAsSeen={markBidAsSeen}
                 showBidReviewModal={this.showBidReviewModal}
               />
-              {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
+
               {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
             </div>
           </div>
