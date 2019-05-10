@@ -11,7 +11,7 @@ class MyRequestsTab extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     return userHasPostedJobs ? (
-      <div className="columns forJobSummary is-multiline is-centered is-mobile">
+      <div className="columns is-multiline is-centered">
         <MyRequests {...this.props} />
       </div>
     ) : (
@@ -49,7 +49,7 @@ const MyRequests = (props) => {
 
   const jobCards = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column limitMaxdWidth">
+      <div key={job._id} className="column">
         {getSummaryCardByTemplateJobId(job, props)}
       </div>
     );

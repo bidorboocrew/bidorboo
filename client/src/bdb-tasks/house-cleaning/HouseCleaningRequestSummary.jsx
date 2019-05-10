@@ -100,7 +100,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className="card">
+        <div className="card limitMaxdWidth">
           <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
@@ -190,7 +190,7 @@ const renderFooter = ({ job, notificationFeed }) => {
         onClick={() => {
           switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
         }}
-        className="button is-outlined is-success"
+        className={`button is-outlined ${areThereAnyBidders ? 'is-success' : ''}`}
         disabled={!areThereAnyBidders}
       >
         {areThereAnyBidders && (
@@ -199,13 +199,16 @@ const renderFooter = ({ job, notificationFeed }) => {
               <i className="fa fa-hand-paper" />
             </span>
             <span>{`View (${job._bidsListRef.length}) ${
-              job._bidsListRef.length > 1 ? 'Bids' : 'Bid'
+              job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
             }`}</span>
           </span>
         )}
         {!areThereAnyBidders && (
           <span>
-            <span>No bids yet</span>
+            <span className="icon">
+              <i className="fa fa-hand-paper" />
+            </span>
+            <span>No Taskers Yet</span>
           </span>
         )}
         {areThereAnyBidders && doesthisJobHaveNewBids && (

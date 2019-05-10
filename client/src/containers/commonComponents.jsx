@@ -1,5 +1,4 @@
 import React from 'react';
-import Countdown from 'react-countdown-now';
 import ReactStars from 'react-stars';
 import moment from 'moment';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -51,44 +50,15 @@ export const DisplayLabelValue = (props) => {
 };
 
 export const CountDownComponent = (props) => {
-  const { startingDate, isJobStart = true } = props;
-
+  const { startingDate } = props;
+  debugger;
   return (
-    <div className="is-size-7">
-      <Countdown
-        date={startingDate || new Date()}
-        intervalDelay={1000}
-        renderer={({ days, hours, minutes, seconds, completed }) => {
-          return completed ? (
-            <ExpiringSoon startingDate={startingDate} />
-          ) : (
-            <React.Fragment>
-              {days && !`${days}`.includes('NaN') ? (
-                <div
-                  className="help"
-                  style={{ marginBottom: '0.5rem', color: 'grey' }}
-                >{`* In ${days} days from now.`}</div>
-              ) : null}
-            </React.Fragment>
-          );
-        }}
-      />
-    </div>
+    <div className="help" style={{ marginBottom: '0.5rem', color: 'grey' }}>{`${moment(
+      startingDate,
+    ).fromNow()} from now.`}</div>
   );
 };
-const ExpiringSoon = ({ startingDate }) => {
-  const today = moment()
-    .startOf('day')
-    .toISOString();
 
-  const jobStartingDate = moment(startingDate).toISOString();
-
-  if (moment(jobStartingDate).isBefore(today)) {
-    return <div className="has-text-danger">Expired Already!</div>;
-  } else {
-    return <div className="has-text-danger">Expiring Soon!</div>;
-  }
-};
 export const JobTitleText = ({ title }) => {
   return <p className="is-size-6 has-text-weight-semibold">{title}</p>;
 };

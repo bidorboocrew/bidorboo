@@ -3,7 +3,7 @@ import Delay from 'react-delay';
 // import classNames from 'classnames';
 import { css } from '@emotion/core';
 // First way to import
-import { RingLoader } from 'react-spinners';
+import { BounceLoader } from 'react-spinners';
 
 const override = css`
   display: block;
@@ -20,7 +20,7 @@ export const Spinner = (props) => {
   return (
     <Delay wait={800}>
       {props.isLoading && (
-        <RingLoader css={override} sizeUnit={'px'} size={150} color={'#292929'} loading />
+        <BounceLoader css={override} sizeUnit={'px'} size={150} color={'#292929'} loading />
       )}
     </Delay>
   );
