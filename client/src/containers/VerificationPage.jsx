@@ -125,7 +125,7 @@ class Verification extends React.Component {
           </section>
 
           <section className="section">
-            <div>{isLoading && <Spinner isLoading={isLoading} size={'large'} />}</div>
+            <Spinner isLoading={isLoading} size={'large'} />
             {verificationSuccess === 'success' && (
               <section className="hero is-success">
                 <div className="hero-body">

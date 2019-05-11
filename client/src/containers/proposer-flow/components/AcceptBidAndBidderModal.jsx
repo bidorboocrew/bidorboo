@@ -13,11 +13,8 @@ export default class AcceptBidAndBidderModal extends React.Component {
       return null;
     }
 
-    const { displayName } = bid._bidderRef;
-
     const bidAmount = bid.bidAmount.value;
     const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
-    const totalAmount = bidAmount + bidOrBooServiceFee;
 
     return (
       <div className="modal is-active">
@@ -29,7 +26,6 @@ export default class AcceptBidAndBidderModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <UserImageAndRating userDetails={bid._bidderRef} />
-            <br />
             <div className="field">
               <label className="label">Offered to do this task for a total of</label>
               <p className="control is-size-4 has-text-weight-bold has-text-success">
@@ -40,30 +36,6 @@ export default class AcceptBidAndBidderModal extends React.Component {
                 your payment
               </div>
             </div>
-            {/* <table className="table is-fullwidth  is-bordered is-striped is-narrow ">
-              <thead>
-                <tr>
-                  <th>Charge Detail</th>
-                  <th />
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>Total</th>
-                  <th>{Math.ceil(bidAmount + bidOrBooServiceFee)} $CAD</th>
-                </tr>
-              </tfoot>
-              <tbody>
-                <tr>
-                  <td>Bid Amount</td>
-                  <td>{bidAmount} $CAD</td>
-                </tr>
-                <tr>
-                  <td>BidOrBoo Service Fee</td>
-                  <td>{bidOrBooServiceFee} $CAD</td>
-                </tr>
-              </tbody>
-            </table> */}
             <div
               style={{
                 backgroundColor: ' whitesmoke',

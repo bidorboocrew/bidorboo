@@ -41,9 +41,7 @@ class PastJobs extends React.Component {
     let AllTheRequestsByThisUser = null;
     if (myPastRequestedServices && myPastRequestedServices.length > 0) {
       AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails, index) => {
-        return (
-          <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />
-        );
+        return <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />;
       });
     }
 
@@ -124,7 +122,9 @@ class RequestSummary extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
+                      labelValue={`${
+                        jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE
+                      } Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />

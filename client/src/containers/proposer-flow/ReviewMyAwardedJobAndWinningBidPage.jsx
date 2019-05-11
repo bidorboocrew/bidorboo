@@ -124,7 +124,7 @@ const breadCrumbs = (props) => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('awardedJobs'));
               }}
             >
-              Awarded
+              Awardedx
             </a>
           </li>
           <li className="is-active">

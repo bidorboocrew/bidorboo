@@ -7,8 +7,6 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
-// https://www.react-spinners.com/
-import { GridLoader } from 'react-spinners';
 class RequesterAndOpenBid extends React.Component {
   constructor(props) {
     super(props);
@@ -237,8 +235,6 @@ class RequesterAndOpenBid extends React.Component {
             </div>
             <div style={{ marginBottom: 6 }}>
               <div className="is-size-7">My Bid Status :</div>
-              <GridLoader sizeUnit={'px'} size={15} color={'#292929'} loading={true} />
-
               <div className="is-size-6">Pending</div>
             </div>
             <div className="help">* Requester did not award this job to anyone yet</div>

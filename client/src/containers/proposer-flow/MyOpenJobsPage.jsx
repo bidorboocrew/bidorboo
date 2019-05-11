@@ -48,7 +48,7 @@ class MyOpenJobsPage extends React.Component {
       <div className="container is-widescreen">
         <FloatingAddNewRequestButton />
 
-        <div style={{ position: 'relative' }} className="tabs">
+        <div style={{ position: 'relative' }} className="tabs is-medium">
           <ul>
             <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
               <a

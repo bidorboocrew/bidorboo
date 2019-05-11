@@ -1,9 +1,5 @@
 import React from 'react';
 
-// https://www.react-spinners.com/
-import { css } from '@emotion/core';
-import { GridLoader } from 'react-spinners';
-
 import { UserImageAndRating } from '../../../containers/commonComponents';
 
 // confirm award and pay
@@ -94,24 +90,14 @@ export default class BidsTable extends React.Component {
 }
 
 const TableWithNoBids = () => {
-  const override = css`
-    display: block;
-    margin: 0 auto;
-  `;
   return (
     <table className="table is-hoverable table is-striped is-fullwidth">
       <tbody>
         <tr>
           <td className="has-text-centered">
-            <GridLoader css={override} sizeUnit={'px'} size={15} color={'#292929'} loading={true} />
             <div className="has-text-centered has-text-weight-semibold">
-              No Taskers have bid on this job yet!
-            </div>
-            <div className="has-text-centered has-text-weight-semibold">
-              BidOrBoo is notifying Taskers in your area
-            </div>
-            <div className="has-text-centered has-text-weight-semibold">
-              You will be notified when you recieve bids. Check again soon
+              BidOrBoo Taskers will be submitting thier best price to do this task and you will be
+              getting an email notification. Check back again in a little bit.
             </div>
           </td>
         </tr>
