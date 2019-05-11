@@ -100,17 +100,17 @@ class HouseCleaningJobForm extends React.Component {
                 </header>
 
                 <section className="modal-card-body">
-                  <HouseCleaningRequestDetails job={newTaskDetails} />
+                  <HouseCleaningRequestDetails job={newTaskDetails} ommitMeatballMenu />
                   <div className="field">
                     <label className="label">BidOrBoo Safety rules</label>
                     <HelpText
-                      helpText={`*Once you post you will not be able to edit the job details.`}
+                      helpText={`* Once you post you will not be able to edit the job details.`}
                     />
                     <HelpText
-                      helpText={`*For your privacy Taskers will not see the request address.`}
+                      helpText={`* For your privacy Taskers will not see the exact address.`}
                     />
                     <HelpText
-                      helpText={`*Once you have chosen a Tasker you will get in touch to finalize the details.`}
+                      helpText={`* Once you have chosen a Tasker you will get in touch to finalize the details.`}
                     />
                   </div>
                 </section>
