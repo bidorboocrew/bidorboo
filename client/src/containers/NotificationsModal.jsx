@@ -77,7 +77,7 @@ class NotificationsModal extends React.Component {
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
                         <li className="is-active">
-                          <a>Awarded Bids</a>
+                          <a>Upcoming Tasks</a>
                         </li>
                       </ul>
                     </div>

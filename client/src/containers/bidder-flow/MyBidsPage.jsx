@@ -126,32 +126,43 @@ class MyBidsPage extends React.Component {
         {activeTab === MYBIDS_TAB_IDS.myBidsTab && (
           <React.Fragment>
             <div className="container is-widescreen">
-              <div className="tabs is-medium is-centered">
-                <ul>
-                  <li>
-                    <a className="has-text-weight-bold">
-                      {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <Spinner isLoading={isLoading} size={'large'} />}
+              <section className="hero is-dark has-text-centered">
+                <div className="hero-body">
+                  <div className="container">
+                    <h1 className="has-text-weight-bold is-size-6">{`My Scheduled Tasks (${(awardedBidsList &&
+                      awardedBidsList.length) ||
+                      0})`}</h1>
+                    <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                      These are your upcoming scheduled tasks. Once you fulfil the task you will
+                      recieve your payment.
+                    </h2>
+                  </div>
+                </div>
+              </section>
+
+              <Spinner isLoading={isLoading} size={'large'} />
               {!isLoading && (
                 <div className="columns is-multiline is-mobile is-centered">
                   {awardedBidsListComponent}
                 </div>
               )}
             </div>
+            <br />
             <div className="container is-widescreen">
-              <div className="tabs is-medium is-centered">
-                <ul>
-                  <li>
-                    <a className="has-text-weight-bold">
-                      {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              <section className="hero is-dark has-text-centered">
+                <div className="hero-body">
+                  <div className="container">
+                    <h1 className="has-text-weight-bold is-size-6">
+                      {`Bids pending Approval (${(pendingBidsList && pendingBidsList.length) ||
+                        0})`}
+                    </h1>
+                    <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                      These are all your offers that are waiting on the Requester's approval.
+                      GoodLuck!
+                    </h2>
+                  </div>
+                </div>
+              </section>
               <Spinner isLoading={isLoading} size={'large'} />
               {!isLoading && (
                 <div className="columns is-multiline is-mobile is-centered">{pendingBidsList}</div>
