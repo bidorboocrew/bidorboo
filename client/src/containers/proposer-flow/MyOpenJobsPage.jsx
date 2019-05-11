@@ -79,7 +79,7 @@ class MyOpenJobsPage extends React.Component {
 
         {activeTab === TAB_IDS.myRequests && (
           <React.Fragment>
-            <section className="hero is-dark has-text-centered">
+            {/* <section className="hero is-dark has-text-centered">
               <div className="hero-body">
                 <div className="container">
                   <h1 className="has-text-weight-bold is-size-6">{`Scheduled Tasks (${(myAwardedJobsList &&
@@ -91,14 +91,14 @@ class MyOpenJobsPage extends React.Component {
                   </h2>
                 </div>
               </div>
-            </section>
+            </section> */}
             <MyAwardedJobsTab
               jobsList={myAwardedJobsList}
               changeActiveTab={this.changeActiveTab}
               {...this.props}
             />
-            <br />
-            <section className="hero is-dark has-text-centered">
+
+            {/* <section className="hero is-dark has-text-centered">
               <div className="hero-body">
                 <div className="container">
                   <h1 className="has-text-weight-bold is-size-6">{`My Open Requests (${(myOpenJobsList &&
@@ -110,7 +110,9 @@ class MyOpenJobsPage extends React.Component {
                   </h2>
                 </div>
               </div>
-            </section>
+            </section> */}
+            <hr className="divider" />
+
             <MyRequestsTab
               jobsList={myOpenJobsList}
               deleteJob={deleteJobById}

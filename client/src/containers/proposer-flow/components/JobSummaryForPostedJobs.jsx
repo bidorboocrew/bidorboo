@@ -78,7 +78,7 @@ export default class JobSummaryForPostedJobs extends React.Component {
             e.preventDefault();
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
-          className="card limitWidthOfCard is-clipped"
+          className="card limitWidthOfCard"
         >
           <header
             style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

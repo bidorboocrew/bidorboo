@@ -20,7 +20,7 @@ export default class JobSummaryForAwarded extends React.Component {
           e.preventDefault();
           switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
         }}
-        className="card is-clipped"
+        className="card limitWidthOfCard"
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}

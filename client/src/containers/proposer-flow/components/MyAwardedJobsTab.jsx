@@ -9,7 +9,7 @@ class MyAwardedJobsTab extends React.Component {
     const userHasPostedJobs = jobsList && jobsList.map && jobsList.length > 0;
 
     return userHasPostedJobs ? (
-      <div className="columns is-multiline is-mobile is-centered">
+      <div className="columns is-multiline is-centered">
         <AwardedRequests {...this.props} />
       </div>
     ) : (
@@ -47,7 +47,7 @@ const AwardedRequests = (props) => {
   const { jobsList } = props;
   const myAwardedJobs = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column is-one-quarter">
+      <div key={job._id} className="column">
         <JobSummaryForAwarded showBidCount={false} job={job} />
       </div>
     );

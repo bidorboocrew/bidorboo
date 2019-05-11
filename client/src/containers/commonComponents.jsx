@@ -40,11 +40,12 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   return avgBidLabel;
 };
 
-export const DisplayLabelValue = (props) => {
+export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
   return (
-    <div style={{ marginBottom: 0 }} className="field">
-      <label className="label">{props.labelText}</label>
-      <div className="control">{props.labelValue}</div>
+    <div className="field">
+      <label className="label">{labelText}</label>
+      <div className="control">{labelValue}</div>
+      {renderHelpComponent()}
     </div>
   );
 };
@@ -52,9 +53,9 @@ export const DisplayLabelValue = (props) => {
 export const CountDownComponent = (props) => {
   const { startingDate } = props;
   return (
-    <div className="help" style={{ marginBottom: '0.5rem', color: 'grey' }}>{`${moment(
+    <div className="help" style={{ color: 'lightgrey' }}>{`* ${moment(
       startingDate,
-    ).fromNow()} from now.`}</div>
+    ).fromNow()}`}</div>
   );
 };
 
@@ -178,7 +179,7 @@ const timeToTextMap = {
   '12': 'afternoon',
   '17': 'evening',
 };
-export const StartDateAndTime = ({ date }) => {
+export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   const startingDate = moment(date).format('DD/MMM/YYYY');
 
   const selectedTime = moment(date).get('hour');
@@ -205,7 +206,13 @@ export const StartDateAndTime = ({ date }) => {
     timeText = timeToTextMap[`${selectedTime}`];
   }
 
-  return <DisplayLabelValue labelText="Start Date" labelValue={`${startingDate} - ${timeText}`} />;
+  return (
+    <DisplayLabelValue
+      labelText="Start Date"
+      labelValue={`${startingDate} - ${timeText}`}
+      renderHelpComponent={renderHelpComponent}
+    />
+  );
 };
 
 export class LocationLabelAndValue extends React.Component {
@@ -383,4 +390,18 @@ export const StepsForTasker = ({ step }) => {
       </li>
     </ul>
   );
+};
+
+export const DisplayShortAddress = ({ addressText }) => {
+  debugger;
+  if (addressText && addressText.length > 0) {
+    let shortAddressString = addressText;
+    //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
+    const addressPieces = addressText.split(',');
+    if (addressPieces.length > 2) {
+      shortAddressString = `${addressPieces[0]} , ${addressPieces[1]}`;
+      return <DisplayLabelValue labelText={'Address'} labelValue={shortAddressString} />;
+    }
+  }
+  return null;
 };

@@ -49,7 +49,7 @@ const MyRequests = (props) => {
 
   const jobCards = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column is-one-quarter">
+      <div key={job._id} className="column">
         {getSummaryCardByTemplateJobId(job, props)}
       </div>
     );

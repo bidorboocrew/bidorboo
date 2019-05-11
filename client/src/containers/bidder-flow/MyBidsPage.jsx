@@ -142,7 +142,7 @@ class MyBidsPage extends React.Component {
 
               <Spinner isLoading={isLoading} size={'large'} />
               {!isLoading && (
-                <div className="columns is-multiline is-mobile is-centered">
+                <div className="columns is-multiline is-centered">
                   {awardedBidsListComponent}
                 </div>
               )}

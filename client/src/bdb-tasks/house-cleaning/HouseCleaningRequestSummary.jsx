@@ -8,6 +8,7 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
+  DisplayShortAddress,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -54,8 +55,10 @@ export default class HouseCleaningRequestSummary extends React.Component {
     const { startingDateAndTime, addressText } = job;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
+    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -100,7 +103,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className="card limitMaxdWidth">
+        <div className="card limitWidthOfCard">
           <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
@@ -121,6 +124,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
                       className="button"
                       aria-haspopup="true"
                       aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
                     >
                       <div style={{ padding: 6 }} className="icon">
                         <i className="fas fa-ellipsis-v" />
@@ -155,10 +159,30 @@ export default class HouseCleaningRequestSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              <StartDateAndTime date={startingDateAndTime} />
-              <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
 
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
+              {!areThereAnyBidders && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control">Awaiting on Taskers</div>
+                  <div className="help">* No Taskers offered to do this yet! check again soon.</div>
+                </div>
+              )}
+              {areThereAnyBidders && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Taskers Available</div>
+                  <div className="help">* Review the offers regularly and chose a Tasker.</div>
+                </div>
+              )}
+
+              <StartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                )}
+              />
+
+              <DisplayShortAddress addressText={addressText} />
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}

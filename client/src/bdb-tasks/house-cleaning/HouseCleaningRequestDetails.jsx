@@ -133,6 +133,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
                         className="button"
                         aria-haspopup="true"
                         aria-controls="dropdown-menu"
+                        style={{ border: 'none' }}
                       >
                         <div style={{ padding: 6 }} className="icon">
                           <i className="fas fa-ellipsis-v" />
