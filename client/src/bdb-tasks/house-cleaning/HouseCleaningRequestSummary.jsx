@@ -206,42 +206,47 @@ const renderFooter = ({ job, notificationFeed }) => {
   }
 
   return (
-    <div style={{ padding: '0.5rem' }}>
-      <a
-        style={{ position: 'relative' }}
-        onClick={() => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
-        }}
-        className={`button is-outlined ${areThereAnyBidders ? 'is-success' : ''}`}
-        disabled={!areThereAnyBidders}
-      >
-        {areThereAnyBidders && (
-          <span>
-            <span className="icon">
-              <i className="fa fa-hand-paper" />
+    <React.Fragment>
+      <div style={{ padding: '0.5rem' }}>
+        <hr className="divider isTight" />
+      </div>
+      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <a
+          style={{ position: 'relative' }}
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+          }}
+          className={`button is-outlined ${areThereAnyBidders ? 'is-success' : ''}`}
+          disabled={!areThereAnyBidders}
+        >
+          {areThereAnyBidders && (
+            <span>
+              <span className="icon">
+                <i className="fa fa-hand-paper" />
+              </span>
+              <span>{`View (${job._bidsListRef.length}) ${
+                job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
+              }`}</span>
             </span>
-            <span>{`View (${job._bidsListRef.length}) ${
-              job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
-            }`}</span>
-          </span>
-        )}
-        {!areThereAnyBidders && (
-          <span>
-            <span className="icon">
-              <i className="fa fa-hand-paper" />
+          )}
+          {!areThereAnyBidders && (
+            <span>
+              <span className="icon">
+                <i className="fa fa-hand-paper" />
+              </span>
+              <span>No Taskers Yet</span>
             </span>
-            <span>No Taskers Yet</span>
-          </span>
-        )}
-        {areThereAnyBidders && doesthisJobHaveNewBids && (
-          <div
-            style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
-            className="has-text-danger"
-          >
-            <i className="fas fa-circle" />
-          </div>
-        )}
-      </a>
-    </div>
+          )}
+          {areThereAnyBidders && doesthisJobHaveNewBids && (
+            <div
+              style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
+              className="has-text-danger"
+            >
+              <i className="fas fa-circle" />
+            </div>
+          )}
+        </a>
+      </div>
+    </React.Fragment>
   );
 };

@@ -291,6 +291,13 @@ table.table {
   color: lightgray;
 }
 
+hr.divider {
+  &.isTight {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
 .card {
   box-shadow: none !important;
   border: 1px solid #eeeeee;
