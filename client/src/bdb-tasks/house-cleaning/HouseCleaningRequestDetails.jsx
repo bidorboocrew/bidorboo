@@ -10,7 +10,7 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningRequestSummary extends React.Component {
+export default class HouseCleaningRequestDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -179,8 +179,8 @@ export default class HouseCleaningRequestSummary extends React.Component {
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (
                 <React.Fragment>
-                  <div style={{ margin: '0.5rem 0' }}>{effortLevel}</div>
-                  <div style={{ margin: '0.5rem 0' }}>
+                  {effortLevel}
+                  <div className="field">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize

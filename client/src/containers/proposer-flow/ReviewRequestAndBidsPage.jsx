@@ -15,7 +15,6 @@ import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import getFullDetailsCardByTemplateJobId from '../../bdb-tasks/getFullDetailsCardByTemplateJobId';
 
-
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -99,7 +98,9 @@ class ReviewRequestAndBidsPage extends React.Component {
             <section className="hero is-medium is-dark is-bold">
               <div className="hero-body">
                 <div>
-                  <h1 className="title has-text-centered">Chose a tasker</h1>
+                  <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                    Choose a tasker
+                  </h1>
                 </div>
               </div>
             </section>

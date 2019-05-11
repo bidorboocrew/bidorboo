@@ -35,7 +35,7 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
       );
 
     return (
-      <div style={{ height: 'auto'}} className="card disabled is-clipped">
+      <div style={{ height: 'auto' }} className="card disabled is-clipped">
         <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
@@ -50,21 +50,23 @@ export default class BidOnHouseCleaningJobFullDetails extends React.Component {
             )}
             <DisplayLabelValue labelText="State:" labelValue={state} />
             {effortLevel}
-            <label className="label">Detailed Description</label>
-            <span className="is-size-7">
-              <TextareaAutosize
-                value={detailedDescription}
-                className="textarea is-marginless is-paddingless is-size-6"
-                style={{
-                  resize: 'none',
-                  border: 'none',
-                  color: '#4a4a4a',
-                  fontSize: '1rem',
-                }}
-                readOnly
-              />
-              <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-            </span>
+            <div className="field">
+              <label className="label">Detailed Description</label>
+              <span className="is-size-7">
+                <TextareaAutosize
+                  value={detailedDescription}
+                  className="textarea is-marginless is-paddingless is-size-6"
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                    color: '#4a4a4a',
+                    fontSize: '1rem',
+                  }}
+                  readOnly
+                />
+                <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+              </span>
+            </div>
           </div>
         </div>
         <CountDownComponent startingDate={startingDateAndTime} />

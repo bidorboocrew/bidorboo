@@ -103,17 +103,17 @@ class HouseCleaningJobForm extends React.Component {
                   <label className="label">Your Request Preview</label>
                   <HouseCleaningRequestDetails job={newTaskDetails} ommitMeatballMenu />
 
-                  <div style={{ marginTop: 6, marginBottom: 6 }} className="field">
+                  <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                     <label className="label">BidOrBoo Safety rules</label>
-                    <HelpText
-                      helpText={`* Once you post you will not be able to edit the job details.`}
-                    />
-                    <HelpText
-                      helpText={`* For your privacy Taskers will not see the exact address.`}
-                    />
-                    <HelpText
-                      helpText={`* Once you have chosen a Tasker you will get in touch to finalize the details.`}
-                    />
+                    <div className="help has-text-grey">
+                      * Once you post you will not be able to edit the job details.
+                    </div>
+                    <div className="help has-text-grey">
+                      * For your privacy Taskers will not see the exact address.
+                    </div>
+                    <div className="help has-text-grey">
+                      * Once you have chosen a Tasker you will get in touch to finalize the details.
+                    </div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">

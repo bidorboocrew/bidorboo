@@ -169,7 +169,7 @@ export default class HouseCleaningRequestSummary extends React.Component {
                 <div className="field">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Taskers Available</div>
-                  <div className="help">* Review the offers regularly and chose a Tasker.</div>
+                  <div className="help">* Review the offers regularly and choose a Tasker.</div>
                 </div>
               )}
 
