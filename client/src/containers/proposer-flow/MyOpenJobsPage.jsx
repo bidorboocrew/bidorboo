@@ -13,20 +13,11 @@ import { TAB_IDS } from './components/helperComponents';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import PastJobs from './PastJobs';
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);
-    let initialTabSelection = TAB_IDS.myRequests;
-    if (props.match && props.match.params && props.match.params.tabId) {
-      const { tabId } = props.match.params;
-      if (tabId && TAB_IDS[`${tabId}`]) {
-        initialTabSelection = TAB_IDS[`${tabId}`];
-      }
-    }
 
     this.state = {
-      activeTab: initialTabSelection,
       showBidReviewModal: false,
     };
   }
@@ -36,93 +27,32 @@ class MyOpenJobsPage extends React.Component {
     this.props.getAllMyAwardedJobs();
   }
 
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
-
   render() {
     const { myOpenJobsList, deleteJobById, myAwardedJobsList } = this.props;
-    const { activeTab } = this.state;
 
+    const areThereAnyJobsToView =
+      (myAwardedJobsList && myAwardedJobsList.length > 0) ||
+      (myOpenJobsList && myOpenJobsList.length > 0);
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Requests</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         <FloatingAddNewRequestButton />
 
-        <div style={{ position: 'relative' }} className="tabs is-medium">
-          <ul>
-            <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.myRequests);
-                }}
-              >
-                {TAB_IDS.myRequests}
-              </a>
-            </li>
-
-            <li className={`${activeTab === TAB_IDS.pastJobs ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.pastJobs);
-                }}
-              >
-                <span className="icon">
-                  <i className="fas fa-history" aria-hidden="true" />
-                </span>
-                <span>{`${TAB_IDS.pastJobs}`}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {activeTab === TAB_IDS.myRequests && (
-          <React.Fragment>
-            {/* <section className="hero is-dark has-text-centered">
-              <div className="hero-body">
-                <div className="container">
-                  <h1 className="has-text-weight-bold is-size-6">{`Scheduled Tasks (${(myAwardedJobsList &&
-                    myAwardedJobsList.length) ||
-                    0})`}</h1>
-                  <h2 style={{ color: 'lightgrey' }} className="is-size-8">
-                    Below is all your requests that you assigned to a BidOrBoo Tasker. The Tasker
-                    will show up to fulfil your request.
-                  </h2>
-                </div>
-              </div>
-            </section> */}
-            <MyAwardedJobsTab
-              jobsList={myAwardedJobsList}
-              changeActiveTab={this.changeActiveTab}
-              {...this.props}
-            />
-
-            {/* <section className="hero is-dark has-text-centered">
-              <div className="hero-body">
-                <div className="container">
-                  <h1 className="has-text-weight-bold is-size-6">{`My Open Requests (${(myOpenJobsList &&
-                    myOpenJobsList.length) ||
-                    0})`}</h1>
-                  <h2 style={{ color: 'lightgrey' }} className="is-size-8">
-                    Below is the list of all your requests. Taskers will be submitting offers to
-                    fulfil the requests regularly so keep an eye Good luck!
-                  </h2>
-                </div>
-              </div>
-            </section> */}
-            <hr className="divider" />
-
-            <MyRequestsTab
-              jobsList={myOpenJobsList}
-              deleteJob={deleteJobById}
-              changeActiveTab={this.changeActiveTab}
-              {...this.props}
-            />
-          </React.Fragment>
+        {areThereAnyJobsToView && (
+          <div className="columns is-multiline is-centered">
+            <MyAwardedJobsTab jobsList={myAwardedJobsList} {...this.props} />
+            <MyRequestsTab jobsList={myOpenJobsList} deleteJob={deleteJobById} {...this.props} />
+          </div>
         )}
 
-        {activeTab === TAB_IDS.pastJobs && <PastJobs />}
+        {!areThereAnyJobsToView && <EmptyStateComponent />}
       </div>
     );
   }
@@ -163,3 +93,25 @@ const FloatingAddNewRequestButton = () => {
     </a>
   );
 };
+
+const EmptyStateComponent = () => (
+  <div className="has-text-centered">
+    <div style={{ maxWidth: 'unset' }} className="card">
+      <div className="card-content">
+        <div className="content has-text-centered">
+          <div className="is-size-5">You have not requested any services yet</div>
+          <br />
+          <a
+            className="button is-success "
+            onClick={(e) => {
+              e.preventDefault();
+              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            }}
+          >
+            Request a Service
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+);
