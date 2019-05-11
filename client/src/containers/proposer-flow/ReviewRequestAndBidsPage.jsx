@@ -81,6 +81,9 @@ class ReviewRequestAndBidsPage extends React.Component {
     const title = jobDefinition.TITLE;
     const { showBidReviewModal, bidUnderReview } = this.state;
 
+    const bidList = selectedJobWithBids._bidsListRef;
+    const areThereAnyBids = bidList && bidList.length > 0;
+
     return (
       <div className="container is-widescreen">
         {showBidReviewModal && (
@@ -95,24 +98,35 @@ class ReviewRequestAndBidsPage extends React.Component {
 
             {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
             <br />
-            <section className="hero is-medium is-dark is-bold">
-              <div className="hero-body">
-                <div>
-                  <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                    Choose a tasker
-                  </h1>
-                </div>
-              </div>
-            </section>
 
+            {areThereAnyBids && (
+              <section className="hero is-medium is-dark is-bold">
+                <div className="hero-body">
+                  <div>
+                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                      Taskers Offers
+                    </h1>
+                  </div>
+                </div>
+              </section>
+            )}
+            {!areThereAnyBids && (
+              <section className="hero is-medium is-dark is-bold">
+                <div className="hero-body">
+                  <div>
+                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                      Waiting For Taskers
+                    </h1>
+                  </div>
+                </div>
+              </section>
+            )}
             <BidsTable
               jobId={selectedJobWithBids._id}
-              bidList={selectedJobWithBids._bidsListRef}
+              bidList={bidList}
               markBidAsSeen={markBidAsSeen}
               showBidReviewModal={this.showBidReviewModal}
             />
-
-            {/* <JobFullDetailsCard job={selectedJobWithBids} /> */}
           </div>
         </div>
       </div>
