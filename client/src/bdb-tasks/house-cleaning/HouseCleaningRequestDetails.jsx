@@ -169,8 +169,12 @@ export default class HouseCleaningRequestSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              <StartDateAndTime date={startingDateAndTime} />
-              <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+              <StartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                )}
+              />
 
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (

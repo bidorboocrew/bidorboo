@@ -100,8 +100,10 @@ class HouseCleaningJobForm extends React.Component {
                 </header>
 
                 <section className="modal-card-body">
+                  <label className="label">Your Request Preview</label>
                   <HouseCleaningRequestDetails job={newTaskDetails} ommitMeatballMenu />
-                  <div className="field">
+
+                  <div style={{ marginTop: 6, marginBottom: 6 }} className="field">
                     <label className="label">BidOrBoo Safety rules</label>
                     <HelpText
                       helpText={`* Once you post you will not be able to edit the job details.`}

@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-
 import {
-  DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
