@@ -76,44 +76,50 @@ class MyOpenJobsPage extends React.Component {
             </li>
           </ul>
         </div>
-        <section className="hero is-dark has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="has-text-weight-bold is-size-6">{`Scheduled Tasks (${(myAwardedJobsList &&
-                myAwardedJobsList.length) ||
-                0})`}</h1>
-              <h2 style={{ color: 'lightgrey' }} className="is-size-8">
-                Below is all your requests that you assigned to a BidOrBoo Tasker. The Tasker will
-                show up to fulfil your request.
-              </h2>
-            </div>
-          </div>
-        </section>
-        <MyAwardedJobsTab
-          jobsList={myAwardedJobsList}
-          changeActiveTab={this.changeActiveTab}
-          {...this.props}
-        />
-        <br />
-        <section className="hero is-dark has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="has-text-weight-bold is-size-6">{`My Open Requests (${(myOpenJobsList &&
-                myOpenJobsList.length) ||
-                0})`}</h1>
-              <h2 style={{ color: 'lightgrey' }} className="is-size-8">
-                Below is the list of all your requests. Taskers will be submitting offers to fulfil
-                the requests regularly so keep an eye Good luck!
-              </h2>
-            </div>
-          </div>
-        </section>
-        <MyRequestsTab
-          jobsList={myOpenJobsList}
-          deleteJob={deleteJobById}
-          changeActiveTab={this.changeActiveTab}
-          {...this.props}
-        />
+
+        {activeTab === TAB_IDS.myRequests && (
+          <React.Fragment>
+            <section className="hero is-dark has-text-centered">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 className="has-text-weight-bold is-size-6">{`Scheduled Tasks (${(myAwardedJobsList &&
+                    myAwardedJobsList.length) ||
+                    0})`}</h1>
+                  <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                    Below is all your requests that you assigned to a BidOrBoo Tasker. The Tasker
+                    will show up to fulfil your request.
+                  </h2>
+                </div>
+              </div>
+            </section>
+            <MyAwardedJobsTab
+              jobsList={myAwardedJobsList}
+              changeActiveTab={this.changeActiveTab}
+              {...this.props}
+            />
+            <br />
+            <section className="hero is-dark has-text-centered">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 className="has-text-weight-bold is-size-6">{`My Open Requests (${(myOpenJobsList &&
+                    myOpenJobsList.length) ||
+                    0})`}</h1>
+                  <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                    Below is the list of all your requests. Taskers will be submitting offers to
+                    fulfil the requests regularly so keep an eye Good luck!
+                  </h2>
+                </div>
+              </div>
+            </section>
+            <MyRequestsTab
+              jobsList={myOpenJobsList}
+              deleteJob={deleteJobById}
+              changeActiveTab={this.changeActiveTab}
+              {...this.props}
+            />
+          </React.Fragment>
+        )}
+
         {activeTab === TAB_IDS.pastJobs && <PastJobs />}
       </div>
     );
