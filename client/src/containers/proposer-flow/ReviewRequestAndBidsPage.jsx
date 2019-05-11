@@ -158,7 +158,7 @@ const breadCrumbs = (props) => {
   return (
     <div style={{ marginBottom: '0.7rem' }}>
       <a
-        className="button is-outlined is-small"
+        className="button is-outlined"
         onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'))}
       >
         <span className="icon">

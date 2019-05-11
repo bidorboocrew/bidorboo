@@ -393,7 +393,6 @@ export const StepsForTasker = ({ step }) => {
 };
 
 export const DisplayShortAddress = ({ addressText }) => {
-  debugger;
   if (addressText && addressText.length > 0) {
     let shortAddressString = addressText;
     //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
