@@ -5,8 +5,7 @@ import moment from 'moment';
 import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export const TAB_IDS = {
-  awardedJobs: 'Awarded',
-  postedJobs: 'Posted',
+  myRequests: 'My Requests',
   pastJobs: 'Past Jobs',
 };
 export const AddAwardedJobToCalendar = ({ job }) => {

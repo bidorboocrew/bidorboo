@@ -17,7 +17,7 @@ import PastJobs from './PastJobs';
 class MyOpenJobsPage extends React.Component {
   constructor(props) {
     super(props);
-    let initialTabSelection = TAB_IDS.postedJobs;
+    let initialTabSelection = TAB_IDS.myRequests;
     if (props.match && props.match.params && props.match.params.tabId) {
       const { tabId } = props.match.params;
       if (tabId && TAB_IDS[`${tabId}`]) {
@@ -50,26 +50,17 @@ class MyOpenJobsPage extends React.Component {
 
         <div style={{ position: 'relative' }} className="tabs is-medium">
           <ul>
-            <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
+            <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
               <a
                 onClick={(e) => {
                   e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.postedJobs);
+                  this.changeActiveTab(TAB_IDS.myRequests);
                 }}
               >
-                {`${TAB_IDS.postedJobs} (${(myOpenJobsList && myOpenJobsList.length) || 0})`}
+                {TAB_IDS.myRequests}
               </a>
             </li>
-            <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.awardedJobs);
-                }}
-              >
-                {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) || 0})`}
-              </a>
-            </li>
+
             <li className={`${activeTab === TAB_IDS.pastJobs ? 'is-active' : null}`}>
               <a
                 onClick={(e) => {
@@ -80,27 +71,49 @@ class MyOpenJobsPage extends React.Component {
                 <span className="icon">
                   <i className="fas fa-history" aria-hidden="true" />
                 </span>
-                <span>{`${TAB_IDS.pastJobs} `}</span>
+                <span>{`${TAB_IDS.pastJobs}`}</span>
               </a>
             </li>
           </ul>
         </div>
-
-        {activeTab === TAB_IDS.postedJobs && (
-          <MyRequestsTab
-            jobsList={myOpenJobsList}
-            deleteJob={deleteJobById}
-            changeActiveTab={this.changeActiveTab}
-            {...this.props}
-          />
-        )}
-        {activeTab === TAB_IDS.awardedJobs && (
-          <MyAwardedJobsTab
-            jobsList={myAwardedJobsList}
-            changeActiveTab={this.changeActiveTab}
-            {...this.props}
-          />
-        )}
+        <section className="hero is-dark has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="has-text-weight-bold is-size-6">{`Scheduled Tasks (${(myAwardedJobsList &&
+                myAwardedJobsList.length) ||
+                0})`}</h1>
+              <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                Below is all your requests that you assigned to a BidOrBoo Tasker. The Tasker will
+                show up to fulfil your request.
+              </h2>
+            </div>
+          </div>
+        </section>
+        <MyAwardedJobsTab
+          jobsList={myAwardedJobsList}
+          changeActiveTab={this.changeActiveTab}
+          {...this.props}
+        />
+        <br />
+        <section className="hero is-dark has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="has-text-weight-bold is-size-6">{`My Open Requests (${(myOpenJobsList &&
+                myOpenJobsList.length) ||
+                0})`}</h1>
+              <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                Below is the list of all your requests. Taskers will be submitting offers to fulfil
+                the requests regularly so keep an eye Good luck!
+              </h2>
+            </div>
+          </div>
+        </section>
+        <MyRequestsTab
+          jobsList={myOpenJobsList}
+          deleteJob={deleteJobById}
+          changeActiveTab={this.changeActiveTab}
+          {...this.props}
+        />
         {activeTab === TAB_IDS.pastJobs && <PastJobs />}
       </div>
     );

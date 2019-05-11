@@ -20,13 +20,15 @@ export default class JobSummaryForAwarded extends React.Component {
           e.preventDefault();
           switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
         }}
-        className="card limitWidthOfCard is-clipped"
+        className="card is-clipped"
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}</p>
+          <p className="card-header-title">
+            {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+          </p>
 
           <a className="card-header-icon has-text-success">
             <span className="icon">

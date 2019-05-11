@@ -32,7 +32,7 @@ const EmptyStateComponent = (props) => (
             className="button is-success "
             onClick={(e) => {
               e.preventDefault();
-              props.changeActiveTab(TAB_IDS.postedJobs);
+              props.changeActiveTab(TAB_IDS.myRequests);
             }}
           >
             My Requests
@@ -47,7 +47,7 @@ const AwardedRequests = (props) => {
   const { jobsList } = props;
   const myAwardedJobs = jobsList.map((job) => {
     return (
-      <div key={job._id} className="column limitMaxdWidth">
+      <div key={job._id} className="column is-one-quarter">
         <JobSummaryForAwarded showBidCount={false} job={job} />
       </div>
     );
