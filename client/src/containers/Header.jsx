@@ -131,6 +131,7 @@ class Header extends React.Component {
                 alt="BidOrBoo"
                 width="32"
                 height="32"
+                style={{ maxHeight: 'unset' }}
               />
               <span
                 style={{
