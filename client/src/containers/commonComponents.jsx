@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactStars from 'react-stars';
 import moment from 'moment';
+import AddToCalendar from 'react-add-to-calendar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
@@ -403,4 +404,63 @@ export const DisplayShortAddress = ({ addressText }) => {
     }
   }
   return null;
+};
+
+export const AddAwardedJobToCalendar = ({ job }) => {
+  if (!job) {
+    return null;
+  }
+
+  const { startingDateAndTime, addressText, fromTemplateId } = job;
+
+  const { email, phone, displayName } = job._ownerRef;
+
+  const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
+  const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
+
+  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
+  const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+
+  const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+  let startTime = moment(startingDateAndTime).startOf('day');
+  let endTime = moment(startingDateAndTime).endOf('day');
+
+  switch (`${selectedTime}`) {
+    case '10':
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    case '8':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(4, 'h');
+      break;
+    case '12':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(5, 'h');
+      break;
+    case '17':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    default:
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+  }
+  let event = {
+    title,
+    description,
+    location: addressText,
+    startTime: `${startTime}`,
+    endTime: `${endTime}`,
+  };
+  return (
+    <AddToCalendar
+      listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
+      displayItemIcons={false}
+      event={event}
+      buttonLabel={'Add to Calendar'}
+      buttonClassClosed="button is-success is-outlined"
+    />
+  );
 };

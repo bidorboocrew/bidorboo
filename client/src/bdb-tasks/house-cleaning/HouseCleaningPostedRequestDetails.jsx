@@ -74,9 +74,15 @@ export default class HouseCleaningPostedRequestDetails extends React.Component {
             <div className="modal is-active">
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Cancel Request</p>
+                  <button
+                    onClick={this.toggleDeleteConfirmationDialog}
+                    className="delete"
+                    aria-label="close"
+                  />
+                </header>
                 <section className="modal-card-body">
-                  <p className="title">Cancel your {TITLE} Request</p>
-                  <br />
                   <div className="content">
                     When you cancel a request we will delete it and all associated bids within 24
                     hours.
@@ -84,7 +90,7 @@ export default class HouseCleaningPostedRequestDetails extends React.Component {
                   </div>
                   <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
                     style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}

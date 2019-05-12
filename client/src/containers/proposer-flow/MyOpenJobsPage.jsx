@@ -7,8 +7,7 @@ import {
   deleteJobById,
   getAllMyAwardedJobs,
 } from '../../app-state/actions/jobActions';
-import MyAwardedJobsTab from './components/MyAwardedJobsTab';
-import MyRequestsTab from './components/MyRequestsTab';
+
 import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
 import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
 

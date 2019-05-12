@@ -7,6 +7,8 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
+  UserImageAndRating,
+  AddAwardedJobToCalendar,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -50,13 +52,15 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
   render() {
     const { job, deleteJob, notificationFeed } = this.props;
 
-    const { startingDateAndTime, addressText } = job;
+    const { startingDateAndTime, addressText, _awardedBidRef } = job;
+
+    const { bidAmount, _bidderRef } = _awardedBidRef;
+    const { phone, email } = _bidderRef;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
-    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -64,17 +68,34 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
             <div className="modal is-active">
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Cancel Request</p>
+                  <button
+                    onClick={this.toggleDeleteConfirmationDialog}
+                    className="delete"
+                    aria-label="close"
+                  />
+                </header>
                 <section className="modal-card-body">
-                  <p className="title">Cancel your {TITLE} Request</p>
-                  <br />
                   <div className="content">
-                    When you cancel a request we will delete it and all associated bids within 24
-                    hours.
-                    <br /> You can always post a new request at any time
+                    <div>Cancelling an assigned request is considered a missed appointment.</div>
+                    <br />
+                    <div>
+                      To keep things fair for you and the tasker we encourage you to reach out and
+                      try to reschedule this task to avoid cancellation
+                    </div>
+                    <hr className="divider" />
+
+                    <div className="field">
+                      <label className="label">What you need to know:</label>
+                      <div className="control">
+                        * You will be <strong>penalized 50%</strong> of the total payment.
+                      </div>
+                      <div className="control">* Your global rating will be impacted</div>
+                    </div>
                   </div>
-                  <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
                     style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}
@@ -136,9 +157,9 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
                           this.toggleDeleteConfirmationDialog();
                         }}
                         href="#"
-                        className="dropdown-item"
+                        className="dropdown-item has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
                         <span>Cancel Request</span>
@@ -158,29 +179,42 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
                 className="navbar-divider"
               />
 
-              {!areThereAnyBidders && (
-                <div className="field">
-                  <label className="label">Request Status</label>
-                  <div className="control">Awaiting on Taskers</div>
-                  <div className="help">* No Taskers offered to do this yet! check again soon.</div>
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-success">Tasker is Assigned</div>
+                <div className="help">* The tasker will do this request on the specified date.</div>
+              </div>
+              <div className="field">
+                <label className="label">Total Cost</label>
+                <div className="control has-text-success">
+                  {bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
                 </div>
-              )}
-              {areThereAnyBidders && (
-                <div className="field">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">Taskers Available</div>
-                  <div className="help">* Review the offers regularly and choose a Tasker.</div>
-                </div>
-              )}
-
+                <div className="help">* will be charged after the request is completed.</div>
+              </div>
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-
               <DisplayShortAddress addressText={addressText} />
+              <hr className="divider" />
+              <div className="field">
+                <label className="label">Assigned Tasker Details</label>
+                <UserImageAndRating userDetails={_bidderRef} />
+                <div className="control">
+                  <span className="icon">
+                    <i className="far fa-envelope" />
+                  </span>
+                  <span>{email.emailAddress}</span>
+                </div>
+                <div className="control">
+                  <span className="icon">
+                    <i className="fas fa-phone" />
+                  </span>
+                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                </div>
+              </div>
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}
@@ -190,62 +224,23 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
   }
 }
 
-const renderFooter = ({ job, notificationFeed }) => {
-  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
-  let doesthisJobHaveNewBids = false;
-  // let numberOfNewBids = 0;
-
-  if (notificationFeed.jobIdsWithNewBids) {
-    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
-      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
-        doesthisJobHaveNewBids = true;
-        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
-        break;
-      }
-    }
-  }
-
+const renderFooter = ({ job }) => {
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
         <hr className="divider isTight" />
       </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+      <div style={{ display: 'flex', padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
-          style={{ position: 'relative' }}
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
           }}
-          className={`button is-outlined ${areThereAnyBidders ? 'is-success' : ''}`}
-          disabled={!areThereAnyBidders}
+          className={`button is-outlined}`}
+          style={{ flexGrow: 1, marginRight: 10 }}
         >
-          {areThereAnyBidders && (
-            <span>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>{`View (${job._bidsListRef.length}) ${
-                job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
-              }`}</span>
-            </span>
-          )}
-          {!areThereAnyBidders && (
-            <span>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>No Taskers Yet</span>
-            </span>
-          )}
-          {areThereAnyBidders && doesthisJobHaveNewBids && (
-            <div
-              style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
-              className="has-text-danger"
-            >
-              <i className="fas fa-circle" />
-            </div>
-          )}
+          View Details
         </a>
+        <AddAwardedJobToCalendar job={job} />
       </div>
     </React.Fragment>
   );

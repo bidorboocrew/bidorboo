@@ -290,22 +290,41 @@ exports.jobDataAccess = {
           ],
         },
         options: { sort: { startingDateAndTime: 1 } },
-        populate: {
-          path: '_awardedBidRef',
-          select: {
-            _bidderRef: 1,
-            bidAmount: 1,
-          },
-          populate: {
-            path: '_bidderRef',
+        populate: [
+          {
+            path: '_awardedBidRef',
             select: {
-              profileImage: 1,
-              displayName: 1,
-              rating: 1,
-              notifications: 1,
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+              createdAt: 1,
+              updatedAt: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
             },
           },
-        },
+          {
+            path: '_ownerRef',
+            select: {
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
+            },
+          },
+        ],
       })
 
       .lean(true)
@@ -581,28 +600,24 @@ exports.jobDataAccess = {
             populate: {
               path: '_bidderRef',
               select: {
-                _postedJobsRef: 0,
-                _postedBidsRef: 0,
-                _asBidderReviewsRef: 0,
-                _asProposerReviewsRef: 0,
-                verification: 0,
-                settings: 0,
-                extras: 0,
-                stripeConnect: 0,
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
               },
             },
           })
           .populate({
             path: '_ownerRef',
             select: {
-              _postedJobsRef: 0,
-              _postedBidsRef: 0,
-              _asBidderReviewsRef: 0,
-              _asProposerReviewsRef: 0,
-              verification: 0,
-              settings: 0,
-              extras: 0,
-              stripeConnect: 0,
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
             },
           })
           .lean(true)
