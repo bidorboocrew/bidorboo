@@ -9,7 +9,8 @@ import {
 } from '../../app-state/actions/jobActions';
 import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
-import { TAB_IDS } from './components/helperComponents';
+import getSummaryCardByTemplateJobId from '../../bdb-tasks/getSummaryCardByTemplateJobId';
+import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -28,7 +29,7 @@ class MyOpenJobsPage extends React.Component {
   }
 
   render() {
-    const { myOpenJobsList, deleteJobById, myAwardedJobsList } = this.props;
+    const { myOpenJobsList, myAwardedJobsList } = this.props;
 
     const areThereAnyJobsToView =
       (myAwardedJobsList && myAwardedJobsList.length > 0) ||
@@ -47,8 +48,8 @@ class MyOpenJobsPage extends React.Component {
 
         {areThereAnyJobsToView && (
           <div className="columns is-multiline is-centered">
-            <MyAwardedJobsTab jobsList={myAwardedJobsList} {...this.props} />
-            <MyRequestsTab jobsList={myOpenJobsList} deleteJob={deleteJobById} {...this.props} />
+            {generateAwardedRequestsSummaryCards(this.props)}
+            {generateOpenRequetsSummaryCards(this.props)}
           </div>
         )}
 
@@ -115,3 +116,30 @@ const EmptyStateComponent = () => (
     </div>
   </div>
 );
+
+const generateAwardedRequestsSummaryCards = (props) => {
+  const { myAwardedJobsList } = props;
+
+  const myAwardedJobs = myAwardedJobsList.map((job) => {
+    return (
+      <div key={job._id} className="column">
+        {getAwardedSummaryCardByTemplateJobId(job, props)}
+        {/* <JobSummaryForAwarded showBidCount={false} job={job} /> */}
+      </div>
+    );
+  });
+  return myAwardedJobs;
+};
+
+const generateOpenRequetsSummaryCards = (props) => {
+  const { myOpenJobsList } = props;
+
+  const jobCards = myOpenJobsList.map((job) => {
+    return (
+      <div key={job._id} className="column">
+        {getSummaryCardByTemplateJobId(job, props)}
+      </div>
+    );
+  });
+  return jobCards;
+};

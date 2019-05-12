@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { HouseCleaningPostedRequestSummary, HOUSE_CLEANING_DEF } from './index';
+import { HouseCleaningAwardedRequestDetails, HOUSE_CLEANING_DEF } from './index';
 // map id to definition object
-const getSummaryCardByTemplateJobId = (job, otherProps) => {
+const getAwardedFullDetailsCardByTemplateJobId = (job) => {
   if (!job || !job.fromTemplateId) {
     console.log('no job passed in');
     return;
@@ -12,10 +12,10 @@ const getSummaryCardByTemplateJobId = (job, otherProps) => {
 
   switch (fromTemplateId) {
     case `${HOUSE_CLEANING_DEF.ID}`:
-      return <HouseCleaningPostedRequestSummary job={job} {...otherProps} />;
+      return <HouseCleaningAwardedRequestDetails job={job} />;
     default:
       alert('unkown fromTemplateId ' + fromTemplateId);
   }
 };
 
-export default getSummaryCardByTemplateJobId;
+export default getFullDetailsCardByTemplateJobId;

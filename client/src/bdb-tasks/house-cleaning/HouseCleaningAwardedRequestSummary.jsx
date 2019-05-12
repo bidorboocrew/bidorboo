@@ -11,7 +11,7 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningRequestSummary extends React.Component {
+export default class HouseCleaningAwardedRequestSummary extends React.Component {
   constructor(props) {
     super(props);
 
