@@ -31,13 +31,13 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentDidMount() {
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
     this.props.getPostedJobDetails(this.jobId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // if route changed reload the job
     let newJobId = this.jobId;
 
@@ -47,7 +47,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
+        switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
         return null;
       }
       this.props.getPostedJobDetails(this.jobId);
@@ -92,9 +92,17 @@ class ReviewRequestAndBidsPage extends React.Component {
 
         <div className="columns is-centered">
           <div className="column is-narrow">
-            {breadCrumbs({
-              activePageTitle: title,
-            })}
+            <div style={{ marginBottom: '0.7rem' }}>
+              <a
+                className="button is-outlined"
+                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>My Requests</span>
+              </a>
+            </div>
 
             {getPostedFullDetailsCardByTemplateJobId(selectedJobWithBids)}
             <br />
@@ -159,7 +167,7 @@ const breadCrumbs = (props) => {
     <div style={{ marginBottom: '0.7rem' }}>
       <a
         className="button is-outlined"
-        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'))}
+        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
       >
         <span className="icon">
           <i className="far fa-arrow-alt-circle-left" />

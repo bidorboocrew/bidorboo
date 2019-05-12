@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 import { Spinner } from '../../components/Spinner';
 import {
@@ -12,8 +11,7 @@ import {
   proposerConfirmsJobCompletion,
 } from '../../app-state/actions/jobActions';
 
-import JobFullDetailsCard from './components/JobFullDetailsCard';
-import BidderAndMyAwardedJob from './components/BidderAndMyAwardedJob';
+import getAawardedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getAwardedFullDetailsCardByTemplateJobId';
 
 class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   componentDidMount() {
     const { getAwardedBidFullDetails } = this.props;
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('awardedJobs'));
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
 
@@ -45,7 +43,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('awardedJobs'));
+        switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
         return null;
       }
 
@@ -69,23 +67,32 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     }
 
     const { _awardedBidRef } = selectedAwardedJob;
-    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">
         <div className="columns is-centered">
           <div className="column is-narrow">
-            {!isReadOnlyView &&
-              breadCrumbs({
-                activePageTitle: title,
-              })}
-            <BidderAndMyAwardedJob
+            <div style={{ marginBottom: '0.7rem' }}>
+              <a
+                className="button is-outlined"
+                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>My Requests</span>
+              </a>
+            </div>
+
+            {getAawardedFullDetailsCardByTemplateJobId(selectedAwardedJob)}
+
+            {/* <BidderAndMyAwardedJob
               proposerConfirmsJobCompletion={proposerConfirmsJobCompletion}
               bid={_awardedBidRef}
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
             />
-            <JobFullDetailsCard job={selectedAwardedJob} />
+            <JobFullDetailsCard job={selectedAwardedJob} /> */}
           </div>
         </div>
       </div>
@@ -111,27 +118,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewMyAwardedJobAndWinningBidPage);
-
-const breadCrumbs = (props) => {
-  const { activePageTitle } = props;
-  return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('awardedJobs'));
-              }}
-            >
-              Awarded
-            </a>
-          </li>
-          <li className="is-active">
-            <a aria-current="page">{activePageTitle}</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-};

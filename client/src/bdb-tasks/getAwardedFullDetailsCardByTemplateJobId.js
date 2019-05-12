@@ -18,4 +18,4 @@ const getAwardedFullDetailsCardByTemplateJobId = (job) => {
   }
 };
 
-export default getPostedFullDetailsCardByTemplateJobId;
+export default getAwardedFullDetailsCardByTemplateJobId;

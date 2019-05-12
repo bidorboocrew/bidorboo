@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import {
-  DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
+  DisplayLabelValue,
+  UserImageAndRating,
+  AddAwardedJobToCalendar,
 } from '../../containers/commonComponents';
+import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { isBeforeToday } from '../../utils';
 
-export default class HouseCleaningAwardedRequestDetails extends React.Component {
+export class HouseCleaningAwardedRequestDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -24,14 +30,12 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
   toggleShowMore = () => {
     this.setState({ showMore: !this.state.showMore });
   };
-
   toggleDeleteConfirmationDialog = () => {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
   toggleShowMoreOptionsContextMenu = (e) => {
     e.preventDefault();
-
     this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
       if (this.state.showMoreOptionsContextMenu) {
         document.addEventListener('mousedown', this.handleClick, false);
@@ -53,12 +57,26 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
     }
   };
   render() {
-    const { job, deleteJob, ommitMeatballMenu } = this.props;
+    const { job, deleteJob } = this.props;
 
-    const { startingDateAndTime, addressText, extras, detailedDescription } = job;
+    const {
+      startingDateAndTime,
+      addressText,
+      _awardedBidRef,
+      extras,
+      detailedDescription,
+      jobCompletion,
+    } = job;
+
+    const { bidAmount, _bidderRef } = _awardedBidRef;
+    const { phone, email } = _bidderRef;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+
+    const isJobHappeningBeforeEndOfToday = isBeforeToday(startingDateAndTime);
+    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     const effortLevel =
       extras && extras.effort ? (
@@ -66,7 +84,6 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
       ) : (
         <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
       );
-
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -74,17 +91,34 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
             <div className="modal is-active">
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Cancel Request</p>
+                  <button
+                    onClick={this.toggleDeleteConfirmationDialog}
+                    className="delete"
+                    aria-label="close"
+                  />
+                </header>
                 <section className="modal-card-body">
-                  <p className="title">Cancel your {TITLE} Request</p>
-                  <br />
                   <div className="content">
-                    When you cancel a request we will delete it and all associated bids within 24
-                    hours.
-                    <br /> You can always post a new request at any time
+                    <div>Cancelling an assigned request is considered a missed appointment.</div>
+                    <br />
+                    <div>
+                      To keep things fair for you and the tasker we encourage you to reach out and
+                      try to reschedule this task to avoid cancellation
+                    </div>
+                    <hr className="divider" />
+
+                    <div className="field">
+                      <label className="label">What you need to know:</label>
+                      <div className="control">
+                        * You will be <strong>penalized 50%</strong> of the total payment.
+                      </div>
+                      <div className="control">* Your global rating will be impacted</div>
+                    </div>
                   </div>
-                  <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
-                <footer style={{ borderTop: 0, paddingTop: 0 }} className="modal-card-foot">
+                <footer className="modal-card-foot">
                   <button
                     style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}
@@ -111,7 +145,7 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'unset' }} className="card">
+        <div style={{ height: 'auto' }} className="card">
           <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
@@ -122,42 +156,40 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
                   {TITLE}
                 </div>
 
-                {!ommitMeatballMenu && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          href="#"
-                          className="dropdown-item"
-                        >
-                          <span style={{ color: 'grey' }} className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
                       </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        href="#"
+                        className="dropdown-item has-text-danger"
+                      >
+                        <span className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
               <div
                 style={{
@@ -169,6 +201,19 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
                 }}
                 className="navbar-divider"
               />
+
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-success">Tasker is Assigned</div>
+                <div className="help">* The tasker will do this request on the specified date.</div>
+              </div>
+              <div className="field">
+                <label className="label">Total Cost</label>
+                <div className="control has-text-success">
+                  {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
+                </div>
+                <div className="help">* will be charged after the request is completed.</div>
+              </div>
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -177,6 +222,7 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
               />
 
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
+
               {showMore && (
                 <React.Fragment>
                   {effortLevel}
@@ -198,26 +244,220 @@ export default class HouseCleaningAwardedRequestDetails extends React.Component 
                   </div>
                 </React.Fragment>
               )}
+              <div>
+                {!showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                    <span style={{ marginRight: 4 }}>show full details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-down" />
+                    </span>
+                  </a>
+                )}
+                {showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                    <span style={{ marginRight: 4 }}>show less details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-up" />
+                    </span>
+                  </a>
+                )}
+              </div>
+              <hr className="divider" />
+              <div className="field">
+                <label className="label">Assigned Tasker Details</label>
+                <UserImageAndRating userDetails={_bidderRef} />
+                <div className="control">
+                  <span className="icon">
+                    <i className="far fa-envelope" />
+                  </span>
+                  <span>{email.emailAddress}</span>
+                </div>
+                <div className="control">
+                  <span className="icon">
+                    <i className="fas fa-phone" />
+                  </span>
+                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div style={{ padding: '0.5rem' }}>
-            {!showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show full details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-down" />
-                </span>
-              </a>
+          <footer className="card-footer">
+            <div className="card-footer-item">
+              {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
+                <ProposerVerifiesJobCompletion {...this.props} />
+              )}
+              {!isJobHappeningBeforeEndOfToday && <AddAwardedJobToCalendar job={job} />}
+            </div>
+            {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
+              <div className="card-footer-item">
+                <ProposerDisputesJobCompletion {...this.props} />
+              </div>
             )}
-            {showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show less details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-up" />
-                </span>
-              </a>
-            )}
-          </div>
+          </footer>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
+  return {
+    selectedAwardedJob: jobsReducer.selectedAwardedJob,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HouseCleaningAwardedRequestDetails);
+
+class ProposerVerifiesJobCompletion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showConfirmationModal: false,
+    };
+  }
+
+  toggleModal = () => {
+    this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
+  };
+  submitConfirmation = () => {
+    const { proposerConfirmsJobCompletion, job } = this.props;
+
+    this.setState({ showConfirmationModal: false }, () => {
+      proposerConfirmsJobCompletion(job._id);
+    });
+  };
+  render() {
+    const { showConfirmationModal } = this.state;
+    return (
+      <React.Fragment>
+        {showConfirmationModal &&
+          ReactDOM.createPortal(
+            <div className="modal is-active">
+              <div onClick={this.toggleModal} className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Is The Work Completed?</p>
+                </header>
+                <section className="modal-card-body">
+                  <p>
+                    BidOrBoo crew is happy to know that our Tasker showed up to fulfill your
+                    request!
+                  </p>
+                  <br />
+                  <label className="label">After the tasker have completed the work.</label>
+                  <p>Please confirm and you will be redirected to review the Tasker.</p>
+                </section>
+                <footer className="modal-card-foot">
+                  <button
+                    type="submit"
+                    onClick={this.submitConfirmation}
+                    className="button is-success"
+                  >
+                    Confirm Completion
+                  </button>
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Close
+                  </button>
+                </footer>
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-modals'),
+          )}
+        <div>
+          <a onClick={this.toggleModal} className="button is-meduim is-success">
+            Tasker Showed Up
+          </a>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
+class ProposerDisputesJobCompletion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showConfirmationModal: false,
+    };
+  }
+
+  toggleModal = () => {
+    this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
+  };
+  submitConfirmation = () => {
+    const { proposerConfirmsJobCompletion, job } = this.props;
+
+    this.setState({ showConfirmationModal: false }, () => {
+      proposerConfirmsJobCompletion(job._id);
+    });
+  };
+  render() {
+    const { showConfirmationModal } = this.state;
+    return (
+      <React.Fragment>
+        {showConfirmationModal &&
+          ReactDOM.createPortal(
+            <div className="modal is-active">
+              <div onClick={this.toggleModal} className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Tasker Did Not Show up?</p>
+                </header>
+                <section className="modal-card-body">
+                  <div>BidOrBoo takes a no show case very seriously.</div>
+                  <br />
+                  <div>
+                    Before you file a dispute we suggest that you try to contact the Tasker on thier
+                    provided email and phone.
+                  </div>
+                  <br />
+                  <hr className="divider isTight" />
+                  <div className="field">
+                    <label className="label">What happens when you Dispute</label>
+                    <div className="help">* You will recieve a full refund.</div>
+                    <div className="help">
+                      * We will evalute the reasons the reasons for why Tasker did not show up.
+                    </div>
+                    <div className="help">
+                      * The tasker global rating will be negatively impacted and they may get
+                      banned.
+                    </div>
+                    <div className="help">
+                      * Our Support crew will keep you updated with all the updates on this matter.
+                    </div>
+                  </div>
+                  <div>We are very sorry for the inconvienience!</div>
+                </section>
+                <footer className="modal-card-foot">
+                  <button
+                    type="submit"
+                    onClick={() => alert('not implemented yet')}
+                    className="button is-danger"
+                  >
+                    Submit Dispute
+                  </button>
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Close
+                  </button>
+                </footer>
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-modals'),
+          )}
+        <div>
+          <a onClick={this.toggleModal} className="button is-meduim is-danger is-outlined">
+            Did Not Show Up
+          </a>
         </div>
       </React.Fragment>
     );

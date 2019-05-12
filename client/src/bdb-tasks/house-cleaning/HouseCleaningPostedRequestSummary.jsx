@@ -223,7 +223,6 @@ const renderFooter = ({ job, notificationFeed }) => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           className={`button is-outlined ${areThereAnyBidders ? 'is-info' : ''}`}
-          disabled={!areThereAnyBidders}
         >
           {areThereAnyBidders && (
             <span>
@@ -235,14 +234,7 @@ const renderFooter = ({ job, notificationFeed }) => {
               }`}</span>
             </span>
           )}
-          {!areThereAnyBidders && (
-            <span>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>No Taskers Yet</span>
-            </span>
-          )}
+          {!areThereAnyBidders && <span>View Details</span>}
           {areThereAnyBidders && doesthisJobHaveNewBids && (
             <div
               style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
