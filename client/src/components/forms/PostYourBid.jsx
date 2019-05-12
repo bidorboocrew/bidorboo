@@ -182,8 +182,8 @@ class PostYourBid extends React.Component {
                     onBlur={handleBlur}
                     helpText={
                       avgBid > 0
-                        ? `*Current Avg bid is $ ${avgBid} CAD`
-                        : `* Bid Amount are in CAD. E.g 50`
+                        ? `*Current Avg bid is $ ${avgBid}$ (CAD)`
+                        : `* Bid Amount are in (CAD). E.g 50`
                     }
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}

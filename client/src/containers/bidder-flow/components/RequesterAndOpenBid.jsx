@@ -157,7 +157,7 @@ class RequesterAndOpenBid extends React.Component {
                   className="input is-focused"
                   type="number"
                   onBlur={handleBlur}
-                  helpText="* Enter a new bid amount. Bid Amount is in CAD. E.g 50"
+                  helpText="* Enter a new bid amount. Bid Amount is in (CAD). E.g 50"
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}
                   onChange={(e) => {
