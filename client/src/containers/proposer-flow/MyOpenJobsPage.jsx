@@ -9,7 +9,7 @@ import {
 } from '../../app-state/actions/jobActions';
 import MyAwardedJobsTab from './components/MyAwardedJobsTab';
 import MyRequestsTab from './components/MyRequestsTab';
-import getSummaryCardByTemplateJobId from '../../bdb-tasks/getSummaryCardByTemplateJobId';
+import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
 import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -137,7 +137,7 @@ const generateOpenRequetsSummaryCards = (props) => {
   const jobCards = myOpenJobsList.map((job) => {
     return (
       <div key={job._id} className="column">
-        {getSummaryCardByTemplateJobId(job, props)}
+        {getPostedSummaryCardByTemplateJobId(job, props)}
       </div>
     );
   });

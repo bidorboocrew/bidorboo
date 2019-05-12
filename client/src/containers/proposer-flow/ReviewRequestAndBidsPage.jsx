@@ -13,7 +13,7 @@ import BidsTable from './components/BidsTable';
 import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
 
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import getFullDetailsCardByTemplateJobId from '../../bdb-tasks/getFullDetailsCardByTemplateJobId';
+import getPostedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getPostedFullDetailsCardByTemplateJobId';
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -96,7 +96,7 @@ class ReviewRequestAndBidsPage extends React.Component {
               activePageTitle: title,
             })}
 
-            {getFullDetailsCardByTemplateJobId(selectedJobWithBids)}
+            {getPostedFullDetailsCardByTemplateJobId(selectedJobWithBids)}
             <br />
 
             {areThereAnyBids && (

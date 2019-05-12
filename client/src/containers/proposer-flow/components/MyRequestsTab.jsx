@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getSummaryCardByTemplateJobId from '../../../bdb-tasks/getSummaryCardByTemplateJobId';
+import getPostedSummaryCardByTemplateJobId from '../../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
 class MyRequestsTab extends React.Component {
   render() {
     const { jobsList } = this.props;
@@ -19,7 +19,7 @@ const MyRequests = (props) => {
   const jobCards = jobsList.map((job) => {
     return (
       <div key={job._id} className="column">
-        {getSummaryCardByTemplateJobId(job, props)}
+        {getPostedSummaryCardByTemplateJobId(job, props)}
       </div>
     );
   });

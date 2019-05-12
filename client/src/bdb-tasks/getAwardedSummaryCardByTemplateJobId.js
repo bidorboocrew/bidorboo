@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HouseCleaningAwardedRequestSummary, HOUSE_CLEANING_DEF } from './index';
 // map id to definition object
-const getSummaryCardByTemplateJobId = (job, otherProps) => {
+const getPostedSummaryCardByTemplateJobId = (job, otherProps) => {
   if (!job || !job.fromTemplateId) {
     console.log('no job passed in');
     return;
@@ -18,4 +18,4 @@ const getSummaryCardByTemplateJobId = (job, otherProps) => {
   }
 };
 
-export default getSummaryCardByTemplateJobId;
+export default getPostedSummaryCardByTemplateJobId;
