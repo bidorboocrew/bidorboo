@@ -187,7 +187,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
               <div className="field">
                 <label className="label">Total Cost</label>
                 <div className="control has-text-success">
-                  {bidAmount && ` ${bidAmount.value} ${bidAmount.currency}`}
+                  {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
                 </div>
                 <div className="help">* will be charged after the request is completed.</div>
               </div>
