@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -153,7 +153,12 @@ const InitialAccountSetupView = (props) => {
         myStripeAccountDetails &&
         myStripeAccountDetails.balanceDetails &&
         myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
+          <div>
+            Pending Payments Amount
+            {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
+            Balance Details {`${myStripeAccountDetails.balanceDetails}`}
+          </div>
+          // <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
         )}
       {showAddPaymentDetails && (
         <div>
@@ -181,12 +186,11 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-  debugger;
+
   if (!myStripeAccountDetails) {
     return null;
   }
 
-  // const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />
@@ -198,7 +202,7 @@ const EstablishedAccountView = (props) => {
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
               {` Bank Account last 4 digits `}
-              <strong>{stripeConnect.last4BankAcc}</strong>
+              <strong>{stripeConnect.last4BankAcc}</strong>{}
             </label>
           </div>
         </div>
@@ -258,19 +262,19 @@ const EstablishedAccountView = (props) => {
   );
 };
 
-const ProgressChart = ({ myStripeAccountDetails }) => {
-  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
+// const ProgressChart = ({ myStripeAccountDetails }) => {
+//   const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
 
-  return (
-    <ResponsiveContainer minHeight={400}>
-      <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis unit="$" />
-        <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
-        <Legend align="center" />
-        <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
-        <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
-      </BarChart>
-    </ResponsiveContainer>
-  );
-};
+//   return (
+//     <ResponsiveContainer minHeight={400}>
+//       <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
+//         <XAxis dataKey="name" />
+//         <YAxis unit="$" />
+//         <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
+//         <Legend align="center" />
+//         <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
+//         <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
+//       </BarChart>
+//     </ResponsiveContainer>
+//   );
+// };
