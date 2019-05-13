@@ -43,7 +43,7 @@ class PaymentSettings extends React.Component {
     }
 
     let { stripeConnect } = userDetails;
-    debugger;
+
     return (
       <section style={{ padding: '0.5rem' }} className="section">
         <div className="columns is-centered">
@@ -111,7 +111,7 @@ const InitialAccountSetupView = (props) => {
     userDetails,
     myStripeAccountDetails,
   } = props;
-  debugger;
+
   return (
     <React.Fragment>
       <div>
