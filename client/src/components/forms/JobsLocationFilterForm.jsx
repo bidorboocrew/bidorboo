@@ -247,9 +247,9 @@ class JobsLocationFilterForm extends React.Component {
             type="submit"
           >
             <span className="icon">
-              <i className="fas fa-filter" />
+              <i className="fas fa-search" />
             </span>
-            <span>Apply</span>
+            <span>Search</span>
           </button>
           <button
             style={{ marginRight: 8, marginTop: 8, width: 150 }}

@@ -43,7 +43,7 @@ class PaymentSettings extends React.Component {
     }
 
     let { stripeConnect } = userDetails;
-
+    debugger;
     return (
       <section style={{ padding: '0.5rem' }} className="section">
         <div className="columns is-centered">
@@ -111,6 +111,7 @@ const InitialAccountSetupView = (props) => {
     userDetails,
     myStripeAccountDetails,
   } = props;
+  debugger;
   return (
     <React.Fragment>
       <div>
@@ -180,7 +181,7 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-
+  debugger;
   if (!myStripeAccountDetails) {
     return null;
   }
@@ -250,7 +251,7 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
-          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
+          {/* <ProgressChart myStripeAccountDetails={myStripeAccountDetails} /> */}
         </div>
       </nav>
     </section>
