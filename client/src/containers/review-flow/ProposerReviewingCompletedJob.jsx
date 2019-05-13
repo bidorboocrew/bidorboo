@@ -7,7 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, goBackToPreviousRoute } from '../../utils';
 
 export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -216,7 +216,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             style={{ marginLeft: 12, marginTop: 12 }}
             className="button is-outlined has-text-dark  is-medium"
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.HOME);
+              goBackToPreviousRoute();
             }}
           >
             remind me later

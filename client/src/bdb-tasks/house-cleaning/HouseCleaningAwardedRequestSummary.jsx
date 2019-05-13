@@ -8,7 +8,6 @@ import {
   StartDateAndTime,
   DisplayShortAddress,
   UserImageAndRating,
-  AddAwardedJobToCalendar,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -52,7 +51,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
   render() {
     const { job, deleteJob, notificationFeed } = this.props;
 
-    const { startingDateAndTime, addressText, _awardedBidRef } = job;
+    const { startingDateAndTime, addressText, _awardedBidRef, jobCompletion } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
     const { phone, email } = _bidderRef;
@@ -60,6 +59,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     return (
       <React.Fragment>
@@ -181,15 +181,29 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
 
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-success">Tasker is Assigned</div>
-                <div className="help">* The tasker will do this request on the specified date.</div>
+                {didProposerConfirmCompletionAlready ? (
+                  <div className="control has-text-primary">Completed</div>
+                ) : (
+                  <React.Fragment>
+                    <div className="control has-text-success">Tasker is Assigned</div>
+                    <div className="help">
+                      * The tasker will do this request on the specified date.
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
-                <div className="control has-text-success">
+                <div
+                  className={`control ${
+                    didProposerConfirmCompletionAlready ? 'has-text-primary' : 'has-text-success'
+                  } `}
+                >
                   {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
                 </div>
-                <div className="help">* will be charged after the request is completed.</div>
+                {!didProposerConfirmCompletionAlready && (
+                  <div className="help">* will be charged after the request is completed.</div>
+                )}
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}
@@ -202,18 +216,22 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
               <div className="field">
                 <label className="label">Assigned Tasker Details</label>
                 <UserImageAndRating userDetails={_bidderRef} />
-                <div className="control">
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>{email.emailAddress}</span>
-                </div>
-                <div className="control">
-                  <span className="icon">
-                    <i className="fas fa-phone" />
-                  </span>
-                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
-                </div>
+                {!didProposerConfirmCompletionAlready && (
+                  <React.Fragment>
+                    <div className="control">
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>{email.emailAddress}</span>
+                    </div>
+                    <div className="control">
+                      <span className="icon">
+                        <i className="fas fa-phone" />
+                      </span>
+                      <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>
@@ -230,17 +248,16 @@ const renderFooter = ({ job }) => {
       <div style={{ padding: '0.5rem' }}>
         <hr className="divider isTight" />
       </div>
-      <div style={{ display: 'flex', padding: '0 0.5rem 0.5rem 0.5rem' }}>
+      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
           }}
-          className={`button is-outlined}`}
+          className={`button is-outlined`}
           style={{ flexGrow: 1, marginRight: 10 }}
         >
           View Details
         </a>
-        <AddAwardedJobToCalendar job={job} />
       </div>
     </React.Fragment>
   );

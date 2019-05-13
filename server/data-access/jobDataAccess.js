@@ -281,6 +281,7 @@ exports.jobDataAccess = {
           createdAt: 1,
           _reviewRef: 1,
           _id: 1,
+          jobCompletion: 1,
         },
         match: {
           state: { $eq: 'AWARDED' },

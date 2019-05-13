@@ -225,7 +225,10 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                 <div className="control has-text-success">
                   {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
                 </div>
-                <div className="help">* will be charged after the request is completed.</div>
+
+                {!didProposerConfirmCompletionAlready && (
+                  <div className="help">* will be charged after the request is completed.</div>
+                )}
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}
