@@ -14,7 +14,7 @@ import {
 import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
-import { isBeforeToday, isRequestPastDue } from '../../utils';
+import { isHappeningToday, isRequestPastDue } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
@@ -77,8 +77,10 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
-    const isJobHappeningBeforeEndOfToday = isBeforeToday(startingDateAndTime);
+    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
     const isCurrenttimeAfterRequestDueDate = isRequestPastDue(startingDateAndTime);
+    const isJobUpcoming = !isJobHappeningToday && !isCurrenttimeAfterRequestDueDate;
+
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     const effortLevel =
@@ -211,11 +213,20 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                 {!didProposerConfirmCompletionAlready && (
                   <React.Fragment>
                     <div className="control has-text-success">Tasker is Assigned</div>
-                    <div className="help">
-                      * The tasker will do this request on the specified date.
-                    </div>
+                    {!isCurrenttimeAfterRequestDueDate && (
+                      <div className="help">
+                        * The tasker will do this request on the specified date.
+                      </div>
+                    )}
+                    {isCurrenttimeAfterRequestDueDate && !didProposerConfirmCompletionAlready && (
+                      <div className="help has-text-danger">
+                        * This request is past due please Confirm Completion by clicking on Task
+                        completed button
+                      </div>
+                    )}
                   </React.Fragment>
                 )}
+
                 {didProposerConfirmCompletionAlready && (
                   <div className="control has-text-primary">Waiting for Your Review</div>
                 )}
@@ -307,40 +318,36 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
           </div>
           <footer className="card-footer">
             <div className="card-footer-item">
-              {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
-                <ProposerVerifiesJobCompletion {...this.props} />
-              )}
-              {!isJobHappeningBeforeEndOfToday && <AddAwardedJobToCalendar job={job} />}
-              {isCurrenttimeAfterRequestDueDate && !didProposerConfirmCompletionAlready && (
-                <React.Fragment>
+              {isJobUpcoming && <AddAwardedJobToCalendar job={job} />}
+
+              {(isJobHappeningToday || isCurrenttimeAfterRequestDueDate) &&
+                !didProposerConfirmCompletionAlready && (
                   <ProposerVerifiesJobCompletion {...this.props} />
-                  <div className="help">* this is past due please confirm or dispute.</div>
-                </React.Fragment>
-              )}
+                )}
+
               {isCurrenttimeAfterRequestDueDate && didProposerConfirmCompletionAlready && (
-                <div className="card-footer-item">
-                  <a
-                    className="button is-primary is-outlined"
-                    onClick={() => {
-                      switchRoute(
-                        ROUTES.CLIENT.REVIEW.getProposerJobReview(
-                          job._ownerRef._id,
-                          job._id,
-                          _bidderRef._id,
-                        ),
-                      );
-                    }}
-                  >
-                    Start the Review
-                  </a>
-                </div>
+                <a
+                  className="button is-primary is-outlined"
+                  onClick={() => {
+                    switchRoute(
+                      ROUTES.CLIENT.REVIEW.getProposerJobReview(
+                        job._ownerRef._id,
+                        job._id,
+                        _bidderRef._id,
+                      ),
+                    );
+                  }}
+                >
+                  Start The Review
+                </a>
               )}
             </div>
-            {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
-              <div className="card-footer-item">
-                <ProposerDisputesJobCompletion {...this.props} />
-              </div>
-            )}
+            {(isJobHappeningToday || isCurrenttimeAfterRequestDueDate) &&
+              !didProposerConfirmCompletionAlready && (
+                <div className="card-footer-item">
+                  <ProposerDisputesJobCompletion {...this.props} />
+                </div>
+              )}
           </footer>
         </div>
       </React.Fragment>
@@ -423,7 +430,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
           )}
         <div>
           <a onClick={this.toggleModal} className="button is-meduim is-success">
-            Tasker Showed Up
+            Task is Completed
           </a>
         </div>
       </React.Fragment>
@@ -459,7 +466,7 @@ class ProposerDisputesJobCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Tasker Did Not Show up?</p>
+                  <p className="modal-card-title">File A Dispute</p>
                 </header>
                 <section className="modal-card-body">
                   <div>BidOrBoo takes a no show case very seriously.</div>
@@ -472,16 +479,19 @@ class ProposerDisputesJobCompletion extends React.Component {
                   <hr className="divider isTight" />
                   <div className="field">
                     <label className="label">What happens when you Dispute</label>
-                    <div className="help">* You will recieve a full refund.</div>
                     <div className="help">
-                      * We will evalute the reasons the reasons for why Tasker did not show up.
+                      * BidOrBoo Support will get in touch and confirm that the Tasker did not show
+                      up.
+                    </div>
+                    <div className="help">
+                      * Our Support crew will keep you updated with all the updates on this matter.
+                    </div>
+                    <div className="help">
+                      * Upon concluding our investigation you will recieve a full refund.
                     </div>
                     <div className="help">
                       * The tasker global rating will be negatively impacted and they may get
                       banned.
-                    </div>
-                    <div className="help">
-                      * Our Support crew will keep you updated with all the updates on this matter.
                     </div>
                   </div>
                   <div>We are very sorry for the inconvienience!</div>
@@ -504,7 +514,7 @@ class ProposerDisputesJobCompletion extends React.Component {
           )}
         <div>
           <a onClick={this.toggleModal} className="button is-meduim is-danger is-outlined">
-            Did Not Show Up
+            File a Dispute
           </a>
         </div>
       </React.Fragment>

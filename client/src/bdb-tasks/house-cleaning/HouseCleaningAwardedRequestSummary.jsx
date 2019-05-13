@@ -251,7 +251,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
               }`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              {didProposerConfirmCompletionAlready ? 'Review Tasker' : 'View Details'}
+              {didProposerConfirmCompletionAlready ? 'Review Task' : 'View Details'}
             </a>
           </div>
         </div>

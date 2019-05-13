@@ -54,16 +54,19 @@ export const isHappeningToday = (eventPlannedTimeISOString) => {
 };
 
 export const isBeforeToday = (eventPlannedTimeISOString) => {
-  const localEndOfDay = moment()
-    .endOf('day')
+  const localStartOfDay = moment()
+    .startOf('day')
     .toISOString();
 
   const eventPlannedTime = moment(eventPlannedTimeISOString).toISOString();
-  const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
-  return isBeforeEndOfToday;
+  const isBeforeStartOfDay = moment(eventPlannedTime).isSameOrBefore(localStartOfDay);
+  return isBeforeStartOfDay;
 };
 
 export const isRequestPastDue = (givenTaskTime) => {
+  if (isHappeningToday(givenTaskTime)) {
+    return false;
+  }
   const currentTime = moment().toISOString();
 
   const eventPlannedTime = moment(givenTaskTime).toISOString();
