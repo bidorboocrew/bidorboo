@@ -217,12 +217,16 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                   </React.Fragment>
                 )}
                 {didProposerConfirmCompletionAlready && (
-                  <div className="control has-text-success">Completed</div>
+                  <div className="control has-text-primary">Waiting for Your Review</div>
                 )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
-                <div className="control has-text-success">
+                <div
+                  className={`control ${
+                    didProposerConfirmCompletionAlready ? '' : 'has-text-success'
+                  } `}
+                >
                   {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
                 </div>
 
@@ -316,7 +320,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
               {isCurrenttimeAfterRequestDueDate && didProposerConfirmCompletionAlready && (
                 <div className="card-footer-item">
                   <a
-                    className="button is-info is-outlined"
+                    className="button is-primary is-outlined"
                     onClick={() => {
                       switchRoute(
                         ROUTES.CLIENT.REVIEW.getProposerJobReview(
@@ -327,7 +331,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                       );
                     }}
                   >
-                    Review This Task
+                    Start the Review
                   </a>
                 </div>
               )}

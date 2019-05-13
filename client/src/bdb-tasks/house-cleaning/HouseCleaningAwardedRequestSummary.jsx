@@ -184,7 +184,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
               <div className="field">
                 <label className="label">Request Status</label>
                 {didProposerConfirmCompletionAlready ? (
-                  <div className="control has-text-primary">Completed</div>
+                  <div className="control has-text-primary">Waiting for Your Review</div>
                 ) : (
                   <React.Fragment>
                     <div className="control has-text-success">Tasker is Assigned</div>
@@ -198,7 +198,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
                 <label className="label">Total Cost</label>
                 <div
                   className={`control ${
-                    didProposerConfirmCompletionAlready ? 'has-text-primary' : 'has-text-success'
+                    didProposerConfirmCompletionAlready ? '' : 'has-text-success'
                   } `}
                 >
                   {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
@@ -237,30 +237,25 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
               </div>
             </div>
           </div>
-          {renderFooter({ job, notificationFeed })}
+
+          <div style={{ padding: '0.5rem' }}>
+            <hr className="divider isTight" />
+          </div>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              }}
+              className={`button is-outlined ${
+                didProposerConfirmCompletionAlready ? 'is-primary' : ''
+              }`}
+              style={{ flexGrow: 1, marginRight: 10 }}
+            >
+              {didProposerConfirmCompletionAlready ? 'Review Tasker' : 'View Details'}
+            </a>
+          </div>
         </div>
       </React.Fragment>
     );
   }
 }
-
-const renderFooter = ({ job }) => {
-  return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
-          }}
-          className={`button is-outlined`}
-          style={{ flexGrow: 1, marginRight: 10 }}
-        >
-          View Details
-        </a>
-      </div>
-    </React.Fragment>
-  );
-};
