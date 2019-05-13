@@ -155,41 +155,42 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   {TITLE}
                 </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        href="#"
-                        className="dropdown-item has-text-danger"
+                {!didProposerConfirmCompletionAlready && (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none' }}
                       >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          href="#"
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
               <div
                 style={{
@@ -204,8 +205,17 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
 
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-success">Tasker is Assigned</div>
-                <div className="help">* The tasker will do this request on the specified date.</div>
+                {!didProposerConfirmCompletionAlready && (
+                  <React.Fragment>
+                    <div className="control has-text-success">Tasker is Assigned</div>
+                    <div className="help">
+                      * The tasker will do this request on the specified date.
+                    </div>
+                  </React.Fragment>
+                )}
+                {didProposerConfirmCompletionAlready && (
+                  <div className="control has-text-success">Completed</div>
+                )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
@@ -266,18 +276,22 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
               <div className="field">
                 <label className="label">Assigned Tasker Details</label>
                 <UserImageAndRating userDetails={_bidderRef} />
-                <div className="control">
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>{email.emailAddress}</span>
-                </div>
-                <div className="control">
-                  <span className="icon">
-                    <i className="fas fa-phone" />
-                  </span>
-                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
-                </div>
+                {!didProposerConfirmCompletionAlready && (
+                  <React.Fragment>
+                    <div className="control">
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>{email.emailAddress}</span>
+                    </div>
+                    <div className="control">
+                      <span className="icon">
+                        <i className="fas fa-phone" />
+                      </span>
+                      <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>

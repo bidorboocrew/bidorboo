@@ -85,14 +85,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
             </div>
 
             {getAawardedFullDetailsCardByTemplateJobId(selectedAwardedJob)}
-
-            {/* <BidderAndMyAwardedJob
-              proposerConfirmsJobCompletion={proposerConfirmsJobCompletion}
-              bid={_awardedBidRef}
-              job={selectedAwardedJob}
-              isReadOnlyView={isReadOnlyView}
-            />
-            <JobFullDetailsCard job={selectedAwardedJob} /> */}
           </div>
         </div>
       </div>
