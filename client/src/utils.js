@@ -63,6 +63,14 @@ export const isBeforeToday = (eventPlannedTimeISOString) => {
   return isBeforeEndOfToday;
 };
 
+export const isRequestPastDue = (givenTaskTime) => {
+  const currentTime = moment().toISOString();
+
+  const eventPlannedTime = moment(givenTaskTime).toISOString();
+  const isCurrentTimeAfterEventPlannedTime = moment(currentTime).isAfter(eventPlannedTime);
+  return isCurrentTimeAfterEventPlannedTime;
+};
+
 export const isBidderView = () => {
   return window.location.href.indexOf('bidder') > -1;
 };

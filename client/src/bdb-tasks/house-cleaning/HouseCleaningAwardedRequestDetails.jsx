@@ -14,7 +14,9 @@ import {
 import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
-import { isBeforeToday } from '../../utils';
+import { isBeforeToday, isRequestPastDue } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 
 export class HouseCleaningAwardedRequestDetails extends React.Component {
   constructor(props) {
@@ -76,6 +78,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     const isJobHappeningBeforeEndOfToday = isBeforeToday(startingDateAndTime);
+    const isCurrenttimeAfterRequestDueDate = isRequestPastDue(startingDateAndTime);
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     const effortLevel =
@@ -301,6 +304,30 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                 <ProposerVerifiesJobCompletion {...this.props} />
               )}
               {!isJobHappeningBeforeEndOfToday && <AddAwardedJobToCalendar job={job} />}
+              {isCurrenttimeAfterRequestDueDate && !didProposerConfirmCompletionAlready && (
+                <React.Fragment>
+                  <ProposerVerifiesJobCompletion {...this.props} />
+                  <div className="help">* this is past due please confirm or dispute.</div>
+                </React.Fragment>
+              )}
+              {isCurrenttimeAfterRequestDueDate && didProposerConfirmCompletionAlready && (
+                <div className="card-footer-item">
+                  <a
+                    className="button is-info is-outlined"
+                    onClick={() => {
+                      switchRoute(
+                        ROUTES.CLIENT.REVIEW.getProposerJobReview(
+                          job._ownerRef._id,
+                          job._id,
+                          _bidderRef._id,
+                        ),
+                      );
+                    }}
+                  >
+                    Review This Task
+                  </a>
+                </div>
+              )}
             </div>
             {isJobHappeningBeforeEndOfToday && !didProposerConfirmCompletionAlready && (
               <div className="card-footer-item">
