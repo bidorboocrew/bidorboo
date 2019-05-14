@@ -31,7 +31,19 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
-      enum: ['OPEN', 'AWARDED', 'DISPUTED', 'CANCELED', 'EXPIRED', 'DONE', 'PAIDOUT'],
+      enum: [
+        'OPEN',
+        'AWARDED',
+        'DISPUTED',
+        'CANCELED',
+        'CANCELED_AWARDED',
+        'CANCELED_OPEN',
+        'EXPIRED',
+        'EXPIRED_AWARDED',
+        'EXPIRED_OPEN',
+        'DONE',
+        'PAIDOUT',
+      ],
     },
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },

@@ -7,6 +7,7 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
+import { switchRoute } from '../utils';
 
 import '../assets/index.css';
 
@@ -35,12 +36,49 @@ import {
 } from './index';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
   componentDidCatch(error, info) {
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
 
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
   render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <div id="bidorboo-root-view">
+          <Header id="bidorboo-header" />
+          <section class="hero is-fullheight">
+            <div class="hero-body">
+              <div class="container">
+                <h1 class="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <br />
+                <h1 class="sub-title">
+                  Apologies for the inconvenience, We will track the issue and fix it asap.
+                </h1>
+                <br />
+                <a
+                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  className="button is-outlined is-success is-small"
+                >
+                  Go to Home Page
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
     const { s_toastDetails, userAppView, isLoggedIn } = this.props;
     return (
       <div id="bidorboo-root-view">
@@ -85,11 +123,7 @@ class App extends React.Component {
             {/* public paths */}
             <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.PROPOSER.createjob}`}
-              component={CreateAJobPage}
-            />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
             <Route

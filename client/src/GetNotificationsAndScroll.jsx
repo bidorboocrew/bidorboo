@@ -91,13 +91,13 @@ class GetNotificationsAndScroll extends React.Component {
     }
   }
 
-  componentDidCatch() {
-    // clearTimeout(this.fetchUserAndNotificationUpdated);
-  }
+  // componentDidCatch() {
+  //   // clearTimeout(this.fetchUserAndNotificationUpdated);
+  // }
 
-  componentWillUnmount() {
-    // clearTimeout(this.fetchUserAndNotificationUpdated);
-  }
+  // componentWillUnmount() {
+  //   // clearTimeout(this.fetchUserAndNotificationUpdated);
+  // }
 
   componentDidMount() {
     const {

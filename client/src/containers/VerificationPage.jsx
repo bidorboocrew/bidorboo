@@ -127,13 +127,13 @@ class Verification extends React.Component {
           <section className="section">
             <Spinner isLoading={isLoading} size={'large'} />
             {verificationSuccess === 'success' && (
-              <section className="hero is-success">
+              <section className="hero is-fullheight is-success">
                 <div className="hero-body">
                   <div className="container is-widescreen">
                     <h1 className="title">{`Successfullly verified your ${field}`}</h1>
                     <h2 className="subtitle">
                       <a
-                        className="button is-dark"
+                        className="button is-dark is-outlined"
                         onClick={(e) => {
                           e.preventDefault();
                           switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
@@ -147,7 +147,7 @@ class Verification extends React.Component {
               </section>
             )}
             {verificationSuccess === 'fail' && (
-              <section className="hero is-danger">
+              <section className="hero is-fullheight is-danger">
                 <div className="hero-body">
                   <div className="container is-widescreen">
                     <h1 className="title">{`Failed to verify your ${field}`}</h1>
@@ -155,6 +155,15 @@ class Verification extends React.Component {
                       login and go to myprofile to request a new code or contact us at
                       bidorboocrew@gmail.com
                     </h2>
+                    <a
+                      className="button is-dark is-outlined"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                      }}
+                    >
+                      go to home page
+                    </a>
                   </div>
                 </div>
               </section>
