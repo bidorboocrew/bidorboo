@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import {
   getAllMyOpenJobs,
-  deleteJobById,
+  cancelJobById,
   getAllMyAwardedJobs,
 } from '../../app-state/actions/jobActions';
 
@@ -69,7 +69,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
-    deleteJobById: bindActionCreators(deleteJobById, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
     getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
   };
 };

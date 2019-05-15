@@ -27,6 +27,12 @@ const JobSchema = new Schema(
       platformCharge: { type: Number },
       proposerPaid: { type: Number },
       bidderStripeAcc: { type: String },
+      refund: {
+        amount: { type: Number },
+        charge: { type: String },
+        id: { type: String },
+        status: { type: String },
+      },
     },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     title: String,

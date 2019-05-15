@@ -3,11 +3,15 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
-  partialRefundTransation: ({ chargeId, refundAmount }) => {
+  partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({
       charge: chargeId,
       amount: refundAmount,
+      metadata,
+      reason: 'requested_by_customer',
+      reverse_transfer: true,
+      // refund_application_fee: true,
     });
   },
   validateSignature: (reqBody, sig, endpointSecret) => {

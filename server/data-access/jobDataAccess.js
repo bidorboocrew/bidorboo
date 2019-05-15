@@ -89,9 +89,7 @@ exports.jobDataAccess = {
                   ownerDetails.phone && ownerDetails.phone.phoneNumber
                     ? ownerDetails.phone.phoneNumber
                     : '';
-                const linkForOwner = `https://www.bidorboo.com${
-                  ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
-                }/${jobId}`;
+                const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
                 const awardedBidderDetails = job._awardedBidRef._bidderRef;
                 const bidderEmailAddress =
                   awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
@@ -101,9 +99,7 @@ exports.jobDataAccess = {
                   awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
                     ? awardedBidderDetails.phone.phoneNumber
                     : '';
-                const linkForBidder = `https://www.bidorboo.com${
-                  ROUTES.CLIENT.BIDDER.currentAwardedBid
-                }/${awardedBidId}`;
+                const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
                   sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
                     to: ownerEmailAddress,
@@ -900,13 +896,13 @@ exports.jobDataAccess = {
               $set: { state: 'CANCELED_OPEN' },
             }
           );
-          resolve({ ...job, state: CANCELED_OPEN });
+          resolve({ ...job, state: 'CANCELED_OPEN' });
         }
 
         // if we are cancelling an awardedJob
         if (job.state === 'AWARDED') {
           // CANCELED_BY_REQUESTER_AWARDED case
-          const awardedJob = await JobModel.findById({ _id: jobId })
+          const awardedJob = await JobModel.findById(job._id)
             .populate({
               path: '_awardedBidRef',
               select: {
@@ -947,12 +943,8 @@ exports.jobDataAccess = {
           const awardedBidId = _awardedBidRef._id.toString();
           const ownerDetails = _ownerRef;
           // first do the communication for visibility-----------------
-          const linkForOwner = `https://www.bidorboo.com${
-            ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
-          }/${jobId}`;
-          const linkForBidder = `https://www.bidorboo.com${
-            ROUTES.CLIENT.BIDDER.currentAwardedBid
-          }/${awardedBidId}`;
+          const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
+          const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
 
           const ownerEmailAddress =
             ownerDetails.email && ownerDetails.email.emailAddress
@@ -962,9 +954,7 @@ exports.jobDataAccess = {
             ownerDetails.phone && ownerDetails.phone.phoneNumber
               ? ownerDetails.phone.phoneNumber
               : '';
-          const linkForOwner = `https://www.bidorboo.com${
-            ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
-          }/${jobId}`;
+
           const awardedBidderDetails = _awardedBidRef._bidderRef;
           const bidderEmailAddress =
             awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
@@ -974,10 +964,6 @@ exports.jobDataAccess = {
             awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
               ? awardedBidderDetails.phone.phoneNumber
               : '';
-          const linkForBidder = `https://www.bidorboo.com${
-            ROUTES.CLIENT.BIDDER.currentAwardedBid
-          }/${awardedBidId}`;
-
           if (ownerDetails.notifications && ownerDetails.notifications.email) {
             sendGridEmailing.tellRequeterThatTheyHaveCancelledAnAwardedJob({
               to: ownerEmailAddress,
@@ -1031,17 +1017,35 @@ exports.jobDataAccess = {
           // forward 10% to Tasker
           // forward 10% to BidorBooFees
           const refundStatus = await stripeServiceUtil.partialRefundTransation({
-            charge: processedPayment.chargeId,
+            chargeId: processedPayment.chargeId,
             refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
+            metadata: {
+              bidderId: awardedBidderDetails._id.toString(),
+              bidderEmail: bidderEmailAddress,
+              proposerId: _ownerRef._id.toString(),
+              proposerEmail: ownerEmailAddress,
+              jobId: jobId,
+              bidId: awardedBidId,
+              note: 'requester cancelled the job',
+            },
           });
 
           // xxxxxxxxxx
           // update job status
-
+          if (refundStatus.status === 'succeeded') {
+          }
           await JobModel.findOneAndUpdate(
             { _id: jobId, _ownerRef: mongoDbUserId },
             {
-              $set: { state: 'AWARDED_CANCELED_BY_REQUESTER' },
+              $set: {
+                state: 'AWARDED_CANCELED_BY_REQUESTER',
+                'processedPayment.refund': {
+                  amount: refundStatus.amount,
+                  charge: refundStatus.charge,
+                  id: refundStatus.id,
+                  status: refundStatus.status,
+                },
+              },
             }
           );
 
@@ -1051,7 +1055,8 @@ exports.jobDataAccess = {
           await User.findOneAndUpdate(
             { _id: mongoDbUserId },
             {
-              $inc: { 'rating.canceledJobs': 1, 'rating.globalRating': -0.25 },
+              $push: { 'rating.canceledJobs': jobId },
+              $inc: { 'rating.globalRating': -0.25 },
             },
             {
               new: true,
@@ -1059,9 +1064,9 @@ exports.jobDataAccess = {
           )
             .lean(true)
             .exec();
+          resolve({ ...job, state: 'AWARDED_CANCELED_BY_REQUESTER' });
         }
-
-        resolve({ awardedJob });
+        resolve({});
       } catch (e) {
         reject(e);
       }

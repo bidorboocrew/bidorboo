@@ -11,7 +11,7 @@ import {
   UserImageAndRating,
   AddAwardedJobToCalendar,
 } from '../../containers/commonComponents';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import { isHappeningToday, isRequestPastDue } from '../../utils';
@@ -59,7 +59,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, deleteJob } = this.props;
+    const { job, cancelJobById } = this.props;
 
     const {
       startingDateAndTime,
@@ -117,7 +117,8 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                     <div className="field">
                       <label className="label">What you need to know:</label>
                       <div className="control">
-                        * You will be <strong>penalized 50%</strong> of the total payment.
+                        * You will be <strong>penalized 20%</strong> of the total payment and will
+                        be refunded 80%.
                       </div>
                       <div className="control">* Your global rating will be impacted</div>
                     </div>
@@ -136,7 +137,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      deleteJob(job._id);
+                      cancelJobById(job._id);
                     }}
                     className="button is-danger"
                   >
@@ -181,9 +182,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                     <div className="dropdown-menu" id="dropdown-menu" role="menu">
                       <div className="dropdown-content">
                         <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
+                          onClick={this.toggleDeleteConfirmationDialog}
                           href="#"
                           className="dropdown-item has-text-danger"
                         >
@@ -365,6 +364,7 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
   };
 };
 
