@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const GeoJSON = require('mongoose-geojson-schema');
-const moment = require('moment');
 const { Schema } = mongoose;
 
 const StatsSchema = {
@@ -21,6 +20,9 @@ const JobSchema = new Schema(
       ref: 'BidModel',
     },
     processedPayment: {
+      chargeId: { type: String },
+      amount: { type: Number },
+      paymentId: { type: String },
       bidderPayout: { type: Number },
       platformCharge: { type: Number },
       proposerPaid: { type: Number },
@@ -36,13 +38,16 @@ const JobSchema = new Schema(
         'AWARDED',
         'DISPUTED',
         'CANCELED',
-        'CANCELED_AWARDED',
+        'AWARDED_CANCELED_BY_BIDDER',
+        'AWARDED_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN',
         'EXPIRED',
         'EXPIRED_AWARDED',
         'EXPIRED_OPEN',
         'DONE',
         'PAIDOUT',
+        'RESCHEDULED_REQUEST',
+        'RESCHEDULED_DENIED',
       ],
     },
     jobCompletion: {

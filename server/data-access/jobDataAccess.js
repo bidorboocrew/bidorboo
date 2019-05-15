@@ -12,6 +12,9 @@ const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+const stripeServiceUtil = require('../services/stripeService').util;
+
+const BIDORBOO_REFUND_AMOUNT = 0.8;
 
 exports.jobDataAccess = {
   BidOrBooAdmin: {
@@ -34,9 +37,9 @@ exports.jobDataAccess = {
           path: '_ownerRef',
           select: {
             _id: 1,
+            displayName: 1,
             email: 1,
             phone: 1,
-            _bidderRef: 1,
             pushSubscription: 1,
             notifications: 1,
           },
@@ -46,7 +49,14 @@ exports.jobDataAccess = {
           select: { _bidderRef: 1 },
           populate: {
             path: '_bidderRef',
-            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1, notifications: 1 },
+            select: {
+              _id: 1,
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              pushSubscription: 1,
+              notifications: 1,
+            },
           },
         })
         .lean(true)
@@ -95,52 +105,26 @@ exports.jobDataAccess = {
                   ROUTES.CLIENT.BIDDER.currentAwardedBid
                 }/${awardedBidId}`;
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
-                  sendGridEmailing.sendEmail({
+                  sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
                     to: ownerEmailAddress,
-                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    contentText: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your tasker feel free to contact them on:
-                  email address : ${bidderEmailAddress}
-                  phone number : ${bidderPhoneNumber}
-                  for reference here is the link to your task ${linkForOwner}
-                   `,
+                    requestTitle: job.fromTemplateId,
                     toDisplayName: `${ownerDetails.displayName}`,
-                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your tasker feel free to contact them on:
-                  email address : ${bidderEmailAddress}
-                  phone number : ${bidderPhoneNumber}`,
-                    clickLink: `${linkForOwner}`,
-                    clickDisplayName: `View This Task`,
+                    bidderEmailAddress,
+                    bidderPhoneNumber,
+                    linkForOwner,
                   });
                 }
                 if (
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.email
                 ) {
-                  sendGridEmailing.sendEmail({
+                  sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
                     to: bidderEmailAddress,
-                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    contentText: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your task owner feel free to contact them on:
-                  email address : ${ownerEmailAddress}
-                  phone number : ${ownerPhoneNumber}
-                  for reference here is the link to your task ${linkForBidder}
-                   `,
+                    requestTitle: job.fromTemplateId,
                     toDisplayName: `${awardedBidderDetails.displayName}`,
-                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your task owner feel free to contact them on:
-                  email address : ${ownerEmailAddress}
-                  phone number : ${ownerPhoneNumber}`,
-                    clickLink: `${linkForBidder}`,
-                    clickDisplayName: `View This Task`,
+                    ownerEmailAddress,
+                    ownerPhoneNumber,
+                    linkForBidder,
                   });
                 }
 
@@ -149,11 +133,9 @@ exports.jobDataAccess = {
                   ownerDetails.notifications &&
                   ownerDetails.notifications.phone
                 ) {
-                  await sendTextService.sendText(
+                  await sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
-                    `BidOrBoo: ${
-                      job.fromTemplateId
-                    } is happening soon! go to www.bidorboo.com for details`
+                    job.fromTemplateId
                   );
                 }
                 if (
@@ -161,26 +143,26 @@ exports.jobDataAccess = {
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.phone
                 ) {
-                  await sendTextService.sendText(
+                  await sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
-                    `BidOrBoo: ${
-                      job.fromTemplateId
-                    } is happening soon! go to www.bidorboo.com for details`
+                    job.fromTemplateId
                   );
                 }
+
                 if (ownerDetails.notifications && ownerDetails.notifications.push) {
-                  WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
-                    title: `${job.fromTemplateId} is happening soon!`,
-                    body: `click to view schedule and tasker details`,
-                    urlToLaunch: `${linkForOwner}`,
+                  WebPushNotifications.pushJobIsHappeningSoon(ownerDetails.pushSubscription, {
+                    requestTitle: job.fromTemplateId,
+                    urlToLaunch: linkForOwner,
                   });
                 }
                 if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
-                  WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
-                    title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
-                    body: `It is happening soon ! . click for more details`,
-                    urlToLaunch: `${linkForBidder}`,
-                  });
+                  WebPushNotifications.pushJobIsHappeningSoon(
+                    awardedBidderDetails.pushSubscription,
+                    {
+                      requestTitle: job.fromTemplateId,
+                      urlToLaunch: linkForBidder,
+                    }
+                  );
                 }
               }
             });
@@ -898,6 +880,256 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+  cancelJob(jobId, mongoDbUserId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoDbUserId })
+          .lean(true)
+          .exec();
+
+        if (!job) {
+          resolve({});
+        }
+
+        // if we are cancelling an open job
+        if (job.state === 'OPEN') {
+          await JobModel.findOneAndUpdate(
+            { _id: jobId, _ownerRef: mongoDbUserId },
+            {
+              $set: { state: 'CANCELED_OPEN' },
+            }
+          );
+          resolve({ ...job, state: CANCELED_OPEN });
+        }
+
+        // if we are cancelling an awardedJob
+        if (job.state === 'AWARDED') {
+          // CANCELED_BY_REQUESTER_AWARDED case
+          const awardedJob = await JobModel.findById({ _id: jobId })
+            .populate({
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                state: 1,
+                bidAmount: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  _id: 1,
+                  email: 1,
+                  phone: 1,
+                  pushSubscription: 1,
+                  notifications: 1,
+                  displayName: 1,
+                },
+              },
+            })
+            .populate({
+              path: '_ownerRef',
+              select: {
+                _id: 1,
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                pushSubscription: 1,
+                notifications: 1,
+              },
+            })
+            .lean(true)
+            .exec();
+          const { _ownerRef, processedPayment, _awardedBidRef } = awardedJob;
+          const jobId = awardedJob._id.toString();
+          const awardedBidId = _awardedBidRef._id.toString();
+          const ownerDetails = _ownerRef;
+          // first do the communication for visibility-----------------
+          const linkForOwner = `https://www.bidorboo.com${
+            ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
+          }/${jobId}`;
+          const linkForBidder = `https://www.bidorboo.com${
+            ROUTES.CLIENT.BIDDER.currentAwardedBid
+          }/${awardedBidId}`;
+
+          const ownerEmailAddress =
+            ownerDetails.email && ownerDetails.email.emailAddress
+              ? ownerDetails.email.emailAddress
+              : '';
+          const ownerPhoneNumber =
+            ownerDetails.phone && ownerDetails.phone.phoneNumber
+              ? ownerDetails.phone.phoneNumber
+              : '';
+          const linkForOwner = `https://www.bidorboo.com${
+            ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
+          }/${jobId}`;
+          const awardedBidderDetails = _awardedBidRef._bidderRef;
+          const bidderEmailAddress =
+            awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
+              ? awardedBidderDetails.email.emailAddress
+              : '';
+          const bidderPhoneNumber =
+            awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
+              ? awardedBidderDetails.phone.phoneNumber
+              : '';
+          const linkForBidder = `https://www.bidorboo.com${
+            ROUTES.CLIENT.BIDDER.currentAwardedBid
+          }/${awardedBidId}`;
+
+          if (ownerDetails.notifications && ownerDetails.notifications.email) {
+            sendGridEmailing.tellRequeterThatTheyHaveCancelledAnAwardedJob({
+              to: ownerEmailAddress,
+              requestTitle: awardedJob.fromTemplateId,
+              toDisplayName: `${ownerDetails.displayName}`,
+              linkForOwner,
+            });
+          }
+          if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.email) {
+            sendGridEmailing.tellTaskerThatRequesterCancelledJob({
+              to: bidderEmailAddress,
+              requestTitle: awardedJob.fromTemplateId,
+              toDisplayName: `${awardedBidderDetails.displayName}`,
+              linkForBidder,
+            });
+          }
+
+          if (ownerPhoneNumber && ownerDetails.notifications && ownerDetails.notifications.phone) {
+            await sendTextService.sendJobIsCancelledText(
+              ownerPhoneNumber,
+              awardedJob.fromTemplateId
+            );
+          }
+          if (
+            bidderPhoneNumber &&
+            awardedBidderDetails.notifications &&
+            awardedBidderDetails.notifications.phone
+          ) {
+            await sendTextService.sendJobIsCancelledText(
+              bidderPhoneNumber,
+              awardedJob.fromTemplateId
+            );
+          }
+
+          if (ownerDetails.notifications && ownerDetails.notifications.push) {
+            WebPushNotifications.pushAwardedJobWasCancelled(ownerDetails.pushSubscription, {
+              requestTitle: awardedJob.fromTemplateId,
+              urlToLaunch: linkForOwner,
+            });
+          }
+          if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
+            WebPushNotifications.pushAwardedJobWasCancelled(awardedBidderDetails.pushSubscription, {
+              requestTitle: awardedJob.fromTemplateId,
+              urlToLaunch: linkForBidder,
+            });
+          }
+          // first do the communication for visibility-----------------
+
+          // second do the refunds ------
+          // Refund 80% of payment
+          // forward 10% to Tasker
+          // forward 10% to BidorBooFees
+          const refundStatus = await stripeServiceUtil.partialRefundTransation({
+            charge: processedPayment.chargeId,
+            refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
+          });
+
+          // xxxxxxxxxx
+          // update job status
+
+          await JobModel.findOneAndUpdate(
+            { _id: jobId, _ownerRef: mongoDbUserId },
+            {
+              $set: { state: 'AWARDED_CANCELED_BY_REQUESTER' },
+            }
+          );
+
+          // decrease the global rating by (0.25) 1 quarter of a star
+          // update count of canceled jobs
+          // update status of this job
+          await User.findOneAndUpdate(
+            { _id: mongoDbUserId },
+            {
+              $inc: { 'rating.canceledJobs': 1, 'rating.globalRating': -0.25 },
+            },
+            {
+              new: true,
+            }
+          )
+            .lean(true)
+            .exec();
+        }
+
+        resolve({ awardedJob });
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    // if it is an open job then simply cancel it
+
+    // if it is an awarded job .. we got some punishment to do
+  },
+  cancelOpenJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_OPEN');
+  },
+  cancelAwardedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_AWARDED');
+  },
+
+  expireOpenJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_OPEN');
+  },
+
+  expireAwardedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_AWARDED');
+  },
+
+  setDisputedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'DISPUTED');
+  },
+  setJobIsDone: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'DONE');
+  },
+  setJobIsPaidOut: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'PAIDOUT');
+  },
+
+  setRescheduleRequested: async (jobId, mongoDbUserId, newDate) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findOneAndUpdate(
+          { _id: jobId, _ownerRef: mongoDbUserId },
+          {
+            $set: { state: 'RESCHEDULED_REQUEST', startingDateAndTime: newDate },
+          }
+        );
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  _updateJobStatus: async (jobId, mongoDbUserId, status) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findOneAndUpdate(
+          { _id: jobId, _ownerRef: mongoDbUserId },
+          {
+            $set: { state: status },
+          }
+        );
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
   deleteJob: async (jobId, mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {

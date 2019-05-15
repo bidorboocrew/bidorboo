@@ -8,6 +8,66 @@ webpush.setVapidDetails(
 );
 
 exports.WebPushNotifications = {
+  pushAwardedJobWasCancelled: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: ${requestTitle} Was Cancelled!`,
+          body: `It is cancelled! Click for more details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
+  pushJobIsHappeningSoon: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: ${requestTitle} is Happening Soon!`,
+          body: `It is happening soon! Click for more details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
+  pushYouAreAwarded: async (targetUserPushSubscription, { displayName, icon, urlToLaunch }) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `Good News ${displayName} !`,
+          body: `You have been awarded a job. click for details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
   sendPush: async (targetUserPushSubscription, { title, body, icon, urlToLaunch }) => {
     try {
       if (targetUserPushSubscription) {

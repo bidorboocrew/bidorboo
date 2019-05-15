@@ -3,6 +3,13 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  partialRefundTransation: ({ chargeId, refundAmount }) => {
+    // xxxxxx
+    return stripe.refunds.create({
+      charge: chargeId,
+      amount: refundAmount,
+    });
+  },
   validateSignature: (reqBody, sig, endpointSecret) => {
     return stripe.webhooks.constructEvent(reqBody, sig, endpointSecret);
   },

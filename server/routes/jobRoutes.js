@@ -76,7 +76,7 @@ module.exports = (app) => {
         const jobId = req.body.jobId;
 
         if (jobId) {
-          userJobsList = await jobDataAccess.deleteJob(jobId, mongoDbUserId);
+          userJobsList = await jobDataAccess.cancelJob(jobId, mongoDbUserId);
           return res.send(jobId);
         } else {
           return res.status(400).send({
@@ -162,48 +162,48 @@ module.exports = (app) => {
       }
     }
   );
-  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
-    try {
-      const filesList = req.files;
-      // create new job for this user
-      const jobId = req.body.jobId;
-      const userMongoDBId = req.user._id;
-      let cloudinaryHostedImageObj = [];
-      const callbackFunc = (error, result) => {
-        // update the user data model
-        if (result) {
-          const { secure_url, public_id } = result;
-          cloudinaryHostedImageObj.push({ secure_url, public_id });
-        }
-      };
+  // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+  //   try {
+  //     const filesList = req.files;
+  //     // create new job for this user
+  //     const jobId = req.body.jobId;
+  //     const userMongoDBId = req.user._id;
+  //     let cloudinaryHostedImageObj = [];
+  //     const callbackFunc = (error, result) => {
+  //       // update the user data model
+  //       if (result) {
+  //         const { secure_url, public_id } = result;
+  //         cloudinaryHostedImageObj.push({ secure_url, public_id });
+  //       }
+  //     };
 
-      if (filesList && filesList.length > 0) {
-        const cloudinaryUploadReqs = [];
-        filesList.forEach((file) => {
-          cloudinaryUploadReqs.push(
-            utils.uploadFileToCloudinary(
-              file.path,
-              {
-                folder: `${userMongoDBId}/${jobId}`,
-              },
-              callbackFunc
-            )
-          );
-        });
-        const uploadImages = await Promise.all(cloudinaryUploadReqs);
+  //     if (filesList && filesList.length > 0) {
+  //       const cloudinaryUploadReqs = [];
+  //       filesList.forEach((file) => {
+  //         cloudinaryUploadReqs.push(
+  //           utils.uploadFileToCloudinary(
+  //             file.path,
+  //             {
+  //               folder: `${userMongoDBId}/${jobId}`,
+  //             },
+  //             callbackFunc
+  //           )
+  //         );
+  //       });
+  //       const uploadImages = await Promise.all(cloudinaryUploadReqs);
 
-        if (jobId && cloudinaryHostedImageObj.length > 0) {
-          jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
-        }
-        res.send({
-          success: true,
-          jobId: jobId,
-        });
-      }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
-    }
-  });
+  //       if (jobId && cloudinaryHostedImageObj.length > 0) {
+  //         jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
+  //       }
+  //       res.send({
+  //         success: true,
+  //         jobId: jobId,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+  //   }
+  // });
 
   app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
     try {
@@ -334,7 +334,7 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
-        const userMongoDBId = req.user._id;
+        // const userMongoDBId = req.user._id;
 
         await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
           jobCompletion: {

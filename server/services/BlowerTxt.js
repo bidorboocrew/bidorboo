@@ -3,6 +3,18 @@ const keys = require('../config/keys');
 var request = require('request');
 
 exports.TxtMsgingService = {
+  sendJobIsCancelledText: (mobileNumber, requestTitle, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} was cancelled! https://www.bidorboo.com for details`;
+    return sendText(mobileNumber, msgContent, callback);
+  },
+  sendYouAreAwardedJob: (mobileNumber, requestTitle, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is awarded to you! https://www.bidorboo.com for details`;
+    return sendText(mobileNumber, msgContent, callback);
+  },
+  sendJobIsHappeningSoonText: (mobileNumber, requestTitle, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is happening soon! https://www.bidorboo.com for details`;
+    return sendText(mobileNumber, msgContent, callback);
+  },
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
     let formattedMobileNumber = `1-${mobileNumber}`;
 
