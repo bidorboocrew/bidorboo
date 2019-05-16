@@ -2969,6 +2969,13 @@ mongoose-geojson-schema@^2.1.3:
   resolved "https://registry.yarnpkg.com/mongoose-geojson-schema/-/mongoose-geojson-schema-2.1.3.tgz#c93b8eebff3460d2a7d64fb6081ec3b1b487f2f8"
   integrity sha512-64wDCtBKUotEDQUr3XVobywGdcWng8SoV2JAGQuCM4BXs/5eLEOBF82Ac0fwo9O+qibSNWy5m5Q9PHH3MS9gCA==
 
+mongoose-lean-virtuals@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/mongoose-lean-virtuals/-/mongoose-lean-virtuals-0.4.2.tgz#e476a7f0074e3cdd1fdd441348f9a88c71ed795f"
+  integrity sha512-2zsJBxhNotbRqeVy1uNcS460WylTMG8QliEvjbGC/INAvxA+irPplhyJpg586SuT2lS3sNCFxKOJj3GngCCU/g==
+  dependencies:
+    mpath "0.5.x"
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
@@ -3019,6 +3026,11 @@ morgan@^1.9.1:
     depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
+
+mpath@0.5.x:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.5.2.tgz#b1eac586dffb5175d2f51ca9aacba35d9940dd41"
+  integrity sha512-NOeCoW6AYc3hLi30npe7uzbD9b4FQZKH40YKABUCCvaKKL5agj6YzvHoNx8jQpDMNPgIa5bvSZQbQpWBAVD0Kw==
 
 mpath@0.6.0:
   version "0.6.0"

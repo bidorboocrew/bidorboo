@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const GeoJSON = require('mongoose-geojson-schema');
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
+
 const { Schema } = mongoose;
 
 const StatsSchema = {
@@ -62,6 +64,11 @@ const JobSchema = new Schema(
       bidderDisputed: { type: Boolean, default: false },
       proposerDisputed: { type: Boolean, default: false },
     },
+    reschedule: {
+      newTime: { type: Date, required: true },
+      byWhom: { type: String, enum: ['owner', 'bidder'] },
+      status: { type: String, enum: ['denied', 'accepted'] },
+    },
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
     booedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
@@ -96,6 +103,33 @@ const JobSchema = new Schema(
 //   }
 //   next();
 // });
+
+JobSchema.virtual('displayTitle').get(function() {
+  const templateIdToDisplayNameMapper = {
+    'bdbjob-house-cleaning': 'House Cleaning',
+  };
+  return templateIdToDisplayNameMapper[this.fromTemplateId];
+});
+
+JobSchema.virtual('displayStatus').get(function() {
+  const templateIdToDisplayNameMapper = {
+    OPEN: 'Waiting For Taskers',
+    AWARDED: 'Assigned To Tasker',
+    DISPUTED: 'Under Dispute',
+    CANCELED: 'Cancelled',
+    AWARDED_CANCELED_BY_BIDDER: 'Cancelled By Tasker',
+    AWARDED_CANCELED_BY_REQUESTER: 'Cancelled By Requester',
+    CANCELED_OPEN: 'Canceled',
+    EXPIRED: 'Past Due',
+    EXPIRED_AWARDED: 'Past Due',
+    EXPIRED_OPEN: 'Past Due',
+    DONE: 'Done',
+    PAIDOUT: 'Paid Out',
+  };
+  return templateIdToDisplayNameMapper[this.state];
+});
+
+JobSchema.plugin(mongooseLeanVirtuals);
 
 //no need for index on these . avoid performance slowness
 mongoose.model('JobModel', JobSchema);
