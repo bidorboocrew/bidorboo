@@ -14,9 +14,6 @@ import {
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
-import { isHappeningToday, isRequestPastDue } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 
 export class HouseCleaningAwardedRequestDetails extends React.Component {
   constructor(props) {
@@ -68,6 +65,10 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
       extras,
       detailedDescription,
       jobCompletion,
+      displayStatus,
+      isExpiringSoon,
+      isHappeningToday,
+      isPastDue,
     } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -76,10 +77,6 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
-
-    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
-    const isCurrenttimeAfterRequestDueDate = isRequestPastDue(startingDateAndTime);
-    const isJobUpcoming = !isJobHappeningToday && !isCurrenttimeAfterRequestDueDate;
 
     const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
@@ -161,40 +158,39 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   {TITLE}
                 </div>
-                {!didProposerConfirmCompletionAlready && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={this.toggleDeleteConfirmationDialog}
-                          href="#"
-                          className="dropdown-item has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
+
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
                       </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={this.toggleDeleteConfirmationDialog}
+                        href="#"
+                        className="dropdown-item has-text-danger"
+                      >
+                        <span className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
               <div
                 style={{
@@ -209,40 +205,29 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
 
               <div className="field">
                 <label className="label">Request Status</label>
-                {!didProposerConfirmCompletionAlready && (
-                  <React.Fragment>
-                    <div className="control has-text-success">Tasker is Assigned</div>
-                    {!isCurrenttimeAfterRequestDueDate && (
-                      <div className="help">
-                        * The tasker will do this request on the specified date.
-                      </div>
-                    )}
-                    {isCurrenttimeAfterRequestDueDate && !didProposerConfirmCompletionAlready && (
-                      <div className="help has-text-danger">
-                        * This request is past due please Confirm Completion by clicking on Task
-                        completed button
-                      </div>
-                    )}
-                  </React.Fragment>
+                <div className="control has-text-success">{displayStatus}</div>
+                {isExpiringSoon && (
+                  <div className="help has-text-success">
+                    * Happening soon, Make sure to contact the Tasker
+                  </div>
                 )}
-
-                {didProposerConfirmCompletionAlready && (
-                  <div className="control has-text-primary">Waiting for Your Review</div>
+                {isHappeningToday && (
+                  <div className="help has-text-success">
+                    * Happening today, Tasker will show up on the scheduled time
+                  </div>
+                )}
+                {isPastDue && (
+                  <div className="help has-text-danger">
+                    * This request date is past Due, view details to confirm completion
+                  </div>
                 )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
-                <div
-                  className={`control ${
-                    didProposerConfirmCompletionAlready ? '' : 'has-text-success'
-                  } `}
-                >
+                <div className="control has-text-success">
                   {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
                 </div>
-
-                {!didProposerConfirmCompletionAlready && (
-                  <div className="help">* will be charged after the request is completed.</div>
-                )}
+                <div className="help">* will be charged after the request is completed.</div>
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}
@@ -296,57 +281,34 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
               <div className="field">
                 <label className="label">Assigned Tasker Details</label>
                 <UserImageAndRating userDetails={_bidderRef} />
-                {!didProposerConfirmCompletionAlready && (
-                  <React.Fragment>
-                    <div className="control">
-                      <span className="icon">
-                        <i className="far fa-envelope" />
-                      </span>
-                      <span>{email.emailAddress}</span>
-                    </div>
-                    <div className="control">
-                      <span className="icon">
-                        <i className="fas fa-phone" />
-                      </span>
-                      <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
-                    </div>
-                  </React.Fragment>
-                )}
+                <div className="control">
+                  <span className="icon">
+                    <i className="far fa-envelope" />
+                  </span>
+                  <span>{email.emailAddress}</span>
+                </div>
+                <div className="control">
+                  <span className="icon">
+                    <i className="fas fa-phone" />
+                  </span>
+                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                </div>
               </div>
             </div>
           </div>
           <footer className="card-footer">
             <div className="card-footer-item">
-              {isJobUpcoming && <AddAwardedJobToCalendar job={job} />}
-
-              {(isJobHappeningToday || isCurrenttimeAfterRequestDueDate) &&
-                !didProposerConfirmCompletionAlready && (
-                  <ProposerVerifiesJobCompletion {...this.props} />
-                )}
-
-              {isCurrenttimeAfterRequestDueDate && didProposerConfirmCompletionAlready && (
-                <a
-                  className="button is-primary is-outlined"
-                  onClick={() => {
-                    switchRoute(
-                      ROUTES.CLIENT.REVIEW.getProposerJobReview(
-                        job._ownerRef._id,
-                        job._id,
-                        _bidderRef._id,
-                      ),
-                    );
-                  }}
-                >
-                  Start The Review
-                </a>
-              )}
+              <AddAwardedJobToCalendar job={job} />
             </div>
-            {(isJobHappeningToday || isCurrenttimeAfterRequestDueDate) &&
-              !didProposerConfirmCompletionAlready && (
-                <div className="card-footer-item">
-                  <ProposerDisputesJobCompletion {...this.props} />
-                </div>
-              )}
+          </footer>
+          <footer className="card-footer">
+            <div className="card-footer-item">
+              <ProposerVerifiesJobCompletion {...this.props} />
+            </div>
+
+            <div className="card-footer-item">
+              <ProposerDisputesJobCompletion {...this.props} />
+            </div>
           </footer>
         </div>
       </React.Fragment>

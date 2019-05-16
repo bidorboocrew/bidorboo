@@ -20,7 +20,6 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
       startingDateAndTime,
       addressText,
       _awardedBidRef,
-      jobCompletion,
       displayStatus,
       isExpiringSoon,
       isHappeningToday,
@@ -31,7 +30,6 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
     const { phone, email } = _bidderRef;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
-    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     return (
       <div className="card limitWidthOfCard">
@@ -77,16 +75,10 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
             </div>
             <div className="field">
               <label className="label">Total Cost</label>
-              <div
-                className={`control ${
-                  didProposerConfirmCompletionAlready ? '' : 'has-text-success'
-                } `}
-              >
+              <div className="control has-text-success">
                 {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
               </div>
-              {!didProposerConfirmCompletionAlready && (
-                <div className="help">* will be charged after the request is completed.</div>
-              )}
+              <div className="help">* will be charged after the request is completed.</div>
             </div>
             <StartDateAndTime
               date={startingDateAndTime}
@@ -99,22 +91,19 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
             <div className="field">
               <label className="label">Assigned Tasker Details</label>
               <UserImageAndRating userDetails={_bidderRef} />
-              {!didProposerConfirmCompletionAlready && (
-                <React.Fragment>
-                  <div className="control">
-                    <span className="icon">
-                      <i className="far fa-envelope" />
-                    </span>
-                    <span>{email.emailAddress}</span>
-                  </div>
-                  <div className="control">
-                    <span className="icon">
-                      <i className="fas fa-phone" />
-                    </span>
-                    <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
-                  </div>
-                </React.Fragment>
-              )}
+
+              <div className="control">
+                <span className="icon">
+                  <i className="far fa-envelope" />
+                </span>
+                <span>{email.emailAddress}</span>
+              </div>
+              <div className="control">
+                <span className="icon">
+                  <i className="fas fa-phone" />
+                </span>
+                <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -127,12 +116,10 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
             }}
-            className={`button is-outlined ${
-              didProposerConfirmCompletionAlready ? 'is-primary' : ''
-            }`}
+            className="button is-outlined"
             style={{ flexGrow: 1, marginRight: 10 }}
           >
-            {didProposerConfirmCompletionAlready ? 'Review Task' : 'View Details'}
+            View Details
           </a>
         </div>
       </div>

@@ -53,11 +53,7 @@ export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent =
 
 export const CountDownComponent = (props) => {
   const { startingDate } = props;
-  return (
-    <div className="help" style={{ color: 'lightgrey' }}>{`* ${moment(
-      startingDate,
-    ).fromNow()}`}</div>
-  );
+  return <div className="help">{`* ${moment(startingDate).fromNow()}`}</div>;
 };
 
 export const JobTitleText = ({ title }) => {
