@@ -50,7 +50,14 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
   render() {
     const { job, deleteJob, notificationFeed } = this.props;
 
-    const { startingDateAndTime, addressText } = job;
+    const {
+      startingDateAndTime,
+      addressText,
+      displayStatus,
+      isExpiringSoon,
+      isHappeningToday,
+      isPastDue,
+    } = job;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
@@ -107,7 +114,7 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className="card limitWidthOfCard">
+        <div className={`card limitWidthOfCard ${isPastDue ? 'expiredReadOnly' : ''}`}>
           <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
@@ -163,22 +170,51 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-
-              {!areThereAnyBidders && (
+              {isPastDue && (
                 <div className="field">
                   <label className="label">Request Status</label>
-                  <div className="control">Awaiting on Taskers</div>
-                  <div className="help">* No Taskers offered to do this yet! check again soon.</div>
-                </div>
-              )}
-              {areThereAnyBidders && (
-                <div className="field">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-info">Taskers Available</div>
-                  <div className="help">* Review the offers regularly and choose a Tasker.</div>
+                  <div className="control has-text-danger">Past Due - Expired</div>
+                  <div className="help">
+                    * No Taskers were assigned before the specified start date thus, we will delete
+                    this request automatically in 48hours.
+                  </div>
                 </div>
               )}
 
+              {!isPastDue && (
+                <React.Fragment>
+                  {!areThereAnyBidders && (
+                    <div className="field">
+                      <label className="label">Request Status</label>
+                      <div className="control">Awaiting on Taskers</div>
+                      <div className="help">
+                        * No Taskers offered to do this yet! check again soon.
+                      </div>
+                      {isExpiringSoon ||
+                        (isHappeningToday && (
+                          <div className="help has-text-success">
+                            * Expiring soon, if no Taskers are available to fulfil this request, we
+                            will deleted it automatically 48 hours after the specified start date
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                  {areThereAnyBidders && (
+                    <div className="field">
+                      <label className="label">Request Status</label>
+                      <div className="control has-text-info">Taskers Available</div>
+                      <div className="help">* Review the offers regularly and choose a Tasker.</div>
+                      {isExpiringSoon ||
+                        (isHappeningToday && (
+                          <div className="help has-text-success">
+                            * Expiring soon, select a Taskers otherwise this task will be deleted
+                            automatically 48 hours after the specified start date
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
