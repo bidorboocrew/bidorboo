@@ -296,11 +296,14 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
               </div>
             </div>
           </div>
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <AddAwardedJobToCalendar job={job} />
-            </div>
-          </footer>
+          {!isPastDue && (
+            <footer className="card-footer">
+              <div className="card-footer-item">
+                <AddAwardedJobToCalendar job={job} />
+              </div>
+            </footer>
+          )}
+
           <footer className="card-footer">
             <div className="card-footer-item">
               <ProposerVerifiesJobCompletion {...this.props} />
@@ -355,6 +358,8 @@ class ProposerVerifiesJobCompletion extends React.Component {
   };
   render() {
     const { showConfirmationModal } = this.state;
+    const { isPastDue } = this.props.job;
+
     return (
       <React.Fragment>
         {showConfirmationModal &&
@@ -391,7 +396,10 @@ class ProposerVerifiesJobCompletion extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div>
-          <a onClick={this.toggleModal} className="button is-meduim is-success">
+          <a
+            onClick={this.toggleModal}
+            className={`button is-meduim is-success ${isPastDue ? 'heartbeatInstant' : ''}`}
+          >
             Task is Completed
           </a>
         </div>

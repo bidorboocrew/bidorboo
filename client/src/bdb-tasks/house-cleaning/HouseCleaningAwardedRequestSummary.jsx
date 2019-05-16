@@ -116,7 +116,7 @@ export default class HouseCleaningAwardedRequestSummary extends React.Component 
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
             }}
-            className="button is-outlined"
+            className={`button is-outlined ${isPastDue ? 'is-danger' : ''}`}
             style={{ flexGrow: 1, marginRight: 10 }}
           >
             View Details
