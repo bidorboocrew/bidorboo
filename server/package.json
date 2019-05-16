@@ -61,6 +61,7 @@
     "recaptcha-verify": "^0.1.1",
     "request": "^2.88.0",
     "stripe": "^6.34.0",
+    "twilio": "^3.31.0",
     "web-push": "^3.3.3"
   }
 }

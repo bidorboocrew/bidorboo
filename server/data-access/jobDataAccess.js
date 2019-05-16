@@ -8,7 +8,7 @@ const ReviewModel = mongoose.model('ReviewModel');
 const moment = require('moment');
 const ROUTES = require('../backend-route-constants');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
-const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');

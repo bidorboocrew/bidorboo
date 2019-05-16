@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
-const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 

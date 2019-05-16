@@ -21,4 +21,6 @@ module.exports = {
   vapidPublicApiKey: process.env.VAPID_PUBLIC_API_KEY,
   vapidPrivateApiKey: process.env.VAPID_PRIVATE_API_KEY,
   recaptchaApiKey: process.env.RECAPTCHA_PRIVATE_API_KEY,
+  twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
 };
