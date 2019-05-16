@@ -119,6 +119,23 @@ module.exports = (app) => {
     }
   });
 
+  app.get(
+    ROUTES.API.JOB.GET.getAllMyRequests,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
+        if (userJobsList && userJobsList._postedJobsRef) {
+          return res.send({ allRequests: userJobsList._postedJobsRef });
+        }
+        return res.send({ allRequests: [] });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+      }
+    }
+  );
+
   app.post(ROUTES.API.JOB.POST.searchJobs, requireBidorBooHost, async (req, res, done) => {
     try {
       const { searchParams } = req.body.data;

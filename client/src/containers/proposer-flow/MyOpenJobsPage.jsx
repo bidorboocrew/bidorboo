@@ -6,6 +6,7 @@ import {
   getAllMyOpenJobs,
   cancelJobById,
   getAllMyAwardedJobs,
+  getAllMyRequests,
 } from '../../app-state/actions/jobActions';
 
 import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
@@ -13,26 +14,50 @@ import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSumm
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+
+const states = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  DISPUTED: 'DISPUTED',
+  AWARDED_CANCELED_BY_BIDDER: 'AWARDED_CANCELED_BY_BIDDER',
+  AWARDED_CANCELED_BY_REQUESTER: 'AWARDED_CANCELED_BY_REQUESTER',
+  CANCELED_OPEN: 'CANCELED_OPEN',
+  DONE: 'DONE',
+  PAIDOUT: 'PAIDOUT',
+};
+
 class MyOpenJobsPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showBidReviewModal: false,
-    };
-  }
-
   componentDidMount() {
-    this.props.getAllMyOpenJobs();
-    this.props.getAllMyAwardedJobs();
+    this.props.getAllMyRequests();
   }
 
   render() {
-    const { myOpenJobsList, myAwardedJobsList } = this.props;
+    const { allMyRequests } = this.props;
 
-    const areThereAnyJobsToView =
-      (myAwardedJobsList && myAwardedJobsList.length > 0) ||
-      (myOpenJobsList && myOpenJobsList.length > 0);
+    const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
+    let myRequestsSummaryCards = areThereAnyJobsToView
+      ? allMyRequests.map((request) => {
+          switch (request.state) {
+            case states.OPEN:
+              return (
+                <div key={request._id} className="column">
+                  {getPostedSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+
+            case states.AWARDED:
+              return (
+                <div key={request._id} className="column">
+                  {getAwardedSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+
+            default:
+              break;
+          }
+        })
+      : null;
+
     return (
       <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
@@ -44,14 +69,7 @@ class MyOpenJobsPage extends React.Component {
         </section>
         <hr className="divider" />
         <FloatingAddNewRequestButton />
-
-        {areThereAnyJobsToView && (
-          <div className="columns is-multiline is-centered">
-            {generateAwardedRequestsSummaryCards(this.props)}
-            {generateOpenRequetsSummaryCards(this.props)}
-          </div>
-        )}
-
+        <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>
         {!areThereAnyJobsToView && <EmptyStateComponent />}
       </div>
     );
@@ -61,6 +79,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     myOpenJobsList: jobsReducer.myOpenJobsList,
     myAwardedJobsList: jobsReducer.myAwardedJobsList,
+    allMyRequests: jobsReducer.allMyRequests,
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
@@ -71,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
     getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
+    getAllMyRequests: bindActionCreators(getAllMyRequests, dispatch),
   };
 };
 

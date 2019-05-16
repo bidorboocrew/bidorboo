@@ -309,6 +309,59 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
+
+  // get jobs for a user and filter by a given state
+  getAllRequestsByUserId: async (userId) => {
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: {
+          booedBy: 0,
+          processedPayment: 0,
+          updatedAt: 0,
+          viewedBy: 0,
+          hideFrom: 0,
+          createdAt: 0,
+        },
+        options: { sort: { startingDateAndTime: 1 } },
+        populate: [
+          {
+            path: '_awardedBidRef',
+            select: {
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
+            },
+          },
+          {
+            path: '_ownerRef',
+            select: {
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
+            },
+          },
+        ],
+      })
+      .lean({ virtuals: true })
+      .exec();
+  },
+
   // get jobs for a user and filter by a given state
   getUserJobsByState: async (userId, stateFilter) => {
     return User.findOne({ userId: userId }, { _postedJobsRef: 1 })

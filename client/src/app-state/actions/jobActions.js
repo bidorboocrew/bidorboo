@@ -17,6 +17,12 @@ export const updateBooedBy = (jobDetails) => (dispatch) =>
       }),
   });
 
+export const getAllMyRequests = () => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_MY_REQUESTS,
+    payload: axios.get(ROUTES.API.JOB.GET.getAllMyRequests),
+  });
+
 export const getAllMyOpenJobs = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
@@ -75,7 +81,6 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
-
 
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
@@ -204,15 +209,13 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
 };
 
 export const addJob = (jobDetails, recaptchaField) => (dispatch) => {
-
-
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
       .post(ROUTES.API.JOB.POST.newJob, {
         recaptchaField,
         data: {
-          jobDetails
+          jobDetails,
         },
       })
       .then((resp) => {

@@ -63,6 +63,7 @@ export const API = {
       jobToBidDetailsById: '/api/job/jobToBidDetailsById',
       jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
+      getAllMyRequests: '/api/job/getAllMyRequests',
     },
     POST: {
       searchJobs: '/api/job/search',
@@ -114,7 +115,7 @@ export const CLIENT = {
   PROPOSER: {
     root: '/bdb-request',
     createjob: '/bdb-request/create-job/:templateId',
-    dynamicCreateJob: (templateId)=> `/bdb-request/create-job/${templateId}`,
+    dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
     myOpenJobs: '/my-open-jobs',
     reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',
     dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
@@ -129,7 +130,7 @@ export const CLIENT = {
     reviewMyBidAndTheRequestDetails: '/review-my-bid-details/:bidId',
     dynamicReviewMyBidAndTheRequestDetails: (bidId) => `/review-my-bid-details/${bidId}`,
     currentAwardedBid: '/awarded-bid-details/:bidId',
-    dynamicCurrentAwardedBid: (bidId) => `/awarded-bid-details/${bidId}`
+    dynamicCurrentAwardedBid: (bidId) => `/awarded-bid-details/${bidId}`,
   },
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,

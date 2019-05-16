@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const GeoJSON = require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
+const moment = require('moment');
 
 const { Schema } = mongoose;
 
@@ -49,13 +50,9 @@ const JobSchema = new Schema(
         'AWARDED_CANCELED_BY_BIDDER',
         'AWARDED_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN',
-        'EXPIRED',
-        'EXPIRED_AWARDED',
-        'EXPIRED_OPEN',
+        'TO_BE_DELETED_SOON',
         'DONE',
         'PAIDOUT',
-        'RESCHEDULED_REQUEST',
-        'RESCHEDULED_DENIED',
       ],
     },
     jobCompletion: {
@@ -105,28 +102,83 @@ const JobSchema = new Schema(
 // });
 
 JobSchema.virtual('displayTitle').get(function() {
-  const templateIdToDisplayNameMapper = {
+  const templateIdToDisplayName = {
     'bdbjob-house-cleaning': 'House Cleaning',
   };
-  return templateIdToDisplayNameMapper[this.fromTemplateId];
+  return templateIdToDisplayName[this.fromTemplateId];
+});
+
+JobSchema.virtual('isPastDue').get(function() {
+  const now = moment()
+    .tz('America/Toronto')
+    .toISOString();
+  const jobStartDate = this.startingDateAndTime;
+
+  // normalize the start date to the same timezone to comapre
+  const normalizedStartDate = moment(jobStartDate)
+    .tz('America/Toronto')
+    .toISOString();
+  const isJobScheduledTimePastDue = moment(normalizedStartDate).isSameOrBefore(now);
+
+  return isJobScheduledTimePastDue;
+});
+
+JobSchema.virtual('isHappeningToday').get(function() {
+  const today = moment()
+    .tz('America/Toronto')
+    .startOf('day')
+    .toISOString();
+  const theNext24Hours = moment()
+    .tz('America/Toronto')
+    .add(1, 'day')
+    .startOf('day')
+    .toISOString();
+
+  const jobStartDate = this.startingDateAndTime;
+  // normalize the start date to the same timezone to comapre
+  const normalizedStartDate = moment(jobStartDate)
+    .tz('America/Toronto')
+    .toISOString();
+
+  const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+  const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(theNext24Hours);
+  return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
+});
+
+JobSchema.virtual('isHappeningSoon').get(function() {
+  const theNext24Hours = moment()
+    .tz('America/Toronto')
+    .add(1, 'day')
+    .startOf('day');
+
+  const jobStartDate = this.startingDateAndTime;
+  // normalize the start date to the same timezone to comapre
+  const normalizedStartDate = moment(jobStartDate).tz('America/Toronto');
+
+  var duration = moment.duration(theNext24Hours.diff(normalizedStartDate));
+  var hours = duration.asHours();
+
+  const isNotPastDue = moment(theNext24Hours.toISOString()).isAfter(
+    normalizedStartDate.toISOString()
+  );
+
+  // if job is about to expire in 48 hours
+  return hours <= 48 && isNotPastDue;
 });
 
 JobSchema.virtual('displayStatus').get(function() {
-  const templateIdToDisplayNameMapper = {
+  const stateToDisplayName = {
     OPEN: 'Waiting For Taskers',
-    AWARDED: 'Assigned To Tasker',
-    DISPUTED: 'Under Dispute',
-    CANCELED: 'Cancelled',
+    AWARDED: 'Tasker is Assigned',
+    DISPUTED: 'Dispute',
     AWARDED_CANCELED_BY_BIDDER: 'Cancelled By Tasker',
     AWARDED_CANCELED_BY_REQUESTER: 'Cancelled By Requester',
     CANCELED_OPEN: 'Canceled',
-    EXPIRED: 'Past Due',
-    EXPIRED_AWARDED: 'Past Due',
-    EXPIRED_OPEN: 'Past Due',
-    DONE: 'Done',
+    DONE: 'Completed',
     PAIDOUT: 'Paid Out',
+    TO_BE_DELETED_SOON: 'Will be deleted soon',
   };
-  return templateIdToDisplayNameMapper[this.state];
+  return stateToDisplayName[this.state];
 });
 
 JobSchema.plugin(mongooseLeanVirtuals);
