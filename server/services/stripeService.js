@@ -3,6 +3,17 @@ const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
 exports.util = {
+  partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
+    // xxxxxx
+    return stripe.refunds.create({
+      charge: chargeId,
+      amount: refundAmount,
+      metadata,
+      reason: 'requested_by_customer',
+      reverse_transfer: true,
+      // refund_application_fee: true,
+    });
+  },
   validateSignature: (reqBody, sig, endpointSecret) => {
     return stripe.webhooks.constructEvent(reqBody, sig, endpointSecret);
   },
@@ -14,7 +25,6 @@ exports.util = {
       {
         amount,
         metadata,
-        statement_descriptor: 'BidOrBoo Payout',
         currency: 'cad',
       },
       {
@@ -68,13 +78,18 @@ exports.util = {
         const account = await stripe.accounts.create({
           country: 'CA', //HARD CODED
           type: 'custom', //HARD CODED
-          payout_statement_descriptor: 'BidOrBoo Payout', //HARD CODED
           default_currency: 'CAD', //HARD CODED
           email: email || '',
+          business_type: 'individual',
           metadata: { user_id, email, userId, displayName },
-          statement_descriptor: 'BidOrBoo Charge',
-          payout_schedule: {
-            interval: 'manual',
+          settings: {
+            payments: {
+              statement_descriptor: 'BidOrBoo Charge',
+            },
+            payouts: {
+              schedule: { interval: 'manual' },
+              statement_descriptor: 'BidOrBoo Payout',
+            },
           },
         });
         resolve(account);
@@ -107,55 +122,3 @@ exports.util = {
     }
   },
 };
-
-//
-/*
-  const account = await stripe.accounts.create({
-        country: 'CA', //HARD CODED
-        type: 'custom', //HARD CODED
-        email: 'someEmail@gmail.com',
-        default_currency: 'CAD', //HARD CODED
-        metadata: { bidorboo_user_id: 'the user id from our app to reference this person' },
-        payout_statement_descriptor: 'BidOrBoo Fee', //HARD CODED
-        tos_acceptance: {
-          date: Math.floor(Date.now() / 1000), //HARD CODED
-          ip: req.connection.remoteAddress, //HARD CODED
-        },
-        legal_entity: {
-          address: {
-            city: 'Ottawa',
-            country: 'CA', //HARD CODED
-            line1: '264 testing pvt', //street adress
-            postal_code: 'K1s 2p9',
-            state: 'ON', // province
-          },
-          dob: {
-            day: '12',
-            month: '12',
-            year: '1986',
-          },
-          first_name: 'Contractor bob',
-          last_name: 'Test',
-          phone_number: '613-123-1234',
-          verification: {
-            document: '',
-          },
-          type: 'individual', //HARD CODED
-        },
-        external_account: 'some token from client side',
-        // {
-        //   id: 'ba_1DXbEhIkbQJUBZs8mJEXMzBv',
-        //   object: 'bank_account',
-        //   account_holder_name: 'Jane Austen',
-        //   account_holder_type: 'individual',
-        //   bank_name: 'STRIPE TEST BANK',
-        //   country: 'CA',
-        //   currency: 'CAD',
-        //   last4: '6789',
-        //   routing_number: '11000000',
-        //   status: 'new',
-        //   account_number: '000123456789',
-        //   metadata: {}, // keyvalue pair to represent what exactly is going on
-        // },
-      });
-      */

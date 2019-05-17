@@ -2,14 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ServiceTemplates from './components/ServiceTemplates';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { GenerateAllTasksConceptCards } from '../../bdb-tasks/GenerateAllTasksConceptCards';
 
 class ProposerRoot extends React.Component {
+  constructor(props) {
+    super(props);
+    this.AllTasks = GenerateAllTasksConceptCards(props).map((task, index) => {
+      return (
+        <div key={index} className="column">
+          {task}
+        </div>
+      );
+    });
+  }
+
   render() {
-    const { a_showLoginDialog, isLoggedIn, userDetails } = this.props;
+    const { isLoggedIn, userDetails } = this.props;
 
     return (
       <div className="container is-widescreen">
@@ -18,8 +29,9 @@ class ProposerRoot extends React.Component {
             <div className="container">
               <h1 className="title">Request a Service</h1>
               <h2 className="subtitle">
-                Start by selecting one of our templates
-                {userDetails && !userDetails.autoDetectlocation && (
+                Start by filling out a service reqeuest and one of our BidOrBoo Taskers will do it
+                for you
+                {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
                       For custom results enable auto detect location in
@@ -39,7 +51,9 @@ class ProposerRoot extends React.Component {
             </div>
           </div>
         </section>
-        <ServiceTemplates showLoginDialog={a_showLoginDialog} isLoggedIn={isLoggedIn} />
+        <section className="section">
+          <div className="columns is-centered">{this.AllTasks}</div>
+        </section>
       </div>
     );
   }
@@ -52,7 +66,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

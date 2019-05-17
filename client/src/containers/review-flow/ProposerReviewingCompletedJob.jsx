@@ -6,10 +6,8 @@ import TextareaAutosize from 'react-autosize-textarea';
 import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
-import ReviewMyAwardedJobAndWinningBidPage from '../proposer-flow/ReviewMyAwardedJobAndWinningBidPage';
-
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, goBackToPreviousRoute } from '../../utils';
 
 export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -124,136 +122,107 @@ export class ProposerReviewingCompletedJob extends React.Component {
   render() {
     const bodyContent = () => {
       return (
-        <React.Fragment>
-          <p>
-            Congratulations on fulfilling a job via our BidOrBoo platform. Rating and Reviews are
-            the best way to grow our community and provide the best quality services ever.
-          </p>
-          <br />
-          <label className="label">Please Rate the Tasker:</label>
-          <div className="content">
-            <div>
-              QUALITY OF WORK
-              <ReactStars
-                //id="accuracyOfPost"
-                half={false}
-                count={5}
-                value={this.state.qualityOfWorkRating}
-                onChange={this.qualityOfWorkChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
+        <div className="card">
+          <div className="card-content">
+            <div className="content">
+              <div className="is-size-4 has-text-weight-bold">Rate Your Tasker</div>
+              <hr className="divider isTight" />
+              <div>
+                QUALITY OF WORK
+                <ReactStars
+                  //id="accuracyOfPost"
+                  half={false}
+                  count={5}
+                  value={this.state.qualityOfWorkRating}
+                  onChange={this.qualityOfWorkChange}
+                  size={50}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </div>
 
-            <div>
-              PUNCTULAITY:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.punctualityRating}
-                onChange={this.punctualityChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-            <div>
-              COMMUNICATION:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.communicationRating}
-                onChange={this.communicationChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-            <div>
-              MANNERS:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.mannerRating}
-                onChange={this.mannerChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
+              <div>
+                PUNCTULAITY:
+                <ReactStars
+                  half={false}
+                  count={5}
+                  value={this.state.punctualityRating}
+                  onChange={this.punctualityChange}
+                  size={50}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </div>
+              <div>
+                COMMUNICATION:
+                <ReactStars
+                  half={false}
+                  count={5}
+                  value={this.state.communicationRating}
+                  onChange={this.communicationChange}
+                  size={50}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </div>
+              <div>
+                MANNERS:
+                <ReactStars
+                  half={false}
+                  count={5}
+                  value={this.state.mannerRating}
+                  onChange={this.mannerChange}
+                  size={50}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              </div>
 
-            <br />
-            <label className="label">Add a personal comment</label>
-            <TextareaAutosize
-              className="textarea is-marginless"
-              style={{
-                resize: 'none',
-                color: '#363636',
-                height: 'auto',
-                padding: '0.5rem',
-                minHeight: 100,
-              }}
-              value={this.state.personalComment}
-              onChange={this.personalCommentOnChange}
-              placeholder="The tasker did a great job .. etc"
-            />
-            <div className="help">*note this will be visible to all users</div>
+              <br />
+              <label className="label">Add a personal comment</label>
+              <TextareaAutosize
+                className="textarea is-marginless"
+                style={{
+                  resize: 'none',
+                  color: '#363636',
+                  height: 'auto',
+                  padding: '0.5rem',
+                  minHeight: 100,
+                }}
+                value={this.state.personalComment}
+                onChange={this.personalCommentOnChange}
+                placeholder="The tasker did a great job .. etc"
+              />
+              <div className="help">* This will be visible to all users</div>
+            </div>
           </div>
-        </React.Fragment>
+        </div>
       );
     };
 
     return (
-      <React.Fragment>
-        <section className="hero is-small is-dark">
-          <div className="container is-widescreen">
-            <div className="hero-body">
-              <div className="container is-widescreen">
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about Tasker and the quality of thier work
-                </h2>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div className="container is-widescreen">
-          <div className="card-content">
-            {bodyContent()}
-            <button
-              style={{ marginLeft: 12, marginTop: 12 }}
-              className="button is-success is-medium"
-              onClick={this.submitReview}
-            >
-              Submit Review
-            </button>
+      <div className="container is-widescreen">
+        <div className="card-content">
+          {bodyContent()}
+          <button
+            style={{ marginLeft: 12, marginTop: 12 }}
+            className="button is-success is-medium"
+            onClick={this.submitReview}
+          >
+            Submit Review
+          </button>
 
-            <button
-              style={{ marginLeft: 12, marginTop: 12 }}
-              className="button is-outlined has-text-dark  is-medium"
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.HOME);
-              }}
-            >
-              remind me later
-            </button>
-          </div>
+          <button
+            style={{ marginLeft: 12, marginTop: 12 }}
+            className="button is-outlined has-text-dark  is-medium"
+            onClick={() => {
+              goBackToPreviousRoute();
+            }}
+          >
+            remind me later
+          </button>
         </div>
-        <section className="hero is-small is-dark">
-          <div className="container is-widescreen">
-            <div className="hero-body">
-              <div className="container is-widescreen">
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Referenced Task Details
-                </h2>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div className="container is-widescreen">
-          <ReviewMyAwardedJobAndWinningBidPage isReadOnlyView {...this.props} />
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

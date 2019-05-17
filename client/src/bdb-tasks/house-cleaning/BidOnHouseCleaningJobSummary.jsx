@@ -1,29 +1,29 @@
 import React from 'react';
-import moment from 'moment';
+import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import {
   AvgBidDisplayLabelAndValue,
+  DisplayLabelValue,
   UserImageAndRating,
   CardTitleWithBidCount,
-  getDaysSinceCreated,
   StartDateAndTime,
-} from '../../commonComponents';
+} from '../../containers/commonComponents';
 
-export default class RequestsTabSummaryCard extends React.Component {
+export default class BidOnHouseCleaningJobSummary extends React.Component {
   render() {
     const {
       job,
       userDetails,
       showCoverImg = true,
-      cardSpecialStyle = 'bidderRootSpecial',
+      cardSpecialStyle = 'limitWidthOfCard',
       onClickHandler = () => null,
       onCloseHandler = () => null,
       withButtons = false,
     } = this.props;
-    const { startingDateAndTime, createdAt, fromTemplateId, _bidsListRef, _ownerRef, state } = job;
+    const { IMG_URL } = HOUSE_CLEANING_DEF;
 
-    let daysSinceCreated = getDaysSinceCreated(createdAt);
+    const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state, extras } = job;
+
     let isAwarded = state && state.toLowerCase() === 'awarded';
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
@@ -31,38 +31,42 @@ export default class RequestsTabSummaryCard extends React.Component {
     const userAlreadyBid = didUserAlreadyBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
+    const effortLevel =
+      extras && extras.effort ? (
+        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+      ) : (
+        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
+      );
+
     return (
       <div
         onClick={(e) => {
           e.preventDefault();
-          if (!withButtons) {
-            !isAwarded && !userAlreadyBid && onClickHandler();
+          if (!withButtons && !isAwarded && !userAlreadyBid) {
+            onClickHandler();
           }
         }}
         className={`card is-clipped ${cardSpecialStyle} ${isAwarded ? 'disabled' : ''}`}
       >
-        <CardTitleWithBidCount
-          userAlreadyBid={userAlreadyBid}
-          jobState={state}
-          fromTemplateId={fromTemplateId}
-          bidsList={_bidsListRef}
-          userAlreadyView={userAlreadyView}
-        />
         {showCoverImg && (
           <div className="card-image is-clipped">
-            <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+            <img className="bdb-cover-img" src={IMG_URL} />
           </div>
         )}
-        <div
-          style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
-          className="card-content"
-        >
-          <div className="has-text-dark is-size-7">Requester:</div>
-          <UserImageAndRating userDetails={_ownerRef} />
-
+        <div className="card-content">
           <div className="content">
+            <CardTitleWithBidCount
+              userAlreadyBid={userAlreadyBid}
+              jobState={state}
+              fromTemplateId={fromTemplateId}
+              bidsList={_bidsListRef}
+              userAlreadyView={userAlreadyView}
+            />
+            <br />
+            <label className="label">Requester:</label>
+            <UserImageAndRating userDetails={_ownerRef} />
             <StartDateAndTime date={startingDateAndTime} />
-
+            {effortLevel}
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
           </div>
           {!withButtons && (
@@ -70,7 +74,7 @@ export default class RequestsTabSummaryCard extends React.Component {
               {userAlreadyBid ? (
                 <a className="button  is-outlined is-fullwidth">You Already Bid</a>
               ) : (
-                <a className="button is-success is-outlined is-fullwidth">Add Your Bid</a>
+                <a className="button is-success is-outlined is-fullwidth">Bid Now!</a>
               )}
             </React.Fragment>
           )}
@@ -79,7 +83,17 @@ export default class RequestsTabSummaryCard extends React.Component {
               {userAlreadyBid ? (
                 <a className="button  is-outlined is-small is-fullwidth">You Already Bid</a>
               ) : (
-                <a className="button is-success is-outlined is-small is-fullwidth">Add Your Bid</a>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (!isAwarded && !userAlreadyBid) {
+                      onClickHandler();
+                    }
+                  }}
+                  className="button is-success is-outlined is-small is-fullwidth"
+                >
+                  Bid Now!
+                </a>
               )}
               <a
                 style={{ marginTop: 10 }}

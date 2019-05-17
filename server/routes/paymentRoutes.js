@@ -61,9 +61,9 @@ module.exports = (app) => {
             currency: 'CAD',
             description,
             source: stripeTransactionToken,
-            // application_fee_amount: bidOrBooTotalCommission,
+            application_fee_amount: bidOrBooTotalCommission,
             transfer_data: {
-              amount: bidderPayoutAmount, // the final # sent to awarded bidder
+              // amount: bidderPayoutAmount, // the final # sent to awarded bidder
               destination: stripeAccDetails.accId,
             },
             receipt_email: _jobRef._ownerRef.email.emailAddress,
@@ -83,6 +83,8 @@ module.exports = (app) => {
               _jobRef._id.toString(),
               _id.toString(),
               {
+                amount: charge.amount,
+                chargeId: charge.id,
                 bidderPayout: bidderPayoutAmount,
                 platformCharge: bidOrBooTotalCommission,
                 proposerPaid: chargeAmount,
@@ -100,12 +102,12 @@ module.exports = (app) => {
             ) {
               // send push
               const bidId = _id.toString();
-              WebPushNotifications.sendPush(awardedBidder.pushSubscription, {
-                title: `Good News ${_bidderRef.displayName}!`,
-                body: `You have been awarded a job. click for details`,
+              WebPushNotifications.pushYouAreAwarded(awardedBidder.pushSubscription, {
+                displayName: _bidderRef.displayName,
                 urlToLaunch: `https://www.bidorboo.com/awarded-bid-details/${bidId}`,
               });
             }
+            // xxxxxxx send email send text
 
             res.send({ success: true });
           }

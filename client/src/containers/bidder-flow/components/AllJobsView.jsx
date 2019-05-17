@@ -3,8 +3,7 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
-import RequestsTabSummaryCard from './RequestsTabSummaryCard';
-import MineTabSummaryCard from './MineTabSummaryCard';
+import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
 
 export default class AllJobsView extends React.Component {
   render() {
@@ -14,8 +13,6 @@ export default class AllJobsView extends React.Component {
       <React.Fragment>
         <div className="columns forJobSummary is-multiline is-centered is-mobile">
           {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
-
-          {/* {activeTab === TAB_IDS.myRequests && <MyJobs {...this.props} />} */}
         </div>
       </React.Fragment>
     ) : (
@@ -48,7 +45,7 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesJobs = (props) => {
-  const { isLoggedIn, userDetails, a_showLoginDialog, a_selectJobToBidOn, jobsList } = props;
+  const { isLoggedIn, userDetails, showLoginDialog, selectJobToBidOn, jobsList } = props;
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const components = jobsList
@@ -56,42 +53,19 @@ const OtherPeoplesJobs = (props) => {
     .map((job) => {
       return (
         <div key={job._id} className="column limitMaxdWidth">
-          <RequestsTabSummaryCard
-            onClickHandler={() => {
+          {getBidOnSummaryCardByTemplateJobId(job, {
+            onClickHandler: () => {
               if (!isLoggedIn) {
-                a_showLoginDialog(true);
+                showLoginDialog(true);
               } else {
-                a_selectJobToBidOn(job);
+                selectJobToBidOn(job);
               }
-            }}
-            job={job}
-            userDetails={userDetails}
-          />
+            },
+            userDetails: userDetails,
+          })}
         </div>
       );
     });
 
-  return components && components.length > 0 ? components : null;
-};
-
-const MyJobs = (props) => {
-  const { userDetails, jobsList } = props;
-  const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-
-  const myjobs = jobsList.filter((job) => job._ownerRef._id === currentUserId);
-
-  const components = myjobs.map((job) => {
-    return (
-      <div key={job._id} className="column limitMaxdWidth">
-        <MineTabSummaryCard
-          onClickHandler={() => {
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
-          }}
-          job={job}
-          userDetails={userDetails}
-        />
-      </div>
-    );
-  });
   return components && components.length > 0 ? components : null;
 };

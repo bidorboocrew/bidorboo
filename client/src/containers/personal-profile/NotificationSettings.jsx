@@ -29,9 +29,9 @@ class NotificationSettings extends React.Component {
     } = this.props;
 
     if (
-      isEmailNotificationsEnabled != prevProps.isEmailNotificationsEnabled ||
-      isTextNotificationsEnabled != prevProps.isTextNotificationsEnabled ||
-      isPushNotificationsEnabled != prevProps.isPushNotificationsEnabled
+      isEmailNotificationsEnabled !== prevProps.isEmailNotificationsEnabled ||
+      isTextNotificationsEnabled !== prevProps.isTextNotificationsEnabled ||
+      isPushNotificationsEnabled !== prevProps.isPushNotificationsEnabled
     ) {
       this.setState({
         enablePushNotifications: isPushNotificationsEnabled,
@@ -63,10 +63,10 @@ class NotificationSettings extends React.Component {
 
   submit = () => {
     // call server to update this setting
-    const { a_updateNotificationSettings } = this.props;
+    const { updateNotificationSettings } = this.props;
 
     const { enableEmailNotification, enableTxtNotifications, enablePushNotifications } = this.state;
-    a_updateNotificationSettings({
+    updateNotificationSettings({
       push: !!enablePushNotifications,
       email: !!enableEmailNotification,
       text: !!enableTxtNotifications,
@@ -157,7 +157,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_updateNotificationSettings: bindActionCreators(updateNotificationSettings, dispatch),
+    updateNotificationSettings: bindActionCreators(updateNotificationSettings, dispatch),
   };
 };
 

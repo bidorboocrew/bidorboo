@@ -60,12 +60,12 @@ class Verification extends React.Component {
   };
 
   componentDidMount() {
-    const { match, a_showLoginDialog, isLoggedIn } = this.props;
+    const { match, showLoginDialog, isLoggedIn } = this.props;
     const { code, field } = match.params;
     if (!isLoggedIn) {
-      a_showLoginDialog(true);
+      showLoginDialog(true);
     } else {
-      a_showLoginDialog(false);
+      showLoginDialog(false);
 
       if (!code || !field) {
         switchRoute(`${ROUTES.CLIENT.HOME}`);
@@ -95,7 +95,7 @@ class Verification extends React.Component {
 
   render() {
     const { match, isLoggedIn } = this.props;
-    const { code, field } = match.params;
+    const { field } = match.params;
     const { isLoading, verificationSuccess } = this.state;
 
     if (isLoggedIn && isLoading) {
@@ -112,56 +112,60 @@ class Verification extends React.Component {
       }
     }
     return (
-      <section className="section">
-        <div className="container is-widescreen">
-          <section className="hero is-small is-dark">
-            <div className="hero-body">
-              <div>
-                <h1 style={{ color: 'white' }} className="title">
-                  {`${field} Verification`}
-                </h1>
-              </div>
-            </div>
-          </section>
+      <div className="container is-widescreen">
+        <section>
+          <Spinner isLoading={isLoading} size={'large'} />
+          {verificationSuccess === 'success' && (
+            <section style={{ margin: '-0.5rem' }} className="hero is-fullheight is-success">
+              <div className="hero-body">
+                <div className="container is-widescreen">
+                  <h1 className="title">{`We Have Successfullly verified Your ${field}`}</h1>
 
-          <section className="section">
-            <div>{isLoading && <Spinner isLoading={isLoading} size={'large'} />}</div>
-            {verificationSuccess === 'success' && (
-              <section className="hero is-success">
-                <div className="hero-body">
-                  <div className="container is-widescreen">
-                    <h1 className="title">{`Successfullly verified your ${field}`}</h1>
-                    <h2 className="subtitle">
-                      <a
-                        className="button is-dark"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
-                        }}
-                      >
-                        go to home page
-                      </a>
-                    </h2>
-                  </div>
+                  <br />
+                  <a
+                    className="button is-dark"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-user" />
+                    </span>
+                    <span>My Profile</span>
+                  </a>
                 </div>
-              </section>
-            )}
-            {verificationSuccess === 'fail' && (
-              <section className="hero is-danger">
-                <div className="hero-body">
-                  <div className="container is-widescreen">
-                    <h1 className="title">{`Failed to verify your ${field}`}</h1>
-                    <h2 className="subtitle">
-                      login and go to myprofile to request a new code or contact us at
-                      bidorboocrew@gmail.com
-                    </h2>
-                  </div>
+              </div>
+            </section>
+          )}
+          {verificationSuccess === 'fail' && (
+            <section style={{ margin: '-0.5rem' }} className="hero is-fullheight is-danger">
+              <div className="hero-body">
+                <div className="container is-widescreen">
+                  <h1 className="title">{`Failed to verify your ${field}`}</h1>
+                  <p>
+                    go to your profile page to request a new code or contact us at
+                    bidorboocrew@gmail.com
+                  </p>
+                  <br />
+                  <a
+                    className="button is-dark"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-user" />
+                    </span>
+                    <span>My Profile</span>
+                  </a>
                 </div>
-              </section>
-            )}
-          </section>
-        </div>
-      </section>
+              </div>
+            </section>
+          )}
+        </section>
+      </div>
     );
   }
 }
@@ -174,7 +178,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

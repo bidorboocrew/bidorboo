@@ -8,10 +8,13 @@ const ReviewModel = mongoose.model('ReviewModel');
 const moment = require('moment');
 const ROUTES = require('../backend-route-constants');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
-const sendTextService = require('../services/BlowerTxt').TxtMsgingService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
+const stripeServiceUtil = require('../services/stripeService').util;
+
+const BIDORBOO_REFUND_AMOUNT = 0.8;
 
 exports.jobDataAccess = {
   BidOrBooAdmin: {
@@ -34,9 +37,9 @@ exports.jobDataAccess = {
           path: '_ownerRef',
           select: {
             _id: 1,
+            displayName: 1,
             email: 1,
             phone: 1,
-            _bidderRef: 1,
             pushSubscription: 1,
             notifications: 1,
           },
@@ -46,10 +49,17 @@ exports.jobDataAccess = {
           select: { _bidderRef: 1 },
           populate: {
             path: '_bidderRef',
-            select: { _id: 1, email: 1, phone: 1, pushSubscription: 1, notifications: 1 },
+            select: {
+              _id: 1,
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              pushSubscription: 1,
+              notifications: 1,
+            },
           },
         })
-        .lean(true)
+        .lean({ virtuals: true })
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -79,9 +89,7 @@ exports.jobDataAccess = {
                   ownerDetails.phone && ownerDetails.phone.phoneNumber
                     ? ownerDetails.phone.phoneNumber
                     : '';
-                const linkForOwner = `https://www.bidorboo.com${
-                  ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage
-                }/${jobId}`;
+                const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
                 const awardedBidderDetails = job._awardedBidRef._bidderRef;
                 const bidderEmailAddress =
                   awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
@@ -91,56 +99,28 @@ exports.jobDataAccess = {
                   awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
                     ? awardedBidderDetails.phone.phoneNumber
                     : '';
-                const linkForBidder = `https://www.bidorboo.com${
-                  ROUTES.CLIENT.BIDDER.currentAwardedBid
-                }/${awardedBidId}`;
+                const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
-                  sendGridEmailing.sendEmail({
+                  sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
                     to: ownerEmailAddress,
-                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    contentText: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your tasker feel free to contact them on:
-                  email address : ${bidderEmailAddress}
-                  phone number : ${bidderPhoneNumber}
-                  for reference here is the link to your task ${linkForOwner}
-                   `,
+                    requestTitle: job.fromTemplateId,
                     toDisplayName: `${ownerDetails.displayName}`,
-                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your tasker feel free to contact them on:
-                  email address : ${bidderEmailAddress}
-                  phone number : ${bidderPhoneNumber}`,
-                    clickLink: `${linkForOwner}`,
-                    clickDisplayName: `View This Task`,
+                    bidderEmailAddress,
+                    bidderPhoneNumber,
+                    linkForOwner,
                   });
                 }
                 if (
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.email
                 ) {
-                  sendGridEmailing.sendEmail({
+                  sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
                     to: bidderEmailAddress,
-                    subject: `BidOrBoo: ${job.fromTemplateId} is Scheduled to happen soon!`,
-                    contentText: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your task owner feel free to contact them on:
-                  email address : ${ownerEmailAddress}
-                  phone number : ${ownerPhoneNumber}
-                  for reference here is the link to your task ${linkForBidder}
-                   `,
+                    requestTitle: job.fromTemplateId,
                     toDisplayName: `${awardedBidderDetails.displayName}`,
-                    contentHtml: `This is an automated reminder for your upcoming scheduled ${
-                      job.fromTemplateId
-                    } task.
-                  To get in touch with your task owner feel free to contact them on:
-                  email address : ${ownerEmailAddress}
-                  phone number : ${ownerPhoneNumber}`,
-                    clickLink: `${linkForBidder}`,
-                    clickDisplayName: `View This Task`,
+                    ownerEmailAddress,
+                    ownerPhoneNumber,
+                    linkForBidder,
                   });
                 }
 
@@ -149,11 +129,10 @@ exports.jobDataAccess = {
                   ownerDetails.notifications &&
                   ownerDetails.notifications.phone
                 ) {
-                  await sendTextService.sendText(
+                  await sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
-                    `BidOrBoo: ${
-                      job.fromTemplateId
-                    } is happening soon! go to www.bidorboo.com for details`
+                    job.fromTemplateId,
+                    linkForOwner
                   );
                 }
                 if (
@@ -161,26 +140,27 @@ exports.jobDataAccess = {
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.phone
                 ) {
-                  await sendTextService.sendText(
+                  await sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
-                    `BidOrBoo: ${
-                      job.fromTemplateId
-                    } is happening soon! go to www.bidorboo.com for details`
+                    job.fromTemplateId,
+                    linkForBidder
                   );
                 }
+
                 if (ownerDetails.notifications && ownerDetails.notifications.push) {
-                  WebPushNotifications.sendPush(ownerDetails.pushSubscription, {
-                    title: `${job.fromTemplateId} is happening soon!`,
-                    body: `click to view schedule and tasker details`,
-                    urlToLaunch: `${linkForOwner}`,
+                  WebPushNotifications.pushJobIsHappeningSoon(ownerDetails.pushSubscription, {
+                    requestTitle: job.fromTemplateId,
+                    urlToLaunch: linkForOwner,
                   });
                 }
                 if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
-                  WebPushNotifications.sendPush(awardedBidderDetails.pushSubscription, {
-                    title: `BidOrBoo: reminder for ${job.fromTemplateId}`,
-                    body: `It is happening soon ! . click for more details`,
-                    urlToLaunch: `${linkForBidder}`,
-                  });
+                  WebPushNotifications.pushJobIsHappeningSoon(
+                    awardedBidderDetails.pushSubscription,
+                    {
+                      requestTitle: job.fromTemplateId,
+                      urlToLaunch: linkForBidder,
+                    }
+                  );
                 }
               }
             });
@@ -205,7 +185,7 @@ exports.jobDataAccess = {
             path: '_bidderRef',
           },
         })
-        .lean(true)
+        .lean({ virtuals: true })
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -281,6 +261,7 @@ exports.jobDataAccess = {
           createdAt: 1,
           _reviewRef: 1,
           _id: 1,
+          jobCompletion: 1,
         },
         match: {
           state: { $eq: 'AWARDED' },
@@ -290,27 +271,99 @@ exports.jobDataAccess = {
           ],
         },
         options: { sort: { startingDateAndTime: 1 } },
-        populate: {
-          path: '_awardedBidRef',
-          select: {
-            _bidderRef: 1,
-            bidAmount: 1,
-          },
-          populate: {
-            path: '_bidderRef',
+        populate: [
+          {
+            path: '_awardedBidRef',
             select: {
-              profileImage: 1,
-              displayName: 1,
-              rating: 1,
-              notifications: 1,
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+              createdAt: 1,
+              updatedAt: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
             },
           },
-        },
+          {
+            path: '_ownerRef',
+            select: {
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
+            },
+          },
+        ],
       })
 
       .lean(true)
       .exec();
   },
+
+  // get jobs for a user and filter by a given state
+  getAllRequestsByUserId: async (userId) => {
+    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
+      .populate({
+        path: '_postedJobsRef',
+        select: {
+          booedBy: 0,
+          processedPayment: 0,
+          updatedAt: 0,
+          viewedBy: 0,
+          hideFrom: 0,
+          createdAt: 0,
+        },
+        options: { sort: { startingDateAndTime: 1 } },
+        populate: [
+          {
+            path: '_awardedBidRef',
+            select: {
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
+            },
+          },
+          {
+            path: '_ownerRef',
+            select: {
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
+            },
+          },
+        ],
+      })
+      .lean({ virtuals: true })
+      .exec();
+  },
+
   // get jobs for a user and filter by a given state
   getUserJobsByState: async (userId, stateFilter) => {
     return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
@@ -326,13 +379,13 @@ exports.jobDataAccess = {
   getJobById: (jobId) => {
     return JobModel.findById(jobId)
       .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   getJobWithReviewModel: async (jobId) => {
     return JobModel.findById(jobId)
       .populate({ path: '_reviewRef' })
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
 
@@ -401,6 +454,33 @@ exports.jobDataAccess = {
     });
   },
 
+  getJobToBidOnDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobOwnerFields = {
+          displayName: 1,
+          profileImage: 1,
+          _id: 1,
+          rating: 1,
+        };
+
+        const jobWithBidDetails = await JobModel.findOne(
+          { _id: jobId },
+          {
+            _bidsListRef: 0,
+            addressText: 0,
+          }
+        )
+          .populate({ path: '_ownerRef', select: jobOwnerFields })
+          .lean({ virtuals: true })
+          .exec();
+
+        resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getMyPostedJobs: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -482,7 +562,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   updateState: (jobId, stateValue) => {
@@ -494,7 +574,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   updateBooedBy: (jobId, mongoDbUserId) => {
@@ -506,7 +586,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   addJobImages: async (jobId, images) => {
@@ -529,7 +609,7 @@ exports.jobDataAccess = {
         },
         { new: true }
       )
-        .lean(true)
+        .lean({ virtuals: true })
         .exec();
 
       return updatedJob;
@@ -554,31 +634,27 @@ exports.jobDataAccess = {
             populate: {
               path: '_bidderRef',
               select: {
-                _postedJobsRef: 0,
-                _postedBidsRef: 0,
-                _asBidderReviewsRef: 0,
-                _asProposerReviewsRef: 0,
-                verification: 0,
-                settings: 0,
-                extras: 0,
-                stripeConnect: 0,
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
               },
             },
           })
           .populate({
             path: '_ownerRef',
             select: {
-              _postedJobsRef: 0,
-              _postedBidsRef: 0,
-              _asBidderReviewsRef: 0,
-              _asProposerReviewsRef: 0,
-              verification: 0,
-              settings: 0,
-              extras: 0,
-              stripeConnect: 0,
+              displayName: 1,
+              email: 1,
+              phone: 1,
+              profileImage: 1,
+              rating: 1,
+              userId: 1,
             },
           })
-          .lean(true)
+          .lean({ virtuals: true })
           .exec();
 
         resolve(jobWithBidderDetails);
@@ -587,26 +663,9 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOn: () => {
+  getAllJobsToBidOn: async () => {
     // wil return all jobs in the system
-    return new Promise((resolve, reject) => {
-      const jobFields = {
-        _ownerRef: 1,
-        _bidsListRef: 1,
-        title: 1,
-        state: 1,
-        detailedDescription: 1,
-        stats: 1,
-        startingDateAndTime: 1,
-        durationOfJob: 1,
-        fromTemplateId: 1,
-        reported: 1,
-        createdAt: 1,
-        updatedAt: 1,
-        location: 1,
-        viewedBy: 1,
-        booedBy: 1,
-      };
+    return new Promise(async (resolve, reject) => {
       const jobOwnerFields = {
         displayName: 1,
         profileImage: 1,
@@ -615,31 +674,38 @@ exports.jobDataAccess = {
         notifications: 1,
       };
 
-      JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
-        sort: { startingDateAndTime: 1 },
-        allowDiskUse: true,
-      })
-        // .where('startingDateAndTime')
-        // .gt(new Date())
-        .populate({
-          path: '_ownerRef',
-          select: jobOwnerFields,
-        })
-        .populate({
-          path: '_bidsListRef',
-          select: { _bidderRef: 1, bidAmount: 1 },
-        })
-        .lean(true)
-        .exec((error, results) => {
-          try {
-            if (error) {
-              return reject(error);
-            }
-            return resolve(results);
-          } catch (e) {
-            return reject(e);
+      try {
+        const openJobsForBidding = await JobModel.find(
+          { state: { $eq: 'OPEN' } },
+          {
+            addressText: 0,
+            detailedDescription: 0,
+            booedBy: 0,
+            viewedBy: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            hideFrom: 0,
+            jobCompletion: 0,
+          },
+          {
+            sort: { startingDateAndTime: 1 },
+            allowDiskUse: true,
           }
-        });
+        )
+          .populate({
+            path: '_ownerRef',
+            select: jobOwnerFields,
+          })
+          .populate({
+            path: '_bidsListRef',
+            select: { _bidderRef: 1, bidAmount: 1 },
+          })
+          .lean({ virtuals: true })
+          .exec();
+        return resolve(openJobsForBidding);
+      } catch (e) {
+        return reject(e);
+      }
     });
   },
   // get jobs near a given location
@@ -703,7 +769,7 @@ exports.jobDataAccess = {
                         createdAt: 1,
                       },
                     })
-                    .lean(true)
+                    .lean({ virtuals: true })
                     .exec();
 
                   return dbJob;
@@ -747,7 +813,7 @@ exports.jobDataAccess = {
           },
         }
       )
-        .lean(true)
+        .lean({ virtuals: true })
         .exec(),
     ]);
   },
@@ -768,7 +834,7 @@ exports.jobDataAccess = {
           $set: { _awardedBidRef: bidId, state: 'AWARDED' },
         }
       )
-        .lean(true)
+        .lean({ virtuals: true })
         .exec(),
     ]);
 
@@ -811,19 +877,19 @@ exports.jobDataAccess = {
         },
       })
 
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   findOneByJobId: (id) => {
     return JobModel.findOne({ _id: id })
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   isJobOwner: (mongoDbUserId, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerRef: 1 })
       .where('_ownerRef')
       .equals(mongoDbUserId)
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   isAwardedBidder: (mongoDbUserId, jobId) => {
@@ -839,7 +905,7 @@ exports.jobDataAccess = {
           select: { _id: 1 },
         },
       })
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
   findOneByJobIdAndUpdateJobInfo: (jobId, newJobDetails, options) => {
@@ -851,9 +917,338 @@ exports.jobDataAccess = {
       },
       options
     )
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
+  cancelJob(jobId, mongoDbUserId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoDbUserId })
+          .lean({ virtuals: true })
+          .exec();
+
+        if (!job) {
+          resolve({});
+        }
+
+        // if we are cancelling an open job
+        if (job.state === 'OPEN') {
+          await JobModel.findOneAndUpdate(
+            { _id: jobId, _ownerRef: mongoDbUserId },
+            {
+              $set: { state: 'CANCELED_OPEN' },
+            }
+          );
+          resolve({ ...job, state: 'CANCELED_OPEN' });
+        }
+
+        // if we are cancelling an awardedJob
+        if (job.state === 'AWARDED') {
+          // CANCELED_BY_REQUESTER_AWARDED case
+          const {
+            requestedJobId,
+            awardedBidId,
+            requesterId,
+            taskerId,
+            requesterDisplayName,
+            taskerDisplayName,
+            jobDisplayName,
+            requestLinkForRequester,
+            requestLinkForTasker,
+            requesterEmailAddress,
+            requesterPhoneNumber,
+            taskerEmailAddress,
+            taskerPhoneNumber,
+            allowedToEmailRequester,
+            allowedToEmailTasker,
+            allowedToTextRequester,
+            allowedToTextTasker,
+            allowedToPushNotifyRequester,
+            allowedToPushNotifyTasker,
+            requesterPushNotSubscription,
+            taskerPushNotSubscription,
+            processedPayment,
+          } = await this._getAwardedJobOwnerBidderAndRelevantNotificationDetails(job._id);
+
+          // Deal with refund
+          // Refund 80% of payment
+          // forward 10% to Tasker
+          // forward 10% to BidorBooFees
+          const refundCharge = await stripeServiceUtil.partialRefundTransation({
+            chargeId: processedPayment.chargeId,
+            refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
+            metadata: {
+              requesterId,
+              requesterEmailAddress,
+              taskerId,
+              taskerEmailAddress,
+              requestedJobId,
+              awardedBidId,
+              note: 'requester cancelled the job',
+            },
+          });
+
+          if (refundCharge.status === 'succeeded') {
+            // send communication to both about the cancellation
+            if (allowedToEmailRequester) {
+              sendGridEmailing.tellRequeterThatTheyHaveCancelledAnAwardedJob({
+                to: requesterEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: requesterDisplayName,
+                linkForOwner: requestLinkForRequester,
+              });
+            }
+            if (allowedToEmailTasker) {
+              sendGridEmailing.tellTaskerThatRequesterCancelledJob({
+                to: taskerEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: taskerDisplayName,
+                linkForBidder: requestLinkForTasker,
+              });
+            }
+
+            if (allowedToTextRequester) {
+              await sendTextService.sendJobIsCancelledText(
+                requesterPhoneNumber,
+                jobDisplayName,
+                requestLinkForRequester
+              );
+            }
+            if (allowedToTextTasker) {
+              await sendTextService.sendJobIsCancelledText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
+            }
+
+            if (allowedToPushNotifyRequester) {
+              WebPushNotifications.pushAwardedJobWasCancelled(requesterPushNotSubscription, {
+                requestTitle: jobDisplayName,
+                urlToLaunch: requestLinkForRequester,
+              });
+            }
+            if (allowedToPushNotifyTasker) {
+              WebPushNotifications.pushAwardedJobWasCancelled(taskerPushNotSubscription, {
+                requestTitle: requestLinkForRequester,
+                urlToLaunch: requestLinkForTasker,
+              });
+            }
+            await JobModel.findOneAndUpdate(
+              { _id: jobId, _ownerRef: mongoDbUserId },
+              {
+                $set: {
+                  state: 'AWARDED_CANCELED_BY_REQUESTER',
+                  'processedPayment.refund': {
+                    amount: refundCharge.amount,
+                    charge: refundCharge.charge,
+                    id: refundCharge.id,
+                    status: refundCharge.status,
+                  },
+                },
+              }
+            );
+            // decrease the global rating by (0.25) 1 quarter of a star
+            // update count of canceled jobs
+            // update status of this job
+            await User.findOneAndUpdate(
+              { _id: mongoDbUserId },
+              {
+                $push: { 'rating.canceledJobs': jobId },
+                $inc: { 'rating.globalRating': -0.25 },
+              },
+              {
+                new: true,
+              }
+            )
+              .lean(true)
+              .exec();
+            resolve({ ...job, state: 'AWARDED_CANCELED_BY_REQUESTER' });
+          } else {
+            reject({ refund: refundCharge, errorMsg: 'refund status failed' });
+          }
+        }
+        resolve({});
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    // if it is an open job then simply cancel it
+
+    // if it is an awarded job .. we got some punishment to do
+  },
+
+  _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {
+    const awardedJob = await JobModel.findById(jobId)
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          _bidderRef: 1,
+          isNewBid: 1,
+          state: 1,
+          bidAmount: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            _id: 1,
+            email: 1,
+            phone: 1,
+            pushSubscription: 1,
+            notifications: 1,
+            displayName: 1,
+          },
+        },
+      })
+      .populate({
+        path: '_ownerRef',
+        select: {
+          _id: 1,
+          displayName: 1,
+          email: 1,
+          phone: 1,
+          pushSubscription: 1,
+          notifications: 1,
+        },
+      })
+      .lean({ virtuals: true })
+      .exec();
+
+    const { _ownerRef, _awardedBidRef, processedPayment } = awardedJob;
+    const awardedBidId = _awardedBidRef._id.toString();
+    const requestedJobId = awardedJob._id.toString();
+
+    const ownerDetails = _ownerRef;
+    const awardedBidderDetails = _awardedBidRef._bidderRef;
+
+    const requesterId = _ownerRef._id.toString();
+    const taskerId = awardedBidderDetails._id.toString();
+
+    const requesterDisplayName = ownerDetails.displayName;
+    const taskerDisplayName = awardedBidderDetails.displayName;
+    const jobDisplayName = awardedJob.jobTitle || awardedJob.fromTemplateId;
+
+    const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
+    const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
+
+    const requesterPushNotSubscription = ownerDetails.pushSubscription;
+    const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
+
+    const requesterEmailAddress =
+      ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
+    const requesterPhoneNumber =
+      ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
+
+    const taskerEmailAddress =
+      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
+        ? awardedBidderDetails.email.emailAddress
+        : '';
+    const taskerPhoneNumber =
+      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
+        ? awardedBidderDetails.phone.phoneNumber
+        : '';
+
+    const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
+    const allowedToEmailTasker =
+      awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
+
+    const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.phone;
+    const allowedToTextTasker =
+      awardedBidderDetails.notifications && awardedBidderDetails.notifications.phone;
+
+    const allowedToPushNotifyRequester =
+      ownerDetails.notifications && ownerDetails.notifications.push;
+    const allowedToPushNotifyTasker =
+      awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
+
+    return {
+      requestedJobId,
+      awardedBidId,
+      requesterId,
+      taskerId,
+      requesterDisplayName,
+      taskerDisplayName,
+      jobDisplayName,
+      requestLinkForRequester,
+      requestLinkForTasker,
+      requesterEmailAddress,
+      requesterPhoneNumber,
+      taskerEmailAddress,
+      taskerPhoneNumber,
+      allowedToEmailRequester,
+      allowedToEmailTasker,
+      allowedToTextRequester,
+      allowedToTextTasker,
+      allowedToPushNotifyRequester,
+      allowedToPushNotifyTasker,
+      requesterPushNotSubscription,
+      taskerPushNotSubscription,
+      processedPayment,
+    };
+  },
+  cancelOpenJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_OPEN');
+  },
+  cancelAwardedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_AWARDED');
+  },
+
+  expireOpenJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_OPEN');
+  },
+
+  expireAwardedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_AWARDED');
+  },
+
+  setDisputedJob: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'DISPUTED');
+  },
+  setJobIsDone: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'DONE');
+  },
+  setJobIsPaidOut: async (jobId, mongoDbUserId) => {
+    return _updateJobStatus(jobId, mongoDbUserId, 'PAIDOUT');
+  },
+
+  setRescheduleRequested: async (jobId, mongoDbUserId, newDate) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        await JobModel.findOneAndUpdate(
+          { _id: jobId, _ownerRef: mongoDbUserId },
+          {
+            $set: { state: 'RESCHEDULED_REQUEST', startingDateAndTime: newDate },
+          }
+        );
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  _updateJobStatus: async (jobId, mongoDbUserId, status) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        await JobModel.findOneAndUpdate(
+          { _id: jobId, _ownerRef: mongoDbUserId },
+          {
+            $set: { state: status },
+          }
+        );
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
   deleteJob: async (jobId, mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -903,7 +1298,7 @@ exports.jobDataAccess = {
           .exec();
 
         await JobModel.deleteOne({ _id: job._id.toString() })
-          .lean(true)
+          .lean({ virtuals: true })
           .exec();
 
         resolve(true);

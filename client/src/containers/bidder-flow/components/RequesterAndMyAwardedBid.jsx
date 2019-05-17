@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { AddAwardedJobToCalendar } from './helperComponents';
-import { isBeforeToday } from '../../../utils';
+import { isHappeningToday } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 export default class RequesterAndMyAwardedBid extends React.Component {
@@ -13,20 +13,11 @@ export default class RequesterAndMyAwardedBid extends React.Component {
       return null;
     }
 
-    const {
-      rating,
-      displayName,
-      profileImage,
-      email = { emailAddress: 'not provided' },
-      phone = { phoneNumber: 'not provided' },
-    } = job._ownerRef;
-    const bidderProfileImgUrl = profileImage.url;
-    const bidderOverallRating = rating.globalRating;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
     const { startingDateAndTime, jobCompletion } = job;
-    const isJobHappeningBeforeEndOfToday = isBeforeToday(startingDateAndTime);
+    const isJobHappeningToday = isHappeningToday(startingDateAndTime);
 
     const didBidderConfirmCompletionAlready = jobCompletion.bidderConfirmed;
 
@@ -72,11 +63,11 @@ export default class RequesterAndMyAwardedBid extends React.Component {
                   </a>
                 )}
                 {/* job is happening today show confirm job completion flow*/}
-                {isJobHappeningBeforeEndOfToday && !didBidderConfirmCompletionAlready && (
+                {isJobHappeningToday && !didBidderConfirmCompletionAlready && (
                   <BidderConfirmsJobIsDone {...this.props} />
                 )}
                 {/* job is not happening today show add to calendar*/}
-                {!isJobHappeningBeforeEndOfToday && <AddAwardedJobToCalendar job={job} />}
+                {!isJobHappeningToday && <AddAwardedJobToCalendar job={job} />}
               </div>
             )}
           </div>
@@ -85,15 +76,6 @@ export default class RequesterAndMyAwardedBid extends React.Component {
     );
   }
 }
-
-const DisplayLabelValue = (props) => {
-  return (
-    <div className="field">
-      <label className="label">{props.labelText}</label>
-      <div className="control is-success">{props.labelValue}</div>
-    </div>
-  );
-};
 
 class BidderConfirmsJobIsDone extends React.Component {
   constructor(props) {
@@ -200,7 +182,7 @@ const FloatingAddNewBidButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.BIDDER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       <span className="icon">+ </span>
     </a>

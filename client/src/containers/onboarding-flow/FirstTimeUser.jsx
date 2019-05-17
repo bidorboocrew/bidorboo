@@ -74,26 +74,32 @@ export class FirstTimeUser extends React.Component {
   verifyAndSubmitOnBoarding = () => {
     const { hasAgreedToTOS, phoneNumber } = this.state;
 
-    const isValidPhone = /^[0-9]\d{2}\d{3}\d{4}$/g.test(phoneNumber);
+    const isValidPhone = phoneNumber && /^[0-9]\d{2}\d{3}\d{4}$/g.test(phoneNumber);
 
     let errors = {};
-    if (phoneNumber && !isValidPhone) {
+    if (!isValidPhone) {
       errors = { ...errors, phoneError: true };
     }
     if (!hasAgreedToTOS) {
       errors = { ...errors, tosError: true };
     }
-    if (errors.phoneError || errors.tosError) {
-      this.setState({ ...errors });
-    }
-    // no issues submit to server here
-    const onBoardingDetails = {
-      phone: { phoneNumber: this.state.phoneNumber },
-      agreedToTOS: this.state.hasAgreedToTOS,
-      autoDetectlocation: this.state.allowAutoDetect,
-    };
+    this.setState(
+      () => ({ ...errors }),
+      () => {
+        if (errors.phoneError || errors.tosError) {
+          // do not call server
+        } else {
+          // no issues submit to server here
+          const onBoardingDetails = {
+            phone: { phoneNumber: this.state.phoneNumber },
+            agreedToTOS: this.state.hasAgreedToTOS,
+            autoDetectlocation: this.state.allowAutoDetect,
+          };
 
-    this.props.a_updateOnBoardingDetails(onBoardingDetails);
+          this.props.updateOnBoardingDetails(onBoardingDetails);
+        }
+      },
+    );
   };
 
   render() {
@@ -109,28 +115,26 @@ export class FirstTimeUser extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Welcome to BidOrBoo {displayName}</h1>
-              <h2 className="subtitle">We are happy to see you joining our crew</h2>
             </div>
           </div>
         </section>
 
         <div style={{ maxWidth: 800 }} className="container">
-          <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.4)' }} className="card">
+          <div
+            style={{ padding: '1rem', background: 'rgba(255,255,255,0.4)' }}
+            className="card disabled"
+          >
             <div className="card-content">
               <div className="content">
                 <h2 className="has-text-centered subtitle has-text-grey has-text-weight-normal">
                   Let's Get you Started
                 </h2>
-                <p className="has-text-grey">
-                  Providing some additional details will Help us serve you custom results. Your
-                  information will be securely encrypted and will NOT be shared with anyone.
-                </p>
-                <br />
+
                 <div className="field has-text-left">
                   <label className="label">
-                    Enter Your Phone
-                    <span className="has-text-grey has-text-weight-normal"> (optional)</span>
+                    Enter Your Phone <span className="has-text-grey">(required)</span>
                   </label>
+
                   <div className="control has-icons-left">
                     <input
                       onChange={this.updatePhoneNumber}
@@ -148,11 +152,15 @@ export class FirstTimeUser extends React.Component {
                       * Invalid phone number, it must be of the format 6133334444
                     </p>
                   ) : (
-                    <p className="help">* example : 6133334444</p>
+                    <React.Fragment>
+                      <p style={{ marginBottom: 0 }} className="help">
+                        * enter a valid phone number, for example : 6130001111
+                      </p>
+                      <p className="help">* we will send you a verification code shortly</p>
+                    </React.Fragment>
                   )}
                 </div>
-                <br />
-                <div className="field">
+                {/* <div className="field">
                   <div className="control">
                     <label className="checkbox">
                       <input
@@ -174,11 +182,11 @@ export class FirstTimeUser extends React.Component {
                       </span>
                     </label>
                   </div>
-                </div>
-                <hr className="divider" />
-                <div className={`field ${tosError ? 'has-text-danger' : ''}`}>
+                </div> */}
+                <br />
+                <div>
                   <div className="control">
-                    <label className="checkbox">
+                    <label style={{ lineHeight: 1.5 }} className="checkbox">
                       <input
                         onChange={this.toggleHasAgreedToTOS}
                         type="checkbox"
@@ -198,14 +206,9 @@ export class FirstTimeUser extends React.Component {
                       </a>
                       .
                     </label>
-                    {tosError ? (
+                    {tosError && (
                       <p className="help is-danger">
                         * You Must Read And Accept Our Terms before continuing
-                      </p>
-                    ) : (
-                      <p className="help">
-                        * We use Stripe Secure Payment Gateway to secrue all payments through our
-                        site.
                       </p>
                     )}
                   </div>
@@ -239,7 +242,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
+    updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
   };
 };
 

@@ -2,11 +2,10 @@ import React from 'react';
 import AddToCalendar from 'react-add-to-calendar';
 import moment from 'moment';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export const TAB_IDS = {
-  awardedJobs: 'Awarded',
-  postedJobs: 'Posted',
+  myRequests: 'My Requests',
   pastJobs: 'Past Jobs',
 };
 export const AddAwardedJobToCalendar = ({ job }) => {
@@ -22,7 +21,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${templatesRepo[fromTemplateId].title} request`;
+  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
   const description = `${
     _bidderRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;
@@ -65,7 +64,6 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
       displayItemIcons={false}
       event={event}
-      buttonClassClosed="button is-success"
       buttonClassClosed="button is-success"
     />
   );

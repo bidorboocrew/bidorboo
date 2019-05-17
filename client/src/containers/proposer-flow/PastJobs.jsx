@@ -13,19 +13,19 @@ import { DisplayLabelValue, StartDateAndTime } from '../commonComponents';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { Spinner } from '../../components/Spinner';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 class PastJobs extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.a_getMyPastRequestedServices();
+      this.props.getMyPastRequestedServices();
     }
   }
 
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.a_getMyPastRequestedServices();
+      this.props.getMyPastRequestedServices();
     }
   }
   render() {
@@ -41,9 +41,7 @@ class PastJobs extends React.Component {
     let AllTheRequestsByThisUser = null;
     if (myPastRequestedServices && myPastRequestedServices.length > 0) {
       AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails, index) => {
-        return (
-          <RequestsTabSummaryCard key={requestDetails._id} index={index} {...requestDetails} />
-        );
+        return <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />;
       });
     }
 
@@ -67,7 +65,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getMyPastRequestedServices: bindActionCreators(getMyPastRequestedServices, dispatch),
+    getMyPastRequestedServices: bindActionCreators(getMyPastRequestedServices, dispatch),
   };
 };
 
@@ -78,20 +76,18 @@ export default connect(
 
 const EmptyHistory = () => {
   return (
-    <div className="column">
-      <div className="card">
-        <div style={{ padding: '1rem' }} className="card-content">
+    <div className="has-text-centered">
+      <div style={{ maxWidth: 'unset' }} className="card">
+        <div className="card-content">
           <div className="content has-text-centered">
-            <label className="label">Seems you don't have any Requestes jobs yet. Go on and</label>
+            <div className="is-size-5">You have no past fulfilled tasks. Go ahead and</div>
             <br />
-            <div>
-              <a
-                className="button is-link is-medium"
-                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
-              >
-                Start Posting Tasks
-              </a>
-            </div>
+            <a
+              className="button is-success"
+              onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
+            >
+              Request a Service
+            </a>
           </div>
         </div>
       </div>
@@ -99,7 +95,7 @@ const EmptyHistory = () => {
   );
 };
 
-class RequestsTabSummaryCard extends React.Component {
+class RequestSummary extends React.Component {
   render() {
     const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted, index } = this.props;
 
@@ -126,7 +122,9 @@ class RequestsTabSummaryCard extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${templatesRepo[fromTemplateId].title} Task`}
+                      labelValue={`${
+                        jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE
+                      } Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />
@@ -134,7 +132,7 @@ class RequestsTabSummaryCard extends React.Component {
 
                     <label className="label">You Paid</label>
                     <div className="is-size-5 is-success">{`${jobId.processedPayment.proposerPaid /
-                      100} CAD`}</div>
+                      100}$ (CAD)`}</div>
                   </div>
                 </div>
               </div>
@@ -145,7 +143,7 @@ class RequestsTabSummaryCard extends React.Component {
                   {!didISubmitReview && <PleaseSubmitYourReview />}
 
                   {!didBidderSubmitReview && (
-                    <ReviewComments comment="Review is Pending. Bidder did not finish the review  Yet  " />
+                    <ReviewComments comment="Review is Pending. Tasker did not finish the review  Yet  " />
                   )}
 
                   {bothSubmittedReview && (
@@ -225,7 +223,7 @@ const PleaseSubmitYourReview = () => {
   return (
     <div className="field">
       <label>
-        Your Review will be revealed when both (YOU) the Requester and the Bidder submit your
+        Your Review will be revealed when both (YOU) the Requester and the Tasker submit your
         reviews
       </label>
 

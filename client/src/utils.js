@@ -4,11 +4,11 @@ import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
   // setTimeout(() => {
-    if (stateContent) {
-      appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
-    } else {
-      appHistory.push(routeAndParams);
-    }
+  if (stateContent) {
+    appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
+  } else {
+    appHistory.push(routeAndParams);
+  }
   // }, 0);
 };
 
@@ -54,13 +54,24 @@ export const isHappeningToday = (eventPlannedTimeISOString) => {
 };
 
 export const isBeforeToday = (eventPlannedTimeISOString) => {
-  const localEndOfDay = moment()
-    .endOf('day')
+  const localStartOfDay = moment()
+    .startOf('day')
     .toISOString();
 
   const eventPlannedTime = moment(eventPlannedTimeISOString).toISOString();
-  const isBeforeEndOfToday = moment(eventPlannedTime).isSameOrBefore(localEndOfDay);
-  return isBeforeEndOfToday;
+  const isBeforeStartOfDay = moment(eventPlannedTime).isSameOrBefore(localStartOfDay);
+  return isBeforeStartOfDay;
+};
+
+export const isRequestPastDue = (givenTaskTime) => {
+  if (isHappeningToday(givenTaskTime)) {
+    return false;
+  }
+  const currentTime = moment().toISOString();
+
+  const eventPlannedTime = moment(givenTaskTime).toISOString();
+  const isCurrentTimeAfterEventPlannedTime = moment(currentTime).isAfter(eventPlannedTime);
+  return isCurrentTimeAfterEventPlannedTime;
 };
 
 export const isBidderView = () => {

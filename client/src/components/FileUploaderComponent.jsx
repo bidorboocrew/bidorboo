@@ -54,7 +54,7 @@ class MyForm extends React.Component {
     }
 
     this.reader.onloadend = () => {
-      this.setState({ thumb: this.reader.result });
+      this.setState({ thumb: this.reader.result, showCropper: true });
     };
     this.reader.readAsDataURL(files[0]);
 

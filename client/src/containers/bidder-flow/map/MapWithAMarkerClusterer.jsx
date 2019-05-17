@@ -1,4 +1,3 @@
-/*global google*/
 import React from 'react';
 
 import { compose, withProps } from 'recompose';
@@ -15,7 +14,7 @@ const MapWithAMarkerClusterer = compose(
       <div
         style={{
           height: `25rem`,
-          boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)',
+          // boxShadow: '0px 5px 10px -3px rgba(0, 0, 0, 0.42)',
         }}
       />
     ),
@@ -113,14 +112,14 @@ class JobMarker extends React.Component {
   render() {
     const { job, showInfoBoxForJobId } = this.props;
 
-    let imgurl = job && job._ownerRef ? job._ownerRef.profileImage.url : null;
-    var image = {
-      url: imgurl,
-      size: new google.maps.Size(80, 80),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(32, 32),
-    };
+    // let imgurl = job && job._ownerRef ? job._ownerRef.profileImage.url : null;
+    // var image = {
+    //   url: imgurl,
+    //   size: new google.maps.Size(80, 80),
+    //   origin: new google.maps.Point(0, 0),
+    //   anchor: new google.maps.Point(17, 34),
+    //   scaledSize: new google.maps.Size(32, 32),
+    // };
     if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
       const shouldShowInfoBox = showInfoBoxForJobId === job._id;
       return (

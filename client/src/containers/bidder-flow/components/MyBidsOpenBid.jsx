@@ -1,11 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 import { DisplayLabelValue, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
-import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export default class MyBidsOpenBid extends React.Component {
   render() {
@@ -21,17 +19,13 @@ export default class MyBidsOpenBid extends React.Component {
 
     const { _ownerRef } = _jobRef;
 
-    const startingDateAndTime = moment(_jobRef.startingDateAndTime)
-      .format('DD/MMM/YYYY')
-      .toString();
-
     return (
       <div
         onClick={(e) => {
           e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/${bidDetails._id}`);
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bidDetails._id));
         }}
-        className="card bidderRootSpecial"
+        className="card limitWidthOfCard"
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
@@ -52,7 +46,10 @@ export default class MyBidsOpenBid extends React.Component {
           </a>
         </header>
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img
+            className="bdb-cover-img"
+            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+          />
         </div>
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
           <div className="has-text-dark is-size-7">Requester:</div>

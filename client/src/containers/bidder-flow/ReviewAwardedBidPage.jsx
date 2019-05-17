@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
 import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
@@ -12,6 +11,7 @@ import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions'
 import { Spinner } from '../../components/Spinner';
 import MyAwardedBidJobDetails from './components/MyAwardedBidJobDetails';
 import RequesterAndMyAwardedBid from './components/RequesterAndMyAwardedBid';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class ReviewAwardedBidPage extends React.Component {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
       return null;
     }
-    this.props.a_getAwardedBidDetails(this.bidId);
+    this.props.getAwardedBidDetails(this.bidId);
   }
 
   componentDidUpdate(prevProps) {
@@ -43,7 +43,7 @@ class ReviewAwardedBidPage extends React.Component {
         switchRoute(ROUTES.CLIENT.BIDDER.root);
         return null;
       }
-      this.props.a_getAwardedBidDetails(this.bidId);
+      this.props.getAwardedBidDetails(this.bidId);
     }
   }
 
@@ -55,11 +55,7 @@ class ReviewAwardedBidPage extends React.Component {
   };
 
   render() {
-    const {
-      selectedAwardedBid,
-      a_bidderConfirmsJobCompletion,
-      isReadOnlyView = false,
-    } = this.props;
+    const { selectedAwardedBid, bidderConfirmsJobCompletion, isReadOnlyView = false } = this.props;
     // while fetching the job
 
     if (
@@ -76,7 +72,7 @@ class ReviewAwardedBidPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedAwardedBid._jobRef;
-    const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
+    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">
@@ -85,7 +81,7 @@ class ReviewAwardedBidPage extends React.Component {
             {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
 
             <RequesterAndMyAwardedBid
-              bidderConfirmsJobCompletion={a_bidderConfirmsJobCompletion}
+              bidderConfirmsJobCompletion={bidderConfirmsJobCompletion}
               bid={selectedAwardedBid}
               job={selectedAwardedJob}
               isReadOnlyView={isReadOnlyView}
@@ -109,8 +105,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
-    a_bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
+    getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
+    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
   };
 };
 

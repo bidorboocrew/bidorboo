@@ -1,85 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ShowMoreText from 'react-show-more-text';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { addJob } from '../../app-state/actions/jobActions';
-import { switchRoute } from '../../utils';
-import NewJobForm from '../../components/forms/NewJobForm';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+
+import { HOUSE_CLEANING_DEF, HouseCleaningCreateJob } from '../../bdb-tasks/index';
+
+const creatJobsByIdMap = {
+  [`${HOUSE_CLEANING_DEF.ID}`]: (props) => {
+    return <HouseCleaningCreateJob {...props} />;
+  },
+};
 
 class CreateAJobPage extends React.Component {
   constructor(props) {
     super(props);
-
-    let templateToStartWith = null;
+    let templateJobId = null;
     if (props.match && props.match.params && props.match.params.templateId) {
-      templateToStartWith = templatesRepo[props.match.params.templateId];
+      templateJobId = props.match.params.templateId;
     }
 
     this.state = {
-      chosenTemplate: templateToStartWith,
+      chosenTemplate: templateJobId,
     };
   }
 
-  goBack = (e) => {
-    e.preventDefault();
-    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-  };
-
-  postJob = (values) => {
-    const { a_addJob } = this.props;
-    a_addJob({ initialDetails: { ...values } });
-  };
-
   render() {
     const { chosenTemplate } = this.state;
-    const { currentUserDetails, a_showLoginDialog, isLoggedIn } = this.props;
-    const jobDetails = {
-      title: chosenTemplate.title,
-      imageUrl: chosenTemplate.imageUrl,
-      id: chosenTemplate.id,
-      suggestedDetailsText: chosenTemplate.suggestedDetailsText,
-    };
 
     return (
       <div className="container is-widescreen">
         <div className="columns is-centered">
           <div className="column">
-            <div style={{ maxWidth: 'unset' }} className="card">
-              <section
-                style={{ borderBottom: '1px solid #eee' }}
-                className="hero is-small is-white"
-              >
-                <div className="hero-body">
-                  <div className="title has-text-dark">{jobDetails.title} Request</div>
-                  <ShowMoreText
-                    className="has-text-grey"
-                    lines={2}
-                    more="Show more"
-                    less="Show less"
-                  >
-                    {this.state.chosenTemplate.description}
-                  </ShowMoreText>
-                </div>
-              </section>
-
-              <div className="card-content">
-                <br />
-                <NewJobForm
-                  isLoggedIn={isLoggedIn}
-                  showLoginDialog={a_showLoginDialog}
-                  fromTemplateIdField={jobDetails.id}
-                  jobTitleField={jobDetails.title}
-                  suggestedDetailsText={jobDetails.suggestedDetailsText}
-                  onGoBack={this.goBack}
-                  onSubmit={this.postJob}
-                  currentUserDetails={currentUserDetails}
-                />
-              </div>
-            </div>
+            {/* create job based on ID */}
+            {creatJobsByIdMap[`${chosenTemplate}`] &&
+              creatJobsByIdMap[`${chosenTemplate}`](this.props)}
           </div>
         </div>
       </div>
@@ -96,8 +52,8 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_addJob: bindActionCreators(addJob, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    addJob: bindActionCreators(addJob, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

@@ -11,7 +11,7 @@ exports.reviewDataAccess = {
         $set: { ...updateData },
       }
     )
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
 };

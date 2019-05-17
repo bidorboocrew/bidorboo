@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,7 +24,7 @@ class PaymentSettings extends React.Component {
   };
 
   componentDidMount() {
-    this.props.a_getMyStripeAccountDetails();
+    this.props.getMyStripeAccountDetails();
   }
 
   render() {
@@ -76,10 +76,10 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
-    a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
+    updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
+    updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
   };
 };
 
@@ -111,6 +111,7 @@ const InitialAccountSetupView = (props) => {
     userDetails,
     myStripeAccountDetails,
   } = props;
+
   return (
     <React.Fragment>
       <div>
@@ -134,7 +135,7 @@ const InitialAccountSetupView = (props) => {
             onChange={toggleAddPaymentDetails}
           />
           <label htmlFor="showPayoutSetupForm">
-            <strong>Add Payout Details</strong>
+            <strong>Add My Payout Banking Details</strong>
           </label>
         </div>
 
@@ -152,7 +153,12 @@ const InitialAccountSetupView = (props) => {
         myStripeAccountDetails &&
         myStripeAccountDetails.balanceDetails &&
         myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
+          <div>
+            Pending Payments Amount
+            {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
+            Balance Details {`${myStripeAccountDetails.balanceDetails}`}
+          </div>
+          // <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
         )}
       {showAddPaymentDetails && (
         <div>
@@ -185,7 +191,6 @@ const EstablishedAccountView = (props) => {
     return null;
   }
 
-  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />
@@ -197,7 +202,7 @@ const EstablishedAccountView = (props) => {
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
               {` Bank Account last 4 digits `}
-              <strong>{stripeConnect.last4BankAcc}</strong>
+              <strong>{stripeConnect.last4BankAcc}</strong>{}
             </label>
           </div>
         </div>
@@ -250,26 +255,26 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
-          <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
+          {/* <ProgressChart myStripeAccountDetails={myStripeAccountDetails} /> */}
         </div>
       </nav>
     </section>
   );
 };
 
-const ProgressChart = ({ myStripeAccountDetails }) => {
-  const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
+// const ProgressChart = ({ myStripeAccountDetails }) => {
+//   const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
 
-  return (
-    <ResponsiveContainer minHeight={400}>
-      <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis unit="$" />
-        <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
-        <Legend align="center" />
-        <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
-        <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
-      </BarChart>
-    </ResponsiveContainer>
-  );
-};
+//   return (
+//     <ResponsiveContainer minHeight={400}>
+//       <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
+//         <XAxis dataKey="name" />
+//         <YAxis unit="$" />
+//         <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
+//         <Legend align="center" />
+//         <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
+//         <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
+//       </BarChart>
+//     </ResponsiveContainer>
+//   );
+// };

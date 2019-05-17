@@ -61,7 +61,6 @@ const ProfileForm = (props) => {
     handleChange,
     handleBlur,
     handleSubmit,
-    setFieldValue,
     onCancel,
     isValid,
     isSubmitting,

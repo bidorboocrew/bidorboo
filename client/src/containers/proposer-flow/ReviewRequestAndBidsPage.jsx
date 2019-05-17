@@ -5,14 +5,15 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 import { Spinner } from '../../components/Spinner';
 
 import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobActions';
 
-import JobFullDetailsCard from './components/JobFullDetailsCard';
 import BidsTable from './components/BidsTable';
-import ReviewBidAndBidder from './components/ReviewBidAndBidder';
+import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
+
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import getPostedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getPostedFullDetailsCardByTemplateJobId';
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -30,13 +31,13 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentDidMount() {
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
       return null;
     }
-    this.props.a_getPostedJobDetails(this.jobId);
+    this.props.getPostedJobDetails(this.jobId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // if route changed reload the job
     let newJobId = this.jobId;
 
@@ -46,10 +47,10 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
+        switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
         return null;
       }
-      this.props.a_getPostedJobDetails(this.jobId);
+      this.props.getPostedJobDetails(this.jobId);
     }
   }
 
@@ -61,7 +62,7 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   render() {
-    const { selectedJobWithBids, a_markBidAsSeen } = this.props;
+    const { selectedJobWithBids, markBidAsSeen } = this.props;
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
@@ -71,32 +72,71 @@ class ReviewRequestAndBidsPage extends React.Component {
       );
     }
 
-    const title = templatesRepo[selectedJobWithBids.fromTemplateId].title;
+    const jobDefinition = jobTemplateIdToDefinitionObjectMapper[selectedJobWithBids.fromTemplateId];
+    if (!jobDefinition) {
+      alert(`unknown job template ${selectedJobWithBids.fromTemplateId}`);
+      return null;
+    }
+
+    const title = jobDefinition.TITLE;
     const { showBidReviewModal, bidUnderReview } = this.state;
+
+    const bidList = selectedJobWithBids._bidsListRef;
+    const areThereAnyBids = bidList && bidList.length > 0;
 
     return (
       <div className="container is-widescreen">
         {showBidReviewModal && (
-          <ReviewBidAndBidder bid={bidUnderReview} handleCancel={this.hideBidReviewModal} />
+          <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
-        {!showBidReviewModal && (
-          <div className="columns is-centered">
-            <div className="column is-narrow">
-              {breadCrumbs({
-                activePageTitle: title,
-              })}
-              <BidsTable
-                jobId={selectedJobWithBids._id}
-                bidList={selectedJobWithBids._bidsListRef}
-                markBidAsSeen={a_markBidAsSeen}
-                showBidReviewModal={this.showBidReviewModal}
-              />
-
-              <JobFullDetailsCard job={selectedJobWithBids} />
+        <div className="columns is-centered">
+          <div className="column is-narrow">
+            <div style={{ marginBottom: '0.7rem' }}>
+              <a
+                className="button is-outlined"
+                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>My Requests</span>
+              </a>
             </div>
+
+            {getPostedFullDetailsCardByTemplateJobId(selectedJobWithBids)}
+            <br />
+
+            {areThereAnyBids && (
+              <section className="hero is-medium is-dark is-bold">
+                <div className="hero-body">
+                  <div>
+                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                      Taskers Offers
+                    </h1>
+                  </div>
+                </div>
+              </section>
+            )}
+            {!areThereAnyBids && (
+              <section className="hero is-medium is-dark is-bold">
+                <div className="hero-body">
+                  <div>
+                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                      Waiting For Taskers
+                    </h1>
+                  </div>
+                </div>
+              </section>
+            )}
+            <BidsTable
+              jobId={selectedJobWithBids._id}
+              bidList={bidList}
+              markBidAsSeen={markBidAsSeen}
+              showBidReviewModal={this.showBidReviewModal}
+            />
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -111,8 +151,8 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
-    a_markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
+    getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
+    markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };
 
@@ -124,23 +164,16 @@ export default connect(
 const breadCrumbs = (props) => {
   const { activePageTitle } = props;
   return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
-              }}
-            >
-              My Requests
-            </a>
-          </li>
-          <li className="is-active">
-            <a aria-current="page">{activePageTitle}</a>
-          </li>
-        </ul>
-      </nav>
+    <div style={{ marginBottom: '0.7rem' }}>
+      <a
+        className="button is-outlined"
+        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
+      >
+        <span className="icon">
+          <i className="far fa-arrow-alt-circle-left" />
+        </span>
+        <span>My Requests</span>
+      </a>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import * as A from '../actionTypes';
 
 const initialState = {
   // the job that the user is currently looking to bid on
-  jobDetails: {},
+  jobToBidOnDetails: {},
   openBidsList: [],
   isLoadingBids: false,
   getBidsErrorMsg: '',
@@ -16,7 +16,7 @@ const initialState = {
 
 const selectJobToBidOn = (state = initialState, { payload }) => ({
   ...state,
-  jobDetails: payload.jobDetails,
+  jobToBidOnDetails: payload.jobDetails,
 });
 
 const getMyOpenBids = {

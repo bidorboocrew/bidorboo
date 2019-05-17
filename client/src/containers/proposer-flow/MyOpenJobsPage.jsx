@@ -4,104 +4,87 @@ import { bindActionCreators } from 'redux';
 
 import {
   getAllMyOpenJobs,
-  deleteJobById,
+  cancelJobById,
   getAllMyAwardedJobs,
+  getAllMyRequests,
 } from '../../app-state/actions/jobActions';
-import MyAwardedJobsTab from './components/MyAwardedJobsTab';
-import MyRequestsTab from './components/MyRequestsTab';
-import { TAB_IDS } from './components/helperComponents';
+
+import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
+import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
+import getCancelledPostedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledPostedRequestSummaryCardByTemplateJobId';
+import getCancelledAwardedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledAwardedRequestSummaryCardByTemplateJobId';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import PastJobs from './PastJobs';
+
+const states = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  DISPUTED: 'DISPUTED',
+  AWARDED_CANCELED_BY_BIDDER: 'AWARDED_CANCELED_BY_BIDDER',
+  AWARDED_CANCELED_BY_REQUESTER: 'AWARDED_CANCELED_BY_REQUESTER',
+  CANCELED_OPEN: 'CANCELED_OPEN',
+  DONE: 'DONE',
+  PAIDOUT: 'PAIDOUT',
+};
+
 class MyOpenJobsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    let initialTabSelection = TAB_IDS.postedJobs;
-    if (props.match && props.match.params && props.match.params.tabId) {
-      const { tabId } = props.match.params;
-      if (tabId && TAB_IDS[`${tabId}`]) {
-        initialTabSelection = TAB_IDS[`${tabId}`];
-      }
-    }
-
-    this.state = {
-      activeTab: initialTabSelection,
-      showBidReviewModal: false,
-    };
-  }
-
   componentDidMount() {
-    this.props.a_getAllMyOpenJobs();
-    this.props.a_getAllMyAwardedJobs();
+    this.props.getAllMyRequests();
   }
-
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
 
   render() {
-    const { myOpenJobsList, a_deleteJobById, myAwardedJobsList } = this.props;
-    const { activeTab } = this.state;
+    const { allMyRequests } = this.props;
+
+    const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
+    let myRequestsSummaryCards = areThereAnyJobsToView
+      ? allMyRequests.map((request) => {
+          switch (request.state) {
+            case states.OPEN:
+              return (
+                <div key={request._id} className="column">
+                  {getPostedSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+
+            case states.AWARDED:
+              return (
+                <div key={request._id} className="column">
+                  {getAwardedSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+            case states.CANCELED_OPEN:
+              return (
+                <div key={request._id} className="column">
+                  {getCancelledPostedRequestSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+            case states.AWARDED_CANCELED_BY_BIDDER:
+            case states.AWARDED_CANCELED_BY_REQUESTER:
+              return (
+                <div key={request._id} className="column">
+                  {getCancelledAwardedRequestSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+            default:
+              break;
+          }
+        })
+      : null;
 
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Requests</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         <FloatingAddNewRequestButton />
-
-        <div style={{ position: 'relative' }} className="tabs">
-          <ul>
-            <li className={`${activeTab === TAB_IDS.postedJobs ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.postedJobs);
-                }}
-              >
-                {`${TAB_IDS.postedJobs} (${(myOpenJobsList && myOpenJobsList.length) || 0})`}
-              </a>
-            </li>
-            <li className={`${activeTab === TAB_IDS.awardedJobs ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.awardedJobs);
-                }}
-              >
-                {`${TAB_IDS.awardedJobs} (${(myAwardedJobsList && myAwardedJobsList.length) || 0})`}
-              </a>
-            </li>
-            <li className={`${activeTab === TAB_IDS.pastJobs ? 'is-active' : null}`}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.changeActiveTab(TAB_IDS.pastJobs);
-                }}
-              >
-                <span className="icon">
-                  <i className="fas fa-history" aria-hidden="true" />
-                </span>
-                <span>{`${TAB_IDS.pastJobs} `}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {activeTab === TAB_IDS.postedJobs && (
-          <MyRequestsTab
-            jobsList={myOpenJobsList}
-            deleteJob={a_deleteJobById}
-            changeActiveTab={this.changeActiveTab}
-            {...this.props}
-          />
-        )}
-        {activeTab === TAB_IDS.awardedJobs && (
-          <MyAwardedJobsTab
-            jobsList={myAwardedJobsList}
-            changeActiveTab={this.changeActiveTab}
-            {...this.props}
-          />
-        )}
-        {activeTab === TAB_IDS.pastJobs && <PastJobs />}
+        <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>
+        {!areThereAnyJobsToView && <EmptyStateComponent />}
       </div>
     );
   }
@@ -110,6 +93,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     myOpenJobsList: jobsReducer.myOpenJobsList,
     myAwardedJobsList: jobsReducer.myAwardedJobsList,
+    allMyRequests: jobsReducer.allMyRequests,
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
@@ -117,9 +101,10 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
-    a_deleteJobById: bindActionCreators(deleteJobById, dispatch),
-    a_getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
+    getAllMyOpenJobs: bindActionCreators(getAllMyOpenJobs, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    getAllMyAwardedJobs: bindActionCreators(getAllMyAwardedJobs, dispatch),
+    getAllMyRequests: bindActionCreators(getAllMyRequests, dispatch),
   };
 };
 
@@ -136,9 +121,58 @@ const FloatingAddNewRequestButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.PROPOSER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       +
     </a>
   );
+};
+
+const EmptyStateComponent = () => (
+  <div className="has-text-centered">
+    <div style={{ maxWidth: 'unset' }} className="card">
+      <div className="card-content">
+        <div className="content has-text-centered">
+          <div className="is-size-5">You have not requested any services yet</div>
+          <br />
+          <a
+            className="button is-success "
+            onClick={(e) => {
+              e.preventDefault();
+              switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            }}
+          >
+            Request a Service
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const generateAwardedRequestsSummaryCards = (props) => {
+  const { myAwardedJobsList } = props;
+
+  const myAwardedJobs = myAwardedJobsList.map((job) => {
+    return (
+      <div key={job._id} className="column">
+        {getAwardedSummaryCardByTemplateJobId(job, props)}
+        {/* <JobSummaryForAwarded showBidCount={false} job={job} /> */}
+      </div>
+    );
+  });
+  return myAwardedJobs;
+};
+
+const generateOpenRequetsSummaryCards = (props) => {
+  const { myOpenJobsList } = props;
+
+  const jobCards = myOpenJobsList.map((job) => {
+    return (
+      <div key={job._id} className="column">
+        {getPostedSummaryCardByTemplateJobId(job, props)}
+      </div>
+    );
+  });
+  return jobCards;
 };

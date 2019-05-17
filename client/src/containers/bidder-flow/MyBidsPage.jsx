@@ -38,8 +38,8 @@ class MyBidsPage extends React.Component {
 
   componentDidMount() {
     // get all posted bids
-    this.props.a_getAllPostedBids();
-    this.props.a_getMyAwardedBids();
+    this.props.getAllPostedBids();
+    this.props.getMyAwardedBids();
   }
 
   changeActiveTab = (tabId) => {
@@ -52,8 +52,8 @@ class MyBidsPage extends React.Component {
       openBidsList,
       awardedBidsList,
       notificationFeed,
-      a_updateBidState,
-      a_deleteOpenBid,
+      updateBidState,
+      deleteOpenBid,
     } = this.props;
 
     const { activeTab } = this.state;
@@ -64,7 +64,7 @@ class MyBidsPage extends React.Component {
           return (
             <div key={bidDetails._id} className="column limitMaxdWidth">
               <MyBidsOpenBid
-                deleteOpenBid={a_deleteOpenBid}
+                deleteOpenBid={deleteOpenBid}
                 key={bidDetails._id}
                 bidDetails={bidDetails}
               />
@@ -83,7 +83,7 @@ class MyBidsPage extends React.Component {
               <MyBidsAwardedBid
                 bidDetails={bidDetails}
                 notificationFeed={notificationFeed}
-                updateBidState={a_updateBidState}
+                updateBidState={updateBidState}
               />
             </div>
           );
@@ -126,44 +126,46 @@ class MyBidsPage extends React.Component {
         {activeTab === MYBIDS_TAB_IDS.myBidsTab && (
           <React.Fragment>
             <div className="container is-widescreen">
-              <div className="tabs is-medium is-centered">
-                <ul>
-                  <li>
-                    <a className="has-text-weight-bold">
-                      {`Awarded Bids  (${(awardedBidsList && awardedBidsList.length) || 0})`}
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              <section className="hero is-dark has-text-centered">
+                <div className="hero-body">
+                  <div className="container">
+                    <h1 className="has-text-weight-bold is-size-6">{`My Scheduled Tasks (${(awardedBidsList &&
+                      awardedBidsList.length) ||
+                      0})`}</h1>
+                    <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                      These are your upcoming scheduled tasks. Once you fulfil the task you will
+                      recieve your payment.
+                    </h2>
+                  </div>
+                </div>
+              </section>
 
-              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
+              <Spinner isLoading={isLoading} size={'large'} />
               {!isLoading && (
-                <div
-                  style={{ borderLeft: '1px solid #31c110' }}
-                  className="columns is-multiline is-mobile is-centered"
-                >
+                <div className="columns is-multiline is-centered">
                   {awardedBidsListComponent}
                 </div>
               )}
             </div>
+            <br />
             <div className="container is-widescreen">
-              <div className="tabs is-medium is-centered">
-                <ul>
-                  <li>
-                    <a className="has-text-weight-bold">
-                      {`Pending Bids  (${(pendingBidsList && pendingBidsList.length) || 0})`}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              {isLoading && <Spinner isLoading={isLoading} size={'large'} />}
-              {!isLoading && (
-                <div
-                  style={{ borderLeft: '1px solid #209cee' }}
-                  className="columns is-multiline is-mobile is-centered"
-                >
-                  {pendingBidsList}
+              <section className="hero is-dark has-text-centered">
+                <div className="hero-body">
+                  <div className="container">
+                    <h1 className="has-text-weight-bold is-size-6">
+                      {`Bids pending Approval (${(pendingBidsList && pendingBidsList.length) ||
+                        0})`}
+                    </h1>
+                    <h2 style={{ color: 'lightgrey' }} className="is-size-8">
+                      These are all your offers that are waiting on the Requester's approval.
+                      GoodLuck!
+                    </h2>
+                  </div>
                 </div>
+              </section>
+              <Spinner isLoading={isLoading} size={'large'} />
+              {!isLoading && (
+                <div className="columns is-multiline is-mobile is-centered">{pendingBidsList}</div>
               )}
             </div>
           </React.Fragment>
@@ -185,10 +187,10 @@ const mapStateToProps = ({ bidsReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
-    a_getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
-    a_updateBidState: bindActionCreators(updateBidState, dispatch),
-    a_deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
+    getAllPostedBids: bindActionCreators(getMyOpenBids, dispatch),
+    getMyAwardedBids: bindActionCreators(getMyAwardedBids, dispatch),
+    updateBidState: bindActionCreators(updateBidState, dispatch),
+    deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
   };
 };
 
@@ -228,7 +230,7 @@ const FloatingAddNewBidButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.BIDDER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       <span className="icon">+ </span>
     </a>

@@ -7,17 +7,24 @@ import { submitBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
 import PostYourBid from '../../components/forms/PostYourBid';
 import { updateBooedBy } from '../../app-state/actions/jobActions';
-import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+
 import { findAvgBidInBidList } from '../commonComponents';
+import { Spinner } from '../../components/Spinner';
+
+import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
 
 class BidOnJobPage extends React.Component {
   constructor(props) {
     super(props);
+    const { location } = props;
+
     this.state = {
       recaptchaField: '',
+      jobDetails: location.state && location.state.jobDetails,
     };
 
     this.recaptchaRef = React.createRef();
@@ -27,15 +34,40 @@ class BidOnJobPage extends React.Component {
     this.setState({ recaptchaField: value });
   };
 
+  componentDidUpdate(prevProps) {
+    const newJobDetailsShowedUp = !prevProps.jobDetails && this.props.jobDetails;
+    const jobTobidOnExists = prevProps.jobDetails && this.props.jobDetails;
+    const differentJobId =
+      jobTobidOnExists && prevProps.jobDetails._id !== this.props.jobDetails._id;
+
+    if (newJobDetailsShowedUp || differentJobId) {
+      this.setState({ jobDetails: this.props.jobDetails });
+    }
+  }
+
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    const { match, getJobToBidOnDetails } = this.props;
+    const { jobDetails } = this.state;
+    if (!jobDetails || !jobDetails._id) {
+      if (match.params && match.params.jobId) {
+        getJobToBidOnDetails(match.params.jobId);
+      }
+    }
+    if (this.recaptchaRef.current) {
+      this.recaptchaRef.current.execute();
+    }
   }
   render() {
-    const { jobDetails, a_submitBid, a_updateBooedBy, isLoggedIn } = this.props;
+    const { submitBid, updateBooedBy, isLoggedIn } = this.props;
+    const { jobDetails } = this.state;
     const { recaptchaField } = this.state;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
-      switchRoute(ROUTES.CLIENT.BIDDER.root);
+      return (
+        <section className="section">
+          <Spinner isLoading size={'large'} />
+        </section>
+      );
     }
     let avgBid = 0;
     if (jobDetails && jobDetails._bidsListRef && jobDetails._bidsListRef.length > 0) {
@@ -53,28 +85,28 @@ class BidOnJobPage extends React.Component {
           onChange={this.updateRecaptchaField}
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
-        <div
-          style={{ marginBottom: '3rem' }}
-          className="container is-widescreen"
-        >
-          {breadCrumbs()}
-          <PostYourBid
-            avgBid={avgBid}
-            onSubmit={(values) => {
-              a_submitBid({
-                jobId: jobDetails._id,
-                bidAmount: values.bidAmountField,
-                recaptchaField,
-              });
-            }}
-            onCancel={() => {
-              a_updateBooedBy(jobDetails);
-              switchRoute(ROUTES.CLIENT.BIDDER.root);
-            }}
-          />
-          <MyOpenBidJobDetails job={jobDetails} />
+        <div className="container is-widescreen">
+          <div className="columns is-centered">
+            <div className="column is-narrow">
+              {breadCrumbs()}
+              <PostYourBid
+                avgBid={avgBid}
+                onSubmit={(values) => {
+                  submitBid({
+                    jobId: jobDetails._id,
+                    bidAmount: values.bidAmountField,
+                    recaptchaField,
+                  });
+                }}
+                onCancel={() => {
+                  // updateBooedBy(jobDetails);
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+              {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
+            </div>
+          </div>
         </div>
-        <br /> <br />
       </React.Fragment>
     );
   }
@@ -82,13 +114,14 @@ class BidOnJobPage extends React.Component {
 const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
-    jobDetails: bidsReducer.jobDetails,
+    jobDetails: bidsReducer.jobToBidOnDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_submitBid: bindActionCreators(submitBid, dispatch),
-    a_updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
+    submitBid: bindActionCreators(submitBid, dispatch),
+    updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
+    getJobToBidOnDetails: bindActionCreators(getJobToBidOnDetails, dispatch),
   };
 };
 
@@ -114,7 +147,7 @@ const breadCrumbs = () => {
           </li>
 
           <li className="is-active">
-            <a>Place Your Bid</a>
+            <a>Bid Now!</a>
           </li>
         </ul>
       </nav>

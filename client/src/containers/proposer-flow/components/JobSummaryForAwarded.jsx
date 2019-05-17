@@ -1,16 +1,10 @@
 import React from 'react';
-import moment from 'moment';
 
 import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
-import {
-  DisplayLabelValue,
-  CountDownComponent,
-  UserImageAndRating,
-  StartDateAndTime,
-} from '../../commonComponents';
+import { CountDownComponent, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
@@ -24,15 +18,17 @@ export default class JobSummaryForAwarded extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
         }}
-        className="card bidderRootSpecial is-clipped"
+        className="card limitWidthOfCard"
       >
         <header
           style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
           className="card-header is-clipped"
         >
-          <p className="card-header-title">{templatesRepo[fromTemplateId].title}</p>
+          <p className="card-header-title">
+            {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+          </p>
 
           <a className="card-header-icon has-text-success">
             <span className="icon">
@@ -43,13 +39,16 @@ export default class JobSummaryForAwarded extends React.Component {
         </header>
 
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img
+            className="bdb-cover-img"
+            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+          />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Awarded Bidder:</div>
+          <div className="has-text-dark is-size-7">Awarded Tasker</div>
           <UserImageAndRating userDetails={_bidderRef} />
 
           <div className="content">

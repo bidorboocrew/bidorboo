@@ -8,7 +8,7 @@ const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireAwardedBidder = require('../middleware/requireAwardedBidder');
-
+// const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
@@ -19,7 +19,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.JOB.GET.jobById, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.myJobById, requireLogin, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
@@ -37,11 +37,24 @@ module.exports = (app) => {
     }
   });
 
+  app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, requireLogin, async (req, res) => {
+    try {
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        const jobDetails = await jobDataAccess.getJobToBidOnDetails(jobId);
+        return res.send(jobDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+    }
+  });
+
   app.get(ROUTES.API.JOB.GET.alljobsToBidOn, requireBidorBooHost, async (req, res) => {
     try {
-      const userId = req.user && req.user.userId ? req.user.userId : null;
-      const mongoDbUserId = req.user && req.user._id ? req.user._id : null;
-
       userJobsList = await jobDataAccess.getAllJobsToBidOn();
       return res.send(userJobsList);
     } catch (e) {
@@ -53,23 +66,28 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
-  app.delete(ROUTES.API.JOB.DELETE.jobById, requireBidorBooHost, requireLogin, async (req, res) => {
-    try {
-      const mongoDbUserId = req.user._id;
-      const jobId = req.body.jobId;
+  app.delete(
+    ROUTES.API.JOB.DELETE.myJobById,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const mongoDbUserId = req.user._id;
+        const jobId = req.body.jobId;
 
-      if (jobId) {
-        userJobsList = await jobDataAccess.deleteJob(jobId, mongoDbUserId);
-        return res.send(jobId);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request JobId param was Not Specified',
-        });
+        if (jobId) {
+          userJobsList = await jobDataAccess.cancelJob(jobId, mongoDbUserId);
+          return res.send(jobId);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request JobId param was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
     }
-  });
+  );
 
   app.get(
     ROUTES.API.JOB.GET.jobFullDetailsById,
@@ -100,6 +118,23 @@ module.exports = (app) => {
       return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
     }
   });
+
+  app.get(
+    ROUTES.API.JOB.GET.getAllMyRequests,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
+        if (userJobsList && userJobsList._postedJobsRef) {
+          return res.send({ allRequests: userJobsList._postedJobsRef });
+        }
+        return res.send({ allRequests: [] });
+      } catch (e) {
+        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+      }
+    }
+  );
 
   app.post(ROUTES.API.JOB.POST.searchJobs, requireBidorBooHost, async (req, res, done) => {
     try {
@@ -144,48 +179,48 @@ module.exports = (app) => {
       }
     }
   );
-  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
-    try {
-      const filesList = req.files;
-      // create new job for this user
-      const jobId = req.body.jobId;
-      const userMongoDBId = req.user._id;
-      let cloudinaryHostedImageObj = [];
-      const callbackFunc = (error, result) => {
-        // update the user data model
-        if (result) {
-          const { secure_url, public_id } = result;
-          cloudinaryHostedImageObj.push({ secure_url, public_id });
-        }
-      };
+  // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+  //   try {
+  //     const filesList = req.files;
+  //     // create new job for this user
+  //     const jobId = req.body.jobId;
+  //     const userMongoDBId = req.user._id;
+  //     let cloudinaryHostedImageObj = [];
+  //     const callbackFunc = (error, result) => {
+  //       // update the user data model
+  //       if (result) {
+  //         const { secure_url, public_id } = result;
+  //         cloudinaryHostedImageObj.push({ secure_url, public_id });
+  //       }
+  //     };
 
-      if (filesList && filesList.length > 0) {
-        const cloudinaryUploadReqs = [];
-        filesList.forEach((file) => {
-          cloudinaryUploadReqs.push(
-            utils.uploadFileToCloudinary(
-              file.path,
-              {
-                folder: `${userMongoDBId}/${jobId}`,
-              },
-              callbackFunc
-            )
-          );
-        });
-        const uploadImages = await Promise.all(cloudinaryUploadReqs);
+  //     if (filesList && filesList.length > 0) {
+  //       const cloudinaryUploadReqs = [];
+  //       filesList.forEach((file) => {
+  //         cloudinaryUploadReqs.push(
+  //           utils.uploadFileToCloudinary(
+  //             file.path,
+  //             {
+  //               folder: `${userMongoDBId}/${jobId}`,
+  //             },
+  //             callbackFunc
+  //           )
+  //         );
+  //       });
+  //       const uploadImages = await Promise.all(cloudinaryUploadReqs);
 
-        if (jobId && cloudinaryHostedImageObj.length > 0) {
-          jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
-        }
-        res.send({
-          success: true,
-          jobId: jobId,
-        });
-      }
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
-    }
-  });
+  //       if (jobId && cloudinaryHostedImageObj.length > 0) {
+  //         jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
+  //       }
+  //       res.send({
+  //         success: true,
+  //         jobId: jobId,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+  //   }
+  // });
 
   app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
     try {
@@ -316,7 +351,7 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
-        const userMongoDBId = req.user._id;
+        // const userMongoDBId = req.user._id;
 
         await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
           jobCompletion: {

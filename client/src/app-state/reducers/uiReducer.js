@@ -3,6 +3,7 @@ import * as A from '../actionTypes';
 import uuidv1 from 'uuid/v1';
 
 const initialState = {
+  authIsInProgress: true,
   shouldShowLoginDialog: false,
   userAppView: 'PROPOSER', //or BIDDER
 
@@ -66,6 +67,15 @@ export default handleActions(
     },
     [`${A.UI_ACTIONS.SET_APP_PROPOSER_VIEW}`]: (state = initialState) => {
       return { ...state, userAppView: 'PROPOSER' };
+    },
+    [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._PENDING}`]: (state = initialState) => {
+      return { ...state, authIsInProgress: true };
+    },
+    [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._FULFILLED}`]: (state = initialState) => {
+      return { ...state, authIsInProgress: false };
+    },
+    [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._REJECTED}`]: (state = initialState) => {
+      return { ...state, authIsInProgress: false };
     },
   },
   initialState,

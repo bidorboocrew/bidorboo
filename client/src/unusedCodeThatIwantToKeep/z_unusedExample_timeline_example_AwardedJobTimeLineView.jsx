@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
 
 export default class AwardedJobTimeLineView extends React.Component {
   render() {
@@ -122,7 +121,7 @@ export default class AwardedJobTimeLineView extends React.Component {
             <div className="timeline-item has-text-grey">
               <div className="timeline-marker has-text-grey" />
               <div className="timeline-content">
-                <p>Review Bidder</p>
+                <p>Review Tasker</p>
               </div>
             </div>
 

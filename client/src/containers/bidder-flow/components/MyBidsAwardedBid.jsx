@@ -1,11 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
-import { templatesRepo } from '../../../constants/bidOrBooTaskRepo';
+import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import { DisplayLabelValue, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
-import { BID_STATUS_TO_DISPLAYLABEL } from './helperComponents';
 
 export default class MyBidsAwardedBid extends React.Component {
   render() {
@@ -17,12 +15,10 @@ export default class MyBidsAwardedBid extends React.Component {
     const { _jobRef } = bidDetails;
 
     const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
-    const bidStateText = BID_STATUS_TO_DISPLAYLABEL[`${bidDetails.state}`] || bidDetails.state;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 
     const { _ownerRef } = _jobRef;
-    const { profileImage, displayName } = _ownerRef;
 
     let updatedStatus = false;
     if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
@@ -39,12 +35,15 @@ export default class MyBidsAwardedBid extends React.Component {
         onClick={(e) => {
           e.preventDefault();
           updateBidState(bidDetails._id, 'WON_SEEN');
-          switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bidDetails._id}`);
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(bidDetails._id));
         }}
-        className="card bidderRootSpecial"
+        className="card limitWidthOfCard"
       >
         <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={`${templatesRepo[fromTemplateId].imageUrl}`} />
+          <img
+            className="bdb-cover-img"
+            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+          />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
@@ -62,7 +61,7 @@ export default class MyBidsAwardedBid extends React.Component {
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>View Details</span>
+                <span>Details</span>
               </a>
               {updatedStatus && (
                 <div

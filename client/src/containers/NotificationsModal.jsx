@@ -10,8 +10,6 @@ class NotificationsModal extends React.Component {
     const {
       jobIdsWithNewBids,
       myBidsWithNewStatus,
-      reviewsToBeFilled,
-      workTodo,
       jobsHappeningToday,
       bidsHappeningToday,
       onClose,
@@ -79,7 +77,7 @@ class NotificationsModal extends React.Component {
                     <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                       <ul style={{ margin: 0 }}>
                         <li className="is-active">
-                          <a>Awarded Bids</a>
+                          <a>Upcoming Tasks</a>
                         </li>
                       </ul>
                     </div>
@@ -136,7 +134,7 @@ const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
           key={job._id}
           onClick={() => {
             closeDialog();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${job._id}`);
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"
@@ -157,7 +155,7 @@ const getReviewJoblinks = (jobs, closeDialog, icon) => {
           key={job._id}
           onClick={() => {
             closeDialog();
-            switchRoute(`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/${job._id}`);
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"
@@ -179,7 +177,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
           key={bid._id}
           onClick={() => {
             closeDialog();
-            switchRoute(`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bid._id}`);
+            switchRoute(ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(bid._id));
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"

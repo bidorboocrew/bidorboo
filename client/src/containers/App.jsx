@@ -7,6 +7,8 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
+import { switchRoute } from '../utils';
+import { Spinner } from '../components/Spinner';
 
 import '../assets/index.css';
 
@@ -27,7 +29,6 @@ import {
   ReviewBidAndRequestPage,
   ReviewAwardedBidPage,
   MyBidsPage,
-  MyAgenda,
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
   OtherUserProfileForReviewPage,
@@ -36,13 +37,55 @@ import {
 } from './index';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
   componentDidCatch(error, info) {
     console.log('bdb error details ' + error);
     console.log('failure info ' + info);
   }
 
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
   render() {
-    const { s_toastDetails, userAppView, isLoggedIn } = this.props;
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <div id="bidorboo-root-view">
+          <Header id="bidorboo-header" />
+          <section className="hero is-fullheight">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <br />
+                <h1 className="sub-title">
+                  Apologies for the inconvenience, We will track the issue and fix it asap.
+                </h1>
+                <br />
+                <a
+                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  className="button is-outlined is-success is-small"
+                >
+                  Go to Home Page
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
+
+    if (authIsInProgress) {
+      return <Spinner isLoading={authIsInProgress} size={'large'} />;
+    }
+
     return (
       <div id="bidorboo-root-view">
         <div id="bidorboo-root-modals" />
@@ -86,11 +129,7 @@ class App extends React.Component {
             {/* public paths */}
             <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.PROPOSER.createjob}/:templateId`}
-              component={CreateAJobPage}
-            />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
             <Route
@@ -106,23 +145,23 @@ class App extends React.Component {
 
             <Route
               exact
-              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}/:jobId`}
+              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
               component={ReviewRequestAndBidsPage}
             />
             <Route
               exact
-              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/:jobId`}
+              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
               component={ReviewMyAwardedJobAndWinningBidPage}
             />
             <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}/:bidId`}
+              path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}`}
               component={ReviewBidAndRequestPage}
             />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}/:bidId`}
+              path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}`}
               component={ReviewAwardedBidPage}
             />
             <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
@@ -132,7 +171,6 @@ class App extends React.Component {
               component={PaymentSettings}
             />
             <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
-            <Route exact path={`${ROUTES.CLIENT.MYAGENDA}`} component={MyAgenda} />
             <Route
               exact
               path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
@@ -179,7 +217,7 @@ class App extends React.Component {
                 <div>
                   <div className="has-text-grey is-size-7">
                     <img
-                      src="https://image.flaticon.com/icons/svg/753/753078.svg"
+                      src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
                       alt="BidOrBoo"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
                       width={21}
@@ -229,12 +267,13 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
     userAppView: uiReducer.userAppView,
+    authIsInProgress: uiReducer.authIsInProgress,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

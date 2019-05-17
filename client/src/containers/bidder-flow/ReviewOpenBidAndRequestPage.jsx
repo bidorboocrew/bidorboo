@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { templatesRepo } from '../../constants/bidOrBooTaskRepo';
 
 import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-import MyOpenBidJobDetails from './components/MyOpenBidJobDetails';
+
 import RequesterAndOpenBid from './components/RequesterAndOpenBid';
+import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       return null;
     }
 
-    this.props.a_getOpenBidDetails(this.bidId);
+    this.props.getOpenBidDetails(this.bidId);
   }
 
   showBidReviewModal = (bid) => {
@@ -40,7 +41,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, a_updateBid } = this.props;
+    const { selectedOpenBid, updateBid } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -56,7 +57,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     }
 
     const selectedAwardedJob = selectedOpenBid._jobRef;
-    const title = templatesRepo[selectedAwardedJob.fromTemplateId].title;
+    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">
@@ -67,9 +68,9 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             <RequesterAndOpenBid
               bid={selectedOpenBid}
               job={selectedAwardedJob}
-              updateBidAction={a_updateBid}
+              updateBidAction={updateBid}
             />
-            <MyOpenBidJobDetails job={selectedAwardedJob} />
+            {getBidOnFullDetailsCardByTemplateJobId(selectedAwardedJob)}
           </div>
         </div>
       </div>
@@ -87,8 +88,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
-    a_updateBid: bindActionCreators(updateBid, dispatch),
+    getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+    updateBid: bindActionCreators(updateBid, dispatch),
   };
 };
 

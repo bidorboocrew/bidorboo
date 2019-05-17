@@ -6,7 +6,8 @@
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
 
-@import './_reactBigCalendar.scss';
+
+// @import './_reactBigCalendar.scss';
 // @import './_timelineBulma.scss';
 
 // @import './_commonClasses.scss';
@@ -33,6 +34,7 @@ body {
 #mainFooter {
   padding: 0.5rem 0.5rem;
   min-height: 5rem;
+  margin-top: 3rem;
 }
 
 #RoutesWrapper {
@@ -40,13 +42,10 @@ body {
   min-height: 100vh !important;
 }
 
-.react-spinner {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  top: 50%;
-  left: 50%;
+.nav-bottom-border {
+  border-bottom: $border-divider !important;
 }
+
 .bdb-spinner {
   margin: auto;
   border: 5px solid #f3f3f3;
@@ -86,10 +85,6 @@ body {
   }
 }
 
-.nav-bottom-border {
-  border-bottom: $border-divider !important;
-}
-
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
 div.react-datepicker-popper {
@@ -118,7 +113,11 @@ div.react-datepicker {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
+  &.bidderAppBar {
+    background: lightgrey;
+  }
 }
+
 #BID_OR_BOO_APP_BODY {
   padding-top: 4rem !important;
 }
@@ -126,7 +125,7 @@ div.react-datepicker {
 #ONBOARDING_CONTAINER {
   position: absolute;
   z-index: 9999;
-  top: 0;
+  top: 1rem;
   left: 0;
   width: 100%;
   bottom: 0;
@@ -177,15 +176,12 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #e85255 !default;
 $yellow: #e19f00 !default;
 $green: #31c110 !default;
-$turquoise: #70cfd5 !default;
 $cyan: #14719f !default;
 $blue: #14719f !default;
 $purple: #bdaee6 !default;
 $red: #e85255 !default;
 $navbar-item-active-color: $cyan !important;
 $navbar-item-hover-color: black;
-
-// Typography
 
 $family-sans-serif: 'Open Sans', sans-serif !default;
 $family-monospace: monospace !default;
@@ -320,19 +316,44 @@ header.card-header {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.card {
+.hero-body {
+  padding: 0.75rem !important;
+}
+.card-content {
+  padding: 0.5rem;
+}
+table.table {
   max-width: 600px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
-    0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.help {
+  color: grey;
+}
+
+hr.divider {
+  &.isTight {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.card {
+  &.readOnlyView {
+    pointer-events: none;
+    background: #eeeeee;
+  }
+  // border: 1px solid #eeeeee;
+  // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
+  //   0 1px 5px 0 rgba(0, 0, 0, 0.2);
   // min-width: 15rem;
-  border-radius: 4px;
-  cursor: pointer;
+  // border-radius: 4px;
+  // cursor: pointer;
   height: 100%;
-  border: 1px solid #eee;
-  &.bidderRootSpecial {
+  // border: 1px solid #eee;
+
+  &.limitWidthOfCard {
     min-width: 20rem;
-    width: 20rem;
-    max-width: 20rem;
+    max-width: 23rem;
     margin: auto;
   }
   &.noBordered {
@@ -382,19 +403,14 @@ header.card-header {
   }
 }
 
-.card-content {
-  padding-top: 0.25rem;
-  // padding-bottom: 0.25rem;
-}
-
 .columns.forJobSummary {
   div.column {
-    max-width: 22rem !important;
+    max-width: 25rem !important;
   }
 }
 .column {
   &.limitMaxdWidth {
-    max-width: 22rem !important;
+    max-width: 25rem !important;
   }
 }
 
@@ -424,7 +440,6 @@ header.card-header {
     > div.buttonlike {
       cursor: pointer;
       border: 1px solid #31c110;
-      border-radius: 4px;
       padding: 1rem 0.5rem;
       &:hover {
         background: #31c110;
@@ -511,6 +526,28 @@ header.card-header {
   text-align: center;
 }
 
+#loading {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  border: 6px solid lightgrey;
+  border-radius: 100%;
+  border-top-color: black;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
 // first time user animation
 // ----------- https://codepen.io/yshlin/pen/ylDEk
 
@@ -578,13 +615,6 @@ $box-shadow2: ();
   -webkit-transform: $settings;
   -o-transform: $settings;
   -ms-transform: $settings;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: #000;
-  overflow: hidden;
 }
 
 .pyro > .before,

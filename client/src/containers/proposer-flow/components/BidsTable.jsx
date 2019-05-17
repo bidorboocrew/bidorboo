@@ -1,6 +1,9 @@
 import React from 'react';
-import ReactStars from 'react-stars';
+
 import { UserImageAndRating } from '../../../containers/commonComponents';
+
+// confirm award and pay
+const BIDORBOO_SERVICECHARGE = 0.06;
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -24,9 +27,11 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-      const bidderRating = bid._bidderRef && bid._bidderRef.rating;
-      const doesUserHaveRating =
-        bidderRating.globalRating === 'No Ratings Yet' || bidderRating.globalRating === 0;
+      const totalCharge =
+        bid.bidAmount && bid.bidAmount.value
+          ? Math.ceil(bid.bidAmount.value * BIDORBOO_SERVICECHARGE) + bid.bidAmount.value
+          : 'not specified';
+
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
@@ -35,7 +40,8 @@ export default class BidsTable extends React.Component {
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             <div className="has-text-weight-bold">
-              {bid.bidAmount && bid.bidAmount.value} {bid.bidAmount && bid.bidAmount.currency}
+              {totalCharge}
+              {bid.bidAmount && bid.bidAmount.currency}
             </div>
           </td>
 
@@ -46,22 +52,20 @@ export default class BidsTable extends React.Component {
                   e.preventDefault();
                   this.openBidDetailsModal(bid);
                 }}
-                className="button is-success"
+                className="button is-success is-outlined"
                 style={{ position: 'relative' }}
               >
-                <span className="icon">
+                <span className="icon" style={{ margin: 0 }}>
                   <i className="fas fa-bullseye" />
                 </span>
-                <span>Award</span>
+
                 {bid.isNewBid && (
-                  <React.Fragment>
-                    <div
-                      style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
-                      className="has-text-danger"
-                    >
-                      <i className="fas fa-circle" />
-                    </div>
-                  </React.Fragment>
+                  <span
+                    style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                    className="has-text-danger"
+                  >
+                    <i className="fas fa-circle" />
+                  </span>
                 )}
               </a>
             )}
@@ -74,9 +78,9 @@ export default class BidsTable extends React.Component {
       <table className="table is-bordered is-hoverable table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th className="has-text-centered">Tasker</th>
-            <th className="has-text-centered">Bid $</th>
-            <th className="has-text-centered">Bid Details</th>
+            <th>Tasker Details</th>
+            <th className="has-text-centered">Total Cost</th>
+            <th className="has-text-centered">Pick One</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
@@ -88,17 +92,13 @@ export default class BidsTable extends React.Component {
 const TableWithNoBids = () => {
   return (
     <table className="table is-hoverable table is-striped is-fullwidth">
-      <thead>
-        <tr>
-          <th />
-        </tr>
-      </thead>
       <tbody>
         <tr>
-          <td style={{ verticalAlign: 'middle' }}>
-            <span className="has-text-weight-semibold">
-              Keep an eye and check in a little while to view the bids.
-            </span>
+          <td className="has-text-centered">
+            <div className="has-text-centered has-text-weight-semibold">
+              BidOrBoo Taskers will be submitting thier best price to do this task and you will be
+              getting an email notification. Check back again in a little bit.
+            </div>
           </td>
         </tr>
       </tbody>

@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
+  allMyRequests: [],
   myOpenJobsList: [],
   myAwardedJobsList: [],
   ListOfJobsToBidOn: [],
@@ -29,6 +30,24 @@ const getMyOpenJobs = {
         ? payload.data
         : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._REJECTED}`;
     return { ...state, error: getAllMyOpenJobsError, isLoading: false };
+  },
+};
+
+const getAllMyRequests = {
+  isPending: (state = initialState) => ({
+    ...state,
+    isLoading: true,
+  }),
+  isFullfilled: (state = initialState, { payload }) => {
+    let allMyRequests = payload.data.allRequests;
+    return { ...state, allMyRequests, isLoading: false };
+  },
+  isRejected: (state = initialState, { payload }) => {
+    const getAllMyRequestsError =
+      payload && payload.data
+        ? payload.data
+        : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`;
+    return { ...state, error: getAllMyRequestsError, isLoading: false };
   },
 };
 
@@ -96,6 +115,12 @@ const searchJob = {
 };
 
 const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedJobWithBids: payload.data,
+  };
+};
+const updateSelectedJobToBidOn = (state = initialState, { payload }) => {
   return {
     ...state,
     selectedJobWithBids: payload.data,
@@ -187,6 +212,10 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
+    // everything
+    [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._PENDING}`]: getAllMyRequests.isPending,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._FULFILLED}`]: getAllMyRequests.isFullfilled,
+    [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`]: getAllMyRequests.isRejected,
     // open jobs
     [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._PENDING}`]: getMyOpenJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._FULFILLED}`]: getMyOpenJobs.isFullfilled,

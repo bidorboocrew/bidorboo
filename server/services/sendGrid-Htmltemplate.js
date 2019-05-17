@@ -334,7 +334,8 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+            <span class="preheader">BidOrBoo notification.</span>
+            <h1 style="background: #eeeeee;color: #363636;">BidOrBoo</h1>
             <table role="presentation" class="main">
 
               <!-- START MAIN CONTENT AREA -->
@@ -352,7 +353,9 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a style="background-color:#31c110;color:white;" href="${clickLink || 'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName || 'Open BidOrBoo'}</a> </td>
+                                      <td> <a style="background-color:#31c110;color:white;" href="${clickLink ||
+                                        'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
+    'Open BidOrBoo'}</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

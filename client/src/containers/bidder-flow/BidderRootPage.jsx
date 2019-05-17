@@ -20,6 +20,8 @@ import MapSection from './map/MapSection';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
+import { StepsForTasker } from '../commonComponents';
+
 const google = window.google;
 
 class BidderRootPage extends React.Component {
@@ -47,16 +49,16 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, a_getCurrentUser, a_getAllJobsToBidOn, userDetails } = this.props;
+    const { isLoggedIn, getCurrentUser, getAllJobsToBidOn, userDetails } = this.props;
     if (!isLoggedIn) {
-      a_getCurrentUser();
+      getCurrentUser();
     } else {
       if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
         this.getCurrentAddress();
       }
     }
 
-    a_getAllJobsToBidOn();
+    getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -217,6 +219,8 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
+              <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
+              <StepsForTasker step={1} />
               <h2 className="subtitle">
                 {userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
@@ -238,11 +242,7 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
-        {/* <Tabs
-          activeTab={activeTab}
-          changeActiveTab={this.changeActiveTab}
-          isLoggedIn={isLoggedIn}
-        /> */}
+
         <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
         <FilterSideNav
           isSideNavOpen={showSideNav}
@@ -280,10 +280,10 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-    a_getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
-    a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
+    getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
@@ -303,42 +303,11 @@ const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
         e.preventDefault();
         toggleSideNav();
       }}
-      className="button is-link bdbFloatingButtonText iconbutton"
+      className="button is-success bdbFloatingButtonText iconbutton"
     >
       <span className="icon">
-        <i className="fas fa-filter" />
+        <i className="fas fa-search" />
       </span>
     </a>
-  );
-};
-
-const Tabs = ({ activeTab, changeActiveTab, isLoggedIn }) => {
-  return (
-    <div className="tabs is-medium is-marginless">
-      <ul>
-        <li className={`${activeTab === TAB_IDS.openRequests ? 'is-active' : null}`}>
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              changeActiveTab(TAB_IDS.openRequests);
-            }}
-          >
-            {TAB_IDS.openRequests}
-          </a>
-        </li>
-        {isLoggedIn && (
-          <li className={`${activeTab === TAB_IDS.myRequests ? 'is-active' : null}`}>
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                changeActiveTab(TAB_IDS.myRequests);
-              }}
-            >
-              {TAB_IDS.myRequests}
-            </a>
-          </li>
-        )}
-      </ul>
-    </div>
   );
 };

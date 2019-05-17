@@ -18,8 +18,8 @@ class Header extends React.Component {
     userEmail: PropTypes.string,
     isLoggedIn: PropTypes.bool.isRequired,
     userDetails: PropTypes.object.isRequired,
-    a_onLogout: PropTypes.func.isRequired,
-    a_showLoginDialog: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    showLoginDialog: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -47,7 +47,7 @@ class Header extends React.Component {
     );
   };
   toggleLoginDialog = () => {
-    this.props.a_showLoginDialog(!this.props.shouldShowLoginDialog);
+    this.props.showLoginDialog(!this.props.shouldShowLoginDialog);
   };
 
   toggleProfileMenu = () => {
@@ -63,7 +63,7 @@ class Header extends React.Component {
       displayName,
       isLoggedIn,
       userDetails,
-      a_onLogout,
+      onLogout,
       shouldShowLoginDialog,
       notificationFeed,
       userAppView,
@@ -106,7 +106,9 @@ class Header extends React.Component {
         {/* is-spaced is a good prop to add  */}
         <nav
           id="BID_OR_BOO_APP_HEADER"
-          className="navbar is-fixed-top has-shadow nav-bottom-border"
+          className={`navbar is-fixed-top has-shadow nav-bottom-border ${
+            isActingAsBidder ? 'bidderAppBar' : ''
+          }  `}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -125,10 +127,11 @@ class Header extends React.Component {
               className="navbar-item"
             >
               <img
-                src="https://image.flaticon.com/icons/svg/753/753078.svg"
+                src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
                 alt="BidOrBoo"
                 width="32"
                 height="32"
+                style={{ maxHeight: 'unset' }}
               />
               <span
                 style={{
@@ -170,7 +173,7 @@ class Header extends React.Component {
             {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
                 <a
-                  style={{ border: '1px solid rgb(238, 238, 238)' }}
+                  style={{ borderRadius: '100%' }}
                   onClick={this.toggleNotificationMenu}
                   className="button is-outlined is-info"
                 >
@@ -186,61 +189,6 @@ class Header extends React.Component {
                 this.modalRootNode,
               )}
 
-            {isLoggedIn && (
-              <React.Fragment>
-                {isActingAsBidder ? (
-                  <a
-                    onClick={(e) =>
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                      })
-                    }
-                    id="switch-role-mobile-step"
-                    className="navbar-item is-hidden-desktop"
-                  >
-                    <span style={{ position: 'relative' }} className="icon">
-                      <i className="fas fa-sync-alt" />
-                      {jobRecievedNewBids && (
-                        <div
-                          style={{ position: 'absolute', top: -6, right: -6, fontSize: 6 }}
-                          className="has-text-danger"
-                        >
-                          <i className="fas fa-circle" />
-                        </div>
-                      )}
-                    </span>
-                    <span>
-                      <i className="far fa-plus-square" />
-                    </span>
-                  </a>
-                ) : (
-                  <a
-                    onClick={(e) =>
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.root);
-                      })
-                    }
-                    id="switch-role-mobile-step"
-                    className="navbar-item is-hidden-desktop"
-                  >
-                    <span style={{ position: 'relative' }} className="icon">
-                      <i className="fas fa-sync-alt" />
-                      {bidsGotAwardedToMe && (
-                        <div
-                          style={{ position: 'absolute', top: -2, right: -3, fontSize: 6 }}
-                          className="has-text-danger"
-                        >
-                          <i className="fas fa-circle" />
-                        </div>
-                      )}
-                    </span>
-                    <span>
-                      <i className="fas fa-hand-rock" />
-                    </span>
-                  </a>
-                )}
-              </React.Fragment>
-            )}
             <a
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
@@ -280,6 +228,7 @@ class Header extends React.Component {
               <React.Fragment>
                 {(!isActingAsBidder || !isLoggedIn) && (
                   <a
+                    id={'viewDependentNavBarItems'}
                     className={`navbar-item ${
                       window.location.pathname.includes('bdb-request') ? 'is-active' : ''
                     }`}
@@ -316,12 +265,13 @@ class Header extends React.Component {
                   <React.Fragment>
                     {!isActingAsBidder && (
                       <a
+                        id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
                           window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyOpenJobs('postedJobs'));
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
                           });
                         }}
                       >
@@ -380,72 +330,6 @@ class Header extends React.Component {
                       </a>
                     )}
 
-                    {isLoggedIn && (
-                      <React.Fragment>
-                        {isActingAsBidder ? (
-                          <a
-                            id="switch-role-step"
-                            onClick={(e) =>
-                              this.closeMenuThenExecute(() => {
-                                switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                              })
-                            }
-                            className="navbar-item"
-                          >
-                            <span style={{ position: 'relative' }} className="icon">
-                              <i className="fas fa-sync-alt" />
-                              {jobRecievedNewBids && (
-                                <span
-                                  style={{
-                                    fontSize: 8,
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    borderRadius: '100%',
-                                    textAlign: 'center',
-                                  }}
-                                  className="has-text-info"
-                                >
-                                  <i className="fas fa-circle" />
-                                </span>
-                              )}
-                            </span>
-                            <span>Request A Service</span>
-                          </a>
-                        ) : (
-                          <a
-                            id="switch-role-step"
-                            onClick={(e) =>
-                              this.closeMenuThenExecute(() => {
-                                switchRoute(ROUTES.CLIENT.BIDDER.root);
-                              })
-                            }
-                            className="navbar-item"
-                          >
-                            <span style={{ position: 'relative' }} className="icon">
-                              <i className="fas fa-sync-alt" />
-                              {bidsGotAwardedToMe && (
-                                <div
-                                  style={{
-                                    fontSize: 8,
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    borderRadius: '100%',
-                                    textAlign: 'center',
-                                  }}
-                                  className="has-text-info"
-                                >
-                                  <i className="fas fa-circle" />
-                                </div>
-                              )}
-                            </span>
-                            <span>Provide A Service</span>
-                          </a>
-                        )}
-                      </React.Fragment>
-                    )}
-
                     <div
                       id="myprofile-step"
                       className={`navbar-item dropdown is-right  ${
@@ -485,28 +369,92 @@ class Header extends React.Component {
                               </span>
                               <span>My Profile</span>
                             </a>
-                            {isActingAsBidder && (
+                            <hr className="navbar-divider" />
+
+                            {isLoggedIn && (
                               <React.Fragment>
-                                <a
-                                  onClick={() => {
-                                    this.closeMenuThenExecute(() => {
-                                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                                    });
-                                  }}
-                                  className="navbar-item"
-                                >
-                                  <span className="icon">
-                                    <i className="far fa-credit-card" aria-hidden="true" />
-                                  </span>
-                                  <span>My Payouts</span>
-                                </a>
+                                {isActingAsBidder ? (
+                                  <a
+                                    id="switch-role-step"
+                                    onClick={(e) =>
+                                      this.closeMenuThenExecute(() => {
+                                        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                                      })
+                                    }
+                                    className="navbar-item"
+                                  >
+                                    <span style={{ position: 'relative' }} className="icon">
+                                      <i className="fas fa-sync-alt" />
+                                      {jobRecievedNewBids && (
+                                        <span
+                                          style={{
+                                            fontSize: 8,
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            borderRadius: '100%',
+                                            textAlign: 'center',
+                                          }}
+                                          className="has-text-info"
+                                        >
+                                          <i className="fas fa-circle" />
+                                        </span>
+                                      )}
+                                    </span>
+                                    <span>Switch to Requester View</span>
+                                  </a>
+                                ) : (
+                                  <a
+                                    id="switch-role-step"
+                                    onClick={(e) =>
+                                      this.closeMenuThenExecute(() => {
+                                        switchRoute(ROUTES.CLIENT.BIDDER.root);
+                                      })
+                                    }
+                                    className="navbar-item"
+                                  >
+                                    <span style={{ position: 'relative' }} className="icon">
+                                      <i className="fas fa-sync-alt" />
+                                      {bidsGotAwardedToMe && (
+                                        <div
+                                          style={{
+                                            fontSize: 8,
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            borderRadius: '100%',
+                                            textAlign: 'center',
+                                          }}
+                                          className="has-text-info"
+                                        >
+                                          <i className="fas fa-circle" />
+                                        </div>
+                                      )}
+                                    </span>
+                                    <span>Switch to Tasker View</span>
+                                  </a>
+                                )}
                               </React.Fragment>
                             )}
                             <hr className="navbar-divider" />
                             <a
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                                });
+                              }}
+                              className="navbar-item"
+                            >
+                              <span className="icon">
+                                <i className="far fa-credit-card" aria-hidden="true" />
+                              </span>
+                              <span>Payment Settings</span>
+                            </a>
+                            <hr className="navbar-divider" />
+                            <a
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
-                                  a_onLogout();
+                                  onLogout();
                                 })
                               }
                               className="navbar-item"
@@ -525,7 +473,7 @@ class Header extends React.Component {
                 {!isLoggedIn && (
                   <div className="navbar-item">
                     <a
-                      className="button is-danger is-medium heartbeat"
+                      className="button is-danger is-medium"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();
@@ -560,8 +508,8 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_onLogout: bindActionCreators(onLogout, dispatch),
-    a_showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    onLogout: bindActionCreators(onLogout, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

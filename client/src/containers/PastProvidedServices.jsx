@@ -13,20 +13,20 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 
-import { templatesRepo } from '../constants/bidOrBooTaskRepo';
 import { DisplayLabelValue, StartDateAndTime } from './commonComponents';
+import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
 class PastProvidedServices extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.a_getMyPastProvidedServices();
+      this.props.getMyPastProvidedServices();
     }
   }
 
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.a_getMyPastProvidedServices();
+      this.props.getMyPastProvidedServices();
     }
   }
   render() {
@@ -43,7 +43,7 @@ class PastProvidedServices extends React.Component {
     let AllTheServicesProvidedByThisUser = null;
     if (myPastProvidedServices && myPastProvidedServices.length > 0) {
       AllTheServicesProvidedByThisUser = myPastProvidedServices.map((serviceDetail, index) => {
-        return <RequestsTabSummaryCard index={index} key={serviceDetail._id} {...serviceDetail} />;
+        return <RequestSummary index={index} key={serviceDetail._id} {...serviceDetail} />;
       });
     }
 
@@ -77,7 +77,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_getMyPastProvidedServices: bindActionCreators(getMyPastProvidedServices, dispatch),
+    getMyPastProvidedServices: bindActionCreators(getMyPastProvidedServices, dispatch),
   };
 };
 
@@ -107,7 +107,7 @@ const EmptyHistory = () => {
   );
 };
 
-class RequestsTabSummaryCard extends React.Component {
+class RequestSummary extends React.Component {
   render() {
     const {
       jobId,
@@ -141,15 +141,14 @@ class RequestsTabSummaryCard extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${templatesRepo[fromTemplateId].title} Task`}
+                      labelValue={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
 
                     <label className="label">You Earned</label>
-                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
-                      100} CAD`}</div>
+                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout/100}$ (CAD)`}</div>
                   </div>
                 </div>
               </div>
@@ -240,7 +239,7 @@ const PleaseSubmitYourReview = () => {
   return (
     <div className="field">
       <label>
-        Your Review will be revealed when both the Requester and the Bidder (YOU) submit your
+        Your Review will be revealed when both the Requester and the Tasker (YOU) submit your
         reviews
       </label>
 

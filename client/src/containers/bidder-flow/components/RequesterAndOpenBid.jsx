@@ -6,6 +6,7 @@ import { enforceNumericField } from '../../../components/forms/FormsValidators';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
+
 class RequesterAndOpenBid extends React.Component {
   constructor(props) {
     super(props);
@@ -74,14 +75,13 @@ class RequesterAndOpenBid extends React.Component {
       handleBlur,
       isValid,
       isSubmitting,
-      avgBid,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
       return null;
     }
 
-    const { showUpdateBidDialog, confirmRead, recaptchaField } = this.state;
+    const { showUpdateBidDialog, confirmRead } = this.state;
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
@@ -89,7 +89,7 @@ class RequesterAndOpenBid extends React.Component {
     const autoBidOptions =
       bidAmount > 10 ? (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Auto Bid: `}</span>
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(bidAmount - 10)}
             className="button is-success is-outlined is-small"
@@ -123,7 +123,7 @@ class RequesterAndOpenBid extends React.Component {
         </div>
       ) : null;
     return (
-      <div className="container is-widescreen">
+      <div>
         <FloatingAddNewBidButton />
         <ReCAPTCHA
           style={{ display: 'none' }}
@@ -157,7 +157,7 @@ class RequesterAndOpenBid extends React.Component {
                   className="input is-focused"
                   type="number"
                   onBlur={handleBlur}
-                  helpText="* Enter a new bid amount. Bid Amount is in CAD. E.g 50"
+                  helpText="* Enter a new bid amount. Bid Amount is in (CAD). E.g 50"
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}
                   onChange={(e) => {
@@ -258,7 +258,7 @@ const EnhancedForms = withFormik({
       .required('amount is required.'),
   }),
 
-  mapPropsToValues: (props) => {
+  mapPropsToValues: () => {
     return {
       confirmReadField: false,
     };
@@ -281,7 +281,7 @@ const FloatingAddNewBidButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.BIDDER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       <span className="icon">+ </span>
     </a>

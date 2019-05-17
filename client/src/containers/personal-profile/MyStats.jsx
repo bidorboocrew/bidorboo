@@ -28,7 +28,7 @@
 //   }
 
 //   render() {
-//     const { userDetails, isLoggedIn, a_getCurrentUser } = this.props;
+//     const { userDetails, isLoggedIn, getCurrentUser } = this.props;
 
 //     if (!isLoggedIn) {
 //       return null;
@@ -89,9 +89,9 @@
 // };
 // const mapDispatchToProps = (dispatch) => {
 //   return {
-//     a_updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
-//     a_updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
-//     a_getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
+//     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
+//     updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
+//     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
 //   };
 // };
 

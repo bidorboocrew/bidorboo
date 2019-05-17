@@ -26,11 +26,11 @@ class AcceptBidPaymentHandling extends React.Component {
   };
 
   onTokenResponse = (clientStripeToken) => {
-    const { bid, onCompleteHandler, a_submitPayment } = this.props;
+    const { bid, onCompleteHandler, submitPayment } = this.props;
     const { recaptchaField } = this.state;
     if (recaptchaField) {
       if (clientStripeToken && clientStripeToken.id) {
-        a_submitPayment({
+        submitPayment({
           stripeTransactionToken: clientStripeToken.id,
           bid: bid,
           chargeAmount: this.chargeAmount,
@@ -75,15 +75,16 @@ class AcceptBidPaymentHandling extends React.Component {
         <StripeCheckout
           name="BidOrBoo"
           image={logoImg}
-          description="Secure payment using Stripe"
+          description="Secure payment via stripe"
           amount={this.chargeAmount}
           currency="CAD"
           zipCode
           billingAddress
+          allowRememberMe
           token={this.onTokenResponse}
           stripeKey={process.env.REACT_APP_STRIPE_KEY}
         >
-          <button className="button is-success">Accept And Pay</button>
+          <button className="button is-success">Accept This Offer</button>
         </StripeCheckout>
       </React.Fragment>
     );
@@ -92,7 +93,7 @@ class AcceptBidPaymentHandling extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    a_submitPayment: bindActionCreators(submitPayment, dispatch),
+    submitPayment: bindActionCreators(submitPayment, dispatch),
   };
 };
 
