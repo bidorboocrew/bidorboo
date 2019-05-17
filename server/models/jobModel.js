@@ -62,7 +62,7 @@ const JobSchema = new Schema(
       proposerDisputed: { type: Boolean, default: false },
     },
     reschedule: {
-      newTime: { type: Date, required: true },
+      newTime: { type: Date },
       byWhom: { type: String, enum: ['owner', 'bidder'] },
       status: { type: String, enum: ['denied', 'accepted'] },
     },

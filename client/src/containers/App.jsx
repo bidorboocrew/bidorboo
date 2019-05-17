@@ -8,6 +8,7 @@ import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import { switchRoute } from '../utils';
+import { Spinner } from '../components/Spinner';
 
 import '../assets/index.css';
 
@@ -57,12 +58,12 @@ class App extends React.Component {
       return (
         <div id="bidorboo-root-view">
           <Header id="bidorboo-header" />
-          <section class="hero is-fullheight">
-            <div class="hero-body">
-              <div class="container">
-                <h1 class="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+          <section className="hero is-fullheight">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
                 <br />
-                <h1 class="sub-title">
+                <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
                 </h1>
                 <br />
@@ -79,7 +80,12 @@ class App extends React.Component {
       );
     }
 
-    const { s_toastDetails, userAppView, isLoggedIn } = this.props;
+    const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
+
+    if (authIsInProgress) {
+      return <Spinner isLoading={authIsInProgress} size={'large'} />;
+    }
+
     return (
       <div id="bidorboo-root-view">
         <div id="bidorboo-root-modals" />
@@ -261,6 +267,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     isLoggedIn: userReducer.isLoggedIn,
     s_toastDetails: uiReducer.toastDetails,
     userAppView: uiReducer.userAppView,
+    authIsInProgress: uiReducer.authIsInProgress,
   };
 };
 
