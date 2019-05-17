@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
 } from '../../containers/commonComponents';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningPostedRequestDetails extends React.Component {
+class HouseCleaningPostedRequestDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,7 +56,7 @@ export default class HouseCleaningPostedRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, deleteJob, ommitMeatballMenu } = this.props;
+    const { job, deleteJob, ommitMeatballMenu, cancelJobById } = this.props;
 
     const {
       startingDateAndTime,
@@ -112,7 +115,8 @@ export default class HouseCleaningPostedRequestDetails extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      deleteJob(job._id);
+                      cancelJobById(job._id);
+                      this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
                   >
@@ -283,3 +287,22 @@ export default class HouseCleaningPostedRequestDetails extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
+  return {
+    selectedAwardedJob: jobsReducer.selectedAwardedJob,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HouseCleaningPostedRequestDetails);

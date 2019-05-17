@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -11,16 +14,20 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningPostedRequestSummary extends React.Component {
+class HouseCleaningPostedRequestSummary extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       showDeleteDialog: false,
       showMoreOptionsContextMenu: false,
+      showMore: false,
     };
   }
 
+  toggleShowMore = () => {
+    this.setState({ showMore: !this.state.showMore });
+  };
   toggleDeleteConfirmationDialog = () => {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
@@ -48,16 +55,9 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
     }
   };
   render() {
-    const { job, deleteJob, notificationFeed } = this.props;
+    const { job, cancelJobById, notificationFeed } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      displayStatus,
-      isExpiringSoon,
-      isHappeningToday,
-      isPastDue,
-    } = job;
+    const { startingDateAndTime, addressText, isExpiringSoon, isHappeningToday, isPastDue } = job;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
@@ -100,7 +100,8 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      deleteJob(job._id);
+                      cancelJobById(job._id);
+                      this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
                   >
@@ -231,6 +232,25 @@ export default class HouseCleaningPostedRequestSummary extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
+  return {
+    selectedAwardedJob: jobsReducer.selectedAwardedJob,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HouseCleaningPostedRequestSummary);
 
 const renderFooter = ({ job, notificationFeed }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;

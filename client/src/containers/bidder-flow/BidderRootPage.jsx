@@ -303,7 +303,7 @@ const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
         e.preventDefault();
         toggleSideNav();
       }}
-      className="button is-link bdbFloatingButtonText iconbutton"
+      className="button is-success bdbFloatingButtonText iconbutton"
     >
       <span className="icon">
         <i className="fas fa-search" />

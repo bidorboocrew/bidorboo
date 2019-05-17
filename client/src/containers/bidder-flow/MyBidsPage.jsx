@@ -230,7 +230,7 @@ const FloatingAddNewBidButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.BIDDER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       <span className="icon">+ </span>
     </a>

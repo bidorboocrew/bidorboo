@@ -107,7 +107,7 @@ const FloatingAddNewRequestButton = () => {
         e.preventDefault();
         switchRoute(ROUTES.CLIENT.PROPOSER.root);
       }}
-      className="button is-link bdbFloatingButtonText"
+      className="button is-success bdbFloatingButtonText"
     >
       +
     </a>

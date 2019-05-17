@@ -15,7 +15,7 @@ import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/ac
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export class HouseCleaningAwardedRequestDetails extends React.Component {
+class HouseCleaningAwardedRequestDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -135,6 +135,7 @@ export class HouseCleaningAwardedRequestDetails extends React.Component {
                     onClick={(e) => {
                       e.preventDefault();
                       cancelJobById(job._id);
+                      this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
                   >
