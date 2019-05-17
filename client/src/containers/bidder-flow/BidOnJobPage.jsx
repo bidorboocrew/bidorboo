@@ -99,7 +99,7 @@ class BidOnJobPage extends React.Component {
                   });
                 }}
                 onCancel={() => {
-                  updateBooedBy(jobDetails);
+                  // updateBooedBy(jobDetails);
                   switchRoute(ROUTES.CLIENT.BIDDER.root);
                 }}
               />

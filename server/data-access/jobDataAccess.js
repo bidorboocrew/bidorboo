@@ -663,27 +663,9 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOn: () => {
+  getAllJobsToBidOn: async () => {
     // wil return all jobs in the system
-    return new Promise((resolve, reject) => {
-      const jobFields = {
-        _ownerRef: 1,
-        _bidsListRef: 1,
-        title: 1,
-        state: 1,
-        detailedDescription: 1,
-        stats: 1,
-        startingDateAndTime: 1,
-        durationOfJob: 1,
-        fromTemplateId: 1,
-        reported: 1,
-        createdAt: 1,
-        updatedAt: 1,
-        location: 1,
-        viewedBy: 1,
-        booedBy: 1,
-        extras: 1,
-      };
+    return new Promise(async (resolve, reject) => {
       const jobOwnerFields = {
         displayName: 1,
         profileImage: 1,
@@ -692,31 +674,38 @@ exports.jobDataAccess = {
         notifications: 1,
       };
 
-      JobModel.find({ state: { $eq: 'OPEN' } }, jobFields, {
-        sort: { startingDateAndTime: 1 },
-        allowDiskUse: true,
-      })
-        // .where('startingDateAndTime')
-        // .gt(new Date())
-        .populate({
-          path: '_ownerRef',
-          select: jobOwnerFields,
-        })
-        .populate({
-          path: '_bidsListRef',
-          select: { _bidderRef: 1, bidAmount: 1 },
-        })
-        .lean({ virtuals: true })
-        .exec((error, results) => {
-          try {
-            if (error) {
-              return reject(error);
-            }
-            return resolve(results);
-          } catch (e) {
-            return reject(e);
+      try {
+        const openJobsForBidding = await JobModel.find(
+          { state: { $eq: 'OPEN' } },
+          {
+            addressText: 0,
+            detailedDescription: 0,
+            booedBy: 0,
+            viewedBy: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            hideFrom: 0,
+            jobCompletion: 0,
+          },
+          {
+            sort: { startingDateAndTime: 1 },
+            allowDiskUse: true,
           }
-        });
+        )
+          .populate({
+            path: '_ownerRef',
+            select: jobOwnerFields,
+          })
+          .populate({
+            path: '_bidsListRef',
+            select: { _bidderRef: 1, bidAmount: 1 },
+          })
+          .lean({ virtuals: true })
+          .exec();
+        return resolve(openJobsForBidding);
+      } catch (e) {
+        return reject(e);
+      }
     });
   },
   // get jobs near a given location
@@ -1272,7 +1261,7 @@ exports.jobDataAccess = {
               path: '_bidderRef',
             },
           })
-          .lean({ virtuals: true })
+          .lean(true)
           .exec();
 
         const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;

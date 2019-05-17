@@ -72,19 +72,16 @@ const JobSchema = new Schema(
     stats: StatsSchema,
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
     addressText: { type: String, trim: true, max: MAX_ADDRESS_LENGTH },
-    startingDateAndTime: { type: Date, required: true },
+    startingDateAndTime: { type: Date, required: true, index: true },
     durationOfJob: { type: String, trim: true },
     fromTemplateId: { type: String, trim: true },
     reported: { type: Number },
-    jobImages: {
-      type: [
-        {
-          url: { type: String },
-          public_id: { type: String },
-        },
-      ],
-      validate: [(val) => val.length < 8, '{PATH} exceeds the limit of 8'],
-    },
+    // jobImages: [
+    //   {
+    //     url: { type: String },
+    //     public_id: { type: String },
+    //   },
+    // ],
     customAttributes: { type: Object },
     extras: { type: Object },
   },
