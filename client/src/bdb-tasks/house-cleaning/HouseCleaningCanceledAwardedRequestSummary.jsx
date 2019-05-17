@@ -21,14 +21,23 @@ export default class HouseCleaningCanceledAwardedRequestSummary extends React.Co
   render() {
     const { job } = this.props;
 
-    const { startingDateAndTime, addressText, _awardedBidRef, displayStatus } = job;
+    const {
+      startingDateAndTime,
+      addressText,
+      _awardedBidRef,
+      displayStatus,
+      state,
+      _ownerRef,
+    } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
+    const { displayName: ownerDisplayName } = _ownerRef;
+
     return (
-      <div className="card limitWidthOfCard">
+      <div className="card readOnlyView limitWidthOfCard">
         <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
@@ -50,21 +59,17 @@ export default class HouseCleaningCanceledAwardedRequestSummary extends React.Co
               className="navbar-divider"
             />
 
-            {displayStatus === states.AWARDED_CANCELED_BY_REQUESTER && (
+            {state === states.AWARDED_CANCELED_BY_REQUESTER && (
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
                 <div className="help has-text-danger">
-                  * This was cancelled after a Tasker was assigned. The requester gets only 80% of
-                  the total payment as a refund
-                </div>
-                <div className="help has-text-danger">
-                  * Cancelling many awarded jobs in a row will put a ban on your account
+                  {`* ${ownerDisplayName} - Cancelling many awarded jobs in a row will put a ban on your account `}
                 </div>
               </div>
             )}
 
-            {displayStatus === states.AWARDED_CANCELED_BY_BIDDER && (
+            {state === states.AWARDED_CANCELED_BY_BIDDER && (
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
@@ -81,18 +86,17 @@ export default class HouseCleaningCanceledAwardedRequestSummary extends React.Co
 
             <div className="field">
               <label className="label">Total Cost</label>
-              <div className="control has-text-success">
-                {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
+              <div className="control">
+                {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency}) `}
               </div>
-              {displayStatus === states.AWARDED_CANCELED_BY_REQUESTER && (
+              {state === states.AWARDED_CANCELED_BY_REQUESTER && (
+                <div className="help has-text-success">{`* refunded ${bidAmount.value * 0.8}$ (${
+                  bidAmount.currency
+                })`}</div>
+              )}
+              {state === states.AWARDED_CANCELED_BY_BIDDER && (
                 <div className="help has-text-danger">
                   * will refund 100% of the payment to your card.
-                </div>
-              )}
-              {displayStatus === states.AWARDED_CANCELED_BY_BIDDER && (
-                <div className="help has-text-success">
-                  {`* will be refunded at 80% of your payment. You will recieve <strong>${bidAmount.value *
-                    0.8}</strong>`}
                 </div>
               )}
             </div>
