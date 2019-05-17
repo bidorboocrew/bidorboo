@@ -228,6 +228,7 @@ class Header extends React.Component {
               <React.Fragment>
                 {(!isActingAsBidder || !isLoggedIn) && (
                   <a
+                    id={'viewDependentNavBarItems'}
                     className={`navbar-item ${
                       window.location.pathname.includes('bdb-request') ? 'is-active' : ''
                     }`}
@@ -264,6 +265,7 @@ class Header extends React.Component {
                   <React.Fragment>
                     {!isActingAsBidder && (
                       <a
+                        id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
                           window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
                         }`}

@@ -56,13 +56,15 @@ const commonTourSteps = [
 const desktopTour = [
   ...commonTourSteps,
   {
-    selector: '#switch-role-step',
-    content: 'You can switch your view to Request or to be a Tasker at anytime',
+    selector: '#viewDependentNavBarItems',
+    content:
+      'This area will show relevant actions where you can access your Task or Requests based on your current view (Tasker or Requester).',
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
   {
     selector: '#myprofile-step',
-    content: 'Click on your profile to edit your details at any time',
+    content:
+      'Through this menu you can access your My Profile, Payments, or switch between Tasker and Reuqester roles at anytime',
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
@@ -70,13 +72,9 @@ const desktopTour = [
 const mobileTour = [
   ...commonTourSteps,
   {
-    selector: '#switch-role-mobile-step',
-    content: 'You can switch your view to Request or to be a Tasker at anytime',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
-  },
-  {
     selector: '#mobile-nav-burger',
-    content: 'To access your profile settings and more menu options click Here',
+    content:
+      'Through this menu you can access your your Tasks, Requests, My Profile, Payments, or switch between Tasker and Reuqester roles at anytime',
     style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
   },
 ];
@@ -141,13 +139,22 @@ export default class HomePage extends React.Component {
               </h1>
               <h2 className="subtitle">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
-                <a onClick={this.toggleTour} className="help button is-text">
-                  <span className="help icon">
-                    <i className="fas fa-chalkboard-teacher" />
-                  </span>
-                  <span>View BidOrBoo Product Tour</span>
-                </a>
               </h2>
+              <a
+                style={{
+                  borderRadius: 0,
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderTop: 'none',
+                }}
+                onClick={this.toggleTour}
+                className="button is-outlined is-dark is-small"
+              >
+                <span className="help icon">
+                  <i className="fas fa-chalkboard-teacher" />
+                </span>
+                <span>View BidOrBoo Product Tour</span>
+              </a>
             </div>
           </div>
         </section>
