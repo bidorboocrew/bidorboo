@@ -46,7 +46,6 @@ const JobSchema = new Schema(
         'OPEN',
         'AWARDED',
         'DISPUTED',
-        'CANCELED',
         'AWARDED_CANCELED_BY_BIDDER',
         'AWARDED_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN',

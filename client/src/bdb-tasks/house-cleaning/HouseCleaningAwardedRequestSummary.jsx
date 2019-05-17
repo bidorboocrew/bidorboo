@@ -67,7 +67,7 @@ class HouseCleaningAwardedRequestSummary extends React.Component {
       isExpiringSoon,
       isHappeningToday,
       isPastDue,
-      jobCompletion
+      jobCompletion,
     } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;

@@ -338,7 +338,7 @@ hr.divider {
 }
 
 .card {
-  &.expiredReadOnly {
+  &.readOnlyView {
     pointer-events: none;
     background: #eeeeee;
   }

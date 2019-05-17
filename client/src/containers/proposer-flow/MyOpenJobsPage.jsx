@@ -11,6 +11,8 @@ import {
 
 import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
 import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
+import getCancelledPostedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledPostedRequestSummaryCardByTemplateJobId';
+import getCancelledAwardedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledAwardedRequestSummaryCardByTemplateJobId';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -51,7 +53,19 @@ class MyOpenJobsPage extends React.Component {
                   {getAwardedSummaryCardByTemplateJobId(request, this.props)}
                 </div>
               );
-
+            case states.CANCELED_OPEN:
+              return (
+                <div key={request._id} className="column">
+                  {getCancelledPostedRequestSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
+            case states.AWARDED_CANCELED_BY_BIDDER:
+            case states.AWARDED_CANCELED_BY_REQUESTER:
+              return (
+                <div key={request._id} className="column">
+                  {getCancelledAwardedRequestSummaryCardByTemplateJobId(request, this.props)}
+                </div>
+              );
             default:
               break;
           }
