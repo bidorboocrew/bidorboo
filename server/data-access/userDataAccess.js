@@ -370,12 +370,9 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
         .lean(true)
         .exec();
 
-      await sendTextService.sendText(
+      await sendTextService.sendPhoneVerificationText(
         updatedUser.phone.phoneNumber,
-        `BidOrBoo: click to verify your phone ${ROUTES.CLIENT.dynamicVerification(
-          'Phone',
-          phoneVerificationCode
-        )}`
+        phoneVerificationCode
       );
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {

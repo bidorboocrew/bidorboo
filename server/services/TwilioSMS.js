@@ -1,21 +1,35 @@
 // emailing services
 const keys = require('../config/keys');
 const twilio = require('twilio');
+const ROUTES = require('../backend-route-constants');
 
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
-  sendJobIsCancelledText: (mobileNumber, requestTitle, callback = () => {}) => {
-    const msgContent = `BidOrBoo: ${requestTitle} was cancelled! https://www.bidorboo.com for details`;
-    return sendText(mobileNumber, msgContent, callback);
+  sendJobIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} was cancelled! ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } for details`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  sendYouAreAwardedJob: (mobileNumber, requestTitle, callback = () => {}) => {
-    const msgContent = `BidOrBoo: ${requestTitle} is awarded to you! https://www.bidorboo.com for details`;
-    return sendText(mobileNumber, msgContent, callback);
+  sendYouAreAwardedJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is awarded to you! ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } for details`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  sendJobIsHappeningSoonText: (mobileNumber, requestTitle, callback = () => {}) => {
-    const msgContent = `BidOrBoo: ${requestTitle} is happening soon! https://www.bidorboo.com for details`;
-    return sendText(mobileNumber, msgContent, callback);
+  sendJobIsHappeningSoonText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is happening soon! ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } for details`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
+  sendPhoneVerificationText: (mobileNumber, phoneVerificationCode, callback = () => {}) => {
+    const msgContent = `BidOrBoo: click to verify your phone ${ROUTES.CLIENT.dynamicVerification(
+      'Phone',
+      phoneVerificationCode
+    )}`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
     // let formattedMobileNumber = `1-${mobileNumber}`;
@@ -24,28 +38,6 @@ exports.TxtMsgingService = {
     //   formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
     //   formattedMobileNumber = `+${formattedMobileNumber}`;
     // }
-    // request.post(
-    //   {
-    //     headers: {
-    //       'content-type': 'application/x-www-form-urlencoded',
-    //       Accepts: 'application/json',
-    //     },
-    //     url: keys.blowerText + '/messages',
-    //     form: {
-    //       to: formattedMobileNumber,
-    //       message: `${msgContent}`,
-    //     },
-    //   },
-    //   (error, response, body) => {
-    //     if (!error && response.statusCode == 201) {
-    //       console.log('Message sent!');
-    //     } else {
-    //       const apiResult = JSON.parse(body);
-    //       console.log('Error was: ' + apiResult.message);
-    //     }
-    //     callback(error, response, body);
-    //   }
-    // );
 
     client.messages
       .create({

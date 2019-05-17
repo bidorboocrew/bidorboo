@@ -131,7 +131,8 @@ exports.jobDataAccess = {
                 ) {
                   await sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
-                    job.fromTemplateId
+                    job.fromTemplateId,
+                    linkForOwner
                   );
                 }
                 if (
@@ -141,7 +142,8 @@ exports.jobDataAccess = {
                 ) {
                   await sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
-                    job.fromTemplateId
+                    job.fromTemplateId,
+                    linkForBidder
                   );
                 }
 
@@ -1018,10 +1020,18 @@ exports.jobDataAccess = {
             }
 
             if (allowedToTextRequester) {
-              await sendTextService.sendJobIsCancelledText(requesterPhoneNumber, jobDisplayName);
+              await sendTextService.sendJobIsCancelledText(
+                requesterPhoneNumber,
+                jobDisplayName,
+                requestLinkForRequester
+              );
             }
             if (allowedToTextTasker) {
-              await sendTextService.sendJobIsCancelledText(taskerPhoneNumber, jobDisplayName);
+              await sendTextService.sendJobIsCancelledText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
             }
 
             if (allowedToPushNotifyRequester) {
