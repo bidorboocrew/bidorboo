@@ -52,7 +52,7 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <section className="section">
-          <div className="columns is-centered">{this.AllTasks}</div>
+          <div className="columns is-centered is-multiline">{this.AllTasks}</div>
         </section>
       </div>
     );
