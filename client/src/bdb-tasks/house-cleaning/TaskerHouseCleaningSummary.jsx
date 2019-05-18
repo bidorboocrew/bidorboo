@@ -21,9 +21,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 
 class TaskerHouseCleaningSummary extends RequestBaseContainer {
   render() {
-    const { IMG_URL } = HOUSE_CLEANING_DEF;
-
-    const { job, otherArgs, isLoggedIn, userDetails } = this.props;
+    const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
     const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state, extras } = job;
 
@@ -80,7 +78,6 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
               ) : (
                 <a
                   onClick={(e) => {
-                    e.preventDefault();
                     if (!isLoggedIn) {
                       showLoginDialog(true);
                       return;
@@ -103,7 +100,6 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                 <a
                   style={{ marginTop: 10 }}
                   onClick={(e) => {
-                    e.preventDefault();
                     if (!isLoggedIn) {
                       showLoginDialog(true);
                       return;

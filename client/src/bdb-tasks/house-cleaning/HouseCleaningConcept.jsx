@@ -14,22 +14,20 @@ export default class HouseCleaningConcept extends React.Component {
     return (
       <div className="card limitWidthOfCard">
         <div className="card-content">
-          <div className="content">
+          <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
-            <hr className="divider" />
+            <hr className="divider isTight" />
             {DESCRIPTION}
           </div>
-        </div>
-        <footer className="card-footer">
           <a
             onClick={(e) => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
             }}
-            className="card-footer-item button is-success is-outlined is-fullwidth"
+            className="button is-success is-outlined is-fullwidth"
           >
             Request Now
           </a>
-        </footer>
+        </div>
       </div>
     );
   }

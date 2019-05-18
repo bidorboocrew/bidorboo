@@ -13,11 +13,9 @@ export default class AllJobsView extends React.Component {
     const { jobsList } = this.props;
 
     return jobsList && jobsList.length > 0 ? (
-      <React.Fragment>
-        <div className="columns forJobSummary is-multiline is-centered is-mobile">
-          <OtherPeoplesJobs {...this.props} />
-        </div>
-      </React.Fragment>
+      <div className="columns forJobSummary is-multiline is-centered is-mobile">
+        <OtherPeoplesJobs {...this.props} />
+      </div>
     ) : (
       <EmptyStateComponent />
     );
@@ -60,13 +58,6 @@ const OtherPeoplesJobs = (props) => {
             job,
             isSummaryView: true,
             pointOfView: POINT_OF_VIEW.TASKER,
-            onClickHandler: () => {
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                selectJobToBidOn(job);
-              }
-            },
             userDetails: userDetails,
           })}
         </div>

@@ -83,7 +83,7 @@ class Cluster extends React.Component {
       ));
       return (
         <MarkerClusterer
-          defaultMinimumClusterSize={3}
+          defaultMinimumClusterSize={15}
           averageCenter
           enableRetinaIcons
           gridSize={100}

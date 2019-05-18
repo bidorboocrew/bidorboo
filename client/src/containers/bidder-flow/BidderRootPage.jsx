@@ -229,7 +229,7 @@ class BidderRootPage extends React.Component {
               <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
               <StepsForTasker step={1} />
               <h2 className="subtitle">
-                {userDetails && !userDetails.autoDetectlocation && (
+                {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
                       For custom results enable auto detect location in

@@ -2,11 +2,12 @@ import axios from 'axios';
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-export const showLoginDialog = (shouldOpen) => (dispatch) =>
+export const showLoginDialog = (shouldOpen) => (dispatch) => {
   dispatch({
     type: shouldOpen ? A.UI_ACTIONS.OPEN_LOGIN_DIALOG : A.UI_ACTIONS.CLOSE_LOGIN_DIALOG,
     payload: { shouldShowLoginDialog: shouldOpen },
   });
+};
 
 export const showToastMessage = (toastDetails) => (dispatch) =>
   dispatch({
