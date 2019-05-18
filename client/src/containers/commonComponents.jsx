@@ -84,7 +84,7 @@ export const UserImageAndRating = ({ userDetails }) => {
         e.stopPropagation();
         switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
       }}
-      className="media"
+      className="media limitHeight"
     >
       <figure style={{ margin: '0 6px 0 0' }} className="media-left">
         <p className="image is-48x48">

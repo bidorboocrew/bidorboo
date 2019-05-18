@@ -49,15 +49,22 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidMount() {
-    const { isLoggedIn, getCurrentUser, getAllJobsToBidOn, userDetails } = this.props;
-    if (!isLoggedIn) {
-      getCurrentUser();
-    } else {
+    // xxxxx use this for rate limiting this will cause getalljobs to continue to be called
+    // if (!isLoggedIn) {
+    //   getCurrentUser();
+    // } else {
+    //   if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+    //     this.getCurrentAddress();
+    //   }
+    // }
+
+    // getAllJobsToBidOn();
+    const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
+    if (isLoggedIn) {
       if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
         this.getCurrentAddress();
       }
     }
-
     getAllJobsToBidOn();
   }
 

@@ -81,9 +81,9 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                 <a
                   onClick={(e) => {
                     e.preventDefault();
-
                     if (!isLoggedIn) {
                       showLoginDialog(true);
+                      return;
                     } else {
                       switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                     }
@@ -106,6 +106,7 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                     e.preventDefault();
                     if (!isLoggedIn) {
                       showLoginDialog(true);
+                      return;
                     } else {
                       switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                     }

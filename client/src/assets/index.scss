@@ -233,7 +233,7 @@ img {
 
 figure.image {
   img {
-    height: 48px !important;
+    // height: 48px !important;
     object-fit: cover;
   }
 }
@@ -335,7 +335,9 @@ hr.divider {
     margin-bottom: 0.25rem;
   }
 }
-
+article.media.limitHeight {
+  height: 4rem;
+}
 .card {
   &.readOnlyView {
     background: #eeeeee;
