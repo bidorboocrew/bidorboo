@@ -10,12 +10,12 @@ import {
 
 export default class AllJobsView extends React.Component {
   render() {
-    const { jobsList, activeTab } = this.props;
+    const { jobsList } = this.props;
 
     return jobsList && jobsList.length > 0 ? (
       <React.Fragment>
         <div className="columns forJobSummary is-multiline is-centered is-mobile">
-          {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
+          <OtherPeoplesJobs {...this.props} />
         </div>
       </React.Fragment>
     ) : (

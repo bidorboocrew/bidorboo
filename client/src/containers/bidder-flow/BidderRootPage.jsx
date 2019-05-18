@@ -263,7 +263,7 @@ class BidderRootPage extends React.Component {
         </div>
         <br />
 
-        <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+        <AllJobsView jobsList={currentJobsList} {...this.props} />
       </div>
     );
   }
