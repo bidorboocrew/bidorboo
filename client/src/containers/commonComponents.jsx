@@ -56,8 +56,16 @@ export const CountDownComponent = (props) => {
   return <div className="help">{`* ${moment(startingDate).fromNow()}`}</div>;
 };
 
-export const JobTitleText = ({ title }) => {
-  return <p className="is-size-6 has-text-weight-semibold">{title}</p>;
+
+export const JobTitleText = ({ title, iconClass }) => {
+  return (
+    <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+      <span className="icon">
+        <i className={`${iconClass}`} />
+      </span>
+      <span style={{ marginLeft: 4 }}>{title}</span>
+    </div>
+  );
 };
 export const UserImageAndRating = ({ userDetails }) => {
   let temp = userDetails

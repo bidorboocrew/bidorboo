@@ -25,7 +25,7 @@ export default class TaskerHouseCleaningDetails extends React.Component {
       extras,
     } = job;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE, IMG_URL,ICON } = HOUSE_CLEANING_DEF;
 
     const effortLevel =
       extras && extras.effort ? (
@@ -40,7 +40,7 @@ export default class TaskerHouseCleaningDetails extends React.Component {
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
         <div className="card-content">
-          <JobTitleText title={TITLE} />
+          <JobTitleText title={TITLE} iconClass={ICON} />
           <label className="label">Requester:</label>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">

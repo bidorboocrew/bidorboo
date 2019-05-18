@@ -1,6 +1,7 @@
 export const HOUSE_CLEANING_DEF = {
   ID: 'bdbjob-house-cleaning',
   TITLE: 'House Cleaning',
+  ICON: 'fas fa-home',
   DESCRIPTION: `Does your place need a cleaning ? Tired and want to get someone to clean the bathrooms
   living room kitchen bedrooms and more ?`,
   SUGGESTION_TEXT: `*Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?

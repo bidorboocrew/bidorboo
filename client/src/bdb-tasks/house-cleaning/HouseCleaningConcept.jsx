@@ -9,7 +9,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, IMG_URL, ICON } = HOUSE_CLEANING_DEF;
 
     return (
       <div
@@ -25,7 +25,7 @@ export default class HouseCleaningConcept extends React.Component {
         </div>
         <div className="card-content">
           <div className="content">
-            <JobTitleText title={TITLE} />
+            <JobTitleText title={TITLE} iconClass={ICON} />
             {DESCRIPTION}
           </div>
           <a className="button is-success is-outlined is-fullwidth">Request Now</a>

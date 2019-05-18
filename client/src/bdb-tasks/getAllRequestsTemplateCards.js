@@ -36,7 +36,7 @@ const ComingSoon1 = () => {
         </div>
         <div className="card-content">
           <div className="content">
-            <JobTitleText title={'Lawn Mowing'} />
+            <JobTitleText title={'Lawn Mowing'} iconClass="fas fa-tree" />
             Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with
             a simple click. Get rid of that grass and live life to the max
           </div>
@@ -89,7 +89,7 @@ const ComingSoon2 = () => {
         </div>
         <div className="card-content">
           <div className="content">
-            <JobTitleText title={'Movers'} />
+            <JobTitleText title={'Movers'} iconClass="fas fa-people-carry" />
             Need some Muscles to help you lift heavy items or move ? Movers can do the heavy lifting
             while you enjoy settling into your new space.
           </div>

@@ -42,7 +42,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
-
     const effortLevel =
       extras && extras.effort ? (
         <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
@@ -120,7 +119,10 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             <div className="content">
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  {TITLE}
+                  <span className="icon">
+                    <i className="fas fa-home" />
+                  </span>
+                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
 
                 <div

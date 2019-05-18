@@ -40,7 +40,10 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
           <div className="content">
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                {TITLE}
+                <span className="icon">
+                  <i className="fas fa-home" />
+                </span>
+                <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>
             </div>
             <div
