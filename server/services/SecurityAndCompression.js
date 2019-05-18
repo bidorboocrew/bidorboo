@@ -1,6 +1,9 @@
 const compression = require('compression');
 const helmet = require('helmet');
 const csp = require('express-csp-header');
+const RateLimit = require('express-rate-limit');
+const MongoStore = require('rate-limit-mongo');
+const keys = require('../config/keys');
 
 module.exports = (app) => {
   // security
@@ -28,4 +31,16 @@ module.exports = (app) => {
       },
     })
   );
+  // https://www.npmjs.com/package/rate-limit-mongo
+  const limiter = new RateLimit({
+    store: new MongoStore({
+      // see Configuration
+      uri: keys.mongoURI,
+    }),
+    max: 100,
+    windowMs: 15 * 60 * 1000,
+  });
+
+  //  apply to all requests
+  app.use(limiter);
 };
