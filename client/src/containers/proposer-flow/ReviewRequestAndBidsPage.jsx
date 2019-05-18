@@ -12,7 +12,11 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 import BidsTable from './components/BidsTable';
 import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
 
-import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import {
+  getMeTheRightRequestCard,
+  POINT_OF_VIEW,
+  REQUEST_STATES,
+} from '../../bdb-tasks/getMeTheRightRequestCard';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +74,12 @@ class ReviewRequestAndBidsPage extends React.Component {
       );
     }
 
+    const { state } = selectedJobWithBids;
+    const isThisACancelledTask =
+      state === REQUEST_STATES.CANCELED_OPEN ||
+      state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER ||
+      state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER;
+
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     const bidList = selectedJobWithBids._bidsListRef;
@@ -101,35 +111,38 @@ class ReviewRequestAndBidsPage extends React.Component {
             })}
 
             <br />
-
-            {areThereAnyBids && (
-              <section className="hero is-medium is-dark is-bold">
-                <div className="hero-body">
-                  <div>
-                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                      Taskers Offers
-                    </h1>
-                  </div>
-                </div>
-              </section>
+            {!isThisACancelledTask && (
+              <React.Fragment>
+                {areThereAnyBids && (
+                  <section className="hero is-medium is-dark is-bold">
+                    <div className="hero-body">
+                      <div>
+                        <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                          Taskers Offers
+                        </h1>
+                      </div>
+                    </div>
+                  </section>
+                )}
+                {!areThereAnyBids && (
+                  <section className="hero is-medium is-dark is-bold">
+                    <div className="hero-body">
+                      <div>
+                        <h1 className="is-size-5 has-text-weight-bold has-text-centered">
+                          Waiting For Taskers
+                        </h1>
+                      </div>
+                    </div>
+                  </section>
+                )}
+                <BidsTable
+                  jobId={selectedJobWithBids._id}
+                  bidList={bidList}
+                  markBidAsSeen={markBidAsSeen}
+                  showBidReviewModal={this.showBidReviewModal}
+                />
+              </React.Fragment>
             )}
-            {!areThereAnyBids && (
-              <section className="hero is-medium is-dark is-bold">
-                <div className="hero-body">
-                  <div>
-                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                      Waiting For Taskers
-                    </h1>
-                  </div>
-                </div>
-              </section>
-            )}
-            <BidsTable
-              jobId={selectedJobWithBids._id}
-              bidList={bidList}
-              markBidAsSeen={markBidAsSeen}
-              showBidReviewModal={this.showBidReviewModal}
-            />
           </div>
         </div>
       </div>

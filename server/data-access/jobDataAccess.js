@@ -424,6 +424,28 @@ exports.jobDataAccess = {
         )
           .populate({ path: '_ownerRef', select: jobOwnerFields })
           .populate({
+            path: '_awardedBidRef',
+            select: {
+              _bidderRef: 1,
+              isNewBid: 1,
+              state: 1,
+              bidAmount: 1,
+              createdAt: 1,
+              updatedAt: 1,
+            },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
+            },
+          })
+          .populate({
             path: '_bidsListRef',
             select: schemaHelpers.BidFull,
             populate: {
@@ -444,7 +466,7 @@ exports.jobDataAccess = {
               },
             },
           })
-          .lean(true)
+          .lean({ virtuals: true })
           .exec();
 
         resolve(jobWithBidDetails);

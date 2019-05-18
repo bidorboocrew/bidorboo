@@ -34,9 +34,9 @@ const requesterCardTemplates = {
     },
     [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
-        <HouseCleaningOpenCanceled job={job} {...otherArgs} />
+        <HouseCleaningOpenCanceled job={job} isSummaryView={true} {...otherArgs} />
       ) : (
-        <HouseCleaningOpenCanceled job={job} {...otherArgs} />
+        <HouseCleaningOpenCanceled job={job} isSummaryView={false} {...otherArgs} />
       );
     },
     [REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER]: ({
@@ -46,9 +46,17 @@ const requesterCardTemplates = {
       ...otherArgs
     }) => {
       return isSummaryView ? (
-        <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
+        <HouseCleaningAwardedCanceledByRequesterSummary
+          isSummaryView={true}
+          job={job}
+          {...otherArgs}
+        />
       ) : (
-        <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
+        <HouseCleaningAwardedCanceledByRequesterSummary
+          isSummaryView={false}
+          job={job}
+          {...otherArgs}
+        />
       );
     },
   },

@@ -6,7 +6,6 @@
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
 
-
 // @import './_reactBigCalendar.scss';
 // @import './_timelineBulma.scss';
 
@@ -339,7 +338,6 @@ hr.divider {
 
 .card {
   &.readOnlyView {
-    pointer-events: none;
     background: #eeeeee;
   }
   // border: 1px solid #eeeeee;

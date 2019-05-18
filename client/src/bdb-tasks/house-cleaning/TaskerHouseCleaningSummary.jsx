@@ -66,7 +66,6 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
               {userAlreadyBid ? (
                 <a
                   onClick={(e) => {
-                    debugger;
                     e.preventDefault();
                     switchRoute(
                       ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(
@@ -82,7 +81,7 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                 <a
                   onClick={(e) => {
                     e.preventDefault();
-                    debugger;
+
                     if (!isLoggedIn) {
                       showLoginDialog(true);
                     } else {

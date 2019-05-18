@@ -5,21 +5,16 @@ import {
   DisplayShortAddress,
   UserImageAndRating,
 } from '../../containers/commonComponents';
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
-const states = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_CANCELED_BY_BIDDER: 'AWARDED_CANCELED_BY_BIDDER',
-  AWARDED_CANCELED_BY_REQUESTER: 'AWARDED_CANCELED_BY_REQUESTER',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
-  PAIDOUT: 'PAIDOUT',
-};
+
+import { REQUEST_STATES } from '../index';
+
 export default class HouseCleaningAwardedCanceledByRequesterSummary extends React.Component {
   render() {
-    const { job } = this.props;
+    const { job, isSummaryView } = this.props;
 
     const {
       startingDateAndTime,
@@ -37,7 +32,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
     const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
-      <div className="card readOnlyView limitWidthOfCard">
+      <div className={`card readOnlyView ${isSummaryView ? 'limitWidthOfCard' : ''}`}>
         <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
@@ -59,7 +54,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               className="navbar-divider"
             />
 
-            {state === states.AWARDED_CANCELED_BY_REQUESTER && (
+            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
@@ -69,7 +64,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               </div>
             )}
 
-            {state === states.AWARDED_CANCELED_BY_BIDDER && (
+            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
@@ -89,12 +84,12 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               <div className="control">
                 {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency}) `}
               </div>
-              {state === states.AWARDED_CANCELED_BY_REQUESTER && (
+              {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
                 <div className="help has-text-success">{`* refunded ${bidAmount.value * 0.8}$ (${
                   bidAmount.currency
                 })`}</div>
               )}
-              {state === states.AWARDED_CANCELED_BY_BIDDER && (
+              {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
                 <div className="help has-text-danger">
                   * will refund 100% of the payment to your card.
                 </div>
@@ -114,6 +109,24 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
             </div>
           </div>
         </div>
+        {isSummaryView && (
+          <React.Fragment>
+            <div style={{ padding: '0.5rem' }}>
+              <hr className="divider isTight" />
+            </div>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+              <a
+                style={{ position: 'relative' }}
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                }}
+                className="button is-outlined"
+              >
+                View Details
+              </a>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }

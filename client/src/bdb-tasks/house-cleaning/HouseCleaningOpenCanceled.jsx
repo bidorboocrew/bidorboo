@@ -6,18 +6,21 @@ import {
   DisplayShortAddress,
 } from '../../containers/commonComponents';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningOpenCanceled extends React.Component {
   render() {
-    const { job } = this.props;
+    const { job, isSummaryView = false } = this.props;
 
     const { startingDateAndTime, addressText, displayStatus } = job;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (
-      <div className={`card readOnlyView limitWidthOfCard`}>
+      <div className={`card readOnlyView ${isSummaryView ? 'limitWidthOfCard' : ''}`}>
         <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div>
@@ -57,6 +60,24 @@ export default class HouseCleaningOpenCanceled extends React.Component {
             <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
+        {isSummaryView && (
+          <React.Fragment>
+            <div style={{ padding: '0.5rem' }}>
+              <hr className="divider isTight" />
+            </div>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+              <a
+                style={{ position: 'relative' }}
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+                }}
+                className="button is-outlined"
+              >
+                View Details
+              </a>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }

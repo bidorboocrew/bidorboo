@@ -58,7 +58,7 @@ class HouseCleaningRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, deleteJob, ommitMeatballMenu, cancelJobById } = this.props;
+    const { job, ommitMeatballMenu, cancelJobById } = this.props;
 
     const {
       startingDateAndTime,
