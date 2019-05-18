@@ -15,7 +15,7 @@ import { updateBooedBy } from '../../app-state/actions/jobActions';
 import { findAvgBidInBidList } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
-import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class BidOnJobPage extends React.Component {
   constructor(props) {
@@ -103,7 +103,11 @@ class BidOnJobPage extends React.Component {
                   switchRoute(ROUTES.CLIENT.BIDDER.root);
                 }}
               />
-              {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
+              {getMeTheRightRequestCard({
+                job: jobDetails,
+                isSummaryView: false,
+                pointOfView: POINT_OF_VIEW.TASKER,
+              })}
             </div>
           </div>
         </div>

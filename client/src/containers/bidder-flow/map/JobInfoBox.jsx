@@ -2,16 +2,15 @@
 import React from 'react';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
-import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
-
+import {
+  getMeTheRightRequestCard,
+  POINT_OF_VIEW,
+} from '../../../bdb-tasks/getMeTheRightRequestCard';
 export default class JobInfoBox extends React.Component {
   render() {
     const {
       job,
       userDetails,
-      isLoggedIn,
-      showLoginDialog,
-      selectJobToBidOn,
       toggleShowInfoBox,
     } = this.props;
 
@@ -33,21 +32,14 @@ export default class JobInfoBox extends React.Component {
           enableEventPropagation: true,
         }}
       >
-        <getBidOnSummaryCardByTemplateJobId
-          onClickHandler={() => {
-            if (!isLoggedIn) {
-              showLoginDialog(true);
-            } else {
-              selectJobToBidOn(job);
-            }
-          }}
-          onCloseHandler={toggleShowInfoBox}
-          cardSpecialStyle="bdb-infoBoxCard"
-          showCoverImg={false}
-          withButtons={true}
-          job={job}
-          userDetails={userDetails}
-        />
+        {getMeTheRightRequestCard({
+          job,
+          isSummaryView: true,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          userDetails: userDetails,
+          onCloseHandler: toggleShowInfoBox,
+          isOnMapView: true,
+        })}
       </InfoBox>
     );
   }

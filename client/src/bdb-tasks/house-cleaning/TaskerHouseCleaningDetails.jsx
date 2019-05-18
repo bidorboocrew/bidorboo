@@ -12,7 +12,7 @@ import {
 } from '../../containers/commonComponents';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class BidOnHouseCleaningJobFullDetails extends React.Component {
+export default class TaskerHouseCleaningDetails extends React.Component {
   render() {
     const { job } = this.props;
     const {

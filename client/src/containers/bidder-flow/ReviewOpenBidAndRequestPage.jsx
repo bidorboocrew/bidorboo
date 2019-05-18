@@ -11,7 +11,7 @@ import { Spinner } from '../../components/Spinner';
 
 import RequesterAndOpenBid from './components/RequesterAndOpenBid';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -70,7 +70,11 @@ class ReviewOpenBidAndRequestPage extends React.Component {
               job={selectedAwardedJob}
               updateBidAction={updateBid}
             />
-            {getBidOnFullDetailsCardByTemplateJobId(selectedAwardedJob)}
+            {getMeTheRightRequestCard({
+              job: selectedAwardedJob,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.TASKER,
+            })}
           </div>
         </div>
       </div>

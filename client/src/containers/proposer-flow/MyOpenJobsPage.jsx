@@ -9,24 +9,9 @@ import {
   getAllMyRequests,
 } from '../../app-state/actions/jobActions';
 
-import getPostedSummaryCardByTemplateJobId from '../../bdb-tasks/getPostedSummaryCardByTemplateJobId';
-import getAwardedSummaryCardByTemplateJobId from '../../bdb-tasks/getAwardedSummaryCardByTemplateJobId';
-import getCancelledPostedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledPostedRequestSummaryCardByTemplateJobId';
-import getCancelledAwardedRequestSummaryCardByTemplateJobId from '../../bdb-tasks/getCancelledAwardedRequestSummaryCardByTemplateJobId';
-
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-
-const states = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_CANCELED_BY_BIDDER: 'AWARDED_CANCELED_BY_BIDDER',
-  AWARDED_CANCELED_BY_REQUESTER: 'AWARDED_CANCELED_BY_REQUESTER',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
-  PAIDOUT: 'PAIDOUT',
-};
 
 class MyOpenJobsPage extends React.Component {
   componentDidMount() {
@@ -38,37 +23,16 @@ class MyOpenJobsPage extends React.Component {
 
     const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
     let myRequestsSummaryCards = areThereAnyJobsToView
-      ? allMyRequests.map((request) => {
-          switch (request.state) {
-            case states.OPEN:
-              return (
-                <div key={request._id} className="column">
-                  {getPostedSummaryCardByTemplateJobId(request, this.props)}
-                </div>
-              );
-
-            case states.AWARDED:
-              return (
-                <div key={request._id} className="column">
-                  {getAwardedSummaryCardByTemplateJobId(request, this.props)}
-                </div>
-              );
-            case states.CANCELED_OPEN:
-              return (
-                <div key={request._id} className="column">
-                  {getCancelledPostedRequestSummaryCardByTemplateJobId(request, this.props)}
-                </div>
-              );
-            case states.AWARDED_CANCELED_BY_BIDDER:
-            case states.AWARDED_CANCELED_BY_REQUESTER:
-              return (
-                <div key={request._id} className="column">
-                  {getCancelledAwardedRequestSummaryCardByTemplateJobId(request, this.props)}
-                </div>
-              );
-            default:
-              break;
-          }
+      ? allMyRequests.map((job) => {
+          return (
+            <div key={job._id} className="column">
+              {getMeTheRightRequestCard({
+                job,
+                isSummaryView: true,
+                pointOfView: POINT_OF_VIEW.REQUESTER,
+              })}
+            </div>
+          );
         })
       : null;
 
@@ -149,30 +113,3 @@ const EmptyStateComponent = () => (
     </div>
   </div>
 );
-
-const generateAwardedRequestsSummaryCards = (props) => {
-  const { myAwardedJobsList } = props;
-
-  const myAwardedJobs = myAwardedJobsList.map((job) => {
-    return (
-      <div key={job._id} className="column">
-        {getAwardedSummaryCardByTemplateJobId(job, props)}
-        {/* <JobSummaryForAwarded showBidCount={false} job={job} /> */}
-      </div>
-    );
-  });
-  return myAwardedJobs;
-};
-
-const generateOpenRequetsSummaryCards = (props) => {
-  const { myOpenJobsList } = props;
-
-  const jobCards = myOpenJobsList.map((job) => {
-    return (
-      <div key={job._id} className="column">
-        {getPostedSummaryCardByTemplateJobId(job, props)}
-      </div>
-    );
-  });
-  return jobCards;
-};

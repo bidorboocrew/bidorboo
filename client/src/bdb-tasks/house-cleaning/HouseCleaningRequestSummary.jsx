@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TextareaAutosize from 'react-autosize-textarea';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import {
-  DisplayLabelValue,
-  CountDownComponent,
-  StartDateAndTime,
-} from '../../containers/commonComponents';
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import {
+  CountDownComponent,
+  StartDateAndTime,
+  DisplayShortAddress,
+} from '../../containers/commonComponents';
 
-class HouseCleaningPostedRequestDetails extends React.Component {
+import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import uiReducer from '../../app-state/reducers/uiReducer';
+
+class HouseCleaningRequestSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,14 +29,12 @@ class HouseCleaningPostedRequestDetails extends React.Component {
   toggleShowMore = () => {
     this.setState({ showMore: !this.state.showMore });
   };
-
   toggleDeleteConfirmationDialog = () => {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
   toggleShowMoreOptionsContextMenu = (e) => {
     e.preventDefault();
-
     this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
       if (this.state.showMoreOptionsContextMenu) {
         document.addEventListener('mousedown', this.handleClick, false);
@@ -56,29 +56,15 @@ class HouseCleaningPostedRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, deleteJob, ommitMeatballMenu, cancelJobById } = this.props;
+    const { job, cancelJobById, notificationFeed } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      extras,
-      detailedDescription,
-      isExpiringSoon,
-      isHappeningToday,
-      isPastDue,
-    } = job;
+    const { startingDateAndTime, addressText, isExpiringSoon, isHappeningToday, isPastDue } = job;
 
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
-
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
-
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -130,7 +116,7 @@ class HouseCleaningPostedRequestDetails extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'unset' }} className={`card  ${isPastDue ? 'expiredReadOnly' : ''}`}>
+        <div className={`card limitWidthOfCard ${isPastDue ? 'expiredReadOnly' : ''}`}>
           <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
@@ -141,42 +127,40 @@ class HouseCleaningPostedRequestDetails extends React.Component {
                   {TITLE}
                 </div>
 
-                {!ommitMeatballMenu && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          href="#"
-                          className="dropdown-item"
-                        >
-                          <span style={{ color: 'grey' }} className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
                       </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        href="#"
+                        className="dropdown-item"
+                      >
+                        <span style={{ color: 'grey' }} className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
               <div
                 style={{
@@ -240,58 +224,21 @@ class HouseCleaningPostedRequestDetails extends React.Component {
                 )}
               />
 
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
-              {showMore && (
-                <React.Fragment>
-                  {effortLevel}
-                  <div className="field">
-                    <label className="label">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
-                        }}
-                        readOnly
-                      />
-                    </span>
-                  </div>
-                </React.Fragment>
-              )}
+              <DisplayShortAddress addressText={addressText} />
             </div>
           </div>
-          <div style={{ padding: '0.5rem' }}>
-            {!showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show full details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-down" />
-                </span>
-              </a>
-            )}
-            {showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show less details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-up" />
-                </span>
-              </a>
-            )}
-          </div>
+          {renderFooter({ job, notificationFeed })}
         </div>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     selectedAwardedJob: jobsReducer.selectedAwardedJob,
     userDetails: userReducer.userDetails,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
@@ -305,4 +252,57 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningPostedRequestDetails);
+)(HouseCleaningRequestSummary);
+
+const renderFooter = ({ job, notificationFeed }) => {
+  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+  let doesthisJobHaveNewBids = false;
+  // let numberOfNewBids = 0;
+
+  if (notificationFeed.jobIdsWithNewBids) {
+    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+        doesthisJobHaveNewBids = true;
+        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+        break;
+      }
+    }
+  }
+
+  return (
+    <React.Fragment>
+      <div style={{ padding: '0.5rem' }}>
+        <hr className="divider isTight" />
+      </div>
+      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <a
+          style={{ position: 'relative' }}
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+          }}
+          className={`button is-outlined ${areThereAnyBidders ? 'is-info' : ''}`}
+        >
+          {areThereAnyBidders && (
+            <span>
+              <span className="icon">
+                <i className="fa fa-hand-paper" />
+              </span>
+              <span>{`View (${job._bidsListRef.length}) ${
+                job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
+              }`}</span>
+            </span>
+          )}
+          {!areThereAnyBidders && <span>View Details</span>}
+          {areThereAnyBidders && doesthisJobHaveNewBids && (
+            <div
+              style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
+              className="has-text-danger"
+            >
+              <i className="fas fa-circle" />
+            </div>
+          )}
+        </a>
+      </div>
+    </React.Fragment>
+  );
+};

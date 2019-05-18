@@ -123,13 +123,14 @@ export const CardTitleWithBidCount = ({
   bidsList = [],
   userAlreadyView = false,
   userAlreadyBid = false,
+  isOnMapView = false,
 }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
     <React.Fragment>
-      <div className="is-size-4 has-text-weight-semibold">
+      <div className={`${isOnMapView ? 'is-size-4' : 'is-size-6'} has-text-weight-semibold`}>
         {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
       </div>
       <div>

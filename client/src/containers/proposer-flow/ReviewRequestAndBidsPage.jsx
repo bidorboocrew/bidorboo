@@ -12,9 +12,7 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 import BidsTable from './components/BidsTable';
 import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
 
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import getPostedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getPostedFullDetailsCardByTemplateJobId';
-
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -72,13 +70,6 @@ class ReviewRequestAndBidsPage extends React.Component {
       );
     }
 
-    const jobDefinition = jobTemplateIdToDefinitionObjectMapper[selectedJobWithBids.fromTemplateId];
-    if (!jobDefinition) {
-      alert(`unknown job template ${selectedJobWithBids.fromTemplateId}`);
-      return null;
-    }
-
-    const title = jobDefinition.TITLE;
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     const bidList = selectedJobWithBids._bidsListRef;
@@ -103,8 +94,12 @@ class ReviewRequestAndBidsPage extends React.Component {
                 <span>My Requests</span>
               </a>
             </div>
+            {getMeTheRightRequestCard({
+              job: selectedJobWithBids,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.REQUESTER,
+            })}
 
-            {getPostedFullDetailsCardByTemplateJobId(selectedJobWithBids)}
             <br />
 
             {areThereAnyBids && (
@@ -160,20 +155,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewRequestAndBidsPage);
-
-const breadCrumbs = (props) => {
-  const { activePageTitle } = props;
-  return (
-    <div style={{ marginBottom: '0.7rem' }}>
-      <a
-        className="button is-outlined"
-        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
-      >
-        <span className="icon">
-          <i className="far fa-arrow-alt-circle-left" />
-        </span>
-        <span>My Requests</span>
-      </a>
-    </div>
-  );
-};

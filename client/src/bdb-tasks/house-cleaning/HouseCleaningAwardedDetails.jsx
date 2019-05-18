@@ -15,7 +15,7 @@ import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/ac
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-class HouseCleaningAwardedRequestDetails extends React.Component {
+class HouseCleaningAwardedDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -337,7 +337,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningAwardedRequestDetails);
+)(HouseCleaningAwardedDetails);
 
 class ProposerVerifiesJobCompletion extends React.Component {
   constructor(props) {

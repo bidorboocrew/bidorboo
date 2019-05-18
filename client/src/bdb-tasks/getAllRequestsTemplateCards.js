@@ -3,7 +3,7 @@ import React from 'react';
 import { HouseCleaningConcept } from './index';
 
 import { JobTitleText } from '../containers/commonComponents';
-export const GenerateAllTasksConceptCards = (props) => {
+export const getAllRequestsTemplateCards = (props) => {
   const { showLoginDialog, isLoggedIn } = props;
   const bidorbooTaskConcepts = [
     <HouseCleaningConcept showLoginDialog={showLoginDialog} isLoggedIn={isLoggedIn} />,
@@ -15,7 +15,7 @@ export const GenerateAllTasksConceptCards = (props) => {
 
 const ComingSoon1 = () => {
   return (
-    <div className="card disabled is-clipped limitWidthOfCard">
+    <div className="card  is-clipped limitWidthOfCard">
       <div style={{ position: 'relative' }}>
         <div
           style={{
@@ -64,7 +64,7 @@ const ComingSoon1 = () => {
 
 const ComingSoon2 = () => {
   return (
-    <div className="card disabled is-clipped limitWidthOfCard">
+    <div className="card  is-clipped limitWidthOfCard">
       <div style={{ position: 'relative' }}>
         <div
           style={{

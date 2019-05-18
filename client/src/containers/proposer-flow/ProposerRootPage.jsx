@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import { GenerateAllTasksConceptCards } from '../../bdb-tasks/GenerateAllTasksConceptCards';
+import { getAllRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
 
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllTasks = GenerateAllTasksConceptCards(props).map((task, index) => {
+    this.AllTasks = getAllRequestsTemplateCards(props).map((task, index) => {
       return (
         <div key={index} className="column">
           {task}

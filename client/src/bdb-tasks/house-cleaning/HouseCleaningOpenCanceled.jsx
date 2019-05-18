@@ -8,7 +8,7 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-export default class HouseCleaningCanceledPostedRequestSummary extends React.Component {
+export default class HouseCleaningOpenCanceled extends React.Component {
   render() {
     const { job } = this.props;
 
@@ -26,22 +26,6 @@ export default class HouseCleaningCanceledPostedRequestSummary extends React.Com
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 {TITLE}
-              </div>
-
-              <div ref={(node) => (this.node = node)} className={`dropdown is-right`}>
-                <div className="dropdown-trigger">
-                  <button
-                    onClick={() => null}
-                    className="button"
-                    aria-haspopup="true"
-                    aria-controls="dropdown-menu"
-                    style={{ border: 'none' }}
-                  >
-                    <div style={{ padding: 6 }} className="icon">
-                      <i className="fas fa-ellipsis-v" />
-                    </div>
-                  </button>
-                </div>
               </div>
             </div>
             <div

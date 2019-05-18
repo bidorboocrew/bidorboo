@@ -17,7 +17,7 @@ const states = {
   DONE: 'DONE',
   PAIDOUT: 'PAIDOUT',
 };
-export default class HouseCleaningCanceledAwardedRequestSummary extends React.Component {
+export default class HouseCleaningAwardedCanceledByRequesterSummary extends React.Component {
   render() {
     const { job } = this.props;
 

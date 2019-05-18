@@ -11,7 +11,7 @@ import {
   proposerConfirmsJobCompletion,
 } from '../../app-state/actions/jobActions';
 
-import getAawardedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getAwardedFullDetailsCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
@@ -52,11 +52,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   }
 
   render() {
-    const {
-      selectedAwardedJob,
-      proposerConfirmsJobCompletion,
-      isReadOnlyView = false,
-    } = this.props;
+    const { selectedAwardedJob } = this.props;
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
@@ -65,8 +61,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
         </div>
       );
     }
-
-    const { _awardedBidRef } = selectedAwardedJob;
 
     return (
       <div className="container is-widescreen">
@@ -83,8 +77,11 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
                 <span>My Requests</span>
               </a>
             </div>
-
-            {getAawardedFullDetailsCardByTemplateJobId(selectedAwardedJob)}
+            {getMeTheRightRequestCard({
+              job: selectedAwardedJob,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.REQUESTER,
+            })}
           </div>
         </div>
       </div>

@@ -3,7 +3,10 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { TAB_IDS } from './helperComponents';
 
-import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
+import {
+  getMeTheRightRequestCard,
+  POINT_OF_VIEW,
+} from '../../../bdb-tasks/getMeTheRightRequestCard';
 
 export default class AllJobsView extends React.Component {
   render() {
@@ -53,7 +56,10 @@ const OtherPeoplesJobs = (props) => {
     .map((job) => {
       return (
         <div key={job._id} className="column limitMaxdWidth">
-          {getBidOnSummaryCardByTemplateJobId(job, {
+          {getMeTheRightRequestCard({
+            job,
+            isSummaryView: true,
+            pointOfView: POINT_OF_VIEW.TASKER,
             onClickHandler: () => {
               if (!isLoggedIn) {
                 showLoginDialog(true);

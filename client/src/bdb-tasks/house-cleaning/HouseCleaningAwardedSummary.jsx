@@ -14,7 +14,7 @@ import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/ac
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-class HouseCleaningAwardedRequestSummary extends React.Component {
+class HouseCleaningAwardedSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,8 +56,8 @@ class HouseCleaningAwardedRequestSummary extends React.Component {
   };
   render() {
     const { job, cancelJobById } = this.props;
+    debugger;
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     const {
       startingDateAndTime,
@@ -67,7 +67,6 @@ class HouseCleaningAwardedRequestSummary extends React.Component {
       isExpiringSoon,
       isHappeningToday,
       isPastDue,
-      jobCompletion,
     } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -148,6 +147,40 @@ class HouseCleaningAwardedRequestSummary extends React.Component {
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   {TITLE}
+                </div>
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
+                      </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        href="#"
+                        className="dropdown-item"
+                      >
+                        <span style={{ color: 'grey' }} className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -252,4 +285,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningAwardedRequestSummary);
+)(HouseCleaningAwardedSummary);
