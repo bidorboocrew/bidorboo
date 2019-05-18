@@ -1,8 +1,14 @@
 import axios from 'axios';
 
-export const registerServiceWorker = (vapidKey) => {
+export const registerServiceWorker = async (vapidKey) => {
   // if (process.env.NODE_ENV === 'production') {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
+    // try {
+    //   const existingServiceWorkers = await navigator.serviceWorker.getRegistrations();
+    //   debugger;
+    // } catch (e) {
+    //   console.error(e);
+    // }
     send(vapidKey);
   }
   // }

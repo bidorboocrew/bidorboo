@@ -1,5 +1,3 @@
-'use strict';
-
 self.addEventListener('push', (event) => {
   const data = event.data.json();
 
@@ -18,4 +16,9 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   //this needs to change, need to come need to be dybamic
   event.waitUntil(clients.openWindow(event.notification.data));
+});
+
+self.addEventListener('fetch', (event) => {
+  // no cache
+  return fetch(event.request);
 });

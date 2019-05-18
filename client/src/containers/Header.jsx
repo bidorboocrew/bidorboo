@@ -13,6 +13,8 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { NotificationsModal } from './index';
 
+import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
+
 class Header extends React.Component {
   static propTypes = {
     userEmail: PropTypes.string,
@@ -183,12 +185,12 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
+            <AddToMobileHomeScreenBanner />;
             {isNotificationMenuActive &&
               ReactDOM.createPortal(
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,
                 this.modalRootNode,
               )}
-
             <a
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });

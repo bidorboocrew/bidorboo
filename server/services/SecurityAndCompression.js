@@ -4,7 +4,7 @@ const csp = require('express-csp-header');
 const RateLimit = require('express-rate-limit');
 const MongoStore = require('rate-limit-mongo');
 const keys = require('../config/keys');
-
+const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 module.exports = (app) => {
   // security
   const cspMiddleware = csp({
@@ -43,4 +43,8 @@ module.exports = (app) => {
 
   //  apply to all requests
   app.use(limiter);
+
+  // https://github.com/SegFaultx64/express-http-to-https#readme
+  // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+  app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 };
