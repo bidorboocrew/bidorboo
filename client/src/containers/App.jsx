@@ -62,7 +62,7 @@ class App extends React.Component {
     if (isLoggedIn) {
       shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
     }
-    console.log('kick-start the service worker')
+    console.log('kick-start the service worker');
     registerServiceWorker(
       `${process.env.REACT_APP_VAPID_KEY}`,
       shouldRegisterNewWebPushSubscription,
@@ -228,9 +228,6 @@ class App extends React.Component {
                       src={canadaFlag}
                     />
                   </div>
-                  <div style={{ marginTop: 6 }}>
-                    <AddToMobileHomeScreenBanner />
-                  </div>
                 </div>
               </div>
               <div className="level-item has-text-centered">
@@ -244,6 +241,9 @@ class App extends React.Component {
                       height={21}
                     />
                     {` BidOrBoo`}
+                  </div>
+                  <div style={{ marginTop: 6 }}>
+                    <AddToMobileHomeScreenBanner />
                   </div>
                   <div>
                     <a

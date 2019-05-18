@@ -70,8 +70,9 @@ class HouseCleaningJobForm extends React.Component {
 
   componentDidMount() {
     this.autoDetectLocationIfPermitted();
-
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
+      this.recaptchaRef.current.execute();
+    }
   }
 
   render() {
@@ -150,7 +151,7 @@ class HouseCleaningJobForm extends React.Component {
             id="recaptchaField"
             className="input is-invisible"
             type="hidden"
-            value={values.recaptcha || ''}
+            value={values.recaptchaField || ''}
           />
           <ReCAPTCHA
             style={{ display: 'none' }}

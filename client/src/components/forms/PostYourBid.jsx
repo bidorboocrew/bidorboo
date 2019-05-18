@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import { withFormik } from 'formik';
 import PropTypes from 'prop-types';
@@ -21,13 +22,13 @@ class PostYourBid extends React.Component {
       showBidDialog: false,
       confirmRead: false,
     };
+    this.recaptchaRef = React.createRef();
   }
-
   closeShowBidDialog = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
     setFieldValue('confirmReadField', false, false);
-
+    setFieldValue('recaptchaField', '', false);
     resetForm();
 
     this.setState({ showBidDialog: false, confirmRead: false });
@@ -47,6 +48,19 @@ class PostYourBid extends React.Component {
       setFieldValue('confirmReadField', this.state.confirmRead, true);
     });
   };
+
+  componentDidUpdate() {
+    const { values } = this.props;
+    if (
+      this.recaptchaRef &&
+      this.recaptchaRef.current &&
+      this.recaptchaRef.current.execute &&
+      !values.recaptchaField
+    ) {
+      this.recaptchaRef.current.execute();
+    }
+  }
+
   render() {
     const {
       values,
@@ -59,6 +73,7 @@ class PostYourBid extends React.Component {
       isValid,
       isSubmitting,
       avgBid,
+      setFieldValue,
     } = this.props;
     const { confirmRead, showBidDialog } = this.state;
     const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
@@ -173,6 +188,23 @@ class PostYourBid extends React.Component {
                   <button onClick={this.closeShowBidDialog} className="delete" aria-label="close" />
                 </header>
                 <section className="modal-card-body">
+                  <input
+                    id="recaptchaField"
+                    className="input is-invisible"
+                    type="hidden"
+                    value={values.recaptchaField || ''}
+                  />
+                  <ReCAPTCHA
+                    style={{ display: 'none' }}
+                    onExpired={() => this.recaptchaRef.current.execute()}
+                    ref={this.recaptchaRef}
+                    size="invisible"
+                    badge="bottomright"
+                    onChange={(result) => {
+                      setFieldValue('recaptchaField', result, true);
+                    }}
+                    sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+                  />
                   <TextInput
                     // setFocusImmediately={true}
                     label="Enter a payment amount that you want to recieve in exchange for doing this task"
@@ -249,10 +281,16 @@ const EnhancedForms = withFormik({
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
+    recaptchaField: Yup.string()
+      .min(1)
+      .notRequired(
+        'This client failed recaptcha secure check. please refresh the page or try again later.',
+      ),
   }),
   mapPropsToValues: (props) => {
     return {
       confirmReadField: false,
+      recaptchaField: '',
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {

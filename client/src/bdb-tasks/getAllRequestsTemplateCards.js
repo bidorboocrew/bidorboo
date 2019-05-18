@@ -24,7 +24,7 @@ const ComingSoon1 = () => {
             width: '100%',
             top: 0,
             left: 0,
-            zIndex: 99,
+            zIndex: 9,
             display: 'block',
             background: 'rgba(255,255,255,0.4)',
           }}
@@ -34,8 +34,10 @@ const ComingSoon1 = () => {
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={'Lawn Mowing'} iconClass="fas fa-tree" />
             <hr className="divider isTight" />
-            Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with
-            a simple click. Get rid of that grass and live life to the max
+            <div style={{ marginTop: '1.5rem' }}>
+              Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing.
+              Get rid of that grass and live life to the max
+            </div>
           </div>
           <a className="button is-outlined is-fullwidth">Coming Soon</a>
         </div>
@@ -70,7 +72,7 @@ const ComingSoon2 = () => {
             width: '100%',
             top: 0,
             left: 0,
-            zIndex: 99,
+            zIndex: 9,
             display: 'block',
             background: 'rgba(255,255,255,0.4)',
           }}
@@ -79,8 +81,10 @@ const ComingSoon2 = () => {
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={'Movers'} iconClass="fas fa-people-carry" />
             <hr className="divider isTight" />
-            Need some Muscles to help you lift heavy items or move ? Movers can do the heavy lifting
-            while you enjoy settling into your new space.
+            <div style={{ marginTop: '1.5rem' }}>
+              Need some Muscles to help you lift heavy items or move ? let's face it, do you even
+              lift braah? let our Movers do the heavy lifting
+            </div>
           </div>
           <a className="button is-outlined is-fullwidth">Coming Soon</a>
         </div>

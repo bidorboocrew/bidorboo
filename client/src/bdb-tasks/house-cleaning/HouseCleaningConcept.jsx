@@ -17,7 +17,7 @@ export default class HouseCleaningConcept extends React.Component {
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
             <hr className="divider isTight" />
-            {DESCRIPTION}
+            <div style={{ marginTop: '1.5rem' }}>{DESCRIPTION}</div>
           </div>
           <a
             onClick={(e) => {

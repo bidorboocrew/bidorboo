@@ -49,7 +49,9 @@ class AcceptBidPaymentHandling extends React.Component {
   };
 
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
+      this.recaptchaRef.current.execute();
+    }
   }
 
   render() {

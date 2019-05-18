@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
@@ -20,11 +19,9 @@ import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTh
 class BidOnJobPage extends React.Component {
   constructor(props) {
     super(props);
-    const { location } = props;
 
     this.state = {
       recaptchaField: '',
-      jobDetails: location.state && location.state.jobDetails,
     };
 
     this.recaptchaRef = React.createRef();
@@ -34,16 +31,16 @@ class BidOnJobPage extends React.Component {
     this.setState({ recaptchaField: value });
   };
 
-  componentDidUpdate(prevProps) {
-    const newJobDetailsShowedUp = !prevProps.jobDetails && this.props.jobDetails;
-    const jobTobidOnExists = prevProps.jobDetails && this.props.jobDetails;
-    const differentJobId =
-      jobTobidOnExists && prevProps.jobDetails._id !== this.props.jobDetails._id;
+  // componentDidUpdate(prevProps) {
+  //   const newJobDetailsShowedUp = !prevProps.jobDetails && this.props.jobDetails;
+  //   const jobTobidOnExists = prevProps.jobDetails && this.props.jobDetails;
+  //   const differentJobId =
+  //     jobTobidOnExists && prevProps.jobDetails._id !== this.props.jobDetails._id;
 
-    if (newJobDetailsShowedUp || differentJobId) {
-      this.setState({ jobDetails: this.props.jobDetails });
-    }
-  }
+  //   if (newJobDetailsShowedUp || differentJobId) {
+  //     this.setState({ jobDetails: this.props.jobDetails });
+  //   }
+  // }
 
   componentDidMount() {
     const { match, getJobToBidOnDetails } = this.props;
@@ -53,13 +50,12 @@ class BidOnJobPage extends React.Component {
         getJobToBidOnDetails(match.params.jobId);
       }
     }
-    if (this.recaptchaRef.current) {
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
       this.recaptchaRef.current.execute();
     }
   }
   render() {
-    const { submitBid, updateBooedBy, isLoggedIn } = this.props;
-    const { jobDetails } = this.state;
+    const { submitBid, isLoggedIn, jobDetails } = this.props;
     const { recaptchaField } = this.state;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
@@ -75,43 +71,32 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <ReCAPTCHA
-          style={{ display: 'none' }}
-          onExpired={() => this.recaptchaRef.current.execute()}
-          ref={this.recaptchaRef}
-          size="invisible"
-          badge="bottomright"
-          onChange={this.updateRecaptchaField}
-          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-        />
-        <div className="container is-widescreen">
-          <div className="columns is-centered">
-            <div className="column is-narrow">
-              {breadCrumbs()}
-              <PostYourBid
-                avgBid={avgBid}
-                onSubmit={(values) => {
-                  submitBid({
-                    jobId: jobDetails._id,
-                    bidAmount: values.bidAmountField,
-                    recaptchaField,
-                  });
-                }}
-                onCancel={() => {
-                  // updateBooedBy(jobDetails);
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
-                }}
-              />
-              {getMeTheRightRequestCard({
-                job: jobDetails,
-                isSummaryView: false,
-                pointOfView: POINT_OF_VIEW.TASKER,
-              })}
-            </div>
+      <div className="container is-widescreen">
+        <div className="columns is-centered">
+          <div className="column is-narrow">
+            {breadCrumbs()}
+            <PostYourBid
+              avgBid={avgBid}
+              onSubmit={(values) => {
+                submitBid({
+                  jobId: jobDetails._id,
+                  bidAmount: values.bidAmountField,
+                  recaptchaField: values.recaptchaField,
+                });
+              }}
+              onCancel={() => {
+                // updateBooedBy(jobDetails);
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            />
+            {getMeTheRightRequestCard({
+              job: jobDetails,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.TASKER,
+            })}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
