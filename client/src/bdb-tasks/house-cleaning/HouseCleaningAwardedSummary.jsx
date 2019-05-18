@@ -165,6 +165,11 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
+                {!isExpiringSoon && !isHappeningToday && !isPastDue && (
+                  <div className="help">
+                    * Congrats, Tasker will take care of this request for you.
+                  </div>
+                )}
                 {isExpiringSoon && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
@@ -181,13 +186,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                   </div>
                 )}
               </div>
-              <div className="field">
-                <label className="label">Total Cost</label>
-                <div className="control has-text-success">
-                  {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
-                </div>
-                <div className="help">* will be charged after the request is completed.</div>
-              </div>
+
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -195,24 +194,6 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                 )}
               />
               <DisplayShortAddress addressText={addressText} />
-              <hr className="divider" />
-              <div className="field">
-                <label className="label">Assigned Tasker Details</label>
-                <UserImageAndRating userDetails={_bidderRef} />
-
-                <div className="control">
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>{email.emailAddress}</span>
-                </div>
-                <div className="control">
-                  <span className="icon">
-                    <i className="fas fa-phone" />
-                  </span>
-                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -224,10 +205,10 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className={`button is-outlined ${isPastDue ? 'is-danger' : ''}`}
+              className={`button is-outlined ${isPastDue ? 'is-danger' : 'is-success'}`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              View Details
+              View Tasker Details
             </a>
           </div>
         </div>

@@ -12,7 +12,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 import { REQUEST_STATES } from '../index';
 
-export default class HouseCleaningAwardedCanceledByRequesterSummary extends React.Component {
+export default class HouseCleaningAwardedCanceledByRequesterDetails extends React.Component {
   render() {
     const { job, isSummaryView } = this.props;
 
@@ -82,6 +82,22 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               </div>
             )}
 
+            <div className="field">
+              <label className="label">Total Cost</label>
+              <div className="control">
+                {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency}) `}
+              </div>
+              {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
+                <div className="help has-text-success">{`* refunded ${bidAmount.value * 0.8}$ (${
+                  bidAmount.currency
+                })`}</div>
+              )}
+              {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
+                <div className="help has-text-danger">
+                  * will refund 100% of the payment to your card.
+                </div>
+              )}
+            </div>
             <StartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
@@ -89,6 +105,11 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               )}
             />
             <DisplayShortAddress addressText={addressText} />
+            <hr className="divider" />
+            <div className="field">
+              <label className="label">Assigned Tasker Details</label>
+              <UserImageAndRating userDetails={_bidderRef} />
+            </div>
           </div>
         </div>
         {isSummaryView && (
@@ -104,7 +125,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
                 }}
                 className="button is-outlined"
               >
-                View Canceled Request
+                View Details
               </a>
             </div>
           </React.Fragment>

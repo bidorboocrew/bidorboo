@@ -294,7 +294,7 @@ const renderFooter = ({ job, notificationFeed }) => {
                 <i className="fa fa-hand-paper" />
               </span>
               <span>{`View (${job._bidsListRef.length}) ${
-                job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
+                job._bidsListRef.length > 1 ? 'Offers' : 'Offer'
               }`}</span>
             </span>
           )}

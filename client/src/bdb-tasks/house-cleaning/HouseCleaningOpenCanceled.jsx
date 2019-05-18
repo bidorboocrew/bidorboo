@@ -49,7 +49,7 @@ export default class HouseCleaningOpenCanceled extends React.Component {
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
               <div className="help">
-                * You Have Cancelled this request. This will be auto deleted in 48 hours
+                * This Request will be removed in 48 hours
               </div>
             </div>
 
@@ -76,7 +76,7 @@ export default class HouseCleaningOpenCanceled extends React.Component {
                 }}
                 className="button is-outlined"
               >
-                View Details
+                View Canceled Request
               </a>
             </div>
           </React.Fragment>
