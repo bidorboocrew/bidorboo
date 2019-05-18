@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
 } from '../../containers/commonComponents';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
@@ -288,10 +290,12 @@ class HouseCleaningRequestDetails extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
+    isLoggedIn: userReducer.isLoggedIn,
     selectedAwardedJob: jobsReducer.selectedAwardedJob,
     userDetails: userReducer.userDetails,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
@@ -299,6 +303,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 

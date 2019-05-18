@@ -1,9 +1,14 @@
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
+
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+
 import {
   AvgBidDisplayLabelAndValue,
   DisplayLabelValue,
@@ -11,10 +16,10 @@ import {
   CardTitleWithBidCount,
   StartDateAndTime,
 } from '../../containers/commonComponents';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
 
+import RequestBaseContainer from '../RequestBaseContainer';
 
-class TaskerHouseCleaningSummary extends React.Component {
+class TaskerHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { IMG_URL } = HOUSE_CLEANING_DEF;
 
@@ -61,6 +66,7 @@ class TaskerHouseCleaningSummary extends React.Component {
               {userAlreadyBid ? (
                 <a
                   onClick={(e) => {
+                    debugger;
                     e.preventDefault();
                     switchRoute(
                       ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(
@@ -76,6 +82,7 @@ class TaskerHouseCleaningSummary extends React.Component {
                 <a
                   onClick={(e) => {
                     e.preventDefault();
+                    debugger;
                     if (!isLoggedIn) {
                       showLoginDialog(true);
                     } else {
@@ -104,9 +111,9 @@ class TaskerHouseCleaningSummary extends React.Component {
                       switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                     }
                   }}
-                  className="button is-success is-outlined is-fullwidth"
+                  className="button is-success is-small is-outlined is-fullwidth"
                 >
-                  className="button is-success is-outlined is-small is-fullwidth" > Bid Now!
+                  Bid Now!
                 </a>
               )}
               <a
@@ -124,15 +131,19 @@ class TaskerHouseCleaningSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
-    userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
+    selectedAwardedJob: jobsReducer.selectedAwardedJob,
+    userDetails: userReducer.userDetails,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

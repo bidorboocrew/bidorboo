@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TextareaAutosize from 'react-autosize-textarea';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TextareaAutosize from 'react-autosize-textarea';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
@@ -11,50 +14,11 @@ import {
   UserImageAndRating,
   AddAwardedJobToCalendar,
 } from '../../containers/commonComponents';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import RequestBaseContainer from '../RequestBaseContainer';
 
-class HouseCleaningAwardedDetails extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
-  toggleShowMore = () => {
-    this.setState({ showMore: !this.state.showMore });
-  };
-  toggleDeleteConfirmationDialog = () => {
-    this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
-  };
-
-  toggleShowMoreOptionsContextMenu = (e) => {
-    e.preventDefault();
-    this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
-      if (this.state.showMoreOptionsContextMenu) {
-        document.addEventListener('mousedown', this.handleClick, false);
-      } else {
-        document.removeEventListener('mousedown', this.handleClick, false);
-      }
-    });
-  };
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClick = (e) => {
-    if (this.node && e.target && this.node.contains(e.target)) {
-      return;
-    } else {
-      this.toggleShowMoreOptionsContextMenu(e);
-    }
-  };
+class HouseCleaningAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
 
@@ -78,7 +42,6 @@ class HouseCleaningAwardedDetails extends React.Component {
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
-    const didProposerConfirmCompletionAlready = jobCompletion.proposerConfirmed;
 
     const effortLevel =
       extras && extras.effort ? (
@@ -320,10 +283,12 @@ class HouseCleaningAwardedDetails extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
+    isLoggedIn: userReducer.isLoggedIn,
     selectedAwardedJob: jobsReducer.selectedAwardedJob,
     userDetails: userReducer.userDetails,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
@@ -331,6 +296,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
