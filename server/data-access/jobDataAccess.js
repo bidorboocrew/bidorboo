@@ -703,7 +703,6 @@ exports.jobDataAccess = {
             addressText: 0,
             detailedDescription: 0,
             booedBy: 0,
-            viewedBy: 0,
             createdAt: 0,
             updatedAt: 0,
             hideFrom: 0,

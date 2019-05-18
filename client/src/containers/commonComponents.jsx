@@ -56,7 +56,6 @@ export const CountDownComponent = (props) => {
   return <div className="help">{`* ${moment(startingDate).fromNow()}`}</div>;
 };
 
-
 export const JobTitleText = ({ title, iconClass }) => {
   return (
     <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
@@ -137,9 +136,17 @@ export const CardTitleWithBidCount = ({
   const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
-    <React.Fragment>
-      <div className={`${isOnMapView ? 'is-size-4' : 'is-size-6'} has-text-weight-semibold`}>
-        {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+    <div style={{ display: 'flex' }}>
+      <div
+        style={{ flexGrow: 1 }}
+        className={`${isOnMapView ? 'is-size-6' : 'is-size-4'} has-text-weight-bold`}
+      >
+        <span className="icon">
+          <i className="fas fa-home" />
+        </span>
+        <span style={{ marginLeft: 4 }}>
+          {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+        </span>
       </div>
       <div>
         <a>
@@ -175,7 +182,7 @@ export const CardTitleWithBidCount = ({
           {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
         </a>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

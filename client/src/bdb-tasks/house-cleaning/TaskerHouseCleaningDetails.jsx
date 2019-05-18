@@ -35,10 +35,10 @@ export default class TaskerHouseCleaningDetails extends React.Component {
       );
 
     return (
-      <div style={{ height: 'auto' }} className="card disabled is-clipped">
-        <div className="card-image is-clipped">
+      <div style={{ height: 'auto' }} className="card is-clipped">
+        {/* <div className="card-image is-clipped">
           <img className="bdb-cover-img" src={IMG_URL} />
-        </div>
+        </div> */}
         <div className="card-content">
           <JobTitleText title={TITLE} iconClass={ICON} />
           <label className="label">Requester:</label>

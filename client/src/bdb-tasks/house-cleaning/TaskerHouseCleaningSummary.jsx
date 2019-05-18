@@ -40,11 +40,11 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
 
     return (
       <div className={`card is-clipped ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}>
-        {!isOnMapView && (
+        {/* {!isOnMapView && (
           <div className="card-image is-clipped">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div>
-        )}
+        )} */}
         <div className="card-content">
           <div className="content">
             <CardTitleWithBidCount

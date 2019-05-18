@@ -55,7 +55,7 @@ const OtherPeoplesJobs = (props) => {
     .filter((job) => job._ownerRef._id !== currentUserId)
     .map((job) => {
       return (
-        <div key={job._id} className="column limitMaxdWidth">
+        <div key={job._id} className="column">
           {getMeTheRightRequestCard({
             job,
             isSummaryView: true,

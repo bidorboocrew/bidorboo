@@ -15,7 +15,7 @@ export const getAllRequestsTemplateCards = (props) => {
 
 const ComingSoon1 = () => {
   return (
-    <div className="card  is-clipped limitWidthOfCard">
+    <div className="card is-clipped limitWidthOfCard">
       <div style={{ position: 'relative' }}>
         <div
           style={{
@@ -29,14 +29,11 @@ const ComingSoon1 = () => {
             background: 'rgba(255,255,255,0.4)',
           }}
         />
-        <div className="card-image is-clipped">
-          <figure className="bdb-cover-img">
-            <img src={'https://www.spring-green.com/wp-content/uploads/2016/05/lawn-mower1.jpg'} />
-          </figure>
-        </div>
+
         <div className="card-content">
           <div className="content">
             <JobTitleText title={'Lawn Mowing'} iconClass="fas fa-tree" />
+            <hr className="divider" />
             Tired of mowing? Why don't you let one of our handy BidorBooers do the lawn mowing. with
             a simple click. Get rid of that grass and live life to the max
           </div>
@@ -44,7 +41,7 @@ const ComingSoon1 = () => {
         </div>
       </div>
       <footer className="card-footer">
-        <div className="card-footer-item has-text-centered">Want it sooner?</div>
+        <div className="card-footer-item has-text-centered">Support us to make it happen</div>
         <a href="#" className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />
@@ -78,18 +75,10 @@ const ComingSoon2 = () => {
             background: 'rgba(255,255,255,0.4)',
           }}
         />
-        <div className="card-image is-clipped">
-          <figure className="bdb-cover-img">
-            <img
-              src={
-                'https://www.apartmentguide.com/blog/wp-content/uploads/2015/06/cost-of-hiring-movers-1-748x350.jpg'
-              }
-            />
-          </figure>
-        </div>
         <div className="card-content">
           <div className="content">
             <JobTitleText title={'Movers'} iconClass="fas fa-people-carry" />
+            <hr className="divider" />
             Need some Muscles to help you lift heavy items or move ? Movers can do the heavy lifting
             while you enjoy settling into your new space.
           </div>
@@ -98,7 +87,7 @@ const ComingSoon2 = () => {
       </div>
 
       <footer className="card-footer">
-        <div className="card-footer-item has-text-centered">Want it sooner?</div>
+        <div className="card-footer-item has-text-centered">Support us to make it happen</div>
         <a href="#" className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />

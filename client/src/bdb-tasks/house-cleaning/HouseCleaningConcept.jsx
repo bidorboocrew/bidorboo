@@ -9,7 +9,7 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION, IMG_URL, ICON } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, ICON } = HOUSE_CLEANING_DEF;
 
     return (
       <div
@@ -18,14 +18,10 @@ export default class HouseCleaningConcept extends React.Component {
         }}
         className="card is-clipped limitWidthOfCard"
       >
-        <div className="card-image is-clipped">
-          <figure className="bdb-cover-img">
-            <img src={IMG_URL} />
-          </figure>
-        </div>
         <div className="card-content">
           <div className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
+            <hr className="divider" />
             {DESCRIPTION}
           </div>
           <a className="button is-success is-outlined is-fullwidth">Request Now</a>

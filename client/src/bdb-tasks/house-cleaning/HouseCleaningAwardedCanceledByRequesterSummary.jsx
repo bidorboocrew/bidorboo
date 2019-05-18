@@ -33,9 +33,9 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
 
     return (
       <div className={`card readOnlyView ${isSummaryView ? 'limitWidthOfCard' : ''}`}>
-        <div className="card-image">
+        {/* <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
-        </div>
+        </div> */}
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
