@@ -57,14 +57,15 @@ class App extends React.Component {
   }
   componentDidMount() {
     const { userDetails, isLoggedIn } = this.props;
-    if (isLoggedIn) {
-      const shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
 
-      registerServiceWorker(
-        `${process.env.REACT_APP_VAPID_KEY}`,
-        shouldRegisterNewWebPushSubscription,
-      );
+    let shouldRegisterNewWebPushSubscription = false;
+    if (isLoggedIn) {
+      shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
     }
+    registerServiceWorker(
+      `${process.env.REACT_APP_VAPID_KEY}`,
+      shouldRegisterNewWebPushSubscription,
+    );
   }
 
   render() {

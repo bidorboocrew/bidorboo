@@ -1,14 +1,9 @@
 import axios from 'axios';
 
 export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
-  // if (process.env.NODE_ENV === 'production') {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    window.BidorBoo.SWRegistering += 1;
-    if (window.BidorBoo.SWRegistering === 1) {
-      installSW(vapidKey, shouldRegisterNewWebPushSubscription);
-    }
+    installSW(vapidKey, shouldRegisterNewWebPushSubscription);
   }
-  // }
 };
 
 const urlBase64ToUint8Array = (base64String) => {
