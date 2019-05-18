@@ -1,7 +1,7 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.1.0';
+var CACHE_NAME = 'bob-app-cache-v1.1.1';
 var urlsToCache = ['/', '/android-chrome-192x192.png', '/logo.svg'];
 var thirdPartyCachedLibs = [
   () => new Request('https://js.stripe.com/v3/', { mode: 'no-cors' }),
@@ -16,7 +16,7 @@ var thirdPartyCachedLibs = [
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
   // anything listed here will not be deleted
-  var cacheWhitelist = ['bob-app-cache-v1.1.0'];
+  var cacheWhitelist = ['bob-app-cache-v1.1.1'];
 
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
@@ -24,6 +24,11 @@ self.addEventListener('activate', function(event) {
         cacheNames.map(function(cacheName) {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
             return caches.delete(urlsToCache);
+          }
+        }),
+        cacheNames.map(function(cacheName) {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(thirdPartyCachedLibs);
           }
         }),
       );

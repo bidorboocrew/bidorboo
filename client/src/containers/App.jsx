@@ -62,6 +62,7 @@ class App extends React.Component {
     if (isLoggedIn) {
       shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
     }
+    console.log('kick-start the service worker')
     registerServiceWorker(
       `${process.env.REACT_APP_VAPID_KEY}`,
       shouldRegisterNewWebPushSubscription,

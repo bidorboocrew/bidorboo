@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
+    console.log('starting to setup the PWA')
     installSW(vapidKey, shouldRegisterNewWebPushSubscription);
   }
 };
@@ -55,7 +56,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
         return;
       }
       if (!shouldRegisterNewWebPushSubscription) {
-        console.log('This user already have webpush subscription ');
+        console.log('User is not logged in or This user already have webpush subscription ');
 
         return;
       }
