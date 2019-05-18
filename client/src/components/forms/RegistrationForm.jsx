@@ -72,7 +72,9 @@ class NewUserRegistrationForm extends React.Component {
     this.recaptchaRef = React.createRef();
   }
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
+      this.recaptchaRef.current.execute();
+    }
   }
   render() {
     const {
