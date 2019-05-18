@@ -36,9 +36,17 @@ export {
   default as HouseCleaningAwardedCanceledByRequesterSummary,
 } from './house-cleaning/HouseCleaningAwardedCanceledByRequesterSummary';
 
-export { default as HouseCleaningOpenCanceled } from './house-cleaning/HouseCleaningOpenCanceled';
+export {
+  default as HouseCleaningAwardedCanceledByRequesterDetails,
+} from './house-cleaning/HouseCleaningAwardedCanceledByRequesterDetails';
+
+export {
+  default as HouseCleaningOpenCanceledSummary,
+} from './house-cleaning/HouseCleaningOpenCanceledSummary';
+export {
+  default as HouseCleaningOpenCanceledDetails,
+} from './house-cleaning/HouseCleaningOpenCanceledDetails';
 
 export { default as TaskerHouseCleaningSummary } from './house-cleaning/TaskerHouseCleaningSummary';
 
 export { default as TaskerHouseCleaningDetails } from './house-cleaning/TaskerHouseCleaningDetails';
-

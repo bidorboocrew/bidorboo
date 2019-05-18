@@ -354,6 +354,11 @@ hr.divider {
     max-width: 25rem;
     margin: auto;
   }
+  &.limitLargeMaxWidth {
+    min-width: 20rem;
+    max-width: 50rem;
+    margin: auto;
+  }
   &.noBordered {
     border: none;
   }

@@ -3,7 +3,6 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
-  UserImageAndRating,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -14,7 +13,7 @@ import { REQUEST_STATES } from '../index';
 
 export default class HouseCleaningAwardedCanceledByRequesterSummary extends React.Component {
   render() {
-    const { job, isSummaryView } = this.props;
+    const { job } = this.props;
 
     const {
       startingDateAndTime,
@@ -25,14 +24,14 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
       _ownerRef,
     } = job;
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
+    const {  _bidderRef } = _awardedBidRef;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = HOUSE_CLEANING_DEF;
 
     const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
-      <div className={`card readOnlyView ${isSummaryView ? 'limitWidthOfCard' : ''}`}>
+      <div className="card readOnlyView limitWidthOfCard">
         {/* <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div> */}
@@ -62,7 +61,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
                 <div className="help has-text-danger">
-                  {`* ${ownerDisplayName} - Cancelling awarded jobs impacts your global rating`}
+                  {`* This was canceled by ${ownerDisplayName}`}
                 </div>
               </div>
             )}
@@ -71,14 +70,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
-                <div className="help has-text-danger">
-                  * This was cancelled after agreement was made. The requester gets 100% of the
-                  payment as refund.
-                </div>
-                <div className="help has-text-danger">
-                  * The assigned Tasker's global rating will be impacted. Cancelling too many
-                  commitments may put a ban on the Tasker's account.
-                </div>
+                {`* This was canceled by ${_bidderRef.displayName}`}
               </div>
             )}
 
@@ -91,24 +83,23 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
             <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
-        {isSummaryView && (
-          <React.Fragment>
-            <div style={{ padding: '0.5rem' }}>
-              <hr className="divider isTight" />
-            </div>
-            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-              <a
-                style={{ position: 'relative' }}
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
-                }}
-                className="button is-outlined"
-              >
-                View Canceled Request
-              </a>
-            </div>
-          </React.Fragment>
-        )}
+
+        <React.Fragment>
+          <div style={{ padding: '0.5rem' }}>
+            <hr className="divider isTight" />
+          </div>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+            <a
+              style={{ position: 'relative' }}
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              }}
+              className="button is-outlined is-danger"
+            >
+              View Implications
+            </a>
+          </div>
+        </React.Fragment>
       </div>
     );
   }

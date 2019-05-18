@@ -1,12 +1,12 @@
 import React from 'react';
+import TextareaAutosize from 'react-autosize-textarea';
+
 import {
   CountDownComponent,
   StartDateAndTime,
-  DisplayShortAddress,
+  DisplayLabelValue,
   UserImageAndRating,
 } from '../../containers/commonComponents';
-import { switchRoute } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
@@ -14,7 +14,7 @@ import { REQUEST_STATES } from '../index';
 
 export default class HouseCleaningAwardedCanceledByRequesterDetails extends React.Component {
   render() {
-    const { job, isSummaryView } = this.props;
+    const { job } = this.props;
 
     const {
       startingDateAndTime,
@@ -22,20 +22,25 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       _awardedBidRef,
       displayStatus,
       state,
+      extras,
       _ownerRef,
+      detailedDescription,
     } = job;
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = HOUSE_CLEANING_DEF;
 
     const { displayName: ownerDisplayName } = _ownerRef;
 
+    const effortLevel =
+      extras && extras.effort ? (
+        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+      ) : (
+        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
+      );
     return (
-      <div className={`card readOnlyView ${isSummaryView ? 'limitWidthOfCard' : ''}`}>
-        {/* <div className="card-image">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
+      <div className="card readOnlyView">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -62,7 +67,14 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
                 <div className="help has-text-danger">
-                  {`* ${ownerDisplayName} - Cancelling awarded jobs impacts your global rating`}
+                  {`* This was canceled by ${ownerDisplayName}`}
+                  <div className="help has-text-danger">
+                    {`* This was cancelled after agreement was made. ${ownerDisplayName} will recieve 80% of the
+                  payment as refund.`}
+                  </div>
+                  <div className="help has-text-danger">
+                    {`* Canceling many requests may cause your account to be locked out or banned`}
+                  </div>
                 </div>
               </div>
             )}
@@ -71,6 +83,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
+                {`* This was canceled by ${_bidderRef.displayName}`}
                 <div className="help has-text-danger">
                   * This was cancelled after agreement was made. The requester gets 100% of the
                   payment as refund.
@@ -88,14 +101,12 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
                 {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency}) `}
               </div>
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-                <div className="help has-text-success">{`* refunded ${bidAmount.value * 0.8}$ (${
+                <div className="help">{`* refunded ${bidAmount.value * 0.8}$ (${
                   bidAmount.currency
                 })`}</div>
               )}
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-                <div className="help has-text-danger">
-                  * will refund 100% of the payment to your card.
-                </div>
+                <div className="help">* will refund 100% of the payment to your card.</div>
               )}
             </div>
             <StartDateAndTime
@@ -104,7 +115,27 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisplayShortAddress addressText={addressText} />
+            <DisplayLabelValue labelText="Address" labelValue={addressText} />
+            <React.Fragment>
+              {effortLevel}
+              <div className="field">
+                <label className="label">Detailed Description</label>
+                <span className="is-size-7">
+                  <TextareaAutosize
+                    value={detailedDescription}
+                    className="textarea is-marginless is-paddingless is-size-6"
+                    style={{
+                      resize: 'none',
+                      border: 'none',
+                      color: '#4a4a4a',
+                      fontSize: '1rem',
+                      background: '#eeeeee',
+                    }}
+                    readOnly
+                  />
+                </span>
+              </div>
+            </React.Fragment>
             <hr className="divider" />
             <div className="field">
               <label className="label">Assigned Tasker Details</label>
@@ -112,24 +143,6 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
             </div>
           </div>
         </div>
-        {isSummaryView && (
-          <React.Fragment>
-            <div style={{ padding: '0.5rem' }}>
-              <hr className="divider isTight" />
-            </div>
-            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-              <a
-                style={{ position: 'relative' }}
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
-                }}
-                className="button is-outlined"
-              >
-                View Details
-              </a>
-            </div>
-          </React.Fragment>
-        )}
       </div>
     );
   }

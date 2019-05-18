@@ -93,7 +93,7 @@ class ReviewRequestAndBidsPage extends React.Component {
 
         <div className="columns is-centered">
           <div className="column is-narrow">
-            <div style={{ marginBottom: '0.7rem' }}>
+            <div>
               <a
                 className="button is-outlined"
                 onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}

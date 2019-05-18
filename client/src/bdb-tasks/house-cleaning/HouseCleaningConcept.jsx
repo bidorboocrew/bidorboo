@@ -12,20 +12,24 @@ export default class HouseCleaningConcept extends React.Component {
     const { ID, TITLE, DESCRIPTION, ICON } = HOUSE_CLEANING_DEF;
 
     return (
-      <div
-        onClick={(e) => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
-        }}
-        className="card is-clipped limitWidthOfCard"
-      >
+      <div className="card limitWidthOfCard">
         <div className="card-content">
           <div className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
             <hr className="divider" />
             {DESCRIPTION}
           </div>
-          <a className="button is-success is-outlined is-fullwidth">Request Now</a>
         </div>
+        <footer className="card-footer">
+          <a
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
+            }}
+            className="card-footer-item button is-success is-outlined is-fullwidth"
+          >
+            Request Now
+          </a>
+        </footer>
       </div>
     );
   }

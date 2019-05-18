@@ -132,7 +132,7 @@ class HouseCleaningRequestDetails extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'unset' }} className={`card  ${isPastDue ? 'expiredReadOnly' : ''}`}>
+        <div style={{ height: 'unset' }} className={`card ${isPastDue ? 'expiredReadOnly' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}

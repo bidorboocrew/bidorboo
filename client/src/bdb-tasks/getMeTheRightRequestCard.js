@@ -5,8 +5,10 @@ import {
   HouseCleaningRequestSummary,
   HouseCleaningAwardedSummary,
   HouseCleaningAwardedDetails,
-  HouseCleaningOpenCanceled,
+  HouseCleaningOpenCanceledSummary,
+  HouseCleaningOpenCanceledDetails,
   HouseCleaningAwardedCanceledByRequesterSummary,
+  HouseCleaningAwardedCanceledByRequesterDetails,
   TaskerHouseCleaningDetails,
   TaskerHouseCleaningSummary,
   HOUSE_CLEANING_DEF,
@@ -34,9 +36,9 @@ const requesterCardTemplates = {
     },
     [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
-        <HouseCleaningOpenCanceled job={job} isSummaryView={true} {...otherArgs} />
+        <HouseCleaningOpenCanceledSummary job={job} {...otherArgs} />
       ) : (
-        <HouseCleaningOpenCanceled job={job} isSummaryView={false} {...otherArgs} />
+        <HouseCleaningOpenCanceledDetails job={job} {...otherArgs} />
       );
     },
     [REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER]: ({
@@ -46,17 +48,9 @@ const requesterCardTemplates = {
       ...otherArgs
     }) => {
       return isSummaryView ? (
-        <HouseCleaningAwardedCanceledByRequesterSummary
-          isSummaryView={true}
-          job={job}
-          {...otherArgs}
-        />
+        <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
       ) : (
-        <HouseCleaningAwardedCanceledByRequesterSummary
-          isSummaryView={false}
-          job={job}
-          {...otherArgs}
-        />
+        <HouseCleaningAwardedCanceledByRequesterDetails job={job} {...otherArgs} />
       );
     },
   },
