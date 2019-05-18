@@ -1,15 +1,12 @@
 import axios from 'axios';
 
-export const registerServiceWorker = async (vapidKey) => {
+export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
   // if (process.env.NODE_ENV === 'production') {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    // try {
-    //   const existingServiceWorkers = await navigator.serviceWorker.getRegistrations();
-    //   debugger;
-    // } catch (e) {
-    //   console.error(e);
-    // }
-    send(vapidKey);
+    window.BidorBoo.SWRegistering += 1;
+    if (window.BidorBoo.SWRegistering === 1) {
+      installSW(vapidKey, shouldRegisterNewWebPushSubscription);
+    }
   }
   // }
 };
@@ -26,17 +23,32 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-const send = (vapidKey) => {
+const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
   window.addEventListener('load', async () => {
+    let doWeHaveAnExistingSW = false;
+    // try {
+    //   const fetchServiceWorker = await fetch('sw.js');
+    //   if (fetchServiceWorker.status === 200) {
+    //     doWeHaveAnExistingSW = true;
+    //   }
+    // } catch (e) {
+    //   console.error('failed to get sw.js ' + e);
+    // }
+
     let registration;
+
     try {
       console.log('registering service worker');
-      registration = await navigator.serviceWorker.register('sw.js', {
-        scope: '/',
-      });
-      console.log('Service worker Registered \n');
+      if (!doWeHaveAnExistingSW) {
+        registration = await navigator.serviceWorker.register('sw.js', {
+          scope: '/',
+        });
+        console.log('Service worker Registered \n');
 
-      registration = await registration.update();
+        if (registration) {
+          registration = await registration.update();
+        }
+      }
     } catch (e) {
       console.error(e);
     }
@@ -47,7 +59,11 @@ const send = (vapidKey) => {
 
         return;
       }
+      if (!shouldRegisterNewWebPushSubscription) {
+        console.log('This user already have webpush subscription ');
 
+        return;
+      }
       console.log('registering webpush');
       const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
       const subscription = await registration.pushManager.subscribe({

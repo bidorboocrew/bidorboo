@@ -4,7 +4,7 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      shouldShowBanner: true,
+      shouldShowBanner: false,
     };
 
     this.installPrompt = null;
@@ -27,7 +27,9 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
   }
 
   installApp = async () => {
-    if (!this.installPrompt) return false;
+    if (!this.installPrompt) {
+      return false;
+    }
     this.installPrompt.prompt();
     let outcome = await this.installPrompt.userChoice;
     if (outcome.outcome == 'accepted') {
@@ -57,17 +59,12 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
   }
   render() {
     return this.state.shouldShowBanner ? (
-      <div className="navbar-item">
-        <a
-          onClick={this.installApp}
-          className="button is-outlined is-success"
-        >
-          <span className="icon">
-            <i className="fas fa-mobile-alt" />
-          </span>
-          <span>Add App</span>
-        </a>
-      </div>
+      <a onClick={this.installApp} className="button is-outlined is-success  is-small">
+        <span className="icon">
+          <i className="fas fa-mobile-alt" />
+        </span>
+        <span>Add B.o.B To home screen</span>
+      </a>
     ) : null;
   }
 }

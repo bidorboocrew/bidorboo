@@ -6,10 +6,14 @@ import { Redirect } from 'react-router';
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { getCurrentUser } from '../app-state/actions/authActions';
 import { switchRoute } from '../utils';
-import { Spinner } from '../components/Spinner';
 
+import { getCurrentUser } from '../app-state/actions/authActions';
+import { Spinner } from '../components/Spinner';
+import logoImg from '../assets/images/android-chrome-192x192.png';
+import canadaFlag from '../assets/images/Canada-flag-round.png';
+import { registerServiceWorker } from '../registerServiceWorker';
+import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.css';
 
 import {
@@ -50,6 +54,17 @@ class App extends React.Component {
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
+  }
+  componentDidMount() {
+    const { userDetails, isLoggedIn } = this.props;
+    if (isLoggedIn) {
+      const shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
+
+      registerServiceWorker(
+        `${process.env.REACT_APP_VAPID_KEY}`,
+        shouldRegisterNewWebPushSubscription,
+      );
+    }
   }
 
   render() {
@@ -208,8 +223,11 @@ class App extends React.Component {
                       height={21}
                       alt="Canada"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
+                      src={canadaFlag}
                     />
+                  </div>
+                  <div style={{ marginTop: 6 }}>
+                    <AddToMobileHomeScreenBanner />
                   </div>
                 </div>
               </div>
@@ -217,7 +235,7 @@ class App extends React.Component {
                 <div>
                   <div className="has-text-grey is-size-7">
                     <img
-                      src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
+                      src={logoImg}
                       alt="BidOrBoo"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
                       width={21}
@@ -268,6 +286,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     s_toastDetails: uiReducer.toastDetails,
     userAppView: uiReducer.userAppView,
     authIsInProgress: uiReducer.authIsInProgress,
+    userDetails: userReducer.userDetails,
   };
 };
 

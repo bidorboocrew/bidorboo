@@ -10,8 +10,10 @@ import {
   setServerAppProposerView,
   setServerAppBidderView,
 } from './app-state/actions/uiActions';
-import { registerServiceWorker } from './registerServiceWorker';
+import * as ROUTES from './constants/frontend-route-consts';
+import { switchRoute } from './utils';
 
+import { Header } from './containers/index';
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
 // const UPDATE_NOTIFICATION_INTERVAL =
@@ -34,28 +36,29 @@ class GetNotificationsAndScroll extends React.Component {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
+
+    this.state = { hasError: false };
   }
+
+  componentDidCatch(error, info) {
+    console.log('bdb error details ' + error);
+    console.log('failure info ' + info);
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
   componentDidUpdate(prevProps) {
     const {
       isLoggedIn,
       getCurrentUser,
       location,
-      userDetails,
       setServerAppProposerView,
       setServerAppBidderView,
     } = this.props;
-    if (isLoggedIn) {
-      if (
-        userDetails &&
-        userDetails.notifications &&
-        userDetails.notifications.push &&
-        !userDetails.pushSubscription
-      ) {
-        // if (process.env.NODE_ENV === 'production') {
-        registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-        // }
-      }
-    }
+
 
     if (location !== prevProps.location) {
       if (!isLoggedIn) {
@@ -120,6 +123,32 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <div id="bidorboo-root-view">
+          <Header id="bidorboo-header" />
+          <section className="hero is-fullheight">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <br />
+                <h1 className="sub-title">
+                  Apologies for the inconvenience, We will track the issue and fix it asap.
+                </h1>
+                <br />
+                <a
+                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  className="button is-outlined is-success is-small"
+                >
+                  Go to Home Page
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
     return this.props.children;
   }
 }

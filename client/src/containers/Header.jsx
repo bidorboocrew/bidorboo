@@ -12,8 +12,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { NotificationsModal } from './index';
-
-import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
+import logoImg from '../assets/images/android-chrome-192x192.png';
 
 class Header extends React.Component {
   static propTypes = {
@@ -129,7 +128,7 @@ class Header extends React.Component {
               className="navbar-item"
             >
               <img
-                src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
+                src={logoImg}
                 alt="BidOrBoo"
                 width="32"
                 height="32"
@@ -177,7 +176,7 @@ class Header extends React.Component {
                 <a
                   style={{ borderRadius: '100%' }}
                   onClick={this.toggleNotificationMenu}
-                  className="button is-outlined is-info"
+                  className="button is-outlined is-info is-small"
                 >
                   <span className="icon">
                     <i className="fas fa-bell" />
@@ -185,7 +184,7 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
-            <AddToMobileHomeScreenBanner />;
+
             {isNotificationMenuActive &&
               ReactDOM.createPortal(
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,

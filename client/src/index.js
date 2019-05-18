@@ -16,8 +16,7 @@ import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 
-
-window.BidorBoo = window.BidorBoo || {};
+window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 window.BidorBoo.stripe = Object.freeze(stripe);
 

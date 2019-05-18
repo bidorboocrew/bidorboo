@@ -1,6 +1,5 @@
 import React from 'react';
 import Tour from 'reactour';
-import { registerServiceWorker } from '../registerServiceWorker';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
@@ -90,9 +89,6 @@ export default class HomePage extends React.Component {
     this.setState({ isTourOpen: !this.state.isTourOpen });
   };
 
-  componentDidMount(){
-    registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-  }
   render() {
     const isDesktopView = !elementInViewport(document.querySelector('#mobile-nav-burger'));
 
