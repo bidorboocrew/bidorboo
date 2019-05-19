@@ -27,14 +27,6 @@ export class FirstTimeUser extends React.Component {
       switchRoute(`${ROUTES.CLIENT.HOME}`);
     }
   }
-  toggleIsAutoDetectEnabled = () => {
-    const newAllowAutoDetectState = !this.state.allowAutoDetect;
-    this.setState({ allowAutoDetect: newAllowAutoDetectState }, () => {
-      if (newAllowAutoDetectState && navigator && navigator.geolocation) {
-        this.getCurrentAddress();
-      }
-    });
-  };
   toggleHasAgreedToTOS = () => {
     const newStateOfTOS = !this.state.hasAgreedToTOS;
     if (newStateOfTOS) {
@@ -45,30 +37,6 @@ export class FirstTimeUser extends React.Component {
   };
   updatePhoneNumber = (event) => {
     this.setState({ phoneNumber: event.target.value });
-  };
-
-  getCurrentAddress = () => {
-    // Try HTML5 geolocation.
-    if (navigator && navigator.geolocation) {
-      const getCurrentPositionOptions = {
-        maximumAge: 10000,
-        timeout: 5000,
-        enableHighAccuracy: true,
-      };
-      const errorHandling = () => {
-        console.error('BidOrBoo Could Not Auto Detect Address');
-      };
-      const successfulRetrieval = (position) => {};
-
-      //get the current location
-      navigator.geolocation.getCurrentPosition(
-        successfulRetrieval,
-        errorHandling,
-        getCurrentPositionOptions,
-      );
-    } else {
-      console.log('Your Browser does not support auto detection');
-    }
   };
 
   verifyAndSubmitOnBoarding = () => {
@@ -93,7 +61,6 @@ export class FirstTimeUser extends React.Component {
           const onBoardingDetails = {
             phone: { phoneNumber: this.state.phoneNumber },
             agreedToTOS: this.state.hasAgreedToTOS,
-            autoDetectlocation: this.state.allowAutoDetect,
           };
 
           this.props.updateOnBoardingDetails(onBoardingDetails);
@@ -160,29 +127,7 @@ export class FirstTimeUser extends React.Component {
                     </React.Fragment>
                   )}
                 </div>
-                {/* <div className="field">
-                  <div className="control">
-                    <label className="checkbox">
-                      <input
-                        id="autoDetectLocation"
-                        onChange={this.toggleIsAutoDetectEnabled}
-                        type="checkbox"
-                        name="autoDetectLocation"
-                        checked={allowAutoDetect}
-                      />
 
-                      <span>{` Allow BidOrBoo to Auto detect Your location`} </span>
-                      <span className="has-text-grey has-text-weight-normal">
-                        {`(`}
-                        <span className="icon">
-                          <i className="fas fa-globe-americas" />
-                        </span>
-                        <span>optional </span>
-                        {`)`}
-                      </span>
-                    </label>
-                  </div>
-                </div> */}
                 <br />
                 <div>
                   <div className="control">
