@@ -1,7 +1,7 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.2.1';
+var CACHE_NAME = 'bob-app-cache-v1.2.2';
 var urlsToCache = ['/', '/android-chrome-192x192.png', '/logo.svg', '/offline.html'];
 // var thirdPartyCachedLibs = [
 //   () => new Request('https://js.stripe.com/v3/', { mode: 'no-cors' }),
