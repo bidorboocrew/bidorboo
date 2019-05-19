@@ -302,40 +302,51 @@ exports.bidDataAccess = {
           .populate({
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
-            populate: {
-              path: '_jobRef _bidderRef',
-              select: {
-                notifications: 1,
-                _id: 1,
-                _ownerRef: 1,
-                title: 1,
-                state: 1,
-                detailedDescription: 1,
-                location: 1,
-                stats: 1,
-                startingDateAndTime: 1,
-                durationOfJob: 1,
-                fromTemplateId: 1,
-                reported: 1,
-                createdAt: 1,
-                updatedAt: 1,
-                displayName: 1,
-                rating: 1,
-                profileImage: 1,
-                email: 1,
-                phone: 1,
-              },
-              populate: {
-                path: '_ownerRef',
+            populate: [
+              {
+                path: '_jobRef',
                 select: {
                   notifications: 1,
                   _id: 1,
+                  _ownerRef: 1,
+                  title: 1,
+                  state: 1,
+                  detailedDescription: 1,
+                  location: 1,
+                  stats: 1,
+                  startingDateAndTime: 1,
+                  durationOfJob: 1,
+                  fromTemplateId: 1,
+                  reported: 1,
+                  createdAt: 1,
+                  updatedAt: 1,
                   displayName: 1,
                   rating: 1,
                   profileImage: 1,
+                  email: 1,
+                  phone: 1,
                 },
+                populate: [
+                  {
+                    path: '_ownerRef',
+                    select: {
+                      notifications: 1,
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
+                    },
+                  },
+                  {
+                    path: '_bidsListRef',
+                    select: {
+                      _bidderRef: 1,
+                      bidAmount: 1,
+                    },
+                  },
+                ],
               },
-            },
+            ],
           })
           .lean(true)
           .exec();

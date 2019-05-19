@@ -96,7 +96,7 @@ class HouseCleaningJobForm extends React.Component {
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Confirm Request Details</p>
+                  <div className="modal-card-title">Confirm Request Details</div>
                   <button className="delete" aria-label="close" />
                 </header>
 

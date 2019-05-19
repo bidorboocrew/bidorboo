@@ -9,28 +9,21 @@ import { TextInput } from './FormsHelpers';
 import { enforceNumericField } from './FormsValidators';
 
 class PostYourBid extends React.Component {
-  static propTypes = {
-    onCancel: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
       showBidDialog: false,
-      confirmRead: false,
     };
     this.recaptchaRef = React.createRef();
   }
   closeShowBidDialog = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
-    // setFieldValue('confirmReadField', false, false);
     setFieldValue('recaptchaField', '', false);
     resetForm();
 
-    this.setState({ showBidDialog: false, confirmRead: false });
+    this.setState({ showBidDialog: false });
   };
 
   openShowBidDialog = () => {
@@ -41,12 +34,6 @@ class PostYourBid extends React.Component {
     const { setFieldValue } = this.props;
     setFieldValue('bidAmountField', val, true);
   };
-  // toggleConfirmRead = () => {
-  //   const { setFieldValue } = this.props;
-  //   this.setState({ confirmRead: !this.state.confirmRead }, () => {
-  //     setFieldValue('confirmReadField', this.state.confirmRead, true);
-  //   });
-  // };
 
   componentDidUpdate() {
     const { values } = this.props;
@@ -74,7 +61,7 @@ class PostYourBid extends React.Component {
       avgBid,
       setFieldValue,
     } = this.props;
-    const { confirmRead, showBidDialog } = this.state;
+    const { showBidDialog } = this.state;
 
     const autoBidOptions =
       avgBid < 10 ? (
@@ -164,13 +151,13 @@ class PostYourBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Place Your Bid!</p>
+                  <div className="modal-card-title">Place Your Bid!</div>
                   <button onClick={this.closeShowBidDialog} className="delete" aria-label="close" />
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    Based on the request details that you've read, please enter the payment amount
-                    you'd like to recieve in exchange for doing this task
+                    Based on the request details that you've read, please enter the total payment
+                    amount you'd like to recieve in exchange for doing this task.
                   </p>
                   <br />
                   <input
@@ -205,7 +192,6 @@ class PostYourBid extends React.Component {
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
                     onChange={(e) => {
-                      //run normalizer to get rid of alpha chars
                       const normalizedVal = enforceNumericField(e.target.value);
                       e.target.value = normalizedVal;
                       handleChange(e);
@@ -215,24 +201,23 @@ class PostYourBid extends React.Component {
                     <div className="help">* Use our quick bid options</div>
                     {autoBidOptions}
                   </div>
-                  {/* <div className="control">
-                    <label className="radio">
-                      <input
-                        id="confirmReadField"
-                        error={touched.confirmReadField && errors.confirmReadField}
-                        onBlur={handleBlur}
-                        checked={confirmRead}
-                        value={values.confirmReadField}
-                        onChange={this.toggleConfirmRead}
-                        type="checkbox"
-                        name="success"
-                        required
-                      />
-                      <span className="has-text-weight-semibold">
-                        {` I Confirm that I've Read the task description thoroughly.`}
-                      </span>
-                    </label>
-                  </div> */}
+                  <br />
+                  <div className="field">
+                    <div className="label">BidOrBoo Rules</div>
+                    <div className="help">
+                      * After you submit. The bid will be reviewed by the requester
+                    </div>
+                    <div className="help">
+                      * You will be assigned to this task if the requester selects you
+                    </div>
+                    <div className="help">
+                      {`* `}
+                      <strong>
+                        Canceling after being assigned will negatively impact your rating or if done
+                        frequently will put a ban on your account
+                      </strong>
+                    </div>
+                  </div>
                 </section>
 
                 <footer className="modal-card-foot">
@@ -259,11 +244,6 @@ class PostYourBid extends React.Component {
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    // confirmReadField: Yup.boolean()
-    //   .required()
-    //   .test('confirmReadField', 'Must Be Checked', (inputValue) => {
-    //     return inputValue;
-    //   }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
@@ -276,7 +256,6 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      // confirmReadField: false,
       recaptchaField: '',
     };
   },

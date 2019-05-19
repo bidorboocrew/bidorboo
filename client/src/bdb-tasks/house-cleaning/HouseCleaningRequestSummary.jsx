@@ -74,7 +74,7 @@ class HouseCleaningRequestSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Cancel Request</p>
+                  <div className="modal-card-title">Cancel Request</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"

@@ -9,7 +9,7 @@ import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsAction
 
 import { Spinner } from '../../components/Spinner';
 
-import RequesterAndOpenBid from './components/RequesterAndOpenBid';
+import TaskerPendingBidInfo from './components/TaskerPendingBidInfo';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
@@ -21,7 +21,6 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    // http://localhost:3000/bidder/review-my-bid-details/5c22963be212a73af0a12f28
   }
 
   componentDidMount() {
@@ -41,7 +40,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, updateBid } = this.props;
+    const { selectedOpenBid, updateBid, currentUserDetails } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -63,17 +62,32 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       <div className="container is-widescreen">
         <div className="columns is-centered">
           <div className="column is-narrow">
-            {breadCrumbs({ activePageTitle: title })}
+            <div style={{ marginBottom: '0.7rem' }}>
+              <a
+                className="button is-outlined"
+                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>View My Other Bids</span>
+              </a>
+            </div>
 
-            <RequesterAndOpenBid
-              bid={selectedOpenBid}
-              job={selectedAwardedJob}
-              updateBidAction={updateBid}
-            />
             {getMeTheRightRequestCard({
               job: selectedAwardedJob,
               isSummaryView: false,
               pointOfView: POINT_OF_VIEW.TASKER,
+              userDetails: currentUserDetails,
+              renderTaskerBidInfo: () => {
+                return (
+                  <TaskerPendingBidInfo
+                    bid={selectedOpenBid}
+                    job={selectedAwardedJob}
+                    updateBidAction={updateBid}
+                  />
+                );
+              },
             })}
           </div>
         </div>
@@ -101,26 +115,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewOpenBidAndRequestPage);
-
-const breadCrumbs = ({ activePageTitle }) => {
-  return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-              }}
-            >
-              My Bids
-            </a>
-          </li>
-          <li className="is-active">
-            <a aria-current="page">{activePageTitle}</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-};

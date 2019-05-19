@@ -45,7 +45,7 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
             <hr className="divider isTight" />
             <div className="field">
               <label className="label">Requester:</label>
-              <UserImageAndRating userDetails={_ownerRef} />
+              <UserImageAndRating clipUserName userDetails={_ownerRef} />
             </div>
             <StartDateAndTime
               date={startingDateAndTime}

@@ -1,7 +1,7 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.1.1';
+var CACHE_NAME = 'bob-app-cache-v1.1.3';
 var urlsToCache = ['/', '/android-chrome-192x192.png', '/logo.svg'];
 var thirdPartyCachedLibs = [
   () => new Request('https://js.stripe.com/v3/', { mode: 'no-cors' }),
@@ -16,18 +16,20 @@ var thirdPartyCachedLibs = [
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
   // anything listed here will not be deleted
-  var cacheWhitelist = ['bob-app-cache-v1.1.1'];
-
+  var cacheWhitelist = ['bob-app-cache-v1.1.3'];
+  console.log('deleting caches ');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.map(function(cacheName) {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('deleting caches ' + urlsToCache);
             return caches.delete(urlsToCache);
           }
         }),
         cacheNames.map(function(cacheName) {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('deleting 3rd party caches ' + thirdPartyCachedLibs);
             return caches.delete(thirdPartyCachedLibs);
           }
         }),
@@ -57,7 +59,26 @@ self.addEventListener('fetch', function(event) {
       if (response) {
         return response;
       }
-      return fetch(event.request);
+      return fetch(event.request).then(function(response) {
+        // xxxx maybe we shouldnt cache all thigns check the impact here
+        // Check if we received a valid response
+        return response;
+        // if (!response || response.status !== 200 || response.type !== 'basic') {
+        //   return response;
+        // }
+
+        // // IMPORTANT: Clone the response. A response is a stream
+        // // and because we want the browser to consume the response
+        // // as well as the cache consuming the response, we need
+        // // to clone it so we have two streams.
+        // var responseToCache = response.clone();
+
+        // caches.open(CACHE_NAME).then(function(cache) {
+        //   cache.put(event.request, responseToCache);
+        // });
+
+        // return response;
+      });
     }),
   );
 });

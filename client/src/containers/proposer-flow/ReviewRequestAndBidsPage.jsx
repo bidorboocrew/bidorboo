@@ -101,7 +101,7 @@ class ReviewRequestAndBidsPage extends React.Component {
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>
-                <span>My Requests</span>
+                <span>View My Other Requests</span>
               </a>
             </div>
             {getMeTheRightRequestCard({

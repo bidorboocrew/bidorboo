@@ -50,7 +50,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Cancel Request</p>
+                  <div className="modal-card-title">Cancel Request</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -331,7 +331,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Is The Work Completed?</p>
+                  <div className="modal-card-title">Is The Work Completed?</div>
                 </header>
                 <section className="modal-card-body">
                   <p>
@@ -399,7 +399,7 @@ class ProposerDisputesJobCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">File A Dispute</p>
+                  <div className="modal-card-title">File A Dispute</div>
                 </header>
                 <section className="modal-card-body">
                   <div>BidOrBoo takes a no show case very seriously.</div>

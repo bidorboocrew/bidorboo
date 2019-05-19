@@ -14,11 +14,15 @@ import {
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
-import { didUserAlreadyView, findAvgBidInBidList } from '../../containers/commonUtils';
+import {
+  getUserExistingBid,
+  didUserAlreadyView,
+  findAvgBidInBidList,
+} from '../../containers/commonUtils';
 
 export default class TaskerHouseCleaningDetails extends React.Component {
   render() {
-    const { job, userDetails, otherArgs } = this.props;
+    const { job, otherArgs } = this.props;
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -30,10 +34,12 @@ export default class TaskerHouseCleaningDetails extends React.Component {
       fromTemplateId,
     } = job;
 
-    const { submitBid } = otherArgs;
+    const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
+    const { userAlreadyBid } = getUserExistingBid(job, currentUserId);
+
     let avgBid = 0;
     if (job && job._bidsListRef && job._bidsListRef.length > 0) {
       avgBid = findAvgBidInBidList(job._bidsListRef);
@@ -43,7 +49,7 @@ export default class TaskerHouseCleaningDetails extends React.Component {
         <div className="card-content">
           <div className="content">
             <CardTitleAndActionsInfo
-              userAlreadyBid={false}
+              userAlreadyBid={userAlreadyBid}
               jobState={state}
               fromTemplateId={fromTemplateId}
               bidsList={_bidsListRef}
@@ -79,22 +85,29 @@ export default class TaskerHouseCleaningDetails extends React.Component {
                 readOnly
               />
             </div>
-            <hr className="divider isTight" />
 
-            <PostYourBid
-              avgBid={avgBid}
-              onSubmit={(values) => {
-                submitBid({
-                  jobId: job._id,
-                  bidAmount: values.bidAmountField,
-                  recaptchaField: values.recaptchaField,
-                });
-              }}
-              onCancel={() => {
-                // updateBooedBy(job);
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
-              }}
-            />
+            {userAlreadyBid && (
+              <React.Fragment>
+                <hr className="divider isTight" />
+                {renderTaskerBidInfo && renderTaskerBidInfo()}
+              </React.Fragment>
+            )}
+            {!userAlreadyBid && (
+              <PostYourBid
+                avgBid={avgBid}
+                onSubmit={(values) => {
+                  submitBid({
+                    jobId: job._id,
+                    bidAmount: values.bidAmountField,
+                    recaptchaField: values.recaptchaField,
+                  });
+                }}
+                onCancel={() => {
+                  // updateBooedBy(job);
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

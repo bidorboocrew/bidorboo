@@ -40,7 +40,7 @@ class BidOnJobPage extends React.Component {
     }
   }
   render() {
-    const { submitBid, isLoggedIn, jobDetails } = this.props;
+    const { submitBid, isLoggedIn, jobDetails, currentUserDetails } = this.props;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
       return (
@@ -71,7 +71,7 @@ class BidOnJobPage extends React.Component {
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>
-                <span>View Other Requests</span>
+                <span>Bid On Other Requests</span>
               </a>
             </div>
 
@@ -80,6 +80,7 @@ class BidOnJobPage extends React.Component {
               isSummaryView: false,
               pointOfView: POINT_OF_VIEW.TASKER,
               submitBid,
+              userDetails: currentUserDetails,
             })}
           </div>
         </div>
@@ -91,6 +92,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     jobDetails: bidsReducer.jobToBidOnDetails,
+    currentUserDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {

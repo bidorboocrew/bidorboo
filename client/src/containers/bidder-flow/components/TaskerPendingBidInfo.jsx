@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
 import ReCAPTCHA from 'react-google-recaptcha';
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
 
-class RequesterAndOpenBid extends React.Component {
+import { DisplayLabelValue } from '../../commonComponents';
+
+class TaskerPendingBidInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,11 +31,10 @@ class RequesterAndOpenBid extends React.Component {
   closeUpdateBidModal = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
-    setFieldValue('confirmReadField', false, false);
 
     resetForm();
 
-    this.setState({ showUpdateBidDialog: false, confirmRead: false });
+    this.setState({ showUpdateBidDialog: false });
   };
 
   showUpdateBidModal = () => {
@@ -59,12 +58,6 @@ class RequesterAndOpenBid extends React.Component {
     const { setFieldValue } = this.props;
     setFieldValue('bidAmountField', val, true);
   };
-  toggleConfirmRead = () => {
-    const { setFieldValue } = this.props;
-    this.setState({ confirmRead: !this.state.confirmRead }, () => {
-      setFieldValue('confirmReadField', this.state.confirmRead, true);
-    });
-  };
 
   render() {
     const {
@@ -83,7 +76,7 @@ class RequesterAndOpenBid extends React.Component {
       return null;
     }
 
-    const { showUpdateBidDialog, confirmRead } = this.state;
+    const { showUpdateBidDialog } = this.state;
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
@@ -91,7 +84,6 @@ class RequesterAndOpenBid extends React.Component {
     const autoBidOptions =
       bidAmount > 10 ? (
         <div className="buttons">
-          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(bidAmount - 10)}
             className="button is-success is-outlined is-small"
@@ -126,7 +118,7 @@ class RequesterAndOpenBid extends React.Component {
       ) : null;
     return (
       <div>
-        <FloatingAddNewBidButton />
+        {/* <FloatingAddNewBidButton /> */}
         <ReCAPTCHA
           style={{ display: 'none' }}
           onExpired={() => this.recaptchaRef.current.execute()}
@@ -141,25 +133,26 @@ class RequesterAndOpenBid extends React.Component {
             <div className="modal-background" />
             <div className="modal-card">
               <header className="modal-card-head">
-                <p className="modal-card-title">Update Your Bid</p>
+                <div className="modal-card-title">Change Bid Amount</div>
                 <button onClick={this.closeUpdateBidModal} className="delete" aria-label="close" />
               </header>
               <section className="modal-card-body">
                 <div>
-                  You have a placed bid for the amount of
+                  You have placed a bid for the amount of
                   <strong>{` ${bid.bidAmount.value} ${bid.bidAmount.currency} `}</strong>
-                  on this job. You can keep changing your bid amount as long as the job is not
-                  Awarded or Expired.
+                  on this job.
+                  <br />
+                  Please enter the new total payment amount you'd like to recieve in exchange for
+                  doing this task.
                 </div>
 
                 <br />
                 <TextInput
-                  label="Update Your Bid Amount"
+                  label="Enter The New Bid Amount"
                   id="bidAmountField"
                   className="input is-focused"
                   type="number"
                   onBlur={handleBlur}
-                  helpText="* Enter a new bid amount. Bid Amount is in (CAD). E.g 50"
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}
                   onChange={(e) => {
@@ -169,34 +162,36 @@ class RequesterAndOpenBid extends React.Component {
                     handleChange(e);
                   }}
                 />
-                {autoBidOptions}
+                <div style={{ marginTop: -8 }}>
+                  <div className="help">* Use our quick bid options</div>
+                  {autoBidOptions}
+                </div>
                 <br />
-                <div className="control">
-                  <label className="radio">
-                    <input
-                      id="confirmReadField"
-                      error={touched.confirmReadField && errors.confirmReadField}
-                      onBlur={handleBlur}
-                      checked={confirmRead}
-                      value={values.confirmReadField}
-                      onChange={this.toggleConfirmRead}
-                      type="checkbox"
-                      name="success"
-                      required
-                    />
-                    <span className="has-text-weight-semibold">
-                      {` I Confirm that I've Read the task description thoroughly and happy with my updated bid.`}
-                    </span>
-                  </label>
+                <div className="field">
+                  <div className="label">BidOrBoo Rules</div>
+                  <div className="help">
+                    * After you submit. The bid will be reviewed by the requester
+                  </div>
+                  <div className="help">
+                    * You will be assigned to this task if the requester selects you
+                  </div>
+                  <div className="help">
+                    *
+                    <strong>
+                      Canceling after being assigned will negatively impact your rating or if done
+                      frequently will put a ban on your account
+                    </strong>
+                  </div>
                 </div>
               </section>
+
               <footer className="modal-card-foot">
                 <button
                   disabled={isSubmitting || !isValid}
                   onClick={this.submitUpdateBid}
                   className="button is-success"
                 >
-                  Update My Bid
+                  Submit Bid Chagnes
                 </button>
                 <button onClick={this.closeUpdateBidModal} className="button is-outline">
                   Cancel
@@ -206,40 +201,32 @@ class RequesterAndOpenBid extends React.Component {
           </div>
         )}
 
-        <div style={{ height: 'auto' }} className="card disabled">
-          <header className="card-header is-clipped">
-            <p className="card-header-title"> My Bid Info</p>
-          </header>
+        <div className="card">
           <div className="card-content">
-            <br />
-            <div style={{ marginBottom: 6 }}>
-              <div className="is-size-7">My Bid:</div>
+            <div className="field">
+              <label className="label">My Bid Amount</label>
+              <div className="control has-text-weight-bold has-text-info ">{`${bidAmount} ${bidCurrency}`}</div>
+            </div>
+            <DisplayLabelValue
+              label={'Bid Status'}
+              value={'Pending'}
+              renderHelpComponent={() => (
+                <div className="help">* Requester did not award this job to anyone yet</div>
+              )}
+            />
 
-              <div className="is-size-6">
-                <span className="has-text-weight-bold">{`${bidAmount} ${bidCurrency}`}</span>
-                <a
-                  onClick={() => {
-                    this.showUpdateBidModal();
-                  }}
-                  style={{
-                    boxShadow:
-                      '0 2px 3px rgba(255, 255, 255, 0.31), 0 1px 3px rgba(200, 200, 200, 0.08)',
-                    marginLeft: 10,
-                  }}
-                  className="button is-outline is-small has-text-info"
-                >
-                  <span className="icon">
-                    <i className="far fa-edit" />
-                  </span>
-                  <span>Edit</span>
-                </a>
-              </div>
-            </div>
-            <div style={{ marginBottom: 6 }}>
-              <div className="is-size-7">My Bid Status :</div>
-              <div className="is-size-6">Pending</div>
-            </div>
-            <div className="help">* Requester did not award this job to anyone yet</div>
+            <hr className="divider isTight" />
+            <a
+              onClick={() => {
+                this.showUpdateBidModal();
+              }}
+              className="button is-info is-outlined is-outline is-fullwidth"
+            >
+              <span className="icon">
+                <i className="far fa-edit" />
+              </span>
+              <span>Change My Bid Amount</span>
+            </a>
           </div>
         </div>
       </div>
@@ -249,22 +236,11 @@ class RequesterAndOpenBid extends React.Component {
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    confirmReadField: Yup.boolean()
-      .required()
-      .test('confirmReadField', 'Must Be Checked', (inputValue) => {
-        return inputValue;
-      }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
   }),
-
-  mapPropsToValues: () => {
-    return {
-      confirmReadField: false,
-    };
-  },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.updateBidAction({ bidId: props.bid._id, bidAmount: values.bidAmountField });
     this.closeUpdateBidModal();
@@ -273,19 +249,4 @@ const EnhancedForms = withFormik({
   displayName: 'UpdateBidForm',
 });
 
-export default EnhancedForms(RequesterAndOpenBid);
-
-const FloatingAddNewBidButton = () => {
-  return (
-    <a
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        switchRoute(ROUTES.CLIENT.BIDDER.root);
-      }}
-      className="button is-success bdbFloatingButtonText"
-    >
-      <span className="icon">+ </span>
-    </a>
-  );
-};
+export default EnhancedForms(TaskerPendingBidInfo);

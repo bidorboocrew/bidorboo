@@ -66,14 +66,17 @@ export const JobTitleText = ({ title, iconClass }) => {
     </div>
   );
 };
-export const UserImageAndRating = ({ userDetails }) => {
+export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
   let temp = userDetails
     ? userDetails
     : { profileImage: { url: '' }, displayName: '--', rating: { globalRating: 'no rating' } };
 
   const { profileImage, displayName, rating } = temp;
-  let trimmedDisplayName =
-    displayName && displayName.length > 10 ? `${displayName.substring(0, 8)}...` : displayName;
+  let trimmedDisplayName = displayName;
+  if (clipUserName) {
+    let trimmedDisplayName =
+      displayName && displayName.length > 10 ? `${displayName.substring(0, 8)}...` : displayName;
+  }
   return (
     <article
       style={{
@@ -168,13 +171,11 @@ export const CardTitleAndActionsInfo = ({
         </div>
         <div className="level-item has-text-centered">
           {!isAwarded && !userAlreadyBid && (
-            <div>
+            <div className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
               <div className="icon">
                 <i className="fas fa-hand-paper" />
               </div>
-              <div className={`help ${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
-                {bidsCountLabel}
-              </div>
+              <div className="help"> {bidsCountLabel}</div>
             </div>
           )}
         </div>
@@ -271,9 +272,12 @@ export class LocationLabelAndValue extends React.Component {
             if (address && !address.toLowerCase().includes('canada')) {
               alert('Sorry! Bid or Boo is only available in Canada.');
             } else {
-              this.setState({
-                addressText: address,
-              });
+              //xxx find a way to unsubscribe from geocoding async call if component unmounted
+              if (this && this.setState) {
+                this.setState({
+                  addressText: address,
+                });
+              }
             }
           }
         },
