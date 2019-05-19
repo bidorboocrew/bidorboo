@@ -29,7 +29,7 @@ export default class TaskerHouseCleaningDetails extends React.Component {
       extras,
       fromTemplateId,
     } = job;
-debugger
+
     const { submitBid } = otherArgs;
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
