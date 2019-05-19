@@ -36,7 +36,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
     try {
       console.log('registering service worker');
       if (!doWeHaveAnExistingSW) {
-        registration = await navigator.serviceWorker.register('sw.js', {
+        registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
         });
         console.log('Service worker Registered \n');

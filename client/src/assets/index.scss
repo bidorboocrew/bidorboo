@@ -337,6 +337,7 @@ hr.divider {
 }
 article.media.limitHeight {
   height: 4rem;
+  overflow: hidden;
 }
 .card {
   &.readOnlyView {

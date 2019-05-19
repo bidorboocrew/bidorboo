@@ -13,6 +13,7 @@ import {
   DisplayLabelValue,
   UserImageAndRating,
   AddAwardedJobToCalendar,
+  EffortLevel
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -28,7 +29,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      jobCompletion,
       displayStatus,
       isExpiringSoon,
       isHappeningToday,
@@ -42,12 +42,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -206,7 +200,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
 
               {showMore && (
                 <React.Fragment>
-                  {effortLevel}
+                  <EffortLevel extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">

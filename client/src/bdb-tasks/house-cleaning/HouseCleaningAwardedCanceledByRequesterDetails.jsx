@@ -6,6 +6,7 @@ import {
   StartDateAndTime,
   DisplayLabelValue,
   UserImageAndRating,
+  EffortLevel,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -33,12 +34,6 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
 
     const { displayName: ownerDisplayName } = _ownerRef;
 
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
     return (
       <div className="card readOnlyView">
         <div className="card-content">
@@ -117,7 +112,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
             />
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
             <React.Fragment>
-              {effortLevel}
+              <EffortLevel extras={extras} />
               <div className="field">
                 <label className="label">Detailed Description</label>
                 <span className="is-size-7">

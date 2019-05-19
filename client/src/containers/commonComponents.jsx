@@ -36,7 +36,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let avgBidLabel = minBid ? (
     <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid}$ (CAD)`} />
   ) : (
-    <DisplayLabelValue labelText="Avg Bid:" labelValue={`None yet!`} />
+    <DisplayLabelValue labelText="Avg Bid:" labelValue={`No Bids yet!`} />
   );
   return avgBidLabel;
 };
@@ -89,7 +89,7 @@ export const UserImageAndRating = ({ userDetails }) => {
       <figure style={{ margin: '0 6px 0 0' }} className="media-left">
         <p className="image is-48x48">
           <img
-            style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
+            style={{ width: 48, height: 48, boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
             src={profileImage.url}
             alt="image"
           />
@@ -115,16 +115,13 @@ export const UserImageAndRating = ({ userDetails }) => {
               color2={'#ffd700'}
             />
           )}
-          {/* <p style={{ textDecoration: 'underline' }} className="is-size-7">
-          click to view full profile
-        </p> */}
         </div>
       </div>
     </article>
   );
 };
 
-export const CardTitleWithBidCount = ({
+export const CardTitleAndActionsInfo = ({
   jobState,
   fromTemplateId,
   bidsList = [],
@@ -133,56 +130,66 @@ export const CardTitleWithBidCount = ({
   isOnMapView = false,
 }) => {
   const areThereAnyBidders = bidsList && bidsList.length > 0;
-  const bidsCountLabel = `${bidsList ? bidsList.length : 0} bids`;
+
+  let bidsCountLabel = 'No bids';
+  if (bidsList.length === 1) {
+    bidsCountLabel = '1 bid';
+  }
+  if (bidsList.length > 1) {
+    bidsCountLabel = `${bidsList.length} bids`;
+  }
+
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
-    <div style={{ display: 'flex' }}>
-      <div
-        style={{ flexGrow: 1 }}
-        className={`${isOnMapView ? 'is-size-6' : 'is-size-4'} has-text-weight-bold`}
-      >
-        <span className="icon">
-          <i className="fas fa-home" />
-        </span>
-        <span style={{ marginLeft: 4 }}>
-          {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
-        </span>
-      </div>
-      <div>
-        <a>
-          {userAlreadyBid && (
-            <span title="You've Bid Already" style={{ marginRight: 4 }} className="has-text-grey">
-              <span className="icon">
-                <i className="fas fa-money-check-alt" />
-              </span>
+    <nav style={{ marginBottom: 8 }} className="level is-mobile">
+      <div className="level-left">
+        <div className="level-item">
+          <div className={`${isOnMapView ? 'is-size-6' : 'is-size-5'} has-text-weight-bold`}>
+            <span className="icon">
+              <i className="fas fa-home" />
             </span>
-          )}
+            <span style={{ marginLeft: 4 }}>
+              {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="level-right">
+        <div className="level-item has-text-centered">
           {userAlreadyView && (
-            <span
-              title="You've Seen this Already"
-              style={{ marginRight: 4 }}
-              className="has-text-grey"
-            >
-              <span className="icon">
+            <div>
+              <div className="icon">
                 <i className="far fa-eye" />
-              </span>
-            </span>
+              </div>
+              <div className="help">Viewed</div>
+            </div>
           )}
-          {!isAwarded && (
-            <span
-              title="Bids Count"
-              className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}
-            >
-              <span className="icon">
+        </div>
+        <div className="level-item has-text-centered">
+          {!isAwarded && !userAlreadyBid && (
+            <div>
+              <div className="icon">
                 <i className="fas fa-hand-paper" />
-              </span>
-              <span>{bidsCountLabel}</span>
-            </span>
+              </div>
+              <div className={`help ${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
+                {bidsCountLabel}
+              </div>
+            </div>
           )}
-          {isAwarded && <span className={'has-text-info has-text-weight-bold'}>Awarded</span>}
-        </a>
+        </div>
+        <div className="level-item has-text-centered">
+          {userAlreadyBid && (
+            <div>
+              <div className="icon">
+                <i className="fas fa-money-check-alt" />
+              </div>
+              <div className="help">Bid Placed</div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
@@ -284,8 +291,8 @@ export class LocationLabelAndValue extends React.Component {
     return (
       <div className="field">
         <label className="label">Location Near:</label>
-        <div className="control is-success">{this.state.addressText}</div>
-        <p className="help">*For safety purposes location is approximate.</p>
+        <div className="control">{this.state.addressText}</div>
+        <p className="help">* For privacy reasons we only display an approximate location.</p>
       </div>
     );
   }
@@ -348,9 +355,9 @@ export const StepsForRequest = ({ step }) => {
   );
 };
 
-export const StepsForTasker = ({ step }) => {
+export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
   return (
-    <ul className="steps has-content-centered is-horizontal">
+    <ul className={`steps has-content-centered is-horizontal ${isSmall ? 'is-small' : ''}`}>
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
@@ -358,7 +365,7 @@ export const StepsForTasker = ({ step }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p>Select a Job</p>
+          <p className={`${isSmall ? 'help' : ''}`}>Select a Job</p>
         </div>
       </li>
       <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
@@ -368,37 +375,29 @@ export const StepsForTasker = ({ step }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p>Bid On it</p>
+          <p className={`${isSmall ? 'help' : ''}`}>Bid On it</p>
         </div>
       </li>
-      {/* <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="far fa-clock" />
+      {isMoreDetails && (
+        <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+          <span className="steps-marker">
+            <span className="icon">
+              <i className="fas fa-check" />
+            </span>
           </span>
-        </span>
-        <div className="steps-content">
-          <p>Get Awarded</p>
-        </div>
-      </li> */}
-      {/* <li className="steps-segment">
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="far fa-comments" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p>Finalize the details</p>
-        </div>
-      </li> */}
-      <li className="steps-segment">
+          <div className="steps-content">
+            <p className={`${isSmall ? 'help' : ''}`}>Requester Selects a Tasker</p>
+          </div>
+        </li>
+      )}
+      <li className={`steps-segment ${step === 4 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
             <i className="fa fa-usd" />
           </span>
         </span>
         <div className="steps-content">
-          <p>Do it and get paid</p>
+          <p className={`${isSmall ? 'help' : ''}`}>Do it and get paid</p>
         </div>
       </li>
     </ul>
@@ -474,5 +473,13 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       buttonLabel={'Add to Calendar'}
       buttonClassClosed="button is-success is-outlined"
     />
+  );
+};
+
+export const EffortLevel = ({ extras }) => {
+  return extras && extras.effort ? (
+    <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
+  ) : (
+    <DisplayLabelValue labelText="Effort" labelValue={'Not Specified'} />
   );
 };

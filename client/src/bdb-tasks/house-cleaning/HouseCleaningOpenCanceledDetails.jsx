@@ -5,6 +5,7 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayLabelValue,
+  EffortLevel,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -17,12 +18,6 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
 
     const { TITLE } = HOUSE_CLEANING_DEF;
 
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
     return (
       <div className="card readOnlyView ">
         {/* <div className="card-image">
@@ -63,26 +58,25 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
             />
 
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
-            <React.Fragment>
-              {effortLevel}
-              <div className="field">
-                <label className="label">Detailed Description</label>
-                <span className="is-size-7">
-                  <TextareaAutosize
-                    value={detailedDescription}
-                    className="textarea is-marginless is-paddingless is-size-6"
-                    style={{
-                      resize: 'none',
-                      border: 'none',
-                      color: '#4a4a4a',
-                      fontSize: '1rem',
-                      background: '#eeeeee',
-                    }}
-                    readOnly
-                  />
-                </span>
-              </div>
-            </React.Fragment>
+
+            <EffortLevel extras={extras} />
+            <div className="field">
+              <label className="label">Detailed Description</label>
+              <span className="is-size-7">
+                <TextareaAutosize
+                  value={detailedDescription}
+                  className="textarea is-marginless is-paddingless is-size-6"
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                    color: '#4a4a4a',
+                    fontSize: '1rem',
+                    background: '#eeeeee',
+                  }}
+                  readOnly
+                />
+              </span>
+            </div>
           </div>
         </div>
       </div>

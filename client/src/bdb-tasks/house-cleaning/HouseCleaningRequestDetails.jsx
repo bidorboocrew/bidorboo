@@ -11,6 +11,7 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
+  EffortLevel,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
@@ -73,13 +74,6 @@ class HouseCleaningRequestDetails extends React.Component {
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
-
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
 
     return (
       <React.Fragment>
@@ -248,7 +242,7 @@ class HouseCleaningRequestDetails extends React.Component {
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (
                 <React.Fragment>
-                  {effortLevel}
+                  <EffortLevel extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">

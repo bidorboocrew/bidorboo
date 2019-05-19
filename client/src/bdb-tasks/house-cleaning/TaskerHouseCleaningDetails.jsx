@@ -1,20 +1,24 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 
 import {
-  DisplayLabelValue,
   CountDownComponent,
   UserImageAndRating,
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
   LocationLabelAndValue,
-  JobTitleText,
+  CardTitleAndActionsInfo,
+  EffortLevel,
 } from '../../containers/commonComponents';
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import PostYourBid from '../../components/forms/PostYourBid';
+
+import { didUserAlreadyView, findAvgBidInBidList } from '../../containers/commonUtils';
 
 export default class TaskerHouseCleaningDetails extends React.Component {
   render() {
-    const { job } = this.props;
+    const { job, userDetails, otherArgs } = this.props;
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -23,53 +27,76 @@ export default class TaskerHouseCleaningDetails extends React.Component {
       detailedDescription,
       location,
       extras,
+      fromTemplateId,
     } = job;
+debugger
+    const { submitBid } = otherArgs;
 
-    const { TITLE, IMG_URL,ICON } = HOUSE_CLEANING_DEF;
-
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
-
+    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
+    const userAlreadyView = didUserAlreadyView(job, currentUserId);
+    let avgBid = 0;
+    if (job && job._bidsListRef && job._bidsListRef.length > 0) {
+      avgBid = findAvgBidInBidList(job._bidsListRef);
+    }
     return (
-      <div style={{ height: 'auto' }} className="card is-clipped">
-        {/* <div className="card-image is-clipped">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
+      <div style={{ height: 'auto ' }} className="card">
         <div className="card-content">
-          <JobTitleText title={TITLE} iconClass={ICON} />
-          <label className="label">Requester:</label>
-          <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
-            <StartDateAndTime date={startingDateAndTime} />
+            <CardTitleAndActionsInfo
+              userAlreadyBid={false}
+              jobState={state}
+              fromTemplateId={fromTemplateId}
+              bidsList={_bidsListRef}
+              userAlreadyView={userAlreadyView}
+            />
+            <hr className="divider isTight" />
+            <div className="field">
+              <label className="label">Requester:</label>
+              <UserImageAndRating userDetails={_ownerRef} />
+            </div>
+            <StartDateAndTime
+              date={startingDateAndTime}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+            />
             {location && location.coordinates && (
               <LocationLabelAndValue location={location.coordinates} />
             )}
-            <DisplayLabelValue labelText="State:" labelValue={state} />
-            {effortLevel}
+            <EffortLevel extras={extras} />
+            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+
             <div className="field">
               <label className="label">Detailed Description</label>
-              <span className="is-size-7">
-                <TextareaAutosize
-                  value={detailedDescription}
-                  className="textarea is-marginless is-paddingless is-size-6"
-                  style={{
-                    resize: 'none',
-                    border: 'none',
-                    color: '#4a4a4a',
-                    fontSize: '1rem',
-                  }}
-                  readOnly
-                />
-                <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-              </span>
+
+              <TextareaAutosize
+                value={detailedDescription}
+                className="textarea is-marginless is-paddingless is-size-6"
+                style={{
+                  resize: 'none',
+                  border: 'none',
+                  color: '#4a4a4a',
+                  fontSize: '1rem',
+                }}
+                readOnly
+              />
             </div>
+            <hr className="divider isTight" />
+
+            <PostYourBid
+              avgBid={avgBid}
+              onSubmit={(values) => {
+                submitBid({
+                  jobId: job._id,
+                  bidAmount: values.bidAmountField,
+                  recaptchaField: values.recaptchaField,
+                });
+              }}
+              onCancel={() => {
+                // updateBooedBy(job);
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            />
           </div>
         </div>
-        <CountDownComponent startingDate={startingDateAndTime} />
       </div>
     );
   }

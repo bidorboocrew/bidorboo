@@ -5,17 +5,19 @@ import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import {
   AvgBidDisplayLabelAndValue,
-  DisplayLabelValue,
   UserImageAndRating,
-  CardTitleWithBidCount,
+  CardTitleAndActionsInfo,
   StartDateAndTime,
+  EffortLevel,
+  CountDownComponent,
 } from '../../containers/commonComponents';
+
+import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
 
 import RequestBaseContainer from '../RequestBaseContainer';
 
@@ -29,38 +31,33 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
     const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
-    const effortLevel =
-      extras && extras.effort ? (
-        <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-      ) : (
-        <DisplayLabelValue labelText="Effort" labelValue={'not specified'} />
-      );
-
     return (
       <div className={`card is-clipped ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}>
-        {/* {!isOnMapView && (
-          <div className="card-image is-clipped">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div>
-        )} */}
         <div className="card-content">
           <div className="content">
-            <CardTitleWithBidCount
+            <CardTitleAndActionsInfo
               userAlreadyBid={userAlreadyBid}
               jobState={state}
               fromTemplateId={fromTemplateId}
               bidsList={_bidsListRef}
               userAlreadyView={userAlreadyView}
             />
-            <br />
-            <label className="label">Requester:</label>
-            <UserImageAndRating userDetails={_ownerRef} />
-            <StartDateAndTime date={startingDateAndTime} />
-            {!isOnMapView && effortLevel}
+            <hr className="divider isTight" />
+            <div className="field">
+              <label className="label">Requester:</label>
+              <UserImageAndRating userDetails={_ownerRef} />
+            </div>
+            <StartDateAndTime
+              date={startingDateAndTime}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+            />
+            {!isOnMapView && <EffortLevel extras={extras} />}
             {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
           </div>
           {!isOnMapView && (
             <React.Fragment>
+              <hr className="divider isTight" />
+
               {userAlreadyBid ? (
                 <a
                   onClick={(e) => {
@@ -87,7 +84,7 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                   }}
                   className="button is-success is-outlined is-fullwidth"
                 >
-                  Bid Now!
+                  Place Your Bid!
                 </a>
               )}
             </React.Fragment>
@@ -109,7 +106,7 @@ class TaskerHouseCleaningSummary extends RequestBaseContainer {
                   }}
                   className="button is-success is-small is-outlined is-fullwidth"
                 >
-                  Bid Now!
+                  Place Your Bid!
                 </a>
               )}
               <a
@@ -148,27 +145,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(TaskerHouseCleaningSummary);
-
-const getUserExistingBid = (job, currentUserId) => {
-  if (!job._bidsListRef || !job._bidsListRef.length > 0) {
-    return false;
-  }
-
-  let userExistingBid = null;
-  let userAlreadyBid = job._bidsListRef.some((bid) => {
-    userExistingBid = bid;
-    return bid._bidderRef === currentUserId;
-  });
-  return { userAlreadyBid, userExistingBid };
-};
-
-const didUserAlreadyView = (job, currentUserId) => {
-  if (!job.viewedBy || !job.viewedBy.length > 0) {
-    return false;
-  }
-
-  let didUserAlreadyView = job.viewedBy.some((usrId) => {
-    return usrId === currentUserId;
-  });
-  return didUserAlreadyView;
-};

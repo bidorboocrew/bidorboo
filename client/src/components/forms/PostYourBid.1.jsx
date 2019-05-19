@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
 import { enforceNumericField } from './FormsValidators';
+import ActionSheet from '../ActionSheet';
 
 class PostYourBid extends React.Component {
   static propTypes = {
@@ -26,7 +27,7 @@ class PostYourBid extends React.Component {
   closeShowBidDialog = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
-    // setFieldValue('confirmReadField', false, false);
+    setFieldValue('confirmReadField', false, false);
     setFieldValue('recaptchaField', '', false);
     resetForm();
 
@@ -41,12 +42,12 @@ class PostYourBid extends React.Component {
     const { setFieldValue } = this.props;
     setFieldValue('bidAmountField', val, true);
   };
-  // toggleConfirmRead = () => {
-  //   const { setFieldValue } = this.props;
-  //   this.setState({ confirmRead: !this.state.confirmRead }, () => {
-  //     setFieldValue('confirmReadField', this.state.confirmRead, true);
-  //   });
-  // };
+  toggleConfirmRead = () => {
+    const { setFieldValue } = this.props;
+    this.setState({ confirmRead: !this.state.confirmRead }, () => {
+      setFieldValue('confirmReadField', this.state.confirmRead, true);
+    });
+  };
 
   componentDidUpdate() {
     const { values } = this.props;
@@ -75,10 +76,12 @@ class PostYourBid extends React.Component {
       setFieldValue,
     } = this.props;
     const { confirmRead, showBidDialog } = this.state;
+    const actionsSheetRoot = document.querySelector('#bidorboo-root-action-sheet');
 
     const autoBidOptions =
       avgBid < 10 ? (
         <div className="buttons">
+          <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(25)}
             className="button is-success is-outlined is-small"
@@ -145,19 +148,36 @@ class PostYourBid extends React.Component {
           </span>
         </div>
       );
-    return (
+    return actionsSheetRoot ? (
       <React.Fragment>
-        <a
-          onClick={this.openShowBidDialog}
-          type="button"
-          className="button is-success is-medium is-outlined is-fullwidth"
-        >
-          <span className="icon">
-            <i className="fas fa-hand-paper" />
-          </span>
-          <span>Place Your Bid</span>
-        </a>
-
+        {!showBidDialog &&
+          ReactDOM.createPortal(
+            <ActionSheet>
+              <a
+                style={{ borderRadius: 0, width: '10rem' }}
+                onClick={this.openShowBidDialog}
+                type="button"
+                className="button is-medium is-success "
+              >
+                <span className="icon">
+                  <i className="fas fa-hand-paper" />
+                </span>
+                <span>Bid</span>
+              </a>
+              <a
+                style={{ borderRadius: 0, marginLeft: '2.25rem', width: '10rem' }}
+                className="button is-medium is-outlined "
+                type="submit"
+                onClick={onCancel}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>Go Back</span>
+              </a>
+            </ActionSheet>,
+            actionsSheetRoot,
+          )}
         {showBidDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active">
@@ -168,11 +188,6 @@ class PostYourBid extends React.Component {
                   <button onClick={this.closeShowBidDialog} className="delete" aria-label="close" />
                 </header>
                 <section className="modal-card-body">
-                  <p>
-                    Based on the request details that you've read, please enter the payment amount
-                    you'd like to recieve in exchange for doing this task
-                  </p>
-                  <br />
                   <input
                     id="recaptchaField"
                     className="input is-invisible"
@@ -192,16 +207,16 @@ class PostYourBid extends React.Component {
                   />
                   <TextInput
                     // setFocusImmediately={true}
-                    label="Your Bid"
+                    label="Enter a payment amount that you want to recieve in exchange for doing this task"
                     id="bidAmountField"
                     className="input is-focused"
                     type="number"
                     onBlur={handleBlur}
-                    // helpText={
-                    //   avgBid > 0
-                    //     ? `*Current Avg bid is $ ${avgBid}$ (CAD)`
-                    //     : `* Bid Amount are in (CAD). E.g 50`
-                    // }
+                    helpText={
+                      avgBid > 0
+                        ? `*Current Avg bid is $ ${avgBid}$ (CAD)`
+                        : `* Bid Amount are in (CAD). E.g 50`
+                    }
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
                     onChange={(e) => {
@@ -211,11 +226,9 @@ class PostYourBid extends React.Component {
                       handleChange(e);
                     }}
                   />
-                  <div style={{ marginTop: -8 }}>
-                    <div className="help">* Use our quick bid options</div>
-                    {autoBidOptions}
-                  </div>
-                  {/* <div className="control">
+                  {autoBidOptions}
+                  <br />
+                  <div className="control">
                     <label className="radio">
                       <input
                         id="confirmReadField"
@@ -232,7 +245,7 @@ class PostYourBid extends React.Component {
                         {` I Confirm that I've Read the task description thoroughly.`}
                       </span>
                     </label>
-                  </div> */}
+                  </div>
                 </section>
 
                 <footer className="modal-card-foot">
@@ -250,20 +263,20 @@ class PostYourBid extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            actionsSheetRoot,
           )}
       </React.Fragment>
-    );
+    ) : null;
   }
 }
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    // confirmReadField: Yup.boolean()
-    //   .required()
-    //   .test('confirmReadField', 'Must Be Checked', (inputValue) => {
-    //     return inputValue;
-    //   }),
+    confirmReadField: Yup.boolean()
+      .required()
+      .test('confirmReadField', 'Must Be Checked', (inputValue) => {
+        return inputValue;
+      }),
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
@@ -276,7 +289,7 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      // confirmReadField: false,
+      confirmReadField: false,
       recaptchaField: '',
     };
   },
