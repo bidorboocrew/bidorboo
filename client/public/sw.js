@@ -1,7 +1,7 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.1.9';
+var CACHE_NAME = 'bob-app-cache-v1.2.1';
 var urlsToCache = ['/', '/android-chrome-192x192.png', '/logo.svg', '/offline.html'];
 // var thirdPartyCachedLibs = [
 //   () => new Request('https://js.stripe.com/v3/', { mode: 'no-cors' }),
@@ -22,8 +22,8 @@ self.addEventListener('activate', function(event) {
     caches.keys().then(function(cacheNames) {
       return cacheNames.map(function(cacheName) {
         if (cacheWhitelist.indexOf(cacheName) === -1) {
-          console.log('deleting caches ' + urlsToCache);
-          return caches.delete(urlsToCache);
+          console.log('deleting caches ' + cacheName);
+          return caches.delete(cacheName);
         }
       });
       // return Promise.all(
