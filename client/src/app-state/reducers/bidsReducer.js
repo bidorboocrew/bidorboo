@@ -26,7 +26,6 @@ const getMyOpenBids = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
-      debugger
       const bids = payload && payload.data;
       const { postedBids, awardedBids } = bids;
       return {

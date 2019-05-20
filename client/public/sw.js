@@ -1,20 +1,32 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v2.0.0';
+var CACHE_NAME = 'bob-app-cache-v2.0.1';
 const THREE_MONTHS_IN_SECONDS = 7776000;
 var googleMapsReq = new Request(
   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
-  { mode: 'no-cors', headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS } },
+  {
+    mode: 'no-cors',
+    headers: {
+      'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
+    },
+  },
 );
 var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', {
   mode: 'no-cors',
-  headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS },
+  headers: {
+    'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
+  },
 });
 
 var googleFontsReq = new Request(
   'https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700',
-  { mode: 'no-cors', headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS } },
+  {
+    mode: 'no-cors',
+    headers: {
+      'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
+    },
+  },
 );
 
 var urlsToCache = ['/android-chrome-192x192.png', '/logo.svg', '/offline.html'];

@@ -9,7 +9,12 @@ module.exports = (app) => {
   // security
   const cspMiddleware = csp({
     policies: {
-      'default-src': [csp.SELF],
+      'default-src': [
+        csp.SELF,
+        'https://maps.googleapis.com',
+        'https://use.fontawesome.com',
+        'https://fonts.googleapis.com',
+      ],
       'block-all-mixed-content': true,
     },
   });
