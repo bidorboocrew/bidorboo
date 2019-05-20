@@ -1,45 +1,37 @@
 'use strict';
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.2.2';
-var urlsToCache = ['/', '/android-chrome-192x192.png', '/logo.svg', '/offline.html'];
-// var thirdPartyCachedLibs = [
-//   () => new Request('https://js.stripe.com/v3/', { mode: 'no-cors' }),
-//   () =>
-//     new Request(
-//       'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
-//       { mode: 'no-cors' },
-//     ),
-//   () => new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', { mode: 'no-cors' }),
-// ];
+var CACHE_NAME = 'bob-app-cache-v2.0.0';
+const THREE_MONTHS_IN_SECONDS = 7776000;
+var googleMapsReq = new Request(
+  'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
+  { mode: 'no-cors', headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS } },
+);
+var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', {
+  mode: 'no-cors',
+  headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS },
+});
+
+var googleFontsReq = new Request(
+  'https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700',
+  { mode: 'no-cors', headers: { 'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS } },
+);
+
+var urlsToCache = ['/android-chrome-192x192.png', '/logo.svg', '/offline.html'];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
   // anything listed here will not be deleted
   var cacheWhitelist = [CACHE_NAME];
-  console.log('deleting caches ');
+  console.info('deleting caches ');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return cacheNames.map(function(cacheName) {
         if (cacheWhitelist.indexOf(cacheName) === -1) {
-          console.log('deleting caches ' + cacheName);
+          console.info('deleting caches ' + cacheName);
           return caches.delete(cacheName);
         }
       });
-      // return Promise.all(
-      //   cacheNames.map(function(cacheName) {
-      //     if (cacheWhitelist.indexOf(cacheName) === -1) {
-      //       console.log('deleting caches ' + urlsToCache);
-      //       return caches.delete(urlsToCache);
-      //     }
-      //   }),
-      //   cacheNames.map(function(cacheName) {
-      //     if (cacheWhitelist.indexOf(cacheName) === -1) {
-      //       console.log('deleting 3rd party caches ' + thirdPartyCachedLibs);
-      //       return caches.delete(thirdPartyCachedLibs);
-      //     }
-      //   }),
-      // );
     }),
   );
 });
@@ -48,12 +40,24 @@ self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      console.log('Opened cache to cache' + urlsToCache);
+      // return cache.addAll(urlsToCache);
+      fetch(googleMapsReq).then((response) => {
+        console.info('putting googlemap api in cache');
+        cache.put(googleMapsReq, response);
+      });
+
+      fetch(fontAwesomeReq).then((response) => {
+        console.info('putting fontawesome in cache');
+
+        cache.put(fontAwesomeReq, response);
+      });
+      fetch(googleFontsReq).then((response) => {
+        console.info('putting google fonts in cache');
+        cache.put(googleFontsReq, response);
+      });
+
+      console.info('Opened cache to cache' + urlsToCache);
       return cache.addAll(urlsToCache);
-      // return Promise.all([
-      //   () => cache.addAll(urlsToCache),
-      //   () => cache.addAll(thirdPartyCachedLibs),
-      // ]);
     }),
   );
 });
@@ -64,28 +68,45 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request).then(function(response) {
       // Cache hit - return response
       if (response) {
+        console.info('returned from cache ' + response);
         return response;
       }
       return fetch(event.request)
         .then(function(response) {
           // xxxx maybe we shouldnt cache all thigns check the impact here
           // Check if we received a valid response
-          return response;
-          // if (!response || response.status !== 200 || response.type !== 'basic') {
-          //   return response;
-          // }
-
-          // // IMPORTANT: Clone the response. A response is a stream
-          // // and because we want the browser to consume the response
-          // // as well as the cache consuming the response, we need
-          // // to clone it so we have two streams.
-          // var responseToCache = response.clone();
-
-          // caches.open(CACHE_NAME).then(function(cache) {
-          //   cache.put(event.request, responseToCache);
-          // });
-
           // return response;
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          var destinationReq = event.request.destination;
+          if (destinationReq) {
+            // // IMPORTANT: Clone the response. A response is a stream
+            // // and because we want the browser to consume the response
+            // // as well as the cache consuming the response, we need
+            // // to clone it so we have two streams.
+            var responseToCache = response.clone();
+
+            switch (destinationReq) {
+              case 'style':
+              case 'font':
+              case 'image': {
+                caches.open(CACHE_NAME).then(function(cache) {
+                  cache.put(event.request, responseToCache);
+                });
+
+                return response;
+              }
+              // All `XMLHttpRequest` or `fetch()` calls where
+              // `Request.destination` is the empty string default value
+              default: {
+                return response;
+              }
+            }
+          }
+
+          return response;
         })
         .catch(function(e) {
           if (event.request.headers.get('accept').includes('text/html')) {

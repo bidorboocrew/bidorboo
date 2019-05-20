@@ -9,6 +9,7 @@ module.exports = (app) => {
   // security
   const cspMiddleware = csp({
     policies: {
+      'default-src': [csp.SELF],
       'block-all-mixed-content': true,
     },
   });
