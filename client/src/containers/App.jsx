@@ -24,7 +24,7 @@ import {
   VerificationPage,
   ProposerRootPage,
   CreateAJobPage,
-  MyOpenJobsPage,
+  MyRequestsPage,
   FirstTimeUser,
   ReviewMyAwardedJobAndWinningBidPage,
   ReviewRequestAndBidsPage,
@@ -158,7 +158,7 @@ class App extends React.Component {
 
             <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
 
-            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyOpenJobsPage} />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyRequestsPage} />
 
             <Route
               exact

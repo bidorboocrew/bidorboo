@@ -9,13 +9,14 @@ module.exports = (app) => {
   // security
   const cspMiddleware = csp({
     policies: {
-      'default-src': [
-        csp.SELF,
-        'https://maps.googleapis.com',
-        'https://use.fontawesome.com',
-        'https://fonts.googleapis.com',
-        'https://js.stripe.com/',
-      ],
+      // xxxxxx do not release without understanding this
+      // 'default-src': [
+      //   csp.SELF,
+      //   'https://maps.googleapis.com',
+      //   'https://use.fontawesome.com',
+      //   'https://fonts.googleapis.com',
+      //   'https://js.stripe.com/',
+      // ],
       'block-all-mixed-content': true,
     },
   });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Spinner } from '../../components/Spinner';
 
 import {
   getAllMyOpenJobs,
@@ -13,13 +14,13 @@ import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTh
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-class MyOpenJobsPage extends React.Component {
+class MyRequestsPage extends React.Component {
   componentDidMount() {
     this.props.getAllMyRequests();
   }
 
   render() {
-    const { allMyRequests } = this.props;
+    const { allMyRequests, isLoading } = this.props;
 
     const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
     let myRequestsSummaryCards = areThereAnyJobsToView
@@ -47,8 +48,10 @@ class MyOpenJobsPage extends React.Component {
         </section>
         <hr className="divider" />
         <FloatingAddNewRequestButton />
-        <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>
-        {!areThereAnyJobsToView && <EmptyStateComponent />}
+        <Spinner isLoading={isLoading} size={'large'} />
+        {!isLoading && <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>}
+
+        {!isLoading&&!areThereAnyJobsToView && <EmptyStateComponent />}
       </div>
     );
   }
@@ -75,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MyOpenJobsPage);
+)(MyRequestsPage);
 
 const FloatingAddNewRequestButton = () => {
   return (

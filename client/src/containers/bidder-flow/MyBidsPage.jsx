@@ -30,11 +30,14 @@ class MyBidsPage extends React.Component {
       deleteOpenBid,
     } = this.props;
 
+    const areThereAnyBidsToView =
+      (openBidsList && openBidsList.length > 0) || (awardedBidsList && awardedBidsList.length > 0);
+
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
         openBidsList.map((bidDetails) => {
           return (
-            <div key={bidDetails._id} className="column limitMaxdWidth">
+            <div key={bidDetails._id} className="column">
               <MyBidsOpenBid
                 deleteOpenBid={deleteOpenBid}
                 key={bidDetails._id}
@@ -51,7 +54,7 @@ class MyBidsPage extends React.Component {
       awardedBidsList && awardedBidsList.length > 0 ? (
         awardedBidsList.map((bidDetails) => {
           return (
-            <div key={bidDetails._id} className="column limitMaxdWidth">
+            <div key={bidDetails._id} className="column">
               <MyBidsAwardedBid
                 bidDetails={bidDetails}
                 notificationFeed={notificationFeed}
@@ -64,21 +67,38 @@ class MyBidsPage extends React.Component {
         <EmptyStateComponent />
       );
 
+    let myBidsSummaryCards = areThereAnyBidsToView
+      ? [{ _id: '123dsd' }].map((job) => {
+          return (
+            <div key={job._id} className="column">
+              <div>some bid card</div>
+              {/* {getMeTheRightRequestCard({
+                job,
+                isSummaryView: true,
+                pointOfView: POINT_OF_VIEW.REQUESTER,
+              })} */}
+            </div>
+          );
+        })
+      : null;
+
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Bids</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         <FloatingAddNewBidButton />
 
-        <div className="container is-widescreen">
-          <Spinner isLoading={isLoading} size={'large'} />
-          {!isLoading && (
-            <div className="columns is-multiline is-centered">{awardedBidsListComponent}</div>
-          )}
-        </div>
-        <br />
-        <div className="container is-widescreen">
-          <Spinner isLoading={isLoading} size={'large'} />
-          {!isLoading && <div className="columns is-multiline is-centered">{pendingBidsList}</div>}
-        </div>
+        <Spinner isLoading={isLoading} size={'large'} />
+
+        {!isLoading && <div className="columns is-multiline is-centered">{myBidsSummaryCards}</div>}
+
+        {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}
       </div>
     );
   }
