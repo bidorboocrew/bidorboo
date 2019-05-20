@@ -14,6 +14,7 @@ module.exports = (app) => {
         'https://maps.googleapis.com',
         'https://use.fontawesome.com',
         'https://fonts.googleapis.com',
+        'https://js.stripe.com/',
       ],
       'block-all-mixed-content': true,
     },
