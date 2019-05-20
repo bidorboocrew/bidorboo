@@ -183,63 +183,127 @@ exports.bidDataAccess = {
   getUserOpenBids: async (mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const user = await UserModel.findById(mongoDbUserId.toString(), { _postedBidsRef: 1 })
-          .populate({
-            path: '_postedBidsRef',
-            match: { state: { $in: ['OPEN'] } },
-            populate: {
-              path: '_jobRef',
-              select: {
-                _ownerRef: 1,
-                title: 1,
-                state: 1,
-                detailedDescription: 1,
-                jobCompletion: 1,
-                location: 1,
-                stats: 1,
-                addressText: 1,
-                startingDateAndTime: 1,
-                durationOfJob: 1,
-                fromTemplateId: 1,
-                reported: 1,
-                createdAt: 1,
-                updatedAt: 1,
-              },
-              populate: {
-                path: '_ownerRef',
-                select: {
-                  notifications: 1,
-                  _id: 1,
-                  displayName: 1,
-                  rating: 1,
-                  profileImage: 1,
+        const userBids = await Promise.all([
+          new Promise(async (resolve, reject) => {
+            UserModel.findById(mongoDbUserId, { _postedBidsRef: 1 })
+              .populate({
+                path: '_postedBidsRef',
+                match: { state: { $in: ['OPEN'] } },
+                populate: {
+                  path: '_jobRef',
+                  select: {
+                    _ownerRef: 1,
+                    state: 1,
+                    detailedDescription: 1,
+                    location: 1,
+                    stats: 1,
+                    startingDateAndTime: 1,
+                    durationOfJob: 1,
+                    fromTemplateId: 1,
+                  },
+                  populate: {
+                    path: '_ownerRef',
+                    select: {
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
+                    },
+                  },
                 },
-              },
-            },
-          })
-          .lean(true)
-          .exec((err, res) => {
-            if (err) {
-              reject(err);
-            } else {
-              let results = [];
-              if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                results = res._postedBidsRef
-                  .filter((postedBid) => {
-                    return postedBid && postedBid._jobRef;
-                  })
-                  .sort((a, b) => {
-                    return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                      moment(b._jobRef.startingDateAndTime)
-                    )
-                      ? 1
-                      : -1;
-                  });
-              }
+              })
+              .lean(true)
+              .exec((err, res) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  let results = [];
+                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
+                    results = res._postedBidsRef
+                      .filter((postedBid) => {
+                        return postedBid && postedBid._jobRef;
+                      })
+                      .sort((a, b) => {
+                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
+                          moment(b._jobRef.startingDateAndTime)
+                        )
+                          ? 1
+                          : -1;
+                      });
+                  }
 
-              resolve({ _postedBidsRef: results });
-            }
-          });
+                  resolve(results);
+                }
+              });
+          }),
+          new Promise(async (resolve, reject) => {
+            UserModel.findById(mongoDbUserId.toString(), { _postedBidsRef: 1 })
+              .populate({
+                path: '_postedBidsRef',
+                match: { state: { $in: ['WON', 'WON_SEEN'] } },
+                populate: {
+                  path: '_jobRef',
+                  select: {
+                    _ownerRef: 1,
+                    title: 1,
+                    state: 1,
+                    detailedDescription: 1,
+                    jobCompletion: 1,
+                    location: 1,
+                    stats: 1,
+                    addressText: 1,
+                    startingDateAndTime: 1,
+                    durationOfJob: 1,
+                    fromTemplateId: 1,
+                  },
+                  match: {
+                    $or: [
+                      { _reviewRef: { $exists: false } },
+                      { '_reviewRef.bidderSubmitted': { $eq: false } },
+                    ],
+                  },
+                  populate: [
+                    {
+                      path: '_ownerRef',
+                      select: {
+                        _id: 1,
+                        displayName: 1,
+                        rating: 1,
+                        profileImage: 1,
+                      },
+                    },
+                    {
+                      path: '_reviewRef',
+                    },
+                  ],
+                },
+              })
+              .lean({ virtual: true })
+              .exec((err, res) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  let results = [];
+                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
+                    results = res._postedBidsRef
+                      .filter((postedBid) => {
+                        return postedBid && postedBid._jobRef;
+                      })
+                      .sort((a, b) => {
+                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
+                          moment(b._jobRef.startingDateAndTime)
+                        )
+                          ? 1
+                          : -1;
+                      });
+                  }
+                  resolve(results);
+                }
+              });
+          }),
+        ]);
+
+        resolve({ postedBids: userBids[0], awardedBids: userBids[1] });
       } catch (e) {
         reject(e);
       }

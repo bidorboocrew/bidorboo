@@ -9,7 +9,6 @@ import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { TAB_IDS } from './components/helperComponents';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
 
@@ -28,18 +27,9 @@ class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialTabSelection = TAB_IDS.openRequests;
-    if (props.match && props.match.params && props.match.params.tabId) {
-      const { tabId } = props.match.params;
-      if (tabId && TAB_IDS[`${tabId}`]) {
-        initialTabSelection = TAB_IDS[`${tabId}`];
-      }
-    }
-
     this.state = {
       allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
-      activeTab: initialTabSelection,
       showSideNav: false,
       mapCenterPoint: {
         lng: -75.6972,
@@ -50,7 +40,7 @@ class BidderRootPage extends React.Component {
 
   componentDidMount() {
     // xxxxx use this for rate limiting this will cause getalljobs to continue to be called
-        const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
+    const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
 
     if (!isLoggedIn) {
       getCurrentUser();
@@ -172,10 +162,6 @@ class BidderRootPage extends React.Component {
     );
   };
 
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
-
   updateMapCenter = (pos) => {
     this.setState({
       mapCenterPoint: {
@@ -203,24 +189,9 @@ class BidderRootPage extends React.Component {
       );
     }
 
-    const {
-      activeTab,
-      showSideNav,
-      displayedJobList,
-      mapCenterPoint,
-      hasActiveSearch,
-    } = this.state;
+    const { showSideNav, displayedJobList, mapCenterPoint, hasActiveSearch } = this.state;
 
     let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-
-    if (isLoggedIn) {
-      if (activeTab === TAB_IDS.openRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
-      } else if (activeTab === TAB_IDS.myRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
-      }
-    }
 
     return (
       <div className="container is-widescreen">

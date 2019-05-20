@@ -26,12 +26,14 @@ const getMyOpenBids = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
+      debugger
       const bids = payload && payload.data;
-      const { _postedBidsRef } = bids;
+      const { postedBids, awardedBids } = bids;
       return {
         ...state,
         isLoadingBids: false,
-        openBidsList: _postedBidsRef || [],
+        openBidsList: postedBids || [],
+        awardedBidsList: awardedBids || [],
       };
     }
   },
@@ -44,6 +46,7 @@ const getMyOpenBids = {
       ...state,
       isLoadingBids: false,
       openBidsList: [],
+      awardedBidsList: [],
       getBidsErrorMsg: getBidsErrorMsg,
     };
   },
