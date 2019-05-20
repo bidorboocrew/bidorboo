@@ -68,6 +68,22 @@ const TaskerCardTemplates = {
   },
 };
 
+export const getMeTheRightBidCard = ({
+  bid,
+  isSummaryView,
+  pointOfView = POINT_OF_VIEW.TASKER,
+  ...otherArgs
+}) => {
+  if (!bid || !bid._id) {
+    console.error('no job passed in');
+    return; //return
+  }
+  if (isSummaryView === undefined || pointOfView === undefined) {
+    console.error('Summary or Point ofView was not  passed in');
+    return;
+  }
+};
+
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
   if (!job || !job.fromTemplateId) {
     console.error('no job passed in');

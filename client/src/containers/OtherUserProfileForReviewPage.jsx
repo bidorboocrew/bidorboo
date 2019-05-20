@@ -111,7 +111,10 @@ class OtherUserProfileForReviewPage extends React.Component {
           <div className="card-content">
             <div className="content">
               <figure style={{ marginLeft: 0, marginBottom: 6 }} className="image is-128x128">
-                <img src={otherUserProfileInfo.profileImage.url} />
+                <img
+                  style={{ width: 128, height: 128, boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
+                  src={otherUserProfileInfo.profileImage.url}
+                />
               </figure>
               <div className="is-size-5">{otherUserProfileInfo.displayName}</div>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (

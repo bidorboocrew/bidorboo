@@ -14,6 +14,8 @@ import { updateBidState, deleteOpenBid } from '../../app-state/actions/bidsActio
 import MyBidsOpenBid from './components/MyBidsOpenBid';
 import MyBidsAwardedBid from './components/MyBidsAwardedBid';
 
+import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+
 class MyBidsPage extends React.Component {
   componentDidMount() {
     // get all posted bids
@@ -30,8 +32,7 @@ class MyBidsPage extends React.Component {
       deleteOpenBid,
     } = this.props;
 
-    const areThereAnyBidsToView =
-      (openBidsList && openBidsList.length > 0) || (awardedBidsList && awardedBidsList.length > 0);
+    const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
     const pendingBidsList =
       openBidsList && openBidsList.length > 0 ? (
@@ -50,33 +51,32 @@ class MyBidsPage extends React.Component {
         <EmptyStateComponent />
       );
 
-    const awardedBidsListComponent =
-      awardedBidsList && awardedBidsList.length > 0 ? (
-        awardedBidsList.map((bidDetails) => {
-          return (
-            <div key={bidDetails._id} className="column">
-              <MyBidsAwardedBid
-                bidDetails={bidDetails}
-                notificationFeed={notificationFeed}
-                updateBidState={updateBidState}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <EmptyStateComponent />
-      );
+    // const awardedBidsListComponent =
+    //   awardedBidsList && awardedBidsList.length > 0 ? (
+    //     awardedBidsList.map((bidDetails) => {
+    //       return (
+    //         <div key={bidDetails._id} className="column">
+    //           <MyBidsAwardedBid
+    //             bidDetails={bidDetails}
+    //             notificationFeed={notificationFeed}
+    //             updateBidState={updateBidState}
+    //           />
+    //         </div>
+    //       );
+    //     })
+    //   ) : (
+    //     <EmptyStateComponent />
+    //   );
 
     let myBidsSummaryCards = areThereAnyBidsToView
-      ? [{ _id: '123dsd' }].map((job) => {
+      ? [...awardedBidsList, ...openBidsList].map((bid) => {
           return (
-            <div key={job._id} className="column">
-              <div>some bid card</div>
-              {/* {getMeTheRightRequestCard({
-                job,
+            <div key={bid._id} className="column">
+              {getMeTheRightBidCard({
+                bid: bid,
                 isSummaryView: true,
-                pointOfView: POINT_OF_VIEW.REQUESTER,
-              })} */}
+                pointOfView: POINT_OF_VIEW.TASKER,
+              })}
             </div>
           );
         })
@@ -108,7 +108,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer }) => {
   return {
     openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
-    awardedBidsList: bidsReducer.awardedBidsList,
+    // awardedBidsList: bidsReducer.awardedBidsList,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
@@ -135,12 +135,12 @@ const EmptyStateComponent = () => {
             <div className="is-size-5">You have no bids. Start bidding to earn money!</div>
             <br />
             <a
-              className="button is-success "
+              className="button is-success is-outlined"
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
             >
-              Bid
+              View Requested Tasks
             </a>
           </div>
         </div>

@@ -146,7 +146,7 @@ passport.use(
         });
       }
 
-      const existingUser = await userDataAccess.findOneByUserId(email, false);
+      const existingUser = await userDataAccess.findOneByEmailId(email, false);
       if (!existingUser) {
         return done({ errorMsg: 'invalid credentials' }, null);
       }

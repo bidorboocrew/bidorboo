@@ -67,7 +67,7 @@ const UserSchema = new Schema(
     email: {
       emailAddress: {
         type: mongoose.SchemaTypes.Email,
-        allowBlank: true,
+        allowBlank: false,
         lowercase: true,
         trim: true,
         index: true,
@@ -80,12 +80,16 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
+      allowBlank: false,
+      trim: true,
       minlength: 6,
       required: false,
     },
     phone: {
       phoneNumber: {
         type: String,
+        trim: true,
+        allowBlank: false,
         trim: true,
       },
       isVerified: {

@@ -46,11 +46,9 @@ exports.TxtMsgingService = {
         from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
-        debugger;
         console.log(message.sid);
       })
       .catch((e) => {
-        debugger;
         console.log(e);
       });
   },

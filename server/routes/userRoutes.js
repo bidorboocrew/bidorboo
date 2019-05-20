@@ -327,11 +327,15 @@ module.exports = (app) => {
             }
           );
         }
-
+        // https://cloudinary.com/documentation/image_transformations
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
             folder: `${userMongoDBId}/profilePic`,
+            transformation: [
+              { width: 128, height: 128, gravity: 'face', crop: 'crop' },
+              { width: 128, height: 128, crop: 'scale' },
+            ],
           },
           updateUserWithNewProfileImg
         );
