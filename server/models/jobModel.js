@@ -164,7 +164,7 @@ JobSchema.virtual('isHappeningSoon').get(function() {
 
 JobSchema.virtual('displayStatus').get(function() {
   const stateToDisplayName = {
-    OPEN: 'Waiting For Taskers',
+    OPEN: 'Waiting On Taskers Bids',
     AWARDED: 'Tasker is Assigned',
     DISPUTED: 'Dispute',
     AWARDED_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',

@@ -8,6 +8,17 @@ export const REQUEST_STATES = {
   DONE: 'DONE',
   PAIDOUT: 'PAIDOUT',
 };
+
+export const BID_STATES = {
+  OPEN: 'OPEN',
+  CANCELED_AWARDED_BY_TASKER: 'CANCELED_AWARDED_BY_TASKER',
+  CANCELED_AWARDED_BY_REQUESTER: 'CANCELED_AWARDED_BY_REQUESTER',
+  WON: 'WON',
+  WON_SEEN: 'WON_SEEN',
+  DONE: 'DONE',
+  PAID_OUT: 'PAID_OUT',
+};
+
 export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
   TASKER: 'TASKER',
@@ -47,6 +58,18 @@ export {
   default as HouseCleaningOpenCanceledDetails,
 } from './house-cleaning/HouseCleaningOpenCanceledDetails';
 
-export { default as TaskerHouseCleaningSummary } from './house-cleaning/TaskerHouseCleaningSummary';
+export {
+  default as TaskerBidOnHouseCleaningSummary,
+} from './house-cleaning/TaskerBidOnHouseCleaningSummary';
 
-export { default as TaskerHouseCleaningDetails } from './house-cleaning/TaskerHouseCleaningDetails';
+export {
+  default as TaskerBidOnHouseCleaningDetails,
+} from './house-cleaning/TaskerBidOnHouseCleaningDetails';
+
+export {
+  default as TaskerBidOnHouseCleaningSummaryWithBid,
+} from './house-cleaning/TaskerBidOnHouseCleaningSummaryWithBid';
+
+export {
+  default as TaskerBidOnHouseCleaningDetailsWithBid,
+} from './house-cleaning/TaskerBidOnHouseCleaningDetailsWithBid';

@@ -105,7 +105,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+        return res.status(500).send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
       }
     }
   );
@@ -131,7 +131,7 @@ module.exports = (app) => {
         }
         return res.send({ allRequests: [] });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+        return res.status(500).send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
       }
     }
   );

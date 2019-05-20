@@ -21,7 +21,7 @@ import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonU
 
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class TaskerHouseCleaningSummary extends RequestBaseContainer {
+class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
@@ -144,4 +144,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerHouseCleaningSummary);
+)(TaskerBidOnHouseCleaningSummary);

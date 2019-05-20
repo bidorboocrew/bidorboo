@@ -193,7 +193,7 @@ class HouseCleaningRequestDetails extends React.Component {
                   <div className="control has-text-danger">Past Due - Expired</div>
                   <div className="help">
                     * No Taskers were assigned before the specified start date thus, we will delete
-                    this request automatically in 48hours.
+                    this request automatically in 48 hours.
                   </div>
                 </div>
               )}

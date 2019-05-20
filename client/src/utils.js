@@ -19,7 +19,15 @@ export const goBackToPreviousRoute = () => {
 };
 
 export const throwErrorNotification = (dispatch, error) => {
-  let msg = 'sorry something went wrong';
+  let msg = 'oops ! something went wrong. We apologise for the inconvenience';
+  if (error && error.response && error.response.status === 401) {
+    let msg = 'You are not authorized! login to perform this action';
+    dispatch({
+      type: A.UI_ACTIONS.OPEN_LOGIN_DIALOG,
+      payload: { shouldShowLoginDialog: true },
+    });
+  }
+
   if (error && error.response && error.response.status === 404) {
     msg = 'could not find the requested resource';
   } else if (error && error.response) {

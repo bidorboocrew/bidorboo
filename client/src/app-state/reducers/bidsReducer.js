@@ -27,11 +27,11 @@ const getMyOpenBids = {
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
       const bids = payload && payload.data;
-      const { postedBids = [], awardedBids = [] } = bids;
+      const { postedBids } = bids;
       return {
         ...state,
         isLoadingBids: false,
-        openBidsList: { ...postedBids, ...awardedBids } || [],
+        openBidsList: postedBids || [],
         // awardedBidsList: awardedBids || [],
       };
     }

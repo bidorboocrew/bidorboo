@@ -246,7 +246,7 @@ export class LocationLabelAndValue extends React.Component {
   }
 
   componentDidMount() {
-    const { location } = this.props;
+    const { location, useShortAddress } = this.props;
     if (!location || location.length !== 2) {
       alert('error location is invalid');
       return null;
@@ -274,8 +274,20 @@ export class LocationLabelAndValue extends React.Component {
             } else {
               //xxx find a way to unsubscribe from geocoding async call if component unmounted
               if (this && this.setState) {
+                let shortAddressString = address;
+                if (address && address.length > 0) {
+                  if (useShortAddress) {
+                    //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
+                    const addressPieces = address.split(',');
+                    if (addressPieces.length > 2) {
+                      shortAddressString = `${addressPieces[0]} , ${addressPieces[1]} , ${
+                        addressPieces[2]
+                      }`;
+                    }
+                  }
+                }
                 this.setState({
-                  addressText: address,
+                  addressText: shortAddressString,
                 });
               }
             }

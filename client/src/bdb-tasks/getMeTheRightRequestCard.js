@@ -9,15 +9,20 @@ import {
   HouseCleaningOpenCanceledDetails,
   HouseCleaningAwardedCanceledByRequesterSummary,
   HouseCleaningAwardedCanceledByRequesterDetails,
-  TaskerHouseCleaningDetails,
-  TaskerHouseCleaningSummary,
+  TaskerBidOnHouseCleaningDetails,
+  TaskerBidOnHouseCleaningSummary,
+  TaskerBidOnHouseCleaningSummaryWithBid,
+  TaskerBidOnHouseCleaningDetailsWithBid,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
+  BID_STATES,
 } from './index';
 
 export { POINT_OF_VIEW };
 export { REQUEST_STATES };
+export { BID_STATES };
+
 const requesterCardTemplates = {
   [HOUSE_CLEANING_DEF.ID]: {
     [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -58,30 +63,71 @@ const requesterCardTemplates = {
 
 const TaskerCardTemplates = {
   [HOUSE_CLEANING_DEF.ID]: {
-    [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <TaskerHouseCleaningSummary job={job} {...otherArgs} />
-      ) : (
-        <TaskerHouseCleaningDetails job={job} {...otherArgs} />
-      );
+    [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+      if (isSummaryView) {
+        if (withBidDetails) {
+          return <TaskerBidOnHouseCleaningSummaryWithBid job={job} {...otherArgs} />;
+        }
+        return <TaskerBidOnHouseCleaningSummary job={job} {...otherArgs} />;
+      } else {
+        if (withBidDetails) {
+          return <TaskerBidOnHouseCleaningDetailsWithBid job={job} {...otherArgs} />;
+        }
+        return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
+      }
     },
   },
 };
 
-export const getMeTheRightBidCard = ({
-  bid,
-  isSummaryView,
-  pointOfView = POINT_OF_VIEW.TASKER,
-  ...otherArgs
-}) => {
+const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
+  const { state, _jobRef } = bid;
+  switch (state) {
+    case BID_STATES.OPEN:
+      try {
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][_jobRef.state]({
+          bid,
+          job: _jobRef,
+          isSummaryView,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          withBidDetails: true,
+          otherArgs,
+        });
+        return card;
+      } catch (e) {
+        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+      }
+      break;
+    case BID_STATES.WON_SEEN:
+    case BID_STATES.WON:
+      break;
+    case BID_STATES.CANCELED_AWARDED_BY_REQUESTER:
+      break;
+    case BID_STATES.CANCELED_AWARDED_BY_TASKER:
+      break;
+    case BID_STATES.DONE:
+      break;
+    case BID_STATES.PAID_OUT:
+      break;
+    default:
+      return null;
+      break;
+  }
+};
+
+export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
   if (!bid || !bid._id) {
-    console.error('no job passed in');
+    console.error('no bid passed in');
     return; //return
   }
-  if (isSummaryView === undefined || pointOfView === undefined) {
-    console.error('Summary or Point ofView was not  passed in');
+  if (isSummaryView === undefined) {
+    console.error('Summary was not  passed in');
     return;
   }
+  if (!bid._jobRef) {
+    console.error('no associated job for this bid passed in');
+    return; //return
+  }
+  return getTaskerBidCard(bid, isSummaryView, otherArgs);
 };
 
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -114,6 +160,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
         job,
         isSummaryView,
         pointOfView,
+        addBidDetails: false,
         otherArgs,
       });
       return card;

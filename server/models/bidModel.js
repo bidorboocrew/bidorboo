@@ -14,11 +14,12 @@ const BidSchema = new Schema(
       type: String,
       enum: [
         'OPEN',
-        'CANCELED_OPEN',
-        'CANCELED_CUZ_OF_REQUESTER',
-        'CANCELED_BY_BIDDER',
+        'CANCELED_AWARDED_BY_TASKER',
+        'CANCELED_AWARDED_BY_REQUESTER',
         'WON',
         'WON_SEEN',
+        'DONE',
+        'PAID_OUT',
       ],
       default: 'OPEN',
     },
@@ -41,10 +42,10 @@ BidSchema.virtual('displayStatus').get(function() {
     OPEN: 'Awaiting On Requester',
     WON: 'Awarded, Tasker is Assigned to the job',
     WON_SEEN: 'Awarded, Tasker is Assigned to the job',
-    CANCELED_CUZ_OF_REQUESTER: 'Requester Cancelled the Agreement',
-    CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
-    CANCELED_OPEN: 'Canceled Bid',
+    CANCELED_AWARDED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    CANCELED_AWARDED_BY_TASKER: 'Tasker Cancelled the Agreement',
     DONE: 'Task is Completed',
+    PAID_OUT: 'Paid out to Tasker',
   };
   return stateToDisplayName[this.state];
 });

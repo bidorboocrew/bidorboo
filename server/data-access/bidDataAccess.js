@@ -303,7 +303,7 @@ exports.bidDataAccess = {
           }),
         ]);
 
-        resolve({ postedBids: userBids[0], awardedBids: userBids[1] });
+        resolve({ postedBids: [...userBids[0], ...userBids[1]] });
       } catch (e) {
         reject(e);
       }

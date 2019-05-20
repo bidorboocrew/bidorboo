@@ -26,7 +26,7 @@ class MyBidsPage extends React.Component {
     const {
       isLoading,
       openBidsList,
-      awardedBidsList,
+      // awardedBidsList,
       notificationFeed,
       updateBidState,
       deleteOpenBid,
@@ -69,13 +69,12 @@ class MyBidsPage extends React.Component {
     //   );
 
     let myBidsSummaryCards = areThereAnyBidsToView
-      ? [...awardedBidsList, ...openBidsList].map((bid) => {
+      ? openBidsList.map((bid) => {
           return (
             <div key={bid._id} className="column">
               {getMeTheRightBidCard({
                 bid: bid,
                 isSummaryView: true,
-                pointOfView: POINT_OF_VIEW.TASKER,
               })}
             </div>
           );
