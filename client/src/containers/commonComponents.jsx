@@ -280,15 +280,17 @@ export class LocationLabelAndValue extends React.Component {
                     //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
                     const addressPieces = address.split(',');
                     if (addressPieces.length > 2) {
-                      shortAddressString = `${addressPieces[0]} , ${addressPieces[1]} , ${
-                        addressPieces[2]
-                      }`;
+                      shortAddressString = `${addressPieces[0]} , ${addressPieces[1]}`;
                     }
                   }
                 }
-                this.setState({
-                  addressText: shortAddressString,
-                });
+                try {
+                  this.setState({
+                    addressText: shortAddressString,
+                  });
+                } catch (e) {
+                  console.log('ignore this for now xxxx saeed fix');
+                }
               }
             }
           }
@@ -308,7 +310,7 @@ export class LocationLabelAndValue extends React.Component {
       <div className="field">
         <label className="label">Location Near:</label>
         <div className="control">{this.state.addressText}</div>
-        <p className="help">* For privacy reasons we only display an approximate location.</p>
+        <p className="help">Exact location is not displayed for privacy reasons</p>
       </div>
     );
   }
@@ -420,14 +422,20 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
   );
 };
 
-export const DisplayShortAddress = ({ addressText }) => {
+export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => null }) => {
   if (addressText && addressText.length > 0) {
     let shortAddressString = addressText;
     //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
     const addressPieces = addressText.split(',');
     if (addressPieces.length > 2) {
       shortAddressString = `${addressPieces[0]} , ${addressPieces[1]}`;
-      return <DisplayLabelValue labelText={'Address'} labelValue={shortAddressString} />;
+      return (
+        <DisplayLabelValue
+          labelText={'Address'}
+          labelValue={shortAddressString}
+          renderHelpComponent={renderHelpComponent}
+        />
+      );
     }
   }
   return null;

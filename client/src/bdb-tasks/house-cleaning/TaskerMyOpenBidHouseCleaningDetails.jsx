@@ -20,7 +20,7 @@ import {
   findAvgBidInBidList,
 } from '../../containers/commonUtils';
 
-export default class TaskerBidOnHouseCleaningDetails extends React.Component {
+export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
     const {

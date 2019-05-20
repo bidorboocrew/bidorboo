@@ -11,8 +11,9 @@ import {
   HouseCleaningAwardedCanceledByRequesterDetails,
   TaskerBidOnHouseCleaningDetails,
   TaskerBidOnHouseCleaningSummary,
-  TaskerBidOnHouseCleaningSummaryWithBid,
-  TaskerBidOnHouseCleaningDetailsWithBid,
+  TaskerMyOpenBidHouseCleaningSummary,
+  TaskerMyOpenBidHouseCleaningDetails,
+  TaskerMyAwardedBidHouseCleaningSummary,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
@@ -66,14 +67,28 @@ const TaskerCardTemplates = {
     [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
       if (isSummaryView) {
         if (withBidDetails) {
-          return <TaskerBidOnHouseCleaningSummaryWithBid job={job} {...otherArgs} />;
+          return <TaskerMyOpenBidHouseCleaningSummary job={job} {...otherArgs} />;
         }
         return <TaskerBidOnHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
         if (withBidDetails) {
-          return <TaskerBidOnHouseCleaningDetailsWithBid job={job} {...otherArgs} />;
+          return <div>needs work</div>;
+          // return <TaskerMyOpenBidHouseCleaningDetails job={job} {...otherArgs} />;
         }
         return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
+      }
+    },
+    [REQUEST_STATES.AWARDED]: ({
+      job,
+      isSummaryView,
+      pointOfView,
+      withBidDetails,
+      ...otherArgs
+    }) => {
+      if (isSummaryView) {
+        return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
+      } else {
+        return <div>needs work</div>;
       }
     },
   },
@@ -99,6 +114,20 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       break;
     case BID_STATES.WON_SEEN:
     case BID_STATES.WON:
+      // return <TaskerMyOpenBidHouseCleaningSummary bid={bid} job={_jobRef} {...otherArgs} />;
+      try {
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][_jobRef.state]({
+          bid,
+          job: _jobRef,
+          isSummaryView,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          withBidDetails: true,
+          otherArgs,
+        });
+        return card;
+      } catch (e) {
+        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+      }
       break;
     case BID_STATES.CANCELED_AWARDED_BY_REQUESTER:
       break;

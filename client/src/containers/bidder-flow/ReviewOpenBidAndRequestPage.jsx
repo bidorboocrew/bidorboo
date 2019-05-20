@@ -60,6 +60,14 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Bid Details</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         <div className="columns is-centered">
           <div className="column is-narrow">
             <div style={{ marginBottom: '0.7rem' }}>

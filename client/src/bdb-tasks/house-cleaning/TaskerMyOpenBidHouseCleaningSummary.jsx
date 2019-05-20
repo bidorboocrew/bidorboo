@@ -12,11 +12,12 @@ import {
   CountDownComponent,
   StartDateAndTime,
   LocationLabelAndValue,
+  DisplayLabelValue,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-class HouseCleaningRequestSummary extends React.Component {
+class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -57,15 +58,19 @@ class HouseCleaningRequestSummary extends React.Component {
     }
   };
   render() {
-    const { bid, job, cancelJobById, notificationFeed } = this.props;
+    const { bid, job, cancelJobById, otherArgs } = this.props;
+    const { deleteOpenBid } = otherArgs;
 
-    const { startingDateAndTime, location, addressText, isPastDue } = job;
+    const { startingDateAndTime, location, isPastDue } = job;
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = HOUSE_CLEANING_DEF;
 
     const { displayStatus } = bid;
+
+    const bidAmount = bid.bidAmount.value;
+    const bidCurrency = bid.bidAmount.currency;
 
     return (
       <React.Fragment>
@@ -75,7 +80,7 @@ class HouseCleaningRequestSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Delete Your Bid</div>
+                  <div className="modal-card-title">Delete Bid</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -104,7 +109,7 @@ class HouseCleaningRequestSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      deleteOpenBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -180,7 +185,7 @@ class HouseCleaningRequestSummary extends React.Component {
               />
               {isPastDue && (
                 <div className="field">
-                  <label className="label">Bid Updates</label>
+                  <label className="label">Bid Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
                   <div className="help">
                     * Sorry! the requester did not select anyone. This Request will be deleted in 48
@@ -191,11 +196,16 @@ class HouseCleaningRequestSummary extends React.Component {
 
               {!isPastDue && (
                 <div className="field">
-                  <label className="label">Bid Updates</label>
+                  <label className="label">Bid Status</label>
                   <div className="control has-text-info">{displayStatus}</div>
                   <div className="help">* BidOrBooCrew wishes you best of luck!</div>
                 </div>
               )}
+              <div className="field">
+                <label className="label">Your Bid</label>
+                <div className="control has-text-info">{`${bidAmount}$ (${bidCurrency})`}</div>
+                <div className="help">* Potential earnings if your bid wins.</div>
+              </div>
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -233,7 +243,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningRequestSummary);
+)(TaskerMyOpenBidHouseCleaningSummary);
 
 const renderFooter = ({ bid }) => {
   return (
@@ -247,9 +257,9 @@ const renderFooter = ({ bid }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bid._id));
           }}
-          className="button is-outlined"
+          className="button is-outlined is-fullwidth is-info"
         >
-          <span>View Details</span>
+          <span>View or Edit My Bid Details</span>
         </a>
       </div>
     </React.Fragment>

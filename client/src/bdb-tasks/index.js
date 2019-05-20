@@ -67,9 +67,16 @@ export {
 } from './house-cleaning/TaskerBidOnHouseCleaningDetails';
 
 export {
-  default as TaskerBidOnHouseCleaningSummaryWithBid,
-} from './house-cleaning/TaskerBidOnHouseCleaningSummaryWithBid';
+  default as TaskerMyOpenBidHouseCleaningSummary,
+} from './house-cleaning/TaskerMyOpenBidHouseCleaningSummary';
 
 export {
-  default as TaskerBidOnHouseCleaningDetailsWithBid,
-} from './house-cleaning/TaskerBidOnHouseCleaningDetailsWithBid';
+  default as TaskerMyOpenBidHouseCleaningDetails,
+} from './house-cleaning/TaskerMyOpenBidHouseCleaningDetails';
+
+
+
+
+export {
+  default as TaskerMyAwardedBidHouseCleaningSummary,
+} from './house-cleaning/TaskerMyAwardedBidHouseCleaningSummary';

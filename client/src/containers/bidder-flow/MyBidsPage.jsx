@@ -9,7 +9,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
 
 import { getMyOpenBids } from '../../app-state/actions/bidsActions';
-import { updateBidState, deleteOpenBid } from '../../app-state/actions/bidsActions';
+import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 
 import MyBidsOpenBid from './components/MyBidsOpenBid';
 import MyBidsAwardedBid from './components/MyBidsAwardedBid';
@@ -30,26 +30,27 @@ class MyBidsPage extends React.Component {
       notificationFeed,
       updateBidState,
       deleteOpenBid,
+      updateBid,
     } = this.props;
 
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-    const pendingBidsList =
-      openBidsList && openBidsList.length > 0 ? (
-        openBidsList.map((bidDetails) => {
-          return (
-            <div key={bidDetails._id} className="column">
-              <MyBidsOpenBid
-                deleteOpenBid={deleteOpenBid}
-                key={bidDetails._id}
-                bidDetails={bidDetails}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <EmptyStateComponent />
-      );
+    // const pendingBidsList =
+    //   openBidsList && openBidsList.length > 0 ? (
+    //     openBidsList.map((bidDetails) => {
+    //       return (
+    //         <div key={bidDetails._id} className="column">
+    //           <MyBidsOpenBid
+    //             deleteOpenBid={deleteOpenBid}
+    //             key={bidDetails._id}
+    //             bidDetails={bidDetails}
+    //           />
+    //         </div>
+    //       );
+    //     })
+    //   ) : (
+    //     <EmptyStateComponent />
+    //   );
 
     // const awardedBidsListComponent =
     //   awardedBidsList && awardedBidsList.length > 0 ? (
@@ -75,6 +76,8 @@ class MyBidsPage extends React.Component {
               {getMeTheRightBidCard({
                 bid: bid,
                 isSummaryView: true,
+                updateBid,
+                deleteOpenBid,
               })}
             </div>
           );
@@ -117,6 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     getMyOpenBids: bindActionCreators(getMyOpenBids, dispatch),
     updateBidState: bindActionCreators(updateBidState, dispatch),
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
+    updateBid: bindActionCreators(updateBid, dispatch),
   };
 };
 

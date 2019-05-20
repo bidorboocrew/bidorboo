@@ -40,8 +40,8 @@ const BidSchema = new Schema(
 BidSchema.virtual('displayStatus').get(function() {
   const stateToDisplayName = {
     OPEN: 'Awaiting On Requester',
-    WON: 'Awarded, Tasker is Assigned to the job',
-    WON_SEEN: 'Awarded, Tasker is Assigned to the job',
+    WON: 'Winning Bid',
+    WON_SEEN: 'Winning Bid',
     CANCELED_AWARDED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     CANCELED_AWARDED_BY_TASKER: 'Tasker Cancelled the Agreement',
     DONE: 'Task is Completed',
