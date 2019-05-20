@@ -333,7 +333,7 @@ module.exports = (app) => {
           {
             folder: `${userMongoDBId}/profilePic`,
             transformation: [
-              { width: 128, height: 128, gravity: 'face', crop: 'crop' },
+              { width: 400, height: 400, gravity: 'face', crop: 'crop' },
               { width: 128, height: 128, crop: 'scale' },
             ],
           },
