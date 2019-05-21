@@ -1,4 +1,6 @@
 'use strict';
+// xxxxx fery important
+// https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 var CACHE_NAME = 'bob-app-cache-v2.0.2';
