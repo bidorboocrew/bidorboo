@@ -332,10 +332,7 @@ module.exports = (app) => {
           filesList[0].path,
           {
             folder: `${userMongoDBId}/profilePic`,
-            transformation: [
-              { width: 400, height: 400, gravity: 'face', radius: 'max', crop: 'crop' },
-              { width: 128, crop: 'scale' },
-            ],
+            transformation: [{ width: 120, crop: 'scale' }],
           },
           updateUserWithNewProfileImg
         );
