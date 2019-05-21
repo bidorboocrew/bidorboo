@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    console.log('starting to setup the PWA')
+    console.log('starting to setup the PWA');
     installSW(vapidKey, shouldRegisterNewWebPushSubscription);
   }
 };
@@ -30,20 +30,77 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
     // } catch (e) {
     //   console.error('failed to get sw.js ' + e);
     // }
-
     let registration;
-
+    let newWorker;
+    let refreshing;
     try {
       console.log('registering service worker');
       if (!doWeHaveAnExistingSW) {
+        function showUpdateBar() {
+          let snackbar = document.getElementById('snackbar');
+          snackbar.className = 'show';
+        }
+        // The click event on the pop up notification
+        document.getElementById('reload').addEventListener('click', () => {
+          newWorker && newWorker.postMessage({ action: 'skipWaiting' });
+        });
+
         registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
         });
+
+        if (registration.waiting && registration.waiting.state === 'installed') {
+          newWorker = registration.waiting;
+          showUpdateBar();
+        }
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          window.location.reload();
+          refreshing = true;
+        });
+
         console.log('Service worker Registered \n');
 
-        if (registration) {
-          registration = await registration.update();
-        }
+        // if (registration) {
+        //   registration.addEventListener('updatefound', handleUpdate);
+
+        //   // newWorker = await registration.update();
+        //   debugger;
+        //   const handleUpdate = () => {
+        //     debugger;
+        //     // An updated service worker has appeared in reg.installing!
+        //     newWorker = registration.installing;
+        //     // newWorker = registration;
+        //     newWorker &&
+        //       newWorker.addEventListener('statechange', () => {
+        //         debugger;
+        //         // Has service worker state changed?
+        //         switch (newWorker.state) {
+        //           case 'installed':
+        //             // There is a new service worker available, show the notification
+        //             if (navigator.serviceWorker.controller) {
+        //               let notification = document.getElementById('updatePWANotification');
+        //               notification.setAttribute(
+        //                 'style',
+        //                 'display:block;position:fixed;background:black;height:100px;right:0;bottom:5rem;z-index:999;padding:30px;padding-top:30px;padding-right:30px;padding-bottom:30px;padding-left:30px;color:white;font-weight:6',
+        //               );
+        //             }
+        //             break;
+        //         }
+        //       });
+        //     let refreshing;
+        //     // The event listener that is fired when the service worker updates
+        //     // Here we reload the page
+        //     navigator.serviceWorker.addEventListener('controllerchange', function() {
+        //       debugger;
+        //       if (refreshing) return;
+        //       window.location.reload();
+        //       refreshing = true;
+        //     });
+        //   };
+        //   // registration = await registration.update();
+        // }
       }
     } catch (e) {
       console.error(e);

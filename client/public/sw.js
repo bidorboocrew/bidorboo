@@ -3,7 +3,7 @@
 // https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v2.0.2';
+var CACHE_NAME = 'bob-app-cache-v2.0.19';
 const THREE_MONTHS_IN_SECONDS = 7776000;
 var googleMapsReq = new Request(
   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -148,4 +148,11 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   //this needs to change, need to come need to be dybamic
   event.waitUntil(clients.openWindow(event.notification.data));
+});
+
+
+self.addEventListener('message', function (event) {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });

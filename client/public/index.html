@@ -37,11 +37,56 @@
     <!--
       <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
     -->
-
+    <style>
+      #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 5rem;
+        z-index: 9999;
+      }
+      #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s;
+        animation: fadein 0.5s;
+      }
+      @-webkit-keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 5rem;
+          opacity: 1;
+        }
+      }
+      @keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 5rem;
+          opacity: 1;
+        }
+      }
+    </style>
     <title>BidOrBoo</title>
   </head>
 
   <body id="BID_OR_BOO_APP_BODY">
+    <div id="snackbar">
+      A new version of this app is available. Click <a id="reload">here</a> to update.
+    </div>
+
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <!-- just show a loading indicator till app is loaded -->
     <!-- <div id="fullscreen-preloader"> -->
