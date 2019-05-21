@@ -38,18 +38,19 @@ exports.TxtMsgingService = {
     //   formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
     //   formattedMobileNumber = `+${formattedMobileNumber}`;
     // }
-
-    client.messages
-      .create({
-        body: `${msgContent}`,
-        to: '+16138677243', // Text this number
-        from: '+16137022661', // From a valid Twilio number
-      })
-      .then((message) => {
-        console.log(message.sid);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (process.env.NODE_ENV === 'production') {
+      client.messages
+        .create({
+          body: `${msgContent}`,
+          to: '+16138677243', // Text this number
+          from: '+16137022661', // From a valid Twilio number
+        })
+        .then((message) => {
+          console.log(message.sid);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   },
 };
