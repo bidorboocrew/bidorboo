@@ -34,10 +34,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isPastDue,
     } = job;
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    const { phone, email } = _bidderRef;
-
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = HOUSE_CLEANING_DEF;
 
     return (
       <React.Fragment>

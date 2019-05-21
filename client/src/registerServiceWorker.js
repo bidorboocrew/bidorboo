@@ -37,18 +37,21 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
       console.log('registering service worker');
       if (!doWeHaveAnExistingSW) {
         function showUpdateBar() {
+          // https://github.com/deanhume/pwa-update-available
           let snackbar = document.getElementById('snackbar');
           snackbar.className = 'show';
         }
         // The click event on the pop up notification
         document.getElementById('reload').addEventListener('click', () => {
-          newWorker && newWorker.postMessage({ action: 'skipWaiting' });
+          if (newWorker && newWorker.postMessage) {
+            newWorker.postMessage({ action: 'skipWaiting' });
+          }
         });
 
         registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
         });
-
+        // await registration.update();
         if (registration.waiting && registration.waiting.state === 'installed') {
           newWorker = registration.waiting;
           showUpdateBar();
@@ -61,46 +64,6 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
         });
 
         console.log('Service worker Registered \n');
-
-        // if (registration) {
-        //   registration.addEventListener('updatefound', handleUpdate);
-
-        //   // newWorker = await registration.update();
-        //   debugger;
-        //   const handleUpdate = () => {
-        //     debugger;
-        //     // An updated service worker has appeared in reg.installing!
-        //     newWorker = registration.installing;
-        //     // newWorker = registration;
-        //     newWorker &&
-        //       newWorker.addEventListener('statechange', () => {
-        //         debugger;
-        //         // Has service worker state changed?
-        //         switch (newWorker.state) {
-        //           case 'installed':
-        //             // There is a new service worker available, show the notification
-        //             if (navigator.serviceWorker.controller) {
-        //               let notification = document.getElementById('updatePWANotification');
-        //               notification.setAttribute(
-        //                 'style',
-        //                 'display:block;position:fixed;background:black;height:100px;right:0;bottom:5rem;z-index:999;padding:30px;padding-top:30px;padding-right:30px;padding-bottom:30px;padding-left:30px;color:white;font-weight:6',
-        //               );
-        //             }
-        //             break;
-        //         }
-        //       });
-        //     let refreshing;
-        //     // The event listener that is fired when the service worker updates
-        //     // Here we reload the page
-        //     navigator.serviceWorker.addEventListener('controllerchange', function() {
-        //       debugger;
-        //       if (refreshing) return;
-        //       window.location.reload();
-        //       refreshing = true;
-        //     });
-        //   };
-        //   // registration = await registration.update();
-        // }
       }
     } catch (e) {
       console.error(e);
