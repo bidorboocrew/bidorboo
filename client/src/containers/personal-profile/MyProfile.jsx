@@ -56,11 +56,12 @@ class MyProfile extends React.Component {
     let phoneNumber = phone.phoneNumber || 'not provided';
 
     // phone number is provided but it is not verified
-    const shouldShowPhoneVerification = !phone.phoneNumber || !phone.isVerified;
+    const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
     // email is provided but it is not verified
-    const shouldShowEmailVerification = !email.emailAddress || !email.isVerified;
+    const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+
     const { isEditProfile } = this.state;
     return (
       <React.Fragment>
@@ -127,7 +128,7 @@ class MyProfile extends React.Component {
                   <div className="content">
                     {!isEditProfile && (
                       <div>
-                        <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                        <DisplayLabelValue labelText="User Name" labelValue={displayName} />
                         <DisplayLabelValue
                           labelValue={
                             <React.Fragment>
@@ -149,7 +150,14 @@ class MyProfile extends React.Component {
                           }
                         />
                         <DisplayLabelValue
-                          labelText="Email:"
+                          renderExtraStuff={() => (
+                            <React.Fragment>
+                              {shouldShowEmailVerification && (
+                                <VerifyEmail getCurrentUser={getCurrentUser} />
+                              )}
+                            </React.Fragment>
+                          )}
+                          labelText="Email"
                           labelValue={
                             <div>
                               <span>{email.emailAddress}</span>
@@ -158,24 +166,27 @@ class MyProfile extends React.Component {
                                   <span className="icon">
                                     <i className="fas fa-check is-success" />
                                   </span>
-                                  <span>Verified</span>
+                                  <span>(Verified)</span>
                                 </span>
                               )}
                               {!email.isVerified && (
                                 <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
                               )}
                             </div>
                           }
                         />
 
-                        {shouldShowEmailVerification && (
-                          <VerifyEmail getCurrentUser={getCurrentUser} />
-                        )}
-
                         <DisplayLabelValue
-                          labelText="Phone Number:"
+                          renderExtraStuff={() => (
+                            <React.Fragment>
+                              {shouldShowPhoneVerification && (
+                                <VerifyPhone getCurrentUser={getCurrentUser} />
+                              )}
+                            </React.Fragment>
+                          )}
+                          labelText="Phone Number"
                           labelValue={
                             <div>
                               <span>{phoneNumber}</span>
@@ -184,20 +195,17 @@ class MyProfile extends React.Component {
                                   <span className="icon">
                                     <i className="fas fa-check is-success" />
                                   </span>
-                                  <span>Verified</span>
+                                  <span>(Verified)</span>
                                 </span>
                               )}
                               {!phone.isVerified && (
                                 <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
                               )}
                             </div>
                           }
                         />
-                        {shouldShowPhoneVerification && (
-                          <VerifyPhone getCurrentUser={getCurrentUser} />
-                        )}
 
                         <HeaderTitle title="About Me" />
                         <TextareaAutosize
@@ -269,11 +277,12 @@ const HeaderTitle = (props) => {
     </h2>
   );
 };
-const DisplayLabelValue = (props) => {
+const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="field">
-      <label className="label">{props.labelText}</label>
-      <div className="control"> {props.labelValue}</div>
+      <label className="label">{labelText}</label>
+      <div className="control"> {labelValue}</div>
+      {renderExtraStuff && renderExtraStuff()}
     </div>
   );
 };
@@ -301,7 +310,7 @@ const userImageAndStats = (
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
               <div className="has-text-centered">
-                <a className="button is-fullwidth is-outlined ">
+                <a className="button is-fullwidth is-outlined is-small">
                   <span className="icon">
                     <i className="fa fa-camera" />
                   </span>
@@ -374,9 +383,13 @@ class VerifyPhone extends React.Component {
 
     this.state = {
       isSubmitting: false,
+      showEnterPinModal: false,
     };
   }
 
+  toggleShowEnterPinModal = () => {
+    this.setState({ showEnterPinModal: !this.state.showEnterPinModal });
+  };
   handleSendNewCode = async () => {
     this.setState({ isSubmitting: true }, async () => {
       try {
@@ -394,23 +407,23 @@ class VerifyPhone extends React.Component {
   render() {
     const { isSubmitting } = this.state;
 
-    const resendButtonClass = `button is-info is-outlined`;
     return (
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div className="field">
-            <p className="control">
-              <button
-                onClick={this.handleSendNewCode}
-                style={{ marginLeft: 6 }}
-                className={resendButtonClass}
-                disabled={isSubmitting}
-              >
-                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-              </button>
-            </p>
-          </div>
-        </div>
+      <div style={{ marginTop: 2 }} className="control">
+        <button
+          style={{ marginRight: 4 }}
+          onClick={this.toggleShowEnterPinModal}
+          className="button is-info is-outlined is-small"
+          disabled={isSubmitting}
+        >
+          Enter Your Pin
+        </button>
+        <button
+          onClick={this.handleSendNewCode}
+          className="button is-text is-outlined is-small"
+          disabled={isSubmitting}
+        >
+          {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
+        </button>
       </div>
     );
   }
@@ -444,23 +457,23 @@ class VerifyEmail extends React.Component {
   render() {
     const { isSubmitting } = this.state;
 
-    const resendButtonClass = `button is-info is-outlined`;
     return (
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div className="field">
-            <p className="control">
-              <button
-                onClick={this.handleSendNewCode}
-                style={{ marginLeft: 6 }}
-                className={resendButtonClass}
-                disabled={isSubmitting}
-              >
-                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-              </button>
-            </p>
-          </div>
-        </div>
+      <div style={{ marginTop: 2 }} className="control">
+        <button
+          style={{ marginRight: 4 }}
+          onClick={this.toggleShowEnterPinModal}
+          className="button is-info is-outlined is-small"
+          disabled={isSubmitting}
+        >
+          Enter Your Pin
+        </button>
+        <button
+          onClick={this.handleSendNewCode}
+          className="button is-text is-outlined is-small"
+          disabled={isSubmitting}
+        >
+          {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
+        </button>
       </div>
     );
   }
