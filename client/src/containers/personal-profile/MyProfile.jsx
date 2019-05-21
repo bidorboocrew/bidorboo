@@ -309,14 +309,13 @@ const userImageAndStats = (
               <div>
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
-              <div className="has-text-centered">
-                <a className="button is-fullwidth is-outlined is-small">
-                  <span className="icon">
-                    <i className="fa fa-camera" />
-                  </span>
-                  <span>change</span>
-                </a>
-              </div>
+
+              <a style={{ width: 120 }} className="button is-outlined is-small">
+                <span className="icon">
+                  <i className="fa fa-camera" />
+                </span>
+                <span>change</span>
+              </a>
             </div>
             <br />
             <div className="field">
