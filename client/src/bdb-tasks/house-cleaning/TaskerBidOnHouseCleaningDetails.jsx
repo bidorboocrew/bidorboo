@@ -64,9 +64,9 @@ export default class TaskerBidOnHouseCleaningDetails extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {location && location.coordinates && (
-              <LocationLabelAndValue location={location.coordinates} />
-            )}
+
+            <LocationLabelAndValue location={location.coordinates} />
+
             <EffortLevel extras={extras} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 

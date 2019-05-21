@@ -55,7 +55,7 @@ class PostYourBid extends React.Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      onCancel,
+
       isValid,
       isSubmitting,
       avgBid,

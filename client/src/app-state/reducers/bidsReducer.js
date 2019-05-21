@@ -162,6 +162,22 @@ export default handleActions(
       A._FULFILLED
     }`]: getAwardedBidDetail.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
+    [`${A.BIDDER_ACTIONS.REMOVE_EXISTING_OPEN_BID}`]: (state = initialState, { payload }) => {
+      if (payload) {
+        const { success = false, deletedBidId } = payload && payload.data;
+        if (success) {
+          const filteredBidList = state.openBidsList.filter((bid) => {
+            return bid._id !== deletedBidId;
+          });
+          return {
+            ...state,
+            openBidsList: filteredBidList || [],
+          };
+        }
+      }
+      return { ...state };
+    },
+
     // get awarded bids
     // [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._PENDING}`]: getMyAwardedBids.isPending,
     // [`${A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS}${A._FULFILLED}`]: getMyAwardedBids.isFullfilled,

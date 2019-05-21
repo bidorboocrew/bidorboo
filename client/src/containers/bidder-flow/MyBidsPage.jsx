@@ -26,8 +26,7 @@ class MyBidsPage extends React.Component {
     const {
       isLoading,
       openBidsList,
-      // awardedBidsList,
-      notificationFeed,
+
       updateBidState,
       deleteOpenBid,
       updateBid,
@@ -35,22 +34,6 @@ class MyBidsPage extends React.Component {
 
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-    // const pendingBidsList =
-    //   openBidsList && openBidsList.length > 0 ? (
-    //     openBidsList.map((bidDetails) => {
-    //       return (
-    //         <div key={bidDetails._id} className="column">
-    //           <MyBidsOpenBid
-    //             deleteOpenBid={deleteOpenBid}
-    //             key={bidDetails._id}
-    //             bidDetails={bidDetails}
-    //           />
-    //         </div>
-    //       );
-    //     })
-    //   ) : (
-    //     <EmptyStateComponent />
-    //   );
 
     // const awardedBidsListComponent =
     //   awardedBidsList && awardedBidsList.length > 0 ? (

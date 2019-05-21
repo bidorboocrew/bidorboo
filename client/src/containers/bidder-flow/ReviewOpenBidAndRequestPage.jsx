@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
+import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -40,7 +40,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, updateBid, currentUserDetails } = this.props;
+    const { selectedOpenBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -88,6 +88,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
               pointOfView: POINT_OF_VIEW.TASKER,
               userDetails: currentUserDetails,
               updateBid,
+              deleteOpenBid,
             })}
           </div>
         </div>
@@ -106,6 +107,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteOpenBid: bindActionCreators(getOpenBidDetails, dispatch),
     getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),
   };

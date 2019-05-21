@@ -109,11 +109,15 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
         // update recently added job
         if (resp.data && resp.data.success) {
           dispatch({
+            type: A.BIDDER_ACTIONS.REMOVE_EXISTING_OPEN_BID,
+            payload: { data: resp.data },
+          });
+          dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: 'You have deleted your bid. Good Luck!',
+                msg: 'You have deleted your bid!',
               },
             },
           });

@@ -146,6 +146,7 @@ export default class HomePage extends React.Component {
                   borderLeft: 'none',
                   borderRight: 'none',
                   borderTop: 'none',
+                  marginBottom: '1.5rem',
                 }}
                 onClick={this.toggleTour}
                 className="button is-outlined is-dark is-small"
@@ -159,7 +160,7 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <div className="columns is-multiline is-centered">
-          <div className="column is-4">
+          <div className="column is-5">
             <RequestAService
               logoImg={requestImg}
               onClickHandler={() => {
@@ -167,7 +168,7 @@ export default class HomePage extends React.Component {
               }}
             />
           </div>
-          <div className="column is-4">
+          <div className="column is-5">
             <ProvideAService
               logoImg={bidsImg}
               onClickHandler={() => {

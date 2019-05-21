@@ -471,26 +471,10 @@ class Header extends React.Component {
                     </div>
                   </React.Fragment>
                 )}
-                {!isLoggedIn && (
-                  <div className="navbar-item">
-                    <a
-                      className="button is-danger is-medium"
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          this.toggleLoginDialog();
-                        });
-                      }}
-                    >
-                      Login / Sign Up
-                    </a>
-                  </div>
-                )}
               </React.Fragment>
             </div>
           </div>
         </nav>
-        {/* this to make up for the flex size of the navbar on desktop */}
-        {/* <div className="is-hidden-touch" style={{ height: '0.75rem' }} /> */}
       </React.Fragment>
     );
   }

@@ -46,7 +46,7 @@ exports.bidDataAccess = {
               .lean(true)
               .exec(),
           ]);
-          resolve({ success: true });
+          resolve({ success: true, deletedBidId: bidId });
         }
       } catch (e) {
         reject(e);

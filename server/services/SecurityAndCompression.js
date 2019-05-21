@@ -10,13 +10,7 @@ module.exports = (app) => {
   const cspMiddleware = csp({
     policies: {
       // xxxxxx do not release without understanding this
-      // 'default-src': [
-      //   csp.SELF,
-      //   'https://maps.googleapis.com',
-      //   'https://use.fontawesome.com',
-      //   'https://fonts.googleapis.com',
-      //   'https://js.stripe.com/',
-      // ],
+      'default-src': [csp.SELF],
       'block-all-mixed-content': true,
     },
   });

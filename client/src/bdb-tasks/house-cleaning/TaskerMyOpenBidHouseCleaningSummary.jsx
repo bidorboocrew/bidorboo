@@ -98,14 +98,12 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 </section>
                 <footer className="modal-card-foot">
                   <button
-                    style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
                     <span>Go Back</span>
                   </button>
                   <button
-                    style={{ width: 160 }}
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
@@ -117,7 +115,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Yes - Delete My Bid</span>
+                    <span>Delete My Bid</span>
                   </button>
                 </footer>
               </div>

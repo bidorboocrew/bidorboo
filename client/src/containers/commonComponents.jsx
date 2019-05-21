@@ -243,9 +243,15 @@ export class LocationLabelAndValue extends React.Component {
     this.state = {
       addressText: 'loading address...',
     };
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const { location, useShortAddress } = this.props;
     if (!location || location.length !== 2) {
       console.error('error location is invalid');
@@ -273,24 +279,25 @@ export class LocationLabelAndValue extends React.Component {
               alert('Sorry! Bid or Boo is only available in Canada.');
             } else {
               //xxx find a way to unsubscribe from geocoding async call if component unmounted
-              if (this && this.setState) {
-                let shortAddressString = address;
-                if (address && address.length > 0) {
-                  if (useShortAddress) {
-                    //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
-                    const addressPieces = address.split(',');
-                    if (addressPieces.length > 2) {
-                      shortAddressString = `${addressPieces[0]} , ${addressPieces[1]}`;
-                    }
+
+              let shortAddressString = address;
+              if (address && address.length > 0) {
+                if (useShortAddress) {
+                  //example 92 Woodbury Crescent, Ottawa, ON K1G 5E2, Canada => [92 Woodbury Crescent, Ottawa ...]
+                  const addressPieces = address.split(',');
+                  if (addressPieces.length > 2) {
+                    shortAddressString = `${addressPieces[0]} , ${addressPieces[1]}`;
                   }
                 }
-                try {
+              }
+              try {
+                if (this._isMounted) {
                   this.setState({
                     addressText: shortAddressString,
                   });
-                } catch (e) {
-                  console.log('ignore this for now xxxx saeed fix');
                 }
+              } catch (e) {
+                console.log('ignore this for now xxxx saeed fix');
               }
             }
           }
