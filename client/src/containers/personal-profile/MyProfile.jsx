@@ -316,7 +316,7 @@ const userImageAndStats = (
               <div className="control">{displayName}</div>
             </div>
             <div className="field">
-              <label className="label">Rating</label>{' '}
+              <label className="label">Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <div className="control">No Ratings Yet</div>
               ) : (
