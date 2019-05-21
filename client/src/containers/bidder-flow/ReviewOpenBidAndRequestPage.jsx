@@ -11,7 +11,7 @@ import { Spinner } from '../../components/Spinner';
 
 import TaskerPendingBidInfo from './components/TaskerPendingBidInfo';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
         </section>
         <hr className="divider" />
         <div className="columns is-centered">
-          <div className="column is-narrow">
+          <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a
                 className="button is-outlined"
@@ -82,20 +82,12 @@ class ReviewOpenBidAndRequestPage extends React.Component {
               </a>
             </div>
 
-            {getMeTheRightRequestCard({
-              job: selectedAwardedJob,
+            {getMeTheRightBidCard({
+              bid: selectedOpenBid,
               isSummaryView: false,
               pointOfView: POINT_OF_VIEW.TASKER,
               userDetails: currentUserDetails,
-              renderTaskerBidInfo: () => {
-                return (
-                  <TaskerPendingBidInfo
-                    bid={selectedOpenBid}
-                    job={selectedAwardedJob}
-                    updateBidAction={updateBid}
-                  />
-                );
-              },
+              updateBid,
             })}
           </div>
         </div>

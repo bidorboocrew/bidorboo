@@ -362,58 +362,37 @@ exports.bidDataAccess = {
   getBidDetails: async (mongoDbUserId, bidId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const user = await UserModel.findById({ _id: mongoDbUserId }, { _postedBidsRef: 1 })
+        const user = await UserModel.findById(mongoDbUserId, { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
-            populate: [
-              {
-                path: '_jobRef',
+            populate: {
+              path: '_jobRef',
+              select: {
+                _ownerRef: 1,
+                state: 1,
+                detailedDescription: 1,
+                location: 1,
+                stats: 1,
+                startingDateAndTime: 1,
+                durationOfJob: 1,
+                fromTemplateId: 1,
+                extras: 1,
+              },
+              populate: {
+                path: '_ownerRef',
                 select: {
-                  notifications: 1,
                   _id: 1,
-                  _ownerRef: 1,
-                  title: 1,
-                  state: 1,
-                  detailedDescription: 1,
-                  location: 1,
-                  stats: 1,
-                  startingDateAndTime: 1,
-                  durationOfJob: 1,
-                  fromTemplateId: 1,
-                  reported: 1,
-                  createdAt: 1,
-                  updatedAt: 1,
                   displayName: 1,
                   rating: 1,
                   profileImage: 1,
-                  email: 1,
-                  phone: 1,
                 },
-                populate: [
-                  {
-                    path: '_ownerRef',
-                    select: {
-                      notifications: 1,
-                      _id: 1,
-                      displayName: 1,
-                      rating: 1,
-                      profileImage: 1,
-                    },
-                  },
-                  {
-                    path: '_bidsListRef',
-                    select: {
-                      _bidderRef: 1,
-                      bidAmount: 1,
-                    },
-                  },
-                ],
               },
-            ],
+            },
           })
-          .lean(true)
+          .lean({ virtuals: true })
           .exec();
+
         const theBid =
           user && user._postedBidsRef && user._postedBidsRef.length === 1
             ? user._postedBidsRef[0]

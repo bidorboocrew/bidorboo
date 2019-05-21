@@ -58,7 +58,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
     }
   };
   render() {
-    const { bid, job, cancelJobById, otherArgs } = this.props;
+    const { bid, job, otherArgs } = this.props;
     const { deleteOpenBid } = otherArgs;
 
     const { startingDateAndTime, location, isPastDue } = job;
@@ -173,16 +173,8 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
+              <hr className="divider isTight" />
+
               {isPastDue && (
                 <div className="field">
                   <label className="label">Bid Status</label>

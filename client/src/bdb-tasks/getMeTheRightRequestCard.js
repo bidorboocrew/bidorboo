@@ -72,7 +72,7 @@ const TaskerCardTemplates = {
         return <TaskerBidOnHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
         if (withBidDetails) {
-          return <div>needs work</div>;
+          return <TaskerMyOpenBidHouseCleaningDetails job={job} {...otherArgs} />;
           // return <TaskerMyOpenBidHouseCleaningDetails job={job} {...otherArgs} />;
         }
         return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;

@@ -248,7 +248,7 @@ export class LocationLabelAndValue extends React.Component {
   componentDidMount() {
     const { location, useShortAddress } = this.props;
     if (!location || location.length !== 2) {
-      alert('error location is invalid');
+      console.error('error location is invalid');
       return null;
     }
 
@@ -310,7 +310,7 @@ export class LocationLabelAndValue extends React.Component {
       <div className="field">
         <label className="label">Location Near:</label>
         <div className="control">{this.state.addressText}</div>
-        <p className="help">Exact location is not displayed for privacy reasons</p>
+        <p className="help">* Exact location is not displayed for privacy reasons</p>
       </div>
     );
   }

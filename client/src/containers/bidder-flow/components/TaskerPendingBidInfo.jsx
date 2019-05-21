@@ -201,34 +201,17 @@ class TaskerPendingBidInfo extends React.Component {
           </div>
         )}
 
-        <div className="card">
-          <div className="card-content">
-            <div className="field">
-              <label className="label">My Bid Amount</label>
-              <div className="control has-text-weight-bold has-text-info ">{`${bidAmount} ${bidCurrency}`}</div>
-            </div>
-            <DisplayLabelValue
-              label={'Bid Status'}
-              value={'Pending'}
-              renderHelpComponent={() => (
-                <div className="help">* Requester did not award this job to anyone yet</div>
-              )}
-            />
-
-            <hr className="divider isTight" />
-            <a
-              onClick={() => {
-                this.showUpdateBidModal();
-              }}
-              className="button is-info is-outlined is-outline is-fullwidth"
-            >
-              <span className="icon">
-                <i className="far fa-edit" />
-              </span>
-              <span>Change My Bid Amount</span>
-            </a>
-          </div>
-        </div>
+        <a
+          onClick={() => {
+            this.showUpdateBidModal();
+          }}
+          className="button is-info is-outlined is-outline is-fullwidth"
+        >
+          <span className="icon">
+            <i className="far fa-edit" />
+          </span>
+          <span>Change My Bid Amount</span>
+        </a>
       </div>
     );
   }

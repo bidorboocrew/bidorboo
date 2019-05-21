@@ -77,7 +77,7 @@ class ReviewAwardedBidPage extends React.Component {
     return (
       <div className="container is-widescreen">
         <div className="columns is-multiline is-centered">
-          <div className="column is-narrow">
+          <div className="column limitLargeMaxWidth">
             {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
 
             <RequesterAndMyAwardedBid

@@ -65,7 +65,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     return (
       <div className="container is-widescreen">
         <div className="columns is-centered">
-          <div className="column is-narrow">
+          <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a
                 className="button is-outlined"

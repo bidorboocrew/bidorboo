@@ -119,6 +119,7 @@ class App extends React.Component {
             width: '100%',
             backgroundColor: '#31c110',
             height: '5px',
+            zIndex: 999,
           }}
         />
 

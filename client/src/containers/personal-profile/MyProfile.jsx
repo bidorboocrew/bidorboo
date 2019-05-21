@@ -77,7 +77,7 @@ class MyProfile extends React.Component {
 
         <div className="container is-widescreen">
           <div className="columns is-centered">
-            <div className="column is-narrow">
+            <div className="column limitLargeMaxWidth">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
