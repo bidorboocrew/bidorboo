@@ -3,6 +3,8 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
+  verifyingPhone: false,
+  verifyingEmail: false,
   isLoggedIn: false,
   isFetchingNotificationSettings: true,
   userDetails: {
@@ -188,6 +190,24 @@ export default handleActions(
     [`${A.USER_MODEL_ACTIONS.GET_MY_PAST_REQUESTED_SERVICES}${
       A._REJECTED
     }`]: getMyPastRequestedServices.rejected,
+
+    [`${A.AUTH_ACTIONS.VERIFY_USER_EMAIL}${A._PENDING}`]: (state = initialState) => ({
+      ...state,
+      verifyingEmail: true,
+    }),
+    [`${A.AUTH_ACTIONS.VERIFY_USER_PHONE}${A._PENDING}`]: (state = initialState) => ({
+      ...state,
+      verifyingPhone: true,
+    }),
+
+    [`${A.AUTH_ACTIONS.VERIFY_USER_EMAIL}${A._REJECTED}`]: (state = initialState) => ({
+      ...state,
+      verifyingEmail: false,
+    }),
+    [`${A.AUTH_ACTIONS.VERIFY_USER_PHONE}${A._REJECTED}`]: (state = initialState) => ({
+      ...state,
+      verifyingPhone: false,
+    }),
   },
   initialState,
 );

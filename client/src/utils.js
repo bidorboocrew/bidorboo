@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
   // setTimeout(() => {
+  debugger;
   if (stateContent) {
     appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });
   } else {
@@ -19,7 +20,7 @@ export const goBackToPreviousRoute = () => {
 };
 
 export const throwErrorNotification = (dispatch, error) => {
-  let msg = 'oops ! something went wrong. We apologise for the inconvenience';
+  let msg = error || 'oops ! something went wrong. We apologise for the inconvenience';
   if (error && error.response && error.response.status === 401) {
     let msg = 'You are not authorized! login to perform this action';
     dispatch({

@@ -12,6 +12,9 @@ import FileUploaderComponent from '../../components/FileUploaderComponent';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import NotificationSettings from './NotificationSettings';
+import VerifyEmailButton from './VerifyEmailButton';
+import VerifyPhoneButton from './VerifyPhoneButton';
+
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -129,31 +132,31 @@ class MyProfile extends React.Component {
                     {!isEditProfile && (
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
-                        <DisplayLabelValue
-                          labelValue={
-                            <React.Fragment>
-                              Auto Detect Location:
-                              {autoDetectlocation && (
-                                <span style={{ marginLeft: 6 }} className="has-text-success">
-                                  <span className="icon">
-                                    <i className="fas fa-check is-success" />
-                                  </span>
-                                  <span>Enabled</span>
+
+                        <div className="field">
+                          <label className="label">Auto Detect Location</label>
+                          <div className="control">
+                            {autoDetectlocation && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
                                 </span>
-                              )}
-                              {!autoDetectlocation && (
-                                <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Disabled</span>
-                                </span>
-                              )}
-                            </React.Fragment>
-                          }
-                        />
+                                <span>Enabled</span>
+                              </span>
+                            )}
+                            {!autoDetectlocation && (
+                              <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                <span style={{ marginLeft: 2 }}>Disabled</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
                         <DisplayLabelValue
                           renderExtraStuff={() => (
                             <React.Fragment>
                               {shouldShowEmailVerification && (
-                                <VerifyEmail getCurrentUser={getCurrentUser} />
+                                <VerifyEmailButton getCurrentUser={getCurrentUser} />
                               )}
                             </React.Fragment>
                           )}
@@ -169,11 +172,6 @@ class MyProfile extends React.Component {
                                   <span>(Verified)</span>
                                 </span>
                               )}
-                              {!email.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
-                                </span>
-                              )}
                             </div>
                           }
                         />
@@ -181,9 +179,7 @@ class MyProfile extends React.Component {
                         <DisplayLabelValue
                           renderExtraStuff={() => (
                             <React.Fragment>
-                              {shouldShowPhoneVerification && (
-                                <VerifyPhone getCurrentUser={getCurrentUser} />
-                              )}
+                              {shouldShowPhoneVerification && <VerifyPhoneButton />}
                             </React.Fragment>
                           )}
                           labelText="Phone Number"
@@ -198,11 +194,11 @@ class MyProfile extends React.Component {
                                   <span>(Verified)</span>
                                 </span>
                               )}
-                              {!phone.isVerified && (
+                              {/* {!phone.isVerified && (
                                 <span style={{ marginLeft: 6 }} className="has-text-grey">
                                   <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
-                              )}
+                              )} */}
                             </div>
                           }
                         />
@@ -375,105 +371,3 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
     </div>
   ) : null;
 };
-
-class VerifyPhone extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSubmitting: false,
-      showEnterPinModal: false,
-    };
-  }
-
-  toggleShowEnterPinModal = () => {
-    this.setState({ showEnterPinModal: !this.state.showEnterPinModal });
-  };
-  handleSendNewCode = async () => {
-    this.setState({ isSubmitting: true }, async () => {
-      try {
-        const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
-        }
-      } catch (e) {
-        // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-        this.setState({ isSubmitting: false });
-      }
-    });
-  };
-  render() {
-    const { isSubmitting } = this.state;
-
-    return (
-      <div style={{ marginTop: 2 }} className="control">
-        <button
-          style={{ marginRight: 4 }}
-          onClick={this.toggleShowEnterPinModal}
-          className="button is-info is-outlined is-small"
-          disabled={isSubmitting}
-        >
-          Enter Your Pin
-        </button>
-        <button
-          onClick={this.handleSendNewCode}
-          className="button is-text is-outlined is-small"
-          disabled={isSubmitting}
-        >
-          {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-        </button>
-      </div>
-    );
-  }
-}
-
-class VerifyEmail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSubmitting: false,
-    };
-  }
-
-  handleSendNewCode = async () => {
-    this.setState({ isSubmitting: true }, async () => {
-      try {
-        const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationEmail,
-        );
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
-        }
-      } catch (e) {
-        // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-        this.setState({ isSubmitting: false });
-      }
-    });
-  };
-  render() {
-    const { isSubmitting } = this.state;
-
-    return (
-      <div style={{ marginTop: 2 }} className="control">
-        <button
-          style={{ marginRight: 4 }}
-          onClick={this.toggleShowEnterPinModal}
-          className="button is-info is-outlined is-small"
-          disabled={isSubmitting}
-        >
-          Enter Your Pin
-        </button>
-        <button
-          onClick={this.handleSendNewCode}
-          className="button is-text is-outlined is-small"
-          disabled={isSubmitting}
-        >
-          {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-        </button>
-      </div>
-    );
-  }
-}

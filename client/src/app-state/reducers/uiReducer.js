@@ -55,6 +55,8 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
+
+
     [`${A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS}`]: updateNotificationFeed,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_IN}`]: closeLoginDialog,
     [`${A.UI_ACTIONS.OPEN_LOGIN_DIALOG}`]: openLoginDialog,
