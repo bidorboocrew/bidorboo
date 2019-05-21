@@ -69,15 +69,18 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           updateProfileImage,
         )}
-        <section className="hero container is-white is-small">
-          <div className="hero-body">
-            <h1 className="title">My Profile</h1>
-          </div>
-        </section>
 
         <div className="container is-widescreen">
+          <section className="hero is-white has-text-centered">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">My Profile</h1>
+              </div>
+            </div>
+          </section>
+          <hr className="divider" />
           <div className="columns is-centered">
-            <div className="column limitLargeMaxWidth">
+            <div className="column is-narrow">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
@@ -86,7 +89,7 @@ class MyProfile extends React.Component {
                 displayName,
               )}
             </div>
-            <div className="column">
+            <div className="column is-narrow">
               <div className="card">
                 <header className="card-header">
                   <p className="card-header-title">
@@ -222,7 +225,7 @@ class MyProfile extends React.Component {
               </div>
             </div>
 
-            <div className="column">
+            <div className="column is-narrow">
               <NotificationSettings />
             </div>
           </div>
@@ -297,25 +300,25 @@ const userImageAndStats = (
               <div>
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
-
-              <a className="button is-outlined is-small">
-                <span className="icon">
-                  <i className="fa fa-camera" />
-                </span>
-                <span>upload</span>
-              </a>
+              <div className="has-text-centered">
+                <a className="button is-fullwidth is-outlined ">
+                  <span className="icon">
+                    <i className="fa fa-camera" />
+                  </span>
+                  <span>change</span>
+                </a>
+              </div>
             </div>
             <br />
             <div className="field">
-              <HeaderTitle title="Name" />
-              <div className="control">
-                <div className="control">{displayName}</div>
-              </div>
+              <label className="label">Name</label>
+
+              <div className="control">{displayName}</div>
             </div>
             <div className="field">
-              <HeaderTitle title="Rating" />
+              <label className="label">Rating</label>{' '}
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <p className="is-size-7">No Ratings Yet</p>
+                <div className="control">No Ratings Yet</div>
               ) : (
                 <div className="control">
                   <span>
@@ -333,7 +336,7 @@ const userImageAndStats = (
               )}
             </div>
             <div className="field">
-              <HeaderTitle title="Status" />
+              <label className="label">Status</label>
               <div className="control">
                 <div className="control">{membershipStatusDisplay}</div>
               </div>
