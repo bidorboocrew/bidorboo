@@ -98,6 +98,7 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
 };
 
 export const deleteOpenBid = (bidId) => (dispatch) => {
+
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,

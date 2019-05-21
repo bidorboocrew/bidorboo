@@ -164,7 +164,6 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        href="#"
                         className="dropdown-item"
                       >
                         <span style={{ color: 'grey' }} className="icon">

@@ -111,7 +111,6 @@ class MyProfile extends React.Component {
                       onClick={() => {
                         this.toggleEditProfile();
                       }}
-                      href="#"
                       className="card-header-icon has-text-success"
                       aria-label="more options"
                     >

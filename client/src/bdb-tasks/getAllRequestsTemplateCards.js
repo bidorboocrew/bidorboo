@@ -44,13 +44,13 @@ const ComingSoon1 = () => {
       </div>
       <footer className="card-footer">
         <div className="card-footer-item has-text-centered">Want it sooner?</div>
-        <a href="#" className="card-footer-item">
+        <a className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />
           </span>
           <span className="icon">Like</span>
         </a>
-        <a href="#" className="card-footer-item">
+        <a className="card-footer-item">
           <span className="icon">
             <i className="fas fa-dollar-sign" />
           </span>
@@ -92,13 +92,13 @@ const ComingSoon2 = () => {
 
       <footer className="card-footer">
         <div className="card-footer-item has-text-centered">Want it sooner?</div>
-        <a href="#" className="card-footer-item">
+        <a className="card-footer-item">
           <span className="icon">
             <i className="far fa-thumbs-up" />
           </span>
           <span className="icon">Like</span>
         </a>
-        <a href="#" className="card-footer-item">
+        <a className="card-footer-item">
           <span className="icon">
             <i className="fas fa-dollar-sign" />
           </span>

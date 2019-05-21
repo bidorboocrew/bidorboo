@@ -171,6 +171,7 @@ export default handleActions(
           });
           return {
             ...state,
+            selectedOpenBid: {},
             openBidsList: filteredBidList || [],
           };
         }

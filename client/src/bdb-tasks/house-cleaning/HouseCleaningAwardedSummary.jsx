@@ -139,7 +139,6 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        href="#"
                         className="dropdown-item"
                       >
                         <span style={{ color: 'grey' }} className="icon">

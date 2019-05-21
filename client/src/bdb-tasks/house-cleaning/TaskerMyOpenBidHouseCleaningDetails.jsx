@@ -72,27 +72,18 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
       detailedDescription,
       location,
       extras,
-      fromTemplateId,
       isPastDue,
     } = job;
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { submitBid, updateBid, userDetails, deleteOpenBid } = otherArgs;
-
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-    const userAlreadyView = didUserAlreadyView(job, currentUserId);
-    const { userAlreadyBid } = getUserExistingBid(job, currentUserId);
+    const { updateBid, userDetails, deleteOpenBid } = otherArgs;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
     const { displayStatus } = bid;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
-    let avgBid = 0;
-    if (job && job._bidsListRef && job._bidsListRef.length > 0) {
-      avgBid = findAvgBidInBidList(job._bidsListRef);
-    }
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -177,7 +168,6 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        href="#"
                         className="dropdown-item"
                       >
                         <span style={{ color: 'grey' }} className="icon">

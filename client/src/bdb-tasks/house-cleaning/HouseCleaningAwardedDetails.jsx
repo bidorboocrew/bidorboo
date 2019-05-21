@@ -140,7 +140,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                     <div className="dropdown-content">
                       <a
                         onClick={this.toggleDeleteConfirmationDialog}
-                        href="#"
                         className="dropdown-item has-text-danger"
                       >
                         <span className="icon">

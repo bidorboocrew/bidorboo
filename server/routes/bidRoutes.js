@@ -36,15 +36,13 @@ module.exports = (app) => {
         const userMongoDBId = req.user._id.toString();
         const { bidId } = req.body;
 
-        const deleteResults = await bidDataAccess.deleteOpenBid(userMongoDBId,bidId);
+        const deleteResults = await bidDataAccess.deleteOpenBid(userMongoDBId, bidId);
         return res.send(deleteResults);
       } catch (e) {
         return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
       }
     }
   );
-
-
 
   app.get(ROUTES.API.BID.GET.openBidDetails, requireLogin, async (req, res, done) => {
     try {
