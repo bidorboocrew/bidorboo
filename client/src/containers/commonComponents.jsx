@@ -514,3 +514,55 @@ export const EffortLevel = ({ extras }) => {
     <DisplayLabelValue labelText="Effort" labelValue={'Not Specified'} />
   );
 };
+
+export const VerifiedVia = ({ userDetails, isCentered = true }) => {
+  const {
+    stripeConnect = { isVerified: false },
+    phone = { isVerified: false },
+    email = { isVerified: false },
+    isGmailUser = false,
+    isFacebookUser = false,
+    clearCriminalHistory = false,
+  } = userDetails;
+
+  return (
+    <div className="field">
+      <label className="help">Verified Via</label>
+
+      <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
+        <span title="Verified by facebook" className="icon">
+          <i className={`fab fa-facebook ${isFacebookUser ? 'has-text-link' : 'has-text-grey'}`} />
+        </span>
+        <span title="Verified by gmail" className="icon">
+          <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
+        </span>
+        <span title="Verified by phone" className="icon">
+          <i
+            className={`fas fa-phone ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
+          />
+        </span>
+        <span title="Verified by email" className="icon">
+          <i
+            className={`far fa-envelope ${email.isVerified ? 'has-text-success' : 'has-text-grey'}`}
+          />
+        </span>
+        <span title="Verified by bank account" className="icon">
+          <i
+            className={`fas fa-money-check-alt ${
+              stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
+            }`}
+          />
+        </span>
+        {clearCriminalHistory && (
+          <span title="Verified by criminal check" className="icon">
+            <i
+              className={`fas fa-balance-scale ${
+                clearCriminalHistory ? 'has-text-success' : 'has-text-grey'
+              }`}
+            />
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};

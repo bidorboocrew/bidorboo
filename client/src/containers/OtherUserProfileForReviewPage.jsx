@@ -12,7 +12,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 import ReactStars from 'react-stars';
 import { Spinner } from '../components/Spinner';
-
+import { VerifiedVia } from './commonComponents';
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
     super(props);
@@ -116,11 +116,13 @@ class OtherUserProfileForReviewPage extends React.Component {
                   src={otherUserProfileInfo.profileImage.url}
                 />
               </figure>
+              <VerifiedVia isCentered={false} userDetails={otherUserProfileInfo} />
               <div className="is-size-5">{otherUserProfileInfo.displayName}</div>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <p className="is-size-7">No Ratings Yet</p>
               ) : (
                 <ReactStars
+                  className="ReactStars"
                   half
                   count={5}
                   value={globalRating}

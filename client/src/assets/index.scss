@@ -350,6 +350,10 @@ article.media.limitHeight {
   width: unset;
   height: unset;
 }
+.ReactStars {
+  width: 90px;
+  display: inline-block;
+}
 .card {
   &.readOnlyView {
     background: #eeeeee;
