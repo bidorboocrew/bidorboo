@@ -201,7 +201,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className={`button is-outlined ${isPastDue ? 'is-danger' : 'is-success'}`}
+              className={`button is-outlined is-fullwidth ${isPastDue ? 'is-danger' : 'is-success'}`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               View Tasker Details

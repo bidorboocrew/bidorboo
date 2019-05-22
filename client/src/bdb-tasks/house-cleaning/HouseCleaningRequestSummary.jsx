@@ -283,7 +283,7 @@ const renderFooter = ({ job, notificationFeed }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
-          className={`button is-outlined ${areThereAnyBidders ? 'is-info' : ''}`}
+          className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
         >
           {areThereAnyBidders && (
             <span>

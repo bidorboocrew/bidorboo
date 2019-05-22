@@ -72,7 +72,7 @@ export default class HouseCleaningOpenCanceledSummary extends React.Component {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
               }}
-              className="button is-outlined"
+              className="button is-outlined is-fullwidth "
             >
               View Canceled Request
             </a>
