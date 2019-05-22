@@ -165,13 +165,20 @@ class OtherUserProfileForReviewPage extends React.Component {
               <div className="tile is-ancestor has-text-centered">
                 <div className="tile is-parent">
                   <article className="tile is-child box">
-                    <p className="title">{numberOfTimesBeenRated}</p>
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {numberOfTimesBeenRated}
+                    </p>
                     <p className="is-size-6">ratings count</p>
                   </article>
                 </div>
                 <div className="tile is-parent">
                   <article className="tile is-child box">
-                    <p className={`title ${fulfilledBids.length > 0 ? 'has-text-success' : ''}`}>
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold ${
+                        fulfilledBids.length > 0 ? 'has-text-success' : ''
+                      }`}
+                    >
                       {fulfilledBids.length}
                     </p>
                     <p className="is-size-6">Completed Tasks</p>
@@ -179,7 +186,12 @@ class OtherUserProfileForReviewPage extends React.Component {
                 </div>
                 <div className="tile is-parent">
                   <article className="tile is-child box">
-                    <p className={`title ${canceledBids.length > 0 ? 'has-text-danger' : ''}`}>
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold${
+                        canceledBids.length > 0 ? 'has-text-danger' : ''
+                      }`}
+                    >
                       {canceledBids.length}
                     </p>
                     <p className="is-size-6">Cancelations of Agreements</p>
@@ -187,7 +199,12 @@ class OtherUserProfileForReviewPage extends React.Component {
                 </div>
                 <div className="tile is-parent">
                   <article className="tile is-child box">
-                    <p className={`title ${fulfilledJobs.length > 0 ? 'has-text-success' : ''}`}>
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold${
+                        fulfilledJobs.length > 0 ? 'has-text-success' : ''
+                      }`}
+                    >
                       {fulfilledJobs.length}
                     </p>
                     <p className="is-size-6">Requests Posted and fullfilled</p>
@@ -195,7 +212,12 @@ class OtherUserProfileForReviewPage extends React.Component {
                 </div>
                 <div className="tile is-parent">
                   <article className="tile is-child box">
-                    <p className={`title ${canceledJobs.length > 0 ? 'has-text-danger' : ''}`}>
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold${
+                        canceledJobs.length > 0 ? 'has-text-danger' : ''
+                      }`}
+                    >
                       {canceledJobs.length}
                     </p>
                     <p className="is-size-6">Requests Cancelled after agreement</p>
