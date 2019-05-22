@@ -94,11 +94,10 @@ class VerifyEmailButton extends React.Component {
                             onClick={() => {
                               if (!isResendingVCode || !verifyingEmailInProgress) {
                                 if (!inputCodeContent) {
-                                  alert(
-                                    'Please check your email inbox or junk to get the verification code',
-                                  );
+                                  alert('Please use the 6 digits code we sent to your email');
                                 } else if (inputCodeContent.length === 6) {
                                   verifyEmail(`${inputCodeContent}`);
+                                  this.toggleEnterPinDialog();
                                 } else {
                                   alert(
                                     "you've entered an invalid code. code is a 6 digit sent to your email",

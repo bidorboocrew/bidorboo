@@ -91,11 +91,10 @@ class VerifyPhoneButton extends React.Component {
                             onClick={() => {
                               if (!isResendingVCode || !verifyingPhoneInProgress) {
                                 if (!inputCodeContent) {
-                                  alert(
-                                    'Please check your phone msgs to get the verification code',
-                                  );
+                                  alert('Please use the 6 digits code we sent to your phone');
                                 } else if (inputCodeContent.length === 6) {
                                   verifyPhone(`${inputCodeContent}`);
+                                  this.toggleEnterPinDialog();
                                 } else {
                                   alert(
                                     "you've entered an invalid code. code is a 6 digit sent to your phone",
