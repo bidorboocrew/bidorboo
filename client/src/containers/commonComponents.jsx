@@ -75,7 +75,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
   let trimmedDisplayName = displayName;
   if (clipUserName) {
     let trimmedDisplayName =
-      displayName && displayName.length > 10 ? `${displayName.substring(0, 8)}...` : displayName;
+      displayName && displayName.length > 10 ? `${displayName.substring(0, 10)}...` : displayName;
   }
   return (
     <article
@@ -101,7 +101,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
 
       <div className="media-content">
         <div className="content">
-          <p className="is-size-6">{trimmedDisplayName}</p>
+          <div className="is-size-6">{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <p className="is-size-7">No Ratings Yet</p>
@@ -521,7 +521,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
     phone = { isVerified: false },
     email = { isVerified: false },
     isGmailUser = false,
-    isFacebookUser = false,
+    isFbUser = false,
     clearCriminalHistory = false,
   } = userDetails;
 
@@ -531,7 +531,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
         <span title="Verified by facebook" className="icon">
-          <i className={`fab fa-facebook ${isFacebookUser ? 'has-text-link' : 'has-text-grey'}`} />
+          <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
         </span>
         <span title="Verified by gmail" className="icon">
           <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />

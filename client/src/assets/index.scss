@@ -351,7 +351,6 @@ article.media.limitHeight {
   height: unset;
 }
 .ReactStars {
-  width: 90px;
   display: inline-block;
 }
 .card {
@@ -382,6 +381,7 @@ article.media.limitHeight {
   }
   &.noBordered {
     border: none;
+    box-shadow: none;
   }
   &.disabled {
     // cursor: not-allowed;

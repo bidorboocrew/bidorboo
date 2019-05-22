@@ -103,58 +103,72 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
 };
 
 exports.findUserPublicDetails = (mongodbUserId) => {
-  return User.findOne(
-    { _id: mongodbUserId },
-    {
-      pushSubscription: 0,
-      userRole: 0,
-      agreedToServiceTerms: 0,
-      settings: 0,
-      extras: 0,
-      stripeConnect: 0,
-      canBid: 0,
-      canPost: 0,
-      addressText: 0,
-      verification: 0,
-      password: 0,
-      email: 0,
-      phone: 0,
-      _postedJobsRef: 0,
-      _postedBidsRef: 0,
+  return new Promise(async (resolve, reject) => {
+    try {
+      const otherUserDetails = await User.findOne(
+        { _id: mongodbUserId },
+        {
+          pushSubscription: 0,
+          userRole: 0,
+          agreedToServiceTerms: 0,
+          settings: 0,
+          extras: 0,
+          canBid: 0,
+          notifications: 0,
+          canPost: 0,
+          addressText: 0,
+          verification: 0,
+          password: 0,
+          _postedJobsRef: 0,
+          _postedBidsRef: 0,
+        }
+      )
+        .populate({
+          path: '_asBidderReviewsRef',
+          select: {
+            _id: 1,
+            proposerReview: 1,
+            proposerId: 1,
+          },
+          populate: {
+            path: 'proposerId',
+            select: {
+              displayName: 1,
+              profileImage: 1,
+            },
+          },
+        })
+        .populate({
+          path: '_asProposerReviewsRef',
+          select: {
+            _id: 1,
+            bidderReview: 1,
+            bidderId: 1,
+          },
+          populate: {
+            path: 'bidderId',
+            select: {
+              displayName: 1,
+              profileImage: 1,
+            },
+          },
+        })
+        .lean(true)
+        .exec();
+
+      if (otherUserDetails) {
+        resolve({
+          ...otherUserDetails,
+          email: { isVerified: otherUserDetails.email.isVerified },
+          phone: { isVerified: otherUserDetails.phone.isVerified },
+          stripeConnect: { isVerified: otherUserDetails.stripeConnect.isVerified },
+        });
+      }
+      return {};
+    } catch (e) {
+      reject(e);
     }
-  )
-    .populate({
-      path: '_asBidderReviewsRef',
-      select: {
-        _id: 1,
-        proposerReview: 1,
-        proposerId: 1,
-      },
-      populate: {
-        path: 'proposerId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
-        },
-      },
-    })
-    .populate({
-      path: '_asProposerReviewsRef',
-      select: {
-        _id: 1,
-        bidderReview: 1,
-        bidderId: 1,
-      },
-      populate: {
-        path: 'bidderId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
-        },
-      },
-    })
-    .lean(true)
-    .exec();
+  });
 };
 
 exports.getUserPushSubscription = (userId) => {

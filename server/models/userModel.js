@@ -33,6 +33,14 @@ const UserSchema = new Schema(
       default: 'PROPOSER',
       enum: ['PROPOSER', 'BIDDER'],
     },
+    isGmailUser: {
+      type: Boolean,
+      default: false,
+    },
+    isFbUser: {
+      type: Boolean,
+      default: false,
+    },
     notifications: {
       push: {
         type: Boolean,

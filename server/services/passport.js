@@ -40,6 +40,7 @@ passport.use(
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
       const userDetails = {
+        isFbUser: true,
         displayName: profile.displayName,
         userId: profile.id,
         email: { emailAddress: userEmail },
@@ -75,6 +76,7 @@ passport.use(
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
       const userDetails = {
+        isGmailUser: true,
         displayName: profile.displayName,
         userId: profile.id,
         email: { emailAddress: userEmail },
