@@ -321,9 +321,9 @@ header.card-header {
 .card-content {
   padding: 0.5rem;
   min-height: 22rem;
-}
-table.table {
-  max-width: 600px;
+  &.template {
+    min-height: unset;
+  }
 }
 
 .help {
@@ -337,7 +337,7 @@ hr.divider {
   }
 }
 article.media.limitHeight {
-  height: 4rem;
+  max-height: 4.7rem;
   overflow: hidden;
 }
 

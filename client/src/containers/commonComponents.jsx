@@ -66,7 +66,7 @@ export const JobTitleText = ({ title, iconClass }) => {
     </div>
   );
 };
-export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
+export const UserImageAndRating = ({ userDetails, clipUserName = false, large = false }) => {
   let temp = userDetails
     ? userDetails
     : { profileImage: { url: '' }, displayName: '--', rating: { globalRating: 'no rating' } };
@@ -90,9 +90,13 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
       className="media limitHeight"
     >
       <figure style={{ margin: '0 6px 0 0' }} className="media-left">
-        <p className="image is-48x48">
+        <p className={`image ${large ? 'is-64x64' : 'is-48x48'} `}>
           <img
-            style={{ width: 48, height: 48, boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)' }}
+            style={{
+              width: `${large ? 64 : 48}`,
+              height: `${large ? 64 : 48}`,
+              boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+            }}
             src={profileImage.url}
             alt="image"
           />
@@ -101,7 +105,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
 
       <div className="media-content">
         <div className="content">
-          <div className="is-size-6">{trimmedDisplayName}</div>
+          <div className={`${large ? 'is-size-4' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <p className="is-size-7">No Ratings Yet</p>
@@ -113,7 +117,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false }) => {
               count={5}
               value={rating.globalRating}
               edit={false}
-              size={20}
+              size={`${large ? 35 : 20}`}
               color1={'lightgrey'}
               color2={'#ffd700'}
             />
@@ -525,34 +529,55 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
     clearCriminalHistory = false,
   } = userDetails;
 
+  const atLeastOneVerification =
+    isFbUser ||
+    isGmailUser ||
+    phone.isVerified ||
+    email.isVerified ||
+    stripeConnect.isVerified ||
+    clearCriminalHistory;
+
   return (
     <div className="field">
-      <label className="help">Verified Via</label>
+      {atLeastOneVerification && <label className="help">Verifications</label>}
+      {!atLeastOneVerification && <label className="help">Unverified</label>}
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
-        <span title="Verified by facebook" className="icon">
-          <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
-        </span>
-        <span title="Verified by gmail" className="icon">
-          <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
-        </span>
-        <span title="Verified by phone" className="icon">
-          <i
-            className={`fas fa-phone ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
-          />
-        </span>
-        <span title="Verified by email" className="icon">
-          <i
-            className={`far fa-envelope ${email.isVerified ? 'has-text-success' : 'has-text-grey'}`}
-          />
-        </span>
-        <span title="Verified by bank account" className="icon">
-          <i
-            className={`fas fa-money-check-alt ${
-              stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
-            }`}
-          />
-        </span>
+        {isFbUser && (
+          <span title="Verified by facebook" className="icon">
+            <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
+          </span>
+        )}
+        {isGmailUser && (
+          <span title="Verified by gmail" className="icon">
+            <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
+          </span>
+        )}
+        {phone.isVerified && (
+          <span title="Verified by phone" className="icon">
+            <i
+              className={`fas fa-phone ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
+            />
+          </span>
+        )}
+        {email.isVerified && (
+          <span title="Verified by email" className="icon">
+            <i
+              className={`far fa-envelope ${
+                email.isVerified ? 'has-text-success' : 'has-text-grey'
+              }`}
+            />
+          </span>
+        )}
+        {stripeConnect.isVerified && (
+          <span title="Verified by bank account" className="icon">
+            <i
+              className={`fas fa-money-check-alt ${
+                stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
+              }`}
+            />
+          </span>
+        )}
         {clearCriminalHistory && (
           <span title="Verified by criminal check" className="icon">
             <i

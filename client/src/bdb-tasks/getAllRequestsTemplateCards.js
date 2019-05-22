@@ -30,7 +30,7 @@ const ComingSoon1 = () => {
           }}
         />
 
-        <div className="card-content">
+        <div className="card-content template">
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={'Lawn Mowing'} iconClass="fas fa-tree" />
             <hr className="divider isTight" />
@@ -77,7 +77,7 @@ const ComingSoon2 = () => {
             background: 'rgba(255,255,255,0.4)',
           }}
         />
-        <div className="card-content">
+        <div className="card-content template">
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={'Movers'} iconClass="fas fa-people-carry" />
             <hr className="divider isTight" />

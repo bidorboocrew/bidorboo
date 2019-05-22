@@ -13,7 +13,7 @@ export default class HouseCleaningConcept extends React.Component {
 
     return (
       <div className="card limitWidthOfCard">
-        <div className="card-content">
+        <div className="card-content template">
           <div style={{ height: '10rem' }} className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
             <hr className="divider isTight" />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UserImageAndRating } from '../../../containers/commonComponents';
+import { UserImageAndRating, VerifiedVia } from '../../../containers/commonComponents';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
@@ -34,27 +34,43 @@ export default class BidsTable extends React.Component {
 
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
-          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-            <UserImageAndRating userDetails={bid._bidderRef} />
+          <td style={{ verticalAlign: 'middle' }}>
+            <UserImageAndRating userDetails={bid._bidderRef} large />
+            <VerifiedVia userDetails={bid._bidderRef} isCentered={false} />
           </td>
 
           <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-            <div className="has-text-weight-bold">
-              {totalCharge}
-              {bid.bidAmount && bid.bidAmount.currency}
+            <div className="tile is-ancestor has-text-centered">
+              <div className="tile is-parent">
+                <article
+                  style={{ cursor: 'pointer', position: 'relative', border: '2px solid #31c110' }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.openBidDetailsModal(bid);
+                  }}
+                  className="tile is-child box"
+                >
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {totalCharge}
+                  </p>
+                  <p className="is-size-6">$ ({bid.bidAmount && bid.bidAmount.currency})</p>
+                  <div className="help">Click To Review</div>
+                  {bid.isNewBid && (
+                    <span
+                      style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </span>
+                  )}
+                </article>
+              </div>
             </div>
           </td>
 
-          <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
+          {/* <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
             {bid._bidderRef && bid.bidAmount && (
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.openBidDetailsModal(bid);
-                }}
-                className="button is-success is-outlined"
-                style={{ position: 'relative' }}
-              >
+              <a className="button is-success is-outlined" style={{ position: 'relative' }}>
                 <span className="icon" style={{ margin: 0 }}>
                   <i className="fas fa-bullseye" />
                 </span>
@@ -69,7 +85,7 @@ export default class BidsTable extends React.Component {
                 )}
               </a>
             )}
-          </td>
+          </td> */}
         </tr>
       );
     });
@@ -80,7 +96,6 @@ export default class BidsTable extends React.Component {
           <tr>
             <th>Tasker Details</th>
             <th className="has-text-centered">Total Cost</th>
-            <th className="has-text-centered">Pick One</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
