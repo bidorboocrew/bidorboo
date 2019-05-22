@@ -345,7 +345,10 @@ article.media.limitHeight {
   max-width: 40rem;
   margin: auto;
 }
-
+.cropper-container.cropper-bg {
+  width: unset;
+  height: unset;
+}
 .card {
   &.readOnlyView {
     background: #eeeeee;

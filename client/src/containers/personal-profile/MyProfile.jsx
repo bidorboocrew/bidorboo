@@ -84,13 +84,14 @@ class MyProfile extends React.Component {
           </section>
           <hr className="divider" />
           <div className="columns is-centered">
-            <div className="column is-narrow">
+            <div className="column is-narrow has-text-centered">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
                 membershipStatusDisplay,
                 rating,
                 displayName,
+                userDetails,
               )}
             </div>
             <div className="column is-narrow">
@@ -289,6 +290,7 @@ const userImageAndStats = (
   membershipStatusDisplay,
   rating,
   displayName,
+  userDetails,
 ) => {
   const { globalRating } = rating;
   return (
@@ -305,26 +307,26 @@ const userImageAndStats = (
               <div>
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
-
+              <VerifiedVia userDetails={userDetails} />
               <a style={{ width: 120 }} className="button is-outlined is-small">
                 <span className="icon">
                   <i className="fa fa-camera" />
                 </span>
-                <span>change</span>
+                <span>Change Picture</span>
               </a>
             </div>
             <br />
             <div className="field">
               <label className="label">Name</label>
 
-              <div className="control">{displayName}</div>
+              <div className="control has-text-centered">{displayName}</div>
             </div>
             <div className="field">
               <label className="label">Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="control">No Ratings Yet</div>
+                <div className="control has-text-centered">No Ratings Yet</div>
               ) : (
-                <div className="control">
+                <div className="control has-text-centered">
                   <span>
                     <ReactStars
                       half
@@ -339,11 +341,10 @@ const userImageAndStats = (
                 </div>
               )}
             </div>
+
             <div className="field">
               <label className="label">Status</label>
-              <div className="control">
-                <div className="control">{membershipStatusDisplay}</div>
-              </div>
+              <div className="control has-text-centered">{membershipStatusDisplay}</div>
             </div>
           </div>
         </div>
@@ -370,4 +371,59 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
       </div>
     </div>
   ) : null;
+};
+
+const VerifiedVia = ({ userDetails }) => {
+  const {
+    stripeConnect = { isVerified: false },
+    phone,
+    email,
+    isGmailUser = false,
+    isFacebookUser = false,
+    clearCriminalHistory = false,
+  } = userDetails;
+
+  // phone number is provided but it is not verified
+  const isPhoneVerified = phone.phoneNumber && !phone.isVerified;
+  // email is provided but it is not verified
+  const isEmailVerified = email.emailAddress && !email.isVerified;
+
+  return (
+    <div className="field">
+      <label className="help">Verified Via</label>
+
+      <div className="control has-text-centered ">
+        <span title="Verified by facebook" className="icon">
+          <i className={`fab fa-facebook ${isFacebookUser ? 'has-text-link' : 'has-text-grey'}`} />
+        </span>
+        <span title="Verified by gmail" className="icon">
+          <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
+        </span>
+        <span title="Verified by phone" className="icon">
+          <i className={`fas fa-phone ${isPhoneVerified ? 'has-text-success' : 'has-text-grey'}`} />
+        </span>
+        <span title="Verified by email" className="icon">
+          <i
+            className={`far fa-envelope ${isEmailVerified ? 'has-text-success' : 'has-text-grey'}`}
+          />
+        </span>
+        <span title="Verified by bank account" className="icon">
+          <i
+            className={`fas fa-money-check-alt ${
+              stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
+            }`}
+          />
+        </span>
+        {clearCriminalHistory && (
+          <span title="Verified by criminal check" className="icon">
+            <i
+              className={`fas fa-balance-scale ${
+                clearCriminalHistory ? 'has-text-success' : 'has-text-grey'
+              }`}
+            />
+          </span>
+        )}
+      </div>
+    </div>
+  );
 };

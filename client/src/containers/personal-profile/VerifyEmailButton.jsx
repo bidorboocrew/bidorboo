@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,8 +16,12 @@ class VerifyEmailButton extends React.Component {
     this.state = {
       isResendingVCode: false,
       inputCodeContent: '',
+      showEnterPinDialog: '',
     };
   }
+  toggleEnterPinDialog = () => {
+    this.setState({ showEnterPinDialog: !this.state.showEnterPinDialog });
+  };
 
   handleSendNewCode = async () => {
     this.setState({ isResendingVCode: true }, async () => {
@@ -32,63 +37,117 @@ class VerifyEmailButton extends React.Component {
         alert(
           'we are unable to send the verification email, please contact us bidorboocrew@gmail.com and we will help you resolve this',
         );
-        this.setState({ isResendingVCode: false });
+        this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
   };
   render() {
-    const { isResendingVCode, inputCodeContent } = this.state;
+    this.rootModal = document.querySelector('#bidorboo-root-modals');
+    const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
     const { verifyEmail, verifyingEmailInProgress } = this.props;
     return (
-      <div style={{ marginTop: 2 }} className="control">
-        <div style={{ display: 'flex' }}>
-          <input
-            value={inputCodeContent}
-            onChange={(e) => {
-              if (e.target.value && e.target.value.length > 6) {
-                // ignore after 6
-              } else {
-                this.setState({ inputCodeContent: e.target.value });
-              }
-            }}
-            disabled={isResendingVCode || verifyingEmailInProgress}
-            style={{ flexGrow: 1, borderRadius: 0 }}
-            className="input is-small"
-            type="number"
-            maxLength="6"
-            minLength="6"
-            placeholder="Verification Code"
-          />
-          <div
-            onClick={() => {
-              if (!isResendingVCode || !verifyingEmailInProgress) {
-                if (!inputCodeContent) {
-                  alert('Please check your email inbox or junk to get the verification code');
-                } else if (inputCodeContent.length === 6) {
-                  verifyEmail(`${inputCodeContent}`);
-                } else {
-                  alert("you've entered an invalid code. code is a 6 digit sent to your email");
-                }
-              }
-            }}
-            style={{ borderRadius: 0 }}
-            className="button is-success is-outlined  is-small"
-          >
-            <span className="icon">
-              <i className="fas fa-check is-success" />
-            </span>
-          </div>
-          <button
-            style={{ marginLeft: 6 }}
-            onClick={this.handleSendNewCode}
-            className="button is-text is-small"
-            disabled={isResendingVCode || verifyingEmailInProgress}
-          >
-            {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
-          </button>
+      <React.Fragment>
+        {showEnterPinDialog &&
+          ReactDOM.createPortal(
+            <div className="modal is-active">
+              <div onClick={this.toggleEnterPinDialog} className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <div className="modal-card-title">Verify Your Email</div>
+                  <button
+                    onClick={this.toggleEnterPinDialog}
+                    className="delete"
+                    aria-label="close"
+                  />
+                </header>
+                <section className="modal-card-body">
+                  <div className="content">
+                    <div>Enter the verification code that you've recieved in your email</div>
+                    <br />
+                    <div>
+                      Getting verified is an important step in building trust between Requesters and
+                      Taskers
+                    </div>
+                    <br />
+                    <div className="field">
+                      <label className="label">Enter Verification Code:</label>
+                      <div style={{ marginTop: 2 }} className="control">
+                        <div style={{ display: 'flex' }}>
+                          <input
+                            value={inputCodeContent}
+                            onChange={(e) => {
+                              if (e.target.value && e.target.value.length > 6) {
+                                // ignore after 6
+                              } else {
+                                this.setState({ inputCodeContent: e.target.value });
+                              }
+                            }}
+                            disabled={isResendingVCode || verifyingEmailInProgress}
+                            style={{ flexGrow: 1, borderRadius: 0 }}
+                            className="input"
+                            type="number"
+                            maxLength="6"
+                            minLength="6"
+                            placeholder="Enter 6 digits Verification Code"
+                          />
+                          <div
+                            onClick={() => {
+                              if (!isResendingVCode || !verifyingEmailInProgress) {
+                                if (!inputCodeContent) {
+                                  alert(
+                                    'Please check your email inbox or junk to get the verification code',
+                                  );
+                                } else if (inputCodeContent.length === 6) {
+                                  verifyEmail(`${inputCodeContent}`);
+                                } else {
+                                  alert(
+                                    "you've entered an invalid code. code is a 6 digit sent to your email",
+                                  );
+                                }
+                              }
+                            }}
+                            style={{ borderRadius: 0 }}
+                            disabled={
+                              !inputCodeContent || isResendingVCode || verifyingEmailInProgress
+                            }
+                            className="button is-info is-outlined"
+                          >
+                            Submit Code
+                          </div>
+                          <button
+                            style={{ marginLeft: 6 }}
+                            onClick={this.handleSendNewCode}
+                            className="button is-text"
+                            disabled={isResendingVCode || verifyingEmailInProgress}
+                          >
+                            {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
+                          </button>
+                        </div>
+                        <div className="help">
+                          * Check your email inbox/junk folders for emails from
+                          bidorboocrew@gmail.com
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <footer className="modal-card-foot">
+                  <button
+                    style={{ width: 160 }}
+                    onClick={this.toggleEnterPinDialog}
+                    className="button is-outline"
+                  >
+                    <span>Go Back</span>
+                  </button>
+                </footer>
+              </div>
+            </div>,
+            this.rootModal,
+          )}
+        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+          Verify Your Email
         </div>
-        <div className="help">* Check your email inbox/junk folders</div>
-      </div>
+      </React.Fragment>
     );
   }
 }

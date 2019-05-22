@@ -140,7 +140,7 @@ class MyForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group has-text-centered">
+        <div style={{ height: 180 }} className="form-group has-text-centered">
           <input
             id="files"
             className="input is-invisible"
@@ -199,6 +199,10 @@ class MyForm extends React.Component {
               checkOrientation={true}
               guides={false} // crop={this._crop}
               className="bdb-img-upload-placeholder"
+              modal={true}
+              background={false}
+              minContainerHeight={180}
+              minCanvasHeight={180}
             />
           )}
         </div>
