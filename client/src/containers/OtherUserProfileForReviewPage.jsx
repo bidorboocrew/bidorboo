@@ -225,31 +225,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                 </div>
               </div>
 
-              {/* <div>
-                was rated by <strong>{numberOfTimesBeenRated} </strong> user
-              </div>
-              <div>
-                provided <strong>{fulfilledBids.length} </strong> services successfully
-              </div>
-              <div>
-                cancelled <strong>{canceledBids.length} </strong> on an awarded request
-              </div>
-              <div>
-                requested <strong>{fulfilledJobs.length} </strong> services and completed
-                successfully via BidOrBoo
-              </div>
-              <div>
-                cancelled <strong>{canceledJobs.length} </strong> requested services after awarding
-              </div>
-              <div>
-                member since
-                <strong> {moment.duration(moment().diff(moment(createdAt))).humanize()}</strong>
-              </div> */}
-
               {asABidderReviews && (
                 <React.Fragment>
                   <br />
-                  <hr className="navbar-divider" />
+                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Tasker :</label>
                   {asABidderReviews}
                 </React.Fragment>
@@ -258,7 +237,7 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asAProposerReviewsRef && (
                 <React.Fragment>
                   <br />
-                  <hr className="navbar-divider" />
+                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Requester :</label>
                   {asAProposerReviewsRef}
                 </React.Fragment>
