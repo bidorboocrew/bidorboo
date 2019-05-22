@@ -77,7 +77,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider" />
+        <hr className="divider isTight" />
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>

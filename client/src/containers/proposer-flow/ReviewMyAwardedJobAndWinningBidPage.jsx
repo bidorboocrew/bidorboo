@@ -64,6 +64,14 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Request Details</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider isTight" />
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
