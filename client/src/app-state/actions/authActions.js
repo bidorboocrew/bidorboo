@@ -45,7 +45,6 @@ export const verifyEmail = (code) => (dispatch) => {
         data: { code },
       })
       .then((verifyReq) => {
-        debugger;
         //rediret user to my profile
         switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
