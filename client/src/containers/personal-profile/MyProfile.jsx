@@ -85,7 +85,7 @@ class MyProfile extends React.Component {
           </section>
           <hr className="divider" />
           <div className="columns is-centered">
-            <div className="column is-narrow has-text-centered">
+            <div className="column has-text-centered">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
@@ -95,7 +95,7 @@ class MyProfile extends React.Component {
                 userDetails,
               )}
             </div>
-            <div className="column is-narrow">
+            <div className="column">
               <div className="card">
                 <header className="card-header">
                   <p className="card-header-title">
@@ -126,6 +126,7 @@ class MyProfile extends React.Component {
                       <span className="icon">
                         <i className="far fa-edit" />
                       </span>
+                      <span>Edit Details</span>
                     </a>
                   )}
                 </header>
@@ -231,7 +232,7 @@ class MyProfile extends React.Component {
               </div>
             </div>
 
-            <div className="column is-narrow">
+            <div className="column">
               <NotificationSettings />
             </div>
           </div>

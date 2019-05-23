@@ -48,6 +48,7 @@ class VerifyEmailButton extends React.Component {
     return (
       <React.Fragment>
         {showEnterPinDialog &&
+          this.rootModal &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleEnterPinDialog} className="modal-background" />
@@ -141,7 +142,7 @@ class VerifyEmailButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal,
+            this.rootModal
           )}
         <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Email

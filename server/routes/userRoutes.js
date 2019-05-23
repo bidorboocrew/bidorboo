@@ -3,6 +3,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 const cloudinary = require('cloudinary');
 module.exports = (app) => {
@@ -139,6 +140,8 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
+      // xxxx
+      // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
@@ -331,7 +334,7 @@ module.exports = (app) => {
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
-            folder: `${userMongoDBId}/profilePic`,
+            folder: `profilePic`,
             transformation: [{ gravity: 'face', width: 150, height: 150, crop: 'thumb' }],
           },
           updateUserWithNewProfileImg

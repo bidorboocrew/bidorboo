@@ -42,9 +42,12 @@ class VerifyPhoneButton extends React.Component {
   render() {
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
     const { verifyPhone, verifyingPhoneInProgress } = this.props;
+    this.rootModal = document.querySelector('#bidorboo-root-modals');
+
     return (
       <React.Fragment>
         {showEnterPinDialog &&
+          this.rootModal &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleEnterPinDialog} className="modal-background" />
@@ -135,7 +138,7 @@ class VerifyPhoneButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal,
+            this.rootModal
           )}
         <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Phone

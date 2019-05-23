@@ -245,6 +245,7 @@ class Header extends React.Component {
                     <span>Request a Service</span>
                   </a>
                 )}
+
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
@@ -470,6 +471,20 @@ class Header extends React.Component {
                       </nav>
                     </div>
                   </React.Fragment>
+                )}
+                {!isLoggedIn && (
+                  <div className="is-hidden-touch navbar-item">
+                    <a
+                      className="button is-danger heartbeat"
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          this.toggleLoginDialog();
+                        });
+                      }}
+                    >
+                      Login / Sign Up
+                    </a>
+                  </div>
                 )}
               </React.Fragment>
             </div>

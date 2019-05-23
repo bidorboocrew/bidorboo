@@ -59,11 +59,11 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
   }
   render() {
     return this.state.shouldShowBanner ? (
-      <a onClick={this.installApp} className="button is-outlined is-small">
+      <a onClick={this.installApp} className="button is-outlined is-small is-text is-dark">
         <span className="icon">
           <i className="fas fa-mobile-alt" />
         </span>
-        <span>Insall B.o.B App</span>
+        <span>Insall Our Web App</span>
       </a>
     ) : null;
   }

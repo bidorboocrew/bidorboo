@@ -25,7 +25,7 @@ const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
       <div className="card is-fullwidth">
-        <div className="card-content">
+        <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
             <div className="is-size-5">No Jobs Found. please check again later!</div>
             <br />

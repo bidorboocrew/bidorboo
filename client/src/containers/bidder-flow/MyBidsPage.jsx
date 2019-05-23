@@ -34,7 +34,6 @@ class MyBidsPage extends React.Component {
 
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-
     // const awardedBidsListComponent =
     //   awardedBidsList && awardedBidsList.length > 0 ? (
     //     awardedBidsList.map((bidDetails) => {
@@ -116,7 +115,7 @@ const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
       <div className="card is-fullwidth">
-        <div className="card-content">
+        <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
             <div className="is-size-5">You have no bids. Start bidding to earn money!</div>
             <br />

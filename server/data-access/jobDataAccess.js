@@ -329,6 +329,7 @@ exports.jobDataAccess = {
         populate: [
           {
             path: '_awardedBidRef',
+            model: 'BidModel',
             select: {
               _bidderRef: 1,
               isNewBid: 1,
