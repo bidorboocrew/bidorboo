@@ -708,6 +708,7 @@ exports.jobDataAccess = {
             startingDateAndTime: 1,
             extras: 1,
             state: 1,
+            location:1,
           },
           {
             sort: { startingDateAndTime: 1 },
