@@ -116,8 +116,102 @@ div.react-datepicker {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
+
+  #BidOrBoo-logo-step {
+    &:hover {
+      background: lightgrey;
+      > span {
+        color: black !important;
+      }
+    }
+  }
   &.bidderAppBar {
-    background: lightgrey;
+    background: #363636;
+
+    div#navbarmenu.navbar-menu.is-active {
+      > div.navbar-end {
+        > a.navbar-item {
+          color: #363636;
+        }
+        div#myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
+          > a.navbar-link {
+            color: #363636;
+          }
+          > div.navbar-dropdown.is-boxed {
+            a {
+              &:hover {
+                background: lightgrey;
+                > span {
+                  color: black !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    #mobile-nav-burger {
+      color: white !important;
+      &:hover {
+        background: lightgrey;
+        > span {
+          color: black !important;
+        }
+      }
+    }
+    #myprofile-step {
+      > nav > div {
+        a.navbar-link {
+          &:hover {
+            background: lightgrey;
+            color: black;
+            &::after {
+              border-color: black !important;
+              margin-top: -0.375em;
+              right: 1.125em;
+            }
+          }
+          color: lightgrey;
+          &::after {
+            border-color: lightgrey !important;
+            margin-top: -0.375em;
+            right: 1.125em;
+          }
+        }
+      }
+    }
+    #BidOrBoo-logo-step {
+      &:hover {
+        background: lightgrey;
+        > span {
+          color: black !important;
+        }
+      }
+      > span {
+        color: white !important;
+      }
+    }
+
+    div.navbar-start,
+    div.navbar-end {
+      color: lightgrey;
+      > a.navbar-item {
+        color: lightgrey;
+        &:hover {
+          background: lightgrey;
+          color: black !important;
+        }
+        &.is-active {
+          &:hover {
+            background: lightgrey;
+            color: black !important;
+          }
+          font-weight: 700;
+          color: white !important;
+        }
+      }
+    }
   }
 }
 
