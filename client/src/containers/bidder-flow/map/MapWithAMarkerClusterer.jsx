@@ -79,8 +79,8 @@ class Cluster extends React.Component {
               lat: job.location.coordinates[1],
             },
             () => {
-              const infoBox = document.querySelector(`#infoboxJob-${job._id}`);
-              infoBox && infoBox.scrollIntoView && infoBox.scrollIntoView(true);
+              const mapDiv = document.querySelector(`#bdb-map`);
+              mapDiv && mapDiv.scrollIntoView && mapDiv.scrollIntoView();
             },
           );
       },
