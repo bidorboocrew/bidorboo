@@ -83,8 +83,9 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                   View Your existing Bid
                 </a>
               ) : (
-                <React.Fragment>
+                <div style={{ display: 'flex' }}>
                   <a
+                    style={{ flexGrow: 1 }}
                     onClick={(e) => {
                       if (!isLoggedIn) {
                         showLoginDialog(true);
@@ -93,12 +94,13 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                       }
                     }}
-                    className="button is-success is-outlined is-fullwidth"
+                    className="button is-success is-outlined"
                   >
                     Place Your Bid!
                   </a>
 
                   <a
+                    style={{ marginLeft: 12 }}
                     onClick={(e) => {
                       const markerRef = reactMapClusterRef;
                       if (
@@ -111,11 +113,14 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         markerRef.current.props.onClick();
                       }
                     }}
-                    className="button is-success is-outlined is-fullwidth"
+                    className="button is-outlined"
                   >
-                    Locate on the map
+                    <span className="icon">
+                      <i className="fas fa-map-marked-alt" />
+                    </span>
+                    <span>Locate</span>
                   </a>
-                </React.Fragment>
+                </div>
               )}
             </React.Fragment>
           )}
