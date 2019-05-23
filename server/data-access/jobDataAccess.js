@@ -700,25 +700,15 @@ exports.jobDataAccess = {
   getAllJobsToBidOn: async () => {
     // wil return all jobs in the system
     return new Promise(async (resolve, reject) => {
-      const jobOwnerFields = {
-        displayName: 1,
-        profileImage: 1,
-        _id: 1,
-        rating: 1,
-        notifications: 1,
-      };
-
       try {
         const openJobsForBidding = await JobModel.find(
           { state: { $eq: 'OPEN' } },
           {
-            addressText: 0,
-            detailedDescription: 0,
-            booedBy: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            hideFrom: 0,
-            jobCompletion: 0,
+            _ownerRef: 1,
+            fromTemplateId: 1,
+            startingDateAndTime: 1,
+            extras: 1,
+            state: 1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -727,7 +717,7 @@ exports.jobDataAccess = {
         )
           .populate({
             path: '_ownerRef',
-            select: jobOwnerFields,
+            select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
           })
           .populate({
             path: '_bidsListRef',
