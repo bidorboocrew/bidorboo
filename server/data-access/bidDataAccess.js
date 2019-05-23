@@ -192,6 +192,7 @@ exports.bidDataAccess = {
                 populate: {
                   path: '_jobRef',
                   select: {
+                    _awardedBidRef: 1,
                     _ownerRef: 1,
                     state: 1,
                     detailedDescription: 1,
@@ -201,15 +202,22 @@ exports.bidDataAccess = {
                     durationOfJob: 1,
                     fromTemplateId: 1,
                   },
-                  populate: {
-                    path: '_ownerRef',
-                    select: {
-                      _id: 1,
-                      displayName: 1,
-                      rating: 1,
-                      profileImage: 1,
+                  populate: [
+                    {
+                      path: '_awardedBidRef',
+                      select: { _bidderRef: 1 },
+                      populate: { path: '_bidderRef', select: { userId: 1 } },
                     },
-                  },
+                    {
+                      path: '_ownerRef',
+                      select: {
+                        _id: 1,
+                        displayName: 1,
+                        rating: 1,
+                        profileImage: 1,
+                      },
+                    },
+                  ],
                 },
               })
               .lean({ virtuals: true })

@@ -117,7 +117,7 @@ class HouseCleaningRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard ${isPastDue ? 'expiredReadOnly' : ''}`}>
+        <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
