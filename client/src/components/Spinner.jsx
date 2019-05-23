@@ -16,17 +16,21 @@ export const Spinner = ({
   );
   return (
     <Delay wait={800}>
-      <div style={{ marginTop: '1rem' }} className="VerticalAligner">
-        {isLoading ? <div className={spinnerSize} /> : null}
-      </div>
-      <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">
-        {typeof renderLabel === 'function' && renderLabel()}
-        {typeof renderLabel === 'string' && (
-          <label className={`label ${isDark ? 'has-text-dark' : 'has-text-white'}`}>
-            {renderLabel}
-          </label>
-        )}
-      </div>
+      {isLoading && (
+        <React.Fragment>
+          <div style={{ marginTop: '1rem' }} className="VerticalAligner">
+            <div className={spinnerSize} />
+          </div>
+          <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">
+            {typeof renderLabel === 'function' && renderLabel()}
+            {typeof renderLabel === 'string' && (
+              <label className={`label ${isDark ? 'has-text-dark' : 'has-text-white'}`}>
+                {renderLabel}
+              </label>
+            )}
+          </div>
+        </React.Fragment>
+      )}
     </Delay>
   );
 };
