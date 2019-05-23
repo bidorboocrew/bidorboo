@@ -159,39 +159,42 @@ export const CardTitleAndActionsInfo = ({
           </div>
         </div>
       </div>
-
-      <div className="level-right">
-        <div className="level-item has-text-centered">
-          {userAlreadyView && (
-            <div>
-              <div className="icon">
-                <i className="far fa-eye" />
-              </div>
-              <div className="help">Viewed</div>
+      {!isOnMapView && (
+        <React.Fragment>
+          <div className="level-right">
+            <div className="level-item has-text-centered">
+              {userAlreadyView && (
+                <div>
+                  <div className="icon">
+                    <i className="far fa-eye" />
+                  </div>
+                  <div className="help">Viewed</div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="level-item has-text-centered">
-          {!isAwarded && !userAlreadyBid && (
-            <div className="has-text-grey">
-              <div className="icon">
-                <i className="fas fa-hand-paper" />
-              </div>
-              <div className="help">{bidsCountLabel}</div>
+            <div className="level-item has-text-centered">
+              {!isAwarded && !userAlreadyBid && (
+                <div className="has-text-grey">
+                  <div className="icon">
+                    <i className="fas fa-hand-paper" />
+                  </div>
+                  <div className="help">{bidsCountLabel}</div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="level-item has-text-centered">
-          {userAlreadyBid && (
-            <div>
-              <div className="icon">
-                <i className="fas fa-money-check-alt" />
-              </div>
-              <div className="help">Already Bid</div>
+            <div className="level-item has-text-centered">
+              {userAlreadyBid && (
+                <div>
+                  <div className="icon">
+                    <i className="fas fa-money-check-alt" />
+                  </div>
+                  <div className="help">Already Bid</div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </React.Fragment>
+      )}
     </nav>
   );
 };

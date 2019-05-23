@@ -42,9 +42,10 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
 
     return (
       <div className={`card is-clipped ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}>
-        <div className="card-content">
+        <div style={{ minHeight: isOnMapView ? 'unset' : '22rem' }} className="card-content">
           <div className="content">
             <CardTitleAndActionsInfo
+              isOnMapView={isOnMapView}
               userAlreadyBid={userAlreadyBid}
               jobState={state}
               fromTemplateId={fromTemplateId}

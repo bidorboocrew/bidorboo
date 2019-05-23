@@ -32,7 +32,6 @@ class TheMap extends React.Component {
     // https://developers.google.com/maps/documentation/javascript/localization
     // xxx restrict bounds to canada
     // const CANADA_BOUNDS = { north: 70, south: 41, west: -145, east: -51 };
-    debugger;
     return (
       <GoogleMap
         options={{
@@ -69,8 +68,10 @@ class Cluster extends React.Component {
     this.setState(
       () => ({ showInfoBoxForJobId: job._id }),
       () => {
-        debugger;
         job &&
+          job.location &&
+          job.location.coordinates &&
+          job.location.coordinates.length === 2 &&
           job.zoomOnInfo &&
           job.zoomOnInfo(
             {
@@ -82,23 +83,6 @@ class Cluster extends React.Component {
               infoBox && infoBox.scrollIntoView && infoBox.scrollIntoView(true);
             },
           );
-
-        // debugger;
-        // window.BidorBoo = window.BidorBoo || {};
-        // let existingMap = window.BidorBoo.existingMap;
-        // if (!window.BidorBoo.existingMap) {
-        //   existingMap = new window.google.maps.Map(document.querySelector('#bdb-map'));
-        //   window.BidorBoo.existingMap = existingMap;
-        // }
-        // if (existingMap) {
-        //   try {
-        //     debugger
-        //     existingMap.setZoom(8);
-        //     existingMap.panBy();
-        //   } catch (e) {
-        //     // xxxdo not break the map for failure here
-        //   }
-        // }
       },
     );
   };
