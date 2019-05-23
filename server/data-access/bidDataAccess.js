@@ -433,7 +433,7 @@ exports.bidDataAccess = {
     return BidModel.findOneAndUpdate(
       { _id: bidId, _bidderRef: userMongoDBId },
       {
-        $set: { 'bidAmount.value': bidAmount, isNewBid: false },
+        $set: { 'bidAmount.value': bidAmount, isNewBid: true },
       },
       { new: true }
     )
