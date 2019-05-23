@@ -98,7 +98,8 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      alert('not implemented');
+                      // cancelJobById(job._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
