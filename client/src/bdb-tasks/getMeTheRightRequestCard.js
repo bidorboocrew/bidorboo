@@ -14,6 +14,7 @@ import {
   TaskerMyOpenBidHouseCleaningSummary,
   TaskerMyOpenBidHouseCleaningDetails,
   TaskerMyAwardedBidHouseCleaningSummary,
+  TaskerMyAwardedBidHouseCleaningDetails,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
@@ -77,30 +78,18 @@ const TaskerCardTemplates = {
         return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
-    [BID_STATES.WON]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      withBidDetails,
-      ...otherArgs
-    }) => {
+    [BID_STATES.WON]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
       if (isSummaryView) {
         return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
-        return <div>needs work</div>;
+        return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
-    [BID_STATES.WON_SEEN]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      withBidDetails,
-      ...otherArgs
-    }) => {
+    [BID_STATES.WON_SEEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
       if (isSummaryView) {
         return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
-        return <div>needs work</div>;
+        return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
   },

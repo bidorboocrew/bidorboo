@@ -88,6 +88,17 @@ body {
   }
 }
 
+a.button {
+  &.is-gold {
+    background: #ffd700;
+    color: black;
+    &:hover {
+      background: black;
+      color: #ffd700;
+    }
+  }
+}
+
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
 div.react-datepicker-popper {

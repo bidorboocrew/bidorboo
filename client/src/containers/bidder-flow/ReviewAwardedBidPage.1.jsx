@@ -5,42 +5,45 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { getAwardedBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
+import { getAwardedBidDetails } from '../../app-state/actions/bidsActions';
+import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 
 import { Spinner } from '../../components/Spinner';
-
-import TaskerPendingBidInfo from './components/TaskerPendingBidInfo';
+import MyAwardedBidJobDetails from './components/MyAwardedBidJobDetails';
+import RequesterAndMyAwardedBid from './components/RequesterAndMyAwardedBid';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
     super(props);
     this.bidId = null;
-
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    debugger
   }
 
   componentDidMount() {
     if (!this.bidId) {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
-      debugger
       return null;
     }
-
     this.props.getAwardedBidDetails(this.bidId);
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.props.isLoading && (!this.props.selectedAwardedBid || !this.props.selectedAwardedBid._id)) {
-      // xxxx show cant find job or something instead of ugly redirect
-      // could not find the job so we redirected you
-      alert('Apologies, but we couldn\'t locate this bid')
-      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-      return null;
+    // if route changed reload the job
+    let newBidId = this.bidId;
+
+    if (this.props.match && this.props.match.params && this.props.match.params.bidId) {
+      newBidId = this.props.match.params.bidId;
+    }
+    if (newBidId !== this.bidId) {
+      this.bidId = newBidId;
+      if (!this.bidId) {
+        switchRoute(ROUTES.CLIENT.BIDDER.root);
+        return null;
+      }
+      this.props.getAwardedBidDetails(this.bidId);
     }
   }
 
@@ -52,8 +55,9 @@ class ReviewAwardedBidPage extends React.Component {
   };
 
   render() {
-    const { selectedAwardedBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
+    const { selectedAwardedBid, bidderConfirmsJobCompletion, isReadOnlyView = false } = this.props;
     // while fetching the job
+
     if (
       !selectedAwardedBid ||
       !selectedAwardedBid._id ||
@@ -62,7 +66,7 @@ class ReviewAwardedBidPage extends React.Component {
     ) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel="getting your bid details" isLoading={true} size={'large'} />
+          <Spinner isLoading={true} size={'large'} />
         </div>
       );
     }
@@ -72,36 +76,18 @@ class ReviewAwardedBidPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Bid Details</h1>
-            </div>
-          </div>
-        </section>
-        <hr className="divider isTight" />
-        <div className="columns is-centered">
+        <div className="columns is-multiline is-centered">
           <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button is-outlined"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>View My Other Bids</span>
-              </a>
-            </div>
+            {!isReadOnlyView && breadCrumbs({ activePageTitle: title })}
 
-            {getMeTheRightBidCard({
-              bid: selectedAwardedBid,
-              isSummaryView: false,
-              pointOfView: POINT_OF_VIEW.TASKER,
-              userDetails: currentUserDetails,
-              updateBid,
-              deleteOpenBid,
-            })}
+            <RequesterAndMyAwardedBid
+              bidderConfirmsJobCompletion={bidderConfirmsJobCompletion}
+              bid={selectedAwardedBid}
+              job={selectedAwardedJob}
+              isReadOnlyView={isReadOnlyView}
+            />
+
+            <MyAwardedBidJobDetails job={selectedAwardedJob} />
           </div>
         </div>
       </div>
@@ -119,9 +105,8 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
-    updateBid: bindActionCreators(updateBid, dispatch),
+    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
   };
 };
 
@@ -129,3 +114,26 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewAwardedBidPage);
+
+const breadCrumbs = ({ activePageTitle }) => {
+  return (
+    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
+      <nav className="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+              }}
+            >
+              My Bids
+            </a>
+          </li>
+          <li className="is-active">
+            <a aria-current="page">{activePageTitle}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+};

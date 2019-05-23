@@ -19,28 +19,29 @@ import {
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class HouseCleaningAwardedDetails extends RequestBaseContainer {
+class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
-    const { job, cancelJobById } = this.props;
+    const { bid, cancelJobById } = this.props;
+    const job = bid._jobRef;
 
     const {
       startingDateAndTime,
       addressText,
-      _awardedBidRef,
       extras,
       detailedDescription,
       displayStatus,
       isExpiringSoon,
       isHappeningToday,
       isPastDue,
+      _ownerRef,
     } = job;
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    const { phone, email } = _bidderRef;
+    const { bidAmount } = bid;
+    const { phone, email } = _ownerRef;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = HOUSE_CLEANING_DEF;
 
     return (
       <React.Fragment>
@@ -50,7 +51,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Request</div>
+                  <div className="modal-card-title">Cancel This Bid</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -59,10 +60,13 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>Cancelling an assigned request is considered a missed appointment.</div>
+                    <div>
+                      Cancelling a bid after you have been assigned is considered a missed
+                      appointment.
+                    </div>
                     <br />
                     <div>
-                      We understand that life "happens" , but to keep things fair for you and the
+                      We understand that life "happens" but to keep things fair for you and the
                       tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
@@ -70,11 +74,14 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
 
                     <div className="field">
                       <label className="label">What you need to know:</label>
-                      <div className="control">
-                        * You will be <strong>penalized 20%</strong> of the total payment and will
-                        be refunded 80%.
-                      </div>
+
                       <div className="control">* Your global rating will be impacted</div>
+                      <div className="control">
+                        * This cancellation will show up on your profile{' '}
+                      </div>
+                      <div className="control">
+                        * If many cancellations happen in a row you will be ban from BidOrBoo
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -239,8 +246,8 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               </div>
               <hr className="divider" />
               <div className="field">
-                <label className="label">Assigned Tasker Details</label>
-                <UserImageAndRating userDetails={_bidderRef} />
+                <label className="label">Requester Details</label>
+                <UserImageAndRating userDetails={_ownerRef} />
                 <div className="control">
                   <span className="icon">
                     <i className="far fa-envelope" />
@@ -299,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningAwardedDetails);
+)(TaskerMyAwardedBidHouseCleaningDetails);
 
 class ProposerVerifiesJobCompletion extends React.Component {
   constructor(props) {

@@ -23,7 +23,7 @@ export default class MyBidsOpenBid extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bidDetails._id));
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bidDetails._id));
         }}
         className="card limitWidthOfCard"
       >

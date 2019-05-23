@@ -244,7 +244,7 @@ const renderFooter = ({ bid }) => {
         <a
           style={{ position: 'relative' }}
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bid._id));
+            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
           className="button is-outlined is-fullwidth is-info"
         >

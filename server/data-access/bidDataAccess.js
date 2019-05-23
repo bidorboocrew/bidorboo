@@ -152,7 +152,7 @@ exports.bidDataAccess = {
               ],
             },
           })
-          .lean(true)
+          .lean({ virtuals: true })
           .exec((err, res) => {
             if (err) {
               reject(err);

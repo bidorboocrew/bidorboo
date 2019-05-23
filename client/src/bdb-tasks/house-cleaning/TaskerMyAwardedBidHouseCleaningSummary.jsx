@@ -287,7 +287,7 @@ const renderFooter = ({ bid, amITheAwardedBidder }) => {
           <a
             style={{ position: 'relative' }}
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bid._id));
+              switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id));
             }}
             className="button is-outlined is-fullwidth is-success"
           >

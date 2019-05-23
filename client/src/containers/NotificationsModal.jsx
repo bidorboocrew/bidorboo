@@ -177,7 +177,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
           key={bid._id}
           onClick={() => {
             closeDialog();
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(bid._id));
+            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id));
           }}
           style={{ padding: '0.5em 1em', marginBottom: 6 }}
           className="notification"

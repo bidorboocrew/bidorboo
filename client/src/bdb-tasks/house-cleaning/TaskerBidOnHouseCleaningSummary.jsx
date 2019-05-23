@@ -73,7 +73,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                   onClick={(e) => {
                     e.preventDefault();
                     switchRoute(
-                      ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(
+                      ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
                         userExistingBid._id,
                       ),
                     );

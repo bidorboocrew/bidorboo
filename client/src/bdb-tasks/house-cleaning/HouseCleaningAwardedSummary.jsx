@@ -56,8 +56,9 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                     <div>Cancelling an assigned request is considered a missed appointment.</div>
                     <br />
                     <div>
-                      To keep things fair for you and the tasker we encourage you to reach out and
-                      try to reschedule this task to avoid cancellation
+                      We understand that life "happens" , but to keep things fair for you and the
+                      tasker we encourage you to reach out and try to reschedule this task to avoid
+                      cancellation
                     </div>
                     <hr className="divider" />
 
@@ -201,7 +202,9 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className={`button is-outlined is-fullwidth ${isPastDue ? 'is-danger' : 'is-success'}`}
+              className={`button is-outlined is-fullwidth ${
+                isPastDue ? 'is-danger' : 'is-success'
+              }`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               View Tasker Details

@@ -78,7 +78,7 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(resp.data._id));
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

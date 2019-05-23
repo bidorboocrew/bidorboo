@@ -33,10 +33,10 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-
     if (!this.props.isLoading && (!this.props.selectedOpenBid || !this.props.selectedOpenBid._id)) {
       // xxxx show cant find job or something instead of ugly redirect
       // could not find the job so we redirected you
+      alert("Apologies, but we couldn't locate this bid");
       switchRoute(ROUTES.CLIENT.BIDDER.mybids);
       return null;
     }
@@ -60,7 +60,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     ) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel="getting your bid details" isLoading={true} size={'large'} />
         </div>
       );
     }

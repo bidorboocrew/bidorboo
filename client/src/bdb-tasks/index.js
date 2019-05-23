@@ -75,6 +75,9 @@ export {
 } from './house-cleaning/TaskerMyOpenBidHouseCleaningDetails';
 
 
+export {
+  default as TaskerMyAwardedBidHouseCleaningDetails,
+} from './house-cleaning/TaskerMyAwardedBidHouseCleaningDetails';
 
 
 export {
