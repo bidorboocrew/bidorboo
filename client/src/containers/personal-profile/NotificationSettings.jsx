@@ -89,13 +89,13 @@ class NotificationSettings extends React.Component {
           <div className="content">
             <div className="field">
               <label className="label">You will be notified about</label>
-              <div className="help">* Requests or Tasks that are happening today</div>
-              <div className="help">* When you recieve new bids on your open request</div>
-              <div className="help">* When your bid wins and you get assigned to the task</div>
-              <div className="help">* If a cancellation happened at any point</div>
-              <div className="help">* To prompt for reviews upon task completion</div>
+              <div className="control">* Requests or Tasks that are happening today</div>
+              <div className="control">* When you recieve new bids on your open request</div>
+              <div className="control">* When your bid wins and you get assigned to the task</div>
+              <div className="control">* If a cancellation happened at any point</div>
+              <div className="control">* To prompt for reviews upon task completion</div>
             </div>
-
+            <hr className="divider" />
             <div className="field">
               <input
                 id="pushNotification"

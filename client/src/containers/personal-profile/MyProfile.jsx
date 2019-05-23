@@ -85,7 +85,7 @@ class MyProfile extends React.Component {
           </section>
           <hr className="divider" />
           <div className="columns is-centered">
-            <div className="column has-text-centered">
+            <div className="column is-narrow has-text-centered">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
@@ -320,9 +320,9 @@ const userImageAndStats = (
 
               <VerifiedVia userDetails={userDetails} />
             </div>
-
+            <hr className="divider isTight" />
             <div className="field">
-              <label className="label">Rating</label>
+              <label className="label">My Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <div className="control has-text-centered">No Ratings Yet</div>
               ) : (
@@ -343,7 +343,7 @@ const userImageAndStats = (
             </div>
 
             <div className="field">
-              <label className="label">Status</label>
+              <label className="label">Account Status</label>
               <div className="control has-text-centered">{membershipStatusDisplay}</div>
             </div>
           </div>

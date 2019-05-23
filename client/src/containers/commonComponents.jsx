@@ -175,11 +175,11 @@ export const CardTitleAndActionsInfo = ({
         </div>
         <div className="level-item has-text-centered">
           {!isAwarded && !userAlreadyBid && (
-            <div className={`${areThereAnyBidders ? 'has-text-success' : 'has-text-grey'}`}>
+            <div className="has-text-grey">
               <div className="icon">
                 <i className="fas fa-hand-paper" />
               </div>
-              <div className="help"> {bidsCountLabel}</div>
+              <div className="help">{bidsCountLabel}</div>
             </div>
           )}
         </div>
@@ -189,7 +189,7 @@ export const CardTitleAndActionsInfo = ({
               <div className="icon">
                 <i className="fas fa-money-check-alt" />
               </div>
-              <div className="help">Bid Placed</div>
+              <div className="help">Already Bid</div>
             </div>
           )}
         </div>
@@ -397,7 +397,11 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
           <p className={`${isSmall ? 'help' : ''}`}>Select a Job</p>
         </div>
       </li>
-      <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
+      <li
+        className={`steps-segment ${isMoreDetails ? 'is-dashed' : ''} ${
+          step === 2 ? 'is-active' : ''
+        }`}
+      >
         <span className="steps-marker">
           <span className="icon">
             <i className="fas fa-pencil-alt" />

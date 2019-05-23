@@ -53,28 +53,13 @@ class BidOnJobPage extends React.Component {
     return (
       <div className="container is-widescreen">
         <section className="hero is-white is-small has-text-centered">
-          <div
-            style={{ paddingLeft: '0px !important', paddingRight: '0px !important' }}
-            className="hero-body"
-          >
-            <h1 className="title is-hidden-touch">How it works ?</h1>
+          <div className="hero-body">
+            <h1 className="title">Bid On This Request</h1>
             <HowItWorks step={2} isMoreDetails isSmall />
           </div>
         </section>
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button is-outlined"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>Bid On Other Requests</span>
-              </a>
-            </div>
-
             {getMeTheRightRequestCard({
               job: jobDetails,
               isSummaryView: false,
@@ -149,7 +134,7 @@ export const HowItWorks = ({ step, isMoreDetails, isSmall }) => {
           <p className={`${isSmall ? 'help' : ''}`}>Review Details</p>
         </div>
       </li>
-      <li className={`steps-segment ${step === 2 ? 'is-active' : ''}`}>
+      <li className={`steps-segment is-dashed ${step === 2 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">
             <i className="fas fa-pencil-alt" />
@@ -160,7 +145,7 @@ export const HowItWorks = ({ step, isMoreDetails, isSmall }) => {
         </div>
       </li>
       {isMoreDetails && (
-        <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+        <li className={`steps-segment is-dashed ${step === 3 ? 'is-active' : ''}`}>
           <span className="steps-marker">
             <span className="icon">
               <i className="fas fa-check" />

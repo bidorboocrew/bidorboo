@@ -490,11 +490,22 @@ exports.jobDataAccess = {
         const jobWithBidDetails = await JobModel.findOne(
           { _id: jobId },
           {
-            _bidsListRef: 0,
-            addressText: 0,
+            _ownerRef: 1,
+            _bidsListRef: 1,
+            title: 1,
+            state: 1,
+            viewedBy: 1,
+            detailedDescription: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            durationOfJob: 1,
+            fromTemplateId: 1,
           }
         )
-          .populate({ path: '_ownerRef', select: jobOwnerFields })
+          .populate([
+            { path: '_ownerRef', select: jobOwnerFields },
+            { path: '_bidsListRef', select: { bidAmount: 1 } },
+          ])
           .lean({ virtuals: true })
           .exec();
 
