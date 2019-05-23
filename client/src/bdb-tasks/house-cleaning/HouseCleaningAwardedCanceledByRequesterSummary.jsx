@@ -23,7 +23,6 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
       state,
       _ownerRef,
     } = job;
-    debugger;
     const { _bidderRef } = _awardedBidRef;
 
     const { TITLE } = HOUSE_CLEANING_DEF;

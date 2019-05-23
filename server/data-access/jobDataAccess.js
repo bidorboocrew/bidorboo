@@ -411,62 +411,61 @@ exports.jobDataAccess = {
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobOwnerFields = {
-          displayName: 1,
-          profileImage: 1,
-          _id: 1,
-          rating: 1,
-          notifications: 1,
-        };
-
         const jobWithBidDetails = await JobModel.findOne(
           { _id: jobId, _ownerRef: mongDbUserId },
           { ...schemaHelpers.JobFull }
         )
-          .populate({ path: '_ownerRef', select: jobOwnerFields })
-          .populate({
-            path: '_awardedBidRef',
-            select: {
-              _bidderRef: 1,
-              isNewBid: 1,
-              state: 1,
-              bidAmount: 1,
-              createdAt: 1,
-              updatedAt: 1,
-            },
-            populate: {
-              path: '_bidderRef',
+          .populate([
+            {
+              path: '_ownerRef',
               select: {
                 displayName: 1,
-                email: 1,
-                phone: 1,
                 profileImage: 1,
                 rating: 1,
-                userId: 1,
-              },
-            },
-          })
-          .populate({
-            path: '_bidsListRef',
-            select: schemaHelpers.BidFull,
-            populate: {
-              path: '_bidderRef',
-              select: {
-                _asBidderReviewsRef: 1,
-                _asProposerReviewsRef: 1,
-                userId: 1,
-                displayName: 1,
-                profileImage: 1,
-                personalParagraph: 1,
-                membershipStatus: 1,
-                agreedToServiceTerms: 1,
-                createdAt: 1,
-                email: 1,
-                rating: 1,
+                _id: 1,
                 notifications: 1,
               },
             },
-          })
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                state: 1,
+                bidAmount: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  userId: 1,
+                },
+              },
+            },
+            {
+              path: '_bidsListRef',
+              select: { _bidderRef: 1, isNewBid: 1, bidAmount: 1 },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  globalRating: 1,
+                  isGmailUser: 1,
+                  isFbUser: 1,
+                  displayName: 1,
+                  profileImage: 1,
+                  membershipStatus: 1,
+                  rating: 1,
+                  'stripeConnect.isVerified': 1,
+                },
+              },
+            },
+          ])
           .lean({ virtuals: true })
           .exec();
 

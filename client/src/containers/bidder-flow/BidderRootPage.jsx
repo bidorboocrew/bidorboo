@@ -32,8 +32,8 @@ class BidderRootPage extends React.Component {
       displayedJobList: this.props.ListOfJobsToBidOn,
       showSideNav: false,
       mapCenterPoint: {
-        lng: -75.6972,
-        lat: 45.4215,
+        lng: -79.426914,
+        lat: 46.883662,
       },
     };
   }

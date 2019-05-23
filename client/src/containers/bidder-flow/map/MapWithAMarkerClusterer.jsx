@@ -8,7 +8,7 @@ import JobInfoBox from './JobInfoBox';
 const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places',
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&region=CA&libraries=places,geometry',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
@@ -29,13 +29,19 @@ export default MapWithAMarkerClusterer;
 class TheMap extends React.Component {
   render() {
     const { mapCenterPoint } = this.props;
+    // xxx restrict bounds to canada
+    const CANADA_BOUNDS = { north: 70, south: 41, west: -145, east: -51 };
     return (
       <GoogleMap
         options={{
           disableDefaultUI: true,
           streetViewControl: false,
+          restriction: {
+            latLngBounds: CANADA_BOUNDS,
+            strictBounds: true,
+          },
         }}
-        defaultZoom={10}
+        defaultZoom={4}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />

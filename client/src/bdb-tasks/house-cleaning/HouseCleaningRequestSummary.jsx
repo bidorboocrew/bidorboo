@@ -192,11 +192,13 @@ class HouseCleaningRequestSummary extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control">Awaiting on Taskers</div>
-                      <div className="help">
-                        * No Taskers offered to do this yet! check again soon.
-                      </div>
+                      {!isExpiringSoon && !isHappeningToday && (
+                        <div className="help">
+                          * No Taskers offered to do this yet! check again soon.
+                        </div>
+                      )}
                       {(isExpiringSoon || isHappeningToday) && (
-                        <div className="help has-text-success">
+                        <div className="help">
                           * Expiring soon, if no Taskers are available to fulfil this request, we
                           will deleted it automatically 48 hours after the specified start date
                         </div>
@@ -207,12 +209,13 @@ class HouseCleaningRequestSummary extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
-                      <div className="help">* Review the offers regularly and choose a Tasker.</div>
-                      {(isExpiringSoon || isHappeningToday) && (
-                        <div className="help has-text-success">
-                          * Expiring soon, select a Taskers otherwise this task will be deleted
-                          automatically 48 hours after the specified start date
+                      {!isExpiringSoon && !isHappeningToday && (
+                        <div className="help has-text-warning">
+                          * Review the offers regularly and choose a Tasker.
                         </div>
+                      )}
+                      {(isExpiringSoon || isHappeningToday) && (
+                        <div className="help has-text-warning">* Expiring soon, Chose a Tasker asap</div>
                       )}
                     </div>
                   )}

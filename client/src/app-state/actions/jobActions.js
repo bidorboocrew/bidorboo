@@ -53,14 +53,12 @@ export const cancelJobById = (jobId) => (dispatch) => {
 };
 
 export const getAllMyAwardedJobs = () => (dispatch) => {
-  debugger;
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
   });
 };
 export const getAllJobsToBidOn = () => (dispatch) => {
-  debugger
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),

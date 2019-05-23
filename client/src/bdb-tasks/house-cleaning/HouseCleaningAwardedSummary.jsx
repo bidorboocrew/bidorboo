@@ -162,7 +162,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
                 {!isExpiringSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">
+                  <div className="help has-text-success">
                     * Congrats, Tasker will take care of this request for you.
                   </div>
                 )}
@@ -177,7 +177,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                   </div>
                 )}
                 {isPastDue && (
-                  <div className="help has-text-danger">
+                  <div className="help has-text-warning">
                     * This request date is past Due, view details to confirm completion
                   </div>
                 )}
