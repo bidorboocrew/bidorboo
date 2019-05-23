@@ -68,7 +68,6 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
       startingDateAndTime,
       _bidsListRef,
       _ownerRef,
-      state,
       detailedDescription,
       location,
       extras,
@@ -77,7 +76,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { updateBid, userDetails, deleteOpenBid } = otherArgs;
+    const { updateBid, deleteOpenBid } = otherArgs;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
     const { displayStatus } = bid;

@@ -165,11 +165,11 @@ export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) =>
   });
 };
 
-export const getMyOpenBids = () => (dispatch) => {
+export const allMyPostedBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.myOpenBids).catch((error) => {
+    payload: axios.get(ROUTES.API.BID.GET.allMyPostedBids).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
   });

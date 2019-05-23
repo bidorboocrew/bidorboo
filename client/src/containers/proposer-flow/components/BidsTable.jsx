@@ -110,9 +110,31 @@ const TableWithNoBids = () => {
       <tbody>
         <tr>
           <td className="has-text-centered">
-            <div className="has-text-centered has-text-weight-semibold">
-              BidOrBoo Taskers will be submitting thier best price to do this task and you will be
-              getting an email notification. Check back again in a little bit.
+            <h1 className="subtitle">How it works?</h1>
+            <div>
+              <ul className="steps is-small has-content-centered is-horizontal">
+                <li className="steps-segment">
+                  <span className="steps-marker" />
+                  <div className="steps-content">
+                    <p className="is-size-6">Step 1</p>
+                    <p>Select a Template.</p>
+                  </div>
+                </li>
+                <li className="steps-segment is-active is-dashed">
+                  <span className="steps-marker" />
+                  <div className="steps-content">
+                    <p className="is-size-6">Step 2</p>
+                    <p>Wait for Bids.</p>
+                  </div>
+                </li>
+                <li className="steps-segment ">
+                  <span className="steps-marker" />
+                  <div className="steps-content">
+                    <p className="is-size-6">Step 3</p>
+                    <p>Choose a Tasker.</p>
+                  </div>
+                </li>
+              </ul>
             </div>
           </td>
         </tr>

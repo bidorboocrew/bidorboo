@@ -15,9 +15,9 @@ export const Spinner = ({
     { large: size === 'large' },
   );
   return (
-    <React.Fragment>
+    <Delay wait={800}>
       <div style={{ marginTop: '1rem' }} className="VerticalAligner">
-        <Delay wait={800}>{isLoading ? <div className={spinnerSize} /> : null}</Delay>
+        {isLoading ? <div className={spinnerSize} /> : null}
       </div>
       <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">
         {typeof renderLabel === 'function' && renderLabel()}
@@ -27,6 +27,6 @@ export const Spinner = ({
           </label>
         )}
       </div>
-    </React.Fragment>
+    </Delay>
   );
 };

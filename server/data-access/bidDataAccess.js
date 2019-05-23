@@ -180,7 +180,7 @@ exports.bidDataAccess = {
     });
   },
   // get jobs for a user and filter by a given state
-  getUserOpenBids: async (mongoDbUserId) => {
+  getAllUserBids: async (mongoDbUserId) => {
     return new Promise(async (resolve, reject) => {
       try {
         const userBids = await Promise.all([
@@ -202,22 +202,15 @@ exports.bidDataAccess = {
                     durationOfJob: 1,
                     fromTemplateId: 1,
                   },
-                  populate: [
-                    {
-                      path: '_awardedBidRef',
-                      select: { _bidderRef: 1 },
-                      populate: { path: '_bidderRef', select: { userId: 1 } },
+                  populate: {
+                    path: '_ownerRef',
+                    select: {
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
                     },
-                    {
-                      path: '_ownerRef',
-                      select: {
-                        _id: 1,
-                        displayName: 1,
-                        rating: 1,
-                        profileImage: 1,
-                      },
-                    },
-                  ],
+                  },
                 },
               })
               .lean({ virtuals: true })
@@ -252,6 +245,7 @@ exports.bidDataAccess = {
                 populate: {
                   path: '_jobRef',
                   select: {
+                    _awardedBidRef: 1,
                     _ownerRef: 1,
                     title: 1,
                     state: 1,
@@ -264,12 +258,6 @@ exports.bidDataAccess = {
                     durationOfJob: 1,
                     fromTemplateId: 1,
                   },
-                  match: {
-                    $or: [
-                      { _reviewRef: { $exists: false } },
-                      { '_reviewRef.bidderSubmitted': { $eq: false } },
-                    ],
-                  },
                   populate: [
                     {
                       path: '_ownerRef',
@@ -281,7 +269,9 @@ exports.bidDataAccess = {
                       },
                     },
                     {
-                      path: '_reviewRef',
+                      path: '_awardedBidRef',
+                      select: { _bidderRef: 1 },
+                      populate: { path: '_bidderRef', select: { userId: 1 } },
                     },
                   ],
                 },

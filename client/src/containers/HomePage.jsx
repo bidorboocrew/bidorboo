@@ -200,7 +200,7 @@ const RequestAService = (props) => {
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
-          <ul className="steps has-content-centered">
+          <ul className="steps has-content-centered is-horizontal">
             <li className="steps-segment is-active">
               <span className="steps-marker" />
               <div className="steps-content">
@@ -248,7 +248,7 @@ const ProvideAService = (props) => {
         <br />
         <h1 className="subtitle">How it works?</h1>
         <div>
-          <ul className="steps has-content-centered">
+          <ul className="steps has-content-centered is-horizontal">
             <li className="steps-segment is-active">
               <span className="steps-marker" />
               <div className="steps-content">

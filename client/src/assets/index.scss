@@ -128,13 +128,15 @@ div.react-datepicker {
   // special dark bidder navbar
   &.bidderAppBar {
     background: #363636;
-
-    div#navbarmenu.navbar-menu.is-active {
+    #navbarmenu > div.navbar-end > a.navbar-item.is-active {
+      color: #363636;
+    }
+    #navbarmenu.navbar-menu.is-active {
       > div.navbar-end {
         > a.navbar-item {
-          color: #363636;
+          color: #363636 !important;
         }
-        div#myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
+        #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
           > a.navbar-link {
             color: #363636;
           }

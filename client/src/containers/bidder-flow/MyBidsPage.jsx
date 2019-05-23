@@ -8,26 +8,21 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getMyOpenBids } from '../../app-state/actions/bidsActions';
+import { allMyPostedBids } from '../../app-state/actions/bidsActions';
 import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
-
-import MyBidsOpenBid from './components/MyBidsOpenBid';
-import MyBidsAwardedBid from './components/MyBidsAwardedBid';
 
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
 
 class MyBidsPage extends React.Component {
   componentDidMount() {
     // get all posted bids
-    this.props.getMyOpenBids();
+    this.props.allMyPostedBids();
   }
 
   render() {
     const {
       isLoading,
       openBidsList,
-
-      updateBidState,
       deleteOpenBid,
       updateBid,
     } = this.props;
@@ -99,7 +94,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMyOpenBids: bindActionCreators(getMyOpenBids, dispatch),
+    allMyPostedBids: bindActionCreators(allMyPostedBids, dispatch),
     updateBidState: bindActionCreators(updateBidState, dispatch),
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),

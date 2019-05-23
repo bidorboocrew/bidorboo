@@ -62,7 +62,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
 
     const { startingDateAndTime, addressText, isPastDue, _awardedBidRef } = job;
     const { _bidderRef } = _awardedBidRef;
-    const amITheAwardedBidder = userDetails.userId === _bidderRef.userId;
+    const amITheAwardedBidder = userDetails._id === _bidderRef._id;
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE } = HOUSE_CLEANING_DEF;

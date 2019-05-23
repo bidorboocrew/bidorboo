@@ -9,10 +9,10 @@ const requireLogin = require('../middleware/requireLogin');
 const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
+  app.get(ROUTES.API.BID.GET.allMyPostedBids, requireLogin, async (req, res, done) => {
     try {
       const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getUserOpenBids(userMongoDBId);
+      const userBidsList = await bidDataAccess.getAllUserBids(userMongoDBId);
       return res.send(userBidsList);
     } catch (e) {
       return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });

@@ -19,7 +19,7 @@ const selectJobToBidOn = (state = initialState, { payload }) => ({
   jobToBidOnDetails: payload.jobDetails,
 });
 
-const getMyOpenBids = {
+const allMyPostedBids = {
   isPending: (state = initialState) => ({
     ...state,
     isLoadingBids: true,
@@ -148,9 +148,9 @@ const setLoggedOutState = () => {
 export default handleActions(
   {
     [`${A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyOpenBids.isPending,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyOpenBids.isFullfilled,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: getMyOpenBids.isRejected,
+    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: allMyPostedBids.isPending,
+    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: allMyPostedBids.isFullfilled,
+    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: allMyPostedBids.isRejected,
     // get open bid details
     [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._PENDING}`]: getOpenBidDetails.isPending,
     [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._FULFILLED}`]: getOpenBidDetails.isFullfilled,

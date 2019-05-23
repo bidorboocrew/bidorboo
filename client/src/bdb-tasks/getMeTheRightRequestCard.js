@@ -64,7 +64,7 @@ const requesterCardTemplates = {
 
 const TaskerCardTemplates = {
   [HOUSE_CLEANING_DEF.ID]: {
-    [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+    [BID_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
       if (isSummaryView) {
         if (withBidDetails) {
           return <TaskerMyOpenBidHouseCleaningSummary job={job} {...otherArgs} />;
@@ -77,7 +77,20 @@ const TaskerCardTemplates = {
         return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
-    [REQUEST_STATES.AWARDED]: ({
+    [BID_STATES.WON]: ({
+      job,
+      isSummaryView,
+      pointOfView,
+      withBidDetails,
+      ...otherArgs
+    }) => {
+      if (isSummaryView) {
+        return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
+      } else {
+        return <div>needs work</div>;
+      }
+    },
+    [BID_STATES.WON_SEEN]: ({
       job,
       isSummaryView,
       pointOfView,
@@ -98,7 +111,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
   switch (state) {
     case BID_STATES.OPEN:
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][_jobRef.state]({
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -115,7 +128,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
     case BID_STATES.WON:
       // return <TaskerMyOpenBidHouseCleaningSummary bid={bid} job={_jobRef} {...otherArgs} />;
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][_jobRef.state]({
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,

@@ -31,7 +31,22 @@ class ReviewRequestAndBidsPage extends React.Component {
       showBidReviewModal: false,
       bidUnderReview: {},
     };
+    // xxxxx saeed think about server load ? maybe let user fetch by reload
+    this.countdown = setInterval(this.fetchMostRecentBids, 10000);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.countdown);
+  }
+
+  fetchMostRecentBids = () => {
+    // every 10 seconds fetch most recent bids
+    if (!this.jobId) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return null;
+    }
+    this.props.getPostedJobDetails(this.jobId);
+  };
 
   componentDidMount() {
     if (!this.jobId) {
@@ -123,10 +138,7 @@ class ReviewRequestAndBidsPage extends React.Component {
         </section>
         <hr className="divider" />
         {showBidReviewModal && (
-          <AcceptBidAndBidderModal
-            closeModal={this.hideBidReviewModal}
-            bid={bidUnderReview}
-          />
+          <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
         <div className="columns is-centered">
@@ -163,12 +175,18 @@ class ReviewRequestAndBidsPage extends React.Component {
                   </section>
                 )}
                 {!areThereAnyBids && (
-                  <section className="hero is-medium is-dark is-bold">
+                  <section className="hero is-dark is-small">
                     <div className="hero-body">
-                      <div>
-                        <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                          Waiting For Taskers
-                        </h1>
+                      <div className="has-text-centered">
+                        <h1 className="is-size-5">Actively Retrieving More bids</h1>
+
+                        <a
+                          disabled
+                          style={{ padding: 0, border: 'none' }}
+                          className="button is-white is-outlined is-loading"
+                        >
+                          Loading
+                        </a>
                       </div>
                     </div>
                   </section>
