@@ -24,8 +24,17 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
+
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
-    const { startingDateAndTime, fromTemplateId, _bidsListRef, _ownerRef, state, extras } = job;
+    const {
+      reactMapClusterRef,
+      startingDateAndTime,
+      fromTemplateId,
+      _bidsListRef,
+      _ownerRef,
+      state,
+      extras,
+    } = job;
 
     const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
@@ -73,19 +82,39 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                   View Your existing Bid
                 </a>
               ) : (
-                <a
-                  onClick={(e) => {
-                    if (!isLoggedIn) {
-                      showLoginDialog(true);
-                      return;
-                    } else {
-                      switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                    }
-                  }}
-                  className="button is-success is-outlined is-fullwidth"
-                >
-                  Place Your Bid!
-                </a>
+                <React.Fragment>
+                  <a
+                    onClick={(e) => {
+                      if (!isLoggedIn) {
+                        showLoginDialog(true);
+                        return;
+                      } else {
+                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                      }
+                    }}
+                    className="button is-success is-outlined is-fullwidth"
+                  >
+                    Place Your Bid!
+                  </a>
+
+                  <a
+                    onClick={(e) => {
+                      const markerRef = reactMapClusterRef;
+                      if (
+                        markerRef &&
+                        markerRef.current &&
+                        markerRef.current.props &&
+                        markerRef.current.props.onClick &&
+                        typeof markerRef.current.props.onClick === 'function'
+                      ) {
+                        markerRef.current.props.onClick();
+                      }
+                    }}
+                    className="button is-success is-outlined is-fullwidth"
+                  >
+                    Locate on the map
+                  </a>
+                </React.Fragment>
               )}
             </React.Fragment>
           )}

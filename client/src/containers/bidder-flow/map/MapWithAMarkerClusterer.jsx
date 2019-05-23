@@ -28,21 +28,23 @@ export default MapWithAMarkerClusterer;
 
 class TheMap extends React.Component {
   render() {
-    const { mapCenterPoint } = this.props;
+    const { mapCenterPoint, mapZoomLevel } = this.props;
     // https://developers.google.com/maps/documentation/javascript/localization
     // xxx restrict bounds to canada
-    const CANADA_BOUNDS = { north: 70, south: 41, west: -145, east: -51 };
+    // const CANADA_BOUNDS = { north: 70, south: 41, west: -145, east: -51 };
+    debugger;
     return (
       <GoogleMap
         options={{
           disableDefaultUI: true,
           streetViewControl: false,
-          restriction: {
-            latLngBounds: CANADA_BOUNDS,
-            strictBounds: false,
-          },
+          // restriction: {
+          //   latLngBounds: CANADA_BOUNDS,
+          //   strictBounds: false,
+          // },
         }}
-        defaultZoom={5}
+        defaultZoom={mapZoomLevel}
+        zoom={mapZoomLevel}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />
@@ -63,8 +65,42 @@ class Cluster extends React.Component {
     this.state = { showInfoBoxForJobId: '' };
   }
 
-  showInfoBox = (jobId) => {
-    this.setState({ showInfoBoxForJobId: jobId });
+  showInfoBox = (job) => {
+    this.setState(
+      () => ({ showInfoBoxForJobId: job._id }),
+      () => {
+        debugger;
+        job &&
+          job.zoomOnInfo &&
+          job.zoomOnInfo(
+            {
+              lng: job.location.coordinates[0],
+              lat: job.location.coordinates[1],
+            },
+            () => {
+              const infoBox = document.querySelector(`#infoboxJob-${job._id}`);
+              infoBox && infoBox.scrollIntoView && infoBox.scrollIntoView(true);
+            },
+          );
+
+        // debugger;
+        // window.BidorBoo = window.BidorBoo || {};
+        // let existingMap = window.BidorBoo.existingMap;
+        // if (!window.BidorBoo.existingMap) {
+        //   existingMap = new window.google.maps.Map(document.querySelector('#bdb-map'));
+        //   window.BidorBoo.existingMap = existingMap;
+        // }
+        // if (existingMap) {
+        //   try {
+        //     debugger
+        //     existingMap.setZoom(8);
+        //     existingMap.panBy();
+        //   } catch (e) {
+        //     // xxxdo not break the map for failure here
+        //   }
+        // }
+      },
+    );
   };
   closeInfoBox = () => {
     this.setState({ showInfoBoxForJobId: '' });
@@ -109,11 +145,11 @@ class JobMarker extends React.Component {
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
+    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox, reactMapClusterRef } = this.props;
     if (showInfoBoxForJobId === job._id) {
       closeInfoBox();
     } else {
-      showInfoBox(job._id);
+      showInfoBox(job);
     }
   };
   render() {
@@ -127,10 +163,17 @@ class JobMarker extends React.Component {
     //   anchor: new google.maps.Point(17, 34),
     //   scaledSize: new google.maps.Size(32, 32),
     // };
-    if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
+    if (
+      job &&
+      job.reactMapClusterRef &&
+      job.location &&
+      job.location.coordinates &&
+      job.location.coordinates.length === 2
+    ) {
       const shouldShowInfoBox = showInfoBoxForJobId === job._id;
       return (
         <Marker
+          ref={job.reactMapClusterRef}
           opacity={0.8}
           icon={require('../../../assets/images/mapMarker.png')}
           onClick={this.toggleShowInfoBox}

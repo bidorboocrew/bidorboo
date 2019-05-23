@@ -45,7 +45,7 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesJobs = (props) => {
-  const { isLoggedIn, userDetails, showLoginDialog, selectJobToBidOn, jobsList } = props;
+  const { userDetails, jobsList } = props;
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const components = jobsList

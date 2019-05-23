@@ -696,19 +696,20 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOn: async () => {
+  getAllJobsToBidOn: async (mongoDbUserId) => {
     // wil return all jobs in the system
     return new Promise(async (resolve, reject) => {
+      debugger
       try {
         const openJobsForBidding = await JobModel.find(
-          { state: { $eq: 'OPEN' } },
+          { $and: [{ state: { $eq: 'OPEN' }, _ownerRef: { $ne: mongoDbUserId } }] },
           {
             _ownerRef: 1,
             fromTemplateId: 1,
             startingDateAndTime: 1,
             extras: 1,
             state: 1,
-            location:1,
+            location: 1,
           },
           {
             sort: { startingDateAndTime: 1 },

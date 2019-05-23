@@ -31,11 +31,13 @@ class BidderRootPage extends React.Component {
       allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
       showSideNav: false,
+      mapZoomLevel: 6,
       mapCenterPoint: {
         lng: -75.801867,
         lat: 45.296898,
       },
     };
+    this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
@@ -169,6 +171,16 @@ class BidderRootPage extends React.Component {
       },
     });
   };
+  zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
+    this.setState(
+      () => {
+        return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 12 };
+      },
+      () => {
+        callback && callback();
+      },
+    );
+  };
   toggleSideNav = () => {
     this.setState({ showSideNav: !this.state.showSideNav });
   };
@@ -189,9 +201,22 @@ class BidderRootPage extends React.Component {
       );
     }
 
-    const { showSideNav, displayedJobList, mapCenterPoint, hasActiveSearch } = this.state;
+    const {
+      showSideNav,
+      displayedJobList,
+      mapCenterPoint,
+      hasActiveSearch,
+      mapZoomLevel,
+    } = this.state;
 
     let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
+    currentJobsList = currentJobsList.map((job) => {
+      return {
+        ...job,
+        reactMapClusterRef: React.createRef(),
+        zoomOnInfo: this.zoomAndCenterAroundMarker,
+      };
+    });
 
     return (
       <div className="container is-widescreen">
@@ -234,7 +259,12 @@ class BidderRootPage extends React.Component {
 
         {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
 
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <MapSection
+          mapCenterPoint={mapCenterPoint}
+          mapZoomLevel={mapZoomLevel}
+          jobsList={currentJobsList}
+          {...this.props}
+        />
         <div
           style={{ marginBottom: 6 }}
           className="help container is-widescreen has-text-grey has-text-centered"

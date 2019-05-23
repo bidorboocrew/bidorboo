@@ -55,7 +55,8 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.JOB.GET.alljobsToBidOn, requireBidorBooHost, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getAllJobsToBidOn();
+      const currentUserId = req.user ? req.user._id : '';
+      const userJobsList = await jobDataAccess.getAllJobsToBidOn(currentUserId);
       return res.send(userJobsList);
     } catch (e) {
       return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
@@ -105,7 +106,9 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
       }
     }
   );
@@ -131,7 +134,9 @@ module.exports = (app) => {
         }
         return res.send({ allRequests: [] });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
+        return res
+          .status(500)
+          .send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
       }
     }
   );

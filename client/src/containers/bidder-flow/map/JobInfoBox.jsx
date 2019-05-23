@@ -8,14 +8,11 @@ import {
 } from '../../../bdb-tasks/getMeTheRightRequestCard';
 export default class JobInfoBox extends React.Component {
   render() {
-    const {
-      job,
-      userDetails,
-      toggleShowInfoBox,
-    } = this.props;
+    const { job, userDetails, toggleShowInfoBox } = this.props;
 
     return (
       <InfoBox
+        id={`infobox-bid-${job._id}`}
         className="info-Box-map"
         options={{
           pixelOffset: new google.maps.Size(-50, -50),
