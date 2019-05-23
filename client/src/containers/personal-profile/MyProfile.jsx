@@ -309,20 +309,18 @@ const userImageAndStats = (
               <div>
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
-              <VerifiedVia userDetails={userDetails} />
+              <div className="has-text-centered">{displayName}</div>
+
               <a style={{ width: 120 }} className="button is-outlined is-small">
                 <span className="icon">
                   <i className="fa fa-camera" />
                 </span>
                 <span>Change Picture</span>
               </a>
-            </div>
-            <br />
-            <div className="field">
-              <label className="label">Name</label>
 
-              <div className="control has-text-centered">{displayName}</div>
+              <VerifiedVia userDetails={userDetails} />
             </div>
+
             <div className="field">
               <label className="label">Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
