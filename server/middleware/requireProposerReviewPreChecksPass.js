@@ -67,7 +67,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'only logged in users can perform this operation.' });
     }
   } catch (e) {
-    return res.status(500).send({
+    return res.status(400).send({
       errorMsg: 'failed to pass requireProposerReviewPreChecksPass',
       details: `${e}`,
     });

@@ -15,7 +15,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
     }
   });
 
@@ -33,7 +33,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
     }
   });
 
@@ -49,7 +49,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
     }
   });
 
@@ -59,7 +59,7 @@ module.exports = (app) => {
       const userJobsList = await jobDataAccess.getAllJobsToBidOn(currentUserId);
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
     }
   });
 
@@ -85,7 +85,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
     }
   );
@@ -118,7 +118,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
     }
   });
 
@@ -163,7 +163,7 @@ module.exports = (app) => {
         return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
     }
   });
 
@@ -180,7 +180,7 @@ module.exports = (app) => {
 
         return res.send(newJob);
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To create new job', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
       }
     }
   );
@@ -223,7 +223,7 @@ module.exports = (app) => {
   //       });
   //     }
   //   } catch (e) {
-  //     return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+  //     return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
   //   }
   // });
 
@@ -242,7 +242,7 @@ module.exports = (app) => {
         return res.send(existingJob);
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
     }
   });
 
@@ -260,7 +260,7 @@ module.exports = (app) => {
       await jobDataAccess.updateViewedBy(jobId, userMongoDBId);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
     }
   });
 
@@ -278,7 +278,7 @@ module.exports = (app) => {
       await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
 
@@ -296,7 +296,7 @@ module.exports = (app) => {
       await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
 

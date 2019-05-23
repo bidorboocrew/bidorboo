@@ -45,7 +45,7 @@ class BidOnJobPage extends React.Component {
     if (dontShowThisPage) {
       return (
         <section className="section">
-          <Spinner isLoading size={'large'} />
+          <Spinner renderLabel="getting job details" isLoading size={'large'} />
         </section>
       );
     }

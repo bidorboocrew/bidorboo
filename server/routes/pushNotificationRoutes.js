@@ -25,7 +25,7 @@ module.exports = (app) => {
       await webpush.sendNotification(subscription, payLoad);
       res.status(201).json({});
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To send notification', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To send notification', details: `${e}` });
     }
   });
 

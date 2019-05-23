@@ -10,7 +10,7 @@ module.exports = (app) => {
       const signedParams = await utils.signCloudinaryParams(params_to_sign);
       res.send({ signature: signedParams });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
     }
   });
 };

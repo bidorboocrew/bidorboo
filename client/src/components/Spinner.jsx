@@ -2,12 +2,31 @@ import React from 'react';
 import Delay from 'react-delay';
 import classNames from 'classnames';
 
-export const Spinner = (props) => {
+export const Spinner = ({
+  isDark = true,
+  size = 'meduim',
+  isLoading = false,
+  renderLabel = null,
+}) => {
   const spinnerSize = classNames(
     'bdb-spinner',
-    { small: props.size === 'small' },
-    { meduim: props.size === 'meduim' },
-    { large: props.size === 'large' }
+    { small: size === 'small' },
+    { meduim: size === 'meduim' },
+    { large: size === 'large' },
   );
-  return <Delay wait={800}>{props.isLoading ? <div className={spinnerSize} /> : null}</Delay>;
+  return (
+    <React.Fragment>
+      <div style={{ marginTop: '1rem' }} className="VerticalAligner">
+        <Delay wait={800}>{isLoading ? <div className={spinnerSize} /> : null}</Delay>
+      </div>
+      <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">
+        {typeof renderLabel === 'function' && renderLabel()}
+        {typeof renderLabel === 'string' && (
+          <label className={`label ${isDark ? 'has-text-dark' : 'has-text-white'}`}>
+            {renderLabel}
+          </label>
+        )}
+      </div>
+    </React.Fragment>
+  );
 };

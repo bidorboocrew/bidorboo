@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -64,7 +66,7 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   render() {
-    const { selectedJobWithBids, markBidAsSeen } = this.props;
+    const { selectedJobWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
@@ -87,6 +89,31 @@ class ReviewRequestAndBidsPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
+        {paymentIsInProgress &&
+          ReactDOM.createPortal(
+            <div
+              style={{
+                background: '#363636',
+                zIndex: 99,
+                padding: 50,
+                position: 'fixed',
+                height: '100vh',
+                top: '4rem',
+                right: 0,
+                width: '100%',
+              }}
+            >
+              <div className="container is-widescreen">
+                <Spinner
+                  renderLabel={'Processing your payment. Please wait'}
+                  isLoading={true}
+                  size={'large'}
+                  isDark={false}
+                />
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-view'),
+          )}
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
@@ -96,7 +123,10 @@ class ReviewRequestAndBidsPage extends React.Component {
         </section>
         <hr className="divider" />
         {showBidReviewModal && (
-          <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
+          <AcceptBidAndBidderModal
+            closeModal={this.hideBidReviewModal}
+            bid={bidUnderReview}
+          />
         )}
 
         <div className="columns is-centered">
@@ -158,10 +188,11 @@ class ReviewRequestAndBidsPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     selectedJobWithBids: jobsReducer.selectedJobWithBids,
     userDetails: userReducer.userDetails,
+    paymentIsInProgress: uiReducer.paymentIsInProgress,
   };
 };
 

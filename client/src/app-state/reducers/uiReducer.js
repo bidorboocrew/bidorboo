@@ -12,6 +12,7 @@ const initialState = {
    */
   toastDetails: {},
   notificationFeed: {},
+  paymentIsInProgress: false,
 };
 
 const closeLoginDialog = (state = initialState) => ({
@@ -55,8 +56,6 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
-
-
     [`${A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS}`]: updateNotificationFeed,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_IN}`]: closeLoginDialog,
     [`${A.UI_ACTIONS.OPEN_LOGIN_DIALOG}`]: openLoginDialog,
@@ -78,6 +77,21 @@ export default handleActions(
     },
     [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._REJECTED}`]: (state = initialState) => {
       return { ...state, authIsInProgress: false };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._PENDING}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: true };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._FULFILLED}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: false };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._REJECTED}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: false };
     },
   },
   initialState,

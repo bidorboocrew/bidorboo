@@ -78,7 +78,7 @@ module.exports = async (req, res, next) => {
       });
     }
   } catch (e) {
-    return res.status(500).send({
+    return res.status(400).send({
       errorMsg: 'We did NOT process the payment. failed to meet requirements to process payment',
       details: e,
     });

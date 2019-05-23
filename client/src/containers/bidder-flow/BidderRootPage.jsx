@@ -196,7 +196,7 @@ class BidderRootPage extends React.Component {
     if (isLoading) {
       return (
         <section className="section">
-          <Spinner isLoading={isLoading} size={'large'} />
+          <Spinner renderLabel="getting requests near you..." isLoading={isLoading} size={'large'} />
         </section>
       );
     }

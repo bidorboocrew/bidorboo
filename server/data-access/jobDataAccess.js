@@ -450,7 +450,7 @@ exports.jobDataAccess = {
             },
             {
               path: '_bidsListRef',
-              select: { _bidderRef: 1, isNewBid: 1, bidAmount: 1 },
+              select: { _bidderRef: 1, isNewBid: 1, bidAmount: 1, _jobRef: 1 },
               populate: {
                 path: '_bidderRef',
                 select: {

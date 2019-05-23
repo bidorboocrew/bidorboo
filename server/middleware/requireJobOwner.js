@@ -6,11 +6,9 @@ module.exports = async (req, res, next) => {
       //in the future redirect to login page
       const { jobId } = req.body.data;
       if (!jobId) {
-        return res
-          .status(403)
-          .send({
-            errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.',
-          });
+        return res.status(403).send({
+          errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.',
+        });
       }
 
       const userId = req.user._id.toString();
@@ -24,6 +22,6 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'only the Job Owner can perform this operation.' });
     }
   } catch (e) {
-    return res.status(500).send({ errorMsg: 'failed to validate is jobOwner', details: `${e}` });
+    return res.status(400).send({ errorMsg: 'failed to validate is jobOwner', details: `${e}` });
   }
 };

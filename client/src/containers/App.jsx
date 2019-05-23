@@ -103,7 +103,9 @@ class App extends React.Component {
     const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
 
     if (authIsInProgress) {
-      return <Spinner isLoading={authIsInProgress} size={'large'} />;
+      return (
+        <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
+      );
     }
 
     return (

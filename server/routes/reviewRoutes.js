@@ -161,7 +161,7 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });
       }
     }
   );

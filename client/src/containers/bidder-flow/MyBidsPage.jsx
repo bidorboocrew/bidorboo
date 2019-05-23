@@ -78,7 +78,7 @@ class MyBidsPage extends React.Component {
         <hr className="divider" />
         <FloatingAddNewBidButton />
 
-        <Spinner isLoading={isLoading} size={'large'} />
+        <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
         {!isLoading && <div className="columns is-multiline is-centered">{myBidsSummaryCards}</div>}
 

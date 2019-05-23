@@ -9,7 +9,10 @@ export default class AcceptBidAndBidderModal extends React.Component {
   render() {
     const { bid, closeModal } = this.props;
 
-    if (!bid || !bid._id || !bid._bidderRef) {
+    if (!bid || !bid._id || !bid._bidderRef || !bid._jobRef) {
+      console.error(
+        'AcceptBidAndBidderModal if (!bid || !bid._id || !bid._bidderRef || ! bid._jobRef) {',
+      );
       return null;
     }
 

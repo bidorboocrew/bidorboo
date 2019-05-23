@@ -117,7 +117,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
       }
     }
   );
@@ -128,7 +128,7 @@ module.exports = (app) => {
 
       res.send({ paymentsDetails: paymentsDetails });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
     }
   });
 
@@ -155,7 +155,7 @@ module.exports = (app) => {
         });
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
-        return res.status(500).send({ errorMsg: e });
+        return res.status(400).send({ errorMsg: e });
       }
     }
   );
@@ -208,7 +208,7 @@ module.exports = (app) => {
           },
         });
       } catch (e) {
-        return res.status(500).send({
+        return res.status(400).send({
           errorMsg: 'Failed To retrieve your connected stripe account details',
           details: `${e}`,
         });
@@ -227,7 +227,7 @@ module.exports = (app) => {
     } catch (e) {
       return res.status(400).end();
 
-      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
     }
   });
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
@@ -242,7 +242,7 @@ module.exports = (app) => {
     } catch (e) {
       return res.status(400).end();
 
-      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
     }
   });
 };
