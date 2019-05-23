@@ -59,7 +59,6 @@ class GetNotificationsAndScroll extends React.Component {
       setServerAppBidderView,
     } = this.props;
 
-
     if (location !== prevProps.location) {
       if (!isLoggedIn) {
         getCurrentUser();
@@ -138,7 +137,10 @@ class GetNotificationsAndScroll extends React.Component {
                 </h1>
                 <br />
                 <a
-                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                    window.location.reload();
+                  }}
                   className="button is-outlined is-success is-small"
                 >
                   Go to Home Page

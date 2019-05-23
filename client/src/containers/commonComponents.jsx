@@ -6,8 +6,6 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 
-const geocoder = new window.google.maps.Geocoder();
-
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
   try {
@@ -260,6 +258,15 @@ export class LocationLabelAndValue extends React.Component {
     if (!location || location.length !== 2) {
       console.error('error location is invalid');
       return null;
+    }
+
+    window.BidorBoo = window.BidorBoo || {};
+    let geocoder;
+    if (!window.BidorBoo.geocoder) {
+      geocoder = new window.google.maps.Geocoder();
+      window.BidorBoo.geocoder = Object.freeze(geocoder);
+    } else {
+      geocoder = window.BidorBoo.geocoder;
     }
 
     if (window.google && geocoder && location && location.length === 2) {

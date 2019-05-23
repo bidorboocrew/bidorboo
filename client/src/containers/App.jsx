@@ -85,7 +85,10 @@ class App extends React.Component {
                 </h1>
                 <br />
                 <a
-                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                    window.location.reload();
+                  }}
                   className="button is-outlined is-success is-small"
                 >
                   Go to Home Page
