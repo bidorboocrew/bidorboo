@@ -27,9 +27,8 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     const {
       startingDateAndTime,
       addressText,
-      _awardedBidRef,
       displayStatus,
-      isExpiringSoon,
+      isHappeningSoon,
       isHappeningToday,
       isPastDue,
     } = job;
@@ -162,24 +161,24 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
-                {!isExpiringSoon && !isHappeningToday && !isPastDue && (
+                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
-                    * Congrats, Tasker will take care of this request for you.
+                    * Get In touch with the tasker to confirm any further details
                   </div>
                 )}
-                {isExpiringSoon && (
+                {isHappeningSoon && !isHappeningToday && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>
                 )}
-                {isHappeningToday && (
+                {isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
                     * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {isPastDue && (!isExpiringSoon || !isHappeningToday) && (
-                  <div className="help has-text-success">
-                    * The scheduled date is past Due, Confirm Completion
+                {isPastDue && (
+                  <div className="help has-text-danger">
+                    * This request date is past Due, view details to confirm completion
                   </div>
                 )}
               </div>

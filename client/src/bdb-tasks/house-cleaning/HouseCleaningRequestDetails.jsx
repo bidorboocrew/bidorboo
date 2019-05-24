@@ -66,7 +66,7 @@ class HouseCleaningRequestDetails extends React.Component {
       addressText,
       extras,
       detailedDescription,
-      isExpiringSoon,
+      isHappeningSoon,
       isHappeningToday,
       isPastDue,
     } = job;
@@ -190,10 +190,7 @@ class HouseCleaningRequestDetails extends React.Component {
                 <div className="field">
                   <label className="label">Request Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
-                  <div className="help">
-                    * No Taskers were assigned before the specified start date thus, we will delete
-                    this request automatically in 48 hours.
-                  </div>
+                  <div className="help">* This Request will be deleted in 48 hours</div>
                 </div>
               )}
 
@@ -203,15 +200,14 @@ class HouseCleaningRequestDetails extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control">Awaiting on Taskers</div>
-                      {!isExpiringSoon && !isHappeningToday && (
+                      {!isHappeningSoon && !isHappeningToday && (
                         <div className="help">
                           * No Taskers offered to do this yet! check again soon.
                         </div>
                       )}
-                      {(isExpiringSoon || isHappeningToday) && (
+                      {(isHappeningSoon || isHappeningToday) && (
                         <div className="help">
-                          * Expiring soon, if no Taskers are available to fulfil this request, we
-                          will deleted it automatically 48 hours after the specified start date
+                          * Expiring soon, if no Taskers are available yet
                         </div>
                       )}
                     </div>
@@ -220,14 +216,14 @@ class HouseCleaningRequestDetails extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
-                      {!isExpiringSoon && !isHappeningToday && (
+                      {!isHappeningSoon && !isHappeningToday && (
                         <div className="help has-text-info">
                           * Review the offers regularly and choose a Tasker.
                         </div>
                       )}
-                      {(isExpiringSoon || isHappeningToday) && (
+                      {(isHappeningSoon || isHappeningToday) && (
                         <div className="help has-text-info">
-                          * Expiring soon, Chose a Tasker asap
+                          * Expiring soon, Choose a Tasker asap
                         </div>
                       )}
                     </div>

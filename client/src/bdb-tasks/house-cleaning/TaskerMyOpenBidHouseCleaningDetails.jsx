@@ -167,12 +167,12 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        className="dropdown-item"
+                        className="dropdown-item has-text-danger"
                       >
                         <span style={{ color: 'grey' }} className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
-                        <span>Delete Bid</span>
+                        <span className="has-text-danger">Delete Bid</span>
                       </a>
                     </div>
                   </div>
@@ -188,8 +188,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                   <label className="label">Bid Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
                   <div className="help has-text-danger">
-                    * Sorry! the requester did not select anyone. This Request will be deleted in 48
-                    hours
+                    * Sorry! the requester did not select anyone and the job expired
                   </div>
                 </div>
               )}

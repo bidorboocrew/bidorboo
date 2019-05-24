@@ -47,7 +47,7 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
-              <div className="help">* This Request will be removed in 48 hours</div>
+              <div className="help">* This will be deleted in 48 hours</div>
             </div>
 
             <StartDateAndTime

@@ -30,7 +30,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       displayStatus,
-      isExpiringSoon,
+      isHappeningSoon,
       isHappeningToday,
       isPastDue,
     } = job;
@@ -166,21 +166,26 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
-                {isExpiringSoon && !isHappeningToday && (
+                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                  <div className="help has-text-success">
+                    * Get In touch with the tasker to confirm any further details
+                  </div>
+                )}
+                {isHappeningSoon && !isHappeningToday && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>
                 )}
-                {isHappeningToday && (
+                {isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
                     * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {/* {isPastDue && (
+                {isPastDue && (
                   <div className="help has-text-danger">
                     * This request date is past Due, view details to confirm completion
                   </div>
-                )} */}
+                )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
@@ -325,8 +330,8 @@ class RequesterConfirmsCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BidOrBoo crew is happy to know that You finished this our Tasker showed up to fulfill your
-                    request!
+                    BidOrBoo crew is happy to know that You finished this our Tasker showed up to
+                    fulfill your request!
                   </p>
                   <br />
                   <label className="label">After the tasker have completed the work.</label>

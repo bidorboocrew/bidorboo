@@ -123,9 +123,6 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
-          {/* <div className="card-image">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -162,9 +159,9 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                         className="dropdown-item"
                       >
                         <span style={{ color: 'grey' }} className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
+                          <i className="far fa-trash-alt has-text-danger" aria-hidden="true" />
                         </span>
-                        <span>Delete Bid</span>
+                        <span className="has-text-danger">Delete Bid</span>
                       </a>
                     </div>
                   </div>
@@ -177,12 +174,10 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                   <label className="label">Bid Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
                   <div className="help has-text-danger">
-                    * Sorry! the requester did not select anyone. This Request will be deleted in 48
-                    hours
+                    * Sorry! the requester did not select anyone and the job expired
                   </div>
                 </div>
               )}
-
               {!isPastDue && (
                 <div className="field">
                   <label className="label">Bid Status</label>

@@ -30,7 +30,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       displayStatus,
-      isExpiringSoon,
+      isHappeningSoon,
       isHappeningToday,
       isPastDue,
       _ownerRef,
@@ -51,7 +51,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Bid</div>
+                  <div className="modal-card-title">Cancel This Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -77,7 +77,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
 
                       <div className="control">* Your global rating will be impacted</div>
                       <div className="control">
-                        * This cancellation will show up on your profile{' '}
+                        * This cancellation will show up on your profile
                       </div>
                       <div className="control">
                         * If many cancellations happen in a row you will be ban from BidOrBoo
@@ -107,7 +107,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Request</span>
+                    <span>Cancel Agreement</span>
                   </button>
                 </footer>
               </div>
@@ -174,12 +174,17 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
-                {isExpiringSoon && (
+                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                  <div className="help has-text-success">
+                    * Get In touch with the Requester to confirm any further details
+                  </div>
+                )}
+                {isHappeningSoon && !isHappeningToday && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>
                 )}
-                {isHappeningToday && (
+                {isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
                     * Happening today, Tasker will show up on time
                   </div>

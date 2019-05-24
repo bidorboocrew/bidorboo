@@ -60,16 +60,10 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     const { bid, job, otherArgs, userDetails } = this.props;
     const { deleteOpenBid } = otherArgs;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      isPastDue,
-      _awardedBidRef,
-      isExpiringSoon,
-      isHappeningToday,
-    } = job;
+    const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
+
     debugger;
-    const { _bidderRef } = _awardedBidRef;
+
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
@@ -190,12 +184,17 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
-                {isExpiringSoon && (
+                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                  <div className="help has-text-success">
+                    * Get In touch with the Requester to confirm any further details
+                  </div>
+                )}
+                {isHappeningSoon && !isHappeningToday && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>
                 )}
-                {isHappeningToday && (
+                {isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
                     * Happening today, Tasker will show up on time
                   </div>

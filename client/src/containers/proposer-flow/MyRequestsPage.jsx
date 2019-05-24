@@ -48,7 +48,7 @@ class MyRequestsPage extends React.Component {
         </section>
         <hr className="divider" />
         <FloatingAddNewRequestButton />
-        <Spinner isLoading={isLoading} size={'large'} />
+        <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>}
 
         {!isLoading&&!areThereAnyJobsToView && <EmptyStateComponent />}
