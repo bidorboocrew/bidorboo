@@ -58,9 +58,10 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { userDetails, isLoggedIn, authIsInProgress } = this.props;
-    const finishedAuthCall = prevProps.authIsInProgress && !this.props.authIsInProgress;
-    const isAuthChanging = prevProps.authIsInProgress && !this.props.authIsInProgress;
+    const finishedAuthCall = prevProps.authIsInProgress && !authIsInProgress;
+    const isAuthChanging = prevProps.authIsInProgress !== !authIsInProgress;
     if (
+      isAuthChanging &&
       finishedAuthCall &&
       userDetails &&
       userDetails._id &&

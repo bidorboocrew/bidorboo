@@ -75,23 +75,22 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
 
         return;
       }
-      if (!shouldRegisterNewWebPushSubscription) {
-        console.log('User is not logged in or This user already have webpush subscription ');
-
-        return;
-      }
       console.log('registering webpush');
       const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: convertedVapidKey,
       });
-      console.log('WEBPUSH  Registered \n');
-      await axios.post('/api/push/register', {
-        data: {
-          subscription: JSON.stringify(subscription),
-        },
-      });
+
+      if (shouldRegisterNewWebPushSubscription) {
+        console.log('WEBPUSH  Registered \n');
+        await axios.post('/api/push/register', {
+          data: {
+            subscription: JSON.stringify(subscription),
+          },
+        });
+        return;
+      }
     } catch (e) {
       console.error(e);
     }
