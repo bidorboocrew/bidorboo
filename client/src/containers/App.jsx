@@ -59,12 +59,10 @@ class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { userDetails, isLoggedIn, authIsInProgress } = this.props;
     const finishedAuthCall = prevProps.authIsInProgress && !authIsInProgress;
+    const userHasChanged = prevProps.userDetails._id !== this.props.userDetails._id;
 
-    if (finishedAuthCall) {
-      registerServiceWorker(
-        `${process.env.REACT_APP_VAPID_KEY}`,
-        isLoggedIn && userDetails._id !== 'loggedOutUser_uuid',
-      );
+    if (finishedAuthCall && userHasChanged) {
+      registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, isLoggedIn);
     }
   }
 
