@@ -55,6 +55,23 @@ class App extends React.Component {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
+
+  componentDidUpdate(prevProps) {
+    const { userDetails, isLoggedIn } = this.props;
+    if (
+      userDetails &&
+      userDetails._id &&
+      (!prevProps.userDetails || prevProps.userDetails._id !== userDetails._id)
+    ) {
+      if (isLoggedIn) {
+        const shouldRegisterNewWebPushSubscription = !userDetails.pushSubscription;
+        registerServiceWorker(
+          `${process.env.REACT_APP_VAPID_KEY}`,
+          shouldRegisterNewWebPushSubscription,
+        );
+      }
+    }
+  }
   componentDidMount() {
     const { userDetails, isLoggedIn } = this.props;
 
