@@ -166,7 +166,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                     * Get In touch with the tasker to confirm any further details
                   </div>
                 )}
-                {isHappeningSoon && !isHappeningToday && (
+                {isHappeningSoon && !isHappeningToday && !isPastDue && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>

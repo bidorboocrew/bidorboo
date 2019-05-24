@@ -20,7 +20,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        const x = await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -41,7 +41,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        const x = await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -59,7 +59,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        const x = await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -77,7 +77,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        const x = await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
