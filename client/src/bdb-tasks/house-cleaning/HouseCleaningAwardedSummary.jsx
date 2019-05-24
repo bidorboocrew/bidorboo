@@ -174,14 +174,14 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                 )}
                 {isHappeningToday && (
                   <div className="help has-text-success">
-                    * Happening today, Tasker will show up on the scheduled time
+                    * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {isPastDue && (
+                {/* {isPastDue && (
                   <div className="help has-text-warning">
                     * This request date is past Due, view details to confirm completion
                   </div>
-                )}
+                )} */}
               </div>
 
               <StartDateAndTime
@@ -202,12 +202,10 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className={`button is-outlined is-fullwidth ${
-                isPastDue ? 'is-danger' : 'is-success'
-              }`}
+              className={`button is-outlined is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              View Tasker Details
+              {`${isPastDue ? 'Confirm Completion' : 'View Tasker Details'}`}
             </a>
           </div>
         </div>

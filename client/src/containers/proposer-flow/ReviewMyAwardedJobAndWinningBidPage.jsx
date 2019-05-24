@@ -11,7 +11,7 @@ import {
   proposerConfirmsJobCompletion,
 } from '../../app-state/actions/jobActions';
 
-import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Getting Your Request Details'} isLoading={true} size={'large'} />
         </div>
       );
     }

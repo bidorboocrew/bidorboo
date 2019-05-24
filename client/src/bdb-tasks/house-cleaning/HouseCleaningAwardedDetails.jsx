@@ -166,21 +166,21 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">{displayStatus}</div>
-                {isExpiringSoon && (
+                {isExpiringSoon && !isHappeningToday && (
                   <div className="help has-text-success">
                     * Happening soon, Make sure to contact the Tasker
                   </div>
                 )}
                 {isHappeningToday && (
                   <div className="help has-text-success">
-                    * Happening today, Tasker will show up on the scheduled time
+                    * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {isPastDue && (
+                {/* {isPastDue && (
                   <div className="help has-text-danger">
                     * This request date is past Due, view details to confirm completion
                   </div>
-                )}
+                )} */}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
@@ -253,26 +253,16 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                   </span>
                   <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
                 </div>
+                {!isPastDue && <AddAwardedJobToCalendar job={job} />}
               </div>
+            </div>
+            <hr className="divider isTight" />
+            <div style={{ display: 'flex' }}>
+              <RequesterConfirmsCompletion {...this.props} />
+
+              <RequesterDisputes {...this.props} />
             </div>
           </div>
-          {!isPastDue && (
-            <footer className="card-footer">
-              <div className="card-footer-item">
-                <AddAwardedJobToCalendar job={job} />
-              </div>
-            </footer>
-          )}
-
-          <footer className="card-footer">
-            <div className="card-footer-item">
-              <ProposerVerifiesJobCompletion {...this.props} />
-            </div>
-
-            <div className="card-footer-item">
-              <ProposerDisputesJobCompletion {...this.props} />
-            </div>
-          </footer>
         </div>
       </React.Fragment>
     );
@@ -301,7 +291,7 @@ export default connect(
   mapDispatchToProps,
 )(HouseCleaningAwardedDetails);
 
-class ProposerVerifiesJobCompletion extends React.Component {
+class RequesterConfirmsCompletion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -335,7 +325,7 @@ class ProposerVerifiesJobCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BidOrBoo crew is happy to know that our Tasker showed up to fulfill your
+                    BidOrBoo crew is happy to know that You finished this our Tasker showed up to fulfill your
                     request!
                   </p>
                   <br />
@@ -358,20 +348,25 @@ class ProposerVerifiesJobCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div>
+        <div style={{ padding: '0.5rem', flexGrow: 1 }}>
           <a
             onClick={this.toggleModal}
-            className={`button is-meduim is-success ${isPastDue ? 'heartbeatInstant' : ''}`}
+            className={`button is-fullwidth is-success is-outlined ${
+              isPastDue ? 'heartbeatInstant' : ''
+            }`}
           >
-            Task is Completed
+            Tasker is Done
           </a>
+          <div className="help">
+            * Click <strong>After</strong> the Tasker has completed this request
+          </div>
         </div>
       </React.Fragment>
     );
   }
 }
 
-class ProposerDisputesJobCompletion extends React.Component {
+class RequesterDisputes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -445,9 +440,9 @@ class ProposerDisputesJobCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div>
-          <a onClick={this.toggleModal} className="button is-meduim is-danger is-outlined">
-            File a Dispute
+        <div style={{ marginLeft: 8 }}>
+          <a onClick={this.toggleModal} className="button is-text">
+            Or File a Dispute
           </a>
         </div>
       </React.Fragment>

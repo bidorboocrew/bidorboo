@@ -5,7 +5,7 @@ import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import {
   getMeTheRightRequestCard,
   POINT_OF_VIEW,
-} from '../../../bdb-tasks/getMeTheRightRequestCard';
+} from '../../../bdb-tasks/getMeTheRightCard';
 export default class JobInfoBox extends React.Component {
   render() {
     const { job, userDetails, toggleShowInfoBox } = this.props;

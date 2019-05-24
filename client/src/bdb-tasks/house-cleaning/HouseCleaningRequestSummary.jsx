@@ -210,7 +210,7 @@ class HouseCleaningRequestSummary extends React.Component {
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
                       {!isExpiringSoon && !isHappeningToday && (
-                        <div className="help has-text-warning">
+                        <div className="help has-text-info">
                           * Review the offers regularly and choose a Tasker.
                         </div>
                       )}

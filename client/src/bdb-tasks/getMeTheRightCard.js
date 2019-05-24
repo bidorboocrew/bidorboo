@@ -125,7 +125,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card;
+        return card || <div>This type aint found</div>;
       } catch (e) {
         alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
@@ -179,7 +179,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
         pointOfView,
         otherArgs,
       });
-      return card;
+      return card || <div>This type aint found</div>;
     } catch (e) {
       alert(e + ' Error Loading Requester Card ');
     }
@@ -193,7 +193,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
         addBidDetails: false,
         otherArgs,
       });
-      return card;
+      return card || <div>This type aint found</div>;
     } catch (e) {
       alert(e + ' Error Loading Tasker Card ');
     }

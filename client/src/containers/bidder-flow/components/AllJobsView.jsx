@@ -5,7 +5,7 @@ import { switchRoute } from '../../../utils';
 import {
   getMeTheRightRequestCard,
   POINT_OF_VIEW,
-} from '../../../bdb-tasks/getMeTheRightRequestCard';
+} from '../../../bdb-tasks/getMeTheRightCard';
 
 export default class AllJobsView extends React.Component {
   render() {

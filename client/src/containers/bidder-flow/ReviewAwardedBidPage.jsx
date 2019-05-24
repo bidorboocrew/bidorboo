@@ -5,13 +5,17 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { getAwardedBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
+import {
+  getAwardedBidDetails,
+  updateBid,
+  deleteOpenBid,
+} from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 
 import TaskerPendingBidInfo from './components/TaskerPendingBidInfo';
 import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -21,13 +25,11 @@ class ReviewAwardedBidPage extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    debugger
   }
 
   componentDidMount() {
     if (!this.bidId) {
       switchRoute(ROUTES.CLIENT.BIDDER.root);
-      debugger
       return null;
     }
 
@@ -35,10 +37,13 @@ class ReviewAwardedBidPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.props.isLoading && (!this.props.selectedAwardedBid || !this.props.selectedAwardedBid._id)) {
+    if (
+      !this.props.isLoading &&
+      (!this.props.selectedAwardedBid || !this.props.selectedAwardedBid._id)
+    ) {
       // xxxx show cant find job or something instead of ugly redirect
       // could not find the job so we redirected you
-      alert('Apologies, but we couldn\'t locate this bid')
+      alert("Apologies, but we couldn't locate this bid");
       switchRoute(ROUTES.CLIENT.BIDDER.mybids);
       return null;
     }

@@ -10,7 +10,7 @@ import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class BidOnJobPage extends React.Component {
   constructor(props) {

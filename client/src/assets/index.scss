@@ -559,7 +559,10 @@ article.media.limitHeight {
 
 .react-add-to-calendar__dropdown {
   font-size: 18px;
+
   ul {
+    list-style: none;
+    margin: 0;
     li {
       margin-top: 4px;
       margin-bottom: 4px;

@@ -176,9 +176,7 @@ class Header extends React.Component {
                 <a
                   style={{ borderRadius: '100%' }}
                   onClick={this.toggleNotificationMenu}
-                  className={`button is-outlined is-small ${
-                    isActingAsBidder ? 'is-warning' : 'is-info '
-                  }`}
+                  className="button is-danger is-outlined is-small"
                 >
                   <span className="icon">
                     <i className="fas fa-bell" />

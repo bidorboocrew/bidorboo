@@ -11,7 +11,7 @@ import { Spinner } from '../../components/Spinner';
 import { allMyPostedBids } from '../../app-state/actions/bidsActions';
 import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightRequestCard';
+import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class MyBidsPage extends React.Component {
   componentDidMount() {

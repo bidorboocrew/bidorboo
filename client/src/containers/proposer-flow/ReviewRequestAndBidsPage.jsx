@@ -18,7 +18,7 @@ import {
   getMeTheRightRequestCard,
   POINT_OF_VIEW,
   REQUEST_STATES,
-} from '../../bdb-tasks/getMeTheRightRequestCard';
+} from '../../bdb-tasks/getMeTheRightCard';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
