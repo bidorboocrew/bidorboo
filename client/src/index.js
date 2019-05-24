@@ -15,6 +15,7 @@ import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
+import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
 const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
@@ -52,3 +53,5 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('BidOrBoo-app'),
   );
 }
+
+registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);

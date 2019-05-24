@@ -21,7 +21,6 @@ const urlBase64ToUint8Array = (base64String) => {
 
 const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
   window.addEventListener('load', async () => {
-    let doWeHaveAnExistingSW = false;
     // try {
     //   const fetchServiceWorker = await fetch('sw.js');
     //   if (fetchServiceWorker.status === 200) {
@@ -68,23 +67,25 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
       }
       console.info('Service worker Registered \n');
 
-      console.info('kick start registering webpush');
-      const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: convertedVapidKey,
-      });
-      console.info('WEBPUSH  Registered \n');
+      if (shouldRegisterNewWebPushSubscription) {
+        console.info('kick start registering webpush');
+        const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey,
+        });
+        console.info('WEBPUSH  Registered \n');
 
-      // if (shouldRegisterNewWebPushSubscription) {
-      await axios.post('/api/push/register', {
-        data: {
-          subscription: JSON.stringify(subscription),
-        },
-      });
-      return;
+        // if (shouldRegisterNewWebPushSubscription) {
+        await axios.post('/api/push/register', {
+          data: {
+            subscription: JSON.stringify(subscription),
+          },
+        });
+        return;
+      }
     } catch (e) {
-      console.error(e);
+      console.info('failed registering webpush ' + e);
     }
   });
 };

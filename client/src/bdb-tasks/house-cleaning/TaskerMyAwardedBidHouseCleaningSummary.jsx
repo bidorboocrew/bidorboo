@@ -62,8 +62,6 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
 
     const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
 
-    debugger;
-
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
