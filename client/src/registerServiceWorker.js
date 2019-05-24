@@ -34,48 +34,41 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
     let newWorker;
     let refreshing;
     try {
-      console.info('registering service worker');
-      if (!doWeHaveAnExistingSW) {
-        function showUpdateBar() {
-          // https://github.com/deanhume/pwa-update-available
-          let snackbar = document.getElementById('snackbar');
-          snackbar.className = 'show';
-        }
-        // The click event on the pop up notification
-        document.getElementById('reload').addEventListener('click', () => {
-          if (newWorker && newWorker.postMessage) {
-            newWorker.postMessage({ action: 'skipWaiting' });
-          }
-        });
-
-        registration = await navigator.serviceWorker.register('/sw.js', {
-          scope: '/',
-        });
-        // await registration.update();
-        if (registration.waiting && registration.waiting.state === 'installed') {
-          newWorker = registration.waiting;
-          showUpdateBar();
-        }
-
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (refreshing) return;
-          window.location.reload();
-          refreshing = true;
-        });
-
-        console.info('Service worker Registered \n');
+      function showUpdateBar() {
+        // https://github.com/deanhume/pwa-update-available
+        let snackbar = document.getElementById('snackbar');
+        snackbar.className = 'show';
       }
-    } catch (e) {
-      console.error(e);
-    }
+      // The click event on the pop up notification
+      document.getElementById('reload').addEventListener('click', () => {
+        if (newWorker && newWorker.postMessage) {
+          newWorker.postMessage({ action: 'skipWaiting' });
+        }
+      });
 
-    try {
+      registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+      });
+      // await registration.update();
+      if (registration.waiting && registration.waiting.state === 'installed') {
+        newWorker = registration.waiting;
+        showUpdateBar();
+      }
+
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+      });
+
       if (!registration) {
         console.info('could not register service worker or webpush \n');
 
         return;
       }
-      console.info('registering webpush');
+      console.info('Service worker Registered \n');
+
+      console.info('kick start registering webpush');
       const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
