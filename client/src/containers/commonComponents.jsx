@@ -72,8 +72,8 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
   const { profileImage, displayName, rating } = temp;
   let trimmedDisplayName = displayName;
   if (clipUserName) {
-    let trimmedDisplayName =
-      displayName && displayName.length > 10 ? `${displayName.substring(0, 10)}...` : displayName;
+    trimmedDisplayName =
+      displayName && displayName.length > 8 ? `${displayName.substring(0, 8)}...` : displayName;
   }
   return (
     <article
@@ -103,7 +103,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
 
       <div className="media-content">
         <div className="content">
-          <div className={`${large ? 'is-size-4' : 'is-size-6'}`}>{trimmedDisplayName}</div>
+          <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <p className="is-size-7">No Ratings Yet</p>

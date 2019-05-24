@@ -163,17 +163,6 @@ class ReviewRequestAndBidsPage extends React.Component {
             <br />
             {!isThisACancelledTask && (
               <React.Fragment>
-                {areThereAnyBids && (
-                  <section className="hero is-medium is-dark is-bold">
-                    <div className="hero-body">
-                      <div>
-                        <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                          Taskers Offers
-                        </h1>
-                      </div>
-                    </div>
-                  </section>
-                )}
                 {!areThereAnyBids && (
                   <section className="hero is-dark is-small">
                     <div className="hero-body">

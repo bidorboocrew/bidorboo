@@ -35,7 +35,7 @@ export default class BidsTable extends React.Component {
       return (
         <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
           <td style={{ verticalAlign: 'middle' }}>
-            <UserImageAndRating userDetails={bid._bidderRef} large />
+            <UserImageAndRating userDetails={bid._bidderRef} large clipUserName={true} />
             <VerifiedVia userDetails={bid._bidderRef} isCentered={false} />
           </td>
 
@@ -43,7 +43,12 @@ export default class BidsTable extends React.Component {
             <div className="tile is-ancestor has-text-centered">
               <div className="tile is-parent">
                 <article
-                  style={{ cursor: 'pointer', position: 'relative', border: '2px solid #31c110' }}
+                  style={{
+                    padding: '0.25rem',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    border: '2px solid #31c110',
+                  }}
                   onClick={(e) => {
                     e.preventDefault();
                     this.openBidDetailsModal(bid);
@@ -95,7 +100,10 @@ export default class BidsTable extends React.Component {
         <thead>
           <tr>
             <th>Tasker Details</th>
-            <th className="has-text-centered">Total Cost</th>
+            <th className="has-text-centered">
+              <div>Bid Amount</div>
+              <div className="is-size-7 has-text-grey">(Total Cost)</div>
+            </th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
