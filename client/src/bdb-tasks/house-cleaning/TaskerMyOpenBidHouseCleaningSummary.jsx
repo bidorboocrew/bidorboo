@@ -176,7 +176,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 <div className="field">
                   <label className="label">Bid Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
-                  <div className="help">
+                  <div className="help has-text-danger">
                     * Sorry! the requester did not select anyone. This Request will be deleted in 48
                     hours
                   </div>

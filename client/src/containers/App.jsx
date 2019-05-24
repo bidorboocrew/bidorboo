@@ -57,33 +57,21 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { userDetails, isLoggedIn } = this.props;
+    const { userDetails, isLoggedIn, authIsInProgress } = this.props;
+    const finishedAuthCall = prevProps.authIsInProgress && !this.props.authIsInProgress;
+    const isAuthChanging = prevProps.authIsInProgress && !this.props.authIsInProgress;
     if (
+      finishedAuthCall &&
       userDetails &&
       userDetails._id &&
-      (!prevProps.userDetails || prevProps.userDetails._id !== userDetails._id)
+      prevProps.userDetails._id !== userDetails._id
     ) {
-      if (isLoggedIn) {
-        const shouldRegisterNewWebPushSubscription = !userDetails.pushSubscription;
-        registerServiceWorker(
-          `${process.env.REACT_APP_VAPID_KEY}`,
-          shouldRegisterNewWebPushSubscription,
-        );
-      }
+      const shouldRegisterNewWebPushSubscription = !userDetails.pushSubscription;
+      registerServiceWorker(
+        `${process.env.REACT_APP_VAPID_KEY}`,
+        isLoggedIn && shouldRegisterNewWebPushSubscription,
+      );
     }
-  }
-  componentDidMount() {
-    const { userDetails, isLoggedIn } = this.props;
-
-    let shouldRegisterNewWebPushSubscription = false;
-    if (isLoggedIn) {
-      shouldRegisterNewWebPushSubscription = userDetails && !userDetails.pushSubscription;
-    }
-    console.log('kick-start the service worker');
-    registerServiceWorker(
-      `${process.env.REACT_APP_VAPID_KEY}`,
-      shouldRegisterNewWebPushSubscription,
-    );
   }
 
   render() {

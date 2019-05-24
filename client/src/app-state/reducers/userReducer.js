@@ -15,7 +15,7 @@ const initialState = {
     },
     rating: 0,
     userId: '',
-    _id: '',
+    _id: 'loggedOutUser_uuid',
     displayName: '',
     email: '',
     profileImage: {
