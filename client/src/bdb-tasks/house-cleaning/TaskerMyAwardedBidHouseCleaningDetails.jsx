@@ -184,11 +184,11 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                     * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {/* {isPastDue && (
-                  <div className="help has-text-danger">
+                {isPastDue && (
+                  <div className="help has-text-success">
                     * This request date is past Due, view details to confirm completion
                   </div>
-                )} */}
+                )}
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>

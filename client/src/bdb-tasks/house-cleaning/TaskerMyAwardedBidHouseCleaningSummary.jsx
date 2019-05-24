@@ -60,9 +60,16 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     const { bid, job, otherArgs, userDetails } = this.props;
     const { deleteOpenBid } = otherArgs;
 
-    const { startingDateAndTime, addressText, isPastDue, _awardedBidRef } = job;
+    const {
+      startingDateAndTime,
+      addressText,
+      isPastDue,
+      _awardedBidRef,
+      isExpiringSoon,
+      isHappeningToday,
+    } = job;
+    debugger;
     const { _bidderRef } = _awardedBidRef;
-    const amITheAwardedBidder = userDetails._id === _bidderRef._id;
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
@@ -75,7 +82,6 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     return (
       <React.Fragment>
         {showDeleteDialog &&
-          amITheAwardedBidder &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
@@ -127,14 +133,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div
-          className={`card limitWidthOfCard ${
-            isPastDue || !amITheAwardedBidder ? 'readOnlyView' : ''
-          }`}
-        >
-          {/* <div className="card-image">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div> */}
+        <div className={`card limitWidthOfCard`}>
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -144,41 +143,39 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
-                {amITheAwardedBidder && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          className="dropdown-item"
-                        >
-                          <span style={{ color: 'grey' }} className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel This Bid</span>
-                        </a>
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
                       </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        className="dropdown-item"
+                      >
+                        <span style={{ color: 'grey' }} className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel This Bid</span>
+                      </a>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
               <div
                 style={{
@@ -190,45 +187,29 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              {!amITheAwardedBidder && (
-                <div className="field">
-                  <label className="label">Bid Status</label>
-                  <div className="control">Awarded To Someone Else</div>
-                  <div className="help">
-                    * Sorry! the requester has awarded this to someone else. Better luck next time
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-success">{displayStatus}</div>
+                {isExpiringSoon && (
+                  <div className="help has-text-success">
+                    * Happening soon, Make sure to contact the Tasker
                   </div>
-                  <div className="help">
-                    * This Bid will be removed from your view automatically in 48 hours
+                )}
+                {isHappeningToday && (
+                  <div className="help has-text-success">
+                    * Happening today, Tasker will show up on time
                   </div>
-                </div>
-              )}
-              {amITheAwardedBidder && (
-                <React.Fragment>
-                  {isPastDue && (
-                    <div className="field">
-                      <label className="label">Bid Status</label>
-                      <div className="control has-text-danger">Past Due - Expired</div>
-                      <div className="help has-text-danger">
-                        * Sorry! the requester did not select anyone. This Request will be deleted
-                        in 48 hours
-                      </div>
-                    </div>
-                  )}
+                )}
+                {isPastDue && (
+                  <div className="help has-text-success">
+                    * This request date is past Due, view details to confirm completion
+                  </div>
+                )}
+              </div>
 
-                  {!isPastDue && (
-                    <div className="field">
-                      <label className="label">Bid Status</label>
-                      <div className="control has-text-success">{displayStatus}</div>
-                      <div className="help">* Make sure to show up on time and do a great job!</div>
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
               <div className="field">
                 <label className="label">Your Bid</label>
-                <div
-                  className={`control ${amITheAwardedBidder}? 'has-text-success':''`}
-                >{`${bidAmount}$ (${bidCurrency})`}</div>
+                <div className={`has-text-success`}>{`${bidAmount}$ (${bidCurrency})`}</div>
                 <div className="help">* Will be auto paid when you confirm completion.</div>
               </div>
               <StartDateAndTime
@@ -237,17 +218,15 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {amITheAwardedBidder && (
-                <DisplayShortAddress
-                  addressText={addressText}
-                  renderHelpComponent={() => (
-                    <div className="help">* The Address provided by the requester is revealed</div>
-                  )}
-                />
-              )}
+              <DisplayShortAddress
+                addressText={addressText}
+                renderHelpComponent={() => (
+                  <div className="help">* The Address provided by the requester is revealed</div>
+                )}
+              />
             </div>
           </div>
-          {renderFooter({ bid, amITheAwardedBidder })}
+          {renderFooter({ bid, isPastDue })}
         </div>
       </React.Fragment>
     );
@@ -276,41 +255,25 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyAwardedBidHouseCleaningSummary);
 
-const renderFooter = ({ bid, amITheAwardedBidder }) => {
+const renderFooter = ({ bid, isPastDue }) => {
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
         <hr className="divider isTight" />
       </div>
-      {amITheAwardedBidder && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          <a
-            style={{ position: 'relative' }}
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id));
-            }}
-            className="button is-outlined is-fullwidth is-success"
-          >
-            <span>View Full Details</span>
-          </a>
-        </div>
-      )}
-      {!amITheAwardedBidder && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          <a
-            style={{ position: 'relative' }}
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.BIDDER.root);
-            }}
-            className="button is-outlined is-fullwidth is-success"
-          >
-            <span class="icon">
-              <i class="fas fa-hand-rock" />
-            </span>
-            <span>Bid On Other Requests</span>
-          </a>
-        </div>
-      )}
+      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <a
+          style={{ position: 'relative' }}
+          onClick={() => {
+            switchRoute(
+              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+            );
+          }}
+          className="button is-outlined is-fullwidth is-success"
+        >
+          <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
+        </a>
+      </div>
     </React.Fragment>
   );
 };
