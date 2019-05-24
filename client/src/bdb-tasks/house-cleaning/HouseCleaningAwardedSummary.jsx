@@ -177,11 +177,11 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                     * Happening today, Tasker will show up on time
                   </div>
                 )}
-                {/* {isPastDue && (
-                  <div className="help has-text-warning">
-                    * This request date is past Due, view details to confirm completion
+                {isPastDue && (!isExpiringSoon || !isHappeningToday) && (
+                  <div className="help has-text-success">
+                    * The scheduled date is past Due, Confirm Completion
                   </div>
-                )} */}
+                )}
               </div>
 
               <StartDateAndTime

@@ -215,7 +215,7 @@ class HouseCleaningRequestSummary extends React.Component {
                         </div>
                       )}
                       {(isExpiringSoon || isHappeningToday) && (
-                        <div className="help has-text-warning">* Expiring soon, Chose a Tasker asap</div>
+                        <div className="help has-text-info">* Expiring soon, Chose a Tasker asap</div>
                       )}
                     </div>
                   )}

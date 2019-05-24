@@ -220,9 +220,15 @@ class HouseCleaningRequestDetails extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
-                      <div className="help">* Review the offers regularly and choose a Tasker.</div>
+                      {!isExpiringSoon && !isHappeningToday && (
+                        <div className="help has-text-info">
+                          * Review the offers regularly and choose a Tasker.
+                        </div>
+                      )}
                       {(isExpiringSoon || isHappeningToday) && (
-                        <div className="help has-text-warning">* Expiring soon, Chose a Tasker asap</div>
+                        <div className="help has-text-info">
+                          * Expiring soon, Chose a Tasker asap
+                        </div>
                       )}
                     </div>
                   )}
