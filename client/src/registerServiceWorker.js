@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    console.log('starting to setup the PWA');
+    console.info('starting to setup the PWA');
     installSW(vapidKey, shouldRegisterNewWebPushSubscription);
   }
 };
@@ -34,7 +34,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
     let newWorker;
     let refreshing;
     try {
-      console.log('registering service worker');
+      console.info('registering service worker');
       if (!doWeHaveAnExistingSW) {
         function showUpdateBar() {
           // https://github.com/deanhume/pwa-update-available
@@ -63,7 +63,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
           refreshing = true;
         });
 
-        console.log('Service worker Registered \n');
+        console.info('Service worker Registered \n');
       }
     } catch (e) {
       console.error(e);
@@ -71,26 +71,25 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
 
     try {
       if (!registration) {
-        console.log('could not register service worker or webpush \n');
+        console.info('could not register service worker or webpush \n');
 
         return;
       }
-      console.log('registering webpush');
+      console.info('registering webpush');
       const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: convertedVapidKey,
       });
+      console.info('WEBPUSH  Registered \n');
 
-      if (shouldRegisterNewWebPushSubscription) {
-        console.log('WEBPUSH  Registered \n');
-        await axios.post('/api/push/register', {
-          data: {
-            subscription: JSON.stringify(subscription),
-          },
-        });
-        return;
-      }
+      // if (shouldRegisterNewWebPushSubscription) {
+      await axios.post('/api/push/register', {
+        data: {
+          subscription: JSON.stringify(subscription),
+        },
+      });
+      return;
     } catch (e) {
       console.error(e);
     }
