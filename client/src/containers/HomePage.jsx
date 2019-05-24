@@ -160,7 +160,7 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <div className="columns is-multiline is-centered">
-          <div className="column is-5">
+          <div className="column is-4">
             <RequestAService
               logoImg={requestImg}
               onClickHandler={() => {
@@ -168,7 +168,7 @@ export default class HomePage extends React.Component {
               }}
             />
           </div>
-          <div className="column is-5">
+          <div className="column is-4">
             <ProvideAService
               logoImg={bidsImg}
               onClickHandler={() => {
