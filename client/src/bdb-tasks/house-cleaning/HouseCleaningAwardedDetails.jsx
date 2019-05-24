@@ -182,8 +182,8 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
                 {isPastDue && (
-                  <div className="help has-text-danger">
-                    * This request date is past Due, view details to confirm completion
+                  <div className="help has-text-success">
+                    * This request date is past Due, plz confirm completion
                   </div>
                 )}
               </div>

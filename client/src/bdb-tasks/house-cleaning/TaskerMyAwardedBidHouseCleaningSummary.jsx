@@ -201,7 +201,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                 )}
                 {isPastDue && (
                   <div className="help has-text-success">
-                    * This request date is past Due, view details to confirm completion
+                    * This request date is past Due, plz confirm completion
                   </div>
                 )}
               </div>
