@@ -5,12 +5,23 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import { getAllRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
+import {
+  getAllActiveRequestsTemplateCards,
+  getAllUpcomingTemplateCards,
+} from '../../bdb-tasks/getAllRequestsTemplateCards';
 
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllTasks = getAllRequestsTemplateCards(props).map((task, index) => {
+    this.AllActiveTasks = getAllActiveRequestsTemplateCards(props).map((task, index) => {
+      return (
+        <div key={index} className="column">
+          {task}
+        </div>
+      );
+    });
+
+    this.AllUpcomingTasks = getAllUpcomingTemplateCards(props).map((task, index) => {
       return (
         <div key={index} className="column">
           {task}
@@ -52,7 +63,9 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <section className="section">
-          <div className="columns is-centered is-multiline">{this.AllTasks}</div>
+          <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
+          <hr className="divider isTight" />
+          <div className="columns is-centered is-multiline">{this.AllUpcomingTasks}</div>
         </section>
       </div>
     );
