@@ -2,10 +2,7 @@ import React from 'react';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
-import {
-  getMeTheRightRequestCard,
-  POINT_OF_VIEW,
-} from '../../../bdb-tasks/getMeTheRightCard';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
 
 export default class AllJobsView extends React.Component {
   render() {
@@ -27,7 +24,7 @@ const EmptyStateComponent = () => {
       <div className="card is-fullwidth">
         <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
-            <div className="is-size-5">No Jobs Found. please check again later!</div>
+            <div className="is-size-5">No Open Requests. please check again soon!</div>
             <br />
             <a
               className="button is-success "
