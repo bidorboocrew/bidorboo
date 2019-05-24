@@ -59,18 +59,11 @@ class App extends React.Component {
   componentDidUpdate(prevProps) {
     const { userDetails, isLoggedIn, authIsInProgress } = this.props;
     const finishedAuthCall = prevProps.authIsInProgress && !authIsInProgress;
-    const isAuthChanging = prevProps.authIsInProgress !== !authIsInProgress;
-    if (
-      isAuthChanging &&
-      finishedAuthCall &&
-      userDetails &&
-      userDetails._id &&
-      prevProps.userDetails._id !== userDetails._id
-    ) {
-      const shouldRegisterNewWebPushSubscription = !userDetails.pushSubscription;
+
+    if (finishedAuthCall) {
       registerServiceWorker(
         `${process.env.REACT_APP_VAPID_KEY}`,
-        isLoggedIn && shouldRegisterNewWebPushSubscription,
+        isLoggedIn && userDetails._id !== 'loggedOutUser_uuid',
       );
     }
   }

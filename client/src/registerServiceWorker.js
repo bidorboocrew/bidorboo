@@ -91,7 +91,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then((registration) => {
+    navigator.serviceWorkera.ready.then((registration) => {
       registration.unregister();
     });
   }
