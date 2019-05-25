@@ -1090,7 +1090,8 @@ exports.jobDataAccess = {
                     },
                   },
                   $push: { hideFrom: taskerId },
-                }
+                },
+                { new: true }
               )
                 .lean(true)
                 .exec(),
