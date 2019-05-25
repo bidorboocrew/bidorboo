@@ -980,6 +980,35 @@ exports.jobDataAccess = {
       .exec();
   },
   cancelJob(jobId, mongoUser_id) {
+    /**
+     *
+     * What we want to accomplish here
+     *  - if job is open state
+     *       simply update status to CANCELED_OPEN
+     *
+     *  - if job is in Awarded state :
+     *      - refund 80% to requester
+     *      - 10% to Tasker
+     *      - 10% to our platform
+     *
+     *
+     *      - update JOB status to AWARDED_CANCELED_BY_REQUESTER
+     *      - update JOB with the refund charge field on the job with the refund details
+     *
+     *      - find the AWARDED BID and switch its status to CANCELED_AWARDED_BY_REQUESTER
+     *
+     *      - Update Requester User rating
+     *                globalRating - 0.25 star
+     *                totalOfAllRatings - 0.25
+     *                numberOfTimesBeenRated + 1
+     *                canceledJobs+ 1
+     *
+     *
+     *
+     *  - finally push notify to both informing them of this and emphasize to Tasker
+     * that they should go place more bids
+     *
+     */
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
@@ -987,23 +1016,24 @@ exports.jobDataAccess = {
           .lean({ virtuals: true })
           .exec();
 
-        if (!job) {
-          resolve({});
+        if (!job || !job._id || !job._ownerRef._id || !job.state) {
+          return reject('Error while canceling job. contact us at bidorboocrew@gmail.com');
         }
 
         // if we are cancelling an open job
         if (job.state === 'OPEN') {
-          await JobModel.findOneAndUpdate(
-            { _id: jobId, _ownerRef: mongoUser_id },
+          const updatedJob = await JobModel.findOneAndUpdate(
+            { _id: job._id, _ownerRef: mongoUser_id },
             {
               $set: { state: 'CANCELED_OPEN' },
-            }
+            },
+            { new: true }
           );
-          resolve({ ...job, state: 'CANCELED_OPEN' });
+          resolve(updatedJob);
         }
 
         // if we are cancelling an awardedJob
-        if (job.state === 'AWARDED') {
+        else if (job.state === 'AWARDED') {
           // CANCELED_BY_REQUESTER_AWARDED case
           const {
             requestedJobId,
@@ -1030,10 +1060,6 @@ exports.jobDataAccess = {
             processedPayment,
           } = await this._getAwardedJobOwnerBidderAndRelevantNotificationDetails(job._id);
 
-          // Deal with refund
-          // Refund 80% of payment
-          // forward 10% to Tasker
-          // forward 10% to BidorBooFees
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
             chargeId: processedPayment.chargeId,
             refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
@@ -1044,11 +1070,54 @@ exports.jobDataAccess = {
               taskerEmailAddress,
               requestedJobId,
               awardedBidId,
-              note: 'requester cancelled the job',
+              note: 'requester cancelled an awarded request',
             },
           });
 
           if (refundCharge.status === 'succeeded') {
+            const [updatedJob, updatedBid, updatedRequester] = await Promise.all([
+              JobModel.findOneAndUpdate(
+                { _id: jobId, _ownerRef: mongoUser_id },
+                {
+                  $set: {
+                    state: 'AWARDED_CANCELED_BY_REQUESTER',
+                    'processedPayment.refund': {
+                      amount: refundCharge.amount,
+                      charge: refundCharge.charge,
+                      id: refundCharge.id,
+                      status: refundCharge.status,
+                    },
+                  },
+                  $push: { hideFrom: taskerId },
+                }
+              )
+                .lean(true)
+                .exec(),
+              BidModel.findByIdAndUpdate(
+                awardedBidId,
+                {
+                  $set: { state: 'CANCELED_AWARDED_BY_REQUESTER' },
+                },
+                { new: true }
+              )
+                .lean(true)
+                .exec(),
+              User.findOneAndUpdate(
+                { _id: mongoUser_id },
+                {
+                  $push: { 'rating.canceledJobs': jobId },
+                  $inc: {
+                    'rating.globalRating': -0.25,
+                  },
+                },
+                {
+                  new: true,
+                }
+              )
+                .lean(true)
+                .exec(),
+            ]);
+
             // send communication to both about the cancellation
             if (allowedToEmailRequester) {
               sendGridEmailing.tellRequeterThatTheyHaveCancelledAnAwardedJob({
@@ -1094,51 +1163,53 @@ exports.jobDataAccess = {
                 urlToLaunch: requestLinkForTasker,
               });
             }
-            await JobModel.findOneAndUpdate(
-              { _id: jobId, _ownerRef: mongoUser_id },
-              {
-                $set: {
-                  state: 'AWARDED_CANCELED_BY_REQUESTER',
-                  'processedPayment.refund': {
-                    amount: refundCharge.amount,
-                    charge: refundCharge.charge,
-                    id: refundCharge.id,
-                    status: refundCharge.status,
-                  },
-                },
+
+            // -------------------------------- assert things
+            if (
+              !updatedJob._id ||
+              !updatedJob.processedPayment.refund ||
+              updatedJob.state === 'AWARDED_CANCELED_BY_REQUESTER'
+            ) {
+              return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
+            }
+
+            if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_REQUESTER') {
+              return reject({ success: false, ErrorMsg: 'falied to update the associated bid' });
+            }
+
+            if (
+              !updatedRequester._id ||
+              !updatedRequester.rating ||
+              !updatedRequester.rating.canceledJobs ||
+              !updatedRequester.rating.canceledJobs.length > 0
+            ) {
+              const addedThisToCanceledJobs = updatedRequester.rating.canceledJobs.some(
+                (canceledJob) => {
+                  return canceledJob.toString() === requestedJobId.toString();
+                }
+              );
+              if (!addedThisToCanceledJobs) {
+                return reject({
+                  success: false,
+                  ErrorMsg: 'falied to update the associated Tasker',
+                });
               }
-            )
-              .lean(true)
-              .exec();
-            // decrease the global rating by (0.25) 1 quarter of a star
-            // update count of canceled jobs
-            // update status of this job
-            await User.findOneAndUpdate(
-              { _id: mongoUser_id },
-              {
-                $push: { 'rating.canceledJobs': jobId },
-                $inc: { 'rating.globalRating': -0.25, numberOfTimesBeenRated: 1 },
-              },
-              {
-                new: true,
-              }
-            )
-              .lean(true)
-              .exec();
-            resolve({ ...job, state: 'AWARDED_CANCELED_BY_REQUESTER' });
+            }
+
+            resolve(updatedJob);
           } else {
-            reject({ refund: refundCharge, errorMsg: 'refund status failed' });
+            reject({
+              refund: refundCharge,
+              errorMsg: 'refund status failed. bidorboocrew will get in touch',
+            });
           }
         }
+        // not open nor awarded job
         resolve({});
       } catch (e) {
         reject(e);
       }
     });
-
-    // if it is an open job then simply cancel it
-
-    // if it is an awarded job .. we got some punishment to do
   },
 
   _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {

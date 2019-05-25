@@ -59,6 +59,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
   };
   render() {
     const { bid, job, cancelAwardedBid } = this.props;
+
     if (!bid || !job || !cancelAwardedBid) {
       return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
     }

@@ -62,7 +62,8 @@ class HouseCleaningRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, ommitMeatballMenu = false, cancelJobById } = this.props;
+    const { job, cancelJobById } = this.props;
+    debugger;
     if (!job || !cancelJobById) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
@@ -162,41 +163,39 @@ class HouseCleaningRequestDetails extends React.Component {
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
 
-                {!ommitMeatballMenu && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          className="dropdown-item has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
                       </div>
+                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div className="dropdown-content">
+                      <a
+                        onClick={() => {
+                          this.toggleDeleteConfirmationDialog();
+                        }}
+                        className="dropdown-item has-text-danger"
+                      >
+                        <span className="icon">
+                          <i className="far fa-trash-alt" aria-hidden="true" />
+                        </span>
+                        <span>Cancel Request</span>
+                      </a>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
               <div
                 style={{
