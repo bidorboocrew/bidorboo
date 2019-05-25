@@ -70,6 +70,7 @@ class TaskerPendingBidInfo extends React.Component {
       handleBlur,
       isValid,
       isSubmitting,
+      isAwardedToSomeoneElse = false,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
@@ -202,6 +203,7 @@ class TaskerPendingBidInfo extends React.Component {
         )}
 
         <a
+          disabled={isAwardedToSomeoneElse}
           onClick={() => {
             this.showUpdateBidModal();
           }}

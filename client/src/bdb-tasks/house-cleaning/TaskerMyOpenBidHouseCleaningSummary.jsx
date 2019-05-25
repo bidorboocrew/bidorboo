@@ -72,6 +72,8 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
 
+    const isAwardedToSomeoneElse = job.state === 'AWARDED';
+
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -168,22 +170,36 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 </div>
               </div>
               <hr className="divider isTight" />
-
-              {isPastDue && (
+              {isAwardedToSomeoneElse && (
                 <div className="field">
                   <label className="label">Bid Status</label>
-                  <div className="control has-text-danger">Past Due - Expired</div>
-                  <div className="help has-text-danger">
-                    * Sorry! the requester did not select anyone and the job expired
+                  <div className="control">Awarded to someone else</div>
+                  <div className="help">
+                    * but don't worry If The chosen tasker cancels for any reason, you will get
+                    another chance
                   </div>
                 </div>
               )}
-              {!isPastDue && (
-                <div className="field">
-                  <label className="label">Bid Status</label>
-                  <div className="control has-text-info">{displayStatus}</div>
-                  <div className="help">* BidOrBooCrew wishes you best of luck!</div>
-                </div>
+
+              {!isAwardedToSomeoneElse && (
+                <React.Fragment>
+                  {isPastDue && (
+                    <div className="field">
+                      <label className="label">Bid Status</label>
+                      <div className="control has-text-danger">Past Due - Expired</div>
+                      <div className="help has-text-danger">
+                        * Sorry! the requester did not select anyone and the job expired
+                      </div>
+                    </div>
+                  )}
+                  {!isPastDue && (
+                    <div className="field">
+                      <label className="label">Bid Status</label>
+                      <div className="control has-text-info">{displayStatus}</div>
+                      <div className="help">* BidOrBooCrew wishes you best of luck!</div>
+                    </div>
+                  )}
+                </React.Fragment>
               )}
               <div className="field">
                 <label className="label">My Bid</label>
@@ -200,7 +216,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
               <LocationLabelAndValue location={location.coordinates} useShortAddress />
             </div>
           </div>
-          {renderFooter({ bid, isPastDue })}
+          {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}
         </div>
       </React.Fragment>
     );
@@ -229,7 +245,7 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyOpenBidHouseCleaningSummary);
 
-const renderFooter = ({ bid, isPastDue }) => {
+const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
@@ -237,7 +253,7 @@ const renderFooter = ({ bid, isPastDue }) => {
       </div>
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
-          disabled={isPastDue}
+          disabled={isPastDue || isAwardedToSomeoneElse}
           style={{ position: 'relative' }}
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));

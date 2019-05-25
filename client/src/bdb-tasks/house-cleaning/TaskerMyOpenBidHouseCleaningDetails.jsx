@@ -84,6 +84,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
     const { displayStatus } = bid;
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
+    const isAwardedToSomeoneElse = job.state === 'AWARDED';
 
     return (
       <React.Fragment>
@@ -185,21 +186,36 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                 <label className="label">Requester:</label>
                 <UserImageAndRating userDetails={_ownerRef} />
               </div>
-              {isPastDue && (
+              {isAwardedToSomeoneElse && (
                 <div className="field">
                   <label className="label">Bid Status</label>
-                  <div className="control has-text-danger">Past Due - Expired</div>
-                  <div className="help has-text-danger">
-                    * Sorry! the requester did not select anyone and the job expired
+                  <div className="control">Awarded to someone else</div>
+                  <div className="help">
+                    * but don't worry If The chosen tasker cancels for any reason, you will get
+                    another chance
                   </div>
                 </div>
               )}
-              {!isPastDue && (
-                <div className="field">
-                  <label className="label">Bid Status</label>
-                  <div className="control has-text-info">{displayStatus}</div>
-                  <div className="help">* BidOrBooCrew wishes you best of luck!</div>
-                </div>
+
+              {!isAwardedToSomeoneElse && (
+                <React.Fragment>
+                  {isPastDue && (
+                    <div className="field">
+                      <label className="label">Bid Status</label>
+                      <div className="control has-text-danger">Past Due - Expired</div>
+                      <div className="help has-text-danger">
+                        * Sorry! the requester did not select anyone and the job expired
+                      </div>
+                    </div>
+                  )}
+                  {!isPastDue && (
+                    <div className="field">
+                      <label className="label">Bid Status</label>
+                      <div className="control has-text-info">{displayStatus}</div>
+                      <div className="help">* BidOrBooCrew wishes you best of luck!</div>
+                    </div>
+                  )}
+                </React.Fragment>
               )}
               <div className="field">
                 <label className="label">My Bid</label>
@@ -254,7 +270,13 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                 )}
               </div>
               <hr className="divider" />
-              <TaskerPendingBidInfo bid={bid} job={job} updateBidAction={updateBid} />
+
+              <TaskerPendingBidInfo
+                bid={bid}
+                job={job}
+                updateBidAction={updateBid}
+                isAwardedToSomeoneElse={isAwardedToSomeoneElse}
+              />
             </div>
           </div>
         </div>
