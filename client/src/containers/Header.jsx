@@ -92,6 +92,7 @@ class Header extends React.Component {
       isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
 
     const isActingAsBidder = userAppView === 'BIDDER';
+    const isHomePage = window.location.href.indexOf('BidOrBoo') > -1;
 
     return (
       <React.Fragment>
@@ -157,6 +158,30 @@ class Header extends React.Component {
                 B.O.B
               </span>
             </a>
+            {!isHomePage && (
+              <React.Fragment>
+                {isActingAsBidder && (
+                  <div
+                    style={{
+                      transform: 'scaleY(1.1)',
+                    }}
+                    className="navbar-item has-text-grey"
+                  >
+                    (Tasker)
+                  </div>
+                )}
+                {!isActingAsBidder && (
+                  <div
+                    style={{
+                      transform: 'scaleY(1.1)',
+                    }}
+                    className="navbar-item has-text-grey"
+                  >
+                    (Requester)
+                  </div>
+                )}
+              </React.Fragment>
+            )}
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
@@ -190,6 +215,7 @@ class Header extends React.Component {
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,
                 this.modalRootNode,
               )}
+
             <a
               onClick={(e) => {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
@@ -222,8 +248,7 @@ class Header extends React.Component {
               'is-active': isHamburgerOpen,
             })}
           >
-            <div className="navbar-start" />
-
+            {/* <div className="navbar-start" /> */}
             {/* end */}
             <div className="navbar-end">
               <React.Fragment>

@@ -125,25 +125,6 @@ class App extends React.Component {
             zIndex: 999,
           }}
         />
-
-        {isLoggedIn &&
-          window.location &&
-          window.location.href &&
-          window.location.href.indexOf('BidOrBoo') < 0 && (
-            <React.Fragment>
-              {userAppView === 'PROPOSER' && (
-                <div className="VerticalAligner title" id="bidorboo-switch-role">
-                  <p className="title has-text-dark">Requester View</p>
-                </div>
-              )}
-
-              {userAppView === 'BIDDER' && (
-                <div className="VerticalAligner title " id="bidorboo-switch-role">
-                  <p className="title has-text-dark">Tasker View</p>
-                </div>
-              )}
-            </React.Fragment>
-          )}
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper">
           <Switch>

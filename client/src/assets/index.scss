@@ -17,7 +17,7 @@
 
 html body {
   color: #363636;
-  // line-height: 1
+  line-height: 1.5;
   background: white;
   padding: 0;
   margin: 0;
@@ -593,54 +593,6 @@ article.media.limitHeight {
         transition: all 0.3s ease-in;
       }
     }
-  }
-}
-
-#bidorboo-switch-role {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(white, 0.8);
-  z-index: 999;
-  padding-top: 25%;
-  overflow: hidden;
-  > p {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  -webkit-animation: fade-out 0.2s ease-out 0.3s both;
-  animation: fade-out 0.2s ease-out 0.3s both;
-}
-
-@-webkit-keyframes fade-out {
-  0% {
-    opacity: 1;
-    z-index: 999;
-    overflow: hidden;
-  }
-  100% {
-    opacity: 0;
-    z-index: -999;
-    overflow: hidden;
-  }
-}
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-    z-index: 999;
-    overflow: hidden;
-  }
-  100% {
-    opacity: 0;
-    z-index: -999;
-    overflow: hidden;
   }
 }
 

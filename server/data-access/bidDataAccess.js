@@ -543,11 +543,16 @@ exports.bidDataAccess = {
   getAllUserBids: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const userBids = await Promise.all([
+        const [openBids, allOtherBids] = await Promise.all([
           new Promise(async (resolve, reject) => {
             UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
               .populate({
                 path: '_postedBidsRef',
+                match: {
+                  state: {
+                    $in: ['OPEN'],
+                  },
+                },
                 populate: {
                   path: '_jobRef',
                   select: {
@@ -671,7 +676,7 @@ exports.bidDataAccess = {
           }),
         ]);
 
-        resolve({ postedBids: [...userBids[0], ...userBids[1]] });
+        resolve({ postedBids: [...openBids, ...allOtherBids] });
       } catch (e) {
         reject(e);
       }
