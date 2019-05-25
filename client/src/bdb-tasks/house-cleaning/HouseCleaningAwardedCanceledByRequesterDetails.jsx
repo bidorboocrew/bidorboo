@@ -91,29 +91,17 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               className="navbar-divider"
             />
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                <div className="help">
-                  {`* This was canceled by ${ownerDisplayName}`}
-                  <div className="help">
-                    {`* This was cancelled after agreement was made. ${ownerDisplayName} will recieve 80% of the
-                  payment as refund.`}
-                  </div>
-                  <div className="help">
-                    {`* Canceling many requests may cause your account to be locked out or banned`}
-                  </div>
-                </div>
-              </div>
-            )}
+            <div className="field">
+              <label className="label">Request Status</label>
+              <div className="control has-text-danger">{displayStatus}</div>
+              <div className="help">* You have canceled this agreement</div>
+            </div>
 
             <div className="field">
               <label className="label">Total Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
-              {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-                <div className="help">* will refund 80% of the payment to your card.</div>
-              )}
+
+              <div className="help">* will refund 80% of the payment to your card.</div>
             </div>
 
             <StartDateAndTime
@@ -143,11 +131,6 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
                 </span>
               </div>
             </React.Fragment>
-            <hr className="divider" />
-            <div className="field">
-              <label className="label">Assigned Tasker Details</label>
-              <UserImageAndRating userDetails={_bidderRef} />
-            </div>
           </div>
 
           <div className="field">
@@ -167,10 +150,13 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
               }}
-              className={`button is-outlined is-fullwidth is-success`}
+              className={`button is-outlined`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              View Other Requests
+              <span className="icon">
+                <i className="far fa-arrow-alt-circle-left" />
+              </span>
+              <span>I understand</span>
             </a>
           </div>
         </div>
