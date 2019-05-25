@@ -249,7 +249,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               <DisplayShortAddress
                 addressText={addressText}
                 renderHelpComponent={() => (
-                  <div className="help">* The Address provided by the requester is revealed</div>
+                  <div className="help">* The Address provided by the requester</div>
                 )}
               />
             </div>

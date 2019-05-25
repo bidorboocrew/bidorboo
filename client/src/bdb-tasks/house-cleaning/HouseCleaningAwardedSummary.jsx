@@ -60,7 +60,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Request</div>
+                  <div className="modal-card-title">Cancel Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -109,7 +109,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Request</span>
+                    <span>Cancel Agreement</span>
                   </button>
                 </footer>
               </div>
@@ -153,9 +153,9 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        className="dropdown-item"
+                        className="dropdown-item  has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
                         <span>Cancel Request</span>

@@ -90,7 +90,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Request</div>
+                  <div className="modal-card-title">Cancel Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -139,7 +139,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Request</span>
+                    <span>Cancel Agreement</span>
                   </button>
                 </footer>
               </div>

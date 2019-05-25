@@ -186,9 +186,9 @@ class HouseCleaningRequestDetails extends React.Component {
                           onClick={() => {
                             this.toggleDeleteConfirmationDialog();
                           }}
-                          className="dropdown-item"
+                          className="dropdown-item has-text-danger"
                         >
-                          <span style={{ color: 'grey' }} className="icon">
+                          <span className="icon">
                             <i className="far fa-trash-alt" aria-hidden="true" />
                           </span>
                           <span>Cancel Request</span>
