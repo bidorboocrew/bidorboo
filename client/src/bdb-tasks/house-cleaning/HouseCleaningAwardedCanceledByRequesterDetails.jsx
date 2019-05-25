@@ -94,14 +94,14 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
             {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control">{displayStatus}</div>
-                <div className="help has-text-danger">
+                <div className="control has-text-danger">{displayStatus}</div>
+                <div className="help">
                   {`* This was canceled by ${ownerDisplayName}`}
-                  <div className="help has-text-danger">
+                  <div className="help">
                     {`* This was cancelled after agreement was made. ${ownerDisplayName} will recieve 80% of the
                   payment as refund.`}
                   </div>
-                  <div className="help has-text-danger">
+                  <div className="help">
                     {`* Canceling many requests may cause your account to be locked out or banned`}
                   </div>
                 </div>
@@ -111,15 +111,10 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
             {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control">{displayStatus}</div>
+                <div className="control has-text-danger">{displayStatus}</div>
                 {`* This was canceled by ${taskerDisplayName}`}
-                <div className="help has-text-danger">
-                  * This was cancelled after agreement was made. The requester gets 100% of the
-                  payment as refund.
-                </div>
-                <div className="help has-text-danger">
-                  * The assigned Tasker's global rating will be impacted. Cancelling too many
-                  commitments may put a ban on the Tasker's account.
+                <div className="help">
+                  * This was cancelled after agreement was made view details
                 </div>
               </div>
             )}
@@ -128,7 +123,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               <label className="label">Total Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-                <div className="help">{`* refunded ${bidValue * 0.8}$ (${bidCurrency})`}</div>
+                <div className="help">* will refund 80% of the payment to your card.</div>
               )}
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
                 <div className="help">* will refund 100% of the payment to your card.</div>

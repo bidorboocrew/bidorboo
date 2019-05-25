@@ -166,7 +166,7 @@ class NewUserRegistrationForm extends React.Component {
           />
         </div>
         {errors.recaptchaField && (
-          <p className="help is-danger">
+          <p className="help has-text-danger is-danger">
             {errors.recaptchaField}
             <a
               className="is-text is-small"

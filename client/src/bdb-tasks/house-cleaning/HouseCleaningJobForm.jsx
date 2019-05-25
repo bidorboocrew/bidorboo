@@ -106,13 +106,13 @@ class HouseCleaningJobForm extends React.Component {
 
                   <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                     <label className="label">BidOrBoo Safety rules</label>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * Once you post you will not be able to edit the job details.
                     </div>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * For your privacy Taskers will not see the exact address.
                     </div>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * Once you have chosen a Tasker you will get in touch to finalize the details.
                     </div>
                   </div>

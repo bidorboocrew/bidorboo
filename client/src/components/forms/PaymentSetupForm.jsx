@@ -219,7 +219,7 @@ const PaymentSetupForm = (props) => {
     errorsList = Object.keys(errors).map((errorKey, index) => {
       return (
         touched[`${errorKey}`] && (
-          <p key={index} className="help is-danger">
+          <p key={index} className="help has-text-danger is-danger">
             {errors[`${errorKey}`]}
           </p>
         )
