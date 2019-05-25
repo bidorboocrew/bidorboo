@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -8,29 +6,13 @@ import { TextInput } from './FormsHelpers';
 import { enforceNumericField } from './FormsValidators';
 
 class BidModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.recaptchaRef = React.createRef();
-  }
-
   onAutoBid = (val) => {
     const { setFieldValue } = this.props;
     setFieldValue('bidAmountField', val, true);
   };
 
-  componentDidUpdate() {
-    const { values } = this.props;
-    if (
-      this.recaptchaRef &&
-      this.recaptchaRef.current &&
-      this.recaptchaRef.current.execute &&
-      !values.recaptchaField
-    ) {
-      this.recaptchaRef.current.execute();
-    }
-  }
   componentWillUnmount() {
-    const { resetForm, setFieldValue, handleClose } = this.props;
+    const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
     setFieldValue('recaptchaField', '', false);
     resetForm();
@@ -49,7 +31,6 @@ class BidModal extends React.Component {
       isValid,
       isSubmitting,
       avgBid,
-      setFieldValue,
     } = this.props;
 
     const autoBidOptions =
@@ -135,30 +116,14 @@ class BidModal extends React.Component {
               you'd like to recieve in exchange for doing this task.
             </p>
             <br />
-            <input
-              id="recaptchaField"
-              className="input is-invisible"
-              type="hidden"
-              value={values.recaptchaField || ''}
-            />
-            <ReCAPTCHA
-              style={{ display: 'none' }}
-              onExpired={() => this.recaptchaRef.current.execute()}
-              ref={this.recaptchaRef}
-              size="invisible"
-              badge="bottomright"
-              onChange={(result) => {
-                setFieldValue('recaptchaField', result, true);
-                console.log('we got it recaptcha');
-              }}
-              sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-            />
+
             <TextInput
               // setFocusImmediately={true}
               label="Your Bid"
               id="bidAmountField"
               className="input is-focused"
               type="number"
+              maxlength="5"
               onBlur={handleBlur}
               // helpText={
               //   avgBid > 0
@@ -221,19 +186,10 @@ const EnhancedForms = withFormik({
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
-    recaptchaField: Yup.string()
-      .min(1)
-      .notRequired(
-        'This client failed recaptcha secure check. please refresh the page or try again later.',
-      ),
   }),
-  mapPropsToValues: (props) => {
-    return {
-      recaptchaField: '',
-    };
-  },
+
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit(values);
+    props.onSubmit({ ...values, recaptchaField: props.recaptcha });
     setSubmitting(false);
   },
 
