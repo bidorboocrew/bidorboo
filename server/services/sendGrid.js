@@ -194,4 +194,88 @@ exports.EmailService = {
     };
     sgMail.send(msg);
   },
+
+  tellRequeterThatTheTaskerHaveCancelledAnAwardedJob: ({
+    to,
+    requestTitle,
+    toDisplayName,
+    linkForOwner,
+    isPastDue,
+  }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: Tasker have cancelled ${requestTitle}!`,
+      text: `It Happens! We are sorry to inform you that things did not work out!
+
+      The tasker cancelled their agreement and thus will NOT show up to do this task.
+
+      ${
+        !isPastDue
+          ? 'We reopened the task, go ahead and select another tasker if one is available'
+          : 'The scheduled date for this task is unfortounately past due. Please go and create another task'
+      }
+      As part of our policy, you will be refunded 100% of your payment in order to compensate the Tasker for the last minute cancellation inconvenience.
+      Furthermore This action may impact your global rating and ban the tasker if they cancel often.
+
+    For reference here is the link to your task ${linkForOwner}
+
+     `,
+      html: populateJobUpdates({
+        toDisplayName: to || toDisplayName,
+        contentHtml: `It Happens! We are sorry to inform you that things did not work out!
+
+        The tasker cancelled their agreement and thus will NOT show up to do this task.
+
+
+        As part of our policy, you will be refunded 100% of your payment in order to compensate the Tasker for the last minute cancellation inconvenience.
+        Furthermore This action may impact your global rating and ban the tasker if they cancel often.
+
+      For reference here is the link to your task ${linkForOwner}
+
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Cancelled Reqeust Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+  tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: you have cancelled your ${requestTitle} agreement !`,
+      text: `
+      You have cancelled your agreement and thus will NOT show up to do this task.
+
+      It Happens! We understand that life is sometimes unpredictable
+      and we are sorry to hear that things did not work out!
+
+      As part of our policy, you will not get paid as you have cancelled
+
+      Furthermore This action may impact your global rating and cause a ban if you cancel often.
+
+    For reference here is the link to your task ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: to || toDisplayName,
+        contentHtml: `
+        You have cancelled your agreement and thus will NOT show up to do this task.
+
+        It Happens! We understand that life is sometimes unpredictable
+        and we are sorry to hear that things did not work out!
+
+        As part of our policy, you will not get paid as you have cancelled
+
+        Furthermore This action may impact your global rating and cause a ban if you cancel often.
+
+      For reference here is the link to your task ${linkForBidder}
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Cancelled Reqeust Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
 };

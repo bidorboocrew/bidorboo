@@ -6,7 +6,7 @@ const PaymentModel = mongoose.model('PaymentModel');
 
 exports.paymentDataAccess = {
   logPaymentInfo: ({
-    userMongoDBId,
+    mongoUser_id,
     jobId,
     awardedBidderId,
     amount,
@@ -23,7 +23,7 @@ exports.paymentDataAccess = {
       try {
         const paymentModel = await new PaymentModel({
           _jobRef: jobId,
-          _from: userMongoDBId,
+          _from: mongoUser_id,
           _to: awardedBidderId,
           stripeConfirmationId: stripeConfirmationId,
           paymentDetails: {

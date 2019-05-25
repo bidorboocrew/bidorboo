@@ -65,6 +65,7 @@ const JobSchema = new Schema(
       byWhom: { type: String, enum: ['owner', 'bidder'] },
       status: { type: String, enum: ['denied', 'accepted'] },
     },
+    // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
     booedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],

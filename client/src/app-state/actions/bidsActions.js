@@ -119,6 +119,7 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
               },
             },
           });
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -132,7 +133,7 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
   dispatch({
     type: A.BIDDER_ACTIONS.CANCEL_MY_AWARDED_BID,
     payload: axios
-      .delete(ROUTES.API.BID.DELETE.deleteOpenBid, {
+      .delete(ROUTES.API.BID.DELETE.cancelAwardedBid, {
         data: { bidId },
       })
       .then((resp) => {
@@ -147,6 +148,7 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
               },
             },
           });
+          window.location.reload();
         }
       })
       .catch((error) => {

@@ -14,6 +14,16 @@ exports.util = {
       // refund_application_fee: true,
     });
   },
+  fullRefundTransaction: ({ chargeId, metadata }) => {
+    // xxxxxx
+    return stripe.refunds.create({
+      charge: chargeId,
+      metadata,
+      reason: 'requested_by_customer',
+      reverse_transfer: true,
+      refund_application_fee: true,
+    });
+  },
   validateSignature: (reqBody, sig, endpointSecret) => {
     return stripe.webhooks.constructEvent(reqBody, sig, endpointSecret);
   },

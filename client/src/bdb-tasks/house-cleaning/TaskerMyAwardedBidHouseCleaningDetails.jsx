@@ -41,7 +41,9 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
 
     const { bidAmount } = bid;
     const { phone, email } = _ownerRef;
-
+    if(!email || !phone){
+      debugger
+    }
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
     const { TITLE } = HOUSE_CLEANING_DEF;
@@ -90,23 +92,17 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                 </section>
                 <footer className="modal-card-foot">
                   <button
-                    style={{ width: 160 }}
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
                     <span>Go Back</span>
                   </button>
                   <button
-                    style={{ width: 160 }}
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      alert('not implemented');
-                      // cancelAwardedBid(job._id);
+                      cancelAwardedBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
-                      setTimeout(() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                      });
                     }}
                     className="button is-danger"
                   >
@@ -160,7 +156,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                         <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
-                        <span>Cancel Request</span>
+                        <span>Cancel Agreement</span>
                       </a>
                     </div>
                   </div>

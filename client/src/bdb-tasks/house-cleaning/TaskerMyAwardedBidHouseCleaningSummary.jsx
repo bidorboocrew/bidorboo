@@ -79,7 +79,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancelling your agreement?</div>
+                  <div className="modal-card-title">Cancel This Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -88,14 +88,29 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <p>
-                      Are you sure you want to Cancel your existing agreement with the requester.
-                    </p>
-                    <p>Have you tried contacting the Reuquester and rescheduling this job ?</p>
-                    <p>
-                      note: Cancelling will negatively imapact your score and possible terminate/ban
-                      your account.
-                    </p>
+                    <div>
+                      Cancelling a bid after you have been assigned is considered a missed
+                      appointment.
+                    </div>
+                    <br />
+                    <div>
+                      We understand that life "happens" but to keep things fair for you and the
+                      tasker we encourage you to reach out and try to reschedule this task to avoid
+                      cancellation
+                    </div>
+                    <hr className="divider" />
+
+                    <div className="field">
+                      <label className="label">What you need to know:</label>
+
+                      <div className="control">* Your global rating will be impacted</div>
+                      <div className="control">
+                        * This cancellation will show up on your profile
+                      </div>
+                      <div className="control">
+                        * If many cancellations happen in a row you will be ban from BidOrBoo
+                      </div>
+                    </div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">
@@ -109,8 +124,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      alert('not implemented');
-                      // cancelAwardedBid(bid._id);
+                      cancelAwardedBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -158,12 +172,12 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        className="dropdown-item"
+                        className="dropdown-item has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
-                        <span>Cancel This Bid</span>
+                        <span>Cancel Agreement</span>
                       </a>
                     </div>
                   </div>

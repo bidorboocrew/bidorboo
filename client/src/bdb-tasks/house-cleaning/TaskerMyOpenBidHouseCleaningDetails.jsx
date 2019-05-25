@@ -122,9 +122,6 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                       e.preventDefault();
                       deleteOpenBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
-                      setTimeout(() => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                      });
                     }}
                     className="button is-danger"
                   >

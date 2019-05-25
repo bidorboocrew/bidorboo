@@ -32,11 +32,11 @@ class ReviewRequestAndBidsPage extends React.Component {
       bidUnderReview: {},
     };
     // xxxxx saeed think about server load ? maybe let user fetch by reload
-    this.countdown = setInterval(this.fetchMostRecentBids, 10000);
+    // this.countdown = setInterval(this.fetchMostRecentBids, 10000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.countdown);
+    // clearInterval(this.countdown);
   }
 
   fetchMostRecentBids = () => {

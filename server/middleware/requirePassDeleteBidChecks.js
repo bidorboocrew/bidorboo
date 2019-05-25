@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'missing paramerters . can not delete bid.' });
     }
 
-    const bidDetails = await bidDataAccess.confirmBidBelongsToOwner(req.user._id.toString(), bidId);
+    const bidDetails = await bidDataAccess.confirmBidBelongsToOwner(req.user._id, bidId);
 
     if (!bidDetails || !bidDetails._id) {
       return res

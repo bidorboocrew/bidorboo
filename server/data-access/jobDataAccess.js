@@ -127,7 +127,7 @@ exports.jobDataAccess = {
                 if (
                   ownerPhoneNumber &&
                   ownerDetails.notifications &&
-                  ownerDetails.notifications.phone
+                  ownerDetails.notifications.text
                 ) {
                   await sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
@@ -138,7 +138,7 @@ exports.jobDataAccess = {
                 if (
                   bidderPhoneNumber &&
                   awardedBidderDetails.notifications &&
-                  awardedBidderDetails.notifications.phone
+                  awardedBidderDetails.notifications.text
                 ) {
                   await sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
@@ -454,7 +454,6 @@ exports.jobDataAccess = {
               populate: {
                 path: '_bidderRef',
                 select: {
-                  globalRating: 1,
                   isGmailUser: 1,
                   isFbUser: 1,
                   displayName: 1,
@@ -560,15 +559,15 @@ exports.jobDataAccess = {
       }
     });
   },
-  addAJob: async (jobDetails, mongoDbUserId) => {
+  addAJob: async (jobDetails, mongoUser_id) => {
     try {
       const newJob = await new JobModel({
         ...jobDetails,
-        _ownerRef: mongoDbUserId,
+        _ownerRef: mongoUser_id,
       }).save();
 
       await User.findOneAndUpdate(
-        { _id: mongoDbUserId },
+        { _id: mongoUser_id },
         {
           $push: {
             _postedJobsRef: {
@@ -586,12 +585,12 @@ exports.jobDataAccess = {
       throw e;
     }
   },
-  updateViewedBy: (jobId, mongoDbUserId) => {
+  updateViewedBy: (jobId, mongoUser_id) => {
     return JobModel.findOneAndUpdate(
       { _id: jobId },
       {
         $addToSet: {
-          viewedBy: mongoDbUserId,
+          viewedBy: mongoUser_id,
         },
       }
     )
@@ -610,12 +609,12 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
-  updateBooedBy: (jobId, mongoDbUserId) => {
+  updateBooedBy: (jobId, mongoUser_id) => {
     return JobModel.findOneAndUpdate(
       { _id: jobId },
       {
         $addToSet: {
-          booedBy: mongoDbUserId,
+          booedBy: mongoUser_id,
         },
       }
     )
@@ -696,12 +695,49 @@ exports.jobDataAccess = {
       }
     });
   },
-  getAllJobsToBidOn: async (mongoDbUserId) => {
+
+  getAllJobsToBidOnForLoggedOut: async () => {
     // wil return all jobs in the system
     return new Promise(async (resolve, reject) => {
       try {
         const openJobsForBidding = await JobModel.find(
-          { $and: [{ state: { $eq: 'OPEN' }, _ownerRef: { $ne: mongoDbUserId } }] },
+          { state: { $eq: 'OPEN' } },
+          {
+            _ownerRef: 1,
+            fromTemplateId: 1,
+            startingDateAndTime: 1,
+            extras: 1,
+            state: 1,
+            location: 1,
+          },
+          {
+            sort: { startingDateAndTime: 1 },
+            allowDiskUse: true,
+          }
+        )
+          .populate({
+            path: '_ownerRef',
+            select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
+          })
+          .populate({
+            path: '_bidsListRef',
+            select: { _bidderRef: 1, bidAmount: 1 },
+          })
+          .lean({ virtuals: true })
+          .exec();
+        return resolve(openJobsForBidding);
+      } catch (e) {
+        return reject(e);
+      }
+    });
+  },
+
+  getAllJobsToBidOn: async (mongoUser_id) => {
+    // wil return all jobs in the system
+    return new Promise(async (resolve, reject) => {
+      try {
+        const openJobsForBidding = await JobModel.find(
+          { $and: [{ state: { $eq: 'OPEN' }, _ownerRef: { $ne: mongoUser_id.toString() } }] },
           {
             _ownerRef: 1,
             fromTemplateId: 1,
@@ -908,14 +944,14 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
-  isJobOwner: (mongoDbUserId, jobId) => {
+  isJobOwner: (mongoUser_id, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _ownerRef: 1 })
       .where('_ownerRef')
-      .equals(mongoDbUserId)
+      .equals(mongoUser_id)
       .lean({ virtuals: true })
       .exec();
   },
-  isAwardedBidder: (mongoDbUserId, jobId) => {
+  isAwardedBidder: (mongoUser_id, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _awardedBidRef: 1 })
       .populate({
         path: '_awardedBidRef',
@@ -924,7 +960,7 @@ exports.jobDataAccess = {
         },
         populate: {
           path: '_bidderRef',
-          match: { _id: { $eq: mongoDbUserId } },
+          match: { _id: { $eq: mongoUser_id } },
           select: { _id: 1 },
         },
       })
@@ -943,11 +979,11 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
-  cancelJob(jobId, mongoDbUserId) {
+  cancelJob(jobId, mongoUser_id) {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoDbUserId })
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id })
           .lean({ virtuals: true })
           .exec();
 
@@ -958,7 +994,7 @@ exports.jobDataAccess = {
         // if we are cancelling an open job
         if (job.state === 'OPEN') {
           await JobModel.findOneAndUpdate(
-            { _id: jobId, _ownerRef: mongoDbUserId },
+            { _id: jobId, _ownerRef: mongoUser_id },
             {
               $set: { state: 'CANCELED_OPEN' },
             }
@@ -1059,7 +1095,7 @@ exports.jobDataAccess = {
               });
             }
             await JobModel.findOneAndUpdate(
-              { _id: jobId, _ownerRef: mongoDbUserId },
+              { _id: jobId, _ownerRef: mongoUser_id },
               {
                 $set: {
                   state: 'AWARDED_CANCELED_BY_REQUESTER',
@@ -1071,15 +1107,17 @@ exports.jobDataAccess = {
                   },
                 },
               }
-            );
+            )
+              .lean(true)
+              .exec();
             // decrease the global rating by (0.25) 1 quarter of a star
             // update count of canceled jobs
             // update status of this job
             await User.findOneAndUpdate(
-              { _id: mongoDbUserId },
+              { _id: mongoUser_id },
               {
                 $push: { 'rating.canceledJobs': jobId },
-                $inc: { 'rating.globalRating': -0.25 },
+                $inc: { 'rating.globalRating': -0.25, numberOfTimesBeenRated: 1 },
               },
               {
                 new: true,
@@ -1179,9 +1217,9 @@ exports.jobDataAccess = {
     const allowedToEmailTasker =
       awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
 
-    const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.phone;
+    const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
     const allowedToTextTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.phone;
+      awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
 
     const allowedToPushNotifyRequester =
       ownerDetails.notifications && ownerDetails.notifications.push;
@@ -1213,37 +1251,37 @@ exports.jobDataAccess = {
       processedPayment,
     };
   },
-  cancelOpenJob: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_OPEN');
+  cancelOpenJob: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'CANCELED_OPEN');
   },
-  cancelAwardedJob: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'CANCELED_AWARDED');
-  },
-
-  expireOpenJob: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_OPEN');
+  cancelAwardedJob: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'CANCELED_AWARDED');
   },
 
-  expireAwardedJob: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'EXPIRED_AWARDED');
+  expireOpenJob: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'EXPIRED_OPEN');
   },
 
-  setDisputedJob: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'DISPUTED');
-  },
-  setJobIsDone: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'DONE');
-  },
-  setJobIsPaidOut: async (jobId, mongoDbUserId) => {
-    return _updateJobStatus(jobId, mongoDbUserId, 'PAIDOUT');
+  expireAwardedJob: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'EXPIRED_AWARDED');
   },
 
-  setRescheduleRequested: async (jobId, mongoDbUserId, newDate) => {
+  setDisputedJob: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'DISPUTED');
+  },
+  setJobIsDone: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'DONE');
+  },
+  setJobIsPaidOut: async (jobId, mongoUser_id) => {
+    return _updateJobStatus(jobId, mongoUser_id, 'PAIDOUT');
+  },
+
+  setRescheduleRequested: async (jobId, mongoUser_id, newDate) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
         await JobModel.findOneAndUpdate(
-          { _id: jobId, _ownerRef: mongoDbUserId },
+          { _id: jobId, _ownerRef: mongoUser_id },
           {
             $set: { state: 'RESCHEDULED_REQUEST', startingDateAndTime: newDate },
           }
@@ -1255,12 +1293,12 @@ exports.jobDataAccess = {
     });
   },
 
-  _updateJobStatus: async (jobId, mongoDbUserId, status) => {
+  _updateJobStatus: async (jobId, mongoUser_id, status) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
         await JobModel.findOneAndUpdate(
-          { _id: jobId, _ownerRef: mongoDbUserId },
+          { _id: jobId, _ownerRef: mongoUser_id },
           {
             $set: { state: status },
           }
@@ -1272,11 +1310,11 @@ exports.jobDataAccess = {
     });
   },
 
-  deleteJob: async (jobId, mongoDbUserId) => {
+  deleteJob: async (jobId, mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoDbUserId })
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id })
           .populate({
             path: '_bidsListRef',
             select: { _id: 1, _bidderRef: 1 },

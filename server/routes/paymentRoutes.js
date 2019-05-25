@@ -167,9 +167,9 @@ module.exports = (app) => {
     requireHasAnExistingStripeAcc,
     async (req, res) => {
       try {
-        const mongoDbUserId = req.user._id.toString();
+        const mongoUser_id = req.user._id.toString();
 
-        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoDbUserId);
+        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
         const accDetails = await stripeServiceUtil.getConnectedAccountBalance(
           paymentsDetails.accId

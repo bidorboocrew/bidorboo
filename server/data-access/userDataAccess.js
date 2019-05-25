@@ -7,13 +7,13 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
-exports.updateOnboardingDetails = (mongodbUserId, onBoardingDetails) => {
-  this.updateUserProfileDetails(mongodbUserId, onBoardingDetails);
+exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {
+  this.updateUserProfileDetails(mongoUser_id, onBoardingDetails);
 };
 
-exports.getMyPastRequestedServices = (mongodbUserId) => {
+exports.getMyPastRequestedServices = (mongoUser_id) => {
   return User.findOne(
-    { _id: mongodbUserId },
+    { _id: mongoUser_id },
     {
       _id: 0,
       _asProposerReviewsRef: 1,
@@ -57,9 +57,9 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
     .exec();
 };
 
-exports.getMyPastProvidedServices = (mongodbUserId) => {
+exports.getMyPastProvidedServices = (mongoUser_id) => {
   return User.findOne(
-    { _id: mongodbUserId },
+    { _id: mongoUser_id },
     {
       _id: 0,
       _asBidderReviewsRef: 1,
@@ -102,11 +102,11 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
     .exec();
 };
 
-exports.findUserPublicDetails = (mongodbUserId) => {
+exports.findUserPublicDetails = (mongoUser_id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const otherUserDetails = await User.findOne(
-        { _id: mongodbUserId },
+        { _id: mongoUser_id },
         {
           pushSubscription: 0,
           userRole: 0,
@@ -691,10 +691,10 @@ exports.bidderPushesAReview = async (
   ]);
 };
 
-exports.getUserStripeAccount = async (mongodbUserId) => {
+exports.getUserStripeAccount = async (mongoUser_id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await User.findOne({ _id: mongodbUserId }, { stripeConnect: 1 })
+      const user = await User.findOne({ _id: mongoUser_id }, { stripeConnect: 1 })
         .lean(true)
         .exec();
       resolve(user.stripeConnect);
