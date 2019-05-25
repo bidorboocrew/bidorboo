@@ -74,12 +74,18 @@ export {
   default as TaskerMyOpenBidHouseCleaningDetails,
 } from './house-cleaning/TaskerMyOpenBidHouseCleaningDetails';
 
-
 export {
   default as TaskerMyAwardedBidHouseCleaningDetails,
 } from './house-cleaning/TaskerMyAwardedBidHouseCleaningDetails';
 
-
 export {
   default as TaskerMyAwardedBidHouseCleaningSummary,
 } from './house-cleaning/TaskerMyAwardedBidHouseCleaningSummary';
+
+export {
+  default as TaskerAwardedBidCanceledByTaskerDetails,
+} from './house-cleaning/TaskerAwardedBidCanceledByTaskerDetails';
+
+export {
+  default as TaskerAwardedBidCanceledByTaskerSummary,
+} from './house-cleaning/TaskerAwardedBidCanceledByTaskerSummary';

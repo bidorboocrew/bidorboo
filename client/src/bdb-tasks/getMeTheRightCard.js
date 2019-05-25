@@ -15,6 +15,8 @@ import {
   TaskerMyOpenBidHouseCleaningDetails,
   TaskerMyAwardedBidHouseCleaningSummary,
   TaskerMyAwardedBidHouseCleaningDetails,
+  TaskerAwardedBidCanceledByTaskerDetails,
+  TaskerAwardedBidCanceledByTaskerSummary,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
@@ -85,11 +87,17 @@ const TaskerCardTemplates = {
         return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
-    [BID_STATES.WON_SEEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+    [BID_STATES.CANCELED_AWARDED_BY_TASKER]: ({
+      job,
+      isSummaryView,
+      pointOfView,
+      withBidDetails,
+      ...otherArgs
+    }) => {
       if (isSummaryView) {
-        return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
+        return <TaskerAwardedBidCanceledByTaskerSummary job={job} {...otherArgs} />;
       } else {
-        return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
+        return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
       }
     },
   },
@@ -131,15 +139,32 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       }
       break;
     case BID_STATES.CANCELED_AWARDED_BY_REQUESTER:
+      return <div>This type aint found BID_STATES.CANCELED_AWARDED_BY_REQUESTER</div>;
       break;
     case BID_STATES.CANCELED_AWARDED_BY_TASKER:
+      try {
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+          bid,
+          job: _jobRef,
+          isSummaryView,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          withBidDetails: true,
+          otherArgs,
+        });
+        return card || <div>This type aint found</div>;
+      } catch (e) {
+        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+      }
       break;
+
     case BID_STATES.DONE:
+      return <div>This type aint found BID_STATES.DONE</div>;
       break;
     case BID_STATES.PAID_OUT:
+      return <div>This type aint found BID_STATES.PAID_OUT</div>;
       break;
     default:
-      return null;
+      return <div>default unknown getTaskerBidCard</div>;
       break;
   }
 };

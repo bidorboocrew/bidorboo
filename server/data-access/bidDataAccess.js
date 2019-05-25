@@ -543,7 +543,6 @@ exports.bidDataAccess = {
             UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
               .populate({
                 path: '_postedBidsRef',
-                match: { state: { $in: ['OPEN'] } },
                 populate: {
                   path: '_jobRef',
                   select: {
@@ -698,7 +697,7 @@ exports.bidDataAccess = {
               },
             ],
           })
-          .lean()
+          .lean({ virtuals: true })
           .exec();
         const theBid =
           user && user._postedBidsRef && user._postedBidsRef.length === 1

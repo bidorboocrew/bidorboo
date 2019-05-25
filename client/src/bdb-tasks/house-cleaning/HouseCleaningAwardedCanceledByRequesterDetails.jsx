@@ -108,27 +108,14 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               </div>
             )}
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                {`* This was canceled by ${taskerDisplayName}`}
-                <div className="help">
-                  * This was cancelled after agreement was made view details
-                </div>
-              </div>
-            )}
-
             <div className="field">
               <label className="label">Total Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
                 <div className="help">* will refund 80% of the payment to your card.</div>
               )}
-              {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-                <div className="help">* will refund 100% of the payment to your card.</div>
-              )}
             </div>
+
             <StartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
@@ -161,6 +148,30 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               <label className="label">Assigned Tasker Details</label>
               <UserImageAndRating userDetails={_bidderRef} />
             </div>
+          </div>
+
+          <div className="field">
+            <label className="label has-text-danger">What you need to know:</label>
+            <div className="control">
+              * You will be <strong>penalized 20%</strong> of the total payment and will be refunded
+              80%.
+            </div>
+            <div className="control">* Your global rating will be impacted</div>
+            <div className="control">* Cancelling often will put a ban on your account</div>
+          </div>
+          <div style={{ padding: '0.5rem' }}>
+            <hr className="divider isTight" />
+          </div>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+              }}
+              className={`button is-outlined is-fullwidth is-success`}
+              style={{ flexGrow: 1, marginRight: 10 }}
+            >
+              View Other Requests
+            </a>
           </div>
         </div>
       </div>

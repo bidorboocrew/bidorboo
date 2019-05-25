@@ -85,6 +85,9 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                         be refunded 80%.
                       </div>
                       <div className="control">* Your global rating will be impacted</div>
+                      <div className="control">
+                        * Cancelling often will put a ban on your account
+                      </div>
                     </div>
                   </div>
                 </section>
