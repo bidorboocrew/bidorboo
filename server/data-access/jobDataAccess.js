@@ -498,6 +498,7 @@ exports.jobDataAccess = {
             startingDateAndTime: 1,
             durationOfJob: 1,
             fromTemplateId: 1,
+            extras: 1,
           }
         )
           .populate([

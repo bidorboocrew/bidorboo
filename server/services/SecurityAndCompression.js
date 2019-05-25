@@ -34,17 +34,19 @@ module.exports = (app) => {
     })
   );
   // https://www.npmjs.com/package/rate-limit-mongo
-  const limiter = new RateLimit({
-    store: new MongoStore({
-      // see Configuration
-      uri: keys.mongoURI,
-    }),
-    max: 100,
-    windowMs: 15 * 60 * 1000,
-  });
+  if (process.env.NODE_ENV === 'production') {
+    const limiter = new RateLimit({
+      store: new MongoStore({
+        // see Configuration
+        uri: keys.mongoURI,
+      }),
+      max: 100,
+      windowMs: 15 * 60 * 1000,
+    });
 
-  //  apply to all requests
-  app.use(limiter);
+    //  apply to all requests
+    app.use(limiter);
+  }
 
   // https://github.com/SegFaultx64/express-http-to-https#readme
   // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`

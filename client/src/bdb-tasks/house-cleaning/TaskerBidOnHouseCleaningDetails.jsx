@@ -22,8 +22,9 @@ import {
 
 export default class TaskerBidOnHouseCleaningDetails extends React.Component {
   render() {
+    debugger;
     const { job, otherArgs } = this.props;
-    if (!job || !otherArgs) {
+    if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
     const {
@@ -53,7 +54,7 @@ export default class TaskerBidOnHouseCleaningDetails extends React.Component {
     }
 
     const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
-    if (!submitBid || !renderTaskerBidInfo || !userDetails) {
+    if (!submitBid || !userDetails) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
     const { _id: currentUserId } = userDetails;
