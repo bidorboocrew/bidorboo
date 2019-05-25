@@ -59,20 +59,45 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
   };
   render() {
     const { bid, job, otherArgs } = this.props;
-    const { deleteOpenBid } = otherArgs;
+    if (!bid || !job || !otherArgs) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
 
-    const { startingDateAndTime, location, isPastDue } = job;
+    const { deleteOpenBid } = otherArgs;
+    if (!deleteOpenBid) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+
+    const { startingDateAndTime, location, isPastDue, state } = job;
+    if (!startingDateAndTime || !location || isPastDue === 'undefined') {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { coordinates } = location;
+    if (!coordinates) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { bidAmount } = bid;
+    if (!bidAmount) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+
+    const { displayStatus } = bid;
+    if (!displayStatus) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
+
+    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+    }
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { TITLE } = HOUSE_CLEANING_DEF;
-
-    const { displayStatus } = bid;
-
-    const bidAmount = bid.bidAmount.value;
-    const bidCurrency = bid.bidAmount.currency;
-
-    const isAwardedToSomeoneElse = job.state === 'AWARDED';
+    const isAwardedToSomeoneElse = state === 'AWARDED';
 
     return (
       <React.Fragment>
@@ -203,7 +228,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
               )}
               <div className="field">
                 <label className="label">My Bid</label>
-                <div className="control has-text-info">{`${bidAmount}$ (${bidCurrency})`}</div>
+                <div className="control has-text-info">{`${bidValue}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>
               <StartDateAndTime
@@ -213,7 +238,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 )}
               />
 
-              <LocationLabelAndValue location={location.coordinates} useShortAddress />
+              <LocationLabelAndValue location={coordinates} useShortAddress />
             </div>
           </div>
           {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}

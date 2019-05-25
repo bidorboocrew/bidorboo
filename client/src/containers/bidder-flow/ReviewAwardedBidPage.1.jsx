@@ -123,7 +123,7 @@ const breadCrumbs = ({ activePageTitle }) => {
           <li>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
               }}
             >
               My Bids

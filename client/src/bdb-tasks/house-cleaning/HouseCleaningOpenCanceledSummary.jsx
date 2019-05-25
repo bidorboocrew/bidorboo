@@ -14,10 +14,18 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 export default class HouseCleaningOpenCanceledSummary extends React.Component {
   render() {
     const { job } = this.props;
+    if (!job) {
+      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
+    }
+    const { _id: jobId, startingDateAndTime, addressText, displayStatus } = job;
 
-    const { startingDateAndTime, addressText, displayStatus } = job;
-
+    if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
+      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
+    }
     const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
+    }
 
     return (
       <div className="card readOnlyView limitWidthOfCard">
@@ -70,7 +78,7 @@ export default class HouseCleaningOpenCanceledSummary extends React.Component {
             <a
               style={{ position: 'relative' }}
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
               }}
               className="button is-outlined is-fullwidth "
             >

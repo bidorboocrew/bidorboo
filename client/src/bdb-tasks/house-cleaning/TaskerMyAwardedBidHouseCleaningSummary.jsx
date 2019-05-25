@@ -58,18 +58,35 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     }
   };
   render() {
-    const { bid, job, otherArgs, cancelAwardedBid } = this.props;
+    const { bid, job, cancelAwardedBid } = this.props;
+    if (!bid || !job || !cancelAwardedBid) {
+      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+    }
 
     const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
+    if (
+      !startingDateAndTime ||
+      !addressText ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { displayStatus, bidAmount, _id } = bid;
+    if (!displayStatus || !bidAmount || !_id) {
+      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+    }
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+    }
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
-    const { TITLE } = HOUSE_CLEANING_DEF;
-
-    const { displayStatus } = bid;
-
-    const bidAmount = bid.bidAmount.value;
-    const bidCurrency = bid.bidAmount.currency;
 
     return (
       <React.Fragment>
@@ -220,7 +237,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
 
               <div className="field">
                 <label className="label">My Bid</label>
-                <div className={`has-text-success`}>{`${bidAmount}$ (${bidCurrency})`}</div>
+                <div className={`has-text-success`}>{`${bidValue}$ (${bidCurrency})`}</div>
                 <div className="help">* Will be auto paid when you confirm completion.</div>
               </div>
               <StartDateAndTime

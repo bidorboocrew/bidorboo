@@ -23,6 +23,9 @@ import {
 export default class TaskerBidOnHouseCleaningDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
+    if (!job || !otherArgs) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -33,10 +36,31 @@ export default class TaskerBidOnHouseCleaningDetails extends React.Component {
       extras,
       fromTemplateId,
     } = job;
+    if (
+      !startingDateAndTime ||
+      !_ownerRef ||
+      !state ||
+      !detailedDescription ||
+      !location ||
+      !extras ||
+      !fromTemplateId
+    ) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
+    const { coordinates } = location;
+    if (!coordinates) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
 
     const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
+    if (!submitBid || !renderTaskerBidInfo || !userDetails) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
+    const { _id: currentUserId } = userDetails;
+    if (!currentUserId) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
 
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
     const { userAlreadyBid } = getUserExistingBid(job, currentUserId);
 
@@ -44,6 +68,7 @@ export default class TaskerBidOnHouseCleaningDetails extends React.Component {
     if (job && job._bidsListRef && job._bidsListRef.length > 0) {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
+
     return (
       <div style={{ height: 'auto ' }} className="card">
         <div className="card-content">
@@ -65,7 +90,7 @@ export default class TaskerBidOnHouseCleaningDetails extends React.Component {
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
 
-            <LocationLabelAndValue location={location.coordinates} />
+            <LocationLabelAndValue location={coordinates} />
 
             <EffortLevel extras={extras} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />

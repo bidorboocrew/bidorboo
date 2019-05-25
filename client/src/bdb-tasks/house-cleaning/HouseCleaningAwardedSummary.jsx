@@ -21,10 +21,12 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class HouseCleaningAwardedSummary extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
-
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+    if (!job || !job._id || !cancelJobById) {
+      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+    }
 
     const {
+      _id: jobId,
       startingDateAndTime,
       addressText,
       displayStatus,
@@ -32,8 +34,23 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
     } = job;
-
+    if (
+      !jobId ||
+      !startingDateAndTime ||
+      !addressText ||
+      !displayStatus ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+    }
     const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+    }
+
+    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
     return (
       <React.Fragment>
@@ -84,7 +101,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelJobById(jobId);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -199,7 +216,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
               className={`button is-outlined is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}

@@ -14,6 +14,9 @@ import { REQUEST_STATES } from '../index';
 export default class HouseCleaningAwardedCanceledByRequesterSummary extends React.Component {
   render() {
     const { job } = this.props;
+    if (!job) {
+      return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
+    }
 
     const {
       startingDateAndTime,
@@ -23,10 +26,24 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
       state,
       _ownerRef,
     } = job;
+    if (
+      !startingDateAndTime ||
+      !addressText ||
+      !_awardedBidRef ||
+      !displayStatus ||
+      !state ||
+      !_ownerRef
+    ) {
+      return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
+    }
     const { _bidderRef } = _awardedBidRef;
-
+    if (!_bidderRef) {
+      return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
+    }
     const { TITLE } = HOUSE_CLEANING_DEF;
-
+    if (!TITLE) {
+      return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
+    }
     const { displayName: ownerDisplayName } = _ownerRef;
 
     return (

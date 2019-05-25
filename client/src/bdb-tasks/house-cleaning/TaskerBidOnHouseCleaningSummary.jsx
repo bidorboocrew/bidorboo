@@ -24,8 +24,27 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
+    if (
+      !job ||
+      !job._id ||
+      !otherArgs ||
+      isLoggedIn === 'undefined' ||
+      !userDetails ||
+      !showLoginDialog
+    ) {
+      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+    }
+
+    const { _id: currentUserId } = userDetails;
+    if (!currentUserId) {
+      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+    }
 
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
+    if (!onCloseHandler || isOnMapView === 'undefined') {
+      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+    }
+
     const {
       reactMapClusterRef,
       startingDateAndTime,
@@ -35,8 +54,10 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
       state,
       extras,
     } = job;
+    if (!startingDateAndTime || !fromTemplateId || !_ownerRef || !state || !extras) {
+      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+    }
 
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
     const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 

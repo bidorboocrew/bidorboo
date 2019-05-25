@@ -58,14 +58,37 @@ class HouseCleaningRequestSummary extends React.Component {
   };
   render() {
     const { job, cancelJobById, notificationFeed } = this.props;
+    if (!job || !job._id || !notificationFeed || !cancelJobById) {
+      return <div>HouseCleaningRequestSummary is missing properties</div>;
+    }
 
-    const { startingDateAndTime, addressText, isHappeningSoon, isHappeningToday, isPastDue } = job;
-
+    const {
+      _id: jobId,
+      startingDateAndTime,
+      addressText,
+      isHappeningSoon,
+      isHappeningToday,
+      isPastDue,
+    } = job;
+    if (
+      !jobId ||
+      !startingDateAndTime ||
+      !addressText ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return <div>HouseCleaningRequestSummary is missing properties</div>;
+    }
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return <div>HouseCleaningRequestSummary is missing properties</div>;
+    }
 
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -102,7 +125,7 @@ class HouseCleaningRequestSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelJobById(jobId);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"

@@ -14,6 +14,9 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 class HouseCleaningRequestDetails extends React.Component {
@@ -59,9 +62,12 @@ class HouseCleaningRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, ommitMeatballMenu, cancelJobById } = this.props;
-
+    const { job, ommitMeatballMenu = false, cancelJobById } = this.props;
+    if (!job || !cancelJobById) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const {
+      _id: jobId,
       startingDateAndTime,
       addressText,
       extras,
@@ -70,10 +76,26 @@ class HouseCleaningRequestDetails extends React.Component {
       isHappeningToday,
       isPastDue,
     } = job;
+    if (
+      !jobId ||
+      !startingDateAndTime ||
+      !addressText ||
+      !extras ||
+      !detailedDescription ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+
+    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
-    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
 
     return (
       <React.Fragment>
@@ -206,9 +228,7 @@ class HouseCleaningRequestDetails extends React.Component {
                         </div>
                       )}
                       {(isHappeningSoon || isHappeningToday) && (
-                        <div className="help">
-                          * Expiring soon, if no Taskers are available yet
-                        </div>
+                        <div className="help">* Expiring soon, if no Taskers are available yet</div>
                       )}
                     </div>
                   )}

@@ -25,7 +25,13 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
-    const job = bid._jobRef;
+    if (!bid) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { _jobRef: job } = bid;
+    if (!job) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
 
     const {
       startingDateAndTime,
@@ -38,15 +44,46 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       isPastDue,
       _ownerRef,
     } = job;
+    if (
+      !startingDateAndTime ||
+      !addressText ||
+      !extras ||
+      !detailedDescription ||
+      !displayStatus ||
+      !_ownerRef ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
 
     const { bidAmount } = bid;
-    const { phone, email } = _ownerRef;
-    if(!email || !phone){
-      debugger
+    if (!bidAmount) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { phone, email } = _ownerRef;
+    if (!phone || !email) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { phoneNumber } = phone;
+    if (!phoneNumber) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { emailAddress } = email;
+    if (!emailAddress) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
     const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+
+    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
     return (
       <React.Fragment>
@@ -199,9 +236,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
-                <div className="control has-text-success">
-                  {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
-                </div>
+                <div className="control has-text-success">{`${bidValue}$ (${bidCurrency})`}</div>
                 <div className="help">* will be charged after the request is completed.</div>
               </div>
               <StartDateAndTime
@@ -260,13 +295,13 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                   <span className="icon">
                     <i className="far fa-envelope" />
                   </span>
-                  <span>{email.emailAddress}</span>
+                  <span>{emailAddress}</span>
                 </div>
                 <div className="control">
                   <span className="icon">
                     <i className="fas fa-phone" />
                   </span>
-                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                  <span>{phoneNumber}</span>
                 </div>
                 {!isPastDue && <AddAwardedJobToCalendar job={job} />}
               </div>

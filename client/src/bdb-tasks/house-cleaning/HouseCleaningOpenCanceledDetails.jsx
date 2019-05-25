@@ -8,15 +8,40 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningOpenCanceledDetails extends React.Component {
   render() {
     const { job } = this.props;
-
-    const { startingDateAndTime, addressText, displayStatus, detailedDescription, extras } = job;
+    if (!job) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const {
+      _id,
+      startingDateAndTime,
+      addressText,
+      displayStatus,
+      detailedDescription,
+      extras,
+    } = job;
+    if (
+      !_id ||
+      !startingDateAndTime ||
+      !addressText ||
+      !displayStatus ||
+      !detailedDescription ||
+      !extras
+    ) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     return (
       <div className="card readOnlyView ">

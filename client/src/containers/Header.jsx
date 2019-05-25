@@ -302,7 +302,7 @@ class Header extends React.Component {
                       <a
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                            return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                           });
                         }}
                         className={`navbar-item ${

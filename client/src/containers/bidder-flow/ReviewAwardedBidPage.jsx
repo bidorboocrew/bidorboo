@@ -44,8 +44,7 @@ class ReviewAwardedBidPage extends React.Component {
       // xxxx show cant find job or something instead of ugly redirect
       // could not find the job so we redirected you
       alert("Apologies, but we couldn't locate this bid");
-      switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-      return null;
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
   }
 
@@ -71,7 +70,6 @@ class ReviewAwardedBidPage extends React.Component {
         </div>
       );
     }
-
 
     return (
       <div className="container is-widescreen">

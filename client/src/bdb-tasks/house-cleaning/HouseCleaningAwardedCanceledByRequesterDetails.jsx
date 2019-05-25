@@ -18,7 +18,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
   render() {
     const { job } = this.props;
     if (!job) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     const {
@@ -41,31 +41,31 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       !_ownerRef ||
       !detailedDescription
     ) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     if (!extras.effort) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     const { displayName: ownerDisplayName } = _ownerRef;
     if (!ownerDisplayName) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { TITLE } = HOUSE_CLEANING_DEF;
     if (!TITLE) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     return (

@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
@@ -22,8 +25,11 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class HouseCleaningAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
-
+    if (!cancelJobById || !job) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const {
+      _id,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
@@ -34,13 +40,47 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
     } = job;
-
+    if (
+      !_id ||
+      !startingDateAndTime ||
+      !addressText ||
+      !_awardedBidRef ||
+      !displayStatus ||
+      !extras ||
+      !detailedDescription ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const { bidAmount, _bidderRef } = _awardedBidRef;
+    if (!bidAmount || !_bidderRef) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const { phone, email } = _bidderRef;
+    if (!phone || !email) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { phoneNumber } = phone;
+    if (!phoneNumber) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { emailAddress } = email;
+    if (!emailAddress) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+
+    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
 
     return (
       <React.Fragment>
@@ -189,9 +229,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               </div>
               <div className="field">
                 <label className="label">Total Cost</label>
-                <div className="control has-text-success">
-                  {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency})`}
-                </div>
+                <div className="control has-text-success">{`${bidValue}$ (${bidCurrency})`}</div>
                 <div className="help">* will be charged after the request is completed.</div>
               </div>
               <StartDateAndTime
@@ -250,13 +288,13 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                   <span className="icon">
                     <i className="far fa-envelope" />
                   </span>
-                  <span>{email.emailAddress}</span>
+                  <span>{emailAddress}</span>
                 </div>
                 <div className="control">
                   <span className="icon">
                     <i className="fas fa-phone" />
                   </span>
-                  <span>{phone.phoneNumber ? phone.phoneNumber : 'not provided'}</span>
+                  <span>{phoneNumber}</span>
                 </div>
                 {!isPastDue && <AddAwardedJobToCalendar job={job} />}
               </div>
@@ -265,7 +303,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             <div style={{ display: 'flex' }}>
               <RequesterConfirmsCompletion {...this.props} />
 
-              <RequesterDisputes {...this.props} />
+              <RequesterDisputes jobId={job._id} />
             </div>
           </div>
         </div>
@@ -383,10 +421,10 @@ class RequesterDisputes extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { proposerConfirmsJobCompletion, job } = this.props;
+    const { proposerConfirmsJobCompletion, jobId } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      proposerConfirmsJobCompletion(job._id);
+      proposerConfirmsJobCompletion(jobId);
     });
   };
   render() {

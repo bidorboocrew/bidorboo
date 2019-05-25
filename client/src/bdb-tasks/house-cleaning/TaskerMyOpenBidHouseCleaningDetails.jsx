@@ -65,7 +65,9 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
 
   render() {
     const { bid, job, otherArgs } = this.props;
-
+    if (!bid || !otherArgs || !job) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -74,17 +76,44 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
       location,
       extras,
       isPastDue,
+      state,
     } = job;
+    if (
+      !startingDateAndTime ||
+      !_bidsListRef ||
+      !_ownerRef ||
+      !detailedDescription ||
+      !location ||
+      !extras ||
+      !state ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
 
+    const { bidAmount } = bid;
+    if (!bidAmount) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { updateBid, deleteOpenBid } = otherArgs;
+    if (!updateBid || !deleteOpenBid) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { displayStatus } = bid;
+    if (!displayStatus) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { updateBid, deleteOpenBid } = otherArgs;
-
-    const { TITLE } = HOUSE_CLEANING_DEF;
-    const { displayStatus } = bid;
-    const bidAmount = bid.bidAmount.value;
-    const bidCurrency = bid.bidAmount.currency;
-    const isAwardedToSomeoneElse = job.state === 'AWARDED';
+    const isAwardedToSomeoneElse = state === 'AWARDED';
 
     return (
       <React.Fragment>
@@ -219,7 +248,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
               )}
               <div className="field">
                 <label className="label">My Bid</label>
-                <div className="control has-text-info">{`${bidAmount}$ (${bidCurrency})`}</div>
+                <div className="control has-text-info">{`${bidValue}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>
               <StartDateAndTime
