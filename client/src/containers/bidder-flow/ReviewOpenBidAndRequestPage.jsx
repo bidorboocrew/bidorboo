@@ -65,9 +65,6 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       );
     }
 
-    const selectedAwardedJob = selectedOpenBid._jobRef;
-    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
-
     return (
       <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">

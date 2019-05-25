@@ -173,7 +173,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
               {isAwardedToSomeoneElse && (
                 <div className="field">
                   <label className="label">Bid Status</label>
-                  <div className="control">Awarded to someone else</div>
+                  <div className="control has-text-info">Awarded to someone else</div>
                   <div className="help">
                     * but don't worry If The chosen tasker cancels for any reason, you will get
                     another chance

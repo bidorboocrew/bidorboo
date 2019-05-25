@@ -72,8 +72,6 @@ class ReviewAwardedBidPage extends React.Component {
       );
     }
 
-    const selectedAwardedJob = selectedAwardedBid._jobRef;
-    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
 
     return (
       <div className="container is-widescreen">
