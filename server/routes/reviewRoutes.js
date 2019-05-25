@@ -84,7 +84,7 @@ module.exports = (app) => {
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
       }
     }

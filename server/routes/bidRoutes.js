@@ -44,6 +44,22 @@ module.exports = (app) => {
     }
   );
 
+  app.delete(
+    ROUTES.API.BID.DELETE.cancelAwardedBid,
+    requireLogin,
+    requirePassDeleteBidChecks,
+    async (req, res) => {
+      try {
+        const userMongoDBId = req.user._id.toString();
+        const { bidId } = req.body;
+
+        const deleteResults = await bidDataAccess.deleteOpenBid(userMongoDBId, bidId);
+        return res.send(deleteResults);
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
+      }
+    }
+  );
   app.get(ROUTES.API.BID.GET.openBidDetails, requireLogin, async (req, res, done) => {
     try {
       if (req.query && req.query.openBidId) {
@@ -58,7 +74,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
     }
   });
@@ -77,7 +93,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
     }
   });

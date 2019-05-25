@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { switchRoute } from '../../utils';
@@ -13,6 +13,7 @@ import {
   StartDateAndTime,
   DisplayShortAddress,
 } from '../../containers/commonComponents';
+import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
@@ -57,8 +58,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     }
   };
   render() {
-    const { bid, job, otherArgs, userDetails } = this.props;
-    const { deleteOpenBid } = otherArgs;
+    const { bid, job, otherArgs, cancelAwardedBid } = this.props;
 
     const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
 
@@ -109,8 +109,8 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      alert('cancel awarded bid');
-                      // deleteOpenBid(bid._id);
+                      alert('not implemented');
+                      // cancelAwardedBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -242,7 +242,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

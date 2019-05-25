@@ -43,7 +43,7 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     return res
-      .status(500)
+      .status(400)
       .send({ errorMsg: 'failed to check for existing account', details: `${e}` });
   }
 };

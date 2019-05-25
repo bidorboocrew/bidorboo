@@ -107,7 +107,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
       }
     }
@@ -135,7 +135,7 @@ module.exports = (app) => {
         return res.send({ allRequests: [] });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
       }
     }
@@ -337,7 +337,7 @@ module.exports = (app) => {
         return res.send({ success: true });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To proposerConfirmsJobCompleted', details: `${e}` });
       }
     }
@@ -366,7 +366,7 @@ module.exports = (app) => {
         return res.send({ success: true });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
       }
     }

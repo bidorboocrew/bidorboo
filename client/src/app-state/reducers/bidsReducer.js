@@ -166,7 +166,27 @@ export default handleActions(
       state = initialState,
       { payload },
     ) => {
-      debugger
+      debugger;
+      if (payload) {
+        const { success = false, deletedBidId } = payload && payload.data;
+        if (success) {
+          const filteredBidList = state.openBidsList.filter((bid) => {
+            return bid._id !== deletedBidId;
+          });
+          return {
+            ...state,
+            selectedOpenBid: {},
+            openBidsList: filteredBidList || [],
+          };
+        }
+      }
+      return { ...state };
+    },
+    [`${A.BIDDER_ACTIONS.CANCEL_MY_AWARDED_BID}${A._FULFILLED}`]: (
+      state = initialState,
+      { payload },
+    ) => {
+      debugger;
       if (payload) {
         const { success = false, deletedBidId } = payload && payload.data;
         if (success) {

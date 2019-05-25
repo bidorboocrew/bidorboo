@@ -101,7 +101,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To sendVerificationEmail', details: `${e}` });
       }
     }
@@ -166,7 +166,7 @@ module.exports = (app) => {
       return res.send({});
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To getMyPastRequestedServices user', details: `${e}` });
     }
   });
@@ -180,7 +180,7 @@ module.exports = (app) => {
       return res.send({});
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To getMyPastProvidedServices user', details: `${e}` });
     }
   });
@@ -218,7 +218,7 @@ module.exports = (app) => {
       return res.send({ success: true });
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
     }
   });
@@ -258,7 +258,7 @@ module.exports = (app) => {
       return res.send({ success: true });
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To update update Onboarding Details ', details: `${e}` });
     }
   });
@@ -313,7 +313,7 @@ module.exports = (app) => {
             }
           } catch (e) {
             return res
-              .status(500)
+              .status(400)
               .send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
           }
         };

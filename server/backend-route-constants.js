@@ -101,6 +101,7 @@ module.exports = {
       },
       DELETE: {
         deleteOpenBid: '/api/bids/deleteOpenBid',
+        cancelAwardedBid: '/api/bids/cancelAwardedBid',
       },
     },
   },

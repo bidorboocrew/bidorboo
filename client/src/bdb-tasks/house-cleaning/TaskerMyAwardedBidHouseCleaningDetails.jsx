@@ -4,9 +4,12 @@ import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   StartDateAndTime,
@@ -21,7 +24,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
-    const { bid, cancelJobById } = this.props;
+    const { bid, cancelAwardedBid } = this.props;
     const job = bid._jobRef;
 
     const {
@@ -99,8 +102,11 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                     onClick={(e) => {
                       e.preventDefault();
                       alert('not implemented');
-                      // cancelJobById(job._id);
+                      // cancelAwardedBid(job._id);
                       this.toggleDeleteConfirmationDialog();
+                      setTimeout(() => {
+                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                      });
                     }}
                     className="button is-danger"
                   >
@@ -293,7 +299,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

@@ -127,10 +127,10 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
   });
 };
 
-export const cancelAwardedBidfjdsifsjf = (bidId) => (dispatch) => {
+export const cancelAwardedBid = (bidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,
+    type: A.BIDDER_ACTIONS.CANCEL_MY_AWARDED_BID,
     payload: axios
       .delete(ROUTES.API.BID.DELETE.deleteOpenBid, {
         data: { bidId },

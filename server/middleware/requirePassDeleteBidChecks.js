@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
     next();
   } catch (e) {
     return res
-      .status(500)
+      .status(400)
       .send({ errorMsg: 'failed to validate requirePassDeleteBidChecks ', details: `${e}` });
   }
 };
