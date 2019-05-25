@@ -104,7 +104,6 @@ const TaskerCardTemplates = {
 };
 
 const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
-  debugger
   const { state, _jobRef } = bid;
   switch (state) {
     case BID_STATES.OPEN:

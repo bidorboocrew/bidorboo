@@ -58,7 +58,6 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
   };
 
   render() {
-    debugger;
     const { bid, job, otherArgs } = this.props;
     if (!bid || !otherArgs || !job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);

@@ -22,7 +22,6 @@ import {
 
 export default class TaskerBidOnHouseCleaningDetails extends React.Component {
   render() {
-    debugger
     const { job, otherArgs } = this.props;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
