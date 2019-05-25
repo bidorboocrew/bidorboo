@@ -110,7 +110,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                     onClick={(e) => {
                       e.preventDefault();
                       alert('cancel awarded bid');
-                      deleteOpenBid(bid._id);
+                      // deleteOpenBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"

@@ -20,12 +20,7 @@ class MyBidsPage extends React.Component {
   }
 
   render() {
-    const {
-      isLoading,
-      openBidsList,
-      deleteOpenBid,
-      updateBid,
-    } = this.props;
+    const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
 
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
@@ -139,7 +134,9 @@ const FloatingAddNewBidButton = () => {
       }}
       className="button is-success bdbFloatingButtonText"
     >
-      <span className="icon">+ </span>
+      <span style={{ fontSize: 24 }} className="icon">
+        <i className="fas fa-search-dollar" />
+      </span>
     </a>
   );
 };

@@ -78,7 +78,9 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
+          switchRoute(
+            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
+          );
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -98,7 +100,6 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
 };
 
 export const deleteOpenBid = (bidId) => (dispatch) => {
-
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,
@@ -110,9 +111,33 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
         // update recently added job
         if (resp.data && resp.data.success) {
           dispatch({
-            type: A.BIDDER_ACTIONS.REMOVE_EXISTING_OPEN_BID,
-            payload: { data: resp.data },
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'You have deleted your bid!',
+              },
+            },
           });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const cancelAwardedBidfjdsifsjf = (bidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,
+    payload: axios
+      .delete(ROUTES.API.BID.DELETE.deleteOpenBid, {
+        data: { bidId },
+      })
+      .then((resp) => {
+        // update recently added job
+        if (resp.data && resp.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

@@ -156,12 +156,12 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        className="dropdown-item"
+                        className="dropdown-item has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt has-text-danger" aria-hidden="true" />
                         </span>
-                        <span className="has-text-danger">Delete Bid</span>
+                        <span>Delete Bid</span>
                       </a>
                     </div>
                   </div>

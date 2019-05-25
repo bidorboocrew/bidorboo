@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
@@ -120,6 +122,9 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                       e.preventDefault();
                       deleteOpenBid(bid._id);
                       this.toggleDeleteConfirmationDialog();
+                      setTimeout(() => {
+                        switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                      });
                     }}
                     className="button is-danger"
                   >
@@ -169,10 +174,10 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                         }}
                         className="dropdown-item has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
-                        <span className="has-text-danger">Delete Bid</span>
+                        <span>Delete Bid</span>
                       </a>
                     </div>
                   </div>

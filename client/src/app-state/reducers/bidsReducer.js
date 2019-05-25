@@ -162,7 +162,11 @@ export default handleActions(
       A._FULFILLED
     }`]: getAwardedBidDetail.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
-    [`${A.BIDDER_ACTIONS.REMOVE_EXISTING_OPEN_BID}`]: (state = initialState, { payload }) => {
+    [`${A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID}${A._FULFILLED}`]: (
+      state = initialState,
+      { payload },
+    ) => {
+      debugger
       if (payload) {
         const { success = false, deletedBidId } = payload && payload.data;
         if (success) {
