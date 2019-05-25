@@ -86,6 +86,7 @@ export const API = {
   BID: {
     DELETE: {
       deleteOpenBid: '/api/bids/deleteOpenBid',
+      cancelAwardedBid: '/api/bids/cancelAwardedBid',
     },
     POST: {
       bid: '/api/bids/postABid',
