@@ -9,8 +9,6 @@ import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/act
 
 import { Spinner } from '../../components/Spinner';
 
-import TaskerPendingBidInfo from './components/TaskerPendingBidInfo';
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {

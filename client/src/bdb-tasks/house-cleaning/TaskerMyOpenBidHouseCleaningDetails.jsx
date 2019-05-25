@@ -15,13 +15,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import TaskerPendingBidInfo from '../../containers/bidder-flow/components/TaskerPendingBidInfo';
-
-import {
-  getUserExistingBid,
-  didUserAlreadyView,
-  findAvgBidInBidList,
-} from '../../containers/commonUtils';
+import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
 
 export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component {
   constructor(props) {
@@ -64,13 +58,14 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
   };
 
   render() {
+    debugger;
     const { bid, job, otherArgs } = this.props;
     if (!bid || !otherArgs || !job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
     const {
       startingDateAndTime,
-      _bidsListRef,
+      _bidsListRef, // not mandatory
       _ownerRef,
       detailedDescription,
       location,
@@ -80,7 +75,6 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
     } = job;
     if (
       !startingDateAndTime ||
-      !_bidsListRef ||
       !_ownerRef ||
       !detailedDescription ||
       !location ||
@@ -300,7 +294,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
               </div>
               <hr className="divider" />
 
-              <TaskerPendingBidInfo
+              <TaskerEditOrUpdateBid
                 bid={bid}
                 job={job}
                 updateBidAction={updateBid}
