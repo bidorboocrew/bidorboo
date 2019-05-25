@@ -205,7 +205,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               </div>
 
               <div className="field">
-                <label className="label">Your Bid</label>
+                <label className="label">My Bid</label>
                 <div className={`has-text-success`}>{`${bidAmount}$ (${bidCurrency})`}</div>
                 <div className="help">* Will be auto paid when you confirm completion.</div>
               </div>

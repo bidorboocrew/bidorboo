@@ -205,7 +205,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                 </div>
               )}
               <div className="field">
-                <label className="label">Your Bid</label>
+                <label className="label">My Bid</label>
                 <div className="control has-text-info">{`${bidAmount}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>

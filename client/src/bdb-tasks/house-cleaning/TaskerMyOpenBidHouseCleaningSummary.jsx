@@ -186,7 +186,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 </div>
               )}
               <div className="field">
-                <label className="label">Your Bid</label>
+                <label className="label">My Bid</label>
                 <div className="control has-text-info">{`${bidAmount}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>
@@ -200,7 +200,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
               <LocationLabelAndValue location={location.coordinates} useShortAddress />
             </div>
           </div>
-          {renderFooter({ bid })}
+          {renderFooter({ bid, isPastDue })}
         </div>
       </React.Fragment>
     );
@@ -229,7 +229,7 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyOpenBidHouseCleaningSummary);
 
-const renderFooter = ({ bid }) => {
+const renderFooter = ({ bid, isPastDue }) => {
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
@@ -237,13 +237,15 @@ const renderFooter = ({ bid }) => {
       </div>
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
+          disabled={isPastDue}
           style={{ position: 'relative' }}
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
           className="button is-outlined is-fullwidth is-info"
         >
-          <span>View or Edit My Bid Details</span>
+          {!isPastDue && <span>View or Edit My Bid Details</span>}
+          {isPastDue && <span>Task Expired</span>}
         </a>
       </div>
     </React.Fragment>
