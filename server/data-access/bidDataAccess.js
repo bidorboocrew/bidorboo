@@ -79,6 +79,27 @@ exports.bidDataAccess = {
           const requestedJobId = bidDetails._jobRef._id;
           const taskerId = bidDetails._bidderRef;
 
+          const {
+            requesterDisplayName,
+            taskerDisplayName,
+            jobDisplayName,
+            requestLinkForRequester,
+            requestLinkForTasker,
+            requesterEmailAddress,
+            requesterPhoneNumber,
+            taskerEmailAddress,
+            taskerPhoneNumber,
+            allowedToEmailRequester,
+            allowedToEmailTasker,
+            allowedToTextRequester,
+            allowedToTextTasker,
+            allowedToPushNotifyRequester,
+            allowedToPushNotifyTasker,
+            requesterPushNotSubscription,
+            taskerPushNotSubscription,
+          } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
+            requestedJobId
+          );
           // xxx critical
           const refundCharge = await stripeServiceUtil.fullRefundTransaction({
             ...paymentDetails,
@@ -105,28 +126,6 @@ exports.bidDataAccess = {
               .startOf('day')
               .toISOString();
             const isPastDue = moment(normalizedStartDate).isBefore(today);
-
-            const {
-              requesterDisplayName,
-              taskerDisplayName,
-              jobDisplayName,
-              requestLinkForRequester,
-              requestLinkForTasker,
-              requesterEmailAddress,
-              requesterPhoneNumber,
-              taskerEmailAddress,
-              taskerPhoneNumber,
-              allowedToEmailRequester,
-              allowedToEmailTasker,
-              allowedToTextRequester,
-              allowedToTextTasker,
-              allowedToPushNotifyRequester,
-              allowedToPushNotifyTasker,
-              requesterPushNotSubscription,
-              taskerPushNotSubscription,
-            } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
-              requestedJobId
-            );
 
             const [updatedJob, updatedBid, updatedTasker] = await Promise.all([
               JobModel.findOneAndUpdate(
@@ -161,7 +160,7 @@ exports.bidDataAccess = {
               UserModel.findByIdAndUpdate(
                 taskerId,
                 {
-                  $push: { 'rating.canceledBids': requestedJobId },
+                  $push: { 'rating.canceledBids': bidId },
                   $inc: {
                     'rating.globalRating': -0.25,
                   },
@@ -234,15 +233,15 @@ exports.bidDataAccess = {
             if (
               !updatedTasker._id ||
               !updatedTasker.rating ||
-              !updatedTasker.rating.canceledJobs ||
-              !updatedTasker.rating.canceledJobs.length > 0
+              !updatedTasker.rating.canceledBids ||
+              !updatedTasker.rating.canceledBids.length > 0
             ) {
-              const addedThisToCanceledJobs = updatedTasker.rating.canceledJobs.some(
-                (canceledJob) => {
-                  return canceledJob.toString() === requestedJobId.toString();
+              const addedThisToCanceledBids = updatedTasker.rating.canceledBids.some(
+                (canceledBid) => {
+                  return canceledBid.toString() === bidId;
                 }
               );
-              if (!addedThisToCanceledJobs) {
+              if (!addedThisToCanceledBids) {
                 return reject({
                   success: false,
                   ErrorMsg: 'falied to update the associated Tasker',

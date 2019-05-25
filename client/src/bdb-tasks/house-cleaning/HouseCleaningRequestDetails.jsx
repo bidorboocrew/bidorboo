@@ -63,7 +63,6 @@ class HouseCleaningRequestDetails extends React.Component {
   };
   render() {
     const { job, cancelJobById } = this.props;
-    debugger;
     if (!job || !cancelJobById) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

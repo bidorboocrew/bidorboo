@@ -58,9 +58,7 @@ module.exports = (app) => {
         const deleteResults = await bidDataAccess.cancelAwardedBid(mongoUser_id, bidId);
         return res.send(deleteResults);
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To cancel Awarded Bid', details: `${JSON.stringify(e)}` });
+        return res.status(400).send({ errorMsg: 'Failed To cancel Awarded Bid', details: `${e}` });
       }
     }
   );
@@ -78,7 +76,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
     }
   });
@@ -97,7 +95,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
     }
   });
