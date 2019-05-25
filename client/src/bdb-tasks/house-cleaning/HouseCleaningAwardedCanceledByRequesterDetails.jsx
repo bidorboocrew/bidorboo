@@ -1,6 +1,7 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   StartDateAndTime,
@@ -16,6 +17,9 @@ import { REQUEST_STATES } from '../index';
 export default class HouseCleaningAwardedCanceledByRequesterDetails extends React.Component {
   render() {
     const { job } = this.props;
+    if (!job) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     const {
       startingDateAndTime,
@@ -27,12 +31,42 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       _ownerRef,
       detailedDescription,
     } = job;
-
+    if (
+      !startingDateAndTime ||
+      !addressText ||
+      !_awardedBidRef ||
+      !displayStatus ||
+      !state ||
+      !extras ||
+      !_ownerRef ||
+      !detailedDescription
+    ) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    if (!extras.effort) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const { bidAmount, _bidderRef } = _awardedBidRef;
-
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!bidAmount || !_bidderRef) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { displayName: taskerDisplayName } = _bidderRef;
+    if (!taskerDisplayName) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     const { displayName: ownerDisplayName } = _ownerRef;
+    if (!ownerDisplayName) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { TITLE } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     return (
       <div className="card readOnlyView">
@@ -78,7 +112,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
               <div className="field">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
-                {`* This was canceled by ${_bidderRef.displayName}`}
+                {`* This was canceled by ${taskerDisplayName}`}
                 <div className="help has-text-danger">
                   * This was cancelled after agreement was made. The requester gets 100% of the
                   payment as refund.
@@ -92,13 +126,9 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
 
             <div className="field">
               <label className="label">Total Cost</label>
-              <div className="control">
-                {bidAmount && ` ${bidAmount.value}$ (${bidAmount.currency}) `}
-              </div>
+              <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-                <div className="help">{`* refunded ${bidAmount.value * 0.8}$ (${
-                  bidAmount.currency
-                })`}</div>
+                <div className="help">{`* refunded ${bidValue * 0.8}$ (${bidCurrency})`}</div>
               )}
               {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
                 <div className="help">* will refund 100% of the payment to your card.</div>
