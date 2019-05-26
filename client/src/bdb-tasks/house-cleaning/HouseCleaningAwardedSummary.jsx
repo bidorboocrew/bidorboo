@@ -33,6 +33,12 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      jobCompletion = {
+        proposerConfirmed: false,
+        bidderConfirmed: false,
+        bidderDisputed: false,
+        proposerDisputed: false,
+      },
     } = job;
     if (
       !jobId ||
@@ -51,7 +57,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
+    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -148,21 +154,21 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                       </div>
                     </button>
                   </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item  has-text-danger"
-                      >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                  {!bidderConfirmed && !proposerConfirmed && (
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={this.toggleDeleteConfirmationDialog}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
               <div
@@ -175,27 +181,38 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                 }}
                 className="navbar-divider"
               />
+              {bidderConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Pending Confirmation</div>
 
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">{displayStatus}</div>
-                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
                   <div className="help">
-                    * Get In touch with the tasker to confirm any further details
+                    * The Tasker is Done thier work, Please confirm completion asap
                   </div>
-                )}
-                {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening soon, Make sure to contact the Tasker</div>
-                )}
-                {isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening today, Tasker will show up on time</div>
-                )}
-                {isPastDue && (
-                  <div className="help">
-                    * This request date is past Due, plz confirm completion
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+              {!bidderConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">{displayStatus}</div>
+                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">
+                      * Get In touch with the tasker to confirm any further details
+                    </div>
+                  )}
+                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
+                  )}
+                  {isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening today, Tasker will show up on time</div>
+                  )}
+                  {isPastDue && (
+                    <div className="help">
+                      * This request date is past Due, plz confirm completion
+                    </div>
+                  )}
+                </div>
+              )}
 
               <StartDateAndTime
                 date={startingDateAndTime}
@@ -218,7 +235,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               className={`button is-outlined is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              {`${isPastDue ? 'Confirm Completion' : 'View Tasker Details'}`}
+              {`${isPastDue || bidderConfirmed ? 'View To Confirm' : 'View Tasker Details'}`}
             </a>
           </div>
         </div>

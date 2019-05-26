@@ -27,6 +27,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       extras,
       _ownerRef,
       detailedDescription,
+      processedPayment,
     } = job;
     if (
       !startingDateAndTime ||
@@ -36,7 +37,8 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       !state ||
       !extras ||
       !_ownerRef ||
-      !detailedDescription
+      !detailedDescription ||
+      !processedPayment
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
@@ -47,6 +49,8 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
+
+    // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -95,7 +99,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
             </div>
 
             <div className="field">
-              <label className="label">Total Cost</label>
+              <label className="label">Task Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
 
               <div className="help">* will refund 80% of the payment to your card.</div>

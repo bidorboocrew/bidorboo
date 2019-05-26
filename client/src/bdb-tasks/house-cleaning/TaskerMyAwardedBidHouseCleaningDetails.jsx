@@ -44,7 +44,12 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _ownerRef,
-      jobCompletion = {},
+      jobCompletion = {
+        proposerConfirmed: false,
+        bidderConfirmed: false,
+        bidderDisputed: false,
+        proposerDisputed: false,
+      },
     } = job;
     if (
       !startingDateAndTime ||
@@ -64,6 +69,8 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     if (!bidAmount) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
+    // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -87,12 +94,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
-    const {
-      proposerConfirmed = false,
-      bidderConfirmed = false,
-      bidderDisputed = false,
-      proposerDisputed = false,
-    } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -253,9 +255,10 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                 </div>
               )}
               <div className="field">
-                <label className="label">Total Cost</label>
-                <div className="control has-text-success">{`${bidValue}$ (${bidCurrency})`}</div>
-                <div className="help">* will be charged after the request is completed.</div>
+                <label className="label">My Payout</label>
+                <div className="control has-text-success">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">* will be paid out after completing this task</div>
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}

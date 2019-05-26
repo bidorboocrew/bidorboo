@@ -71,7 +71,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider isTight" />
+        <hr className="divider" />
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>

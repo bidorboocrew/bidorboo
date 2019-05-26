@@ -89,6 +89,7 @@ body {
 }
 
 a.button {
+  border-radius: 0;
   &.is-gold {
     background: #ffd700;
     color: black;

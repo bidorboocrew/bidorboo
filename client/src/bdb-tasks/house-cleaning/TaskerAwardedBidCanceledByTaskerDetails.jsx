@@ -31,6 +31,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     if (!displayStatus || !bidAmount || !_id) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxx get bid amount from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
@@ -65,9 +66,9 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             </div>
 
             <div className="field">
-              <label className="label">My Bid</label>
-              <div>{`${bidValue}$ (${bidCurrency})`}</div>
-              <div className="help">* Was refunded to the Requester.</div>
+              <label className="label">Missed Payout</label>
+              <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className="help">* Was fully refunded to the Requester since you cancelled</div>
             </div>
 
             <StartDateAndTime

@@ -70,7 +70,12 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       isPastDue,
       isHappeningSoon,
       isHappeningToday,
-      jobCompletion = {},
+      jobCompletion = {
+        proposerConfirmed: false,
+        bidderConfirmed: false,
+        bidderDisputed: false,
+        proposerDisputed: false,
+      },
     } = job;
     if (
       !startingDateAndTime ||
@@ -89,6 +94,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     if (!displayStatus || !bidAmount || !_id) {
       return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
     }
+    // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
@@ -96,12 +102,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const {
-      proposerConfirmed = false,
-      bidderConfirmed = false,
-      bidderDisputed = false,
-      proposerDisputed = false,
-    } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -263,8 +264,9 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               )}
 
               <div className="field">
-                <label className="label">My Bid</label>
-                <div className={`has-text-success`}>{`${bidValue}$ (${bidCurrency})`}</div>
+                <label className="label">My Payout</label>
+                <div className={`has-text-success`}>{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">* Will be auto paid when you confirm completion.</div>
               </div>
               <StartDateAndTime

@@ -115,7 +115,6 @@ class BidModal extends React.Component {
               Based on the request details that you've read, please enter the total payment amount
               you'd like to recieve in exchange for doing this task.
             </p>
-            <br />
 
             <TextInput
               // setFocusImmediately={true}
@@ -143,14 +142,22 @@ class BidModal extends React.Component {
               {autoBidOptions}
             </div>
             <br />
+
             <div className="field">
               <div className="label">BidOrBoo Rules</div>
+
+              {values.bidAmountField && values.bidAmountField > 1 && (
+                <div className="help">
+                  * Your Net Payout After deucting BidOrBoo Service Fee:
+                  <strong>
+                    {` ${values.bidAmountField - Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}
+                  </strong>
+                </div>
+              )}
               <div className="help">
-                * After you submit. The bid will be reviewed by the requester
+                * You must read all the request details thoroughly before bidding.
               </div>
-              <div className="help">
-                * You will be assigned to this task if the requester selects you
-              </div>
+              <div className="help">* If your bid is chosen this task will be assigned to you</div>
               <div className="help">
                 {`* `}
                 <strong>

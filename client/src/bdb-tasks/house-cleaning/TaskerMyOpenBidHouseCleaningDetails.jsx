@@ -254,8 +254,9 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                 </React.Fragment>
               )}
               <div className="field">
-                <label className="label">My Bid</label>
-                <div className="control has-text-info">{`${bidValue}$ (${bidCurrency})`}</div>
+                <label className="label">Potential Payout</label>
+                <div className="control has-text-info">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>
               <StartDateAndTime

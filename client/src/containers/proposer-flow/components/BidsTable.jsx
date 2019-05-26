@@ -102,7 +102,7 @@ export default class BidsTable extends React.Component {
             <th>Tasker Details</th>
             <th className="has-text-centered">
               <div>Bid Amount</div>
-              <div className="is-size-7 has-text-grey">(Total Cost)</div>
+              <div className="is-size-7 has-text-grey">(Task Cost)</div>
             </th>
           </tr>
         </thead>

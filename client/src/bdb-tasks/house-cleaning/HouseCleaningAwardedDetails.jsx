@@ -39,6 +39,12 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      jobCompletion = {
+        proposerConfirmed: false,
+        bidderConfirmed: false,
+        bidderDisputed: false,
+        proposerDisputed: false,
+      },
     } = job;
     if (
       !_id ||
@@ -58,6 +64,8 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
+
+    // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -81,7 +89,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
+    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -148,9 +156,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div style={{ height: 'auto' }} className="card">
-          {/* <div className="card-image">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -178,19 +183,21 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                       </div>
                     </button>
                   </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={this.toggleDeleteConfirmationDialog}
-                        className="dropdown-item has-text-danger"
-                      >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                  {!bidderConfirmed && !proposerConfirmed && (
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={this.toggleDeleteConfirmationDialog}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
               <div
@@ -203,30 +210,43 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                 }}
                 className="navbar-divider"
               />
+              {bidderConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Pending Confirmation</div>
+
+                  <div className="help">
+                    * The Tasker is Done thier work, Please confirm completion asap
+                  </div>
+                </div>
+              )}
+              {!bidderConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">{displayStatus}</div>
+                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">
+                      * Get In touch with the tasker to confirm any further details
+                    </div>
+                  )}
+                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
+                  )}
+                  {isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening today, Tasker will show up on time</div>
+                  )}
+                  {isPastDue && (
+                    <div className="help">
+                      * This request date is past Due, plz confirm completion
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">{displayStatus}</div>
-                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">
-                    * Get In touch with the tasker to confirm any further details
-                  </div>
-                )}
-                {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening soon, Make sure to contact the Tasker</div>
-                )}
-                {isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening today, Tasker will show up on time</div>
-                )}
-                {isPastDue && (
-                  <div className="help">
-                    * This request date is past Due, plz confirm completion
-                  </div>
-                )}
-              </div>
-              <div className="field">
-                <label className="label">Total Cost</label>
-                <div className="control has-text-success">{`${bidValue}$ (${bidCurrency})`}</div>
+                <label className="label">Task Cost</label>
+                <div className="control has-text-success">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">* will be charged after the request is completed.</div>
               </div>
               <StartDateAndTime
@@ -298,7 +318,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             </div>
             <hr className="divider isTight" />
             <div style={{ display: 'flex' }}>
-              <RequesterConfirmsCompletion {...this.props} />
+              <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
 
               <RequesterDisputes jobId={job._id} />
             </div>
@@ -351,7 +371,8 @@ class RequesterConfirmsCompletion extends React.Component {
   };
   render() {
     const { showConfirmationModal } = this.state;
-    const { isPastDue } = this.props.job;
+    const { bidderConfirmed, job } = this.props;
+    const { isPastDue } = job;
 
     return (
       <React.Fragment>
@@ -399,7 +420,7 @@ class RequesterConfirmsCompletion extends React.Component {
           <a
             onClick={this.toggleModal}
             className={`button is-fullwidth is-success is-outlined ${
-              isPastDue ? 'heartbeatInstant' : ''
+              isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
             }`}
           >
             Tasker is Done
@@ -487,11 +508,9 @@ class RequesterDisputes extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ marginLeft: 8 }}>
-          <a onClick={this.toggleModal} className="button is-text">
-            Or File a Dispute
-          </a>
-        </div>
+        <a onClick={this.toggleModal} className="button is-text">
+          Or File a Dispute
+        </a>
       </React.Fragment>
     );
   }

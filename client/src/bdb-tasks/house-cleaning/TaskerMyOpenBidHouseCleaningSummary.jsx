@@ -241,8 +241,9 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 </React.Fragment>
               )}
               <div className="field">
-                <label className="label">My Bid</label>
-                <div className="control has-text-info">{`${bidValue}$ (${bidCurrency})`}</div>
+                <label className="label">Potential Payout</label>
+                <div className="control has-text-info">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">* Potential earnings if your bid wins.</div>
               </div>
               <StartDateAndTime
@@ -304,7 +305,7 @@ const renderFooter = ({
           className="button is-outlined is-fullwidth is-info"
         >
           {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-            <span>Edit My Bid Details</span>
+            <span>Change My Bid</span>
           )}
           {isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
             <span>View Expired Task</span>

@@ -13,7 +13,8 @@ export default class MyBidsOpenBid extends React.Component {
     }
     const { _jobRef } = bidDetails;
 
-    const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
+    const bidAmountText = `${bidDetails.bidAmount.value -
+      Math.ceil(bidDetails.bidAmount.value * 0.04)} ${bidDetails.bidAmount.currency}`;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 

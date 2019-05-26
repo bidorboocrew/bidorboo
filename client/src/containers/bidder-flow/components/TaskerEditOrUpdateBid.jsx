@@ -138,20 +138,13 @@ class TaskerEditOrUpdateBid extends React.Component {
             <div className="modal-background" />
             <div className="modal-card">
               <header className="modal-card-head">
-                <div className="modal-card-title">Change Bid Amount</div>
+                <div className="modal-card-title">Change My Bid</div>
                 <button onClick={this.closeUpdateBidModal} className="delete" aria-label="close" />
               </header>
               <section className="modal-card-body">
-                <div>
-                  You have placed a bid for the amount of
-                  <strong>{` ${bid.bidAmount.value} ${bid.bidAmount.currency} `}</strong>
-                  on this job.
-                  <br />
-                  Please enter the new total payment amount you'd like to recieve in exchange for
-                  doing this task.
-                </div>
-
-                <br />
+                <p>
+                  You can change your bid amount as long as this task is not awarded or past due
+                </p>
                 <TextInput
                   label="Enter The New Bid Amount"
                   id="bidAmountField"
@@ -172,13 +165,23 @@ class TaskerEditOrUpdateBid extends React.Component {
                   {autoBidOptions}
                 </div>
                 <br />
+
                 <div className="field">
                   <div className="label">BidOrBoo Rules</div>
+                  {values.bidAmountField && values.bidAmountField > 1 && (
+                    <div className="help">
+                      * Your Net Payout After deucting BidOrBoo Service Fee:
+                      <strong>
+                        {` ${values.bidAmountField -
+                          Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}
+                      </strong>
+                    </div>
+                  )}
                   <div className="help">
-                    * After you submit. The bid will be reviewed by the requester
+                    * You must read all the request details thoroughly before bidding.
                   </div>
                   <div className="help">
-                    * You will be assigned to this task if the requester selects you
+                    * If your bid is chosen this task will be assigned to you
                   </div>
                   <div className="help">
                     *
@@ -231,7 +234,7 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span className="icon">
               <i className="far fa-edit" />
             </span>
-            <span>Change My Bid Amount</span>
+            <span>Change My Bid</span>
           </a>
         )}
       </div>

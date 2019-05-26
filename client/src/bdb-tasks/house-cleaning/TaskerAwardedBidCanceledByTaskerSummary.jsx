@@ -71,9 +71,11 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               </div>
 
               <div className="field">
-                <label className="label">My Bid</label>
-                <div>{`${bidValue}$ (${bidCurrency})`}</div>
-                <div className="help">* Was refunded to the Requester.</div>
+                <label className="label">Missed Payout</label>
+                <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">
+                  * Was fully refunded to the Requester since you cancelled
+                </div>
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}
