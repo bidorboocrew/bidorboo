@@ -12,6 +12,7 @@ module.exports = (process) => {
 
   mongoose.Promise = global.Promise;
   if (process.env.NODE_ENV !== 'production') {
+    // https://stackoverflow.com/questions/18762264/log-all-queries-that-mongoose-fire-in-the-application
     mongoose.set('debug', true);
   }
   const dbOptions = {

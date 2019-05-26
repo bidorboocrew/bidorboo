@@ -199,7 +199,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                   onClick={this.submitUpdateBid}
                   className="button is-success"
                 >
-                  Submit Bid Chagnes
+                  Submit Bid Changes
                 </button>
                 <button onClick={this.closeUpdateBidModal} className="button is-outline">
                   Cancel
