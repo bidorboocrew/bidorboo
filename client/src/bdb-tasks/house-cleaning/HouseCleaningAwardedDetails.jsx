@@ -115,7 +115,9 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                         be refunded 80%.
                       </div>
                       <div className="control">* Your global rating will be impacted</div>
-                      <div className="control">* Cancelling often will put a ban on your account</div>
+                      <div className="control">
+                        * Cancelling often will put a ban on your account
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -359,16 +361,23 @@ class RequesterConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Is The Work Completed?</div>
+                  <div className="modal-card-title">Tasker finished their work?</div>
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BidOrBoo crew is happy to know that You finished this our Tasker showed up to
-                    fulfill your request!
+                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
+                    hope that it was done to your satisfaction.
                   </p>
                   <br />
-                  <label className="label">After the tasker have completed the work.</label>
-                  <p>Please confirm and you will be redirected to review the Tasker.</p>
+                  <div className="field">
+                    <label className="label">What will happen next?</label>
+                    <div className="control">
+                      * Once you've confirmed completion the Tasker will be paid
+                    </div>
+                    <div className="control">
+                      * The Tasker and yourself will be prompted to Rate your experience
+                    </div>
+                  </div>
                 </section>
                 <footer className="modal-card-foot">
                   <button

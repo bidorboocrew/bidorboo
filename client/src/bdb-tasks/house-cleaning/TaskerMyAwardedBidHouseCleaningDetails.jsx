@@ -366,16 +366,27 @@ class TaskerConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Is The Work Completed?</div>
+                  <div className="modal-card-title">Have You Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>
-                    BidOrBoo crew is happy to know that our Tasker showed up to fulfill your
-                    request!
-                  </p>
+                  <p>BidOrBooCrew is proud of you!</p>
                   <br />
-                  <label className="label">After the tasker have completed the work.</label>
-                  <p>Please confirm and you will be redirected to review the Tasker.</p>
+                  <p>If you are done please confirm that you finished this request.</p>
+                  <br />
+
+                  <div className="field">
+                    <label className="label">What will happen next?</label>
+                    <div className="control">
+                      * The Requester will confirm that you have completed this job
+                    </div>
+                    <div className="control">
+                      * Your payment will be released to your bank and should be available within
+                      3-5 bizbiz day
+                    </div>
+                    <div className="control">
+                      * The Requester and yourself will be prompted to Rate your experience
+                    </div>
+                  </div>
                 </section>
                 <footer className="modal-card-foot">
                   <button

@@ -238,7 +238,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                   {isPastDue && (
                     <div className="field">
                       <label className="label">Bid Status</label>
-                      <div className="control has-text-danger">Past Due - Expired</div>
+                      <div className="control has-text-info">Past Due - Expired</div>
                       <div className="help">
                         * Sorry! the requester did not select anyone and the job expired
                       </div>
