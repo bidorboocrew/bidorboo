@@ -7,7 +7,7 @@ const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireAwardedBidder = require('../middleware/requireAwardedBidder');
+const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -353,8 +353,14 @@ module.exports = (app) => {
   app.put(
     ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,
     requireLogin,
-    requireAwardedBidder,
+    requireCurrentUserIsTheAwardedBidder,
     async (req, res) => {
+      /**
+       * What we need to do :
+       *  - Update Job completion.bidderConfirmed : true
+       *  - Notify push and email Requester to confirm completion
+       *  - start review process for Tasker
+       */
       try {
         const data = req.body.data;
         const { jobId } = data;
@@ -363,14 +369,10 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
-        // const mongoUser_id = req.user._id;
 
-        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
-          jobCompletion: {
-            bidderConfirmed: true,
-          },
-        });
+        await jobDataAccess.bidderConfirmJobCompletion(jobId);
         return res.send({ success: true });
+
       } catch (e) {
         return res
           .status(400)

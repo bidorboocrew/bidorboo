@@ -5,7 +5,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>BidOrBoo Update</title>
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -21,10 +21,10 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
 
       body {
         background-color: #f6f6f6;
-        font-family: sans-serif;
+        font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
         -webkit-font-smoothing: antialiased;
-        font-size: 14px;
-        line-height: 1.4;
+        font-size: 16px;
+        line-height: 1.2;
         margin: 0;
         padding: 0;
         -ms-text-size-adjust: 100%;
@@ -37,8 +37,8 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
         mso-table-rspace: 0pt;
         width: 100%; }
         table td {
-          font-family: sans-serif;
-          font-size: 14px;
+          font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+          font-size: 16px;
           vertical-align: top;
       }
 
@@ -112,9 +112,9 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
       h3,
       h4 {
         color: #000000;
-        font-family: sans-serif;
+        font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
         font-weight: 400;
-        line-height: 1.4;
+        line-height: 1.2;
         margin: 0;
         margin-bottom: 30px;
       }
@@ -129,8 +129,8 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
       p,
       ul,
       ol {
-        font-family: sans-serif;
-        font-size: 14px;
+        font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+        font-size: 16px;
         font-weight: normal;
         margin: 0;
         margin-bottom: 15px;
@@ -145,6 +145,12 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
       a {
         color: #3498db;
         text-decoration: underline;
+      }
+
+      p {
+        font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        line-height: 1.2;
       }
 
       /* -------------------------------------
@@ -171,7 +177,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           color: #3498db;
           cursor: pointer;
           display: inline-block;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: bold;
           margin: 0;
           padding: 12px 25px;
@@ -334,10 +340,9 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">BidOrBoo request happening soon notification!</span>
-            <h1 style="background: #eeeeee;color: #363636;">BidOrBoo</h1>
+            <span class="preheader">BidOrBoo updates!</span>
+            <h1 style="color: #363636;font-weight:700">BidOrBoo</h1>
             <table role="presentation" class="main">
-
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">

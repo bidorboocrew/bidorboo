@@ -7,7 +7,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireAwardedBidder = require('../middleware/requireAwardedBidder');
+const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 
 const requireProposerReviewPreChecksPass = require('../middleware/requireProposerReviewPreChecksPass');
 const requireBidderReviewPreChecksPass = require('../middleware/requireBidderReviewPreChecksPass');
@@ -93,7 +93,7 @@ module.exports = (app) => {
   app.put(
     ROUTES.API.REVIEW.PUT.bidderSubmitReview,
     requireLogin,
-    requireAwardedBidder,
+    requireCurrentUserIsTheAwardedBidder,
     requireBidderReviewPreChecksPass,
     async (req, res) => {
       try {

@@ -6,6 +6,12 @@ const ROUTES = require('../backend-route-constants');
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
+  sendJobAwaitingRequesterConfirmCompletionText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} awaiting your confirmation! ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } for details`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
   sendJobIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} was cancelled! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'

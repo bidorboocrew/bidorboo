@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
+import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -325,7 +325,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
@@ -348,10 +348,10 @@ class TaskerConfirmsCompletion extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { proposerConfirmsJobCompletion, job } = this.props;
+    const { bidderConfirmsJobCompletion, job } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      proposerConfirmsJobCompletion(job._id);
+      bidderConfirmsJobCompletion(job._id);
     });
   };
   render() {
@@ -434,10 +434,10 @@ class TaskerDisputes extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { proposerConfirmsJobCompletion, job } = this.props;
+    const { bidderConfirmsJobCompletion, job } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      proposerConfirmsJobCompletion(job._id);
+      bidderConfirmsJobCompletion(job._id);
     });
   };
   render() {

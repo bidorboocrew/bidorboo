@@ -969,7 +969,7 @@ exports.jobDataAccess = {
       .exec();
   },
   findOneByJobIdAndUpdateJobInfo: (jobId, newJobDetails, options) => {
-    // xxx to do , validate user input and use some sanitizer tool to prevent coded content
+    // xxx review this to do , validate user input and use some sanitizer tool to prevent coded content
     return JobModel.findOneAndUpdate(
       { _id: jobId },
       {
@@ -979,6 +979,88 @@ exports.jobDataAccess = {
     )
       .lean({ virtuals: true })
       .exec();
+  },
+
+  bidderConfirmJobCompletion: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedJob = await JobModel.findOneAndUpdate(
+          { _id: jobId },
+          {
+            $set: { 'jobCompletion.bidderConfirmed': true },
+          },
+          { new: true }
+        )
+          .lean({ virtuals: true })
+          .exec();
+
+        if (!updatedJob || !updatedJob._id || !updatedJob.jobCompletion.bidderConfirmed) {
+          return reject({
+            success: false,
+            ErrorMsg: 'failed to update the associated job bidderConfirmed',
+          });
+        }
+
+        const {
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextRequester,
+          allowedToPushNotifyRequester,
+          requesterPushNotSubscription,
+        } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
+          jobId
+        );
+
+        // send communication to both about the cancellation
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellRequesterToConfirmCompletion({
+            to: requesterEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
+        }
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellTaskerWeWaitingOnRequesterToConfirmCompletion({
+            to: taskerEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForBidder: requestLinkForTasker,
+          });
+        }
+
+        if (allowedToTextRequester) {
+          await sendTextService.sendJobAwaitingRequesterConfirmCompletionText(
+            requesterPhoneNumber,
+            jobDisplayName,
+            requestLinkForRequester
+          );
+        }
+
+        if (allowedToPushNotifyRequester) {
+          WebPushNotifications.sendJobAwaitingRequesterConfirmCompletionText(
+            requesterPushNotSubscription,
+            {
+              requestTitle: jobDisplayName,
+              urlToLaunch: requestLinkForRequester,
+            }
+          );
+        }
+        resolve({
+          success: true,
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
   cancelJob(jobId, mongoUser_id) {
     /**
@@ -1059,7 +1141,9 @@ exports.jobDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
-          } = await this._getAwardedJobOwnerBidderAndRelevantNotificationDetails(job._id);
+          } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
+            jobId
+          );
 
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
             chargeId: processedPayment.chargeId,
@@ -1252,7 +1336,7 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
 
-    const { _ownerRef, _awardedBidRef, processedPayment } = awardedJob;
+    const { _ownerRef, _awardedBidRef, processedPayment, displayTitle } = awardedJob;
     const awardedBidId = _awardedBidRef._id.toString();
     const requestedJobId = awardedJob._id.toString();
 
@@ -1264,7 +1348,7 @@ exports.jobDataAccess = {
 
     const requesterDisplayName = ownerDetails.displayName;
     const taskerDisplayName = awardedBidderDetails.displayName;
-    const jobDisplayName = awardedJob.jobTitle || awardedJob.fromTemplateId;
+    const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.fromTemplateId;
 
     const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
     const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);

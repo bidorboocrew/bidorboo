@@ -167,7 +167,7 @@ export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.PROPOSER_CONFIRMS_JOB_COMPLETION,
+    type: A.JOB_ACTIONS.BIDDER_CONFIRMS_JOB_COMPLETION,
     payload: axios
       .put(ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted, postData, config)
       .then((resp) => {

@@ -434,7 +434,12 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
           )}
           `,
           toDisplayName: `${updatedUser.displayName}`,
-          contentHtml: `Click to verify your email Address`,
+          contentHtml: `
+          <p>Your BidOrBoo Email Verification Code is</p>
+          <p>${emailVerificationCode}</p>
+
+          <p>Click to verify your email Address</p>
+          `,
           clickLink: `${ROUTES.CLIENT.dynamicVerification('Email', emailVerificationCode)}`,
           clickDisplayName: `Verify Email`,
         });

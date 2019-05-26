@@ -8,6 +8,27 @@ webpush.setVapidDetails(
 );
 
 exports.WebPushNotifications = {
+  sendJobAwaitingRequesterConfirmCompletionText: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: ${requestTitle} awaiting your confirmation!`,
+          body: `Tasker is done ! Click for more details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
   pushAwardedJobWasCancelled: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
