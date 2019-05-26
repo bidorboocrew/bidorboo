@@ -21,6 +21,7 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import RequestBaseContainer from '../RequestBaseContainer';
+import { Spinner } from '../../components/Spinner';
 
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
@@ -43,6 +44,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _ownerRef,
+      jobCompletion = {},
     } = job;
     if (
       !startingDateAndTime ||
@@ -84,6 +86,13 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+
+    const {
+      proposerConfirmed = false,
+      bidderConfirmed = false,
+      bidderDisputed = false,
+      proposerDisputed = false,
+    } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -154,9 +163,6 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div style={{ height: 'auto' }} className="card">
-          {/* <div className="card-image">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -184,19 +190,21 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                       </div>
                     </button>
                   </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={this.toggleDeleteConfirmationDialog}
-                        className="dropdown-item has-text-danger"
-                      >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Agreement</span>
-                      </a>
+                  {!bidderConfirmed && (
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={this.toggleDeleteConfirmationDialog}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Agreement</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
               <div
@@ -210,26 +218,40 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                 className="navbar-divider"
               />
 
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">{displayStatus}</div>
-                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+              {bidderConfirmed && !proposerConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Pending Confirmation</div>
+
                   <div className="help">
-                    * Get In touch with the Requester to confirm any further details
+                    * Awaiting on the requester to confirm this request is completed. this shouldn't
+                    take long
                   </div>
-                )}
-                {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening soon, Make sure to contact the Tasker</div>
-                )}
-                {isHappeningToday && !isPastDue && (
-                  <div className="help">* Happening today, Tasker will show up on time</div>
-                )}
-                {isPastDue && (
-                  <div className="help">
-                    * This request date is past Due, plz confirm completion
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {!bidderConfirmed && !proposerConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Assigned To Me</div>
+                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">
+                      * Get In touch with the Requester to confirm any further details
+                    </div>
+                  )}
+                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
+                  )}
+                  {isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening today, Tasker will show up on time</div>
+                  )}
+                  {isPastDue && (
+                    <div className="help">
+                      * This request date is past Due, plz confirm completion
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="field">
                 <label className="label">Total Cost</label>
                 <div className="control has-text-success">{`${bidValue}$ (${bidCurrency})`}</div>
@@ -305,8 +327,39 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
           </div>
           <hr className="divider isTight" />
           <div style={{ padding: '0.5rem', display: 'flex' }}>
-            <TaskerConfirmsCompletion {...this.props} />
-            <TaskerDisputes {...this.props} />
+            {bidderConfirmed && !proposerConfirmed && (
+              <div style={{ flexGrow: 1 }}>
+                <a
+                  disabled
+                  onClick={() => null}
+                  className={`button is-fullwidth is-success is-outlined`}
+                >
+                  <span>Review The Requester</span>
+                </a>
+                <div className="help">
+                  * You will be able to rate the requester after we confirm the task was completed
+                </div>
+              </div>
+            )}
+            {proposerConfirmed && (
+              <div style={{ flexGrow: 1 }}>
+                <a
+                  onClick={() => alert('not implemented but redirect me to review page')}
+                  className={`button is-fullwidth is-success heartbeatInstant`}
+                >
+                  <span className="icon">
+                    <i class="fas fa-user-check" />
+                  </span>
+                  <span>Review The Requester</span>
+                </a>
+              </div>
+            )}
+            {!proposerConfirmed && !bidderConfirmed && (
+              <React.Fragment>
+                <TaskerConfirmsCompletion {...this.props} />
+                <TaskerDisputes {...this.props} />
+              </React.Fragment>
+            )}
           </div>
         </div>
       </React.Fragment>

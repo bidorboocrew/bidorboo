@@ -139,6 +139,7 @@ class GetNotificationsAndScroll extends React.Component {
                 <a
                   onClick={(e) => {
                     switchRoute(ROUTES.CLIENT.HOME);
+                    // xxxx update without reload
                     window.location.reload();
                   }}
                   className="button is-outlined is-success is-small"

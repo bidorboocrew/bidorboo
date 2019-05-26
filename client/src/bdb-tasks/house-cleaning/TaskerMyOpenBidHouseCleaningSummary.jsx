@@ -213,7 +213,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
               {requesterCanceledThierRequest && (
                 <div className="field">
                   <label className="label">Bid Status</label>
-                  <div className="control has-text-info">Requester canceled their request</div>
+                  <div className="control has-text-info">Requester canceled this request</div>
                   <div className="help">
                     * This request is no longer active, the request and your bid will be deleted in
                     48hours

@@ -145,6 +145,7 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
+          // xxxx update without reload
           window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
@@ -172,7 +173,8 @@ export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
       .put(ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted, postData, config)
       .then((resp) => {
         // update recently added job
-        if (resp && resp.data) {
+        if (resp && resp.data && resp.data.success) {
+          // xxxx update he bid without refresh
           window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);

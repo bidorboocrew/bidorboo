@@ -186,6 +186,7 @@ const EnhancedForms = withFormik({
           last4BankAcc: tokenizedBankAccount.bank_account.last4,
         },
       });
+      // xxxx update without reload
       window.location.reload();
     } catch (e) {
       let msg =

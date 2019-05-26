@@ -119,6 +119,7 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
               },
             },
           });
+          // xxxx update without reload
           window.location.reload();
         }
       })
@@ -148,6 +149,7 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
               },
             },
           });
+          // xxxx update without reload
           window.location.reload();
         }
       })

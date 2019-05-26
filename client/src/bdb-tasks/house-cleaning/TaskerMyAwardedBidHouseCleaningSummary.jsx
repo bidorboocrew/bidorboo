@@ -64,7 +64,14 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
     }
 
-    const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
+    const {
+      startingDateAndTime,
+      addressText,
+      isPastDue,
+      isHappeningSoon,
+      isHappeningToday,
+      jobCompletion = {},
+    } = job;
     if (
       !startingDateAndTime ||
       !addressText ||
@@ -88,6 +95,13 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+
+    const {
+      proposerConfirmed = false,
+      bidderConfirmed = false,
+      bidderDisputed = false,
+      proposerDisputed = false,
+    } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -184,21 +198,23 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                       </div>
                     </button>
                   </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item has-text-danger"
-                      >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Agreement</span>
-                      </a>
+                  {!bidderConfirmed && (
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Agreement</span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
               <div
@@ -211,30 +227,40 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">{displayStatus}</div>
-                {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+              {bidderConfirmed && !proposerConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Pending Confirmation</div>
+
                   <div className="help">
-                    * Get In touch with the Requester to confirm any further details
+                    * Awaiting on the requester to confirm this request is completed. this shouldn't
+                    take long
                   </div>
-                )}
-                {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                  <div className="help">
-                    * Happening soon, Make sure to contact the Tasker
-                  </div>
-                )}
-                {isHappeningToday && !isPastDue && (
-                  <div className="help">
-                    * Happening today, Tasker will show up on time
-                  </div>
-                )}
-                {isPastDue && (
-                  <div className="help">
-                    * This request date is past Due, plz confirm completion
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {!bidderConfirmed && !proposerConfirmed && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Assigned To Me</div>
+                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">
+                      * Get In touch with the Requester to confirm any further details
+                    </div>
+                  )}
+                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
+                  )}
+                  {isHappeningToday && !isPastDue && (
+                    <div className="help">* Happening today, Tasker will show up on time</div>
+                  )}
+                  {isPastDue && (
+                    <div className="help">
+                      * This request date is past Due, plz confirm completion
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="field">
                 <label className="label">My Bid</label>
@@ -255,7 +281,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               />
             </div>
           </div>
-          {renderFooter({ bid, isPastDue })}
+          {renderFooter({ bid, isPastDue, jobCompletion })}
         </div>
       </React.Fragment>
     );
@@ -284,12 +310,20 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyAwardedBidHouseCleaningSummary);
 
-const renderFooter = ({ bid, isPastDue }) => {
+const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
+  const {
+    proposerConfirmed = false,
+    bidderConfirmed = false,
+    bidderDisputed = false,
+    proposerDisputed = false,
+  } = jobCompletion;
+
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
         <hr className="divider isTight" />
       </div>
+
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
           style={{ position: 'relative' }}
@@ -300,7 +334,19 @@ const renderFooter = ({ bid, isPastDue }) => {
           }}
           className="button is-outlined is-fullwidth is-success"
         >
-          <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
+          {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
+
+          {proposerConfirmed && (
+            <React.Fragment>
+              <span className="icon">
+                <i class="fas fa-user-check" />
+              </span>
+              <span>Review The Requester</span>
+            </React.Fragment>
+          )}
+          {!proposerConfirmed && !bidderConfirmed && (
+            <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
+          )}
         </a>
       </div>
     </React.Fragment>
