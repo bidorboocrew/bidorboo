@@ -366,7 +366,7 @@ class TaskerConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Have You Completed This Request?</div>
+                  <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
                   <p>BidOrBooCrew is proud of you!</p>
@@ -376,14 +376,14 @@ class TaskerConfirmsCompletion extends React.Component {
 
                   <div className="field">
                     <label className="label">What will happen next?</label>
-                    <div className="control">
+                    <div className="help">
                       * The Requester will confirm that you have completed this job
                     </div>
-                    <div className="control">
+                    <div className="help">
                       * Your payment will be released to your bank and should be available within
                       3-5 bizbiz day
                     </div>
-                    <div className="control">
+                    <div className="help">
                       * The Requester and yourself will be prompted to Rate your experience
                     </div>
                   </div>

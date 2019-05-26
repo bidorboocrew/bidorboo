@@ -361,7 +361,7 @@ class RequesterConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Tasker finished their work?</div>
+                  <div className="modal-card-title">Tasker is Done?</div>
                 </header>
                 <section className="modal-card-body">
                   <p>
@@ -371,10 +371,10 @@ class RequesterConfirmsCompletion extends React.Component {
                   <br />
                   <div className="field">
                     <label className="label">What will happen next?</label>
-                    <div className="control">
+                    <div className="help">
                       * Once you've confirmed completion the Tasker will be paid
                     </div>
-                    <div className="control">
+                    <div className="help">
                       * The Tasker and yourself will be prompted to Rate your experience
                     </div>
                   </div>
