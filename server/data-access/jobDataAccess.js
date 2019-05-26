@@ -985,7 +985,7 @@ exports.jobDataAccess = {
      *
      * What we want to accomplish here
      *  - if job is open state
-     *       simply update status to CANCELED_OPEN
+     *       update job status to CANCELED_OPEN
      *
      *  - if job is in Awarded state :
      *      - refund 80% to requester

@@ -12,10 +12,10 @@ import {
   CountDownComponent,
   StartDateAndTime,
   LocationLabelAndValue,
-  DisplayLabelValue,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { REQUEST_STATES } from '../index';
 
 class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
   constructor(props) {
@@ -97,7 +97,8 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const isAwardedToSomeoneElse = state === 'AWARDED';
+    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const requesterCanceledThierRequest = state === REQUEST_STATES.CANCELED_OPEN;
 
     return (
       <React.Fragment>
@@ -149,7 +150,11 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div
+          className={`card limitWidthOfCard ${
+            isPastDue || requesterCanceledThierRequest ? 'readOnlyView' : ''
+          }`}
+        >
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -205,14 +210,23 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                   </div>
                 </div>
               )}
-
-              {!isAwardedToSomeoneElse && (
+              {requesterCanceledThierRequest && (
+                <div className="field">
+                  <label className="label">Bid Status</label>
+                  <div className="control has-text-info">Requester canceled their request</div>
+                  <div className="help">
+                    * This request is no longer active, the request and your bid will be deleted in
+                    48hours
+                  </div>
+                </div>
+              )}
+              {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
                 <React.Fragment>
                   {isPastDue && (
                     <div className="field">
                       <label className="label">Bid Status</label>
-                      <div className="control has-text-danger">Past Due - Expired</div>
-                      <div className="help has-text-danger">
+                      <div className="control has-text-info">Past Due - Expired</div>
+                      <div className="help">
                         * Sorry! the requester did not select anyone and the job expired
                       </div>
                     </div>
@@ -238,10 +252,10 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
                 )}
               />
 
-              <LocationLabelAndValue location={coordinates} useShortAddress />
+              {/* <LocationLabelAndValue location={coordinates} useShortAddress /> */}
             </div>
           </div>
-          {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}
+          {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse, requesterCanceledThierRequest })}
         </div>
       </React.Fragment>
     );
@@ -270,7 +284,12 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyOpenBidHouseCleaningSummary);
 
-const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
+const renderFooter = ({
+  bid,
+  isPastDue,
+  isAwardedToSomeoneElse,
+  requesterCanceledThierRequest,
+}) => {
   return (
     <React.Fragment>
       <div style={{ padding: '0.5rem' }}>
@@ -278,15 +297,20 @@ const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
       </div>
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
-          disabled={isPastDue || isAwardedToSomeoneElse}
           style={{ position: 'relative' }}
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
           className="button is-outlined is-fullwidth is-info"
         >
-          {!isPastDue && <span>View or Edit My Bid Details</span>}
-          {isPastDue && <span>Task Expired</span>}
+          {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+            <span>Edit My Bid Details</span>
+          )}
+          {isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+            <span>View Expired Task</span>
+          )}
+          {requesterCanceledThierRequest && <span>View Canceled Task</span>}
+          {isAwardedToSomeoneElse && <span>View Task Details</span>}
         </a>
       </div>
     </React.Fragment>

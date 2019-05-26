@@ -6,13 +6,10 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayLabelValue,
-  UserImageAndRating,
   EffortLevel,
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
-
-import { REQUEST_STATES } from '../index';
 
 export default class HouseCleaningAwardedCanceledByRequesterDetails extends React.Component {
   render() {

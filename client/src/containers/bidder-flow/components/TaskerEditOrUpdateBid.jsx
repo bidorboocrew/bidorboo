@@ -5,6 +5,9 @@ import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
+
 import { DisplayLabelValue } from '../../commonComponents';
 
 class TaskerEditOrUpdateBid extends React.Component {
@@ -71,6 +74,7 @@ class TaskerEditOrUpdateBid extends React.Component {
       isValid,
       isSubmitting,
       isAwardedToSomeoneElse = false,
+      requesterCanceledThierRequest = false,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
@@ -202,18 +206,34 @@ class TaskerEditOrUpdateBid extends React.Component {
           </div>
         )}
 
-        <a
-          disabled={isAwardedToSomeoneElse}
-          onClick={() => {
-            this.showUpdateBidModal();
-          }}
-          className="button is-info is-outlined is-outline is-fullwidth"
-        >
-          <span className="icon">
-            <i className="far fa-edit" />
-          </span>
-          <span>Change My Bid Amount</span>
-        </a>
+        {(isAwardedToSomeoneElse || requesterCanceledThierRequest) && (
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+            }}
+            className={`button is-outlined`}
+            style={{ flexGrow: 1, marginRight: 10 }}
+          >
+            <span className="icon">
+              <i className="far fa-arrow-alt-circle-left" />
+            </span>
+            <span>I understand</span>
+          </a>
+        )}
+        {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              this.showUpdateBidModal();
+            }}
+            className="button is-info is-outlined is-outline is-fullwidth"
+          >
+            <span className="icon">
+              <i className="far fa-edit" />
+            </span>
+            <span>Change My Bid Amount</span>
+          </a>
+        )}
       </div>
     );
   }

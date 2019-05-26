@@ -5,6 +5,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { REQUEST_STATES } from '../index';
 
 import {
   CountDownComponent,
@@ -106,7 +107,8 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
     }
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const isAwardedToSomeoneElse = state === 'AWARDED';
+    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const requesterCanceledThierRequest = state === REQUEST_STATES.CANCELED_OPEN;
 
     return (
       <React.Fragment>
@@ -158,7 +160,10 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'auto ' }} className="card">
+        <div
+          style={{ height: 'auto ' }}
+          className={`card  ${isPastDue || requesterCanceledThierRequest ? 'readOnlyView' : ''}`}
+        >
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -218,8 +223,17 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                   </div>
                 </div>
               )}
-
-              {!isAwardedToSomeoneElse && (
+              {requesterCanceledThierRequest && (
+                <div className="field">
+                  <label className="label">Bid Status</label>
+                  <div className="control has-text-info">Requester canceled their request</div>
+                  <div className="help">
+                    * This request is no longer active, the request and your bid will be deleted in
+                    48hours
+                  </div>
+                </div>
+              )}
+              {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
                 <React.Fragment>
                   {isPastDue && (
                     <div className="field">
@@ -298,6 +312,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                 job={job}
                 updateBidAction={updateBid}
                 isAwardedToSomeoneElse={isAwardedToSomeoneElse}
+                requesterCanceledThierRequest={requesterCanceledThierRequest}
               />
             </div>
           </div>
