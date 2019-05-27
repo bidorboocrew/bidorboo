@@ -290,4 +290,58 @@ exports.EmailService = {
     };
     sgMail.send(msg);
   },
+
+  tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
+      text: `BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.
+
+      Now it is your turn to RATE your Tasker and tell them how well they did
+     click to view the details
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.</p>
+
+        <p>Now it is your turn to RATE your Tasker and tell them how well they did</p>
+         <p>click to view the details</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Completed Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
+      text: `BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task
+      Your payout is on the way and you should recieve it within 5-10 business days
+
+      Now it is your turn to RATE your Requester and tell them how accurate was the description of the task
+      click to view the details
+       ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task</p>
+        <p>Your payout is on the way and you should recieve it within 5-10 business days</p>
+        <p>Now it is your turn to RATE your Requester and tell them how accurate was the description of the task</p>
+        <p>click to view the details</p>
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Cancelled Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
 };

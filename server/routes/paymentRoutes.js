@@ -51,9 +51,9 @@ module.exports = (app) => {
 
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
-          const description = `BidOrBoo - Service Charge for your ${
+          const description = `BidOrBoo - Service Charge for ${
             _jobRef.fromTemplateId
-          } request was recieved.`;
+          }`;
 
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
@@ -61,9 +61,9 @@ module.exports = (app) => {
             currency: 'CAD',
             description,
             source: stripeTransactionToken,
-            application_fee_amount: bidOrBooTotalCommission,
+            // application_fee_amount: bidOrBooTotalCommission,
             transfer_data: {
-              // amount: bidderPayoutAmount, // the final # sent to awarded bidder
+              amount: bidderPayoutAmount, // the final # sent to awarded bidder
               destination: stripeAccDetails.accId,
             },
             receipt_email: _jobRef._ownerRef.email.emailAddress,

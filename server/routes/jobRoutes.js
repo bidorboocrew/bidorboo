@@ -312,40 +312,30 @@ module.exports = (app) => {
     requireLogin,
     requireJobOwner,
     async (req, res) => {
+      /**
+       * What we need to do here
+       *  - update Job.jobCompletion.proposerCponfirmed -> true
+       *  - update job sate to Done
+       *  - update awarded bid state to Done
+       *  - without waiting on the async -> delete all other bids associated with this job
+       *  - notify both both and congrat for fulfilling this request and prompt to do another one
+       */
       try {
         const data = req.body.data;
         const { jobId } = data;
         if (!jobId) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
+            errorMsg: 'Bad Request for requesterConfirmsJobCompletion param was Not Specified',
           });
         }
 
-        const jobDetails = await jobDataAccess.findOneByJobIdAndUpdateJobInfo(
-          jobId,
-          {
-            jobCompletion: { proposerConfirmed: true },
-          },
-          { new: true }
-        );
-
-        if (!jobDetails || !jobDetails._id || !jobDetails.processedPayment) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
-          });
-        }
-
-        // // RELEASE THE FUNDS
-        // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
-        //   amount: jobDetails.processedPayment.bidderPayout,
-        //   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
-        // });
+        await jobDataAccess.requesterConfirmsJobCompletion(jobId);
 
         return res.send({ success: true });
       } catch (e) {
         return res
           .status(400)
-          .send({ errorMsg: 'Failed To proposerConfirmsJobCompleted', details: `${e}` });
+          .send({ errorMsg: 'Failed To requesterConfirmsJobCompletion', details: `${e}` });
       }
     }
   );
@@ -370,9 +360,8 @@ module.exports = (app) => {
           });
         }
 
-        await jobDataAccess.bidderConfirmJobCompletion(jobId);
+        await jobDataAccess.bidderConfirmsJobCompletion(jobId);
         return res.send({ success: true });
-
       } catch (e) {
         return res
           .status(400)

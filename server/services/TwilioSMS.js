@@ -6,7 +6,12 @@ const ROUTES = require('../backend-route-constants');
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
-  sendJobAwaitingRequesterConfirmCompletionText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendJobAwaitingRequesterConfirmCompletionText: (
+    mobileNumber,
+    requestTitle,
+    urlLink,
+    callback = () => {}
+  ) => {
     const msgContent = `BidOrBoo: ${requestTitle} awaiting your confirmation! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } for details`;
@@ -37,6 +42,14 @@ exports.TxtMsgingService = {
     )}`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
+
+  sendJobIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is Completed! go to ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } to Rate it.`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
+
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
     // let formattedMobileNumber = `1-${mobileNumber}`;
 
@@ -44,19 +57,18 @@ exports.TxtMsgingService = {
     //   formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
     //   formattedMobileNumber = `+${formattedMobileNumber}`;
     // }
-    if (process.env.NODE_ENV === 'production') {
-      client.messages
-        .create({
-          body: `${msgContent}`,
-          to: '+16138677243', // Text this number
-          from: '+16137022661', // From a valid Twilio number
-        })
-        .then((message) => {
-          console.log(message.sid);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+
+    client.messages
+      .create({
+        body: `${msgContent}`,
+        to: '+16138677243', // Text this number
+        from: '+16137022661', // From a valid Twilio number
+      })
+      .then((message) => {
+        console.log(message.sid);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
 };

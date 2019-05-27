@@ -981,7 +981,189 @@ exports.jobDataAccess = {
       .exec();
   },
 
-  bidderConfirmJobCompletion: async (jobId) => {
+  requesterConfirmsJobCompletion: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedJob = await JobModel.findOneAndUpdate(
+          { _id: jobId },
+          {
+            $set: { 'jobCompletion.proposerConfirmed': true, state: 'DONE' },
+          },
+          { new: true }
+        )
+          .lean()
+          .exec();
+
+        if (
+          !updatedJob ||
+          !updatedJob._id ||
+          !updatedJob.jobCompletion.proposerConfirmed ||
+          !updatedJob._awardedBidRef ||
+          !updatedJob._ownerRef ||
+          !updatedJob.processedPayment ||
+          updatedJob.state !== 'DONE'
+        ) {
+          return reject({
+            success: false,
+            ErrorMsg: 'failed to update the associated job requesterConfirmed',
+          });
+        }
+
+        const updatedAwardedBid = await BidModel.findByIdAndUpdate(
+          updatedJob._awardedBidRef,
+          {
+            $set: { state: 'DONE' },
+          },
+          { new: true }
+        )
+          .lean()
+          .exec();
+
+        if (
+          !updatedAwardedBid ||
+          !updatedAwardedBid._id ||
+          !updatedAwardedBid._bidderRef ||
+          updatedAwardedBid.state !== 'DONE'
+        ) {
+          return reject({
+            success: false,
+            ErrorMsg: 'failed to update the associated awarded bid requesterConfirmed',
+          });
+        }
+        // update stuff
+        const [updatedTasker, updatedRequester] = await Promise.all([
+          User.findByIdAndUpdate(
+            updatedAwardedBid._bidderRef,
+            {
+              $push: { 'rating.fulfilledBids': updatedJob._awardedBidRef },
+            },
+            {
+              new: true,
+            }
+          )
+            .lean(true)
+            .exec(),
+          User.findByIdAndUpdate(
+            updatedJob._ownerRef,
+            {
+              $push: { 'rating.fulfilledJobs': jobId },
+            },
+            {
+              new: true,
+            }
+          )
+            .lean(true)
+            .exec(),
+        ]);
+
+        const {
+          requestedJobId,
+          awardedBidId,
+          requesterId,
+          taskerId,
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextRequester,
+          allowedToTextTasker,
+          allowedToPushNotifyRequester,
+          allowedToPushNotifyTasker,
+          requesterPushNotSubscription,
+          taskerPushNotSubscription,
+          processedPayment,
+        } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
+          jobId
+        );
+
+        if (updatedTasker && updatedTasker.stripeConnect && updatedTasker.stripeConnect.accId) {
+          const payoutInititated = await stripeServiceUtil.payoutToBank(
+            updatedTasker.stripeConnect.accId,
+            {
+              amount: processedPayment.bidderPayout,
+              metadata: {
+                requesterId,
+                requesterEmailAddress,
+                taskerId,
+                taskerEmailAddress,
+                requestedJobId,
+                awardedBidId,
+                note: 'Task Was Completed Successfully',
+              },
+            }
+          );
+
+          if (payoutInititated.status === 'succeeded') {
+            // xxxxxxxxxxxxxx replace with review links
+
+            // begin communication
+            // send communication to both about the cancellation
+            if (allowedToEmailRequester) {
+              sendGridEmailing.tellRequesterJobIsCompleteBeginRating({
+                to: requesterEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: requesterDisplayName,
+                linkForOwner: requestLinkForRequester,
+              });
+            }
+            if (allowedToEmailTasker) {
+              sendGridEmailing.tellTaskerJobIsCompleteBeginRating({
+                to: taskerEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: taskerDisplayName,
+                linkForBidder: requestLinkForTasker,
+              });
+            }
+
+            if (allowedToTextRequester) {
+              await sendTextService.sendJobIsCompletedText(
+                requesterPhoneNumber,
+                jobDisplayName,
+                requestLinkForRequester
+              );
+            }
+            if (allowedToTextTasker) {
+              await sendTextService.sendJobIsCompletedText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
+            }
+
+            if (allowedToPushNotifyRequester) {
+              WebPushNotifications.pushAwardedJobWasCompleted(requesterPushNotSubscription, {
+                requestTitle: jobDisplayName,
+                urlToLaunch: requestLinkForRequester,
+              });
+            }
+            if (allowedToPushNotifyTasker) {
+              WebPushNotifications.pushAwardedJobWasCompleted(taskerPushNotSubscription, {
+                requestTitle: requestLinkForRequester,
+                urlToLaunch: requestLinkForTasker,
+              });
+            }
+          } else {
+            // xxxxxx log to our "dispute DB"
+            reject({
+              success: false,
+              ErrorMsg:
+                'failed to submit payout to bidder, but dont worry, BidOrBooCrew will handle this and ensure the Tasker is paid asap',
+            });
+          }
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  bidderConfirmsJobCompletion: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
         const updatedJob = await JobModel.findOneAndUpdate(
