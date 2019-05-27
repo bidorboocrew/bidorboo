@@ -124,7 +124,7 @@ https: exports.util = {
           ...connectedAccountDetails,
         },
         {
-          stripe_account: connectedAccId,
+          stripe_account: stripeConnectAccId,
         }
       );
 
