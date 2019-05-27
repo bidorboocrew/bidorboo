@@ -62,24 +62,14 @@ const requesterCardTemplates = {
         <HouseCleaningAwardedCanceledByRequesterDetails job={job} {...otherArgs} />
       );
     },
-    [REQUEST_STATES.DONE]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      ...otherArgs
-    }) => {
+    [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
         <div>REQUEST_STATES.DONE summary not implemented yet</div>
       ) : (
         <div>REQUEST_STATES.DONE details not implemented yet</div>
       );
     },
-    [REQUEST_STATES.DISPUTED]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      ...otherArgs
-    }) => {
+    [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
         <div>REQUEST_STATES.DISPUTED summary not implemented yet</div>
       ) : (
@@ -222,7 +212,6 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
   const { fromTemplateId, state } = job;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
-      debugger
       const card = requesterCardTemplates[fromTemplateId][state]({
         job,
         isSummaryView,
