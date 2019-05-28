@@ -90,19 +90,43 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
               <hr className="divider isTight" />
 
               {userAlreadyBid ? (
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(
-                      ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                        userExistingBid._id,
-                      ),
-                    );
-                  }}
-                  className="button  is-outlined is-fullwidth"
-                >
-                  View Your existing Bid
-                </a>
+                <div style={{ display: 'flex' }}>
+                  <a
+                    style={{ flexGrow: 1 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchRoute(
+                        ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
+                          userExistingBid._id,
+                        ),
+                      );
+                    }}
+                    className="button  is-outlined is-fullwidth"
+                  >
+                    View My Bid
+                  </a>
+                  <a
+                    style={{ marginLeft: 12 }}
+                    onClick={(e) => {
+                      const markerRef = reactMapClusterRef;
+                      if (
+                        markerRef &&
+                        markerRef.current &&
+                        markerRef.current.props &&
+                        markerRef.current.props.onClick &&
+                        typeof markerRef.current.props.onClick === 'function'
+                      ) {
+                        markerRef.current.props.onClick();
+                      }
+                    }}
+                    className="button is-outlined"
+                  >
+                    <span className="icon">
+                      <i className="fas fa-map-marked-alt" />
+                    </span>
+                    <span>Locate</span>
+                  </a>
+                </div>
               ) : (
                 <div style={{ display: 'flex' }}>
                   <a
@@ -148,7 +172,19 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
           {isOnMapView && (
             <React.Fragment>
               {userAlreadyBid ? (
-                <a className="button  is-outlined is-small is-fullwidth">View Your existing Bid</a>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    switchRoute(
+                      ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
+                        userExistingBid._id,
+                      ),
+                    );
+                  }}
+                  className="button is-outlined is-small is-fullwidth"
+                >
+                  View Your existing Bid
+                </a>
               ) : (
                 <a
                   style={{ marginTop: 10 }}
