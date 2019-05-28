@@ -23,6 +23,7 @@ export const verifyPhone = (code) => (dispatch) => {
               },
             },
           });
+          getCurrentUserNotifications()(dispatch);
         } else {
           throwErrorNotification(
             dispatch,
@@ -57,6 +58,7 @@ export const verifyEmail = (code) => (dispatch) => {
               },
             },
           });
+          getCurrentUserNotifications()(dispatch);
         } else {
           throwErrorNotification(
             dispatch,

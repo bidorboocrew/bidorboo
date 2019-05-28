@@ -153,9 +153,13 @@ class Header extends React.Component {
         }
       }
       if (nextProp.history.location.pathname.includes('BidOrBoo')) {
-        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
-          return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+        if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
+          return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
         }
+        // make cool effect on the logo
+        // if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+        //   return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+        // }
       }
     }
     return null;
