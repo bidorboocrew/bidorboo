@@ -76,7 +76,6 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
       displayName && displayName.length > 8 ? `${displayName.substring(0, 8)}...` : displayName;
   }
 
-  console.error(rating.globalRating)
   return (
     <article
       style={{
@@ -117,7 +116,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
               count={5}
               value={rating.globalRating}
               edit={false}
-              size={`${large ? 35 : 20}`}
+              size={large ? 35 : 20}
               color1={'lightgrey'}
               color2={'#ffd700'}
             />
@@ -209,7 +208,6 @@ const timeToTextMap = {
 };
 export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   const startingDate = moment(date).format('DD/MMM/YYYY');
-debugger
   const selectedTime = `${moment(date).get('hour')}`;
   let timeText = 'flexible, anytime.';
   switch (`${selectedTime}`) {
@@ -229,7 +227,6 @@ debugger
       timeText = 'flexible, anytime.';
       break;
   }
-
 
   return (
     <DisplayLabelValue

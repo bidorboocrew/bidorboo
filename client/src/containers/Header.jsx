@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import { onLogout } from '../app-state/actions/authActions';
 import LoginOrRegisterModal from '../LoginOrRegisterModal';
@@ -14,6 +15,16 @@ import { switchRoute } from '../utils';
 import { NotificationsModal } from './index';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 
+const HREF_TO_TABID = {
+  PROVIDE_A_SERVICE: 'PROVIDE_A_SERVICE',
+  MY_BIDS: 'MY_BIDS',
+  REQUEST_A_SERVICE: 'REQUEST_A_SERVICE',
+  MY_REQUESTS: 'MY_REQUESTS',
+  HOME: 'HOME',
+  PAYMENT_SETTINGS: 'PAYMENT_SETTINGS',
+  MY_PROFILE: 'MY_PROFILE',
+  ARCHIVE: 'ARCHIVE',
+};
 class Header extends React.Component {
   static propTypes = {
     userEmail: PropTypes.string,
@@ -35,6 +46,7 @@ class Header extends React.Component {
       isHamburgerOpen: false,
       isProfileMenuActive: false,
       isNotificationMenuActive: false,
+      activeNavBarMenuId: '',
     };
   }
 
@@ -59,6 +71,98 @@ class Header extends React.Component {
     this.setState({ isNotificationMenuActive: !this.state.isNotificationMenuActive });
   };
 
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log('we did update');
+  //   debugger
+  //   if (this.props.history.location !== prevProps.history.location) {
+  //     if (this.props.history.location.includes('bdb-request')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('bdb-offer')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-open-jobs')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-bids')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_BIDS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('payment-settings')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-archive')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.ARCHIVE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('BidOrBoo')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.HOME });
+  //       }
+  //     }
+  //   }
+
+  //   return null;
+  // }
+
+  static getDerivedStateFromProps(nextProp, prevState) {
+    console.log('we did update');
+    debugger;
+    if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
+      if (nextProp.history.location.pathname.includes('bdb-request')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('bdb-offer')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-open-jobs')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-bids')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_BIDS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('payment-settings')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-archive')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.ARCHIVE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-profile')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_PROFILE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('BidOrBoo')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+          return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+        }
+      }
+    }
+    return null;
+  }
+
   render() {
     const {
       displayName,
@@ -78,7 +182,12 @@ class Header extends React.Component {
     }
     const { profileImage } = userDetails;
 
-    const { isHamburgerOpen, isProfileMenuActive, isNotificationMenuActive } = this.state;
+    const {
+      isHamburgerOpen,
+      isProfileMenuActive,
+      isNotificationMenuActive,
+      activeNavBarMenuId,
+    } = this.state;
 
     const {
       jobIdsWithNewBids,
@@ -131,7 +240,9 @@ class Header extends React.Component {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              className="navbar-item"
+              className={`navbar-item ${
+                activeNavBarMenuId === HREF_TO_TABID.HOME ? 'is-active' : ''
+              }`}
             >
               <img
                 src={logoImg}
@@ -267,7 +378,7 @@ class Header extends React.Component {
                   <a
                     id={'viewDependentNavBarItems'}
                     className={`navbar-item ${
-                      window.location.pathname.includes('bdb-request') ? 'is-active' : ''
+                      activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -285,7 +396,7 @@ class Header extends React.Component {
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('/bdb-offer') ? 'is-active' : ''
+                      activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -305,7 +416,7 @@ class Header extends React.Component {
                       <a
                         id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
-                          window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
@@ -342,7 +453,7 @@ class Header extends React.Component {
                           });
                         }}
                         className={`navbar-item ${
-                          window.location.pathname.includes('my-bids') ? 'is-active' : ''
+                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
                         }`}
                       >
                         <span style={{ position: 'relative' }} className="icon">
@@ -400,7 +511,9 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
                                 });
                               }}
-                              className="navbar-item"
+                              className={`navbar-item ${
+                                activeNavBarMenuId === HREF_TO_TABID.MY_PROFILE ? 'is-active' : ''
+                              }`}
                             >
                               <span className="icon">
                                 <i className="far fa-user" aria-hidden="true" />
@@ -422,7 +535,7 @@ class Header extends React.Component {
                                     className="navbar-item"
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
-                                      <i className="fas fa-sync-alt" />
+                                      <i className="fab fa-nintendo-switch" />
                                       {jobRecievedNewBids && (
                                         <span
                                           style={{
@@ -452,7 +565,7 @@ class Header extends React.Component {
                                     className="navbar-item"
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
-                                      <i className="fas fa-sync-alt" />
+                                      <i className="fab fa-nintendo-switch" />
                                       {bidsGotAwardedToMe && (
                                         <div
                                           style={{
@@ -481,7 +594,11 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                                 });
                               }}
-                              className="navbar-item"
+                              className={`navbar-item ${
+                                activeNavBarMenuId === HREF_TO_TABID.PAYMENT_SETTINGS
+                                  ? 'is-active'
+                                  : ''
+                              }`}
                             >
                               <span className="icon">
                                 <i className="far fa-credit-card" aria-hidden="true" />
@@ -549,7 +666,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Header);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Header),
+);
