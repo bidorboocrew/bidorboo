@@ -127,7 +127,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half
+              half={false}
               count={5}
               value={this.state.qualityOfWorkRating}
               onChange={this.qualityOfWorkChange}
@@ -140,7 +140,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half
+              half={false}
               count={5}
               value={this.state.punctualityRating}
               onChange={this.punctualityChange}
@@ -153,7 +153,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half
+              half={false}
               count={5}
               value={this.state.communicationRating}
               onChange={this.communicationChange}
@@ -166,7 +166,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half
+              half={false}
               count={5}
               value={this.state.mannerRating}
               onChange={this.mannerChange}

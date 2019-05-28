@@ -115,7 +115,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half
+              half={false}
               count={5}
               value={this.state.accuracyOfPostRating}
               onChange={this.accuracyOfPostChange}
@@ -129,7 +129,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half
+              half={false}
               count={5}
               value={this.state.punctualityRating}
               onChange={this.punctualityChange}
@@ -143,7 +143,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half
+              half={false}
               count={5}
               value={this.state.communicationRating}
               onChange={this.communicationChange}
@@ -157,7 +157,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half
+              half={false}
               count={5}
               value={this.state.mannerRating}
               onChange={this.mannerChange}
