@@ -115,7 +115,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half={false}
+              half
               count={5}
               value={this.state.accuracyOfPostRating}
               onChange={this.accuracyOfPostChange}
@@ -129,7 +129,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half={false}
+              half
               count={5}
               value={this.state.punctualityRating}
               onChange={this.punctualityChange}
@@ -143,7 +143,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half={false}
+              half
               count={5}
               value={this.state.communicationRating}
               onChange={this.communicationChange}
@@ -157,7 +157,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}
-              half={false}
+              half
               count={5}
               value={this.state.mannerRating}
               onChange={this.mannerChange}
@@ -179,7 +179,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The tasker did a great job .. etc"
+            placeholder="The Requester was accurate in describing thier job and very friendly...etc"
           />
           <div className="help">* note this will be visible to all users</div>
         </div>

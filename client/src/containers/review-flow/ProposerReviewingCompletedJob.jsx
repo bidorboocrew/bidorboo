@@ -127,7 +127,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half={false}
+              half
               count={5}
               value={this.state.qualityOfWorkRating}
               onChange={this.qualityOfWorkChange}
@@ -140,7 +140,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half={false}
+              half
               count={5}
               value={this.state.punctualityRating}
               onChange={this.punctualityChange}
@@ -153,7 +153,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half={false}
+              half
               count={5}
               value={this.state.communicationRating}
               onChange={this.communicationChange}
@@ -166,7 +166,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           <div>
             <ReactStars
               className="ReactStars"
-              half={false}
+              half
               count={5}
               value={this.state.mannerRating}
               onChange={this.mannerChange}
@@ -187,7 +187,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The tasker did a great job .. etc"
+            placeholder="The Tasker was professional and did a great job ...etc"
           />
           <div className="help">* note this will be visible to all users</div>
         </div>
@@ -199,7 +199,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
         <section className="hero is-small">
           <div className="hero-body">
             <div className="container is-widescreen">
-              <h2 className="subtitle">Rate The Tasker</h2>
+              <h2 className="title">Rate The Tasker</h2>
             </div>
           </div>
         </section>
