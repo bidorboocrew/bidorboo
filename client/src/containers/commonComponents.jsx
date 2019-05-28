@@ -209,8 +209,8 @@ const timeToTextMap = {
 };
 export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   const startingDate = moment(date).format('DD/MMM/YYYY');
-
-  const selectedTime = moment(date).get('hour');
+debugger
+  const selectedTime = `${moment(date).get('hour')}`;
   let timeText = 'flexible, anytime.';
   switch (`${selectedTime}`) {
     case '10':
@@ -230,9 +230,6 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
       break;
   }
 
-  if (selectedTime && selectedTime > 0) {
-    timeText = timeToTextMap[`${selectedTime}`];
-  }
 
   return (
     <DisplayLabelValue

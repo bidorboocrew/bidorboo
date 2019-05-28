@@ -118,28 +118,28 @@ const TableWithNoBids = () => {
       <tbody>
         <tr>
           <td className="has-text-centered">
-            <h1 className="subtitle">How it works?</h1>
+            <h1 className="subtitle">What's Next?</h1>
             <div>
               <ul className="steps is-small has-content-centered is-horizontal">
-                <li className="steps-segment">
-                  <span className="steps-marker" />
-                  <div className="steps-content">
-                    <p className="is-size-6">Step 1</p>
-                    <p>Select a Template.</p>
-                  </div>
-                </li>
                 <li className="steps-segment is-active is-dashed">
                   <span className="steps-marker" />
                   <div className="steps-content">
+                    <p className="is-size-6">Step 1</p>
+                    <p>Wait for Bids</p>
+                  </div>
+                </li>
+                <li className="steps-segment ">
+                  <span className="steps-marker" />
+                  <div className="steps-content">
                     <p className="is-size-6">Step 2</p>
-                    <p>Wait for Bids.</p>
+                    <p>Choose a Tasker</p>
                   </div>
                 </li>
                 <li className="steps-segment ">
                   <span className="steps-marker" />
                   <div className="steps-content">
                     <p className="is-size-6">Step 3</p>
-                    <p>Choose a Tasker.</p>
+                    <p>Tasker Fulfills the request</p>
                   </div>
                 </li>
               </ul>
