@@ -45,9 +45,6 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
 
     return (
       <div className="card readOnlyView ">
-        {/* <div className="card-image">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>

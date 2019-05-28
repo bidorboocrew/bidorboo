@@ -137,14 +137,17 @@ class RequestSummary extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
+                      labelValue={`${
+                        jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE
+                      } Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
 
                     <label className="label">You Earned</label>
-                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout/100}$ (CAD)`}</div>
+                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
+                      100}$ (CAD)`}</div>
                   </div>
                 </div>
               </div>
@@ -174,6 +177,7 @@ class RequestSummary extends React.Component {
                     <div>
                       QUALITY OF WORK
                       <ReactStars
+                        style={{ cursor: 'pointer', display: 'inline-block' }}
                         half
                         count={5}
                         edit={false}
@@ -187,6 +191,7 @@ class RequestSummary extends React.Component {
                     <div>
                       PUNCTULAITY:
                       <ReactStars
+                        style={{ cursor: 'pointer', display: 'inline-block' }}
                         half
                         count={5}
                         edit={false}
@@ -199,6 +204,7 @@ class RequestSummary extends React.Component {
                     <div>
                       COMMUNICATION:
                       <ReactStars
+                        style={{ cursor: 'pointer', display: 'inline-block' }}
                         half
                         count={5}
                         edit={false}
@@ -211,6 +217,7 @@ class RequestSummary extends React.Component {
                     <div>
                       MANNERS:
                       <ReactStars
+                        style={{ cursor: 'pointer', display: 'inline-block' }}
                         half
                         count={5}
                         edit={false}

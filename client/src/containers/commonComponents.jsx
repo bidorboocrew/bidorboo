@@ -75,6 +75,8 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
     trimmedDisplayName =
       displayName && displayName.length > 8 ? `${displayName.substring(0, 8)}...` : displayName;
   }
+
+  console.error(rating.globalRating)
   return (
     <article
       style={{

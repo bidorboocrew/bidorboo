@@ -17,6 +17,10 @@ import {
   TaskerMyAwardedBidHouseCleaningDetails,
   TaskerAwardedBidCanceledByTaskerDetails,
   TaskerAwardedBidCanceledByTaskerSummary,
+  HouseCleaningAwardedDoneSummary,
+  HouseCleaningAwardedDoneDetails,
+  TaskerMyAwardedDoneBidHouseCleaningDetails,
+  TaskerMyAwardedDoneBidHouseCleaningSummary,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
@@ -64,9 +68,9 @@ const requesterCardTemplates = {
     },
     [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
-        <div>REQUEST_STATES.DONE summary not implemented yet</div>
+        <HouseCleaningAwardedDoneSummary job={job} {...otherArgs} />
       ) : (
-        <div>REQUEST_STATES.DONE details not implemented yet</div>
+        <HouseCleaningAwardedDoneDetails job={job} {...otherArgs} />
       );
     },
     [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -74,6 +78,13 @@ const requesterCardTemplates = {
         <div>REQUEST_STATES.DISPUTED summary not implemented yet</div>
       ) : (
         <div>REQUEST_STATES.DISPUTED details not implemented yet</div>
+      );
+    },
+    [REQUEST_STATES.PAIDOUT]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+      return isSummaryView ? (
+        <div>REQUEST_STATES.PAIDOUT summary not implemented yet</div>
+      ) : (
+        <div>REQUEST_STATES.PAIDOUT details not implemented yet</div>
       );
     },
   },
@@ -112,6 +123,13 @@ const TaskerCardTemplates = {
         return <TaskerAwardedBidCanceledByTaskerSummary job={job} {...otherArgs} />;
       } else {
         return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
+      }
+    },
+    [BID_STATES.DONE]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+      if (isSummaryView) {
+        return <TaskerMyAwardedDoneBidHouseCleaningSummary job={job} {...otherArgs} />;
+      } else {
+        return <TaskerMyAwardedDoneBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
     },
   },
@@ -172,8 +190,19 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       break;
 
     case BID_STATES.DONE:
-      return <div>This type aint found BID_STATES.DONE</div>;
-      break;
+      try {
+        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+          bid,
+          job: _jobRef,
+          isSummaryView,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          withBidDetails: true,
+          otherArgs,
+        });
+        return card || <div>This type aint found</div>;
+      } catch (e) {
+        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+      }
     case BID_STATES.PAID_OUT:
       return <div>This type aint found BID_STATES.PAID_OUT</div>;
       break;

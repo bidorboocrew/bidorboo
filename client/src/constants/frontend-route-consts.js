@@ -136,9 +136,9 @@ export const CLIENT = {
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
     bidderJobReview: `/bdb-offer/review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
-    getProposerJobReview: (proposerId, jobId, bidderId) =>
+    getProposerJobReview: ({ proposerId, jobId, bidderId }) =>
       `/bdb-request/review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-    getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
+    getBidderJobReview: ({ bidderId, bidId, proposerId, jobId }) =>
       `/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
   },
   MY_PROFILE: {
