@@ -198,7 +198,7 @@ export class BidderReviewingCompletedJob extends React.Component {
         <div className="card-content limitLargeMaxWidth">
           {bodyContent()}
           <button
-            style={{ marginLeft: 12, marginTop: 12 }}
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
             className="button is-success is-medium"
             onClick={this.submitReview}
           >
@@ -206,7 +206,7 @@ export class BidderReviewingCompletedJob extends React.Component {
           </button>
 
           <button
-            style={{ marginLeft: 12, marginTop: 12 }}
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
             className="button is-outlined has-text-dark  is-medium"
             onClick={() => {
               switchRoute(ROUTES.CLIENT.HOME);
