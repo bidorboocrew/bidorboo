@@ -116,8 +116,6 @@ class Header extends React.Component {
   // }
 
   static getDerivedStateFromProps(nextProp, prevState) {
-    console.log('we did update');
-    debugger;
     if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
       if (nextProp.history.location.pathname.includes('bdb-request')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
