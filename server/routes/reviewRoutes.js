@@ -81,6 +81,11 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
+
+        // xxxx notify stuff
+        // if both are done reviewing send the profile review page
+        // if one is done the other isnt push notify the other to go and review
+
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
         return res
@@ -158,6 +163,9 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
+        // xxxx notify stuff
+        // if both are done reviewing send the profile review page
+        // if one is done the other isnt push notify the other to go and review
 
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });
       } catch (e) {
