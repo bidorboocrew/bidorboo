@@ -228,6 +228,13 @@ export class BidderReviewingCompletedJob extends React.Component {
           >
             remind me later
           </button>
+          <div className="help">
+            Your review will be revealed Only After <strong>Both of you have completed</strong>{' '}
+            rating eachother.
+          </div>
+          <div className="help">
+            Reviews will be available in your History Tab under your profile
+          </div>
         </div>
       </div>
     );
