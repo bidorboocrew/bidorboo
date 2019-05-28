@@ -168,7 +168,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                     <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
                       {numberOfTimesBeenRated}
                     </p>
-                    <p className="is-size-6">ratings count</p>
+                    <p className="is-size-6">ratings recieved</p>
                   </article>
                 </div>
                 <div className="tile is-parent">
@@ -188,7 +188,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                   <article className="tile is-child box">
                     <p
                       style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold${
+                      className={`title has-text-weight-bold ${
                         canceledBids.length > 0 ? 'has-text-danger' : ''
                       }`}
                     >
@@ -201,7 +201,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                   <article className="tile is-child box">
                     <p
                       style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold${
+                      className={`title has-text-weight-bold ${
                         fulfilledJobs.length > 0 ? 'has-text-success' : ''
                       }`}
                     >
