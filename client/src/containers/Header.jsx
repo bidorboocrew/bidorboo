@@ -70,6 +70,12 @@ class Header extends React.Component {
       userAppView,
     } = this.props;
 
+    let navbarMobileDisplayName = displayName;
+    if (displayName && displayName.length > 0) {
+      const namePieces = displayName.split(' ');
+      navbarMobileDisplayName =
+        namePieces[0].length > 6 ? namePieces[0].substring(0, 5) : namePieces[0];
+    }
     const { profileImage } = userDetails;
 
     const { isHamburgerOpen, isProfileMenuActive, isNotificationMenuActive } = this.state;
@@ -125,7 +131,6 @@ class Header extends React.Component {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              style={{ paddingRight: 4 }}
               className="navbar-item"
             >
               <img
@@ -163,21 +168,27 @@ class Header extends React.Component {
                 {isActingAsBidder && (
                   <div
                     style={{
-                      transform: 'scaleY(1.1)',
+                      paddingLeft: 0,
+                      paddingRight: 0,
                     }}
-                    className="navbar-item has-text-grey"
+                    className="navbar-item has-text-grey is-hidden-desktop"
                   >
-                    (Tasker)
+                    <div style={{ fontSize: 12, paddingTop: 2 }}>
+                      ({navbarMobileDisplayName} As Bidder)
+                    </div>
                   </div>
                 )}
                 {!isActingAsBidder && (
                   <div
                     style={{
-                      transform: 'scaleY(1.1)',
+                      paddingLeft: 0,
+                      paddingRight: 0,
                     }}
-                    className="navbar-item has-text-grey"
+                    className="navbar-item has-text-grey is-hidden-desktop"
                   >
-                    (Requester)
+                    <div style={{ fontSize: 12, paddingTop: 2 }}>
+                      ({navbarMobileDisplayName} As Requester)
+                    </div>
                   </div>
                 )}
               </React.Fragment>
