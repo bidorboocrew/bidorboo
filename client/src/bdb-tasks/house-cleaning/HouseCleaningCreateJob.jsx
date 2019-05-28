@@ -108,16 +108,16 @@ export default class HouseCleaningCreateJob extends React.Component {
     const { ID, TITLE, SUGGESTION_TEXT } = HOUSE_CLEANING_DEF;
 
     return (
-      <div style={{ maxWidth: 'unset' }} className="card">
+      <div
+        style={{ maxWidth: 'unset', border: 'none', boxShadow: 'none' }}
+        className="card limitLargeMaxWidth"
+      >
         <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
           <div>
-            <div className="title has-text-dark has-text-centered">
-              <span className="icon">
-                <i className="fas fa-home" />
-              </span>
-              <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
+            <div style={{ marginBottom: 0 }} className="subtitle has-text-centered">
+              How It Works ?
             </div>
-            <StepsForRequest step={1} />
+            <StepsForRequest isSmall step={1} />
           </div>
         </section>
 

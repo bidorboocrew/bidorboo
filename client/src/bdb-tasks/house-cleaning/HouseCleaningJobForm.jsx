@@ -78,7 +78,7 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras } = HOUSE_CLEANING_DEF;
+    const { ID, TASK_EXPECTATIONS, extras, TITLE } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
@@ -148,6 +148,13 @@ class HouseCleaningJobForm extends React.Component {
           )}
 
         <form onSubmit={(e) => e.preventDefault()}>
+          <div style={{ marginBottom: 16 }} className="title">
+            <span className="icon">
+              <i className="fas fa-home" />
+            </span>
+            <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
+          </div>
+
           <input
             id="recaptchaField"
             className="input is-invisible"
@@ -166,7 +173,7 @@ class HouseCleaningJobForm extends React.Component {
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
-          <br />
+
           <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
           <br />
           {this.RenderLocationField()}

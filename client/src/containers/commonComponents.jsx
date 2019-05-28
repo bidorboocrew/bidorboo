@@ -333,9 +333,9 @@ export class LocationLabelAndValue extends React.Component {
   }
 }
 
-export const StepsForRequest = ({ step }) => {
+export const StepsForRequest = ({ step, isSmall }) => {
   return (
-    <ul className="steps has-content-centered is-horizontal">
+    <ul className={`steps has-content-centered is-horizontal ${isSmall ? 'is-small' : ''} `}>
       <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
         <span className="steps-marker">
           <span className="icon">

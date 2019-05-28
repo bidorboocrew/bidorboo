@@ -490,18 +490,18 @@ article.media.limitHeight {
       0 5px 5px -3px rgba(0, 0, 0, 0.2);
   }
   &.limitWidthOfCard {
-    min-width: 20rem;
-    max-width: 25rem;
+    min-width: 20rem !important;
+    max-width: 25rem !important;
     margin: auto;
   }
   &.limitLargeMaxWidth {
-    min-width: 20rem;
-    max-width: 50rem;
+    min-width: 20rem !important;
+    max-width: 50rem !important;
     margin: auto;
   }
   &.noBordered {
-    border: none;
-    box-shadow: none;
+    border: none !important;
+    box-shadow: none !important;
   }
   &.disabled {
     // cursor: not-allowed;
