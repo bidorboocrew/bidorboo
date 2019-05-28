@@ -19,6 +19,19 @@ export class BidderReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
     };
+
+    if (
+      this.props.match &&
+      this.props.match.params &&
+      this.props.match.params.bidId &&
+      this.props.match.params.proposerId
+    ) {
+      this.bidId = this.props.match.params.bidId;
+      this.proposerId = this.props.match.params.proposerId;
+    } else {
+      switchRoute(ROUTES.CLIENT.HOME);
+      return null;
+    }
   }
 
   accuracyOfPostChange = (newRating) => {
@@ -74,7 +87,8 @@ export class BidderReviewingCompletedJob extends React.Component {
       axios
         .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
           data: {
-            ...this.props.match.params,
+            proposerId: this.proposerId,
+            bidId: this.bidId,
             ...this.state,
           },
         })

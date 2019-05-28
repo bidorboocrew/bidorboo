@@ -383,8 +383,8 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
-  getJobWithReviewModel: async (jobId) => {
-    return JobModel.findById(jobId)
+  getJobWithReviewModel: async (jobId, ownerId) => {
+    return JobModel.findOne({ _id: jobId, _ownerRef: ownerId })
       .populate({ path: '_reviewRef' })
       .lean({ virtuals: true })
       .exec();
@@ -403,7 +403,8 @@ exports.jobDataAccess = {
         $set: {
           _reviewRef: kickStartReviewModel._id,
         },
-      }
+      },
+      { new: true }
     )
       .lean(true)
       .exec();

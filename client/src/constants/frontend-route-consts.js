@@ -134,12 +134,12 @@ export const CLIENT = {
     dynamicReviewMyAwardedBidAndTheRequestDetails: (bidId) => `/awarded-bid-details/${bidId}`,
   },
   REVIEW: {
-    proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
-    bidderJobReview: `/bdb-offer/review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
-    getProposerJobReview: ({ proposerId, jobId, bidderId }) =>
-      `/bdb-request/review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-    getBidderJobReview: ({ bidderId, bidId, proposerId, jobId }) =>
-      `/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
+    proposerJobReview: `/bdb-request/review/job/:jobId/bidder/:bidderId`,
+    bidderJobReview: `/bdb-offer/review/bid/:bidId/proposer/:proposerId`,
+    getProposerJobReview: ({ jobId, bidderId }) =>
+      `/bdb-request/review/job/${jobId}/bidder/${bidderId}`,
+    getBidderJobReview: ({ bidId, proposerId }) =>
+      `/bdb-offer/review/bid/${bidId}/proposer/${proposerId}`,
   },
   MY_PROFILE: {
     basicSettings: '/my-profile/basic-settings',

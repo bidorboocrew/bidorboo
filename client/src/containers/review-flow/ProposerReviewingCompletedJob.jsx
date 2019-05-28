@@ -19,6 +19,18 @@ export class ProposerReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
     };
+    if (
+      this.props.match &&
+      this.props.match.params &&
+      this.props.match.params.jobId &&
+      this.props.match.params.bidderId
+    ) {
+      this.jobId = this.props.match.params.jobId;
+      this.bidderId = this.props.match.params.bidderId;
+    } else {
+      switchRoute(ROUTES.CLIENT.HOME);
+      return null;
+    }
   }
 
   submitReview = () => {
@@ -54,7 +66,8 @@ export class ProposerReviewingCompletedJob extends React.Component {
       axios
         .put(ROUTES.API.REVIEW.PUT.proposerSubmitReview, {
           data: {
-            ...this.props.match.params,
+            jobId: this.jobId,
+            bidderId: this.bidderId,
             ...this.state,
           },
         })
