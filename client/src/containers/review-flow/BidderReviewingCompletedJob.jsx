@@ -79,7 +79,7 @@ export class BidderReviewingCompletedJob extends React.Component {
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.HOME);
+          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
