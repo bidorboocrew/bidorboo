@@ -149,7 +149,7 @@ export default class HomePage extends React.Component {
                   </Zoom>
                 </span>
               </h1>
-              <Fade delay={200}>
+              <Fade delay={700}>
                 <h2 className="is-5 has-text-grey">
                   Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
                 </h2>
@@ -164,7 +164,7 @@ export default class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <div>
-                <Zoom delay={400}>
+                <Zoom delay={750}>
                   <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
                     What Do You Want To Do
                   </div>
@@ -188,10 +188,10 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <Fade delay={100}>
+        <Fade delay={400}>
           <div className="columns is-mobile is-multiline is-centered">
             <div style={{ maxWidth: '21rem' }} className="column">
-              <Fade bottom delay={200}>
+              <Fade bottom delay={600}>
                 <RequestAService
                   logoImg={requestImg}
                   onClickHandler={() => {
@@ -201,7 +201,7 @@ export default class HomePage extends React.Component {
               </Fade>
             </div>
             <div style={{ maxWidth: '21rem' }} className="column">
-              <Fade bottom delay={200}>
+              <Fade bottom delay={600}>
                 <ProvideAService
                   logoImg={bidsImg}
                   onClickHandler={() => {
@@ -213,13 +213,13 @@ export default class HomePage extends React.Component {
           </div>
         </Fade>
 
-        <Fade delay={100}>
+        <Fade delay={400}>
           <section className="section hero has-text-centered is-info">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
                   <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={200}>
+                    <Fade bottom delay={600}>
                       <RequestAService
                         logoImg={requestImg}
                         onClickHandler={() => {
@@ -229,7 +229,7 @@ export default class HomePage extends React.Component {
                     </Fade>
                   </div>
                   <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={200}>
+                    <Fade bottom delay={600}>
                       <HowItWorksRequestService />
                     </Fade>
                   </div>
@@ -239,13 +239,13 @@ export default class HomePage extends React.Component {
           </section>
         </Fade>
         <br />
-        <Fade delay={100}>
+        <Fade delay={400}>
           <section className="section hero has-text-centered is-dark">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
                   <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={200}>
+                    <Fade bottom delay={600}>
                       <ProvideAService
                         logoImg={bidsImg}
                         onClickHandler={() => {
@@ -255,7 +255,7 @@ export default class HomePage extends React.Component {
                     </Fade>
                   </div>
                   <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={200}>
+                    <Fade bottom delay={600}>
                       <HowItWorksProvideService />
                     </Fade>
                   </div>
