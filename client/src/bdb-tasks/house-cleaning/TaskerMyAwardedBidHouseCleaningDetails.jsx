@@ -351,7 +351,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                   className={`button is-fullwidth is-success heartbeatInstant`}
                 >
                   <span className="icon">
-                    <i class="fas fa-user-check" />
+                    <i className="fas fa-user-check" />
                   </span>
                   <span>Review The Requester</span>
                 </a>

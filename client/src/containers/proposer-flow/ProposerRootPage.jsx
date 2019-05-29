@@ -40,7 +40,7 @@ class ProposerRoot extends React.Component {
             <div className="container">
               <h1 className="title">Request a Service</h1>
               <h2 className="subtitle">
-                Start by Selecting one of our services
+                Select one of our services
                 {/* {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div  className="help has-text-grey ">

@@ -169,7 +169,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                 <div className="field">
                   <div className="label">BidOrBoo Rules</div>
                   {values.bidAmountField && values.bidAmountField > 1 && (
-                    <div className="help">
+                    <div className="help help has-text-success">
                       * Your Net Payout After deucting BidOrBoo Service Fee:
                       <strong>
                         {` ${values.bidAmountField -

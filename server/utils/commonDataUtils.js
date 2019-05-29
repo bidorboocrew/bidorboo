@@ -1,6 +1,7 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const JobModel = mongoose.model('JobModel');
+const ROUTES = require('../backend-route-constants');
 
 exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) => {
   const awardedJob = await JobModel.findById(jobId)

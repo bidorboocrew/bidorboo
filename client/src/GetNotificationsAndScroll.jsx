@@ -65,22 +65,10 @@ class GetNotificationsAndScroll extends React.Component {
       }
       const currentUrlPathname = window.location.pathname;
       if (isLoggedIn) {
-        if (
-          currentUrlPathname.indexOf('user-profile') > -1 ||
-          currentUrlPathname.indexOf('verification') > -1 ||
-          currentUrlPathname.indexOf('bdb-request') > -1 ||
-          currentUrlPathname.indexOf('bdb-offer') > -1 ||
-          currentUrlPathname.indexOf('/review') > -1 ||
-          currentUrlPathname.indexOf('my-profile') > -1 ||
-          currentUrlPathname.indexOf('my-agenda') > -1 ||
-          currentUrlPathname.indexOf('on-boarding') > -1
-        ) {
+        if (currentUrlPathname.indexOf('on-boarding') > -1) {
           // do not fetch notifications on these pages above
         } else {
-          if (moment().diff(this.lastFetch, 'minutes') > 3) {
-            this.lastFetch = moment();
-            // this.props.getCurrentUserNotifications();
-          }
+          this.props.getCurrentUserNotifications();
         }
 
         if (currentUrlPathname.indexOf('bdb-request') > -1) {

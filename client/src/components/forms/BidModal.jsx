@@ -147,7 +147,7 @@ class BidModal extends React.Component {
               <div className="label">BidOrBoo Rules</div>
 
               {values.bidAmountField && values.bidAmountField > 1 && (
-                <div className="help">
+                <div className="help has-text-success">
                   * Your Net Payout After deucting BidOrBoo Service Fee:
                   <strong>
                     {` ${values.bidAmountField - Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}

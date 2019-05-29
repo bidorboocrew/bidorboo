@@ -31,31 +31,10 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const { stripeTransactionToken, chargeAmount } = req.body.data;
-
-        // xxx cool trick requiresPayBidderCheck will ensure we are setup
+        // requiresPayBidderCheck will ensure we are setup
         const { _jobRef, _id, _bidderRef, bidAmount } = res.locals.bidOrBooPayBider.theBid;
 
-        const {
-          requestedJobId,
-          awardedBidId,
-          requesterId,
-          taskerId,
-          requesterDisplayName,
-          taskerDisplayName,
-          jobDisplayName,
-          requestLinkForRequester,
-          requestLinkForTasker,
-          requesterEmailAddress,
-          taskerEmailAddress,
-          taskerPhoneNumber,
-          allowedToEmailRequester,
-          allowedToEmailTasker,
-          allowedToTextTasker,
-          allowedToPushNotifyTasker,
-          taskerPushNotSubscription,
-        } = await getAllContactDetails(_jobRef._id);
-
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(taskerId);
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
 
         if (stripeAccDetails.accId) {
           /**
@@ -76,36 +55,37 @@ module.exports = (app) => {
 
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
-          const description = `BidOrBoo - Charge for ${jobDisplayName}`;
-
+          const description = `BidOrBoo - Charge for your ${
+            _jobRef.fromTemplateId
+          } request was recieved.`;
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
             amount: chargeAmount,
             currency: 'CAD',
             description,
             source: stripeTransactionToken,
-            // application_fee_amount: bidOrBooTotalCommission,
+            application_fee_amount: bidOrBooTotalCommission,
             transfer_data: {
-              amount: bidderPayoutAmount, // the final # sent to awarded bidder
+              // amount: bidderPayoutAmount, // the final # sent to awarded bidder
               destination: stripeAccDetails.accId,
             },
-            receipt_email: requesterEmailAddress,
+            receipt_email: _jobRef._ownerRef.email.emailAddress,
             metadata: {
-              requesterId,
-              requesterEmailAddress,
-              taskerId,
-              taskerEmailAddress,
-              requestedJobId,
-              awardedBidId,
-              note: `Requester Paid For ${jobDisplayName} Task`,
+              bidderId: _bidderRef._id.toString(),
+              bidderEmail: _bidderRef.email.emailAddress,
+              proposerId: req.user._id.toString(),
+              proposerEmail: _jobRef._ownerRef.email.emailAddress,
+              jobId: _jobRef._id.toString(),
+              bidId: _id.toString(),
+              note: `Requester Paid for  ${_jobRef.fromTemplateId}`,
             },
           });
 
           if (charge && charge.status === 'succeeded') {
             // update the job and bidder with the chosen awarded bid
             const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-              requestedJobId,
-              awardedBidId,
+              _jobRef._id.toString(),
+              _id.toString(),
               {
                 paymentSourceId: stripeTransactionToken,
                 amount: charge.amount,
@@ -116,6 +96,22 @@ module.exports = (app) => {
                 bidderStripeAcc: stripeAccDetails.accId,
               }
             );
+
+            const {
+              requesterDisplayName,
+              taskerDisplayName,
+              jobDisplayName,
+              requestLinkForRequester,
+              requestLinkForTasker,
+              requesterEmailAddress,
+              taskerEmailAddress,
+              taskerPhoneNumber,
+              allowedToEmailRequester,
+              allowedToEmailTasker,
+              allowedToTextTasker,
+              allowedToPushNotifyTasker,
+              taskerPushNotSubscription,
+            } = await getAllContactDetails(_jobRef._id);
 
             if (allowedToEmailRequester) {
               sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
