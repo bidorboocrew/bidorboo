@@ -78,7 +78,6 @@ class GetNotificationsAndScroll extends React.Component {
         }
       }
       setTimeout(() => {
-        debugger;
         window.scrollTo(0, 0);
       }, 0);
     }
