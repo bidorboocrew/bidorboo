@@ -1083,23 +1083,26 @@ exports.jobDataAccess = {
         } = await getAllContactDetails(jobId);
 
         if (updatedTasker && updatedTasker.stripeConnect && updatedTasker.stripeConnect.accId) {
-          const payoutInititated = await stripeServiceUtil.payoutToBank(
-            updatedTasker.stripeConnect.accId,
-            {
-              amount: processedPayment.bidderPayout,
-              metadata: {
-                requesterId,
-                requesterEmailAddress,
-                taskerId,
-                taskerEmailAddress,
-                requestedJobId,
-                awardedBidId,
-                note: 'Task Was Completed Successfully',
-              },
-            }
-          );
+          //xxx
+          // this has to happen via cron job + webhook only do this when payment is available for payout
+          // const payoutInititated = await stripeServiceUtil.payoutToBank(
+          //   updatedTasker.stripeConnect.accId,
+          //   {
+          //     amount: processedPayment.bidderPayout,
+          //     metadata: {
+          //       requesterId,
+          //       requesterEmailAddress,
+          //       taskerId,
+          //       taskerEmailAddress,
+          //       requestedJobId,
+          //       awardedBidId,
+          //       note: 'Task Was Completed Successfully',
+          //     },
+          //   }
+          // );
 
-          if (payoutInititated.status === 'succeeded') {
+          // if (payoutInititated.status === 'succeeded') {
+          if (true) {
             // xxxxxxxxxxxxxx replace with review links
 
             // begin communication

@@ -45,16 +45,17 @@ const JobSchema = new Schema(
       index: true,
       enum: [
         'OPEN',
-        'AWARDED',
-        'DISPUTED',
+        'AWARDED', //
+        'DISPUTED', // disputed job
         'AWARDED_CANCELED_BY_BIDDER',
         'AWARDED_CANCELED_BY_REQUESTER',
-        'CANCELED_OPEN',
-        'TO_BE_DELETED_SOON',
-        'DONE',
-        'PAIDOUT',
+        'CANCELED_OPEN', // Requester cancels a job before awarding
+        'TO_BE_DELETED_SOON', // past due and no taskers assigned delete in 48h
+        'DONE',//when Tasker confirms we set it to Payout , later a cron job will pay the account
+        'ARCHIVE', //For historical record
       ],
     },
+    disputeMsg: { type: String },
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
       bidderConfirmed: { type: Boolean, default: false },

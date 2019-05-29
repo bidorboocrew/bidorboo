@@ -16,10 +16,11 @@ const BidSchema = new Schema(
         'OPEN',
         'CANCELED_AWARDED_BY_TASKER',
         'CANCELED_AWARDED_BY_REQUESTER',
-        'WON',
-        'WON_SEEN',
-        'DONE',
-        'PAID_OUT',
+        'WON', // when Tasker is awarded
+        'WON_SEEN', // when tasker seen the awarded bid
+        'DONE', // when Requester confirms job is done
+        'PAID_OUT', // When we issue release of funds
+        'ARCHIVED', // when stripe webhook infroms us that funds were recieved in thier bank
       ],
       default: 'OPEN',
     },
