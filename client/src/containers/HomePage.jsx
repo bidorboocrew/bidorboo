@@ -149,9 +149,11 @@ export default class HomePage extends React.Component {
                   </Zoom>
                 </span>
               </h1>
-              <h2 className="is-5 has-text-grey">
-                Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
-              </h2>
+              <Fade delay={200}>
+                <h2 className="is-5 has-text-grey">
+                  Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+                </h2>
+              </Fade>
             </div>
           </div>
         </section>
@@ -162,9 +164,11 @@ export default class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <div>
-                <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
-                  What do you wish to do?
-                </div>
+                <Zoom delay={400}>
+                  <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
+                    What Do You Want To Do
+                  </div>
+                </Zoom>
                 <div>
                   <a
                     style={{
@@ -177,7 +181,7 @@ export default class HomePage extends React.Component {
                     <span className="help icon">
                       <i className="fas fa-chalkboard-teacher" />
                     </span>
-                    <span>View BidOrBoo Product Tour</span>
+                    <span>View Our Product Tour</span>
                   </a>
                 </div>
               </div>
