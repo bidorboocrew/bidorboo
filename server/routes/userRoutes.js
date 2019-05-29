@@ -141,7 +141,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
       // xxxx
-      stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
+      // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
