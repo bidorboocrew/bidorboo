@@ -4,11 +4,11 @@ export const HOUSE_CLEANING_DEF = {
   ICON: 'fas fa-home',
   DESCRIPTION: `Does your place need a cleaning ? Tired and want to get someone to clean the bathrooms
   living room kitchen bedrooms and more ?`,
-  SUGGESTION_TEXT: `*Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?
+  SUGGESTION_TEXT: `*What Areas would you like the Tasker to focus on (living room , bathrooms, bedrooms) ?
 
-*What are the major areas that you require cleaning (living room-kitchen-bathrooms) ?
+*Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?
 
-*Will the tasker need to move heavy items (couch-beds-fridge) ?
+*Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
   IMG_URL: 'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
   extras: {

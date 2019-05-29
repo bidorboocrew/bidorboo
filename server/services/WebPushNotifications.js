@@ -92,11 +92,14 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushYouAreAwarded: async (targetUserPushSubscription, { displayName, icon, urlToLaunch }) => {
+  pushYouAreAwarded: async (
+    targetUserPushSubscription,
+    { taskerDisplayName, icon, urlToLaunch }
+  ) => {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `Good News ${displayName} !`,
+          title: `Good News ${taskerDisplayName} !`,
           body: `You have been awarded a job. click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',

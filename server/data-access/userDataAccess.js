@@ -110,7 +110,6 @@ exports.findUserPublicDetails = (mongoUser_id) => {
         {
           pushSubscription: 0,
           userRole: 0,
-          agreedToServiceTerms: 0,
           settings: 0,
           extras: 0,
           canBid: 0,
@@ -212,47 +211,58 @@ exports.findByIdAndGetPopulatedBids = (userId) =>
 exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const bidsWithUpdatedStatus = ['BOO', 'WON', 'CANCEL', 'AWARDED'];
-      const user = await User.findOne({ userId })
+      const user = await User.findOne(
+        { userId },
+        {
+          _asBidderReviewsRef: 0,
+          _asProposerReviewsRef: 0,
+          verification: 0,
+          pushSubscription: 0,
+          userRole: 0,
+          tos_acceptance: 0,
+          settings: 0,
+          extras: 0,
+          stripeConnect: 0,
+          updatedAt: 0,
+          password: 0,
+        }
+      )
         .populate({
           path: '_postedJobsRef',
           match: { state: { $in: ['OPEN', 'AWARDED'] } },
           select: {
             _bidsListRef: 1,
-            _reviewRef: 1,
             state: 1,
             fromTemplateId: 1,
             startingDateAndTime: 1,
-            appView: 1,
           },
-          populate: [
-            {
-              path: '_bidsListRef',
-              select: schemaHelpers.BidFull,
-              match: { isNewBid: { $eq: true } },
-            },
-            {
-              path: '_reviewRef',
-              select: { _id: 1 },
-              match: { state: { $eq: 'AWAITING' } },
-            },
-          ],
+          populate: {
+            path: '_bidsListRef',
+            select: { isNewBid: 1 },
+            match: { isNewBid: { $eq: true } },
+          },
+          // populate: [
+          //   {
+          //     path: '_bidsListRef',
+          //     select: schemaHelpers.BidFull,
+          //     match: { isNewBid: { $eq: true } },
+          //   },
+          //   // {
+          //   path: '_reviewRef',
+          //   select: { _id: 1 },
+          //   match: { state: { $eq: 'AWAITING' } },
+          // },
+          // ],
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $in: bidsWithUpdatedStatus } },
-          select: schemaHelpers.BidFull,
+          match: { state: { $in: ['WON', 'CANCELED_AWARDED_BY_TASKER'] } },
+          select: { _jobRef: 1 },
           populate: {
             path: '_jobRef',
             select: {
-              _reviewRef: 1,
               startingDateAndTime: 1,
               fromTemplateId: 1,
-            },
-            populate: {
-              path: '_reviewRef',
-              select: { _id: 1 },
-              match: { state: { $eq: 'AWAITING' } },
             },
           },
         })

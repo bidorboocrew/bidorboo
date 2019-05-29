@@ -15,7 +15,8 @@ const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 const BIDORBOO_REFUND_AMOUNT = 0.8;
-
+const getAllContactDetails = require('../utils/commonDataUtils')
+  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 exports.jobDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingJobs: async () => {
@@ -537,7 +538,6 @@ exports.jobDataAccess = {
                   profileImage: 1,
                   personalParagraph: 1,
                   membershipStatus: 1,
-                  agreedToServiceTerms: 1,
                   createdAt: 1,
                   notifications: 1,
                 },
@@ -927,7 +927,6 @@ exports.jobDataAccess = {
             _postedJobsRef: 0,
             _postedBidsRef: 0,
             userRole: 0,
-            agreedToServiceTerms: 0,
             extras: 0,
             settings: 0,
             creditCards: 0,
@@ -983,6 +982,7 @@ exports.jobDataAccess = {
   },
 
   requesterConfirmsJobCompletion: async (jobId) => {
+    // if tasker didnt
     return new Promise(async (resolve, reject) => {
       try {
         const updatedJob = await JobModel.findOneAndUpdate(
@@ -1080,9 +1080,7 @@ exports.jobDataAccess = {
           requesterPushNotSubscription,
           taskerPushNotSubscription,
           processedPayment,
-        } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
-          jobId
-        );
+        } = await getAllContactDetails(jobId);
 
         if (updatedTasker && updatedTasker.stripeConnect && updatedTasker.stripeConnect.accId) {
           const payoutInititated = await stripeServiceUtil.payoutToBank(
@@ -1198,9 +1196,7 @@ exports.jobDataAccess = {
           allowedToTextRequester,
           allowedToPushNotifyRequester,
           requesterPushNotSubscription,
-        } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
-          jobId
-        );
+        } = await getAllContactDetails(jobId);
 
         // send communication to both about the cancellation
         if (allowedToEmailRequester) {
@@ -1324,9 +1320,7 @@ exports.jobDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
-          } = await exports.jobDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
-            jobId
-          );
+          } = await getAllContactDetails(jobId);
 
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
             chargeId: processedPayment.chargeId,
@@ -1443,7 +1437,7 @@ exports.jobDataAccess = {
             }
 
             if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_REQUESTER') {
-              return reject({ success: false, ErrorMsg: 'falied to update the associated bid' });
+              return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
 
             if (
@@ -1460,7 +1454,7 @@ exports.jobDataAccess = {
               if (!addedThisToCanceledJobs) {
                 return reject({
                   success: false,
-                  ErrorMsg: 'falied to update the associated Tasker',
+                  ErrorMsg: 'failed to update the associated Tasker',
                 });
               }
             }
@@ -1481,116 +1475,116 @@ exports.jobDataAccess = {
     });
   },
 
-  _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {
-    const awardedJob = await JobModel.findById(jobId)
-      .populate({
-        path: '_awardedBidRef',
-        select: {
-          _bidderRef: 1,
-          isNewBid: 1,
-          state: 1,
-          bidAmount: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        },
-        populate: {
-          path: '_bidderRef',
-          select: {
-            _id: 1,
-            email: 1,
-            phone: 1,
-            pushSubscription: 1,
-            notifications: 1,
-            displayName: 1,
-          },
-        },
-      })
-      .populate({
-        path: '_ownerRef',
-        select: {
-          _id: 1,
-          displayName: 1,
-          email: 1,
-          phone: 1,
-          pushSubscription: 1,
-          notifications: 1,
-        },
-      })
-      .lean({ virtuals: true })
-      .exec();
+  // _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {
+  //   const awardedJob = await JobModel.findById(jobId)
+  //     .populate({
+  //       path: '_awardedBidRef',
+  //       select: {
+  //         _bidderRef: 1,
+  //         isNewBid: 1,
+  //         state: 1,
+  //         bidAmount: 1,
+  //         createdAt: 1,
+  //         updatedAt: 1,
+  //       },
+  //       populate: {
+  //         path: '_bidderRef',
+  //         select: {
+  //           _id: 1,
+  //           email: 1,
+  //           phone: 1,
+  //           pushSubscription: 1,
+  //           notifications: 1,
+  //           displayName: 1,
+  //         },
+  //       },
+  //     })
+  //     .populate({
+  //       path: '_ownerRef',
+  //       select: {
+  //         _id: 1,
+  //         displayName: 1,
+  //         email: 1,
+  //         phone: 1,
+  //         pushSubscription: 1,
+  //         notifications: 1,
+  //       },
+  //     })
+  //     .lean({ virtuals: true })
+  //     .exec();
 
-    const { _ownerRef, _awardedBidRef, processedPayment, displayTitle } = awardedJob;
-    const awardedBidId = _awardedBidRef._id.toString();
-    const requestedJobId = awardedJob._id.toString();
+  //   const { _ownerRef, _awardedBidRef, processedPayment, displayTitle } = awardedJob;
+  //   const awardedBidId = _awardedBidRef._id.toString();
+  //   const requestedJobId = awardedJob._id.toString();
 
-    const ownerDetails = _ownerRef;
-    const awardedBidderDetails = _awardedBidRef._bidderRef;
+  //   const ownerDetails = _ownerRef;
+  //   const awardedBidderDetails = _awardedBidRef._bidderRef;
 
-    const requesterId = _ownerRef._id.toString();
-    const taskerId = awardedBidderDetails._id.toString();
+  //   const requesterId = _ownerRef._id.toString();
+  //   const taskerId = awardedBidderDetails._id.toString();
 
-    const requesterDisplayName = ownerDetails.displayName;
-    const taskerDisplayName = awardedBidderDetails.displayName;
-    const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.fromTemplateId;
+  //   const requesterDisplayName = ownerDetails.displayName;
+  //   const taskerDisplayName = awardedBidderDetails.displayName;
+  //   const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.fromTemplateId;
 
-    const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
-    const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
+  //   const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
+  //   const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
 
-    const requesterPushNotSubscription = ownerDetails.pushSubscription;
-    const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
+  //   const requesterPushNotSubscription = ownerDetails.pushSubscription;
+  //   const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
 
-    const requesterEmailAddress =
-      ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
-    const requesterPhoneNumber =
-      ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
+  //   const requesterEmailAddress =
+  //     ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
+  //   const requesterPhoneNumber =
+  //     ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
 
-    const taskerEmailAddress =
-      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-        ? awardedBidderDetails.email.emailAddress
-        : '';
-    const taskerPhoneNumber =
-      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-        ? awardedBidderDetails.phone.phoneNumber
-        : '';
+  //   const taskerEmailAddress =
+  //     awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
+  //       ? awardedBidderDetails.email.emailAddress
+  //       : '';
+  //   const taskerPhoneNumber =
+  //     awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
+  //       ? awardedBidderDetails.phone.phoneNumber
+  //       : '';
 
-    const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
-    const allowedToEmailTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
+  //   const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
+  //   const allowedToEmailTasker =
+  //     awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
 
-    const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
-    const allowedToTextTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
+  //   const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
+  //   const allowedToTextTasker =
+  //     awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
 
-    const allowedToPushNotifyRequester =
-      ownerDetails.notifications && ownerDetails.notifications.push;
-    const allowedToPushNotifyTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
+  //   const allowedToPushNotifyRequester =
+  //     ownerDetails.notifications && ownerDetails.notifications.push;
+  //   const allowedToPushNotifyTasker =
+  //     awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
 
-    return {
-      requestedJobId,
-      awardedBidId,
-      requesterId,
-      taskerId,
-      requesterDisplayName,
-      taskerDisplayName,
-      jobDisplayName,
-      requestLinkForRequester,
-      requestLinkForTasker,
-      requesterEmailAddress,
-      requesterPhoneNumber,
-      taskerEmailAddress,
-      taskerPhoneNumber,
-      allowedToEmailRequester,
-      allowedToEmailTasker,
-      allowedToTextRequester,
-      allowedToTextTasker,
-      allowedToPushNotifyRequester,
-      allowedToPushNotifyTasker,
-      requesterPushNotSubscription,
-      taskerPushNotSubscription,
-      processedPayment,
-    };
-  },
+  //   return {
+  //     requestedJobId,
+  //     awardedBidId,
+  //     requesterId,
+  //     taskerId,
+  //     requesterDisplayName,
+  //     taskerDisplayName,
+  //     jobDisplayName,
+  //     requestLinkForRequester,
+  //     requestLinkForTasker,
+  //     requesterEmailAddress,
+  //     requesterPhoneNumber,
+  //     taskerEmailAddress,
+  //     taskerPhoneNumber,
+  //     allowedToEmailRequester,
+  //     allowedToEmailTasker,
+  //     allowedToTextRequester,
+  //     allowedToTextTasker,
+  //     allowedToPushNotifyRequester,
+  //     allowedToPushNotifyTasker,
+  //     requesterPushNotSubscription,
+  //     taskerPushNotSubscription,
+  //     processedPayment,
+  //   };
+  // },
   cancelOpenJob: async (jobId, mongoUser_id) => {
     return _updateJobStatus(jobId, mongoUser_id, 'CANCELED_OPEN');
   },

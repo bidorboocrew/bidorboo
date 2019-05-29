@@ -141,7 +141,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
       // xxxx
-      stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
+      // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
@@ -225,13 +225,9 @@ module.exports = (app) => {
 
   app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res) => {
     try {
-      const onboardingDetails = req.body.data;
-      if (!onboardingDetails) {
-        return res.status(403).send({
-          errorMsg: 'updateOnboardingDetails failed due to missing params',
-        });
-      }
-      if (!onboardingDetails.agreedToTOS) {
+      const { agreedToTOS } = req.body.data;
+
+      if (!agreedToTOS) {
         return res.status(400).send({
           errorMsg: 'You Must accept our Terms of Use in order to procceed',
         });
@@ -247,12 +243,7 @@ module.exports = (app) => {
         canBid: true,
         canPost: true,
       };
-      if (onboardingDetails.phone) {
-        newDetails = { ...newDetails, phone: onboardingDetails.phone };
-      }
-      if (onboardingDetails.autoDetectlocation) {
-        newDetails = { ...newDetails, autoDetectlocation: onboardingDetails.autoDetectlocation };
-      }
+
       const userId = req.user.userId;
       await userDataAccess.updateUserProfileDetails(userId, newDetails);
       return res.send({ success: true });

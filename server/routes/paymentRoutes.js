@@ -5,8 +5,11 @@ const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBid
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
-const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
+
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
@@ -14,7 +17,8 @@ const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistin
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
-
+const getAllContactDetails = require('../utils/commonDataUtils')
+  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
@@ -27,10 +31,31 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const { stripeTransactionToken, chargeAmount } = req.body.data;
-        // requiresPayBidderCheck will ensure we are setup
+
+        // xxx cool trick requiresPayBidderCheck will ensure we are setup
         const { _jobRef, _id, _bidderRef, bidAmount } = res.locals.bidOrBooPayBider.theBid;
 
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
+        const {
+          requestedJobId,
+          awardedBidId,
+          requesterId,
+          taskerId,
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextTasker,
+          allowedToPushNotifyTasker,
+          taskerPushNotSubscription,
+        } = await getAllContactDetails(_jobRef._id);
+
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(taskerId);
 
         if (stripeAccDetails.accId) {
           /**
@@ -51,9 +76,7 @@ module.exports = (app) => {
 
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
-          const description = `BidOrBoo - Service Charge for ${
-            _jobRef.fromTemplateId
-          }`;
+          const description = `BidOrBoo - Charge for ${jobDisplayName}`;
 
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
@@ -66,23 +89,25 @@ module.exports = (app) => {
               amount: bidderPayoutAmount, // the final # sent to awarded bidder
               destination: stripeAccDetails.accId,
             },
-            receipt_email: _jobRef._ownerRef.email.emailAddress,
+            receipt_email: requesterEmailAddress,
             metadata: {
-              bidderId: _bidderRef._id.toString(),
-              bidderEmail: _bidderRef.email.emailAddress,
-              proposerId: req.user._id.toString(),
-              proposerEmail: _jobRef._ownerRef.email.emailAddress,
-              jobId: _jobRef._id.toString(),
-              bidId: _id.toString(),
+              requesterId,
+              requesterEmailAddress,
+              taskerId,
+              taskerEmailAddress,
+              requestedJobId,
+              awardedBidId,
+              note: `Requester Paid For ${jobDisplayName} Task`,
             },
           });
 
           if (charge && charge.status === 'succeeded') {
             // update the job and bidder with the chosen awarded bid
             const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-              _jobRef._id.toString(),
-              _id.toString(),
+              requestedJobId,
+              awardedBidId,
               {
+                paymentSourceId: stripeTransactionToken,
                 amount: charge.amount,
                 chargeId: charge.id,
                 bidderPayout: bidderPayoutAmount,
@@ -91,23 +116,38 @@ module.exports = (app) => {
                 bidderStripeAcc: stripeAccDetails.accId,
               }
             );
-            const awardedBidder = _bidderRef.userId
-              ? await userDataAccess.getUserPushSubscription(_bidderRef.userId)
-              : false;
-            if (
-              awardedBidder &&
-              awardedBidder.pushSubscription &&
-              _bidderRef.notifications &&
-              _bidderRef.notifications.push
-            ) {
-              // send push
-              const bidId = _id.toString();
-              WebPushNotifications.pushYouAreAwarded(awardedBidder.pushSubscription, {
-                displayName: _bidderRef.displayName,
-                urlToLaunch: `https://www.bidorboo.com/awarded-bid-details/${bidId}`,
+
+            if (allowedToEmailRequester) {
+              sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+                to: requesterEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: requesterDisplayName,
+                linkForOwner: requestLinkForRequester,
               });
             }
-            // xxxxxxx send email send text
+            if (allowedToEmailTasker) {
+              sendGridEmailing.tellTaskerThatTheyWereAwarded({
+                to: taskerEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: taskerDisplayName,
+                linkForBidder: requestLinkForTasker,
+              });
+            }
+
+            if (allowedToTextTasker) {
+              await sendTextService.sendJobIsAwardedText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
+            }
+
+            if (allowedToPushNotifyTasker) {
+              WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+                taskerDisplayName: taskerDisplayName,
+                urlToLaunch: requestLinkForTasker,
+              });
+            }
 
             res.send({ success: true });
           }
@@ -149,7 +189,6 @@ module.exports = (app) => {
           connectedAccountDetails
         );
         const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
-          agreedToServiceTerms: true,
           'stripeConnect.last4BankAcc': last4BankAcc,
           // membershipStatus: 'VERIFIED_MEMBER',
         });

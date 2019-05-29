@@ -344,4 +344,68 @@ exports.EmailService = {
     };
     sgMail.send(msg);
   },
+
+  tellRequesterThanksforPaymentAndTaskerIsRevealed: ({
+    to,
+    requestTitle,
+    toDisplayName,
+    linkForOwner,
+  }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} Payment successful!`,
+      text: `
+      Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.
+      The assigned Tasker will be ready to do a great job and fulfil your service.
+
+      To View the Tasker full contact info please click on the link below
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.</p>
+        <p>The assigned Tasker will be ready to do a great job and fulfil your service.</p>
+        <p>To View the Tasker full contact info please click on the link below</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Assigned Tasker Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: Your Bid Won !`,
+      text: `
+      Your ${requestTitle} Bid Won and the request is Assigned to you!
+      Please show up prepaired with all the tools required to fulfil this request to the best of your ability
+
+      Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
+      allowing you to do requests at a higher Price $ more often.
+
+      For any changes or to get in touch with the requeter visit the link below
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Your ${requestTitle} Bid Won and the request is Assigned to you!</p>
+        <p>Please show up prepaired with all the tools required to fulfil this request to the best of your ability</p>
+
+        <p>Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
+      allowing you to do requests at a higher Price $ more often.</p>
+
+      <p>For any changes or to get in touch with the requeter visit the link below</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Request Assigned To You',
+      }),
+    };
+    sgMail.send(msg);
+  },
 };

@@ -225,10 +225,10 @@ exports.bidDataAccess = {
               updatedJob._awardedBidRef ||
               !updatedJob.processedPayment.refund
             ) {
-              return reject({ success: false, ErrorMsg: 'falied to update the associated job' });
+              return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
             if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_TASKER') {
-              return reject({ success: false, ErrorMsg: 'falied to update the associated bid' });
+              return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
             if (
               !updatedTasker._id ||
@@ -244,7 +244,7 @@ exports.bidDataAccess = {
               if (!addedThisToCanceledBids) {
                 return reject({
                   success: false,
-                  ErrorMsg: 'falied to update the associated Tasker',
+                  ErrorMsg: 'failed to update the associated Tasker',
                 });
               }
             }
@@ -426,7 +426,6 @@ exports.bidDataAccess = {
           profileImage: 1,
           personalParagraph: 1,
           membershipStatus: 1,
-          agreedToServiceTerms: 1,
           createdAt: 1,
           email: 1,
         },

@@ -11,11 +11,8 @@ export class FirstTimeUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allowAutoDetect: false,
       hasAgreedToTOS: false,
       tosError: false,
-      phoneNumber: '',
-      phoneError: false,
     };
   }
   componentDidMount() {
@@ -35,35 +32,25 @@ export class FirstTimeUser extends React.Component {
       this.setState({ hasAgreedToTOS: !this.state.hasAgreedToTOS });
     }
   };
-  updatePhoneNumber = (event) => {
-    this.setState({ phoneNumber: event.target.value });
-  };
 
   verifyAndSubmitOnBoarding = () => {
-    const { hasAgreedToTOS, phoneNumber } = this.state;
-
-    const isValidPhone = phoneNumber && /^[0-9]\d{2}\d{3}\d{4}$/g.test(phoneNumber);
+    const { hasAgreedToTOS } = this.state;
 
     let errors = {};
-    if (!isValidPhone) {
-      errors = { ...errors, phoneError: true };
-    }
     if (!hasAgreedToTOS) {
       errors = { ...errors, tosError: true };
     }
     this.setState(
       () => ({ ...errors }),
       () => {
-        if (errors.phoneError || errors.tosError) {
+        if (errors.tosError) {
           // do not call server
         } else {
           // no issues submit to server here
-          const onBoardingDetails = {
-            phone: { phoneNumber: this.state.phoneNumber },
-            agreedToTOS: this.state.hasAgreedToTOS,
-          };
 
-          this.props.updateOnBoardingDetails(onBoardingDetails);
+          this.props.updateOnBoardingDetails({
+            agreedToTOS: this.state.hasAgreedToTOS,
+          });
         }
       },
     );
@@ -71,9 +58,13 @@ export class FirstTimeUser extends React.Component {
 
   render() {
     const { displayName } = this.props;
-    const { allowAutoDetect, phoneNumber, hasAgreedToTOS, phoneError, tosError } = this.state;
+    const { hasAgreedToTOS, tosError } = this.state;
     return (
-      <div id="ONBOARDING_CONTAINER">
+      <section
+        style={{ paddingRight: '0.25rem', paddingLeft: '0.25rem' }}
+        className="section"
+        id="ONBOARDING_CONTAINER"
+      >
         <div className="pyro">
           <div className="before" />
           <div className="after" />
@@ -81,58 +72,24 @@ export class FirstTimeUser extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Welcome to BidOrBoo {displayName}</h1>
+              <h1 className="title">BidOrBooCrew Family Welcomes</h1>
+              <h2 className="has-text-centered subtitle has-text-grey">({displayName})</h2>
             </div>
           </div>
         </section>
 
-        <div style={{ maxWidth: 800 }} className="container">
-          <div
-            style={{ padding: '1rem', background: 'rgba(255,255,255,0.4)' }}
-            className="card disabled"
-          >
+        <div className="container" style={{ maxWidth: 800 }}>
+          <div className="card disabled limitLargeMaxWidth">
             <div className="card-content">
               <div className="content">
-                <h2 className="has-text-centered subtitle has-text-grey has-text-weight-normal">
-                  Let's Get you Started
-                </h2>
-
-                <div className="field has-text-left">
+                <div className="field">
                   <label className="label">
-                    Enter Your Phone <span className="has-text-grey">(required)</span>
+                    Get Started by reading our policies and terms of use
                   </label>
-
-                  <div className="control has-icons-left">
-                    <input
-                      onChange={this.updatePhoneNumber}
-                      className={`input ${phoneError ? 'is-danger' : ''} `}
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      value={phoneNumber}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-mobile-alt" />
-                    </span>
-                  </div>
-                  {phoneError ? (
-                    <p className="help is-danger">
-                      * Invalid phone number, it must be of the format 6133334444
-                    </p>
-                  ) : (
-                    <React.Fragment>
-                      <p style={{ marginBottom: 0 }} className="help">
-                        * enter a valid phone number, for example : 6130001111
-                      </p>
-                      <p className="help">* we will send you a verification code shortly</p>
-                    </React.Fragment>
-                  )}
-                </div>
-
-                <br />
-                <div>
                   <div className="control">
                     <label style={{ lineHeight: 1.5 }} className="checkbox">
                       <input
+                        style={{ marginRight: 4 }}
                         onChange={this.toggleHasAgreedToTOS}
                         type="checkbox"
                         value={hasAgreedToTOS}
@@ -160,18 +117,15 @@ export class FirstTimeUser extends React.Component {
                 </div>
                 <br />
                 <div className="has-text-centered">
-                  <a
-                    onClick={this.verifyAndSubmitOnBoarding}
-                    className="button is-success is-large"
-                  >
-                    Get Me Started
+                  <a onClick={this.verifyAndSubmitOnBoarding} className="button is-success">
+                    GET ME STARTED
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

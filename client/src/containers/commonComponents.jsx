@@ -550,7 +550,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
   return (
     <div className="field">
       {atLeastOneVerification && <label className="help">Verifications</label>}
-      {!atLeastOneVerification && <label className="help">Unverified</label>}
+      {!atLeastOneVerification && <label className="help is-danger">Unverified</label>}
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
         {isFbUser && (

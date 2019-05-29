@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const GeoJSON = require('mongoose-geojson-schema');
+require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const moment = require('moment');
 
@@ -25,7 +25,7 @@ const JobSchema = new Schema(
     processedPayment: {
       chargeId: { type: String },
       amount: { type: Number },
-      paymentId: { type: String },
+      paymentSourceId: { type: String },
       bidderPayout: { type: Number },
       platformCharge: { type: Number },
       proposerPaid: { type: Number },
@@ -42,6 +42,7 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
+      index: true,
       enum: [
         'OPEN',
         'AWARDED',
