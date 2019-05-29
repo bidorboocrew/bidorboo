@@ -77,7 +77,10 @@ class GetNotificationsAndScroll extends React.Component {
           setServerAppBidderView();
         }
       }
-      setTimeout(() => window.scrollTo(0, 0), 0);
+      setTimeout(() => {
+        debugger;
+        window.scrollTo(0, 0);
+      }, 0);
     }
   }
 

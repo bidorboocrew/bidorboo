@@ -3,6 +3,9 @@ import Tour from 'reactour';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
+import Fade from 'react-reveal/Fade';
+import Zoom from 'react-reveal/Zoom';
+
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
@@ -133,33 +136,40 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="section hero has-text-centered is-dark">
+        <section className="hero has-text-centered is-white is-small">
           <div className="hero-body">
             <div className="container">
-              <h1 style={{ transform: 'scaleY(1.2)' }} className="title has-text-weight-bold">
-                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
+              <h1
+                style={{ marginBottom: 2, transform: 'scaleY(1.1)' }}
+                className="title is-1 has-text-weight-bold"
+              >
+                <span id="BidOrBoo-welcome-step">
+                  <Zoom top cascade>
+                    BidOrBoo
+                  </Zoom>
+                </span>
               </h1>
-              <h2 className="subtitle">
+              <h2 className="is-5 has-text-grey">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
             </div>
           </div>
         </section>
         <section
-          style={{ paddingBottom: '1rem' }}
-          className="section hero has-text-centered is-white is-small"
+          style={{ paddingBottom: '0.5rem', paddingTop: 0 }}
+          className="hero has-text-centered is-white is-small"
         >
           <div className="hero-body">
             <div className="container">
-              <h2 className="subtitle">
-                <div>WHAT BRINGS YOU IN TODAY?</div>
+              <div>
+                <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
+                  What do you wish to do?
+                </div>
                 <div>
                   <a
                     style={{
                       borderRadius: 0,
-                      borderLeft: 'none',
-                      borderRight: 'none',
-                      borderTop: 'none',
+                      border: 'none',
                     }}
                     onClick={this.toggleTour}
                     className="button is-outlined is-dark is-small"
@@ -170,69 +180,86 @@ export default class HomePage extends React.Component {
                     <span>View BidOrBoo Product Tour</span>
                   </a>
                 </div>
-              </h2>
-            </div>
-          </div>
-        </section>
-
-        <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem' }} className="column">
-            <RequestAService
-              logoImg={requestImg}
-              onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.root);
-              }}
-            />
-          </div>
-          <div style={{ maxWidth: '21rem' }} className="column">
-            <ProvideAService
-              logoImg={bidsImg}
-              onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
-              }}
-            />
-          </div>
-        </div>
-
-        <section className="section hero has-text-centered is-info">
-          <div className="hero-body">
-            <div className="container">
-              <div className="columns is-mobile is-multiline is-centered">
-                <div style={{ maxWidth: '21rem' }} className="column">
-                  <RequestAService
-                    logoImg={requestImg}
-                    onClickHandler={() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                    }}
-                  />
-                </div>
-                <div style={{ maxWidth: '21rem' }} className="column">
-                  <HowItWorksRequestService />
-                </div>
               </div>
             </div>
           </div>
         </section>
+        <Fade delay={100}>
+          <div className="columns is-mobile is-multiline is-centered">
+            <div style={{ maxWidth: '21rem' }} className="column">
+              <Fade bottom delay={200}>
+                <RequestAService
+                  logoImg={requestImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  }}
+                />
+              </Fade>
+            </div>
+            <div style={{ maxWidth: '21rem' }} className="column">
+              <Fade bottom delay={200}>
+                <ProvideAService
+                  logoImg={bidsImg}
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                />
+              </Fade>
+            </div>
+          </div>
+        </Fade>
+
+        <Fade delay={100}>
+          <section className="section hero has-text-centered is-info">
+            <div className="hero-body">
+              <div className="container">
+                <div className="columns is-mobile is-multiline is-centered">
+                  <div style={{ maxWidth: '21rem' }} className="column">
+                    <Fade bottom delay={200}>
+                      <RequestAService
+                        logoImg={requestImg}
+                        onClickHandler={() => {
+                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                        }}
+                      />
+                    </Fade>
+                  </div>
+                  <div style={{ maxWidth: '21rem' }} className="column">
+                    <Fade bottom delay={200}>
+                      <HowItWorksRequestService />
+                    </Fade>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </Fade>
         <br />
-        <section className="section hero has-text-centered is-dark">
-          <div className="hero-body">
-            <div className="container">
-              <div className="columns is-mobile is-multiline is-centered">
-                <div style={{ maxWidth: '21rem' }} className="column">
-                  <ProvideAService
-                    logoImg={bidsImg}
-                    onClickHandler={() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
-                    }}
-                  />
-                </div>
-                <div style={{ maxWidth: '21rem' }} className="column">
-                  <HowItWorksProvideService />
+        <Fade delay={100}>
+          <section className="section hero has-text-centered is-dark">
+            <div className="hero-body">
+              <div className="container">
+                <div className="columns is-mobile is-multiline is-centered">
+                  <div style={{ maxWidth: '21rem' }} className="column">
+                    <Fade bottom delay={200}>
+                      <ProvideAService
+                        logoImg={bidsImg}
+                        onClickHandler={() => {
+                          switchRoute(ROUTES.CLIENT.BIDDER.root);
+                        }}
+                      />
+                    </Fade>
+                  </div>
+                  <div style={{ maxWidth: '21rem' }} className="column">
+                    <Fade bottom delay={200}>
+                      <HowItWorksProvideService />
+                    </Fade>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </Fade>
       </div>
     );
   }
@@ -280,7 +307,7 @@ const ProvideAService = (props) => {
 const HowItWorksRequestService = () => {
   return (
     <div style={{ paddingTop: '2rem' }}>
-      <h1 className="title has-text-gray">How It Works?</h1>
+      <h1 className="title">How It Works?</h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />
@@ -308,7 +335,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div style={{ paddingTop: '2rem' }}>
-      <h1 className="title has-text-gray">How It Works?</h1>
+      <h1 className="title">How It Works?</h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />
