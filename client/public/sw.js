@@ -4,7 +4,7 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.0.1';
+var CACHE_NAME = 'bob-app-cache-v6.0.2';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 var googleMapsReq = new Request(
   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -80,69 +80,69 @@ self.addEventListener('install', function(event) {
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 
 // network then cache
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    fetch(event.request).catch(function() {
-      if (event.request.headers.get('accept').includes('text/html')) {
-        return caches.match('/offline.html');
-      }
-    }),
-  );
-});
-
-// cache then network
 // self.addEventListener('fetch', function(event) {
 //   event.respondWith(
-//     caches.match(event.request).then(function(response) {
-//       // Cache hit - return response
-//       if (response) {
-//         console.info('returned from cache ' + response);
-//         return response;
+//     fetch(event.request).catch(function() {
+//       if (event.request.headers.get('accept').includes('text/html')) {
+//         return caches.match('/offline.html');
 //       }
-//       return fetch(event.request)
-//         .then(function(response) {
-//           // xxxx maybe we shouldnt cache all thigns check the impact here
-//           // Check if we received a valid response
-//           // if (!response || response.status !== 200 || response.type !== 'basic') {
-//           //   return response;
-//           // }
-
-//           // var destinationReq = event.request.destination;
-//           // if (destinationReq) {
-//           //   // // IMPORTANT: Clone the response. A response is a stream
-//           //   // // and because we want the browser to consume the response
-//           //   // // as well as the cache consuming the response, we need
-//           //   // // to clone it so we have two streams.
-//           //   var responseToCache = response.clone();
-
-//           //   switch (destinationReq) {
-//           //     case 'style':
-//           //     case 'font':
-//           //     case 'image': {
-//           //       caches.open(CACHE_NAME).then(function(cache) {
-//           //         cache.put(event.request, responseToCache);
-//           //       });
-
-//           //       return response;
-//           //     }
-//           //     // All `XMLHttpRequest` or `fetch()` calls where
-//           //     // `Request.destination` is the empty string default value
-//           //     default: {
-//           //       return response;
-//           //     }
-//           //   }
-//           // }
-
-//           return response;
-//         })
-//         .catch(function(e) {
-//           if (event.request.headers.get('accept').includes('text/html')) {
-//             return caches.match('/offline.html');
-//           }
-//         });
 //     }),
 //   );
 // });
+
+// cache then network
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      // Cache hit - return response
+      if (response) {
+        console.info('returned from cache ' + response);
+        return response;
+      }
+      return fetch(event.request)
+        .then(function(response) {
+          // xxxx maybe we shouldnt cache all thigns check the impact here
+          // Check if we received a valid response
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          var destinationReq = event.request.destination;
+          if (destinationReq) {
+            // // IMPORTANT: Clone the response. A response is a stream
+            // // and because we want the browser to consume the response
+            // // as well as the cache consuming the response, we need
+            // // to clone it so we have two streams.
+            var responseToCache = response.clone();
+
+            switch (destinationReq) {
+              case 'style':
+              case 'font':
+              case 'image': {
+                caches.open(CACHE_NAME).then(function(cache) {
+                  cache.put(event.request, responseToCache);
+                });
+
+                return response;
+              }
+              // All `XMLHttpRequest` or `fetch()` calls where
+              // `Request.destination` is the empty string default value
+              default: {
+                return response;
+              }
+            }
+          }
+
+          return response;
+        })
+        .catch(function(e) {
+          if (event.request.headers.get('accept').includes('text/html')) {
+            return caches.match('/offline.html');
+          }
+        });
+    }),
+  );
+});
 
 self.addEventListener('push', (event) => {
   var data = event.data.json();

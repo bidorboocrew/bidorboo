@@ -580,17 +580,24 @@ article.media.limitHeight {
 .card#bidOrBooMainPage-Provide,
 .card#bidOrBooMainPage-Request {
   cursor: default;
-  padding-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #31c110;
+  border-radius: 6px;
   margin-bottom: 1.5rem;
-  height: 100%;
+  height: 16rem;
+  width: 21rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
   > div.card-content {
+    height: 100%;
     > div.buttonlike {
       cursor: pointer;
-      border: 1px solid #31c110;
+      height: 100%;
       padding: 1rem 0.5rem;
+      border-radius: 6px;
       &:hover {
         background: #31c110;
         color: white;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
         transition: all 0.3s ease-in;
       }
     }
