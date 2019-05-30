@@ -21,9 +21,7 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const {
-          proposerId,
           jobId,
-          bidderId,
           qualityOfWorkRating,
           punctualityRating,
           communicationRating,
@@ -34,9 +32,9 @@ module.exports = (app) => {
         const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
+        const { proposerId, bidderId } = res.locals.bidOrBoo;
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          proposerSubmitted: true,
           proposerReview: {
             ratingCategories: [
               {
@@ -118,7 +116,6 @@ module.exports = (app) => {
 
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          bidderSubmitted: true,
           bidderReview: {
             ratingCategories: [
               {

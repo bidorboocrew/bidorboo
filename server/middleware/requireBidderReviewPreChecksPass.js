@@ -6,8 +6,7 @@ module.exports = async (req, res, next) => {
     if (req.user && req.user.userId) {
       const bidderId = req.user._id;
       const {
-        proposerId,
-        bidId,
+        jobId,
         accuracyOfPostRating,
         punctualityRating,
         communicationRating,
@@ -16,9 +15,7 @@ module.exports = async (req, res, next) => {
       } = req.body.data;
 
       if (
-        !proposerId ||
-        !bidderId ||
-        !bidId ||
+        !jobId ||
         !accuracyOfPostRating ||
         !punctualityRating ||
         !communicationRating ||
@@ -29,17 +26,24 @@ module.exports = async (req, res, next) => {
           errorMsg: 'missing paramerters . can not pass requireBidderReviewPreChecksPass.',
         });
       }
-
+      const { bidId } = res.locals.bidOrBoo;
+      if (!bidId) {
+        return res.status(403).send({
+          errorMsg: 'could not locate your bid. try again later',
+        });
+      }
       const bid = await bidDataAccess.getAwardedBidDetails(bidderId, bidId);
       if (!bid || !bid._id || !bid._jobRef) {
         return res.status(403).send({ errorMsg: 'Could not find the specified bid.' });
       }
 
-      const jobId = bid._jobRef;
+      const job = await jobDataAccess.getJobWithReviewModel(jobId, bid._jobRef._ownerRef._id);
 
-      const job = await jobDataAccess.getJobWithReviewModel(jobId._id, proposerId);
+      if (job && job._id) {
+        res.locals.bidOrBoo = res.locals.bidOrBoo ||{};
+        res.locals.bidOrBoo.proposerId = bid._jobRef._ownerRef._id;
+        res.locals.bidOrBoo.bidderId = bid._bidderRef;
 
-      if (job && job._id && job._ownerRef._id.toString() === proposerId) {
         if (job._reviewRef) {
           if (job._reviewRef.bidderReview) {
             return res

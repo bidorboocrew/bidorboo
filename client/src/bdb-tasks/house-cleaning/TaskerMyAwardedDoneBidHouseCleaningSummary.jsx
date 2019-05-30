@@ -70,14 +70,10 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       isPastDue,
       isHappeningSoon,
       isHappeningToday,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
-      },
+      _reviewRef,
     } = job;
     if (
+      !_reviewRef ||
       !startingDateAndTime ||
       !addressText ||
       isHappeningSoon === 'undefined' ||
@@ -100,9 +96,9 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     return (
       <div className={`card limitWidthOfCard`}>
@@ -144,20 +140,42 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
               }}
               className="navbar-divider"
             />
-            <div className="field">
-              <label className="label">Request Status</label>
-              <div className="control has-text-success">Done !</div>
-              <div className="help">* Congratulations. Now it is time to review the Requester</div>
-            </div>
-
-            <div className="field">
-              <label className="label">My Payout</label>
-              <div className={`has-text-success`}>{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">
-                * Paid Out and should be available to you within 5-10 business days.
+            {!requiresBidderReview && (
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-link">Archived !</div>
+                <div className="help">* Congratulations. This was a success</div>
               </div>
-            </div>
+            )}
+
+            {requiresBidderReview && (
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-success">Done!</div>
+                <div className="help">
+                  * Congratulations. Now it is time to review the Requester
+                </div>
+              </div>
+            )}
+            {requiresBidderReview && (
+              <div className="field">
+                <label className="label">My Payout</label>
+                <div className={`has-text-success`}>{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">
+                  * Paid Out and should be available to you within 5-10 business days.
+                </div>
+              </div>
+            )}
+
+            {!requiresBidderReview && (
+              <div className="field">
+                <label className="label">My Payout</label>
+                <div className={`has-text-link`}>{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">* Paid Out</div>
+              </div>
+            )}
             <StartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
@@ -177,16 +195,30 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
           <hr className="divider isTight" />
         </div>
         <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          <a
-            onClick={() => {
-              switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-              );
-            }}
-            className={`button hearbeatInstant is-fullwidth is-success`}
-          >
-            Review Requester
-          </a>
+          {requiresBidderReview && (
+            <a
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className={`button hearbeatInstant is-fullwidth is-success`}
+            >
+              Review Requester
+            </a>
+          )}
+          {!requiresBidderReview && (
+            <a
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className={`button is-fullwidth is-link is-outlined`}
+            >
+              View In Archive
+            </a>
+          )}
         </div>
       </div>
     );

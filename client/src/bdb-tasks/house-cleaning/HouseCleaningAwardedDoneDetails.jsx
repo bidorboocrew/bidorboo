@@ -41,6 +41,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      _reviewRef,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -49,6 +50,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       },
     } = job;
     if (
+      !_reviewRef ||
       !jobId ||
       !startingDateAndTime ||
       !addressText ||
@@ -66,6 +68,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
+    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
@@ -90,9 +93,8 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { showDeleteDialog, showMore } = this.state;
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
-    debugger;
+    const { showMore } = this.state;
+
     return (
       <div style={{ height: 'auto' }} className="card">
         <div className="card-content">
@@ -115,18 +117,36 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               }}
               className="navbar-divider"
             />
-            <div className="field">
-              <label className="label">Request Status</label>
-              <div className="control has-text-info">Done !</div>
-              <div className="help">* Congratulations. This was a success!</div>
-            </div>
-
-            <div className="field">
-              <label className="label">Task Cost</label>
-              <div className="control has-text-info">{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">* Paid out to Tasker.</div>
-            </div>
+            {proposerConfirmed && (
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-info">Done !</div>
+                <div className="help">* Congratulations. This was a success!</div>
+              </div>
+            )}
+            {!proposerConfirmed && (
+              <div className="field">
+                <label className="label">Request Status</label>
+                <div className="control has-text-info">Awaiting your review !</div>
+                <div className="help">* Please review the tasker!</div>
+              </div>
+            )}
+            {!proposerConfirmed && (
+              <div className="field">
+                <label className="label">Task Cost</label>
+                <div className="control has-text-info">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">* Will be Paid out to Tasker.</div>
+              </div>
+            )}
+            {proposerConfirmed && (
+              <div className="field">
+                <label className="label">Task Cost</label>
+                <div className="control has-text-info">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                <div className="help">* Paid out to Tasker.</div>
+              </div>
+            )}
             <StartDateAndTime date={startingDateAndTime} />
 
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
@@ -174,30 +194,30 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             <div className="field">
               <label className="label">Assigned Tasker Details</label>
               <UserImageAndRating userDetails={_bidderRef} />
-              <div className="control">
-                <span className="icon">
-                  <i className="far fa-envelope" />
-                </span>
-                <span>{emailAddress}</span>
-              </div>
-              <div className="control">
-                <span className="icon">
-                  <i className="fas fa-phone" />
-                </span>
-                <span>{phoneNumber}</span>
-              </div>
             </div>
           </div>
           <hr className="divider isTight" />
           <div style={{ display: 'flex' }}>
-            <a
-              onClick={() => {
-                alert('Archive not implemented yet, will take you to archieve');
-              }}
-              className={`button is-fullwidth is-outlined is-info`}
-            >
-              View In Archive
-            </a>
+            {proposerConfirmed && (
+              <a
+                onClick={() => {
+                  alert('Archive not implemented yet, will take you to archieve');
+                }}
+                className={`button is-fullwidth is-outlined is-info`}
+              >
+                View In Archive
+              </a>
+            )}
+            {!proposerConfirmed && (
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                }}
+                className={`button is-fullwidth is-outlined is-info`}
+              >
+                Review Tasker
+              </a>
+            )}
           </div>
         </div>
       </div>

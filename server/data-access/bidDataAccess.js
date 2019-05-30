@@ -490,7 +490,7 @@ exports.bidDataAccess = {
               match: {
                 $or: [
                   { _reviewRef: { $exists: false } },
-                  { '_reviewRef.bidderSubmitted': { $eq: false } },
+                  { '_reviewRef.requiresBidderReview': { $eq: true } },
                 ],
               },
               populate: [
@@ -630,8 +630,19 @@ exports.bidDataAccess = {
                     startingDateAndTime: 1,
                     durationOfJob: 1,
                     fromTemplateId: 1,
+                    _reviewRef: 1,
                   },
                   populate: [
+                    {
+                      path: '_reviewRef',
+                      select: {
+                        proposerReview: 1,
+                        bidderReview: 1,
+                        revealToBoth: 1,
+                        requiresProposerReview: 1,
+                        requiresBidderReview: 1,
+                      },
+                    },
                     {
                       path: '_ownerRef',
                       select: {
@@ -691,17 +702,34 @@ exports.bidDataAccess = {
             populate: [
               {
                 path: '_jobRef',
-                populate: {
-                  path: '_ownerRef',
-                  select: {
-                    _id: 1,
-                    displayName: 1,
-                    rating: 1,
-                    profileImage: 1,
-                    email: 1,
-                    phone: 1,
+                populate: [
+                  {
+                    path: '_reviewRef',
+                    select: {
+                      proposerReview: 1,
+                      bidderReview: 1,
+                      revealToBoth: 1,
+                      requiresProposerReview: 1,
+                      requiresBidderReview: 1,
+                    },
                   },
-                },
+                  {
+                    path: '_ownerRef',
+                    select: {
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
+                      email: 1,
+                      phone: 1,
+                    },
+                  },
+                  {
+                    path: '_awardedBidRef',
+                    select: { _bidderRef: 1 },
+                    populate: { path: '_bidderRef', select: { userId: 1 } },
+                  },
+                ],
               },
               {
                 path: '_bidderRef',

@@ -42,27 +42,17 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
       _ownerRef,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
-      },
+      _reviewRef,
     } = job;
     if (
+      !_reviewRef ||
       !startingDateAndTime ||
       !addressText ||
       !extras ||
       !detailedDescription ||
       !displayStatus ||
-      !_ownerRef ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
+      !_ownerRef
     ) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -77,26 +67,14 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { phone, email, _id: proposerId } = _ownerRef;
-    if (!phone || !email || !proposerId) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { phoneNumber = 'not specified' } = phone;
-    if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { emailAddress } = email;
-    if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
+
     const { TITLE } = HOUSE_CLEANING_DEF;
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -141,21 +119,42 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
                 className="navbar-divider"
               />
 
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">Done !</div>
-                <div className="help">
-                  * Congratulations. Now it is time to review the Requester
+              {!requiresBidderReview && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-link">Archived !</div>
+                  <div className="help">* Congratulations. This was a success</div>
                 </div>
-              </div>
-              <div className="field">
-                <label className="label">My Payout</label>
-                <div className={`has-text-success`}>{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">
-                  * Paid Out and should be available to you within 5-10 business days.
+              )}
+
+              {requiresBidderReview && (
+                <div className="field">
+                  <label className="label">Request Status</label>
+                  <div className="control has-text-success">Done!</div>
+                  <div className="help">
+                    * Congratulations. Now it is time to review the Requester
+                  </div>
                 </div>
-              </div>
+              )}
+              {requiresBidderReview && (
+                <div className="field">
+                  <label className="label">My Payout</label>
+                  <div className={`has-text-success`}>{`${bidValue -
+                    Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                  <div className="help">
+                    * Paid Out and should be available to you within 5-10 business days.
+                  </div>
+                </div>
+              )}
+
+              {!requiresBidderReview && (
+                <div className="field">
+                  <label className="label">My Payout</label>
+                  <div className={`has-text-link`}>{`${bidValue -
+                    Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+                  <div className="help">* Paid Out</div>
+                </div>
+              )}
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -208,34 +207,31 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
               <div className="field">
                 <label className="label">Requester Details</label>
                 <UserImageAndRating userDetails={_ownerRef} />
-                <div className="control">
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>{emailAddress}</span>
-                </div>
-                <div className="control">
-                  <span className="icon">
-                    <i className="fas fa-phone" />
-                  </span>
-                  <span>{phoneNumber}</span>
-                </div>
-                {!isPastDue && <AddAwardedJobToCalendar job={job} />}
               </div>
             </div>
           </div>
           <hr className="divider isTight" />
           <div style={{ padding: '0.5rem', display: 'flex' }}>
-            <a
-              onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidderId, bidId, proposerId, jobId }),
-                );
-              }}
-              className={`button hearbeatInstant is-fullwidth is-success`}
-            >
-              Review Requester
-            </a>
+            {requiresBidderReview && (
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                }}
+                className={`button hearbeatInstant is-fullwidth is-success`}
+              >
+                Review Requester
+              </a>
+            )}
+            {!requiresBidderReview && (
+              <a
+                onClick={() => {
+                  alert('Archive not implemented yet, will take you to archieve');
+                }}
+                className={`button is-fullwidth is-link is-outlined`}
+              >
+                View In Archive
+              </a>
+            )}
           </div>
         </div>
       </React.Fragment>

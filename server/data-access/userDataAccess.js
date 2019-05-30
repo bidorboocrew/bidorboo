@@ -24,8 +24,6 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
       select: {
         _id: 1,
         jobId: 1,
-        bidderSubmitted: 1,
-        proposerSubmitted: 1,
         bidderReview: 1,
         bidderId: 1,
       },
@@ -70,8 +68,6 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
       select: {
         _id: 1,
         jobId: 1,
-        proposerSubmitted: 1,
-        bidderSubmitted: 1,
         proposerReview: 1,
         proposerId: 1,
       },

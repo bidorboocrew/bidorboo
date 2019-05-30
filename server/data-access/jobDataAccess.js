@@ -268,7 +268,7 @@ exports.jobDataAccess = {
           state: { $eq: 'AWARDED' },
           $or: [
             { _reviewRef: { $exists: false } },
-            { '_reviewRef.proposerSubmitted': { $eq: false } },
+            { '_reviewRef.requiresProposerReview': { $eq: true } },
           ],
         },
         options: { sort: { startingDateAndTime: 1 } },
@@ -308,8 +308,7 @@ exports.jobDataAccess = {
           },
         ],
       })
-
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
 
@@ -968,6 +967,7 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
+
   findOneByJobIdAndUpdateJobInfo: (jobId, newJobDetails, options) => {
     // xxx review this to do , validate user input and use some sanitizer tool to prevent coded content
     return JobModel.findOneAndUpdate(

@@ -43,7 +43,6 @@ class ReviewAwardedBidPage extends React.Component {
     ) {
       // xxxx show cant find job or something instead of ugly redirect
       // could not find the job so we redirected you
-      alert("Apologies, but we couldn't locate this bid");
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
   }

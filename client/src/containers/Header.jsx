@@ -630,7 +630,7 @@ class Header extends React.Component {
                 {!isLoggedIn && (
                   <div className="is-hidden-touch navbar-item">
                     <a
-                      className="button is-danger heartbeat"
+                      className="button is-danger is-outlined"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();

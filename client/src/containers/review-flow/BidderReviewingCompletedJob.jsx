@@ -20,14 +20,8 @@ export class BidderReviewingCompletedJob extends React.Component {
       personalComment: '',
     };
 
-    if (
-      this.props.match &&
-      this.props.match.params &&
-      this.props.match.params.bidId &&
-      this.props.match.params.proposerId
-    ) {
-      this.bidId = this.props.match.params.bidId;
-      this.proposerId = this.props.match.params.proposerId;
+    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
+      this.jobId = this.props.match.params.jobId;
     } else {
       switchRoute(ROUTES.CLIENT.HOME);
       return null;
@@ -87,8 +81,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       axios
         .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
           data: {
-            proposerId: this.proposerId,
-            bidId: this.bidId,
+            jobId: this.jobId,
             ...this.state,
           },
         })
