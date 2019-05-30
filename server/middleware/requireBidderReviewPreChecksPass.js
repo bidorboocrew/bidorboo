@@ -40,7 +40,7 @@ module.exports = async (req, res, next) => {
       const job = await jobDataAccess.getJobWithReviewModel(jobId, bid._jobRef._ownerRef._id);
 
       if (job && job._id) {
-        res.locals.bidOrBoo = res.locals.bidOrBoo ||{};
+        res.locals.bidOrBoo = res.locals.bidOrBoo || {};
         res.locals.bidOrBoo.proposerId = bid._jobRef._ownerRef._id;
         res.locals.bidOrBoo.bidderId = bid._bidderRef;
 
@@ -54,9 +54,9 @@ module.exports = async (req, res, next) => {
           }
         } else {
           await jobDataAccess.kickStartReviewModel({
-            jobId,
-            bidderId,
-            proposerId,
+            jobId: job._id,
+            bidderId: res.locals.bidOrBoo.bidderId,
+            proposerId: res.locals.bidOrBoo.proposerId,
           });
           next();
         }

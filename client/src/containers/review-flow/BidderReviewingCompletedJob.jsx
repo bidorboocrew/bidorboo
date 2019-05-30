@@ -7,7 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { switchRoute, throwErrorNotification, goBackToPreviousRoute } from '../../utils';
 
 export class BidderReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -99,16 +99,16 @@ export class BidderReviewingCompletedJob extends React.Component {
             });
         })
         .catch((error) => {
-          dispatch &&
-            dispatch({
-              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-              payload: {
-                toastDetails: {
-                  type: 'error',
-                  msg: 'submitting the review failed please try again later .',
-                },
-              },
-            });
+          dispatch && throwErrorNotification(dispatch, error);
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'error',
+          //       msg: 'submitting the review failed please try again later .',
+          //     },
+          //   },
+          // });
         });
     }
   };
@@ -216,7 +216,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
             className="button is-outlined has-text-dark  is-medium"
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.HOME);
+              goBackToPreviousRoute();
             }}
           >
             remind me later

@@ -7,7 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute } from '../../utils';
+import { switchRoute, goBackToPreviousRoute, throwErrorNotification } from '../../utils';
 
 export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -78,16 +78,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             });
         })
         .catch((error) => {
-          dispatch &&
-            dispatch({
-              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-              payload: {
-                toastDetails: {
-                  type: 'error',
-                  msg: 'submitting the review failed please try again later .',
-                },
-              },
-            });
+          dispatch && throwErrorNotification(dispatch, error);
         });
     }
   };
