@@ -157,25 +157,12 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                 </div>
               </div>
             )}
-            {requiresBidderReview && (
-              <div className="field">
-                <label className="label">My Payout</label>
-                <div className={`has-text-success`}>{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">
-                  * Paid Out and should be available to you within 5-10 business days.
-                </div>
-              </div>
-            )}
-
-            {!requiresBidderReview && (
-              <div className="field">
-                <label className="label">My Payout</label>
-                <div className={`has-text-link`}>{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Paid Out</div>
-              </div>
-            )}
+            <div className="field">
+              <label className="label">My Payout</label>
+              <div className="control">{`${bidValue -
+                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className="help">* Paid Out</div>
+            </div>
             <StartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
@@ -202,7 +189,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
                   ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
-              className={`button hearbeatInstant is-fullwidth is-success`}
+              className={`button is-fullwidth is-success`}
             >
               Review Requester
             </a>

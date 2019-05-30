@@ -34,22 +34,18 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _awardedBidRef,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
-      },
+      _reviewRef,
     } = job;
     if (
+      (!_reviewRef,
       !jobId ||
-      !_awardedBidRef ||
-      !startingDateAndTime ||
-      !addressText ||
-      !displayStatus ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
+        !_awardedBidRef ||
+        !startingDateAndTime ||
+        !addressText ||
+        !displayStatus ||
+        isHappeningSoon === 'undefined' ||
+        isHappeningToday === 'undefined' ||
+        isPastDue === 'undefined')
     ) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
@@ -68,7 +64,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     if (!TITLE) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
     return (
       <div className="card limitWidthOfCard">
@@ -93,36 +89,29 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               className="navbar-divider"
             />
 
-            {proposerConfirmed && (
+            {!requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-info">Done !</div>
-                <div className="help">* Congratulations. This was a success!</div>
+                <div className="control has-text-link">Archived !</div>
+                <div className="help">* Congratulations. This was a success</div>
               </div>
             )}
-            {!proposerConfirmed && (
+
+            {requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-info">Awaiting your review !</div>
-                <div className="help">* Please review the tasker!</div>
+                <div className="control has-text-success">Done!</div>
+                <div className="help">* Congratulations. Now it is time to review the Tasker</div>
               </div>
             )}
-            {!proposerConfirmed && (
-              <div className="field">
-                <label className="label">Task Cost</label>
-                <div className="control has-text-info">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Will be Paid out to Tasker.</div>
-              </div>
-            )}
-            {proposerConfirmed && (
-              <div className="field">
-                <label className="label">Task Cost</label>
-                <div className="control has-text-info">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Paid out to Tasker.</div>
-              </div>
-            )}
+
+            <div className="field">
+              <label className="label">Task Cost</label>
+              <div className="control">{`${bidValue -
+                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className="help">* Paid out to Tasker.</div>
+            </div>
+
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayShortAddress addressText={addressText} />
           </div>
@@ -132,24 +121,24 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
           <hr className="divider isTight" />
         </div>
         <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          {proposerConfirmed && (
+          {requiresProposerReview && (
             <a
               onClick={() => {
-                alert('Archive not implemented yet, will take you to archieve');
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+              }}
+              className={`button is-fullwidth is-success`}
+            >
+              Review Tasker
+            </a>
+          )}
+          {!requiresProposerReview && (
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
               className={`button is-fullwidth is-outlined is-info`}
             >
               View In Archive
-            </a>
-          )}
-          {!proposerConfirmed && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-              }}
-              className={`button is-fullwidth is-outlined is-info`}
-            >
-              Review Tasker
             </a>
           )}
         </div>

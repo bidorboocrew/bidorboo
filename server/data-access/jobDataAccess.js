@@ -328,6 +328,16 @@ exports.jobDataAccess = {
         options: { sort: { startingDateAndTime: 1 } },
         populate: [
           {
+            path: '_reviewRef',
+            select: {
+              proposerReview: 1,
+              bidderReview: 1,
+              revealToBoth: 1,
+              requiresProposerReview: 1,
+              requiresBidderReview: 1,
+            },
+          },
+          {
             path: '_awardedBidRef',
             model: 'BidModel',
             select: {
@@ -654,18 +664,41 @@ exports.jobDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         const jobWithBidderDetails = await JobModel.findById({ _id: jobId })
-          .populate({
-            path: '_awardedBidRef',
-            select: {
-              _bidderRef: 1,
-              isNewBid: 1,
-              state: 1,
-              bidAmount: 1,
-              createdAt: 1,
-              updatedAt: 1,
+          .populate([
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                state: 1,
+                bidAmount: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  userId: 1,
+                },
+              },
             },
-            populate: {
-              path: '_bidderRef',
+            {
+              path: '_reviewRef',
+              select: {
+                proposerReview: 1,
+                bidderReview: 1,
+                revealToBoth: 1,
+                requiresProposerReview: 1,
+                requiresBidderReview: 1,
+              },
+            },
+            {
+              path: '_ownerRef',
               select: {
                 displayName: 1,
                 email: 1,
@@ -675,18 +708,8 @@ exports.jobDataAccess = {
                 userId: 1,
               },
             },
-          })
-          .populate({
-            path: '_ownerRef',
-            select: {
-              displayName: 1,
-              email: 1,
-              phone: 1,
-              profileImage: 1,
-              rating: 1,
-              userId: 1,
-            },
-          })
+          ])
+
           .lean({ virtuals: true })
           .exec();
 

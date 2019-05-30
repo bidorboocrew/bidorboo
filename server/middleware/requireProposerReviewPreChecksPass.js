@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
 
       const {
         jobId,
-        bidderId,
         qualityOfWorkRating,
         punctualityRating,
         communicationRating,
@@ -18,7 +17,6 @@ module.exports = async (req, res, next) => {
       if (
         !proposerId ||
         !jobId ||
-        !bidderId ||
         !qualityOfWorkRating ||
         !punctualityRating ||
         !communicationRating ||
@@ -29,7 +27,10 @@ module.exports = async (req, res, next) => {
           errorMsg: 'missing paramerters . can not pass requireProposerReviewPreChecksPass.',
         });
       }
-      const awardedBidder = await jobDataAccess.isAwardedBidder(bidderId, jobId);
+
+      const jobDetails = await jobDataAccess.getAwardedJobDetails(jobId);
+
+      const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef;
       if (!awardedBidder || !awardedBidder._id) {
         return res.status(403).send({
           errorMsg:
@@ -37,29 +38,30 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      const job = await jobDataAccess.getJobWithReviewModel(jobId, proposerId);
-      if (!job || !job._id) {
+      if (!jobDetails._reviewRef.requiresProposerReview) {
         return res.status(403).send({
-          errorMsg: 'Couldnt find the referenced job. try again later',
+          errorMsg: 'You have already submit a review on this job.',
         });
       }
 
-      if (job._reviewRef) {
-        if (job._reviewRef.proposerReview) {
-          return res
-            .status(403)
-            .send({ errorMsg: 'You have already submit a review on this job.' });
-        } else {
-          next();
-        }
-      } else {
-        await jobDataAccess.kickStartReviewModel({
-          jobId,
-          bidderId,
-          proposerId,
-        });
-        next();
-      }
+      await jobDataAccess.kickStartReviewModel({
+        jobId,
+        awardedBidder,
+        proposerId,
+      });
+
+      res.locals.bidOrBoo = res.locals.bidOrBoo || {};
+      res.locals.bidOrBoo = {
+        jobId,
+        qualityOfWorkRating,
+        punctualityRating,
+        communicationRating,
+        mannerRating,
+        personalComment,
+        awardedBidder,
+        proposerId,
+      };
+      next();
     } else {
       return res.status(403).send({ errorMsg: 'You must be logged in to perform this action.' });
     }

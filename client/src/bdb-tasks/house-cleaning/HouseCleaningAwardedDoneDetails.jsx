@@ -94,6 +94,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     }
 
     const { showMore } = this.state;
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
     return (
       <div style={{ height: 'auto' }} className="card">
@@ -117,36 +118,29 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
               }}
               className="navbar-divider"
             />
-            {proposerConfirmed && (
+
+            {!requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-info">Done !</div>
-                <div className="help">* Congratulations. This was a success!</div>
+                <div className="control has-text-link">Archived !</div>
+                <div className="help">* Congratulations. This was a success</div>
               </div>
             )}
-            {!proposerConfirmed && (
+
+            {requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-info">Awaiting your review !</div>
-                <div className="help">* Please review the tasker!</div>
+                <div className="control has-text-success">Done!</div>
+                <div className="help">* Congratulations. Now it is time to review the Tasker</div>
               </div>
             )}
-            {!proposerConfirmed && (
-              <div className="field">
-                <label className="label">Task Cost</label>
-                <div className="control has-text-info">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Will be Paid out to Tasker.</div>
-              </div>
-            )}
-            {proposerConfirmed && (
-              <div className="field">
-                <label className="label">Task Cost</label>
-                <div className="control has-text-info">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Paid out to Tasker.</div>
-              </div>
-            )}
+
+            <div className="field">
+              <label className="label">Task Cost</label>
+              <div className="control">{`${bidValue -
+                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className="help">* Paid out to Tasker.</div>
+            </div>
             <StartDateAndTime date={startingDateAndTime} />
 
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
@@ -198,7 +192,17 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
           </div>
           <hr className="divider isTight" />
           <div style={{ display: 'flex' }}>
-            {proposerConfirmed && (
+            {requiresProposerReview && (
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                }}
+                className={`button is-fullwidth is-success`}
+              >
+                Review Tasker
+              </a>
+            )}
+            {!requiresProposerReview && (
               <a
                 onClick={() => {
                   alert('Archive not implemented yet, will take you to archieve');
@@ -206,16 +210,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                 className={`button is-fullwidth is-outlined is-info`}
               >
                 View In Archive
-              </a>
-            )}
-            {!proposerConfirmed && (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                }}
-                className={`button is-fullwidth is-outlined is-info`}
-              >
-                Review Tasker
               </a>
             )}
           </div>

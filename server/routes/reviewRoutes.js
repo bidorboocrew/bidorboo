@@ -27,7 +27,7 @@ module.exports = (app) => {
           communicationRating,
           mannerRating,
           personalComment,
-        } = req.body.data;
+        } = res.locals.bidOrBoo;
 
         const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
