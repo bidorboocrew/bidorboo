@@ -1151,6 +1151,7 @@ exports.jobDataAccess = {
                 urlToLaunch: requestLinkForTasker,
               });
             }
+            resolve({ success: true });
           } else {
             // xxxxxx log to our "dispute DB"
             reject({
