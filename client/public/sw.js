@@ -153,6 +153,7 @@ self.addEventListener('push', (event) => {
     icon: '/android-chrome-192x192.png',
     badge: '/android-chrome-192x192.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
+    actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -160,6 +161,10 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  if (event.action === 'viewUpdate') {
+    event.waitUntil(clients.openWindow(event.notification.data));
+    return;
+  }
   //this needs to change, need to come need to be dybamic
   event.waitUntil(clients.openWindow(event.notification.data));
 });
