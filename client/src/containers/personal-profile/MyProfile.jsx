@@ -329,6 +329,7 @@ const userImageAndStats = (
                 <div className="control has-text-centered">
                   <span>
                     <ReactStars
+                      className="ReactStars"
                       half
                       count={5}
                       value={globalRating}

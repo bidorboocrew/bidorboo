@@ -177,7 +177,7 @@ class RequestSummary extends React.Component {
                     <div>
                       QUALITY OF WORK
                       <ReactStars
-                        style={{ cursor: 'pointer', display: 'inline-block' }}
+                        className="ReactStars"
                         half
                         count={5}
                         edit={false}
