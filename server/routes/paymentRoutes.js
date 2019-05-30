@@ -131,7 +131,7 @@ module.exports = (app) => {
             }
 
             if (allowedToTextTasker) {
-              await sendTextService.sendJobIsAwardedText(
+              sendTextService.sendJobIsAwardedText(
                 taskerPhoneNumber,
                 jobDisplayName,
                 requestLinkForTasker

@@ -130,7 +130,7 @@ exports.jobDataAccess = {
                   ownerDetails.notifications &&
                   ownerDetails.notifications.text
                 ) {
-                  await sendTextService.sendJobIsHappeningSoonText(
+                  sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
                     job.fromTemplateId,
                     linkForOwner
@@ -141,7 +141,7 @@ exports.jobDataAccess = {
                   awardedBidderDetails.notifications &&
                   awardedBidderDetails.notifications.text
                 ) {
-                  await sendTextService.sendJobIsHappeningSoonText(
+                  sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
                     job.fromTemplateId,
                     linkForBidder
@@ -1125,14 +1125,14 @@ exports.jobDataAccess = {
             }
 
             if (allowedToTextRequester) {
-              await sendTextService.sendJobIsCompletedText(
+              sendTextService.sendJobIsCompletedText(
                 requesterPhoneNumber,
                 jobDisplayName,
                 requestLinkForRequester
               );
             }
             if (allowedToTextTasker) {
-              await sendTextService.sendJobIsCompletedText(
+              sendTextService.sendJobIsCompletedText(
                 taskerPhoneNumber,
                 jobDisplayName,
                 requestLinkForTasker
@@ -1220,7 +1220,7 @@ exports.jobDataAccess = {
         }
 
         if (allowedToTextRequester) {
-          await sendTextService.sendJobAwaitingRequesterConfirmCompletionText(
+          sendTextService.sendJobAwaitingRequesterConfirmCompletionText(
             requesterPhoneNumber,
             jobDisplayName,
             requestLinkForRequester
@@ -1403,14 +1403,14 @@ exports.jobDataAccess = {
             }
 
             if (allowedToTextRequester) {
-              await sendTextService.sendJobIsCancelledText(
+              sendTextService.sendJobIsCancelledText(
                 requesterPhoneNumber,
                 jobDisplayName,
                 requestLinkForRequester
               );
             }
             if (allowedToTextTasker) {
-              await sendTextService.sendJobIsCancelledText(
+              sendTextService.sendJobIsCancelledText(
                 taskerPhoneNumber,
                 jobDisplayName,
                 requestLinkForTasker

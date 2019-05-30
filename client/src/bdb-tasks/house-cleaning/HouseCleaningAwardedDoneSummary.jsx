@@ -33,6 +33,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      _awardedBidRef,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -42,6 +43,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     } = job;
     if (
       !jobId ||
+      !_awardedBidRef ||
       !startingDateAndTime ||
       !addressText ||
       !displayStatus ||
@@ -51,12 +53,22 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     ) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
+
+    const { bidAmount, _bidderRef } = _awardedBidRef;
+    if (!bidAmount || !_bidderRef) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+
+    // xxxx get currency from processed payment
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    if (!bidValue || !bidCurrency) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const { TITLE } = HOUSE_CLEANING_DEF;
     if (!TITLE) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
 
-    const { showMoreOptionsContextMenu } = this.state;
     return (
       <div className="card limitWidthOfCard">
         <div className="card-content">
@@ -67,24 +79,6 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
                   <i className="fas fa-home" />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
-              </div>
-              <div
-                ref={(node) => (this.node = node)}
-                className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-              >
-                <div className="dropdown-trigger">
-                  <button
-                    onClick={this.toggleShowMoreOptionsContextMenu}
-                    className="button"
-                    aria-haspopup="true"
-                    aria-controls="dropdown-menu"
-                    style={{ border: 'none' }}
-                  >
-                    <div style={{ padding: 6 }} className="icon">
-                      <i className="fas fa-ellipsis-v" />
-                    </div>
-                  </button>
-                </div>
               </div>
             </div>
             <div
@@ -100,15 +94,16 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
 
             <div className="field">
               <label className="label">Request Status</label>
-              <div className="control has-text-success">Done !</div>
-              <div className="help">* Congratulations. Now it is time to review the tasker</div>
+              <div className="control has-text-info">Done !</div>
+              <div className="help">* Congratulations. This was a success!</div>{' '}
             </div>
-            <StartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
-            />
+            <div className="field">
+              <label className="label">Task Cost</label>
+              <div className="control has-text-info">{`${bidValue -
+                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className="help">* Paid out to Tasker.</div>
+            </div>
+            <StartDateAndTime date={startingDateAndTime} />
             <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
@@ -121,9 +116,9 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
             }}
-            className={`button hearbeatInstant is-fullwidth is-success`}
+            className={`button is-fullwidth is-outlined is-info`}
           >
-            Review Tasker
+            View In Archive
           </a>
         </div>
       </div>

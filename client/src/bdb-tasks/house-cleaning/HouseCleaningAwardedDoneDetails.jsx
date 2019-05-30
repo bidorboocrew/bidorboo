@@ -90,8 +90,9 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+    const { showDeleteDialog, showMore } = this.state;
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    debugger;
     return (
       <div style={{ height: 'auto' }} className="card">
         <div className="card-content">
@@ -102,25 +103,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                   <i className="fas fa-home" />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
-              </div>
-
-              <div
-                ref={(node) => (this.node = node)}
-                className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-              >
-                <div className="dropdown-trigger">
-                  <button
-                    onClick={this.toggleShowMoreOptionsContextMenu}
-                    className="button"
-                    aria-haspopup="true"
-                    aria-controls="dropdown-menu"
-                    style={{ border: 'none' }}
-                  >
-                    <div style={{ padding: 6 }} className="icon">
-                      <i className="fas fa-ellipsis-v" />
-                    </div>
-                  </button>
-                </div>
               </div>
             </div>
             <div
@@ -135,22 +117,17 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             />
             <div className="field">
               <label className="label">Request Status</label>
-              <div className="control has-text-success">Done !</div>
-              <div className="help">* Congratulations. Now it is time to review the tasker</div>
+              <div className="control has-text-info">Done !</div>
+              <div className="help">* Congratulations. This was a success!</div>
             </div>
 
             <div className="field">
               <label className="label">Task Cost</label>
-              <div className="control has-text-success">{`${bidValue -
+              <div className="control has-text-info">{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
               <div className="help">* Paid out to Tasker.</div>
             </div>
-            <StartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
-            />
+            <StartDateAndTime date={startingDateAndTime} />
 
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
@@ -209,20 +186,17 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
                 </span>
                 <span>{phoneNumber}</span>
               </div>
-              {!isPastDue && <AddAwardedJobToCalendar job={job} />}
             </div>
           </div>
           <hr className="divider isTight" />
           <div style={{ display: 'flex' }}>
             <a
               onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.REVIEW.getProposerJobReview({currentUserId, jobId, bidderId}),
-                );
+                alert('Archive not implemented yet, will take you to archieve');
               }}
-              className={`button hearbeatInstant is-fullwidth is-success`}
+              className={`button is-fullwidth is-outlined is-info`}
             >
-              Review Tasker
+              View In Archive
             </a>
           </div>
         </div>

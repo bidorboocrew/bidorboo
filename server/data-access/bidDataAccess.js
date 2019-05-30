@@ -191,14 +191,14 @@ exports.bidDataAccess = {
             }
 
             if (allowedToTextRequester) {
-              await sendTextService.sendJobIsCancelledText(
+              sendTextService.sendJobIsCancelledText(
                 requesterPhoneNumber,
                 jobDisplayName,
                 requestLinkForRequester
               );
             }
             if (allowedToTextTasker) {
-              await sendTextService.sendJobIsCancelledText(
+              sendTextService.sendJobIsCancelledText(
                 taskerPhoneNumber,
                 jobDisplayName,
                 requestLinkForTasker

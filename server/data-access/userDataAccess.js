@@ -402,7 +402,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
         .lean(true)
         .exec();
 
-      await sendTextService.sendPhoneVerificationText(
+      sendTextService.sendPhoneVerificationText(
         updatedUser.phone.phoneNumber,
         phoneVerificationCode
       );
