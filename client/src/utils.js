@@ -23,7 +23,6 @@ export const goBackToPreviousRoute = () => {
 };
 
 export const throwErrorNotification = (dispatch, error) => {
-  debugger
   let msg = error || 'oops ! something went wrong. We apologise for the inconvenience';
   if (error && error.response && error.response.status === 401) {
     let msg = 'You are not authorized! login to perform this action';
@@ -41,7 +40,7 @@ export const throwErrorNotification = (dispatch, error) => {
         ? JSON.stringify(error.response.data)
         : JSON.stringify(error);
   }
-  debugger
+
   dispatch({
     type: A.UI_ACTIONS.SHOW_TOAST_MSG,
     payload: {
