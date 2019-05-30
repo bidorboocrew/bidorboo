@@ -86,7 +86,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel={"Loading Your request and Bids"} isLoading={true} size={'large'} />
         </div>
       );
     }

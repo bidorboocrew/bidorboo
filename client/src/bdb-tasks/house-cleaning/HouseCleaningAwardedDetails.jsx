@@ -25,6 +25,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class HouseCleaningAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
+    debugger
     if (!cancelJobById || !job) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
@@ -74,7 +75,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     if (!phone || !email) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { phoneNumber } = phone;
+    const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

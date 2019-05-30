@@ -81,7 +81,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     if (!phone || !email || !proposerId) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { phoneNumber } = phone;
+    const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

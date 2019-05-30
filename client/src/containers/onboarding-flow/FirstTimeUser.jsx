@@ -65,14 +65,10 @@ export class FirstTimeUser extends React.Component {
         className="section"
         id="ONBOARDING_CONTAINER"
       >
-        <div className="pyro">
-          <div className="before" />
-          <div className="after" />
-        </div>
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">BidOrBooCrew Family Welcomes</h1>
+              <h1 className="title">BidOrBoo Family Welcomes</h1>
               <h2 className="has-text-centered subtitle has-text-grey">({displayName})</h2>
             </div>
           </div>

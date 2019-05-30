@@ -76,7 +76,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
     if (!phone || !email || !bidderId) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { phoneNumber } = phone;
+    const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
