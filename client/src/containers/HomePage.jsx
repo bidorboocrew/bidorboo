@@ -168,22 +168,23 @@ export default class HomePage extends React.Component {
                   <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
                     What Do You Want To Do
                   </div>
+
+                  <div>
+                    <a
+                      style={{
+                        borderRadius: 0,
+                        border: 'none',
+                      }}
+                      onClick={this.toggleTour}
+                      className="button is-outlined is-dark is-small"
+                    >
+                      <span className="help icon">
+                        <i className="fas fa-chalkboard-teacher" />
+                      </span>
+                      <span>View Our Product Tour</span>
+                    </a>
+                  </div>
                 </Zoom>
-                <div>
-                  <a
-                    style={{
-                      borderRadius: 0,
-                      border: 'none',
-                    }}
-                    onClick={this.toggleTour}
-                    className="button is-outlined is-dark is-small"
-                  >
-                    <span className="help icon">
-                      <i className="fas fa-chalkboard-teacher" />
-                    </span>
-                    <span>View Our Product Tour</span>
-                  </a>
-                </div>
               </div>
             </div>
           </div>
