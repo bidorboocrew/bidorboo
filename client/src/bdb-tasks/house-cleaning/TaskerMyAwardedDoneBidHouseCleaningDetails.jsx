@@ -43,10 +43,13 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
       detailedDescription,
       displayStatus,
       _ownerRef,
-      _reviewRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
     } = job;
     if (
-      !_reviewRef ||
       !startingDateAndTime ||
       !addressText ||
       !extras ||

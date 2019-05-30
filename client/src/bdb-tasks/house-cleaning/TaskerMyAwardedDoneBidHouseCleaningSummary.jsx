@@ -17,7 +17,7 @@ import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
+class TaskerMyAwardedDoneBidHouseCleaningSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -59,9 +59,8 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
   };
   render() {
     const { bid, job, cancelAwardedBid } = this.props;
-
     if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
     }
 
     const {
@@ -70,30 +69,33 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       isPastDue,
       isHappeningSoon,
       isHappeningToday,
-      _reviewRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
     } = job;
     if (
-      !_reviewRef ||
       !startingDateAndTime ||
       !addressText ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
     }
     const { TITLE } = HOUSE_CLEANING_DEF;
     if (!TITLE) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
     }
     const { displayStatus, bidAmount, _id } = bid;
     if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
     }
     // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
     }
 
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
@@ -232,4 +234,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidHouseCleaningSummary);
+)(TaskerMyAwardedDoneBidHouseCleaningSummary);

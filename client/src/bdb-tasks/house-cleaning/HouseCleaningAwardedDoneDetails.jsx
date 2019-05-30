@@ -41,7 +41,11 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
-      _reviewRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -50,7 +54,6 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       },
     } = job;
     if (
-      !_reviewRef ||
       !jobId ||
       !startingDateAndTime ||
       !addressText ||

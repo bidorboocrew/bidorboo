@@ -25,7 +25,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class HouseCleaningAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
-    debugger
+
     if (!cancelJobById || !job) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

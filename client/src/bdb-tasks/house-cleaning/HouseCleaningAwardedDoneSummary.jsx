@@ -34,18 +34,21 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _awardedBidRef,
-      _reviewRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
     } = job;
     if (
-      (!_reviewRef,
       !jobId ||
-        !_awardedBidRef ||
-        !startingDateAndTime ||
-        !addressText ||
-        !displayStatus ||
-        isHappeningSoon === 'undefined' ||
-        isHappeningToday === 'undefined' ||
-        isPastDue === 'undefined')
+      !_awardedBidRef ||
+      !startingDateAndTime ||
+      !addressText ||
+      !displayStatus ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
     ) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
