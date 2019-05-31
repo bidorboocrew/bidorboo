@@ -10,7 +10,7 @@ Getting Started
 "yarn": "1.12.1"
 ```
 
-- if you do not have the right version of node or npm you have 2 choices :
+IF you do not have the right version of node or npm you have 2 choices :
 * install them (you can find guides online on how to install these)
 OR
 * you need to to the root directory package.json and delete the engines attribute from the json file
