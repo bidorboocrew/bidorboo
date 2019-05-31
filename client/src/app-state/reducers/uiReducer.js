@@ -12,6 +12,7 @@ const initialState = {
    */
   toastDetails: {},
   notificationFeed: {},
+  paymentIsInProgress: false,
 };
 
 const closeLoginDialog = (state = initialState) => ({
@@ -76,6 +77,21 @@ export default handleActions(
     },
     [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._REJECTED}`]: (state = initialState) => {
       return { ...state, authIsInProgress: false };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._PENDING}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: true };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._FULFILLED}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: false };
+    },
+    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._REJECTED}`]: (
+      state = initialState,
+    ) => {
+      return { ...state, paymentIsInProgress: false };
     },
   },
   initialState,

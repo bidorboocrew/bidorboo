@@ -5,13 +5,11 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { getOpenBidDetails, updateBid } from '../../app-state/actions/bidsActions';
+import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 
-import RequesterAndOpenBid from './components/RequesterAndOpenBid';
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
+import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -21,7 +19,6 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     if (props.match && props.match.params && props.match.params.bidId) {
       this.bidId = props.match.params.bidId;
     }
-    // http://localhost:3000/bidder/review-my-bid-details/5c22963be212a73af0a12f28
   }
 
   componentDidMount() {
@@ -33,6 +30,14 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     this.props.getOpenBidDetails(this.bidId);
   }
 
+  componentDidUpdate(prevProps) {
+    if (!this.props.isLoading && (!this.props.selectedOpenBid || !this.props.selectedOpenBid._id)) {
+      // xxxx show cant find job or something instead of ugly redirect
+      // could not find the job so we redirected you
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+  }
+
   showBidReviewModal = (bid) => {
     this.setState({ showBidReviewModal: true, bidUnderReview: bid });
   };
@@ -41,7 +46,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, updateBid } = this.props;
+    const { selectedOpenBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
     // while fetching the job
     if (
       !selectedOpenBid ||
@@ -51,26 +56,43 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     ) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel="getting your bid details" isLoading={true} size={'large'} />
         </div>
       );
     }
 
-    const selectedAwardedJob = selectedOpenBid._jobRef;
-    const title = jobTemplateIdToDefinitionObjectMapper[selectedAwardedJob.fromTemplateId].TITLE;
-
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Bid Details</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider isTight" />
         <div className="columns is-centered">
-          <div className="column is-narrow">
-            {breadCrumbs({ activePageTitle: title })}
+          <div className="column limitLargeMaxWidth">
+            <div style={{ marginBottom: '0.7rem' }}>
+              <a
+                className="button is-outlined"
+                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>View My Other Bids</span>
+              </a>
+            </div>
 
-            <RequesterAndOpenBid
-              bid={selectedOpenBid}
-              job={selectedAwardedJob}
-              updateBidAction={updateBid}
-            />
-            {getBidOnFullDetailsCardByTemplateJobId(selectedAwardedJob)}
+            {getMeTheRightBidCard({
+              bid: selectedOpenBid,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.TASKER,
+              userDetails: currentUserDetails,
+              updateBid,
+              deleteOpenBid,
+            })}
           </div>
         </div>
       </div>
@@ -88,6 +110,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),
   };
@@ -97,26 +120,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewOpenBidAndRequestPage);
-
-const breadCrumbs = ({ activePageTitle }) => {
-  return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-              }}
-            >
-              My Bids
-            </a>
-          </li>
-          <li className="is-active">
-            <a aria-current="page">{activePageTitle}</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-};

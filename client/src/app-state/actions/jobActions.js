@@ -52,17 +52,18 @@ export const cancelJobById = (jobId) => (dispatch) => {
   });
 };
 
-export const getAllMyAwardedJobs = () => (dispatch) =>
+export const getAllMyAwardedJobs = () => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
   });
-
-export const getAllJobsToBidOn = () => (dispatch) =>
+};
+export const getAllJobsToBidOn = () => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
     payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
   });
+};
 
 export const getPostedJobDetails = (jobId) => (dispatch) =>
   dispatch({
@@ -144,6 +145,7 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
+          // xxxx update without reload
           window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
@@ -166,12 +168,13 @@ export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.PROPOSER_CONFIRMS_JOB_COMPLETION,
+    type: A.JOB_ACTIONS.BIDDER_CONFIRMS_JOB_COMPLETION,
     payload: axios
       .put(ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted, postData, config)
       .then((resp) => {
         // update recently added job
-        if (resp && resp.data) {
+        if (resp && resp.data && resp.data.success) {
+          // xxxx update he bid without refresh
           window.location.reload();
           // navigate to review page
           // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);

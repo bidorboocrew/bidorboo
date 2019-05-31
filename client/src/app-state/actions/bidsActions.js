@@ -34,9 +34,7 @@ export const getJobToBidOnDetails = (jobId) => (dispatch) =>
     payload: axios
       .get(ROUTES.API.JOB.GET.jobToBidDetailsById, { params: { jobId } })
       .then((resp) => {
-
         if (resp && resp.data) {
-
           dispatch({
             type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
             payload: axios
@@ -80,7 +78,9 @@ export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) =>
         // update recently added job
         if (resp.data && resp.data._id) {
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(resp.data._id));
+          switchRoute(
+            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
+          );
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -115,10 +115,42 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: 'You have deleted your bid. Good Luck!',
+                msg: 'You have deleted your bid!',
               },
             },
           });
+          // xxxx update without reload
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const cancelAwardedBid = (bidId) => (dispatch) => {
+  //update store with the job details
+  dispatch({
+    type: A.BIDDER_ACTIONS.CANCEL_MY_AWARDED_BID,
+    payload: axios
+      .delete(ROUTES.API.BID.DELETE.cancelAwardedBid, {
+        data: { bidId },
+      })
+      .then((resp) => {
+        // update recently added job
+        if (resp.data && resp.data.success) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'You have deleted your bid!',
+              },
+            },
+          });
+          // xxxx update without reload
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -162,11 +194,11 @@ export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) =>
   });
 };
 
-export const getMyOpenBids = () => (dispatch) => {
+export const allMyPostedBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.myOpenBids).catch((error) => {
+    payload: axios.get(ROUTES.API.BID.GET.allMyPostedBids).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
   });

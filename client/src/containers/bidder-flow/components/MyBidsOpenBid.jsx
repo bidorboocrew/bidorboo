@@ -13,7 +13,8 @@ export default class MyBidsOpenBid extends React.Component {
     }
     const { _jobRef } = bidDetails;
 
-    const bidAmountText = `${bidDetails.bidAmount.value} ${bidDetails.bidAmount.currency}`;
+    const bidAmountText = `${bidDetails.bidAmount.value -
+      Math.ceil(bidDetails.bidAmount.value * 0.04)} ${bidDetails.bidAmount.currency}`;
 
     const fromTemplateId = _jobRef.fromTemplateId;
 
@@ -23,7 +24,9 @@ export default class MyBidsOpenBid extends React.Component {
       <div
         onClick={(e) => {
           e.preventDefault();
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyBidAndTheRequestDetails(bidDetails._id));
+          switchRoute(
+            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bidDetails._id),
+          );
         }}
         className="card limitWidthOfCard"
       >
@@ -57,7 +60,7 @@ export default class MyBidsOpenBid extends React.Component {
 
           <div className="content">
             <StartDateAndTime date={_jobRef.startingDateAndTime} />
-            <DisplayLabelValue labelText="Your Bid:" labelValue={bidAmountText} />
+            <DisplayLabelValue labelText="My Bid:" labelValue={bidAmountText} />
             <div className="help">* waiting for requester to award.</div>
             <div style={{ margin: '0.5rem 0px' }} className="has-text-centered">
               <a className="button is-outlined is-fullwidth">View Or Change</a>

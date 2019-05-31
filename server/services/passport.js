@@ -40,6 +40,7 @@ passport.use(
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
       const userDetails = {
+        isFbUser: true,
         displayName: profile.displayName,
         userId: profile.id,
         email: { emailAddress: userEmail },
@@ -75,6 +76,7 @@ passport.use(
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
       const userDetails = {
+        isGmailUser: true,
         displayName: profile.displayName,
         userId: profile.id,
         email: { emailAddress: userEmail },
@@ -146,7 +148,7 @@ passport.use(
         });
       }
 
-      const existingUser = await userDataAccess.findOneByUserId(email, false);
+      const existingUser = await userDataAccess.findOneByEmailId(email, false);
       if (!existingUser) {
         return done({ errorMsg: 'invalid credentials' }, null);
       }

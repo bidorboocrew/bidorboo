@@ -8,6 +8,27 @@ webpush.setVapidDetails(
 );
 
 exports.WebPushNotifications = {
+  sendJobAwaitingRequesterConfirmCompletionText: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: ${requestTitle} awaiting your confirmation!`,
+          body: `Tasker is done ! Click for more details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
   pushAwardedJobWasCancelled: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
@@ -20,7 +41,28 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
+  pushAwardedJobWasCompleted: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: ${requestTitle} is Completed!`,
+          body: `It is DONE! Click to Rate it`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -41,7 +83,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -50,16 +92,19 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushYouAreAwarded: async (targetUserPushSubscription, { displayName, icon, urlToLaunch }) => {
+  pushYouAreAwarded: async (
+    targetUserPushSubscription,
+    { taskerDisplayName, icon, urlToLaunch }
+  ) => {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `Good News ${displayName} !`,
+          title: `Good News ${taskerDisplayName} !`,
           body: `You have been awarded a job. click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -77,7 +122,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
         });
-        await webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };

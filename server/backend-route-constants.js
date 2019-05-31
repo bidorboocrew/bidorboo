@@ -89,7 +89,7 @@ module.exports = {
         bid: '/api/bids/postABid',
       },
       GET: {
-        myOpenBids: '/api/bids/myOpenBids',
+        allMyPostedBids: '/api/bids/allMyPostedBids',
         myAwardedBids: '/api/bids/myAwardedBids',
         openBidDetails: '/api/bids/openBidDetails',
         awardedBidDetails: '/api/bids/awardedBidDetails',
@@ -101,6 +101,7 @@ module.exports = {
       },
       DELETE: {
         deleteOpenBid: '/api/bids/deleteOpenBid',
+        cancelAwardedBid: '/api/bids/cancelAwardedBid',
       },
     },
   },

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import { onLogout } from '../app-state/actions/authActions';
 import LoginOrRegisterModal from '../LoginOrRegisterModal';
@@ -12,7 +13,18 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { NotificationsModal } from './index';
+import logoImg from '../assets/images/android-chrome-192x192.png';
 
+const HREF_TO_TABID = {
+  PROVIDE_A_SERVICE: 'PROVIDE_A_SERVICE',
+  MY_BIDS: 'MY_BIDS',
+  REQUEST_A_SERVICE: 'REQUEST_A_SERVICE',
+  MY_REQUESTS: 'MY_REQUESTS',
+  HOME: 'HOME',
+  PAYMENT_SETTINGS: 'PAYMENT_SETTINGS',
+  MY_PROFILE: 'MY_PROFILE',
+  ARCHIVE: 'ARCHIVE',
+};
 class Header extends React.Component {
   static propTypes = {
     userEmail: PropTypes.string,
@@ -34,6 +46,7 @@ class Header extends React.Component {
       isHamburgerOpen: false,
       isProfileMenuActive: false,
       isNotificationMenuActive: false,
+      activeNavBarMenuId: '',
     };
   }
 
@@ -58,6 +71,100 @@ class Header extends React.Component {
     this.setState({ isNotificationMenuActive: !this.state.isNotificationMenuActive });
   };
 
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log('we did update');
+  //   debugger
+  //   if (this.props.history.location !== prevProps.history.location) {
+  //     if (this.props.history.location.includes('bdb-request')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('bdb-offer')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-open-jobs')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-bids')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_BIDS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('payment-settings')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('my-archive')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.ARCHIVE });
+  //       }
+  //     }
+  //     if (this.props.history.location.includes('BidOrBoo')) {
+  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.HOME });
+  //       }
+  //     }
+  //   }
+
+  //   return null;
+  // }
+
+  static getDerivedStateFromProps(nextProp, prevState) {
+    if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
+      if (nextProp.history.location.pathname.includes('bdb-request')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('bdb-offer')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-open-jobs')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-bids')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_BIDS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('payment-settings')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-archive')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.ARCHIVE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('my-profile')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_PROFILE) {
+          return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('BidOrBoo')) {
+        if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
+          return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
+        }
+        // make cool effect on the logo
+        // if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+        //   return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+        // }
+      }
+    }
+    return null;
+  }
+
   render() {
     const {
       displayName,
@@ -69,9 +176,20 @@ class Header extends React.Component {
       userAppView,
     } = this.props;
 
+    let navbarMobileDisplayName = displayName;
+    if (displayName && displayName.length > 0) {
+      const namePieces = displayName.split(' ');
+      navbarMobileDisplayName =
+        namePieces[0].length > 6 ? namePieces[0].substring(0, 5) : namePieces[0];
+    }
     const { profileImage } = userDetails;
 
-    const { isHamburgerOpen, isProfileMenuActive, isNotificationMenuActive } = this.state;
+    const {
+      isHamburgerOpen,
+      isProfileMenuActive,
+      isNotificationMenuActive,
+      activeNavBarMenuId,
+    } = this.state;
 
     const {
       jobIdsWithNewBids,
@@ -91,6 +209,7 @@ class Header extends React.Component {
       isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
 
     const isActingAsBidder = userAppView === 'BIDDER';
+    const isHomePage = window.location.href.indexOf('BidOrBoo') > -1;
 
     return (
       <React.Fragment>
@@ -123,11 +242,12 @@ class Header extends React.Component {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              style={{ paddingRight: 4 }}
-              className="navbar-item"
+              className={`navbar-item ${
+                activeNavBarMenuId === HREF_TO_TABID.HOME ? 'is-active' : ''
+              }`}
             >
               <img
-                src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
+                src={logoImg}
                 alt="BidOrBoo"
                 width="32"
                 height="32"
@@ -156,10 +276,40 @@ class Header extends React.Component {
                 B.O.B
               </span>
             </a>
+            {!isHomePage && (
+              <React.Fragment>
+                {isActingAsBidder && (
+                  <div
+                    style={{
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                    }}
+                    className="navbar-item has-text-grey is-hidden-desktop"
+                  >
+                    <div style={{ fontSize: 12, paddingTop: 2 }}>
+                      ({navbarMobileDisplayName} As Bidder)
+                    </div>
+                  </div>
+                )}
+                {!isActingAsBidder && (
+                  <div
+                    style={{
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                    }}
+                    className="navbar-item has-text-grey is-hidden-desktop"
+                  >
+                    <div style={{ fontSize: 12, paddingTop: 2 }}>
+                      ({navbarMobileDisplayName} As Requester)
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
-                  className="button is-danger heartbeat"
+                  className="button is-danger is-outlined"
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
                       this.toggleLoginDialog();
@@ -175,7 +325,7 @@ class Header extends React.Component {
                 <a
                   style={{ borderRadius: '100%' }}
                   onClick={this.toggleNotificationMenu}
-                  className="button is-outlined is-info"
+                  className="button is-danger is-outlined is-small"
                 >
                   <span className="icon">
                     <i className="fas fa-bell" />
@@ -183,6 +333,7 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
+
             {isNotificationMenuActive &&
               ReactDOM.createPortal(
                 <NotificationsModal onClose={this.toggleNotificationMenu} />,
@@ -221,8 +372,7 @@ class Header extends React.Component {
               'is-active': isHamburgerOpen,
             })}
           >
-            <div className="navbar-start" />
-
+            {/* <div className="navbar-start" /> */}
             {/* end */}
             <div className="navbar-end">
               <React.Fragment>
@@ -230,7 +380,7 @@ class Header extends React.Component {
                   <a
                     id={'viewDependentNavBarItems'}
                     className={`navbar-item ${
-                      window.location.pathname.includes('bdb-request') ? 'is-active' : ''
+                      activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -244,10 +394,11 @@ class Header extends React.Component {
                     <span>Request a Service</span>
                   </a>
                 )}
+
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
                     className={`navbar-item ${
-                      window.location.pathname.includes('/bdb-offer') ? 'is-active' : ''
+                      activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
                       this.closeMenuThenExecute(() => {
@@ -267,7 +418,7 @@ class Header extends React.Component {
                       <a
                         id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
-                          window.location.pathname.includes('my-open-jobs') ? 'is-active' : ''
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
@@ -300,11 +451,11 @@ class Header extends React.Component {
                       <a
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                            return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                           });
                         }}
                         className={`navbar-item ${
-                          window.location.pathname.includes('my-bids') ? 'is-active' : ''
+                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
                         }`}
                       >
                         <span style={{ position: 'relative' }} className="icon">
@@ -362,7 +513,9 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
                                 });
                               }}
-                              className="navbar-item"
+                              className={`navbar-item ${
+                                activeNavBarMenuId === HREF_TO_TABID.MY_PROFILE ? 'is-active' : ''
+                              }`}
                             >
                               <span className="icon">
                                 <i className="far fa-user" aria-hidden="true" />
@@ -384,7 +537,7 @@ class Header extends React.Component {
                                     className="navbar-item"
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
-                                      <i className="fas fa-sync-alt" />
+                                      <i className="fab fa-nintendo-switch" />
                                       {jobRecievedNewBids && (
                                         <span
                                           style={{
@@ -414,7 +567,7 @@ class Header extends React.Component {
                                     className="navbar-item"
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
-                                      <i className="fas fa-sync-alt" />
+                                      <i className="fab fa-nintendo-switch" />
                                       {bidsGotAwardedToMe && (
                                         <div
                                           style={{
@@ -443,7 +596,11 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                                 });
                               }}
-                              className="navbar-item"
+                              className={`navbar-item ${
+                                activeNavBarMenuId === HREF_TO_TABID.PAYMENT_SETTINGS
+                                  ? 'is-active'
+                                  : ''
+                              }`}
                             >
                               <span className="icon">
                                 <i className="far fa-credit-card" aria-hidden="true" />
@@ -471,9 +628,9 @@ class Header extends React.Component {
                   </React.Fragment>
                 )}
                 {!isLoggedIn && (
-                  <div className="navbar-item">
+                  <div className="is-hidden-touch navbar-item">
                     <a
-                      className="button is-danger is-medium"
+                      className="button is-danger is-outlined"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();
@@ -488,8 +645,6 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
-        {/* this to make up for the flex size of the navbar on desktop */}
-        {/* <div className="is-hidden-touch" style={{ height: '0.75rem' }} /> */}
       </React.Fragment>
     );
   }
@@ -513,7 +668,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Header);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Header),
+);

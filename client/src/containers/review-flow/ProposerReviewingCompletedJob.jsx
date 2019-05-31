@@ -7,7 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute } from '../../utils';
+import { switchRoute, goBackToPreviousRoute, throwErrorNotification } from '../../utils';
 
 export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -19,6 +19,12 @@ export class ProposerReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
     };
+    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
+      this.jobId = this.props.match.params.jobId;
+    } else {
+      switchRoute(ROUTES.CLIENT.HOME);
+      return null;
+    }
   }
 
   submitReview = () => {
@@ -54,12 +60,12 @@ export class ProposerReviewingCompletedJob extends React.Component {
       axios
         .put(ROUTES.API.REVIEW.PUT.proposerSubmitReview, {
           data: {
-            ...this.props.match.params,
+            jobId: this.jobId,
             ...this.state,
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.HOME);
+          switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -72,16 +78,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             });
         })
         .catch((error) => {
-          dispatch &&
-            dispatch({
-              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-              payload: {
-                toastDetails: {
-                  type: 'error',
-                  msg: 'submitting the review failed please try again later .',
-                },
-              },
-            });
+          dispatch && throwErrorNotification(dispatch, error);
         });
     }
   };
@@ -122,98 +119,100 @@ export class ProposerReviewingCompletedJob extends React.Component {
   render() {
     const bodyContent = () => {
       return (
-        <div className="card">
-          <div className="card-content">
-            <div className="content">
-              <div className="is-size-4 has-text-weight-bold">Rate Your Tasker</div>
-              <hr className="divider isTight" />
-              <div>
-                QUALITY OF WORK
-                <ReactStars
-                  //id="accuracyOfPost"
-                  half={false}
-                  count={5}
-                  value={this.state.qualityOfWorkRating}
-                  onChange={this.qualityOfWorkChange}
-                  size={50}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              </div>
-
-              <div>
-                PUNCTULAITY:
-                <ReactStars
-                  half={false}
-                  count={5}
-                  value={this.state.punctualityRating}
-                  onChange={this.punctualityChange}
-                  size={50}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              </div>
-              <div>
-                COMMUNICATION:
-                <ReactStars
-                  half={false}
-                  count={5}
-                  value={this.state.communicationRating}
-                  onChange={this.communicationChange}
-                  size={50}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              </div>
-              <div>
-                MANNERS:
-                <ReactStars
-                  half={false}
-                  count={5}
-                  value={this.state.mannerRating}
-                  onChange={this.mannerChange}
-                  size={50}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              </div>
-
-              <br />
-              <label className="label">Add a personal comment</label>
-              <TextareaAutosize
-                className="textarea is-marginless"
-                style={{
-                  resize: 'none',
-                  color: '#363636',
-                  height: 'auto',
-                  padding: '0.5rem',
-                  minHeight: 100,
-                }}
-                value={this.state.personalComment}
-                onChange={this.personalCommentOnChange}
-                placeholder="The tasker did a great job .. etc"
-              />
-              <div className="help">* This will be visible to all users</div>
-            </div>
+        <div className="content">
+          <div>QUALITY OF WORK</div>
+          <div>
+            <ReactStars
+              className="ReactStars"
+              half={false}
+              count={5}
+              value={this.state.qualityOfWorkRating}
+              onChange={this.qualityOfWorkChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
           </div>
+          <div>PUNCTULAITY</div>
+          <div>
+            <ReactStars
+              className="ReactStars"
+              half={false}
+              count={5}
+              value={this.state.punctualityRating}
+              onChange={this.punctualityChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+          <div>COMMUNICATION</div>
+          <div>
+            <ReactStars
+              className="ReactStars"
+              half={false}
+              count={5}
+              value={this.state.communicationRating}
+              onChange={this.communicationChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+          <div>MANNERS</div>
+          <div>
+            <ReactStars
+              className="ReactStars"
+              half={false}
+              count={5}
+              value={this.state.mannerRating}
+              onChange={this.mannerChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+          <div>ADD A PERSONAL COMMENT</div>
+          <TextareaAutosize
+            className="textarea is-marginless"
+            style={{
+              resize: 'none',
+              color: '#363636',
+              height: 'auto',
+              padding: '0.5rem',
+              minHeight: 100,
+            }}
+            value={this.state.personalComment}
+            onChange={this.personalCommentOnChange}
+            placeholder="The Tasker was professional and did a great job ...etc"
+          />
+          <div className="help">* note this will be visible to all users</div>
         </div>
       );
     };
 
     return (
-      <div className="container is-widescreen">
-        <div className="card-content">
+      <div className="container is-widescreen has-text-centered">
+        <section className="hero is-small">
+          <div className="hero-body">
+            <div className="container is-widescreen">
+              <h2 className="title">Rate The Tasker</h2>
+            </div>
+          </div>
+        </section>
+        <hr className="divider isTight" />
+        <div className="card-content limitLargeMaxWidth">
           {bodyContent()}
           <button
-            style={{ marginLeft: 12, marginTop: 12 }}
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
             className="button is-success is-medium"
             onClick={this.submitReview}
           >
-            Submit Review
+            Submit Your Review
           </button>
 
           <button
-            style={{ marginLeft: 12, marginTop: 12 }}
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
             className="button is-outlined has-text-dark  is-medium"
             onClick={() => {
               goBackToPreviousRoute();

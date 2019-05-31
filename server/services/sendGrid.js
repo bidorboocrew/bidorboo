@@ -26,7 +26,7 @@ exports.EmailService = {
       subject,
       text: contentText,
       html: populateHtmlTemplate({
-        toDisplayName: to || toDisplayName,
+        toDisplayName: toDisplayName || to,
         contentHtml,
         clickLink,
         clickDisplayName,
@@ -46,7 +46,7 @@ exports.EmailService = {
       subject: `Your ${taskName} request has recieved a new bid`,
       text: `Exciting news! Your ${taskName} request has recieved a new bid. Check the bids and award a Tasker when the price is right`,
       html: populateNewBidHtmlTemplate({
-        toDisplayName: to || toDisplayName,
+        toDisplayName: toDisplayName || to,
         contentHtml: `${taskName}`,
         clickLink,
         clickDisplayName: 'View The Bid',
@@ -71,24 +71,23 @@ exports.EmailService = {
       to,
       from: 'bidorboocrew@gmail.com',
       subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
-      text: `This is an automated reminder for your upcoming scheduled ${requestTitle}.
-    To get in touch with your task owner feel free to contact them on:
-    email address : ${ownerEmailAddress}
-    phone number : ${ownerPhoneNumber}
-    for reference here is the link to your task ${linkForBidder}
+      text: `
+        This is an automated reminder for your upcoming scheduled ${requestTitle}.
+        To get in touch with your task owner feel free to contact them on:
+        email address : ${ownerEmailAddress}
+        phone number : ${ownerPhoneNumber}
+        for reference here is the link to your task ${linkForBidder}
      `,
 
       html: populateJobUpdates({
-        toDisplayName: to || toDisplayName,
-        contentHtml: `This is an automated reminder for your upcoming scheduled ${requestTitle} task.
-      To get in touch with your task owner feel free to contact them on:
-      email address : ${ownerEmailAddress}
-      phone number : ${ownerPhoneNumber}
-
-      Note : After You finish your work. please make sure to confirm completion and review the requester.
-      `,
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
+        <p>To get in touch with your task owner feel free to contact them on:</p>
+        <p><strong>email address : ${ownerEmailAddress}</strong></p>
+        <p><strong>phone number : ${ownerPhoneNumber}</strong></p>`,
         clickLink: `${linkForBidder}`,
-        clickDisplayName: 'View Reqeust Details',
+        clickDisplayName: 'View Request Details',
       }),
     };
     // function(error, response) {
@@ -118,15 +117,13 @@ exports.EmailService = {
      `,
 
       html: populateJobUpdates({
-        toDisplayName: to || toDisplayName,
-        contentHtml: `This is an automated reminder for your upcoming scheduled ${requestTitle} task.
-      To get in touch with your assigned Tasker owner feel free to contact them on:
-      email address : ${bidderEmailAddress}
-      phone number : ${bidderPhoneNumber}.
-
-      Note : After the Tasker finishes thier work please make sure to confirm completion and review the quality of thier work`,
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
+        <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
+      <p><strong>email address : ${bidderEmailAddress}</strong></p>
+      <p><strong>phone number : ${bidderPhoneNumber}</strong></p>`,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'View Reqeust Details',
+        clickDisplayName: 'View Request Details',
       }),
     };
 
@@ -138,24 +135,16 @@ exports.EmailService = {
       from: 'bidorboocrew@gmail.com',
       subject: `BidOrBoo: ${requestTitle} has been cancelled by the Requester !`,
       text: `We are sorry to inform you that this Request has been cancelled by the requester.
-      As part of our policy, you will still get 15% of the total bid price for your inconvenience.
-      Furthermore in order to ensure serious requests on our platform this cancellation will impact the overall rating of the Requester or may ban them if it happens often
-      We wish you best of luck! keep bidding keep winning !
-    for reference here is the link to your task ${linkForBidder}
+      click to View details and understand the full impact  ${linkForBidder}
      `,
 
       html: populateJobUpdates({
-        toDisplayName: to || toDisplayName,
-        contentHtml: `We are sorry to inform you that this Request has been cancelled by the requester.
-        You are no longer assigned to this request and will not required to show up.
-
-        As part of our policy, you will still get 10% of the total bid price for your inconvenience.
-        Furthermore in order to ensure serious requests on our platform this cancellation will impact the overall rating of the Requester or may ban them if it happens often
-        We wish you best of luck! keep bidding keep winning !
-      for reference here is the link to your task ${linkForBidder}
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>We are sorry to inform you that this Request has been cancelled by the requester.</p>
+        <p>click to View details and understand the full impact</p>
        `,
         clickLink: `${linkForBidder}`,
-        clickDisplayName: 'Cancelled Reqeust Details',
+        clickDisplayName: 'Cancelled Request Details',
       }),
     };
     sgMail.send(msg);
@@ -174,22 +163,247 @@ exports.EmailService = {
       text: `We are sorry to hear that things did not work out.
       We will inform the tasker about this to ensure that they will NOT show up.
 
-      However, As part of our policy, you will be refunded 80% of your payment in order to compensate the Tasker for the last minute cancellation inconvenience.
-      Furthermore This action may impact your global rating and ban you if you cancel often.
-    for reference here is the link to your task ${linkForOwner}
-    We hope you understand that though these actions may sound severe it is our only way of avoiding misuse of our platform.
+      click to View details and understand the full impact
+       ${linkForOwner}
      `,
       html: populateJobUpdates({
-        toDisplayName: to || toDisplayName,
-        contentHtml: `We are sorry to hear that things did not work out.
-        We will inform the tasker about this to ensure that they will NOT show up.
-        However, As part of our policy, you will be refunded 80% of your payment in order to compensate the Tasker for the last minute cancellation inconvenience.
-        Furthermore This action may impact your global rating and ban you if you cancel often.
-      for reference here is the link to your task ${linkForOwner}
-      We hope you understand that though these actions may sound severe it is our only way of avoiding misuse of our platform.
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>We are sorry to hear that things did not work out.</p>
+        <p>We will inform the tasker about this to ensure that they will NOT show up.</p>
+        <p>click to View details and understand the full impact</p>`,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Cancelled Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellRequeterThatTheTaskerHaveCancelledAnAwardedJob: ({
+    to,
+    requestTitle,
+    toDisplayName,
+    linkForOwner,
+  }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: Tasker have cancelled ${requestTitle}!`,
+      text: `It Happens! We are sorry to inform you that things did not work out!
+
+      The tasker cancelled their agreement and thus will NOT show up to do this task.
+
+      click to View details and understand the full impact ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>It Happens! We are sorry to inform you that things did not work out!</p>
+
+        <p>The tasker cancelled their agreement and thus will NOT show up to do this task.</p>
+
+        <p>click to View details and understand the full impact</p>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Cancelled Reqeust Details',
+        clickDisplayName: 'Cancelled Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+  tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: you have cancelled your ${requestTitle} agreement !`,
+      text: `
+      You have cancelled your agreement and thus will NOT show up to do this task.
+
+      It Happens! We understand that life is sometimes unpredictable
+      and we are sorry to hear that things did not work out!
+      click to View details and understand the full impact ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>You have cancelled your agreement and thus will NOT show up to do this task.</p>
+
+        <p>It Happens! We understand that life is sometimes unpredictable</p>
+        <p>and we are sorry to hear that things did not work out!</p>
+        <p>click to View details and understand the full impact</p>
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Cancelled Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: Confirm Tasker has completed ${requestTitle}!`,
+      text: `BidOrBooCrew is happy to hear that the tasker has finished their work, and we hope that they done so to your satisfaction.
+
+      We are waiting on you to confirm that our Tasker have completed your request ${linkForOwner}`,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>BidOrBooCrew is happy to hear that the tasker has finished their work</p>
+        <p>We hope that they done so to your satisfaction.</p>
+        <p>We are waiting on you to confirm that our Tasker have completed your request</p>
+        <p>click to View details and confirm the completion</p>
+         `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Confirm Task Is Done',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellTaskerWeWaitingOnRequesterToConfirmCompletion: ({
+    to,
+    requestTitle,
+    toDisplayName,
+    linkForBidder,
+  }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: waiting on requester's confirmation for the completion of ${requestTitle}!`,
+      text: `
+      Thank you for completing your Task!
+      We are reaching out to the Requester to get the final confirmation that you completed your work.
+      This will happen shortly and your payment will be released upon this confirmation.
+      We will keep you posted of any updates. click to View details ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Thank you for completing your Task!</p>
+        <p>We are reaching out to the Requester to get the final confirmation that you completed your work.</p>
+        <p>This will happen shortly and your payment will be released upon this confirmation.</p>
+        <p>We will keep you posted of any updates. click to View details</p>
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'View Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
+      text: `BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.
+
+      Now it is your turn to RATE your Tasker and tell them how well they did
+     click to view the details
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.</p>
+
+        <p>Now it is your turn to RATE your Tasker and tell them how well they did</p>
+         <p>click to view the details</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Completed Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
+      text: `BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task
+      Your payout is on the way and you should recieve it within 5-10 business days
+
+      Now it is your turn to RATE your Requester and tell them how accurate was the description of the task
+      click to view the details
+       ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task</p>
+        <p>Your payout is on the way and you should recieve it within 5-10 business days</p>
+        <p>Now it is your turn to RATE your Requester and tell them how accurate was the description of the task</p>
+        <p>click to view the details</p>
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Cancelled Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellRequesterThanksforPaymentAndTaskerIsRevealed: ({
+    to,
+    requestTitle,
+    toDisplayName,
+    linkForOwner,
+  }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: ${requestTitle} Payment successful!`,
+      text: `
+      Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.
+      The assigned Tasker will be ready to do a great job and fulfil your service.
+
+      To View the Tasker full contact info please click on the link below
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.</p>
+        <p>The assigned Tasker will be ready to do a great job and fulfil your service.</p>
+        <p>To View the Tasker full contact info please click on the link below</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Assigned Tasker Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+
+  tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: Your Bid Won !`,
+      text: `
+      Your ${requestTitle} Bid Won and the request is Assigned to you!
+      Please show up prepaired with all the tools required to fulfil this request to the best of your ability
+
+      Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
+      allowing you to do requests at a higher Price $ more often.
+
+      For any changes or to get in touch with the requeter visit the link below
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Your ${requestTitle} Bid Won and the request is Assigned to you!</p>
+        <p>Please show up prepaired with all the tools required to fulfil this request to the best of your ability</p>
+
+        <p>Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
+      allowing you to do requests at a higher Price $ more often.</p>
+
+      <p>For any changes or to get in touch with the requeter visit the link below</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Request Assigned To You',
       }),
     };
     sgMail.send(msg);

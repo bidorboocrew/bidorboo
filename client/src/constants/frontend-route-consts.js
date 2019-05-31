@@ -86,12 +86,13 @@ export const API = {
   BID: {
     DELETE: {
       deleteOpenBid: '/api/bids/deleteOpenBid',
+      cancelAwardedBid: '/api/bids/cancelAwardedBid',
     },
     POST: {
       bid: '/api/bids/postABid',
     },
     GET: {
-      myOpenBids: '/api/bids/myOpenBids',
+      allMyPostedBids: '/api/bids/allMyPostedBids',
       myAwardedBids: '/api/bids/myAwardedBids',
       openBidDetails: '/api/bids/openBidDetails',
       awardedBidDetails: '/api/bids/awardedBidDetails',
@@ -127,18 +128,16 @@ export const CLIENT = {
     bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
     getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
     mybids: '/my-bids',
-    reviewMyBidAndTheRequestDetails: '/review-my-bid-details/:bidId',
-    dynamicReviewMyBidAndTheRequestDetails: (bidId) => `/review-my-bid-details/${bidId}`,
-    currentAwardedBid: '/awarded-bid-details/:bidId',
-    dynamicCurrentAwardedBid: (bidId) => `/awarded-bid-details/${bidId}`,
+    reviewMyOpenBidAndTheRequestDetails: '/review-my-bid-details/:bidId',
+    dynamicReviewMyOpenBidAndTheRequestDetails: (bidId) => `/review-my-bid-details/${bidId}`,
+    awardedBidDetailsPage: '/awarded-bid-details/:bidId',
+    dynamicReviewMyAwardedBidAndTheRequestDetails: (bidId) => `/awarded-bid-details/${bidId}`,
   },
   REVIEW: {
-    proposerJobReview: `/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
-    bidderJobReview: `/bdb-offer/review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
-    getProposerJobReview: (proposerId, jobId, bidderId) =>
-      `/bdb-request/review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-    getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
-      `/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
+    proposerJobReview: `/bdb-request/review/:jobId`,
+    bidderJobReview: `/bdb-offer/review/:jobId`,
+    getProposerJobReview: ({ jobId }) => `/bdb-request/review/${jobId}`,
+    getBidderJobReview: ({ jobId }) => `/bdb-offer/review/${jobId}`,
   },
   MY_PROFILE: {
     basicSettings: '/my-profile/basic-settings',

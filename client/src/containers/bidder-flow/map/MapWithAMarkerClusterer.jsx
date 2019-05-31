@@ -7,8 +7,8 @@ import JobInfoBox from './JobInfoBox';
 
 const MapWithAMarkerClusterer = compose(
   withProps({
-    googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places',
+    // googleMapURL:
+    //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
@@ -28,14 +28,22 @@ export default MapWithAMarkerClusterer;
 
 class TheMap extends React.Component {
   render() {
-    const { mapCenterPoint } = this.props;
+    const { mapCenterPoint, mapZoomLevel } = this.props;
+    // https://developers.google.com/maps/documentation/javascript/localization
+    // xxx restrict bounds to canada
+    // const CANADA_BOUNDS = { north: 70, south: 41, west: -145, east: -51 };
     return (
       <GoogleMap
         options={{
           disableDefaultUI: true,
           streetViewControl: false,
+          // restriction: {
+          //   latLngBounds: CANADA_BOUNDS,
+          //   strictBounds: false,
+          // },
         }}
-        defaultZoom={10}
+        defaultZoom={mapZoomLevel}
+        zoom={mapZoomLevel}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />
@@ -56,8 +64,27 @@ class Cluster extends React.Component {
     this.state = { showInfoBoxForJobId: '' };
   }
 
-  showInfoBox = (jobId) => {
-    this.setState({ showInfoBoxForJobId: jobId });
+  showInfoBox = (job) => {
+    this.setState(
+      () => ({ showInfoBoxForJobId: job._id }),
+      () => {
+        job &&
+          job.location &&
+          job.location.coordinates &&
+          job.location.coordinates.length === 2 &&
+          job.zoomOnInfo &&
+          job.zoomOnInfo(
+            {
+              lng: job.location.coordinates[0],
+              lat: job.location.coordinates[1],
+            },
+            () => {
+              const mapDiv = document.querySelector(`#bdb-map`);
+              mapDiv && mapDiv.scrollIntoView && mapDiv.scrollIntoView();
+            },
+          );
+      },
+    );
   };
   closeInfoBox = () => {
     this.setState({ showInfoBoxForJobId: '' });
@@ -83,7 +110,7 @@ class Cluster extends React.Component {
       ));
       return (
         <MarkerClusterer
-          defaultMinimumClusterSize={3}
+          defaultMinimumClusterSize={10}
           averageCenter
           enableRetinaIcons
           gridSize={100}
@@ -102,11 +129,11 @@ class JobMarker extends React.Component {
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
+    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox, reactMapClusterRef } = this.props;
     if (showInfoBoxForJobId === job._id) {
       closeInfoBox();
     } else {
-      showInfoBox(job._id);
+      showInfoBox(job);
     }
   };
   render() {
@@ -120,10 +147,17 @@ class JobMarker extends React.Component {
     //   anchor: new google.maps.Point(17, 34),
     //   scaledSize: new google.maps.Size(32, 32),
     // };
-    if (job && job.location && job.location.coordinates && job.location.coordinates.length === 2) {
+    if (
+      job &&
+      job.reactMapClusterRef &&
+      job.location &&
+      job.location.coordinates &&
+      job.location.coordinates.length === 2
+    ) {
       const shouldShowInfoBox = showInfoBoxForJobId === job._id;
       return (
         <Marker
+          ref={job.reactMapClusterRef}
           opacity={0.8}
           icon={require('../../../assets/images/mapMarker.png')}
           onClick={this.toggleShowInfoBox}

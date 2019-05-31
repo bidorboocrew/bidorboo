@@ -10,8 +10,10 @@ import {
   setServerAppProposerView,
   setServerAppBidderView,
 } from './app-state/actions/uiActions';
-import { registerServiceWorker } from './registerServiceWorker';
+import * as ROUTES from './constants/frontend-route-consts';
+import { switchRoute } from './utils';
 
+import { Header } from './containers/index';
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
 // const UPDATE_NOTIFICATION_INTERVAL =
@@ -34,28 +36,28 @@ class GetNotificationsAndScroll extends React.Component {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
+
+    this.state = { hasError: false };
   }
+
+  componentDidCatch(error, info) {
+    console.log('bdb error details ' + error);
+    console.log('failure info ' + info);
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
   componentDidUpdate(prevProps) {
     const {
       isLoggedIn,
       getCurrentUser,
       location,
-      userDetails,
       setServerAppProposerView,
       setServerAppBidderView,
     } = this.props;
-    if (isLoggedIn) {
-      if (
-        userDetails &&
-        userDetails.notifications &&
-        userDetails.notifications.push &&
-        !userDetails.pushSubscription
-      ) {
-        // if (process.env.NODE_ENV === 'production') {
-        registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`);
-        // }
-      }
-    }
 
     if (location !== prevProps.location) {
       if (!isLoggedIn) {
@@ -63,22 +65,10 @@ class GetNotificationsAndScroll extends React.Component {
       }
       const currentUrlPathname = window.location.pathname;
       if (isLoggedIn) {
-        if (
-          currentUrlPathname.indexOf('user-profile') > -1 ||
-          currentUrlPathname.indexOf('verification') > -1 ||
-          currentUrlPathname.indexOf('bdb-request') > -1 ||
-          currentUrlPathname.indexOf('bdb-offer') > -1 ||
-          currentUrlPathname.indexOf('/review') > -1 ||
-          currentUrlPathname.indexOf('my-profile') > -1 ||
-          currentUrlPathname.indexOf('my-agenda') > -1 ||
-          currentUrlPathname.indexOf('on-boarding') > -1
-        ) {
+        if (currentUrlPathname.indexOf('on-boarding') > -1) {
           // do not fetch notifications on these pages above
         } else {
-          if (moment().diff(this.lastFetch, 'minutes') > 3) {
-            this.lastFetch = moment();
-            // this.props.getCurrentUserNotifications();
-          }
+          this.props.getCurrentUserNotifications();
         }
 
         if (currentUrlPathname.indexOf('bdb-request') > -1) {
@@ -87,7 +77,9 @@ class GetNotificationsAndScroll extends React.Component {
           setServerAppBidderView();
         }
       }
-      setTimeout(() => window.scrollTo(0, 0), 0);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     }
   }
 
@@ -120,6 +112,36 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return (
+        <div id="bidorboo-root-view">
+          <Header id="bidorboo-header" />
+          <section className="hero is-fullheight">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <br />
+                <h1 className="sub-title">
+                  Apologies for the inconvenience, We will track the issue and fix it asap.
+                </h1>
+                <br />
+                <a
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                    // xxxx update without reload
+                    window.location.reload();
+                  }}
+                  className="button is-outlined is-success is-small"
+                >
+                  Go to Home Page
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
     return this.props.children;
   }
 }

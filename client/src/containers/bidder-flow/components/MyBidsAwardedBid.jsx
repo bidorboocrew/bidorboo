@@ -35,7 +35,7 @@ export default class MyBidsAwardedBid extends React.Component {
         onClick={(e) => {
           e.preventDefault();
           updateBidState(bidDetails._id, 'WON_SEEN');
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(bidDetails._id));
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bidDetails._id));
         }}
         className="card limitWidthOfCard"
       >

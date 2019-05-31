@@ -1,20 +1,17 @@
 import React from 'react';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
-import { TAB_IDS } from './helperComponents';
 
-import getBidOnSummaryCardByTemplateJobId from '../../../bdb-tasks/getBidOnSummaryCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
 
 export default class AllJobsView extends React.Component {
   render() {
-    const { jobsList, activeTab } = this.props;
+    const { jobsList } = this.props;
 
     return jobsList && jobsList.length > 0 ? (
-      <React.Fragment>
-        <div className="columns forJobSummary is-multiline is-centered is-mobile">
-          {activeTab === TAB_IDS.openRequests && <OtherPeoplesJobs {...this.props} />}
-        </div>
-      </React.Fragment>
+      <div className="columns forJobSummary is-multiline is-centered is-mobile">
+        <OtherPeoplesJobs {...this.props} />
+      </div>
     ) : (
       <EmptyStateComponent />
     );
@@ -25,9 +22,9 @@ const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
       <div className="card is-fullwidth">
-        <div className="card-content">
+        <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
-            <div className="is-size-5">No Jobs Found. please check again later!</div>
+            <div className="is-size-5">No Open Requests. please check again soon!</div>
             <br />
             <a
               className="button is-success "
@@ -45,22 +42,18 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesJobs = (props) => {
-  const { isLoggedIn, userDetails, showLoginDialog, selectJobToBidOn, jobsList } = props;
+  const { userDetails, jobsList } = props;
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const components = jobsList
     .filter((job) => job._ownerRef._id !== currentUserId)
     .map((job) => {
       return (
-        <div key={job._id} className="column limitMaxdWidth">
-          {getBidOnSummaryCardByTemplateJobId(job, {
-            onClickHandler: () => {
-              if (!isLoggedIn) {
-                showLoginDialog(true);
-              } else {
-                selectJobToBidOn(job);
-              }
-            },
+        <div key={job._id} className="column">
+          {getMeTheRightRequestCard({
+            job,
+            isSummaryView: true,
+            pointOfView: POINT_OF_VIEW.TASKER,
             userDetails: userDetails,
           })}
         </div>

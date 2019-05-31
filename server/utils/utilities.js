@@ -59,9 +59,9 @@ exports.signCloudinaryParams = async (paramsToSign) => {
 };
 
 //   // delete all images in a folder
-// const userMongoDbId = req.user._id.toString();
+// const mongoUser_id = req.user._id.toString();
 
-// await cloudinary.api.delete_resources_by_prefix(`${userMongoDbId}/Profile`, (error, result) => {
+// await cloudinary.api.delete_resources_by_prefix(`${mongoUser_id}/Profile`, (error, result) => {
 //   console.log(result, error);
 // });
 

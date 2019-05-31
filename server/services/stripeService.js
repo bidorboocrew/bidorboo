@@ -2,7 +2,13 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 
-exports.util = {
+// // XXXXXX RELEASE THE FUNDS
+// const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
+//   amount: jobDetails.processedPayment.bidderPayout,
+//   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
+// });
+//stripe.com/docs/api/payouts/create
+https: exports.util = {
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({
@@ -11,7 +17,19 @@ exports.util = {
       metadata,
       reason: 'requested_by_customer',
       reverse_transfer: true,
+      description: 'BidOrBoo refund due to cancelled agreement by Requester'
       // refund_application_fee: true,
+    });
+  },
+  fullRefundTransaction: ({ chargeId, metadata }) => {
+    // xxxxxx
+    return stripe.refunds.create({
+      charge: chargeId,
+      metadata,
+      reason: 'requested_by_customer',
+      reverse_transfer: true,
+      refund_application_fee: true,
+      description: 'BidOrBoo refund due to cancelled agreement by Tasker'
     });
   },
   validateSignature: (reqBody, sig, endpointSecret) => {
@@ -101,9 +119,16 @@ exports.util = {
 
   updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
     try {
-      const account = await stripe.accounts.update(stripeConnectAccId, {
-        ...connectedAccountDetails,
-      });
+      // xxxxx important update
+      const account = await stripe.accounts.update(
+        stripeConnectAccId,
+        {
+          ...connectedAccountDetails,
+        },
+        {
+          stripe_account: stripeConnectAccId,
+        }
+      );
 
       // will return something like this
       // {

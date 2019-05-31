@@ -9,26 +9,24 @@ import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, ICON } = HOUSE_CLEANING_DEF;
 
     return (
-      <div
-        onClick={(e) => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
-        }}
-        className="card is-clipped limitWidthOfCard"
-      >
-        <div className="card-image is-clipped">
-          <figure className="bdb-cover-img">
-            <img src={IMG_URL} />
-          </figure>
-        </div>
-        <div className="card-content">
-          <div className="content">
-            <JobTitleText title={TITLE} />
-            {DESCRIPTION}
+      <div className="card limitWidthOfCard">
+        <div className="card-content template">
+          <div style={{ height: '10rem' }} className="content">
+            <JobTitleText title={TITLE} iconClass={ICON} />
+            <hr className="divider isTight" />
+            <div style={{ marginTop: '1.5rem' }}>{DESCRIPTION}</div>
           </div>
-          <a className="button is-success is-outlined is-fullwidth">Request Now</a>
+          <a
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
+            }}
+            className="button is-success is-outlined is-fullwidth"
+          >
+            Request Now
+          </a>
         </div>
       </div>
     );

@@ -1,12 +1,12 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId) {
+      const bidderId = req.user._id;
       const {
-        proposerId,
         jobId,
-        bidderId,
         accuracyOfPostRating,
         punctualityRating,
         communicationRating,
@@ -16,8 +16,6 @@ module.exports = async (req, res, next) => {
 
       if (
         !jobId ||
-        !proposerId ||
-        !bidderId ||
         !accuracyOfPostRating ||
         !punctualityRating ||
         !communicationRating ||
@@ -28,10 +26,24 @@ module.exports = async (req, res, next) => {
           errorMsg: 'missing paramerters . can not pass requireBidderReviewPreChecksPass.',
         });
       }
+      const { bidId } = res.locals.bidOrBoo;
+      if (!bidId) {
+        return res.status(403).send({
+          errorMsg: 'could not locate your bid. try again later',
+        });
+      }
+      const bid = await bidDataAccess.getAwardedBidDetails(bidderId, bidId);
+      if (!bid || !bid._id || !bid._jobRef) {
+        return res.status(403).send({ errorMsg: 'Could not find the specified bid.' });
+      }
 
-      const job = await jobDataAccess.getJobWithReviewModel(jobId);
+      const job = await jobDataAccess.getJobWithReviewModel(jobId, bid._jobRef._ownerRef._id);
 
-      if (job && job._id && job._ownerRef._id.toString() === proposerId) {
+      if (job && job._id) {
+        res.locals.bidOrBoo = res.locals.bidOrBoo || {};
+        res.locals.bidOrBoo.proposerId = bid._jobRef._ownerRef._id;
+        res.locals.bidOrBoo.bidderId = bid._bidderRef;
+
         if (job._reviewRef) {
           if (job._reviewRef.bidderReview) {
             return res
@@ -41,10 +53,10 @@ module.exports = async (req, res, next) => {
             next();
           }
         } else {
-          const kickstartedTheReview = await jobDataAccess.kickStartReviewModel({
-            jobId,
-            bidderId,
-            proposerId,
+          await jobDataAccess.kickStartReviewModel({
+            jobId: job._id,
+            bidderId: res.locals.bidOrBoo.bidderId,
+            proposerId: res.locals.bidOrBoo.proposerId,
           });
           next();
         }
@@ -58,7 +70,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'only logged in users can perform this operation.' });
     }
   } catch (e) {
-    return res.status(500).send({
+    return res.status(400).send({
       errorMsg: 'failed to pass requireBidderReviewPreChecksPass',
       details: `${e}`,
     });

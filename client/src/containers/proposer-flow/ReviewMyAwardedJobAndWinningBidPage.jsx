@@ -11,7 +11,7 @@ import {
   proposerConfirmsJobCompletion,
 } from '../../app-state/actions/jobActions';
 
-import getAawardedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getAwardedFullDetailsCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   constructor(props) {
@@ -52,26 +52,28 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   }
 
   render() {
-    const {
-      selectedAwardedJob,
-      proposerConfirmsJobCompletion,
-      isReadOnlyView = false,
-    } = this.props;
+    const { selectedAwardedJob } = this.props;
 
     if (!selectedAwardedJob || !selectedAwardedJob._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Getting Your Request Details'} isLoading={true} size={'large'} />
         </div>
       );
     }
 
-    const { _awardedBidRef } = selectedAwardedJob;
-
     return (
       <div className="container is-widescreen">
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Request Details</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         <div className="columns is-centered">
-          <div className="column is-narrow">
+          <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a
                 className="button is-outlined"
@@ -80,11 +82,14 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>
-                <span>My Requests</span>
+                <span>View My Other Requests</span>
               </a>
             </div>
-
-            {getAawardedFullDetailsCardByTemplateJobId(selectedAwardedJob)}
+            {getMeTheRightRequestCard({
+              job: selectedAwardedJob,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.REQUESTER,
+            })}
           </div>
         </div>
       </div>

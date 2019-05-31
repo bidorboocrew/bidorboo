@@ -15,6 +15,7 @@ class MapSection extends React.Component {
       showLoginDialog,
       userDetails,
       jobsList,
+      mapZoomLevel,
     } = this.props;
 
     return jobsList ? (
@@ -25,6 +26,7 @@ class MapSection extends React.Component {
         showLoginDialog={showLoginDialog}
         userDetails={userDetails}
         jobsList={jobsList}
+        mapZoomLevel={mapZoomLevel}
       />
     ) : null;
   }

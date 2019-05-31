@@ -49,7 +49,7 @@ export default class JobSummaryForAwarded extends React.Component {
           className="card-content"
         >
           <div className="has-text-dark is-size-7">Awarded Tasker</div>
-          <UserImageAndRating userDetails={_bidderRef} />
+          <UserImageAndRating clipUserName userDetails={_bidderRef} />
 
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />

@@ -72,7 +72,9 @@ class NewUserRegistrationForm extends React.Component {
     this.recaptchaRef = React.createRef();
   }
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
+      this.recaptchaRef.current.execute();
+    }
   }
   render() {
     const {
@@ -164,7 +166,7 @@ class NewUserRegistrationForm extends React.Component {
           />
         </div>
         {errors.recaptchaField && (
-          <p className="help is-danger">
+          <p className="help has-text-danger is-danger">
             {errors.recaptchaField}
             <a
               className="is-text is-small"

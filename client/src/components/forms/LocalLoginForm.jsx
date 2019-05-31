@@ -47,7 +47,9 @@ class LocalLoginForm extends React.Component {
   }
 
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
+      this.recaptchaRef.current.execute();
+    }
   }
   render() {
     const {
@@ -102,7 +104,13 @@ class LocalLoginForm extends React.Component {
             style={{ display: 'none' }}
             ref={this.recaptchaRef}
             onExpired={() => {
-              this.recaptchaRef.current.execute();
+              if (
+                this.recaptchaRef &&
+                this.recaptchaRef.current &&
+                this.recaptchaRef.current.execute
+              ) {
+                this.recaptchaRef.current.execute();
+              }
             }}
             size="invisible"
             badge="inline"

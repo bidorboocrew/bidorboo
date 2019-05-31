@@ -14,7 +14,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
 import { DisplayLabelValue } from '../../containers/commonComponents';
-import HouseCleaningPostedRequestDetails from './HouseCleaningPostedRequestDetails';
+import HouseCleaningRequestDetailsPreview from './HouseCleaningRequestDetailsPreview';
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import {
   getCurrentAddress,
@@ -70,14 +70,15 @@ class HouseCleaningJobForm extends React.Component {
 
   componentDidMount() {
     this.autoDetectLocationIfPermitted();
-
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
+      this.recaptchaRef.current.execute();
+    }
   }
 
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras } = HOUSE_CLEANING_DEF;
+    const { ID, TASK_EXPECTATIONS, extras, TITLE } = HOUSE_CLEANING_DEF;
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
@@ -86,6 +87,7 @@ class HouseCleaningJobForm extends React.Component {
       _ownerRef: currentUserDetails,
       addressText: values.addressTextField,
       detailedDescription: values.detailedDescriptionField,
+      extras: { effort: values.effortField },
     };
     return (
       <React.Fragment>
@@ -95,23 +97,23 @@ class HouseCleaningJobForm extends React.Component {
               <div onClick={this.toggleConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Confirm Request Details</p>
+                  <div className="modal-card-title">Confirm Request Details</div>
                   <button className="delete" aria-label="close" />
                 </header>
 
                 <section className="modal-card-body">
                   <label className="label">Your Request Preview</label>
-                  <HouseCleaningPostedRequestDetails job={newTaskDetails} ommitMeatballMenu />
+                  <HouseCleaningRequestDetailsPreview job={newTaskDetails} />
 
                   <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                     <label className="label">BidOrBoo Safety rules</label>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * Once you post you will not be able to edit the job details.
                     </div>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * For your privacy Taskers will not see the exact address.
                     </div>
-                    <div className="help has-text-grey">
+                    <div className="help">
                       * Once you have chosen a Tasker you will get in touch to finalize the details.
                     </div>
                   </div>
@@ -146,11 +148,18 @@ class HouseCleaningJobForm extends React.Component {
           )}
 
         <form onSubmit={(e) => e.preventDefault()}>
+          <div style={{ marginBottom: 16 }} className="title">
+            <span className="icon">
+              <i className="fas fa-home" />
+            </span>
+            <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
+          </div>
+
           <input
             id="recaptchaField"
             className="input is-invisible"
             type="hidden"
-            value={values.recaptcha || ''}
+            value={values.recaptchaField || ''}
           />
           <ReCAPTCHA
             style={{ display: 'none' }}
@@ -164,7 +173,7 @@ class HouseCleaningJobForm extends React.Component {
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
-          <br />
+
           <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
           <br />
           {this.RenderLocationField()}

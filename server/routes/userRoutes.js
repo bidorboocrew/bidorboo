@@ -3,6 +3,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 const cloudinary = require('cloudinary');
 module.exports = (app) => {
@@ -34,7 +35,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To verifyEmail', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To verifyEmail', details: `${e}` });
       }
     }
   );
@@ -68,7 +69,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To verifyPhone', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To verifyPhone', details: `${e}` });
       }
     }
   );
@@ -89,7 +90,7 @@ module.exports = (app) => {
           if (verificationRequest.success) {
             return res.send(verificationRequest);
           } else {
-            return res.status(500).send({
+            return res.status(400).send({
               errorMsg: 'unexpected error occured sendVerificationEmail',
             });
           }
@@ -100,7 +101,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To sendVerificationEmail', details: `${e}` });
       }
     }
@@ -122,7 +123,7 @@ module.exports = (app) => {
           if (verificationRequest.success) {
             res.send(verificationRequest);
           } else {
-            return res.status(500).send({
+            return res.status(400).send({
               errorMsg: 'unexpected error occured sendVerificationMsg',
             });
           }
@@ -132,13 +133,15 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To sendVerificationMsg', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To sendVerificationMsg', details: `${e}` });
       }
     }
   );
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
     try {
+      // xxxx
+      // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
@@ -148,7 +151,7 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
     }
   });
 
@@ -163,7 +166,7 @@ module.exports = (app) => {
       return res.send({});
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To getMyPastRequestedServices user', details: `${e}` });
     }
   });
@@ -177,7 +180,7 @@ module.exports = (app) => {
       return res.send({});
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To getMyPastProvidedServices user', details: `${e}` });
     }
   });
@@ -198,7 +201,7 @@ module.exports = (app) => {
 
       return res.send({});
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
     }
   });
 
@@ -215,21 +218,17 @@ module.exports = (app) => {
       return res.send({ success: true });
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
     }
   });
 
   app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res) => {
     try {
-      const onboardingDetails = req.body.data;
-      if (!onboardingDetails) {
-        return res.status(403).send({
-          errorMsg: 'updateOnboardingDetails failed due to missing params',
-        });
-      }
-      if (!onboardingDetails.agreedToTOS) {
-        return res.status(500).send({
+      const { agreedToTOS } = req.body.data;
+
+      if (!agreedToTOS) {
+        return res.status(400).send({
           errorMsg: 'You Must accept our Terms of Use in order to procceed',
         });
       }
@@ -244,18 +243,13 @@ module.exports = (app) => {
         canBid: true,
         canPost: true,
       };
-      if (onboardingDetails.phone) {
-        newDetails = { ...newDetails, phone: onboardingDetails.phone };
-      }
-      if (onboardingDetails.autoDetectlocation) {
-        newDetails = { ...newDetails, autoDetectlocation: onboardingDetails.autoDetectlocation };
-      }
+
       const userId = req.user.userId;
       await userDataAccess.updateUserProfileDetails(userId, newDetails);
       return res.send({ success: true });
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To update update Onboarding Details ', details: `${e}` });
     }
   });
@@ -276,7 +270,7 @@ module.exports = (app) => {
       );
       return res.send(userAfterUpdates);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To update user details', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To update user details', details: `${e}` });
     }
   });
 
@@ -287,7 +281,7 @@ module.exports = (app) => {
       const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
       return res.send(userAfterUpdates);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
     }
   });
 
@@ -296,7 +290,7 @@ module.exports = (app) => {
       if (req.files && req.files.length === 1) {
         const filesList = req.files;
         const userId = req.user.userId;
-        const userMongoDBId = req.user._id;
+        const mongoUser_id = req.user._id;
 
         const updateUserWithNewProfileImg = async (error, result) => {
           try {
@@ -310,7 +304,7 @@ module.exports = (app) => {
             }
           } catch (e) {
             return res
-              .status(500)
+              .status(400)
               .send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
           }
         };
@@ -327,11 +321,12 @@ module.exports = (app) => {
             }
           );
         }
-
+        // https://cloudinary.com/documentation/image_transformations
         const newImg = await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
-            folder: `${userMongoDBId}/profilePic`,
+            folder: `profilePic`,
+            transformation: [{ gravity: 'face', width: 150, height: 150, crop: 'thumb' }],
           },
           updateUserWithNewProfileImg
         );
@@ -341,7 +336,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
     }
   });
 };
@@ -366,9 +361,9 @@ module.exports = (app) => {
 //             );
 //             return res.send(userWithNewProfileImg);
 //           }
-//           return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
+//           return res.status(400).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
 //         } catch (e) {
-//           return res.status(500).send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
+//           return res.status(400).send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
 //         }
 //       };
 
@@ -378,7 +373,7 @@ module.exports = (app) => {
 //         callbackFunc
 //       );
 //     } catch (e) {
-//       return res.status(500).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
+//       return res.status(400).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
 //     }
 //   }
 // );

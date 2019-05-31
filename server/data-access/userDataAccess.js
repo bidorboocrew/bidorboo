@@ -7,13 +7,13 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
-exports.updateOnboardingDetails = (mongodbUserId, onBoardingDetails) => {
-  this.updateUserProfileDetails(mongodbUserId, onBoardingDetails);
+exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {
+  this.updateUserProfileDetails(mongoUser_id, onBoardingDetails);
 };
 
-exports.getMyPastRequestedServices = (mongodbUserId) => {
+exports.getMyPastRequestedServices = (mongoUser_id) => {
   return User.findOne(
-    { _id: mongodbUserId },
+    { _id: mongoUser_id },
     {
       _id: 0,
       _asProposerReviewsRef: 1,
@@ -24,8 +24,6 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
       select: {
         _id: 1,
         jobId: 1,
-        bidderSubmitted: 1,
-        proposerSubmitted: 1,
         bidderReview: 1,
         bidderId: 1,
       },
@@ -57,9 +55,9 @@ exports.getMyPastRequestedServices = (mongodbUserId) => {
     .exec();
 };
 
-exports.getMyPastProvidedServices = (mongodbUserId) => {
+exports.getMyPastProvidedServices = (mongoUser_id) => {
   return User.findOne(
-    { _id: mongodbUserId },
+    { _id: mongoUser_id },
     {
       _id: 0,
       _asBidderReviewsRef: 1,
@@ -70,8 +68,6 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
       select: {
         _id: 1,
         jobId: 1,
-        proposerSubmitted: 1,
-        bidderSubmitted: 1,
         proposerReview: 1,
         proposerId: 1,
       },
@@ -102,59 +98,72 @@ exports.getMyPastProvidedServices = (mongodbUserId) => {
     .exec();
 };
 
-exports.findUserPublicDetails = (mongodbUserId) => {
-  return User.findOne(
-    { _id: mongodbUserId },
-    {
-      pushSubscription: 0,
-      userRole: 0,
-      agreedToServiceTerms: 0,
-      settings: 0,
-      extras: 0,
-      stripeConnect: 0,
-      canBid: 0,
-      canPost: 0,
-      addressText: 0,
-      verification: 0,
-      password: 0,
-      email: 0,
-      phone: 0,
-      _postedJobsRef: 0,
-      _postedBidsRef: 0,
+exports.findUserPublicDetails = (mongoUser_id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const otherUserDetails = await User.findOne(
+        { _id: mongoUser_id },
+        {
+          pushSubscription: 0,
+          userRole: 0,
+          settings: 0,
+          extras: 0,
+          canBid: 0,
+          notifications: 0,
+          canPost: 0,
+          addressText: 0,
+          verification: 0,
+          password: 0,
+          _postedJobsRef: 0,
+          _postedBidsRef: 0,
+        }
+      )
+        .populate({
+          path: '_asBidderReviewsRef',
+          select: {
+            _id: 1,
+            proposerReview: 1,
+            proposerId: 1,
+          },
+          populate: {
+            path: 'proposerId',
+            select: {
+              displayName: 1,
+              profileImage: 1,
+            },
+          },
+        })
+        .populate({
+          path: '_asProposerReviewsRef',
+          select: {
+            _id: 1,
+            bidderReview: 1,
+            bidderId: 1,
+          },
+          populate: {
+            path: 'bidderId',
+            select: {
+              displayName: 1,
+              profileImage: 1,
+            },
+          },
+        })
+        .lean(true)
+        .exec();
+
+      if (otherUserDetails) {
+        resolve({
+          ...otherUserDetails,
+          email: { isVerified: otherUserDetails.email.isVerified },
+          phone: { isVerified: otherUserDetails.phone.isVerified },
+          stripeConnect: { isVerified: otherUserDetails.stripeConnect.isVerified },
+        });
+      }
+      return {};
+    } catch (e) {
+      reject(e);
     }
-  )
-    .populate({
-      path: '_asBidderReviewsRef',
-      select: {
-        _id: 1,
-        proposerReview: 1,
-        proposerId: 1,
-      },
-      populate: {
-        path: 'proposerId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
-        },
-      },
-    })
-    .populate({
-      path: '_asProposerReviewsRef',
-      select: {
-        _id: 1,
-        bidderReview: 1,
-        bidderId: 1,
-      },
-      populate: {
-        path: 'bidderId',
-        select: {
-          displayName: 1,
-          profileImage: 1,
-        },
-      },
-    })
-    .lean(true)
-    .exec();
+  });
 };
 
 exports.getUserPushSubscription = (userId) => {
@@ -170,6 +179,11 @@ exports.findSessionUserById = (id) =>
 
 exports.findOneByUserId = (userId, lean = true) =>
   User.findOne({ userId })
+    .lean(lean)
+    .exec();
+
+exports.findOneByEmailId = (loginEmailAddress, lean = true) =>
+  User.findOne({ userId: loginEmailAddress })
     .lean(lean)
     .exec();
 
@@ -193,47 +207,61 @@ exports.findByIdAndGetPopulatedBids = (userId) =>
 exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const bidsWithUpdatedStatus = ['BOO', 'WON', 'CANCEL', 'AWARDED'];
-      const user = await User.findOne({ userId })
+      // xxxxx maybe we should notify of canceled by tasker
+      const bidsWithUpdatedStatus = ['WON', 'AWARDED', 'CANCELED_AWARDED_BY_REQUESTER'];
+
+      const user = await User.findOne(
+        { userId },
+        {
+          _asBidderReviewsRef: 0,
+          _asProposerReviewsRef: 0,
+          verification: 0,
+          pushSubscription: 0,
+          userRole: 0,
+          tos_acceptance: 0,
+          settings: 0,
+          extras: 0,
+          stripeConnect: 0,
+          updatedAt: 0,
+          password: 0,
+        }
+      )
         .populate({
           path: '_postedJobsRef',
-          match: { state: { $in: ['OPEN', 'AWARDED'] } },
+          match: { state: { $in: ['OPEN', 'AWARDED', 'AWARDED_CANCELED_BY_BIDDER'] } },
           select: {
             _bidsListRef: 1,
-            _reviewRef: 1,
             state: 1,
             fromTemplateId: 1,
             startingDateAndTime: 1,
-            appView: 1,
           },
-          populate: [
-            {
-              path: '_bidsListRef',
-              select: schemaHelpers.BidFull,
-              match: { isNewBid: { $eq: true } },
-            },
-            {
-              path: '_reviewRef',
-              select: { _id: 1 },
-              match: { state: { $eq: 'AWAITING' } },
-            },
-          ],
+          populate: {
+            path: '_bidsListRef',
+            select: { isNewBid: 1 },
+            match: { isNewBid: { $eq: true } },
+          },
+          // populate: [
+          //   {
+          //     path: '_bidsListRef',
+          //     select: schemaHelpers.BidFull,
+          //     match: { isNewBid: { $eq: true } },
+          //   },
+          //   // {
+          //   path: '_reviewRef',
+          //   select: { _id: 1 },
+          //   match: { state: { $eq: 'AWAITING' } },
+          // },
+          // ],
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $in: bidsWithUpdatedStatus } },
-          select: schemaHelpers.BidFull,
+          match: { state: { $eq: 'WON' } },
+          select: { _jobRef: 1 },
           populate: {
             path: '_jobRef',
             select: {
-              _reviewRef: 1,
               startingDateAndTime: 1,
               fromTemplateId: 1,
-            },
-            populate: {
-              path: '_reviewRef',
-              select: { _id: 1 },
-              match: { state: { $eq: 'AWAITING' } },
             },
           },
         })
@@ -370,7 +398,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
         .lean(true)
         .exec();
 
-      await sendTextService.sendPhoneVerificationText(
+      sendTextService.sendPhoneVerificationText(
         updatedUser.phone.phoneNumber,
         phoneVerificationCode
       );
@@ -415,7 +443,12 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
           )}
           `,
           toDisplayName: `${updatedUser.displayName}`,
-          contentHtml: `Click to verify your email Address`,
+          contentHtml: `
+          <p>Your BidOrBoo Email Verification Code is</p>
+          <p>${emailVerificationCode}</p>
+
+          <p>Click to verify your email Address</p>
+          `,
           clickLink: `${ROUTES.CLIENT.dynamicVerification('Email', emailVerificationCode)}`,
           clickDisplayName: `Verify Email`,
         });
@@ -672,10 +705,10 @@ exports.bidderPushesAReview = async (
   ]);
 };
 
-exports.getUserStripeAccount = async (mongodbUserId) => {
+exports.getUserStripeAccount = async (mongoUser_id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await User.findOne({ _id: mongodbUserId }, { stripeConnect: 1 })
+      const user = await User.findOne({ _id: mongoUser_id }, { stripeConnect: 1 })
         .lean(true)
         .exec();
       resolve(user.stripeConnect);

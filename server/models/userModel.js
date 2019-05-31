@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-
+require('mongoose-geojson-schema');
 const { encryptData, compareEncryptedWithClearData } = require('../utils/utilities');
 require('mongoose-type-email');
 
@@ -33,10 +33,18 @@ const UserSchema = new Schema(
       default: 'PROPOSER',
       enum: ['PROPOSER', 'BIDDER'],
     },
+    isGmailUser: {
+      type: Boolean,
+      default: false,
+    },
+    isFbUser: {
+      type: Boolean,
+      default: false,
+    },
     notifications: {
       push: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       email: {
         type: Boolean,
@@ -49,9 +57,11 @@ const UserSchema = new Schema(
     },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+      index: true,
     }, //list of all jobs you have posted
     _postedBidsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
+      index: true,
     }, // list of all bids you made
     _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
@@ -67,7 +77,7 @@ const UserSchema = new Schema(
     email: {
       emailAddress: {
         type: mongoose.SchemaTypes.Email,
-        allowBlank: true,
+        allowBlank: false,
         lowercase: true,
         trim: true,
         index: true,
@@ -78,14 +88,20 @@ const UserSchema = new Schema(
         default: false,
       },
     },
+    // use this as default of search
+    lastGivenLocation: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
     password: {
       type: String,
+      allowBlank: false,
+      trim: true,
       minlength: 6,
       required: false,
     },
     phone: {
       phoneNumber: {
         type: String,
+        trim: true,
+        allowBlank: false,
         trim: true,
       },
       isVerified: {
@@ -135,7 +151,6 @@ const UserSchema = new Schema(
       enum: ['ADMIN', 'REGULAR'],
       default: 'REGULAR',
     },
-    agreedToServiceTerms: { type: Boolean, required: true, default: false },
     tos_acceptance: {
       Agreed: { type: Boolean, required: true, default: false },
       date: { type: Date },

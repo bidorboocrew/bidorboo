@@ -2,11 +2,11 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
-    if (req.user && req.user.userId) {
+    if (req.user && req.user.userId && req.user._id) {
+      const proposerId = req.user._id;
+
       const {
-        proposerId,
         jobId,
-        bidderId,
         qualityOfWorkRating,
         punctualityRating,
         communicationRating,
@@ -15,9 +15,8 @@ module.exports = async (req, res, next) => {
       } = req.body.data;
 
       if (
-        !jobId ||
         !proposerId ||
-        !bidderId ||
+        !jobId ||
         !qualityOfWorkRating ||
         !punctualityRating ||
         !communicationRating ||
@@ -29,45 +28,45 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      const awardedBidder = await jobDataAccess.isAwardedBidder(bidderId, jobId);
-      if (awardedBidder && awardedBidder._id) {
-      } else {
+      const jobDetails = await jobDataAccess.getAwardedJobDetails(jobId);
+
+      const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef;
+      if (!awardedBidder || !awardedBidder._id) {
         return res.status(403).send({
           errorMsg:
             'the Bidder in this request does not correspond to the appoperiate bidder who fullfilled the job',
         });
       }
 
-      const job = await jobDataAccess.getJobWithReviewModel(jobId);
-      if (job && job._id) {
-      } else {
+      if (!jobDetails._reviewRef.requiresProposerReview) {
         return res.status(403).send({
-          errorMsg:
-            'the Bidder in this request does not correspond to the appoperiate bidder who fullfilled the job',
+          errorMsg: 'You have already submit a review on this job.',
         });
       }
 
-      if (job._reviewRef) {
-        if (job._reviewRef.proposerReview) {
-          return res
-            .status(403)
-            .send({ errorMsg: 'You have already submit a review on this job.' });
-        } else {
-          next();
-        }
-      } else {
-        const kickstartedTheReview = await jobDataAccess.kickStartReviewModel({
-          jobId,
-          bidderId,
-          proposerId,
-        });
-        next();
-      }
+      await jobDataAccess.kickStartReviewModel({
+        jobId,
+        awardedBidder,
+        proposerId,
+      });
+
+      res.locals.bidOrBoo = res.locals.bidOrBoo || {};
+      res.locals.bidOrBoo = {
+        jobId,
+        qualityOfWorkRating,
+        punctualityRating,
+        communicationRating,
+        mannerRating,
+        personalComment,
+        awardedBidder,
+        proposerId,
+      };
+      next();
     } else {
-      return res.status(403).send({ errorMsg: 'only logged in users can perform this operation.' });
+      return res.status(403).send({ errorMsg: 'You must be logged in to perform this action.' });
     }
   } catch (e) {
-    return res.status(500).send({
+    return res.status(400).send({
       errorMsg: 'failed to pass requireProposerReviewPreChecksPass',
       details: `${e}`,
     });

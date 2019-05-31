@@ -6,7 +6,6 @@
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
 
-
 // @import './_reactBigCalendar.scss';
 // @import './_timelineBulma.scss';
 
@@ -18,7 +17,7 @@
 
 html body {
   color: #363636;
-  // line-height: 1
+  line-height: 1.5;
   background: white;
   padding: 0;
   margin: 0;
@@ -33,8 +32,12 @@ body {
 
 #mainFooter {
   padding: 0.5rem 0.5rem;
-  min-height: 5rem;
-  margin-top: 3rem;
+  min-height: 5.5rem;
+  margin-top: 2rem;
+  background: #363636;
+  * {
+    color: white !important;
+  }
 }
 
 #RoutesWrapper {
@@ -85,6 +88,18 @@ body {
   }
 }
 
+a.button {
+  border-radius: 0;
+  &.is-gold {
+    background: #ffd700;
+    color: black;
+    &:hover {
+      background: black;
+      color: #ffd700;
+    }
+  }
+}
+
 //over ride the date selector calendar to over flow anything else
 // xxxx look at better ways of doing this
 div.react-datepicker-popper {
@@ -113,8 +128,105 @@ div.react-datepicker {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
+
+  #BidOrBoo-logo-step {
+    &:hover {
+      background: lightgrey;
+      > span {
+        color: black !important;
+      }
+    }
+  }
+  // special dark bidder navbar
   &.bidderAppBar {
-    background: lightgrey;
+    background: #363636;
+    #navbarmenu > div.navbar-end > a.navbar-item.is-active {
+      color: #363636;
+    }
+    #navbarmenu.navbar-menu.is-active {
+      > div.navbar-end {
+        > a.navbar-item {
+          color: #363636 !important;
+        }
+        #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
+          > a.navbar-link {
+            color: #363636;
+          }
+          > div.navbar-dropdown.is-boxed {
+            a {
+              &:hover {
+                background: lightgrey;
+                > span {
+                  color: black !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    #mobile-nav-burger {
+      color: white !important;
+      &:hover {
+        background: lightgrey;
+        > span {
+          color: black !important;
+        }
+      }
+    }
+    #myprofile-step {
+      > nav > div {
+        a.navbar-link {
+          &:hover {
+            background: lightgrey;
+            color: black;
+            &::after {
+              border-color: black !important;
+              margin-top: -0.375em;
+              right: 1.125em;
+            }
+          }
+          color: lightgrey;
+          &::after {
+            border-color: lightgrey !important;
+            margin-top: -0.375em;
+            right: 1.125em;
+          }
+        }
+      }
+    }
+    #BidOrBoo-logo-step {
+      &:hover {
+        background: lightgrey;
+        > span {
+          color: black !important;
+        }
+      }
+      > span {
+        color: white !important;
+      }
+    }
+
+    div.navbar-start,
+    div.navbar-end {
+      color: lightgrey;
+      > a.navbar-item {
+        color: lightgrey;
+        &:hover {
+          background: lightgrey;
+          color: black !important;
+        }
+        &.is-active {
+          &:hover {
+            background: lightgrey;
+            color: black !important;
+          }
+          font-weight: 700;
+          color: white !important;
+        }
+      }
+    }
   }
 }
 
@@ -234,7 +346,7 @@ img {
 
 figure.image {
   img {
-    height: 48px !important;
+    // height: 48px !important;
     object-fit: cover;
   }
 }
@@ -321,9 +433,10 @@ header.card-header {
 }
 .card-content {
   padding: 0.5rem;
-}
-table.table {
-  max-width: 600px;
+  // min-height: 20rem;
+  &.template {
+    min-height: unset;
+  }
 }
 
 .help {
@@ -336,11 +449,33 @@ hr.divider {
     margin-bottom: 0.25rem;
   }
 }
+article.media.limitHeight {
+  max-height: 4.7rem;
+  // overflow: hidden;
+}
 
+.limitLargeMaxWidth {
+  min-width: 20rem;
+  max-width: 40rem;
+  margin: auto;
+}
+.cropper-container.cropper-bg {
+  width: unset;
+  height: unset;
+}
+.ReactStars {
+  display: inline-block;
+}
 .card {
   &.readOnlyView {
-    pointer-events: none;
     background: #eeeeee;
+    // cursor: not-allowed;
+    cursor: default;
+    box-shadow: none !important;
+    // border: 1px solid lightgrey;
+    &:hover {
+      animation: none !important;
+    }
   }
   // border: 1px solid #eeeeee;
   // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
@@ -350,14 +485,23 @@ hr.divider {
   // cursor: pointer;
   height: 100%;
   // border: 1px solid #eee;
-
+  &.extraShadow {
+    box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
+      0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  }
   &.limitWidthOfCard {
-    min-width: 20rem;
-    max-width: 23rem;
+    min-width: 20rem !important;
+    max-width: 25rem !important;
+    margin: auto;
+  }
+  &.limitLargeMaxWidth {
+    min-width: 20rem !important;
+    max-width: 50rem !important;
     margin: auto;
   }
   &.noBordered {
-    border: none;
+    border: none !important;
+    box-shadow: none !important;
   }
   &.disabled {
     // cursor: not-allowed;
@@ -416,7 +560,10 @@ hr.divider {
 
 .react-add-to-calendar__dropdown {
   font-size: 18px;
+
   ul {
+    list-style: none;
+    margin: 0;
     li {
       margin-top: 4px;
       margin-bottom: 4px;
@@ -433,68 +580,27 @@ hr.divider {
 .card#bidOrBooMainPage-Provide,
 .card#bidOrBooMainPage-Request {
   cursor: default;
-  padding-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #31c110;
+  border-radius: 6px;
   margin-bottom: 1.5rem;
-  height: 100%;
+  height: 16rem;
+  width: 21rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
   > div.card-content {
+    height: 100%;
     > div.buttonlike {
       cursor: pointer;
-      border: 1px solid #31c110;
+      height: 100%;
       padding: 1rem 0.5rem;
+      border-radius: 6px;
       &:hover {
         background: #31c110;
         color: white;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
         transition: all 0.3s ease-in;
       }
     }
-  }
-}
-
-#bidorboo-switch-role {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(white, 0.8);
-  z-index: 999;
-  padding-top: 25%;
-  overflow: hidden;
-  > p {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  -webkit-animation: fade-out 0.2s ease-out 0.3s both;
-  animation: fade-out 0.2s ease-out 0.3s both;
-}
-
-@-webkit-keyframes fade-out {
-  0% {
-    opacity: 1;
-    z-index: 999;
-    overflow: hidden;
-  }
-  100% {
-    opacity: 0;
-    z-index: -999;
-    overflow: hidden;
-  }
-}
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-    z-index: 999;
-    overflow: hidden;
-  }
-  100% {
-    opacity: 0;
-    z-index: -999;
-    overflow: hidden;
   }
 }
 
@@ -545,136 +651,5 @@ hr.divider {
 @-webkit-keyframes spin {
   to {
     -webkit-transform: rotate(360deg);
-  }
-}
-
-// first time user animation
-// ----------- https://codepen.io/yshlin/pen/ylDEk
-
-$particles: 50;
-$width: 500;
-$height: 500;
-
-// Create the explosion...
-$box-shadow: ();
-$box-shadow2: ();
-@for $i from 0 through $particles {
-  $box-shadow: $box-shadow,
-    random($width)-$width / 2 + px random($height)-$height / 1.2 + px hsl(random(360), 100, 50);
-  $box-shadow2: $box-shadow2, 0 0 #fff;
-}
-@mixin keyframes($animationName) {
-  @-webkit-keyframes #{$animationName} {
-    @content;
-  }
-
-  @-moz-keyframes #{$animationName} {
-    @content;
-  }
-
-  @-o-keyframes #{$animationName} {
-    @content;
-  }
-
-  @-ms-keyframes #{$animationName} {
-    @content;
-  }
-
-  @keyframes #{$animationName} {
-    @content;
-  }
-}
-
-@mixin animation-delay($settings) {
-  -moz-animation-delay: $settings;
-  -webkit-animation-delay: $settings;
-  -o-animation-delay: $settings;
-  -ms-animation-delay: $settings;
-  animation-delay: $settings;
-}
-
-@mixin animation-duration($settings) {
-  -moz-animation-duration: $settings;
-  -webkit-animation-duration: $settings;
-  -o-animation-duration: $settings;
-  -ms-animation-duration: $settings;
-  animation-duration: $settings;
-}
-
-@mixin animation($settings) {
-  -moz-animation: $settings;
-  -webkit-animation: $settings;
-  -o-animation: $settings;
-  -ms-animation: $settings;
-  animation: $settings;
-}
-
-@mixin transform($settings) {
-  transform: $settings;
-  -moz-transform: $settings;
-  -webkit-transform: $settings;
-  -o-transform: $settings;
-  -ms-transform: $settings;
-}
-
-.pyro > .before,
-.pyro > .after {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  box-shadow: $box-shadow2;
-  @include animation(
-    (
-      1s bang ease-out infinite backwards,
-      1s gravity ease-in infinite backwards,
-      5s position linear infinite backwards
-    )
-  );
-}
-
-.pyro > .after {
-  @include animation-delay((1.25s, 1.25s, 1.25s));
-  @include animation-duration((1.25s, 1.25s, 6.25s));
-}
-
-@include keyframes(bang) {
-  to {
-    box-shadow: $box-shadow;
-  }
-}
-
-@include keyframes(gravity) {
-  to {
-    @include transform(translateY(200px));
-    opacity: 0;
-  }
-}
-
-@include keyframes(position) {
-  0%,
-  19.9% {
-    margin-top: 10%;
-    margin-left: 40%;
-  }
-  20%,
-  39.9% {
-    margin-top: 40%;
-    margin-left: 30%;
-  }
-  40%,
-  59.9% {
-    margin-top: 20%;
-    margin-left: 70%;
-  }
-  60%,
-  79.9% {
-    margin-top: 30%;
-    margin-left: 20%;
-  }
-  80%,
-  99.9% {
-    margin-top: 30%;
-    margin-left: 80%;
   }
 }

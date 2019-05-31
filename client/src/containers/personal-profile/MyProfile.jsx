@@ -7,11 +7,15 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
 import * as C from '../../constants/enumConstants';
 import ProfileForm from '../../components/forms/ProfileForm';
-import axios from 'axios';
+
 import FileUploaderComponent from '../../components/FileUploaderComponent';
-import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import NotificationSettings from './NotificationSettings';
+import VerifyEmailButton from './VerifyEmailButton';
+import VerifyPhoneButton from './VerifyPhoneButton';
+import { VerifiedVia } from '../commonComponents';
+
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -56,11 +60,12 @@ class MyProfile extends React.Component {
     let phoneNumber = phone.phoneNumber || 'not provided';
 
     // phone number is provided but it is not verified
-    const shouldShowPhoneVerification = !phone.phoneNumber || !phone.isVerified;
+    const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
     // email is provided but it is not verified
-    const shouldShowEmailVerification = !email.emailAddress || !email.isVerified;
+    const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+
     const { isEditProfile } = this.state;
     return (
       <React.Fragment>
@@ -69,21 +74,25 @@ class MyProfile extends React.Component {
           this.state.showImageUploadDialog,
           updateProfileImage,
         )}
-        <section className="hero container is-white is-small">
-          <div className="hero-body">
-            <h1 className="title">My Profile</h1>
-          </div>
-        </section>
 
         <div className="container is-widescreen">
+          <section className="hero is-white has-text-centered">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">My Profile</h1>
+              </div>
+            </div>
+          </section>
+          <hr className="divider" />
           <div className="columns is-centered">
-            <div className="column is-narrow">
+            <div className="column is-narrow has-text-centered">
               {userImageAndStats(
                 this.toggleShowUploadProfileImageDialog,
                 profileImage,
                 membershipStatusDisplay,
                 rating,
                 displayName,
+                userDetails,
               )}
             </div>
             <div className="column">
@@ -111,13 +120,13 @@ class MyProfile extends React.Component {
                       onClick={() => {
                         this.toggleEditProfile();
                       }}
-                      href="#"
                       className="card-header-icon has-text-success"
                       aria-label="more options"
                     >
                       <span className="icon">
                         <i className="far fa-edit" />
                       </span>
+                      <span>Edit Details</span>
                     </a>
                   )}
                 </header>
@@ -125,29 +134,36 @@ class MyProfile extends React.Component {
                   <div className="content">
                     {!isEditProfile && (
                       <div>
-                        <DisplayLabelValue labelText="User Name:" labelValue={displayName} />
+                        <DisplayLabelValue labelText="User Name" labelValue={displayName} />
+
+                        <div className="field">
+                          <label className="label">Auto Detect Location</label>
+                          <div className="control">
+                            {autoDetectlocation && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
+                                </span>
+                                <span>Enabled</span>
+                              </span>
+                            )}
+                            {!autoDetectlocation && (
+                              <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                <span style={{ marginLeft: 2 }}>Disabled</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
                         <DisplayLabelValue
-                          labelValue={
+                          renderExtraStuff={() => (
                             <React.Fragment>
-                              Auto Detect Location:
-                              {autoDetectlocation && (
-                                <span style={{ marginLeft: 6 }} className="has-text-success">
-                                  <span className="icon">
-                                    <i className="fas fa-check is-success" />
-                                  </span>
-                                  <span>Enabled</span>
-                                </span>
-                              )}
-                              {!autoDetectlocation && (
-                                <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Disabled</span>
-                                </span>
+                              {shouldShowEmailVerification && (
+                                <VerifyEmailButton getCurrentUser={getCurrentUser} />
                               )}
                             </React.Fragment>
-                          }
-                        />
-                        <DisplayLabelValue
-                          labelText="Email:"
+                          )}
+                          labelText="Email"
                           labelValue={
                             <div>
                               <span>{email.emailAddress}</span>
@@ -156,24 +172,20 @@ class MyProfile extends React.Component {
                                   <span className="icon">
                                     <i className="fas fa-check is-success" />
                                   </span>
-                                  <span>Verified</span>
-                                </span>
-                              )}
-                              {!email.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                  <span>(Verified)</span>
                                 </span>
                               )}
                             </div>
                           }
                         />
 
-                        {shouldShowEmailVerification && (
-                          <VerifyEmail getCurrentUser={getCurrentUser} />
-                        )}
-
                         <DisplayLabelValue
-                          labelText="Phone Number:"
+                          renderExtraStuff={() => (
+                            <React.Fragment>
+                              {shouldShowPhoneVerification && <VerifyPhoneButton />}
+                            </React.Fragment>
+                          )}
+                          labelText="Phone Number"
                           labelValue={
                             <div>
                               <span>{phoneNumber}</span>
@@ -182,20 +194,17 @@ class MyProfile extends React.Component {
                                   <span className="icon">
                                     <i className="fas fa-check is-success" />
                                   </span>
-                                  <span>Verified</span>
+                                  <span>(Verified)</span>
                                 </span>
                               )}
-                              {!phone.isVerified && (
+                              {/* {!phone.isVerified && (
                                 <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                  <span style={{ marginLeft: 2 }}>Not Verified</span>
+                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
-                              )}
+                              )} */}
                             </div>
                           }
                         />
-                        {shouldShowPhoneVerification && (
-                          <VerifyPhone getCurrentUser={getCurrentUser} />
-                        )}
 
                         <HeaderTitle title="About Me" />
                         <TextareaAutosize
@@ -267,11 +276,12 @@ const HeaderTitle = (props) => {
     </h2>
   );
 };
-const DisplayLabelValue = (props) => {
+const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="field">
-      <label className="label">{props.labelText}</label>
-      <div className="control"> {props.labelValue}</div>
+      <label className="label">{labelText}</label>
+      <div className="control"> {labelValue}</div>
+      {renderExtraStuff && renderExtraStuff()}
     </div>
   );
 };
@@ -282,6 +292,7 @@ const userImageAndStats = (
   membershipStatusDisplay,
   rating,
   displayName,
+  userDetails,
 ) => {
   const { globalRating } = rating;
   return (
@@ -298,29 +309,27 @@ const userImageAndStats = (
               <div>
                 <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
               </div>
+              <div className="has-text-centered">{displayName}</div>
 
-              <a className="button is-outlined is-small">
+              <a style={{ width: 120 }} className="button is-outlined is-small">
                 <span className="icon">
                   <i className="fa fa-camera" />
                 </span>
-                <span>upload</span>
+                <span>Change Picture</span>
               </a>
+
+              <VerifiedVia userDetails={userDetails} />
             </div>
-            <br />
+            <hr className="divider isTight" />
             <div className="field">
-              <HeaderTitle title="Name" />
-              <div className="control">
-                <div className="control">{displayName}</div>
-              </div>
-            </div>
-            <div className="field">
-              <HeaderTitle title="Rating" />
+              <label className="label">My Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <p className="is-size-7">No Ratings Yet</p>
+                <div className="control has-text-centered">No Ratings Yet</div>
               ) : (
-                <div className="control">
+                <div className="control has-text-centered">
                   <span>
                     <ReactStars
+                      className="ReactStars"
                       half
                       count={5}
                       value={globalRating}
@@ -333,11 +342,10 @@ const userImageAndStats = (
                 </div>
               )}
             </div>
+
             <div className="field">
-              <HeaderTitle title="Status" />
-              <div className="control">
-                <div className="control">{membershipStatusDisplay}</div>
-              </div>
+              <label className="label">Account Status</label>
+              <div className="control has-text-centered">{membershipStatusDisplay}</div>
             </div>
           </div>
         </div>
@@ -352,7 +360,7 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
       <div onClick={toggleUploadDialog} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Update Profile Image</p>
+          <div className="modal-card-title">Update Profile Image</div>
           <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">
@@ -365,101 +373,3 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
     </div>
   ) : null;
 };
-
-class VerifyPhone extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSubmitting: false,
-    };
-  }
-
-  handleSendNewCode = async () => {
-    this.setState({ isSubmitting: true }, async () => {
-      try {
-        const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
-        }
-      } catch (e) {
-        // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-        this.setState({ isSubmitting: false });
-      }
-    });
-  };
-  render() {
-    const { isSubmitting } = this.state;
-
-    const resendButtonClass = `button is-info is-outlined`;
-    return (
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div className="field">
-            <p className="control">
-              <button
-                onClick={this.handleSendNewCode}
-                style={{ marginLeft: 6 }}
-                className={resendButtonClass}
-                disabled={isSubmitting}
-              >
-                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-class VerifyEmail extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSubmitting: false,
-    };
-  }
-
-  handleSendNewCode = async () => {
-    this.setState({ isSubmitting: true }, async () => {
-      try {
-        const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationEmail,
-        );
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
-        }
-      } catch (e) {
-        // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
-        this.setState({ isSubmitting: false });
-      }
-    });
-  };
-  render() {
-    const { isSubmitting } = this.state;
-
-    const resendButtonClass = `button is-info is-outlined`;
-    return (
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div className="field">
-            <p className="control">
-              <button
-                onClick={this.handleSendNewCode}
-                style={{ marginLeft: 6 }}
-                className={resendButtonClass}
-                disabled={isSubmitting}
-              >
-                {`${isSubmitting ? 'pin sent' : 'resend pin'}`}
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}

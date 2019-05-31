@@ -9,49 +9,65 @@ const requireLogin = require('../middleware/requireLogin');
 const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.myOpenBids, requireLogin, async (req, res, done) => {
+  app.get(ROUTES.API.BID.GET.allMyPostedBids, requireLogin, async (req, res, done) => {
     try {
-      const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getUserOpenBids(userMongoDBId);
+      const mongoUser_id = req.user._id;
+      const userBidsList = await bidDataAccess.getAllUserBids(mongoUser_id);
       return res.send(userBidsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
-
+  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
+    try {
+      const mongoUser_id = req.user._id;
+      const userBidsList = await bidDataAccess.getUserAwardedBids(mongoUser_id);
+      return res.send(userBidsList);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ errorMsg: 'Failed To get my all My PostedBids bids', details: `${e}` });
+    }
+  });
   app.delete(
     ROUTES.API.BID.DELETE.deleteOpenBid,
     requireLogin,
     requirePassDeleteBidChecks,
     async (req, res) => {
       try {
-        const userMongoDBId = req.user._id.toString();
+        const mongoUser_id = req.user._id.toString();
         const { bidId } = req.body;
 
-        const deleteResults = await bidDataAccess.deleteOpenBid(userMongoDBId,bidId);
+        const deleteResults = await bidDataAccess.deleteOpenBid(mongoUser_id, bidId);
         return res.send(deleteResults);
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To delete Open Bid', details: `${e}` });
       }
     }
   );
 
-  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
-    try {
-      const userMongoDBId = req.user._id;
-      const userBidsList = await bidDataAccess.getUserAwardedBids(userMongoDBId);
-      return res.send(userBidsList);
-    } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded bids', details: `${e}` });
-    }
-  });
+  app.delete(
+    ROUTES.API.BID.DELETE.cancelAwardedBid,
+    requireLogin,
+    requirePassDeleteBidChecks,
+    async (req, res) => {
+      try {
+        const mongoUser_id = req.user._id.toString();
+        const { bidId } = req.body;
 
+        const deleteResults = await bidDataAccess.cancelAwardedBid(mongoUser_id, bidId);
+        return res.send(deleteResults);
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To cancel Awarded Bid', details: `${e}` });
+      }
+    }
+  );
   app.get(ROUTES.API.BID.GET.openBidDetails, requireLogin, async (req, res, done) => {
     try {
       if (req.query && req.query.openBidId) {
         const { openBidId } = req.query;
-        const userMongoDBId = req.user._id;
-        const userBid = await bidDataAccess.getBidDetails(userMongoDBId, openBidId);
+        const mongoUser_id = req.user._id;
+        const userBid = await bidDataAccess.getBidDetails(mongoUser_id, openBidId);
         return res.send(userBid);
       } else {
         return res.status(400).send({
@@ -60,7 +76,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
     }
   });
@@ -69,8 +85,8 @@ module.exports = (app) => {
     try {
       if (req.query && req.query.awardedBidId) {
         const { awardedBidId } = req.query;
-        const userMongoDBId = req.user._id;
-        const userBid = await bidDataAccess.getAwardedBidDetails(userMongoDBId, awardedBidId);
+        const mongoUser_id = req.user._id;
+        const userBid = await bidDataAccess.getAwardedBidDetails(mongoUser_id, awardedBidId);
         return res.send(userBid);
       } else {
         return res.status(400).send({
@@ -79,7 +95,7 @@ module.exports = (app) => {
       }
     } catch (e) {
       return res
-        .status(500)
+        .status(400)
         .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
     }
   });
@@ -99,10 +115,10 @@ module.exports = (app) => {
         if (data && data.bidAmount && data.jobId) {
           const { jobId, bidAmount } = data;
 
-          const userMongoDBId = req.user._id;
+          const mongoUser_id = req.user._id;
 
           const newBid = await bidDataAccess.postNewBid({
-            userMongoDBId,
+            mongoUser_id,
             jobId,
             bidAmount,
           });
@@ -113,7 +129,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
       }
     }
   );
@@ -131,10 +147,10 @@ module.exports = (app) => {
         if (data && data.bidAmount && data.bidId) {
           const { bidId, bidAmount } = data;
 
-          const userMongoDBId = req.user._id.toString();
+          const mongoUser_id = req.user._id.toString();
 
           const newBid = await bidDataAccess.updateBidValue({
-            userMongoDBId,
+            mongoUser_id,
             bidId,
             bidAmount,
           });
@@ -145,7 +161,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To update your bid', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To update your bid', details: `${e}` });
       }
     }
   );
@@ -165,7 +181,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
     }
   });
   app.put(ROUTES.API.BID.PUT.updateBidState, requireLogin, async (req, res, done) => {
@@ -183,7 +199,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To update Bid State', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To update Bid State', details: `${e}` });
     }
   });
 };

@@ -6,10 +6,14 @@ import { Redirect } from 'react-router';
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { getCurrentUser } from '../app-state/actions/authActions';
 import { switchRoute } from '../utils';
-import { Spinner } from '../components/Spinner';
 
+import { getCurrentUser } from '../app-state/actions/authActions';
+import { Spinner } from '../components/Spinner';
+import logoImg from '../assets/images/android-chrome-192x192.png';
+import canadaFlag from '../assets/images/Canada-flag-round.png';
+import { registerServiceWorker } from '../registerServiceWorker';
+import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.css';
 
 import {
@@ -20,7 +24,7 @@ import {
   VerificationPage,
   ProposerRootPage,
   CreateAJobPage,
-  MyOpenJobsPage,
+  MyRequestsPage,
   FirstTimeUser,
   ReviewMyAwardedJobAndWinningBidPage,
   ReviewRequestAndBidsPage,
@@ -52,6 +56,20 @@ class App extends React.Component {
     return { hasError: true };
   }
 
+  componentDidUpdate(prevProps) {
+    const userHasChanged = prevProps.userDetails._id !== this.props.userDetails._id;
+    const pushNotificationSettingsChanged =
+      !prevProps.userDetails.notifications.push && this.props.userDetails.notifications.push;
+
+    if (userHasChanged || pushNotificationSettingsChanged) {
+      if (this.props.userDetails.notifications && this.props.userDetails.notifications.push)
+        registerServiceWorker(
+          `${process.env.REACT_APP_VAPID_KEY}`,
+          userHasChanged && this.props.userDetails._id !== 'loggedOutUser_uuid',
+        );
+    }
+  }
+
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
@@ -68,7 +86,11 @@ class App extends React.Component {
                 </h1>
                 <br />
                 <a
-                  onClick={(e) => switchRoute(ROUTES.CLIENT.HOME)}
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                    // xxxx update without reload
+                    window.location.reload();
+                  }}
                   className="button is-outlined is-success is-small"
                 >
                   Go to Home Page
@@ -83,7 +105,9 @@ class App extends React.Component {
     const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
 
     if (authIsInProgress) {
-      return <Spinner isLoading={authIsInProgress} size={'large'} />;
+      return (
+        <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
+      );
     }
 
     return (
@@ -102,27 +126,9 @@ class App extends React.Component {
             width: '100%',
             backgroundColor: '#31c110',
             height: '5px',
+            zIndex: 999,
           }}
         />
-
-        {isLoggedIn &&
-          window.location &&
-          window.location.href &&
-          window.location.href.indexOf('BidOrBoo') < 0 && (
-            <React.Fragment>
-              {userAppView === 'PROPOSER' && (
-                <div className="VerticalAligner title" id="bidorboo-switch-role">
-                  <p className="title has-text-dark">Requester View</p>
-                </div>
-              )}
-
-              {userAppView === 'BIDDER' && (
-                <div className="VerticalAligner title " id="bidorboo-switch-role">
-                  <p className="title has-text-dark">Tasker View</p>
-                </div>
-              )}
-            </React.Fragment>
-          )}
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper">
           <Switch>
@@ -141,7 +147,7 @@ class App extends React.Component {
 
             <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
 
-            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyOpenJobsPage} />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyRequestsPage} />
 
             <Route
               exact
@@ -156,12 +162,12 @@ class App extends React.Component {
             <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.reviewMyBidAndTheRequestDetails}`}
+              path={`${ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}`}
               component={ReviewBidAndRequestPage}
             />
             <Route
               exact
-              path={`${ROUTES.CLIENT.BIDDER.currentAwardedBid}`}
+              path={`${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}`}
               component={ReviewAwardedBidPage}
             />
             <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
@@ -208,7 +214,7 @@ class App extends React.Component {
                       height={21}
                       alt="Canada"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      src="https://static.gikacoustics.com/wp-content/uploads/2017/09/Canada-flag-round.png"
+                      src={canadaFlag}
                     />
                   </div>
                 </div>
@@ -217,13 +223,16 @@ class App extends React.Component {
                 <div>
                   <div className="has-text-grey is-size-7">
                     <img
-                      src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png"
+                      src={logoImg}
                       alt="BidOrBoo"
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
                       width={21}
                       height={21}
                     />
                     {` BidOrBoo`}
+                  </div>
+                  <div style={{ marginTop: 6 }}>
+                    <AddToMobileHomeScreenBanner />
                   </div>
                   <div>
                     <a
@@ -250,7 +259,6 @@ class App extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="has-text-grey is-size-7">Contact Us</p>
-                  <div className="has-text-grey is-size-7">Address : xyz rd, ON, Canada</div>
                   <div className="has-text-grey is-size-7">phone: 123-123-1234</div>
                   <div className="has-text-grey is-size-7">email: bidorboocrew@gmail.com</div>
                 </div>
@@ -268,6 +276,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
     s_toastDetails: uiReducer.toastDetails,
     userAppView: uiReducer.userAppView,
     authIsInProgress: uiReducer.authIsInProgress,
+    userDetails: userReducer.userDetails,
   };
 };
 

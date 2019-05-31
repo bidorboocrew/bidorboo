@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
@@ -9,22 +8,16 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
-import PostYourBid from '../../components/forms/PostYourBid';
-import { updateBooedBy } from '../../app-state/actions/jobActions';
-
-import { findAvgBidInBidList } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
-import getBidOnFullDetailsCardByTemplateJobId from '../../bdb-tasks/getBidOnFullDetailsCardByTemplateJobId';
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class BidOnJobPage extends React.Component {
   constructor(props) {
     super(props);
-    const { location } = props;
 
     this.state = {
       recaptchaField: '',
-      jobDetails: location.state && location.state.jobDetails,
     };
 
     this.recaptchaRef = React.createRef();
@@ -34,17 +27,6 @@ class BidOnJobPage extends React.Component {
     this.setState({ recaptchaField: value });
   };
 
-  componentDidUpdate(prevProps) {
-    const newJobDetailsShowedUp = !prevProps.jobDetails && this.props.jobDetails;
-    const jobTobidOnExists = prevProps.jobDetails && this.props.jobDetails;
-    const differentJobId =
-      jobTobidOnExists && prevProps.jobDetails._id !== this.props.jobDetails._id;
-
-    if (newJobDetailsShowedUp || differentJobId) {
-      this.setState({ jobDetails: this.props.jobDetails });
-    }
-  }
-
   componentDidMount() {
     const { match, getJobToBidOnDetails } = this.props;
     const { jobDetails } = this.state;
@@ -53,61 +35,41 @@ class BidOnJobPage extends React.Component {
         getJobToBidOnDetails(match.params.jobId);
       }
     }
-    if (this.recaptchaRef.current) {
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
       this.recaptchaRef.current.execute();
     }
   }
   render() {
-    const { submitBid, updateBooedBy, isLoggedIn } = this.props;
-    const { jobDetails } = this.state;
-    const { recaptchaField } = this.state;
+    const { submitBid, isLoggedIn, jobDetails, currentUserDetails } = this.props;
     let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
     if (dontShowThisPage) {
       return (
         <section className="section">
-          <Spinner isLoading size={'large'} />
+          <Spinner renderLabel="getting job details" isLoading size={'large'} />
         </section>
       );
     }
-    let avgBid = 0;
-    if (jobDetails && jobDetails._bidsListRef && jobDetails._bidsListRef.length > 0) {
-      avgBid = findAvgBidInBidList(jobDetails._bidsListRef);
-    }
 
     return (
-      <React.Fragment>
-        <ReCAPTCHA
-          style={{ display: 'none' }}
-          onExpired={() => this.recaptchaRef.current.execute()}
-          ref={this.recaptchaRef}
-          size="invisible"
-          badge="bottomright"
-          onChange={this.updateRecaptchaField}
-          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-        />
-        <div className="container is-widescreen">
-          <div className="columns is-centered">
-            <div className="column is-narrow">
-              {breadCrumbs()}
-              <PostYourBid
-                avgBid={avgBid}
-                onSubmit={(values) => {
-                  submitBid({
-                    jobId: jobDetails._id,
-                    bidAmount: values.bidAmountField,
-                    recaptchaField,
-                  });
-                }}
-                onCancel={() => {
-                  // updateBooedBy(jobDetails);
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
-                }}
-              />
-              {getBidOnFullDetailsCardByTemplateJobId(jobDetails)}
-            </div>
+      <div className="container is-widescreen">
+        <section className="hero is-white is-small has-text-centered">
+          <div className="hero-body">
+            <h1 className="title">Bid On This Request</h1>
+            <HowItWorks step={2} isMoreDetails isSmall />
+          </div>
+        </section>
+        <div className="columns is-centered">
+          <div className="column limitLargeMaxWidth">
+            {getMeTheRightRequestCard({
+              job: jobDetails,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.TASKER,
+              submitBid,
+              userDetails: currentUserDetails,
+            })}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -115,12 +77,12 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     jobDetails: bidsReducer.jobToBidOnDetails,
+    currentUserDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     submitBid: bindActionCreators(submitBid, dispatch),
-    updateBooedBy: bindActionCreators(updateBooedBy, dispatch),
     getJobToBidOnDetails: bindActionCreators(getJobToBidOnDetails, dispatch),
   };
 };
@@ -147,10 +109,63 @@ const breadCrumbs = () => {
           </li>
 
           <li className="is-active">
-            <a>Bid Now!</a>
+            <a>Place Your Bid!</a>
           </li>
         </ul>
       </nav>
     </div>
+  );
+};
+
+export const HowItWorks = ({ step, isMoreDetails, isSmall }) => {
+  return (
+    <ul
+      className={`limitLargeMaxWidth steps has-content-centered is-horizontal ${
+        isSmall ? 'is-small' : ''
+      }`}
+    >
+      <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fas fa-book" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p className={`${isSmall ? 'help' : ''}`}>Review Details</p>
+        </div>
+      </li>
+      <li className={`steps-segment is-dashed ${step === 2 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fas fa-pencil-alt" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p className={`${isSmall ? 'help' : ''}`}>Place your Bid</p>
+        </div>
+      </li>
+      {isMoreDetails && (
+        <li className={`steps-segment is-dashed ${step === 3 ? 'is-active' : ''}`}>
+          <span className="steps-marker">
+            <span className="icon">
+              <i className="fas fa-check" />
+            </span>
+          </span>
+          <div className="steps-content">
+            <p className={`${isSmall ? 'help' : ''}`}>Requester Selects a Tasker</p>
+          </div>
+        </li>
+      )}
+      <li className={`steps-segment ${step === 4 ? 'is-active' : ''}`}>
+        <span className="steps-marker">
+          <span className="icon">
+            <i className="fa fa-usd" />
+          </span>
+        </span>
+        <div className="steps-content">
+          <p className={`${isSmall ? 'help' : ''}`}>Do it, get paid</p>
+        </div>
+      </li>
+    </ul>
   );
 };

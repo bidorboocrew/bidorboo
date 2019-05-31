@@ -112,7 +112,7 @@
 
 //         return {
 //           id: jobDetails._id,
-//           resource: `${ROUTES.CLIENT.BIDDER.currentAwardedBid}/${bid._id}`,
+//           resource: `${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}/${bid._id}`,
 //           title: `Awarded: ${bid.bidAmount.value} CAD`,
 //           desc: `<p>BidOrBoo user ${
 //             jobDetails._ownerRef.displayName

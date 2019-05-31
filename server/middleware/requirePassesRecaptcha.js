@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
     const recpatchaAssesmentResponse = (error, response) => {
       if (error) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To evaluate recaptcha ', details: `${error}` });
       }
       if (response.success) {
@@ -34,7 +34,7 @@ module.exports = async (req, res, next) => {
     await recaptcha.checkResponse(req.body.recaptchaField, recpatchaAssesmentResponse);
   } catch (e) {
     return res
-      .status(500)
+      .status(400)
       .send({ errorMsg: 'Failed To evaluate recaptcha from server ', details: `${e}` });
   }
 };

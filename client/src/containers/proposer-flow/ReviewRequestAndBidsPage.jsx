@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+
 import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -12,9 +14,11 @@ import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobA
 import BidsTable from './components/BidsTable';
 import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
 
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
-import getPostedFullDetailsCardByTemplateJobId from '../../bdb-tasks/getPostedFullDetailsCardByTemplateJobId';
-
+import {
+  getMeTheRightRequestCard,
+  POINT_OF_VIEW,
+  REQUEST_STATES,
+} from '../../bdb-tasks/getMeTheRightCard';
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +31,22 @@ class ReviewRequestAndBidsPage extends React.Component {
       showBidReviewModal: false,
       bidUnderReview: {},
     };
+    // xxxxx saeed think about server load ? maybe let user fetch by reload
+    // this.countdown = setInterval(this.fetchMostRecentBids, 10000);
   }
+
+  componentWillUnmount() {
+    // clearInterval(this.countdown);
+  }
+
+  fetchMostRecentBids = () => {
+    // every 10 seconds fetch most recent bids
+    if (!this.jobId) {
+      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return null;
+    }
+    this.props.getPostedJobDetails(this.jobId);
+  };
 
   componentDidMount() {
     if (!this.jobId) {
@@ -62,23 +81,22 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   render() {
-    const { selectedJobWithBids, markBidAsSeen } = this.props;
+    const { selectedJobWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={true} size={'large'} />
+          <Spinner renderLabel={"Loading Your request and Bids"} isLoading={true} size={'large'} />
         </div>
       );
     }
 
-    const jobDefinition = jobTemplateIdToDefinitionObjectMapper[selectedJobWithBids.fromTemplateId];
-    if (!jobDefinition) {
-      alert(`unknown job template ${selectedJobWithBids.fromTemplateId}`);
-      return null;
-    }
+    const { state } = selectedJobWithBids;
+    const isThisACancelledTask =
+      state === REQUEST_STATES.CANCELED_OPEN ||
+      state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER ||
+      state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER;
 
-    const title = jobDefinition.TITLE;
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     const bidList = selectedJobWithBids._bidsListRef;
@@ -86,12 +104,45 @@ class ReviewRequestAndBidsPage extends React.Component {
 
     return (
       <div className="container is-widescreen">
+        {paymentIsInProgress &&
+          ReactDOM.createPortal(
+            <div
+              style={{
+                background: '#363636',
+                zIndex: 99,
+                padding: 50,
+                position: 'fixed',
+                height: '100vh',
+                top: '4rem',
+                right: 0,
+                width: '100%',
+              }}
+            >
+              <div className="container is-widescreen">
+                <Spinner
+                  renderLabel={'Processing your payment. Please wait'}
+                  isLoading={true}
+                  size={'large'}
+                  isDark={false}
+                />
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-view'),
+          )}
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">My Request Details</h1>
+            </div>
+          </div>
+        </section>
+        <hr className="divider" />
         {showBidReviewModal && (
           <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
         <div className="columns is-centered">
-          <div className="column is-narrow">
+          <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a
                 className="button is-outlined"
@@ -100,41 +151,43 @@ class ReviewRequestAndBidsPage extends React.Component {
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>
-                <span>My Requests</span>
+                <span>View My Other Requests</span>
               </a>
             </div>
+            {getMeTheRightRequestCard({
+              job: selectedJobWithBids,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.REQUESTER,
+            })}
 
-            {getPostedFullDetailsCardByTemplateJobId(selectedJobWithBids)}
             <br />
+            {!isThisACancelledTask && (
+              <React.Fragment>
+                {!areThereAnyBids && (
+                  <section className="hero is-dark is-small">
+                    <div className="hero-body">
+                      <div className="has-text-centered">
+                        <h1 className="is-size-5">Actively Retrieving More bids</h1>
 
-            {areThereAnyBids && (
-              <section className="hero is-medium is-dark is-bold">
-                <div className="hero-body">
-                  <div>
-                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                      Taskers Offers
-                    </h1>
-                  </div>
-                </div>
-              </section>
+                        <a
+                          disabled
+                          style={{ padding: 0, border: 'none' }}
+                          className="button is-white is-outlined is-loading"
+                        >
+                          Loading
+                        </a>
+                      </div>
+                    </div>
+                  </section>
+                )}
+                <BidsTable
+                  jobId={selectedJobWithBids._id}
+                  bidList={bidList}
+                  markBidAsSeen={markBidAsSeen}
+                  showBidReviewModal={this.showBidReviewModal}
+                />
+              </React.Fragment>
             )}
-            {!areThereAnyBids && (
-              <section className="hero is-medium is-dark is-bold">
-                <div className="hero-body">
-                  <div>
-                    <h1 className="is-size-5 has-text-weight-bold has-text-centered">
-                      Waiting For Taskers
-                    </h1>
-                  </div>
-                </div>
-              </section>
-            )}
-            <BidsTable
-              jobId={selectedJobWithBids._id}
-              bidList={bidList}
-              markBidAsSeen={markBidAsSeen}
-              showBidReviewModal={this.showBidReviewModal}
-            />
           </div>
         </div>
       </div>
@@ -142,10 +195,11 @@ class ReviewRequestAndBidsPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
     selectedJobWithBids: jobsReducer.selectedJobWithBids,
     userDetails: userReducer.userDetails,
+    paymentIsInProgress: uiReducer.paymentIsInProgress,
   };
 };
 
@@ -160,20 +214,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReviewRequestAndBidsPage);
-
-const breadCrumbs = (props) => {
-  const { activePageTitle } = props;
-  return (
-    <div style={{ marginBottom: '0.7rem' }}>
-      <a
-        className="button is-outlined"
-        onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
-      >
-        <span className="icon">
-          <i className="far fa-arrow-alt-circle-left" />
-        </span>
-        <span>My Requests</span>
-      </a>
-    </div>
-  );
-};

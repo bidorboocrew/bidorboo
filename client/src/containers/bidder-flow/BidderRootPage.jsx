@@ -9,7 +9,6 @@ import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { TAB_IDS } from './components/helperComponents';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
 
@@ -28,28 +27,23 @@ class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialTabSelection = TAB_IDS.openRequests;
-    if (props.match && props.match.params && props.match.params.tabId) {
-      const { tabId } = props.match.params;
-      if (tabId && TAB_IDS[`${tabId}`]) {
-        initialTabSelection = TAB_IDS[`${tabId}`];
-      }
-    }
-
     this.state = {
       allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
-      activeTab: initialTabSelection,
       showSideNav: false,
+      mapZoomLevel: 6,
       mapCenterPoint: {
-        lng: -75.6972,
-        lat: 45.4215,
+        lng: -75.801867,
+        lat: 45.296898,
       },
     };
+    this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
-    const { isLoggedIn, getCurrentUser, getAllJobsToBidOn, userDetails } = this.props;
+    // xxxxx use this for rate limiting this will cause getalljobs to continue to be called
+    const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
+
     if (!isLoggedIn) {
       getCurrentUser();
     } else {
@@ -59,6 +53,13 @@ class BidderRootPage extends React.Component {
     }
 
     getAllJobsToBidOn();
+    // const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
+    // if (isLoggedIn) {
+    //   if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
+    //     this.getCurrentAddress();
+    //   }
+    // }
+    // getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -163,16 +164,22 @@ class BidderRootPage extends React.Component {
     );
   };
 
-  changeActiveTab = (tabId) => {
-    this.setState({ activeTab: tabId });
-  };
-
   updateMapCenter = (pos) => {
     this.setState({
       mapCenterPoint: {
         ...pos,
       },
     });
+  };
+  zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
+    this.setState(
+      () => {
+        return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 12 };
+      },
+      () => {
+        callback && callback();
+      },
+    );
   };
   toggleSideNav = () => {
     this.setState({ showSideNav: !this.state.showSideNav });
@@ -189,29 +196,27 @@ class BidderRootPage extends React.Component {
     if (isLoading) {
       return (
         <section className="section">
-          <Spinner isLoading={isLoading} size={'large'} />
+          <Spinner renderLabel="getting requests near you..." isLoading={isLoading} size={'large'} />
         </section>
       );
     }
 
     const {
-      activeTab,
       showSideNav,
       displayedJobList,
       mapCenterPoint,
       hasActiveSearch,
+      mapZoomLevel,
     } = this.state;
 
     let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
-    const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-
-    if (isLoggedIn) {
-      if (activeTab === TAB_IDS.openRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id !== currentUserId);
-      } else if (activeTab === TAB_IDS.myRequests) {
-        currentJobsList = currentJobsList.filter((job) => job._ownerRef._id === currentUserId);
-      }
-    }
+    currentJobsList = currentJobsList.map((job) => {
+      return {
+        ...job,
+        reactMapClusterRef: React.createRef(),
+        zoomOnInfo: this.zoomAndCenterAroundMarker,
+      };
+    });
 
     return (
       <div className="container is-widescreen">
@@ -222,7 +227,7 @@ class BidderRootPage extends React.Component {
               <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
               <StepsForTasker step={1} />
               <h2 className="subtitle">
-                {userDetails && !userDetails.autoDetectlocation && (
+                {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
                       For custom results enable auto detect location in
@@ -254,7 +259,12 @@ class BidderRootPage extends React.Component {
 
         {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
 
-        <MapSection mapCenterPoint={mapCenterPoint} jobsList={currentJobsList} {...this.props} />
+        <MapSection
+          mapCenterPoint={mapCenterPoint}
+          mapZoomLevel={mapZoomLevel}
+          jobsList={currentJobsList}
+          {...this.props}
+        />
         <div
           style={{ marginBottom: 6 }}
           className="help container is-widescreen has-text-grey has-text-centered"
@@ -263,7 +273,7 @@ class BidderRootPage extends React.Component {
         </div>
         <br />
 
-        <AllJobsView activeTab={activeTab} jobsList={currentJobsList} {...this.props} />
+        <AllJobsView jobsList={currentJobsList} {...this.props} />
       </div>
     );
   }

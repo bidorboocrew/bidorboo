@@ -12,6 +12,8 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 import ReactStars from 'react-stars';
 import { Spinner } from '../components/Spinner';
+import { VerifiedVia } from './commonComponents';
+import * as Constants from '../constants/enumConstants';
 
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
@@ -42,7 +44,15 @@ class OtherUserProfileForReviewPage extends React.Component {
         </div>
       );
     }
-    const { rating, createdAt, _asBidderReviewsRef, _asProposerReviewsRef } = otherUserProfileInfo;
+    const {
+      rating,
+      createdAt,
+      _asBidderReviewsRef,
+      _asProposerReviewsRef,
+      membershipStatus,
+    } = otherUserProfileInfo;
+
+    const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     const {
       numberOfTimesBeenRated,
@@ -107,55 +117,118 @@ class OtherUserProfileForReviewPage extends React.Component {
           </div>
         </section>
 
-        <div className="card">
+        <div className="card noBordered">
           <div className="card-content">
             <div className="content">
-              <figure style={{ marginLeft: 0, marginBottom: 6 }} className="image is-128x128">
-                <img src={otherUserProfileInfo.profileImage.url} />
-              </figure>
-              <div className="is-size-5">{otherUserProfileInfo.displayName}</div>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <p className="is-size-7">No Ratings Yet</p>
-              ) : (
-                <ReactStars
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={20}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
-
               {/* <div>
                 Global Rating <strong> {globalRating} </strong>
               </div> */}
-              <div>
-                was rated by <strong>{numberOfTimesBeenRated} </strong> user
+              <div style={{ marginBottom: 10 }} className="has-text-centered">
+                <figure
+                  style={{ marginBottom: 6, display: 'inline-block' }}
+                  className="image is-128x128"
+                >
+                  <img
+                    style={{
+                      width: 128,
+                      height: 128,
+                      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+                    }}
+                    src={otherUserProfileInfo.profileImage.url}
+                  />
+                </figure>
+                <label style={{ marginBottom: 0 }} className="label">
+                  {otherUserProfileInfo.displayName}
+                </label>
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <p className="is-size-7">No Ratings Yet</p>
+                ) : (
+                  <ReactStars
+                    className="ReactStars"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={30}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+                <VerifiedVia userDetails={otherUserProfileInfo} />
+
+                <label className="help">Status: {membershipStatusDisplay}</label>
+
+                <label className="help">
+                  Member Sicne: {moment.duration(moment().diff(moment(createdAt))).humanize()}
+                </label>
               </div>
-              <div>
-                provided <strong>{fulfilledBids.length} </strong> services successfully
-              </div>
-              <div>
-                cancelled <strong>{canceledBids.length} </strong> on an awarded request
-              </div>
-              <div>
-                requested <strong>{fulfilledJobs.length} </strong> services and completed
-                successfully via BidOrBoo
-              </div>
-              <div>
-                cancelled <strong>{canceledJobs.length} </strong> requested services after awarding
-              </div>
-              <div>
-                member since
-                <strong> {moment.duration(moment().diff(moment(createdAt))).humanize()}</strong>
+              <div className="tile is-ancestor has-text-centered">
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {numberOfTimesBeenRated}
+                    </p>
+                    <p className="is-size-6">ratings recieved</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold ${
+                        fulfilledBids.length > 0 ? 'has-text-success' : ''
+                      }`}
+                    >
+                      {fulfilledBids.length}
+                    </p>
+                    <p className="is-size-6">Completed Tasks</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold ${
+                        canceledBids.length > 0 ? 'has-text-danger' : ''
+                      }`}
+                    >
+                      {canceledBids.length}
+                    </p>
+                    <p className="is-size-6">Cancelations of Agreements</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold ${
+                        fulfilledJobs.length > 0 ? 'has-text-success' : ''
+                      }`}
+                    >
+                      {fulfilledJobs.length}
+                    </p>
+                    <p className="is-size-6">Requests Posted and fullfilled</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p
+                      style={{ marginBottom: 4 }}
+                      className={`title has-text-weight-bold${
+                        canceledJobs.length > 0 ? 'has-text-danger' : ''
+                      }`}
+                    >
+                      {canceledJobs.length}
+                    </p>
+                    <p className="is-size-6">Requests Cancelled after agreement</p>
+                  </article>
+                </div>
               </div>
 
               {asABidderReviews && (
                 <React.Fragment>
                   <br />
-                  <hr className="navbar-divider" />
+                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Tasker :</label>
                   {asABidderReviews}
                 </React.Fragment>
@@ -164,7 +237,7 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asAProposerReviewsRef && (
                 <React.Fragment>
                   <br />
-                  <hr className="navbar-divider" />
+                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Requester :</label>
                   {asAProposerReviewsRef}
                 </React.Fragment>

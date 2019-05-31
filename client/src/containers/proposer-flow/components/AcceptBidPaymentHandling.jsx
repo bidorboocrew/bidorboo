@@ -31,6 +31,7 @@ class AcceptBidPaymentHandling extends React.Component {
     if (recaptchaField) {
       if (clientStripeToken && clientStripeToken.id) {
         submitPayment({
+          jobId: bid._jobRef,
           stripeTransactionToken: clientStripeToken.id,
           bid: bid,
           chargeAmount: this.chargeAmount,
@@ -49,7 +50,9 @@ class AcceptBidPaymentHandling extends React.Component {
   };
 
   componentDidMount() {
-    this.recaptchaRef.current.execute();
+    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
+      this.recaptchaRef.current.execute();
+    }
   }
 
   render() {

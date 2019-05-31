@@ -6,7 +6,7 @@ module.exports = {
 
       // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
       // args: 'one two',
-      instances: 4,
+      instances: 3,
       autorestart: true,
       max_restarts: 10,
       watch: false,

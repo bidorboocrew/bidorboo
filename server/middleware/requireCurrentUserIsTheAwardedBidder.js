@@ -11,9 +11,13 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      const userId = req.user._id.toString();
-      const awardedBidder = await jobDataAccess.isAwardedBidder(userId, jobId);
-      if (awardedBidder && awardedBidder._id) {
+      const mongoUser_id = req.user._id.toString();
+      const job = await jobDataAccess.isAwardedBidder(mongoUser_id, jobId);
+
+      if (job._awardedBidRef && job._awardedBidRef._bidderRef._id.toString() === mongoUser_id) {
+        res.locals.bidOrBoo = {
+          bidId: job._awardedBidRef._id,
+        };
         next();
       } else {
         return res
@@ -25,7 +29,7 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     return res
-      .status(500)
+      .status(400)
       .send({ errorMsg: 'failed to validate is awarded Bidder', details: `${e}` });
   }
 };

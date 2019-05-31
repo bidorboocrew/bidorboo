@@ -14,15 +14,7 @@ export const BID_STATUS_TO_DISPLAYLABEL = {
   CANCEL_SEEN: 'Cancelled',
 };
 
-export const TAB_IDS = {
-  openRequests: 'Requests',
-  // myRequests: 'Mine',
-};
 
-export const MYBIDS_TAB_IDS = {
-  myBidsTab: 'My Bids',
-  pastBids: 'Past Bids',
-};
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;

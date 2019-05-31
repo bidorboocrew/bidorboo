@@ -7,9 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
-
-import ReviewAwardedBidPage from '../bidder-flow/ReviewAwardedBidPage';
+import { switchRoute, throwErrorNotification, goBackToPreviousRoute } from '../../utils';
 
 export class BidderReviewingCompletedJob extends React.Component {
   constructor(props) {
@@ -21,6 +19,13 @@ export class BidderReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
     };
+
+    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
+      this.jobId = this.props.match.params.jobId;
+    } else {
+      switchRoute(ROUTES.CLIENT.HOME);
+      return null;
+    }
   }
 
   accuracyOfPostChange = (newRating) => {
@@ -76,34 +81,34 @@ export class BidderReviewingCompletedJob extends React.Component {
       axios
         .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
           data: {
-            ...this.props.match.params,
+            jobId: this.jobId,
             ...this.state,
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.HOME);
+          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
               payload: {
                 toastDetails: {
                   type: 'success',
-                  msg: 'Thank you for submitting your review. Good luck BidOrBooing',
+                  msg: 'Thank you for submitting your review.',
                 },
               },
             });
         })
         .catch((error) => {
-          dispatch &&
-            dispatch({
-              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-              payload: {
-                toastDetails: {
-                  type: 'error',
-                  msg: 'submitting the review failed please try again later .',
-                },
-              },
-            });
+          dispatch && throwErrorNotification(dispatch, error);
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'error',
+          //       msg: 'submitting the review failed please try again later .',
+          //     },
+          //   },
+          // });
         });
     }
   };
@@ -111,134 +116,120 @@ export class BidderReviewingCompletedJob extends React.Component {
   render() {
     const bodyContent = () => {
       return (
-        <React.Fragment>
-          <p>
-            Congratulations on fulfilling a job via our BidOrBoo platform. Rating and Reviews are
-            the best way to grow our community and provide the best quality services ever.
-          </p>
-          <br />
-          <label className="label">Please Rate the Task owner:</label>
-          <div className="content">
-            <div>
-              ACCURACY OF POST
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.accuracyOfPostRating}
-                onChange={this.accuracyOfPostChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-
-            <div>
-              PUNCTULAITY:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.punctualityRating}
-                onChange={this.punctualityChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-            <div>
-              COMMUNICATION:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.communicationRating}
-                onChange={this.communicationChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-            <div>
-              MANNERS:
-              <ReactStars
-                half={false}
-                count={5}
-                value={this.state.mannerRating}
-                onChange={this.mannerChange}
-                size={50}
-                color1={'lightgrey'}
-                color2={'#ffd700'}
-              />
-            </div>
-
-            <br />
-            <label className="label">Add a personal comment</label>
-            <TextareaAutosize
-              className="textarea is-marginless"
-              style={{
-                resize: 'none',
-                color: '#363636',
-                height: 'auto',
-                padding: '0.5rem',
-                minHeight: 100,
-              }}
-              value={this.state.personalComment}
-              onChange={this.personalCommentOnChange}
-              placeholder="The tasker did a great job .. etc"
+        <div className="content">
+          <div>ACCURACY OF POST</div>
+          <div>
+            <ReactStars
+              className="ReactStars"
+              style={{ cursor: 'pointer', display: 'inline-block' }}
+              half={false}
+              count={5}
+              value={this.state.accuracyOfPostRating}
+              onChange={this.accuracyOfPostChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
             />
-            <div className="help">*note this will be visible to all users</div>
           </div>
-        </React.Fragment>
+          <div>
+            <div>PUNCTULAITY</div>
+            <ReactStars
+              className="ReactStars"
+              style={{ cursor: 'pointer', display: 'inline-block' }}
+              half={false}
+              count={5}
+              value={this.state.punctualityRating}
+              onChange={this.punctualityChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+          <div>
+            <div>COMMUNICATION</div>
+            <ReactStars
+              className="ReactStars"
+              style={{ cursor: 'pointer', display: 'inline-block' }}
+              half={false}
+              count={5}
+              value={this.state.communicationRating}
+              onChange={this.communicationChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+          <div>
+            <div>MANNERS</div>
+            <ReactStars
+              className="ReactStars"
+              style={{ cursor: 'pointer', display: 'inline-block' }}
+              half={false}
+              count={5}
+              value={this.state.mannerRating}
+              onChange={this.mannerChange}
+              size={50}
+              color1={'lightgrey'}
+              color2={'#ffd700'}
+            />
+          </div>
+
+          <div>ADD A PERSONAL COMMENT</div>
+          <TextareaAutosize
+            className="textarea is-marginless"
+            style={{
+              resize: 'none',
+              color: '#363636',
+              height: 'auto',
+              padding: '0.5rem',
+              minHeight: 100,
+            }}
+            value={this.state.personalComment}
+            onChange={this.personalCommentOnChange}
+            placeholder="The Requester was accurate in describing thier job and very friendly...etc"
+          />
+          <div className="help">* note this will be visible to all users</div>
+        </div>
       );
     };
     return (
-      <React.Fragment>
-        <section className="hero is-small is-dark">
-          <div className="container is-widescreen">
-            <div className="hero-body">
-              <div className="container is-widescreen">
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Give your feedback about Task and the Task owner
-                </h2>
-              </div>
+      <div className="container is-widescreen has-text-centered">
+        <section className="hero is-small">
+          <div className="hero-body">
+            <div className="container is-widescreen">
+              <h2 className="title">Rate The Requester</h2>
             </div>
           </div>
         </section>
-        <div className="container is-widescreen">
-          <div className="card-content">
-            {bodyContent()}
-            <button
-              style={{ marginLeft: 12, marginTop: 12 }}
-              className="button is-success is-medium"
-              onClick={this.submitReview}
-            >
-              Submit Review
-            </button>
+        <hr className="divider isTight" />
+        <div className="card-content limitLargeMaxWidth">
+          {bodyContent()}
+          <button
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
+            className="button is-success is-medium"
+            onClick={this.submitReview}
+          >
+            Submit Your Review
+          </button>
 
-            <button
-              style={{ marginLeft: 12, marginTop: 12 }}
-              className="button is-outlined has-text-dark  is-medium"
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.HOME);
-              }}
-            >
-              remind me later
-            </button>
+          <button
+            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
+            className="button is-outlined has-text-dark  is-medium"
+            onClick={() => {
+              goBackToPreviousRoute();
+            }}
+          >
+            remind me later
+          </button>
+          <div className="help">
+            Your review will be revealed Only After <strong>Both of you have completed</strong>{' '}
+            rating eachother.
+          </div>
+          <div className="help">
+            Reviews will be available in your History Tab under your profile
           </div>
         </div>
-        <section className="hero is-small is-dark ">
-          <div className="container is-widescreen">
-            <div className="hero-body">
-              <div className="container is-widescreen">
-                <h2 style={{ color: 'white' }} className="subtitle">
-                  Referenced Task Details
-                </h2>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div className="container is-widescreen">
-          <ReviewAwardedBidPage isReadOnlyView {...this.props} />
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

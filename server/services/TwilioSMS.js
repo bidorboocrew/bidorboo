@@ -6,6 +6,17 @@ const ROUTES = require('../backend-route-constants');
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
+  sendJobAwaitingRequesterConfirmCompletionText: (
+    mobileNumber,
+    requestTitle,
+    urlLink,
+    callback = () => {}
+  ) => {
+    const msgContent = `BidOrBoo: ${requestTitle} awaiting your confirmation! ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } for details`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
   sendJobIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} was cancelled! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
@@ -31,6 +42,21 @@ exports.TxtMsgingService = {
     )}`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
+
+  sendJobIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: ${requestTitle} is Completed! go to ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } to Rate it.`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
+
+  sendJobIsAwardedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: Your Bid Won and ${requestTitle} is Assigned to you! go to ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } to View it.`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
+
   sendText: (mobileNumber, msgContent, callback = () => {}) => {
     // let formattedMobileNumber = `1-${mobileNumber}`;
 
@@ -42,15 +68,13 @@ exports.TxtMsgingService = {
     client.messages
       .create({
         body: `${msgContent}`,
-        to: '+16138677243', // Text this number
+        to: `+1${mobileNumber}`, // Text this number
         from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
-        debugger;
         console.log(message.sid);
       })
       .catch((e) => {
-        debugger;
         console.log(e);
       });
   },

@@ -7,7 +7,7 @@ const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireAwardedBidder = require('../middleware/requireAwardedBidder');
+const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
@@ -15,7 +15,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
     }
   });
 
@@ -23,9 +23,9 @@ module.exports = (app) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
-        const mongoDbUserId = req.user._id;
+        const mongoUser_id = req.user._id;
 
-        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoDbUserId, jobId);
+        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoUser_id, jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({
@@ -33,7 +33,7 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
     }
   });
 
@@ -49,16 +49,24 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
     }
   });
 
   app.get(ROUTES.API.JOB.GET.alljobsToBidOn, requireBidorBooHost, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getAllJobsToBidOn();
-      return res.send(userJobsList);
+      const currentUserId = req.user ? req.user._id : '';
+
+      let openRequestsForBidding = [];
+      if (!currentUserId) {
+        openRequestsForBidding = await jobDataAccess.getAllJobsToBidOnForLoggedOut(currentUserId);
+      } else {
+        openRequestsForBidding = await jobDataAccess.getAllJobsToBidOn(currentUserId);
+      }
+
+      return res.send(openRequestsForBidding);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get all posted jobs', details: `${e}` });
     }
   });
 
@@ -72,11 +80,11 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const mongoDbUserId = req.user._id;
+        const mongoUser_id = req.user._id;
         const jobId = req.body.jobId;
 
         if (jobId) {
-          userJobsList = await jobDataAccess.cancelJob(jobId, mongoDbUserId);
+          userJobsList = await jobDataAccess.cancelJob(jobId, mongoUser_id);
           return res.send(jobId);
         } else {
           return res.status(400).send({
@@ -84,7 +92,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To delete job', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
     }
   );
@@ -105,7 +113,9 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
       }
     }
   );
@@ -115,7 +125,7 @@ module.exports = (app) => {
       userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
       return res.send(userJobsList);
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
     }
   });
 
@@ -125,13 +135,15 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
+        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
         if (userJobsList && userJobsList._postedJobsRef) {
           return res.send({ allRequests: userJobsList._postedJobsRef });
         }
         return res.send({ allRequests: [] });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
       }
     }
   );
@@ -158,7 +170,7 @@ module.exports = (app) => {
         return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
     }
   });
 
@@ -170,12 +182,12 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const { jobDetails } = req.body.data;
-        const userMongoDBId = req.user._id;
-        const newJob = await jobDataAccess.addAJob(jobDetails, userMongoDBId);
+        const mongoUser_id = req.user._id;
+        const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
 
         return res.send(newJob);
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To create new job', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
       }
     }
   );
@@ -184,7 +196,7 @@ module.exports = (app) => {
   //     const filesList = req.files;
   //     // create new job for this user
   //     const jobId = req.body.jobId;
-  //     const userMongoDBId = req.user._id;
+  //     const mongoUser_id = req.user._id;
   //     let cloudinaryHostedImageObj = [];
   //     const callbackFunc = (error, result) => {
   //       // update the user data model
@@ -201,7 +213,7 @@ module.exports = (app) => {
   //           utils.uploadFileToCloudinary(
   //             file.path,
   //             {
-  //               folder: `${userMongoDBId}/${jobId}`,
+  //               folder: `${mongoUser_id}/${jobId}`,
   //             },
   //             callbackFunc
   //           )
@@ -218,7 +230,7 @@ module.exports = (app) => {
   //       });
   //     }
   //   } catch (e) {
-  //     return res.status(500).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+  //     return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
   //   }
   // });
 
@@ -227,7 +239,7 @@ module.exports = (app) => {
       // create new job for this user
       const data = req.body.data;
       // const userId = req.user.userId;
-      // const userMongoDBId = req.user._id;
+      // const mongoUser_id = req.user._id;
 
       const { jobId, bidId } = data;
       let existingJob = null;
@@ -237,7 +249,7 @@ module.exports = (app) => {
         return res.send(existingJob);
       }
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
     }
   });
 
@@ -250,12 +262,12 @@ module.exports = (app) => {
           errorMsg: 'Bad Request forupdateViewedBy, jobId param was Not Specified',
         });
       }
-      const userMongoDBId = req.user._id;
+      const mongoUser_id = req.user._id;
 
-      await jobDataAccess.updateViewedBy(jobId, userMongoDBId);
+      await jobDataAccess.updateViewedBy(jobId, mongoUser_id);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
     }
   });
 
@@ -268,12 +280,12 @@ module.exports = (app) => {
           errorMsg: 'Bad Request for updateBooedBy, jobId param was Not Specified',
         });
       }
-      const userMongoDBId = req.user._id;
+      const mongoUser_id = req.user._id;
 
-      await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
+      await jobDataAccess.updateBooedBy(jobId, mongoUser_id);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
 
@@ -286,12 +298,12 @@ module.exports = (app) => {
           errorMsg: 'Bad Request for updateBooedBy, jobId param was Not Specified',
         });
       }
-      const userMongoDBId = req.user._id;
+      const mongoUser_id = req.user._id;
 
-      await jobDataAccess.updateBooedBy(jobId, userMongoDBId);
+      await jobDataAccess.updateBooedBy(jobId, mongoUser_id);
       return res.send({ success: true });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
   });
 
@@ -300,40 +312,30 @@ module.exports = (app) => {
     requireLogin,
     requireJobOwner,
     async (req, res) => {
+      /**
+       * What we need to do here
+       *  - update Job.jobCompletion.proposerCponfirmed -> true
+       *  - update job sate to Done
+       *  - update awarded bid state to Done
+       *  - without waiting on the async -> delete all other bids associated with this job
+       *  - notify both both and congrat for fulfilling this request and prompt to do another one
+       */
       try {
         const data = req.body.data;
         const { jobId } = data;
         if (!jobId) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
+            errorMsg: 'Bad Request for requesterConfirmsJobCompletion param was Not Specified',
           });
         }
 
-        const jobDetails = await jobDataAccess.findOneByJobIdAndUpdateJobInfo(
-          jobId,
-          {
-            jobCompletion: { proposerConfirmed: true },
-          },
-          { new: true }
-        );
-
-        if (!jobDetails || !jobDetails._id || !jobDetails.processedPayment) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for proposerConfirmsJobCompleted, jobId param was Not Specified',
-          });
-        }
-
-        // // RELEASE THE FUNDS
-        // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
-        //   amount: jobDetails.processedPayment.bidderPayout,
-        //   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
-        // });
+        await jobDataAccess.requesterConfirmsJobCompletion(jobId);
 
         return res.send({ success: true });
       } catch (e) {
         return res
-          .status(500)
-          .send({ errorMsg: 'Failed To proposerConfirmsJobCompleted', details: `${e}` });
+          .status(400)
+          .send({ errorMsg: 'Failed To requesterConfirmsJobCompletion', details: `${e}` });
       }
     }
   );
@@ -341,8 +343,14 @@ module.exports = (app) => {
   app.put(
     ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,
     requireLogin,
-    requireAwardedBidder,
+    requireCurrentUserIsTheAwardedBidder,
     async (req, res) => {
+      /**
+       * What we need to do :
+       *  - Update Job completion.bidderConfirmed : true
+       *  - Notify push and email Requester to confirm completion
+       *  - start review process for Tasker
+       */
       try {
         const data = req.body.data;
         const { jobId } = data;
@@ -351,17 +359,12 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
-        // const userMongoDBId = req.user._id;
 
-        await jobDataAccess.findOneByJobIdAndUpdateJobInfo(jobId, {
-          jobCompletion: {
-            bidderConfirmed: true,
-          },
-        });
+        await jobDataAccess.bidderConfirmsJobCompletion(jobId);
         return res.send({ success: true });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
       }
     }

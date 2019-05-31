@@ -5,8 +5,11 @@ const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBid
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
-const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
+
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
@@ -14,7 +17,8 @@ const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistin
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
-
+const getAllContactDetails = require('../utils/commonDataUtils')
+  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
@@ -51,10 +55,9 @@ module.exports = (app) => {
 
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
-          const description = `BidOrBoo - Service Charge for your ${
+          const description = `BidOrBoo - Charge for your ${
             _jobRef.fromTemplateId
           } request was recieved.`;
-
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
             amount: chargeAmount,
@@ -74,6 +77,7 @@ module.exports = (app) => {
               proposerEmail: _jobRef._ownerRef.email.emailAddress,
               jobId: _jobRef._id.toString(),
               bidId: _id.toString(),
+              note: `Requester Paid for  ${_jobRef.fromTemplateId}`,
             },
           });
 
@@ -83,6 +87,7 @@ module.exports = (app) => {
               _jobRef._id.toString(),
               _id.toString(),
               {
+                paymentSourceId: stripeTransactionToken,
                 amount: charge.amount,
                 chargeId: charge.id,
                 bidderPayout: bidderPayoutAmount,
@@ -91,23 +96,54 @@ module.exports = (app) => {
                 bidderStripeAcc: stripeAccDetails.accId,
               }
             );
-            const awardedBidder = _bidderRef.userId
-              ? await userDataAccess.getUserPushSubscription(_bidderRef.userId)
-              : false;
-            if (
-              awardedBidder &&
-              awardedBidder.pushSubscription &&
-              _bidderRef.notifications &&
-              _bidderRef.notifications.push
-            ) {
-              // send push
-              const bidId = _id.toString();
-              WebPushNotifications.pushYouAreAwarded(awardedBidder.pushSubscription, {
-                displayName: _bidderRef.displayName,
-                urlToLaunch: `https://www.bidorboo.com/awarded-bid-details/${bidId}`,
+
+            const {
+              requesterDisplayName,
+              taskerDisplayName,
+              jobDisplayName,
+              requestLinkForRequester,
+              requestLinkForTasker,
+              requesterEmailAddress,
+              taskerEmailAddress,
+              taskerPhoneNumber,
+              allowedToEmailRequester,
+              allowedToEmailTasker,
+              allowedToTextTasker,
+              allowedToPushNotifyTasker,
+              taskerPushNotSubscription,
+            } = await getAllContactDetails(_jobRef._id);
+
+            if (allowedToEmailRequester) {
+              sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+                to: requesterEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: requesterDisplayName,
+                linkForOwner: requestLinkForRequester,
               });
             }
-            // xxxxxxx send email send text
+            if (allowedToEmailTasker) {
+              sendGridEmailing.tellTaskerThatTheyWereAwarded({
+                to: taskerEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: taskerDisplayName,
+                linkForBidder: requestLinkForTasker,
+              });
+            }
+
+            if (allowedToTextTasker) {
+              sendTextService.sendJobIsAwardedText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
+            }
+
+            if (allowedToPushNotifyTasker) {
+              WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+                taskerDisplayName: taskerDisplayName,
+                urlToLaunch: requestLinkForTasker,
+              });
+            }
 
             res.send({ success: true });
           }
@@ -117,7 +153,7 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
       }
     }
   );
@@ -128,7 +164,7 @@ module.exports = (app) => {
 
       res.send({ paymentsDetails: paymentsDetails });
     } catch (e) {
-      return res.status(500).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
     }
   });
 
@@ -149,13 +185,12 @@ module.exports = (app) => {
           connectedAccountDetails
         );
         const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
-          agreedToServiceTerms: true,
           'stripeConnect.last4BankAcc': last4BankAcc,
           // membershipStatus: 'VERIFIED_MEMBER',
         });
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
-        return res.status(500).send({ errorMsg: e });
+        return res.status(400).send({ errorMsg: e });
       }
     }
   );
@@ -167,9 +202,9 @@ module.exports = (app) => {
     requireHasAnExistingStripeAcc,
     async (req, res) => {
       try {
-        const mongoDbUserId = req.user._id.toString();
+        const mongoUser_id = req.user._id.toString();
 
-        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoDbUserId);
+        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
         const accDetails = await stripeServiceUtil.getConnectedAccountBalance(
           paymentsDetails.accId
@@ -208,7 +243,7 @@ module.exports = (app) => {
           },
         });
       } catch (e) {
-        return res.status(500).send({
+        return res.status(400).send({
           errorMsg: 'Failed To retrieve your connected stripe account details',
           details: `${e}`,
         });
@@ -227,7 +262,7 @@ module.exports = (app) => {
     } catch (e) {
       return res.status(400).end();
 
-      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
     }
   });
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
@@ -242,7 +277,7 @@ module.exports = (app) => {
     } catch (e) {
       return res.status(400).end();
 
-      // return res.status(500).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
     }
   });
 };

@@ -1,11 +1,16 @@
 const compression = require('compression');
 const helmet = require('helmet');
 const csp = require('express-csp-header');
-
+const RateLimit = require('express-rate-limit');
+const MongoStore = require('rate-limit-mongo');
+const keys = require('../config/keys');
+const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 module.exports = (app) => {
   // security
   const cspMiddleware = csp({
     policies: {
+      // xxxxxx do not release without understanding this
+      // 'default-src': [csp.SELF],
       'block-all-mixed-content': true,
     },
   });
@@ -28,4 +33,22 @@ module.exports = (app) => {
       },
     })
   );
+  // https://www.npmjs.com/package/rate-limit-mongo
+  if (process.env.NODE_ENV === 'production') {
+    const limiter = new RateLimit({
+      store: new MongoStore({
+        // see Configuration
+        uri: keys.mongoURI,
+      }),
+      max: 100,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    //  apply to all requests
+    app.use(limiter);
+  }
+
+  // https://github.com/SegFaultx64/express-http-to-https#readme
+  // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+  app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 };

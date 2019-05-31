@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const GeoJSON = require('mongoose-geojson-schema');
+require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const moment = require('moment');
 
@@ -25,7 +25,7 @@ const JobSchema = new Schema(
     processedPayment: {
       chargeId: { type: String },
       amount: { type: Number },
-      paymentId: { type: String },
+      paymentSourceId: { type: String },
       bidderPayout: { type: Number },
       platformCharge: { type: Number },
       proposerPaid: { type: Number },
@@ -42,18 +42,20 @@ const JobSchema = new Schema(
     state: {
       type: String,
       default: 'OPEN',
+      index: true,
       enum: [
         'OPEN',
-        'AWARDED',
-        'DISPUTED',
+        'AWARDED', //
+        'DISPUTED', // disputed job
         'AWARDED_CANCELED_BY_BIDDER',
         'AWARDED_CANCELED_BY_REQUESTER',
-        'CANCELED_OPEN',
-        'TO_BE_DELETED_SOON',
-        'DONE',
-        'PAIDOUT',
+        'CANCELED_OPEN', // Requester cancels a job before awarding
+        'TO_BE_DELETED_SOON', // past due and no taskers assigned delete in 48h
+        'DONE',//when Tasker confirms we set it to Payout , later a cron job will pay the account
+        'ARCHIVE', //For historical record
       ],
     },
+    disputeMsg: { type: String },
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
       bidderConfirmed: { type: Boolean, default: false },
@@ -65,6 +67,7 @@ const JobSchema = new Schema(
       byWhom: { type: String, enum: ['owner', 'bidder'] },
       status: { type: String, enum: ['denied', 'accepted'] },
     },
+    // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
     booedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
@@ -164,12 +167,12 @@ JobSchema.virtual('isHappeningSoon').get(function() {
 
 JobSchema.virtual('displayStatus').get(function() {
   const stateToDisplayName = {
-    OPEN: 'Waiting For Taskers',
+    OPEN: 'Waiting On Taskers Bids',
     AWARDED: 'Tasker is Assigned',
     DISPUTED: 'Dispute',
-    AWARDED_CANCELED_BY_BIDDER: 'Cancelled By Tasker',
-    AWARDED_CANCELED_BY_REQUESTER: 'Cancelled By Requester',
-    CANCELED_OPEN: 'Canceled',
+    AWARDED_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
+    AWARDED_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    CANCELED_OPEN: 'Canceled Request',
     DONE: 'Completed',
     PAIDOUT: 'Paid Out',
     TO_BE_DELETED_SOON: 'Will be deleted soon',

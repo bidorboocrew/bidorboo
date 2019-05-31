@@ -12,12 +12,13 @@ export const APP_MODE = {
 };
 
 export const USER_MEMBERSHIP_TO_DISPLAY = {
-  NEW_MEMBER: 'New Member',
-  BASIC_MEMBER: 'Basic Member',
-  BRONZE_MEMBER: 'Bronze Member',
-  SILVER_MEMBER: 'Silver Member',
-  GOLDEN_MEMBER: 'Golden Member',
-  PLATINUM_MEMBER: 'Platinum Member',
+  NEW_MEMBER: 'New User',
+  ONBOARDED_MEMBER: 'New User',
+  VERIFIED_MEMBER: 'Verified User',
+  BRONZE_MEMBER: 'Bronse User',
+  SILVER_MEMBER: 'Silver User',
+  GOLDEN_MEMBER: 'Gold User',
+  PLATINUM_MEMBER: 'Platinum User',
 };
 
 export const BIDORBOO_SERVICECHARGE = 0.06;

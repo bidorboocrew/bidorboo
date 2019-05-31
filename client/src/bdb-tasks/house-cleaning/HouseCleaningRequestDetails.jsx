@@ -1,20 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TextareaAutosize from 'react-autosize-textarea';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../app-state/actions/uiActions';
+
+import {
+  DisplayLabelValue,
+  CountDownComponent,
+  StartDateAndTime,
+  EffortLevel,
+} from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import {
-  CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
-} from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 
-class HouseCleaningPostedRequestSummary extends React.Component {
+class HouseCleaningRequestDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,12 +33,14 @@ class HouseCleaningPostedRequestSummary extends React.Component {
   toggleShowMore = () => {
     this.setState({ showMore: !this.state.showMore });
   };
+
   toggleDeleteConfirmationDialog = () => {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
   toggleShowMoreOptionsContextMenu = (e) => {
     e.preventDefault();
+
     this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
       if (this.state.showMoreOptionsContextMenu) {
         document.addEventListener('mousedown', this.handleClick, false);
@@ -55,15 +62,41 @@ class HouseCleaningPostedRequestSummary extends React.Component {
     }
   };
   render() {
-    const { job, cancelJobById, notificationFeed } = this.props;
-
-    const { startingDateAndTime, addressText, isExpiringSoon, isHappeningToday, isPastDue } = job;
-
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
+    const { job, cancelJobById } = this.props;
+    if (!job || !cancelJobById) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const {
+      _id: jobId,
+      startingDateAndTime,
+      addressText,
+      extras,
+      detailedDescription,
+      isHappeningSoon,
+      isHappeningToday,
+      isPastDue,
+    } = job;
+    if (
+      !jobId ||
+      !startingDateAndTime ||
+      !addressText ||
+      !extras ||
+      !detailedDescription ||
+      isHappeningSoon === 'undefined' ||
+      isHappeningToday === 'undefined' ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    if (!TITLE) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+
+    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -72,7 +105,7 @@ class HouseCleaningPostedRequestSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <p className="modal-card-title">Cancel Request</p>
+                  <div className="modal-card-title">Cancel Request</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -115,15 +148,18 @@ class HouseCleaningPostedRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard ${isPastDue ? 'expiredReadOnly' : ''}`}>
-          <div className="card-image">
+        <div style={{ height: 'unset' }} className={`card ${isPastDue ? 'readOnlyView' : ''}`}>
+          {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
-          </div>
+          </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  {TITLE}
+                  <span className="icon">
+                    <i className="fas fa-home" />
+                  </span>
+                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
 
                 <div
@@ -149,10 +185,9 @@ class HouseCleaningPostedRequestSummary extends React.Component {
                         onClick={() => {
                           this.toggleDeleteConfirmationDialog();
                         }}
-                        href="#"
-                        className="dropdown-item"
+                        className="dropdown-item has-text-danger"
                       >
-                        <span style={{ color: 'grey' }} className="icon">
+                        <span className="icon">
                           <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
                         <span>Cancel Request</span>
@@ -175,10 +210,7 @@ class HouseCleaningPostedRequestSummary extends React.Component {
                 <div className="field">
                   <label className="label">Request Status</label>
                   <div className="control has-text-danger">Past Due - Expired</div>
-                  <div className="help">
-                    * No Taskers were assigned before the specified start date thus, we will delete
-                    this request automatically in 48hours.
-                  </div>
+                  <div className="help">* This Request will be deleted in 48 hours</div>
                 </div>
               )}
 
@@ -188,30 +220,30 @@ class HouseCleaningPostedRequestSummary extends React.Component {
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control">Awaiting on Taskers</div>
-                      <div className="help">
-                        * No Taskers offered to do this yet! check again soon.
-                      </div>
-                      {isExpiringSoon ||
-                        (isHappeningToday && (
-                          <div className="help has-text-success">
-                            * Expiring soon, if no Taskers are available to fulfil this request, we
-                            will deleted it automatically 48 hours after the specified start date
-                          </div>
-                        ))}
+                      {!isHappeningSoon && !isHappeningToday && (
+                        <div className="help">
+                          * No Taskers offered to do this yet! check again soon.
+                        </div>
+                      )}
+                      {(isHappeningSoon || isHappeningToday) && (
+                        <div className="help">* Expiring soon, if no Taskers are available yet</div>
+                      )}
                     </div>
                   )}
                   {areThereAnyBidders && (
                     <div className="field">
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
-                      <div className="help">* Review the offers regularly and choose a Tasker.</div>
-                      {isExpiringSoon ||
-                        (isHappeningToday && (
-                          <div className="help has-text-success">
-                            * Expiring soon, select a Taskers otherwise this task will be deleted
-                            automatically 48 hours after the specified start date
-                          </div>
-                        ))}
+                      {!isHappeningSoon && !isHappeningToday && (
+                        <div className="help has-text-info">
+                          * Review the offers regularly and choose a Tasker.
+                        </div>
+                      )}
+                      {(isHappeningSoon || isHappeningToday) && (
+                        <div className="help has-text-info">
+                          * Expiring soon, Choose a Tasker asap
+                        </div>
+                      )}
                     </div>
                   )}
                 </React.Fragment>
@@ -223,20 +255,60 @@ class HouseCleaningPostedRequestSummary extends React.Component {
                 )}
               />
 
-              <DisplayShortAddress addressText={addressText} />
+              <DisplayLabelValue labelText="Address" labelValue={addressText} />
+              {showMore && (
+                <React.Fragment>
+                  <EffortLevel extras={extras} />
+                  <div className="field">
+                    <label className="label">Detailed Description</label>
+                    <span className="is-size-7">
+                      <TextareaAutosize
+                        value={detailedDescription}
+                        className="textarea is-marginless is-paddingless is-size-6"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                          color: '#4a4a4a',
+                          fontSize: '1rem',
+                        }}
+                        readOnly
+                      />
+                    </span>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </div>
-          {renderFooter({ job, notificationFeed })}
+          <div style={{ padding: '0.5rem' }}>
+            {!showMore && (
+              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <span style={{ marginRight: 4 }}>show full details</span>
+                <span className="icon">
+                  <i className="fas fa-angle-double-down" />
+                </span>
+              </a>
+            )}
+            {showMore && (
+              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <span style={{ marginRight: 4 }}>show less details</span>
+                <span className="icon">
+                  <i className="fas fa-angle-double-up" />
+                </span>
+              </a>
+            )}
+          </div>
         </div>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   return {
+    isLoggedIn: userReducer.isLoggedIn,
     selectedAwardedJob: jobsReducer.selectedAwardedJob,
     userDetails: userReducer.userDetails,
+    notificationFeed: uiReducer.notificationFeed,
   };
 };
 
@@ -244,63 +316,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningPostedRequestSummary);
-
-const renderFooter = ({ job, notificationFeed }) => {
-  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
-  let doesthisJobHaveNewBids = false;
-  // let numberOfNewBids = 0;
-
-  if (notificationFeed.jobIdsWithNewBids) {
-    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
-      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
-        doesthisJobHaveNewBids = true;
-        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
-        break;
-      }
-    }
-  }
-
-  return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
-          }}
-          className={`button is-outlined ${areThereAnyBidders ? 'is-info' : ''}`}
-        >
-          {areThereAnyBidders && (
-            <span>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>{`View (${job._bidsListRef.length}) ${
-                job._bidsListRef.length > 1 ? 'Taskers' : 'Tasker'
-              }`}</span>
-            </span>
-          )}
-          {!areThereAnyBidders && <span>View Details</span>}
-          {areThereAnyBidders && doesthisJobHaveNewBids && (
-            <div
-              style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
-              className="has-text-danger"
-            >
-              <i className="fas fa-circle" />
-            </div>
-          )}
-        </a>
-      </div>
-    </React.Fragment>
-  );
-};
+)(HouseCleaningRequestDetails);

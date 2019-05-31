@@ -11,7 +11,7 @@ export { default as VerificationPage } from './VerificationPage';
 // proposer flow
 export { default as ProposerRootPage } from './proposer-flow/ProposerRootPage';
 export { default as CreateAJobPage } from './proposer-flow/CreateAJobPage';
-export { default as MyOpenJobsPage } from './proposer-flow/MyOpenJobsPage';
+export { default as MyRequestsPage } from './proposer-flow/MyRequestsPage';
 export {
   default as ReviewMyAwardedJobAndWinningBidPage,
 } from './proposer-flow/ReviewMyAwardedJobAndWinningBidPage';

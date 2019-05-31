@@ -186,6 +186,7 @@ const EnhancedForms = withFormik({
           last4BankAcc: tokenizedBankAccount.bank_account.last4,
         },
       });
+      // xxxx update without reload
       window.location.reload();
     } catch (e) {
       let msg =
@@ -219,7 +220,7 @@ const PaymentSetupForm = (props) => {
     errorsList = Object.keys(errors).map((errorKey, index) => {
       return (
         touched[`${errorKey}`] && (
-          <p key={index} className="help is-danger">
+          <p key={index} className="help has-text-danger is-danger">
             {errors[`${errorKey}`]}
           </p>
         )

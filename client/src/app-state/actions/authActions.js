@@ -3,6 +3,76 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
+export const verifyPhone = (code) => (dispatch) => {
+  dispatch({
+    type: A.UI_ACTIONS.VERIFY_USER_PHONE,
+    payload: axios
+      .post(ROUTES.API.USER.POST.verifyPhone, {
+        data: { code },
+      })
+      .then((verifyReq) => {
+        //rediret user to my profile
+        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        if (verifyReq && verifyReq.data && verifyReq.data.success) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Congratulations. Your phone is now verified`,
+              },
+            },
+          });
+          getCurrentUserNotifications()(dispatch);
+        } else {
+          throwErrorNotification(
+            dispatch,
+            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboocrew@gmail.com',
+          );
+        }
+      })
+      .catch((error) => {
+        //rediret user to my profile
+        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+export const verifyEmail = (code) => (dispatch) => {
+  dispatch({
+    type: A.UI_ACTIONS.VERIFY_USER_EMAIL,
+    payload: axios
+      .post(ROUTES.API.USER.POST.verifyEmail, {
+        data: { code },
+      })
+      .then((verifyReq) => {
+        //rediret user to my profile
+        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        if (verifyReq && verifyReq.data && verifyReq.data.success) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Congratulations. Your Email is now verified`,
+              },
+            },
+          });
+          getCurrentUserNotifications()(dispatch);
+        } else {
+          throwErrorNotification(
+            dispatch,
+            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboocrew@gmail.com',
+          );
+        }
+      })
+      .catch((error) => {
+        //rediret user to my profile
+        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
 export const getCurrentUserNotifications = () => (dispatch) =>
   dispatch({
     type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
@@ -39,6 +109,7 @@ export const getCurrentUser = () => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
+          // xxxx stupid welcome notification
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
@@ -110,6 +181,7 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
+          // xxx stupid welcome notification
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

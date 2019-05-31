@@ -16,9 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // initialize bugsnag
-if (process.env.NODE_ENV === 'production') {
-  require('./services/bugSnag')(app);
-}
+require('./services/bugSnag')(app);
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
 // initialize logging

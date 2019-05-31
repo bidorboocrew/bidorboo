@@ -87,13 +87,15 @@ class NotificationSettings extends React.Component {
         </header>
         <div className="card-content">
           <div className="content">
-            <p>
-              Notifications will be sent to inform you about :
-              <br />
-              * Requests or Tasks that are happening today
-              <br />* Your Bids that were awarded.
-            </p>
-
+            <div className="field">
+              <label className="label">You will be notified about</label>
+              <div className="control">* Requests or Tasks that are happening today</div>
+              <div className="control">* When you recieve new bids on your open request</div>
+              <div className="control">* When your bid wins and you get assigned to the task</div>
+              <div className="control">* If a cancellation happened at any point</div>
+              <div className="control">* To prompt for reviews upon task completion</div>
+            </div>
+            <hr className="divider" />
             <div className="field">
               <input
                 id="pushNotification"
@@ -126,7 +128,6 @@ class NotificationSettings extends React.Component {
                 checked={this.state.enableTxtNotifications}
               />
               <label htmlFor="txtNotification">Enable Text Messages Notifications</label>
-              <p className="help">* Will only work if you provided your phone number</p>
             </div>
             <br />
             <a

@@ -7,7 +7,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireAwardedBidder = require('../middleware/requireAwardedBidder');
+const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 
 const requireProposerReviewPreChecksPass = require('../middleware/requireProposerReviewPreChecksPass');
 const requireBidderReviewPreChecksPass = require('../middleware/requireBidderReviewPreChecksPass');
@@ -21,22 +21,20 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const {
-          proposerId,
           jobId,
-          bidderId,
           qualityOfWorkRating,
           punctualityRating,
           communicationRating,
           mannerRating,
           personalComment,
-        } = req.body.data;
+        } = res.locals.bidOrBoo;
 
         const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
+        const { proposerId, bidderId } = res.locals.bidOrBoo;
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          proposerSubmitted: true,
           proposerReview: {
             ratingCategories: [
               {
@@ -81,10 +79,15 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
+
+        // xxxx notify stuff
+        // if both are done reviewing send the profile review page
+        // if one is done the other isnt push notify the other to go and review
+
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
         return res
-          .status(500)
+          .status(400)
           .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
       }
     }
@@ -93,7 +96,7 @@ module.exports = (app) => {
   app.put(
     ROUTES.API.REVIEW.PUT.bidderSubmitReview,
     requireLogin,
-    requireAwardedBidder,
+    requireCurrentUserIsTheAwardedBidder,
     requireBidderReviewPreChecksPass,
     async (req, res) => {
       try {
@@ -113,7 +116,6 @@ module.exports = (app) => {
 
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          bidderSubmitted: true,
           bidderReview: {
             ratingCategories: [
               {
@@ -158,10 +160,13 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
+        // xxxx notify stuff
+        // if both are done reviewing send the profile review page
+        // if one is done the other isnt push notify the other to go and review
 
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });
       } catch (e) {
-        return res.status(500).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });
       }
     }
   );

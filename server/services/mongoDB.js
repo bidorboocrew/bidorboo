@@ -12,6 +12,7 @@ module.exports = (process) => {
 
   mongoose.Promise = global.Promise;
   if (process.env.NODE_ENV !== 'production') {
+    // https://stackoverflow.com/questions/18762264/log-all-queries-that-mongoose-fire-in-the-application
     mongoose.set('debug', true);
   }
   const dbOptions = {
@@ -24,7 +25,7 @@ module.exports = (process) => {
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
-  mongoose.connect(keys.mongoURI, dbOptions, (err) => {
+  mongoose.connect(keys.prodMongoURI, dbOptions, (err) => {
     if (err) {
       console.log(
         `Could not connect to mongodb on localhost.
