@@ -17,13 +17,13 @@ OR
   BUT MAKE SURE YOU DO NOT MERGE OR COMMIT THIS CHANGE as that is used by heroku to deploy this app
 
 
-- git clone this repo
+git clone this repo
 
 ```
 git clone git@github.com:bidorboocrew/bidorboo.git
 ```
 
-- In the root directory run the follwing
+In the root directory run the follwing
 
 ```
 yarn run devSetup
