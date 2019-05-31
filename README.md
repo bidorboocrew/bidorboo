@@ -11,9 +11,11 @@ Getting Started
 ```
 
 - if you do not have the right version of node or npm you have 2 choices :
-  a) install them (you can find guides online on how to install these)
-  OR
-  b)you need to to the root directory package.json and delete the engines attribute from the json file
+* install them (you can find guides online on how to install these)
+
+OR
+
+* you need to to the root directory package.json and delete the engines attribute from the json file
   BUT MAKE SURE YOU DO NOT MERGE OR COMMIT THIS CHANGE as that is used by heroku to deploy this app
 
 - git clone this repo
