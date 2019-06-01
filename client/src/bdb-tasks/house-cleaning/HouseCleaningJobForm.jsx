@@ -54,7 +54,7 @@ class HouseCleaningJobForm extends React.Component {
 
     this.getCurrentAddress = getCurrentAddress.bind(this);
     this.autoSetGeoLocation = autoSetGeoLocation.bind(this);
-    this.autoDetectLocationIfPermitted = autoDetectLocationIfPermitted.bind(this);
+    // this.autoDetectLocationIfPermitted = autoDetectLocationIfPermitted.bind(this);
     this.toggleConfirmationDialog = toggleConfirmationDialog.bind(this);
     this.selectTimeButton = selectTimeButton.bind(this);
     this.insertTemplateText = insertTemplateText.bind(this);
@@ -69,7 +69,7 @@ class HouseCleaningJobForm extends React.Component {
   }
 
   componentDidMount() {
-    this.autoDetectLocationIfPermitted();
+    // this.autoDetectLocationIfPermitted();
     if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
       this.recaptchaRef.current.execute();
     }

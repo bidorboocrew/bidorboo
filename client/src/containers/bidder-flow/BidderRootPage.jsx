@@ -46,20 +46,14 @@ class BidderRootPage extends React.Component {
 
     if (!isLoggedIn) {
       getCurrentUser();
-    } else {
-      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
-        this.getCurrentAddress();
-      }
     }
-
-    getAllJobsToBidOn();
-    // const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
-    // if (isLoggedIn) {
+    //  else {
     //   if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
     //     this.getCurrentAddress();
     //   }
     // }
-    // getAllJobsToBidOn();
+
+    getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -196,7 +190,11 @@ class BidderRootPage extends React.Component {
     if (isLoading) {
       return (
         <section className="section">
-          <Spinner renderLabel="getting requests near you..." isLoading={isLoading} size={'large'} />
+          <Spinner
+            renderLabel="getting requests near you..."
+            isLoading={isLoading}
+            size={'large'}
+          />
         </section>
       );
     }
@@ -227,7 +225,7 @@ class BidderRootPage extends React.Component {
               <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
               <StepsForTasker step={1} />
               <h2 className="subtitle">
-                {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
+                {/* {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
                   <React.Fragment>
                     <div style={{ marginTop: 6 }} className="help has-text-grey ">
                       For custom results enable auto detect location in
@@ -242,7 +240,7 @@ class BidderRootPage extends React.Component {
                       {` profile settings`}
                     </a>
                   </React.Fragment>
-                )}
+                )} */}
               </h2>
             </div>
           </div>

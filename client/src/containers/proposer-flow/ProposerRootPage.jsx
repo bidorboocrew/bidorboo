@@ -39,25 +39,6 @@ class ProposerRoot extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Request a Service</h1>
-              <h2 className="subtitle">
-                Select one of our services
-                {/* {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
-                  <React.Fragment>
-                    <div  className="help has-text-grey ">
-                      For custom results enable auto detect location in
-                    </div>
-                    <a
-                      style={{ marginTop: 0 }}
-                      className="help has-text-link has-text-weight-semibold"
-                      onClick={() => {
-                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
-                      }}
-                    >
-                      {` profile settings`}
-                    </a>
-                  </React.Fragment>
-                )} */}
-              </h2>
             </div>
           </div>
         </section>
