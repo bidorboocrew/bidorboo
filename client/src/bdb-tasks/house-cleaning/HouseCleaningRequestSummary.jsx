@@ -15,6 +15,7 @@ import {
 } from '../../containers/commonComponents';
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { isPast } from 'date-fns';
 
 class HouseCleaningRequestSummary extends React.Component {
   constructor(props) {
@@ -153,40 +154,42 @@ class HouseCleaningRequestSummary extends React.Component {
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item  has-text-danger"
+                {!isPastDue && (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none' }}
                       >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          className="dropdown-item  has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
               <div
                 style={{
@@ -250,7 +253,7 @@ class HouseCleaningRequestSummary extends React.Component {
               <DisplayShortAddress addressText={addressText} />
             </div>
           </div>
-          {renderFooter({ job, notificationFeed })}
+          {renderFooter({ job, notificationFeed, isPastDue })}
         </div>
       </React.Fragment>
     );
@@ -279,12 +282,12 @@ export default connect(
   mapDispatchToProps,
 )(HouseCleaningRequestSummary);
 
-const renderFooter = ({ job, notificationFeed }) => {
+const renderFooter = ({ job, notificationFeed, isPastDue }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
   let doesthisJobHaveNewBids = false;
   // let numberOfNewBids = 0;
 
-  if (notificationFeed.jobIdsWithNewBids) {
+  if (!isPastDue && notificationFeed.jobIdsWithNewBids) {
     for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
       if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
         doesthisJobHaveNewBids = true;
@@ -299,35 +302,53 @@ const renderFooter = ({ job, notificationFeed }) => {
       <div style={{ padding: '0.5rem' }}>
         <hr className="divider isTight" />
       </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
-          }}
-          className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
-        >
-          {areThereAnyBidders && (
-            <span>
-              <span className="icon">
-                <i className="fa fa-hand-paper" />
-              </span>
-              <span>{`View (${job._bidsListRef.length}) ${
-                job._bidsListRef.length > 1 ? 'Offers' : 'Offer'
-              }`}</span>
+
+      {isPastDue && (
+        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <a
+            disabled={isPastDue}
+            style={{ position: 'relative' }}
+            className={`button is-outlined is-fullwidth is-danger`}
+          >
+            <span className="icon">
+              <i className="far fa-trash-alt" />
             </span>
-          )}
-          {!areThereAnyBidders && <span>View Details</span>}
-          {areThereAnyBidders && doesthisJobHaveNewBids && (
-            <div
-              style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
-              className="has-text-danger"
-            >
-              <i className="fas fa-circle" />
-            </div>
-          )}
-        </a>
-      </div>
+            <span>Will be auto deleted</span>
+          </a>
+        </div>
+      )}
+      {!isPastDue && (
+        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <a
+            disabled={isPastDue}
+            style={{ position: 'relative' }}
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            }}
+            className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
+          >
+            {areThereAnyBidders && !isPastDue && (
+              <span>
+                <span className="icon">
+                  <i className="fa fa-hand-paper" />
+                </span>
+                <span>{`View (${job._bidsListRef.length}) ${
+                  job._bidsListRef.length > 1 ? 'Offers' : 'Offer'
+                }`}</span>
+              </span>
+            )}
+            {!areThereAnyBidders && <span>View Details</span>}
+            {areThereAnyBidders && doesthisJobHaveNewBids && (
+              <div
+                style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
+                className="has-text-danger"
+              >
+                <i className="fas fa-circle" />
+              </div>
+            )}
+          </a>
+        </div>
+      )}
     </React.Fragment>
   );
 };
