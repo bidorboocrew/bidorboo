@@ -89,7 +89,10 @@ const UserSchema = new Schema(
       },
     },
     // use this as default of search
-    lastGivenLocation: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
+    lastSearch: {
+      location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
+      selectedTemplateIds: [{ type: String, default: ['bdbjob-house-cleaning'] }],
+    },
     password: {
       type: String,
       allowBlank: false,

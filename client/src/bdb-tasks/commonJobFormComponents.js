@@ -161,23 +161,25 @@ export function setupGoogleAndGeoCoder() {
 }
 
 export function shouldShowAutodetectControl() {
-  return (
-    navigator.geolocation && (
-      <React.Fragment>
-        <div>
-          <a
-            style={{ marginTop: 6, fontSize: 14 }}
-            onClick={this.getCurrentAddress}
-            className="button is-small is-info is-outlined"
-          >
-            <span className="icon">
-              <i className="fas fa-map-marker-alt" />
-            </span>
-            <span>Auto Detect My Address</span>
-          </a>
-        </div>
-      </React.Fragment>
-    )
+  return navigator.geolocation ? (
+    <React.Fragment>
+      <div>
+        <a
+          style={{ marginTop: 6, fontSize: 14 }}
+          onClick={this.getCurrentAddress}
+          className="button is-small is-info is-outlined"
+        >
+          <span className="icon">
+            <i className="fas fa-map-marker-alt" />
+          </span>
+          <span>Auto Detect My Address</span>
+        </a>
+      </div>
+    </React.Fragment>
+  ) : (
+    <div>
+      <span>Manually input an address and select it from the drop down menu</span>
+    </div>
   );
 }
 
@@ -261,7 +263,7 @@ export function RenderLocationField() {
         helpText={'You must select an address from the drop down menu'}
         label="What's the address where you need cleaning?"
         placeholder="Enter your request's address"
-        autoDetectComponent={this.shouldShowAutodetectControl()}
+        autoDetectComponent={this.shouldShowAutodetectControl}
         error={touched.addressTextField && errors.addressTextField}
         value={values.addressTextField || ''}
         onError={(e) => {

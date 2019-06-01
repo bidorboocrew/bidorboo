@@ -103,42 +103,32 @@ class JobsLocationFilterForm extends React.Component {
               'is-info is-selected': isThisJobSelected,
             })}
           >
-            <span className="icon">
-              <i className={`${jobTemplateIdToDefinitionObjectMapper[key].ICON}`} />
-            </span>
-            <span>{jobTemplateIdToDefinitionObjectMapper[key].TITLE}</span>
+            {jobTemplateIdToDefinitionObjectMapper[key].TITLE}
           </span>
         );
       },
     );
 
-    const autoDetectCurrentLocation = () => {
-      return navigator.geolocation ? (
+    const autoDetectCurrentLocation = () =>
+      navigator.geolocation ? (
         <React.Fragment>
-          <div>
-            <a
-              style={{ marginTop: 6, fontSize: 14 }}
-              onClick={this.getCurrentAddress}
-              className="button is-small is-info is-outlined"
-            >
-              <span className="icon">
-                <i className="fas fa-map-marker-alt" />
-              </span>
-              <span>Auto Detect My Address</span>
+          <span>
+            <a style={{ fontSize: 14 }} onClick={this.getCurrentAddress} className="is-link">
+              Auto Detect
             </a>
-          </div>
+          </span>
+          <span style={{ fontSize: 12, color: 'grey' }}>
+            {` or manually select an address from the drop down menu`}
+          </span>
         </React.Fragment>
-      ) : (
-        <div>
-          <span>Manually input an address and select it from the drop down menu</span>
-        </div>
-      );
-    };
+      ) : null;
 
     return (
       <form
         style={{
+          padding: '1rem',
           backgroundColor: '#eee',
+          height: '100%',
         }}
         onSubmit={handleSubmit}
       >
@@ -168,95 +158,92 @@ class JobsLocationFilterForm extends React.Component {
           type="hidden"
           value={values.locationField || ''}
         />
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <div style={{ flexGrow: 1, padding: '0.5rem' }}>
-            <GeoAddressInput
-              id="geoInputField"
-              type="text"
-              helpText={'You must select an address from the drop down menu'}
-              label="Enter Your City, or an Address near you"
-              placeholder="* You will get custom results for Tasks Available in your area"
-              autoDetectComponent={autoDetectCurrentLocation}
-              error={touched.addressTextField && errors.addressTextField}
-              value={values.addressTextField || ''}
-              onError={(e) => {
-                errors.addressTextField = 'google api error ' + e;
-              }}
-              onChangeEvent={(e) => {
-                console.log(`onChangeEvent={(e) => ${e}`);
-                setFieldValue('addressTextField', e, true);
-              }}
-              onBlurEvent={(e) => {
-                if (e && e.target) {
-                  console.log(`onChangeEvent={(e) => ${e}`);
-                  e.target.id = 'addressTextField';
-                  handleBlur(e);
-                }
-              }}
-              handleSelect={(address) => {
-                console.log(`onChangeEvent={(e) => ${address}`);
-                setFieldValue('addressTextField', address, false);
-                geocodeByAddress(address)
-                  .then((results) => getLatLng(results[0]))
-                  .then((latLng) => {
-                    setFieldValue('locationField', latLng, false);
-                    console.log('Success', latLng);
-                  })
-                  .catch((error) => {
-                    errors.addressTextField = 'error getting lat lng ' + error;
-                    console.error('Error', error);
-                  });
-              }}
-            />
-          </div>
 
-          <div style={{ padding: '0.5rem' }}>
-            <div className="field">
-              <label className="label">Search Raduis</label>
-              <div className="buttons has-addons">
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(15)}
-                  className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 15,
-                  })}
-                >
-                  15km
-                </span>
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(25)}
-                  className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 25,
-                  })}
-                >
-                  25km
-                </span>
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(50)}
-                  className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 50,
-                  })}
-                >
-                  50km
-                </span>
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(100)}
-                  className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 100,
-                  })}
-                >
-                  100km
-                </span>
-              </div>
-            </div>
+        <GeoAddressInput
+          id="geoInputField"
+          type="text"
+          helpText={'You must select an address from the drop down menu'}
+          label="Service Address"
+          placeholder="specify your task address"
+          autoDetectComponent={autoDetectCurrentLocation}
+          error={touched.addressTextField && errors.addressTextField}
+          value={values.addressTextField || ''}
+          onError={(e) => {
+            errors.addressTextField = 'google api error ' + e;
+          }}
+          onChangeEvent={(e) => {
+            console.log(`onChangeEvent={(e) => ${e}`);
+            setFieldValue('addressTextField', e, true);
+          }}
+          onBlurEvent={(e) => {
+            if (e && e.target) {
+              console.log(`onChangeEvent={(e) => ${e}`);
+              e.target.id = 'addressTextField';
+              handleBlur(e);
+            }
+          }}
+          handleSelect={(address) => {
+            console.log(`onChangeEvent={(e) => ${address}`);
+            setFieldValue('addressTextField', address, false);
+            geocodeByAddress(address)
+              .then((results) => getLatLng(results[0]))
+              .then((latLng) => {
+                setFieldValue('locationField', latLng, false);
+                console.log('Success', latLng);
+              })
+              .catch((error) => {
+                errors.addressTextField = 'error getting lat lng ' + error;
+                console.error('Error', error);
+              });
+          }}
+        />
+        <div className="field">
+          <label className="label">Search Raduis</label>
+
+          <div className="buttons has-addons">
+            <span
+              onClick={() => this.updateSearchRaduisSelection(15)}
+              className={classNames('button ', {
+                'is-info is-selected': values.searchRaduisField === 15,
+              })}
+            >
+              15km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(25)}
+              className={classNames('button ', {
+                'is-info is-selected': values.searchRaduisField === 25,
+              })}
+            >
+              25km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(50)}
+              className={classNames('button ', {
+                'is-info is-selected': values.searchRaduisField === 50,
+              })}
+            >
+              50km
+            </span>
+            <span
+              onClick={() => this.updateSearchRaduisSelection(100)}
+              className={classNames('button ', {
+                'is-info is-selected': values.searchRaduisField === 100,
+              })}
+            >
+              100km
+            </span>
           </div>
         </div>
+        <br />
+        <div className="field">
+          <label className="label">Select Categories</label>
 
-        <div style={{ padding: '0.5rem' }}>
-          <label className="label">Filter By Categories</label>
           <div className="buttons has-addons">{staticJobCategoryButtons}</div>
         </div>
 
-        <div style={{ padding: '0.5rem' }} className="field has-text-centered">
+        <br />
+        <div className="field has-text-centered">
           <button
             style={{ marginRight: 6, marginTop: 8, width: 150 }}
             className="button is-link "
@@ -268,7 +255,7 @@ class JobsLocationFilterForm extends React.Component {
             <span>Search</span>
           </button>
           <button
-            style={{ marginTop: 8, width: 150 }}
+            style={{ marginRight: 8, marginTop: 8, width: 150 }}
             type="button"
             className="button is-outlined is-link"
             onClick={() => {
@@ -283,7 +270,23 @@ class JobsLocationFilterForm extends React.Component {
             <span className="icon">
               <i className="fas fa-ban" />
             </span>
-            <span>Clear Filters</span>
+            <span>Clear All Filters</span>
+          </button>
+        </div>
+        <div className="field has-text-centered">
+          <button
+            style={{ marginRight: 6, marginTop: 24, width: 300 }}
+            type="button"
+            className="button is-outline"
+            onClick={() => {
+              //xxx saeed yo ucan do better . th reset func should auto clear all these fields
+              this.props.onCancel && this.props.onCancel();
+            }}
+          >
+            <span className="icon">
+              <i className="far fa-times-circle" />
+            </span>
+            <span>Close Filter Panel</span>
           </button>
         </div>
       </form>
@@ -381,7 +384,7 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
+    debugger
     props.onSubmit(values);
     setSubmitting(false);
   },

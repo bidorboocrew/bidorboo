@@ -11,6 +11,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import FilterSideNav from './components/FilterSideNav';
 import ActiveSearchFilters from './components/ActiveSearchFilters';
+import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -20,7 +21,7 @@ import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { StepsForTasker } from '../commonComponents';
-import BidderRootPageFilter from './BidderRootPageFilter';
+
 const google = window.google;
 
 class BidderRootPage extends React.Component {
@@ -28,8 +29,8 @@ class BidderRootPage extends React.Component {
     super(props);
 
     this.state = {
-      allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
+      isThereAnActiveSearch: false,
       showSideNav: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
@@ -48,7 +49,7 @@ class BidderRootPage extends React.Component {
       getCurrentUser();
     }
 
-    getAllJobsToBidOn();
+    // getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -94,6 +95,9 @@ class BidderRootPage extends React.Component {
     );
   };
 
+  handleJobSeatch = (vals) => {
+    debugger;
+  };
   handleGeoSearch = (vals) => {
     let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
     let filteredJobs = this.props.ListOfJobsToBidOn;
@@ -148,7 +152,7 @@ class BidderRootPage extends React.Component {
         },
       },
       () => {
-        this.toggleSideNav();
+        // this.toggleSideNav();
       },
     );
   };
@@ -182,6 +186,9 @@ class BidderRootPage extends React.Component {
 
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
+    const { isThereAnActiveSearch } = this.state;
+    const searchWithNoResults =
+      isThereAnActiveSearch && (!displayedJobList || displayedJobList.length === 0);
     if (isLoading) {
       return (
         <section className="section">
@@ -223,31 +230,65 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
-        <BidderRootPageFilter />
-        {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} /> */}
-        {/* <FilterSideNav
+        <JobsLocationFilterForm
+          updateMapCenter={this.updateMapCenter}
+          onCancel={this.clearFilter}
+          onSubmit={this.handleGeoSearch}
+        />
+        <br />
+        {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
+        <FilterSideNav
           isSideNavOpen={showSideNav}
           toggleSideNav={this.toggleSideNav}
           updateMapCenter={this.updateMapCenter}
           onCancel={this.clearFilter}
           handleGeoSearch={this.handleGeoSearch}
-        /> */}
-        {/* {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />} */}
-        {/* <MapSection
-          mapCenterPoint={mapCenterPoint}
-          mapZoomLevel={mapZoomLevel}
-          jobsList={currentJobsList}
-          {...this.props}
         />
-        <div
-          style={{ marginBottom: 6 }}
-          className="help container is-widescreen has-text-grey has-text-centered"
-        >
-          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
-        </div>
-        <br />
-
-        <AllJobsView jobsList={currentJobsList} {...this.props} /> */}
+        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />} */}
+        {displayedJobList && displayedJobList.length > 0 && (
+          <React.Fragment>
+            <MapSection
+              mapCenterPoint={mapCenterPoint}
+              mapZoomLevel={mapZoomLevel}
+              jobsList={currentJobsList}
+              {...this.props}
+            />
+            <div
+              style={{ marginBottom: 6 }}
+              className="help container is-widescreen has-text-grey has-text-centered"
+            >
+              {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
+            </div>
+            <br />
+            <AllJobsView jobsList={currentJobsList} {...this.props} />
+          </React.Fragment>
+        )}
+        {!searchWithNoResults && (
+          <div className="HorizontalAligner-center column">
+            <div className="is-fullwidth">
+              <div className="card-content VerticalAligner">
+                <div className="content has-text-centered">
+                  <div className="is-size-5">
+                    Fill out the search to get custom results based on your location
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {searchWithNoResults && (
+          <div className="HorizontalAligner-center column">
+            <div className="is-fullwidth">
+              <div className="card-content VerticalAligner">
+                <div className="content has-text-centered">
+                  <div className="is-size-5">
+                    There are no Open Requests in your area. please check again soon!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

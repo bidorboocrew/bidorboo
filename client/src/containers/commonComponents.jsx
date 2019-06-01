@@ -400,7 +400,7 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Select a Job</p>
+          <p className={`${isSmall ? 'help' : ''}`}>{`Search & Select a Job`}</p>
         </div>
       </li>
       <li
