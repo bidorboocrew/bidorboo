@@ -44,7 +44,7 @@ const UserSchema = new Schema(
     notifications: {
       push: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       email: {
         type: Boolean,
@@ -52,7 +52,7 @@ const UserSchema = new Schema(
       },
       text: {
         type: Boolean,
-        default: false,
+        default: true,
       },
     },
     _postedJobsRef: {
