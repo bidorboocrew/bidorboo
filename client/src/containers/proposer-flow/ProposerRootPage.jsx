@@ -43,9 +43,11 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <hr className="divider" />
-        <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
+        <div className="columns forJobSummary is-centered is-multiline">{this.AllActiveTasks}</div>
 
-        <div className="columns is-centered is-multiline">{this.AllUpcomingTasks}</div>
+        <div className="columns forJobSummary is-centered is-multiline">
+          {this.AllUpcomingTasks}
+        </div>
       </div>
     );
   }
