@@ -20,24 +20,17 @@ import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { StepsForTasker } from '../commonComponents';
-import BidderRootPageFilter from './BidderRootPageFilter';
+
 const google = window.google;
 
-class BidderRootPage extends React.Component {
+class BidderRootPageFilter extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       allowAutoDetect: false,
       displayedJobList: this.props.ListOfJobsToBidOn,
-      showSideNav: false,
-      mapZoomLevel: 6,
-      mapCenterPoint: {
-        lng: -75.801867,
-        lat: 45.296898,
-      },
     };
-    this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
@@ -48,7 +41,7 @@ class BidderRootPage extends React.Component {
       getCurrentUser();
     }
 
-    getAllJobsToBidOn();
+    // getAllJobsToBidOn();
   }
 
   getCurrentAddress = () => {
@@ -170,9 +163,6 @@ class BidderRootPage extends React.Component {
       },
     );
   };
-  toggleSideNav = () => {
-    this.setState({ showSideNav: !this.state.showSideNav });
-  };
 
   handleChange = () => {
     this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
@@ -194,62 +184,9 @@ class BidderRootPage extends React.Component {
       );
     }
 
-    const {
-      showSideNav,
-      displayedJobList,
-      mapCenterPoint,
-      hasActiveSearch,
-      mapZoomLevel,
-    } = this.state;
+    const { hasActiveSearch } = this.state;
 
-    let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
-    currentJobsList = currentJobsList.map((job) => {
-      return {
-        ...job,
-        reactMapClusterRef: React.createRef(),
-        zoomOnInfo: this.zoomAndCenterAroundMarker,
-      };
-    });
-
-    return (
-      <div className="container is-widescreen">
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
-              <StepsForTasker isSmall={true} step={1} />
-              <h2 className="subtitle" />
-            </div>
-          </div>
-        </section>
-        <BidderRootPageFilter />
-        {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} /> */}
-        {/* <FilterSideNav
-          isSideNavOpen={showSideNav}
-          toggleSideNav={this.toggleSideNav}
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          handleGeoSearch={this.handleGeoSearch}
-        /> */}
-        {/* {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />} */}
-        {/* <MapSection
-          mapCenterPoint={mapCenterPoint}
-          mapZoomLevel={mapZoomLevel}
-          jobsList={currentJobsList}
-          {...this.props}
-        />
-        <div
-          style={{ marginBottom: 6 }}
-          className="help container is-widescreen has-text-grey has-text-centered"
-        >
-          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
-        </div>
-        <br />
-
-        <AllJobsView jobsList={currentJobsList} {...this.props} /> */}
-      </div>
-    );
+    return <div className="container is-widescreen">test</div>;
   }
 }
 
@@ -274,7 +211,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BidderRootPage);
+)(BidderRootPageFilter);
 
 const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
   return (

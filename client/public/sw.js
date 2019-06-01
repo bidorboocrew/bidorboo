@@ -116,7 +116,6 @@ self.addEventListener('fetch', function(event) {
             var responseToCache = response.clone();
 
             switch (destinationReq) {
-              case 'script':
               case 'style':
               case 'font':
               case 'image': {
