@@ -38,21 +38,47 @@ class BidderRootPage extends React.Component {
         lat: 45.296898,
       },
       searchParams: {},
+      lastKnownSearch: {
+        searchRaduisField: '',
+        filterJobsByCategoryField: ['bdbjob-house-cleaning'],
+        addressTextField: '',
+        locationField: { lng: '', lat: '' },
+      },
     };
     this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
-    // xxxxx use this for rate limiting this will cause getalljobs to continue to be called
-    const { isLoggedIn, getAllJobsToBidOn } = this.props;
-
-    if (!isLoggedIn) {
-      getCurrentUser();
-    }
-
-    // getAllJobsToBidOn();
+    this.updateStateWithLastKnownSearch();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
+      this.updateStateWithLastKnownSearch();
+    }
+  }
+
+  updateStateWithLastKnownSearch = () => {
+    const { userDetails } = this.props;
+    //debugger;
+    if (this.props.isLoggedIn) {
+      const lastKnownSearch = userDetails && userDetails.lastSearch;
+      if (lastKnownSearch) {
+        //debugger;
+        const { searchRadius, location, addressText, selectedTemplateIds } = lastKnownSearch;
+        this.setState(() => {
+          return {
+            lastKnownSearch: {
+              searchRadius,
+              location,
+              addressText,
+              selectedTemplateIds,
+            },
+          };
+        });
+      }
+    }
+  };
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.ListOfJobsToBidOn.length !== prevState.displayedJobList.length) {
       return { displayedJobList: nextProps.ListOfJobsToBidOn };
@@ -121,7 +147,7 @@ class BidderRootPage extends React.Component {
         },
       }),
       () => {
-        debugger;
+        //debugger;
         searchJobsToBidOn({
           searchRadius: searchRaduisField,
           location: locationField,
@@ -230,6 +256,7 @@ class BidderRootPage extends React.Component {
       hasActiveSearch,
       mapZoomLevel,
       searchParams,
+      lastKnownSearch,
     } = this.state;
 
     let currentJobsList = isLoggedIn
@@ -249,7 +276,6 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
               <StepsForTasker isSmall={true} step={1} />
               <h2 className="subtitle" />
             </div>
@@ -259,7 +285,7 @@ class BidderRootPage extends React.Component {
           updateMapCenter={this.updateMapCenter}
           onCancel={this.clearFilter}
           onSubmit={this.handleJobSearch}
-          searchParams={searchParams}
+          lastKnownSearch={lastKnownSearch}
         />
         <br />
         {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />

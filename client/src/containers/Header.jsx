@@ -73,7 +73,7 @@ class Header extends React.Component {
 
   // componentDidUpdate(prevProps, prevState, snapshot) {
   //   console.log('we did update');
-  //   debugger
+  //   //debugger
   //   if (this.props.history.location !== prevProps.history.location) {
   //     if (this.props.history.location.includes('bdb-request')) {
   //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {

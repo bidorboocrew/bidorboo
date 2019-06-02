@@ -557,14 +557,15 @@ exports.updateUserLastSearchDetails = (
         { userId },
         {
           $set: {
-            notifications: {
+            lastSearch: {
               searchRadius,
-              location,
+              location: { type: 'Point', coordinates: [location.lng, location.lat] },
               addressText,
               selectedTemplateIds,
             },
           },
-        }
+        },
+        { new: true }
       )
         .lean(true)
         .exec();

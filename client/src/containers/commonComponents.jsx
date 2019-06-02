@@ -400,7 +400,7 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>{`Search & Select a Job`}</p>
+          <p className={`${isSmall ? 'help' : ''}`}>{`Search By Area`}</p>
         </div>
       </li>
       <li
@@ -414,7 +414,7 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Bid On it</p>
+          <p className={`${isSmall ? 'help' : ''}`}>{`Select & Bid`}</p>
         </div>
       </li>
       {isMoreDetails && (
@@ -436,7 +436,7 @@ export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
           </span>
         </span>
         <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Do it and get paid</p>
+          <p className={`${isSmall ? 'help' : ''}`}>{`Do it & get paid`}</p>
         </div>
       </li>
     </ul>

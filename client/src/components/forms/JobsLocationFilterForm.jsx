@@ -70,13 +70,53 @@ class JobsLocationFilterForm extends React.Component {
   }
 
   autoSetGeoLocation(addressText) {
-    this.mount && this.setState({ forceSetAddressValue: addressText });
-    // update the form field with the current position coordinates
-    this.props.setFieldValue('addressTextField', addressText, false);
+    this.mount && this.props.setFieldValue('addressTextField', addressText, false);
   }
 
   shouldComponentUpdate() {
     return !!this.props.values;
+  }
+  // xxxx you can do bbetter
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { lastKnownSearch } = nextProps;
+    const { values: currentValues } = this.props;
+
+    if (!lastKnownSearch) {
+      return;
+    }
+
+    const nextPropsValues = {
+      searchRaduisField:
+        lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
+      locationField:
+        lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
+          ? {
+              lat: lastKnownSearch.location.coordinates[0],
+              lng: lastKnownSearch.location.coordinates[1],
+            }
+          : { lat: '', lng: '' },
+      filterJobsByCategoryField:
+        lastKnownSearch && lastKnownSearch.selectedTemplateIds
+          ? lastKnownSearch.selectedTemplateIds
+          : [],
+      addressTextField:
+        lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
+    };
+
+    if (
+      nextPropsValues &&
+      nextPropsValues.locationField &&
+      currentValues &&
+      nextPropsValues.locationField &&
+      (currentValues.searchRaduisField !== nextPropsValues.searchRaduisField ||
+        currentValues.locationField.lat !== nextPropsValues.locationField.lat ||
+        currentValues.locationField.lng !== nextPropsValues.locationField.lng ||
+        currentValues.filterJobsByCategoryField !== nextPropsValues.filterJobsByCategoryField ||
+        currentValues.addressTextField !== nextPropsValues.addressTextField)
+    ) {
+      debugger;
+      this.props.setValues(nextPropsValues);
+    }
   }
 
   render() {
@@ -87,9 +127,12 @@ class JobsLocationFilterForm extends React.Component {
       handleBlur,
       handleSubmit,
       setFieldValue,
+      setValues,
       resetForm,
+      isSubmitting,
+      isDirty,
     } = this.props;
-
+    debugger;
     const filteredJobsList = values.filterJobsByCategoryField;
     const staticJobCategoryButtons = Object.keys(jobTemplateIdToDefinitionObjectMapper).map(
       (key) => {
@@ -99,9 +142,9 @@ class JobsLocationFilterForm extends React.Component {
           <span
             key={key}
             onClick={() => this.toggleJobCategorySelection(key)}
-            className={classNames('button ', {
-              'is-info is-selected': isThisJobSelected,
-            })}
+            className={`button is-rounded is-small ${
+              isThisJobSelected ? 'is-selected is-success ' : ''
+            }`}
           >
             <span className="icon">
               <i className={`${jobTemplateIdToDefinitionObjectMapper[key].ICON}`} />
@@ -173,7 +216,7 @@ class JobsLocationFilterForm extends React.Component {
               id="geoInputField"
               type="text"
               helpText={'You must select an address from the drop down menu'}
-              label="Enter Your City, or an address near you"
+              label="Enter Adress or Area where you want to provide your services"
               placeholder="start typing an address..."
               autoDetectComponent={autoDetectCurrentLocation}
               error={touched.addressTextField && errors.addressTextField}
@@ -257,17 +300,42 @@ class JobsLocationFilterForm extends React.Component {
             </div>
           </div>
         </div>
-
         <div style={{ padding: '0.5rem' }}>
-          <label className="label">Select the services you can do</label>
-          <div className="buttons has-addons">{staticJobCategoryButtons}</div>
-        </div>
+          <nav class="level">
+            <div class="level-left">
+              <p class="level-item">
+                <div className="field">
+                  <label className="label">Select All The Tasks That You Can Do</label>
+                  <div className="buttons has-addons">{staticJobCategoryButtons}</div>
+                </div>
+              </p>
+            </div>
 
-        <div style={{ padding: '0.5rem' }} className="field has-text-centered">
+            <div class="level-right">
+              <p class="level-item">
+                <div className="field">
+                  <button
+                    // disable={}
+                    type="submit"
+                    disabled={isSubmitting || !isDirty}
+                    // style={{ marginRight: 6, marginTop: 8, width: 20 }}
+                    className="button is-success is-medium"
+                  >
+                    <span className="icon">
+                      <i className="fas fa-search" />
+                    </span>
+                    <span>Find Tasks</span>
+                  </button>
+                </div>
+              </p>
+            </div>
+          </nav>
+        </div>
+        {/* <div style={{ padding: '0.5rem' }} className="field has-text-centered">
           <button
             type="submit"
-            style={{ marginRight: 6, marginTop: 8, width: 150 }}
-            className="button is-link "
+            // style={{ marginRight: 6, marginTop: 8, width: 20 }}
+            className="button is-success is-large"
           >
             <span className="icon">
               <i className="fas fa-search" />
@@ -279,12 +347,13 @@ class JobsLocationFilterForm extends React.Component {
             type="button"
             className="button is-outlined is-link"
             onClick={() => {
-              //xxx saeed yo ucan do better . th reset func should auto clear all these fields
-              resetForm();
-              setFieldValue('locationField', '', false);
-              setFieldValue('searchRaduisField', '', false);
-              setFieldValue('filterJobsByCategoryField', [], false);
-              this.props.onCancel && this.props.onCancel();
+              const nextValues = {
+                searchRaduisField: '',
+                filterJobsByCategoryField: [],
+                geoInputField: '',
+                addressTextField: '',
+              };
+              resetForm(nextValues);
             }}
           >
             <span className="icon">
@@ -292,7 +361,7 @@ class JobsLocationFilterForm extends React.Component {
             </span>
             <span>Clear Filters</span>
           </button>
-        </div>
+        </div> */}
       </Form>
     );
   }
@@ -377,22 +446,30 @@ class JobsLocationFilterForm extends React.Component {
 const EnhancedForms = withFormik({
   initialValues: {
     searchRaduisField: '',
-    filterJobsByCategoryField: [],
-    geoInputField: '',
+    filterJobsByCategoryField: ['bdbjob-house-cleaning'],
     addressTextField: '',
+    locationField: { lng: '', lat: '' },
   },
-  mapPropsToValues: ({ searchParams }) => {
-    return {
+  mapPropsToValues: ({ lastKnownSearch }) => {
+    //debugger;
+    const x = {
       searchRaduisField:
-        searchParams && searchParams.searchRaduisField ? searchParams.searchRaduisField : '',
-      geoInputField: searchParams && searchParams.geoInputField ? searchParams.geoInputField : '',
+        lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
+      locationField:
+        lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
+          ? {
+              lat: lastKnownSearch.location.coordinates[0],
+              lng: lastKnownSearch.location.coordinates[1],
+            }
+          : { lat: '', lng: '' },
       filterJobsByCategoryField:
-        searchParams && searchParams.filterJobsByCategoryField
-          ? searchParams.filterJobsByCategoryField
-          : [],
+        lastKnownSearch && lastKnownSearch.selectedTemplateIds
+          ? lastKnownSearch.selectedTemplateIds
+          : ['bdbjob-house-cleaning'],
       addressTextField:
-        searchParams && searchParams.addressTextField ? searchParams.addressTextField : '',
+        lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
     };
+    return x;
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit(values);

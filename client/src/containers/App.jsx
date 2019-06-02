@@ -91,7 +91,7 @@ class App extends React.Component {
                     // xxxx update without reload
                     window.location.reload();
                   }}
-                  className="button is-outlined is-success is-small"
+                  className="button is-outlined is-success is-medium"
                 >
                   Go to Home Page
                 </a>

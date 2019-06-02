@@ -166,7 +166,7 @@ export default handleActions(
     //   state = initialState,
     //   { payload },
     // ) => {
-    //   debugger;
+    //   //debugger;
     //   if (payload) {
     //     const { success = false, deletedBidId } = payload && payload.data;
     //     if (success) {
@@ -186,7 +186,7 @@ export default handleActions(
     //   state = initialState,
     //   { payload },
     // ) => {
-    //   debugger;
+    //   //debugger;
     //   if (payload) {
     //     const { success = false, deletedBidId } = payload && payload.data;
     //     if (success) {
