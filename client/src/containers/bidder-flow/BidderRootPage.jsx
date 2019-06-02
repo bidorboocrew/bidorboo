@@ -7,10 +7,10 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
-import FilterSideNav from './components/FilterSideNav';
-import ActiveSearchFilters from './components/ActiveSearchFilters';
+// import * as ROUTES from '../../constants/frontend-route-consts';
+// import { switchRoute } from '../../utils';
+// import FilterSideNav from './components/FilterSideNav';
+// import ActiveSearchFilters from './components/ActiveSearchFilters';
 import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
 
 import { Spinner } from '../../components/Spinner';
@@ -31,18 +31,16 @@ class BidderRootPage extends React.Component {
     this.state = {
       displayedJobList: this.props.ListOfJobsToBidOn,
       isThereAnActiveSearch: false,
-      showSideNav: false,
+      // showSideNav: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
         lng: -75.801867,
         lat: 45.296898,
       },
-      searchParams: {},
       lastKnownSearch: {
-        searchRaduisField: '',
-        filterJobsByCategoryField: ['bdbjob-house-cleaning'],
-        addressTextField: '',
-        locationField: { lng: '', lat: '' },
+        searchRadius: '',
+        address: '',
+        location: { coordinates: { lng: '', lat: '' } },
       },
     };
     this.mapRootRef = React.createRef();
@@ -53,32 +51,32 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
+    if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
       this.updateStateWithLastKnownSearch();
     }
   }
 
   updateStateWithLastKnownSearch = () => {
     const { userDetails } = this.props;
-    //debugger;
+
     if (this.props.isLoggedIn) {
       const lastKnownSearch = userDetails && userDetails.lastSearch;
       if (lastKnownSearch) {
-        //debugger;
-        const { searchRadius, location, addressText, selectedTemplateIds } = lastKnownSearch;
+        debugger;
+        const { searchRadius, location, addressText } = lastKnownSearch;
         this.setState(() => {
           return {
             lastKnownSearch: {
               searchRadius,
               location,
               addressText,
-              selectedTemplateIds,
             },
           };
         });
       }
     }
   };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.ListOfJobsToBidOn.length !== prevState.displayedJobList.length) {
       return { displayedJobList: nextProps.ListOfJobsToBidOn };
@@ -130,7 +128,7 @@ class BidderRootPage extends React.Component {
   };
 
   handleJobSearch = ({
-    searchRaduisField,
+    searchRadiusField,
     locationField,
     addressTextField,
     filterJobsByCategoryField,
@@ -138,9 +136,9 @@ class BidderRootPage extends React.Component {
     const { searchJobsToBidOn } = this.props;
     this.setState(
       () => ({
-        isThereAnActiveSearch: true,
-        searchParams: {
-          searchRaduisField,
+        hasActiveSearch: true,
+        lastKnownSearch: {
+          searchRadiusField,
           locationField,
           addressTextField,
           filterJobsByCategoryField,
@@ -149,69 +147,11 @@ class BidderRootPage extends React.Component {
       () => {
         //debugger;
         searchJobsToBidOn({
-          searchRadius: searchRaduisField,
+          searchRadius: searchRadiusField,
           location: locationField,
           addressText: addressTextField,
           selectedTemplateIds: filterJobsByCategoryField,
         });
-      },
-    );
-  };
-  handleGeoSearch = (vals) => {
-    let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
-    let filteredJobs = this.props.ListOfJobsToBidOn;
-
-    if (filterJobsByCategoryField && filterJobsByCategoryField.length > 0) {
-      // filter by type first
-      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
-        if (
-          filterJobsByCategoryField &&
-          filterJobsByCategoryField.length > 0 &&
-          !filterJobsByCategoryField.includes(job.fromTemplateId)
-        ) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    if (locationField && searchRaduisField) {
-      let searchArea = new google.maps.Circle({
-        center: new google.maps.LatLng(locationField.lat, locationField.lng),
-        radius: searchRaduisField * 1000, //in KM
-      });
-      const center = searchArea.getCenter();
-      const raduis = searchArea.getRadius();
-
-      filteredJobs = filteredJobs.filter((job) => {
-        let marker = new google.maps.LatLng(
-          job.location.coordinates[1],
-          job.location.coordinates[0],
-        );
-
-        if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
-          return true;
-        }
-        return false;
-      });
-    }
-    if (!locationField || !locationField.lat || !locationField.lng) {
-      locationField = {
-        lat: 45.4215,
-        lng: -75.6972,
-      };
-    }
-    this.setState(
-      {
-        hasActiveSearch: true,
-        displayedJobList: filteredJobs,
-        mapCenterPoint: {
-          lat: locationField.lat,
-          lng: locationField.lng,
-        },
-      },
-      () => {
-        // this.toggleSideNav();
       },
     );
   };
@@ -233,9 +173,6 @@ class BidderRootPage extends React.Component {
       },
     );
   };
-  toggleSideNav = () => {
-    this.setState({ showSideNav: !this.state.showSideNav });
-  };
 
   handleChange = () => {
     this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
@@ -249,15 +186,7 @@ class BidderRootPage extends React.Component {
     const searchWithNoResults =
       isThereAnActiveSearch && (displayedJobList && displayedJobList.length === 0);
 
-    const {
-      showSideNav,
-      displayedJobList,
-      mapCenterPoint,
-      hasActiveSearch,
-      mapZoomLevel,
-      searchParams,
-      lastKnownSearch,
-    } = this.state;
+    const { displayedJobList, mapCenterPoint, mapZoomLevel, lastKnownSearch } = this.state;
 
     let currentJobsList = isLoggedIn
       ? displayedJobList.filter((job) => job._ownerRef._id !== userDetails._id)
@@ -288,15 +217,6 @@ class BidderRootPage extends React.Component {
           lastKnownSearch={lastKnownSearch}
         />
         <br />
-        {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
-        <FilterSideNav
-          isSideNavOpen={showSideNav}
-          toggleSideNav={this.toggleSideNav}
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          handleGeoSearch={this.handleGeoSearch}
-        />
-        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />} */}
 
         {isLoading && (
           <section className="section">
@@ -384,23 +304,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BidderRootPage);
-
-const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
-  return (
-    <a
-      style={{
-        zIndex: showSideNav ? 0 : 999,
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggleSideNav();
-      }}
-      className="button is-success bdbFloatingButtonText iconbutton"
-    >
-      <span className="icon">
-        <i className="fas fa-search" />
-      </span>
-    </a>
-  );
-};
