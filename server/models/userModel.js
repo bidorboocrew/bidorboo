@@ -90,7 +90,9 @@ const UserSchema = new Schema(
     },
     // use this as default of search
     lastSearch: {
+      searchRadius: { type: Number },
       location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
+      addressText: { type: String },
       selectedTemplateIds: [{ type: String, default: ['bdbjob-house-cleaning'] }],
     },
     password: {

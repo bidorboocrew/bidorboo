@@ -506,22 +506,6 @@ class Header extends React.Component {
                               isProfileMenuActive ? 'is-active' : ''
                             }`}
                           >
-                            <a
-                              id="myprofile-step"
-                              onClick={() => {
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
-                                });
-                              }}
-                              className={`navbar-item ${
-                                activeNavBarMenuId === HREF_TO_TABID.MY_PROFILE ? 'is-active' : ''
-                              }`}
-                            >
-                              <span className="icon">
-                                <i className="far fa-user" aria-hidden="true" />
-                              </span>
-                              <span>My Profile</span>
-                            </a>
                             <hr className="navbar-divider" />
 
                             {isLoggedIn && (
@@ -589,6 +573,23 @@ class Header extends React.Component {
                                 )}
                               </React.Fragment>
                             )}
+                            <hr className="navbar-divider" />
+                            <a
+                              id="myprofile-step"
+                              onClick={() => {
+                                this.closeMenuThenExecute(() => {
+                                  switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+                                });
+                              }}
+                              className={`navbar-item ${
+                                activeNavBarMenuId === HREF_TO_TABID.MY_PROFILE ? 'is-active' : ''
+                              }`}
+                            >
+                              <span className="icon">
+                                <i className="far fa-user" aria-hidden="true" />
+                              </span>
+                              <span>My Profile</span>
+                            </a>
                             <hr className="navbar-divider" />
                             <a
                               onClick={() => {

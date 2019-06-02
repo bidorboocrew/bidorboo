@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
+import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -37,6 +37,7 @@ class BidderRootPage extends React.Component {
         lng: -75.801867,
         lat: 45.296898,
       },
+      searchParams: {},
     };
     this.mapRootRef = React.createRef();
   }
@@ -50,6 +51,13 @@ class BidderRootPage extends React.Component {
     }
 
     // getAllJobsToBidOn();
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.ListOfJobsToBidOn.length !== prevState.displayedJobList.length) {
+      return { displayedJobList: nextProps.ListOfJobsToBidOn };
+    }
+    return null;
   }
 
   getCurrentAddress = () => {
@@ -95,8 +103,33 @@ class BidderRootPage extends React.Component {
     );
   };
 
-  handleJobSeatch = (vals) => {
-    debugger;
+  handleJobSearch = ({
+    searchRaduisField,
+    locationField,
+    addressTextField,
+    filterJobsByCategoryField,
+  }) => {
+    const { searchJobsToBidOn } = this.props;
+    this.setState(
+      () => ({
+        isThereAnActiveSearch: true,
+        searchParams: {
+          searchRaduisField,
+          locationField,
+          addressTextField,
+          filterJobsByCategoryField,
+        },
+      }),
+      () => {
+        debugger;
+        searchJobsToBidOn({
+          searchRadius: searchRaduisField,
+          location: locationField,
+          addressText: addressTextField,
+          selectedTemplateIds: filterJobsByCategoryField,
+        });
+      },
+    );
   };
   handleGeoSearch = (vals) => {
     let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
@@ -188,18 +221,7 @@ class BidderRootPage extends React.Component {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
     const { isThereAnActiveSearch } = this.state;
     const searchWithNoResults =
-      isThereAnActiveSearch && (!displayedJobList || displayedJobList.length === 0);
-    if (isLoading) {
-      return (
-        <section className="section">
-          <Spinner
-            renderLabel="getting requests near you..."
-            isLoading={isLoading}
-            size={'large'}
-          />
-        </section>
-      );
-    }
+      isThereAnActiveSearch && (displayedJobList && displayedJobList.length === 0);
 
     const {
       showSideNav,
@@ -207,9 +229,12 @@ class BidderRootPage extends React.Component {
       mapCenterPoint,
       hasActiveSearch,
       mapZoomLevel,
+      searchParams,
     } = this.state;
 
-    let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
+    let currentJobsList = isLoggedIn
+      ? displayedJobList.filter((job) => job._ownerRef._id !== userDetails._id)
+      : displayedJobList;
     currentJobsList = currentJobsList.map((job) => {
       return {
         ...job,
@@ -233,7 +258,8 @@ class BidderRootPage extends React.Component {
         <JobsLocationFilterForm
           updateMapCenter={this.updateMapCenter}
           onCancel={this.clearFilter}
-          onSubmit={this.handleGeoSearch}
+          onSubmit={this.handleJobSearch}
+          searchParams={searchParams}
         />
         <br />
         {/* <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
@@ -245,49 +271,64 @@ class BidderRootPage extends React.Component {
           handleGeoSearch={this.handleGeoSearch}
         />
         {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />} */}
-        {displayedJobList && displayedJobList.length > 0 && (
-          <React.Fragment>
-            <MapSection
-              mapCenterPoint={mapCenterPoint}
-              mapZoomLevel={mapZoomLevel}
-              jobsList={currentJobsList}
-              {...this.props}
+
+        {isLoading && (
+          <section className="section">
+            <Spinner
+              renderLabel="getting requests near you..."
+              isLoading={isLoading}
+              size={'large'}
             />
-            <div
-              style={{ marginBottom: 6 }}
-              className="help container is-widescreen has-text-grey has-text-centered"
-            >
-              {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
-            </div>
-            <br />
-            <AllJobsView jobsList={currentJobsList} {...this.props} />
+          </section>
+        )}
+        {!isLoading && (
+          <React.Fragment>
+            {displayedJobList && displayedJobList.length > 0 && (
+              <React.Fragment>
+                <MapSection
+                  mapCenterPoint={mapCenterPoint}
+                  mapZoomLevel={mapZoomLevel}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
+                <div
+                  style={{ marginBottom: 6 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentJobsList && currentJobsList.length) ||
+                    0} open requests in the search area`}
+                </div>
+                <br />
+                <AllJobsView jobsList={currentJobsList} {...this.props} />
+              </React.Fragment>
+            )}
+            {searchWithNoResults && (
+              <div className="HorizontalAligner-center column">
+                <div className="is-fullwidth">
+                  <div className="card-content VerticalAligner">
+                    <div className="content has-text-centered">
+                      <div className="is-size-5">
+                        Fill out the search to get custom results based on your location
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {searchWithNoResults && (
+              <div className="HorizontalAligner-center column">
+                <div className="is-fullwidth">
+                  <div className="card-content VerticalAligner">
+                    <div className="content has-text-centered">
+                      <div className="is-size-5">
+                        There are no Open Requests in your area. please check again soon!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </React.Fragment>
-        )}
-        {!searchWithNoResults && (
-          <div className="HorizontalAligner-center column">
-            <div className="is-fullwidth">
-              <div className="card-content VerticalAligner">
-                <div className="content has-text-centered">
-                  <div className="is-size-5">
-                    Fill out the search to get custom results based on your location
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        {searchWithNoResults && (
-          <div className="HorizontalAligner-center column">
-            <div className="is-fullwidth">
-              <div className="card-content VerticalAligner">
-                <div className="content has-text-centered">
-                  <div className="is-size-5">
-                    There are no Open Requests in your area. please check again soon!
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         )}
       </div>
     );
@@ -307,6 +348,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
     getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+    searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };

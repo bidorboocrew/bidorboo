@@ -1,4 +1,6 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { updateUserLastSearchDetails } = require('../data-access/userDataAccess');
+
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
 const utils = require('../utils/utilities');
@@ -339,6 +341,52 @@ module.exports = (app) => {
       }
     }
   );
+
+  app.post(ROUTES.API.JOB.POST.updateUserLastSearchDetails, async (req, res) => {
+    try {
+      const searchDetails = req.body.data;
+      if (!searchDetails) {
+        return res.status(403).send({
+          errorMsg: 'searchDetails failed due to missing params',
+        });
+      }
+      const { searchRadius, location, addressText, selectedTemplateIds } = searchDetails;
+      if (!searchRadius || !location || !addressText || !selectedTemplateIds) {
+        return res.status(403).send({
+          errorMsg: 'searchDetails failed due to missing details',
+        });
+      }
+
+      const userId = req.user && req.user.userId;
+      // update if user is logged in
+      if (userId) {
+        const updatedTheUser = await updateUserLastSearchDetails(userId, {
+          searchRadius,
+          location,
+          addressText,
+          selectedTemplateIds,
+        });
+      }
+
+      existingJob = await jobDataAccess.getJobsNear({
+        searchRadius,
+        location,
+        selectedTemplateIds,
+      });
+
+      if (existingJob) {
+        return res.send(existingJob);
+      } else {
+        return res.send({ errorMsg: 'JobId Was Not Specified' });
+      }
+
+      return res.send({ success: true });
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
+    }
+  });
 
   app.put(
     ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,

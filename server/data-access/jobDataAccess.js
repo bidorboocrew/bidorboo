@@ -794,28 +794,29 @@ exports.jobDataAccess = {
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
-  getJobsNear: ({ searchLocation, searchRaduisInMeters = 15000, jobTypeFilter = [] }) => {
+  getJobsNear: ({ location, searchRadius = 25000, selectedTemplateIds = [] }) => {
     return new Promise(async (resolve, reject) => {
       try {
         let aggregateSearchQuery = {
           $geoNear: {
             near: {
               type: 'Point',
-              coordinates: [searchLocation.lng, searchLocation.lat],
+              coordinates: [location.lng, location.lat],
             },
             distanceField: 'dist.calculated',
             includeLocs: 'dist.location',
             // limit: 50,
             distanceMultiplier: 1 / 1000, //meters
-            maxDistance: searchRaduisInMeters, //meters
+            maxDistance: searchRadius * 1000, //meters
             spherical: true,
             uniqueDocs: true,
           },
         };
-        if (jobTypeFilter && jobTypeFilter.length > 0) {
+        if (selectedTemplateIds && selectedTemplateIds.length > 0) {
           //filter categories of jobs
           aggregateSearchQuery.$geoNear.query = {
-            fromTemplateId: { $in: jobTypeFilter },
+            fromTemplateId: { $in: selectedTemplateIds },
+            state: { $eq: 'OPEN' },
           };
         }
 
@@ -824,51 +825,40 @@ exports.jobDataAccess = {
             aggregateSearchQuery,
             {
               $project: {
-                _id: 1,
+                _ownerRef: 1,
+                fromTemplateId: 1,
+                startingDateAndTime: 1,
+                extras: 1,
+                state: 1,
+                location: 1,
+                _bidsListRef: 1,
               },
             },
           ],
           async (error, results) => {
             //populate job fields
             if (error) {
-              reject(error);
+              return reject(error);
             } else if (results && results.length > 0) {
-              try {
-                let searchResults = results.map(async (job) => {
-                  const dbJob = await JobModel.findById(job._id, {
-                    _bidsListRef: 0,
-                    _awardedBidRef: 0,
-                    _reviewRef: 0,
-                    addressText: 0,
-                    extras: 0,
-                  })
-                    .populate({
-                      path: '_ownerRef',
-                      select: {
-                        displayName: 1,
-                        profileImage: 1,
-                        membershipStatus: 1,
-                        rating: 1,
-                        createdAt: 1,
-                      },
-                    })
-                    .lean({ virtuals: true })
-                    .exec();
-
-                  return dbJob;
-                });
-
-                const finalList = await Promise.all(searchResults);
-                resolve(finalList);
-              } catch (e) {
-                reject(e);
-              }
+              await Promise.all([
+                User.populate(results, {
+                  path: '_ownerRef',
+                  select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
+                  options: { lean: { virtuals: true } },
+                }),
+                BidModel.populate(results, {
+                  path: '_bidsListRef',
+                  select: { _bidderRef: 1, bidAmount: 1 },
+                  options: { lean: { virtuals: true } },
+                }),
+              ]);
+              return resolve(results);
             } else {
               // no jobs found return empty set
               return resolve([]);
             }
           }
-        );
+        ).sort({ startingDateAndTime: 1, allowDiskUse: true });
         // .explain();
       } catch (e) {
         reject(e);

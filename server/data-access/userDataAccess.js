@@ -547,6 +547,34 @@ exports.updateNotificationSettings = (userId, notificationSettings) => {
   });
 };
 
+exports.updateUserLastSearchDetails = (
+  userId,
+  { searchRadius, location, addressText, selectedTemplateIds }
+) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let updatedUser = await User.findOneAndUpdate(
+        { userId },
+        {
+          $set: {
+            notifications: {
+              searchRadius,
+              location,
+              addressText,
+              selectedTemplateIds,
+            },
+          },
+        }
+      )
+        .lean(true)
+        .exec();
+
+      resolve(updatedUser);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 exports.updateUserProfileDetails = (userId, userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {

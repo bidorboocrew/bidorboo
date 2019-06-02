@@ -58,6 +58,20 @@ export const getAllMyAwardedJobs = () => (dispatch) => {
     payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
   });
 };
+export const searchJobsToBidOn = (values) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: values,
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH,
+    payload: axios.post(ROUTES.API.JOB.POST.updateUserLastSearchDetails, postData, config),
+  });
+};
+
 export const getAllJobsToBidOn = () => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,

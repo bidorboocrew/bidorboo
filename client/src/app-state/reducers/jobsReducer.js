@@ -224,6 +224,10 @@ export default handleActions(
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._PENDING}`]: getMyAwardedJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._FULFILLED}`]: getMyAwardedJobs.isFullfilled,
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._REJECTED}`]: getMyAwardedJobs.isRejected,
+    // search jobs
+    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH}${A._PENDING}`]: getPostedJobs.isPending,
+    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
+    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH}${A._REJECTED}`]: getPostedJobs.isRejected,
     //delete a job
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._PENDING}`]: deleteJob.isPending,
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._FULFILLED}`]: deleteJob.isFullfilled,

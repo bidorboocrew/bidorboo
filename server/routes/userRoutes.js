@@ -223,6 +223,8 @@ module.exports = (app) => {
     }
   });
 
+
+
   app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res) => {
     try {
       const { agreedToTOS } = req.body.data;

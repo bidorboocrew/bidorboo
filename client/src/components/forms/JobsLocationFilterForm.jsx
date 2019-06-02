@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import classNames from 'classnames';
-import { withFormik } from 'formik';
+import { withFormik, Form } from 'formik';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { GeoAddressInput } from './FormsHelpers';
 
@@ -136,11 +136,10 @@ class JobsLocationFilterForm extends React.Component {
     };
 
     return (
-      <form
+      <Form
         style={{
           backgroundColor: '#eee',
         }}
-        onSubmit={handleSubmit}
       >
         <input
           id="searchRaduisField"
@@ -174,8 +173,8 @@ class JobsLocationFilterForm extends React.Component {
               id="geoInputField"
               type="text"
               helpText={'You must select an address from the drop down menu'}
-              label="Enter Your City, or an Address near you"
-              placeholder="* You will get custom results for Tasks Available in your area"
+              label="Enter Your City, or an address near you"
+              placeholder="start typing an address..."
               autoDetectComponent={autoDetectCurrentLocation}
               error={touched.addressTextField && errors.addressTextField}
               value={values.addressTextField || ''}
@@ -212,16 +211,8 @@ class JobsLocationFilterForm extends React.Component {
 
           <div style={{ padding: '0.5rem' }}>
             <div className="field">
-              <label className="label">Search Raduis</label>
+              <label className="label">Search Radius</label>
               <div className="buttons has-addons">
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(15)}
-                  className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 15,
-                  })}
-                >
-                  15km
-                </span>
                 <span
                   onClick={() => this.updateSearchRaduisSelection(25)}
                   className={classNames('button ', {
@@ -246,21 +237,37 @@ class JobsLocationFilterForm extends React.Component {
                 >
                   100km
                 </span>
+                <span
+                  onClick={() => this.updateSearchRaduisSelection(150)}
+                  className={classNames('button ', {
+                    'is-info is-selected': values.searchRaduisField === 150,
+                  })}
+                >
+                  150km
+                </span>
+                <span
+                  onClick={() => this.updateSearchRaduisSelection(150)}
+                  className={classNames('button ', {
+                    'is-info is-selected': values.searchRaduisField === 150,
+                  })}
+                >
+                  200km
+                </span>
               </div>
             </div>
           </div>
         </div>
 
         <div style={{ padding: '0.5rem' }}>
-          <label className="label">Filter By Categories</label>
+          <label className="label">Select the services you can do</label>
           <div className="buttons has-addons">{staticJobCategoryButtons}</div>
         </div>
 
         <div style={{ padding: '0.5rem' }} className="field has-text-centered">
           <button
+            type="submit"
             style={{ marginRight: 6, marginTop: 8, width: 150 }}
             className="button is-link "
-            type="submit"
           >
             <span className="icon">
               <i className="fas fa-search" />
@@ -286,7 +293,7 @@ class JobsLocationFilterForm extends React.Component {
             <span>Clear Filters</span>
           </button>
         </div>
-      </form>
+      </Form>
     );
   }
 
@@ -372,16 +379,22 @@ const EnhancedForms = withFormik({
     searchRaduisField: '',
     filterJobsByCategoryField: [],
     geoInputField: '',
+    addressTextField: '',
   },
-  mapPropsToValues: (props) => {
+  mapPropsToValues: ({ searchParams }) => {
     return {
-      searchRaduisField: '',
-      filterJobsByCategoryField: [],
-      geoInputField: '',
+      searchRaduisField:
+        searchParams && searchParams.searchRaduisField ? searchParams.searchRaduisField : '',
+      geoInputField: searchParams && searchParams.geoInputField ? searchParams.geoInputField : '',
+      filterJobsByCategoryField:
+        searchParams && searchParams.filterJobsByCategoryField
+          ? searchParams.filterJobsByCategoryField
+          : [],
+      addressTextField:
+        searchParams && searchParams.addressTextField ? searchParams.addressTextField : '',
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger;
     props.onSubmit(values);
     setSubmitting(false);
   },
