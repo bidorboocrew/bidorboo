@@ -351,9 +351,15 @@ module.exports = (app) => {
         });
       }
       const { searchRadius, location, addressText } = searchDetails;
-      if (!searchRadius || !location || !addressText) {
+      if (
+        !searchRadius ||
+        !addressText ||
+        !location ||
+        location.lat === '' ||
+        location.lng === ''
+      ) {
         return res.status(403).send({
-          errorMsg: 'searchDetails failed due to missing details 2',
+          errorMsg: 'searchDetails failed due to invalid params ',
         });
       }
 
@@ -382,7 +388,7 @@ module.exports = (app) => {
     } catch (e) {
       return res
         .status(400)
-        .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
+        .send({ errorMsg: 'Failed To search for jobs Settings', details: `${e}` });
     }
   });
 
