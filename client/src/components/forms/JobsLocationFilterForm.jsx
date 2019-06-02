@@ -224,7 +224,7 @@ class JobsLocationFilterForm extends React.Component {
               id="geoInputField"
               type="text"
               helpText={'You must select an address from the drop down menu'}
-              label="Enter Adress or Area where you want to provide your services"
+              label="Start by Entering an Adress where you want to provide your services"
               placeholder="start typing an address..."
               autoDetectComponent={autoDetectCurrentLocation}
               error={touched.addressTextField && errors.addressTextField}
