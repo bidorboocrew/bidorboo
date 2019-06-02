@@ -797,68 +797,116 @@ exports.jobDataAccess = {
   getJobsNear: ({ location, searchRadius = 25000, selectedTemplateIds = [] }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let aggregateSearchQuery = {
-          $geoNear: {
-            near: {
-              type: 'Point',
-              coordinates: [location.lng, location.lat],
+        let searchQuery = {
+          state: { $eq: 'OPEN' },
+          location: {
+            $near: {
+              $geometry: {
+                type: 'Point',
+                coordinates: [location.lng, location.lat],
+              },
+              $maxDistance: searchRadius * 1000,
+              $minDistance: 0,
             },
-            distanceField: 'dist.calculated',
-            includeLocs: 'dist.location',
-            // limit: 50,
-            distanceMultiplier: 1 / 1000, //meters
-            maxDistance: searchRadius * 1000, //meters
-            spherical: true,
-            uniqueDocs: true,
           },
         };
         if (selectedTemplateIds && selectedTemplateIds.length > 0) {
           //filter categories of jobs
-          aggregateSearchQuery.$geoNear.query = {
+          searchQuery = {
+            ...searchQuery,
             fromTemplateId: { $in: selectedTemplateIds },
-            state: { $eq: 'OPEN' },
           };
         }
+        // filter by date
 
-        JobModel.aggregate(
-          [
-            aggregateSearchQuery,
+        const results = await JobModel.find(
+          searchQuery,
+          {
+            _ownerRef: 1,
+            fromTemplateId: 1,
+            startingDateAndTime: 1,
+            extras: 1,
+            state: 1,
+            location: 1,
+            _bidsListRef: 1,
+          },
+          { lean: { virtuals: true } }
+        )
+          .sort({ startingDateAndTime: 1 })
+          .populate([
             {
-              $project: {
-                _ownerRef: 1,
-                fromTemplateId: 1,
-                startingDateAndTime: 1,
-                extras: 1,
-                state: 1,
-                location: 1,
-                _bidsListRef: 1,
-              },
+              path: '_ownerRef',
+              select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
+              options: { lean: { virtuals: true } },
             },
-          ],
-          async (error, results) => {
-            //populate job fields
-            if (error) {
-              return reject(error);
-            } else if (results && results.length > 0) {
-              await Promise.all([
-                User.populate(results, {
-                  path: '_ownerRef',
-                  select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
-                  options: { lean: { virtuals: true } },
-                }),
-                BidModel.populate(results, {
-                  path: '_bidsListRef',
-                  select: { _bidderRef: 1, bidAmount: 1 },
-                  options: { lean: { virtuals: true } },
-                }),
-              ]);
-              return resolve(results);
-            } else {
-              // no jobs found return empty set
-              return resolve([]);
-            }
-          }
-        ).sort({ startingDateAndTime: 1, allowDiskUse: true });
+            {
+              path: '_bidsListRef',
+              select: { _bidderRef: 1, bidAmount: 1 },
+              options: { lean: { virtuals: true } },
+            },
+          ]);
+        return resolve(results);
+        // let aggregateSearchQuery = {
+        //   $geoNear: {
+        //     near: {
+        //       type: 'Point',
+        //       coordinates: [location.lng, location.lat],
+        //     },
+        //     distanceField: 'dist.calculated',
+        //     includeLocs: 'dist.location',
+        //     // limit: 50,
+        //     distanceMultiplier: 1 / 1000, //meters
+        //     maxDistance: searchRadius * 1000, //meters
+        //     spherical: true,
+        //     uniqueDocs: true,
+        //   },
+        // };
+        // if (selectedTemplateIds && selectedTemplateIds.length > 0) {
+        //   //filter categories of jobs
+        //   aggregateSearchQuery.$geoNear.query = {
+        //     fromTemplateId: { $in: selectedTemplateIds },
+        //     state: { $eq: 'OPEN' },
+        //   };
+        // }
+        // JobModel.aggregate(
+        //   [
+        //     aggregateSearchQuery,
+        //     {
+        //       $project: {
+        //         _ownerRef: 1,
+        //         fromTemplateId: 1,
+        //         startingDateAndTime: 1,
+        //         extras: 1,
+        //         state: 1,
+        //         location: 1,
+        //         _bidsListRef: 1,
+        //       },
+        //     },
+        //   ],
+        //   async (error, results) => {
+        //     //populate job fields
+        //     if (error) {
+        //       return reject(error);
+        //     } else if (results && results.length > 0) {
+        //       await Promise.all([
+        //         User.populate(results, {
+        //           path: '_ownerRef',
+        //           select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
+        //           options: { lean: { virtuals: true } },
+        //         }),
+        //         BidModel.populate(results, {
+        //           path: '_bidsListRef',
+        //           select: { _bidderRef: 1, bidAmount: 1 },
+        //           options: { lean: { virtuals: true } },
+        //         }),
+        //       ]);
+        //       return resolve(results);
+        //     } else {
+        //       // no jobs found return empty set
+        //       return resolve([]);
+        //     }
+        //   }
+        // ).sort({ startingDateAndTime: 1, allowDiskUse: true });
         // .explain();
       } catch (e) {
         reject(e);
