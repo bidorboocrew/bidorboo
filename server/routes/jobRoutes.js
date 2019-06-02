@@ -350,10 +350,10 @@ module.exports = (app) => {
           errorMsg: 'searchDetails failed due to missing params',
         });
       }
-      const { searchRadius, location, addressText, selectedTemplateIds } = searchDetails;
-      if (!searchRadius || !location || !addressText || !selectedTemplateIds) {
+      const { searchRadius, location, addressText } = searchDetails;
+      if (!searchRadius || !location || !addressText) {
         return res.status(403).send({
-          errorMsg: 'searchDetails failed due to missing details',
+          errorMsg: 'searchDetails failed due to missing details 2',
         });
       }
 
@@ -364,14 +364,12 @@ module.exports = (app) => {
           searchRadius,
           location,
           addressText,
-          selectedTemplateIds,
         });
       }
 
       existingJob = await jobDataAccess.getJobsNear({
         searchRadius,
         location,
-        selectedTemplateIds,
       });
 
       if (existingJob) {

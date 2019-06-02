@@ -55,74 +55,79 @@ class JobsLocationFilterForm extends React.Component {
     this.props.setFieldValue('searchRaduisField', raduisKm, false);
   }
 
-  toggleJobCategorySelection(jobKey) {
-    let listOfAllSelectedJobs = this.props.values.filterJobsByCategoryField;
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   debugger
+  //   if (nextProps.addressTextField !== prevState.forceSetAddressValue) {
+  //     return { addressTextField: nextProps.addressTextField };
+  //   }
+  //   return null;
+  // }
 
-    let indexOfSelectedJob = listOfAllSelectedJobs.indexOf(jobKey);
+  // toggleJobCategorySelection(jobKey) {
+  //   let listOfAllSelectedJobs = this.props.values.filterJobsByCategoryField;
 
-    if (indexOfSelectedJob > -1) {
-      listOfAllSelectedJobs.splice(indexOfSelectedJob, 1);
-    } else {
-      listOfAllSelectedJobs.push(jobKey);
-    }
-    // array of the selected jobs that we should filter based upon
-    this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
-  }
+  //   let indexOfSelectedJob = listOfAllSelectedJobs.indexOf(jobKey);
+
+  //   if (indexOfSelectedJob > -1) {
+  //     listOfAllSelectedJobs.splice(indexOfSelectedJob, 1);
+  //   } else {
+  //     listOfAllSelectedJobs.push(jobKey);
+  //   }
+  //   // array of the selected jobs that we should filter based upon
+  //   this.props.setFieldValue('filterJobsByCategoryField', listOfAllSelectedJobs, false);
+  // }
 
   autoSetGeoLocation(addressText) {
     this.mount && this.props.setFieldValue('addressTextField', addressText, false);
+    // this.setState({ forceSetAddressValue: addressText });
+    // // update the form field with the current position coordinates
+    // this.props.setFieldValue('addressTextField', addressText, false);
   }
 
   shouldComponentUpdate() {
     return !!this.props.values;
   }
   // xxxx you can do bbetter
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { lastKnownSearch } = nextProps;
-    const { values: currentValues } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { lastKnownSearch } = this.props;
+    const { values: currentValues } = prevProps;
 
-    if (!lastKnownSearch) {
-      return;
-    }
+    if (lastKnownSearch.addressText !== this.state.forceSetAddressValue) {
+      const nextPropsValues = {
+        searchRaduisField:
+          lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
+        locationField:
+          lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
+            ? {
+                lat: lastKnownSearch.location.coordinates[0],
+                lng: lastKnownSearch.location.coordinates[1],
+              }
+            : { lat: '', lng: '' },
+        addressTextField:
+          lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
+      };
 
-    const nextPropsValues = {
-      searchRaduisField:
-        lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
-      locationField:
-        lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
-          ? {
-              lat: lastKnownSearch.location.coordinates[0],
-              lng: lastKnownSearch.location.coordinates[1],
-            }
-          : { lat: '', lng: '' },
-      filterJobsByCategoryField:
-        lastKnownSearch && lastKnownSearch.selectedTemplateIds
-          ? lastKnownSearch.selectedTemplateIds
-          : [],
-      addressTextField:
-        lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
-    };
-
-    if (
-      nextPropsValues &&
-      nextPropsValues.locationField &&
-      currentValues &&
-      nextPropsValues.locationField &&
-      (currentValues.searchRaduisField !== nextPropsValues.searchRaduisField ||
+      if (
+        currentValues.searchRaduisField !== nextPropsValues.searchRaduisField ||
         currentValues.locationField.lat !== nextPropsValues.locationField.lat ||
         currentValues.locationField.lng !== nextPropsValues.locationField.lng ||
-        currentValues.filterJobsByCategoryField !== nextPropsValues.filterJobsByCategoryField ||
-        currentValues.addressTextField !== nextPropsValues.addressTextField)
-    ) {
-      debugger;
-      this.props.setValues(nextPropsValues);
+        currentValues.addressTextField !== nextPropsValues.addressTextField
+      ) {
+        this.setState(
+          () => ({
+            forceSetAddressValue: lastKnownSearch.addressText,
+          }),
+          () => {
+            this.props.setValues(nextPropsValues);
+          },
+        );
+      }
     }
   }
 
   render() {
     const {
       values,
-      touched,
       errors,
       handleBlur,
       handleSubmit,
@@ -130,30 +135,31 @@ class JobsLocationFilterForm extends React.Component {
       setValues,
       resetForm,
       isSubmitting,
-      isDirty,
+      dirty,
+      touched,
     } = this.props;
-    debugger;
-    const filteredJobsList = values.filterJobsByCategoryField;
-    const staticJobCategoryButtons = Object.keys(jobTemplateIdToDefinitionObjectMapper).map(
-      (key) => {
-        const isThisJobSelected = filteredJobsList && filteredJobsList.includes(key);
 
-        return (
-          <span
-            key={key}
-            onClick={() => this.toggleJobCategorySelection(key)}
-            className={`button is-rounded is-small ${
-              isThisJobSelected ? 'is-selected is-success ' : ''
-            }`}
-          >
-            <span className="icon">
-              <i className={`${jobTemplateIdToDefinitionObjectMapper[key].ICON}`} />
-            </span>
-            <span>{jobTemplateIdToDefinitionObjectMapper[key].TITLE}</span>
-          </span>
-        );
-      },
-    );
+    // const filteredJobsList = values.filterJobsByCategoryField;
+    // const staticJobCategoryButtons = Object.keys(jobTemplateIdToDefinitionObjectMapper).map(
+    //   (key) => {
+    //     const isThisJobSelected = filteredJobsList && filteredJobsList.includes(key);
+
+    //     return (
+    //       <span
+    //         key={key}
+    //         onClick={() => this.toggleJobCategorySelection(key)}
+    //         className={`button is-rounded is-small ${
+    //           isThisJobSelected ? 'is-selected is-success ' : ''
+    //         }`}
+    //       >
+    //         <span className="icon">
+    //           <i className={`${jobTemplateIdToDefinitionObjectMapper[key].ICON}`} />
+    //         </span>
+    //         <span>{jobTemplateIdToDefinitionObjectMapper[key].TITLE}</span>
+    //       </span>
+    //     );
+    //   },
+    // );
 
     const autoDetectCurrentLocation = () => {
       return navigator.geolocation ? (
@@ -181,7 +187,9 @@ class JobsLocationFilterForm extends React.Component {
     return (
       <Form
         style={{
-          backgroundColor: '#eee',
+          border: '1px solid lightgray',
+          borderRadius: 4,
+          padding: '1rem',
         }}
       >
         <input
@@ -211,7 +219,7 @@ class JobsLocationFilterForm extends React.Component {
           value={values.locationField || ''}
         />
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <div style={{ flexGrow: 1, padding: '0.5rem' }}>
+          <div style={{ flexGrow: 1 }}>
             <GeoAddressInput
               id="geoInputField"
               type="text"
@@ -252,8 +260,8 @@ class JobsLocationFilterForm extends React.Component {
             />
           </div>
 
-          <div style={{ padding: '0.5rem' }}>
-            <div className="field">
+          <div>
+            <div style={{ marginLeft: '0.5rem' }} className="field">
               <label className="label">Search Radius</label>
               <div className="buttons has-addons">
                 <span
@@ -288,48 +296,31 @@ class JobsLocationFilterForm extends React.Component {
                 >
                   150km
                 </span>
-                <span
-                  onClick={() => this.updateSearchRaduisSelection(150)}
+                {/* <span
+                  onClick={() => this.updateSearchRaduisSelection(200)}
                   className={classNames('button ', {
-                    'is-info is-selected': values.searchRaduisField === 150,
+                    'is-info is-selected': values.searchRaduisField === 200,
                   })}
                 >
                   200km
-                </span>
+                </span> */}
               </div>
             </div>
           </div>
         </div>
-        <div style={{ padding: '0.5rem' }}>
-          <nav class="level">
-            <div class="level-left">
-              <p class="level-item">
-                <div className="field">
-                  <label className="label">Select All The Tasks That You Can Do</label>
-                  <div className="buttons has-addons">{staticJobCategoryButtons}</div>
-                </div>
-              </p>
-            </div>
-
-            <div class="level-right">
-              <p class="level-item">
-                <div className="field">
-                  <button
-                    // disable={}
-                    type="submit"
-                    disabled={isSubmitting || !isDirty}
-                    // style={{ marginRight: 6, marginTop: 8, width: 20 }}
-                    className="button is-success is-medium"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-search" />
-                    </span>
-                    <span>Find Tasks</span>
-                  </button>
-                </div>
-              </p>
-            </div>
-          </nav>
+        <div className="has-text-centered" style={{ marginTop: '1rem' }}>
+          <button
+            // disable={}
+            type="submit"
+            disabled={isSubmitting || !dirty || !touched}
+            // style={{ marginRight: 6, marginTop: 8, width: 20 }}
+            className="button is-success is-medium"
+          >
+            <span className="icon">
+              <i className="fas fa-search" />
+            </span>
+            <span>Find Tasks</span>
+          </button>
         </div>
         {/* <div style={{ padding: '0.5rem' }} className="field has-text-centered">
           <button
@@ -445,14 +436,16 @@ class JobsLocationFilterForm extends React.Component {
 
 const EnhancedForms = withFormik({
   initialValues: {
+    enableReinitialize: true,
     searchRaduisField: '',
-    filterJobsByCategoryField: ['bdbjob-house-cleaning'],
+    // filterJobsByCategoryField: ['bdbjob-house-cleaning'],
     addressTextField: '',
     locationField: { lng: '', lat: '' },
   },
   mapPropsToValues: ({ lastKnownSearch }) => {
-    //debugger;
+    //
     const x = {
+      enableReinitialize: true,
       searchRaduisField:
         lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
       locationField:
@@ -462,10 +455,10 @@ const EnhancedForms = withFormik({
               lng: lastKnownSearch.location.coordinates[1],
             }
           : { lat: '', lng: '' },
-      filterJobsByCategoryField:
-        lastKnownSearch && lastKnownSearch.selectedTemplateIds
-          ? lastKnownSearch.selectedTemplateIds
-          : ['bdbjob-house-cleaning'],
+      // filterJobsByCategoryField:
+      //   lastKnownSearch && lastKnownSearch.selectedTemplateIds
+      //     ? lastKnownSearch.selectedTemplateIds
+      //     : ['bdbjob-house-cleaning'],
       addressTextField:
         lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
     };

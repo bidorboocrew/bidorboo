@@ -794,7 +794,7 @@ exports.jobDataAccess = {
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
-  getJobsNear: ({ location, searchRadius = 25000, selectedTemplateIds = [] }) => {
+  getJobsNear: ({ location, searchRadius = 25000 }) => {
     return new Promise(async (resolve, reject) => {
       try {
         let searchQuery = {
@@ -810,15 +810,8 @@ exports.jobDataAccess = {
             },
           },
         };
-        if (selectedTemplateIds && selectedTemplateIds.length > 0) {
-          //filter categories of jobs
-          searchQuery = {
-            ...searchQuery,
-            fromTemplateId: { $in: selectedTemplateIds },
-          };
-        }
-        // filter by date
 
+        // filter by date
         const results = await JobModel.find(
           searchQuery,
           {

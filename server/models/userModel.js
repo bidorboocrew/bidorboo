@@ -93,7 +93,6 @@ const UserSchema = new Schema(
       searchRadius: { type: Number },
       location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
       addressText: { type: String },
-      selectedTemplateIds: [{ type: String, default: ['bdbjob-house-cleaning'] }],
     },
     password: {
       type: String,
