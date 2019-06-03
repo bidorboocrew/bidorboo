@@ -194,7 +194,7 @@ export default class JobsLocationFilterAddress extends React.Component {
                   <div className="content">
                     <div className="field">
                       <label className="label">
-                        Where are you planning to provide your services?
+                        Enter an address in order to search for requests
                       </label>
                       <GeoSearch
                         value={addressText}
@@ -236,7 +236,7 @@ export default class JobsLocationFilterAddress extends React.Component {
                     onClick={this.handleSubmit}
                     className="button is-success"
                   >
-                    <span>Submit Search</span>
+                    <span>Search For Requests</span>
                   </button>
                   <button type="submit" onClick={this.handleCancel} className="button">
                     <span>Cancel</span>
@@ -246,9 +246,15 @@ export default class JobsLocationFilterAddress extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <a onClick={this.toggleModal} className="button is-link">
+        <a
+          style={{ height: 'unset', whiteSpace: 'unset' }}
+          onClick={this.toggleModal}
+          className="button is-link"
+        >
           {`${
-            addressText ? `within ${searchRadius}km of ${addressText}` : 'Choose Area Of Service'
+            addressText
+              ? `Requests within ${searchRadius}km of ${addressText}`
+              : 'Click to search for requests in a specific Area'
           }`}
         </a>
       </React.Fragment>

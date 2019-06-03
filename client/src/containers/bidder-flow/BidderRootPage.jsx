@@ -174,7 +174,7 @@ class BidderRootPage extends React.Component {
             userLastStoredSearchParams={userLastStoredSearchParams}
           />
         </div>
-
+        <br />
         {isLoading && (
           <section className="section">
             <Spinner
