@@ -2,8 +2,8 @@
 /**
  * TODO SAID
  * handle validation using YUP and otherways
- * handle blur on address change
- * make the address optional
+ * handle blur on addressText change
+ * make the addressText optional
  *
  */
 
@@ -15,7 +15,7 @@ import ReactDOM from 'react-dom';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import autoBind from 'react-autobind';
 
-// for reverse geocoding , get address from lat lng
+// for reverse geocoding , get addressText from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
@@ -28,60 +28,55 @@ export default class JobsLocationFilterAddress extends React.Component {
     }
     this.state = {
       showModal: false,
-      address: '',
-      latLng: { lat: '', lng: '' },
-      searchRadius: 50,
-      lastKnownSearchFromState: {
-        ...this.props.lastKnownSearch,
-      },
     };
   }
   // xxx one of the shittiest piece of code I have got eventually unwind this hsit
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.lastKnownSearch) {
-      const { addressText, location, searchRadius } = nextProps.lastKnownSearch;
-      const { lastKnownSearchFromState } = prevState;
-      const {
-        addressText: addressTextFromState,
-        location: locationFromState,
-        searchRadius: searchRadiusFromState,
-      } = lastKnownSearchFromState;
-      if (
-        searchRadius !== lastKnownSearchFromState.searchRadius ||
-        addressText !== lastKnownSearchFromState.addressText ||
-        (location &&
-          location.coordinates &&
-          locationFromState &&
-          locationFromState.coordinates &&
-          location.coordinates[1] !== locationFromState.coordinates[1]) ||
-        (location &&
-          location.coordinates &&
-          locationFromState &&
-          locationFromState.coordinates &&
-          location.coordinates[0] !== locationFromState.coordinates[0])
-      ) {
-        return {
-          lastKnownSearchFromState: { ...nextProps.lastKnownSearch },
-          address: addressText,
-          latLng: { lat: location.coordinates[1], lng: location.coordinates[0] },
-          searchRadius: searchRadius,
-        };
-      }
-    }
-    return null;
-  }
-  handleChange = (address, latLng) => {
-    this.setState({ address, latLng });
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.activeSearchParams) {
+  //     const { addressText, location, searchRadius } = nextProps.activeSearchParams;
+  //     const { lastKnownSearchFromState } = prevState;
+  //     const {
+  //       addressText: addressTextFromState,
+  //       location: locationFromState,
+  //       searchRadius: searchRadiusFromState,
+  //     } = lastKnownSearchFromState;
+  //     if (
+  //       searchRadius !== lastKnownSearchFromState.searchRadius ||
+  //       addressText !== lastKnownSearchFromState.addressText ||
+  //       (location &&
+  //         location.coordinates &&
+  //         locationFromState &&
+  //         locationFromState.coordinates &&
+  //         location.coordinates[1] !== locationFromState.coordinates[1]) ||
+  //       (location &&
+  //         location.coordinates &&
+  //         locationFromState &&
+  //         locationFromState.coordinates &&
+  //         location.coordinates[0] !== locationFromState.coordinates[0])
+  //     ) {
+  //       return {
+  //         lastKnownSearchFromState: { ...nextProps.activeSearchParams },
+  //         addressText: addressText,
+  //         latLng: { lat: location.coordinates[1], lng: location.coordinates[0] },
+  //         searchRadius: searchRadius,
+  //       };
+  //     }
+  //   }
+  //   return null;
+  // }
+  handleChange = (addressText, latLng) => {
+    this.props.updateSearchLocationState({ addressText, latLng });
   };
 
   updateSearchRaduisSelection = (raduisKm) => {
-    this.setState({ searchRadius: raduisKm });
+    this.props.updateSearchLocationState({ searchRadius: raduisKm });
   };
-  handleSelect = (address) => {
-    geocodeByAddress(address)
+
+  handleSelect = (addressText) => {
+    geocodeByAddress(addressText)
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
-        this.handleChange(address, latLng);
+        this.handleChange(addressText, latLng);
       })
       .catch(this.errorHandling);
   };
@@ -93,11 +88,11 @@ export default class JobsLocationFilterAddress extends React.Component {
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
-      let address = results[0].formatted_address;
-      if (address && !address.toLowerCase().includes('canada')) {
+      let addressText = results[0].formatted_address;
+      if (addressText && !addressText.toLowerCase().includes('canada')) {
         alert('Sorry! Bid or Boo is only available in Canada.');
       } else {
-        this.handleChange(address, { ...pos });
+        this.handleChange(addressText, { ...pos });
       }
     }
   };
@@ -164,16 +159,25 @@ export default class JobsLocationFilterAddress extends React.Component {
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
   };
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const { address, latLng, searchRadius } = this.state;
-
-    this.props.submitSearchLocationParams({ address, latLng, searchRadius });
+    const { activeSearchParams, submitSearchLocationParams } = this.props;
+    submitSearchLocationParams(activeSearchParams);
     this.toggleModal();
-  }
+  };
+
+  handleCancel = () => {
+    const { updateSearchLocationState, userLastStoredSearchParams } = this.props;
+    updateSearchLocationState(userLastStoredSearchParams);
+    this.toggleModal();
+  };
+
   render() {
-    const { showModal, address, latLng, searchRadius } = this.state;
-    const disableSubmit = !address || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
+    const { showModal } = this.state;
+    const { activeSearchParams } = this.props;
+    const { addressText, latLng, searchRadius } = activeSearchParams;
+
+    const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
       <React.Fragment>
@@ -193,15 +197,15 @@ export default class JobsLocationFilterAddress extends React.Component {
                         Where are you planning to provide your services?
                       </label>
                       <GeoSearch
-                        value={this.state.address}
+                        value={addressText}
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                         handleSelect={this.handleSelect}
-                        onError={() => alert('error')}
+                        onError={this.errorHandling}
                         onChangeEvent={this.handleSelect}
                         onBlurEvent={this.handleSelect}
                         placeholder="Start entering an adddress"
-                        forceSetAddressValue={address}
+                        forceSetAddressValue={addressText}
                         id="filter-tasker-job"
                       />
                       <React.Fragment>
@@ -234,7 +238,7 @@ export default class JobsLocationFilterAddress extends React.Component {
                   >
                     <span>Submit Search</span>
                   </button>
-                  <button type="submit" onClick={this.toggleModal} className="button">
+                  <button type="submit" onClick={this.handleCancel} className="button">
                     <span>Cancel</span>
                   </button>
                 </footer>
@@ -243,7 +247,9 @@ export default class JobsLocationFilterAddress extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <a onClick={this.toggleModal} className="button is-link">
-          {`${address ? `within ${searchRadius}km of ${address}` : 'Choose Area Of Service'}`}
+          {`${
+            addressText ? `within ${searchRadius}km of ${addressText}` : 'Choose Area Of Service'
+          }`}
         </a>
       </React.Fragment>
     );
@@ -267,13 +273,13 @@ class GeoSearch extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { address: props.value };
+    this.state = { addressText: props.value };
     autoBind(this, 'updateField');
   }
 
-  updateField(address) {
-    this.setState({ address });
-    this.props.onChangeEvent(address);
+  updateField(addressText) {
+    this.setState({ addressText });
+    this.props.onChangeEvent(addressText);
   }
 
   render() {
@@ -359,7 +365,7 @@ class GeoSearch extends React.Component {
     return (
       //xxx add US here
       <PlacesAutocomplete
-        value={forceSetAddressValue ? forceSetAddressValue : this.state.address}
+        value={forceSetAddressValue ? forceSetAddressValue : this.state.addressText}
         onChange={this.updateField}
         onBlur={onBlurEvent}
         onSelect={handleSelect}

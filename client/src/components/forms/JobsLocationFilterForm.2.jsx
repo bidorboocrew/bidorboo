@@ -61,22 +61,22 @@ class JobsLocationFilterForm extends React.Component {
 
   // xxxx you can do bbetter
   componentDidUpdate(prevProps, prevState) {
-    const { lastKnownSearch } = this.props;
+    const { activeSearchParams } = this.props;
     const { values: currentValues } = prevProps;
 
-    if (lastKnownSearch.addressText !== this.state.forceSetAddressValue) {
+    if (activeSearchParams.addressText !== this.state.forceSetAddressValue) {
       const nextPropsValues = {
         searchRadiusField:
-          lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
+          activeSearchParams && activeSearchParams.searchRadius ? activeSearchParams.searchRadius : '',
         locationField:
-          lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
+          activeSearchParams && activeSearchParams.location && activeSearchParams.location.coordinates
             ? {
-                lat: lastKnownSearch.location.coordinates[0],
-                lng: lastKnownSearch.location.coordinates[1],
+                lat: activeSearchParams.location.coordinates[0],
+                lng: activeSearchParams.location.coordinates[1],
               }
             : { lat: '', lng: '' },
         addressTextField:
-          lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
+          activeSearchParams && activeSearchParams.addressText ? activeSearchParams.addressText : '',
       };
 
       if (
@@ -87,7 +87,7 @@ class JobsLocationFilterForm extends React.Component {
       ) {
         this.setState(
           () => ({
-            forceSetAddressValue: lastKnownSearch.addressText,
+            forceSetAddressValue: activeSearchParams.addressText,
           }),
           () => {
             this.props.setValues(nextPropsValues);
@@ -414,25 +414,25 @@ const EnhancedForms = withFormik({
     addressTextField: '',
     locationField: { lng: '', lat: '' },
   },
-  mapPropsToValues: ({ lastKnownSearch }) => {
+  mapPropsToValues: ({ activeSearchParams }) => {
     //
     const x = {
       enableReinitialize: true,
       searchRadiusField:
-        lastKnownSearch && lastKnownSearch.searchRadius ? lastKnownSearch.searchRadius : '',
+        activeSearchParams && activeSearchParams.searchRadius ? activeSearchParams.searchRadius : '',
       locationField:
-        lastKnownSearch && lastKnownSearch.location && lastKnownSearch.location.coordinates
+        activeSearchParams && activeSearchParams.location && activeSearchParams.location.coordinates
           ? {
-              lat: lastKnownSearch.location.coordinates[0],
-              lng: lastKnownSearch.location.coordinates[1],
+              lat: activeSearchParams.location.coordinates[0],
+              lng: activeSearchParams.location.coordinates[1],
             }
           : { lat: '', lng: '' },
       // filterJobsByCategoryField:
-      //   lastKnownSearch && lastKnownSearch.selectedTemplateIds
-      //     ? lastKnownSearch.selectedTemplateIds
+      //   activeSearchParams && activeSearchParams.selectedTemplateIds
+      //     ? activeSearchParams.selectedTemplateIds
       //     : ['bdbjob-house-cleaning'],
       addressTextField:
-        lastKnownSearch && lastKnownSearch.addressText ? lastKnownSearch.addressText : '',
+        activeSearchParams && activeSearchParams.addressText ? activeSearchParams.addressText : '',
     };
     return x;
   },

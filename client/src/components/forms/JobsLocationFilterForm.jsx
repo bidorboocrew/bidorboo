@@ -14,12 +14,12 @@ import JobsLocationFilterAddress from './JobsLocationFilterAddress';
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
 export default class JobsLocationFilterForm extends React.Component {
-  submitSearchLocationParams = (searchParams) => {
-    this.props.onSubmit();
-  };
-
   render() {
-    const { lastKnownSearch } = this.props;
+    const {
+      updateSearchLocationState,
+      activeSearchParams,
+      submitSearchLocationParams,
+    } = this.props;
     return (
       <div style={{ border: '1px solid lightgrey ', padding: '1rem', background: '#eeeeee' }}>
         <div className="field is-horizontal">
@@ -29,10 +29,7 @@ export default class JobsLocationFilterForm extends React.Component {
           <div className="field-body">
             <div className="field">
               <div className="control">
-                <JobsLocationFilterAddress
-                  submitSearchLocationParams={this.submitSearchLocationParams}
-                  lastKnownSearch={lastKnownSearch}
-                />
+                <JobsLocationFilterAddress {...this.props} />
               </div>
             </div>
           </div>
@@ -43,7 +40,7 @@ export default class JobsLocationFilterForm extends React.Component {
       //   <div className="is-inline">
       //     <JobsLocationFilterAddress
       //       submitSearchLocationParams={this.submitSearchLocationParams}
-      //       lastKnownSearch={lastKnownSearch}
+      //       activeSearchParams={activeSearchParams}
       //     />
       //   </div>
       /* <div className="level-item has-text-centered">

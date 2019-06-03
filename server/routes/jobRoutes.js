@@ -342,7 +342,7 @@ module.exports = (app) => {
     }
   );
 
-  app.post(ROUTES.API.JOB.POST.updateUserLastSearchDetails, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res) => {
     try {
       const searchDetails = req.body.data;
       if (!searchDetails) {
@@ -384,7 +384,6 @@ module.exports = (app) => {
         return res.send({ errorMsg: 'JobId Was Not Specified' });
       }
 
-      return res.send({ success: true });
     } catch (e) {
       return res
         .status(400)

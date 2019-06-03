@@ -29,7 +29,6 @@ class BidderRootPage extends React.Component {
     super(props);
 
     this.state = {
-      displayedJobList: this.props.ListOfJobsToBidOn,
       isThereAnActiveSearch: false,
       // showSideNav: false,
       mapZoomLevel: 6,
@@ -37,132 +36,89 @@ class BidderRootPage extends React.Component {
         lng: -75.801867,
         lat: 45.296898,
       },
-      lastKnownSearch: {
+      activeSearchParams: {
         searchRadius: '',
-        address: '',
-        location: { coordinates: { lng: '', lat: '' } },
+        addressText: '',
+        latLng: { lng: -75.801867, lat: 45.296898 },
       },
     };
     this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
-    this.updateStateWithLastKnownSearch();
-  }
+    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
-      this.updateStateWithLastKnownSearch();
-    }
-  }
+    if (isLoggedIn) {
+      const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
+      if (userLastStoredSearchParams) {
+        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const { coordinates } = location;
 
-  updateStateWithLastKnownSearch = () => {
-    const { userDetails } = this.props;
-
-    if (this.props.isLoggedIn) {
-      const lastKnownSearch = userDetails && userDetails.lastSearch;
-      if (lastKnownSearch) {
-        debugger;
-        const { searchRadius, location, addressText } = lastKnownSearch;
-        this.setState(() => {
-          return {
-            lastKnownSearch: {
+        this.setState(
+          () => {
+            return {
+              userLastStoredSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+              activeSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+            };
+          },
+          () => {
+            searchJobsToBidOn({
               searchRadius,
-              location,
+              location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
-            },
-          };
-        });
+            });
+          },
+        );
       }
     }
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.ListOfJobsToBidOn.length !== prevState.displayedJobList.length) {
-      return { displayedJobList: nextProps.ListOfJobsToBidOn };
-    }
-    return null;
   }
 
-  getCurrentAddress = () => {
-    // Try HTML5 geolocation.
-    if (navigator && navigator.geolocation) {
-      const getCurrentPositionOptions = {
-        maximumAge: 10000,
-        timeout: 5000,
-        enableHighAccuracy: true,
-      };
-      const errorHandling = () => {
-        console.error('can not auto detect address');
-      };
-      const successfulRetrieval = (position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-
-        this.updateMapCenter(pos);
-      };
-
-      //get the current location
-      navigator.geolocation.getCurrentPosition(
-        successfulRetrieval,
-        errorHandling,
-        getCurrentPositionOptions,
-      );
-    } else {
-      console.log('no html 5 geo location');
-    }
-  };
-
-  clearFilter = () => {
-    this.setState(
-      {
-        displayedJobList: this.props.ListOfJobsToBidOn,
-        hasActiveSearch: false,
-      },
-      () => {
-        this.toggleSideNav();
-      },
-    );
-  };
-
-  handleJobSearch = ({
-    searchRadiusField,
-    locationField,
-    addressTextField,
-    filterJobsByCategoryField,
-  }) => {
+  submitSearchLocationParams = ({ addressText, latLng, searchRadius }) => {
     const { searchJobsToBidOn } = this.props;
+
+    // do some validation xxxxx latLng
     this.setState(
       () => ({
         hasActiveSearch: true,
-        lastKnownSearch: {
-          searchRadiusField,
-          locationField,
-          addressTextField,
-          filterJobsByCategoryField,
+        mapCenterPoint: latLng,
+
+        activeSearchParams: {
+          addressText,
+          latLng,
+          searchRadius,
         },
       }),
       () => {
-        //debugger;
+        debugger;
         searchJobsToBidOn({
-          searchRadius: searchRadiusField,
-          location: locationField,
-          addressText: addressTextField,
-          selectedTemplateIds: filterJobsByCategoryField,
+          searchRadius: searchRadius,
+          location: latLng,
+          addressText,
         });
       },
     );
   };
 
-  updateMapCenter = (pos) => {
-    this.setState({
-      mapCenterPoint: {
-        ...pos,
+  updateSearchLocationState = (newSearchParams) => {
+    const { activeSearchParams } = this.state;
+    // do some validation xxxxx latLng
+    this.setState(() => ({
+      hasActiveSearch: true,
+      activeSearchParams: {
+        ...activeSearchParams,
+        ...newSearchParams,
       },
-    });
+    }));
   };
+
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
     this.setState(
       () => {
@@ -174,23 +130,19 @@ class BidderRootPage extends React.Component {
     );
   };
 
-  handleChange = () => {
-    this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
-      navigator && navigator.geolocation && this.getCurrentAddress();
-    });
-  };
-
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    const { isThereAnActiveSearch } = this.state;
-    const searchWithNoResults =
-      isThereAnActiveSearch && (displayedJobList && displayedJobList.length === 0);
+    const { isThereAnActiveSearch, userLastStoredSearchParams } = this.state;
 
-    const { displayedJobList, mapCenterPoint, mapZoomLevel, lastKnownSearch } = this.state;
+    const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
     let currentJobsList = isLoggedIn
-      ? displayedJobList.filter((job) => job._ownerRef._id !== userDetails._id)
-      : displayedJobList;
+      ? ListOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
+      : ListOfJobsToBidOn;
+
+    const searchWithNoResults =
+      isThereAnActiveSearch && (currentJobsList && currentJobsList.length === 0);
+
     currentJobsList = currentJobsList.map((job) => {
       return {
         ...job,
@@ -216,8 +168,10 @@ class BidderRootPage extends React.Component {
 
         <div className="has-text-centered">
           <JobsLocationFilterForm
-            onSubmit={this.handleJobSearch}
-            lastKnownSearch={lastKnownSearch}
+            submitSearchLocationParams={this.submitSearchLocationParams}
+            updateSearchLocationState={this.updateSearchLocationState}
+            activeSearchParams={activeSearchParams}
+            userLastStoredSearchParams={userLastStoredSearchParams}
           />
         </div>
 
@@ -232,7 +186,7 @@ class BidderRootPage extends React.Component {
         )}
         {!isLoading && (
           <React.Fragment>
-            {displayedJobList && displayedJobList.length > 0 && (
+            {currentJobsList && currentJobsList.length > 0 && (
               <React.Fragment>
                 <MapSection
                   mapCenterPoint={mapCenterPoint}
