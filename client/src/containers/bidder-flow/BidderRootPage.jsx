@@ -7,11 +7,8 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-// import * as ROUTES from '../../constants/frontend-route-consts';
-// import { switchRoute } from '../../utils';
-// import FilterSideNav from './components/FilterSideNav';
-// import ActiveSearchFilters from './components/ActiveSearchFilters';
-import JobsLocationFilterForm from '../../components/forms/JobsLocationFilterForm';
+
+import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -21,8 +18,6 @@ import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { StepsForTasker } from '../commonComponents';
-
-const google = window.google;
 
 class BidderRootPage extends React.Component {
   constructor(props) {
@@ -57,6 +52,7 @@ class BidderRootPage extends React.Component {
         this.setState(
           () => {
             return {
+              isThereAnActiveSearch: true,
               userLastStoredSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
@@ -87,9 +83,8 @@ class BidderRootPage extends React.Component {
     // do some validation xxxxx latLng
     this.setState(
       () => ({
-        hasActiveSearch: true,
+        isThereAnActiveSearch: true,
         mapCenterPoint: latLng,
-
         activeSearchParams: {
           addressText,
           latLng,
@@ -110,7 +105,6 @@ class BidderRootPage extends React.Component {
     const { activeSearchParams } = this.state;
     // do some validation xxxxx latLng
     this.setState(() => ({
-      hasActiveSearch: true,
       activeSearchParams: {
         ...activeSearchParams,
         ...newSearchParams,
@@ -139,9 +133,6 @@ class BidderRootPage extends React.Component {
       ? ListOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
       : ListOfJobsToBidOn;
 
-    const searchWithNoResults =
-      isThereAnActiveSearch && (currentJobsList && currentJobsList.length === 0);
-
     currentJobsList = currentJobsList.map((job) => {
       return {
         ...job,
@@ -150,37 +141,38 @@ class BidderRootPage extends React.Component {
       };
     });
 
+    const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
+    const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
+
     return (
       <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 style={{ marginBottom: '0.5rem' }} className="title">
-                Provide a Service
-              </h1>
-
-              <StepsForTasker isSmall={true} step={1} />
+              <h1 className="title">Provide a Service</h1>
+              {anyVisibleJobs && <StepsForTasker isSmall={true} step={1} />}
+              {!anyVisibleJobs && (
+                <h2 className="subtitle">Find Requests , Bid on them , do them , EARN MONEY ! </h2>
+              )}
             </div>
           </div>
         </section>
         <br />
 
         <div className="has-text-centered">
-          <JobsLocationFilterForm
-            submitSearchLocationParams={this.submitSearchLocationParams}
-            updateSearchLocationState={this.updateSearchLocationState}
-            activeSearchParams={activeSearchParams}
-            userLastStoredSearchParams={userLastStoredSearchParams}
-          />
+          {anyVisibleJobs && (
+            <BidderRootFilterWrapper
+              submitSearchLocationParams={this.submitSearchLocationParams}
+              updateSearchLocationState={this.updateSearchLocationState}
+              activeSearchParams={activeSearchParams}
+              userLastStoredSearchParams={userLastStoredSearchParams}
+            />
+          )}
         </div>
         <br />
         {isLoading && (
           <section className="section">
-            <Spinner
-              renderLabel="getting requests near you..."
-              isLoading={isLoading}
-              size={'large'}
-            />
+            <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
           </section>
         )}
         {!isLoading && (
@@ -204,13 +196,26 @@ class BidderRootPage extends React.Component {
                 <AllJobsView jobsList={currentJobsList} {...this.props} />
               </React.Fragment>
             )}
-            {searchWithNoResults && (
+            {!isThereAnActiveSearch && (
               <div className="HorizontalAligner-center column">
                 <div className="is-fullwidth">
-                  <div className="card-content VerticalAligner">
-                    <div className="content has-text-centered">
-                      <div className="is-size-5">
-                        Fill out the search to get custom results based on your location
+                  <div className="card">
+                    <div className="card-content VerticalAligner">
+                      <div className="has-text-centered">
+                        <StepsForTasker isSmall={true} step={1} />
+                        <br />
+                        <div className="is-size-6">
+                          Find Requests in the Areas where you're able to provide them
+                        </div>
+                        <br />
+
+                        <BidderRootFilterWrapper
+                          isHorizontal={false}
+                          submitSearchLocationParams={this.submitSearchLocationParams}
+                          updateSearchLocationState={this.updateSearchLocationState}
+                          activeSearchParams={activeSearchParams}
+                          userLastStoredSearchParams={userLastStoredSearchParams}
+                        />
                       </div>
                     </div>
                   </div>
@@ -220,10 +225,24 @@ class BidderRootPage extends React.Component {
             {searchWithNoResults && (
               <div className="HorizontalAligner-center column">
                 <div className="is-fullwidth">
-                  <div className="card-content VerticalAligner">
-                    <div className="content has-text-centered">
-                      <div className="is-size-5">
-                        There are no Open Requests in your area. please check again soon!
+                  <div className="card">
+                    <div className="card-content VerticalAligner">
+                      <div className="has-text-centered">
+                        <StepsForTasker isSmall={true} step={1} />
+                        <br />
+                        <div className="is-size-6">
+                          No Requests match your search criteria at this time.
+                          <br /> Please try Changing your search criteria or check again later.
+                        </div>
+                        <br />
+
+                        <BidderRootFilterWrapper
+                          isHorizontal={false}
+                          submitSearchLocationParams={this.submitSearchLocationParams}
+                          updateSearchLocationState={this.updateSearchLocationState}
+                          activeSearchParams={activeSearchParams}
+                          userLastStoredSearchParams={userLastStoredSearchParams}
+                        />
                       </div>
                     </div>
                   </div>

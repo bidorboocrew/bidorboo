@@ -19,7 +19,7 @@ import autoBind from 'react-autobind';
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-export default class JobsLocationFilterAddress extends React.Component {
+export default class BidderRootLocationFilter extends React.Component {
   constructor(props) {
     super(props);
     this.google = window.google;
@@ -30,40 +30,7 @@ export default class JobsLocationFilterAddress extends React.Component {
       showModal: false,
     };
   }
-  // xxx one of the shittiest piece of code I have got eventually unwind this hsit
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.activeSearchParams) {
-  //     const { addressText, location, searchRadius } = nextProps.activeSearchParams;
-  //     const { lastKnownSearchFromState } = prevState;
-  //     const {
-  //       addressText: addressTextFromState,
-  //       location: locationFromState,
-  //       searchRadius: searchRadiusFromState,
-  //     } = lastKnownSearchFromState;
-  //     if (
-  //       searchRadius !== lastKnownSearchFromState.searchRadius ||
-  //       addressText !== lastKnownSearchFromState.addressText ||
-  //       (location &&
-  //         location.coordinates &&
-  //         locationFromState &&
-  //         locationFromState.coordinates &&
-  //         location.coordinates[1] !== locationFromState.coordinates[1]) ||
-  //       (location &&
-  //         location.coordinates &&
-  //         locationFromState &&
-  //         locationFromState.coordinates &&
-  //         location.coordinates[0] !== locationFromState.coordinates[0])
-  //     ) {
-  //       return {
-  //         lastKnownSearchFromState: { ...nextProps.activeSearchParams },
-  //         addressText: addressText,
-  //         latLng: { lat: location.coordinates[1], lng: location.coordinates[0] },
-  //         searchRadius: searchRadius,
-  //       };
-  //     }
-  //   }
-  //   return null;
-  // }
+
   handleChange = (addressText, latLng) => {
     this.props.updateSearchLocationState({ addressText, latLng });
   };
@@ -73,12 +40,14 @@ export default class JobsLocationFilterAddress extends React.Component {
   };
 
   handleSelect = (addressText) => {
-    geocodeByAddress(addressText)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => {
-        this.handleChange(addressText, latLng);
-      })
-      .catch(this.errorHandling);
+    if (addressText && addressText.length > 3) {
+      geocodeByAddress(addressText)
+        .then((results) => getLatLng(results[0]))
+        .then((latLng) => {
+          this.handleChange(addressText, latLng);
+        })
+        .catch(this.errorHandling);
+    }
   };
 
   successfullGeoCoding = (results, status, pos) => {
@@ -137,7 +106,7 @@ export default class JobsLocationFilterAddress extends React.Component {
   };
 
   errorHandling = (err) => {
-    console.error('can not auto detect address');
+    console.error('can not auto detect address' + err);
     let msg = '';
     if (err.code === 3) {
       // Timed out
@@ -154,7 +123,7 @@ export default class JobsLocationFilterAddress extends React.Component {
       // Unknown error
       msg = ', msg = ' + err.message;
     }
-    alert(msg);
+    // alert(msg);
   };
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
@@ -202,8 +171,8 @@ export default class JobsLocationFilterAddress extends React.Component {
                         onSelect={this.handleSelect}
                         handleSelect={this.handleSelect}
                         onError={this.errorHandling}
-                        onChangeEvent={this.handleSelect}
-                        onBlurEvent={this.handleSelect}
+                        // onChangeEvent={this.handleSelect}
+                        // onBlurEvent={this.handleChange}
                         placeholder="Start entering an adddress"
                         forceSetAddressValue={addressText}
                         id="filter-tasker-job"
@@ -249,12 +218,12 @@ export default class JobsLocationFilterAddress extends React.Component {
         <a
           style={{ height: 'unset', whiteSpace: 'unset' }}
           onClick={this.toggleModal}
-          className="button is-link"
+          className="button is-link is-fullwidth"
         >
           {`${
             addressText
               ? `Requests within ${searchRadius}km of ${addressText}`
-              : 'Click to search for requests in a specific Area'
+              : 'Click to specify a search area'
           }`}
         </a>
       </React.Fragment>
@@ -271,33 +240,25 @@ class GeoSearch extends React.Component {
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    autoSetValue: PropTypes.string,
+    // autoSetValue: PropTypes.string,
   };
   static defaultProps = {
     placeholder: '',
     value: '',
   };
-  constructor(props) {
-    super(props);
-    this.state = { addressText: props.value };
-    autoBind(this, 'updateField');
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { addressText: props.value };
+  //   autoBind(this, 'updateField');
+  // }
 
-  updateField(addressText) {
-    this.setState({ addressText });
-    this.props.onChangeEvent(addressText);
-  }
+  // updateField(addressText) {
+  //   this.setState({ addressText });
+  //   this.props.onChangeEvent(addressText);
+  // }
 
   render() {
-    const {
-      handleSelect,
-      onError,
-      placeholder,
-      id,
-      onBlurEvent,
-      forceSetAddressValue,
-      value,
-    } = this.props;
+    const { handleSelect, onError, placeholder, id, onBlurEvent, onChange, value } = this.props;
 
     const inputField = ({ getInputProps, suggestions, getSuggestionItemProps }) => {
       const containerDropDownStyle =
@@ -371,12 +332,12 @@ class GeoSearch extends React.Component {
     return (
       //xxx add US here
       <PlacesAutocomplete
-        value={forceSetAddressValue ? forceSetAddressValue : this.state.addressText}
-        onChange={this.updateField}
+        value={value}
+        onChange={onChange}
         onBlur={onBlurEvent}
         onSelect={handleSelect}
         onError={onError}
-        debounce={750}
+        debounce={1000}
         searchOptions={{
           componentRestrictions: { country: 'CA' },
           types: ['address'],
