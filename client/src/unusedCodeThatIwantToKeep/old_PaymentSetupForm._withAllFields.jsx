@@ -4,10 +4,10 @@ import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { TextInput } from './FormsHelpers';
+import { TextInput } from '../components/forms/FormsHelpers';
 
-import { phoneNumber } from './FormsValidators';
-import * as ROUTES from '../../constants/frontend-route-consts';
+import { phoneNumber } from '../components/forms/FormsValidators';
+import * as ROUTES from '../constants/frontend-route-consts';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({

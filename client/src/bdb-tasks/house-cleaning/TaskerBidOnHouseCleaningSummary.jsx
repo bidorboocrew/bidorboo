@@ -24,6 +24,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
+
     if (
       !job ||
       !job._id ||
@@ -124,7 +125,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                     <span className="icon">
                       <i className="fas fa-map-marked-alt" />
                     </span>
-                    <span>Locate</span>
+                    {/* <span>Locate</span> */}
                   </a>
                 </div>
               ) : (
@@ -163,7 +164,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                     <span className="icon">
                       <i className="fas fa-map-marked-alt" />
                     </span>
-                    <span>Locate</span>
+                    {/* <span>Locate</span> */}
                   </a>
                 </div>
               )}

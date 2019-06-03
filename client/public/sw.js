@@ -57,21 +57,21 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME).then(function(cache) {
       // return cache.addAll(urlsToCache);
       fetch(googleMapsReq).then((response) => {
-        console.info('putting googlemap api in cache');
+        // console.info('putting googlemap api in cache');
         cache.put(googleMapsReq, response);
       });
 
       fetch(fontAwesomeReq).then((response) => {
-        console.info('putting fontawesome in cache');
+        // console.info('putting fontawesome in cache');
 
         cache.put(fontAwesomeReq, response);
       });
       fetch(googleFontsReq).then((response) => {
-        console.info('putting google fonts in cache');
+        // console.info('putting google fonts in cache');
         cache.put(googleFontsReq, response);
       });
 
-      console.info('Opened cache to cache' + urlsToCache);
+      // console.info('Opened cache to cache' + urlsToCache);
       return cache.addAll(urlsToCache);
     }),
   );
@@ -96,7 +96,7 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request).then(function(response) {
       // Cache hit - return response
       if (response) {
-        console.info('returned from cache ' + response);
+        // console.info('returned from cache ' + response);
         return response;
       }
       return fetch(event.request)

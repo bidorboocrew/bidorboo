@@ -288,7 +288,7 @@ export class GeoAddressInput extends React.Component {
           onBlurEvent={onBlurEvent}
           forceSetAddressValue={value}
         />
-        {autoDetectComponent}
+        {autoDetectComponent()}
         {!autoDetectComponent && <HelpText helpText={helpText} />}
 
         <InputFeedback error={error} />

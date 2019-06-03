@@ -87,9 +87,8 @@ const ComingSoon3 = () => {
             <JobTitleText title={'Pet Buddies'} iconClass="fas fa-paw" />
             <hr className="divider isTight" />
             <div style={{ marginTop: '1.5rem' }}>
-              Need a night out without worrying about your pet? going on vacation and need someone
-              to take care of your pets? Tired and want someone to walk your pet? get our petloving
-              bidorboocrew members to do exactly that
+              Need a night out while leaving your pets safe and entertained? get our pet loving
+              bidorboocrew members to take care of your pets leaving you worry free
             </div>
           </div>
           <a className="button is-outlined is-fullwidth">Coming Soon</a>

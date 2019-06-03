@@ -44,7 +44,7 @@ const UserSchema = new Schema(
     notifications: {
       push: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       email: {
         type: Boolean,
@@ -52,7 +52,7 @@ const UserSchema = new Schema(
       },
       text: {
         type: Boolean,
-        default: false,
+        default: true,
       },
     },
     _postedJobsRef: {
@@ -89,7 +89,11 @@ const UserSchema = new Schema(
       },
     },
     // use this as default of search
-    lastGivenLocation: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
+    lastSearch: {
+      searchRadius: { type: Number },
+      location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
+      addressText: { type: String },
+    },
     password: {
       type: String,
       allowBlank: false,

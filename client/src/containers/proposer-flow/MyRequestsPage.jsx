@@ -49,7 +49,7 @@ class MyRequestsPage extends React.Component {
         <hr className="divider" />
         <FloatingAddNewRequestButton />
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
-        {!isLoading && <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>}
+        {!isLoading && <div className="columns forJobSummary is-multiline is-centered">{myRequestsSummaryCards}</div>}
 
         {!isLoading&&!areThereAnyJobsToView && <EmptyStateComponent />}
       </div>

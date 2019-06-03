@@ -54,7 +54,7 @@ class HouseCleaningJobForm extends React.Component {
 
     this.getCurrentAddress = getCurrentAddress.bind(this);
     this.autoSetGeoLocation = autoSetGeoLocation.bind(this);
-    this.autoDetectLocationIfPermitted = autoDetectLocationIfPermitted.bind(this);
+    // this.autoDetectLocationIfPermitted = autoDetectLocationIfPermitted.bind(this);
     this.toggleConfirmationDialog = toggleConfirmationDialog.bind(this);
     this.selectTimeButton = selectTimeButton.bind(this);
     this.insertTemplateText = insertTemplateText.bind(this);
@@ -69,7 +69,7 @@ class HouseCleaningJobForm extends React.Component {
   }
 
   componentDidMount() {
-    this.autoDetectLocationIfPermitted();
+    // this.autoDetectLocationIfPermitted();
     if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
       this.recaptchaRef.current.execute();
     }
@@ -300,6 +300,7 @@ const EnhancedForms = withFormik({
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
     props.onSubmit(values);
+    setSubmitting(false);
   },
   displayName: 'HouseCleaningJobForm',
 });

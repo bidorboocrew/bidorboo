@@ -1,7 +1,6 @@
 @charset "utf-8";
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,500');
-
+@import './_fonts.scss';
 @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
@@ -431,6 +430,7 @@ header.card-header {
 .hero-body {
   padding: 0.75rem !important;
 }
+
 .card-content {
   padding: 0.5rem;
   // min-height: 20rem;
@@ -449,6 +449,11 @@ hr.divider {
     margin-bottom: 0.25rem;
   }
 }
+article.media.limitHeight {
+  max-height: 4.7rem;
+  // overflow: hidden;
+}
+
 article.media.limitHeight {
   max-height: 4.7rem;
   // overflow: hidden;
@@ -490,8 +495,9 @@ article.media.limitHeight {
       0 5px 5px -3px rgba(0, 0, 0, 0.2);
   }
   &.limitWidthOfCard {
-    min-width: 20rem !important;
-    max-width: 25rem !important;
+    // min-width: 20rem !important;
+    // max-width: 20rem !important;
+    width: 20rem !important;
     margin: auto;
   }
   &.limitLargeMaxWidth {

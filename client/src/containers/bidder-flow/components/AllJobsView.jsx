@@ -43,6 +43,7 @@ const EmptyStateComponent = () => {
 
 const OtherPeoplesJobs = (props) => {
   const { userDetails, jobsList } = props;
+
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
 
   const components = jobsList

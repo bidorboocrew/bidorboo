@@ -69,6 +69,7 @@ module.exports = {
       POST: {
         searchJobs: '/api/job/search',
         newJob: '/api/job/createJob',
+        updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
       },
       PUT: {
         jobImage: '/api/job/uploadImages',

@@ -58,6 +58,20 @@ export const getAllMyAwardedJobs = () => (dispatch) => {
     payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
   });
 };
+export const searchJobsToBidOn = (values) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: values,
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH,
+    payload: axios.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, postData, config),
+  });
+};
+
 export const getAllJobsToBidOn = () => (dispatch) => {
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
@@ -86,7 +100,7 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
     searchLocation: userSearchQuery.locationField,
-    searchRaduis: userSearchQuery.searchRaduisField * 1000, // translate to KM
+    searchRaduis: userSearchQuery.searchRadiusField * 1000, // translate to KM
     jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
   };
 

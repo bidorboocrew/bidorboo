@@ -4,13 +4,11 @@ import { bindActionCreators } from 'redux';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { getAllJobsToBidOn } from '../../app-state/actions/jobActions';
+import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
-import FilterSideNav from './components/FilterSideNav';
-import ActiveSearchFilters from './components/ActiveSearchFilters';
+
+import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -21,156 +19,99 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { StepsForTasker } from '../commonComponents';
 
-const google = window.google;
-
 class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      allowAutoDetect: false,
-      displayedJobList: this.props.ListOfJobsToBidOn,
-      showSideNav: false,
+      isThereAnActiveSearch: false,
+      // showSideNav: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
         lng: -75.801867,
         lat: 45.296898,
+      },
+      activeSearchParams: {
+        searchRadius: '',
+        addressText: '',
+        latLng: { lng: -75.801867, lat: 45.296898 },
       },
     };
     this.mapRootRef = React.createRef();
   }
 
   componentDidMount() {
-    // xxxxx use this for rate limiting this will cause getalljobs to continue to be called
-    const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
+    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
 
-    if (!isLoggedIn) {
-      getCurrentUser();
-    } else {
-      if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
-        this.getCurrentAddress();
+    if (isLoggedIn) {
+      const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
+      if (userLastStoredSearchParams) {
+        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const { coordinates } = location;
+
+        this.setState(
+          () => {
+            return {
+              isThereAnActiveSearch: true,
+              userLastStoredSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+              activeSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+            };
+          },
+          () => {
+            searchJobsToBidOn({
+              searchRadius,
+              location: { lng: coordinates[0], lat: coordinates[1] },
+              addressText,
+            });
+          },
+        );
       }
     }
-
-    getAllJobsToBidOn();
-    // const { isLoggedIn, getAllJobsToBidOn, userDetails } = this.props;
-    // if (isLoggedIn) {
-    //   if (userDetails.autoDetectlocation && navigator && navigator.geolocation) {
-    //     this.getCurrentAddress();
-    //   }
-    // }
-    // getAllJobsToBidOn();
   }
 
-  getCurrentAddress = () => {
-    // Try HTML5 geolocation.
-    if (navigator && navigator.geolocation) {
-      const getCurrentPositionOptions = {
-        maximumAge: 10000,
-        timeout: 5000,
-        enableHighAccuracy: true,
-      };
-      const errorHandling = () => {
-        console.error('can not auto detect address');
-      };
-      const successfulRetrieval = (position) => {
-        const pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+  submitSearchLocationParams = ({ addressText, latLng, searchRadius }) => {
+    const { searchJobsToBidOn } = this.props;
 
-        this.updateMapCenter(pos);
-      };
-
-      //get the current location
-      navigator.geolocation.getCurrentPosition(
-        successfulRetrieval,
-        errorHandling,
-        getCurrentPositionOptions,
-      );
-    } else {
-      console.log('no html 5 geo location');
-    }
-  };
-
-  clearFilter = () => {
+    // do some validation xxxxx latLng
     this.setState(
-      {
-        displayedJobList: this.props.ListOfJobsToBidOn,
-        hasActiveSearch: false,
-      },
-      () => {
-        this.toggleSideNav();
-      },
-    );
-  };
-
-  handleGeoSearch = (vals) => {
-    let { locationField, searchRaduisField, filterJobsByCategoryField } = vals;
-    let filteredJobs = this.props.ListOfJobsToBidOn;
-
-    if (filterJobsByCategoryField && filterJobsByCategoryField.length > 0) {
-      // filter by type first
-      filteredJobs = this.props.ListOfJobsToBidOn.filter((job) => {
-        if (
-          filterJobsByCategoryField &&
-          filterJobsByCategoryField.length > 0 &&
-          !filterJobsByCategoryField.includes(job.fromTemplateId)
-        ) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    if (locationField && searchRaduisField) {
-      let searchArea = new google.maps.Circle({
-        center: new google.maps.LatLng(locationField.lat, locationField.lng),
-        radius: searchRaduisField * 1000, //in KM
-      });
-      const center = searchArea.getCenter();
-      const raduis = searchArea.getRadius();
-
-      filteredJobs = filteredJobs.filter((job) => {
-        let marker = new google.maps.LatLng(
-          job.location.coordinates[1],
-          job.location.coordinates[0],
-        );
-
-        if (google.maps.geometry.spherical.computeDistanceBetween(marker, center) <= raduis) {
-          return true;
-        }
-        return false;
-      });
-    }
-    if (!locationField || !locationField.lat || !locationField.lng) {
-      locationField = {
-        lat: 45.4215,
-        lng: -75.6972,
-      };
-    }
-    this.setState(
-      {
-        hasActiveSearch: true,
-        displayedJobList: filteredJobs,
-        mapCenterPoint: {
-          lat: locationField.lat,
-          lng: locationField.lng,
+      () => ({
+        isThereAnActiveSearch: true,
+        mapCenterPoint: latLng,
+        activeSearchParams: {
+          addressText,
+          latLng,
+          searchRadius,
         },
-      },
+      }),
       () => {
-        this.toggleSideNav();
+        searchJobsToBidOn({
+          searchRadius: searchRadius,
+          location: latLng,
+          addressText,
+        });
       },
     );
   };
 
-  updateMapCenter = (pos) => {
-    this.setState({
-      mapCenterPoint: {
-        ...pos,
+  updateSearchLocationState = (newSearchParams) => {
+    const { activeSearchParams } = this.state;
+    // do some validation xxxxx latLng
+    this.setState(() => ({
+      activeSearchParams: {
+        ...activeSearchParams,
+        ...newSearchParams,
       },
-    });
+    }));
   };
+
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
     this.setState(
       () => {
@@ -181,35 +122,17 @@ class BidderRootPage extends React.Component {
       },
     );
   };
-  toggleSideNav = () => {
-    this.setState({ showSideNav: !this.state.showSideNav });
-  };
-
-  handleChange = () => {
-    this.setState({ allowAutoDetect: !this.state.allowAutoDetect }, () => {
-      navigator && navigator.geolocation && this.getCurrentAddress();
-    });
-  };
 
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    if (isLoading) {
-      return (
-        <section className="section">
-          <Spinner renderLabel="getting requests near you..." isLoading={isLoading} size={'large'} />
-        </section>
-      );
-    }
+    const { isThereAnActiveSearch, userLastStoredSearchParams } = this.state;
 
-    const {
-      showSideNav,
-      displayedJobList,
-      mapCenterPoint,
-      hasActiveSearch,
-      mapZoomLevel,
-    } = this.state;
+    const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
-    let currentJobsList = hasActiveSearch ? displayedJobList : ListOfJobsToBidOn;
+    let currentJobsList = isLoggedIn
+      ? ListOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
+      : ListOfJobsToBidOn;
+
     currentJobsList = currentJobsList.map((job) => {
       return {
         ...job,
@@ -218,62 +141,116 @@ class BidderRootPage extends React.Component {
       };
     });
 
+    const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
+    const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
+
     return (
       <div className="container is-widescreen">
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Make Money By doing Jobs that you are good at.</h2>
-              <StepsForTasker step={1} />
-              <h2 className="subtitle">
-                {isLoggedIn && userDetails && !userDetails.autoDetectlocation && (
-                  <React.Fragment>
-                    <div style={{ marginTop: 6 }} className="help has-text-grey ">
-                      For custom results enable auto detect location in
-                    </div>
-                    <a
-                      style={{ marginTop: 0 }}
-                      className="help has-text-link has-text-weight-semibold"
-                      onClick={() => {
-                        switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
-                      }}
-                    >
-                      {` profile settings`}
-                    </a>
-                  </React.Fragment>
-                )}
-              </h2>
+              {anyVisibleJobs && <StepsForTasker isSmall={true} step={1} />}
+              {!anyVisibleJobs && (
+                <h2 className="subtitle">Find Requests , Bid on them , do them , EARN MONEY ! </h2>
+              )}
             </div>
           </div>
         </section>
-
-        <FloatingFilterButton toggleSideNav={this.toggleSideNav} showSideNav={showSideNav} />
-        <FilterSideNav
-          isSideNavOpen={showSideNav}
-          toggleSideNav={this.toggleSideNav}
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          handleGeoSearch={this.handleGeoSearch}
-        />
-
-        {hasActiveSearch && <ActiveSearchFilters toggleSideNav={this.toggleSideNav} />}
-
-        <MapSection
-          mapCenterPoint={mapCenterPoint}
-          mapZoomLevel={mapZoomLevel}
-          jobsList={currentJobsList}
-          {...this.props}
-        />
-        <div
-          style={{ marginBottom: 6 }}
-          className="help container is-widescreen has-text-grey has-text-centered"
-        >
-          {` ${(currentJobsList && currentJobsList.length) || 0} open requests`}
-        </div>
         <br />
 
-        <AllJobsView jobsList={currentJobsList} {...this.props} />
+        <div className="has-text-centered">
+          {anyVisibleJobs && (
+            <BidderRootFilterWrapper
+              submitSearchLocationParams={this.submitSearchLocationParams}
+              updateSearchLocationState={this.updateSearchLocationState}
+              activeSearchParams={activeSearchParams}
+              userLastStoredSearchParams={userLastStoredSearchParams}
+            />
+          )}
+        </div>
+        <br />
+        {isLoading && (
+          <section className="section">
+            <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
+          </section>
+        )}
+        {!isLoading && (
+          <React.Fragment>
+            {currentJobsList && currentJobsList.length > 0 && (
+              <React.Fragment>
+                <MapSection
+                  mapCenterPoint={mapCenterPoint}
+                  mapZoomLevel={mapZoomLevel}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
+                <div
+                  style={{ marginBottom: 6 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentJobsList && currentJobsList.length) ||
+                    0} open requests in the search area`}
+                </div>
+                <br />
+                <AllJobsView jobsList={currentJobsList} {...this.props} />
+              </React.Fragment>
+            )}
+            {!isThereAnActiveSearch && (
+              <div className="HorizontalAligner-center column">
+                <div className="is-fullwidth">
+                  <div className="card">
+                    <div className="card-content VerticalAligner">
+                      <div className="has-text-centered">
+                        <StepsForTasker isSmall={true} step={1} />
+                        <br />
+                        <div className="is-size-6">
+                          Find Requests in the Areas where you're able to provide them
+                        </div>
+                        <br />
+
+                        <BidderRootFilterWrapper
+                          isHorizontal={false}
+                          submitSearchLocationParams={this.submitSearchLocationParams}
+                          updateSearchLocationState={this.updateSearchLocationState}
+                          activeSearchParams={activeSearchParams}
+                          userLastStoredSearchParams={userLastStoredSearchParams}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {searchWithNoResults && (
+              <div className="HorizontalAligner-center column">
+                <div className="is-fullwidth">
+                  <div className="card">
+                    <div className="card-content VerticalAligner">
+                      <div className="has-text-centered">
+                        <StepsForTasker isSmall={true} step={1} />
+                        <br />
+                        <div className="is-size-6">
+                          No Requests match your search criteria at this time.
+                          <br /> Please try Changing your search criteria or check again later.
+                        </div>
+                        <br />
+
+                        <BidderRootFilterWrapper
+                          isHorizontal={false}
+                          submitSearchLocationParams={this.submitSearchLocationParams}
+                          updateSearchLocationState={this.updateSearchLocationState}
+                          activeSearchParams={activeSearchParams}
+                          userLastStoredSearchParams={userLastStoredSearchParams}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        )}
       </div>
     );
   }
@@ -292,6 +269,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
     getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+    searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
@@ -301,23 +279,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BidderRootPage);
-
-const FloatingFilterButton = ({ toggleSideNav, showSideNav }) => {
-  return (
-    <a
-      style={{
-        zIndex: showSideNav ? 0 : 999,
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggleSideNav();
-      }}
-      className="button is-success bdbFloatingButtonText iconbutton"
-    >
-      <span className="icon">
-        <i className="fas fa-search" />
-      </span>
-    </a>
-  );
-};
