@@ -38,7 +38,7 @@ module.exports = (app) => {
     const limiter = new RateLimit({
       store: new MongoStore({
         // see Configuration
-        uri: keys.mongoURI,
+        uri: keys.prodMongoURI,
       }),
       max: 100,
       windowMs: 15 * 60 * 1000,
