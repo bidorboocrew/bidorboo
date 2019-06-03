@@ -97,7 +97,6 @@ class BidderRootPage extends React.Component {
         },
       }),
       () => {
-        debugger;
         searchJobsToBidOn({
           searchRadius: searchRadius,
           location: latLng,

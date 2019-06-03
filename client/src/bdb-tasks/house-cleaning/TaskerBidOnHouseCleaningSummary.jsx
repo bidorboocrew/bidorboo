@@ -24,7 +24,7 @@ import RequestBaseContainer from '../RequestBaseContainer';
 class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
-    //debugger
+
     if (
       !job ||
       !job._id ||

@@ -71,50 +71,6 @@ class Header extends React.Component {
     this.setState({ isNotificationMenuActive: !this.state.isNotificationMenuActive });
   };
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log('we did update');
-  //   //debugger
-  //   if (this.props.history.location !== prevProps.history.location) {
-  //     if (this.props.history.location.includes('bdb-request')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('bdb-offer')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('my-open-jobs')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('my-bids')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_BIDS });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('payment-settings')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('my-archive')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.ARCHIVE });
-  //       }
-  //     }
-  //     if (this.props.history.location.includes('BidOrBoo')) {
-  //       if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
-  //         this.setState({ activeNavBarMenuId: HREF_TO_TABID.HOME });
-  //       }
-  //     }
-  //   }
-
-  //   return null;
-  // }
-
   static getDerivedStateFromProps(nextProp, prevState) {
     if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
       if (nextProp.history.location.pathname.includes('bdb-request')) {
