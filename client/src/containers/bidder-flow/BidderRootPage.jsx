@@ -204,19 +204,22 @@ class BidderRootPage extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Provide a Service</h1>
+              <h1 style={{ marginBottom: '0.5rem' }} className="title">
+                Provide a Service
+              </h1>
+
               <StepsForTasker isSmall={true} step={1} />
-              <h2 className="subtitle" />
             </div>
           </div>
         </section>
-        <JobsLocationFilterForm
-          updateMapCenter={this.updateMapCenter}
-          onCancel={this.clearFilter}
-          onSubmit={this.handleJobSearch}
-          lastKnownSearch={lastKnownSearch}
-        />
         <br />
+
+        <div className="has-text-centered">
+          <JobsLocationFilterForm
+            onSubmit={this.handleJobSearch}
+            lastKnownSearch={lastKnownSearch}
+          />
+        </div>
 
         {isLoading && (
           <section className="section">

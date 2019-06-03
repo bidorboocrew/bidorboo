@@ -164,8 +164,12 @@ export default class JobsLocationFilterAddress extends React.Component {
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
   };
-  submit() {
-    console.log('submitting values');
+  handleSubmit(e) {
+    e.preventDefault();
+    const { address, latLng, searchRadius } = this.state;
+
+    this.props.submitSearchLocationParams({ address, latLng, searchRadius });
+    this.toggleModal();
   }
   render() {
     const { showModal, address, latLng, searchRadius } = this.state;
@@ -225,20 +229,12 @@ export default class JobsLocationFilterAddress extends React.Component {
                 <footer className="modal-card-foot">
                   <button
                     disabled={disableSubmit}
-                    onClick={this.toggleModal}
+                    onClick={this.handleSubmit}
                     className="button is-success"
                   >
                     <span>Submit Search</span>
                   </button>
-                  <button
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.submit();
-                      this.toggleModal();
-                    }}
-                    className="button"
-                  >
+                  <button type="submit" onClick={this.toggleModal} className="button">
                     <span>Cancel</span>
                   </button>
                 </footer>
@@ -246,8 +242,8 @@ export default class JobsLocationFilterAddress extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <a onClick={this.toggleModal} className="button is-rounded is-link is-outlined">
-          Choose Area Of Service
+        <a onClick={this.toggleModal} className="button is-link">
+          {`${address ? `within ${searchRadius}km of ${address}` : 'Choose Area Of Service'}`}
         </a>
       </React.Fragment>
     );

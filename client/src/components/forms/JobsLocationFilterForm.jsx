@@ -7,23 +7,46 @@
  */
 
 import React from 'react';
-
 import JobsLocationFilterAddress from './JobsLocationFilterAddress';
+
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
 export default class JobsLocationFilterForm extends React.Component {
+  submitSearchLocationParams = (searchParams) => {
+    this.props.onSubmit();
+  };
+
   render() {
     const { lastKnownSearch } = this.props;
     return (
-      <nav className="level">
-        <div className="level-item has-text-centered">
-          <div>
-            <JobsLocationFilterAddress lastKnownSearch={lastKnownSearch} />
+      <div style={{ border: '1px solid lightgrey ', padding: '1rem', background: '#eeeeee' }}>
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">Edit Search Criteria</label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <div className="control">
+                <JobsLocationFilterAddress
+                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  lastKnownSearch={lastKnownSearch}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="level-item has-text-centered">
+      </div>
+      // <div className="is-inline">
+      //   <div className="is-inline button is-text">Edit Active Filters</div>
+      //   <div className="is-inline">
+      //     <JobsLocationFilterAddress
+      //       submitSearchLocationParams={this.submitSearchLocationParams}
+      //       lastKnownSearch={lastKnownSearch}
+      //     />
+      //   </div>
+      /* <div className="level-item has-text-centered">
           <div>
             <p className="heading">Following</p>
             <p className="title">123</p>
@@ -40,8 +63,8 @@ export default class JobsLocationFilterForm extends React.Component {
             <p className="heading">Likes</p>
             <p className="title">789</p>
           </div>
-        </div>
-      </nav>
+        </div> */
+      // </div>
     );
   }
 }

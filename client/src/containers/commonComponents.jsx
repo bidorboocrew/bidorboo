@@ -392,54 +392,57 @@ export const StepsForRequest = ({ step, isSmall }) => {
 
 export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
   return (
-    <ul className={`steps has-content-centered is-horizontal ${isSmall ? 'is-small' : ''}`}>
-      <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fas fa-crosshairs" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>{`Search By Area`}</p>
-        </div>
-      </li>
-      <li
-        className={`steps-segment ${isMoreDetails ? 'is-dashed' : ''} ${
-          step === 2 ? 'is-active' : ''
-        }`}
-      >
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fas fa-pencil-alt" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>{`Select & Bid`}</p>
-        </div>
-      </li>
-      {isMoreDetails && (
-        <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+    <React.Fragment>
+      <div className="is-size-5">How It works</div>
+      <ul className={`steps has-content-centered is-horizontal ${isSmall ? 'is-small' : ''}`}>
+        <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
           <span className="steps-marker">
             <span className="icon">
-              <i className="fas fa-check" />
+              <i className="fas fa-crosshairs" />
             </span>
           </span>
           <div className="steps-content">
-            <p className={`${isSmall ? 'help' : ''}`}>Requester Selects a Tasker</p>
+            <p className={`${isSmall ? 'help' : ''}`}>{`Search By Area`}</p>
           </div>
         </li>
-      )}
-      <li className={`steps-segment ${step === 4 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fa fa-usd" />
+        <li
+          className={`steps-segment ${isMoreDetails ? 'is-dashed' : ''} ${
+            step === 2 ? 'is-active' : ''
+          }`}
+        >
+          <span className="steps-marker">
+            <span className="icon">
+              <i className="fas fa-pencil-alt" />
+            </span>
           </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>{`Do it & get paid`}</p>
-        </div>
-      </li>
-    </ul>
+          <div className="steps-content">
+            <p className={`${isSmall ? 'help' : ''}`}>{`Select & Bid`}</p>
+          </div>
+        </li>
+        {isMoreDetails && (
+          <li className={`steps-segment ${step === 3 ? 'is-active' : ''}`}>
+            <span className="steps-marker">
+              <span className="icon">
+                <i className="fas fa-check" />
+              </span>
+            </span>
+            <div className="steps-content">
+              <p className={`${isSmall ? 'help' : ''}`}>Requester Selects a Tasker</p>
+            </div>
+          </li>
+        )}
+        <li className={`steps-segment ${step === 4 ? 'is-active' : ''}`}>
+          <span className="steps-marker">
+            <span className="icon">
+              <i className="fa fa-usd" />
+            </span>
+          </span>
+          <div className="steps-content">
+            <p className={`${isSmall ? 'help' : ''}`}>{`Do it & get paid`}</p>
+          </div>
+        </li>
+      </ul>
+    </React.Fragment>
   );
 };
 
