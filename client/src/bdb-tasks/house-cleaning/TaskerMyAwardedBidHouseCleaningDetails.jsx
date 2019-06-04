@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
+import { bidderConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -21,7 +21,6 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import RequestBaseContainer from '../RequestBaseContainer';
-import { Spinner } from '../../components/Spinner';
 
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
@@ -382,6 +381,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
+    taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
@@ -410,6 +410,7 @@ class TaskerConfirmsCompletion extends React.Component {
       bidderConfirmsJobCompletion(job._id);
     });
   };
+
   render() {
     const { showConfirmationModal } = this.state;
     const { isPastDue } = this.props.job;
@@ -487,7 +488,10 @@ class TaskerDisputes extends React.Component {
       selectedDispute: '',
     };
   }
-
+  submitDispute = (taskerDispute) => {
+    const { taskerDisputesJob } = this.props;
+    taskerDisputesJob(taskerDispute);
+  };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
@@ -606,15 +610,13 @@ class TaskerDisputes extends React.Component {
                   <button
                     type="submit"
                     onClick={() =>
-                      alert(
-                        JSON.stringify({
-                          taskerDispute: {
-                            reason: selectedDispute,
-                            details: disputeText,
-                            jobId: jobId,
-                          },
-                        }),
-                      )
+                      this.submitDispute({
+                        taskerDispute: {
+                          reason: selectedDispute,
+                          details: disputeText,
+                          jobId: jobId,
+                        },
+                      })
                     }
                     className="button is-danger"
                   >

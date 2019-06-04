@@ -59,10 +59,12 @@ const JobSchema = new Schema(
       taskerDispute: {
         reason: { type: String },
         details: { type: String },
+        default: {},
       },
       proposerDispute: {
         reason: { type: String },
         details: { type: String },
+        default: {},
       },
     },
     jobCompletion: {

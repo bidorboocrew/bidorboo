@@ -7,7 +7,11 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import {
+  proposerConfirmsJobCompletion,
+  cancelJobById,
+  proposerDisputesJob,
+} from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
@@ -321,7 +325,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
             <div style={{ display: 'flex' }}>
               <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
 
-              <RequesterDisputes jobId={job._id} />
+              <RequesterDisputes {...this.props} jobId={job._id} />
             </div>
           </div>
         </div>
@@ -344,6 +348,7 @@ const mapDispatchToProps = (dispatch) => {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    proposerDisputesJob: bindActionCreators(proposerDisputesJob, dispatch),
   };
 };
 
@@ -445,6 +450,10 @@ class RequesterDisputes extends React.Component {
     };
   }
 
+  submitDispute = (taskerDispute) => {
+    const { proposerDisputesJob } = this.props;
+    proposerDisputesJob(taskerDispute);
+  };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
@@ -485,7 +494,9 @@ class RequesterDisputes extends React.Component {
                       <input
                         type="radio"
                         name="Tasker Did Not Show Up"
-                        onChange={() => this.setState({ selectedDispute: 'Tasker Did Not Show Up' })}
+                        onChange={() =>
+                          this.setState({ selectedDispute: 'Tasker Did Not Show Up' })
+                        }
                         checked={selectedDispute === 'Tasker Did Not Show Up'}
                       />
                       {` Tasker did not show up`}
@@ -496,7 +507,9 @@ class RequesterDisputes extends React.Component {
                       <input
                         type="radio"
                         name="Tasker Did Not Do A Good Job"
-                        onChange={() => this.setState({ selectedDispute: 'Tasker Did Not Do A Good Job' })}
+                        onChange={() =>
+                          this.setState({ selectedDispute: 'Tasker Did Not Do A Good Job' })
+                        }
                         checked={selectedDispute === 'Tasker Did Not Do A Good Job'}
                       />
                       {` Tasker did not do a good job`}
@@ -549,15 +562,13 @@ class RequesterDisputes extends React.Component {
                   <button
                     type="submit"
                     onClick={() =>
-                      alert(
-                        JSON.stringify({
-                          proposerDispute: {
-                            reason: selectedDispute,
-                            details: disputeText,
-                            jobId: jobId,
-                          },
-                        }),
-                      )
+                      this.submitDispute({
+                        proposerDispute: {
+                          reason: selectedDispute,
+                          details: disputeText,
+                          jobId: jobId,
+                        },
+                      })
                     }
                     className="button is-danger"
                   >

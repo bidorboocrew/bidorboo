@@ -342,9 +342,6 @@ module.exports = (app) => {
     }
   );
 
-
-
-
   app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res) => {
     try {
       const searchDetails = req.body.data;
@@ -423,13 +420,11 @@ module.exports = (app) => {
     }
   );
 
-
   app.put(
     ROUTES.API.JOB.PUT.proposerDisputeJob,
     requireLogin,
     requireJobOwner,
     async (req, res) => {
-
       try {
         const data = req.body.data;
         const { jobId, proposerDispute } = data;
@@ -438,21 +433,18 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for proposerDisputeJob param was Not Specified',
           });
         }
-        const { reason, details } = data;
+        const { reason, details } = proposerDispute;
         if (!reason || !details) {
           return res.status(400).send({
             errorMsg: 'Bad Request for proposerDisputeJob, missing params 2',
           });
         }
 
-
-        await jobDataAccess.requesterDisputesJob(jobId);
+        await jobDataAccess.requesterDisputesJob({ jobId, reason, details });
 
         return res.send({ success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To proposerDisputeJob', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To proposerDisputeJob', details: `${e}` });
       }
     }
   );
@@ -461,7 +453,6 @@ module.exports = (app) => {
     requireLogin,
     requireCurrentUserIsTheAwardedBidder,
     async (req, res) => {
-
       try {
         const data = req.body.data;
         const { jobId, taskerDispute } = data;
@@ -471,14 +462,14 @@ module.exports = (app) => {
             errorMsg: 'Bad Request for bidderDisputeJob, missing params',
           });
         }
-        const { reason, details } = data;
+        const { reason, details } = taskerDispute;
         if (!reason || !details) {
           return res.status(400).send({
             errorMsg: 'Bad Request for bidderDisputeJob, missing params 2',
           });
         }
 
-        await jobDataAccess.taskerDisputesJob({jobId, reason, details});
+        await jobDataAccess.taskerDisputesJob({ jobId, reason, details });
         return res.send({ success: true });
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To bidderDisputeJob', details: `${e}` });

@@ -1413,6 +1413,7 @@ exports.jobDataAccess = {
           requesterPhoneNumber,
           taskerEmailAddress,
           allowedToEmailRequester,
+          processedPayment
         } = await getAllContactDetails(jobId);
 
         // send communication to both about the cancellation

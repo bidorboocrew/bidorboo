@@ -473,7 +473,7 @@ exports.EmailService = {
      `,
 
       html: `
-      <p>Investigate this dispute filed by user ${userId} about job ${jobId}.</p>
+      <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.</p>
       <p>the claim details are :</p>
       <p>${details}</p>
       Additional info
