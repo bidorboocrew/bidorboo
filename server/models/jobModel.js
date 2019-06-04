@@ -51,11 +51,20 @@ const JobSchema = new Schema(
         'AWARDED_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN', // Requester cancels a job before awarding
         'TO_BE_DELETED_SOON', // past due and no taskers assigned delete in 48h
-        'DONE',//when Tasker confirms we set it to Payout , later a cron job will pay the account
+        'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
         'ARCHIVE', //For historical record
       ],
     },
-    disputeMsg: { type: String },
+    dispute: {
+      taskerDispute: {
+        reason: { type: String },
+        details: { type: String },
+      },
+      proposerDispute: {
+        reason: { type: String },
+        details: { type: String },
+      },
+    },
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
       bidderConfirmed: { type: Boolean, default: false },

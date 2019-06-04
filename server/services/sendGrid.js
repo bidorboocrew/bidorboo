@@ -408,4 +408,90 @@ exports.EmailService = {
     };
     sgMail.send(msg);
   },
+  tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@gmail.com',
+      subject: `BidOrBoo: We recieved your dispute regarding ${requestTitle}!`,
+      text: `
+      We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!
+      we will keep you posted with any updates soon. here is the task link for reference
+      ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!</p>
+        <p>we will keep you posted with any updates soon. here is the task link for reference </p>
+       `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'View Disputed Task',
+      }),
+    };
+    sgMail.send(msg);
+  },
+  informBobCrewAboutDispute: ({
+    whoSubmitted,
+    requesterDisplayName,
+    taskerDisplayName,
+    jobDisplayName,
+    requestLinkForRequester,
+    requestLinkForTasker,
+    requesterEmailAddress,
+    requesterPhoneNumber,
+    taskerEmailAddress,
+    processedPayment,
+    jobId,
+    reason,
+    details,
+    userIdWhoFiledDispute,
+  }) => {
+    const msg = {
+      to: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@gmail.com',
+      subject: `DISPUTE CASE: ${reason} submitted by ${whoSubmitted}`,
+      text: `
+     Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.
+     the claim details are :
+     ${details}
+     ----------------------------------------
+    Additional info
+    whoSubmitted = ${whoSubmitted},
+    requesterDisplayName = ${requesterDisplayName},
+    taskerDisplayName = ${taskerDisplayName},
+    jobDisplayName = ${jobDisplayName},
+    requestLinkForRequester = ${requestLinkForRequester},
+    requestLinkForTasker = ${requestLinkForTasker},
+    requesterEmailAddress = ${requesterEmailAddress},
+    requesterPhoneNumber = ${requesterPhoneNumber},
+    taskerEmailAddress = ${taskerEmailAddress},
+    jobId = ${jobId},
+    reason = ${reason},
+    details = ${details},
+    processedPayment= ${processedPayment},
+     `,
+
+      html: `
+      <p>Investigate this dispute filed by user ${userId} about job ${jobId}.</p>
+      <p>the claim details are :</p>
+      <p>${details}</p>
+      Additional info
+    <p>whoSubmitted = ${whoSubmitted},</p>
+    <p>requesterDisplayName = ${requesterDisplayName},</p>
+    <p>taskerDisplayName = ${taskerDisplayName},</p>
+    <p>jobDisplayName = ${jobDisplayName},</p>
+    <p>requestLinkForRequester = ${requestLinkForRequester},</p>
+    <p>requestLinkForTasker = ${requestLinkForTasker},</p>
+    <p>requesterEmailAddress = ${requesterEmailAddress},</p>
+    <p>requesterPhoneNumber = ${requesterPhoneNumber},</p>
+    <p>taskerEmailAddress = ${taskerEmailAddress},</p>
+    <p>jobId = ${jobId},</p>
+    <p>reason = ${reason},</p>
+    <p>details = ${details},</p>
+    <p>processedPayment = ${processedPayment},</p>
+      `,
+    };
+    sgMail.send(msg);
+  },
 };

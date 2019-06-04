@@ -484,9 +484,9 @@ class RequesterDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNoShow"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNoShow' })}
-                        checked={selectedDispute === 'disputeTypeNoShow'}
+                        name="Tasker Did Not Show Up"
+                        onChange={() => this.setState({ selectedDispute: 'Tasker Did Not Show Up' })}
+                        checked={selectedDispute === 'Tasker Did Not Show Up'}
                       />
                       {` Tasker did not show up`}
                     </label>
@@ -495,9 +495,9 @@ class RequesterDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNotGood"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNotGood' })}
-                        checked={selectedDispute === 'disputeTypeNotGood'}
+                        name="Tasker Did Not Do A Good Job"
+                        onChange={() => this.setState({ selectedDispute: 'Tasker Did Not Do A Good Job' })}
+                        checked={selectedDispute === 'Tasker Did Not Do A Good Job'}
                       />
                       {` Tasker did not do a good job`}
                     </label>
@@ -506,9 +506,9 @@ class RequesterDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeMisconduct"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeMisconduct' })}
-                        checked={selectedDispute === 'disputeTypeMisconduct'}
+                        name="Misconduct"
+                        onChange={() => this.setState({ selectedDispute: 'Misconduct' })}
+                        checked={selectedDispute === 'Misconduct'}
                       />
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
@@ -517,9 +517,9 @@ class RequesterDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeOther"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeOther' })}
-                        checked={selectedDispute === 'disputeTypeOther'}
+                        name="Other Dispute"
+                        onChange={() => this.setState({ selectedDispute: 'Other Dispute' })}
+                        checked={selectedDispute === 'Other Dispute'}
                       />
                       {` Other`}
                     </label>

@@ -1299,6 +1299,157 @@ exports.jobDataAccess = {
       }
     });
   },
+
+  taskerDisputesJob: async ({ jobId, reason, details }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedJob = await JobModel.findOneAndUpdate(
+          { _id: jobId },
+          {
+            $set: {
+              'dispute.taskerDispute': {
+                reason,
+                details,
+              },
+              state: 'DISPUTED',
+            },
+          },
+          { new: true }
+        )
+          .lean({ virtuals: true })
+          .exec();
+
+        if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
+          return reject({
+            success: false,
+            ErrorMsg: 'failed to update the associated job bidderDisputesJob',
+          });
+        }
+
+        const {
+          requesterId,
+          taskerId,
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          allowedToEmailTasker,
+          processedPayment,
+        } = await getAllContactDetails(jobId);
+
+        sendGridEmailing.informBobCrewAboutDispute({
+          whoSubmitted: 'Tasker',
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          jobId: updatedJob._id,
+          reason,
+          details,
+          userIdWhoFiledDispute: taskerId,
+          processedPayment, //xxx think if this is risky to be floating around
+        });
+
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellDisputeOwnerThatWeWillInvestigate({
+            to: taskerEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForBidder: requestLinkForTasker,
+          });
+        }
+
+        resolve({
+          success: true,
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  requesterDisputesJob: async ({ jobId, reason, details }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedJob = await JobModel.findOneAndUpdate(
+          { _id: jobId },
+          {
+            $set: {
+              'dispute.proposerDispute': {
+                reason,
+                details,
+              },
+              state: 'DISPUTED',
+            },
+          },
+          { new: true }
+        )
+          .lean({ virtuals: true })
+          .exec();
+
+        if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
+          return reject({
+            success: false,
+            ErrorMsg: 'failed to update the associated job bidderDisputesJob',
+          });
+        }
+
+        const {
+          requesterId,
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          allowedToEmailRequester,
+        } = await getAllContactDetails(jobId);
+
+        // send communication to both about the cancellation
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellDisputeOwnerThatWeWillInvestigate({
+            to: requesterEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
+        }
+
+        sendGridEmailing.informBobCrewAboutDispute({
+          whoSubmitted: 'Requester',
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          jobId: updatedJob._id,
+          reason,
+          details,
+          userIdWhoFiledDispute: requesterId,
+          processedPayment, //xxx think if this is risky to be floating around
+        });
+
+        resolve({
+          success: true,
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   cancelJob(jobId, mongoUser_id) {
     /**
      *

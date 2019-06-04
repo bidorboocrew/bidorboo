@@ -527,9 +527,17 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNoShow"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNoShow' })}
-                        checked={selectedDispute === 'disputeTypeNoShow'}
+                        name="Requester was not available on the agreed on time and location"
+                        onChange={() =>
+                          this.setState({
+                            selectedDispute:
+                              'Requester was not available on the agreed on time and location',
+                          })
+                        }
+                        checked={
+                          selectedDispute ===
+                          'Requester was not available on the agreed on time and location'
+                        }
                       />
                       {` Requester did not respond or show up on the agreed upon date and time`}
                     </label>
@@ -538,9 +546,15 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNotGood"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNotGood' })}
-                        checked={selectedDispute === 'disputeTypeNotGood'}
+                        name="Requester Did not describe the work accurately"
+                        onChange={() =>
+                          this.setState({
+                            selectedDispute: 'Requester Did not describe the work accurately',
+                          })
+                        }
+                        checked={
+                          selectedDispute === 'Requester Did not describe the work accurately'
+                        }
                       />
                       {` Requester did not describe the workload accurately`}
                     </label>
@@ -549,9 +563,9 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeMisconduct"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeMisconduct' })}
-                        checked={selectedDispute === 'disputeTypeMisconduct'}
+                        name="Misconduct"
+                        onChange={() => this.setState({ selectedDispute: 'Misconduct' })}
+                        checked={selectedDispute === 'Misconduct'}
                       />
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
@@ -560,9 +574,9 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeOther"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeOther' })}
-                        checked={selectedDispute === 'disputeTypeOther'}
+                        name="Other Dispute"
+                        onChange={() => this.setState({ selectedDispute: 'Other Dispute' })}
+                        checked={selectedDispute === 'Other Dispute'}
                       />
                       {` Other`}
                     </label>
@@ -594,7 +608,7 @@ class TaskerDisputes extends React.Component {
                     onClick={() =>
                       alert(
                         JSON.stringify({
-                          proposerDispute: {
+                          taskerDispute: {
                             reason: selectedDispute,
                             details: disputeText,
                             jobId: jobId,
