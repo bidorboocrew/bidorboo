@@ -469,7 +469,7 @@ exports.EmailService = {
     jobId = ${jobId},
     reason = ${reason},
     details = ${details},
-    processedPayment= ${processedPayment},
+    processedPayment= ${JSON.stringify(processedPayment)},
      `,
 
       html: `
@@ -489,7 +489,7 @@ exports.EmailService = {
     <p>jobId = ${jobId},</p>
     <p>reason = ${reason},</p>
     <p>details = ${details},</p>
-    <p>processedPayment = ${processedPayment},</p>
+    <p>processedPayment = ${JSON.stringify(processedPayment)},</p>
       `,
     };
     sgMail.send(msg);

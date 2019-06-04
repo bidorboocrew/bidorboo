@@ -213,9 +213,9 @@ export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.PROPOSER_DISPUTES_JOB,
+    type: A.JOB_ACTIONS.BIDDER_DISPUTES_JOB,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.proposerDisputeJob, postData, config)
+      .put(ROUTES.API.JOB.PUT.bidderDisputeJob, postData, config)
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
