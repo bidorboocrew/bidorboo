@@ -440,6 +440,8 @@ class RequesterDisputes extends React.Component {
     super(props);
     this.state = {
       showConfirmationModal: false,
+      disputeText: '',
+      selectedDispute: '',
     };
   }
 
@@ -454,7 +456,9 @@ class RequesterDisputes extends React.Component {
     });
   };
   render() {
-    const { showConfirmationModal } = this.state;
+    const { jobId } = this.props;
+
+    const { showConfirmationModal, selectedDispute, disputeText } = this.state;
     return (
       <React.Fragment>
         {showConfirmationModal &&
@@ -466,40 +470,98 @@ class RequesterDisputes extends React.Component {
                   <div className="modal-card-title">File A Dispute</div>
                 </header>
                 <section className="modal-card-body">
-                  <div>BidOrBoo takes a no show case very seriously.</div>
-                  <br />
                   <div>
-                    Before you file a dispute we suggest that you try to contact the Tasker on thier
-                    provided email and phone.
+                    BidOrBooCrew is sorry to hear that you are not happy. We will work on resolving
+                    the issue asap.
                   </div>
+
                   <br />
-                  <hr className="divider isTight" />
                   <div className="field">
-                    <label className="label">What happens when you Dispute</label>
-                    <div className="help">
-                      * BidOrBoo Support will get in touch and confirm that the Tasker did not show
-                      up.
-                    </div>
-                    <div className="help">
-                      * Our Support crew will keep you updated with all the updates on this matter.
-                    </div>
-                    <div className="help">
-                      * Upon concluding our investigation you will recieve a full refund.
-                    </div>
-                    <div className="help">
-                      * The tasker global rating will be negatively impacted and they may get
-                      banned.
-                    </div>
+                    <label className="label">What is your dispute?</label>
                   </div>
-                  <div>We are very sorry for the inconvienience!</div>
+
+                  <div className="field">
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="disputeTypeNoShow"
+                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNoShow' })}
+                        checked={selectedDispute === 'disputeTypeNoShow'}
+                      />
+                      {` Tasker did not show up`}
+                    </label>
+                  </div>
+                  <div className="field">
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="disputeTypeNotGood"
+                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNotGood' })}
+                        checked={selectedDispute === 'disputeTypeNotGood'}
+                      />
+                      {` Tasker did not do a good job`}
+                    </label>
+                  </div>
+                  <div className="field">
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="disputeTypeMisconduct"
+                        onChange={() => this.setState({ selectedDispute: 'disputeTypeMisconduct' })}
+                        checked={selectedDispute === 'disputeTypeMisconduct'}
+                      />
+                      {` Misconduct such as; bullying, threatning or sexual harrasment`}
+                    </label>
+                  </div>
+                  <div className="field">
+                    <label className="radio">
+                      <input
+                        type="radio"
+                        name="disputeTypeOther"
+                        onChange={() => this.setState({ selectedDispute: 'disputeTypeOther' })}
+                        checked={selectedDispute === 'disputeTypeOther'}
+                      />
+                      {` Other`}
+                    </label>
+                  </div>
+
+                  <div className="field">
+                    <label className="label">Tell us some more details</label>
+                    <textarea
+                      className="textarea"
+                      placeholder="Tell us a little more about your disppute..."
+                      rows="3"
+                      value={disputeText}
+                      onChange={(e) => {
+                        if (disputeText.length < 300) {
+                          this.setState({ disputeText: e.target.value });
+                        }
+                      }}
+                    />
+                  </div>
+                  <hr className="divider isTight" />
+                  <div className="help">
+                    * BidOrBoo Support will confirm all these details and will get in touch with the
+                    Tasker to resolve this issue
+                  </div>
                 </section>
                 <footer className="modal-card-foot">
                   <button
                     type="submit"
-                    onClick={() => alert('not implemented yet')}
+                    onClick={() =>
+                      alert(
+                        JSON.stringify({
+                          proposerDispute: {
+                            reason: selectedDispute,
+                            details: disputeText,
+                            jobId: jobId,
+                          },
+                        }),
+                      )
+                    }
                     className="button is-danger"
                   >
-                    Submit Dispute
+                    Submit My Dispute
                   </button>
                   <button onClick={this.toggleModal} className="button is-outline">
                     Close
