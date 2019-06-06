@@ -442,7 +442,7 @@ const PaymentSetupForm = (props) => {
           <label className="checkbox">
             <input type="checkbox" />
             {` I have read and agree to`}
-            <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+            <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
               <strong> {` BidOrBoo Service Agreement `}</strong>
             </a>
             and the

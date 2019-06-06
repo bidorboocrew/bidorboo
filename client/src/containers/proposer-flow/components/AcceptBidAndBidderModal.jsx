@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { switchRoute } from '../../../utils';
+import * as ROUTES from '../../../constants/frontend-route-consts';
 import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
 import { UserImageAndRating } from '../../../containers/commonComponents';
 
@@ -58,7 +60,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
             </div>
             <div className="help">
               * By proceeding you confirm that you agree with all
-              <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+              <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
                 {` BidOrBoo Service Agreement Terms`}
               </a>
               {` and the`}

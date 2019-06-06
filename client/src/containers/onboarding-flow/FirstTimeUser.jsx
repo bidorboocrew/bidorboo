@@ -91,7 +91,7 @@ export class FirstTimeUser extends React.Component {
                         value={hasAgreedToTOS}
                       />
                       {` I confirm that I have read and agreed to`}
-                      <a target="_blank" rel="noopener noreferrer" href="bidorbooserviceAgreement">
+                      <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
                         <strong>{` BidOrBoo Service Agreement `}</strong>
                       </a>
                       and
