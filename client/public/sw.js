@@ -4,17 +4,17 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.0.5';
+var CACHE_NAME = 'bob-app-cache-v6.0.6';
 var THREE_MONTHS_IN_SECONDS = 7776000;
-var googleMapsReq = new Request(
-  'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
-  {
-    mode: 'no-cors',
-    headers: {
-      'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
-    },
-  },
-);
+// var googleMapsReq = new Request(
+//   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
+//   {
+//     mode: 'no-cors',
+//     headers: {
+//       'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
+//     },
+//   },
+// );
 var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', {
   mode: 'no-cors',
   headers: {
@@ -55,11 +55,11 @@ self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      // return cache.addAll(urlsToCache);
-      fetch(googleMapsReq).then((response) => {
-        // console.info('putting googlemap api in cache');
-        cache.put(googleMapsReq, response);
-      });
+      // // return cache.addAll(urlsToCache);
+      // fetch(googleMapsReq).then((response) => {
+      //   // console.info('putting googlemap api in cache');
+      //   cache.put(googleMapsReq, response);
+      // });
 
       fetch(fontAwesomeReq).then((response) => {
         // console.info('putting fontawesome in cache');
