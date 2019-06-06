@@ -8,7 +8,44 @@
         margin: 150px 30px;
         font: 20px Helvetica, sans-serif;
         color: white;
-        background: #363636;
+        background: rgb(6, 17, 21);
+        background: linear-gradient(86deg, rgba(6, 17, 21, 1) 0%, rgba(86, 102, 65, 1) 100%);
+      }
+
+      .topleft {
+        position: absolute;
+        top: 0;
+        left: 16px;
+      }
+      button {
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+        padding: 23px;
+        margin: 6px;
+        width: 200px;
+        /* background: white; */
+        color: white;
+        font-weight: 700;
+      }
+      .middle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      article {
+        display: block;
+        text-align: left;
+        margin: 0 auto;
+      }
+
+      hr {
+        margin: auto;
+        width: 40%;
       }
       h1 {
         font-size: 50px;
@@ -18,14 +55,6 @@
         display: block;
         text-align: left;
         margin: 0 auto;
-      }
-      a {
-        color: #dc8100;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #333;
-        text-decoration: none;
       }
     </style>
     <meta charset="utf-8" />
@@ -67,22 +96,24 @@
     <!-- just show a loading indicator till app is loaded -->
     <!-- <div id="fullscreen-preloader"> -->
     <div id="BidOrBoo-app">
-      <article>
-        <h3>Seems that you are Offline or that you may have Lost connection!</h3>
-        <div>
-          <p>
-            Sorry for the inconvenience. BidOrBoo requires a network connection See you when you get
-            back online shortly!
-          </p>
-        </div>
-        <br />
-        <button
-          style="padding:6px;margin:6px;width:150px;background:white;color:black;font-weight:700"
-          onClick="window.location.reload();"
-        >
-          Reload Page
-        </button>
-      </article>
+      <div class="topleft">
+        <p><img src="/android-chrome-192x192.png" alt="BidOrBoo Logo" height="42" width="42" /></p>
+      </div>
+      <div class="middle">
+        <article>
+          <h3>Seems that you are Offline or that you may have Lost connection!</h3>
+          <div>
+            <p>
+              Sorry for the inconvenience. BidOrBoo requires a network connection See you when you
+              get back online shortly!
+            </p>
+          </div>
+          <br />
+          <button onClick="window.location.reload();">
+            Reload Page
+          </button>
+        </article>
+      </div>
     </div>
   </body>
 </html>
