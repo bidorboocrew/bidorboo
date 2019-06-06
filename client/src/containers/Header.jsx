@@ -462,8 +462,6 @@ class Header extends React.Component {
                               isProfileMenuActive ? 'is-active' : ''
                             }`}
                           >
-                            <hr className="navbar-divider" />
-
                             {isLoggedIn && (
                               <React.Fragment>
                                 {isActingAsBidder ? (
