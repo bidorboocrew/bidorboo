@@ -21,6 +21,10 @@ import {
   HouseCleaningAwardedDoneDetails,
   TaskerMyAwardedDoneBidHouseCleaningDetails,
   TaskerMyAwardedDoneBidHouseCleaningSummary,
+  HouseCleaningAwardedDisputedDetails,
+  HouseCleaningAwardedDisputedSummary,
+  TaskerMyDisputedBidHouseCleaningSummary,
+  TaskerMyDisputedBidHouseCleaningDetails,
   HOUSE_CLEANING_DEF,
   REQUEST_STATES,
   POINT_OF_VIEW,
@@ -75,9 +79,9 @@ const requesterCardTemplates = {
     },
     [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
       return isSummaryView ? (
-        <div>REQUEST_STATES.DISPUTED summary not implemented yet</div>
+        <HouseCleaningAwardedDisputedSummary job={job} {...otherArgs} />
       ) : (
-        <div>REQUEST_STATES.DISPUTED details not implemented yet</div>
+        <HouseCleaningAwardedDisputedDetails job={job} {...otherArgs} />
       );
     },
     [REQUEST_STATES.PAIDOUT]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -106,10 +110,18 @@ const TaskerCardTemplates = {
       }
     },
     [BID_STATES.WON]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
-      if (isSummaryView) {
-        return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
+      if (job.state === REQUEST_STATES.DISPUTED) {
+        if (isSummaryView) {
+          return <TaskerMyDisputedBidHouseCleaningSummary job={job} {...otherArgs} />;
+        } else {
+          return <TaskerMyDisputedBidHouseCleaningDetails job={job} {...otherArgs} />;
+        }
       } else {
-        return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
+        if (isSummaryView) {
+          return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
+        } else {
+          return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
+        }
       }
     },
     [BID_STATES.CANCELED_AWARDED_BY_TASKER]: ({

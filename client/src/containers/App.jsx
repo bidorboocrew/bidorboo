@@ -38,6 +38,7 @@ import {
   OtherUserProfileForReviewPage,
   PastProvidedServices,
   PastRequestedServices,
+  TermsOfUse,
 } from './index';
 
 class App extends React.Component {
@@ -133,6 +134,8 @@ class App extends React.Component {
         <div id="RoutesWrapper">
           <Switch>
             {/* public paths */}
+            <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfUse} />
+
             <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
             <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
@@ -239,7 +242,7 @@ class App extends React.Component {
                       className="is-size-7 button is-text"
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="bidorbooserviceAgreement"
+                      href={`${ROUTES.CLIENT.TOS}`}
                     >
                       {`BidOrBoo Terms`}
                     </a>

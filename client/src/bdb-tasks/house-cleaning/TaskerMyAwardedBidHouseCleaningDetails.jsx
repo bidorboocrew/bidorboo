@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
+import { bidderConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -21,7 +21,6 @@ import {
 
 import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
 import RequestBaseContainer from '../RequestBaseContainer';
-import { Spinner } from '../../components/Spinner';
 
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
   render() {
@@ -382,6 +381,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
+    taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
@@ -410,6 +410,7 @@ class TaskerConfirmsCompletion extends React.Component {
       bidderConfirmsJobCompletion(job._id);
     });
   };
+
   render() {
     const { showConfirmationModal } = this.state;
     const { isPastDue } = this.props.job;
@@ -487,7 +488,10 @@ class TaskerDisputes extends React.Component {
       selectedDispute: '',
     };
   }
-
+  submitDispute = (taskerDispute) => {
+    const { taskerDisputesJob } = this.props;
+    taskerDisputesJob(taskerDispute);
+  };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
@@ -527,9 +531,17 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNoShow"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNoShow' })}
-                        checked={selectedDispute === 'disputeTypeNoShow'}
+                        name="Requester was not available on the agreed on time and location"
+                        onChange={() =>
+                          this.setState({
+                            selectedDispute:
+                              'Requester was not available on the agreed on time and location',
+                          })
+                        }
+                        checked={
+                          selectedDispute ===
+                          'Requester was not available on the agreed on time and location'
+                        }
                       />
                       {` Requester did not respond or show up on the agreed upon date and time`}
                     </label>
@@ -538,9 +550,15 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeNotGood"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeNotGood' })}
-                        checked={selectedDispute === 'disputeTypeNotGood'}
+                        name="Requester Did not describe the work accurately"
+                        onChange={() =>
+                          this.setState({
+                            selectedDispute: 'Requester Did not describe the work accurately',
+                          })
+                        }
+                        checked={
+                          selectedDispute === 'Requester Did not describe the work accurately'
+                        }
                       />
                       {` Requester did not describe the workload accurately`}
                     </label>
@@ -549,9 +567,9 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeMisconduct"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeMisconduct' })}
-                        checked={selectedDispute === 'disputeTypeMisconduct'}
+                        name="Misconduct"
+                        onChange={() => this.setState({ selectedDispute: 'Misconduct' })}
+                        checked={selectedDispute === 'Misconduct'}
                       />
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
@@ -560,9 +578,9 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="disputeTypeOther"
-                        onChange={() => this.setState({ selectedDispute: 'disputeTypeOther' })}
-                        checked={selectedDispute === 'disputeTypeOther'}
+                        name="Other Dispute"
+                        onChange={() => this.setState({ selectedDispute: 'Other Dispute' })}
+                        checked={selectedDispute === 'Other Dispute'}
                       />
                       {` Other`}
                     </label>
@@ -592,15 +610,13 @@ class TaskerDisputes extends React.Component {
                   <button
                     type="submit"
                     onClick={() =>
-                      alert(
-                        JSON.stringify({
-                          proposerDispute: {
-                            reason: selectedDispute,
-                            details: disputeText,
-                            jobId: jobId,
-                          },
-                        }),
-                      )
+                      this.submitDispute({
+                        taskerDispute: {
+                          reason: selectedDispute,
+                          details: disputeText,
+                          jobId: jobId,
+                        },
+                      })
                     }
                     className="button is-danger"
                   >

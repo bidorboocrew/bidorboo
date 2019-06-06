@@ -171,6 +171,66 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 };
 
+export const proposerDisputesJob = ({ proposerDispute }) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId: proposerDispute.jobId,
+      proposerDispute,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.PROPOSER_DISPUTES_JOB,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.proposerDisputeJob, postData, config)
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          // xxxx update without reload
+          window.location.reload();
+          // navigate to review page
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const postData = JSON.stringify({
+    data: {
+      jobId: taskerDispute.jobId,
+      taskerDispute,
+    },
+  });
+
+  dispatch({
+    type: A.JOB_ACTIONS.BIDDER_DISPUTES_JOB,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.bidderDisputeJob, postData, config)
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          // xxxx update without reload
+          window.location.reload();
+          // navigate to review page
+          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
 export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },

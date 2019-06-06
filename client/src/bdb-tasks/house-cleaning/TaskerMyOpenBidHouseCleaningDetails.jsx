@@ -240,7 +240,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
                       <label className="label">Bid Status</label>
                       <div className="control has-text-info">Past Due - Expired</div>
                       <div className="help">
-                        * Sorry! the requester did not select anyone and the job expired
+                        * Sorry! the requester did not select anyone
                       </div>
                     </div>
                   )}
