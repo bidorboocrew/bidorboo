@@ -277,7 +277,7 @@ const RequestAService = (props) => {
       id="bidOrBooMainPage-Request"
       className="card has-text-centered is-outlined RequestAServiceForTour"
     >
-      <div onClick={onClickHandler} className="card-content">
+      <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
         <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
             <i className="far fa-plus-square" />
@@ -295,14 +295,14 @@ const ProvideAService = (props) => {
   const { onClickHandler } = props;
   return (
     <div id="bidOrBooMainPage-Provide" className="card has-text-centered ProvideAServiceForTour">
-      <div onClick={onClickHandler} className="card-content">
+      <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
         <div id="Bidder-step" className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>
           <div>Provide A Service</div>
           <br />
-          <p className="is-size-6">I want to earn money by completing Tasks that I enjoy doing</p>
+          <p className="is-size-6">I want to earn money by completing Tasks I enjoy </p>
         </div>
       </div>
     </div>
