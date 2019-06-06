@@ -69,7 +69,7 @@ export default class HouseCleaningAwardedDisputedSummary extends React.Component
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">{`* BidorBooCrew will be reaching out to resolve this issue asap`}</div>
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <StartDateAndTime

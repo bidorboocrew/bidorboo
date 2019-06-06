@@ -431,14 +431,6 @@ header.card-header {
   padding: 0.75rem !important;
 }
 
-.card-content {
-  padding: 0.5rem;
-  // min-height: 20rem;
-  &.template {
-    min-height: unset;
-  }
-}
-
 .help {
   color: grey;
 }
@@ -471,7 +463,17 @@ article.media.limitHeight {
 .ReactStars {
   display: inline-block;
 }
+
+.card-content {
+  padding: 0.5rem;
+  min-height: 20rem;
+  &.template {
+    min-height: unset;
+  }
+}
 .card {
+  height: 100%;
+
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;
@@ -496,20 +498,17 @@ article.media.limitHeight {
   // min-width: 15rem;
   // border-radius: 4px;
   // cursor: pointer;
-  height: 100%;
   // border: 1px solid #eee;
   &.extraShadow {
     box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
       0 5px 5px -3px rgba(0, 0, 0, 0.2);
   }
   &.limitWidthOfCard {
-    // min-width: 20rem !important;
-    // max-width: 20rem !important;
-    width: 20rem !important;
+    width: 22rem !important;
     margin: auto;
   }
   &.limitLargeMaxWidth {
-    min-width: 20rem !important;
+    min-width: 22rem !important;
     max-width: 50rem !important;
     margin: auto;
   }
@@ -532,10 +531,6 @@ article.media.limitHeight {
     &:hover {
       animation: none !important;
     }
-  }
-  &:hover {
-    -webkit-animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    animation: shadow-drop-2-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 
   &.bdb-infoBoxCard {

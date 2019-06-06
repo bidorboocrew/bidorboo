@@ -78,7 +78,7 @@ export default class TaskerMyDisputedBidHouseCleaningSummary extends React.Compo
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
-              <div className="help">{`* BidorBooCrew will be reaching out to resolve this issue asap`}</div>
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <div className="field">
@@ -86,7 +86,7 @@ export default class TaskerMyDisputedBidHouseCleaningSummary extends React.Compo
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
               <div className="help">
-                * on hold until BidOrBooCrew conclude their investigation in this task
+                * on hold
               </div>
             </div>
             <StartDateAndTime
