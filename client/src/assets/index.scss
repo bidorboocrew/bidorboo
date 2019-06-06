@@ -472,6 +472,14 @@ article.media.limitHeight {
   display: inline-block;
 }
 .card {
+  &.disputeOnlyView {
+    border: 2px dashed #e85255;
+    box-shadow: none !important;
+
+    &:hover {
+      animation: none !important;
+    }
+  }
   &.readOnlyView {
     background: #eeeeee;
     // cursor: not-allowed;
