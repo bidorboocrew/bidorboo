@@ -7,7 +7,7 @@ export default class TermsOfUse extends React.Component {
         <section className="section">
           <div className="container">
             <div className="">
-              <h1 className="title">BidOrBoo Terms of Service</h1>
+              <h1 className="title">BidOrBoo Terms of Service (Work in progress)</h1>
               <span className="subtitle">Last updated: May 9, 2019</span>
               <br />
               <br />
@@ -1644,7 +1644,7 @@ export default class TermsOfUse extends React.Component {
               </p>
               <p className="subtitle">
                 If you have any questions about these Terms of Service or about the BidOrBoo
-                Platform, please contact us by email at https://support.BidOrBoo.com or by mail to
+                Platform, please contact us by email at bidorboocrew@gmail.com or by mail to
                 xxxxaddresss
               </p>
               <p className="subtitle">
