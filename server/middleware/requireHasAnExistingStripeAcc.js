@@ -1,5 +1,4 @@
 const userDataAccess = require('../data-access/userDataAccess');
-const stripeServiceUtil = require('../services/stripeService').util;
 
 module.exports = async (req, res, next) => {
   try {
@@ -13,9 +12,9 @@ module.exports = async (req, res, next) => {
         };
         next();
       } else {
-        return res.status(400).send({
+        return res.status(200).send({
           errorMsg:
-            'you do not have an existing stripe account with us. Please email us at bidorboocrew@gmail.com',
+            'you do not have an existing stripe account with us. Setup your account or email us at bidorboocrew@gmail.com',
         });
       }
     } else {
