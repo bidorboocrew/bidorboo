@@ -43,7 +43,6 @@ class PaymentSettings extends React.Component {
     }
 
     let { stripeConnect } = userDetails;
-
     return (
       <section style={{ padding: '0.5rem' }} className="section">
         <div className="columns is-centered">
@@ -112,54 +111,55 @@ const InitialAccountSetupView = (props) => {
     myStripeAccountDetails,
   } = props;
 
+  const doesUserHaveExistingAccount = !!myStripeAccountDetails;
   return (
     <React.Fragment>
-      <div>
-        <HeaderTitle title="BidOrBoo Tasker" />
-        <p className="is-size-6">
-          are you planning to become a BidOrBoo Tasker ?<br />
-          do you want to do things you like at the time you wish ?
-          <br />
-          are you looking for a side gig to earn more income? <br /> <br />
-          if you answered <strong>YES</strong> to any of these questions then let's start by setting
-          up your payout details.
-        </p>
-        <br />
-        <div className="field">
-          <input
-            id="showPayoutSetupForm"
-            type="checkbox"
-            name="showPayoutSetupForm"
-            className="switch is-rounded is-success"
-            checked={showAddPaymentDetails}
-            onChange={toggleAddPaymentDetails}
-          />
-          <label htmlFor="showPayoutSetupForm">
-            <strong>Add My Payout Banking Details</strong>
-          </label>
-        </div>
+      <HeaderTitle title="BidOrBoo Tasker" />
 
-        <div className="help">
-          * Your data is secured via
-          <a href="https://stripe.com/ca" target="_blank">
-            {` Stripe payment gateway.`}
-          </a>
-          {` A world class secure payment processing platform.`} <br />
-          {`BidOrBoo will not store or share any of your sensitive details`}
-        </div>
-        <br />
-      </div>
-      {!showAddPaymentDetails &&
-        myStripeAccountDetails &&
-        myStripeAccountDetails.balanceDetails &&
-        myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-          <div>
-            Pending Payments Amount
-            {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
-            Balance Details {`${myStripeAccountDetails.balanceDetails}`}
+      {!doesUserHaveExistingAccount && (
+        <div>
+          <div className="field">
+            <label className="label">
+              Becoming a BidOrBoo Tasker
+              <br />
+            </label>
+            <div className="control">Are you of legal (above 16) age to work ?</div>
+            <div className="control">Are you going to Bid on Requets?</div>
+            <div className="control">Are you going to Provide services?</div>
+            <br />
+            <div>
+              If you answered yest o all the above then start by setting up your payout bank account
+            </div>
+            <div>
+              This will be the account where we will send your payment to after you complete Tasks
+            </div>
+            <div className="field">
+              <input
+                id="showPayoutSetupForm"
+                type="checkbox"
+                name="showPayoutSetupForm"
+                className="switch is-rounded is-success"
+                checked={showAddPaymentDetails}
+                onChange={toggleAddPaymentDetails}
+              />
+              <label htmlFor="showPayoutSetupForm">
+                <strong>Add My Payout Banking Details</strong>
+              </label>
+            </div>
+
+            <div className="help">
+              * Your data is secured via
+              <a href="https://stripe.com/ca" target="_blank">
+                {` Stripe payment gateway.`}
+              </a>
+              {` A world class secure payment processing platform.`} <br />
+              {`BidOrBoo will not store or share any of your sensitive details`}
+            </div>
+            <br />
           </div>
-          // <ProgressChart myStripeAccountDetails={myStripeAccountDetails} />
-        )}
+        </div>
+      )}
+
       {showAddPaymentDetails && (
         <div>
           <HeaderTitle title="Add Payout Details" />
@@ -202,7 +202,7 @@ const EstablishedAccountView = (props) => {
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
               {` Bank Account last 4 digits `}
-              <strong>{stripeConnect.last4BankAcc}</strong>{}
+              <strong>{stripeConnect.last4BankAcc}</strong>
             </label>
           </div>
         </div>
@@ -255,26 +255,17 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
-          {/* <ProgressChart myStripeAccountDetails={myStripeAccountDetails} /> */}
+          {myStripeAccountDetails &&
+            myStripeAccountDetails.balanceDetails &&
+            myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
+              <div style={{ wordBreak: 'break-all' }}>
+                Pending Payments Amount
+                {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
+                Balance Details {`${JSON.stringify(myStripeAccountDetails.balanceDetails)}`}
+              </div>
+            )}
         </div>
       </nav>
     </section>
   );
 };
-
-// const ProgressChart = ({ myStripeAccountDetails }) => {
-//   const data = [{ name: 'Earnings', ...myStripeAccountDetails.balanceDetails }];
-
-//   return (
-//     <ResponsiveContainer minHeight={400}>
-//       <BarChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }} data={data}>
-//         <XAxis dataKey="name" />
-//         <YAxis unit="$" />
-//         <Tooltip formatter={(value) => `${value}$`} labelStyle={{ fontWeight: 700 }} />
-//         <Legend align="center" />
-//         <Bar stackId="a" dataKey="potentialFuturePayouts" name="Pending Payments" fill="#8884d8" />
-//         <Bar stackId="a" dataKey="pastEarnings" name="Paid Out" fill="#82ca9d" />
-//       </BarChart>
-//     </ResponsiveContainer>
-//   );
-// };
