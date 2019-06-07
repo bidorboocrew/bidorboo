@@ -221,7 +221,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
           tos_acceptance: 0,
           settings: 0,
           extras: 0,
-          stripeConnect: 0,
+          // stripeConnect: 0,
           updatedAt: 0,
           password: 0,
         }
