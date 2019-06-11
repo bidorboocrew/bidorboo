@@ -1,14 +1,14 @@
 import React from 'react';
 
 import {
-  HouseCleaningRequestDetails,
-  HouseCleaningRequestSummary,
-  HouseCleaningAwardedSummary,
-  HouseCleaningAwardedDetails,
-  HouseCleaningOpenCanceledSummary,
-  HouseCleaningOpenCanceledDetails,
-  HouseCleaningAwardedCanceledByRequesterSummary,
-  HouseCleaningAwardedCanceledByRequesterDetails,
+  RequesterRequestDetails,
+  RequesterRequestSummary,
+  RequesterAwardedSummary,
+  RequesterAwardedDetails,
+  RequesterOpenCanceledSummary,
+  RequesterOpenCanceledDetails,
+  RequesterCanceledByRequesterSummary,
+  RequesterCanceledByRequesterDetails,
   TaskerBidOnHouseCleaningDetails,
   TaskerBidOnHouseCleaningSummary,
   TaskerMyOpenBidHouseCleaningSummary,
@@ -17,12 +17,12 @@ import {
   TaskerMyAwardedBidHouseCleaningDetails,
   TaskerAwardedBidCanceledByTaskerDetails,
   TaskerAwardedBidCanceledByTaskerSummary,
-  HouseCleaningAwardedDoneSummary,
-  HouseCleaningAwardedDoneDetails,
+  RequesterDoneSummary,
+  RequesterDoneDetails,
   TaskerMyAwardedDoneBidHouseCleaningDetails,
   TaskerMyAwardedDoneBidHouseCleaningSummary,
-  HouseCleaningAwardedDisputedDetails,
-  HouseCleaningAwardedDisputedSummary,
+  RequesterDisputedDetails,
+  RequesterDisputedSummary,
   TaskerMyDisputedBidHouseCleaningSummary,
   TaskerMyDisputedBidHouseCleaningDetails,
   TASKS_DEFINITIONS,
@@ -38,23 +38,23 @@ export { BID_STATES };
 const requesterCardTemplates = {
   [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <HouseCleaningRequestSummary job={job} {...otherArgs} />
+      <RequesterRequestSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningRequestDetails job={job} {...otherArgs} />
+      <RequesterRequestDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <HouseCleaningAwardedSummary job={job} {...otherArgs} />
+      <RequesterAwardedSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningAwardedDetails job={job} {...otherArgs} />
+      <RequesterAwardedDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <HouseCleaningOpenCanceledSummary job={job} {...otherArgs} />
+      <RequesterOpenCanceledSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningOpenCanceledDetails job={job} {...otherArgs} />
+      <RequesterOpenCanceledDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER]: ({
@@ -64,23 +64,23 @@ const requesterCardTemplates = {
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningAwardedCanceledByRequesterDetails job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <HouseCleaningAwardedDoneSummary job={job} {...otherArgs} />
+      <RequesterDoneSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningAwardedDoneDetails job={job} {...otherArgs} />
+      <RequesterDoneDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <HouseCleaningAwardedDisputedSummary job={job} {...otherArgs} />
+      <RequesterDisputedSummary job={job} {...otherArgs} />
     ) : (
-      <HouseCleaningAwardedDisputedDetails job={job} {...otherArgs} />
+      <RequesterDisputedDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.PAIDOUT]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {

@@ -14,7 +14,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
 import { DisplayLabelValue } from '../../containers/commonComponents';
-import HouseCleaningRequestDetailsPreview from './HouseCleaningRequestDetailsPreview';
+import RequesterRequestDetailsPreview from './RequesterRequestDetailsPreview';
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import {
   getCurrentAddress,
@@ -103,7 +103,7 @@ class HouseCleaningJobForm extends React.Component {
 
                 <section className="modal-card-body">
                   <label className="label">Your Request Preview</label>
-                  <HouseCleaningRequestDetailsPreview job={newTaskDetails} />
+                  <RequesterRequestDetailsPreview job={newTaskDetails} />
 
                   <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                     <label className="label">BidOrBoo Safety rules</label>

@@ -1,25 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import {
-  DisplayLabelValue,
-  CountDownComponent,
-  StartDateAndTime,
-  EffortLevel,
-} from '../../containers/commonComponents';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import {
+  CountDownComponent,
+  StartDateAndTime,
+  DisplayShortAddress,
+} from '../../containers/commonComponents';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import { isPast } from 'date-fns';
 
-class HouseCleaningRequestDetails extends React.Component {
+class RequesterRequestSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,14 +31,12 @@ class HouseCleaningRequestDetails extends React.Component {
   toggleShowMore = () => {
     this.setState({ showMore: !this.state.showMore });
   };
-
   toggleDeleteConfirmationDialog = () => {
     this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
   };
 
   toggleShowMoreOptionsContextMenu = (e) => {
     e.preventDefault();
-
     this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
       if (this.state.showMoreOptionsContextMenu) {
         document.addEventListener('mousedown', this.handleClick, false);
@@ -62,16 +58,15 @@ class HouseCleaningRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, cancelJobById } = this.props;
-    if (!job || !cancelJobById) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    const { job, cancelJobById, notificationFeed } = this.props;
+    if (!job || !job._id || !notificationFeed || !cancelJobById) {
+      return <div>RequesterRequestSummary is missing properties</div>;
     }
+
     const {
       _id: jobId,
       startingDateAndTime,
       addressText,
-      extras,
-      detailedDescription,
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
@@ -80,22 +75,20 @@ class HouseCleaningRequestDetails extends React.Component {
       !jobId ||
       !startingDateAndTime ||
       !addressText ||
-      !extras ||
-      !detailedDescription ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return <div>RequesterRequestSummary is missing properties</div>;
     }
+    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return <div>RequesterRequestSummary is missing properties</div>;
     }
 
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
-
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
     return (
       <React.Fragment>
@@ -133,7 +126,7 @@ class HouseCleaningRequestDetails extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelJobById(jobId);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -148,7 +141,7 @@ class HouseCleaningRequestDetails extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'unset' }} className={`card ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
@@ -161,40 +154,42 @@ class HouseCleaningRequestDetails extends React.Component {
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item has-text-danger"
+                {!isPastDue && (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none' }}
                       >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          className="dropdown-item  has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
               <div
                 style={{
@@ -255,48 +250,10 @@ class HouseCleaningRequestDetails extends React.Component {
                 )}
               />
 
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
-              {showMore && (
-                <React.Fragment>
-                  <EffortLevel extras={extras} />
-                  <div className="field">
-                    <label className="label">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
-                        }}
-                        readOnly
-                      />
-                    </span>
-                  </div>
-                </React.Fragment>
-              )}
+              <DisplayShortAddress addressText={addressText} />
             </div>
           </div>
-          <div style={{ padding: '0.5rem' }}>
-            {!showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show full details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-down" />
-                </span>
-              </a>
-            )}
-            {showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show less details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-up" />
-                </span>
-              </a>
-            )}
-          </div>
+          {renderFooter({ job, notificationFeed, isPastDue })}
         </div>
       </React.Fragment>
     );
@@ -323,4 +280,75 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningRequestDetails);
+)(RequesterRequestSummary);
+
+const renderFooter = ({ job, notificationFeed, isPastDue }) => {
+  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+  let doesthisJobHaveNewBids = false;
+  // let numberOfNewBids = 0;
+
+  if (!isPastDue && notificationFeed.jobIdsWithNewBids) {
+    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+        doesthisJobHaveNewBids = true;
+        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
+        break;
+      }
+    }
+  }
+
+  return (
+    <React.Fragment>
+      <div style={{ padding: '0.5rem' }}>
+        <hr className="divider isTight" />
+      </div>
+
+      {isPastDue && (
+        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <a
+            disabled={isPastDue}
+            style={{ position: 'relative' }}
+            className={`button is-outlined is-fullwidth is-danger`}
+          >
+            <span className="icon">
+              <i className="far fa-trash-alt" />
+            </span>
+            <span>Will be auto deleted</span>
+          </a>
+        </div>
+      )}
+      {!isPastDue && (
+        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <a
+            disabled={isPastDue}
+            style={{ position: 'relative' }}
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            }}
+            className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
+          >
+            {areThereAnyBidders && !isPastDue && (
+              <span>
+                <span className="icon">
+                  <i className="fa fa-hand-paper" />
+                </span>
+                <span>{`View (${job._bidsListRef.length}) ${
+                  job._bidsListRef.length > 1 ? 'Offers' : 'Offer'
+                }`}</span>
+              </span>
+            )}
+            {!areThereAnyBidders && <span>View Details</span>}
+            {areThereAnyBidders && doesthisJobHaveNewBids && (
+              <div
+                style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
+                className="has-text-danger"
+              >
+                <i className="fas fa-circle" />
+              </div>
+            )}
+          </a>
+        </div>
+      )}
+    </React.Fragment>
+  );
+};

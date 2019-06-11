@@ -12,7 +12,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-export default class HouseCleaningRequestDetailsPreview extends React.Component {
+export default class RequesterRequesterRequestDetailsPreview extends React.Component {
   constructor(props) {
     super(props);
 

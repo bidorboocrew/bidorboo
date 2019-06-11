@@ -1,9 +1,11 @@
 import React from 'react';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import {
   CountDownComponent,
   StartDateAndTime,
-  DisplayShortAddress,
+  DisplayLabelValue,
+  EffortLevel,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -11,27 +13,38 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-export default class HouseCleaningOpenCanceledSummary extends React.Component {
+export default class RequesterOpenCanceledDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { _id: jobId, startingDateAndTime, addressText, displayStatus } = job;
+    const {
+      _id,
+      startingDateAndTime,
+      addressText,
+      displayStatus,
+      detailedDescription,
+      extras,
+    } = job;
+    if (
+      !_id ||
+      !startingDateAndTime ||
+      !addressText ||
+      !displayStatus ||
+      !detailedDescription ||
+      !extras
+    ) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
 
-    if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
-      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
-    }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     return (
-      <div className="card readOnlyView limitWidthOfCard">
-        {/* <div className="card-image">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
+      <div className="card readOnlyView ">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -56,7 +69,7 @@ export default class HouseCleaningOpenCanceledSummary extends React.Component {
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
-              <div className="help">* This Request will be deleted in 48 hours</div>
+              <div className="help">* This will be deleted in 48 hours</div>
             </div>
 
             <StartDateAndTime
@@ -66,26 +79,28 @@ export default class HouseCleaningOpenCanceledSummary extends React.Component {
               )}
             />
 
-            <DisplayShortAddress addressText={addressText} />
+            <DisplayLabelValue labelText="Address" labelValue={addressText} />
+
+            <EffortLevel extras={extras} />
+            <div className="field">
+              <label className="label">Detailed Description</label>
+              <span className="is-size-7">
+                <TextareaAutosize
+                  value={detailedDescription}
+                  className="textarea is-marginless is-paddingless is-size-6"
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                    color: '#4a4a4a',
+                    fontSize: '1rem',
+                    background: '#eeeeee',
+                  }}
+                  readOnly
+                />
+              </span>
+            </div>
           </div>
         </div>
-
-        <React.Fragment>
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-            <a
-              style={{ position: 'relative' }}
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
-              }}
-              className="button is-outlined is-fullwidth "
-            >
-              View Canceled Request
-            </a>
-          </div>
-        </React.Fragment>
       </div>
     );
   }

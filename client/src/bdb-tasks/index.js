@@ -28,35 +28,35 @@ export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningC
 export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleaningCreateJob';
 
 export {
-  default as HouseCleaningRequestDetails,
-} from './house-cleaning/HouseCleaningRequestDetails';
+  default as RequesterRequestDetails,
+} from './house-cleaning/RequesterRequestDetails';
 
 export {
-  default as HouseCleaningRequestSummary,
-} from './house-cleaning/HouseCleaningRequestSummary';
+  default as RequesterRequestSummary,
+} from './house-cleaning/RequesterRequestSummary';
 
 export {
-  default as HouseCleaningAwardedDetails,
-} from './house-cleaning/HouseCleaningAwardedDetails';
+  default as RequesterAwardedDetails,
+} from './house-cleaning/RequesterAwardedDetails';
 
 export {
-  default as HouseCleaningAwardedSummary,
-} from './house-cleaning/HouseCleaningAwardedSummary';
+  default as RequesterAwardedSummary,
+} from './house-cleaning/RequesterAwardedSummary';
 
 export {
-  default as HouseCleaningAwardedCanceledByRequesterSummary,
-} from './house-cleaning/HouseCleaningAwardedCanceledByRequesterSummary';
+  default as RequesterCanceledByRequesterSummary,
+} from './house-cleaning/RequesterCanceledByRequesterSummary';
 
 export {
-  default as HouseCleaningAwardedCanceledByRequesterDetails,
-} from './house-cleaning/HouseCleaningAwardedCanceledByRequesterDetails';
+  default as RequesterCanceledByRequesterDetails,
+} from './house-cleaning/RequesterCanceledByRequesterDetails';
 
 export {
-  default as HouseCleaningOpenCanceledSummary,
-} from './house-cleaning/HouseCleaningOpenCanceledSummary';
+  default as RequesterOpenCanceledSummary,
+} from './house-cleaning/RequesterOpenCanceledSummary';
 export {
-  default as HouseCleaningOpenCanceledDetails,
-} from './house-cleaning/HouseCleaningOpenCanceledDetails';
+  default as RequesterOpenCanceledDetails,
+} from './house-cleaning/RequesterOpenCanceledDetails';
 
 export {
   default as TaskerBidOnHouseCleaningSummary,
@@ -91,12 +91,12 @@ export {
 } from './house-cleaning/TaskerAwardedBidCanceledByTaskerSummary';
 
 export {
-  default as HouseCleaningAwardedDoneSummary,
-} from './house-cleaning/HouseCleaningAwardedDoneSummary';
+  default as RequesterDoneSummary,
+} from './house-cleaning/RequesterDoneSummary';
 
 export {
-  default as HouseCleaningAwardedDoneDetails,
-} from './house-cleaning/HouseCleaningAwardedDoneDetails';
+  default as RequesterDoneDetails,
+} from './house-cleaning/RequesterDoneDetails';
 
 export {
   default as TaskerMyAwardedDoneBidHouseCleaningDetails,
@@ -107,12 +107,12 @@ export {
 } from './house-cleaning/TaskerMyAwardedDoneBidHouseCleaningSummary';
 
 export {
-  default as HouseCleaningAwardedDisputedSummary,
-} from './house-cleaning/HouseCleaningAwardedDisputedSummary';
+  default as RequesterDisputedSummary,
+} from './house-cleaning/RequesterDisputedSummary';
 
 export {
-  default as HouseCleaningAwardedDisputedDetails,
-} from './house-cleaning/HouseCleaningAwardedDisputedDetails';
+  default as RequesterDisputedDetails,
+} from './house-cleaning/RequesterDisputedDetails';
 
 export {
   default as TaskerMyDisputedBidHouseCleaningDetails,

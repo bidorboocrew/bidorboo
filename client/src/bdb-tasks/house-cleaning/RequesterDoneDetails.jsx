@@ -22,7 +22,7 @@ import {
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class HouseCleaningAwardedDetails extends RequestBaseContainer {
+class RequesterAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById, currentUserDetails } = this.props;
     const { _id: currentUserId } = currentUserDetails;
@@ -242,4 +242,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningAwardedDetails);
+)(RequesterAwardedDetails);

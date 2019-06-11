@@ -1,50 +1,50 @@
 import React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
-
 import {
   CountDownComponent,
   StartDateAndTime,
-  DisplayLabelValue,
-  EffortLevel,
+  DisplayShortAddress,
 } from '../../containers/commonComponents';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-export default class HouseCleaningOpenCanceledDetails extends React.Component {
+export default class RequesterDisputedSummary extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
-    }
-    const {
-      _id,
-      startingDateAndTime,
-      addressText,
-      displayStatus,
-      detailedDescription,
-      extras,
-    } = job;
-    if (
-      !_id ||
-      !startingDateAndTime ||
-      !addressText ||
-      !displayStatus ||
-      !detailedDescription ||
-      !extras
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return <div>RequesterDisputedSummary is missing properties</div>;
     }
 
+    const {
+      startingDateAndTime,
+      addressText,
+      _awardedBidRef,
+      displayStatus,
+      state,
+      _ownerRef,
+    } = job;
+    if (
+      !startingDateAndTime ||
+      !addressText ||
+      !_awardedBidRef ||
+      !displayStatus ||
+      !state ||
+      !_ownerRef
+    ) {
+      return <div>RequesterDisputedSummary is missing properties</div>;
+    }
+    const { _bidderRef } = _awardedBidRef;
+    if (!_bidderRef) {
+      return <div>RequesterDisputedSummary is missing properties</div>;
+    }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return <div>RequesterDisputedSummary is missing properties</div>;
     }
 
     return (
-      <div className="card readOnlyView ">
+      <div className="card disputeOnlyView limitWidthOfCard">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -68,8 +68,8 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
 
             <div className="field">
               <label className="label">Request Status</label>
-              <div className="control">{displayStatus}</div>
-              <div className="help">* This will be deleted in 48 hours</div>
+              <div className="control has-text-danger">{displayStatus}</div>
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <StartDateAndTime
@@ -78,29 +78,26 @@ export default class HouseCleaningOpenCanceledDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-
-            <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
-            <EffortLevel extras={extras} />
-            <div className="field">
-              <label className="label">Detailed Description</label>
-              <span className="is-size-7">
-                <TextareaAutosize
-                  value={detailedDescription}
-                  className="textarea is-marginless is-paddingless is-size-6"
-                  style={{
-                    resize: 'none',
-                    border: 'none',
-                    color: '#4a4a4a',
-                    fontSize: '1rem',
-                    background: '#eeeeee',
-                  }}
-                  readOnly
-                />
-              </span>
-            </div>
+            <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
+
+        <React.Fragment>
+          <div style={{ padding: '0.5rem' }}>
+            <hr className="divider isTight" />
+          </div>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+            <a
+              style={{ position: 'relative' }}
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              }}
+              className="button is-outlined is-fullwidth is-danger"
+            >
+              View Disputed Task
+            </a>
+          </div>
+        </React.Fragment>
       </div>
     );
   }

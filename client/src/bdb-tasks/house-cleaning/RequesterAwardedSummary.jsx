@@ -18,11 +18,11 @@ import {
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class HouseCleaningAwardedSummary extends RequestBaseContainer {
+class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
     if (!job || !job._id || !cancelJobById) {
-      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
 
     const {
@@ -49,11 +49,11 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>HouseCleaningAwardedSummary is missing properties</div>;
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
@@ -264,4 +264,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HouseCleaningAwardedSummary);
+)(RequesterAwardedSummary);

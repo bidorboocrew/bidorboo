@@ -11,7 +11,7 @@ import {
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-export default class HouseCleaningAwardedDisputedDetails extends React.Component {
+export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
