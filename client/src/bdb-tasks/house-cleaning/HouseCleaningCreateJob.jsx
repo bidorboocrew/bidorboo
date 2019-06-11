@@ -105,7 +105,7 @@ export default class HouseCleaningCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS;
+    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
 
     return (
       <div
@@ -113,12 +113,9 @@ export default class HouseCleaningCreateJob extends React.Component {
         className="card limitLargeMaxWidth"
       >
         <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
-          <div>
-            <div style={{ marginBottom: 0 }} className="subtitle has-text-centered">
-              How It Works ?
-            </div>
-            <StepsForRequest isSmall step={1} />
-          </div>
+          <br />
+          <StepsForRequest isSmall step={1} />
+          <br />
         </section>
 
         <div className="card-content">

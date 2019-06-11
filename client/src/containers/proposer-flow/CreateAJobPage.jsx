@@ -8,7 +8,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { TASKS_DEFINITIONS, HouseCleaningCreateJob } from '../../bdb-tasks/index';
 
 const creatJobsByIdMap = {
-  [`${TASKS_DEFINITIONS.ID}`]: (props) => {
+  [`bdbjob-house-cleaning`]: (props) => {
     return <HouseCleaningCreateJob {...props} />;
   },
 };
