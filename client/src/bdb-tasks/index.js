@@ -24,69 +24,69 @@ export const POINT_OF_VIEW = {
   TASKER: 'TASKER',
 };
 
-export { default as TASKS_DEFINITIONS } from './house-cleaning/tasksDefinitions';
+export { default as TASKS_DEFINITIONS } from './tasksDefinitions';
 export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningConcept';
 export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleaningCreateJob';
 
-export { default as RequesterRequestDetails } from './house-cleaning/RequesterRequestDetails';
+export { default as RequesterRequestDetails } from './genericTasks/RequesterRequestDetails';
 
-export { default as RequesterRequestSummary } from './house-cleaning/RequesterRequestSummary';
+export { default as RequesterRequestSummary } from './genericTasks/RequesterRequestSummary';
 
-export { default as RequesterAwardedDetails } from './house-cleaning/RequesterAwardedDetails';
+export { default as RequesterAwardedDetails } from './genericTasks/RequesterAwardedDetails';
 
-export { default as RequesterAwardedSummary } from './house-cleaning/RequesterAwardedSummary';
+export { default as RequesterAwardedSummary } from './genericTasks/RequesterAwardedSummary';
 
 export {
   default as RequesterCanceledByRequesterSummary,
-} from './house-cleaning/RequesterCanceledByRequesterSummary';
+} from './genericTasks/RequesterCanceledByRequesterSummary';
 
 export {
   default as RequesterCanceledByRequesterDetails,
-} from './house-cleaning/RequesterCanceledByRequesterDetails';
+} from './genericTasks/RequesterCanceledByRequesterDetails';
 
 export {
   default as RequesterOpenCanceledSummary,
-} from './house-cleaning/RequesterOpenCanceledSummary';
+} from './genericTasks/RequesterOpenCanceledSummary';
 export {
   default as RequesterOpenCanceledDetails,
-} from './house-cleaning/RequesterOpenCanceledDetails';
+} from './genericTasks/RequesterOpenCanceledDetails';
 
-export { default as TaskerBidOnTaskSummary } from './house-cleaning/TaskerBidOnTaskSummary';
+export { default as TaskerBidOnTaskSummary } from './genericTasks/TaskerBidOnTaskSummary';
 
-export { default as TaskerBidOnTaskDetails } from './house-cleaning/TaskerBidOnTaskDetails';
+export { default as TaskerBidOnTaskDetails } from './genericTasks/TaskerBidOnTaskDetails';
 
-export { default as TaskerMyOpenBidSummary } from './house-cleaning/TaskerMyOpenBidSummary';
+export { default as TaskerMyOpenBidSummary } from './genericTasks/TaskerMyOpenBidSummary';
 
-export { default as TaskerMyOpenBidDetails } from './house-cleaning/TaskerMyOpenBidDetails';
+export { default as TaskerMyOpenBidDetails } from './genericTasks/TaskerMyOpenBidDetails';
 
-export { default as TaskerMyAwardedBidDetails } from './house-cleaning/TaskerMyAwardedBidDetails';
+export { default as TaskerMyAwardedBidDetails } from './genericTasks/TaskerMyAwardedBidDetails';
 
-export { default as TaskerMyAwardedBidSummary } from './house-cleaning/TaskerMyAwardedBidSummary';
+export { default as TaskerMyAwardedBidSummary } from './genericTasks/TaskerMyAwardedBidSummary';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerDetails,
-} from './house-cleaning/TaskerAwardedBidCanceledByTaskerDetails';
+} from './genericTasks/TaskerAwardedBidCanceledByTaskerDetails';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerSummary,
-} from './house-cleaning/TaskerAwardedBidCanceledByTaskerSummary';
+} from './genericTasks/TaskerAwardedBidCanceledByTaskerSummary';
 
-export { default as RequesterDoneSummary } from './house-cleaning/RequesterDoneSummary';
+export { default as RequesterDoneSummary } from './genericTasks/RequesterDoneSummary';
 
-export { default as RequesterDoneDetails } from './house-cleaning/RequesterDoneDetails';
+export { default as RequesterDoneDetails } from './genericTasks/RequesterDoneDetails';
 
 export {
   default as TaskerMyAwardedDoneBidDetails,
-} from './house-cleaning/TaskerMyAwardedDoneBidDetails';
+} from './genericTasks/TaskerMyAwardedDoneBidDetails';
 
 export {
   default as TaskerMyAwardedDoneBidSummary,
-} from './house-cleaning/TaskerMyAwardedDoneBidSummary';
+} from './genericTasks/TaskerMyAwardedDoneBidSummary';
 
-export { default as RequesterDisputedSummary } from './house-cleaning/RequesterDisputedSummary';
+export { default as RequesterDisputedSummary } from './genericTasks/RequesterDisputedSummary';
 
-export { default as RequesterDisputedDetails } from './house-cleaning/RequesterDisputedDetails';
+export { default as RequesterDisputedDetails } from './genericTasks/RequesterDisputedDetails';
 
-export { default as TaskerMyDisputedBidDetails } from './house-cleaning/TaskerMyDisputedBidDetails';
+export { default as TaskerMyDisputedBidDetails } from './genericTasks/TaskerMyDisputedBidDetails';
 
-export { default as TaskerMyDisputedBidSummary } from './house-cleaning/TaskerMyDisputedBidSummary';
+export { default as TaskerMyDisputedBidSummary } from './genericTasks/TaskerMyDisputedBidSummary';

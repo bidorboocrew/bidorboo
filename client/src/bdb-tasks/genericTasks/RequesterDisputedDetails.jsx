@@ -9,7 +9,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterDisputedDetails extends React.Component {
   render() {

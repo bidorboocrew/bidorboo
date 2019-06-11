@@ -15,7 +15,7 @@ import {
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {

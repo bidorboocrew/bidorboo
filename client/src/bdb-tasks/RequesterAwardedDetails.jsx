@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
-import { switchRoute } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
+import * as ROUTES from '../constants/frontend-route-consts';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,8 +11,8 @@ import {
   proposerConfirmsJobCompletion,
   cancelJobById,
   proposerDisputesJob,
-} from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
+} from '../app-state/actions/jobActions';
+import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
@@ -21,10 +21,10 @@ import {
   UserImageAndRating,
   AddAwardedJobToCalendar,
   EffortLevel,
-} from '../../containers/commonComponents';
+} from '../containers/commonComponents';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
-import RequestBaseContainer from '../RequestBaseContainer';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
+import RequestBaseContainer from './RequestBaseContainer';
 
 class RequesterAwardedDetails extends RequestBaseContainer {
   render() {

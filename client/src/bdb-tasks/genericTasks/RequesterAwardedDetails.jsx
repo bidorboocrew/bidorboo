@@ -2,14 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
+import {
+  proposerConfirmsJobCompletion,
+  cancelJobById,
+  proposerDisputesJob,
+} from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   StartDateAndTime,
@@ -19,30 +23,27 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class TaskerMyAwardedBidDetails extends RequestBaseContainer {
+class RequesterAwardedDetails extends RequestBaseContainer {
   render() {
-    const { bid, cancelAwardedBid } = this.props;
-    if (!bid) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { _jobRef: job } = bid;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { job, cancelJobById } = this.props;
 
+    if (!cancelJobById || !job) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
     const {
+      _id,
       startingDateAndTime,
       addressText,
+      _awardedBidRef,
       extras,
       detailedDescription,
       displayStatus,
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
-      _ownerRef,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -51,50 +52,49 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       },
     } = job;
     if (
+      !_id ||
       !startingDateAndTime ||
       !addressText ||
+      !_awardedBidRef ||
+      !displayStatus ||
       !extras ||
       !detailedDescription ||
-      !displayStatus ||
-      !_ownerRef ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+    }
+    const { bidAmount, _bidderRef } = _awardedBidRef;
+    if (!bidAmount || !_bidderRef) {
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { bidAmount } = bid;
-    if (!bidAmount) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-
-    // xxx get currency from processed payment
+    // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { phone, email } = _ownerRef;
+    const { phone, email } = _bidderRef;
     if (!phone || !email) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
     const { emailAddress } = email;
     if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
+
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
-
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -103,7 +103,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Agreement</div>
+                  <div className="modal-card-title">Cancel Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -112,13 +112,10 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>
-                      Cancelling a bid after you have been assigned is considered a missed
-                      appointment.
-                    </div>
+                    <div>Cancelling an assigned request is considered a missed appointment.</div>
                     <br />
                     <div>
-                      We understand that life "happens" but to keep things fair for you and the
+                      We understand that life "happens" , but to keep things fair for you and the
                       tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
@@ -126,13 +123,13 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
                     <div className="field">
                       <label className="label">What you need to know:</label>
-
+                      <div className="control">
+                        * You will be <strong>penalized 20%</strong> of the total payment and will
+                        be refunded 80%.
+                      </div>
                       <div className="control">* Your global rating will be impacted</div>
                       <div className="control">
-                        * This cancellation will show up on your profile
-                      </div>
-                      <div className="control">
-                        * If many cancellations happen in a row you will be ban from BidOrBoo
+                        * Cancelling often will put a ban on your account
                       </div>
                     </div>
                   </div>
@@ -148,7 +145,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelAwardedBid(bid._id);
+                      cancelJobById(job._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -191,7 +188,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       </div>
                     </button>
                   </div>
-                  {!bidderConfirmed && (
+                  {!bidderConfirmed && !proposerConfirmed && (
                     <div className="dropdown-menu" id="dropdown-menu" role="menu">
                       <div className="dropdown-content">
                         <a
@@ -201,7 +198,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                           <span className="icon">
                             <i className="far fa-trash-alt" aria-hidden="true" />
                           </span>
-                          <span>Cancel Agreement</span>
+                          <span>Cancel Request</span>
                         </a>
                       </div>
                     </div>
@@ -218,26 +215,23 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 }}
                 className="navbar-divider"
               />
-
-              {bidderConfirmed && !proposerConfirmed && (
+              {bidderConfirmed && (
                 <div className="field">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
                   <div className="help">
-                    * Awaiting on the requester to confirm this request is completed. this shouldn't
-                    take long
+                    * The Tasker is Done thier work, Please confirm completion asap
                   </div>
                 </div>
               )}
-
-              {!bidderConfirmed && !proposerConfirmed && (
+              {!bidderConfirmed && (
                 <div className="field">
                   <label className="label">Request Status</label>
-                  <div className="control has-text-success">Assigned To Me</div>
+                  <div className="control has-text-success">{displayStatus}</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (
                     <div className="help">
-                      * Get In touch with the Requester to confirm any further details
+                      * Get In touch with the tasker to confirm any further details
                     </div>
                   )}
                   {isHappeningSoon && !isHappeningToday && !isPastDue && (
@@ -253,11 +247,12 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   )}
                 </div>
               )}
+
               <div className="field">
-                <label className="label">My Payout</label>
+                <label className="label">Task Cost</label>
                 <div className="control has-text-success">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* will be paid out after completing this task</div>
+                <div className="help">* will be charged after the request is completed.</div>
               </div>
               <StartDateAndTime
                 date={startingDateAndTime}
@@ -309,8 +304,8 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               </div>
               <hr className="divider" />
               <div className="field">
-                <label className="label">Requester Details</label>
-                <UserImageAndRating userDetails={_ownerRef} />
+                <label className="label">Assigned Tasker Details</label>
+                <UserImageAndRating userDetails={_bidderRef} />
                 <div className="control">
                   <span className="icon">
                     <i className="far fa-envelope" />
@@ -326,42 +321,12 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 {!isPastDue && <AddAwardedJobToCalendar job={job} />}
               </div>
             </div>
-          </div>
-          <hr className="divider isTight" />
-          <div style={{ padding: '0.5rem', display: 'flex' }}>
-            {bidderConfirmed && !proposerConfirmed && (
-              <div style={{ flexGrow: 1 }}>
-                <a
-                  disabled
-                  onClick={() => null}
-                  className={`button is-fullwidth is-success is-outlined`}
-                >
-                  <span>Review The Requester</span>
-                </a>
-                <div className="help">
-                  * You will be able to rate the requester after we confirm the task was completed
-                </div>
-              </div>
-            )}
-            {proposerConfirmed && (
-              <div style={{ flexGrow: 1 }}>
-                <a
-                  onClick={() => alert('not implemented but redirect me to review page')}
-                  className={`button is-fullwidth is-success heartbeatInstant`}
-                >
-                  <span className="icon">
-                    <i className="fas fa-user-check" />
-                  </span>
-                  <span>Review The Requester</span>
-                </a>
-              </div>
-            )}
-            {!proposerConfirmed && !bidderConfirmed && (
-              <React.Fragment>
-                <TaskerConfirmsCompletion {...this.props} />
-                <TaskerDisputes {...this.props} />
-              </React.Fragment>
-            )}
+            <hr className="divider isTight" />
+            <div style={{ display: 'flex' }}>
+              <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
+
+              <RequesterDisputes {...this.props} jobId={job._id} />
+            </div>
           </div>
         </div>
       </React.Fragment>
@@ -380,19 +345,19 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
-    taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
+    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    proposerDisputesJob: bindActionCreators(proposerDisputesJob, dispatch),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidDetails);
+)(RequesterAwardedDetails);
 
-class TaskerConfirmsCompletion extends React.Component {
+class RequesterConfirmsCompletion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -404,16 +369,16 @@ class TaskerConfirmsCompletion extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { proposerConfirmsJobCompletion, job } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      proposerConfirmsJobCompletion(job._id);
     });
   };
-
   render() {
     const { showConfirmationModal } = this.state;
-    const { isPastDue } = this.props.job;
+    const { bidderConfirmed, job } = this.props;
+    const { isPastDue } = job;
 
     return (
       <React.Fragment>
@@ -423,25 +388,21 @@ class TaskerConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Completed This Request?</div>
+                  <div className="modal-card-title">Tasker is Done?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBooCrew is proud of you!</p>
+                  <p>
+                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
+                    hope that it was done to your satisfaction.
+                  </p>
                   <br />
-                  <p>If you are done please confirm that you finished this request.</p>
-                  <br />
-
                   <div className="field">
                     <label className="label">What will happen next?</label>
                     <div className="help">
-                      * The Requester will confirm that you have completed this job
+                      * Once you've confirmed completion the Tasker will be paid
                     </div>
                     <div className="help">
-                      * Your payment will be released to your bank and should be available within
-                      3-5 bizbiz day
-                    </div>
-                    <div className="help">
-                      * The Requester and yourself will be prompted to Rate your experience
+                      * The Tasker and yourself will be prompted to Rate your experience
                     </div>
                   </div>
                 </section>
@@ -461,17 +422,17 @@ class TaskerConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ padding: '0.5rem', flexGrow: 1 }}>
           <a
             onClick={this.toggleModal}
             className={`button is-fullwidth is-success is-outlined ${
-              isPastDue ? 'heartbeatInstant' : ''
+              isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
             }`}
           >
-            I am Done!
+            Tasker is Done
           </a>
           <div className="help">
-            * click on this <strong>After</strong> You have finished doing this request
+            * Click <strong>After</strong> the Tasker has completed this request
           </div>
         </div>
       </React.Fragment>
@@ -479,7 +440,7 @@ class TaskerConfirmsCompletion extends React.Component {
   }
 }
 
-class TaskerDisputes extends React.Component {
+class RequesterDisputes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -488,23 +449,24 @@ class TaskerDisputes extends React.Component {
       selectedDispute: '',
     };
   }
+
   submitDispute = (taskerDispute) => {
-    const { taskerDisputesJob } = this.props;
-    taskerDisputesJob(taskerDispute);
+    const { proposerDisputesJob } = this.props;
+    proposerDisputesJob(taskerDispute);
   };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { proposerConfirmsJobCompletion, jobId } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      proposerConfirmsJobCompletion(jobId);
     });
   };
   render() {
-    const { job } = this.props;
-    const jobId = job._id;
+    const { jobId } = this.props;
+
     const { showConfirmationModal, selectedDispute, disputeText } = this.state;
     return (
       <React.Fragment>
@@ -531,36 +493,26 @@ class TaskerDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="Requester was not available on the agreed on time and location"
+                        name="Tasker Did Not Show Up"
                         onChange={() =>
-                          this.setState({
-                            selectedDispute:
-                              'Requester was not available on the agreed on time and location',
-                          })
+                          this.setState({ selectedDispute: 'Tasker Did Not Show Up' })
                         }
-                        checked={
-                          selectedDispute ===
-                          'Requester was not available on the agreed on time and location'
-                        }
+                        checked={selectedDispute === 'Tasker Did Not Show Up'}
                       />
-                      {` Requester did not respond or show up on the agreed upon date and time`}
+                      {` Tasker did not show up`}
                     </label>
                   </div>
                   <div className="field">
                     <label className="radio">
                       <input
                         type="radio"
-                        name="Requester Did not describe the work accurately"
+                        name="Tasker Did Not Do A Good Job"
                         onChange={() =>
-                          this.setState({
-                            selectedDispute: 'Requester Did not describe the work accurately',
-                          })
+                          this.setState({ selectedDispute: 'Tasker Did Not Do A Good Job' })
                         }
-                        checked={
-                          selectedDispute === 'Requester Did not describe the work accurately'
-                        }
+                        checked={selectedDispute === 'Tasker Did Not Do A Good Job'}
                       />
-                      {` Requester did not describe the workload accurately`}
+                      {` Tasker did not do a good job`}
                     </label>
                   </div>
                   <div className="field">
@@ -611,7 +563,7 @@ class TaskerDisputes extends React.Component {
                     type="submit"
                     onClick={() =>
                       this.submitDispute({
-                        taskerDispute: {
+                        proposerDispute: {
                           reason: selectedDispute,
                           details: disputeText,
                           jobId: jobId,
@@ -620,7 +572,7 @@ class TaskerDisputes extends React.Component {
                     }
                     className="button is-danger"
                   >
-                    Submit Dispute
+                    Submit My Dispute
                   </button>
                   <button onClick={this.toggleModal} className="button is-outline">
                     Close
@@ -630,11 +582,9 @@ class TaskerDisputes extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div>
-          <a onClick={this.toggleModal} className="button is-text">
-            Or File a Dispute
-          </a>
-        </div>
+        <a onClick={this.toggleModal} className="button is-text">
+          Or File a Dispute
+        </a>
       </React.Fragment>
     );
   }

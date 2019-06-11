@@ -1,50 +1,31 @@
 import React from 'react';
+
 import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
 } from '../../containers/commonComponents';
+
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-import { REQUEST_STATES } from '../index';
-
-export default class RequesterCanceledByRequesterSummary extends React.Component {
+export default class RequesterOpenCanceledSummary extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
+    const { _id: jobId, startingDateAndTime, addressText, displayStatus } = job;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+    if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
-    const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
       <div className="card readOnlyView limitWidthOfCard">
@@ -72,21 +53,11 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
               className="navbar-divider"
             />
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                <div className="help">{`* This was canceled by ${ownerDisplayName}`}</div>
-              </div>
-            )}
-
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-              <div className="field">
-                <label className="label">Request Status</label>
-                <div className="control">{displayStatus}</div>
-                {`* This was canceled by ${_bidderRef.displayName}`}
-              </div>
-            )}
+            <div className="field">
+              <label className="label">Request Status</label>
+              <div className="control">{displayStatus}</div>
+              <div className="help">* This Request will be deleted in 48 hours</div>
+            </div>
 
             <StartDateAndTime
               date={startingDateAndTime}
@@ -94,6 +65,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+
             <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
@@ -106,11 +78,11 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
             <a
               style={{ position: 'relative' }}
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
               }}
-              className="button is-outlined is-danger"
+              className="button is-outlined is-fullwidth "
             >
-              View Implications
+              View Canceled Request
             </a>
           </div>
         </React.Fragment>

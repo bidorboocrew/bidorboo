@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
+import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { switchRoute } from '../../utils';
@@ -12,64 +12,27 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
+  UserImageAndRating,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
+import RequestBaseContainer from '../RequestBaseContainer';
 
-class TaskerMyAwardedBidSummary extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
-  toggleShowMore = () => {
-    this.setState({ showMore: !this.state.showMore });
-  };
-  toggleDeleteConfirmationDialog = () => {
-    this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
-  };
-
-  toggleShowMoreOptionsContextMenu = (e) => {
-    e.preventDefault();
-    this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
-      if (this.state.showMoreOptionsContextMenu) {
-        document.addEventListener('mousedown', this.handleClick, false);
-      } else {
-        document.removeEventListener('mousedown', this.handleClick, false);
-      }
-    });
-  };
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClick = (e) => {
-    if (this.node && e.target && this.node.contains(e.target)) {
-      return;
-    } else {
-      this.toggleShowMoreOptionsContextMenu(e);
-    }
-  };
+class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
-    const { bid, job, cancelAwardedBid } = this.props;
-
-    if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
+    const { job, cancelJobById } = this.props;
+    if (!job || !job._id || !cancelJobById) {
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
 
     const {
+      _id: jobId,
       startingDateAndTime,
       addressText,
-      isPastDue,
+      displayStatus,
       isHappeningSoon,
       isHappeningToday,
+      isPastDue,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -78,32 +41,23 @@ class TaskerMyAwardedBidSummary extends React.Component {
       },
     } = job;
     if (
+      !jobId ||
       !startingDateAndTime ||
       !addressText ||
+      !displayStatus ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
+      return <div>RequesterAwardedSummary is missing properties</div>;
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
+    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
-
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -112,7 +66,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Agreement</div>
+                  <div className="modal-card-title">Cancel Agreement</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -121,13 +75,10 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>
-                      Cancelling a bid after you have been assigned is considered a missed
-                      appointment.
-                    </div>
+                    <div>Cancelling an assigned request is considered a missed appointment.</div>
                     <br />
                     <div>
-                      We understand that life "happens" but to keep things fair for you and the
+                      We understand that life "happens" , but to keep things fair for you and the
                       tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
@@ -135,13 +86,13 @@ class TaskerMyAwardedBidSummary extends React.Component {
 
                     <div className="field">
                       <label className="label">What you need to know:</label>
-
+                      <div className="control">
+                        * You will be <strong>penalized 20%</strong> of the total payment and will
+                        be refunded 80%.
+                      </div>
                       <div className="control">* Your global rating will be impacted</div>
                       <div className="control">
-                        * This cancellation will show up on your profile
-                      </div>
-                      <div className="control">
-                        * If many cancellations happen in a row you will be ban from BidOrBoo
+                        * Cancelling often will put a ban on your account
                       </div>
                     </div>
                   </div>
@@ -157,7 +108,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelAwardedBid(bid._id);
+                      cancelJobById(jobId);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -172,7 +123,11 @@ class TaskerMyAwardedBidSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard`}>
+
+        <div className="card limitWidthOfCard">
+          {/* <div className="card-image">
+            <img className="bdb-cover-img" src={IMG_URL} />
+          </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
@@ -199,19 +154,17 @@ class TaskerMyAwardedBidSummary extends React.Component {
                       </div>
                     </button>
                   </div>
-                  {!bidderConfirmed && (
+                  {!bidderConfirmed && !proposerConfirmed && (
                     <div className="dropdown-menu" id="dropdown-menu" role="menu">
                       <div className="dropdown-content">
                         <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
+                          onClick={this.toggleDeleteConfirmationDialog}
                           className="dropdown-item has-text-danger"
                         >
                           <span className="icon">
                             <i className="far fa-trash-alt" aria-hidden="true" />
                           </span>
-                          <span>Cancel Agreement</span>
+                          <span>Cancel Request</span>
                         </a>
                       </div>
                     </div>
@@ -228,25 +181,23 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              {bidderConfirmed && !proposerConfirmed && (
+              {bidderConfirmed && (
                 <div className="field">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
                   <div className="help">
-                    * Awaiting on the requester to confirm this request is completed. this shouldn't
-                    take long
+                    * The Tasker is Done thier work, Please confirm completion asap
                   </div>
                 </div>
               )}
-
-              {!bidderConfirmed && !proposerConfirmed && (
+              {!bidderConfirmed && (
                 <div className="field">
                   <label className="label">Request Status</label>
-                  <div className="control has-text-success">Assigned To Me</div>
+                  <div className="control has-text-success">{displayStatus}</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (
                     <div className="help">
-                      * Get In touch with the Requester to confirm any further details
+                      * Get In touch with the tasker to confirm any further details
                     </div>
                   )}
                   {isHappeningSoon && !isHappeningToday && !isPastDue && (
@@ -263,27 +214,30 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 </div>
               )}
 
-              <div className="field">
-                <label className="label">My Payout</label>
-                <div className={`has-text-success`}>{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Will be auto paid when you confirm completion.</div>
-              </div>
               <StartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <DisplayShortAddress
-                addressText={addressText}
-                renderHelpComponent={() => (
-                  <div className="help">* The Address provided by the requester</div>
-                )}
-              />
+              <DisplayShortAddress addressText={addressText} />
             </div>
           </div>
-          {renderFooter({ bid, isPastDue, jobCompletion })}
+
+          <div style={{ padding: '0.5rem' }}>
+            <hr className="divider isTight" />
+          </div>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+              }}
+              className={`button is-outlined is-fullwidth is-success`}
+              style={{ flexGrow: 1, marginRight: 10 }}
+            >
+              {`${isPastDue || bidderConfirmed ? 'View To Confirm' : 'View Tasker Details'}`}
+            </a>
+          </div>
         </div>
       </React.Fragment>
     );
@@ -302,7 +256,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
+    cancelJobById: bindActionCreators(cancelJobById, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
@@ -310,47 +264,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidSummary);
-
-const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
-  const {
-    proposerConfirmed = false,
-    bidderConfirmed = false,
-    bidderDisputed = false,
-    proposerDisputed = false,
-  } = jobCompletion;
-
-  return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(
-              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-            );
-          }}
-          className="button is-outlined is-fullwidth is-success"
-        >
-          {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
-
-          {proposerConfirmed && (
-            <React.Fragment>
-              <span className="icon">
-                <i className="fas fa-user-check" />
-              </span>
-              <span>Review The Requester</span>
-            </React.Fragment>
-          )}
-          {!proposerConfirmed && !bidderConfirmed && (
-            <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
-          )}
-        </a>
-      </div>
-    </React.Fragment>
-  );
-};
+)(RequesterAwardedSummary);

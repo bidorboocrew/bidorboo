@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import TASKS_DEFINITIONS from './tasksDefinitions';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
 import {
@@ -238,7 +238,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   {isPastDue && (
                     <div className="field">
                       <label className="label">Bid Status</label>
-                      <div className="control has-text-info">Past Due - Expired</div>
+                      <div className="control has-text-dark">Past Due - Expired</div>
                       <div className="help">
                         * Sorry! the requester did not select anyone
                       </div>
