@@ -23,6 +23,7 @@ export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
   TASKER: 'TASKER',
 };
+
 export { default as TASKS_DEFINITIONS } from './house-cleaning/tasksDefinitions';
 export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningConcept';
 export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleaningCreateJob';
