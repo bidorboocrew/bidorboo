@@ -17,7 +17,7 @@ import {
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
-class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
+class TaskerMyOpenBidSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -60,39 +60,39 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
   render() {
     const { bid, job, otherArgs } = this.props;
     if (!bid || !job || !otherArgs) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
     const { deleteOpenBid } = otherArgs;
     if (!deleteOpenBid) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
     const { startingDateAndTime, location, isPastDue, state } = job;
     if (!startingDateAndTime || !location || isPastDue === 'undefined') {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
     const { coordinates } = location;
     if (!coordinates) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
     const { bidAmount } = bid;
     if (!bidAmount) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
     const { displayStatus } = bid;
     if (!displayStatus) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
@@ -281,7 +281,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyOpenBidHouseCleaningSummary);
+)(TaskerMyOpenBidSummary);
 
 const renderFooter = ({
   bid,

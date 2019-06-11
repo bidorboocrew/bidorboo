@@ -18,7 +18,7 @@ import {
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
 
-export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component {
+export default class TaskerMyOpenBidDetails extends React.Component {
   constructor(props) {
     super(props);
 

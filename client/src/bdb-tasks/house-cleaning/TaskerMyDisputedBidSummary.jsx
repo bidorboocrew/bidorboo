@@ -10,7 +10,7 @@ import {
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-export default class TaskerMyDisputedBidHouseCleaningDetails extends React.Component {
+export default class TaskerMyDisputedBidSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -25,7 +25,7 @@ export default class TaskerMyDisputedBidHouseCleaningDetails extends React.Compo
     const { bid, job } = this.props;
 
     if (!bid || !job) {
-      return <div>TaskerMyDisputedBidHouseCleaningDetails is missing properties</div>;
+      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
 
     const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
@@ -36,24 +36,24 @@ export default class TaskerMyDisputedBidHouseCleaningDetails extends React.Compo
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>TaskerMyDisputedBidHouseCleaningDetails is missing properties</div>;
+      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>TaskerMyDisputedBidHouseCleaningDetails is missing properties</div>;
+      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
     const { displayStatus, bidAmount, _id } = bid;
     if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyDisputedBidHouseCleaningDetails is missing properties</div>;
+      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
     // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyDisputedBidHouseCleaningDetails is missing properties</div>;
+      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
 
     return (
-      <div className={`card disputeOnlyView`}>
+      <div className={`card disputeOnlyView limitWidthOfCard`}>
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -78,14 +78,16 @@ export default class TaskerMyDisputedBidHouseCleaningDetails extends React.Compo
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>{' '}
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <div className="field">
               <label className="label">Potential Payout</label>
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">* on hold</div>
+              <div className="help">
+                * on hold
+              </div>
             </div>
             <StartDateAndTime
               date={startingDateAndTime}
@@ -94,35 +96,25 @@ export default class TaskerMyDisputedBidHouseCleaningDetails extends React.Compo
               )}
             />
           </div>
-          <div className="field">
-            <label className="label has-text-danger">What you need to know:</label>
-            <div className="control">* BidorBooCrew will assess the dispute asap</div>
-            <div className="control">
-              * Our customer relation team will be in touch with tasker and requester to gather
-              facts
-            </div>
-            <div className="control">
-              * We will contact you asap to inform you of the next steps.
-            </div>
-          </div>
+        </div>
+        <React.Fragment>
           <div style={{ padding: '0.5rem' }}>
             <hr className="divider isTight" />
           </div>
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
+              style={{ position: 'relative' }}
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
               }}
-              className={`button is-outlined`}
-              style={{ flexGrow: 1, marginRight: 10 }}
+              className="button is-outlined is-fullwidth is-danger"
             >
-              <span className="icon">
-                <i className="far fa-arrow-alt-circle-left" />
-              </span>
-              <span>I understand</span>
+              View Disputed Task
             </a>
           </div>
-        </div>
+        </React.Fragment>
       </div>
     );
   }

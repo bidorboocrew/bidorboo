@@ -23,7 +23,7 @@ import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 import { Spinner } from '../../components/Spinner';
 
-class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
+class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid, currentUserDetails } = this.props;
     if (!bid || !bid._id || !currentUserDetails) {
@@ -251,4 +251,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidHouseCleaningDetails);
+)(TaskerMyAwardedBidDetails);

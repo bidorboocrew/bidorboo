@@ -22,7 +22,7 @@ import {
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
-class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
+class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
     if (!bid) {
@@ -390,7 +390,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidHouseCleaningDetails);
+)(TaskerMyAwardedBidDetails);
 
 class TaskerConfirmsCompletion extends React.Component {
   constructor(props) {

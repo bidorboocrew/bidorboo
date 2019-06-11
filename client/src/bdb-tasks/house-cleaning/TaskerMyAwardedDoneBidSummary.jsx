@@ -17,7 +17,7 @@ import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-class TaskerMyAwardedDoneBidHouseCleaningSummary extends React.Component {
+class TaskerMyAwardedDoneBidSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -60,7 +60,7 @@ class TaskerMyAwardedDoneBidHouseCleaningSummary extends React.Component {
   render() {
     const { bid, job, cancelAwardedBid } = this.props;
     if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
 
     const {
@@ -82,20 +82,20 @@ class TaskerMyAwardedDoneBidHouseCleaningSummary extends React.Component {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
     const { displayStatus, bidAmount, _id } = bid;
     if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
     // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedDoneBidHouseCleaningSummary missing properties</div>;
+      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
 
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
@@ -228,4 +228,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedDoneBidHouseCleaningSummary);
+)(TaskerMyAwardedDoneBidSummary);

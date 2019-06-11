@@ -17,7 +17,7 @@ import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
-class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
+class TaskerMyAwardedBidSummary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -61,7 +61,7 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
     const { bid, job, cancelAwardedBid } = this.props;
 
     if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
 
     const {
@@ -84,20 +84,20 @@ class TaskerMyAwardedBidHouseCleaningSummary extends React.Component {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
     const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
     const { displayStatus, bidAmount, _id } = bid;
     if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
     // xxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedBidHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
@@ -310,7 +310,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidHouseCleaningSummary);
+)(TaskerMyAwardedBidSummary);
 
 const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
   const {
