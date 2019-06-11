@@ -108,13 +108,6 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
               </div>
             )}
 
-            <div className="field">
-              <label className="label">Task Cost</label>
-              <div className="control">{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">* Paid out to Tasker.</div>
-            </div>
-
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayShortAddress addressText={addressText} />
           </div>

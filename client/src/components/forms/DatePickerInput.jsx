@@ -38,7 +38,7 @@ export default class DatePickerInput extends React.Component {
         selected={this.state.startDate}
         onChange={this.handleChange}
         minDate={minDate}
-        maxDate={moment().add(60, 'd')}
+        maxDate={moment().add(20, 'd')}
       />
     );
   }

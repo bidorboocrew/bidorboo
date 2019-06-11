@@ -38,7 +38,7 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      if (!jobDetails._reviewRef.requiresProposerReview) {
+      if (jobDetails._reviewRef && jobDetails._reviewRef.requiresProposerReview) {
         return res.status(403).send({
           errorMsg: 'You have already submit a review on this job.',
         });
