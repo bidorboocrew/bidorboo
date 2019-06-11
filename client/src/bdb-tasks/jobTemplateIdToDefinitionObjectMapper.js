@@ -1,8 +1,8 @@
-import { HOUSE_CLEANING_DEF } from './index';
+import { TASKS_DEFINITIONS } from './index';
 
 // map id to definition object
 const jobTemplateIdToDefinitionObjectMapper = {
-  [`${HOUSE_CLEANING_DEF.ID}`]: HOUSE_CLEANING_DEF,
+  [`${TASKS_DEFINITIONS.ID}`]: TASKS_DEFINITIONS,
 };
 
 export default jobTemplateIdToDefinitionObjectMapper;

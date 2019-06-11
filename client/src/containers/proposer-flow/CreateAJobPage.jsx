@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { addJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { HOUSE_CLEANING_DEF, HouseCleaningCreateJob } from '../../bdb-tasks/index';
+import { TASKS_DEFINITIONS, HouseCleaningCreateJob } from '../../bdb-tasks/index';
 
 const creatJobsByIdMap = {
-  [`${HOUSE_CLEANING_DEF.ID}`]: (props) => {
+  [`${TASKS_DEFINITIONS.ID}`]: (props) => {
     return <HouseCleaningCreateJob {...props} />;
   },
 };

@@ -4,7 +4,8 @@ import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+
+import { TASKS_DEFINITIONS } from '../bdb-tasks/house-cleaning/tasksDefinitions';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -155,7 +156,7 @@ export const CardTitleAndActionsInfo = ({
               <i className="fas fa-home" />
             </span>
             <span style={{ marginLeft: 4 }}>
-              {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+              {TASKS_DEFINITIONS[fromTemplateId] && TASKS_DEFINITIONS[fromTemplateId].TITLE}
             </span>
           </div>
         </div>
@@ -477,7 +478,8 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${TASKS_DEFINITIONS[fromTemplateId] &&
+    TASKS_DEFINITIONS[fromTemplateId].TITLE} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;

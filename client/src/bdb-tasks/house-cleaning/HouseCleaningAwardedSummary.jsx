@@ -15,7 +15,7 @@ import {
   UserImageAndRating,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
 class HouseCleaningAwardedSummary extends RequestBaseContainer {
@@ -51,7 +51,7 @@ class HouseCleaningAwardedSummary extends RequestBaseContainer {
     ) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>HouseCleaningAwardedSummary is missing properties</div>;
     }

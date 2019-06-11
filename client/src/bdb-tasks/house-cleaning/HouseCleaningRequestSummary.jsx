@@ -14,7 +14,7 @@ import {
   DisplayShortAddress,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import { isPast } from 'date-fns';
 
 class HouseCleaningRequestSummary extends React.Component {
@@ -83,7 +83,7 @@ class HouseCleaningRequestSummary extends React.Component {
     }
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { TITLE, IMG_URL } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>HouseCleaningRequestSummary is missing properties</div>;
     }

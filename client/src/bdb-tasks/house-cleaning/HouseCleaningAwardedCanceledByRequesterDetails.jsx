@@ -9,7 +9,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 export default class HouseCleaningAwardedCanceledByRequesterDetails extends React.Component {
   render() {
@@ -28,6 +28,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       _ownerRef,
       detailedDescription,
       processedPayment,
+      fromTemplateId,
     } = job;
     if (
       !startingDateAndTime ||
@@ -38,6 +39,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
       !extras ||
       !_ownerRef ||
       !detailedDescription ||
+      !fromTemplateId ||
       !processedPayment
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -64,7 +66,7 @@ export default class HouseCleaningAwardedCanceledByRequesterDetails extends Reac
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

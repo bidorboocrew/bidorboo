@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 
 import { DisplayLabelValue } from '../../containers/commonComponents';
 import HouseCleaningRequestDetailsPreview from './HouseCleaningRequestDetailsPreview';
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import {
   getCurrentAddress,
   toggleConfirmationDialog,
@@ -47,7 +47,7 @@ class HouseCleaningJobForm extends React.Component {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
-      selectedEffortButtonId: HOUSE_CLEANING_DEF.extras.effort.small,
+      selectedEffortButtonId: TASKS_DEFINITIONS.extras.effort.small,
     };
 
     setupGoogleAndGeoCoder.bind(this)();
@@ -78,11 +78,11 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras, TITLE } = HOUSE_CLEANING_DEF;
+    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS;
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
-      fromTemplateId: HOUSE_CLEANING_DEF.ID,
+      fromTemplateId: TASKS_DEFINITIONS.ID,
       startingDateAndTime: values.dateField,
       _ownerRef: currentUserDetails,
       addressText: values.addressTextField,
@@ -288,7 +288,7 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      effortField: HOUSE_CLEANING_DEF.extras.effort.small,
+      effortField: TASKS_DEFINITIONS.extras.effort.small,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })

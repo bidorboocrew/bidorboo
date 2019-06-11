@@ -25,7 +25,7 @@ import {
   HouseCleaningAwardedDisputedSummary,
   TaskerMyDisputedBidHouseCleaningSummary,
   TaskerMyDisputedBidHouseCleaningDetails,
-  HOUSE_CLEANING_DEF,
+  TASKS_DEFINITIONS,
   REQUEST_STATES,
   POINT_OF_VIEW,
   BID_STATES,

@@ -14,7 +14,7 @@ import {
   LocationLabelAndValue,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
 class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
@@ -90,7 +90,7 @@ class TaskerMyOpenBidHouseCleaningSummary extends React.Component {
       return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
     }
 
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>TaskerMyOpenBidHouseCleaningSummary is missing properties</div>;
     }

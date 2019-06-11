@@ -15,7 +15,7 @@ import {
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
@@ -28,7 +28,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }

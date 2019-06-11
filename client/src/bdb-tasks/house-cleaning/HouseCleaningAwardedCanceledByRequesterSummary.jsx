@@ -7,7 +7,7 @@ import {
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 import { REQUEST_STATES } from '../index';
 
@@ -40,7 +40,7 @@ export default class HouseCleaningAwardedCanceledByRequesterSummary extends Reac
     if (!_bidderRef) {
       return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>HouseCleaningAwardedCanceledByRequesterSummary is missing properties</div>;
     }

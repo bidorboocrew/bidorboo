@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import haversineOffset from 'haversine-offset';
 
 import HouseCleaningJobForm from './HouseCleaningJobForm';
@@ -105,7 +105,7 @@ export default class HouseCleaningCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, SUGGESTION_TEXT } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS;
 
     return (
       <div

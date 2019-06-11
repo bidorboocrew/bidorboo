@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
 import {
@@ -101,7 +101,7 @@ export default class TaskerMyOpenBidHouseCleaningDetails extends React.Component
     if (!displayStatus) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

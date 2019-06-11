@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { CountDownComponent, StartDateAndTime } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
@@ -23,7 +23,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }

@@ -9,7 +9,7 @@ import {
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 export default class HouseCleaningOpenCanceledSummary extends React.Component {
   render() {
@@ -22,7 +22,7 @@ export default class HouseCleaningOpenCanceledSummary extends React.Component {
     if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
       return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>HouseCleaningOpenCanceledSummary is missing properties</div>;
     }

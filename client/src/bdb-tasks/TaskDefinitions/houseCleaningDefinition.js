@@ -1,4 +1,4 @@
-export const HOUSE_CLEANING_DEF = {
+export const TASKS_DEFINITIONS = {
   ID: 'bdbjob-house-cleaning',
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',

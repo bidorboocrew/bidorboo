@@ -23,7 +23,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
 class HouseCleaningAwardedDetails extends RequestBaseContainer {
@@ -88,7 +88,7 @@ class HouseCleaningAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

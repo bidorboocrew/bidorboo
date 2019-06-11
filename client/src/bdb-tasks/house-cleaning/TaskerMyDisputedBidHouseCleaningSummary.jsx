@@ -8,7 +8,7 @@ import {
   DisplayShortAddress,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 export default class TaskerMyDisputedBidHouseCleaningSummary extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ export default class TaskerMyDisputedBidHouseCleaningSummary extends React.Compo
     ) {
       return <div>TaskerMyDisputedBidHouseCleaningSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>TaskerMyDisputedBidHouseCleaningSummary is missing properties</div>;
     }

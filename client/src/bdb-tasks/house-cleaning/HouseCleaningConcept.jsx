@@ -5,11 +5,11 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import { JobTitleText } from '../../containers/commonComponents';
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION, ICON } = HOUSE_CLEANING_DEF;
+    const { ID, TITLE, DESCRIPTION, ICON } = TASKS_DEFINITIONS;
 
     return (
       <div className="card limitWidthOfCard">

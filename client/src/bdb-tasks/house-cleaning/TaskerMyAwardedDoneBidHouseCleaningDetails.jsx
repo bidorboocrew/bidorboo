@@ -19,7 +19,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 import { Spinner } from '../../components/Spinner';
 
@@ -72,7 +72,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     }
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

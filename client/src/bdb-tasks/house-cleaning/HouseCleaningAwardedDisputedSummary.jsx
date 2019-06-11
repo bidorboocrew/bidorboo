@@ -7,7 +7,7 @@ import {
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 
 export default class HouseCleaningAwardedDisputedSummary extends React.Component {
   render() {
@@ -38,7 +38,7 @@ export default class HouseCleaningAwardedDisputedSummary extends React.Component
     if (!_bidderRef) {
       return <div>HouseCleaningAwardedDisputedSummary is missing properties</div>;
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return <div>HouseCleaningAwardedDisputedSummary is missing properties</div>;
     }

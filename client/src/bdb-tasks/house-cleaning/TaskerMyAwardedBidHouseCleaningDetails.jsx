@@ -19,7 +19,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import { HOUSE_CLEANING_DEF } from './houseCleaningDefinition';
+import { TASKS_DEFINITIONS } from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
 class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
@@ -86,7 +86,7 @@ class TaskerMyAwardedBidHouseCleaningDetails extends RequestBaseContainer {
     if (!emailAddress) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { TITLE } = HOUSE_CLEANING_DEF;
+    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
