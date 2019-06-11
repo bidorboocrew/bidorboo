@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import haversineOffset from 'haversine-offset';
 
 import HouseCleaningJobForm from './HouseCleaningJobForm';

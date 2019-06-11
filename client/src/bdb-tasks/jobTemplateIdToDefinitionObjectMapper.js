@@ -1,8 +1,8 @@
-import { TASKS_DEFINITIONS } from './index';
+import TASKS_DEFINITIONS from './index';
 
 // map id to definition object
-const jobTemplateIdToDefinitionObjectMapper = {
+const tasksDefinitions = {
   [`${TASKS_DEFINITIONS.ID}`]: TASKS_DEFINITIONS,
 };
 
-export default jobTemplateIdToDefinitionObjectMapper;
+export default tasksDefinitions;

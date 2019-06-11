@@ -14,7 +14,7 @@ import {
   DisplayShortAddress,
 } from '../../containers/commonComponents';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import { isPast } from 'date-fns';
 
 class RequesterRequestSummary extends React.Component {

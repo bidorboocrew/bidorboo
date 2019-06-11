@@ -17,7 +17,7 @@ import {
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 
 class RequesterRequestDetails extends React.Component {
   constructor(props) {

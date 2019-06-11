@@ -8,7 +8,7 @@ import {
   DisplayShortAddress,
 } from '../../containers/commonComponents';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 
 export default class TaskerMyDisputedBidSummary extends React.Component {
   constructor(props) {

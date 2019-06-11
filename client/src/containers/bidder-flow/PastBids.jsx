@@ -15,7 +15,7 @@ import { Spinner } from '../../components/Spinner';
 
 import { DisplayLabelValue, StartDateAndTime } from '../commonComponents';
 
-import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import tasksDefinitions from '../../bdb-tasks/tasksDefinitions';
 
 class PastBids extends React.Component {
   componentDidUpdate(prevProps) {
@@ -138,7 +138,7 @@ class RequestSummary extends React.Component {
                     <DisplayLabelValue
                       labelText={'Request Type'}
                       labelValue={`${
-                        jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE
+                        tasksDefinitions[fromTemplateId].TITLE
                       } Task`}
                     />
 

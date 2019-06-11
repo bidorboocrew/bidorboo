@@ -5,7 +5,7 @@ import AddToCalendar from 'react-add-to-calendar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
-import { TASKS_DEFINITIONS } from '../bdb-tasks/house-cleaning/tasksDefinitions';
+import TASKS_DEFINITIONS from '../bdb-tasks/house-cleaning/tasksDefinitions';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';

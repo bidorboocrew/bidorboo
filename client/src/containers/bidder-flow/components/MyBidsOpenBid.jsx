@@ -3,7 +3,7 @@ import React from 'react';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 import { DisplayLabelValue, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
-import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
 export default class MyBidsOpenBid extends React.Component {
   render() {
@@ -51,7 +51,7 @@ export default class MyBidsOpenBid extends React.Component {
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
-            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+            src={`${tasksDefinitions[fromTemplateId].IMG_URL}`}
           />
         </div>
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">

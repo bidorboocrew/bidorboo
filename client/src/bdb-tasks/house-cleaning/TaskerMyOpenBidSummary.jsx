@@ -14,7 +14,7 @@ import {
   LocationLabelAndValue,
 } from '../../containers/commonComponents';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
 class TaskerMyOpenBidSummary extends React.Component {

@@ -5,7 +5,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import { JobTitleText } from '../../containers/commonComponents';
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 
 export default class HouseCleaningConcept extends React.Component {
   render() {

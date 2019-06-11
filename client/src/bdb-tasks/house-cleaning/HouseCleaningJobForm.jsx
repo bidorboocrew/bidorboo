@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 
 import { DisplayLabelValue } from '../../containers/commonComponents';
 import RequesterRequestDetailsPreview from './RequesterRequestDetailsPreview';
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import {
   getCurrentAddress,
   toggleConfirmationDialog,

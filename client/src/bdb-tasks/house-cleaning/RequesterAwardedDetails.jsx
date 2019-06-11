@@ -23,7 +23,7 @@ import {
   EffortLevel,
 } from '../../containers/commonComponents';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
 class RequesterAwardedDetails extends RequestBaseContainer {

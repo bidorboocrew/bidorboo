@@ -15,7 +15,7 @@ import {
   UserImageAndRating,
 } from '../../containers/commonComponents';
 
-import { TASKS_DEFINITIONS } from './tasksDefinitions';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import RequestBaseContainer from '../RequestBaseContainer';
 
 class RequesterAwardedSummary extends RequestBaseContainer {
