@@ -43,7 +43,7 @@ export default class HouseCleaningRequestDetailsPreview extends React.Component 
 
     return (
       <div style={{ height: 'unset' }} className="card">
-        <div className="card-content">
+        <div style={{ minHeight: 'unset' }} className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">

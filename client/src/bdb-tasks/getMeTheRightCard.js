@@ -36,114 +36,110 @@ export { REQUEST_STATES };
 export { BID_STATES };
 
 const requesterCardTemplates = {
-  [HOUSE_CLEANING_DEF.ID]: {
-    [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <HouseCleaningRequestSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningRequestDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <HouseCleaningAwardedSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningAwardedDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <HouseCleaningOpenCanceledSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningOpenCanceledDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      ...otherArgs
-    }) => {
-      return isSummaryView ? (
-        <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningAwardedCanceledByRequesterDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <HouseCleaningAwardedDoneSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningAwardedDoneDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <HouseCleaningAwardedDisputedSummary job={job} {...otherArgs} />
-      ) : (
-        <HouseCleaningAwardedDisputedDetails job={job} {...otherArgs} />
-      );
-    },
-    [REQUEST_STATES.PAIDOUT]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-      return isSummaryView ? (
-        <div>REQUEST_STATES.PAIDOUT summary not implemented yet</div>
-      ) : (
-        <div>REQUEST_STATES.PAIDOUT details not implemented yet</div>
-      );
-    },
+  [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <HouseCleaningRequestSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningRequestDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <HouseCleaningAwardedSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningAwardedDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <HouseCleaningOpenCanceledSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningOpenCanceledDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER]: ({
+    job,
+    isSummaryView,
+    pointOfView,
+    ...otherArgs
+  }) => {
+    return isSummaryView ? (
+      <HouseCleaningAwardedCanceledByRequesterSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningAwardedCanceledByRequesterDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <HouseCleaningAwardedDoneSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningAwardedDoneDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <HouseCleaningAwardedDisputedSummary job={job} {...otherArgs} />
+    ) : (
+      <HouseCleaningAwardedDisputedDetails job={job} {...otherArgs} />
+    );
+  },
+  [REQUEST_STATES.PAIDOUT]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.PAIDOUT summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.PAIDOUT details not implemented yet</div>
+    );
   },
 };
 
 const TaskerCardTemplates = {
-  [HOUSE_CLEANING_DEF.ID]: {
-    [BID_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [BID_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+    if (isSummaryView) {
+      if (withBidDetails) {
+        return <TaskerMyOpenBidHouseCleaningSummary job={job} {...otherArgs} />;
+      }
+      return <TaskerBidOnHouseCleaningSummary job={job} {...otherArgs} />;
+    } else {
+      if (withBidDetails) {
+        return <TaskerMyOpenBidHouseCleaningDetails job={job} {...otherArgs} />;
+      }
+      return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
+    }
+  },
+  [BID_STATES.WON]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+    if (job.state === REQUEST_STATES.DISPUTED) {
       if (isSummaryView) {
-        if (withBidDetails) {
-          return <TaskerMyOpenBidHouseCleaningSummary job={job} {...otherArgs} />;
-        }
-        return <TaskerBidOnHouseCleaningSummary job={job} {...otherArgs} />;
+        return <TaskerMyDisputedBidHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
-        if (withBidDetails) {
-          return <TaskerMyOpenBidHouseCleaningDetails job={job} {...otherArgs} />;
-        }
-        return <TaskerBidOnHouseCleaningDetails job={job} {...otherArgs} />;
+        return <TaskerMyDisputedBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
-    },
-    [BID_STATES.WON]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
-      if (job.state === REQUEST_STATES.DISPUTED) {
-        if (isSummaryView) {
-          return <TaskerMyDisputedBidHouseCleaningSummary job={job} {...otherArgs} />;
-        } else {
-          return <TaskerMyDisputedBidHouseCleaningDetails job={job} {...otherArgs} />;
-        }
-      } else {
-        if (isSummaryView) {
-          return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
-        } else {
-          return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
-        }
-      }
-    },
-    [BID_STATES.CANCELED_AWARDED_BY_TASKER]: ({
-      job,
-      isSummaryView,
-      pointOfView,
-      withBidDetails,
-      ...otherArgs
-    }) => {
+    } else {
       if (isSummaryView) {
-        return <TaskerAwardedBidCanceledByTaskerSummary job={job} {...otherArgs} />;
+        return <TaskerMyAwardedBidHouseCleaningSummary job={job} {...otherArgs} />;
       } else {
-        return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
+        return <TaskerMyAwardedBidHouseCleaningDetails job={job} {...otherArgs} />;
       }
-    },
-    [BID_STATES.DONE]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
-      if (isSummaryView) {
-        return <TaskerMyAwardedDoneBidHouseCleaningSummary job={job} {...otherArgs} />;
-      } else {
-        return <TaskerMyAwardedDoneBidHouseCleaningDetails job={job} {...otherArgs} />;
-      }
-    },
+    }
+  },
+  [BID_STATES.CANCELED_AWARDED_BY_TASKER]: ({
+    job,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
+    if (isSummaryView) {
+      return <TaskerAwardedBidCanceledByTaskerSummary job={job} {...otherArgs} />;
+    } else {
+      return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
+    }
+  },
+  [BID_STATES.DONE]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+    if (isSummaryView) {
+      return <TaskerMyAwardedDoneBidHouseCleaningSummary job={job} {...otherArgs} />;
+    } else {
+      return <TaskerMyAwardedDoneBidHouseCleaningDetails job={job} {...otherArgs} />;
+    }
   },
 };
 
@@ -152,7 +148,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
   switch (state) {
     case BID_STATES.OPEN:
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+        const card = TaskerCardTemplates[bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -169,7 +165,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
     case BID_STATES.WON:
       // return <TaskerMyOpenBidHouseCleaningSummary bid={bid} job={_jobRef} {...otherArgs} />;
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+        const card = TaskerCardTemplates[bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -187,7 +183,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       break;
     case BID_STATES.CANCELED_AWARDED_BY_TASKER:
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+        const card = TaskerCardTemplates[bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -203,7 +199,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
 
     case BID_STATES.DONE:
       try {
-        const card = TaskerCardTemplates[_jobRef.fromTemplateId][bid.state]({
+        const card = TaskerCardTemplates[bid.state]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -253,7 +249,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
   const { fromTemplateId, state } = job;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
-      const card = requesterCardTemplates[fromTemplateId][state]({
+      const card = requesterCardTemplates[state]({
         job,
         isSummaryView,
         pointOfView,
@@ -266,7 +262,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
   }
   if (pointOfView === POINT_OF_VIEW.TASKER) {
     try {
-      const card = TaskerCardTemplates[fromTemplateId][state]({
+      const card = TaskerCardTemplates[state]({
         job,
         isSummaryView,
         pointOfView,

@@ -171,12 +171,6 @@ class TaskerMyAwardedDoneBidHouseCleaningSummary extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisplayShortAddress
-              addressText={addressText}
-              renderHelpComponent={() => (
-                <div className="help">* The Address provided by the requester</div>
-              )}
-            />
           </div>
         </div>
 
