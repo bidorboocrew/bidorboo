@@ -95,7 +95,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             {!requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-link">Archived !</div>
+                <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
               </div>
             )}
@@ -132,7 +132,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-fullwidth is-outlined is-info`}
+              className={`button is-fullwidth is-outlined`}
             >
               View In Archive
             </a>

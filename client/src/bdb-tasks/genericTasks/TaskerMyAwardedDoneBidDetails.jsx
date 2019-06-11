@@ -125,7 +125,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               {!requiresBidderReview && (
                 <div className="field">
                   <label className="label">Request Status</label>
-                  <div className="control has-text-link">Archived !</div>
+                  <div className="control has-text-dark">Archived !</div>
                   <div className="help">* Congratulations. This was a success</div>
                 </div>
               )}
@@ -219,7 +219,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 onClick={() => {
                   alert('Archive not implemented yet, will take you to archieve');
                 }}
-                className={`button is-fullwidth is-link is-outlined`}
+                className={`button is-fullwidth is-outlined`}
               >
                 View In Archive
               </a>

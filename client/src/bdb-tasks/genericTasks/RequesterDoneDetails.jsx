@@ -125,7 +125,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             {!requiresProposerReview && (
               <div className="field">
                 <label className="label">Request Status</label>
-                <div className="control has-text-link">Archived !</div>
+                <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
               </div>
             )}
