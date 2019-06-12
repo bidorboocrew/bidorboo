@@ -65,6 +65,7 @@ Get one of our tasker to give your car a good cleaning!`,
       interiorType: 'leather',
       trunkCleaning: 'notRequired',
     },
+
     extras: function() {
       return {
         carSize: {
@@ -83,14 +84,14 @@ Get one of our tasker to give your car a good cleaning!`,
                   <div className="buttons">
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('carSize', 'mini', false)}
+                      onClick={() => setFieldValue('carSize', 'mini', true)}
                       className={`button is-info ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
                     >
                       {`Small (ex, mini)`}
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('carSize', 'sedan', false)}
+                      onClick={() => setFieldValue('carSize', 'sedan', true)}
                       className={`button is-info ${
                         values.carSize === 'sedan' ? '' : 'is-outlined'
                       }`}
@@ -99,14 +100,14 @@ Get one of our tasker to give your car a good cleaning!`,
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('carSize', 'suv', false)}
+                      onClick={() => setFieldValue('carSize', 'suv', true)}
                       className={`button is-info ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
                     >
                       {`Large (ex, SUV)`}
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('carSize', 'truck', false)}
+                      onClick={() => setFieldValue('carSize', 'truck', true)}
                       className={`button is-info ${
                         values.carSize === 'truck' ? '' : 'is-outlined'
                       }`}
@@ -157,7 +158,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <div className="buttons">
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('interiorType', 'leather', false)}
+                      onClick={() => setFieldValue('interiorType', 'leather', true)}
                       className={`button is-info ${
                         values.interiorType === 'leather' ? '' : 'is-outlined'
                       }`}
@@ -166,7 +167,7 @@ Get one of our tasker to give your car a good cleaning!`,
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('interiorType', 'fabric', false)}
+                      onClick={() => setFieldValue('interiorType', 'fabric', true)}
                       className={`button is-info ${
                         values.interiorType === 'fabric' ? '' : 'is-outlined'
                       }`}
@@ -175,7 +176,7 @@ Get one of our tasker to give your car a good cleaning!`,
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('interiorType', 'other', false)}
+                      onClick={() => setFieldValue('interiorType', 'other', true)}
                       className={`button is-info ${
                         values.interiorType === 'other' ? '' : 'is-outlined'
                       }`}
@@ -224,7 +225,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <div className="buttons">
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('trunkCleaning', 'isRequired', false)}
+                      onClick={() => setFieldValue('trunkCleaning', 'isRequired', true)}
                       className={`button is-info ${
                         values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
                       }`}
@@ -233,7 +234,7 @@ Get one of our tasker to give your car a good cleaning!`,
                     </span>
                     <span
                       style={{ width: 160 }}
-                      onClick={() => setFieldValue('trunkCleaning', 'notRequired', false)}
+                      onClick={() => setFieldValue('trunkCleaning', 'notRequired', true)}
                       className={`button is-info ${
                         values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
                       }`}

@@ -13,7 +13,10 @@ import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 import { TextAreaInput } from '../components/forms/FormsHelpers';
+import { StepsForRequest } from '../containers/commonComponents';
 
+import * as ROUTES from '../constants/frontend-route-consts';
+import { switchRoute } from '../utils';
 import { DisplayLabelValue } from '../containers/commonComponents';
 import RequesterRequestDetailsPreview from './genericTasks/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
@@ -77,6 +80,10 @@ class GenericJobForm extends React.Component {
       this.recaptchaRef.current.execute();
     }
   }
+  onGoBack = (e) => {
+    e.preventDefault();
+    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+  };
 
   render() {
     const {
@@ -113,127 +120,144 @@ class GenericJobForm extends React.Component {
     });
 
     return (
-      <React.Fragment>
-        {showConfirmationDialog &&
-          ReactDOM.createPortal(
-            <div className="modal is-active">
-              <div onClick={this.toggleConfirmationDialog} className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <div className="modal-card-title">Confirm Request Details</div>
-                  <button className="delete" aria-label="close" />
-                </header>
+      <div
+        style={{ maxWidth: 'unset', border: 'none', boxShadow: 'none' }}
+        className="card limitLargeMaxWidth"
+      >
+        <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
+          <br />
+          <StepsForRequest isSmall step={1} />
+          <br />
+        </section>
 
-                <section className="modal-card-body">
-                  <label className="label">Your Request Preview</label>
-                  <RequesterRequestDetailsPreview job={newTaskDetails} />
+        <div className="card-content">
+          {showConfirmationDialog &&
+            ReactDOM.createPortal(
+              <div className="modal is-active">
+                <div onClick={this.toggleConfirmationDialog} className="modal-background" />
+                <div className="modal-card">
+                  <header className="modal-card-head">
+                    <div className="modal-card-title">Confirm Request Details</div>
+                    <button className="delete" aria-label="close" />
+                  </header>
 
-                  <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
-                    <label className="label">BidOrBoo Safety rules</label>
-                    <div className="help">
-                      * Once you post you will not be able to edit the job details.
+                  <section className="modal-card-body">
+                    <label className="label">Your Request Preview</label>
+                    <RequesterRequestDetailsPreview job={newTaskDetails} />
+
+                    <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
+                      <label className="label">BidOrBoo Safety rules</label>
+                      <div className="help">
+                        * Once you post you will not be able to edit the job details.
+                      </div>
+                      <div className="help">
+                        * For your privacy Taskers will not see the exact address.
+                      </div>
+                      <div className="help">
+                        * Once you have chosen a Tasker you will get in touch to finalize the
+                        details.
+                      </div>
                     </div>
-                    <div className="help">
-                      * For your privacy Taskers will not see the exact address.
-                    </div>
-                    <div className="help">
-                      * Once you have chosen a Tasker you will get in touch to finalize the details.
-                    </div>
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button
-                    style={{ width: 120 }}
-                    onClick={this.toggleConfirmationDialog}
-                    className="button is-outline"
-                  >
-                    <span className="icon">
-                      <i className="far fa-edit" />
-                    </span>
-                    <span>go Back</span>
-                  </button>
-                  <button
-                    style={{ width: 120 }}
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={handleSubmit}
-                    className="button is-success"
-                  >
-                    <span className="icon">
-                      <i className="far fa-paper-plane" />
-                    </span>
-                    <span>Submit</span>
-                  </button>
-                </footer>
-              </div>
-            </div>,
-            document.querySelector('#bidorboo-root-modals'),
-          )}
+                  </section>
+                  <footer className="modal-card-foot">
+                    <button
+                      style={{ width: 120 }}
+                      onClick={this.toggleConfirmationDialog}
+                      className="button is-outline"
+                    >
+                      <span className="icon">
+                        <i className="far fa-edit" />
+                      </span>
+                      <span>go Back</span>
+                    </button>
+                    <button
+                      style={{ width: 120 }}
+                      type="submit"
+                      disabled={isSubmitting}
+                      onClick={handleSubmit}
+                      className="button is-success"
+                    >
+                      <span className="icon">
+                        <i className="far fa-paper-plane" />
+                      </span>
+                      <span>Submit</span>
+                    </button>
+                  </footer>
+                </div>
+              </div>,
+              document.querySelector('#bidorboo-root-modals'),
+            )}
 
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div style={{ marginBottom: 16 }} className="title">
-            <span className="icon">
-              <i className={ICON} />
-            </span>
-            <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
-          </div>
-          <input
-            id="recaptchaField"
-            className="input is-invisible"
-            type="hidden"
-            value={values.recaptchaField || ''}
-          />
-          <ReCAPTCHA
-            style={{ display: 'none' }}
-            ref={this.recaptchaRef}
-            size="invisible"
-            badge="bottomright"
-            onExpired={() => this.recaptchaRef.current.execute()}
-            onChange={(result) => {
-              setFieldValue('recaptchaField', result, true);
-            }}
-            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-          />
-          <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
-          <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
-          <br />
-          {this.RenderLocationField()}
-          <br />
-          {this.RenderDateAndTimeField()}
-          <br />
-          {/* {extras} */}
-          {taskSpecificExtraFormFields}
-          <br />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div style={{ marginBottom: 16 }} className="title">
+              <span className="icon">
+                <i className={ICON} />
+              </span>
+              <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
+            </div>
+            <input
+              id="recaptchaField"
+              className="input is-invisible"
+              type="hidden"
+              value={values.recaptchaField || ''}
+            />
+            <ReCAPTCHA
+              style={{ display: 'none' }}
+              ref={this.recaptchaRef}
+              size="invisible"
+              badge="bottomright"
+              onExpired={() => this.recaptchaRef.current.execute()}
+              onChange={(result) => {
+                setFieldValue('recaptchaField', result, true);
+              }}
+              sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
+            />
+            <input
+              id="fromTemplateIdField"
+              className="input is-invisible"
+              type="hidden"
+              value={ID}
+            />
+            <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
+            <br />
+            {this.RenderLocationField()}
+            <br />
+            {this.RenderDateAndTimeField()}
+            <br />
+            {/* {extras} */}
+            {taskSpecificExtraFormFields}
+            <br />
 
-          <TextAreaInput
-            id="detailedDescriptionField"
-            type="text"
-            helpText={
-              '* The more details you put the more likely that you will get the task done to your satisfaction.'
-            }
-            label="Tell the tasker about your expectations or any special Instructions"
-            startWithTemplateButton={
-              <a
-                style={{ marginBottom: 4 }}
-                className="button is-info is-outlined is-small"
-                onClick={this.insertTemplateText}
-              >
-                <span className="icon">
-                  <i className="fas fa-pencil-alt" />
-                </span>
-                <span>Common Questions</span>
-              </a>
-            }
-            placeholder={SUGGESTION_TEXT}
-            error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-            value={values.detailedDescriptionField || ''}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <br />
-          {this.RenderFormActionButtons()}
-        </form>
-      </React.Fragment>
+            <TextAreaInput
+              id="detailedDescriptionField"
+              type="text"
+              helpText={
+                '* The more details you put the more likely that you will get the task done to your satisfaction.'
+              }
+              label="Tell the tasker about your expectations or any special Instructions"
+              startWithTemplateButton={
+                <a
+                  style={{ marginBottom: 4 }}
+                  className="button is-info is-outlined is-small"
+                  onClick={this.insertTemplateText}
+                >
+                  <span className="icon">
+                    <i className="fas fa-pencil-alt" />
+                  </span>
+                  <span>Common Questions</span>
+                </a>
+              }
+              placeholder={SUGGESTION_TEXT}
+              error={touched.detailedDescriptionField && errors.detailedDescriptionField}
+              value={values.detailedDescriptionField || ''}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <br />
+            {this.RenderFormActionButtons()}
+          </form>
+        </div>
+      </div>
     );
   }
 
@@ -335,7 +359,7 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      fromTemplateIdField: props.fromTemplateIdField,
+      fromTemplateIdField: props.requestTemplateId,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
@@ -346,7 +370,8 @@ const EnhancedForms = withFormik({
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    props.onSubmit(values);
+    debugger;
+    // props.onSubmit(values);
     setSubmitting(false);
   },
   displayName: 'GenericJobForm',

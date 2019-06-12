@@ -13,6 +13,8 @@ import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import { DisplayLabelValue } from '../../containers/commonComponents';
 import RequesterRequestDetailsPreview from '../genericTasks/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -66,6 +68,10 @@ class HouseCleaningJobForm extends React.Component {
     this.selectEffortLevel = selectEffortLevel.bind(this);
     this.renderEffortField = renderEffortField.bind(this);
   }
+  onGoBack = (e) => {
+    e.preventDefault();
+    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+  };
 
   componentDidMount() {
     // this.autoDetectLocationIfPermitted();

@@ -329,7 +329,7 @@ export function RenderDetailedDescriptionField() {
 }
 
 export function RenderFormActionButtons() {
-  const { onGoBack, isValid, isSubmitting } = this.props;
+  const { isValid, isSubmitting } = this.props;
   return (
     <React.Fragment>
       <div className="field">
@@ -340,7 +340,7 @@ export function RenderFormActionButtons() {
           disabled={isSubmitting}
           onClick={(e) => {
             e.preventDefault();
-            onGoBack(e);
+            this.onGoBack(e);
           }}
         >
           <span className="icon">
