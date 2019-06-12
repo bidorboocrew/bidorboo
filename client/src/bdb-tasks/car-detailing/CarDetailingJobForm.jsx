@@ -37,7 +37,7 @@ import {
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-class HouseCleaningJobForm extends React.Component {
+class CarDetailingForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -47,7 +47,7 @@ class HouseCleaningJobForm extends React.Component {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
-      selectedEffortButtonId: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].extras.effort.small,
+      selectedEffortButtonId: TASKS_DEFINITIONS[`bdbjob-car-detailing`].extras.effort.small,
     };
 
     setupGoogleAndGeoCoder.bind(this)();
@@ -78,11 +78,11 @@ class HouseCleaningJobForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
+    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS[`bdbjob-car-detailing`];
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
-      fromTemplateId: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].ID,
+      fromTemplateId: TASKS_DEFINITIONS[`bdbjob-car-detailing`].ID,
       startingDateAndTime: values.dateField,
       _ownerRef: currentUserDetails,
       addressText: values.addressTextField,
@@ -288,7 +288,7 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      effortField: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].extras.effort.small,
+      effortField: TASKS_DEFINITIONS[`bdbjob-car-detailing`].extras.effort.small,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
@@ -302,9 +302,9 @@ const EnhancedForms = withFormik({
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'HouseCleaningJobForm',
+  displayName: 'CarDetailingForm',
 });
 
-export default EnhancedForms(HouseCleaningJobForm);
+export default EnhancedForms(CarDetailingForm);
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);

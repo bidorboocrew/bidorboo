@@ -6,10 +6,14 @@ import { addJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { TASKS_DEFINITIONS, HouseCleaningCreateJob } from '../../bdb-tasks/index';
+import GenericJobForm from '../../bdb-tasks/GenericJobForm';
 
 const creatJobsByIdMap = {
   [`bdbjob-house-cleaning`]: (props) => {
     return <HouseCleaningCreateJob {...props} />;
+  },
+  [`bdbjob-car-detailing`]: (props) => {
+    return <GenericJobForm requestTemplateId={'bdbjob-car-detailing'} {...props} />;
   },
 };
 

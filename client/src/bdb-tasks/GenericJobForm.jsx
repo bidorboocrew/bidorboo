@@ -12,61 +12,65 @@ import { withFormik } from 'formik';
 import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
+import { TextAreaInput } from '../components/forms/FormsHelpers';
 
-import { DisplayLabelValue } from '../../containers/commonComponents';
-import RequesterRequestDetailsPreview from '../genericTasks/RequesterRequestDetailsPreview';
-import TASKS_DEFINITIONS from '../tasksDefinitions';
+import { DisplayLabelValue } from '../containers/commonComponents';
+import RequesterRequestDetailsPreview from './genericTasks/RequesterRequestDetailsPreview';
+import TASKS_DEFINITIONS from './tasksDefinitions';
 import {
   getCurrentAddress,
   toggleConfirmationDialog,
   autoSetGeoLocation,
   selectTimeButton,
-  insertTemplateText,
   updateDateInputFieldValue,
   setupGoogleAndGeoCoder,
   shouldShowAutodetectControl,
   RenderDateAndTimeField,
   RenderLocationField,
-  RenderDetailedDescriptionField,
   RenderFormActionButtons,
-  renderEffortField,
-  selectEffortLevel,
-} from '../commonJobFormComponents';
+} from './commonJobFormComponents';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-class HouseCleaningJobForm extends React.Component {
+class GenericJobForm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.requestTemplateId = props.requestTemplateId;
     this.recaptchaRef = React.createRef();
 
     this.state = {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
-      selectedEffortButtonId: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].extras.effort.small,
     };
 
     setupGoogleAndGeoCoder.bind(this)();
 
     this.getCurrentAddress = getCurrentAddress.bind(this);
     this.autoSetGeoLocation = autoSetGeoLocation.bind(this);
-    // this.autoDetectLocationIfPermitted = autoDetectLocationIfPermitted.bind(this);
     this.toggleConfirmationDialog = toggleConfirmationDialog.bind(this);
     this.selectTimeButton = selectTimeButton.bind(this);
-    this.insertTemplateText = insertTemplateText.bind(this);
     this.updateDateInputFieldValue = updateDateInputFieldValue.bind(this);
     this.shouldShowAutodetectControl = shouldShowAutodetectControl.bind(this);
     this.RenderDateAndTimeField = RenderDateAndTimeField.bind(this);
     this.RenderLocationField = RenderLocationField.bind(this);
-    this.RenderDetailedDescriptionField = RenderDetailedDescriptionField.bind(this);
+
     this.RenderFormActionButtons = RenderFormActionButtons.bind(this);
-    this.selectEffortLevel = selectEffortLevel.bind(this);
-    this.renderEffortField = renderEffortField.bind(this);
+
+    // extras
+    TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
   }
 
+  insertTemplateText = () => {
+    const { SUGGESTION_TEXT } = TASKS_DEFINITIONS[this.requestTemplateId];
+    const existingText = this.props.values.detailedDescriptionField
+      ? `${this.props.values.detailedDescriptionField}\n`
+      : '';
+
+    this.props.setFieldValue('detailedDescriptionField', `${existingText}${SUGGESTION_TEXT}`, true);
+  };
   componentDidMount() {
     // this.autoDetectLocationIfPermitted();
     if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
@@ -75,19 +79,39 @@ class HouseCleaningJobForm extends React.Component {
   }
 
   render() {
-    const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
+    const {
+      values,
+      handleSubmit,
+      isSubmitting,
+      setFieldValue,
+      currentUserDetails,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+    } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
+    const { ID, TASK_EXPECTATIONS, extras, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
+      this.requestTemplateId
+    ];
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
-      fromTemplateId: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].ID,
+      fromTemplateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
       startingDateAndTime: values.dateField,
       _ownerRef: currentUserDetails,
       addressText: values.addressTextField,
       detailedDescription: values.detailedDescriptionField,
-      extras: { effort: values.effortField },
     };
+
+    const extrasFields = extras();
+    const taskSpecificExtraFormFields = [];
+    Object.keys(extrasFields).forEach((key) => {
+      taskSpecificExtraFormFields.push(
+        extrasFields[key].renderFormOptions({ values, setFieldValue }),
+      );
+    });
+
     return (
       <React.Fragment>
         {showConfirmationDialog &&
@@ -149,11 +173,10 @@ class HouseCleaningJobForm extends React.Component {
         <form onSubmit={(e) => e.preventDefault()}>
           <div style={{ marginBottom: 16 }} className="title">
             <span className="icon">
-              <i className="fas fa-home" />
+              <i className={ICON} />
             </span>
             <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
           </div>
-
           <input
             id="recaptchaField"
             className="input is-invisible"
@@ -172,16 +195,41 @@ class HouseCleaningJobForm extends React.Component {
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
           <input id="fromTemplateIdField" className="input is-invisible" type="hidden" value={ID} />
-
           <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
           <br />
           {this.RenderLocationField()}
           <br />
-          {this.renderEffortField(extras.effort)}
-          <br />
-          {this.RenderDetailedDescriptionField()}
-          <br />
           {this.RenderDateAndTimeField()}
+          <br />
+          {/* {extras} */}
+          {taskSpecificExtraFormFields}
+          <br />
+
+          <TextAreaInput
+            id="detailedDescriptionField"
+            type="text"
+            helpText={
+              '* The more details you put the more likely that you will get the task done to your satisfaction.'
+            }
+            label="Tell the tasker about your expectations or any special Instructions"
+            startWithTemplateButton={
+              <a
+                style={{ marginBottom: 4 }}
+                className="button is-info is-outlined is-small"
+                onClick={this.insertTemplateText}
+              >
+                <span className="icon">
+                  <i className="fas fa-pencil-alt" />
+                </span>
+                <span>Common Questions</span>
+              </a>
+            }
+            placeholder={SUGGESTION_TEXT}
+            error={touched.detailedDescriptionField && errors.detailedDescriptionField}
+            value={values.detailedDescriptionField || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           <br />
           {this.RenderFormActionButtons()}
         </form>
@@ -287,11 +335,11 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      effortField: TASKS_DEFINITIONS[`bdbjob-house-cleaning`].extras.effort.small,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
+      ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
@@ -301,9 +349,9 @@ const EnhancedForms = withFormik({
     props.onSubmit(values);
     setSubmitting(false);
   },
-  displayName: 'HouseCleaningJobForm',
+  displayName: 'GenericJobForm',
 });
 
-export default EnhancedForms(HouseCleaningJobForm);
+export default EnhancedForms(GenericJobForm);
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);

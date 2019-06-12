@@ -16,7 +16,7 @@ const TASKS_DEFINITIONS = {
     IMG_URL: 'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
     extras: {
       effort: {
-        renderFormOptions: () => {},
+        renderFormOptions: ({ values, setFieldValue }) => {},
         renderSelection: (size) => {
           let selectedValue = null;
           switch (size) {
@@ -60,82 +60,210 @@ Get one of our tasker to give your car a good cleaning!`,
 
 `,
     IMG_URL: 'https://dingo.care2.com/pictures/greenliving/1409/1408468.large.jpg',
-    extras: {
-      carSize: {
-        renderFormOptions: () => {
-          // this is assumed to render in the context of a formik form
+    defaultExtrasValues: {
+      carSize: 'sedan',
+      interiorType: 'leather',
+      trunkCleaning: 'notRequired',
+    },
+    extras: function() {
+      return {
+        carSize: {
+          renderFormOptions: ({ values, setFieldValue }) => {
+            // this is assumed to render in the context of a formik form
+            return (
+              <React.Fragment key={'extras-carSize'}>
+                <input
+                  id="carSize"
+                  className="input is-invisible"
+                  type="hidden"
+                  value={values.carSize}
+                />
+                <div className="field">
+                  <label className="label">How Big Is Your Car Size?</label>
+                  <div className="buttons">
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('carSize', 'mini', false)}
+                      className={`button is-info ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
+                    >
+                      {`Small (ex, mini)`}
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('carSize', 'sedan', false)}
+                      className={`button is-info ${
+                        values.carSize === 'sedan' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      {`Regular (ex, Sedan)`}
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('carSize', 'suv', false)}
+                      className={`button is-info ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
+                    >
+                      {`Large (ex, SUV)`}
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('carSize', 'truck', false)}
+                      className={`button is-info ${
+                        values.carSize === 'truck' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      {`XL (ex, Truck)`}
+                    </span>
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          },
+          renderSelection: (size) => {
+            let selectedValue = null;
+            switch (size) {
+              case 'mini':
+                selectedValue = 'Small (ex, mini)';
+                break;
+              case 'sedan':
+                selectedValue = 'Regular (ex, Sedan)';
+                break;
+              case 'suv':
+                selectedValue = 'Large (ex, SUV)';
+                break;
+              case 'truck':
+                selectedValue = 'XL (ex, Truck)';
+                break;
+            }
+            return (
+              <div className="field">
+                <label className="label">Car Size</label>
+                <div className="control">{selectedValue}</div>
+              </div>
+            );
+          },
         },
-        renderSelection: (size) => {
-          let selectedValue = null;
-          switch (size) {
-            case 'mini':
-              selectedValue = 'mini';
-              break;
-            case 'sedan':
-              selectedValue = 'sedan';
-              break;
-            case 'suv':
-              selectedValue = 'suv';
-              break;
-            case 'truck':
-              selectedValue = 'truck';
-              break;
-          }
-          return (
-            <div className="field">
-              <label className="label">Car Size</label>
-              <div className="control">{selectedValue}</div>
-            </div>
-          );
+        interiorType: {
+          renderFormOptions: ({ values, setFieldValue }) => {
+            return (
+              <React.Fragment key={'extras-interiorType'}>
+                <input
+                  id="interiorType"
+                  className="input is-invisible"
+                  type="hidden"
+                  value={values.interiorType}
+                />
+                <div className="field">
+                  <label className="label">What is the interior Type?</label>
+                  <div className="buttons">
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('interiorType', 'leather', false)}
+                      className={`button is-info ${
+                        values.interiorType === 'leather' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      Leather
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('interiorType', 'fabric', false)}
+                      className={`button is-info ${
+                        values.interiorType === 'fabric' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      Fabric
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('interiorType', 'other', false)}
+                      className={`button is-info ${
+                        values.interiorType === 'other' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      Other
+                    </span>
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          },
+          renderSelection: (interiorType) => {
+            let selectedValue = null;
+            switch (interiorType) {
+              case 'leather':
+                selectedValue = 'Leather';
+                break;
+              case 'fabric':
+                selectedValue = 'Fabric';
+                break;
+              case 'other':
+                selectedValue = 'Other';
+                break;
+            }
+            return (
+              <div className="field">
+                <label className="label">Interior Type</label>
+                <div className="control">{selectedValue}</div>
+              </div>
+            );
+          },
         },
-      },
-      interiorType: {
-        renderFormOptions: () => {
-          // this is assumed to render in the context of a formik form
+        trunkCleaning: {
+          renderFormOptions: ({ values, setFieldValue }) => {
+            // this is assumed to render in the context of a formik form
+            return (
+              <React.Fragment key={'extras-trunkCleaning'}>
+                <input
+                  id="interiorType"
+                  className="input is-invisible"
+                  type="hidden"
+                  value={values.interiorType}
+                />
+                <div className="field">
+                  <label className="label">What is the interior Type?</label>
+                  <div className="buttons">
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('trunkCleaning', 'isRequired', false)}
+                      className={`button is-info ${
+                        values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      Required
+                    </span>
+                    <span
+                      style={{ width: 160 }}
+                      onClick={() => setFieldValue('trunkCleaning', 'notRequired', false)}
+                      className={`button is-info ${
+                        values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
+                      }`}
+                    >
+                      Not Required
+                    </span>
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          },
+          renderSelection: (requiresTrunkCleaning) => {
+            let selectedValue = null;
+            switch (requiresTrunkCleaning) {
+              case 'isRequired':
+                selectedValue = 'Required';
+                break;
+              case 'notRequired':
+                selectedValue = 'Not Required';
+                break;
+            }
+            return (
+              <div className="field">
+                <label className="label">Interior Type</label>
+                <div className="control">{selectedValue}</div>
+              </div>
+            );
+          },
         },
-        renderSelection: (interiorType) => {
-          let selectedValue = null;
-          switch (interiorType) {
-            case 'leather':
-              selectedValue = 'mini';
-              break;
-            case 'fabric':
-              selectedValue = 'sedan';
-              break;
-            case 'other':
-              selectedValue = 'suv';
-              break;
-          }
-          return (
-            <div className="field">
-              <label className="label">Interior Type</label>
-              <div className="control">{selectedValue}</div>
-            </div>
-          );
-        },
-      },
-      trunkCleaning: {
-        renderFormOptions: () => {
-          // this is assumed to render in the context of a formik form
-        },
-        renderSelection: (requiresTrunkCleaning) => {
-          let selectedValue = null;
-          switch (requiresTrunkCleaning) {
-            case 'isRequired':
-              selectedValue = 'Required';
-              break;
-            case 'notRequired':
-              selectedValue = 'Not Required';
-              break;
-          }
-          return (
-            <div className="field">
-              <label className="label">Interior Type</label>
-              <div className="control">{selectedValue}</div>
-            </div>
-          );
-        },
-      },
+      };
     },
     TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products to clean and shine the car exterior and whipe the rims.
 The Tasker will vaccum the interoir, get rid of any trash, clean the dashboard, console and gear sections. The Tasker will touch up the seats and floor mats and get rid of any pet hair
