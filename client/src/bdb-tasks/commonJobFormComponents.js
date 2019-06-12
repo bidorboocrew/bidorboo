@@ -135,11 +135,11 @@ export function selectTimeButton(selectionId) {
 
   this.setState({ selectedTimeButtonId: selectionId }, () => {
     setFieldValue('timeField', selectedTimeValue, false);
-    const newAdjustedTimeVal = moment(values.date)
+    const newAdjustedTimeVal = moment(values.dateField)
       .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
       .toISOString();
 
-    setFieldValue('date', newAdjustedTimeVal, false);
+    setFieldValue('dateField', newAdjustedTimeVal, false);
   });
 }
 
@@ -150,7 +150,7 @@ export function updateDateInputFieldValue(val) {
     .set({ hour: values.timeField, minute: 0, second: 0, millisecond: 0 })
     .toISOString();
 
-  setFieldValue('date', adjustedTimeVal, false);
+  setFieldValue('dateField', adjustedTimeVal, false);
 }
 
 export function setupGoogleAndGeoCoder() {
@@ -189,7 +189,7 @@ export function RenderDateAndTimeField() {
 
   return (
     <React.Fragment>
-      <input id="date" className="input is-invisible" type="hidden" value={values.date} />
+      <input id="dateField" className="input is-invisible" type="hidden" value={values.dateField} />
       <input
         id="timeField"
         className="input is-invisible"

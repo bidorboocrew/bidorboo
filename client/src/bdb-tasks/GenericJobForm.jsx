@@ -10,11 +10,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import moment from 'moment';
-import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
-import { TextAreaInput } from '../components/forms/FormsHelpers';
+import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/FormsHelpers';
 import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -22,18 +22,6 @@ import { switchRoute } from '../utils';
 import { DisplayLabelValue } from '../containers/commonComponents';
 import RequesterRequestDetailsPreview from './genericTasks/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
-import {
-  getCurrentAddress,
-  toggleConfirmationDialog,
-  autoSetGeoLocation,
-  selectTimeButton,
-  updateDateInputFieldValue,
-  setupGoogleAndGeoCoder,
-  shouldShowAutodetectControl,
-  RenderDateAndTimeField,
-  RenderLocationField,
-  RenderFormActionButtons,
-} from './commonJobFormComponents';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -50,22 +38,82 @@ class GenericJobForm extends React.Component {
       showConfirmationDialog: false,
     };
 
-    setupGoogleAndGeoCoder.bind(this)();
-
-    this.getCurrentAddress = getCurrentAddress.bind(this);
-    this.autoSetGeoLocation = autoSetGeoLocation.bind(this);
-    this.toggleConfirmationDialog = toggleConfirmationDialog.bind(this);
-    this.selectTimeButton = selectTimeButton.bind(this);
-    this.updateDateInputFieldValue = updateDateInputFieldValue.bind(this);
-    this.shouldShowAutodetectControl = shouldShowAutodetectControl.bind(this);
-    this.RenderDateAndTimeField = RenderDateAndTimeField.bind(this);
-    this.RenderLocationField = RenderLocationField.bind(this);
-    this.RenderFormActionButtons = RenderFormActionButtons.bind(this);
-
+    this.google = window.google;
+    if (this.google) {
+      this.geocoder = new this.google.maps.Geocoder();
+    }
     // extras
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
+  shouldShowAutodetectControl = () => {
+    return navigator.geolocation ? (
+      <React.Fragment>
+        <div>
+          <a
+            style={{ marginTop: 6, fontSize: 14 }}
+            onClick={this.getCurrentAddress}
+            className="button is-small is-info is-outlined"
+          >
+            <span className="icon">
+              <i className="fas fa-map-marker-alt" />
+            </span>
+            <span>Auto Detect My Address</span>
+          </a>
+        </div>
+      </React.Fragment>
+    ) : (
+      <div>
+        <span>Manually input an address and select it from the drop down menu</span>
+      </div>
+    );
+  };
+  updateDateInputFieldValue = (val) => {
+    const { setFieldValue, values } = this.props;
+
+    const adjustedTimeVal = moment(val)
+      .set({ hour: values.timeField, minute: 0, second: 0, millisecond: 0 })
+      .toISOString();
+
+    setFieldValue('date', adjustedTimeVal, false);
+  };
+
+  selectTimeButton = (selectionId) => {
+    const { setFieldValue, values } = this.props;
+    let selectedTimeValue = 17;
+
+    switch (selectionId) {
+      case 'morning': {
+        selectedTimeValue = 8;
+        break;
+      }
+      case 'afternoon': {
+        selectedTimeValue = 12;
+        break;
+      }
+      case 'evening': {
+        selectedTimeValue = 17;
+        break;
+      }
+      case 'anytime': {
+        selectedTimeValue = 10;
+        break;
+      }
+      default: {
+        selectedTimeValue = 17;
+        break;
+      }
+    }
+
+    this.setState({ selectedTimeButtonId: selectionId }, () => {
+      setFieldValue('timeField', selectedTimeValue, false);
+      const newAdjustedTimeVal = moment(values.date)
+        .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
+        .toISOString();
+
+      setFieldValue('date', newAdjustedTimeVal, false);
+    });
+  };
 
   insertTemplateText = () => {
     const { SUGGESTION_TEXT } = TASKS_DEFINITIONS[this.requestTemplateId];
@@ -164,7 +212,21 @@ class GenericJobForm extends React.Component {
     debugger;
     // addJob(mapFieldsToSchema, recaptcha);
   };
-
+  autoSetGeoLocation = (addressText) => {
+    this.setState(() => ({ forceSetAddressValue: addressText }));
+    // update the form field with the current position coordinates
+    this.props.setFieldValue('addressTextField', addressText, false);
+  };
+  toggleConfirmationDialog = () => {
+    const { isLoggedIn, showLoginDialog } = this.props;
+    if (!isLoggedIn) {
+      showLoginDialog(true);
+      return;
+    }
+    this.setState({
+      showConfirmationDialog: !this.state.showConfirmationDialog,
+    });
+  };
   render() {
     const {
       values,
@@ -176,12 +238,13 @@ class GenericJobForm extends React.Component {
       errors,
       handleChange,
       handleBlur,
+      isValid,
     } = this.props;
 
     const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
-    const { showConfirmationDialog } = this.state;
+    const { showConfirmationDialog, selectedTimeButtonId } = this.state;
 
     const newTaskDetails = {
       fromTemplateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
@@ -285,9 +348,113 @@ class GenericJobForm extends React.Component {
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
             <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
             <br />
-            {this.RenderLocationField()}
+            <React.Fragment>
+              <input
+                id="addressTextField"
+                className="input is-invisible"
+                type="hidden"
+                value={values.addressTextField || ''}
+              />
+              <input
+                id="locationField"
+                className="input is-invisible"
+                type="hidden"
+                value={values.locationField || ''}
+              />
+
+              <GeoAddressInput
+                id="geoInputField"
+                type="text"
+                helpText={'You must select an address from the drop down menu'}
+                label="What's the address where you need cleaning?"
+                placeholder="Enter your request's address"
+                autoDetectComponent={this.shouldShowAutodetectControl}
+                error={touched.addressTextField && errors.addressTextField}
+                value={values.addressTextField || ''}
+                onError={(e) => {
+                  errors.addressTextField = 'google api error ' + e;
+                }}
+                onChangeEvent={(e) => {
+                  setFieldValue('addressTextField', e, true);
+                }}
+                onBlurEvent={(e) => {
+                  if (e && e.target) {
+                    e.target.id = 'addressTextField';
+                    handleBlur(e);
+                  }
+                }}
+                handleSelect={(address) => {
+                  setFieldValue('addressTextField', address, false);
+                  geocodeByAddress(address)
+                    .then((results) => getLatLng(results[0]))
+                    .then((latLng) => {
+                      setFieldValue('locationField', latLng, false);
+                      console.log('Success', latLng);
+                    })
+                    .catch((error) => {
+                      errors.addressTextField = 'error getting lat lng ' + error;
+                      console.error('Error', error);
+                    });
+                }}
+              />
+            </React.Fragment>
             <br />
-            {this.RenderDateAndTimeField()}
+            <React.Fragment>
+              <input id="date" className="input is-invisible" type="hidden" value={values.date} />
+              <input
+                id="timeField"
+                className="input is-invisible"
+                type="hidden"
+                value={values.timeField || 5}
+              />
+              <DateInput
+                id="DateInputField"
+                type="text"
+                label="When do you want it done?"
+                onChangeEvent={this.updateDateInputFieldValue}
+              />
+              <div className="buttons">
+                <span
+                  style={{ width: 160, fontSize: 14 }}
+                  onClick={() => this.selectTimeButton('morning')}
+                  className={`button is-info ${
+                    selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
+                  }`}
+                >
+                  Morning (8AM-12PM)
+                </span>
+                <span
+                  style={{ width: 160, fontSize: 14 }}
+                  onClick={() => this.selectTimeButton('afternoon')}
+                  className={`button is-info ${
+                    selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
+                  }`}
+                >
+                  Afternoon (12PM-5PM)
+                </span>
+              </div>
+
+              <div className="buttons">
+                <span
+                  style={{ width: 160, fontSize: 14 }}
+                  onClick={() => this.selectTimeButton('evening')}
+                  className={`button is-info ${
+                    selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
+                  }`}
+                >
+                  Evening (5PM-12AM)
+                </span>
+                <span
+                  style={{ width: 160, fontSize: 14 }}
+                  onClick={() => this.selectTimeButton('anytime')}
+                  className={`button is-info ${
+                    selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
+                  }`}
+                >
+                  Anytime (8AM-12AM)
+                </span>
+              </div>
+            </React.Fragment>
             <br />
             {/* {extras} */}
             {taskSpecificExtraFormFields}
@@ -319,7 +486,36 @@ class GenericJobForm extends React.Component {
               onBlur={handleBlur}
             />
             <br />
-            {this.RenderFormActionButtons()}
+            <React.Fragment>
+              <div className="field">
+                <button
+                  style={{ width: 120 }}
+                  type="button"
+                  className="button is-outlined is-medium"
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.onGoBack(e);
+                  }}
+                >
+                  <span className="icon">
+                    <i className="far fa-arrow-alt-circle-left" />
+                  </span>
+                  <span>Back</span>
+                </button>
+                <button
+                  style={{ width: 120, marginLeft: '1rem' }}
+                  className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
+                  disabled={isSubmitting || !isValid}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.toggleConfirmationDialog();
+                  }}
+                >
+                  <span>Preview</span>
+                </button>
+              </div>
+            </React.Fragment>
           </form>
         </div>
       </div>
