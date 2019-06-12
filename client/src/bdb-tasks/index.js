@@ -26,6 +26,8 @@ export const POINT_OF_VIEW = {
 
 export { default as TASKS_DEFINITIONS } from './tasksDefinitions';
 export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningConcept';
+export { default as CarDetailingConcept } from './car-detailing/CarDetailingConcept';
+
 export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleaningCreateJob';
 
 export { default as RequesterRequestDetails } from './genericTasks/RequesterRequestDetails';

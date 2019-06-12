@@ -5,7 +5,7 @@ import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import haversineOffset from 'haversine-offset';
 
-import HouseCleaningJobForm from './HouseCleaningJobForm';
+import CarDetailingJobForm from './CarDetailingJobForm';
 
 import { StepsForRequest } from '../../containers/commonComponents';
 
@@ -105,7 +105,7 @@ export default class CarDetailingCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
+    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS[`bdbjob-car-detailing`];
 
     return (
       <div
@@ -119,7 +119,7 @@ export default class CarDetailingCreateJob extends React.Component {
         </section>
 
         <div className="card-content">
-          <HouseCleaningJobForm
+          <CarDetailingJobForm
             isLoggedIn={isLoggedIn}
             showLoginDialog={showLoginDialog}
             currentUserDetails={currentUserDetails}

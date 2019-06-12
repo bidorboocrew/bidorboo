@@ -9,7 +9,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class CarDetailingConcept extends React.Component {
   render() {
-    const { ID, TITLE, DESCRIPTION, ICON } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
+    const { ID, TITLE, DESCRIPTION, ICON } = TASKS_DEFINITIONS[`bdbjob-car-detailing`];
 
     return (
       <div className="card limitWidthOfCard">
