@@ -65,7 +65,18 @@ Get one of our tasker to give your car a good cleaning!`,
       interiorType: 'leather',
       trunkCleaning: 'notRequired',
     },
-
+    extrasValidation: function() {
+      const { values } = this.props;
+      if (!!values.carSize) {
+        alert('please choose a car size');
+      }
+      if (!!values.interiorType) {
+        alert('please choose an interior type');
+      }
+      if (!!values.trunkCleaning) {
+        alert('please specify if trunk cleaning is required');
+      }
+    },
     extras: function() {
       return {
         carSize: {

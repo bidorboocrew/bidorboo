@@ -9,6 +9,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withFormik } from 'formik';
+import haversineOffset from 'haversine-offset';
+
 import moment from 'moment';
 import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
@@ -41,7 +43,6 @@ class GenericJobForm extends React.Component {
     super(props);
 
     this.requestTemplateId = props.requestTemplateId;
-    this.recaptchaRef = React.createRef();
 
     this.state = {
       forceSetAddressValue: '',
@@ -59,30 +60,109 @@ class GenericJobForm extends React.Component {
     this.shouldShowAutodetectControl = shouldShowAutodetectControl.bind(this);
     this.RenderDateAndTimeField = RenderDateAndTimeField.bind(this);
     this.RenderLocationField = RenderLocationField.bind(this);
-
     this.RenderFormActionButtons = RenderFormActionButtons.bind(this);
 
     // extras
-    TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
+    this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
+    this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
 
   insertTemplateText = () => {
     const { SUGGESTION_TEXT } = TASKS_DEFINITIONS[this.requestTemplateId];
-    const existingText = this.props.values.detailedDescriptionField
-      ? `${this.props.values.detailedDescriptionField}\n`
+    const existingText = this.props.values.detailedDescription
+      ? `${this.props.values.detailedDescription}\n`
       : '';
 
-    this.props.setFieldValue('detailedDescriptionField', `${existingText}${SUGGESTION_TEXT}`, true);
+    this.props.setFieldValue('detailedDescription', `${existingText}${SUGGESTION_TEXT}`, true);
   };
-  componentDidMount() {
-    // this.autoDetectLocationIfPermitted();
-    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
-      this.recaptchaRef.current.execute();
-    }
-  }
+
   onGoBack = (e) => {
     e.preventDefault();
     switchRoute(ROUTES.CLIENT.PROPOSER.root);
+  };
+
+  onSubmit = (values) => {
+    const { addJob } = this.props;
+    // process the values to be sent to the server
+    const {
+      location,
+      detailedDescription,
+      date,
+      address,
+      templateId,
+
+      ...extras // everything else
+    } = values;
+    debugger;
+    // do some validation before submitting
+    if (!location || !location.lat || !location.lng) {
+      alert('sorry you must specify the location for this request');
+      return;
+    }
+    if (!address) {
+      alert('sorry you must specify the location for this request');
+      return;
+    }
+    if (!detailedDescription) {
+      alert('sorry you must add more details about this request');
+      return;
+    }
+    if (!date) {
+      alert('sorry you must specify a date for when do you want this request to be done');
+      return;
+    }
+    if (!templateId) {
+      alert('sorry something went wrong , we could not detect the Job ID . please try again later');
+      return;
+    }
+
+    // validate any extra fields based on the task
+    this.extrasValidations && this.extrasValidations();
+
+    //  offset the location for security
+    // https://www.npmjs.com/package/haversine-offset
+    let lng = 0;
+    let lat = 0;
+    try {
+      lng = parseFloat(location.lng);
+      lat = parseFloat(location.lat);
+      let preOffset = { latitude: lat, longitude: lng };
+      let offset = {
+        x: Math.floor(Math.random() * Math.floor(1000)),
+        y: Math.floor(Math.random() * Math.floor(1000)),
+      };
+
+      let postOffset = haversineOffset(preOffset, offset);
+
+      if (postOffset.lat > 0) {
+        lat = Math.min(postOffset.lat, 90).toFixed(5);
+      } else if (postOffset.lat < 0) {
+        lat = Math.max(postOffset.lat, -90).toFixed(5);
+      }
+      if (postOffset.lng > 0) {
+        lng = Math.min(postOffset.lng, 180).toFixed(5);
+      } else if (postOffset.lng < 0) {
+        lng = Math.max(postOffset.lng, -180).toFixed(5);
+      }
+    } catch (e) {
+      console.log('failed to create location');
+    }
+
+    const mapFieldsToSchema = {
+      detailedDescription: detailedDescription,
+      location: {
+        type: 'Point',
+        coordinates: [parseFloat(lng), parseFloat(lat)],
+      },
+      startingDateAndTime: date,
+      address,
+      templateId,
+      extras: {
+        ...extras,
+      },
+    };
+    debugger;
+    // addJob(mapFieldsToSchema, recaptcha);
   };
 
   render() {
@@ -98,20 +178,20 @@ class GenericJobForm extends React.Component {
       handleBlur,
     } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
+    const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
       fromTemplateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
-      startingDateAndTime: values.dateField,
+      startingDateAndTime: values.date,
       _ownerRef: currentUserDetails,
-      addressText: values.addressTextField,
-      detailedDescription: values.detailedDescriptionField,
+      addressText: values.address,
+      detailedDescription: values.detailedDescription,
     };
 
-    const extrasFields = extras();
+    const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
     Object.keys(extrasFields).forEach((key) => {
       taskSpecificExtraFormFields.push(
@@ -143,7 +223,7 @@ class GenericJobForm extends React.Component {
 
                   <section className="modal-card-body">
                     <label className="label">Your Request Preview</label>
-                    <RequesterRequestDetailsPreview job={newTaskDetails} />
+                    {/* <RequesterRequestDetailsPreview job={newTaskDetails} /> */}
 
                     <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                       <label className="label">BidOrBoo Safety rules</label>
@@ -196,28 +276,13 @@ class GenericJobForm extends React.Component {
               <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
             </div>
             <input
-              id="recaptchaField"
+              id="recaptcha"
               className="input is-invisible"
               type="hidden"
-              value={values.recaptchaField || ''}
+              value={values.recaptcha || ''}
             />
-            <ReCAPTCHA
-              style={{ display: 'none' }}
-              ref={this.recaptchaRef}
-              size="invisible"
-              badge="bottomright"
-              onExpired={() => this.recaptchaRef.current.execute()}
-              onChange={(result) => {
-                setFieldValue('recaptchaField', result, true);
-              }}
-              sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-            />
-            <input
-              id="fromTemplateIdField"
-              className="input is-invisible"
-              type="hidden"
-              value={ID}
-            />
+
+            <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
             <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
             <br />
             {this.RenderLocationField()}
@@ -229,7 +294,7 @@ class GenericJobForm extends React.Component {
             <br />
 
             <TextAreaInput
-              id="detailedDescriptionField"
+              id="detailedDescription"
               type="text"
               helpText={
                 '* The more details you put the more likely that you will get the task done to your satisfaction.'
@@ -248,8 +313,8 @@ class GenericJobForm extends React.Component {
                 </a>
               }
               placeholder={SUGGESTION_TEXT}
-              error={touched.detailedDescriptionField && errors.detailedDescriptionField}
-              value={values.detailedDescriptionField || ''}
+              error={touched.detailedDescription && errors.detailedDescription}
+              value={values.detailedDescription || ''}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -311,7 +376,7 @@ class GenericJobForm extends React.Component {
         };
 
         // update the form field with the current position coordinates
-        this.props.setFieldValue('locationField', pos, true);
+        this.props.setFieldValue('location', pos, true);
 
         if (this.google && this.geocoder) {
           //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
@@ -338,16 +403,12 @@ class GenericJobForm extends React.Component {
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    recaptchaField: Yup.string()
-      .ensure()
-      .trim()
-      .required('passing recaptcha is required.'),
-    fromTemplateIdField: Yup.string()
+    templateId: Yup.string()
       .ensure()
       .trim()
       .required('*Template Id missing, This field is required'),
-    dateField: Yup.string().required('*Date Field is required'),
-    detailedDescriptionField: Yup.string()
+    date: Yup.string().required('*Date Field is required'),
+    detailedDescription: Yup.string()
       .ensure()
       .trim()
       .min(
@@ -359,8 +420,8 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      fromTemplateIdField: props.requestTemplateId,
-      dateField: moment()
+      templateId: props.requestTemplateId,
+      date: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
@@ -368,7 +429,7 @@ const EnhancedForms = withFormik({
   },
   handleSubmit: (values, { setSubmitting, props }) => {
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
-    // var x = moment.utc(values.dateField).format('YYYY-MM-DD HH:mm:ss');
+    // var x = moment.utc(values.date).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
     debugger;
     // props.onSubmit(values);
