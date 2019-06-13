@@ -20,15 +20,19 @@ Get one of our tasker to give your car a good cleaning!`,
   },
   extrasValidation: function() {
     const { values } = this.props;
-    if (!!values.carSize) {
+    if (!values.carSize) {
       alert('please choose a car size');
+      return false;
     }
-    if (!!values.interiorType) {
+    if (!values.interiorType) {
       alert('please choose an interior type');
+      return false;
     }
-    if (!!values.trunkCleaning) {
+    if (!values.trunkCleaning) {
       alert('please specify if trunk cleaning is required');
+      return false;
     }
+    return true;
   },
   extras: function() {
     return {
@@ -181,7 +185,7 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.interiorType}
               />
               <div className="field">
-                <label className="label">What is the interior Type?</label>
+                <label className="label">Is trunk cleaning required?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
@@ -218,7 +222,7 @@ Get one of our tasker to give your car a good cleaning!`,
           }
           return (
             <div key={'extras-trunkCleaning'} className="field">
-              <label className="label">Interior Type</label>
+              <label className="label">Trunk cleaning</label>
               <div className="control">{selectedValue}</div>
             </div>
           );

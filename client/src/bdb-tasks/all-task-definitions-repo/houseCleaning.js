@@ -18,9 +18,12 @@ living room kitchen bedrooms and more ?`,
   },
   extrasValidation: function() {
     const { values } = this.props;
-    if (!!values.effort) {
+    debugger;
+    if (!values.effort) {
       alert('please specify the effort');
+      return false;
     }
+    return true;
   },
   extras: function() {
     return {
