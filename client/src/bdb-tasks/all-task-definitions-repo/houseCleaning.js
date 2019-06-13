@@ -27,12 +27,12 @@ living room kitchen bedrooms and more ?`,
       effort: {
         renderFormOptions: ({ values, setFieldValue }) => {
           return (
-            <React.Fragment key={'extras-carSize'}>
+            <React.Fragment key={'extras-effort'}>
               <input
-                id="carSize"
+                id="effort"
                 className="input is-invisible"
                 type="hidden"
-                value={values.carSize}
+                value={values.effort}
               />
               <div className="field">
                 <label className="label">How long would you like to book?</label>
@@ -40,14 +40,14 @@ living room kitchen bedrooms and more ?`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'small', true)}
-                    className={`button is-info ${values.small === 'small' ? '' : 'is-outlined'}`}
+                    className={`button is-info ${values.effort === 'small' ? '' : 'is-outlined'}`}
                   >
                     {`Small (1-3 hours)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'medium', true)}
-                    className={`button is-info ${values.medium === 'medium' ? '' : 'is-outlined'}`}
+                    className={`button is-info ${values.effort === 'medium' ? '' : 'is-outlined'}`}
                   >
                     {`Medium (3-6 hours)`}
                   </span>

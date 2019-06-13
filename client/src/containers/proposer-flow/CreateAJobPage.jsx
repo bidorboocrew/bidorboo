@@ -10,7 +10,7 @@ import GenericJobForm from '../../bdb-tasks/GenericJobForm';
 
 const creatJobsByIdMap = {
   [`bdbHouseCleaning`]: (props) => {
-    return <HouseCleaningCreateJob {...props} />;
+    return <GenericJobForm requestTemplateId={'bdbHouseCleaning'} {...props} />;
   },
   [`bdbCarDetailing`]: (props) => {
     return <GenericJobForm requestTemplateId={'bdbCarDetailing'} {...props} />;
