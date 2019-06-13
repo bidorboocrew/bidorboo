@@ -526,12 +526,30 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   );
 };
 
-export const EffortLevel = ({ extras }) => {
-  return extras && extras.effort ? (
-    <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-  ) : (
-    <DisplayLabelValue labelText="Effort" labelValue={'Not Specified'} />
-  );
+export const TaskSpecificExtras = ({ extras, templateId }) => {
+  if (!extras || !templateId) {
+    return null;
+  }
+  let taskDetails = TASKS_DEFINITIONS[templateId];
+  if (!taskDetails || !taskDetails.ID || !taskDetails.extras) {
+    return null;
+  }
+
+  // renderAllExtraFieldsBased on the input from the task
+  const taskExtraFields = taskDetails.extras;
+  let renderedTaskSpecificFields = [];
+
+  Object.keys(extras).forEach((extraDetailKey) => {
+    const userSelectedValue = extras[extraDetailKey];
+
+    if (taskExtraFields[extraDetailKey]) {
+      renderedTaskSpecificFields.push(
+        taskExtraFields[extraDetailKey].renderSelection(userSelectedValue),
+      );
+    }
+  });
+
+  return renderedTaskSpecificFields;
 };
 
 export const VerifiedVia = ({ userDetails, isCentered = true }) => {

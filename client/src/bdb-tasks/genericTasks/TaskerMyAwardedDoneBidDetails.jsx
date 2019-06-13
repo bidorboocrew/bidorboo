@@ -16,7 +16,7 @@ import {
   DisplayLabelValue,
   UserImageAndRating,
   AddAwardedJobToCalendar,
-  EffortLevel,
+  TaskSpecificExtras,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -70,10 +70,10 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
+    const { requiresBidderReview } = _reviewRef;
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
@@ -158,7 +158,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
               {showMore && (
                 <React.Fragment>
-                  <EffortLevel extras={extras} />
+                  <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">

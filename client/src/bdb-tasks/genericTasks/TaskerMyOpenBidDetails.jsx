@@ -13,7 +13,7 @@ import {
   AvgBidDisplayLabelAndValue,
   StartDateAndTime,
   LocationLabelAndValue,
-  EffortLevel,
+  TaskSpecificExtras,
 } from '../../containers/commonComponents';
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
@@ -101,10 +101,12 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     if (!displayStatus) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
+
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
@@ -239,9 +241,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                     <div className="field">
                       <label className="label">Bid Status</label>
                       <div className="control has-text-dark">Past Due - Expired</div>
-                      <div className="help">
-                        * Sorry! the requester did not select anyone
-                      </div>
+                      <div className="help">* Sorry! the requester did not select anyone</div>
                     </div>
                   )}
                   {!isPastDue && (
@@ -265,7 +265,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <EffortLevel extras={extras} />
+              <TaskSpecificExtras templateId={ID} extras={extras} />
               <LocationLabelAndValue location={location.coordinates} />
               {showMore && (
                 <React.Fragment>

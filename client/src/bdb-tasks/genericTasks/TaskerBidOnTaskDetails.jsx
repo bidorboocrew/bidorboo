@@ -2,6 +2,7 @@ import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   CountDownComponent,
@@ -10,7 +11,7 @@ import {
   StartDateAndTime,
   LocationLabelAndValue,
   CardTitleAndActionsInfo,
-  EffortLevel,
+  TaskSpecificExtras,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
@@ -47,6 +48,12 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     ) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
+
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${templateId}`];
+    if (!TITLE || !ID) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
+
     const { coordinates } = location;
     if (!coordinates) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -92,7 +99,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
 
             <LocationLabelAndValue location={coordinates} />
 
-            <EffortLevel extras={extras} />
+            <TaskSpecificExtras templateId={ID} extras={extras} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
             <div className="field">

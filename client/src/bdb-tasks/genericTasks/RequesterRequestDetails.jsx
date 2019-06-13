@@ -11,7 +11,7 @@ import {
   DisplayLabelValue,
   CountDownComponent,
   StartDateAndTime,
-  EffortLevel,
+  TaskSpecificExtras,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -88,8 +88,8 @@ class RequesterRequestDetails extends React.Component {
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
@@ -258,7 +258,7 @@ class RequesterRequestDetails extends React.Component {
               <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (
                 <React.Fragment>
-                  <EffortLevel extras={extras} />
+                  <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">

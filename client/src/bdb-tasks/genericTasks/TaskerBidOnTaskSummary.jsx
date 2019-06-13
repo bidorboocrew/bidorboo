@@ -7,13 +7,14 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   AvgBidDisplayLabelAndValue,
   UserImageAndRating,
   CardTitleAndActionsInfo,
   StartDateAndTime,
-  EffortLevel,
+  TaskSpecificExtras,
   CountDownComponent,
 } from '../../containers/commonComponents';
 
@@ -59,6 +60,11 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
       return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
     }
 
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.root);
+    }
+
     const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
@@ -83,7 +89,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {!isOnMapView && <EffortLevel extras={extras} />}
+            {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />}
             {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
           </div>
           {!isOnMapView && (

@@ -5,7 +5,7 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayLabelValue,
-  EffortLevel,
+  TaskSpecificExtras,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -38,8 +38,8 @@ export default class RequesterOpenCanceledDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
+    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
@@ -81,7 +81,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
 
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
-            <EffortLevel extras={extras} />
+            <TaskSpecificExtras templateId={ID} extras={extras} />
             <div className="field">
               <label className="label">Detailed Description</label>
               <span className="is-size-7">
