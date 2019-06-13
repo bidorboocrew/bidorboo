@@ -77,7 +77,7 @@ living room kitchen bedrooms and more ?`,
               break;
           }
           return (
-            <div className="field">
+            <div key={'extras-effort'} className="field">
               <label className="label">Task Effort</label>
               <div className="control">{selectedValue}</div>
             </div>

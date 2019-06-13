@@ -527,6 +527,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
 };
 
 export const TaskSpecificExtras = ({ extras, templateId }) => {
+  debugger
   if (!extras || !templateId) {
     return null;
   }
@@ -536,7 +537,7 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   }
 
   // renderAllExtraFieldsBased on the input from the task
-  const taskExtraFields = taskDetails.extras;
+  const taskExtraFields = taskDetails.extras();
   let renderedTaskSpecificFields = [];
 
   Object.keys(extras).forEach((extraDetailKey) => {

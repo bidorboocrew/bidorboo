@@ -96,7 +96,7 @@ Get one of our tasker to give your car a good cleaning!`,
               break;
           }
           return (
-            <div className="field">
+            <div key={'extras-carSize'} className="field">
               <label className="label">Car Size</label>
               <div className="control">{selectedValue}</div>
             </div>
@@ -162,7 +162,7 @@ Get one of our tasker to give your car a good cleaning!`,
               break;
           }
           return (
-            <div className="field">
+            <div key={'extras-interiorType'} className="field">
               <label className="label">Interior Type</label>
               <div className="control">{selectedValue}</div>
             </div>
@@ -217,7 +217,7 @@ Get one of our tasker to give your car a good cleaning!`,
               break;
           }
           return (
-            <div className="field">
+            <div key={'extras-trunkCleaning'} className="field">
               <label className="label">Interior Type</label>
               <div className="control">{selectedValue}</div>
             </div>
