@@ -69,20 +69,22 @@ class GenericJobForm extends React.Component {
     );
   };
   updateDateInputFieldValue = (val) => {
-    const { setFieldValue, values } = this.props;
+    const { setFieldValue } = this.props;
+    const { selectedTimeButtonId } = this.state;
+
+    let selectedTimeValue = this.getTimeAdjustment(selectedTimeButtonId);
 
     const adjustedTimeVal = moment(val)
-      .set({ hour: values.timeField, minute: 0, second: 0, millisecond: 0 })
+      .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
       .toISOString();
 
     setFieldValue('startingDateAndTime', adjustedTimeVal, false);
   };
 
-  selectTimeButton = (selectionId) => {
-    const { setFieldValue, values } = this.props;
+  getTimeAdjustment = (selectedTimeButtonId) => {
     let selectedTimeValue = 17;
 
-    switch (selectionId) {
+    switch (selectedTimeButtonId) {
       case 'morning': {
         selectedTimeValue = 8;
         break;
@@ -105,9 +107,17 @@ class GenericJobForm extends React.Component {
       }
     }
 
+    return selectedTimeValue;
+  };
+
+  selectTimeButton = (selectionId) => {
+    const { setFieldValue, values } = this.props;
+
+    let selectedTimeValue = this.getTimeAdjustment(selectionId);
+
     this.setState({ selectedTimeButtonId: selectionId }, () => {
-      setFieldValue('startingDateAndtime', selectedTimeValue, false);
-      const newAdjustedTimeVal = moment(values.startingDateAndtime)
+      setFieldValue('startingDateAndTime', selectedTimeValue, false);
+      const newAdjustedTimeVal = moment(values.startingDateAndTime)
         .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
         .toISOString();
 
@@ -140,7 +150,7 @@ class GenericJobForm extends React.Component {
       templateId,
       ...extras // everything else
     } = values;
-    debugger;
+
     // do some validation before submitting
     if (!location || !location.lat || !location.lng) {
       alert('sorry you must specify the location for this request');
@@ -293,7 +303,11 @@ class GenericJobForm extends React.Component {
                 <div className="modal-card">
                   <header className="modal-card-head">
                     <div className="modal-card-title">Confirm Request Details</div>
-                    <button className="delete" aria-label="close" />
+                    <button
+                      onClick={this.toggleConfirmationDialog}
+                      className="delete"
+                      aria-label="close"
+                    />
                   </header>
 
                   <section className="modal-card-body">
@@ -413,16 +427,16 @@ class GenericJobForm extends React.Component {
             <br />
             <React.Fragment>
               <input
-                id="startingDateAndtime"
+                id="startingDateAndTime"
                 className="input is-invisible"
                 type="hidden"
-                value={values.startingDateAndtime}
+                value={values.startingDateAndTime}
               />
               <input
                 id="timeField"
                 className="input is-invisible"
                 type="hidden"
-                value={values.timeField}
+                value={this.state.selectedTime}
               />
               <DateInput
                 id="DateInputField"
@@ -632,9 +646,8 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      timeField: 17,
       templateId: props.requestTemplateId,
-      startingDateAndtime: moment()
+      startingDateAndTime: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
@@ -644,7 +657,6 @@ const EnhancedForms = withFormik({
     // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
     // var x = moment.utc(values.date).format('YYYY-MM-DD HH:mm:ss');
     // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    debugger;
     // props.onSubmit(values);
     setSubmitting(false);
   },

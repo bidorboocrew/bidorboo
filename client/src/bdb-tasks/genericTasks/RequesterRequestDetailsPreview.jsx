@@ -27,7 +27,6 @@ export default class RequesterRequestDetailsPreview extends React.Component {
 
   render() {
     const { job } = this.props;
-    debugger
     if (!job) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }
@@ -41,7 +40,6 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     }
 
     const { showMore } = this.state;
-debugger
     return (
       <div style={{ height: 'unset' }} className="card">
         <div style={{ minHeight: 'unset' }} className="card-content">

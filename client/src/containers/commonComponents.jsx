@@ -527,7 +527,6 @@ export const AddAwardedJobToCalendar = ({ job }) => {
 };
 
 export const TaskSpecificExtras = ({ extras, templateId }) => {
-  debugger
   if (!extras || !templateId) {
     return null;
   }
