@@ -5,11 +5,14 @@ import { bindActionCreators } from 'redux';
 import { addJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { HOUSE_CLEANING_DEF, HouseCleaningCreateJob } from '../../bdb-tasks/index';
+import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
-  [`${HOUSE_CLEANING_DEF.ID}`]: (props) => {
-    return <HouseCleaningCreateJob {...props} />;
+  [`bdbHouseCleaning`]: (props) => {
+    return <GenericRequestForm requestTemplateId={'bdbHouseCleaning'} {...props} />;
+  },
+  [`bdbCarDetailing`]: (props) => {
+    return <GenericRequestForm requestTemplateId={'bdbCarDetailing'} {...props} />;
   },
 };
 

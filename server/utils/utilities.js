@@ -67,4 +67,5 @@ exports.signCloudinaryParams = async (paramsToSign) => {
 
 exports.jobTemplateIdToDefinitionObjectMapper = {
   [`${jobTemplatesDefinitions.HOUSE_CLEANING_DEF.ID}`]: jobTemplatesDefinitions.HOUSE_CLEANING_DEF,
+  [`${jobTemplatesDefinitions.CAR_DETAILING_DEF.ID}`]: jobTemplatesDefinitions.CAR_DETAILING_DEF,
 };

@@ -13,7 +13,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 
-import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import tasksDefinitions from '../bdb-tasks/tasksDefinitions';
 
 class PastRequestedServices extends React.Component {
   componentDidUpdate(prevProps) {
@@ -115,7 +115,7 @@ class RequestSummary extends React.Component {
   render() {
     const { jobId, bidderId, bidderReview, proposerSubmitted, bidderSubmitted, index } = this.props;
 
-    const { startingDateAndTime, fromTemplateId, state } = jobId;
+    const { startingDateAndTime, templateId, state } = jobId;
     const { ratingCategories } = bidderReview;
 
     const ratingMapping = {};
@@ -138,7 +138,7 @@ class RequestSummary extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} Task`}
+                      labelValue={`${tasksDefinitions[templateId].TITLE} Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />

@@ -23,101 +23,70 @@ export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
   TASKER: 'TASKER',
 };
-export { HOUSE_CLEANING_DEF } from './house-cleaning/houseCleaningDefinition';
-export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningConcept';
-export { default as HouseCleaningCreateJob } from './house-cleaning/HouseCleaningCreateJob';
+
+export { default as TASKS_DEFINITIONS } from './tasksDefinitions';
+export { default as HouseCleaningConcept } from './task-concepts/HouseCleaningConcept';
+export { default as CarDetailingConcept } from './task-concepts/CarDetailingConcept';
+
+export { default as RequesterRequestDetails } from './AllPossibleTasksStatesCards/RequesterRequestDetails';
+
+export { default as RequesterRequestSummary } from './AllPossibleTasksStatesCards/RequesterRequestSummary';
+
+export { default as RequesterAwardedDetails } from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
+
+export { default as RequesterAwardedSummary } from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
 
 export {
-  default as HouseCleaningRequestDetails,
-} from './house-cleaning/HouseCleaningRequestDetails';
+  default as RequesterCanceledByRequesterSummary,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterSummary';
 
 export {
-  default as HouseCleaningRequestSummary,
-} from './house-cleaning/HouseCleaningRequestSummary';
+  default as RequesterCanceledByRequesterDetails,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterDetails';
 
 export {
-  default as HouseCleaningAwardedDetails,
-} from './house-cleaning/HouseCleaningAwardedDetails';
+  default as RequesterOpenCanceledSummary,
+} from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
+export {
+  default as RequesterOpenCanceledDetails,
+} from './AllPossibleTasksStatesCards/RequesterOpenCanceledDetails';
 
-export {
-  default as HouseCleaningAwardedSummary,
-} from './house-cleaning/HouseCleaningAwardedSummary';
+export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 
-export {
-  default as HouseCleaningAwardedCanceledByRequesterSummary,
-} from './house-cleaning/HouseCleaningAwardedCanceledByRequesterSummary';
+export { default as TaskerBidOnTaskDetails } from './AllPossibleTasksStatesCards/TaskerBidOnTaskDetails';
 
-export {
-  default as HouseCleaningAwardedCanceledByRequesterDetails,
-} from './house-cleaning/HouseCleaningAwardedCanceledByRequesterDetails';
+export { default as TaskerMyOpenBidSummary } from './AllPossibleTasksStatesCards/TaskerMyOpenBidSummary';
 
-export {
-  default as HouseCleaningOpenCanceledSummary,
-} from './house-cleaning/HouseCleaningOpenCanceledSummary';
-export {
-  default as HouseCleaningOpenCanceledDetails,
-} from './house-cleaning/HouseCleaningOpenCanceledDetails';
+export { default as TaskerMyOpenBidDetails } from './AllPossibleTasksStatesCards/TaskerMyOpenBidDetails';
 
-export {
-  default as TaskerBidOnHouseCleaningSummary,
-} from './house-cleaning/TaskerBidOnHouseCleaningSummary';
+export { default as TaskerMyAwardedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidDetails';
 
-export {
-  default as TaskerBidOnHouseCleaningDetails,
-} from './house-cleaning/TaskerBidOnHouseCleaningDetails';
-
-export {
-  default as TaskerMyOpenBidHouseCleaningSummary,
-} from './house-cleaning/TaskerMyOpenBidHouseCleaningSummary';
-
-export {
-  default as TaskerMyOpenBidHouseCleaningDetails,
-} from './house-cleaning/TaskerMyOpenBidHouseCleaningDetails';
-
-export {
-  default as TaskerMyAwardedBidHouseCleaningDetails,
-} from './house-cleaning/TaskerMyAwardedBidHouseCleaningDetails';
-
-export {
-  default as TaskerMyAwardedBidHouseCleaningSummary,
-} from './house-cleaning/TaskerMyAwardedBidHouseCleaningSummary';
+export { default as TaskerMyAwardedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidSummary';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerDetails,
-} from './house-cleaning/TaskerAwardedBidCanceledByTaskerDetails';
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerDetails';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerSummary,
-} from './house-cleaning/TaskerAwardedBidCanceledByTaskerSummary';
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerSummary';
+
+export { default as RequesterDoneSummary } from './AllPossibleTasksStatesCards/RequesterDoneSummary';
+
+export { default as RequesterDoneDetails } from './AllPossibleTasksStatesCards/RequesterDoneDetails';
 
 export {
-  default as HouseCleaningAwardedDoneSummary,
-} from './house-cleaning/HouseCleaningAwardedDoneSummary';
+  default as TaskerMyAwardedDoneBidDetails,
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidDetails';
 
 export {
-  default as HouseCleaningAwardedDoneDetails,
-} from './house-cleaning/HouseCleaningAwardedDoneDetails';
+  default as TaskerMyAwardedDoneBidSummary,
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidSummary';
 
-export {
-  default as TaskerMyAwardedDoneBidHouseCleaningDetails,
-} from './house-cleaning/TaskerMyAwardedDoneBidHouseCleaningDetails';
+export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
 
-export {
-  default as TaskerMyAwardedDoneBidHouseCleaningSummary,
-} from './house-cleaning/TaskerMyAwardedDoneBidHouseCleaningSummary';
+export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCards/RequesterDisputedDetails';
 
-export {
-  default as HouseCleaningAwardedDisputedSummary,
-} from './house-cleaning/HouseCleaningAwardedDisputedSummary';
+export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
 
-export {
-  default as HouseCleaningAwardedDisputedDetails,
-} from './house-cleaning/HouseCleaningAwardedDisputedDetails';
-
-export {
-  default as TaskerMyDisputedBidHouseCleaningDetails,
-} from './house-cleaning/TaskerMyDisputedBidHouseCleaningDetails';
-
-export {
-  default as TaskerMyDisputedBidHouseCleaningSummary,
-} from './house-cleaning/TaskerMyDisputedBidHouseCleaningSummary';
+export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';

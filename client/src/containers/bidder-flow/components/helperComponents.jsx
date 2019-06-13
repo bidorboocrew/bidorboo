@@ -2,7 +2,7 @@ import React from 'react';
 import AddToCalendar from 'react-add-to-calendar';
 import moment from 'moment';
 
-import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
 export const BID_STATUS_TO_DISPLAYLABEL = {
   OPEN: 'Pending',
@@ -20,14 +20,14 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     return null;
   }
 
-  const { startingDateAndTime, addressText, fromTemplateId } = job;
+  const { startingDateAndTime, addressText, templateId } = job;
 
   const { email, phone, displayName } = job._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${tasksDefinitions[templateId].TITLE} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;

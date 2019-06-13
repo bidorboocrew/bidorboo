@@ -180,7 +180,7 @@ module.exports = (app) => {
     ROUTES.API.JOB.POST.newJob,
     requireLogin,
     requireUserCanPost,
-    requirePassesRecaptcha,
+    // requirePassesRecaptcha,
     async (req, res) => {
       try {
         const { jobDetails } = req.body.data;

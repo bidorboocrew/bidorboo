@@ -4,12 +4,12 @@ import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 
 import { CountDownComponent, UserImageAndRating, StartDateAndTime } from '../../commonComponents';
-import jobTemplateIdToDefinitionObjectMapper from '../../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
 export default class JobSummaryForAwarded extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, fromTemplateId } = job;
+    const { startingDateAndTime, templateId } = job;
 
     const { _awardedBidRef } = job;
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -27,7 +27,7 @@ export default class JobSummaryForAwarded extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">
-            {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+            {tasksDefinitions[templateId].TITLE}
           </p>
 
           <a className="card-header-icon has-text-success">
@@ -41,7 +41,7 @@ export default class JobSummaryForAwarded extends React.Component {
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
-            src={`${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].IMG_URL}`}
+            src={`${tasksDefinitions[templateId].IMG_URL}`}
           />
         </div>
         <div

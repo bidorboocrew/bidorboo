@@ -285,12 +285,11 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   });
 };
 
-export const addJob = (jobDetails, recaptchaField) => (dispatch) => {
+export const addJob = (jobDetails) => (dispatch) => {
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
       .post(ROUTES.API.JOB.POST.newJob, {
-        recaptchaField,
         data: {
           jobDetails,
         },
@@ -379,7 +378,7 @@ export const addJob = (jobDetails, recaptchaField) => (dispatch) => {
 //     durationOfJob: durationOfJobField,
 //     addressText: addressTextField,
 //     state: 'OPEN',
-//     fromTemplateId: fromTemplateIdField,
+//     templateId: fromTemplateIdField,
 //   };
 
 //   return dispatch({

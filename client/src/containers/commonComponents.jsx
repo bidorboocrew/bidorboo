@@ -4,7 +4,8 @@ import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import jobTemplateIdToDefinitionObjectMapper from '../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+
+import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -129,12 +130,13 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
 
 export const CardTitleAndActionsInfo = ({
   jobState,
-  fromTemplateId,
+  templateId,
   bidsList = [],
   userAlreadyView = false,
   userAlreadyBid = false,
   isOnMapView = false,
 }) => {
+  const { ID, ICON } = TASKS_DEFINITIONS[templateId];
   const areThereAnyBidders = bidsList && bidsList.length > 0;
 
   let bidsCountLabel = 'No bids';
@@ -152,10 +154,10 @@ export const CardTitleAndActionsInfo = ({
         <div className="level-item">
           <div className={`${isOnMapView ? 'is-size-6' : 'is-size-5'} has-text-weight-bold`}>
             <span className="icon">
-              <i className="fas fa-home" />
+              <i className={ICON} />
             </span>
             <span style={{ marginLeft: 4 }}>
-              {jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE}
+              {TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}
             </span>
           </div>
         </div>
@@ -470,14 +472,15 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     return null;
   }
 
-  const { startingDateAndTime, addressText, fromTemplateId } = job;
+  const { startingDateAndTime, addressText, templateId } = job;
 
   const { email, phone, displayName } = job._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${jobTemplateIdToDefinitionObjectMapper[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${TASKS_DEFINITIONS[templateId] &&
+    TASKS_DEFINITIONS[templateId].TITLE} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
@@ -524,12 +527,30 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   );
 };
 
-export const EffortLevel = ({ extras }) => {
-  return extras && extras.effort ? (
-    <DisplayLabelValue labelText="Effort" labelValue={extras.effort} />
-  ) : (
-    <DisplayLabelValue labelText="Effort" labelValue={'Not Specified'} />
-  );
+export const TaskSpecificExtras = ({ extras, templateId }) => {
+  if (!extras || !templateId) {
+    return null;
+  }
+  let taskDetails = TASKS_DEFINITIONS[templateId];
+  if (!taskDetails || !taskDetails.ID || !taskDetails.extras) {
+    return null;
+  }
+
+  // renderAllExtraFieldsBased on the input from the task
+  const taskExtraFields = taskDetails.extras();
+  let renderedTaskSpecificFields = [];
+
+  Object.keys(extras).forEach((extraDetailKey) => {
+    const userSelectedValue = extras[extraDetailKey];
+
+    if (taskExtraFields[extraDetailKey]) {
+      renderedTaskSpecificFields.push(
+        taskExtraFields[extraDetailKey].renderSelection(userSelectedValue),
+      );
+    }
+  });
+
+  return renderedTaskSpecificFields;
 };
 
 export const VerifiedVia = ({ userDetails, isCentered = true }) => {

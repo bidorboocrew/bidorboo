@@ -45,7 +45,7 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
             jobCompletion: 1,
             location: 1,
             startingDateAndTime: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             _ownerRef: 1,
           },
         },
@@ -88,7 +88,7 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
             jobCompletion: 1,
             location: 1,
             startingDateAndTime: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             _awardedBidRef: 1,
           },
         },
@@ -232,7 +232,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
           select: {
             _bidsListRef: 1,
             state: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             startingDateAndTime: 1,
           },
           populate: {
@@ -261,7 +261,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             path: '_jobRef',
             select: {
               startingDateAndTime: 1,
-              fromTemplateId: 1,
+              templateId: 1,
             },
           },
         })

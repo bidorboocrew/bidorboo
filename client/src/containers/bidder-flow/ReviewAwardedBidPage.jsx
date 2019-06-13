@@ -14,7 +14,7 @@ import {
 import { Spinner } from '../../components/Spinner';
 
 // import TaskerPendingBidInfo from './components/TaskerEditOrUpdateBid';
-// import jobTemplateIdToDefinitionObjectMapper from '../../bdb-tasks/jobTemplateIdToDefinitionObjectMapper';
+// import tasksDefinitions from '../../bdb-tasks/tasksDefinitions';
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewAwardedBidPage extends React.Component {
