@@ -38,7 +38,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
@@ -50,7 +50,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 <span className="icon">
-                  <i className="fas fa-home" />
+                  <i className={ICON} />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>

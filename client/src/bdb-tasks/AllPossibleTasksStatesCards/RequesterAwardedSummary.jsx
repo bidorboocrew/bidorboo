@@ -16,7 +16,7 @@ import {
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import RequestBaseContainer from '../RequestBaseContainer';
+import RequestBaseContainer from './RequestBaseContainer';
 
 class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
@@ -51,7 +51,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     ) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }
@@ -133,7 +133,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   <span className="icon">
-                    <i className="fas fa-home" />
+                    <i className={ICON} />
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>

@@ -49,7 +49,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }

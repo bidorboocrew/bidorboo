@@ -84,7 +84,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
     ) {
       return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
@@ -109,7 +109,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 <span className="icon">
-                  <i className="fas fa-home" />
+                  <i className={ICON} />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>

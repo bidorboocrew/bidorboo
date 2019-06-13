@@ -20,7 +20,7 @@ import {
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import RequestBaseContainer from '../RequestBaseContainer';
+import RequestBaseContainer from './RequestBaseContainer';
 
 class RequesterAwardedDetails extends RequestBaseContainer {
   render() {
@@ -91,7 +91,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
@@ -106,7 +106,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 <span className="icon">
-                  <i className="fas fa-home" />
+                  <i className={ICON} />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>

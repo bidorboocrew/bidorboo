@@ -1,23 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
-import { switchRoute } from '../../utils';
+import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import {
-  CountDownComponent,
-  StartDateAndTime,
-  LocationLabelAndValue,
-} from '../../containers/commonComponents';
+import { switchRoute } from '../../utils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { REQUEST_STATES } from '../index';
 
-class TaskerMyOpenBidSummary extends React.Component {
+import {
+  CountDownComponent,
+  UserImageAndRating,
+  AvgBidDisplayLabelAndValue,
+  StartDateAndTime,
+  LocationLabelAndValue,
+  TaskSpecificExtras,
+} from '../../containers/commonComponents';
+
+import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
+
+export default class TaskerMyOpenBidDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,7 +46,6 @@ class TaskerMyOpenBidSummary extends React.Component {
       }
     });
   };
-
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClick, false);
   }
@@ -57,45 +57,57 @@ class TaskerMyOpenBidSummary extends React.Component {
       this.toggleShowMoreOptionsContextMenu(e);
     }
   };
+
   render() {
     const { bid, job, otherArgs } = this.props;
-    if (!bid || !job || !otherArgs) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
+    if (!bid || !otherArgs || !job) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
+    const {
+      startingDateAndTime,
+      _bidsListRef, // not mandatory
+      _ownerRef,
+      detailedDescription,
+      location,
+      extras,
+      isPastDue,
+      state,
+    } = job;
+    if (
+      !startingDateAndTime ||
+      !_ownerRef ||
+      !detailedDescription ||
+      !location ||
+      !extras ||
+      !state ||
+      isPastDue === 'undefined'
+    ) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { deleteOpenBid } = otherArgs;
-    if (!deleteOpenBid) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
-    }
-
-    const { startingDateAndTime, location, isPastDue, state } = job;
-    if (!startingDateAndTime || !location || isPastDue === 'undefined') {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
-    }
-    const { coordinates } = location;
-    if (!coordinates) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
-    }
     const { bidAmount } = bid;
     if (!bidAmount) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-
+    const { updateBid, deleteOpenBid } = otherArgs;
+    if (!updateBid || !deleteOpenBid) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+    }
     const { displayStatus } = bid;
     if (!displayStatus) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    if (!TITLE || !ID) {
+      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
+    const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
     const requesterCanceledThierRequest = state === REQUEST_STATES.CANCELED_OPEN;
@@ -151,16 +163,15 @@ class TaskerMyOpenBidSummary extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <div
-          className={`card limitWidthOfCard ${
-            isPastDue || requesterCanceledThierRequest ? 'readOnlyView' : ''
-          }`}
+          style={{ height: 'auto ' }}
+          className={`card  ${isPastDue || requesterCanceledThierRequest ? 'readOnlyView' : ''}`}
         >
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   <span className="icon">
-                    <i className="fas fa-home" />
+                    <i className={ICON} />
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>
@@ -191,7 +202,7 @@ class TaskerMyOpenBidSummary extends React.Component {
                         className="dropdown-item has-text-danger"
                       >
                         <span className="icon">
-                          <i className="far fa-trash-alt has-text-danger" aria-hidden="true" />
+                          <i className="far fa-trash-alt" aria-hidden="true" />
                         </span>
                         <span>Delete Bid</span>
                       </a>
@@ -200,6 +211,10 @@ class TaskerMyOpenBidSummary extends React.Component {
                 </div>
               </div>
               <hr className="divider isTight" />
+              <div className="field">
+                <label className="label">Requester:</label>
+                <UserImageAndRating userDetails={_ownerRef} />
+              </div>
               {isAwardedToSomeoneElse && (
                 <div className="field">
                   <label className="label">Bid Status</label>
@@ -250,68 +265,60 @@ class TaskerMyOpenBidSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskSpecificExtras templateId={ID} extras={extras} />
+              <LocationLabelAndValue location={location.coordinates} />
+              {showMore && (
+                <React.Fragment>
+                  <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-              {/* <LocationLabelAndValue location={coordinates} useShortAddress /> */}
+                  <div className="field">
+                    <label className="label">Detailed Description</label>
+
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless is-size-6"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                        color: '#4a4a4a',
+                        fontSize: '1rem',
+                      }}
+                      readOnly
+                    />
+                  </div>
+                </React.Fragment>
+              )}
+              <div>
+                {!showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                    <span style={{ marginRight: 4 }}>show full details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-down" />
+                    </span>
+                  </a>
+                )}
+                {showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                    <span style={{ marginRight: 4 }}>show less details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-up" />
+                    </span>
+                  </a>
+                )}
+              </div>
+              <hr className="divider" />
+
+              <TaskerEditOrUpdateBid
+                bid={bid}
+                job={job}
+                updateBidAction={updateBid}
+                isAwardedToSomeoneElse={isAwardedToSomeoneElse}
+                requesterCanceledThierRequest={requesterCanceledThierRequest}
+              />
             </div>
           </div>
-          {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse, requesterCanceledThierRequest })}
         </div>
       </React.Fragment>
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyOpenBidSummary);
-
-const renderFooter = ({
-  bid,
-  isPastDue,
-  isAwardedToSomeoneElse,
-  requesterCanceledThierRequest,
-}) => {
-  return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
-          }}
-          className={`button is-outlined is-fullwidth ${isPastDue ? '' : 'is-info'}`}
-        >
-          {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-            <span>Change My Bid</span>
-          )}
-          {isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-            <span>View Expired Task</span>
-          )}
-          {requesterCanceledThierRequest && <span>View Canceled Task</span>}
-          {isAwardedToSomeoneElse && <span>View Task Details</span>}
-        </a>
-      </div>
-    </React.Fragment>
-  );
-};

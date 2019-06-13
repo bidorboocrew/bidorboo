@@ -25,68 +25,68 @@ export const POINT_OF_VIEW = {
 };
 
 export { default as TASKS_DEFINITIONS } from './tasksDefinitions';
-export { default as HouseCleaningConcept } from './house-cleaning/HouseCleaningConcept';
-export { default as CarDetailingConcept } from './car-detailing/CarDetailingConcept';
+export { default as HouseCleaningConcept } from './task-concepts/HouseCleaningConcept';
+export { default as CarDetailingConcept } from './task-concepts/CarDetailingConcept';
 
-export { default as RequesterRequestDetails } from './genericTasks/RequesterRequestDetails';
+export { default as RequesterRequestDetails } from './AllPossibleTasksStatesCards/RequesterRequestDetails';
 
-export { default as RequesterRequestSummary } from './genericTasks/RequesterRequestSummary';
+export { default as RequesterRequestSummary } from './AllPossibleTasksStatesCards/RequesterRequestSummary';
 
-export { default as RequesterAwardedDetails } from './genericTasks/RequesterAwardedDetails';
+export { default as RequesterAwardedDetails } from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
 
-export { default as RequesterAwardedSummary } from './genericTasks/RequesterAwardedSummary';
+export { default as RequesterAwardedSummary } from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
 
 export {
   default as RequesterCanceledByRequesterSummary,
-} from './genericTasks/RequesterCanceledByRequesterSummary';
+} from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterSummary';
 
 export {
   default as RequesterCanceledByRequesterDetails,
-} from './genericTasks/RequesterCanceledByRequesterDetails';
+} from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterDetails';
 
 export {
   default as RequesterOpenCanceledSummary,
-} from './genericTasks/RequesterOpenCanceledSummary';
+} from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
 export {
   default as RequesterOpenCanceledDetails,
-} from './genericTasks/RequesterOpenCanceledDetails';
+} from './AllPossibleTasksStatesCards/RequesterOpenCanceledDetails';
 
-export { default as TaskerBidOnTaskSummary } from './genericTasks/TaskerBidOnTaskSummary';
+export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 
-export { default as TaskerBidOnTaskDetails } from './genericTasks/TaskerBidOnTaskDetails';
+export { default as TaskerBidOnTaskDetails } from './AllPossibleTasksStatesCards/TaskerBidOnTaskDetails';
 
-export { default as TaskerMyOpenBidSummary } from './genericTasks/TaskerMyOpenBidSummary';
+export { default as TaskerMyOpenBidSummary } from './AllPossibleTasksStatesCards/TaskerMyOpenBidSummary';
 
-export { default as TaskerMyOpenBidDetails } from './genericTasks/TaskerMyOpenBidDetails';
+export { default as TaskerMyOpenBidDetails } from './AllPossibleTasksStatesCards/TaskerMyOpenBidDetails';
 
-export { default as TaskerMyAwardedBidDetails } from './genericTasks/TaskerMyAwardedBidDetails';
+export { default as TaskerMyAwardedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidDetails';
 
-export { default as TaskerMyAwardedBidSummary } from './genericTasks/TaskerMyAwardedBidSummary';
+export { default as TaskerMyAwardedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidSummary';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerDetails,
-} from './genericTasks/TaskerAwardedBidCanceledByTaskerDetails';
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerDetails';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerSummary,
-} from './genericTasks/TaskerAwardedBidCanceledByTaskerSummary';
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerSummary';
 
-export { default as RequesterDoneSummary } from './genericTasks/RequesterDoneSummary';
+export { default as RequesterDoneSummary } from './AllPossibleTasksStatesCards/RequesterDoneSummary';
 
-export { default as RequesterDoneDetails } from './genericTasks/RequesterDoneDetails';
+export { default as RequesterDoneDetails } from './AllPossibleTasksStatesCards/RequesterDoneDetails';
 
 export {
   default as TaskerMyAwardedDoneBidDetails,
-} from './genericTasks/TaskerMyAwardedDoneBidDetails';
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidDetails';
 
 export {
   default as TaskerMyAwardedDoneBidSummary,
-} from './genericTasks/TaskerMyAwardedDoneBidSummary';
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidSummary';
 
-export { default as RequesterDisputedSummary } from './genericTasks/RequesterDisputedSummary';
+export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
 
-export { default as RequesterDisputedDetails } from './genericTasks/RequesterDisputedDetails';
+export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCards/RequesterDisputedDetails';
 
-export { default as TaskerMyDisputedBidDetails } from './genericTasks/TaskerMyDisputedBidDetails';
+export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
 
-export { default as TaskerMyDisputedBidSummary } from './genericTasks/TaskerMyDisputedBidSummary';
+export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';

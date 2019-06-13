@@ -136,6 +136,7 @@ export const CardTitleAndActionsInfo = ({
   userAlreadyBid = false,
   isOnMapView = false,
 }) => {
+  const { ID, ICON } = TASKS_DEFINITIONS[templateId];
   const areThereAnyBidders = bidsList && bidsList.length > 0;
 
   let bidsCountLabel = 'No bids';
@@ -153,7 +154,7 @@ export const CardTitleAndActionsInfo = ({
         <div className="level-item">
           <div className={`${isOnMapView ? 'is-size-6' : 'is-size-5'} has-text-weight-bold`}>
             <span className="icon">
-              <i className="fas fa-home" />
+              <i className={ICON} />
             </span>
             <span style={{ marginLeft: 4 }}>
               {TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}

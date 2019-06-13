@@ -20,7 +20,7 @@ import {
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import RequestBaseContainer from '../RequestBaseContainer';
+import RequestBaseContainer from './RequestBaseContainer';
 import { Spinner } from '../../components/Spinner';
 
 class TaskerMyAwardedBidDetails extends RequestBaseContainer {
@@ -72,7 +72,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     }
     const { requiresBidderReview } = _reviewRef;
 
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -87,7 +87,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <div style={{ display: 'flex' }}>
                 <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                   <span className="icon">
-                    <i className="fas fa-home" />
+                    <i className={ICON} />
                   </span>
                   <span style={{ marginLeft: 4 }}>{TITLE}</span>
                 </div>

@@ -1,5 +1,5 @@
-import carDetailing from './all-task-definitions-repo/carDetailing';
-import houseCleaning from './all-task-definitions-repo/houseCleaning';
+import carDetailing from './task-definitions-repo/carDetailing';
+import houseCleaning from './task-definitions-repo/houseCleaning';
 
 const TASKS_DEFINITIONS = {
   [`${carDetailing.ID}`]: { ...carDetailing },

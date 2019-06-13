@@ -11,7 +11,7 @@ import {
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-export default class RequesterCanceledByRequesterDetails extends React.Component {
+export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
@@ -28,7 +28,6 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       _ownerRef,
       detailedDescription,
       processedPayment,
-      templateId,
     } = job;
     if (
       !startingDateAndTime ||
@@ -39,7 +38,6 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       !extras ||
       !_ownerRef ||
       !detailedDescription ||
-      !templateId ||
       !processedPayment
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -66,19 +64,19 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
     return (
-      <div className="card readOnlyView">
+      <div className="card disputeOnlyView">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 <span className="icon">
-                  <i className="fas fa-home" />
+                  <i className={ICON} />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>
@@ -97,14 +95,13 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             <div className="field">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* You have canceled this agreement</div>
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <div className="field">
               <label className="label">Task Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
-
-              <div className="help">* will refund 80% of the payment to your card.</div>
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <StartDateAndTime
@@ -138,12 +135,14 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
 
           <div className="field">
             <label className="label has-text-danger">What you need to know:</label>
+            <div className="control">* BidorBooCrew will assess the dispute asap</div>
             <div className="control">
-              * You will be <strong>penalized 20%</strong> of the total payment and will be refunded
-              80%.
+              * Our customer relation team will be in touch with tasker and requester to gather
+              facts
             </div>
-            <div className="control">* Your global rating will be impacted</div>
-            <div className="control">* Cancelling often will put a ban on your account</div>
+            <div className="control">
+              * We will contact you asap to inform you of the next steps.
+            </div>
           </div>
           <div style={{ padding: '0.5rem' }}>
             <hr className="divider isTight" />

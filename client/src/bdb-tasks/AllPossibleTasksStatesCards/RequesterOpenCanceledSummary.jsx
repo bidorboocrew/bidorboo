@@ -1,56 +1,43 @@
 import React from 'react';
+
 import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
 } from '../../containers/commonComponents';
+
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-export default class RequesterDisputedSummary extends React.Component {
+export default class RequesterOpenCanceledSummary extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
+    const { _id: jobId, startingDateAndTime, addressText, displayStatus } = job;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
+    if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
+      return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
 
     return (
-      <div className="card disputeOnlyView limitWidthOfCard">
+      <div className="card readOnlyView limitWidthOfCard">
+        {/* <div className="card-image">
+          <img className="bdb-cover-img" src={IMG_URL} />
+        </div> */}
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
               <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
                 <span className="icon">
-                  <i className="fas fa-home" />
+                  <i className={ICON} />
                 </span>
                 <span style={{ marginLeft: 4 }}>{TITLE}</span>
               </div>
@@ -68,8 +55,8 @@ export default class RequesterDisputedSummary extends React.Component {
 
             <div className="field">
               <label className="label">Request Status</label>
-              <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
+              <div className="control">{displayStatus}</div>
+              <div className="help">* This Request will be deleted in 48 hours</div>
             </div>
 
             <StartDateAndTime
@@ -78,6 +65,7 @@ export default class RequesterDisputedSummary extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+
             <DisplayShortAddress addressText={addressText} />
           </div>
         </div>
@@ -90,11 +78,11 @@ export default class RequesterDisputedSummary extends React.Component {
             <a
               style={{ position: 'relative' }}
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
               }}
-              className="button is-outlined is-fullwidth is-danger"
+              className="button is-outlined is-fullwidth "
             >
-              View Disputed Task
+              View Canceled Request
             </a>
           </div>
         </React.Fragment>

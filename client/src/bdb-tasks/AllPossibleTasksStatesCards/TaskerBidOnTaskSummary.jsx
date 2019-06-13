@@ -20,7 +20,7 @@ import {
 
 import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
 
-import RequestBaseContainer from '../RequestBaseContainer';
+import RequestBaseContainer from './RequestBaseContainer';
 
 class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
   render() {
@@ -60,7 +60,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
       return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
     }
 
-    const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
