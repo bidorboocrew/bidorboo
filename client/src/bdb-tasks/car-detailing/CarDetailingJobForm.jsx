@@ -47,7 +47,7 @@ class CarDetailingForm extends React.Component {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'evening',
       showConfirmationDialog: false,
-      selectedEffortButtonId: TASKS_DEFINITIONS[`bdbjob-car-detailing`].extras.effort.small,
+      selectedEffortButtonId: TASKS_DEFINITIONS[`bdbCarDetailing`].extras.effort.small,
     };
 
     setupGoogleAndGeoCoder.bind(this)();
@@ -78,11 +78,11 @@ class CarDetailingForm extends React.Component {
   render() {
     const { values, handleSubmit, isSubmitting, setFieldValue, currentUserDetails } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS[`bdbjob-car-detailing`];
+    const { ID, TASK_EXPECTATIONS, extras, TITLE } = TASKS_DEFINITIONS[`bdbCarDetailing`];
     const { showConfirmationDialog } = this.state;
 
     const newTaskDetails = {
-      fromTemplateId: TASKS_DEFINITIONS[`bdbjob-car-detailing`].ID,
+      templateId: TASKS_DEFINITIONS[`bdbCarDetailing`].ID,
       startingDateAndTime: values.dateField,
       _ownerRef: currentUserDetails,
       addressText: values.addressTextField,
@@ -288,7 +288,7 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       timeField: 17,
-      effortField: TASKS_DEFINITIONS[`bdbjob-car-detailing`].extras.effort.small,
+      effortField: TASKS_DEFINITIONS[`bdbCarDetailing`].extras.effort.small,
       fromTemplateIdField: props.fromTemplateIdField,
       dateField: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })

@@ -56,7 +56,7 @@ module.exports = (app) => {
           const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
           const description = `BidOrBoo - Charge for your ${
-            _jobRef.fromTemplateId
+            _jobRef.templateId
           } request was recieved.`;
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
@@ -77,7 +77,7 @@ module.exports = (app) => {
               proposerEmail: _jobRef._ownerRef.email.emailAddress,
               jobId: _jobRef._id.toString(),
               bidId: _id.toString(),
-              note: `Requester Paid for  ${_jobRef.fromTemplateId}`,
+              note: `Requester Paid for  ${_jobRef.templateId}`,
             },
           });
 

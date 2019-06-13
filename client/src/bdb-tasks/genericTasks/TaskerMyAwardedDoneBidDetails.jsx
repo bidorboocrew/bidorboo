@@ -72,7 +72,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     }
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

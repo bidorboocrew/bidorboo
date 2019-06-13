@@ -9,7 +9,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     return null;
   }
 
-  const { startingDateAndTime, _awardedBidRef, addressText, fromTemplateId } = job;
+  const { startingDateAndTime, _awardedBidRef, addressText, templateId } = job;
   const { _bidderRef } = _awardedBidRef;
 
   const { email, phone } = _bidderRef;
@@ -17,7 +17,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${tasksDefinitions[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${tasksDefinitions[templateId].TITLE} request`;
   const description = `${
     _bidderRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;

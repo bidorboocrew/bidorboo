@@ -237,7 +237,7 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-  if (!job || !job.fromTemplateId) {
+  if (!job || !job.templateId) {
     console.error('no job passed in');
     return; //return
   }
@@ -246,7 +246,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
     return;
   }
 
-  const { fromTemplateId, state } = job;
+  const { templateId, state } = job;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
       const card = requesterCardTemplates[state]({

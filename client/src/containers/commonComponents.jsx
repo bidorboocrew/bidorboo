@@ -130,7 +130,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
 
 export const CardTitleAndActionsInfo = ({
   jobState,
-  fromTemplateId,
+  templateId,
   bidsList = [],
   userAlreadyView = false,
   userAlreadyBid = false,
@@ -156,7 +156,7 @@ export const CardTitleAndActionsInfo = ({
               <i className="fas fa-home" />
             </span>
             <span style={{ marginLeft: 4 }}>
-              {TASKS_DEFINITIONS[fromTemplateId] && TASKS_DEFINITIONS[fromTemplateId].TITLE}
+              {TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}
             </span>
           </div>
         </div>
@@ -471,15 +471,15 @@ export const AddAwardedJobToCalendar = ({ job }) => {
     return null;
   }
 
-  const { startingDateAndTime, addressText, fromTemplateId } = job;
+  const { startingDateAndTime, addressText, templateId } = job;
 
   const { email, phone, displayName } = job._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${TASKS_DEFINITIONS[fromTemplateId] &&
-    TASKS_DEFINITIONS[fromTemplateId].TITLE} request`;
+  const title = `BidOrBoo: ${TASKS_DEFINITIONS[templateId] &&
+    TASKS_DEFINITIONS[templateId].TITLE} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;

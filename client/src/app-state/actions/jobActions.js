@@ -379,7 +379,7 @@ export const addJob = (jobDetails, recaptchaField) => (dispatch) => {
 //     durationOfJob: durationOfJobField,
 //     addressText: addressTextField,
 //     state: 'OPEN',
-//     fromTemplateId: fromTemplateIdField,
+//     templateId: fromTemplateIdField,
 //   };
 
 //   return dispatch({

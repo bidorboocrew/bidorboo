@@ -17,15 +17,15 @@ export default class MyAwardedBidJobDetails extends React.Component {
       _ownerRef,
       state,
       detailedDescription,
-      fromTemplateId,
+      templateId,
       addressText,
     } = job;
 
-    if (!tasksDefinitions[fromTemplateId]) {
+    if (!tasksDefinitions[templateId]) {
       return null;
     }
 
-    const jobDefintions = tasksDefinitions[fromTemplateId];
+    const jobDefintions = tasksDefinitions[templateId];
 
     return (
       <div style={{ height: 'auto' }} className="card disabled is-clipped">

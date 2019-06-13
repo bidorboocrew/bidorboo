@@ -38,7 +38,7 @@ export default class RequesterDisputedSummary extends React.Component {
     if (!_bidderRef) {
       return <div>RequesterDisputedSummary is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterDisputedSummary is missing properties</div>;
     }

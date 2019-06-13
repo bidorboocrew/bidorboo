@@ -63,7 +63,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }

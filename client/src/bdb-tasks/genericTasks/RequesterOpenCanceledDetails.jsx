@@ -38,7 +38,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

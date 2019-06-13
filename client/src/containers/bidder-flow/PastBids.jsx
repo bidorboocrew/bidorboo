@@ -114,7 +114,7 @@ class RequestSummary extends React.Component {
       index,
     } = this.props;
 
-    const { startingDateAndTime, fromTemplateId, state } = jobId;
+    const { startingDateAndTime, templateId, state } = jobId;
     const { ratingCategories } = proposerReview;
 
     const ratingMapping = {};
@@ -138,7 +138,7 @@ class RequestSummary extends React.Component {
                     <DisplayLabelValue
                       labelText={'Request Type'}
                       labelValue={`${
-                        tasksDefinitions[fromTemplateId].TITLE
+                        tasksDefinitions[templateId].TITLE
                       } Task`}
                     />
 

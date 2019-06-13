@@ -16,7 +16,7 @@ export default class MyBidsOpenBid extends React.Component {
     const bidAmountText = `${bidDetails.bidAmount.value -
       Math.ceil(bidDetails.bidAmount.value * 0.04)} ${bidDetails.bidAmount.currency}`;
 
-    const fromTemplateId = _jobRef.fromTemplateId;
+    const templateId = _jobRef.templateId;
 
     const { _ownerRef } = _jobRef;
 
@@ -51,7 +51,7 @@ export default class MyBidsOpenBid extends React.Component {
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
-            src={`${tasksDefinitions[fromTemplateId].IMG_URL}`}
+            src={`${tasksDefinitions[templateId].IMG_URL}`}
           />
         </div>
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">

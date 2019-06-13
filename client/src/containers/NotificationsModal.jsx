@@ -142,7 +142,7 @@ const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
           className="notification"
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`Your ${job.fromTemplateId} Request`}</span>
+          <span>{`Your ${job.templateId} Request`}</span>
         </div>
       );
     });
@@ -168,7 +168,7 @@ const getReviewJoblinks = (jobs, closeDialog, icon) => {
           }}
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`${job._bidsListRef.length} new bid on your ${job.fromTemplateId} Request`}</span>
+          <span>{`${job._bidsListRef.length} new bid on your ${job.templateId} Request`}</span>
         </div>
       );
     });
@@ -198,7 +198,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
           className="notification"
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`Your bid for ${bid._jobRef.fromTemplateId} request has WON!`}</span>
+          <span>{`Your bid for ${bid._jobRef.templateId} request has WON!`}</span>
         </div>
       );
     });

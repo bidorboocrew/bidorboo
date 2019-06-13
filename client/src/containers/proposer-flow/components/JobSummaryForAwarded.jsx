@@ -9,7 +9,7 @@ import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 export default class JobSummaryForAwarded extends React.Component {
   render() {
     const { job } = this.props;
-    const { startingDateAndTime, fromTemplateId } = job;
+    const { startingDateAndTime, templateId } = job;
 
     const { _awardedBidRef } = job;
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -27,7 +27,7 @@ export default class JobSummaryForAwarded extends React.Component {
           className="card-header is-clipped"
         >
           <p className="card-header-title">
-            {tasksDefinitions[fromTemplateId].TITLE}
+            {tasksDefinitions[templateId].TITLE}
           </p>
 
           <a className="card-header-icon has-text-success">
@@ -41,7 +41,7 @@ export default class JobSummaryForAwarded extends React.Component {
         <div className="card-image is-clipped">
           <img
             className="bdb-cover-img"
-            src={`${tasksDefinitions[fromTemplateId].IMG_URL}`}
+            src={`${tasksDefinitions[templateId].IMG_URL}`}
           />
         </div>
         <div

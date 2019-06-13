@@ -10,7 +10,7 @@ export default class AwardedJobTimeLineView extends React.Component {
       return null;
     }
 
-    const title = templatesRepo[job.fromTemplateId].title;
+    const title = templatesRepo[job.templateId].title;
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -19,7 +19,7 @@ export default class AwardedJobTimeLineView extends React.Component {
       viewedBy,
       booedBy,
       _awardedBidRef,
-      fromTemplateId,
+      templateId,
       reported,
       createdAt,
     } = job;

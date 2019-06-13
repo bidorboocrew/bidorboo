@@ -9,11 +9,11 @@ import { TASKS_DEFINITIONS, HouseCleaningCreateJob } from '../../bdb-tasks/index
 import GenericJobForm from '../../bdb-tasks/GenericJobForm';
 
 const creatJobsByIdMap = {
-  [`bdbjob-house-cleaning`]: (props) => {
+  [`bdbHouseCleaning`]: (props) => {
     return <HouseCleaningCreateJob {...props} />;
   },
-  [`bdbjob-car-detailing`]: (props) => {
-    return <GenericJobForm requestTemplateId={'bdbjob-car-detailing'} {...props} />;
+  [`bdbCarDetailing`]: (props) => {
+    return <GenericJobForm requestTemplateId={'bdbCarDetailing'} {...props} />;
   },
 };
 

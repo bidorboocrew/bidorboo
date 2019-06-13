@@ -34,7 +34,7 @@ export default class RequesterRequesterRequestDetailsPreview extends React.Compo
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

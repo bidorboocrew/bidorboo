@@ -83,7 +83,7 @@ class RequesterRequestSummary extends React.Component {
     }
     const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterRequestSummary is missing properties</div>;
     }

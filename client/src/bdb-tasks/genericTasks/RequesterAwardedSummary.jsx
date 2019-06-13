@@ -51,7 +51,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     ) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }

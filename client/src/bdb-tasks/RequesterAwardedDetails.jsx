@@ -88,7 +88,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

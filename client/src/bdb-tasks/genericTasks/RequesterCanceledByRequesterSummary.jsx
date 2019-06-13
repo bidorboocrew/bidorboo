@@ -40,7 +40,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     if (!_bidderRef) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }

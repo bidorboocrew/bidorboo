@@ -95,7 +95,7 @@ export default class HouseCleaningCreateJob extends React.Component {
       },
       startingDateAndTime: dateField,
       addressText: addressTextField,
-      fromTemplateId: fromTemplateIdField,
+      templateId: fromTemplateIdField,
       extras: {
         effort: effortField,
       },
@@ -105,7 +105,8 @@ export default class HouseCleaningCreateJob extends React.Component {
 
   render() {
     const { isLoggedIn, showLoginDialog, currentUserDetails } = this.props;
-    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS[`bdbjob-house-cleaning`];
+    debugger
+    const { ID, TITLE, SUGGESTION_TEXT } = TASKS_DEFINITIONS[`bdbHouseCleaning`];
 
     return (
       <div

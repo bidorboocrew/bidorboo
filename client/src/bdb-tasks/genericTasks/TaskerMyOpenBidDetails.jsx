@@ -101,7 +101,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     if (!displayStatus) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

@@ -64,7 +64,7 @@ export default class RequesterDisputedDetails extends React.Component {
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

@@ -104,7 +104,7 @@ exports.jobDataAccess = {
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
                   sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
                     to: ownerEmailAddress,
-                    requestTitle: job.fromTemplateId,
+                    requestTitle: job.templateId,
                     toDisplayName: `${ownerDetails.displayName}`,
                     bidderEmailAddress,
                     bidderPhoneNumber,
@@ -117,7 +117,7 @@ exports.jobDataAccess = {
                 ) {
                   sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
                     to: bidderEmailAddress,
-                    requestTitle: job.fromTemplateId,
+                    requestTitle: job.templateId,
                     toDisplayName: `${awardedBidderDetails.displayName}`,
                     ownerEmailAddress,
                     ownerPhoneNumber,
@@ -132,7 +132,7 @@ exports.jobDataAccess = {
                 ) {
                   sendTextService.sendJobIsHappeningSoonText(
                     ownerPhoneNumber,
-                    job.fromTemplateId,
+                    job.templateId,
                     linkForOwner
                   );
                 }
@@ -143,14 +143,14 @@ exports.jobDataAccess = {
                 ) {
                   sendTextService.sendJobIsHappeningSoonText(
                     bidderPhoneNumber,
-                    job.fromTemplateId,
+                    job.templateId,
                     linkForBidder
                   );
                 }
 
                 if (ownerDetails.notifications && ownerDetails.notifications.push) {
                   WebPushNotifications.pushJobIsHappeningSoon(ownerDetails.pushSubscription, {
-                    requestTitle: job.fromTemplateId,
+                    requestTitle: job.templateId,
                     urlToLaunch: linkForOwner,
                   });
                 }
@@ -158,7 +158,7 @@ exports.jobDataAccess = {
                   WebPushNotifications.pushJobIsHappeningSoon(
                     awardedBidderDetails.pushSubscription,
                     {
-                      requestTitle: job.fromTemplateId,
+                      requestTitle: job.templateId,
                       urlToLaunch: linkForBidder,
                     }
                   );
@@ -256,7 +256,7 @@ exports.jobDataAccess = {
         path: '_postedJobsRef',
         select: {
           addressText: 1,
-          fromTemplateId: 1,
+          templateId: 1,
           startingDateAndTime: 1,
           _awardedBidRef: 1,
           createdAt: 1,
@@ -508,7 +508,7 @@ exports.jobDataAccess = {
             location: 1,
             startingDateAndTime: 1,
             durationOfJob: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             extras: 1,
           }
         )
@@ -728,7 +728,7 @@ exports.jobDataAccess = {
           { state: { $eq: 'OPEN' } },
           {
             _ownerRef: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             startingDateAndTime: 1,
             extras: 1,
             state: 1,
@@ -764,7 +764,7 @@ exports.jobDataAccess = {
           { $and: [{ state: { $eq: 'OPEN' }, _ownerRef: { $ne: mongoUser_id.toString() } }] },
           {
             _ownerRef: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             startingDateAndTime: 1,
             extras: 1,
             state: 1,
@@ -816,7 +816,7 @@ exports.jobDataAccess = {
           searchQuery,
           {
             _ownerRef: 1,
-            fromTemplateId: 1,
+            templateId: 1,
             startingDateAndTime: 1,
             extras: 1,
             state: 1,
@@ -857,7 +857,7 @@ exports.jobDataAccess = {
         // if (selectedTemplateIds && selectedTemplateIds.length > 0) {
         //   //filter categories of jobs
         //   aggregateSearchQuery.$geoNear.query = {
-        //     fromTemplateId: { $in: selectedTemplateIds },
+        //     templateId: { $in: selectedTemplateIds },
         //     state: { $eq: 'OPEN' },
         //   };
         // }
@@ -867,7 +867,7 @@ exports.jobDataAccess = {
         //     {
         //       $project: {
         //         _ownerRef: 1,
-        //         fromTemplateId: 1,
+        //         templateId: 1,
         //         startingDateAndTime: 1,
         //         extras: 1,
         //         state: 1,
@@ -1735,7 +1735,7 @@ exports.jobDataAccess = {
 
   //   const requesterDisplayName = ownerDetails.displayName;
   //   const taskerDisplayName = awardedBidderDetails.displayName;
-  //   const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.fromTemplateId;
+  //   const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.templateId;
 
   //   const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
   //   const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);

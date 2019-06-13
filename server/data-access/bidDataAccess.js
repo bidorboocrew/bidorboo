@@ -313,7 +313,7 @@ exports.bidDataAccess = {
 
     const requesterDisplayName = ownerDetails.displayName;
     const taskerDisplayName = awardedBidderDetails.displayName;
-    const jobDisplayName = awardedJob.jobTitle || awardedJob.fromTemplateId;
+    const jobDisplayName = awardedJob.jobTitle || awardedJob.templateId;
 
     const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
     const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
@@ -443,7 +443,7 @@ exports.bidDataAccess = {
           addressText: 1,
           startingDateAndTime: 1,
           durationOfJob: 1,
-          fromTemplateId: 1,
+          templateId: 1,
           reported: 1,
           createdAt: 1,
           updatedAt: 1,
@@ -483,7 +483,7 @@ exports.bidDataAccess = {
                 addressText: 1,
                 startingDateAndTime: 1,
                 durationOfJob: 1,
-                fromTemplateId: 1,
+                templateId: 1,
                 createdAt: 1,
                 updatedAt: 1,
               },
@@ -562,7 +562,7 @@ exports.bidDataAccess = {
                     stats: 1,
                     startingDateAndTime: 1,
                     durationOfJob: 1,
-                    fromTemplateId: 1,
+                    templateId: 1,
                   },
                   populate: {
                     path: '_ownerRef',
@@ -629,7 +629,7 @@ exports.bidDataAccess = {
                     addressText: 1,
                     startingDateAndTime: 1,
                     durationOfJob: 1,
-                    fromTemplateId: 1,
+                    templateId: 1,
                     _reviewRef: 1,
                   },
                   populate: [
@@ -776,7 +776,7 @@ exports.bidDataAccess = {
                 stats: 1,
                 startingDateAndTime: 1,
                 durationOfJob: 1,
-                fromTemplateId: 1,
+                templateId: 1,
                 extras: 1,
               },
               populate: {
@@ -888,7 +888,7 @@ exports.bidDataAccess = {
               : '';
 
           const jobTemplate =
-            utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.fromTemplateId}`];
+            utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.templateId}`];
           const jobTitle = jobTemplate.TITLE || '';
           sendGridEmailing.sendNewBidRecievedEmail({
             to: ownerEmailAddress,

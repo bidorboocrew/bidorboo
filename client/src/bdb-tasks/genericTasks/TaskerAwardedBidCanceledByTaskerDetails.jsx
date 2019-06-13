@@ -23,7 +23,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }

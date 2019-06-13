@@ -75,7 +75,7 @@ class GenericJobForm extends React.Component {
       .set({ hour: values.timeField, minute: 0, second: 0, millisecond: 0 })
       .toISOString();
 
-    setFieldValue('date', adjustedTimeVal, false);
+    setFieldValue('startingDateAndTime', adjustedTimeVal, false);
   };
 
   selectTimeButton = (selectionId) => {
@@ -106,12 +106,12 @@ class GenericJobForm extends React.Component {
     }
 
     this.setState({ selectedTimeButtonId: selectionId }, () => {
-      setFieldValue('timeField', selectedTimeValue, false);
-      const newAdjustedTimeVal = moment(values.date)
+      setFieldValue('startingDateAndtime', selectedTimeValue, false);
+      const newAdjustedTimeVal = moment(values.startingDateAndtime)
         .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
         .toISOString();
 
-      setFieldValue('date', newAdjustedTimeVal, false);
+      setFieldValue('startingDateAndTime', newAdjustedTimeVal, false);
     });
   };
 
@@ -135,8 +135,8 @@ class GenericJobForm extends React.Component {
     const {
       location,
       detailedDescription,
-      date,
-      address,
+      startingDateAndTime,
+      addressText,
       templateId,
 
       ...extras // everything else
@@ -147,7 +147,7 @@ class GenericJobForm extends React.Component {
       alert('sorry you must specify the location for this request');
       return;
     }
-    if (!address) {
+    if (!addressText) {
       alert('sorry you must specify the location for this request');
       return;
     }
@@ -155,8 +155,8 @@ class GenericJobForm extends React.Component {
       alert('sorry you must add more details about this request');
       return;
     }
-    if (!date) {
-      alert('sorry you must specify a date for when do you want this request to be done');
+    if (!startingDateAndTime) {
+      alert('sorry you must specify a starting Date And Time for when do you want this request to be done');
       return;
     }
     if (!templateId) {
@@ -202,8 +202,8 @@ class GenericJobForm extends React.Component {
         type: 'Point',
         coordinates: [parseFloat(lng), parseFloat(lat)],
       },
-      startingDateAndTime: date,
-      address,
+      startingDateAndTime,
+      addressText,
       templateId,
       extras: {
         ...extras,
@@ -215,7 +215,7 @@ class GenericJobForm extends React.Component {
   autoSetGeoLocation = (addressText) => {
     this.setState(() => ({ forceSetAddressValue: addressText }));
     // update the form field with the current position coordinates
-    this.props.setFieldValue('addressTextField', addressText, false);
+    this.props.setFieldValue('addressText', addressText, false);
   };
   toggleConfirmationDialog = () => {
     const { isLoggedIn, showLoginDialog } = this.props;
@@ -247,8 +247,8 @@ class GenericJobForm extends React.Component {
     const { showConfirmationDialog, selectedTimeButtonId } = this.state;
 
     const newTaskDetails = {
-      fromTemplateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
-      startingDateAndTime: values.date,
+      templateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
+      startingDateAndTime: values.startingDateAndTime,
       _ownerRef: currentUserDetails,
       addressText: values.address,
       detailedDescription: values.detailedDescription,
@@ -350,16 +350,16 @@ class GenericJobForm extends React.Component {
             <br />
             <React.Fragment>
               <input
-                id="addressTextField"
+                id="addressText"
                 className="input is-invisible"
                 type="hidden"
-                value={values.addressTextField || ''}
+                value={values.addressText || ''}
               />
               <input
-                id="locationField"
+                id="location"
                 className="input is-invisible"
                 type="hidden"
-                value={values.locationField || ''}
+                value={values.location || ''}
               />
 
               <GeoAddressInput
@@ -369,30 +369,30 @@ class GenericJobForm extends React.Component {
                 label="What's the address where you need cleaning?"
                 placeholder="Enter your request's address"
                 autoDetectComponent={this.shouldShowAutodetectControl}
-                error={touched.addressTextField && errors.addressTextField}
-                value={values.addressTextField || ''}
+                error={touched.addressText && errors.addressText}
+                value={values.addressText || ''}
                 onError={(e) => {
-                  errors.addressTextField = 'google api error ' + e;
+                  errors.addressText = 'google api error ' + e;
                 }}
                 onChangeEvent={(e) => {
-                  setFieldValue('addressTextField', e, true);
+                  setFieldValue('addressText', e, true);
                 }}
                 onBlurEvent={(e) => {
                   if (e && e.target) {
-                    e.target.id = 'addressTextField';
+                    e.target.id = 'addressText';
                     handleBlur(e);
                   }
                 }}
                 handleSelect={(address) => {
-                  setFieldValue('addressTextField', address, false);
+                  setFieldValue('addressText', address, false);
                   geocodeByAddress(address)
                     .then((results) => getLatLng(results[0]))
                     .then((latLng) => {
-                      setFieldValue('locationField', latLng, false);
+                      setFieldValue('location', latLng, false);
                       console.log('Success', latLng);
                     })
                     .catch((error) => {
-                      errors.addressTextField = 'error getting lat lng ' + error;
+                      errors.addressText = 'error getting lat lng ' + error;
                       console.error('Error', error);
                     });
                 }}
@@ -400,12 +400,17 @@ class GenericJobForm extends React.Component {
             </React.Fragment>
             <br />
             <React.Fragment>
-              <input id="date" className="input is-invisible" type="hidden" value={values.date} />
+              <input
+                id="startingDateAndtime"
+                className="input is-invisible"
+                type="hidden"
+                value={values.startingDateAndtime}
+              />
               <input
                 id="timeField"
                 className="input is-invisible"
                 type="hidden"
-                value={values.timeField || 5}
+                value={values.timeField}
               />
               <DateInput
                 id="DateInputField"
@@ -603,7 +608,7 @@ const EnhancedForms = withFormik({
       .ensure()
       .trim()
       .required('*Template Id missing, This field is required'),
-    date: Yup.string().required('*Date Field is required'),
+    startingDateAndTime: Yup.string().required('*Date Field is required'),
     detailedDescription: Yup.string()
       .ensure()
       .trim()
@@ -617,7 +622,7 @@ const EnhancedForms = withFormik({
     return {
       timeField: 17,
       templateId: props.requestTemplateId,
-      date: moment()
+      startingDateAndtime: moment()
         .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
         .toISOString(),
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,

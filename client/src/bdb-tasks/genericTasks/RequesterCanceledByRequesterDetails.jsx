@@ -28,7 +28,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       _ownerRef,
       detailedDescription,
       processedPayment,
-      fromTemplateId,
+      templateId,
     } = job;
     if (
       !startingDateAndTime ||
@@ -39,7 +39,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       !extras ||
       !_ownerRef ||
       !detailedDescription ||
-      !fromTemplateId ||
+      !templateId ||
       !processedPayment
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
@@ -66,7 +66,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }

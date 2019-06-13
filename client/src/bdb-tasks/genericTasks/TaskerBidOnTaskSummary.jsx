@@ -49,13 +49,13 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
     const {
       reactMapClusterRef,
       startingDateAndTime,
-      fromTemplateId,
+      templateId,
       _bidsListRef,
       _ownerRef,
       state,
       extras,
     } = job;
-    if (!startingDateAndTime || !fromTemplateId || !_ownerRef || !state || !extras) {
+    if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
       return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
     }
 
@@ -70,7 +70,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
               isOnMapView={isOnMapView}
               userAlreadyBid={userAlreadyBid}
               jobState={state}
-              fromTemplateId={fromTemplateId}
+              templateId={templateId}
               bidsList={_bidsListRef}
               userAlreadyView={userAlreadyView}
             />

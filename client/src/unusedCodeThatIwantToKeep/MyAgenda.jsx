@@ -63,7 +63,7 @@
 //         return {
 //           id: job._id,
 //           resource: `${switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id))}`,
-//           title: `Requested: ${job.fromTemplateId}`,
+//           title: `Requested: ${job.templateId}`,
 //           desc: `<p>BidOrBoo Tasker ${
 //             bidDetails._bidderRef.displayName
 //           } will be fullfilling this task.
@@ -118,7 +118,7 @@
 //             jobDetails._ownerRef.displayName
 //           } requested your help to fulfill this task.
 //           <br />
-//           Task Type : ${jobDetails.fromTemplateId}
+//           Task Type : ${jobDetails.templateId}
 //           <br />
 //           Address :  ${jobDetails.addressText}
 //           <br />

@@ -86,7 +86,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
     ) {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }

@@ -49,7 +49,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
 
   const requesterDisplayName = ownerDetails.displayName;
   const taskerDisplayName = awardedBidderDetails.displayName;
-  const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.fromTemplateId;
+  const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.templateId;
 
   const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
   const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);

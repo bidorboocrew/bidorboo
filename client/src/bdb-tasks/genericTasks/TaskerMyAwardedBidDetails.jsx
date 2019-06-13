@@ -86,7 +86,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     if (!emailAddress) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

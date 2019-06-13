@@ -90,7 +90,7 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const { TITLE } = TASKS_DEFINITIONS[`${job.fromTemplateId}`];
+    const { TITLE } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }

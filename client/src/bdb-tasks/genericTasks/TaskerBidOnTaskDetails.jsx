@@ -34,7 +34,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       detailedDescription,
       location,
       extras,
-      fromTemplateId,
+      templateId,
     } = job;
     if (
       !startingDateAndTime ||
@@ -43,7 +43,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       !detailedDescription ||
       !location ||
       !extras ||
-      !fromTemplateId
+      !templateId
     ) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -76,7 +76,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             <CardTitleAndActionsInfo
               userAlreadyBid={userAlreadyBid}
               jobState={state}
-              fromTemplateId={fromTemplateId}
+              templateId={templateId}
               bidsList={_bidsListRef}
               userAlreadyView={userAlreadyView}
             />

@@ -87,8 +87,7 @@ const JobSchema = new Schema(
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
     addressText: { type: String, trim: true, max: MAX_ADDRESS_LENGTH },
     startingDateAndTime: { type: Date, required: true, index: true },
-    durationOfJob: { type: String, trim: true },
-    fromTemplateId: { type: String, trim: true },
+    templateId: { type: String, trim: true },
     reported: { type: Number },
     // jobImages: [
     //   {
@@ -114,8 +113,9 @@ const JobSchema = new Schema(
 JobSchema.virtual('displayTitle').get(function() {
   const templateIdToDisplayName = {
     'bdbjob-house-cleaning': 'House Cleaning',
+    'bdbjob-car-detailing': 'Car Detailing',
   };
-  return templateIdToDisplayName[this.fromTemplateId];
+  return templateIdToDisplayName[this.templateId];
 });
 
 JobSchema.virtual('isPastDue').get(function() {
