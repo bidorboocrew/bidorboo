@@ -207,7 +207,7 @@ class GenericJobForm extends React.Component {
       console.log('failed to create location');
     }
 
-    const mapFieldsToSchema = {
+    const mappedFieldsToJobSchema = {
       detailedDescription: detailedDescription,
       location: {
         type: 'Point',
@@ -220,8 +220,8 @@ class GenericJobForm extends React.Component {
         ...extras,
       },
     };
-    debugger;
-    // addJob(mapFieldsToSchema, recaptcha);
+
+    addJob(mappedFieldsToJobSchema, recaptcha);
   };
   autoSetGeoLocation = (addressText) => {
     this.setState(() => ({ forceSetAddressValue: addressText }));
