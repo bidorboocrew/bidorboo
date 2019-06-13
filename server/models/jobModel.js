@@ -38,7 +38,6 @@ const JobSchema = new Schema(
       },
     },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
-    title: String,
     state: {
       type: String,
       default: 'OPEN',
