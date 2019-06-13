@@ -221,7 +221,7 @@ class GenericJobForm extends React.Component {
       },
     };
 
-    addJob(mappedFieldsToJobSchema, recaptcha);
+    addJob(mappedFieldsToJobSchema);
   };
   autoSetGeoLocation = (addressText) => {
     this.setState(() => ({ forceSetAddressValue: addressText }));
