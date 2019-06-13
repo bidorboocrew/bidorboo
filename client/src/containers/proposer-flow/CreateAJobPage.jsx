@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { addJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { TASKS_DEFINITIONS, HouseCleaningCreateJob } from '../../bdb-tasks/index';
 import GenericJobForm from '../../bdb-tasks/GenericJobForm';
 
 const creatJobsByIdMap = {
