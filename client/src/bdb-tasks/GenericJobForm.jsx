@@ -138,7 +138,6 @@ class GenericJobForm extends React.Component {
       startingDateAndTime,
       addressText,
       templateId,
-
       ...extras // everything else
     } = values;
     debugger;
@@ -156,7 +155,9 @@ class GenericJobForm extends React.Component {
       return;
     }
     if (!startingDateAndTime) {
-      alert('sorry you must specify a starting Date And Time for when do you want this request to be done');
+      alert(
+        'sorry you must specify a starting Date And Time for when do you want this request to be done',
+      );
       return;
     }
     if (!templateId) {
@@ -246,12 +247,23 @@ class GenericJobForm extends React.Component {
     ];
     const { showConfirmationDialog, selectedTimeButtonId } = this.state;
 
+    const {
+      location,
+      detailedDescription,
+      startingDateAndTime,
+      addressText,
+      templateId,
+      ...extras // everything else
+    } = values;
+
     const newTaskDetails = {
-      templateId: TASKS_DEFINITIONS[this.requestTemplateId].ID,
-      startingDateAndTime: values.startingDateAndTime,
       _ownerRef: currentUserDetails,
-      addressText: values.address,
-      detailedDescription: values.detailedDescription,
+      location,
+      detailedDescription,
+      startingDateAndTime,
+      addressText,
+      templateId,
+      extras,
     };
 
     const extrasFields = this.extrasFunc();
@@ -286,7 +298,7 @@ class GenericJobForm extends React.Component {
 
                   <section className="modal-card-body">
                     <label className="label">Your Request Preview</label>
-                    {/* <RequesterRequestDetailsPreview job={newTaskDetails} /> */}
+                    <RequesterRequestDetailsPreview job={newTaskDetails} />
 
                     <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
                       <label className="label">BidOrBoo Safety rules</label>

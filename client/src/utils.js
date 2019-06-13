@@ -14,6 +14,7 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
       return null;
     }
   }, 0);
+  return null;
 };
 
 export const goBackToPreviousRoute = () => {

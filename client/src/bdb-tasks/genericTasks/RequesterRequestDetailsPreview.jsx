@@ -12,7 +12,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-export default class RequesterRequesterRequestDetailsPreview extends React.Component {
+export default class RequesterRequestDetailsPreview extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,8 +27,9 @@ export default class RequesterRequesterRequestDetailsPreview extends React.Compo
 
   render() {
     const { job } = this.props;
+    debugger
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }
     const { startingDateAndTime, addressText, detailedDescription, _ownerRef, extras } = job;
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
@@ -36,11 +37,11 @@ export default class RequesterRequesterRequestDetailsPreview extends React.Compo
     }
     const { TITLE, ID } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }
 
     const { showMore } = this.state;
-
+debugger
     return (
       <div style={{ height: 'unset' }} className="card">
         <div style={{ minHeight: 'unset' }} className="card-content">
