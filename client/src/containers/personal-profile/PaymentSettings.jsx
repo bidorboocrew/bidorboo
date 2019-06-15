@@ -24,6 +24,10 @@ class PaymentSettings extends React.Component {
     this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
   };
 
+  componentDidMount() {
+    this.props.getMyStripeAccountDetails();
+  }
+
   render() {
     const { isLoggedIn, isLoadingStripeAccountDetails, userDetails } = this.props;
 
@@ -259,6 +263,7 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div className="panel-block is-active">
+          Earnings will be listed below
           {myStripeAccountDetails &&
             myStripeAccountDetails.balanceDetails &&
             myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (

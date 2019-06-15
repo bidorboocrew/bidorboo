@@ -199,7 +199,6 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.GET.myStripeAccountDetails,
     requireBidorBooHost,
     requireLogin,
-    requireHasAnExistingStripeAcc,
     async (req, res) => {
       try {
         const mongoUser_id = req.user._id.toString();
