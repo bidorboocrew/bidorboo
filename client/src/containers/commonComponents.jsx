@@ -395,7 +395,7 @@ export const StepsForRequest = ({ step, isSmall }) => {
 export const StepsForTasker = ({ step, isMoreDetails, isSmall }) => {
   return (
     <React.Fragment>
-      <div className="is-size-5">How It works</div>
+      {/* <div className="is-size-5">How It works</div> */}
       <ul className={`steps has-content-centered is-horizontal ${isSmall ? 'is-small' : ''}`}>
         <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
           <span className="steps-marker">

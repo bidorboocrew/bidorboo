@@ -20,26 +20,23 @@ class MyBidsPage extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
+    const {
+      isLoading,
+      openBidsList,
+      deleteOpenBid,
+      updateBid,
+      userDetails,
+      isLoggedIn,
+    } = this.props;
 
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-    // const awardedBidsListComponent =
-    //   awardedBidsList && awardedBidsList.length > 0 ? (
-    //     awardedBidsList.map((bidDetails) => {
-    //       return (
-    //         <div key={bidDetails._id} className="column">
-    //           <MyBidsAwardedBid
-    //             bidDetails={bidDetails}
-    //             notificationFeed={notificationFeed}
-    //             updateBidState={updateBidState}
-    //           />
-    //         </div>
-    //       );
-    //     })
-    //   ) : (
-    //     <EmptyStateComponent />
-    //   );
+    const didUserSetupABankAccount =
+      userDetails.stripeConnect && userDetails.stripeConnect.last4BankAcc;
+    const isBankVerified =
+      userDetails.stripeConnect &&
+      userDetails.stripeConnect.last4BankAcc &&
+      userDetails.stripeConnect.isVerified;
 
     let myBidsSummaryCards = areThereAnyBidsToView
       ? openBidsList.map((bid) => {
@@ -62,10 +59,41 @@ class MyBidsPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">My Bids</h1>
+              {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
+                <div>
+                  <h3 className="subtitle has-text-weight-bold has-text-link">
+                    Add your banking info to get your payments on time
+                  </h3>
+                  <a
+                    className="button is-link"
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                    }}
+                  >
+                    Add Banking Info
+                  </a>
+                </div>
+              )}
+              {isLoggedIn && didUserSetupABankAccount && !isBankVerified && (
+                <div>
+                  <h3 className="subtitle has-text-weight-bold">
+                    Check on your verification status to get your payments on time
+                  </h3>
+                  <a
+                    className="button is-link"
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                    }}
+                  >
+                    Payment Settings
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </section>
         <hr className="divider" />
+
         <FloatingAddNewBidButton />
 
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
@@ -80,11 +108,12 @@ class MyBidsPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer, uiReducer }) => {
+const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
   return {
+    isLoggedIn: userReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
     openBidsList: bidsReducer.openBidsList,
     isLoading: bidsReducer.isLoadingBids,
-    // awardedBidsList: bidsReducer.awardedBidsList,
     notificationFeed: uiReducer.notificationFeed,
   };
 };

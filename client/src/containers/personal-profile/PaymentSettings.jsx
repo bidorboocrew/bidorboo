@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
 import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
 import { Spinner } from '../../components/Spinner';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
@@ -22,10 +23,6 @@ class PaymentSettings extends React.Component {
   toggleAddPaymentDetails = () => {
     this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
   };
-
-  componentDidMount() {
-    this.props.getMyStripeAccountDetails();
-  }
 
   render() {
     const { isLoggedIn, isLoadingStripeAccountDetails, userDetails } = this.props;
@@ -110,74 +107,81 @@ const InitialAccountSetupView = (props) => {
     userDetails,
     myStripeAccountDetails,
   } = props;
-
+  debugger;
   const doesUserHaveExistingAccount = !!myStripeAccountDetails;
   return (
     <React.Fragment>
-      <HeaderTitle title="BidOrBoo Tasker" />
-
+      {doesUserHaveExistingAccount && (
+        <div className="field">
+          <label className="label" />
+          <div className="control">
+            <label style={{ lineHeight: 1.5 }} className="checkbox">
+              {` By becoming a BidOrBoo Tasker you agree to comply with all
+                        out policies and terms of use`}
+              <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
+                <strong>{` BidOrBoo Service Agreement `}</strong>
+              </a>
+              and
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://stripe.com/connect-account/legal"
+              >
+                <strong>{` Stripe Connected Account Agreement`}</strong>
+              </a>
+              .
+            </label>
+          </div>
+        </div>
+      )}
       {!doesUserHaveExistingAccount && (
         <div>
           <div className="field">
-            <label className="label">
-              Becoming a BidOrBoo Tasker
-              <br />
-            </label>
-            <div className="control">Are you of legal (above 16) age to work ?</div>
-            <div className="control">Are you going to Bid on Requets?</div>
-            <div className="control">Are you going to Provide services?</div>
-            <br />
-            <div>
-              If you answered yest o all the above then start by setting up your payout bank account
-            </div>
-            <div>
-              This will be the account where we will send your payment to after you complete Tasks
-            </div>
-            <div className="field">
-              <input
-                id="showPayoutSetupForm"
-                type="checkbox"
-                name="showPayoutSetupForm"
-                className="switch is-rounded is-success"
-                checked={showAddPaymentDetails}
-                onChange={toggleAddPaymentDetails}
-              />
-              <label htmlFor="showPayoutSetupForm">
-                <strong>Add My Payout Banking Details</strong>
-              </label>
-            </div>
+            <div
+              style={{ minHeight: 'unset', height: 'unset' }}
+              className="card disabled limitLargeMaxWidth"
+            >
+              <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
+                <HeaderTitle title="My Payments Details" />
 
-            <div className="help">
-              * Your data is secured via
-              <a href="https://stripe.com/ca" target="_blank">
-                {` Stripe payment gateway.`}
-              </a>
-              {` A world class secure payment processing platform.`} <br />
-              {`BidOrBoo will not store or share any of your sensitive details`}
+                <div className="content">
+                  <br />
+                  <div className="field">
+                    <input
+                      id="showPayoutSetupForm"
+                      type="checkbox"
+                      name="showPayoutSetupForm"
+                      className="switch is-rounded is-success"
+                      checked={showAddPaymentDetails}
+                      onChange={toggleAddPaymentDetails}
+                    />
+                    <label htmlFor="showPayoutSetupForm">
+                      <strong>Setup Payout Banking Details</strong>
+                    </label>
+                    <div className="help">
+                      * All Your data is secured via
+                      <a href="https://stripe.com/ca" target="_blank">
+                        {` Stripe payment gateway.`}
+                      </a>
+                      {` A world class secure payment processing platform.`} <br />
+                    </div>
+                    <div className="help">
+                      * We will use this to deposit your earnings after completing tasks
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <br />
           </div>
         </div>
       )}
 
       {showAddPaymentDetails && (
-        <div>
-          <HeaderTitle title="Add Payout Details" />
-          <div className="help">
-            * To speed up verification and avoid delays in payout please
-            <strong> enter all your details accurately</strong>
-          </div>
-          <div className="help">
-            * Provide your info as it appears on your legal document such as your: Passport,
-            government-issued ID, or driver's license
-          </div>
-          <br />
-          <PaymentSetupForm
-            userDetails={userDetails}
-            onCancel={toggleAddPaymentDetails}
-            onSubmit={(vals) => console.log(vals)}
-          />
-        </div>
+        <PaymentSetupForm
+          userDetails={userDetails}
+          onCancel={toggleAddPaymentDetails}
+          onSubmit={(vals) => console.log(vals)}
+        />
       )}
     </React.Fragment>
   );

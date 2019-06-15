@@ -216,7 +216,7 @@ export default class BidderRootLocationFilter extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <a
-          style={{ height: 'unset', whiteSpace: 'unset' }}
+          style={{ height: 'unset', maxWidth: '30rem', whiteSpace: 'unset' }}
           onClick={this.toggleModal}
           className="button is-link is-fullwidth"
         >
