@@ -57,7 +57,29 @@ class PaymentSettings extends React.Component {
             )}
 
             {stripeConnect && stripeConnect.last4BankAcc && (
-              <EstablishedAccountView {...this.props} />
+              <React.Fragment>
+                <div className="field">
+                  <div className="control">
+                    <label style={{ lineHeight: 1.5 }} className="checkbox">
+                      {` By becoming a BidOrBoo Tasker you agree to comply with all
+                               out policies and terms of use`}
+                      <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
+                        <strong>{` BidOrBoo Service Agreement `}</strong>
+                      </a>
+                      and
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://stripe.com/connect-account/legal"
+                      >
+                        <strong>{` Stripe Connected Account Agreement`}</strong>
+                      </a>
+                      .
+                    </label>
+                  </div>
+                </div>
+                <EstablishedAccountView {...this.props} />
+              </React.Fragment>
             )}
           </div>
         </div>
@@ -111,74 +133,63 @@ const InitialAccountSetupView = (props) => {
     userDetails,
     myStripeAccountDetails,
   } = props;
-  debugger;
-  const doesUserHaveExistingAccount = !!myStripeAccountDetails;
+
   return (
     <React.Fragment>
-      {doesUserHaveExistingAccount && (
+      <div>
         <div className="field">
-          <label className="label" />
-          <div className="control">
-            <label style={{ lineHeight: 1.5 }} className="checkbox">
-              {` By becoming a BidOrBoo Tasker you agree to comply with all
-                        out policies and terms of use`}
-              <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                <strong>{` BidOrBoo Service Agreement `}</strong>
-              </a>
-              and
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://stripe.com/connect-account/legal"
-              >
-                <strong>{` Stripe Connected Account Agreement`}</strong>
-              </a>
-              .
-            </label>
-          </div>
-        </div>
-      )}
-      {!doesUserHaveExistingAccount && (
-        <div>
-          <div className="field">
-            <div
-              style={{ minHeight: 'unset', height: 'unset' }}
-              className="card disabled limitLargeMaxWidth"
-            >
-              <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-                <HeaderTitle title="My Payments Details" />
+          <div
+            style={{ minHeight: 'unset', height: 'unset' }}
+            className="card disabled limitLargeMaxWidth"
+          >
+            <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
+              <HeaderTitle title="My Payments Details" />
 
-                <div className="content">
-                  <br />
-                  <div className="field">
-                    <input
-                      id="showPayoutSetupForm"
-                      type="checkbox"
-                      name="showPayoutSetupForm"
-                      className="switch is-rounded is-success"
-                      checked={showAddPaymentDetails}
-                      onChange={toggleAddPaymentDetails}
-                    />
-                    <label htmlFor="showPayoutSetupForm">
-                      <strong>Setup Payout Banking Details</strong>
-                    </label>
-                    <div className="help">
-                      * All Your data is secured via
-                      <a href="https://stripe.com/ca" target="_blank">
-                        {` Stripe payment gateway.`}
-                      </a>
-                      {` A world class secure payment processing platform.`} <br />
-                    </div>
-                    <div className="help">
-                      * We will use this to deposit your earnings after completing tasks
-                    </div>
+              <div className="content">
+                <br />
+                <div className="field">
+                  <input
+                    id="showPayoutSetupForm"
+                    type="checkbox"
+                    name="showPayoutSetupForm"
+                    className="switch is-rounded is-success"
+                    checked={showAddPaymentDetails}
+                    onChange={toggleAddPaymentDetails}
+                  />
+                  <label htmlFor="showPayoutSetupForm">
+                    <strong>Setup Payout Banking Details</strong>
+                  </label>
+                  <div className="help">
+                    * All Your data is secured via
+                    <a href="https://stripe.com/ca" target="_blank">
+                      {` Stripe payment gateway.`}
+                    </a>
+                    {` A world class secure payment processing platform.`} <br />
+                  </div>
+                  <div className="help">
+                    * We will use this to deposit your earnings after completing tasks
                   </div>
                 </div>
+
+                {!showAddPaymentDetails && (
+                  <React.Fragment>
+                    {myStripeAccountDetails &&
+                      myStripeAccountDetails.balanceDetails &&
+                      myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
+                        <div style={{ wordBreak: 'break-all' }}>
+                          <label className="label">
+                            These pending payments awaits your banking details registration
+                          </label>
+                          {`${JSON.stringify(myStripeAccountDetails.balanceDetails)}`}
+                        </div>
+                      )}
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {showAddPaymentDetails && (
         <PaymentSetupForm
@@ -194,7 +205,7 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-
+  debugger;
   if (!myStripeAccountDetails) {
     return null;
   }

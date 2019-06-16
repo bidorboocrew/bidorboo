@@ -27,6 +27,7 @@ exports.UserFull = {
   updatedAt: 1,
   appView: 1,
   lastSearch: 1,
+  picId: 1,
 };
 
 exports.BidFull = {

@@ -134,7 +134,9 @@ export const getCurrentUser = () => (dispatch) =>
           }
 
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
-            switchRoute(ROUTES.CLIENT.ONBOARDING);
+            if (window.location.href !== ROUTES.CLIENT.TOS) {
+              switchRoute(ROUTES.CLIENT.ONBOARDING);
+            }
           }
         }
       })
@@ -218,7 +220,9 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          switchRoute(ROUTES.CLIENT.ONBOARDING);
+          if (window.location.href !== ROUTES.CLIENT.TOS) {
+            switchRoute(ROUTES.CLIENT.ONBOARDING);
+          }
         }
       })
       .catch((error) => {

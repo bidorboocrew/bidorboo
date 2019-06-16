@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { connect } from 'react-redux';
+import { connect } from 'formik';
 import { bindActionCreators } from 'redux';
 
 import axios from 'axios';
