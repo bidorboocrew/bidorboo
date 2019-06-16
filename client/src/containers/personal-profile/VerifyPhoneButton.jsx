@@ -138,7 +138,7 @@ class VerifyPhoneButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal
+            this.rootModal,
           )}
         <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Phone

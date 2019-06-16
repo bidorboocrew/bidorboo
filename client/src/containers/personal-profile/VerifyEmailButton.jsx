@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { connect } from 'formik';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import axios from 'axios';
@@ -12,6 +12,7 @@ import { verifyEmail } from '../../app-state/actions/authActions';
 class VerifyEmailButton extends React.Component {
   constructor(props) {
     super(props);
+    debugger
     this.input = React.createRef();
     this.state = {
       isResendingVCode: false,
@@ -42,13 +43,15 @@ class VerifyEmailButton extends React.Component {
     });
   };
   render() {
-    this.rootModal = document.querySelector('#bidorboo-root-modals');
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
     const { verifyEmail, verifyingEmailInProgress } = this.props;
+    debugger;
     return (
       <React.Fragment>
-        {showEnterPinDialog &&
-          this.rootModal &&
+        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+          Verify Your Email
+        </div>
+        {/* {showEnterPinDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleEnterPinDialog} className="modal-background" />
@@ -142,11 +145,8 @@ class VerifyEmailButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal
-          )}
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
-          Verify Your Email
-        </div>
+            document.querySelector('#bidorboo-root-modals'),
+          )} */}
       </React.Fragment>
     );
   }

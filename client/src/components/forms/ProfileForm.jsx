@@ -29,14 +29,14 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { autoDetectlocation, displayName, personalParagraph, phone, email } = userDetails;
+    const { displayName, personalParagraph, phone, email } = userDetails;
 
     return {
       displayName: displayName,
       phoneNumber: phone.phoneNumber,
       email: email.emailAddress,
       personalParagraph: personalParagraph,
-      autoDetectlocation,
+      // autoDetectlocation,
     };
   },
 
@@ -46,7 +46,7 @@ const EnhancedForms = withFormik({
       email: { emailAddress: values.email },
       phone: { phoneNumber: values.phoneNumber },
       personalParagraph: values.personalParagraph,
-      autoDetectlocation: values.autoDetectlocation,
+      // autoDetectlocation: values.autoDetectlocation,
     });
   },
   displayName: 'ProfileForm',
@@ -66,26 +66,26 @@ const ProfileForm = (props) => {
     isSubmitting,
   } = props;
 
-  const toggleIsAutoDetectEnabled = (val) => {
-    if (val && navigator && navigator.geolocation) {
-      const getCurrentPositionOptions = {
-        maximumAge: 10000,
-        timeout: 5000,
-        enableHighAccuracy: true,
-      };
-      const errorHandling = (err) => {
-        console.error('BidOrBoo Could Not Auto Detect Address ' + err);
-      };
-      const successfulRetrieval = () => {};
+  // const toggleIsAutoDetectEnabled = (val) => {
+  //   if (val && navigator && navigator.geolocation) {
+  //     const getCurrentPositionOptions = {
+  //       maximumAge: 10000,
+  //       timeout: 5000,
+  //       enableHighAccuracy: true,
+  //     };
+  //     const errorHandling = (err) => {
+  //       console.error('BidOrBoo Could Not Auto Detect Address ' + err);
+  //     };
+  //     const successfulRetrieval = () => {};
 
-      //get the current location
-      navigator.geolocation.getCurrentPosition(
-        successfulRetrieval,
-        errorHandling,
-        getCurrentPositionOptions,
-      );
-    }
-  };
+  //     //get the current location
+  //     navigator.geolocation.getCurrentPosition(
+  //       successfulRetrieval,
+  //       errorHandling,
+  //       getCurrentPositionOptions,
+  //     );
+  //   }
+  // };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -99,7 +99,7 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <div className="field">
+      {/* <div className="field">
         <div className="control">
           <label className="label">Auto Detect Location</label>
           <label className="checkbox">
@@ -122,7 +122,7 @@ const ProfileForm = (props) => {
             </span>
           </label>
         </div>
-      </div>
+      </div> */}
       <TextInput
         id="email"
         type="text"
