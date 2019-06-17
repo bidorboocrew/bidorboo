@@ -48,12 +48,14 @@ const EnhancedForms = withFormik({
     let frontSideResp;
     let backSideResp;
     setSubmitting(true);
-
+    JSON.stringify({ create: true });
     if (idFrontImg) {
-      const file = idFrontImg;
+      const fileFront = idFrontImg;
       let fileData = new FormData();
-      fileData.append('file', file, file.name);
-      fileData.append('purpose', 'identity_document');
+      fileData.append('file', fileFront, fileFront.name);
+      fileData.append('purpose', 'customer_signature');
+      // fileData.append('file_link_data', JSON.stringify({ create: true }));
+
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -70,13 +72,13 @@ const EnhancedForms = withFormik({
     }
 
     if (idBackImg) {
-      const { idBackImg } = values;
-
-      const file = idBackImg;
+      const fileBack = idBackImg;
 
       let fileData = new FormData();
-      fileData.append('file', file, file.name);
-      fileData.append('purpose', 'identity_document');
+      fileData.append('file', fileBack, fileBack.name);
+      fileData.append('purpose', 'customer_signature');
+      // fileData.append('file_link_data', JSON.stringify({ create: true }));
+
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',

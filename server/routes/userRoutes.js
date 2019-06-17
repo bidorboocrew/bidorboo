@@ -292,7 +292,7 @@ module.exports = (app) => {
       if (req.files && req.files.length === 1) {
         const filesList = req.files;
         const userId = req.user.userId;
-        const mongoUser_id = req.user._id;
+        // const mongoUser_id = req.user._id;
 
         const updateUserWithNewProfileImg = async (error, result) => {
           try {
