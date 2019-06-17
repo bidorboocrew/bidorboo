@@ -12,7 +12,7 @@ import { verifyEmail } from '../../app-state/actions/authActions';
 class VerifyEmailButton extends React.Component {
   constructor(props) {
     super(props);
-    debugger
+
     this.input = React.createRef();
     this.state = {
       isResendingVCode: false,
@@ -45,13 +45,13 @@ class VerifyEmailButton extends React.Component {
   render() {
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
     const { verifyEmail, verifyingEmailInProgress } = this.props;
-    debugger;
+
     return (
       <React.Fragment>
         <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Email
         </div>
-        {/* {showEnterPinDialog &&
+        {showEnterPinDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleEnterPinDialog} className="modal-background" />
@@ -146,7 +146,7 @@ class VerifyEmailButton extends React.Component {
               </div>
             </div>,
             document.querySelector('#bidorboo-root-modals'),
-          )} */}
+          )}
       </React.Fragment>
     );
   }

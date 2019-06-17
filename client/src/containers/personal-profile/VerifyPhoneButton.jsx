@@ -46,6 +46,9 @@ class VerifyPhoneButton extends React.Component {
 
     return (
       <React.Fragment>
+        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+          Verify Your Phone
+        </div>
         {showEnterPinDialog &&
           this.rootModal &&
           ReactDOM.createPortal(
@@ -140,9 +143,6 @@ class VerifyPhoneButton extends React.Component {
             </div>,
             this.rootModal,
           )}
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
-          Verify Your Phone
-        </div>
       </React.Fragment>
     );
   }

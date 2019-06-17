@@ -88,12 +88,13 @@ class NotificationSettings extends React.Component {
         <div className="card-content">
           <div className="content">
             <div className="field">
-              <label className="label">You will be notified about</label>
-              <div className="control">* Requests or Tasks that are happening today</div>
-              <div className="control">* When you recieve new bids on your open request</div>
-              <div className="control">* When your bid wins and you get assigned to the task</div>
-              <div className="control">* If a cancellation happened at any point</div>
-              <div className="control">* To prompt for reviews upon task completion</div>
+              <label className="label">You will be notified about key events</label>
+              <ul>
+                <li>Requests or Tasks that are happening today</li>
+                <li>When you recieve new bids on your open request</li>
+                <li>When your bid wins and you get assigned to the task</li>
+                <li>If a cancellation happened at any point</li>
+              </ul>
             </div>
             <hr className="divider" />
             <div className="field">

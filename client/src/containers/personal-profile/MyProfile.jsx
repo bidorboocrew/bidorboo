@@ -216,22 +216,31 @@ class MyProfile extends React.Component {
                         />
 
                         <DisplayLabelValue
-                          labelText="Picture ID verification status"
+                          labelText="Picture ID verification status (Optional)"
                           labelValue={
                             <div>
                               <span>{didUserProvidePicId ? 'Uploaded' : 'Not Provided'}</span>
-                              {isPictureIdVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-success">
-                                  <span className="icon">
-                                    <i className="fas fa-check is-success" />
-                                  </span>
-                                  <span>(Verified)</span>
-                                </span>
-                              )}
-                              {!isPictureIdVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-danger">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
-                                </span>
+                              {didUserProvidePicId && (
+                                <React.Fragment>
+                                  {isPictureIdVerified && (
+                                    <span style={{ marginLeft: 6 }} className="has-text-success">
+                                      <span className="icon">
+                                        <i className="fas fa-check is-success" />
+                                      </span>
+                                      <span>(Verified)</span>
+                                    </span>
+                                  )}
+                                  {!isPictureIdVerified && (
+                                    <React.Fragment>
+                                      <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                        <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                      </span>
+                                      <div className="help">
+                                        * BidOrBooCrew will get this verified in 3-5 business days
+                                      </div>
+                                    </React.Fragment>
+                                  )}
+                                </React.Fragment>
                               )}
                             </div>
                           }
@@ -310,7 +319,7 @@ const HeaderTitle = (props) => {
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="field">
-      <label className="label">{labelText}</label>
+      <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
     </div>

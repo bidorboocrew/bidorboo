@@ -205,7 +205,6 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-  debugger;
   if (!myStripeAccountDetails) {
     return null;
   }
