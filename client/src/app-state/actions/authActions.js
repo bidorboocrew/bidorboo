@@ -27,7 +27,7 @@ export const verifyPhone = (code) => (dispatch) => {
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboocrew@gmail.com',
+            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
           );
         }
       })
@@ -62,7 +62,7 @@ export const verifyEmail = (code) => (dispatch) => {
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboocrew@gmail.com',
+            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
           );
         }
       })

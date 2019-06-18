@@ -192,7 +192,7 @@ const EnhancedForms = withFormik({
       let msg =
         e && e.response && e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
-          : 'failed To Create Account please email us at bidorboocrew@gmail.com';
+          : 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
       alert(msg);
       setSubmitting(false);
       console.error(e);

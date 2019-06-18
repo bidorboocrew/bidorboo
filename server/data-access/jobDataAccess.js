@@ -1590,7 +1590,7 @@ exports.jobDataAccess = {
           .exec();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
-          return reject('Error while canceling job. contact us at bidorboocrew@gmail.com');
+          return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');
         }
 
         // if we are cancelling an open job

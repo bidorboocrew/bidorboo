@@ -263,7 +263,7 @@ class App extends React.Component {
                 <div>
                   <p className="has-text-grey is-size-7">Contact Us</p>
                   <div className="has-text-grey is-size-7">phone: 123-123-1234</div>
-                  <div className="has-text-grey is-size-7">email: bidorboocrew@gmail.com</div>
+                  <div className="has-text-grey is-size-7">email: bidorboocrew@bidorboo.com</div>
                 </div>
               </div>
             </nav>

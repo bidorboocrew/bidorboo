@@ -70,7 +70,7 @@ exports.bidDataAccess = {
           !bidDetails._bidderRef
         ) {
           return reject(
-            'Error while canceling the awarded bid, contact us at bidorboocrew@gmail.com'
+            'Error while canceling the awarded bid, contact us at bidorboocrew@bidorboo.com'
           );
         } else {
           const requesterId = bidDetails._jobRef._ownerRef;

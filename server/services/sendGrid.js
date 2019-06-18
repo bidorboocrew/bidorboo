@@ -10,7 +10,7 @@ sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {
   sendEmail: ({
-    from = 'bidorboocrew@gmail.com',
+    from = 'bidorboocrew@bidorboo.com',
     to,
     subject,
     contentText,
@@ -42,7 +42,7 @@ exports.EmailService = {
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `Your ${taskName} request has recieved a new bid`,
       text: `Exciting news! Your ${taskName} request has recieved a new bid. Check the bids and award a Tasker when the price is right`,
       html: populateNewBidHtmlTemplate({
@@ -69,7 +69,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
       text: `
         This is an automated reminder for your upcoming scheduled ${requestTitle}.
@@ -107,7 +107,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
       text: `This is an automated reminder for your upcoming scheduled ${requestTitle}.
     To get in touch with your assigned Tasker feel free to contact them on:
@@ -132,7 +132,7 @@ exports.EmailService = {
   tellTaskerThatRequesterCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} has been cancelled by the Requester !`,
       text: `We are sorry to inform you that this Request has been cancelled by the requester.
       click to View details and understand the full impact  ${linkForBidder}
@@ -158,7 +158,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: You have cancelled ${requestTitle}!`,
       text: `We are sorry to hear that things did not work out.
       We will inform the tasker about this to ensure that they will NOT show up.
@@ -186,7 +186,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: Tasker have cancelled ${requestTitle}!`,
       text: `It Happens! We are sorry to inform you that things did not work out!
 
@@ -211,7 +211,7 @@ exports.EmailService = {
   tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: you have cancelled your ${requestTitle} agreement !`,
       text: `
       You have cancelled your agreement and thus will NOT show up to do this task.
@@ -240,7 +240,7 @@ exports.EmailService = {
   tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: Confirm Tasker has completed ${requestTitle}!`,
       text: `BidOrBooCrew is happy to hear that the tasker has finished their work, and we hope that they done so to your satisfaction.
 
@@ -267,7 +267,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: waiting on requester's confirmation for the completion of ${requestTitle}!`,
       text: `
       Thank you for completing your Task!
@@ -294,7 +294,7 @@ exports.EmailService = {
   tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.
 
@@ -320,7 +320,7 @@ exports.EmailService = {
   tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task
       Your payout is on the way and you should recieve it within 5-10 business days
@@ -353,7 +353,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} Payment successful!`,
       text: `
       Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.
@@ -379,7 +379,7 @@ exports.EmailService = {
   tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: Your Bid Won !`,
       text: `
       Your ${requestTitle} Bid Won and the request is Assigned to you!
@@ -411,7 +411,7 @@ exports.EmailService = {
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@gmail.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: We recieved your dispute regarding ${requestTitle}!`,
       text: `
       We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!
@@ -448,8 +448,8 @@ exports.EmailService = {
     userIdWhoFiledDispute,
   }) => {
     const msg = {
-      to: 'bidorboocrew@gmail.com',
-      from: 'bidorboocrew@gmail.com',
+      to: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboocrew@bidorboo.com',
       subject: `DISPUTE CASE: ${reason} submitted by ${whoSubmitted}`,
       text: `
      Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.

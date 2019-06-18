@@ -34,7 +34,7 @@ class VerifyPhoneButton extends React.Component {
         }
       } catch (e) {
         // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+        alert('we are unable to send the verification text, please contact bidorboocrew@bidorboo.com');
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
