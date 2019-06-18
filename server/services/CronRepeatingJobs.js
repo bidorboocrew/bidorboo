@@ -62,22 +62,6 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
     async () => {
       try {
         const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
-        console.log('running cron job: expiredJobs ' + new Date());
-      } catch (e) {
-        console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e));
-      }
-    },
-    null,
-    true,
-    'America/Toronto'
-  );
-
-  // CleanUpAllBidsAssociatedWithDoneJobs at 3am
-  new CronJob(
-    '00 00 03 * * *',
-    async () => {
-      try {
-        const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
         console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date());
       } catch (e) {
         console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e));
