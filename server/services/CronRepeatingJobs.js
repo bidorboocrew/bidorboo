@@ -23,7 +23,7 @@ module.exports = (app) => {
       '00 00 00 * * *',
       async () => {
         try {
-          const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
+          await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
           console.log('running cron job: expiredJobs ' + new Date());
         } catch (e) {
           console.log('running cron job: CleanUpAllExpiredNonAwardedJobs ' + JSON.stringify(e));
@@ -40,7 +40,7 @@ module.exports = (app) => {
       '00 00 20 * * *',
       async () => {
         try {
-          const NotifyAboutUpcomingJobs = await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
+          await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
           console.log('running cron: jobsToBeNotifiedAbout ' + new Date());
         } catch (e) {
           console.log('running cron job: SendRemindersForUpcomingJobs ' + JSON.stringify(e));
@@ -61,10 +61,31 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
     '00 00 03 * * *',
     async () => {
       try {
-        const cleanExpiredJobs = await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
+        await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
         console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date());
       } catch (e) {
         console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e));
+      }
+    },
+    null,
+    true,
+    'America/Toronto'
+  );
+
+  new CronJob(
+    '00 00 03 * * *',
+    async () => {
+      try {
+        await jobDataAccess.BidOrBooAdmin.InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct();
+        console.log(
+          'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+            new Date()
+        );
+      } catch (e) {
+        console.log(
+          'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+            JSON.stringify(e)
+        );
       }
     },
     null,

@@ -255,6 +255,44 @@ exports.jobDataAccess = {
 
       return;
     },
+    InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct: async () => {
+      // const past48Hours = moment()
+      //   .tz('America/Toronto')
+      //   .toISOString();
+
+      await JobModel.find({
+        $and: [
+          { jobCompletion: { $exists: true } },
+          { _awardedBidRef: { $exists: true } },
+          {
+            state: {
+              $eq: 'AWARDED',
+            },
+          },
+          {
+            $or: [
+              { 'jobCompletion.bidderConfirmed': { $eq: true } },
+              { 'jobCompletion.bidderDisputed': { $eq: true } },
+            ],
+          },
+        ],
+      })
+        .lean(true)
+        .exec((err, res) => {
+          if (err) {
+            throw err;
+          }
+
+          if (res && res.length > 0) {
+            res.forEach(async (job) => {
+// xxxx do more work here
+              const x = 1 ;
+            });
+          }
+        });
+
+      return;
+    },
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
       await JobModel.find({
         _awardedBidRef: { $exists: true },
@@ -287,7 +325,6 @@ exports.jobDataAccess = {
                     bidsIds.push(bidRef._id.toString());
                     biddersIds.push(bidRef._bidderRef._id.toString());
                   }
-
                 });
 
                 biddersIds.forEach(async (bidderId) => {
