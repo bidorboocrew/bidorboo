@@ -1,4 +1,5 @@
 import React from 'react';
+
 // import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import { connect } from 'react-redux';
@@ -58,7 +59,7 @@ class PaymentSettings extends React.Component {
 
             {stripeConnect && stripeConnect.last4BankAcc && (
               <React.Fragment>
-                <div className="field">
+                {/* <div className="field">
                   <div className="control">
                     <label style={{ lineHeight: 1.5 }} className="checkbox">
                       {` By becoming a BidOrBoo Tasker you agree to comply with all
@@ -77,7 +78,7 @@ class PaymentSettings extends React.Component {
                       .
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <EstablishedAccountView {...this.props} />
               </React.Fragment>
             )}

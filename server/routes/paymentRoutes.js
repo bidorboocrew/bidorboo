@@ -63,13 +63,13 @@ module.exports = (app) => {
             amount: chargeAmount,
             currency: 'CAD',
             description,
+            receipt_email: _jobRef._ownerRef.email.emailAddress,
             source: stripeTransactionToken,
-            application_fee_amount: bidOrBooTotalCommission,
+            // application_fee_amount: bidOrBooTotalCommission,
             transfer_data: {
-              // amount: bidderPayoutAmount, // the final # sent to awarded bidder
+              amount: bidderPayoutAmount, // the final # sent to awarded bidder
               destination: stripeAccDetails.accId,
             },
-            receipt_email: _jobRef._ownerRef.email.emailAddress,
             metadata: {
               bidderId: _bidderRef._id.toString(),
               bidderEmail: _bidderRef.email.emailAddress,
