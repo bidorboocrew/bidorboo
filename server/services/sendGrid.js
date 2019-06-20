@@ -296,7 +296,7 @@ exports.EmailService = {
       to,
       from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
-      text: `BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.
+      text: `BidOrBooCrew is SUPER HAPPY to hear that the request was fulfilled.
 
       Now it is your turn to RATE your Tasker and tell them how well they did
      click to view the details
@@ -305,7 +305,7 @@ exports.EmailService = {
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBooCrew is SUPPER HAPPY to hear that the request was fulfilled.</p>
+        <p>BidOrBooCrew is SUPER HAPPY to hear that the request was fulfilled.</p>
 
         <p>Now it is your turn to RATE your Tasker and tell them how well they did</p>
          <p>click to view the details</p>
@@ -322,7 +322,7 @@ exports.EmailService = {
       to,
       from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
-      text: `BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task
+      text: `BidOrBooCrew is SUPER HAPPY to hear that you've completed your task
       Your payout is on the way and you should recieve it within 5-10 business days
 
       Now it is your turn to RATE your Requester and tell them how accurate was the description of the task
@@ -333,13 +333,13 @@ exports.EmailService = {
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBooCrew is SUPPER HAPPY to hear that you've completed your task</p>
+        <p>BidOrBooCrew is SUPER HAPPY to hear that you've completed your task</p>
         <p>Your payout is on the way and you should recieve it within 5-10 business days</p>
         <p>Now it is your turn to RATE your Requester and tell them how accurate was the description of the task</p>
         <p>click to view the details</p>
        `,
         clickLink: `${linkForBidder}`,
-        clickDisplayName: 'Cancelled Request Details',
+        clickDisplayName: 'Completed Request Details',
       }),
     };
     sgMail.send(msg);
@@ -376,7 +376,7 @@ exports.EmailService = {
     sgMail.send(msg);
   },
 
-  tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+  tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
@@ -389,7 +389,7 @@ exports.EmailService = {
       allowing you to do requests at a higher Price $ more often.
 
       For any changes or to get in touch with the requeter visit the link below
-       ${linkForOwner}
+       ${linkForBidder}
      `,
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
@@ -402,8 +402,8 @@ exports.EmailService = {
 
       <p>For any changes or to get in touch with the requeter visit the link below</p>
        `,
-        clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Request Assigned To You',
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Assigned Request Details',
       }),
     };
     sgMail.send(msg);
