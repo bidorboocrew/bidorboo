@@ -275,7 +275,7 @@ export default class HomePage extends React.Component {
 const RequestAService = (props) => {
   const { onClickHandler, id = 'Proposer-step' } = props;
   return (
-    <div className="card has-text-centered is-outlined RequestAServiceForTour">
+    <div className="card bidOrBooMainPage-Request has-text-centered is-outlined RequestAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
         <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
@@ -293,7 +293,7 @@ const RequestAService = (props) => {
 const ProvideAService = (props) => {
   const { onClickHandler, id = 'Bidder-step' } = props;
   return (
-    <div className="card has-text-centered ProvideAServiceForTour">
+    <div className="card bidOrBooMainPage-Provide has-text-centered ProvideAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
         <div id={id} className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
