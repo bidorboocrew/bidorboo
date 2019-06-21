@@ -46,9 +46,8 @@ module.exports = (app) => {
 
     //  apply to all requests
     app.use(limiter);
+    // https://github.com/SegFaultx64/express-http-to-https#readme
+    // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+    app.use(redirectToHTTPS([/localhost:(\d{4})/]));
   }
-
-  // https://github.com/SegFaultx64/express-http-to-https#readme
-  // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
-  app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 };

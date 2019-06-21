@@ -9,6 +9,9 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 // });
 //stripe.com/docs/api/payouts/create
 https: exports.util = {
+  retrieveConnectedAccount: (account) => {
+    return stripe.accounts.retrieve(account);
+  },
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({

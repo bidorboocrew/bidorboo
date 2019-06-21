@@ -203,12 +203,12 @@ module.exports = (app) => {
       try {
         const mongoUser_id = req.user._id.toString();
 
+        let accDetails = [];
         const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
-        const accDetails = await stripeServiceUtil.getConnectedAccountBalance(
-          paymentsDetails.accId
-        );
-
+        if (paymentsDetails && paymentsDetails.accId) {
+          accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
+        }
         let verifiedAmount = 0;
         let pendingVerificationAmount = 0;
         let paidoutAmount = 0;
@@ -250,33 +250,92 @@ module.exports = (app) => {
     }
   );
 
-  app.post(ROUTES.API.PAYMENT.POST.myaccountWebhook, async (req, res, next) => {
+  app.post(ROUTES.API.PAYMENT.POST.personsWebhook, async (req, res, next) => {
     try {
       // sign key by strip
       // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
+
       const endpointSecret = 'whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG';
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, object, account, type } = event;
+        if (account) {
+          const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
+          const x = 1;
+        }
+        switch (type) {
+          case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+            handlePaymentIntentSucceeded(paymentIntent);
+            break;
+          case 'payment_method.attached':
+            const paymentMethod = event.data.object;
+            handlePaymentMethodAttached(paymentMethod);
+            break;
+          // ... handle other event types
+          default:
+            // Unexpected event type
+            return res.status(200).end();
+        }
+      }
+
+      if (event.livemode) {
+        //  do live mode stuff
+      } else {
+        // other stuff
+      }
       return res.status(200).end();
     } catch (e) {
       return res.status(400).end();
 
-      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
     }
   });
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
+      // for user verification
+      // https://stripe.com/docs/connect/identity-verification-api
+
+      // for account updates
+      // https://stripe.com/docs/connect/identity-verification-api
+
+      /**
+       * verification issues with image
+       * https://stripe.com/docs/connect/identity-verification-api#handling-id-verification-problems
+       */
+
       // sign key by strip
       // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
       const endpointSecret = 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6';
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-
+      if (event) {
+        const { id, object, account, type } = event;
+        if (account) {
+          const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
+          const x = 1;
+        }
+        switch (type) {
+          case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+            handlePaymentIntentSucceeded(paymentIntent);
+            break;
+          case 'payment_method.attached':
+            const paymentMethod = event.data.object;
+            handlePaymentMethodAttached(paymentMethod);
+            break;
+          // ... handle other event types
+          default:
+            // Unexpected event type
+            return res.status(400).end();
+        }
+      }
       return res.status(200).end();
-    } catch (e) {
+    } catch (retrieveCustomerAccount) {
       return res.status(400).end();
 
-      // return res.status(400).send({ errorMsg: 'myaccountWebhook failured', details: `${e}` });
+      // return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
     }
   });
 };
