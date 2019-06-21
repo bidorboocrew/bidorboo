@@ -277,7 +277,7 @@ const RequestAService = (props) => {
   return (
     <div className="card bidOrBooMainPage-Request has-text-centered is-outlined RequestAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
-        <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
+        <div id={id} className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
