@@ -34,7 +34,7 @@ module.exports = async (req, res, next) => {
         } else {
           return res.status(400).send({
             errorMsg:
-              'we could not create a stripe accoutn fo you. Please email us at bidorboocrew@gmail.com',
+              'we could not create a stripe accoutn fo you. Please email us at bidorboocrew@bidorboo.com',
           });
         }
       }

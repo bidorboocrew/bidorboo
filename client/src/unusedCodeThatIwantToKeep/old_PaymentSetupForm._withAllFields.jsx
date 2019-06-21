@@ -82,7 +82,7 @@ const EnhancedForms = withFormik({
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer pk_test_PMfMPvRIAobaK1YXvpth2mEj',
+          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
         },
       };
 
@@ -105,7 +105,7 @@ const EnhancedForms = withFormik({
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer pk_test_PMfMPvRIAobaK1YXvpth2mEj',
+          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
         },
       };
       try {
@@ -156,7 +156,7 @@ const EnhancedForms = withFormik({
       let msg =
         e.response.data && e.response.data.errorMsg
           ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
-          : 'failed To Create Account please email us at bidorboocrew@gmail.com';
+          : 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
       alert(msg);
       alert(JSON.stringify(e.errorMsg || e));
       setSubmitting(false);

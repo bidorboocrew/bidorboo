@@ -6,7 +6,7 @@ module.exports = (app) => {
   let pushIntervalID;
 
   webpush.setVapidDetails(
-    'mailto:bidorboocrew@gmail.com',
+    'mailto:bidorboocrew@bidorboo.com',
     keys.vapidPublicApiKey,
     keys.vapidPrivateApiKey
   );

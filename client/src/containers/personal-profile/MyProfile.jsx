@@ -53,7 +53,8 @@ class MyProfile extends React.Component {
       membershipStatus,
       phone,
       rating,
-      autoDetectlocation,
+      picId,
+      // autoDetectlocation,
     } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
@@ -63,6 +64,9 @@ class MyProfile extends React.Component {
     const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
     // email is provided but it is not verified
     const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
+
+    const didUserProvidePicId = !!picId && picId.front && picId.back;
+    const isPictureIdVerified = didUserProvidePicId && picId.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
@@ -136,7 +140,7 @@ class MyProfile extends React.Component {
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
 
-                        <div className="field">
+                        {/* <div className="field">
                           <label className="label">Auto Detect Location</label>
                           <div className="control">
                             {autoDetectlocation && (
@@ -153,7 +157,7 @@ class MyProfile extends React.Component {
                               </span>
                             )}
                           </div>
-                        </div>
+                        </div> */}
 
                         <DisplayLabelValue
                           renderExtraStuff={() => (
@@ -173,6 +177,11 @@ class MyProfile extends React.Component {
                                     <i className="fas fa-check is-success" />
                                   </span>
                                   <span>(Verified)</span>
+                                </span>
+                              )}
+                              {!email.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-danger">
+                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
                               )}
                             </div>
@@ -197,11 +206,42 @@ class MyProfile extends React.Component {
                                   <span>(Verified)</span>
                                 </span>
                               )}
-                              {/* {!phone.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-grey">
+                              {!phone.isVerified && (
+                                <span style={{ marginLeft: 6 }} className="has-text-danger">
                                   <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                 </span>
-                              )} */}
+                              )}
+                            </div>
+                          }
+                        />
+
+                        <DisplayLabelValue
+                          labelText="Picture ID verification status (Optional)"
+                          labelValue={
+                            <div>
+                              <span>{didUserProvidePicId ? 'Uploaded' : 'Not Provided'}</span>
+                              {didUserProvidePicId && (
+                                <React.Fragment>
+                                  {isPictureIdVerified && (
+                                    <span style={{ marginLeft: 6 }} className="has-text-success">
+                                      <span className="icon">
+                                        <i className="fas fa-check is-success" />
+                                      </span>
+                                      <span>(Verified)</span>
+                                    </span>
+                                  )}
+                                  {!isPictureIdVerified && (
+                                    <React.Fragment>
+                                      <span style={{ marginLeft: 6 }} className="has-text-grey">
+                                        <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                      </span>
+                                      <div className="help">
+                                        * BidOrBooCrew will get this verified in 3-5 business days
+                                      </div>
+                                    </React.Fragment>
+                                  )}
+                                </React.Fragment>
+                              )}
                             </div>
                           }
                         />
@@ -279,7 +319,7 @@ const HeaderTitle = (props) => {
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="field">
-      <label className="label">{labelText}</label>
+      <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
     </div>

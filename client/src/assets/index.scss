@@ -29,15 +29,15 @@ body {
   background-color: #222;
 }
 
-#mainFooter {
-  padding: 0.5rem 0.5rem;
-  min-height: 5.5rem;
-  margin-top: 2rem;
-  background: #363636;
-  * {
-    color: white !important;
-  }
-}
+// #mainFooter {
+//   padding: 0.5rem 0.5rem;
+//   min-height: 5.5rem;
+//   margin-top: 2rem;
+//   background: #363636;
+//   * {
+//     color: white !important;
+//   }
+// }
 
 #RoutesWrapper {
   padding: 0.5rem;
@@ -586,8 +586,8 @@ article.media.limitHeight {
   }
 }
 
-.card#bidOrBooMainPage-Provide,
-.card#bidOrBooMainPage-Request {
+.card.bidOrBooMainPage-Provide,
+.card.bidOrBooMainPage-Request {
   cursor: default;
   padding: 1rem;
   border: 1px solid #31c110;

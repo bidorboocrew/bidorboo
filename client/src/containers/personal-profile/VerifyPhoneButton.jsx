@@ -34,7 +34,7 @@ class VerifyPhoneButton extends React.Component {
         }
       } catch (e) {
         // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@gmail.com');
+        alert('we are unable to send the verification text, please contact bidorboocrew@bidorboo.com');
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
@@ -46,6 +46,9 @@ class VerifyPhoneButton extends React.Component {
 
     return (
       <React.Fragment>
+        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+          Verify Your Phone
+        </div>
         {showEnterPinDialog &&
           this.rootModal &&
           ReactDOM.createPortal(
@@ -138,11 +141,8 @@ class VerifyPhoneButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal
+            this.rootModal,
           )}
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
-          Verify Your Phone
-        </div>
       </React.Fragment>
     );
   }

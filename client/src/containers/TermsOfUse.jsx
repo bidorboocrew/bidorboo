@@ -1644,7 +1644,7 @@ export default class TermsOfUse extends React.Component {
               </p>
               <p className="subtitle">
                 If you have any questions about these Terms of Service or about the BidOrBoo
-                Platform, please contact us by email at bidorboocrew@gmail.com or by mail to
+                Platform, please contact us by email at bidorboocrew@bidorboo.com or by mail to
                 xxxxaddresss
               </p>
               <p className="subtitle">

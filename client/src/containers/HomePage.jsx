@@ -215,13 +215,14 @@ export default class HomePage extends React.Component {
         </Fade>
 
         <Fade delay={250}>
-          <section className="section hero has-text-centered is-info">
+          <section className="section hero has-text-centered">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
                   <div style={{ maxWidth: '21rem' }} className="column">
                     <Fade bottom delay={250}>
                       <RequestAService
+                        id="id2-Proposer-step"
                         logoImg={requestImg}
                         onClickHandler={() => {
                           switchRoute(ROUTES.CLIENT.PROPOSER.root);
@@ -241,13 +242,14 @@ export default class HomePage extends React.Component {
         </Fade>
         <br />
         <Fade delay={250}>
-          <section className="section hero has-text-centered is-dark">
+          <section className="section hero has-text-centered">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
                   <div style={{ maxWidth: '21rem' }} className="column">
                     <Fade bottom delay={250}>
                       <ProvideAService
+                        id="id2-provide-a-service"
                         logoImg={bidsImg}
                         onClickHandler={() => {
                           switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -271,12 +273,9 @@ export default class HomePage extends React.Component {
 }
 
 const RequestAService = (props) => {
-  const { onClickHandler } = props;
+  const { onClickHandler, id = 'Proposer-step' } = props;
   return (
-    <div
-      id="bidOrBooMainPage-Request"
-      className="card has-text-centered is-outlined RequestAServiceForTour"
-    >
+    <div className="card bidOrBooMainPage-Request has-text-centered is-outlined RequestAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
         <div id="Proposer-step" className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
@@ -292,11 +291,11 @@ const RequestAService = (props) => {
 };
 
 const ProvideAService = (props) => {
-  const { onClickHandler } = props;
+  const { onClickHandler, id = 'Bidder-step' } = props;
   return (
-    <div id="bidOrBooMainPage-Provide" className="card has-text-centered ProvideAServiceForTour">
+    <div className="card bidOrBooMainPage-Provide has-text-centered ProvideAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
-        <div id="Bidder-step" className="buttonlike has-text-weight-semibold is-size-4">
+        <div id={id} className="buttonlike has-text-weight-semibold is-size-4">
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>

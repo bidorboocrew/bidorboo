@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { connect } from 'formik';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import axios from 'axios';
@@ -12,6 +12,7 @@ import { verifyEmail } from '../../app-state/actions/authActions';
 class VerifyEmailButton extends React.Component {
   constructor(props) {
     super(props);
+
     this.input = React.createRef();
     this.state = {
       isResendingVCode: false,
@@ -35,20 +36,22 @@ class VerifyEmailButton extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'we are unable to send the verification email, please contact us bidorboocrew@gmail.com and we will help you resolve this',
+          'we are unable to send the verification email, please contact us bidorboocrew@bidorboo.com and we will help you resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
   };
   render() {
-    this.rootModal = document.querySelector('#bidorboo-root-modals');
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
     const { verifyEmail, verifyingEmailInProgress } = this.props;
+
     return (
       <React.Fragment>
+        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+          Verify Your Email
+        </div>
         {showEnterPinDialog &&
-          this.rootModal &&
           ReactDOM.createPortal(
             <div className="modal is-active">
               <div onClick={this.toggleEnterPinDialog} className="modal-background" />
@@ -125,7 +128,7 @@ class VerifyEmailButton extends React.Component {
                         </div>
                         <div className="help">
                           * Check your email inbox/junk folders for emails from
-                          bidorboocrew@gmail.com
+                          bidorboocrew@bidorboo.com
                         </div>
                       </div>
                     </div>
@@ -142,11 +145,8 @@ class VerifyEmailButton extends React.Component {
                 </footer>
               </div>
             </div>,
-            this.rootModal
+            document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
-          Verify Your Email
-        </div>
       </React.Fragment>
     );
   }

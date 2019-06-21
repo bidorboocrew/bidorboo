@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
   if (!req.body || !req.body.recaptchaField) {
     return res.status(403).send({
       errorMsg:
-        'missing paramerters recaptchaField. can not confirm that you are not a robot. if this persists please contact bidorboocrew@gmail.com',
+        'missing paramerters recaptchaField. can not confirm that you are not a robot. if this persists please contact bidorboocrew@bidorboo.com',
     });
   }
   try {

@@ -20,15 +20,13 @@ const getAllContactDetails = require('../utils/commonDataUtils')
 exports.jobDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingJobs: async () => {
-      const today = moment()
+      const now = moment()
         .tz('America/Toronto')
-        .startOf('day')
         .toISOString();
 
       const theNext24Hours = moment()
         .tz('America/Toronto')
         .add(1, 'day')
-        .startOf('day')
         .toISOString();
 
       await JobModel.find({
@@ -60,7 +58,7 @@ exports.jobDataAccess = {
             },
           },
         })
-        .lean({ virtuals: true })
+        .lean()
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -74,11 +72,11 @@ exports.jobDataAccess = {
                 .tz('America/Toronto')
                 .toISOString();
 
-              const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(today);
+              const isJobHappeningAfterNow = moment(normalizedStartDate).isAfter(now);
               const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
                 theNext24Hours
               );
-              if (isJobHappeningAfterToday && isJobHappeningBeforeTomorrow) {
+              if (isJobHappeningAfterNow && isJobHappeningBeforeTomorrow) {
                 const jobId = job._id.toString();
                 const awardedBidId = job._awardedBidRef._id.toString();
                 const ownerDetails = job._ownerRef;
@@ -169,15 +167,25 @@ exports.jobDataAccess = {
         });
       return;
     },
-    CleanUpAllExpiredJobs: async () => {
-      const today = moment()
+    CleanUpAllExpiredNonAwardedJobs: async () => {
+      const past48Hours = moment()
+        .subtract(2, 'days')
         .tz('America/Toronto')
-        .startOf('day')
         .toISOString();
 
       await JobModel.find({
         startingDateAndTime: { $exists: true },
         _awardedBidRef: { $exists: false },
+        state: {
+          $nin: [
+            'AWARDED', //
+            'DISPUTED', // disputed job
+            'AWARDED_CANCELED_BY_BIDDER',
+            'AWARDED_CANCELED_BY_REQUESTER',
+            'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
+            'ARCHIVE', //For historical record
+          ],
+        },
       })
         .populate({
           path: '_bidsListRef',
@@ -186,7 +194,7 @@ exports.jobDataAccess = {
             path: '_bidderRef',
           },
         })
-        .lean({ virtuals: true })
+        .lean(true)
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -201,7 +209,7 @@ exports.jobDataAccess = {
                 .tz('America/Toronto')
                 .toISOString();
 
-              const isJobPastDue = moment(normalizedStartDate).isBefore(today);
+              const isJobPastDue = moment(normalizedStartDate).isSameOrBefore(past48Hours);
 
               if (isJobPastDue) {
                 const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
@@ -240,6 +248,99 @@ exports.jobDataAccess = {
                 await JobModel.deleteOne({ _id: job._id.toString() })
                   .lean(true)
                   .exec();
+              }
+            });
+          }
+        });
+
+      return;
+    },
+    InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct: async () => {
+      // const past48Hours = moment()
+      //   .tz('America/Toronto')
+      //   .toISOString();
+
+      await JobModel.find({
+        $and: [
+          { jobCompletion: { $exists: true } },
+          { _awardedBidRef: { $exists: true } },
+          {
+            state: {
+              $eq: 'AWARDED',
+            },
+          },
+          {
+            $or: [
+              { 'jobCompletion.bidderConfirmed': { $eq: true } },
+              { 'jobCompletion.bidderDisputed': { $eq: true } },
+            ],
+          },
+        ],
+      })
+        .lean(true)
+        .exec((err, res) => {
+          if (err) {
+            throw err;
+          }
+
+          if (res && res.length > 0) {
+            res.forEach(async (job) => {
+// xxxx do more work here
+              const x = 1 ;
+            });
+          }
+        });
+
+      return;
+    },
+    CleanUpAllBidsAssociatedWithDoneJobs: async () => {
+      await JobModel.find({
+        _awardedBidRef: { $exists: true },
+        $in: ['DONE', 'ARCHIVE'],
+      })
+        .populate({
+          path: '_bidsListRef',
+          select: { _id: 1, _bidderRef: 1 },
+          populate: {
+            path: '_bidderRef',
+          },
+        })
+        .lean(true)
+        .exec((err, res) => {
+          if (err) {
+            throw err;
+          }
+
+          if (res && res.length > 0) {
+            res.forEach(async (job) => {
+              const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+              if (areThereAnyBids) {
+                bidsIds = [];
+                biddersIds = [];
+                const awardedBidRefId = job._awardedBidRef._id.toString();
+
+                job._bidsListRef.forEach((bidRef) => {
+                  // dont delete the awardedBidRef
+                  if (bidRef._id.toString() !== awardedBidRefId) {
+                    bidsIds.push(bidRef._id.toString());
+                    biddersIds.push(bidRef._bidderRef._id.toString());
+                  }
+                });
+
+                biddersIds.forEach(async (bidderId) => {
+                  // clean ref for bidders
+                  await User.findOneAndUpdate(
+                    { _id: bidderId },
+                    { $pull: { _postedBidsRef: { $in: bidsIds } } }
+                  )
+                    .lean(true)
+                    .exec();
+                });
+
+                // clean the bids for bidders
+                bidsIds.forEach(async (bidId) => {
+                  await BidModel.deleteOne({ _id: bidId });
+                });
               }
             });
           }
@@ -1413,7 +1514,7 @@ exports.jobDataAccess = {
           requesterPhoneNumber,
           taskerEmailAddress,
           allowedToEmailRequester,
-          processedPayment
+          processedPayment,
         } = await getAllContactDetails(jobId);
 
         // send communication to both about the cancellation
@@ -1489,7 +1590,7 @@ exports.jobDataAccess = {
           .exec();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
-          return reject('Error while canceling job. contact us at bidorboocrew@gmail.com');
+          return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');
         }
 
         // if we are cancelling an open job

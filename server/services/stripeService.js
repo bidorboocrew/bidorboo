@@ -9,6 +9,9 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 // });
 //stripe.com/docs/api/payouts/create
 https: exports.util = {
+  retrieveConnectedAccount: (account) => {
+    return stripe.accounts.retrieve(account);
+  },
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({
@@ -17,7 +20,7 @@ https: exports.util = {
       metadata,
       reason: 'requested_by_customer',
       reverse_transfer: true,
-      description: 'BidOrBoo refund due to cancelled agreement by Requester'
+      description: 'BidOrBoo refund due to cancelled agreement by Requester',
       // refund_application_fee: true,
     });
   },
@@ -29,7 +32,7 @@ https: exports.util = {
       reason: 'requested_by_customer',
       reverse_transfer: true,
       refund_application_fee: true,
-      description: 'BidOrBoo refund due to cancelled agreement by Tasker'
+      description: 'BidOrBoo refund due to cancelled agreement by Tasker',
     });
   },
   validateSignature: (reqBody, sig, endpointSecret) => {

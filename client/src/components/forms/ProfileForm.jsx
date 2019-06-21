@@ -1,4 +1,7 @@
 import React from 'react';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
+
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
@@ -29,25 +32,96 @@ const EnhancedForms = withFormik({
     personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
   }),
   mapPropsToValues: ({ userDetails }) => {
-    const { autoDetectlocation, displayName, personalParagraph, phone, email } = userDetails;
+    const { displayName, personalParagraph, phone, email } = userDetails;
 
     return {
       displayName: displayName,
       phoneNumber: phone.phoneNumber,
       email: email.emailAddress,
       personalParagraph: personalParagraph,
-      autoDetectlocation,
+      // autoDetectlocation,
     };
   },
 
-  handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit({
-      displayName: values.displayName,
-      email: { emailAddress: values.email },
-      phone: { phoneNumber: values.phoneNumber },
-      personalParagraph: values.personalParagraph,
-      autoDetectlocation: values.autoDetectlocation,
-    });
+  handleSubmit: async (values, { setSubmitting, props }) => {
+    const { idFrontImg, idBackImg } = values;
+    let frontSideResp;
+    let backSideResp;
+    setSubmitting(true);
+    JSON.stringify({ create: true });
+    if (idFrontImg) {
+      const fileFront = idFrontImg;
+      let fileData = new FormData();
+      fileData.append('file', fileFront, fileFront.name);
+      fileData.append('purpose', 'customer_signature');
+      // fileData.append('file_link_data', JSON.stringify({ create: true }));
+
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
+        },
+      };
+
+      try {
+        frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
+      } catch (e) {
+        alert('Error processing id img' + e);
+        setSubmitting(false);
+      }
+    }
+
+    if (idBackImg) {
+      const fileBack = idBackImg;
+
+      let fileData = new FormData();
+      fileData.append('file', fileBack, fileBack.name);
+      fileData.append('purpose', 'customer_signature');
+      // fileData.append('file_link_data', JSON.stringify({ create: true }));
+
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
+        },
+      };
+      try {
+        backSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
+      } catch (e) {
+        alert('Error processing id img' + e);
+        setSubmitting(false);
+      }
+    }
+
+    let picId = {};
+
+    if (frontSideResp && frontSideResp.data && frontSideResp.data.id) {
+      picId.front = frontSideResp.data.id;
+    }
+    if (backSideResp && backSideResp.data && backSideResp.data.id) {
+      picId.back = backSideResp.data.id;
+    }
+    if (picId.front && picId.back) {
+      props.onSubmit({
+        displayName: values.displayName,
+        email: { emailAddress: values.email },
+        phone: { phoneNumber: values.phoneNumber },
+        personalParagraph: values.personalParagraph,
+        picId,
+        // autoDetectlocation: values.autoDetectlocation,
+      });
+    } else {
+      if (picId.front && picId.back) {
+        props.onSubmit({
+          displayName: values.displayName,
+          email: { emailAddress: values.email },
+          phone: { phoneNumber: values.phoneNumber },
+          personalParagraph: values.personalParagraph,
+
+          // autoDetectlocation: values.autoDetectlocation,
+        });
+      }
+    }
   },
   displayName: 'ProfileForm',
 });
@@ -57,6 +131,7 @@ const ProfileForm = (props) => {
     values,
     touched,
     errors,
+    setFieldValue,
     // dirty,
     handleChange,
     handleBlur,
@@ -66,26 +141,26 @@ const ProfileForm = (props) => {
     isSubmitting,
   } = props;
 
-  const toggleIsAutoDetectEnabled = (val) => {
-    if (val && navigator && navigator.geolocation) {
-      const getCurrentPositionOptions = {
-        maximumAge: 10000,
-        timeout: 5000,
-        enableHighAccuracy: true,
-      };
-      const errorHandling = (err) => {
-        console.error('BidOrBoo Could Not Auto Detect Address ' + err);
-      };
-      const successfulRetrieval = () => {};
+  // const toggleIsAutoDetectEnabled = (val) => {
+  //   if (val && navigator && navigator.geolocation) {
+  //     const getCurrentPositionOptions = {
+  //       maximumAge: 10000,
+  //       timeout: 5000,
+  //       enableHighAccuracy: true,
+  //     };
+  //     const errorHandling = (err) => {
+  //       console.error('BidOrBoo Could Not Auto Detect Address ' + err);
+  //     };
+  //     const successfulRetrieval = () => {};
 
-      //get the current location
-      navigator.geolocation.getCurrentPosition(
-        successfulRetrieval,
-        errorHandling,
-        getCurrentPositionOptions,
-      );
-    }
-  };
+  //     //get the current location
+  //     navigator.geolocation.getCurrentPosition(
+  //       successfulRetrieval,
+  //       errorHandling,
+  //       getCurrentPositionOptions,
+  //     );
+  //   }
+  // };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -99,7 +174,7 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <div className="field">
+      {/* <div className="field">
         <div className="control">
           <label className="label">Auto Detect Location</label>
           <label className="checkbox">
@@ -122,7 +197,8 @@ const ProfileForm = (props) => {
             </span>
           </label>
         </div>
-      </div>
+      </div> */}
+
       <TextInput
         id="email"
         type="text"
@@ -154,7 +230,54 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <input id="idFrontImg" className="input is-invisible" type="hidden" />
+      <label className="label">ID Verification (Optional)</label>
+      <Dropzone
+        className="file is-boxed idVerification"
+        onDrop={(files) => {
+          setFieldValue('idFrontImg', files[0], true);
+        }}
+        accept={['image/png', 'image/jpeg']}
+      >
+        <label className="file-label">
+          <span className="file-cta">
+            <span className="file-icon">
+              <i className="fas fa-upload" />
+            </span>
+            <span className="file-label">ID Image (front side)</span>
+          </span>
+          <span style={{ maxWidth: 'none' }} className="file-name has-text-centered">
+            {(values.idFrontImg && values.idFrontImg.name) || 'upload now'}
+          </span>
+        </label>
+      </Dropzone>
+      <br />
+      <input id="idBackImg" className="input is-invisible" type="hidden" />
+      <Dropzone
+        className="file is-boxed idVerification"
+        onDrop={(files) => {
+          setFieldValue('idBackImg', files[0], true);
+        }}
+        accept={['image/png', 'image/jpeg']}
+      >
+        <label className="file-label">
+          <span className="file-cta">
+            <span className="file-icon">
+              <i className="fas fa-upload" />
+            </span>
+            <span className="file-label">ID Image (back side)</span>
+          </span>
+          <span style={{ maxWidth: 'none' }} className="file-name has-text-centered">
+            {(values.idBackImg && values.idBackImg.name) || 'upload now'}
+          </span>
+        </label>
+      </Dropzone>
+      <div className="help">
+        {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
+      </div>
+      <div className="help">{`* BidOrBooCrew will verify this ID in 3-5 business days. `}</div>
 
+      <br />
       <div className="field is-grouped">
         <div className="control">
           <button
