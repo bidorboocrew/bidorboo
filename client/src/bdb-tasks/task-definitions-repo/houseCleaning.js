@@ -55,7 +55,7 @@ living room kitchen bedrooms and more ?`,
                   </span>
                   <span
                     style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'sulargev', true)}
+                    onClick={() => setFieldValue('effort', 'large', true)}
                     className={`button is-info ${values.effort === 'large' ? '' : 'is-outlined'}`}
                   >
                     {`Large (6-8 hours)`}
