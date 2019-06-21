@@ -215,7 +215,7 @@ export default class HomePage extends React.Component {
         </Fade>
 
         <Fade delay={250}>
-          <section className="section hero has-text-centered is-info">
+          <section className="section hero has-text-centered">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
@@ -242,7 +242,7 @@ export default class HomePage extends React.Component {
         </Fade>
         <br />
         <Fade delay={250}>
-          <section className="section hero has-text-centered is-dark">
+          <section className="section hero has-text-centered">
             <div className="hero-body">
               <div className="container">
                 <div className="columns is-mobile is-multiline is-centered">
