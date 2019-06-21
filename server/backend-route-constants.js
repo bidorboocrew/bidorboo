@@ -18,7 +18,7 @@ module.exports = {
     PAYMENT: {
       POST: {
         payment: '/api/payment',
-        personsWebhook: '/api/stripewebhook/myaccount',
+        personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
       },
       GET: {

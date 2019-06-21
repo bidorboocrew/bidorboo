@@ -255,14 +255,20 @@ module.exports = (app) => {
       // sign key by strip
       // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
 
-      const endpointSecret = 'whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG';
+      // devmode
+      // const endpointSecret = 'whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG';
+      // prod,mode
+      const endpointSecret = 'whsec_RzmYQwfa4r98pWz7yL9L0Ucuj4yz3nIp';
+
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
+        console.log(
+          'webhook: personsWebhook personsWebhook ' + JSON.stringify(event)
+        );
         const { id, object, account, type } = event;
         if (account) {
           const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
-          const x = 1;
         }
         switch (type) {
           case 'payment_intent.succeeded':
@@ -307,14 +313,19 @@ module.exports = (app) => {
 
       // sign key by strip
       // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
-      const endpointSecret = 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6';
+      // devmode
+      // const endpointSecret = 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6';
+      // prod,mode
+      const endpointSecret = 'whsec_QOOuJnWwqjtKwyUbpbeIVyVOOZyigcZf';
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const { id, object, account, type } = event;
+        console.log(
+          'webhook: connectedAccountsWebhook connectedAccountsWebhook ' + JSON.stringify(event)
+        );
         if (account) {
           const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
-          const x = 1;
         }
         switch (type) {
           case 'payment_intent.succeeded':
