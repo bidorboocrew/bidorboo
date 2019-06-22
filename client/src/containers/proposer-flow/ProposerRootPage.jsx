@@ -38,7 +38,7 @@ class ProposerRoot extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Request a Service</h1>
+              <h1 className="title">SERVICE TEMPLATES</h1>
             </div>
           </div>
         </section>
@@ -46,7 +46,8 @@ class ProposerRoot extends React.Component {
         <div className="columns forJobSummary is-centered is-multiline is-mobile">
           {this.AllActiveTasks}
         </div>
-
+        <br />
+        <br />
         <div className="columns forJobSummary is-centered is-multiline is-mobile">
           {this.AllUpcomingTasks}
         </div>

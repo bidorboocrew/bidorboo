@@ -13,12 +13,16 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
-const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
+// const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
 
 const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+
+const keys = require('../config/keys');
+
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
@@ -249,104 +253,44 @@ module.exports = (app) => {
       }
     }
   );
+  /**
+   * user verification
+   * https://stripe.com/docs/connect/identity-verification-api
+   *  for account updates
+   *  https://stripe.com/docs/connect/identity-verification-api
+   * verification issues with image
+   * https://stripe.com/docs/connect/identity-verification-api#handling-id-verification-problems
+   */
 
-  app.post(ROUTES.API.PAYMENT.POST.personsWebhook, async (req, res, next) => {
-    try {
-      // sign key by strip
-      // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
-
-      // devmode
-      // const endpointSecret = 'whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG';
-      // prod,mode
-      const endpointSecret = 'whsec_RzmYQwfa4r98pWz7yL9L0Ucuj4yz3nIp';
-
-      let sig = req.headers['stripe-signature'];
-      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-      if (event) {
-        console.log(
-          'webhook: personsWebhook personsWebhook ' + JSON.stringify(event)
-        );
-        const { id, object, account, type } = event;
-        if (account) {
-          const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
-        }
-        switch (type) {
-          case 'payment_intent.succeeded':
-            const paymentIntent = event.data.object;
-            handlePaymentIntentSucceeded(paymentIntent);
-            break;
-          case 'payment_method.attached':
-            const paymentMethod = event.data.object;
-            handlePaymentMethodAttached(paymentMethod);
-            break;
-          // ... handle other event types
-          default:
-            // Unexpected event type
-            return res.status(200).end();
-        }
-      }
-
-      if (event.livemode) {
-        //  do live mode stuff
-      } else {
-        // other stuff
-      }
-      return res.status(200).end();
-    } catch (e) {
-      return res.status(400).end();
-
-      // return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
-    }
-  });
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
-      // for user verification
-      // https://stripe.com/docs/connect/identity-verification-api
-
-      // for account updates
-      // https://stripe.com/docs/connect/identity-verification-api
-
-      /**
-       * verification issues with image
-       * https://stripe.com/docs/connect/identity-verification-api#handling-id-verification-problems
-       */
-
       // sign key by strip
-      // whsec_VqdFbVkdKx4TqPv3hDVDRwZvUwWlM3gG
-      // devmode
-      // const endpointSecret = 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6';
-      // prod,mode
-      const endpointSecret = 'whsec_QOOuJnWwqjtKwyUbpbeIVyVOOZyigcZf';
+      let endpointSecret = keys.stripeWebhookConnectedAccSig;
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        const { id, object, account, type } = event;
-        console.log(
-          'webhook: connectedAccountsWebhook connectedAccountsWebhook ' + JSON.stringify(event)
-        );
+        const { id, account } = event;
+
         if (account) {
-          const retrieveCustomerAccount = await stripeServiceUtil.retrieveConnectedAccount(account);
-        }
-        switch (type) {
-          case 'payment_intent.succeeded':
-            const paymentIntent = event.data.object;
-            handlePaymentIntentSucceeded(paymentIntent);
-            break;
-          case 'payment_method.attached':
-            const paymentMethod = event.data.object;
-            handlePaymentMethodAttached(paymentMethod);
-            break;
-          // ... handle other event types
-          default:
-            // Unexpected event type
-            return res.status(400).end();
+          const customerAcc = await stripeServiceUtil.retrieveConnectedAccount(account);
+          if (customerAcc) {
+            const { payoutsEnabled, requirements: accRequirements, metadata } = customerAcc;
+
+            const { userId } = metadata;
+
+            let xxx = await userDataAccess.updateStripeAccountRequirementsDetails({
+              eventId: id,
+              userId,
+              accId: account,
+              payoutsEnabled,
+              accRequirements,
+            });
+          }
         }
       }
-      return res.status(200).end();
-    } catch (retrieveCustomerAccount) {
-      return res.status(400).end();
-
-      // return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
     }
   });
 };
