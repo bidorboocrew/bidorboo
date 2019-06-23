@@ -37,6 +37,7 @@ const JobSchema = new Schema(
         status: { type: String },
       },
     },
+    paidOut: { type: Boolean, default: false },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     state: {
       type: String,
@@ -88,6 +89,7 @@ const JobSchema = new Schema(
     startingDateAndTime: { type: Date, required: true, index: true },
     templateId: { type: String, trim: true },
     reported: { type: Number },
+
     // jobImages: [
     //   {
     //     url: { type: String },

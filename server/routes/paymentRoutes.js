@@ -255,13 +255,10 @@ module.exports = (app) => {
   );
   /**
    * user verification
-   * https://stripe.com/docs/connect/identity-verification-api
-   *  for account updates
-   *  https://stripe.com/docs/connect/identity-verification-api
    * verification issues with image
-   * https://stripe.com/docs/connect/identity-verification-api#handling-id-verification-problems
+   * https://stripe.com/docs/connect/payouts#using-manual-payouts
    */
-
+  //xxxx
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
       // sign key by strip
@@ -269,16 +266,16 @@ module.exports = (app) => {
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        const { id, account } = event;
+        const { id, data } = event;
 
-        if (account) {
-          const customerAcc = await stripeServiceUtil.retrieveConnectedAccount(account);
+        if (account && data) {
+          const customerAcc = data.object; //the user connected account is attached here
           if (customerAcc) {
             const { payoutsEnabled, requirements: accRequirements, metadata } = customerAcc;
 
             const { userId } = metadata;
 
-            let xxx = await userDataAccess.updateStripeAccountRequirementsDetails({
+            await userDataAccess.updateStripeAccountRequirementsDetails({
               eventId: id,
               userId,
               accId: account,
@@ -287,6 +284,39 @@ module.exports = (app) => {
             });
           }
         }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'personsWebhook failured', details: `${e}` });
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
+    try {
+      // sign key by strip
+      let endpointSecret = 'whsec_3ullPzWeNfvVRlEgaok8ZyC2OsQl6e1r'; //keys.stripeWebhookConnectedAccSig;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, account, type, data } = event;
+
+        const x = 1;
+        // if (account) {
+        //   const customerAcc = await stripeServiceUtil.retrieveConnectedAccount(account);
+        //   if (customerAcc) {
+        //     const { payoutsEnabled, requirements: accRequirements, metadata } = customerAcc;
+
+        //     const { userId } = metadata;
+
+        //     let xxx = await userDataAccess.updateStripeAccountRequirementsDetails({
+        //       eventId: id,
+        //       userId,
+        //       accId: account,
+        //       payoutsEnabled,
+        //       accRequirements,
+        //     });
+        //   }
+        // }
       }
       return res.status(200).send();
     } catch (e) {

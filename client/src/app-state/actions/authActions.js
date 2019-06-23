@@ -79,13 +79,13 @@ export const getCurrentUserNotifications = () => (dispatch) =>
     payload: axios
       .get(ROUTES.API.USER.GET.currentUser)
       .then((resp) => {
+        debugger;
         if (resp.data && resp.data.userId) {
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
             payload: resp.data,
           });
         } else {
-          //rediret user to sign up page
           switchRoute(ROUTES.CLIENT.HOME);
         }
       })
@@ -101,6 +101,42 @@ export const getCurrentUser = () => (dispatch) =>
       .get(ROUTES.API.USER.GET.currentUser)
       .then((resp) => {
         if (resp.data && resp.data.userId) {
+          debugger;
+
+          const {
+            appView,
+            canBid,
+            canPost,
+            displayName,
+            email,
+            phone,
+            membershipStatus,
+            userId,
+            _id,
+            rating,
+          } = resp.data;
+          // Make sure fcWidget.init is included before setting these values
+
+          // To set unique user id in your system when it is available
+          window.fcWidget.setExternalId(userId);
+          // To set user name
+          window.fcWidget.user.setFirstName(displayName);
+          // To set user email
+          window.fcWidget.user.setEmail((email && email.emailAddress) || '');
+          // To set user properties
+          window.fcWidget.user.setProperties({
+            appView,
+            canBid,
+            canPost,
+            displayName,
+            email: JSON.stringify(email),
+            phone: JSON.stringify(phone),
+            rating: JSON.stringify(rating),
+            membershipStatus,
+            userId,
+            _id,
+          });
+
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
             payload: resp.data,
@@ -136,6 +172,9 @@ export const getCurrentUser = () => (dispatch) =>
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
+        } else {
+          // To set user name
+          window.fcWidget.user.setFirstName('BidOrBooVisitor');
         }
       })
       .catch((error) => {

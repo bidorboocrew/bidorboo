@@ -93,6 +93,9 @@ https: exports.util = {
       }
     );
   },
+  sendPayoutToExternalBank: async (payoutId, amount) => {
+    return stripe.payouts.retrieve('payoutId');
+  },
 
   deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {
     if (iKnowWhatIamDoing) {
