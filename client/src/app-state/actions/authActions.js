@@ -79,7 +79,6 @@ export const getCurrentUserNotifications = () => (dispatch) =>
     payload: axios
       .get(ROUTES.API.USER.GET.currentUser)
       .then((resp) => {
-        debugger;
         if (resp.data && resp.data.userId) {
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
@@ -101,8 +100,6 @@ export const getCurrentUser = () => (dispatch) =>
       .get(ROUTES.API.USER.GET.currentUser)
       .then((resp) => {
         if (resp.data && resp.data.userId) {
-          debugger;
-
           const {
             appView,
             canBid,

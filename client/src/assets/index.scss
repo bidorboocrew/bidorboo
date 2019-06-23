@@ -615,17 +615,16 @@ article.media.limitHeight {
 }
 
 .bdbFloatingButtonText {
-  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 18px 0px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.26) !important;
   position: fixed !important;
-  bottom: 5% !important;
-  right: 10% !important;
+  bottom: 6.5rem !important;
+  right: 1.5rem !important;
   z-index: 999;
   width: 56px !important;
   height: 56px !important;
   border-radius: 100% !important;
   font-size: 32px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   &.iconbutton {
     font-size: 20px !important;
   }
