@@ -169,9 +169,20 @@ export const getCurrentUser = () => (dispatch) =>
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
+        } else {
+          // To set unique user id in your system when it is available
+          window.fcWidget &&
+            window.fcWidget.user &&
+            window.fcWidget.user.clear &&
+            window.fcWidget.user.clear();
         }
       })
       .catch((error) => {
+        // To set unique user id in your system when it is available
+        window.fcWidget &&
+          window.fcWidget.user &&
+          window.fcWidget.user.clear &&
+          window.fcWidget.user.clear();
         throwErrorNotification(dispatch, error);
       }),
   });
