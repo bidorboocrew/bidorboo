@@ -294,29 +294,35 @@ module.exports = (app) => {
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {
       // sign key by strip
-      let endpointSecret = 'whsec_3ullPzWeNfvVRlEgaok8ZyC2OsQl6e1r'; //keys.stripeWebhookConnectedAccSig;
+      let endpointSecret = keys.stripeWebhookPayoutAccSig;
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const { id, account, type, data } = event;
+        const { status, metadata } = data;
+        const { jobId } = metadata;
 
-        const x = 1;
-        // if (account) {
-        //   const customerAcc = await stripeServiceUtil.retrieveConnectedAccount(account);
-        //   if (customerAcc) {
-        //     const { payoutsEnabled, requirements: accRequirements, metadata } = customerAcc;
-
-        //     const { userId } = metadata;
-
-        //     let xxx = await userDataAccess.updateStripeAccountRequirementsDetails({
-        //       eventId: id,
-        //       userId,
-        //       accId: account,
-        //       payoutsEnabled,
-        //       accRequirements,
-        //     });
-        //   }
-        // }
+        switch (type) {
+          case 'payout.paid':
+            // update the job about this
+            jobDataAccess.updateJobById(jobId, {
+              $set: {
+                state: 'ARCHIVE',
+                'payoutDetails.status': status,
+              },
+            });
+            //xxx inform user that it is paid via msg email..etc
+            break;
+          case 'payout.failed':
+            jobDataAccess.updateJobById(jobId, {
+              $set: {
+                state: 'PAYMENT_TO_BANK_FAILED',
+                'payoutDetails.status': status,
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
+            break;
+        }
       }
       return res.status(200).send();
     } catch (e) {

@@ -2024,6 +2024,23 @@ exports.jobDataAccess = {
       }
     });
   },
+  updateJobById: async (jobId, updateDetails) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //find the job
+        await JobModel.findOneAndUpdate(
+          { _id: jobId, _ownerRef: mongoUser_id },
+          {
+            ...updateDetails
+          },
+          { new: true }
+        );
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
 
   deleteJob: async (jobId, mongoUser_id) => {
     return new Promise(async (resolve, reject) => {

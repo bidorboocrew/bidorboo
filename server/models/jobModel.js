@@ -53,6 +53,7 @@ const JobSchema = new Schema(
         'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
         'PAYMENT_RELEASED',
         'ARCHIVE', //For historical record
+        'PAYMENT_TO_BANK_FAILED',
       ],
     },
     dispute: {
@@ -190,6 +191,7 @@ JobSchema.virtual('displayStatus').get(function() {
     PAYMENT_RELEASED: 'Payment sent to Tasker',
     TO_BE_DELETED_SOON: 'Will be deleted soon',
     ARCHIVE: 'Archived',
+    PAYMENT_TO_BANK_FAILED: "Couldn't release funds to your bank",
   };
   return stateToDisplayName[this.state];
 });
