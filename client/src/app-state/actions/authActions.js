@@ -172,9 +172,6 @@ export const getCurrentUser = () => (dispatch) =>
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
-        } else {
-          // To set user name
-          window.fcWidget.user.setFirstName('BidOrBooVisitor');
         }
       })
       .catch((error) => {

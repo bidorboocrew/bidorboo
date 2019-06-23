@@ -285,18 +285,98 @@ exports.jobDataAccess = {
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
-// xxxx do more work here
-              const x = 1 ;
+              // xxxx do more work here
+              const x = 1;
             });
           }
         });
 
       return;
     },
+    SendPayoutsToBanks: async () => {
+      // find all jobs that are done and does not have payment to bank on the way
+      return new Promise(async (resolve, reject) => {
+        try {
+          JobModel.find({
+            _awardedBidRef: { $exists: true },
+            state: { $in: ['DONE'] },
+            paymentToBank: { $exists: false },
+          })
+            .lean(true)
+            .exec((err, res) => {
+              if (err) {
+                reject(err);
+              }
+
+              if (res && res.length > 0) {
+                res.forEach((job) => {
+                  const { _id, processedPayment } = job;
+                  const { chargeId, bidderPayout, bidderStripeAcc } = processedPayment;
+                  const accDetails = await stripeServiceUtil.getConnectedAccountDetails(
+                    bidderStripeAcc
+                  );
+
+                  // confirm payouts enabeld
+                  if (accDetails && accDetails.payouts_enabled) {
+                    const [
+                      accountBalance,
+                      payoutsList,
+                    ] = await stripeServiceUtil.getConnectedAccountBalance(bidderStripeAcc);
+
+                    const isThereEnoughToCoverPayout =
+                      accountBalance &&
+                      accountBalance.available &&
+                      accountBalance.available.some((balance) => {
+                        return balance.amount >= bidderPayout;
+                      });
+
+                    // confirm there is enough available balance to cover payment
+                    if (isThereEnoughToCoverPayout) {
+                      const payoutInititated = await stripeServiceUtil.payoutToBank(
+                        bidderStripeAcc,
+                        {
+                          amount: bidderPayout,
+                          metadata: {
+                            chargeId,
+                            jobId: _id,
+                            bidderStripeAcc,
+                            note: 'Release Payout to Tasker',
+                          },
+                        }
+                      );
+                      const x = 1;
+                      const { id, status } = payoutInititated;
+                      // update job with the payment details
+                      JobModel.findOneAndUpdate(
+                        { _id },
+                        {
+                          $set: {
+                            state: 'PAYMENT_RELEASED',
+                            payoutDetails: {
+                              id,
+                              status,
+                            },
+                          },
+                        },
+                        { new: true }
+                      );
+                      const y = 12;
+                    }
+                  }
+                });
+
+              }
+            });
+        } catch (e) {
+          reject(e);
+        }
+      });
+    },
+
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
       await JobModel.find({
         _awardedBidRef: { $exists: true },
-        $in: ['DONE', 'ARCHIVE'],
+        $in: ['ARCHIVE'],
       })
         .populate({
           path: '_bidsListRef',

@@ -93,3 +93,23 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
     'America/Toronto'
   );
 }
+
+if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '1') {
+  // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
+  // CleanUpAllBidsAssociatedWithDoneJobs at 3am
+  // at 10pm submit payments
+  new CronJob(
+    '00 00 22 * * *',
+    async () => {
+      try {
+        await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
+        console.log('running cron job: SendPayoutsToBanks ' + new Date());
+      } catch (e) {
+        console.log('running cron job: SendPayoutsToBanks ' + JSON.stringify(e));
+      }
+    },
+    null,
+    true,
+    'America/Toronto'
+  );
+}
