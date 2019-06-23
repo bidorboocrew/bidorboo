@@ -114,7 +114,7 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   // CleanUpAllBidsAssociatedWithDoneJobs at 3am
   // at 10pm submit payments
   new CronJob(
-    '00 30 1 * * *',
+    '00 00 07 * * *',
     async () => {
       try {
         console.log('start running cron job: SendPayoutsToBanks ' + new Date());
