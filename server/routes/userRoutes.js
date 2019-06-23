@@ -143,6 +143,13 @@ module.exports = (app) => {
     try {
       // xxxx
       // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
+
+      //   const [balance, payoutsList] = await stripeServiceUtil.getConnectedAccountBalance(
+      //     'acct_1EmZPhKXcpvKCLJw'
+      //   );
+
+      //  const x =  await stripeServiceUtil.sendPayoutToExternalBank('acct_1EmZPhKXcpvKCLJw', 4800);
+
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);

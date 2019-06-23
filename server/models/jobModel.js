@@ -51,7 +51,9 @@ const JobSchema = new Schema(
         'CANCELED_OPEN', // Requester cancels a job before awarding
         'TO_BE_DELETED_SOON', // past due and no taskers assigned delete in 48h
         'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
+        'PAYMENT_RELEASED',
         'ARCHIVE', //For historical record
+        'PAYMENT_TO_BANK_FAILED',
       ],
     },
     dispute: {
@@ -88,6 +90,10 @@ const JobSchema = new Schema(
     startingDateAndTime: { type: Date, required: true, index: true },
     templateId: { type: String, trim: true },
     reported: { type: Number },
+    payoutDetails: {
+      id: { type: String },
+      status: { type: String },
+    },
     // jobImages: [
     //   {
     //     url: { type: String },
@@ -182,8 +188,10 @@ JobSchema.virtual('displayStatus').get(function() {
     AWARDED_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     CANCELED_OPEN: 'Canceled Request',
     DONE: 'Completed',
-    PAIDOUT: 'Paid Out',
+    PAYMENT_RELEASED: 'Payment sent to Tasker',
     TO_BE_DELETED_SOON: 'Will be deleted soon',
+    ARCHIVE: 'Archived',
+    PAYMENT_TO_BANK_FAILED: "Couldn't release funds to your bank",
   };
   return stateToDisplayName[this.state];
 });

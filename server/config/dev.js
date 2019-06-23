@@ -14,6 +14,8 @@ module.exports = {
   bugSnagApiKey: '73a5b07dd9df6ea352bebda9e3ce4f62',
   stripePublishableKey: 'pk_test_PMfMPvRIAobaK1YXvpth2mEj',
   stripeSecretKey: 'sk_test_RdEh2fJUQNRxz1wuFSG06VQy',
+  stripeWebhookConnectedAccSig: 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6',
+  stripeWebhookPayoutAccSig: 'whsec_3ullPzWeNfvVRlEgaok8ZyC2OsQl6e1r',
   sendGridKey: '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',
   cloudinaryCloudName: 'hr6bwgs1p',
   cloudinaryPublicApiKey: '199892955566316',

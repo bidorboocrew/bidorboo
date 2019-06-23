@@ -7,6 +7,48 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
+exports.updateStripeAccountRequirementsDetails = ({
+  eventId,
+  userId,
+  accId,
+  payoutsEnabled,
+  accRequirements,
+}) => {
+  const {
+    disabled_reason,
+    current_deadline,
+    past_due,
+    currently_due,
+    eventually_due,
+  } = accRequirements;
+
+  return User.findOneAndUpdate(
+    {
+      userId,
+      'stripeConnect.accId': { $eq: accId },
+      'stripeConnect.processedWebhookEventIds': { $ne: eventId },
+    },
+    {
+      $set: {
+        payoutsEnabled,
+        'stripeConnect.accRequirements': {
+          disabled_reason,
+          current_deadline,
+          past_due,
+          currently_due,
+          eventually_due,
+        },
+      },
+      $push: { 'stripeConnect.processedWebhookEventIds': eventId },
+    },
+    {
+      new: true,
+    }
+  )
+    .lean(true)
+    .exec();
+};
+
 exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {
   this.updateUserProfileDetails(mongoUser_id, onBoardingDetails);
 };

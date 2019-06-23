@@ -113,7 +113,7 @@ export class FirstTimeUser extends React.Component {
                 </div>
                 <br />
                 <div className="has-text-centered">
-                  <a onClick={this.verifyAndSubmitOnBoarding} className="button is-success">
+                  <a onClick={this.verifyAndSubmitOnBoarding} className="button is-success is-large">
                     GET ME STARTED
                   </a>
                 </div>

@@ -82,6 +82,21 @@ https: exports.util = {
     });
   },
 
+  sendPayoutToExternalBank: async (connectedAccId, amount) => {
+    return stripe.payouts.create(
+      {
+        amount,
+        currency: 'cad',
+      },
+      {
+        stripe_account: connectedAccId,
+      }
+    );
+  },
+  sendPayoutToExternalBank: async (payoutId, amount) => {
+    return stripe.payouts.retrieve('payoutId');
+  },
+
   deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {
     if (iKnowWhatIamDoing) {
       await stripe.accounts.list({ limit: 300 }, function(err, accounts) {

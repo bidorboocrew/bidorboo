@@ -431,6 +431,21 @@ exports.EmailService = {
     };
     sgMail.send(msg);
   },
+  informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
+    const msg = {
+      to: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `FAILED PAYOUT CASE: ${jobId}`,
+      text: ` Payment to bank was not successful follow up with user
+    ${JSON.stringify(paymentDetails)}`,
+      html: `
+      <p>Payment to bank was not successful follow up with user
+        ${JSON.stringify(paymentDetails)}.</p>
+      `,
+    };
+    sgMail.send(msg);
+  },
+
   informBobCrewAboutDispute: ({
     whoSubmitted,
     requesterDisplayName,

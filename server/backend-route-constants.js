@@ -20,6 +20,7 @@ module.exports = {
         payment: '/api/payment',
         personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
+        payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
       },
       GET: {
         payment: '/api/payment',
