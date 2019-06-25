@@ -31,12 +31,13 @@ module.exports = (app) => {
   app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
     try {
       let sourcePage = `${req.query.originPath || '/'}`;
-      return passport.authenticate('facebook-token', {
+      return passport.authenticate('facebook', {
         scope: ['email'],
         state: JSON.stringify({ sourcePage: sourcePage }),
       })(req, res, next);
     } catch (e) {
       console.log(JSON.stringify(e));
+      return res.status(400).send({ success: false, message: 'authentication FACEBOOK failed' });
     }
   });
   app.get(ROUTES.API.AUTH.FACEBOOK_CALLBACK, (req, res, next) => {
@@ -49,13 +50,16 @@ module.exports = (app) => {
         }
       }
 
-      return passport.authenticate('facebook-token', {
+      return passport.authenticate('facebook', {
         successReturnToOrRedirect: sourcePage,
         failureRedirect: '/',
         failureFlash: true,
       })(req, res, next);
     } catch (e) {
       console.log(JSON.stringify(e));
+      return res
+        .status(400)
+        .send({ success: false, message: 'authentication FACEBOOK_CALLBACK failed' });
     }
   });
 
