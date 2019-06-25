@@ -103,7 +103,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'#31c110'}
+            accentColor={'hsl(141, 71%, 48%)'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}
@@ -121,7 +121,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'#31c110'}
+            accentColor={'hsl(141, 71%, 48%)'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}

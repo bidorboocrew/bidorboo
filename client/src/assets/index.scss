@@ -591,7 +591,7 @@ article.media.limitHeight {
 .card.bidOrBooMainPage-Request {
   cursor: default;
   padding: 1rem;
-  border: 1px solid #31c110;
+  border: 1px solid hsl(141, 71%, 48%);
   border-radius: 6px;
   margin-bottom: 1.5rem;
   height: 16rem;
@@ -605,7 +605,7 @@ article.media.limitHeight {
       padding: 1rem 0.5rem;
       border-radius: 6px;
       &:hover {
-        background: #31c110;
+        background: hsl(141, 71%, 48%);
         color: white;
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
         transition: all 0.3s ease-in;
@@ -681,7 +681,7 @@ article.media.limitHeight {
   display: block;
   float: unset !important;
 }
-
+.react-datepicker__day-name,
 .react-datepicker__day {
   // color: #000 !important;
   display: inline-block !important;
@@ -692,5 +692,5 @@ article.media.limitHeight {
 }
 
 .react-datepicker__current-month {
-  font-size: 1rem !important;
+  font-size: 1.25rem !important;
 }

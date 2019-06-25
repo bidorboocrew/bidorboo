@@ -47,7 +47,7 @@ export default class BidsTable extends React.Component {
                     padding: '0.25rem',
                     cursor: 'pointer',
                     position: 'relative',
-                    border: '2px solid #31c110',
+                    border: '2px solid hsl(141, 71%, 48%)',
                   }}
                   onClick={(e) => {
                     e.preventDefault();

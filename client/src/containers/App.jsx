@@ -125,7 +125,7 @@ class App extends React.Component {
             left: 0,
             right: 0,
             width: '100%',
-            backgroundColor: '#31c110',
+            backgroundColor: 'hsl(141, 71%, 48%)',
             height: '5px',
             zIndex: 999,
           }}
