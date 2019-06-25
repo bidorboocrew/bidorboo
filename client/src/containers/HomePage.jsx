@@ -36,22 +36,22 @@ const elementInViewport = (el) => {
 const commonTourSteps = [
   {
     content: <h1 className="title">Welcome to BidOrBoo</h1>,
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
   {
     selector: '.ProvideAServiceForTour',
     content: 'Are you looking to make money doing tasks you enjoy? Click Here',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
   {
     selector: '.RequestAServiceForTour',
     content: 'If you have chores and want help getting them done, Click Here',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
   {
     selector: '#BidOrBoo-logo-step',
     content: 'Click Here to go to the home page at anytime',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
 ];
 
@@ -61,13 +61,13 @@ const desktopTour = [
     selector: '#viewDependentNavBarItems',
     content:
       'This area will show relevant actions where you can access your Task or Requests based on your current view (Tasker or Requester).',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
   {
     selector: '#myprofile-step',
     content:
       'Through this menu you can access your My Profile, Payments, or switch between Tasker and Reuqester roles at anytime',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
 ];
 
@@ -77,7 +77,7 @@ const mobileTour = [
     selector: '#mobile-nav-burger',
     content:
       'Through this menu you can access your your Tasks, Requests, My Profile, Payments, or switch between Tasker and Reuqester roles at anytime',
-    style: { maxWidth: 'none', backgroundColor: '#eee', fontWeight: '600' },
+    style: { maxWidth: 'none', fontWeight: '600' },
   },
 ];
 export default class HomePage extends React.Component {
@@ -103,7 +103,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'hsl(141, 71%, 48%)'}
+            accentColor={'#ff1e2d'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}
@@ -121,7 +121,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'hsl(141, 71%, 48%)'}
+            accentColor={'#ff1e2d'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}

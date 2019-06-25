@@ -400,7 +400,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>My Requests</span>
+                        <span>MY REQUESTS</span>
                       </a>
                     )}
                     {isActingAsBidder && (

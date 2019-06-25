@@ -42,7 +42,7 @@ class MyRequestsPage extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">My Requests</h1>
+              <h1 className="title">MY REQUESTS</h1>
             </div>
           </div>
         </section>
