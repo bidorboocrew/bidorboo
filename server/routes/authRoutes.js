@@ -32,7 +32,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
     let sourcePage = `${req.query.originPath || '/'}`;
     return passport.authenticate('facebook', {
-      scope: ['email', 'default'],
+      scope: ['email'],
       state: JSON.stringify({ sourcePage: sourcePage }),
     })(req, res, next);
   });
