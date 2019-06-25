@@ -208,13 +208,9 @@ module.exports = (app) => {
         const mongoUser_id = req.user._id.toString();
 
         let accDetails = [];
-        let fullAccDetails = {};
         const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
         if (paymentsDetails && paymentsDetails.accId) {
-          fullAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-            paymentsDetails.accId
-          );
           accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
         }
         let verifiedAmount = 0;
@@ -242,7 +238,6 @@ module.exports = (app) => {
         }
 
         return res.send({
-          fullAccDetails,
           balanceDetails: {
             verifiedAmount: verifiedAmount / 100,
             pendingVerificationAmount: pendingVerificationAmount / 100,

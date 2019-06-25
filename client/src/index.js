@@ -22,6 +22,20 @@ const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
 window.BidorBoo.stripe = Object.freeze(stripe);
 
 if (process.env.NODE_ENV === 'production') {
+  // google analytics
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'UA-142687351-1');
+
+  // freshcaht
+  window.fcWidget.init({
+    token: '379b1f75-9ffc-4de2-84d5-2fb284544f44',
+    host: 'https://wchat.freshchat.com',
+  });
+
   const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
