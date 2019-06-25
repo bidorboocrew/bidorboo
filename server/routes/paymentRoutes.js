@@ -238,6 +238,7 @@ module.exports = (app) => {
         }
 
         return res.send({
+          accDetails,
           balanceDetails: {
             verifiedAmount: verifiedAmount / 100,
             pendingVerificationAmount: pendingVerificationAmount / 100,
@@ -268,17 +269,22 @@ module.exports = (app) => {
       if (event) {
         const { id, data } = event;
 
-        if (account && data) {
+        if (data) {
           const customerAcc = data.object; //the user connected account is attached here
           if (customerAcc) {
-            const { payoutsEnabled, requirements: accRequirements, metadata } = customerAcc;
+            const {
+              id: accId,
+              payoutsEnabled,
+              requirements: accRequirements,
+              metadata,
+            } = customerAcc;
 
             const { userId } = metadata;
 
             await userDataAccess.updateStripeAccountRequirementsDetails({
               eventId: id,
               userId,
-              accId: account,
+              accId,
               payoutsEnabled,
               accRequirements,
             });
