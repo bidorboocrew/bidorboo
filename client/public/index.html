@@ -98,14 +98,6 @@
     <!-- <div id="fullscreen-preloader"> -->
     <div id="BidOrBoo-app"></div>
 
-    <!--
-      <script src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" async defer></script>
-    -->
-
-    <!--
-      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=geometry,drawing,places" async defer></script>
-    -->
-
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -113,15 +105,21 @@
       crossorigin="anonymous"
     />
 
-    <!-- <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-      crossorigin="anonymous"
-    /> -->
-    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LeYAIAUAAAAANUTFRP2KGE1TSR5DaoQY7TsTXU0"></script> -->
     <script>
-
+      // freshchat
+      window.fcWidget.init({
+        token: '379b1f75-9ffc-4de2-84d5-2fb284544f44',
+        host: 'https://wchat.freshchat.com',
+      });
+    </script>
+    <script>
+      // google analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-142687351-1');
     </script>
 
     <script
