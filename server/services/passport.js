@@ -6,7 +6,8 @@ const userDataAccess = require('../data-access/userDataAccess');
 
 const keys = require('../config/keys');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
+const FacebookTokenStrategy = require('passport-facebook-token');
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
@@ -28,11 +29,12 @@ const FacebookPassportConfig = {
   clientSecret: keys.facebookClientSecret,
   callbackURL: ROUTES.API.AUTH.FACEBOOK_CALLBACK,
   proxy: true,
+  fbGraphVersion: 'v3.3',
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
 };
 //facebook Auth
 passport.use(
-  new FacebookStrategy(FacebookPassportConfig, async (accessToken, refreshToken, profile, done) => {
+  new FacebookTokenStrategy(FacebookPassportConfig, async (accessToken, refreshToken, profile, done) => {
     try {
       const existingUser = await userDataAccess.findOneByUserId(profile.id);
       if (existingUser) {

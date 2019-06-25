@@ -27,12 +27,11 @@ module.exports = (app) => {
       failureFlash: true,
     })(req, res, next);
   });
-
   // Facebook routes
   app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
     try {
       let sourcePage = `${req.query.originPath || '/'}`;
-      return passport.authenticate('facebook', {
+      return passport.authenticate('facebook-token', {
         scope: ['email'],
         state: JSON.stringify({ sourcePage: sourcePage }),
       })(req, res, next);
@@ -50,7 +49,7 @@ module.exports = (app) => {
         }
       }
 
-      return passport.authenticate('facebook', {
+      return passport.authenticate('facebook-token', {
         successReturnToOrRedirect: sourcePage,
         failureRedirect: '/',
         failureFlash: true,
