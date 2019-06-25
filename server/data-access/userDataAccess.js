@@ -31,6 +31,8 @@ exports.updateStripeAccountRequirementsDetails = ({
     {
       $set: {
         payoutsEnabled,
+        'stripeConnect.isVerified': payoutsEnabled,
+        'stripeConnect.payoutsEnabled': payoutsEnabled,
         'stripeConnect.accRequirements': {
           disabled_reason,
           current_deadline,
