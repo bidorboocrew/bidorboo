@@ -155,7 +155,7 @@ export default class HomePage extends React.Component {
                   </Zoom>
                 </span>
               </h1>
-              <Fade delay={250}>
+              <Fade>
                 <h2 className="is-5 has-text-grey">
                   Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
                 </h2>
@@ -170,7 +170,7 @@ export default class HomePage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <div>
-                <Zoom delay={250}>
+                <Zoom>
                   <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
                     What Do You Want To Do
                   </div>
@@ -195,40 +195,39 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <Fade delay={250}>
-          <div className="columns is-mobile is-multiline is-centered">
-            <div style={{ maxWidth: '21rem' }} className="column">
+
+        <div className="columns is-mobile is-multiline is-centered">
+          <div style={{ maxWidth: '21rem' }} className="column">
+            <Fade bottom delay={250}>
+              <RequestAService
+                logoImg={requestImg}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                }}
+              />
+            </Fade>
+            <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
               <Fade bottom delay={250}>
-                <RequestAService
-                  logoImg={requestImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                  }}
-                />
+                <HowItWorksRequestService />
               </Fade>
-              <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
-                <Fade bottom delay={250}>
-                  <HowItWorksRequestService />
-                </Fade>
-              </div>
-            </div>
-            <div style={{ maxWidth: '21rem' }} className="column">
-              <Fade bottom delay={250}>
-                <ProvideAService
-                  logoImg={bidsImg}
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
-                  }}
-                />
-              </Fade>
-              <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
-                <Fade bottom delay={250}>
-                  <HowItWorksProvideService />
-                </Fade>
-              </div>
             </div>
           </div>
-        </Fade>
+          <div style={{ maxWidth: '21rem' }} className="column">
+            <Fade bottom delay={250}>
+              <ProvideAService
+                logoImg={bidsImg}
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                }}
+              />
+            </Fade>
+            <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
+              <Fade bottom delay={250}>
+                <HowItWorksProvideService />
+              </Fade>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
