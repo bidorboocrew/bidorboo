@@ -30,26 +30,34 @@ module.exports = (app) => {
 
   // Facebook routes
   app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
-    let sourcePage = `${req.query.originPath || '/'}`;
-    return passport.authenticate('facebook', {
-      scope: ['email'],
-      state: JSON.stringify({ sourcePage: sourcePage }),
-    })(req, res, next);
+    try {
+      let sourcePage = `${req.query.originPath || '/'}`;
+      return passport.authenticate('facebook', {
+        scope: ['email'],
+        state: JSON.stringify({ sourcePage: sourcePage }),
+      })(req, res, next);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
   });
   app.get(ROUTES.API.AUTH.FACEBOOK_CALLBACK, (req, res, next) => {
-    let sourcePage = '/';
-    if (req.query.state) {
-      const getRedirectPathFromState = JSON.parse(req.query.state);
-      if (getRedirectPathFromState.sourcePage) {
-        sourcePage = getRedirectPathFromState.sourcePage;
+    try {
+      let sourcePage = '/';
+      if (req.query.state) {
+        const getRedirectPathFromState = JSON.parse(req.query.state);
+        if (getRedirectPathFromState.sourcePage) {
+          sourcePage = getRedirectPathFromState.sourcePage;
+        }
       }
-    }
 
-    return passport.authenticate('facebook', {
-      successReturnToOrRedirect: sourcePage,
-      failureRedirect: '/errorRoute',
-      failureFlash: true,
-    })(req, res, next);
+      return passport.authenticate('facebook', {
+        successReturnToOrRedirect: sourcePage,
+        failureRedirect: '/',
+        failureFlash: true,
+      })(req, res, next);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
   });
 
   app.get(ROUTES.API.AUTH.LOGOUT, (req, res) => {
