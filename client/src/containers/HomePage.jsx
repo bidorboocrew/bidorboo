@@ -150,7 +150,7 @@ export default class HomePage extends React.Component {
                 <span id="BidOrBoo-welcome-step">
                   <Zoom top cascade>
                     <span style={{ color: 'black' }}> Bid</span>
-                    <span style={{ color: 'rgba(0,0,0,0.7)' }}>Or</span>
+                    <span style={{ color: 'rgba(0,0,0,0.6)' }}>Or</span>
                     <span style={{ color: 'black' }}>Boo</span>
                   </Zoom>
                 </span>

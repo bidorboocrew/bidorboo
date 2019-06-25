@@ -232,7 +232,7 @@ class App extends React.Component {
                       width={21}
                       height={21}
                     />
-                    {` BidOrBoo`}
+                    {` BidOrBoo Inc`}
                   </div>
                   <div style={{ marginTop: 6 }}>
                     <AddToMobileHomeScreenBanner />
@@ -264,8 +264,7 @@ class App extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <p className="has-text-grey is-size-7">Contact Us</p>
-                  <div className="has-text-grey is-size-7">phone: 123-123-1234</div>
-                  <div className="has-text-grey is-size-7">email: bidorboocrew@bidorboo.com</div>
+                  <div className="has-text-grey is-size-7">bidorboocrew@bidorboo.com</div>
                 </div>
               </div>
             </nav>
