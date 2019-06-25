@@ -35,7 +35,11 @@ const elementInViewport = (el) => {
 
 const commonTourSteps = [
   {
-    content: <h1 className="title">Welcome to BidOrBoo</h1>,
+    content: (
+      <h1 className="title">
+        Welcome to <span style={{ color: '#ff1e2d' }}>BidOrBoo</span>
+      </h1>
+    ),
     style: { maxWidth: 'none', fontWeight: '600' },
   },
   {
@@ -145,7 +149,9 @@ export default class HomePage extends React.Component {
               >
                 <span id="BidOrBoo-welcome-step">
                   <Zoom top cascade>
-                    BidOrBoo
+                    <span style={{ color: '#ff1e2d' }}> Bid</span>
+                    <span style={{ color: 'rgba(255, 30, 45,0.7)' }}>Or</span>
+                    <span style={{ color: '#ff1e2d' }}>Boo</span>
                   </Zoom>
                 </span>
               </h1>
@@ -200,6 +206,11 @@ export default class HomePage extends React.Component {
                   }}
                 />
               </Fade>
+              <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
+                <Fade bottom delay={250}>
+                  <HowItWorksRequestService />
+                </Fade>
+              </div>
             </div>
             <div style={{ maxWidth: '21rem' }} className="column">
               <Fade bottom delay={250}>
@@ -210,62 +221,13 @@ export default class HomePage extends React.Component {
                   }}
                 />
               </Fade>
+              <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
+                <Fade bottom delay={250}>
+                  <HowItWorksProvideService />
+                </Fade>
+              </div>
             </div>
           </div>
-        </Fade>
-
-        <Fade delay={250}>
-          <section className="section hero has-text-centered">
-            <div className="hero-body">
-              <div className="container">
-                <div className="columns is-mobile is-multiline is-centered">
-                  <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={250}>
-                      <RequestAService
-                        id="id2-Proposer-step"
-                        logoImg={requestImg}
-                        onClickHandler={() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                        }}
-                      />
-                    </Fade>
-                  </div>
-                  <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={250}>
-                      <HowItWorksRequestService />
-                    </Fade>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </Fade>
-        <br />
-        <Fade delay={250}>
-          <section className="section hero has-text-centered">
-            <div className="hero-body">
-              <div className="container">
-                <div className="columns is-mobile is-multiline is-centered">
-                  <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={250}>
-                      <ProvideAService
-                        id="id2-provide-a-service"
-                        logoImg={bidsImg}
-                        onClickHandler={() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        }}
-                      />
-                    </Fade>
-                  </div>
-                  <div style={{ maxWidth: '21rem' }} className="column">
-                    <Fade bottom delay={250}>
-                      <HowItWorksProvideService />
-                    </Fade>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </Fade>
       </div>
     );
@@ -310,25 +272,25 @@ const ProvideAService = (props) => {
 
 const HowItWorksRequestService = () => {
   return (
-    <div style={{ paddingTop: '2rem' }}>
-      <h1 className="title">How It Works?</h1>
+    <div>
+      <h1 className="title has-text-centered">How It Works?</h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">Select a Template</p>
+            <p className="is-size-6">Fill A Request</p>
           </div>
         </li>
         <li className="steps-segment">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">Taskers Will Bids</p>
+            <p className="is-size-6">Taskers Will Bid</p>
           </div>
         </li>
         <li className="steps-segment ">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">Choose a Tasker</p>
+            <p className="is-size-6">Chose a Tasker</p>
           </div>
         </li>
       </ul>
@@ -338,25 +300,25 @@ const HowItWorksRequestService = () => {
 
 const HowItWorksProvideService = () => {
   return (
-    <div style={{ paddingTop: '2rem' }}>
-      <h1 className="title">How It Works?</h1>
+    <div>
+      <h1 className="title has-text-centered">How It Works?</h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">Browse For Tasks</p>
+            <p className="is-size-6">Browse Tasks</p>
           </div>
         </li>
         <li className="steps-segment">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">Bid On Tasks</p>
+            <p className="is-size-6">Place Your Bids</p>
           </div>
         </li>
         <li className="steps-segment ">
           <span className="steps-marker" />
           <div className="steps-content">
-            <p className="is-size-6">{`Win & Get Paid.`}</p>
+            <p className="is-size-6">{`Do it & Get Paid.`}</p>
           </div>
         </li>
       </ul>

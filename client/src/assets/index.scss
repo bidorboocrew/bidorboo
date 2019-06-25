@@ -129,12 +129,16 @@ div.react-datepicker {
   height: 4rem !important;
 
   #BidOrBoo-logo-step {
-    &:hover {
-      background: lightgrey;
-      > span {
-        color: black !important;
-      }
+    > span {
+      color: #ff1e2d !important;
     }
+
+    // &:hover {
+    //   background: lightgrey;
+    //   > span {
+    //     color: black !important;
+    //   }
+    // }
   }
   // special dark bidder navbar
   &.bidderAppBar {
@@ -196,14 +200,14 @@ div.react-datepicker {
       }
     }
     #BidOrBoo-logo-step {
-      &:hover {
-        background: lightgrey;
-        > span {
-          color: black !important;
-        }
-      }
+      // &:hover {
+      //   background: lightgrey;
+      //   > span {
+      //     color: black !important;
+      //   }
+      // }
       > span {
-        color: white !important;
+        color: #ff1e2d !important;
       }
     }
 
