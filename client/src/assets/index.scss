@@ -29,15 +29,13 @@ body {
   background-color: #222;
 }
 
-// #mainFooter {
-//   padding: 0.5rem 0.5rem;
-//   min-height: 5.5rem;
-//   margin-top: 2rem;
-//   background: #363636;
-//   * {
-//     color: white !important;
-//   }
-// }
+#mainFooter {
+  padding: 1rem;
+  background: #363636;
+  * {
+    color: white !important;
+  }
+}
 
 #RoutesWrapper {
   padding: 0.5rem;
@@ -209,8 +207,6 @@ div.react-datepicker {
       > span {
         color: white !important;
       }
-
-
     }
 
     div.navbar-start,

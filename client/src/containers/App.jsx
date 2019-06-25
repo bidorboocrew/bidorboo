@@ -239,7 +239,8 @@ class App extends React.Component {
                   </div>
                   <div>
                     <a
-                      className="is-size-7 button is-text"
+                      style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
+                      className="is-size-7"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={`${ROUTES.CLIENT.TOS}`}
@@ -248,10 +249,11 @@ class App extends React.Component {
                     </a>
                     {`&`}
                     <a
+                      style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
                       target="_blank"
                       rel="noopener noreferrer"
                       href="https://stripe.com/connect-account/legal"
-                      className="is-size-7 button is-text"
+                      className="is-size-7"
                     >
                       {`Stripe Terms`}
                     </a>
