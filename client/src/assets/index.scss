@@ -286,7 +286,7 @@ $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ff1e2d !default;
 $yellow: #e19f00 !default;
-$green: #2edf06 !default;
+$green: hsl(141, 71%, 48%) !default;
 $cyan: #0a8fd1 !default;
 $blue: #4285f4 !default;
 $purple: #ce1bbf !default;
@@ -661,4 +661,36 @@ article.media.limitHeight {
   to {
     -webkit-transform: rotate(360deg);
   }
+}
+
+.react-datepicker__header {
+  text-align: center;
+  background-color: white !important;
+  border-bottom: 1px solid lightgray;
+  border-top-left-radius: none !important;
+  border-top-right-radius: none !important;
+  padding-top: 8px;
+  position: relative;
+}
+.react-datepicker {
+  border-radius: 0 !important;
+  border-color: lightgray !important;
+  width: 20rem;
+}
+.react-datepicker__month-container {
+  display: block;
+  float: unset !important;
+}
+
+.react-datepicker__day {
+  // color: #000 !important;
+  display: inline-block !important;
+  width: 1.7rem !important;
+  line-height: 2rem !important;
+  text-align: center !important;
+  margin: 0.5rem !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 1rem !important;
 }
