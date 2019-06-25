@@ -273,7 +273,8 @@ module.exports = (app) => {
           if (customerAcc) {
             const {
               id: accId,
-              payoutsEnabled,
+              payouts_enabled,
+              charges_enabled,
               requirements: accRequirements,
               metadata,
             } = customerAcc;
@@ -284,7 +285,8 @@ module.exports = (app) => {
               eventId: id,
               userId,
               accId,
-              payoutsEnabled,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
               accRequirements,
             });
           }

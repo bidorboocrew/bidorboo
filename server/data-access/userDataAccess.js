@@ -11,6 +11,7 @@ exports.updateStripeAccountRequirementsDetails = ({
   eventId,
   userId,
   accId,
+  chargesEnabled,
   payoutsEnabled,
   accRequirements,
 }) => {
@@ -31,8 +32,9 @@ exports.updateStripeAccountRequirementsDetails = ({
     {
       $set: {
         payoutsEnabled,
-        'stripeConnect.isVerified': payoutsEnabled,
+        'stripeConnect.isVerified': payoutsEnabled && chargesEnabled,
         'stripeConnect.payoutsEnabled': payoutsEnabled,
+        'stripeConnect.chargesEnabled': chargesEnabled,
         'stripeConnect.accRequirements': {
           disabled_reason,
           current_deadline,

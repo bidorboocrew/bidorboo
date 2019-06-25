@@ -172,9 +172,11 @@ const UserSchema = new Schema(
     },
     stripeConnect: {
       accId: { type: String },
+      // when payoutsEnabled && chargesEnabled
       isVerified: { type: Boolean, default: false },
       last4BankAcc: { type: String },
       payoutsEnabled: { type: Boolean, default: false },
+      chargesEnabled: { type: Boolean, default: false },
       processedWebhookEventIds: [{ type: String }],
       accRequirements: {
         disabled_reason: { type: String },
