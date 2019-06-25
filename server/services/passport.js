@@ -55,7 +55,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To facebook Auth', details: `${e}` }, null);
+      return done({ errorMsg: 'Failed To facebook Auth', details: `${JSON.stringify(e)}` }, null);
     }
   })
 );
