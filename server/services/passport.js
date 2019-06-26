@@ -28,9 +28,8 @@ const FacebookPassportConfig = {
   clientID: keys.facebookClientID,
   clientSecret: keys.facebookClientSecret,
   callbackURL: ROUTES.API.AUTH.FACEBOOK_CALLBACK,
-  proxy: true,
-  fbGraphVersion: 'v3.3',
   enableProof: true,
+  passReqToCallback: true,
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
 };
 //facebook Auth
