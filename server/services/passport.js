@@ -7,7 +7,6 @@ const userDataAccess = require('../data-access/userDataAccess');
 const keys = require('../config/keys');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-// const FacebookTokenStrategy = require('passport-facebook-token');
 
 //we send this serialized obj to the client side
 passport.serializeUser((user, done) => {
@@ -20,7 +19,6 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
-    console.error(e);
     return done({ errorMsg: 'Failed To deserializeUser', details: `${e}` }, null);
   }
 });
@@ -29,7 +27,7 @@ const FacebookPassportConfig = {
   clientID: keys.facebookClientID,
   clientSecret: keys.facebookClientSecret,
   callbackURL: ROUTES.API.AUTH.FACEBOOK_CALLBACK,
-  enableProof: true,
+  proxy: true,
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
 };
 //facebook Auth
@@ -40,6 +38,7 @@ passport.use(
       if (existingUser) {
         return done(null, existingUser);
       }
+
       const userEmail = profile.emails ? profile.emails[0].value : '';
       if (userEmail) {
         const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
@@ -69,8 +68,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      console.error(e);
-      return done({ errorMsg: 'Failed To facebook Auth', details: `${JSON.stringify(e)}` }, null);
+      return done({ errorMsg: 'Failed To facebook Auth', details: `${e}` }, null);
     }
   })
 );
@@ -101,7 +99,6 @@ passport.use(
           );
         }
       }
-
       const userDetails = {
         isGmailUser: true,
         displayName: profile.displayName,
@@ -118,7 +115,8 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To create user via google login', details: `${e}` }, null);
+      console.error('Failed To google Auth' + e);
+      return done({ errorMsg: 'Failed To google Auth', details: `${JSON.stringify(e)}` }, null);
     }
   })
 );
@@ -161,7 +159,11 @@ passport.use(
       const user = await userDataAccess.createNewUser(userDetails);
       done(null, user);
     } catch (err) {
-      done({ errorMsg: 'failed to register user', details: err }, null);
+      console.error('Failed To google Auth' + e);
+      return done(
+        { errorMsg: 'Failed To register local Auth', details: `${JSON.stringify(e)}` },
+        null
+      );
     }
   })
 );
