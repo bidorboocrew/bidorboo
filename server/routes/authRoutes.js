@@ -27,18 +27,11 @@ module.exports = (app) => {
         }
       }
 
-      return passport.authenticate(
-        'google',
-        {
-          successReturnToOrRedirect: sourcePage,
-          failureRedirect: '/googleLoginError',
-          failureFlash: true,
-        },
-        (args) => {
-          console.log('google auth error ' + args);
-          return res.redirect(400, '/BidOrBoo');
-        }
-      )(req, res, next);
+      return passport.authenticate('google', {
+        successReturnToOrRedirect: sourcePage,
+        failureRedirect: '/googleLoginError',
+        failureFlash: true,
+      })(req, res, next);
     } catch (e) {
       console.log(JSON.stringify(e));
       return res
@@ -69,18 +62,11 @@ module.exports = (app) => {
         }
       }
 
-      return passport.authenticate(
-        'facebook',
-        {
-          successReturnToOrRedirect: sourcePage,
-          failureRedirect: '/facebookLoginError',
-          failureFlash: true,
-        },
-        (args) => {
-          console.log('FB auth error ' + args);
-          return res.redirect(400, '/BidOrBoo');
-        }
-      )(req, res, next);
+      return passport.authenticate('facebook', {
+        successReturnToOrRedirect: sourcePage,
+        failureRedirect: '/facebookLoginError',
+        failureFlash: true,
+      })(req, res, next);
     } catch (e) {
       console.log(JSON.stringify(e));
       return res
