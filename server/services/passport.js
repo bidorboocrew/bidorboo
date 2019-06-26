@@ -20,6 +20,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
+    console.error(e);
     return done({ errorMsg: 'Failed To deserializeUser', details: `${e}` }, null);
   }
 });
@@ -29,7 +30,6 @@ const FacebookPassportConfig = {
   clientSecret: keys.facebookClientSecret,
   callbackURL: ROUTES.API.AUTH.FACEBOOK_CALLBACK,
   enableProof: true,
-  passReqToCallback: true,
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
 };
 //facebook Auth
@@ -41,6 +41,18 @@ passport.use(
         return done(null, existingUser);
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
+      if (userEmail) {
+        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+          userEmail
+        );
+        if (anotherUserExistsWithSameEmail) {
+          return done(
+            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            null
+          );
+        }
+      }
+
       const userDetails = {
         isFbUser: true,
         displayName: profile.displayName,
@@ -57,6 +69,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
+      console.error(e);
       return done({ errorMsg: 'Failed To facebook Auth', details: `${JSON.stringify(e)}` }, null);
     }
   })
@@ -77,6 +90,18 @@ passport.use(
         return done(null, existingUser);
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
+      if (userEmail) {
+        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+          userEmail
+        );
+        if (anotherUserExistsWithSameEmail) {
+          return done(
+            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            null
+          );
+        }
+      }
+
       const userDetails = {
         isGmailUser: true,
         displayName: profile.displayName,

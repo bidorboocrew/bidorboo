@@ -238,6 +238,11 @@ exports.checkIfUserAlreadyExist = (userId, registrationEmail, lean = true) =>
     .lean(lean)
     .exec();
 
+exports.checkIfUserEmailAlreadyExist = (registrationEmail) =>
+  User.findOne({ 'email.emailAddress': registrationEmail })
+    .lean(true)
+    .exec();
+
 exports.findByIdAndGetPopulatedJobs = (userId) =>
   User.findOne({ userId })
     .populate({ path: '_postedJobsRef' })

@@ -5,44 +5,60 @@ const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 module.exports = (app) => {
   //google routes
   app.get(ROUTES.API.AUTH.GOOGLE, (req, res, next) => {
-    let sourcePage = `${req.query.originPath || '/'}`;
-    return passport.authenticate('google', {
-      scope: ['profile', 'email'],
-      state: JSON.stringify({ sourcePage: sourcePage }),
-    })(req, res, next);
+    try {
+      let sourcePage = `${req.query.originPath || '/'}`;
+      return passport.authenticate('google', {
+        scope: ['profile', 'email'],
+        state: JSON.stringify({ sourcePage: sourcePage }),
+      })(req, res, next);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      return res.status(400).send({ success: false, message: 'authentication GOOGLE failed' });
+    }
   });
 
   app.get(ROUTES.API.AUTH.GOOGLE_CALLBACK, (req, res, next) => {
-    let sourcePage = '/';
-    if (req.query.state) {
-      const getRedirectPathFromState = JSON.parse(req.query.state);
-      if (getRedirectPathFromState.sourcePage) {
-        sourcePage = getRedirectPathFromState.sourcePage;
+    try {
+      let sourcePage = '/';
+      if (req.query.state) {
+        const getRedirectPathFromState = JSON.parse(req.query.state);
+        if (getRedirectPathFromState.sourcePage) {
+          sourcePage = getRedirectPathFromState.sourcePage;
+        }
       }
-    }
 
-    return passport.authenticate('google', {
-      successReturnToOrRedirect: sourcePage,
-      failureRedirect: '/errorRoute',
-      failureFlash: true,
-    })(req, res, next);
+      return passport.authenticate(
+        'google',
+        {
+          successReturnToOrRedirect: sourcePage,
+          failureRedirect: '/googleLoginError',
+          failureFlash: true,
+        },
+        (args) => {
+          console.log('google auth error ' + args);
+          return res.redirect(400, '/BidOrBoo');
+        }
+      )(req, res, next);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      return res
+        .status(400)
+        .send({ success: false, message: 'authentication GOOGLE_CALLBACK failed' });
+    }
   });
   // Facebook routes
-
-  app.get(ROUTES.API.AUTH.FACEBOOK, passport.authenticate('facebook'));
-
-  // app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
-  //   try {
-  //     let sourcePage = `${req.query.originPath || '/'}`;
-  //     return passport.authenticate('facebook', {
-  //       scope: ['email'],
-  //       state: JSON.stringify({ sourcePage: sourcePage }),
-  //     })(req, res, next);
-  //   } catch (e) {
-  //     console.log(JSON.stringify(e));
-  //     return res.status(400).send({ success: false, message: 'authentication FACEBOOK failed' });
-  //   }
-  // });
+  app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
+    try {
+      let sourcePage = `${req.query.originPath || '/'}`;
+      return passport.authenticate('facebook', {
+        scope: ['email'],
+        state: JSON.stringify({ sourcePage: sourcePage }),
+      })(req, res, next);
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      return res.status(400).send({ success: false, message: 'authentication FACEBOOK failed' });
+    }
+  });
   app.get(ROUTES.API.AUTH.FACEBOOK_CALLBACK, (req, res, next) => {
     try {
       let sourcePage = '/';
@@ -53,11 +69,18 @@ module.exports = (app) => {
         }
       }
 
-      return passport.authenticate('facebook', {
-        state: sourcePage,
-        failureRedirect: '/',
-        failureFlash: true,
-      })(req, res, next);
+      return passport.authenticate(
+        'facebook',
+        {
+          successReturnToOrRedirect: sourcePage,
+          failureRedirect: '/facebookLoginError',
+          failureFlash: true,
+        },
+        (args) => {
+          console.log('FB auth error ' + args);
+          return res.redirect(400, '/BidOrBoo');
+        }
+      )(req, res, next);
     } catch (e) {
       console.log(JSON.stringify(e));
       return res
