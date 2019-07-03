@@ -53,28 +53,28 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'mini', true)}
-                    className={`button is-info ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
                   >
                     {`Small (ex, mini)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'sedan', true)}
-                    className={`button is-info ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
                   >
                     {`Regular (ex, Sedan)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'suv', true)}
-                    className={`button is-info ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
                   >
                     {`Large (ex, SUV)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'truck', true)}
-                    className={`button is-info ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
                   >
                     {`XL (ex, Truck)`}
                   </span>
@@ -123,7 +123,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'leather', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'leather' ? '' : 'is-outlined'
                     }`}
                   >
@@ -132,7 +132,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'fabric', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'fabric' ? '' : 'is-outlined'
                     }`}
                   >
@@ -141,7 +141,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'other', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'other' ? '' : 'is-outlined'
                     }`}
                   >
@@ -190,7 +190,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('trunkCleaning', 'isRequired', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
                     }`}
                   >
@@ -199,7 +199,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('trunkCleaning', 'notRequired', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
                     }`}
                   >

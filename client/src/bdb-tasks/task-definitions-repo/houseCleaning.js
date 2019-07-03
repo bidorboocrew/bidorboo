@@ -42,21 +42,21 @@ living room kitchen bedrooms and more ?`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'small', true)}
-                    className={`button is-info ${values.effort === 'small' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'small' ? '' : 'is-outlined'}`}
                   >
                     {`Small (1-3 hours)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'medium', true)}
-                    className={`button is-info ${values.effort === 'medium' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'medium' ? '' : 'is-outlined'}`}
                   >
                     {`Medium (3-6 hours)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'large', true)}
-                    className={`button is-info ${values.effort === 'large' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'large' ? '' : 'is-outlined'}`}
                   >
                     {`Large (6-8 hours)`}
                   </span>

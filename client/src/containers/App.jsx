@@ -10,7 +10,7 @@ import { switchRoute } from '../utils';
 
 import { getCurrentUser } from '../app-state/actions/authActions';
 import { Spinner } from '../components/Spinner';
-import logoImg from '../assets/images/android-chrome-192x192.png';
+import logoImg from '../assets/images/android-icon-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
 import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';

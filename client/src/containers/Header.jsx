@@ -13,7 +13,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { NotificationsModal } from './index';
-import logoImg from '../assets/images/android-chrome-192x192.png';
+import logoImg from '../assets/images/android-icon-192x192.png';
 
 const HREF_TO_TABID = {
   PROVIDE_A_SERVICE: 'PROVIDE_A_SERVICE',
