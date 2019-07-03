@@ -4,7 +4,7 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.2.0';
+var CACHE_NAME = 'bob-app-cache-v6.3.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -23,7 +23,7 @@ var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/cs
 });
 
 var googleFontsReq = new Request(
-  'https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700',
+  'https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap',
   {
     mode: 'no-cors',
     headers: {
@@ -32,7 +32,16 @@ var googleFontsReq = new Request(
   },
 );
 
-var urlsToCache = ['/android-icon-192x192.png', '/logo.svg', '/offline.html'];
+var urlsToCache = [
+  '/favicon.ico',
+  '/android-icon-36x36.png',
+  '/android-icon-48x48.png',
+  '/android-icon-72x72.png',
+  '/android-icon-96x96.png',
+  '/android-icon-144x144.png',
+  '/android-icon-192x192.png',
+  '/offline.html',
+];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
