@@ -37,7 +37,7 @@ const commonTourSteps = [
   {
     content: (
       <h1 className="title">
-        Welcome to <span style={{ color: '#ff1e2d' }}>BidOrBoo</span>
+        Welcome to <span style={{ color: '#ef2834' }}>BidOrBoo</span>
       </h1>
     ),
     style: { maxWidth: 'none', fontWeight: '600' },
@@ -107,7 +107,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'#ff1e2d'}
+            accentColor={'#ef2834'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}
@@ -125,7 +125,7 @@ export default class HomePage extends React.Component {
             showNumber={false}
             startAt={0}
             maskSpace={0}
-            accentColor={'#ff1e2d'}
+            accentColor={'#ef2834'}
             closeWithMask
             isOpen={this.state.isTourOpen}
             onRequestClose={this.toggleTour}
