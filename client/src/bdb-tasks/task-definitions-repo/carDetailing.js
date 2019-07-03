@@ -48,7 +48,7 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.carSize}
               />
               <div className="field">
-                <label className="label">How Big Is Your Car Size?</label>
+                <label className="label">How Big Is Your Car?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
@@ -118,7 +118,7 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.interiorType}
               />
               <div className="field">
-                <label className="label">What is the interior Type?</label>
+                <label className="label">What is the car's interior Type?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
@@ -185,7 +185,7 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.interiorType}
               />
               <div className="field">
-                <label className="label">Is trunk cleaning required?</label>
+                <label className="label">Do you require trunk cleaning?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}

@@ -444,7 +444,7 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="Specify Date and Time"
+                label="Date and Time"
                 onChangeEvent={this.updateDateInputFieldValue}
               />
               <div className="buttons">
@@ -487,18 +487,18 @@ class GenericRequestForm extends React.Component {
                 </span>
               </div>
             </React.Fragment>
-            <br />
+            {/* <br /> */}
             {/* {extras} */}
             {taskSpecificExtraFormFields}
-            <br />
+            {/* <br /> */}
 
             <TextAreaInput
               id="detailedDescription"
               type="text"
               helpText={
-                '* The more details you put the more likely that you will get the task done to your satisfaction.'
+                '* Add all the necessary details to help our BidOrBoo Taskers to get it done right.'
               }
-              label="Add more details for the tasker"
+              label="Add more details for the Tasker"
               startWithTemplateButton={
                 <a
                   style={{ marginBottom: 4 }}
