@@ -43,10 +43,10 @@ class ProposerRoot extends React.Component {
           {this.AllActiveTasks}
         </div>
         <br />
-        <br />
-        <div className="columns forJobSummary is-centered is-multiline is-mobile">
+
+        {/* <div className="columns forJobSummary is-centered is-multiline is-mobile">
           {this.AllUpcomingTasks}
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }
