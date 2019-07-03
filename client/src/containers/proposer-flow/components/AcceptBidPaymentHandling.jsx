@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import StripeCheckout from 'react-stripe-checkout';
 
-import logoImg from '../../../assets/images/android-icon-192x192.png';
+import logoImg from '../../../assets/images/android-chrome-192x192.png';
 
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 import ReCAPTCHA from 'react-google-recaptcha';

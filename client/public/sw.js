@@ -155,8 +155,8 @@ self.addEventListener('push', (event) => {
   var title = data.title;
   var options = {
     body: data.body,
-    icon: '/android-icon-192x192.png',
-    badge: '/android-icon-192x192.png',
+    icon: '/android-chrome-192x192.png',
+    badge: '/android-chrome-192x192.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };
