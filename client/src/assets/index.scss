@@ -23,6 +23,7 @@ html body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Open Sans', sans-serif;
+  // min-width: 400px;
 }
 
 body {
@@ -39,7 +40,7 @@ body {
 }
 
 #RoutesWrapper {
-  padding: 0 0.5rem;
+  // padding: 0 0.5rem;
   min-height: 100vh !important;
 }
 
@@ -666,7 +667,7 @@ article.media.limitHeight {
 
 .react-datepicker__header {
   text-align: center;
-  background-color: white !important;
+  background-color: #eeeeee !important;
   border-bottom: 1px solid lightgray;
   border-top-left-radius: none !important;
   border-top-right-radius: none !important;

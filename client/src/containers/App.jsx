@@ -131,7 +131,7 @@ class App extends React.Component {
           }}
         />
         <Header id="bidorboo-header" />
-        <div id="RoutesWrapper">
+        <div id="RoutesWrapper" className="has-navbar-fixed-top">
           <Switch>
             {/* public paths */}
             <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfUse} />

@@ -51,7 +51,7 @@ class GenericRequestForm extends React.Component {
       <React.Fragment>
         <div>
           <a
-            style={{ marginTop: 6, fontSize: 14 }}
+            style={{ marginTop: 6 }}
             onClick={this.getCurrentAddress}
             className="button is-small is-info is-outlined"
           >
@@ -449,7 +449,7 @@ class GenericRequestForm extends React.Component {
               />
               <div className="buttons">
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 185 }}
                   onClick={() => this.selectTimeButton('morning')}
                   className={`button is-info ${
                     selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
@@ -458,7 +458,7 @@ class GenericRequestForm extends React.Component {
                   Morning (8AM-12PM)
                 </span>
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 185 }}
                   onClick={() => this.selectTimeButton('afternoon')}
                   className={`button is-info ${
                     selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
@@ -466,11 +466,9 @@ class GenericRequestForm extends React.Component {
                 >
                   Afternoon (12PM-5PM)
                 </span>
-              </div>
 
-              <div className="buttons">
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 185 }}
                   onClick={() => this.selectTimeButton('evening')}
                   className={`button is-info ${
                     selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
@@ -479,7 +477,7 @@ class GenericRequestForm extends React.Component {
                   Evening (5PM-12AM)
                 </span>
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 185 }}
                   onClick={() => this.selectTimeButton('anytime')}
                   className={`button is-info ${
                     selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'

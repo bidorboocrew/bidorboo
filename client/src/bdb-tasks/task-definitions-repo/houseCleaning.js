@@ -88,7 +88,5 @@ living room kitchen bedrooms and more ?`,
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house.
-Based on your reqest the Tasker may vaccume or mop the floors, dust the furniture, clean the washrooms, kitchen, bathrooms, living room and other areas.
-However the tasker will not clean things that require special treatment or the intside of the closets/kitchen cabinets.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
 };

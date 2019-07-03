@@ -33,13 +33,11 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="container is-widescreen">
-        <div className="columns is-centered">
-          <div className="column">
-            {/* create job based on ID */}
-            {creatJobsByIdMap[`${chosenTemplate}`] &&
-              creatJobsByIdMap[`${chosenTemplate}`](this.props)}
-          </div>
+      <div className="columns is-centered">
+        <div className="column">
+          {/* create job based on ID */}
+          {creatJobsByIdMap[`${chosenTemplate}`] &&
+            creatJobsByIdMap[`${chosenTemplate}`](this.props)}
         </div>
       </div>
     );
