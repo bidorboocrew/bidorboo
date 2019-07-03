@@ -13,7 +13,7 @@
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap');
 
 html body {
   color: #363636;
@@ -23,7 +23,7 @@ html body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 #mainFooter {
@@ -258,8 +258,8 @@ a.navbar-item.is-active {
   font-size: 18px;
 }
 
-$family-primary: 'Source Sans Pro', sans-serif;
-$family-sans-serif: 'Source Sans Pro', sans-serif;
+$family-primary: 'Nunito', sans-serif;
+$family-sans-serif: 'Nunito', sans-serif;
 $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works
@@ -275,7 +275,7 @@ $red: #ee2a36 !default;
 $navbar-item-active-color: $cyan !important;
 $navbar-item-hover-color: black;
 
-$family-sans-serif: 'Source Sans Pro', sans-serif !default;
+$family-sans-serif: 'Nunito', sans-serif !default;
 $family-monospace: monospace !default;
 $render-mode: optimizeLegibility !default;
 
