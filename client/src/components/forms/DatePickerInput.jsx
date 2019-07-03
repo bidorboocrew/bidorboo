@@ -40,6 +40,7 @@ export default class DatePickerInput extends React.Component {
         onChange={this.handleChange}
         minDate={this.minDate}
         maxDate={moment().add(30, 'd')}
+        disabledKeyboardNavigation
         placeholderText="Select a date..."
         dateFormat={"D/MMMM/YYYY"}
       />
