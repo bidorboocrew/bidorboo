@@ -13,7 +13,7 @@ class ProposerRoot extends React.Component {
     super(props);
     this.AllActiveTasks = getAllActiveRequestsTemplateCards(props).map((task, index) => {
       return (
-        <div key={index} className="column">
+        <div key={index} className="column is-narrow">
           {task}
         </div>
       );
@@ -21,7 +21,7 @@ class ProposerRoot extends React.Component {
 
     this.AllUpcomingTasks = getAllUpcomingTemplateCards(props).map((task, index) => {
       return (
-        <div key={index} className="column">
+        <div key={index} className="column is-narrow">
           {task}
         </div>
       );
@@ -39,7 +39,7 @@ class ProposerRoot extends React.Component {
             </div>
           </div>
         </section>
-        <div className="columns forJobSummary is-centered is-multiline is-mobile">
+        <div className="columns is-centered is-multiline">
           {this.AllActiveTasks}
         </div>
         <br />
