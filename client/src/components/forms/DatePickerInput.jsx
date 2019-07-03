@@ -20,14 +20,14 @@ export default class DatePickerInput extends React.Component {
     super(props);
     this.minDate = moment().add(1, 'day');
     this.state = {
-      startDate: this.minDate,
+      startDate: null,
     };
   }
 
   handleChange = (date) => {
-    const dateWithTimeZone = moment(date);
+    const dateWithTimeZone = moment.utc(date);
     this.setState({
-      startDate: date,
+      startDate: dateWithTimeZone,
     });
     this.props.onChangeEvent(dateWithTimeZone.toISOString());
   };
@@ -40,7 +40,8 @@ export default class DatePickerInput extends React.Component {
         onChange={this.handleChange}
         minDate={this.minDate}
         maxDate={moment().add(30, 'd')}
-        placeholderText="Select a date"
+        placeholderText="Select a date..."
+        dateFormat={"D/MMMM/YYYY"}
       />
     );
   }

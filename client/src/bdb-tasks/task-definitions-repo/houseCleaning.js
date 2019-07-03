@@ -37,7 +37,7 @@ living room kitchen bedrooms and more ?`,
                 value={values.effort}
               />
               <div className="field">
-                <label className="label">How long would you like to book?</label>
+                <label className="label">Requested Duration</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}

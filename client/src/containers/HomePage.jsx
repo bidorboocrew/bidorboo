@@ -100,7 +100,7 @@ export default class HomePage extends React.Component {
     const isDesktopView = !elementInViewport(document.querySelector('#mobile-nav-burger'));
 
     return (
-      <div style={{ margin: '-0.5rem' }}>
+      <div>
         {isDesktopView && (
           <Tour
             scrollDuration={500}
@@ -148,11 +148,9 @@ export default class HomePage extends React.Component {
                 className="title is-1 has-text-weight-bold"
               >
                 <span id="BidOrBoo-welcome-step">
-                  <Zoom top cascade>
-                    <span style={{ color: 'black' }}> Bid</span>
-                    <span style={{ color: 'rgba(0,0,0,0.6)' }}>Or</span>
-                    <span style={{ color: 'black' }}>Boo</span>
-                  </Zoom>
+                  <span style={{ color: 'black' }}> Bid</span>
+                  <span style={{ color: 'rgba(0,0,0,0.4)' }}>Or</span>
+                  <span style={{ color: 'black' }}>Boo</span>
                 </span>
               </h1>
               <Fade>

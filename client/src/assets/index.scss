@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-@import './_fonts.scss';
+// @import './_fonts.scss';
 @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
@@ -13,6 +13,7 @@
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap');
 
 html body {
   color: #363636;
@@ -22,12 +23,7 @@ html body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Open Sans', sans-serif;
-  // min-width: 400px;
-}
-
-body {
-  background-color: #222;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 #mainFooter {
@@ -97,23 +93,6 @@ a.button {
       color: #ffd700;
     }
   }
-}
-
-//over ride the date selector calendar to over flow anything else
-// xxxx look at better ways of doing this
-div.react-datepicker-popper {
-  z-index: 10 !important;
-}
-button.react-datepicker__navigation.react-datepicker__navigation--next {
-  border-left-color: #209cee !important;
-  border-width: 10px !important;
-}
-button.react-datepicker__navigation.react-datepicker__navigation--previous {
-  border-right-color: #209cee !important;
-  border-width: 10px !important;
-}
-div.react-datepicker {
-  font-size: 16px;
 }
 
 .flexibleTimeCheckbox {
@@ -279,8 +258,8 @@ a.navbar-item.is-active {
   font-size: 18px;
 }
 
-$family-primary: 'Open Sans', sans-serif;
-$family-sans-serif: 'Open Sans', sans-serif;
+$family-primary: 'Source Sans Pro', sans-serif;
+$family-sans-serif: 'Source Sans Pro', sans-serif;
 $body-background-color: white; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works
@@ -296,7 +275,7 @@ $red: #ee2a36 !default;
 $navbar-item-active-color: $cyan !important;
 $navbar-item-hover-color: black;
 
-$family-sans-serif: 'Open Sans', sans-serif !default;
+$family-sans-serif: 'Source Sans Pro', sans-serif !default;
 $family-monospace: monospace !default;
 $render-mode: optimizeLegibility !default;
 
@@ -430,9 +409,11 @@ header.card-header {
   text-overflow: ellipsis;
 }
 .hero-body {
-  padding: 0.75rem !important;
+  // padding: 0.75rem !important;
 }
-
+.columns {
+  margin: 0 !important;
+}
 .help {
   color: grey;
 }
@@ -468,11 +449,23 @@ article.media.limitHeight {
 }
 
 .card-content {
-  padding: 0.5rem;
+  // padding: 0.5rem;
   min-height: 20rem;
   &.template {
     min-height: unset;
   }
+}
+
+.cardWithButton {
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.firstButtonInCard {
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
+  width: 160px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .card {
   height: 100%;
@@ -665,6 +658,22 @@ article.media.limitHeight {
   }
 }
 
+//over ride the date selector calendar to over flow anything else
+// xxxx look at better ways of doing this
+div.react-datepicker-popper {
+  z-index: 10 !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--next {
+  border-left-color: #209cee !important;
+  border-width: 10px !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--previous {
+  border-right-color: #209cee !important;
+  border-width: 10px !important;
+}
+div.react-datepicker {
+  font-size: 16px;
+}
 .react-datepicker__header {
   text-align: center;
   background-color: #eeeeee !important;
@@ -677,7 +686,7 @@ article.media.limitHeight {
 .react-datepicker {
   border-radius: 0 !important;
   border-color: lightgray !important;
-  width: 20rem;
+  // width: 20rem;
 }
 .react-datepicker__month-container {
   display: block;
@@ -687,12 +696,12 @@ article.media.limitHeight {
 .react-datepicker__day {
   // color: #000 !important;
   display: inline-block !important;
-  width: 1.7rem !important;
-  line-height: 2rem !important;
+  // width: 1.7rem !important;
+  // line-height: 2rem !important;
   text-align: center !important;
-  margin: 0.5rem !important;
+  // margin: 0.5rem !important;
 }
 
-.react-datepicker__current-month {
-  font-size: 1.25rem !important;
-}
+// .react-datepicker__current-month {
+//   font-size: 1.25rem !important;
+// }

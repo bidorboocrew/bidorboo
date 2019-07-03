@@ -230,7 +230,5 @@ Get one of our tasker to give your car a good cleaning!`,
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products to clean and shine the car exterior and whipe the rims.
-The Tasker will vaccum the interoir, get rid of any trash, clean the dashboard, console and gear sections. The Tasker will touch up the seats and floor mats and get rid of any pet hair
-However since this is not a car shop, shampooing or deep cleaning of the seats/floors is NOT to be expected.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
 };

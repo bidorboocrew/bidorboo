@@ -57,11 +57,11 @@ export const CountDownComponent = (props) => {
 
 export const JobTitleText = ({ title, iconClass }) => {
   return (
-    <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+    <div style={{ flexGrow: 1 }} className="title">
       <span className="icon">
         <i className={`${iconClass}`} />
       </span>
-      <span style={{ marginLeft: 4 }}>{title}</span>
+      <span style={{ marginLeft: 8 }}>{title}</span>
     </div>
   );
 };

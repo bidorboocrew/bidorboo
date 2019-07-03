@@ -15,7 +15,7 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import moment from 'moment';
 import * as Yup from 'yup';
 import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/FormsHelpers';
-import { StepsForRequest } from '../containers/commonComponents';
+// import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
@@ -292,11 +292,11 @@ class GenericRequestForm extends React.Component {
         style={{ maxWidth: 'unset', border: 'none', boxShadow: 'none' }}
         className="card limitLargeMaxWidth"
       >
-        <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
+        {/* <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
           <br />
           <StepsForRequest isSmall step={1} />
           <br />
-        </section>
+        </section> */}
 
         <div className="card-content">
           {showConfirmationDialog &&
@@ -375,8 +375,8 @@ class GenericRequestForm extends React.Component {
             />
 
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-            <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
-            <br />
+            <DisplayLabelValue labelText="Our Service Commitment" labelValue={TASK_EXPECTATIONS} />
+
             <React.Fragment>
               <input
                 id="addressText"
@@ -395,8 +395,8 @@ class GenericRequestForm extends React.Component {
                 id="geoInputField"
                 type="text"
                 helpText={'You must select an address from the drop down menu'}
-                label="What's the address where you need cleaning?"
-                placeholder="Enter your request's address"
+                label="Location"
+                placeholder="start typing an address"
                 autoDetectComponent={this.shouldShowAutodetectControl}
                 error={touched.addressText && errors.addressText}
                 value={values.addressText || ''}
@@ -427,7 +427,7 @@ class GenericRequestForm extends React.Component {
                 }}
               />
             </React.Fragment>
-            <br />
+
             <React.Fragment>
               <input
                 id="startingDateAndTime"
@@ -444,23 +444,23 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="When do you want it done?"
+                label="Specify Date and Time"
                 onChangeEvent={this.updateDateInputFieldValue}
               />
               <div className="buttons">
                 <span
-                  style={{ width: 185 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('morning')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
                   }`}
                 >
                   Morning (8AM-12PM)
                 </span>
                 <span
-                  style={{ width: 185 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('afternoon')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
                   }`}
                 >
@@ -468,18 +468,18 @@ class GenericRequestForm extends React.Component {
                 </span>
 
                 <span
-                  style={{ width: 185 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('evening')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
                   }`}
                 >
                   Evening (5PM-12AM)
                 </span>
                 <span
-                  style={{ width: 185 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('anytime')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
                   }`}
                 >
@@ -498,17 +498,18 @@ class GenericRequestForm extends React.Component {
               helpText={
                 '* The more details you put the more likely that you will get the task done to your satisfaction.'
               }
-              label="Tell the tasker about your expectations or any special Instructions"
+              label="Add more details for the tasker"
               startWithTemplateButton={
                 <a
                   style={{ marginBottom: 4 }}
-                  className="button is-info is-outlined is-small"
+                  className="button is-text is-small"
                   onClick={this.insertTemplateText}
                 >
-                  <span className="icon">
-                    <i className="fas fa-pencil-alt" />
+                  {/* <span className="icon">
+                  </span> */}
+                  <span>
+                    <i className="fas fa-pencil-alt" /> Or start by answering some commonly asked questions
                   </span>
-                  <span>Common Questions</span>
                 </a>
               }
               placeholder={SUGGESTION_TEXT}
