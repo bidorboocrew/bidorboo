@@ -23,7 +23,7 @@ var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/cs
 });
 
 var googleFontsReq = new Request(
-  'https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap',
+  'https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap',
   {
     mode: 'no-cors',
     headers: {

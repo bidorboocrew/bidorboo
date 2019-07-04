@@ -80,25 +80,25 @@ export default class RequesterRequestDetailsPreview extends React.Component {
                 </div>
               </React.Fragment>
             )}
+            <div>
+              {!showMore && (
+                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <span style={{ marginRight: 4 }}>show full details</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-down" />
+                  </span>
+                </a>
+              )}
+              {showMore && (
+                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <span style={{ marginRight: 4 }}>show less details</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-up" />
+                  </span>
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-        <div style={{ padding: '0.5rem' }}>
-          {!showMore && (
-            <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-              <span style={{ marginRight: 4 }}>show full details</span>
-              <span className="icon">
-                <i className="fas fa-angle-double-down" />
-              </span>
-            </a>
-          )}
-          {showMore && (
-            <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-              <span style={{ marginRight: 4 }}>show less details</span>
-              <span className="icon">
-                <i className="fas fa-angle-double-up" />
-              </span>
-            </a>
-          )}
         </div>
       </div>
     );

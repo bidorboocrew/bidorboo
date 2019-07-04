@@ -20,29 +20,44 @@ export default class DatePickerInput extends React.Component {
     super(props);
     this.minDate = moment().add(1, 'day');
     this.state = {
-      startDate: null,
+      selectedDate: null,
     };
   }
 
   handleChange = (date) => {
     const dateWithTimeZone = moment.utc(date);
     this.setState({
-      startDate: dateWithTimeZone,
+      selectedDate: dateWithTimeZone,
     });
     this.props.onChangeEvent(dateWithTimeZone.toISOString());
   };
 
   render() {
+    const { selectedDate } = this.state;
+    const myInput = (
+      <button style={{ color: '#0a8fd1' }} className="button is-info">
+        <span className="icon">
+          <i className="fas fa-calendar-alt" />
+        </span>
+
+        {selectedDate && selectedDate.format ? (
+          <span>{selectedDate.format('D/MMMM/YYYY')}</span>
+        ) : (
+          <span className="has-text-dark">Select a Date</span>
+        )}
+      </button>
+    );
     return (
       <DatePicker
         className="input is-info is-outlined"
-        selected={this.state.startDate}
+        customInput={myInput}
+        selected={this.state.selectedDate}
         onChange={this.handleChange}
         minDate={this.minDate}
         maxDate={moment().add(30, 'd')}
         disabledKeyboardNavigation
         placeholderText="Select a date..."
-        dateFormat={"D/MMMM/YYYY"}
+        dateFormat={'D/MMMM/YYYY'}
       />
     );
   }

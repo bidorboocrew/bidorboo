@@ -288,16 +288,7 @@ class GenericRequestForm extends React.Component {
     });
 
     return (
-      <div
-        style={{ maxWidth: 'unset', border: 'none', boxShadow: 'none' }}
-        className="card limitLargeMaxWidth"
-      >
-        {/* <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
-          <br />
-          <StepsForRequest isSmall step={1} />
-          <br />
-        </section> */}
-
+      <div className="card limitLargeMaxWidth">
         <div className="card-content">
           {showConfirmationDialog &&
             ReactDOM.createPortal(
