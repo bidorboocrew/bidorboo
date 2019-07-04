@@ -114,39 +114,20 @@ export default class BidsTable extends React.Component {
 
 const TableWithNoBids = () => {
   return (
-    <table className="table is-hoverable table is-striped is-fullwidth">
-      <tbody>
-        <tr>
-          <td className="has-text-centered">
-            <h1 className="subtitle">What's Next?</h1>
-            <div>
-              <ul className="steps is-small has-content-centered is-horizontal">
-                <li className="steps-segment is-active is-dashed">
-                  <span className="steps-marker" />
-                  <div className="steps-content">
-                    <p className="is-size-6">Step 1</p>
-                    <p>Wait for Bids</p>
-                  </div>
-                </li>
-                <li className="steps-segment ">
-                  <span className="steps-marker" />
-                  <div className="steps-content">
-                    <p className="is-size-6">Step 2</p>
-                    <p>Choose a Tasker</p>
-                  </div>
-                </li>
-                <li className="steps-segment ">
-                  <span className="steps-marker" />
-                  <div className="steps-content">
-                    <p className="is-size-6">Step 3</p>
-                    <p>Tasker Fulfills the request</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="card has-text-centered" style={{ height: 'unset' }}>
+      <div className="card-content">
+        <div className="content">
+          <div className="title">
+            <span className="icon">
+              <i className="fas fa-user-clock" />
+            </span>
+            <span style={{ marginLeft: 7 }}>Waiting for Taskers</span>
+          </div>
+          <div className="subtitle">
+            Taskers are reviewing your task and will place thier bids shortly
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
