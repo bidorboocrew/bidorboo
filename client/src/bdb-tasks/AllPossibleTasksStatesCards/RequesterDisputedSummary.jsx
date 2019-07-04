@@ -44,7 +44,7 @@ export default class RequesterDisputedSummary extends React.Component {
     }
 
     return (
-      <div className="card disputeOnlyView limitWidthOfCard">
+      <div className="card disputeOnlyView cardWithButton">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -73,15 +73,15 @@ export default class RequesterDisputedSummary extends React.Component {
         </div>
 
         <React.Fragment>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <div className="firstButtonInCard">
             <a
               style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className="button is-outlined is-fullwidth is-danger"
+              className="button is-fullwidth is-danger"
             >
-              View Disputed Task
+              View Dispute
             </a>
           </div>
         </React.Fragment>

@@ -144,7 +144,7 @@ class RequesterRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
@@ -292,29 +292,15 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
 
   return (
     <React.Fragment>
-      {isPastDue && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          <a
-            disabled={isPastDue}
-            style={{ position: 'relative' }}
-            className={`button is-outlined is-fullwidth is-danger`}
-          >
-            <span className="icon">
-              <i className="far fa-trash-alt" />
-            </span>
-            <span>Will be auto deleted</span>
-          </a>
-        </div>
-      )}
       {!isPastDue && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <div className="firstButtonInCard">
           <a
             disabled={isPastDue}
             style={{ position: 'relative' }}
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
             }}
-            className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
+            className={`button is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
           >
             {areThereAnyBidders && !isPastDue && (
               <span>

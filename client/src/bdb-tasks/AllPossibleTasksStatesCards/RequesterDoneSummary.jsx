@@ -70,7 +70,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
     return (
-      <div className="card limitWidthOfCard">
+      <div className="card cardWithButton">
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
@@ -103,7 +103,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
           </div>
         </div>
 
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <div className="firstButtonInCard ">
           {requiresProposerReview && (
             <a
               onClick={() => {

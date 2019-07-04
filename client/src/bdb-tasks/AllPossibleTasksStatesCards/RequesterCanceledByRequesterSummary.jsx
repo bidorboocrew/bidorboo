@@ -47,7 +47,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
-      <div className="card readOnlyView limitWidthOfCard">
+      <div className="card readOnlyView cardWithButton">
         {/* <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div> */}
@@ -88,13 +88,13 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
         </div>
 
         <React.Fragment>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <div className="firstButtonInCard">
             <a
               style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
-              className="button is-outlined is-danger"
+              className="button is-danger"
             >
               View Implications
             </a>

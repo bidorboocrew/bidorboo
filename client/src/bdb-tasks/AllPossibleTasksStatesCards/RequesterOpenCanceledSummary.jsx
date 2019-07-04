@@ -28,7 +28,7 @@ export default class RequesterOpenCanceledSummary extends React.Component {
     }
 
     return (
-      <div className="card readOnlyView limitWidthOfCard">
+      <div className="card readOnlyView cardWithButton">
         {/* <div className="card-image">
           <img className="bdb-cover-img" src={IMG_URL} />
         </div> */}
@@ -61,15 +61,15 @@ export default class RequesterOpenCanceledSummary extends React.Component {
         </div>
 
         <React.Fragment>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <div className="firstButtonInCard">
             <a
               style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
               }}
-              className="button is-outlined is-fullwidth "
+              className="button is-fullwidth"
             >
-              View Canceled Request
+              View Details
             </a>
           </div>
         </React.Fragment>

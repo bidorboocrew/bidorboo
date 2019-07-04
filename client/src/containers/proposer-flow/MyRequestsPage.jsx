@@ -26,7 +26,7 @@ class MyRequestsPage extends React.Component {
     let myRequestsSummaryCards = areThereAnyJobsToView
       ? allMyRequests.map((job) => {
           return (
-            <div key={job._id} className="column is-narrow">
+            <div key={job._id} className="column is-narrow isforCards">
               {getMeTheRightRequestCard({
                 job,
                 isSummaryView: true,
@@ -44,10 +44,10 @@ class MyRequestsPage extends React.Component {
             <h1 className="title">MY REQUESTS</h1>
           </div>
         </section>
-        <FloatingAddNewRequestButton />
+        {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
-          <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>
+          <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
         )}
 
         {!isLoading && !areThereAnyJobsToView && <EmptyStateComponent />}

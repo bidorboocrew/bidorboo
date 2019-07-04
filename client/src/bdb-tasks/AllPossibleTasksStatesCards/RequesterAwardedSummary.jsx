@@ -124,7 +124,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             document.querySelector('#bidorboo-root-modals'),
           )}
 
-        <div className="card limitWidthOfCard">
+        <div className="card cardWithButton">
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
@@ -214,13 +214,12 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             </div>
           </div>
 
-
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <div className="firstButtonInCard">
             <a
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-outlined is-fullwidth is-success`}
+              className={`button is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               {`${isPastDue || bidderConfirmed ? 'View To Confirm' : 'View Tasker Details'}`}

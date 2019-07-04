@@ -41,10 +41,7 @@ body {
 #mainFooter {
   margin-top: 1.5rem;
   padding: 1rem;
-  background: #363636;
-  * {
-    color: white !important;
-  }
+  background: #ffffff;
 }
 
 #RoutesWrapper {
@@ -55,7 +52,7 @@ body {
 .nav-bottom-border {
   border-bottom: $border-divider !important;
 }
-.dropdown-menu {
+#dropdown-menu {
   top: 25px;
 }
 .bdb-spinner {
@@ -451,18 +448,16 @@ article.media.limitHeight {
   display: inline-block;
 }
 
-// .card-content {
-//   // padding: 0.5rem;
-//   // min-height: 20rem;
-//   &.template {
-//     // min-height: unset;
-//   }
-// }
-
+.column {
+  &.isforCards {
+    padding: 0;
+    margin: 1.5rem;
+  }
+}
 .cardWithButton {
   position: relative;
+  width: 22rem;
   border-radius: 6px;
-  margin-bottom: 1rem !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .firstButtonInCard {
@@ -470,7 +465,7 @@ article.media.limitHeight {
   position: absolute;
   bottom: -1rem;
   right: 1rem;
-  width: 160px;
+  width: 180px;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
@@ -495,13 +490,7 @@ article.media.limitHeight {
       animation: none !important;
     }
   }
-  // border: 1px solid #eeeeee;
-  // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
-  //   0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  // min-width: 15rem;
-  // border-radius: 4px;
-  // cursor: pointer;
-  // border: 1px solid #eee;
+
   &.extraShadow {
     box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
       0 5px 5px -3px rgba(0, 0, 0, 0.2);
