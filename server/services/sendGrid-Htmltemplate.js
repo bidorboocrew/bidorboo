@@ -361,7 +361,6 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
               </tr>
               </tbody>
             </table>
-            <h1 style="color: #363636;font-weight:700">BidOrBoo</h1>
             <table role="presentation" class="main">
 
               <!-- START MAIN CONTENT AREA -->
