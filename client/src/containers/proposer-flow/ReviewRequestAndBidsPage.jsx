@@ -131,7 +131,7 @@ class ReviewRequestAndBidsPage extends React.Component {
           <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
-        <div className="columns is-centered">
+        <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth">
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>

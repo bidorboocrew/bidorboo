@@ -3,7 +3,7 @@ import Tour from 'reactour';
 import bidsImg from '../assets/images/bids.png';
 import requestImg from '../assets/images/jobs.png';
 
-import Fade from 'react-reveal/Fade';
+// import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -37,7 +37,7 @@ const commonTourSteps = [
   {
     content: (
       <h1 className="title">
-        Welcome to <span style={{ color: '#ef2834' }}>BidOrBoo</span>
+        Welcome to <span style={{ color: '#353535' }}>BidOrBoo</span>
       </h1>
     ),
     style: { maxWidth: 'none', fontWeight: '600' },
@@ -148,16 +148,17 @@ export default class HomePage extends React.Component {
                 className="title is-1 has-text-weight-bold"
               >
                 <span id="BidOrBoo-welcome-step">
-                  <span style={{ color: 'black' }}> Bid</span>
+                  BidOrBoo
+                  {/* <span style={{ color: 'black' }}> Bid</span>
                   <span style={{ color: 'rgba(0,0,0,0.4)' }}>Or</span>
-                  <span style={{ color: 'black' }}>Boo</span>
+                  <span style={{ color: 'black' }}>Boo</span> */}
                 </span>
               </h1>
-              <Fade>
-                <h2 className="is-5 has-text-grey">
-                  Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
-                </h2>
-              </Fade>
+              {/* <Fade> */}
+              <h2 className="is-5 has-text-grey">
+                Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+              </h2>
+              {/* </Fade> */}
             </div>
           </div>
         </section>
@@ -172,23 +173,22 @@ export default class HomePage extends React.Component {
                   <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
                     What Do You Want To Do
                   </div>
-
-                  <div>
-                    <a
-                      style={{
-                        borderRadius: 0,
-                        border: 'none',
-                      }}
-                      onClick={this.toggleTour}
-                      className="button is-outlined is-dark is-small"
-                    >
-                      <span className="help icon">
-                        <i className="fas fa-chalkboard-teacher" />
-                      </span>
-                      <span>View Our Product Tour</span>
-                    </a>
-                  </div>
                 </Zoom>
+                <div>
+                  <a
+                    style={{
+                      borderRadius: 0,
+                      border: 'none',
+                    }}
+                    onClick={this.toggleTour}
+                    className="button is-outlined is-dark is-small"
+                  >
+                    <span className="help icon">
+                      <i className="fas fa-chalkboard-teacher" />
+                    </span>
+                    <span>View Product Tour</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -196,33 +196,33 @@ export default class HomePage extends React.Component {
 
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ maxWidth: '21rem' }} className="column">
-            <Fade bottom delay={250}>
-              <RequestAService
-                logoImg={requestImg}
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                }}
-              />
-            </Fade>
+            {/* <Fade bottom delay={250}> */}
+            <RequestAService
+              logoImg={requestImg}
+              onClickHandler={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+              }}
+            />
+            {/* </Fade> */}
             <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
-              <Fade bottom delay={250}>
-                <HowItWorksRequestService />
-              </Fade>
+              {/* <Fade bottom delay={250}> */}
+              <HowItWorksRequestService />
+              {/* </Fade> */}
             </div>
           </div>
           <div style={{ maxWidth: '21rem' }} className="column">
-            <Fade bottom delay={250}>
-              <ProvideAService
-                logoImg={bidsImg}
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
-                }}
-              />
-            </Fade>
+            {/* <Fade bottom delay={250}> */}
+            <ProvideAService
+              logoImg={bidsImg}
+              onClickHandler={() => {
+                switchRoute(ROUTES.CLIENT.BIDDER.root);
+              }}
+            />
+            {/* </Fade> */}
             <div style={{ maxWidth: '21rem', padding: 0 }} className="column">
-              <Fade bottom delay={250}>
-                <HowItWorksProvideService />
-              </Fade>
+              {/* <Fade bottom delay={250}> */}
+              <HowItWorksProvideService />
+              {/* </Fade> */}
             </div>
           </div>
         </div>
