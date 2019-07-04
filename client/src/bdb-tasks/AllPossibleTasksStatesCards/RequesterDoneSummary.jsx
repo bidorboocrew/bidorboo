@@ -99,7 +99,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             )}
 
             <StartDateAndTime date={startingDateAndTime} />
-            <DisplayShortAddress addressText={addressText} />
+            {/* <DisplayShortAddress addressText={addressText} /> */}
           </div>
         </div>
 
