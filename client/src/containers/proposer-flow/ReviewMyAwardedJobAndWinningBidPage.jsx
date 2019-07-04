@@ -67,12 +67,11 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">My Request Details</h1>
+              <h1 className="title">REQUEST DETAILS</h1>
             </div>
           </div>
         </section>
-        <hr className="divider" />
-        <div className="columns is-centered">
+        <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a

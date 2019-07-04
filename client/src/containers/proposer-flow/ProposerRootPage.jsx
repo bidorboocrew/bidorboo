@@ -34,8 +34,8 @@ class ProposerRoot extends React.Component {
       <React.Fragment>
         <section className="hero is-white">
           <div className="hero-body">
-            <div className="container has-text-centered">
-              <h1 className="title">BidOrBoo Services</h1>
+            <div className="has-text-centered">
+              <h1 className="title">What Service do you need?</h1>
             </div>
           </div>
         </section>
