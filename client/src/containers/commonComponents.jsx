@@ -590,7 +590,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
         {phone.isVerified && (
           <span title="Verified by phone" className="icon">
             <i
-              className={`fas fa-phone ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
+              className={`fas fa-mobile-alt ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
             />
           </span>
         )}

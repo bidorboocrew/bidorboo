@@ -27,6 +27,19 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
 class RequesterAwardedDetails extends RequestBaseContainer {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDisputeModal: false,
+    };
+  }
+
+  closeDisputeModal = () => {
+    this.setState({ showDisputeModal: false });
+  };
+  openDisputeModal = () => {
+    this.setState({ showDisputeModal: true });
+  };
   render() {
     const { job, cancelJobById } = this.props;
 
@@ -93,10 +106,17 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+    const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
     return (
       <React.Fragment>
+        <RequesterDisputes
+          {...this.props}
+          showDisputeModal={showDisputeModal}
+          closeDisputeModal={this.closeDisputeModal}
+          jobId={job._id}
+        />
+
         {showDeleteDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active">
@@ -151,7 +171,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                       cancelJobById(job._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
-                    className="button is-danger"
+                    className="button is-outlined is-danger"
                   >
                     <span className="icon">
                       <i className="far fa-trash-alt" />
@@ -163,6 +183,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
+
         <div style={{ height: 'auto' }} className="card">
           <div className="card-content">
             <div className="content">
@@ -172,40 +193,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <i className={ICON} />
                   </span>
                   <span style={{ marginLeft: 7 }}>{TITLE}</span>
-                </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  {!bidderConfirmed && !proposerConfirmed && (
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={this.toggleDeleteConfirmationDialog}
-                          className="dropdown-item has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
               <div
@@ -250,7 +237,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   )}
                 </div>
               )}
-
               <div className="field">
                 <label className="label">Task Cost</label>
                 <div className="control has-text-success">{`${bidValue -
@@ -263,11 +249,9 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
               {showMore && (
                 <React.Fragment>
+                  <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
@@ -305,30 +289,82 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </a>
                 )}
               </div>
-              <hr className="divider" />
+            </div>
+          </div>
+        </div>
+        <br />
+        <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content">
+              <div style={{ display: 'flex' }}>
+                <div style={{ flexGrow: 1 }} className="title">
+                  <span className="icon">
+                    <i className={ICON} />
+                  </span>
+                  <span style={{ marginLeft: 7 }}>Assigned Tasker</span>
+                </div>
+
+                <div
+                  ref={(node) => (this.node = node)}
+                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                >
+                  <div className="dropdown-trigger">
+                    <button
+                      onClick={this.toggleShowMoreOptionsContextMenu}
+                      className="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                      style={{ border: 'none' }}
+                    >
+                      <div style={{ padding: 6 }} className="icon">
+                        <i className="fas fa-ellipsis-v" />
+                      </div>
+                    </button>
+                  </div>
+                  {!bidderConfirmed && !proposerConfirmed && (
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a onClick={this.openDisputeModal} className="dropdown-item">
+                          <span className="icon">
+                            <i className="far fa-frown" aria-hidden="true" />
+                          </span>
+                          <span>File A Dispute</span>
+                        </a>
+                        <hr className="dropdown-divider" />
+                        <a
+                          onClick={this.toggleDeleteConfirmationDialog}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="field">
-                <label className="label">Assigned Tasker Details</label>
                 <UserImageAndRating userDetails={_bidderRef} />
-                <div className="control">
+                <div className="field label">
                   <span className="icon">
                     <i className="far fa-envelope" />
                   </span>
                   <span>{emailAddress}</span>
                 </div>
-                <div className="control">
+                <div className="field label">
                   <span className="icon">
-                    <i className="fas fa-phone" />
+                    <i className="fas fa-mobile-alt" />
                   </span>
                   <span>{phoneNumber}</span>
                 </div>
                 {!isPastDue && <AddAwardedJobToCalendar job={job} />}
+                <div className="firstButtonInCard nofixedwidth">
+                  <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
+                </div>
               </div>
-            </div>
-            <hr className="divider isTight" />
-            <div style={{ display: 'flex' }}>
-              <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
-
-              <RequesterDisputes {...this.props} jobId={job._id} />
             </div>
           </div>
         </div>
@@ -425,19 +461,14 @@ class RequesterConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ padding: '0.5rem', flexGrow: 1 }}>
-          <a
-            onClick={this.toggleModal}
-            className={`button is-fullwidth is-success is-outlined ${
-              isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
-            }`}
-          >
-            Tasker is Done
-          </a>
-          <div className="help">
-            * Click <strong>After</strong> the Tasker has completed this request
-          </div>
-        </div>
+        <a
+          onClick={this.toggleModal}
+          className={`button is-fullwidth is-success ${
+            isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
+          }`}
+        >
+          Confirm Task Completion
+        </a>
       </React.Fragment>
     );
   }
@@ -447,7 +478,6 @@ class RequesterDisputes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showConfirmationModal: false,
       disputeText: '',
       selectedDispute: '',
     };
@@ -457,26 +487,17 @@ class RequesterDisputes extends React.Component {
     const { proposerDisputesJob } = this.props;
     proposerDisputesJob(taskerDispute);
   };
-  toggleModal = () => {
-    this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
-  };
-  submitConfirmation = () => {
-    const { proposerConfirmsJobCompletion, jobId } = this.props;
 
-    this.setState({ showConfirmationModal: false }, () => {
-      proposerConfirmsJobCompletion(jobId);
-    });
-  };
   render() {
-    const { jobId } = this.props;
+    const { jobId, showDisputeModal, closeDisputeModal } = this.props;
 
-    const { showConfirmationModal, selectedDispute, disputeText } = this.state;
+    const { selectedDispute, disputeText } = this.state;
     return (
       <React.Fragment>
-        {showConfirmationModal &&
+        {showDisputeModal &&
           ReactDOM.createPortal(
             <div className="modal is-active">
-              <div onClick={this.toggleModal} className="modal-background" />
+              <div onClick={closeDisputeModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
                   <div className="modal-card-title">File A Dispute</div>
@@ -562,6 +583,9 @@ class RequesterDisputes extends React.Component {
                   </div>
                 </section>
                 <footer className="modal-card-foot">
+                  <button onClick={closeDisputeModal} className="button is-outline">
+                    Close
+                  </button>
                   <button
                     type="submit"
                     onClick={() =>
@@ -573,21 +597,15 @@ class RequesterDisputes extends React.Component {
                         },
                       })
                     }
-                    className="button is-danger"
+                    className="button is-danger is-outlined"
                   >
-                    Submit My Dispute
-                  </button>
-                  <button onClick={this.toggleModal} className="button is-outline">
-                    Close
+                    File My Dispute
                   </button>
                 </footer>
               </div>
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <a onClick={this.toggleModal} className="button is-text">
-          Or File a Dispute
-        </a>
       </React.Fragment>
     );
   }

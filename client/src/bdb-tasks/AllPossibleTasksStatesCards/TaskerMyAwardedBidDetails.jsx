@@ -323,7 +323,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </div>
                 <div className="control">
                   <span className="icon">
-                    <i className="fas fa-phone" />
+                    <i className="fas fa-mobile-alt" />
                   </span>
                   <span>{phoneNumber}</span>
                 </div>
