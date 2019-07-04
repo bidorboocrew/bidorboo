@@ -54,24 +54,13 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
         <div className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+              <div style={{ flexGrow: 1 }} className="title">
                 <span className="icon">
                   <i className={ICON} />
                 </span>
-                <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                <span style={{ marginLeft: 7 }}>{TITLE}</span>
               </div>
             </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
-
             {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
               <div className="field">
                 <label className="label">Request Status</label>
@@ -94,14 +83,11 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisplayShortAddress addressText={addressText} />
+            {/* <DisplayShortAddress addressText={addressText} /> */}
           </div>
         </div>
 
         <React.Fragment>
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               style={{ position: 'relative' }}

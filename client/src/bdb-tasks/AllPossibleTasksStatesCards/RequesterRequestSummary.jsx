@@ -144,7 +144,7 @@ class RequesterRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card limitWidthOfCard cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
@@ -155,7 +155,7 @@ class RequesterRequestSummary extends React.Component {
                   <span className="icon">
                     <i className={ICON} />
                   </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
                 </div>
                 {!isPastDue && (
                   <div
@@ -292,10 +292,6 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
 
   return (
     <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-
       {isPastDue && (
         <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
           <a

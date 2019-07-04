@@ -34,7 +34,7 @@ body {
 }
 #fc_frame {
   position: absolute !important;
-  bottom: 1rem !important;
+  bottom: 0.5rem !important;
   right: 1rem !important;
   z-index: 10 !important;
 }
@@ -55,7 +55,9 @@ body {
 .nav-bottom-border {
   border-bottom: $border-divider !important;
 }
-
+.dropdown-menu{
+  top: 25px;
+}
 .bdb-spinner {
   margin: auto;
   border: 5px solid #f3f3f3;

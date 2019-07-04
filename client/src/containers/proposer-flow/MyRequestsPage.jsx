@@ -26,7 +26,7 @@ class MyRequestsPage extends React.Component {
     let myRequestsSummaryCards = areThereAnyJobsToView
       ? allMyRequests.map((job) => {
           return (
-            <div key={job._id} className="column">
+            <div key={job._id} className="column is-narrow">
               {getMeTheRightRequestCard({
                 job,
                 isSummaryView: true,
