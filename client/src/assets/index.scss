@@ -20,7 +20,7 @@ $border-divider: 1px solid rgba(0, 0, 0, 0.12);
 html body {
   color: #363636;
   line-height: 1.5;
-  background: white;
+  background: #eeeeee;
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -260,7 +260,7 @@ a.navbar-item.is-active {
 
 $family-primary: 'Nunito', sans-serif;
 $family-sans-serif: 'Nunito', sans-serif;
-$body-background-color: white; //#3b549c;
+$body-background-color: #eeeeee; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works
 $navbar-height: 4rem;
@@ -601,7 +601,7 @@ article.media.limitHeight {
     > div.buttonlike {
       cursor: pointer;
       height: 100%;
-      padding: 1rem 0.5rem;
+      padding: 0.5rem 0.5rem;
       border-radius: 6px;
       &:hover {
         background: hsl(141, 71%, 48%);

@@ -126,6 +126,9 @@ class RequesterRequestDetails extends React.Component {
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                   <button

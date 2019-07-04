@@ -34,7 +34,9 @@ class VerifyPhoneButton extends React.Component {
         }
       } catch (e) {
         // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@bidorboo.com');
+        alert(
+          'we are unable to send the verification text, please contact bidorboocrew@bidorboo.com',
+        );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
@@ -136,6 +138,9 @@ class VerifyPhoneButton extends React.Component {
                     onClick={this.toggleEnterPinDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                 </footer>

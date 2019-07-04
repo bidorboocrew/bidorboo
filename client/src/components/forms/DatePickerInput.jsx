@@ -35,7 +35,7 @@ export default class DatePickerInput extends React.Component {
   render() {
     return (
       <DatePicker
-        className="input"
+        className="input is-info is-outlined"
         selected={this.state.startDate}
         onChange={this.handleChange}
         minDate={this.minDate}

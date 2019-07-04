@@ -33,7 +33,7 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="columns is-centered">
+      <div className="columns is-centered is-mobile">
         <div className="column">
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&

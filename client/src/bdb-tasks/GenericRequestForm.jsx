@@ -305,7 +305,7 @@ class GenericRequestForm extends React.Component {
                 <div onClick={this.toggleConfirmationDialog} className="modal-background" />
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <div className="modal-card-title">Confirm Request Details</div>
+                    <div className="modal-card-title">Request Preview</div>
                     <button
                       onClick={this.toggleConfirmationDialog}
                       className="delete"
@@ -314,22 +314,7 @@ class GenericRequestForm extends React.Component {
                   </header>
 
                   <section className="modal-card-body">
-                    <label className="label">Your Request Preview</label>
                     <RequesterRequestDetailsPreview job={newTaskDetails} />
-
-                    <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
-                      <label className="label">BidOrBoo Safety rules</label>
-                      <div className="help">
-                        * Once you post you will not be able to edit the job details.
-                      </div>
-                      <div className="help">
-                        * For your privacy Taskers will not see the exact address.
-                      </div>
-                      <div className="help">
-                        * Once you have chosen a Tasker you will get in touch to finalize the
-                        details.
-                      </div>
-                    </div>
                   </section>
                   <footer className="modal-card-foot">
                     <button
@@ -338,9 +323,9 @@ class GenericRequestForm extends React.Component {
                       className="button is-outline"
                     >
                       <span className="icon">
-                        <i className="far fa-edit" />
+                        <i className="far fa-arrow-alt-circle-left" />
                       </span>
-                      <span>go Back</span>
+                      <span>Go Back</span>
                     </button>
                     <button
                       style={{ width: 120 }}
@@ -508,7 +493,7 @@ class GenericRequestForm extends React.Component {
                   {/* <span className="icon">
                   </span> */}
                   <span>
-                    <i className="fas fa-pencil-alt" /> Or start by answering some commonly asked questions
+                    <i className="fas fa-pencil-alt" /> Or answer commonly asked questions
                   </span>
                 </a>
               }
