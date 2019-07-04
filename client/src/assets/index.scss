@@ -257,7 +257,9 @@ a.navbar-item.is-active {
 .react-datepicker__day {
   font-size: 18px;
 }
-
+.title:last-child {
+  margin-bottom: 1.5rem;
+}
 $family-primary: 'Nunito', sans-serif;
 $family-sans-serif: 'Nunito', sans-serif;
 $body-background-color: #eeeeee; //#3b549c;
