@@ -55,7 +55,7 @@ body {
 .nav-bottom-border {
   border-bottom: $border-divider !important;
 }
-.dropdown-menu{
+.dropdown-menu {
   top: 25px;
 }
 .bdb-spinner {
@@ -486,7 +486,7 @@ article.media.limitHeight {
     }
   }
   &.readOnlyView {
-    background: #eeeeee;
+    background: rgba(white, 0.7);
     // cursor: not-allowed;
     cursor: default;
     box-shadow: none !important;
