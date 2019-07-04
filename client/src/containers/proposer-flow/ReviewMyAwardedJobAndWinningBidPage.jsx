@@ -73,7 +73,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
                 </a>
               </li>
               <li className="is-active">
-                <a disabled>Request Details</a>
+                <a>Request Details</a>
               </li>
             </ul>
           </nav>

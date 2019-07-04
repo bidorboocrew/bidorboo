@@ -20,15 +20,20 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <!-- @todo xxx app icons generated from https://realfavicongenerator.net/ -->
     <!-- thhe best https://realfavicongenerator.net/ -->
-    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
-    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#ef2834">
-    <meta name="apple-mobile-web-app-title" content="BidOrBoo">
-    <meta name="application-name" content="BidOrBoo">
-    <meta name="msapplication-TileColor" content="#603cba">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="%PUBLIC_URL%/android-chrome-192x192.png"
+    />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#ef2834" />
+    <meta name="apple-mobile-web-app-title" content="BidOrBoo" />
+    <meta name="application-name" content="BidOrBoo" />
+    <meta name="msapplication-TileColor" content="#603cba" />
+    <meta name="theme-color" content="#ffffff" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -81,7 +86,7 @@
         }
       }
     </style>
-    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <script src="https://wchat.freshchat.com/js/widget.js" async defer></script>
     <title>BidOrBoo</title>
   </head>
 
@@ -108,13 +113,6 @@
       crossorigin="anonymous"
     />
 
-    <script>
-      // freshchat
-      window.fcWidget.init({
-        token: '379b1f75-9ffc-4de2-84d5-2fb284544f44',
-        host: 'https://wchat.freshchat.com',
-      });
-    </script>
     <script>
       // google analytics
       window.dataLayer = window.dataLayer || [];

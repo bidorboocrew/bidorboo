@@ -41,6 +41,7 @@ import {
   TermsOfUse,
 } from './index';
 
+import FreshdeskChat from './FreshdeskChat';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -113,6 +114,7 @@ class App extends React.Component {
 
     return (
       <div id="bidorboo-root-view">
+        <FreshdeskChat />
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />

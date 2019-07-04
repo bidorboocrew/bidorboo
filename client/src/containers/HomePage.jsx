@@ -140,7 +140,7 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="hero has-text-centered is-small mainpageHero">
+        <section className="hero has-text-centered is-small is-white">
           <div className="hero-body">
             <div className="container">
               <h1

@@ -448,12 +448,6 @@ article.media.limitHeight {
   display: inline-block;
 }
 
-.mainpageHero {
-  background-color: #ffffff;
-background-image: url("https://www.transparenttextures.com/patterns/transparent-square-tiles.png");
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
-}
-
 .column {
   &.isforCards {
     padding: 0;
@@ -707,3 +701,11 @@ div.react-datepicker {
 // .react-datepicker__current-month {
 //   font-size: 1.25rem !important;
 // }
+
+#bob-ChatSupport {
+  position: fixed;
+  bottom: 3.25rem;
+  right: -26px;
+  transform: rotate(270deg);
+  z-index: 0;
+}
