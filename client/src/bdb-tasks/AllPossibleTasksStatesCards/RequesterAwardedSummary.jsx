@@ -222,7 +222,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               className={`button is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              {`${isPastDue || bidderConfirmed ? 'View To Confirm' : 'View Tasker Details'}`}
+              {`${isPastDue || bidderConfirmed ? 'Confirm Completion' : 'View Tasker Details'}`}
             </a>
           </div>
         </div>
