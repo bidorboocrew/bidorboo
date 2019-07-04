@@ -162,7 +162,7 @@ class RequesterRequestDetails extends React.Component {
                   <span className="icon">
                     <i className={ICON} />
                   </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
                 </div>
 
                 <div

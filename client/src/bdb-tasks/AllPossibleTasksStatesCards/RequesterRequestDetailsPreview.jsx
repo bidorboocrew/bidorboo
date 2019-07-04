@@ -45,30 +45,19 @@ export default class RequesterRequestDetailsPreview extends React.Component {
         <div style={{ minHeight: 'unset' }} className="card-content">
           <div className="content">
             <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+              <div style={{ flexGrow: 1 }} className="title">
                 <span className="icon">
                   <i className={ICON} />
                 </span>
-                <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                <span style={{ marginLeft: 7 }}>{TITLE}</span>
               </div>
             </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
             <StartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
             {showMore && (
               <React.Fragment>
