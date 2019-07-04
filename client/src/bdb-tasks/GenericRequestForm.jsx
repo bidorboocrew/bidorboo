@@ -472,10 +472,10 @@ class GenericRequestForm extends React.Component {
                 </span>
               </div>
             </React.Fragment>
-            {/* <br /> */}
+            <br />
             {/* {extras} */}
             {taskSpecificExtraFormFields}
-            {/* <br /> */}
+            <br />
 
             <TextAreaInput
               id="detailedDescription"

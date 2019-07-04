@@ -32,7 +32,7 @@ class ProposerRoot extends React.Component {
 
     return (
       <React.Fragment>
-        <section className="hero">
+        <section className="hero is-white">
           <div className="hero-body">
             <div className="container has-text-centered">
               <h1 className="title">BidOrBoo Services</h1>
