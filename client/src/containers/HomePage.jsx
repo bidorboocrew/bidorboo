@@ -140,12 +140,12 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="hero has-text-centered is-white is-small">
+        <section className="hero has-text-centered is-small mainpageHero">
           <div className="hero-body">
             <div className="container">
               <h1
-                style={{ marginBottom: 2, transform: 'scaleY(1.1)' }}
-                className="title is-1 has-text-weight-bold"
+                style={{ color: '#353535', marginBottom: 2, transform: 'scaleY(1.1)' }}
+                className="title is-1"
               >
                 <span id="BidOrBoo-welcome-step">
                   BidOrBoo
@@ -155,22 +155,14 @@ export default class HomePage extends React.Component {
                 </span>
               </h1>
               {/* <Fade> */}
-              <h2 className="is-5 has-text-grey">
+              <h2 className="is-5">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
               {/* </Fade> */}
-            </div>
-          </div>
-        </section>
-        <section
-          style={{ paddingBottom: '0.5rem', paddingTop: 0 }}
-          className="hero has-text-centered is-white is-small"
-        >
-          <div className="hero-body">
-            <div className="container">
+              <br />
               <div>
                 <Zoom>
-                  <div style={{ color: '#4a4a4a', fontSize: 24, fontWeight: 600 }}>
+                  <div style={{ color: '#353535', fontSize: 24, fontWeight: 600 }}>
                     What Do You Want To Do
                   </div>
                 </Zoom>

@@ -448,6 +448,12 @@ article.media.limitHeight {
   display: inline-block;
 }
 
+.mainpageHero {
+  background-color: #ffffff;
+background-image: url("https://www.transparenttextures.com/patterns/transparent-square-tiles.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 .column {
   &.isforCards {
     padding: 0;
