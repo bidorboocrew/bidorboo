@@ -462,6 +462,10 @@ article.media.limitHeight {
 }
 .button.is-outlined {
   background: #fff !important;
+  &:hover {
+    background: #eeeeee !important;
+    color: #353535 !important;
+  }
 }
 .cardWithButton {
   position: relative;
@@ -484,6 +488,16 @@ article.media.limitHeight {
     width: auto;
   }
 }
+
+.bidButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  bottom: -2rem;
+  right: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
 .card {
   color: #353535;
   height: 100%;

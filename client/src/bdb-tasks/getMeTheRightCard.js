@@ -25,7 +25,6 @@ import {
   RequesterDisputedSummary,
   TaskerMyDisputedBidSummary,
   TaskerMyDisputedBidDetails,
-  TASKS_DEFINITIONS,
   REQUEST_STATES,
   POINT_OF_VIEW,
   BID_STATES,
@@ -158,7 +157,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         });
         return card;
       } catch (e) {
-        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
       break;
     case BID_STATES.WON_SEEN:
@@ -175,7 +174,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         });
         return card || <div>This type aint found</div>;
       } catch (e) {
-        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
       break;
     case BID_STATES.CANCELED_AWARDED_BY_REQUESTER:
@@ -193,7 +192,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         });
         return card || <div>This type aint found</div>;
       } catch (e) {
-        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
       break;
 
@@ -209,7 +208,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         });
         return card || <div>This type aint found</div>;
       } catch (e) {
-        alert(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
     case BID_STATES.PAID_OUT:
       return <div>This type aint found BID_STATES.PAID_OUT</div>;
@@ -257,7 +256,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       });
       return card || <div>This type aint found</div>;
     } catch (e) {
-      alert(e + ' Error Loading Requester Card ');
+      console.error(e + ' Error Loading Requester Card ');
     }
   }
   if (pointOfView === POINT_OF_VIEW.TASKER) {
@@ -271,7 +270,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       });
       return card || <div>This type aint found</div>;
     } catch (e) {
-      alert(e + ' Error Loading Tasker Card ');
+      console.error(e + ' Error Loading Tasker Card ');
     }
   }
   return null;

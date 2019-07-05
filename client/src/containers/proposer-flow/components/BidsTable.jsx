@@ -38,57 +38,63 @@ export default class BidsTable extends React.Component {
           : 'not specified';
 
       return (
-        <React.Fragment>
+        <div style={{ marginBottom: '3.5rem' }} key={bid._bidderRef._id}>
           <OtherUserProfileForReviewPage
             key={bid._bidderRef._id}
             otherUserProfileInfo={bid._bidderRef}
-          />
-          <br />
-        </React.Fragment>
-        // <tr key={bid._id} style={{ wordWrap: 'break-word' }}>
-        //   <td style={{ verticalAlign: 'middle' }}>
-        //     <UserImageAndRating userDetails={bid._bidderRef} large clipUserName={true} />
-        //     <VerifiedVia userDetails={bid._bidderRef} isCentered={false} />
-        //   </td>
+            bidAmountHtml={() => (
+              <button
+                style={{ height: 'unset' }}
+                className="button is-success has-text-centered bidButtonInCard"
+              >
+                <div className="tile is-ancestor has-text-centered">
+                  <div className="tile is-parent has-text-centered">
+                    <article
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.openBidDetailsModal(bid);
+                      }}
+                    >
+                      <div>Bids</div>
+                      <div className="is-size-3 has-text-white has-text-weight-bold">
+                        ${totalCharge}
+                      </div>
 
-        //   <td style={{ verticalAlign: 'middle' }} className="has-text-centered">
-        //     <div className="tile is-ancestor has-text-centered">
-        //       <div className="tile is-parent">
-        //         <article
-        //           style={{
-        //             padding: '0.25rem',
-        //             cursor: 'pointer',
-        //             position: 'relative',
-        //             border: '2px solid hsl(141, 71%, 48%)',
-        //           }}
-        //           onClick={(e) => {
-        //             e.preventDefault();
-        //             this.openBidDetailsModal(bid);
-        //           }}
-        //           className=""
-        //         >
-        //           <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-        //             {totalCharge}
-        //           </p>
-        //           <p className="is-size-6">$ ({bid.bidAmount && bid.bidAmount.currency})</p>
-        //           <div className="help">Click To Review</div>
-        //           {bid.isNewBid && (
-        //             <span
-        //               style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
-        //               className="has-text-danger"
-        //             >
-        //               <i className="fas fa-circle" />
-        //             </span>
-        //           )}
-        //         </article>
-        //       </div>
-        //     </div>
-        //   </td>
-        // </tr>
+                      <div className="has-text-white has-text-weight-bold">{`Select & Checkout`}</div>
+                      {bid.isNewBid && (
+                        <span
+                          style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
+                          className="has-text-danger"
+                        >
+                          <i className="fas fa-circle" />
+                        </span>
+                      )}
+                    </article>
+                  </div>
+                </div>
+              </button>
+            )}
+          />
+        </div>
       );
     });
-    debugger;
-    return <div>{tableRows}</div>;
+    return (
+      <div>
+        <div style={{ background: 'transparent' }} class="tabs is-medium is-centered">
+          <ul>
+            <li class="is-active">
+              <a>
+                <span class="icon is-small">
+                  <i class="fas fa-user" aria-hidden="true" />
+                </span>
+                <span>Available Taskers</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        {tableRows}
+      </div>
+    );
   }
 }
 
@@ -114,7 +120,7 @@ const TableWithNoBids = () => {
 
 class OtherUserProfileForReviewPage extends React.Component {
   render() {
-    const { otherUserProfileInfo } = this.props;
+    const { otherUserProfileInfo, bidAmountHtml } = this.props;
     if (!otherUserProfileInfo) {
       return null;
     }
@@ -134,9 +140,7 @@ class OtherUserProfileForReviewPage extends React.Component {
       globalRating,
       fulfilledBids,
       canceledBids,
-      fulfilledJobs,
-      canceledJobs,
-      // lastComment
+      lastComment,
     } = rating;
 
     let asABidderReviews = null;
@@ -176,92 +180,88 @@ class OtherUserProfileForReviewPage extends React.Component {
         <div className="card-content">
           <div className="content">
             <div>
-              <figure
-                style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem' }}
-                className="image is-128x128"
-              >
-                <img src={otherUserProfileInfo.profileImage.url} />
-              </figure>
-              <label style={{ marginBottom: 0 }} className="label">
-                {otherUserProfileInfo.displayName}
-              </label>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <p className="is-size-7">No Ratings Yet</p>
-              ) : (
-                <ReactStars
-                  className="ReactStars"
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={30}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
-              <VerifiedVia userDetails={otherUserProfileInfo} isCentered={false} />
+              <div style={{ display: 'flex' }}>
+                <div>
+                  <figure
+                    style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem' }}
+                    className="image is-128x128"
+                  >
+                    <img src={otherUserProfileInfo.profileImage.url} />
+                  </figure>
+                  <label style={{ marginBottom: 0 }} className="label">
+                    {otherUserProfileInfo.displayName}
+                  </label>
+                  {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                    <div className="is-size-7">No Ratings Yet</div>
+                  ) : (
+                    <ReactStars
+                      className="ReactStars"
+                      half
+                      count={5}
+                      value={globalRating}
+                      edit={false}
+                      size={30}
+                      color1={'lightgrey'}
+                      color2={'#ffd700'}
+                    />
+                  )}
 
-              <label className="help">Status: {membershipStatusDisplay}</label>
-
-              <label className="help">
-                Member Sicne: {moment.duration(moment().diff(moment(createdAt))).humanize()}
-              </label>
+                  <label className="help">Status: {membershipStatusDisplay}</label>
+                  {/* <label className="help">
+                    joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
+                  </label> */}
+                  <VerifiedVia userDetails={otherUserProfileInfo} isCentered={false} />
+                </div>
+                <div style={{ flexGrow: 1, padding: '0 0.5rem 4rem 0.5rem' }}>
+                  <div>
+                    <div style={{ marginBottom: '1rem' }} className="tile is-ancestor">
+                      <div className="tile is-parent">
+                        <article>
+                          <p style={{ marginBottom: 4 }} className="has-text-weight-bold">
+                            {numberOfTimesBeenRated}
+                          </p>
+                          <p>ratings</p>
+                        </article>
+                      </div>
+                      <div className="tile is-parent">
+                        <article>
+                          <p
+                            style={{ marginBottom: 4 }}
+                            className={`has-text-weight-bold ${
+                              fulfilledBids.length > 0 ? 'has-text-success' : ''
+                            }`}
+                          >
+                            {fulfilledBids.length}
+                          </p>
+                          <p>Completed Tasks</p>
+                        </article>
+                      </div>
+                      <div className="tile is-parent">
+                        <article>
+                          <p
+                            style={{ marginBottom: 4 }}
+                            className={`has-text-weight-bold ${
+                              canceledBids.length > 0 ? 'has-text-danger' : ''
+                            }`}
+                          >
+                            {canceledBids.length}
+                          </p>
+                          <p>Cancellations</p>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="field">
+                    <label className="label">Last Review :</label>
+                    <div className="control">
+                      {lastComment || 'This user was not reviewed yet!'}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="tile is-ancestor has-text-centered">
-              <div className="tile is-parent">
-                <article className="">
-                  <p style={{ marginBottom: 4 }} className="is-size-6 has-text-weight-bold">
-                    {numberOfTimesBeenRated}
-                  </p>
-                  <p>ratings recieved</p>
-                </article>
-              </div>
-              <div className="tile is-parent">
-                <article className="">
-                  <p
-                    style={{ marginBottom: 4 }}
-                    className={`is-size-6 has-text-weight-bold ${
-                      fulfilledBids.length > 0 ? 'has-text-success' : ''
-                    }`}
-                  >
-                    {fulfilledBids.length}
-                  </p>
-                  <p>Completed Tasks</p>
-                </article>
-              </div>
-              <div className="tile is-parent">
-                <article className="">
-                  <p
-                    style={{ marginBottom: 4 }}
-                    className={`is-size-6 has-text-weight-bold ${
-                      canceledBids.length > 0 ? 'has-text-danger' : ''
-                    }`}
-                  >
-                    {canceledBids.length}
-                  </p>
-                  <p>Cancelled Tasks</p>
-                </article>
-              </div>
-            </div>
-
-            {asABidderReviews && (
-              <React.Fragment>
-                <br />
-                <hr className="divider isTight" />
-                <label className="label">Reviews recieved as a Tasker :</label>
-                {asABidderReviews}
-              </React.Fragment>
-            )}
-
-            {asAProposerReviewsRef && (
-              <React.Fragment>
-                <br />
-                <hr className="divider isTight" />
-                <label className="label">Reviews recieved as a Requester :</label>
-                {asAProposerReviewsRef}
-              </React.Fragment>
-            )}
+            {bidAmountHtml()}
           </div>
         </div>
       </div>
