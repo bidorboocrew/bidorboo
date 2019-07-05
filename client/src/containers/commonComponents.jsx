@@ -553,7 +553,7 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   return renderedTaskSpecificFields;
 };
 
-export const VerifiedVia = ({ userDetails, isCentered = true }) => {
+export const VerifiedVia = ({ userDetails, isCentered = true, smallfont = true }) => {
   const {
     stripeConnect = { isVerified: false },
     phone = { isVerified: false },
@@ -573,10 +573,10 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
 
   return (
     <div className="field">
-      {atLeastOneVerification && <label className="help">Verifications</label>}
-      {!atLeastOneVerification && <label className="help is-danger">Unverified</label>}
+      <label className={`${smallfont ? 'help' : ''}`}>Verifications</label>
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
+        {!atLeastOneVerification && <label className="help">Unverified</label>}
         {isFbUser && (
           <span title="Verified by facebook" className="icon">
             <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
@@ -590,7 +590,9 @@ export const VerifiedVia = ({ userDetails, isCentered = true }) => {
         {phone.isVerified && (
           <span title="Verified by phone" className="icon">
             <i
-              className={`fas fa-mobile-alt ${phone.isVerified ? 'has-text-success' : 'has-text-grey'}`}
+              className={`fas fa-mobile-alt ${
+                phone.isVerified ? 'has-text-success' : 'has-text-grey'
+              }`}
             />
           </span>
         )}

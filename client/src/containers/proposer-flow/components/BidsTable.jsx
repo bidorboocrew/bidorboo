@@ -55,12 +55,11 @@ export default class BidsTable extends React.Component {
                         this.openBidDetailsModal(bid);
                       }}
                     >
-                      <div>Bids</div>
-                      <div className="is-size-3 has-text-white has-text-weight-bold">
-                        ${totalCharge}
+                      <div className="has-text-white">
+                        <span>{'will do it for '}</span>
+                        <span className="has-text-weight-bold is-size-4">${totalCharge}</span>
                       </div>
-
-                      <div className="has-text-white has-text-weight-bold">{`Select & Checkout`}</div>
+                      <div className="has-text-white help">{`select & checkout`}</div>
                       {bid.isNewBid && (
                         <span
                           style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
@@ -80,12 +79,12 @@ export default class BidsTable extends React.Component {
     });
     return (
       <div>
-        <div style={{ background: 'transparent' }} class="tabs is-medium is-centered">
+        <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
           <ul>
-            <li class="is-active">
+            <li className="is-active">
               <a>
-                <span class="icon is-small">
-                  <i class="fas fa-user" aria-hidden="true" />
+                <span className="icon is-small">
+                  <i className="fas fa-user" aria-hidden="true" />
                 </span>
                 <span>Available Taskers</span>
               </a>
@@ -205,7 +204,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                     {otherUserProfileInfo.displayName}
                   </label>
                   {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                    <div className="is-size-7">No Ratings Yet</div>
+                    <div>No Ratings Yet</div>
                   ) : (
                     <ReactStars
                       className="ReactStars"
@@ -219,11 +218,15 @@ class OtherUserProfileForReviewPage extends React.Component {
                     />
                   )}
 
-                  <label className="help">Status: {membershipStatusDisplay}</label>
+                  <div>Status: {membershipStatusDisplay}</div>
                   {/* <label className="help">
                     joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                   </label> */}
-                  <VerifiedVia userDetails={otherUserProfileInfo} isCentered={false} />
+                  <VerifiedVia
+                    userDetails={otherUserProfileInfo}
+                    isCentered={false}
+                    smallfont={false}
+                  />
                 </div>
                 <div style={{ flexGrow: 1, padding: '0 0.75rem 4rem 0.75rem' }}>
                   <div>
