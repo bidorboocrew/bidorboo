@@ -126,6 +126,7 @@ class OtherUserProfileForReviewPage extends React.Component {
     }
 
     const {
+      _id,
       rating,
       createdAt,
       _asBidderReviewsRef,
@@ -183,10 +184,22 @@ class OtherUserProfileForReviewPage extends React.Component {
               <div style={{ display: 'flex' }}>
                 <div>
                   <figure
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                    }}
                     style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem' }}
                     className="image is-128x128"
                   >
-                    <img src={otherUserProfileInfo.profileImage.url} />
+                    <img
+                      style={{
+                        borderRadius: 6,
+                        cursor: 'pointer',
+                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                      }}
+                      src={otherUserProfileInfo.profileImage.url}
+                    />
                   </figure>
                   <label style={{ marginBottom: 0 }} className="label">
                     {otherUserProfileInfo.displayName}
@@ -212,19 +225,23 @@ class OtherUserProfileForReviewPage extends React.Component {
                   </label> */}
                   <VerifiedVia userDetails={otherUserProfileInfo} isCentered={false} />
                 </div>
-                <div style={{ flexGrow: 1, padding: '0 0.5rem 4rem 0.5rem' }}>
+                <div style={{ flexGrow: 1, padding: '0 0.75rem 4rem 0.75rem' }}>
                   <div>
-                    <div style={{ marginBottom: '1rem' }} className="tile is-ancestor">
+                    <div
+                      style={{ marginBottom: '1rem' }}
+                      className="tile has-text-centered is-ancestor"
+                    >
                       <div className="tile is-parent">
-                        <article>
-                          <p style={{ marginBottom: 4 }} className="has-text-weight-bold">
+                        <article style={{ margin: 'auto' }}>
+                          <p style={{ marginBottom: 4 }} className={`has-text-weight-bold`}>
                             {numberOfTimesBeenRated}
                           </p>
-                          <p>ratings</p>
+                          <p>Ratings</p>
                         </article>
                       </div>
+
                       <div className="tile is-parent">
-                        <article>
+                        <article style={{ margin: 'auto' }}>
                           <p
                             style={{ marginBottom: 4 }}
                             className={`has-text-weight-bold ${
@@ -237,7 +254,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                         </article>
                       </div>
                       <div className="tile is-parent">
-                        <article>
+                        <article style={{ margin: 'auto' }}>
                           <p
                             style={{ marginBottom: 4 }}
                             className={`has-text-weight-bold ${
@@ -251,10 +268,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="field">
-                    <label className="label">Last Review :</label>
-                    <div className="control">
-                      {lastComment || 'This user was not reviewed yet!'}
+                  <div style={{ margin: 'auto' }} className="field has-text-centered">
+                    <label className="label">Last Review</label>
+                    <div className="control  has-text-centered">
+                      {`"${lastComment || 'This user was not reviewed yet!'}"  `}
                     </div>
                   </div>
                 </div>
