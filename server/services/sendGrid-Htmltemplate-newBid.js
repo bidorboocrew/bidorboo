@@ -229,6 +229,13 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
         margin-bottom: 0;
       }
 
+      .actionButton {
+        background-color: #ef2834 !important;
+        color: white;
+        width: 100%;
+        border: solid 1px #ef2834 !important;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
       .preheader {
         color: transparent;
         display: none;
@@ -378,7 +385,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a style="background-color:#31c110;color:white;" href="${clickLink ||
+                                      <td> <a class="actionButton" href="${clickLink ||
                                         'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
     'Open BidOrBoo'}</a> </td>
                                     </tr>
