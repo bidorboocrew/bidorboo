@@ -54,16 +54,19 @@ class MyBidsPage extends React.Component {
       : null;
 
     return (
-      <div className="container is-widescreen">
+      <div>
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">My Bids</h1>
               {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
                 <div>
-                  <h3 className="subtitle has-text-weight-bold has-text-link">
-                    Add your banking info to get your payments on time
-                  </h3>
+                  <div
+                    style={{ marginBottom: 4 }}
+                    className="subtitle has-text-weight-bold has-text-link"
+                  >
+                    Setup your payout banking info to get your payments on time
+                  </div>
                   <a
                     className="button is-link"
                     onClick={() => {
@@ -92,9 +95,7 @@ class MyBidsPage extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider" />
-
-        <FloatingAddNewBidButton />
+        {/* <FloatingAddNewBidButton /> */}
 
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
