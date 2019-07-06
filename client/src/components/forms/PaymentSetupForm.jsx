@@ -279,11 +279,8 @@ const PaymentSetupForm = (props) => {
           document.querySelector('#bidorboo-root-view'),
         )}
       <form onSubmit={handleSubmit}>
-        <div
-          style={{ minHeight: 'unset', height: 'unset' }}
-          className="card disabled limitLargeMaxWidth"
-        >
-          <div>
+        <div style={{ minHeight: 'unset', height: 'unset' }} className="card  limitLargeMaxWidth">
+          <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
             <HeaderTitle title="Setup My Payout Banking Details" />
             <div className="card-content">
               <label className="label">BASIC INFO</label>
@@ -510,8 +507,7 @@ const PaymentSetupForm = (props) => {
                 rel="noopener noreferrer"
                 className="help link has-text-link"
               >
-                * Get this info from your bank instituation or personal cheque , click for an
-                example cheque
+                * click to view a sample cheque
               </a>
               <div className="field" />
               <label className="label">ADDRESS DETAILS</label>
@@ -718,7 +714,6 @@ const HeaderTitle = (props) => {
         marginTop: specialMarginVal || 0,
         marginBottom: 4,
         fontSize: 20,
-        fontWeight: 700,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >

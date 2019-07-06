@@ -46,9 +46,16 @@ class PaymentSettings extends React.Component {
 
     let { stripeConnect } = userDetails;
     return (
-      <section style={{ padding: '0.5rem' }} className="section">
+      <section>
+        <section className="hero is-white has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">PaymentSettings</h1>
+            </div>
+          </div>
+        </section>
         <div className="columns is-centered">
-          <div className="column is-narrow is-half">
+          <div className="column is-narrow">
             {(!stripeConnect || !stripeConnect.last4BankAcc) && (
               <InitialAccountSetupView
                 {...this.props}
@@ -59,26 +66,6 @@ class PaymentSettings extends React.Component {
 
             {stripeConnect && stripeConnect.last4BankAcc && (
               <React.Fragment>
-                {/* <div className="field">
-                  <div className="control">
-                    <label style={{ lineHeight: 1.5 }} className="checkbox">
-                      {` By becoming a BidOrBoo Tasker you agree to comply with all
-                               out policies and terms of use`}
-                      <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                        <strong>{` BidOrBoo Service Agreement `}</strong>
-                      </a>
-                      and
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://stripe.com/connect-account/legal"
-                      >
-                        <strong>{` Stripe Connected Account Agreement`}</strong>
-                      </a>
-                      .
-                    </label>
-                  </div>
-                </div> */}
                 <EstablishedAccountView {...this.props} />
               </React.Fragment>
             )}
@@ -139,10 +126,7 @@ const InitialAccountSetupView = (props) => {
     <React.Fragment>
       <div>
         <div className="field">
-          <div
-            style={{ minHeight: 'unset', height: 'unset' }}
-            className="card disabled limitLargeMaxWidth"
-          >
+          <div style={{ minHeight: 'unset', height: 'unset' }} className="card limitLargeMaxWidth">
             <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
               <HeaderTitle title="My Payments Details" />
 
@@ -191,7 +175,7 @@ const InitialAccountSetupView = (props) => {
           </div>
         </div>
       </div>
-
+      <br />
       {showAddPaymentDetails && (
         <PaymentSetupForm
           userDetails={userDetails}
