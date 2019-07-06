@@ -44,14 +44,8 @@ class VerificationPage extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // only update if user was not logged in and they are
-    // or if the verificatoin is done
-    return this.props.isLoggedIn !== nextProps.isLoggedIn;
-  }
-
   render() {
-    const { match, verifyingPhoneInProgress, verifyingEmailInProgress } = this.props;
+    const { match } = this.props;
     const { field } = match.params;
 
     return (

@@ -69,7 +69,7 @@ exports.TxtMsgingService = {
       .create({
         body: `${msgContent}`,
         to: `+1${mobileNumber}`, // Text this number
-        from: keys.twilioMsgingServiceSid,
+        messagingServiceSid: keys.twilioMsgingServiceSid,
         // from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
