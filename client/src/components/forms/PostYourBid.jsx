@@ -49,7 +49,8 @@ export default class PostYourBid extends React.Component {
         <a
           onClick={this.openShowBidDialog}
           type="button"
-          className="button is-success is-medium is-outlined is-fullwidth"
+          id="bob-bid-on-request"
+          className="button firstButtonInCard is-success is-medium"
         >
           <span className="icon">
             <i className="fas fa-hand-paper" />

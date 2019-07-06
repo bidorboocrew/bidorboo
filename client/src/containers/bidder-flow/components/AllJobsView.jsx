@@ -9,7 +9,7 @@ export default class AllJobsView extends React.Component {
     const { jobsList } = this.props;
 
     return jobsList && jobsList.length > 0 ? (
-      <div className="columns is-multiline is-centered">
+      <div className="columns is-multiline is-centered is-mobile">
         <OtherPeoplesJobs {...this.props} />
       </div>
     ) : (
@@ -50,7 +50,7 @@ const OtherPeoplesJobs = (props) => {
     .filter((job) => job._ownerRef._id !== currentUserId)
     .map((job) => {
       return (
-        <div key={job._id} className="column">
+        <div key={job._id} className="column is-narrow isforCards">
           {getMeTheRightRequestCard({
             job,
             isSummaryView: true,

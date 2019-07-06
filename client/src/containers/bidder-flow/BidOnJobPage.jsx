@@ -51,15 +51,45 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
-        <section className="hero is-white is-small has-text-centered">
-          <div className="hero-body">
-            <h1 className="title">Bid On This Request</h1>
-            <HowItWorks step={2} isMoreDetails isSmall />
-          </div>
-        </section>
+      <div>
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li>
+                  <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
+                    <span>All Requests</span>
+                  </a>
+                </li>
+                <li className="is-active">
+                  <a>Place your bid</a>
+                </li>
+              </ul>
+            </nav>
+            <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+              <div className="card-content">
+                <div className="content">
+                  <div className="subtitle">
+                    {`How much will you `}
+                    <span>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const elmnt = document.getElementById('bob-bid-on-request');
+                          elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                        }}
+                        className="is-text"
+                      >
+                        {`Bid`}
+                      </a>
+                    </span>
+                    {` to fulfill this request?`}
+                  </div>
+                </div>
+                {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
+              </div>
+            </section>
+
             {getMeTheRightRequestCard({
               job: jobDetails,
               isSummaryView: false,

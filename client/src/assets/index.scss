@@ -487,6 +487,18 @@ article.media.limitHeight {
     width: auto;
   }
 }
+.secondButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  bottom: -1rem;
+  right: 180px;
+  width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  &.nofixedwidth {
+    width: auto;
+  }
+}
 
 .bidButtonInCard {
   font-weight: 400;

@@ -77,7 +77,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     }
 
     return (
-      <div style={{ height: 'auto ' }} className="card">
+      <div style={{ height: 'auto ' }} className="card cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
             <CardTitleAndActionsInfo

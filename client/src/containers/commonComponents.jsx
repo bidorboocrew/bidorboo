@@ -35,7 +35,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let avgBidLabel = minBid ? (
     <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid}$ (CAD)`} />
   ) : (
-    <DisplayLabelValue labelText="Avg Bid:" labelValue={`No Bids yet!`} />
+    <DisplayLabelValue labelText="Avg Bid:" labelValue={`Be the first bidder!`} />
   );
   return avgBidLabel;
 };

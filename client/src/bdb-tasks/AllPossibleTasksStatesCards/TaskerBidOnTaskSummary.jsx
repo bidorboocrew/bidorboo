@@ -22,7 +22,7 @@ import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonU
 
 import RequestBaseContainer from './RequestBaseContainer';
 
-class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
+class TaskerBidOnTaskSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
 
@@ -34,17 +34,17 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
       !userDetails ||
       !showLoginDialog
     ) {
-      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
     const { _id: currentUserId } = userDetails;
     if (!currentUserId) {
-      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
     if (!onCloseHandler || isOnMapView === 'undefined') {
-      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
     const {
@@ -57,7 +57,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
       extras,
     } = job;
     if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
-      return <div>TaskerBidOnHouseCleaningSummary is missing properties</div>;
+      return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
@@ -69,8 +69,10 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
     return (
-      <div className={`card is-clipped ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}>
-        <div style={{ minHeight: isOnMapView ? 'unset' : '22rem' }} className="card-content">
+      <div
+        className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
+      >
+        <div className="card-content">
           <div className="content">
             <CardTitleAndActionsInfo
               isOnMapView={isOnMapView}
@@ -89,13 +91,11 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />}
+            {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
             {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
           </div>
           {!isOnMapView && (
             <React.Fragment>
-              <hr className="divider isTight" />
-
               {userAlreadyBid ? (
                 <div style={{ display: 'flex' }}>
                   <a
@@ -108,7 +108,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         ),
                       );
                     }}
-                    className="button  is-outlined is-fullwidth"
+                    className="button is-outlined is-info is-fullwidth firstButtonInCard nofixedwidth"
                   >
                     View My Bid
                   </a>
@@ -126,12 +126,12 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         markerRef.current.props.onClick();
                       }
                     }}
-                    className="button is-outlined"
+                    className="button is-outlined is-info secondButtonInCard nofixedwidth"
                   >
                     <span className="icon">
                       <i className="fas fa-map-marked-alt" />
                     </span>
-                    {/* <span>Locate</span> */}
+                    <span>Locate</span>
                   </a>
                 </div>
               ) : (
@@ -146,7 +146,7 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                       }
                     }}
-                    className="button is-success is-outlined"
+                    className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
                   >
                     Place Your Bid!
                   </a>
@@ -165,12 +165,12 @@ class TaskerBidOnHouseCleaningSummary extends RequestBaseContainer {
                         markerRef.current.props.onClick();
                       }
                     }}
-                    className="button is-outlined"
+                    className="button is-outlined is-info secondButtonInCard nofixedwidth"
                   >
                     <span className="icon">
                       <i className="fas fa-map-marked-alt" />
                     </span>
-                    {/* <span>Locate</span> */}
+                    <span>Locate</span>
                   </a>
                 </div>
               )}
@@ -243,4 +243,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerBidOnHouseCleaningSummary);
+)(TaskerBidOnTaskSummary);

@@ -186,10 +186,7 @@ class BidderRootPage extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">Provide a Service</h1>
-              {anyVisibleJobs && <StepsForTasker isSmall={true} step={1} />}
-              {!anyVisibleJobs && (
-                <h2 className="subtitle">Find Requests , Bid on them , do them , EARN MONEY ! </h2>
-              )}
+              <h2 className="subtitle">Find Requests , Bid on them , do them , EARN MONEY ! </h2>
             </div>
           </div>
         </section>
