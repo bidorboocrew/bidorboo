@@ -4,7 +4,7 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.1.0';
+var CACHE_NAME = 'bob-app-cache-v6.5.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -23,7 +23,7 @@ var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/cs
 });
 
 var googleFontsReq = new Request(
-  'https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700',
+  'https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap',
   {
     mode: 'no-cors',
     headers: {
@@ -32,7 +32,12 @@ var googleFontsReq = new Request(
   },
 );
 
-var urlsToCache = ['/android-chrome-192x192.png', '/logo.svg', '/offline.html'];
+var urlsToCache = [
+  '/favicon.ico',
+  '/android-chrome-192x192.png',
+  '/android-chrome-512x512.png',
+  '/offline.html',
+];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
@@ -55,23 +60,17 @@ self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      // // return cache.addAll(urlsToCache);
-      // fetch(googleMapsReq).then((response) => {
-      //   // console.info('putting googlemap api in cache');
-      //   cache.put(googleMapsReq, response);
-      // });
 
       fetch(fontAwesomeReq).then((response) => {
-        // console.info('putting fontawesome in cache');
-
+        console.info('putting fontawesome in cache');
         cache.put(fontAwesomeReq, response);
       });
       fetch(googleFontsReq).then((response) => {
-        // console.info('putting google fonts in cache');
+        console.info('putting google fonts in cache');
         cache.put(googleFontsReq, response);
       });
 
-      // console.info('Opened cache to cache' + urlsToCache);
+      console.info('Opened cache to cache' + urlsToCache);
       return cache.addAll(urlsToCache);
     }),
   );

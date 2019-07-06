@@ -9,7 +9,7 @@ export default class AllJobsView extends React.Component {
     const { jobsList } = this.props;
 
     return jobsList && jobsList.length > 0 ? (
-      <div className="columns forJobSummary is-multiline is-centered is-mobile">
+      <div className="columns is-multiline is-centered">
         <OtherPeoplesJobs {...this.props} />
       </div>
     ) : (

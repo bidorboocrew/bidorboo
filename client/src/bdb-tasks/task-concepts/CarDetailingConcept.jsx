@@ -12,18 +12,17 @@ export default class CarDetailingConcept extends React.Component {
     const { ID, TITLE, DESCRIPTION, ICON } = TASKS_DEFINITIONS[`bdbCarDetailing`];
 
     return (
-      <div className="card limitWidthOfCard">
+      <div className="card limitWidthOfCard cardWithButton">
         <div className="card-content template">
-          <div style={{ height: '10rem' }} className="content">
+          <div className="content">
             <JobTitleText title={TITLE} iconClass={ICON} />
-            <hr className="divider isTight" />
-            <div style={{ marginTop: '1.5rem' }}>{DESCRIPTION}</div>
+            <div>{DESCRIPTION}</div>
           </div>
           <a
             onClick={(e) => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
             }}
-            className="button is-success is-outlined is-fullwidth"
+            className="button is-success firstButtonInCard"
           >
             Request Now
           </a>

@@ -86,16 +86,13 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel={"Loading Your request and Bids"} isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Loading Your request and Bids'} isLoading={true} size={'large'} />
         </div>
       );
     }
 
     const { state } = selectedJobWithBids;
-    const isThisACancelledTask =
-      state === REQUEST_STATES.CANCELED_OPEN ||
-      state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER ||
-      state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER;
+    const shouldShowBidsTable = state === REQUEST_STATES.OPEN;
 
     const { showBidReviewModal, bidUnderReview } = this.state;
 
@@ -103,7 +100,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     const areThereAnyBids = bidList && bidList.length > 0;
 
     return (
-      <div className="container is-widescreen">
+      <div>
         {paymentIsInProgress &&
           ReactDOM.createPortal(
             <div
@@ -129,31 +126,26 @@ class ReviewRequestAndBidsPage extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-view'),
           )}
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Request Details</h1>
-            </div>
-          </div>
-        </section>
-        <hr className="divider" />
+
         {showBidReviewModal && (
           <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
-        <div className="columns is-centered">
+        <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button is-outlined"
-                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>View My Other Requests</span>
-              </a>
-            </div>
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li>
+                  <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}>
+                    <span>My Requests</span>
+                  </a>
+                </li>
+                <li className="is-active">
+                  <a>Request Details</a>
+                </li>
+              </ul>
+            </nav>
+
             {getMeTheRightRequestCard({
               job: selectedJobWithBids,
               isSummaryView: false,
@@ -161,32 +153,13 @@ class ReviewRequestAndBidsPage extends React.Component {
             })}
 
             <br />
-            {!isThisACancelledTask && (
-              <React.Fragment>
-                {!areThereAnyBids && (
-                  <section className="hero is-dark is-small">
-                    <div className="hero-body">
-                      <div className="has-text-centered">
-                        <h1 className="is-size-5">Actively Retrieving More bids</h1>
-
-                        <a
-                          disabled
-                          style={{ padding: 0, border: 'none' }}
-                          className="button is-white is-outlined is-loading"
-                        >
-                          Loading
-                        </a>
-                      </div>
-                    </div>
-                  </section>
-                )}
-                <BidsTable
-                  jobId={selectedJobWithBids._id}
-                  bidList={bidList}
-                  markBidAsSeen={markBidAsSeen}
-                  showBidReviewModal={this.showBidReviewModal}
-                />
-              </React.Fragment>
+            {shouldShowBidsTable && (
+              <BidsTable
+                jobId={selectedJobWithBids._id}
+                bidList={bidList}
+                markBidAsSeen={markBidAsSeen}
+                showBidReviewModal={this.showBidReviewModal}
+              />
             )}
           </div>
         </div>

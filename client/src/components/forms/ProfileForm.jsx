@@ -44,6 +44,7 @@ const EnhancedForms = withFormik({
   },
 
   handleSubmit: async (values, { setSubmitting, props }) => {
+    debugger;
     const { idFrontImg, idBackImg } = values;
     let frontSideResp;
     let backSideResp;
@@ -111,17 +112,16 @@ const EnhancedForms = withFormik({
         // autoDetectlocation: values.autoDetectlocation,
       });
     } else {
-      if (picId.front && picId.back) {
-        props.onSubmit({
-          displayName: values.displayName,
-          email: { emailAddress: values.email },
-          phone: { phoneNumber: values.phoneNumber },
-          personalParagraph: values.personalParagraph,
+      props.onSubmit({
+        displayName: values.displayName,
+        email: { emailAddress: values.email },
+        phone: { phoneNumber: values.phoneNumber },
+        personalParagraph: values.personalParagraph,
 
-          // autoDetectlocation: values.autoDetectlocation,
-        });
-      }
+        // autoDetectlocation: values.autoDetectlocation,
+      });
     }
+    setSubmitting(false);
   },
   displayName: 'ProfileForm',
 });
@@ -293,7 +293,6 @@ const ProfileForm = (props) => {
         <div className="control">
           <button
             className="button is-outlined"
-            type="submit"
             disabled={isSubmitting}
             onClick={(e) => {
               e.preventDefault();

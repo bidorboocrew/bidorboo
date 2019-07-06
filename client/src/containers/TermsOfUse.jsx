@@ -3,7 +3,7 @@ import React from 'react';
 export default class TermsOfUse extends React.Component {
   render() {
     return (
-      <div style={{ margin: '-0.5rem' }}>
+      <div>
         <section className="section">
           <div className="container">
             <div className="">
@@ -410,8 +410,12 @@ export default class TermsOfUse extends React.Component {
                 you may redeem it for cash:
               </p>
               <ul>
-                <li style={{ marginLeft: '2rem', listStyleType: 'disc', display: 'list-item' }}>ON &lt; CAD 15</li>
-                <li style={{ marginLeft: '2rem', listStyleType: 'disc', display: 'list-item' }}>Quebec &lt; CAD 15</li>
+                <li style={{ marginLeft: '2rem', listStyleType: 'disc', display: 'list-item' }}>
+                  ON &lt; CAD 15
+                </li>
+                <li style={{ marginLeft: '2rem', listStyleType: 'disc', display: 'list-item' }}>
+                  Quebec &lt; CAD 15
+                </li>
               </ul>
               <p className="subtitle">
                 Simply send your Gift Card along with a self-addressed, stamped envelope to

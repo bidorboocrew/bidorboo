@@ -1,5 +1,5 @@
 {
-  "manifest_version": 1,
+  "manifest_version": 1.5,
   "short_name": "BoB",
   "name": "BidOrBoo",
   "homepage_url": "https://bidorboo.com",
@@ -8,8 +8,8 @@
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

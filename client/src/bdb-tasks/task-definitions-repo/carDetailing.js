@@ -48,33 +48,33 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.carSize}
               />
               <div className="field">
-                <label className="label">How Big Is Your Car Size?</label>
+                <label className="label">How Big Is Your Car?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'mini', true)}
-                    className={`button is-info ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
                   >
                     {`Small (ex, mini)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'sedan', true)}
-                    className={`button is-info ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
                   >
                     {`Regular (ex, Sedan)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'suv', true)}
-                    className={`button is-info ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
                   >
                     {`Large (ex, SUV)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('carSize', 'truck', true)}
-                    className={`button is-info ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
                   >
                     {`XL (ex, Truck)`}
                   </span>
@@ -118,12 +118,12 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.interiorType}
               />
               <div className="field">
-                <label className="label">What is the interior Type?</label>
+                <label className="label">What is the car's interior Type?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'leather', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'leather' ? '' : 'is-outlined'
                     }`}
                   >
@@ -132,7 +132,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'fabric', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'fabric' ? '' : 'is-outlined'
                     }`}
                   >
@@ -141,7 +141,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('interiorType', 'other', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.interiorType === 'other' ? '' : 'is-outlined'
                     }`}
                   >
@@ -185,12 +185,12 @@ Get one of our tasker to give your car a good cleaning!`,
                 value={values.interiorType}
               />
               <div className="field">
-                <label className="label">Is trunk cleaning required?</label>
+                <label className="label">Do you require trunk cleaning?</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('trunkCleaning', 'isRequired', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
                     }`}
                   >
@@ -199,7 +199,7 @@ Get one of our tasker to give your car a good cleaning!`,
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('trunkCleaning', 'notRequired', true)}
-                    className={`button is-info ${
+                    className={`button is-info is-small ${
                       values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
                     }`}
                   >
@@ -230,7 +230,5 @@ Get one of our tasker to give your car a good cleaning!`,
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products to clean and shine the car exterior and whipe the rims.
-The Tasker will vaccum the interoir, get rid of any trash, clean the dashboard, console and gear sections. The Tasker will touch up the seats and floor mats and get rid of any pet hair
-However since this is not a car shop, shampooing or deep cleaning of the seats/floors is NOT to be expected.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
 };

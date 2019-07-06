@@ -119,6 +119,9 @@ class RequesterRequestSummary extends React.Component {
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                   <button
@@ -141,18 +144,18 @@ class RequesterRequestSummary extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className={`card limitWidthOfCard ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+                <div style={{ flexGrow: 1 }} className="title">
                   <span className="icon">
                     <i className={ICON} />
                   </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
                 </div>
                 {!isPastDue && (
                   <div
@@ -191,16 +194,6 @@ class RequesterRequestSummary extends React.Component {
                   </div>
                 )}
               </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
               {isPastDue && (
                 <div className="field">
                   <label className="label">Request Status</label>
@@ -250,7 +243,7 @@ class RequesterRequestSummary extends React.Component {
                 )}
               />
 
-              <DisplayShortAddress addressText={addressText} />
+              {/* <DisplayShortAddress addressText={addressText} /> */}
             </div>
           </div>
           {renderFooter({ job, notificationFeed, isPastDue })}
@@ -299,33 +292,15 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
 
   return (
     <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-
-      {isPastDue && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-          <a
-            disabled={isPastDue}
-            style={{ position: 'relative' }}
-            className={`button is-outlined is-fullwidth is-danger`}
-          >
-            <span className="icon">
-              <i className="far fa-trash-alt" />
-            </span>
-            <span>Will be auto deleted</span>
-          </a>
-        </div>
-      )}
       {!isPastDue && (
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <div className="firstButtonInCard">
           <a
             disabled={isPastDue}
             style={{ position: 'relative' }}
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
             }}
-            className={`button is-outlined is-fullwidth ${areThereAnyBidders ? 'is-info' : ''}`}
+            className={`button is-info is-fullwidth ${areThereAnyBidders ? '' : ' is-outlined '}`}
           >
             {areThereAnyBidders && !isPastDue && (
               <span>

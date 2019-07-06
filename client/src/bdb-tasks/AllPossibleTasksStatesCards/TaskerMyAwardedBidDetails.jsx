@@ -143,6 +143,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                   <button
@@ -320,7 +323,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </div>
                 <div className="control">
                   <span className="icon">
-                    <i className="fas fa-phone" />
+                    <i className="fas fa-mobile-alt" />
                   </span>
                   <span>{phoneNumber}</span>
                 </div>

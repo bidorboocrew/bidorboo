@@ -27,14 +27,16 @@ class VerifyPhoneButton extends React.Component {
     this.setState({ isResendingVCode: true }, async () => {
       try {
         const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationEmail,
+          ROUTES.API.USER.POST.resendVerificationMsg,
         );
         if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');
         }
       } catch (e) {
         // some alert
-        alert('we are unable to send the verification text, please contact bidorboocrew@bidorboo.com');
+        alert(
+          'we are unable to send the verification text, please contact bidorboocrew@bidorboo.com',
+        );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
@@ -136,6 +138,9 @@ class VerifyPhoneButton extends React.Component {
                     onClick={this.toggleEnterPinDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                 </footer>

@@ -82,7 +82,10 @@ export default class AcceptBidAndBidderModal extends React.Component {
             />
 
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
-              Go Back
+              <span className="icon">
+                <i className="far fa-arrow-alt-circle-left" />
+              </span>
+              <span>Go Back</span>
             </button>
           </footer>
         </div>

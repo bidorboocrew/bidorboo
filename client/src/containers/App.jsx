@@ -41,6 +41,7 @@ import {
   TermsOfUse,
 } from './index';
 
+import FreshdeskChat from './FreshdeskChat';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -113,6 +114,7 @@ class App extends React.Component {
 
     return (
       <div id="bidorboo-root-view">
+        <FreshdeskChat />
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
@@ -131,7 +133,7 @@ class App extends React.Component {
           }}
         />
         <Header id="bidorboo-header" />
-        <div id="RoutesWrapper">
+        <div id="RoutesWrapper" className="has-navbar-fixed-top">
           <Switch>
             {/* public paths */}
             <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfUse} />

@@ -229,7 +229,13 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
       .mb0 {
         margin-bottom: 0;
       }
-
+      .actionButton {
+        background-color: #ef2834 !important;
+        color: white;
+        width: 100%;
+        border: solid 1px #ef2834 !important;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
       .preheader {
         color: transparent;
         display: none;
@@ -341,7 +347,27 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
 
             <!-- START CENTERED WHITE CONTAINER -->
             <span class="preheader">BidOrBoo updates!</span>
-            <h1 style="color: #363636;font-weight:700">BidOrBoo</h1>
+            <table dir="ltr" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
+              <tbody>
+              <tr>
+                <td style="background-color:#ef2834;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-left-radius:5px" align="right" height="156" valign="bottom" width="252">
+                  <a>
+                    <img alt="" height="156" width="252" src="https://ci4.googleusercontent.com/proxy/9-vzO6oIjzdWLz5vxJipUa48-_jdteSGmZPi_jXjI1P9gfsxKXGx5ZC6HCp7gEsdL6c6qVHcVmPrfRVxxz7Yw1GWRX10g1zsI66f3vStuGoBVesH24A0bVJsUdvql3xAbjPcKaA_8g=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Left.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                  </a>
+                </td>
+                <td class="m_-5264624343063366418Header-icon m_-5264624343063366418Target" style="background-color:#ef2834;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%" align="center" height="156" valign="bottom" width="96">
+                  <a href="https://www.bidorboo.com/" style="outline:0;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.bidorboo.com/&amp;source=gmail&amp;ust=1562304463864000&amp;usg=AFQjCNFKfA4UjYJAJAXofB_kEQt0lTmgow">
+                    <img alt="" height="156" width="96" src="https://ci6.googleusercontent.com/proxy/-VaqDn6myfpJbQOv-RyMbWX-3HaT6PQUSZ2un3_LdTM9gliqOua3EJN4VuiAA68aZtzI2PrM4n3B-8-Pd0wEhnIJQylApp-HA3CgqtxdiEdHx9vGQ-m9q-W2wYlhMwmhm2jrfxNCf56uy0A4GWtT519v=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/emails/acct_1EkxmxHRQ5neEvOS/1/twelve_degree_icon@2x.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                  </a>
+                </td>
+                <td style="background-color:#ef2834;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-right-radius:5px" align="left" height="156" valign="bottom" width="252">
+                  <a>
+                    <img alt="" height="156" width="252" src="https://ci5.googleusercontent.com/proxy/agqjJXCE9UqmeYtipoZMl4NQ5plhy-TKT_WsqxR18QMhNXU7t-dJPtqpaqwtjzrOslBvOe18-HlXRVknnUuUTIhtrECzchPqX06DXBwznI7p5hMwQb0pIl-d9gWCXjLTWHpQSf0rxKo=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Right.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
             <table role="presentation" class="main">
               <!-- START MAIN CONTENT AREA -->
               <tr>
@@ -358,7 +384,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a style="background-color:#31c110;color:white;" href="${clickLink ||
+                                      <td> <a class="actionButton" href="${clickLink ||
                                         'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
     'Open BidOrBoo'}</a> </td>
                                     </tr>

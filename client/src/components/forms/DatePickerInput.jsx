@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-const minDate = process.env.NODE_ENV === 'production' ? moment().add(1, 'day') : moment();
+
 export default class DatePickerInput extends React.Component {
   static propTypes = {
     onChangeEvent: PropTypes.func.isRequired,
@@ -18,27 +18,46 @@ export default class DatePickerInput extends React.Component {
 
   constructor(props) {
     super(props);
+    this.minDate = moment().add(1, 'day');
     this.state = {
-      startDate: minDate,
+      selectedDate: null,
     };
   }
 
   handleChange = (date) => {
-    const dateWithTimeZone = moment(date);
+    const dateWithTimeZone = moment.utc(date);
     this.setState({
-      startDate: date,
+      selectedDate: dateWithTimeZone,
     });
     this.props.onChangeEvent(dateWithTimeZone.toISOString());
   };
 
   render() {
+    const { selectedDate } = this.state;
+    const myInput = (
+      <button style={{ color: '#0a8fd1' }} className="button is-info">
+        <span className="icon">
+          <i className="fas fa-calendar-alt" />
+        </span>
+
+        {selectedDate && selectedDate.format ? (
+          <span>{selectedDate.format('D/MMMM/YYYY')}</span>
+        ) : (
+          <span className="has-text-dark">Select a Date</span>
+        )}
+      </button>
+    );
     return (
       <DatePicker
-        inline
-        selected={this.state.startDate}
+        className="input is-info is-outlined"
+        customInput={myInput}
+        selected={this.state.selectedDate}
         onChange={this.handleChange}
-        minDate={minDate}
-        maxDate={moment().add(20, 'd')}
+        minDate={this.minDate}
+        maxDate={moment().add(30, 'd')}
+        disabledKeyboardNavigation
+        placeholderText="Select a date..."
+        dateFormat={'D/MMMM/YYYY'}
       />
     );
   }

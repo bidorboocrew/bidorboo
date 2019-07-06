@@ -15,7 +15,7 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import moment from 'moment';
 import * as Yup from 'yup';
 import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/FormsHelpers';
-import { StepsForRequest } from '../containers/commonComponents';
+// import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
@@ -51,7 +51,7 @@ class GenericRequestForm extends React.Component {
       <React.Fragment>
         <div>
           <a
-            style={{ marginTop: 6, fontSize: 14 }}
+            style={{ marginTop: 6 }}
             onClick={this.getCurrentAddress}
             className="button is-small is-info is-outlined"
           >
@@ -288,16 +288,7 @@ class GenericRequestForm extends React.Component {
     });
 
     return (
-      <div
-        style={{ maxWidth: 'unset', border: 'none', boxShadow: 'none' }}
-        className="card limitLargeMaxWidth"
-      >
-        <section style={{ padding: '0.5rem' }} className="hero is-small is-white">
-          <br />
-          <StepsForRequest isSmall step={1} />
-          <br />
-        </section>
-
+      <div className="card limitLargeMaxWidth">
         <div className="card-content">
           {showConfirmationDialog &&
             ReactDOM.createPortal(
@@ -305,7 +296,7 @@ class GenericRequestForm extends React.Component {
                 <div onClick={this.toggleConfirmationDialog} className="modal-background" />
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <div className="modal-card-title">Confirm Request Details</div>
+                    <div className="modal-card-title">Request Preview</div>
                     <button
                       onClick={this.toggleConfirmationDialog}
                       className="delete"
@@ -314,22 +305,7 @@ class GenericRequestForm extends React.Component {
                   </header>
 
                   <section className="modal-card-body">
-                    <label className="label">Your Request Preview</label>
                     <RequesterRequestDetailsPreview job={newTaskDetails} />
-
-                    <div className="field" style={{ padding: '0.5rem', marginTop: 12 }}>
-                      <label className="label">BidOrBoo Safety rules</label>
-                      <div className="help">
-                        * Once you post you will not be able to edit the job details.
-                      </div>
-                      <div className="help">
-                        * For your privacy Taskers will not see the exact address.
-                      </div>
-                      <div className="help">
-                        * Once you have chosen a Tasker you will get in touch to finalize the
-                        details.
-                      </div>
-                    </div>
                   </section>
                   <footer className="modal-card-foot">
                     <button
@@ -338,9 +314,9 @@ class GenericRequestForm extends React.Component {
                       className="button is-outline"
                     >
                       <span className="icon">
-                        <i className="far fa-edit" />
+                        <i className="far fa-arrow-alt-circle-left" />
                       </span>
-                      <span>go Back</span>
+                      <span>Go Back</span>
                     </button>
                     <button
                       style={{ width: 120 }}
@@ -375,8 +351,8 @@ class GenericRequestForm extends React.Component {
             />
 
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-            <DisplayLabelValue labelText="Sercvice Commitment" labelValue={TASK_EXPECTATIONS} />
-            <br />
+            <DisplayLabelValue labelText="Our Service Commitment" labelValue={TASK_EXPECTATIONS} />
+
             <React.Fragment>
               <input
                 id="addressText"
@@ -395,8 +371,8 @@ class GenericRequestForm extends React.Component {
                 id="geoInputField"
                 type="text"
                 helpText={'You must select an address from the drop down menu'}
-                label="What's the address where you need cleaning?"
-                placeholder="Enter your request's address"
+                label="Location"
+                placeholder="start typing an address"
                 autoDetectComponent={this.shouldShowAutodetectControl}
                 error={touched.addressText && errors.addressText}
                 value={values.addressText || ''}
@@ -427,7 +403,7 @@ class GenericRequestForm extends React.Component {
                 }}
               />
             </React.Fragment>
-            <br />
+
             <React.Fragment>
               <input
                 id="startingDateAndTime"
@@ -444,44 +420,42 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="When do you want it done?"
+                label="Date and Time"
                 onChangeEvent={this.updateDateInputFieldValue}
               />
               <div className="buttons">
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('morning')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
                   }`}
                 >
                   Morning (8AM-12PM)
                 </span>
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('afternoon')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
                   }`}
                 >
                   Afternoon (12PM-5PM)
                 </span>
-              </div>
 
-              <div className="buttons">
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('evening')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
                   }`}
                 >
                   Evening (5PM-12AM)
                 </span>
                 <span
-                  style={{ width: 160, fontSize: 14 }}
+                  style={{ width: 140 }}
                   onClick={() => this.selectTimeButton('anytime')}
-                  className={`button is-info ${
+                  className={`button is-info is-small ${
                     selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
                   }`}
                 >
@@ -498,19 +472,20 @@ class GenericRequestForm extends React.Component {
               id="detailedDescription"
               type="text"
               helpText={
-                '* The more details you put the more likely that you will get the task done to your satisfaction.'
+                '* Add all the necessary details to help our BidOrBoo Taskers to get it done right.'
               }
-              label="Tell the tasker about your expectations or any special Instructions"
+              label="Add more details for the Tasker"
               startWithTemplateButton={
                 <a
                   style={{ marginBottom: 4 }}
-                  className="button is-info is-outlined is-small"
+                  className="button is-text is-small"
                   onClick={this.insertTemplateText}
                 >
-                  <span className="icon">
-                    <i className="fas fa-pencil-alt" />
+                  {/* <span className="icon">
+                  </span> */}
+                  <span>
+                    <i className="fas fa-pencil-alt" /> Or answer commonly asked questions
                   </span>
-                  <span>Common Questions</span>
                 </a>
               }
               placeholder={SUGGESTION_TEXT}
@@ -564,8 +539,10 @@ class GenericRequestForm extends React.Component {
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
-      if (address && !address.toLowerCase().includes('canada')) {
-        alert('Sorry! Bid or Boo is only available in Canada.');
+      if (address && !address.toLowerCase().includes('ottawa')) {
+        alert(
+          'Sorry! Bid or Boo is only available in Ottawa. Soon it will be available in All of Canada',
+        );
       } else {
         this.autoSetGeoLocation(address);
       }

@@ -37,26 +37,26 @@ living room kitchen bedrooms and more ?`,
                 value={values.effort}
               />
               <div className="field">
-                <label className="label">How long would you like to book?</label>
+                <label className="label">Requested Duration</label>
                 <div className="buttons">
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'small', true)}
-                    className={`button is-info ${values.effort === 'small' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'small' ? '' : 'is-outlined'}`}
                   >
                     {`Small (1-3 hours)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'medium', true)}
-                    className={`button is-info ${values.effort === 'medium' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'medium' ? '' : 'is-outlined'}`}
                   >
                     {`Medium (3-6 hours)`}
                   </span>
                   <span
                     style={{ width: 160 }}
                     onClick={() => setFieldValue('effort', 'large', true)}
-                    className={`button is-info ${values.effort === 'large' ? '' : 'is-outlined'}`}
+                    className={`button is-info is-small ${values.effort === 'large' ? '' : 'is-outlined'}`}
                   >
                     {`Large (6-8 hours)`}
                   </span>
@@ -88,7 +88,5 @@ living room kitchen bedrooms and more ?`,
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house.
-Based on your reqest the Tasker may vaccume or mop the floors, dust the furniture, clean the washrooms, kitchen, bathrooms, living room and other areas.
-However the tasker will not clean things that require special treatment or the intside of the closets/kitchen cabinets.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
 };

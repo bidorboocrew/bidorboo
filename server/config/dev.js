@@ -1,4 +1,6 @@
 //dev key
+// facebookClientID: '163507814292582',
+//   facebookClientSecret: '4cefe64eda81119b9b8bcbaf5cd54563',
 module.exports = {
   googleClientID: '24863307203-a8tc9rk9uko554s0kl30add2sati6kn0.apps.googleusercontent.com',
   googleClientSecret: 'Oh01FuNLMFSSoTcZVA1BdnxW',
@@ -7,8 +9,8 @@ module.exports = {
   devmongoURI: 'mongodb://bidorboocrew:123bidorboocrew321@ds233218.mlab.com:33218/heroku_tr6v8hnj',
   cookieKey: 'A4CABA6E3F7886CD23F9B43893D62',
   cookieKey2: 'A4719F2E6DBD67DACF4627A3B74A1',
-  facebookClientID: '163507814292582',
-  facebookClientSecret: '4cefe64eda81119b9b8bcbaf5cd54563',
+  facebookClientID: '421206188726839',
+  facebookClientSecret: 'b3bf4a9e1cf2c3c9be1be55e50438ee7',
   sessionSecret: '5fE3d89TwB6WnAF3Yb2MyQkb5rVcTe',
   allowedHostName: 'localhost',
   bugSnagApiKey: '73a5b07dd9df6ea352bebda9e3ce4f62',
@@ -31,5 +33,6 @@ module.exports = {
   TWILIO_PUBLIC_API_KEY: 'SKd9c3f35f83a2f248a1dab5557efa6d40',
   TWILIO_SECRET_API_KEY: 'tswzfkXfokakTUuOGsERArD5HHZpxSzz',
   TWILIO_CHAT_SERVICE_SID: 'IS00721c15d383476bbbff60453394a407',
+  twilioMsgingServiceSid: 'MG59d04d8cd9f01d5d8dcad6626df35e29',
 };
 // xxx https://www.twilio.com/docs/chat/tutorials/chat-application-node-express

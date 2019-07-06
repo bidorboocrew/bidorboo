@@ -63,34 +63,25 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Request Details</h1>
-            </div>
-          </div>
-        </section>
-        <hr className="divider" />
-        <div className="columns is-centered">
-          <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button is-outlined"
-                onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>View My Other Requests</span>
-              </a>
-            </div>
-            {getMeTheRightRequestCard({
-              job: selectedAwardedJob,
-              isSummaryView: false,
-              pointOfView: POINT_OF_VIEW.REQUESTER,
-            })}
-          </div>
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth">
+          <nav className="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li>
+                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}>
+                  <span>My Requests</span>
+                </a>
+              </li>
+              <li className="is-active">
+                <a>Request Details</a>
+              </li>
+            </ul>
+          </nav>
+          {getMeTheRightRequestCard({
+            job: selectedAwardedJob,
+            isSummaryView: false,
+            pointOfView: POINT_OF_VIEW.REQUESTER,
+          })}
         </div>
       </div>
     );

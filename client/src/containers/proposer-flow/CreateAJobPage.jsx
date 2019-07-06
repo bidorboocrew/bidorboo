@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import { addJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
@@ -33,13 +34,23 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="container is-widescreen">
-        <div className="columns is-centered">
-          <div className="column">
-            {/* create job based on ID */}
-            {creatJobsByIdMap[`${chosenTemplate}`] &&
-              creatJobsByIdMap[`${chosenTemplate}`](this.props)}
-          </div>
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth">
+          <nav className="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li>
+                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}>
+                  <span>BidOrBoo Services</span>
+                </a>
+              </li>
+              <li className="is-active">
+                <a>Fill The Details</a>
+              </li>
+            </ul>
+          </nav>
+          {/* create job based on ID */}
+          {creatJobsByIdMap[`${chosenTemplate}`] &&
+            creatJobsByIdMap[`${chosenTemplate}`](this.props)}
         </div>
       </div>
     );

@@ -366,7 +366,7 @@ exports.jobDataAccess = {
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
       await JobModel.find({
         _awardedBidRef: { $exists: true },
-        $in: ['ARCHIVE'],
+        state: { $in: ['ARCHIVE'] },
       })
         .populate({
           path: '_bidsListRef',
@@ -2031,7 +2031,7 @@ exports.jobDataAccess = {
         await JobModel.findOneAndUpdate(
           { _id: jobId, _ownerRef: mongoUser_id },
           {
-            ...updateDetails
+            ...updateDetails,
           },
           { new: true }
         );

@@ -38,7 +38,20 @@ passport.use(
       if (existingUser) {
         return done(null, existingUser);
       }
+
       const userEmail = profile.emails ? profile.emails[0].value : '';
+      if (userEmail) {
+        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+          userEmail
+        );
+        if (anotherUserExistsWithSameEmail) {
+          return done(
+            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            null
+          );
+        }
+      }
+
       const userDetails = {
         isFbUser: true,
         displayName: profile.displayName,
@@ -75,6 +88,17 @@ passport.use(
         return done(null, existingUser);
       }
       const userEmail = profile.emails ? profile.emails[0].value : '';
+      if (userEmail) {
+        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+          userEmail
+        );
+        if (anotherUserExistsWithSameEmail) {
+          return done(
+            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            null
+          );
+        }
+      }
       const userDetails = {
         isGmailUser: true,
         displayName: profile.displayName,
@@ -91,7 +115,8 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To create user via google login', details: `${e}` }, null);
+      console.error('Failed To google Auth' + e);
+      return done({ errorMsg: 'Failed To google Auth', details: `${JSON.stringify(e)}` }, null);
     }
   })
 );
@@ -134,7 +159,11 @@ passport.use(
       const user = await userDataAccess.createNewUser(userDetails);
       done(null, user);
     } catch (err) {
-      done({ errorMsg: 'failed to register user', details: err }, null);
+      console.error('Failed To google Auth' + e);
+      return done(
+        { errorMsg: 'Failed To register local Auth', details: `${JSON.stringify(e)}` },
+        null
+      );
     }
   })
 );

@@ -126,6 +126,9 @@ class RequesterRequestDetails extends React.Component {
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="button is-outline"
                   >
+                    <span className="icon">
+                      <i className="far fa-arrow-alt-circle-left" />
+                    </span>
                     <span>Go Back</span>
                   </button>
                   <button
@@ -155,11 +158,11 @@ class RequesterRequestDetails extends React.Component {
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+                <div style={{ flexGrow: 1 }} className="title">
                   <span className="icon">
                     <i className={ICON} />
                   </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
                 </div>
 
                 <div
@@ -196,16 +199,7 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
+
               {isPastDue && (
                 <div className="field">
                   <label className="label">Request Status</label>
@@ -254,10 +248,10 @@ class RequesterRequestDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
               {showMore && (
                 <React.Fragment>
+                  <DisplayLabelValue labelText="Address" labelValue={addressText} />
+
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="field">
                     <label className="label">Detailed Description</label>
@@ -278,24 +272,24 @@ class RequesterRequestDetails extends React.Component {
                 </React.Fragment>
               )}
             </div>
-          </div>
-          <div style={{ padding: '0.5rem' }}>
-            {!showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show full details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-down" />
-                </span>
-              </a>
-            )}
-            {showMore && (
-              <a onClick={this.toggleShowMore} className="button is-small is-outlined">
-                <span style={{ marginRight: 4 }}>show less details</span>
-                <span className="icon">
-                  <i className="fas fa-angle-double-up" />
-                </span>
-              </a>
-            )}
+            <React.Fragment>
+              {!showMore && (
+                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <span style={{ marginRight: 4 }}>show full details</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-down" />
+                  </span>
+                </a>
+              )}
+              {showMore && (
+                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <span style={{ marginRight: 4 }}>show less details</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-up" />
+                  </span>
+                </a>
+              )}
+            </React.Fragment>
           </div>
         </div>
       </React.Fragment>

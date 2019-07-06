@@ -1,7 +1,7 @@
 @charset "utf-8";
 
-@import './_fonts.scss';
-@import './_variables.scss';
+// @import './_fonts.scss';
+// @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
 
@@ -13,40 +13,48 @@
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap');
+
+$border-divider: 1px solid rgba(0, 0, 0, 0.12);
 
 html body {
   color: #363636;
   line-height: 1.5;
-  background: white;
+  background: #eeeeee;
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  // font-weight: 300;
 }
 
-body {
-  background-color: #222;
-}
-
+// body {
+//   position: relative;
+// }
+// #fc_frame {
+//   position: absolute !important;
+//   bottom: 0.5rem !important;
+//   right: 1rem !important;
+//   z-index: 10 !important;
+// }
 #mainFooter {
   margin-top: 1.5rem;
   padding: 1rem;
-  background: #363636;
-  * {
-    color: white !important;
-  }
+  background: #ffffff;
 }
 
 #RoutesWrapper {
-  padding: 0.5rem;
+  // padding: 0 0.5rem;
   min-height: 100vh !important;
 }
 
 .nav-bottom-border {
   border-bottom: $border-divider !important;
 }
-
+#dropdown-menu {
+  top: 25px;
+}
 .bdb-spinner {
   margin: auto;
   border: 5px solid #f3f3f3;
@@ -86,35 +94,6 @@ body {
   }
 }
 
-a.button {
-  border-radius: 0;
-  &.is-gold {
-    background: #ffd700;
-    color: black;
-    &:hover {
-      background: black;
-      color: #ffd700;
-    }
-  }
-}
-
-//over ride the date selector calendar to over flow anything else
-// xxxx look at better ways of doing this
-div.react-datepicker-popper {
-  z-index: 10 !important;
-}
-button.react-datepicker__navigation.react-datepicker__navigation--next {
-  border-left-color: #209cee !important;
-  border-width: 10px !important;
-}
-button.react-datepicker__navigation.react-datepicker__navigation--previous {
-  border-right-color: #209cee !important;
-  border-width: 10px !important;
-}
-div.react-datepicker {
-  font-size: 16px;
-}
-
 .flexibleTimeCheckbox {
   margin-top: 6px;
   margin-right: 5px;
@@ -126,6 +105,7 @@ div.react-datepicker {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   #BidOrBoo-logo-step {
     > span {
@@ -277,15 +257,17 @@ a.navbar-item.is-active {
 .react-datepicker__day {
   font-size: 18px;
 }
-
-$family-primary: 'Open Sans', sans-serif;
-$family-sans-serif: 'Open Sans', sans-serif;
-$body-background-color: white; //#3b549c;
+.title:last-child {
+  margin-bottom: 1.5rem;
+}
+$family-primary: 'Nunito', sans-serif;
+$family-sans-serif: 'Nunito', sans-serif;
+$body-background-color: #eeeeee; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works
 $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
-$orange: #ff1e2d !default;
+$orange: #ef2834 !default;
 $yellow: #e19f00 !default;
 $green: hsl(141, 71%, 48%) !default;
 $cyan: #0a8fd1 !default;
@@ -295,7 +277,7 @@ $red: #ee2a36 !default;
 $navbar-item-active-color: $cyan !important;
 $navbar-item-hover-color: black;
 
-$family-sans-serif: 'Open Sans', sans-serif !default;
+$family-sans-serif: 'Nunito', sans-serif !default;
 $family-monospace: monospace !default;
 $render-mode: optimizeLegibility !default;
 
@@ -423,15 +405,21 @@ input[type='radio'] {
 .tabs {
   background: white;
 }
+.table {
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
 
 header.card-header {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .hero-body {
-  padding: 0.75rem !important;
+  // padding: 0.75rem !important;
 }
-
+.columns {
+  margin: 0 !important;
+}
 .help {
   color: grey;
 }
@@ -466,16 +454,54 @@ article.media.limitHeight {
   display: inline-block;
 }
 
-.card-content {
-  padding: 0.5rem;
-  min-height: 20rem;
-  &.template {
-    min-height: unset;
+.column {
+  &.isforCards {
+    padding: 0;
+    margin: 1.5rem;
   }
 }
-.card {
-  height: 100%;
+.button.is-outlined {
+  background: #fff !important;
+  &:hover {
+    background: #eeeeee !important;
+    color: #353535 !important;
+  }
+}
+.cardWithButton {
+  position: relative;
+  width: 22rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  &.nofixedwidth {
+    width: auto;
+  }
+}
+.firstButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
+  width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  &.nofixedwidth {
+    width: auto;
+  }
+}
 
+.bidButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.card {
+  color: #353535;
+  height: 100%;
+  border-radius: 6px;
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;
@@ -485,7 +511,7 @@ article.media.limitHeight {
     }
   }
   &.readOnlyView {
-    background: #eeeeee;
+    background: rgba(white, 0.7);
     // cursor: not-allowed;
     cursor: default;
     box-shadow: none !important;
@@ -494,13 +520,7 @@ article.media.limitHeight {
       animation: none !important;
     }
   }
-  // border: 1px solid #eeeeee;
-  // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
-  //   0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  // min-width: 15rem;
-  // border-radius: 4px;
-  // cursor: pointer;
-  // border: 1px solid #eee;
+
   &.extraShadow {
     box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
       0 5px 5px -3px rgba(0, 0, 0, 0.2);
@@ -603,7 +623,7 @@ article.media.limitHeight {
     > div.buttonlike {
       cursor: pointer;
       height: 100%;
-      padding: 1rem 0.5rem;
+      padding: 0.5rem 0.5rem;
       border-radius: 6px;
       &:hover {
         background: hsl(141, 71%, 48%);
@@ -664,9 +684,25 @@ article.media.limitHeight {
   }
 }
 
+//over ride the date selector calendar to over flow anything else
+// xxxx look at better ways of doing this
+div.react-datepicker-popper {
+  z-index: 10 !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--next {
+  border-left-color: #209cee !important;
+  border-width: 10px !important;
+}
+button.react-datepicker__navigation.react-datepicker__navigation--previous {
+  border-right-color: #209cee !important;
+  border-width: 10px !important;
+}
+div.react-datepicker {
+  font-size: 16px;
+}
 .react-datepicker__header {
   text-align: center;
-  background-color: white !important;
+  background-color: #eeeeee !important;
   border-bottom: 1px solid lightgray;
   border-top-left-radius: none !important;
   border-top-right-radius: none !important;
@@ -676,7 +712,7 @@ article.media.limitHeight {
 .react-datepicker {
   border-radius: 0 !important;
   border-color: lightgray !important;
-  width: 20rem;
+  // width: 20rem;
 }
 .react-datepicker__month-container {
   display: block;
@@ -686,12 +722,20 @@ article.media.limitHeight {
 .react-datepicker__day {
   // color: #000 !important;
   display: inline-block !important;
-  width: 1.7rem !important;
-  line-height: 2rem !important;
+  // width: 1.7rem !important;
+  // line-height: 2rem !important;
   text-align: center !important;
-  margin: 0.5rem !important;
+  // margin: 0.5rem !important;
 }
 
-.react-datepicker__current-month {
-  font-size: 1.25rem !important;
+// .react-datepicker__current-month {
+//   font-size: 1.25rem !important;
+// }
+
+#bob-ChatSupport {
+  position: fixed;
+  top: calc(90vh - 1.5rem);
+  right: -26px;
+  transform: rotate(270deg);
+  z-index: 0;
 }

@@ -124,18 +124,18 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             document.querySelector('#bidorboo-root-modals'),
           )}
 
-        <div className="card limitWidthOfCard">
+        <div className="card cardWithButton">
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
           <div className="card-content">
             <div className="content">
               <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
+                <div style={{ flexGrow: 1 }} className="title">
                   <span className="icon">
                     <i className={ICON} />
                   </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
+                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
                 </div>
                 <div
                   ref={(node) => (this.node = node)}
@@ -171,16 +171,6 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                   )}
                 </div>
               </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
               {bidderConfirmed && (
                 <div className="field">
                   <label className="label">Request Status</label>
@@ -220,22 +210,19 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <DisplayShortAddress addressText={addressText} />
+              {/* <DisplayShortAddress addressText={addressText} /> */}
             </div>
           </div>
 
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <div className="firstButtonInCard">
             <a
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-outlined is-fullwidth is-success`}
+              className={`button is-fullwidth is-success`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
-              {`${isPastDue || bidderConfirmed ? 'View To Confirm' : 'View Tasker Details'}`}
+              {`${isPastDue || bidderConfirmed ? 'Confirm Completion' : 'View Tasker Details'}`}
             </a>
           </div>
         </div>
