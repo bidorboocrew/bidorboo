@@ -9,23 +9,13 @@ export default class BidderRootFilterWrapper extends React.Component {
   render() {
     const { isHorizontal = true } = this.props;
     return isHorizontal ? (
-      <div style={{ border: '1px solid lightgrey ', padding: '1rem', background: '#eeeeee' }}>
-        <div className="field is-horizontal">
-          <div className="field-label is-normal">
-            <label className="label">Edit Search Criteria</label>
-          </div>
-
-          <div className="field-body">
-            <div className="field">
-              <div className="control">
-                <BidderRootLocationFilter {...this.props} />
-              </div>
-            </div>
-          </div>
+      <div style={{ background: 'white', border: '1px solid #eeeeee ', padding: '1rem' }}>
+        <div className="field">
+          <BidderRootLocationFilter {...this.props} />
         </div>
       </div>
     ) : (
-      <div style={{ border: '1px solid lightgrey ', padding: '1rem', background: '#eeeeee' }}>
+      <div style={{ border: '1px solid #eeeeee ', padding: '1rem' }}>
         <div className="field">
           <div className="control">
             <BidderRootLocationFilter {...this.props} />

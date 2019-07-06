@@ -40,6 +40,42 @@ class BidderRootPage extends React.Component {
     this.mapRootRef = React.createRef();
   }
 
+  componentDidUpdate(prevProps) {
+    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
+
+    if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
+      const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
+      if (userLastStoredSearchParams) {
+        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const { coordinates } = location;
+
+        this.setState(
+          () => {
+            return {
+              isThereAnActiveSearch: true,
+              userLastStoredSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+              activeSearchParams: {
+                searchRadius,
+                latLng: { lng: coordinates[0], lat: coordinates[1] },
+                addressText,
+              },
+            };
+          },
+          () => {
+            searchJobsToBidOn({
+              searchRadius,
+              location: { lng: coordinates[0], lat: coordinates[1] },
+              addressText,
+            });
+          },
+        );
+      }
+    }
+  }
   componentDidMount() {
     const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
 
@@ -145,7 +181,7 @@ class BidderRootPage extends React.Component {
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
 
     return (
-      <div className="container is-widescreen">
+      <div>
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
@@ -157,8 +193,6 @@ class BidderRootPage extends React.Component {
             </div>
           </div>
         </section>
-        <br />
-
         <div className="has-text-centered">
           {anyVisibleJobs && (
             <BidderRootFilterWrapper
@@ -202,12 +236,11 @@ class BidderRootPage extends React.Component {
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        <StepsForTasker isSmall={true} step={1} />
+                        {/* <StepsForTasker isSmall={true} step={1} /> */}
                         <br />
                         <div className="is-size-6">
                           Find Requests in the Areas where you're able to provide them
                         </div>
-                        <br />
 
                         <BidderRootFilterWrapper
                           isHorizontal={false}
@@ -234,7 +267,6 @@ class BidderRootPage extends React.Component {
                           No Requests match your search criteria at this time.
                           <br /> Please try Changing your search criteria or check again later.
                         </div>
-                        <br />
 
                         <BidderRootFilterWrapper
                           isHorizontal={false}

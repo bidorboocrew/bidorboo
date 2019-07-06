@@ -216,15 +216,20 @@ export default class BidderRootLocationFilter extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <a
-          style={{ height: 'unset', maxWidth: '30rem', whiteSpace: 'unset' }}
+          style={{ height: 'unset', maxWidth: '30rem', whiteSpace: 'unset', margin: 'auto' }}
           onClick={this.toggleModal}
           className="button is-link is-fullwidth"
         >
-          {`${
-            addressText
-              ? `Requests within ${searchRadius}km of ${addressText}`
-              : 'Click to specify a search area'
-          }`}
+          <span className="icon">
+            <i className="is-size-4 fas fa-search-location" />
+          </span>
+          <span>
+            {`${
+              addressText
+                ? `Currently Viewing Requests within ${searchRadius}km of ${addressText}`
+                : 'Click to specify a search area'
+            }`}
+          </span>
         </a>
       </React.Fragment>
     );
@@ -232,31 +237,6 @@ export default class BidderRootLocationFilter extends React.Component {
 }
 
 class GeoSearch extends React.Component {
-  static propTypes = {
-    handleSelect: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
-    onChangeEvent: PropTypes.func.isRequired,
-    onBlurEvent: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
-    // autoSetValue: PropTypes.string,
-  };
-  static defaultProps = {
-    placeholder: '',
-    value: '',
-  };
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { addressText: props.value };
-  //   autoBind(this, 'updateField');
-  // }
-
-  // updateField(addressText) {
-  //   this.setState({ addressText });
-  //   this.props.onChangeEvent(addressText);
-  // }
-
   render() {
     const { handleSelect, onError, placeholder, id, onBlurEvent, onChange, value } = this.props;
 
@@ -285,9 +265,6 @@ class GeoSearch extends React.Component {
                 className: 'location-search-input input',
               })}
             />
-            {/* <span className="icon is-small is-left">
-              <i className="fab fa-canadian-maple-leaf" />
-            </span> */}
           </div>
           <div
             style={{ ...containerDropDownStyle }}
