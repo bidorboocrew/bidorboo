@@ -27,7 +27,7 @@ class VerifyPhoneButton extends React.Component {
     this.setState({ isResendingVCode: true }, async () => {
       try {
         const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationEmail,
+          ROUTES.API.USER.POST.resendVerificationMsg,
         );
         if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');

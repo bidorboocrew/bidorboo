@@ -57,7 +57,7 @@ exports.TxtMsgingService = {
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
-  sendText: (mobileNumber, msgContent, callback = () => {}) => {
+  sendText: async (mobileNumber, msgContent, callback = () => {}) => {
     // let formattedMobileNumber = `1-${mobileNumber}`;
 
     // if (mobileNumber && mobileNumber.length > 0) {
@@ -69,7 +69,7 @@ exports.TxtMsgingService = {
       .create({
         body: `${msgContent}`,
         to: `+1${mobileNumber}`, // Text this number
-        from: 'BidOrBoo',
+        from: keys.twilioMsgingServiceSid,
         // from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {

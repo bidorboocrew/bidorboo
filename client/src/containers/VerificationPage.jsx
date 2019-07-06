@@ -12,13 +12,20 @@ import { verifyEmail, verifyPhone } from '../app-state/actions/authActions';
 
 class VerificationPage extends React.Component {
   componentDidMount() {
-    const { match, showLoginDialog, isLoggedIn, verifyEmail, verifyPhone } = this.props;
-    const { code, field } = match.params;
+    const { isLoggedIn } = this.props;
+
     if (!isLoggedIn) {
       showLoginDialog(true);
     } else {
       showLoginDialog(false);
+    }
+  }
 
+  componentDidUpdate(prevProps) {
+    debugger;
+    const { match, isLoggedIn, verifyPhone, verifyEmail } = this.props;
+    if (isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
+      const { code, field } = match.params;
       if (!code || !field) {
         switchRoute(`${ROUTES.CLIENT.HOME}`);
       } else {
@@ -44,7 +51,7 @@ class VerificationPage extends React.Component {
   }
 
   render() {
-    const { match, verifyingPhoneInProgress, verifyingEmailInProgress, isLoggedIn } = this.props;
+    const { match, verifyingPhoneInProgress, verifyingEmailInProgress } = this.props;
     const { field } = match.params;
 
     return (
@@ -57,10 +64,7 @@ class VerificationPage extends React.Component {
           </div>
         </section>
         <section>
-          <Spinner
-            isLoading={verifyingPhoneInProgress || verifyingEmailInProgress}
-            size={'large'}
-          />
+          <Spinner isLoading={true} size={'large'} />
         </section>
       </div>
     );

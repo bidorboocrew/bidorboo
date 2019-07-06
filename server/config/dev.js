@@ -33,5 +33,6 @@ module.exports = {
   TWILIO_PUBLIC_API_KEY: 'SKd9c3f35f83a2f248a1dab5557efa6d40',
   TWILIO_SECRET_API_KEY: 'tswzfkXfokakTUuOGsERArD5HHZpxSzz',
   TWILIO_CHAT_SERVICE_SID: 'IS00721c15d383476bbbff60453394a407',
+  twilioMsgingServiceSid: 'MG59d04d8cd9f01d5d8dcad6626df35e29',
 };
 // xxx https://www.twilio.com/docs/chat/tutorials/chat-application-node-express
