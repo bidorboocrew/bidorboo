@@ -22,7 +22,6 @@ class VerificationPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    debugger;
     const { match, isLoggedIn, verifyPhone, verifyEmail } = this.props;
     if (isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
       const { code, field } = match.params;

@@ -44,7 +44,6 @@ const EnhancedForms = withFormik({
   },
 
   handleSubmit: async (values, { setSubmitting, props }) => {
-    debugger;
     const { idFrontImg, idBackImg } = values;
     let frontSideResp;
     let backSideResp;
