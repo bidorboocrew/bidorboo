@@ -62,38 +62,29 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Bid Details</h1>
-            </div>
-          </div>
-        </section>
-        <hr className="divider isTight" />
-        <div className="columns is-centered">
-          <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button is-outlined"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>View My Other Bids</span>
-              </a>
-            </div>
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth">
+          <nav className="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+              <li>
+                <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}>
+                  <span>My Bids</span>
+                </a>
+              </li>
+              <li className="is-active">
+                <a>Bid Details</a>
+              </li>
+            </ul>
+          </nav>
 
-            {getMeTheRightBidCard({
-              bid: selectedOpenBid,
-              isSummaryView: false,
-              pointOfView: POINT_OF_VIEW.TASKER,
-              userDetails: currentUserDetails,
-              updateBid,
-              deleteOpenBid,
-            })}
-          </div>
+          {getMeTheRightBidCard({
+            bid: selectedOpenBid,
+            isSummaryView: false,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            userDetails: currentUserDetails,
+            updateBid,
+            deleteOpenBid,
+          })}
         </div>
       </div>
     );

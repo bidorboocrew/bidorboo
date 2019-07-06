@@ -112,8 +112,8 @@ class BidModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <p>
-              Based on the request details that you've read, please enter the total payment amount
-              you'd like to recieve in exchange for doing this task.
+              Enter your bid (a total amount) you'd like to recieve in exchange for fulfilling this
+              task.
             </p>
 
             <TextInput
@@ -143,7 +143,7 @@ class BidModal extends React.Component {
             </div>
             <br />
 
-            <div className="field">
+            {/* <div className="field">
               <div className="label">BidOrBoo Rules</div>
 
               {values.bidAmountField && values.bidAmountField > 1 && (
@@ -165,7 +165,7 @@ class BidModal extends React.Component {
                   frequently will put a ban on your account
                 </strong>
               </div>
-            </div>
+            </div> */}
           </section>
 
           <footer className="modal-card-foot">

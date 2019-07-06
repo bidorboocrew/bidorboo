@@ -71,7 +71,7 @@ class ReviewAwardedBidPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
+      <div>
         <section className="hero is-white has-text-centered">
           <div className="hero-body">
             <div className="container">
@@ -79,7 +79,6 @@ class ReviewAwardedBidPage extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider isTight" />
         <div className="columns is-centered">
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
