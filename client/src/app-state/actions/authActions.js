@@ -131,7 +131,7 @@ export const getCurrentUser = () => (dispatch) =>
               });
             }
           }
-
+          debugger
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
@@ -217,7 +217,6 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-
           switchRoute(ROUTES.CLIENT.ONBOARDING);
         }
       })

@@ -25,7 +25,7 @@ module.exports = (process) => {
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
-  mongoose.connect(keys.prodMongoURI, dbOptions, (err) => {
+  mongoose.connect(keys.mongoURI, dbOptions, (err) => {
     if (err) {
       console.log(
         `Could not connect to mongodb on localhost.

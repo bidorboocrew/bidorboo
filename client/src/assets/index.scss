@@ -218,13 +218,12 @@ html body {
 
 #ONBOARDING_CONTAINER {
   position: absolute;
-  z-index: 9999;
-  top: 1rem;
+  z-index: 99999;
+  top: 0;
   left: 0;
   width: 100%;
   bottom: 0;
-
-  background: white;
+  background: #eeeeee;
 }
 
 // .container {

@@ -6,7 +6,6 @@ const initialState = {
   authIsInProgress: true,
   shouldShowLoginDialog: false,
   userAppView: 'PROPOSER', //or BIDDER
-
   /**
    * toastDetails : {toastType : warning|successful|error , Msg: string, toastId: uuid}
    */
