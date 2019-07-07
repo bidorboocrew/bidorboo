@@ -10,6 +10,10 @@ const Step2 = ({ nextButton, backButton }) => {
     <div style={{ position: 'relative' }}>
       <div className="title has-text-centered">Let's Setup Your Phone Number</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
+        <p className="label">
+          Your phone number is necessary for facilitating communication when requesting or doing a
+          task
+        </p>
         <label className="label">Enter Your Phone Number</label>
         <input
           className="input"
