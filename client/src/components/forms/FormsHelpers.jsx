@@ -86,7 +86,7 @@ export const TextInput = ({
             <div className="control has-icons-left">
               <input
                 id={id}
-                className="input"
+                className={inputClassName}
                 type={type}
                 value={value || ''}
                 onChange={onChange}

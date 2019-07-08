@@ -1,11 +1,45 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
+import VerifyEmailField from './VerifyEmailField';
+import VerifyPhoneField from './VerifyPhoneField';
+import UpdatePhoneNumberField from './UpdatePhoneNumberField';
+import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 
-const Step2 = ({ nextButton, backButton }) => {
+const Step1 = ({ nextButton, backButton, userDetails, showSetupPhone }) => {
+  return (
+    <div style={{ position: 'relative' }}>
+      <div className="title has-text-centered">Verify your email address</div>
+      <div className="slide-in-right field" style={{ height: '10rem' }}>
+        <p className="label">
+          We've sent an email to ({userDetails.email.emailAddress}) please check the email and enter
+          the code
+        </p>
+        <VerifyEmailField />
+      </div>
+      <br />
+
+      <button onClick={showSetupPhone} className="button is-medium is-success is-pulled-right">
+        {`Skip >`}
+      </button>
+    </div>
+  );
+};
+
+const Step2 = ({
+  nextButton,
+  backButton,
+  userDetails,
+  onSubmit,
+  showPhoneVerification,
+  showEmailVerification,
+  showTosStep,
+}) => {
   return (
     <div style={{ position: 'relative' }}>
       <div className="title has-text-centered">Let's Setup Your Phone Number</div>
@@ -14,71 +48,47 @@ const Step2 = ({ nextButton, backButton }) => {
           Your phone number is necessary for facilitating communication when requesting or doing a
           task
         </p>
-        <label className="label">Enter Your Phone Number</label>
-        <input
-          className="input"
-          type="tel"
-          id="phone"
-          name="phone"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-          required
+        <UpdatePhoneNumberField
+          showPhoneVerification={showPhoneVerification}
+          userDetails={userDetails}
+          onSubmit={onSubmit}
         />
-        <p className="help">*Must be a valid phone number, for example 0001114444</p>
       </div>
       <br />
-      {nextButton && nextButton()}
-      {backButton && backButton()}
+      <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
+        {`Skip >`}
+      </button>
+      <button
+        onClick={showEmailVerification}
+        className="button is-medium is-success is-pulled-left is-outlined"
+      >
+        {`< Back`}
+      </button>
     </div>
   );
 };
 
-const Step3 = ({ nextButton, backButton }) => {
+const Step3 = ({ nextButton, backButton, userDetails, showTosStep, showSetupPhone }) => {
   return (
     <div style={{ position: 'relative' }}>
       <div className="title has-text-centered">Verify Your Phone Number</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
         <p className="label">
-          We've sent a verification code to your phone () please check your messages
+          We've sent a verification code to your phone (
+          {userDetails.phone && userDetails.phone.phoneNumber}) please check your messages
         </p>
-        <label className="label">Enter Your Phone Verification Code</label>
-        <input
-          className="input"
-          type="number"
-          id="verification"
-          name="verification"
-          pattern=".{6}"
-          required
-        />
-        <p className="help">*Check your text msgs inbox and enter the 6 digit verification code</p>
+        <VerifyPhoneField />
       </div>
       <br />
-      {nextButton && nextButton()}
-      {backButton && backButton()}
-    </div>
-  );
-};
-const Step1 = ({ nextButton, backButton }) => {
-  return (
-    <div style={{ position: 'relative' }}>
-      <div className="title has-text-centered">Verify your email address</div>
-      <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <p className="label">We've sent an email to () please check the email and enter the code</p>
-        <label className="label">Enter Your Email Verification code</label>
-        <input
-          className="input"
-          type="number"
-          id="verification"
-          name="verification"
-          pattern=".{6}"
-          required
-        />
-        <p className="help">
-          *Check your inbox or junk folders just incase and enter the 6 digit verification code
-        </p>
-      </div>
-      <br />
-      {nextButton && nextButton()}
-      {backButton && backButton()}
+      <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
+        {`Skip >`}
+      </button>
+      <button
+        onClick={showSetupPhone}
+        className="button is-medium is-success is-pulled-left is-outlined"
+      >
+        {`< Back`}
+      </button>
     </div>
   );
 };
@@ -124,6 +134,7 @@ class Step4 extends React.Component {
   };
   render() {
     const { hasAgreedToTOS, tosError } = this.state;
+    const { showSetupPhone } = this.props;
     return (
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
@@ -158,41 +169,47 @@ class Step4 extends React.Component {
                 </p>
               )}
             </div>
-            <br />
-            <div className="has-text-centered">
-              <a onClick={this.verifyAndSubmitOnBoarding} className="button is-success is-large">
-                GET ME STARTED
-              </a>
-            </div>
           </div>
         </div>
+        <button
+          onClick={this.verifyAndSubmitOnBoarding}
+          className="button is-medium is-success is-pulled-right"
+        >
+          Start BidOrBooing Now
+        </button>
+        <button
+          onClick={showSetupPhone}
+          className="button is-medium is-success is-pulled-left is-outlined"
+        >
+          {`< Back`}
+        </button>
       </div>
     );
   }
 }
 
-const steps = [
-  { name: 'Step 1', component: <Step1 index={1} /> },
-  { name: 'Step 2', component: <Step2 index={2} /> },
-  { name: 'Step 3', component: <Step3 index={3} /> },
-  { name: 'Step 4', component: <Step4 index={4} /> },
-];
-
-export default class SetupYourProfileFormSteps extends React.Component {
+export class SetupYourProfileFormSteps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 0,
+      currentStep: 1,
     };
   }
 
-  nextStep = () => {
-    debugger;
-    this.setState(() => ({ currentStep: this.state.currentStep + 1 }));
+  showEmailVerification = () => {
+    this.setState(() => ({ currentStep: 1 }));
   };
-  previousStep = () => {
-    debugger;
-    this.setState(() => ({ currentStep: this.state.currentStep - 1 }));
+
+  showSetupPhone = () => {
+    this.setState(() => ({ currentStep: 2 }));
+  };
+
+  showPhoneVerification = () => {
+    this.setState(() => ({ currentStep: 3 }));
+  };
+
+  showTosStep = () => {
+    this.setState(() => ({ currentStep: 4 }));
   };
 
   componentDidMount() {
@@ -204,38 +221,58 @@ export default class SetupYourProfileFormSteps extends React.Component {
       switchRoute(`${ROUTES.CLIENT.HOME}`);
     }
   }
-  nextButton = (text = 'Next') => (
-    <button onClick={this.nextStep} className="button is-medium is-success is-pulled-right">
-      {text}
-    </button>
-  );
-
-  backButton = (text = 'Back') => (
-    <button onClick={this.previousStep} className="button is-medium is-success is-pulled-left">
-      {text}
-    </button>
-  );
 
   render() {
     const { currentStep } = this.state;
-    const { displayName } = this.props;
+    const { displayName, updateProfileDetails } = this.props;
     const { hasAgreedToTOS, tosError } = this.state;
 
     let stepToRender = null;
     switch (currentStep) {
-      case 0:
-        stepToRender = <Step1 nextButton={this.nextButton} />;
-        break;
       case 1:
-        stepToRender = <Step2 nextButton={this.nextButton} backButton={this.backButton} />;
+        stepToRender = <Step1 {...this.props} showSetupPhone={this.showSetupPhone} />;
         break;
       case 2:
-        stepToRender = <Step3 nextButton={this.nextButton} />;
+        stepToRender = (
+          <Step2
+            {...this.props}
+            showTosStep={this.showTosStep}
+            showEmailVerification={this.showEmailVerification}
+            showPhoneVerification={this.showPhoneVerification}
+            onSubmit={updateProfileDetails}
+          />
+        );
         break;
       case 3:
-        stepToRender = <Step4 />;
+        stepToRender = (
+          <Step3
+            {...this.props}
+            showTosStep={this.showTosStep}
+            showSetupPhone={this.showSetupPhone}
+          />
+        );
+        break;
+      case 4:
+        stepToRender = <Step4 {...this.props} showSetupPhone={this.showSetupPhone} />;
         break;
     }
     return <React.Fragment>{stepToRender}</React.Fragment>;
   }
 }
+
+const mapStateToProps = ({ userReducer }) => {
+  return {
+    userDetails: userReducer.userDetails,
+    isLoggedIn: userReducer.isLoggedIn,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SetupYourProfileFormSteps);

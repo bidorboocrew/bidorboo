@@ -131,7 +131,6 @@ export const getCurrentUser = () => (dispatch) =>
               });
             }
           }
-          debugger
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
