@@ -86,7 +86,7 @@ class Toast extends React.Component {
       displayToast && (
         <div
           style={{
-            zIndex: 99999,
+            zIndex: 9999999,
             position: 'fixed',
             bottom: -24,
             right: 0,
