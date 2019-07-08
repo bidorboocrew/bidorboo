@@ -12,7 +12,7 @@ export const verifyPhone = (code) => (dispatch) => {
       })
       .then((verifyReq) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -47,7 +47,7 @@ export const verifyEmail = (code) => (dispatch) => {
       })
       .then((verifyReq) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

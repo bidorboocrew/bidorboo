@@ -15,13 +15,8 @@ class VerifyPhoneField extends React.Component {
     this.state = {
       isResendingVCode: false,
       inputCodeContent: '',
-      showEnterPinDialog: false,
     };
   }
-
-  toggleEnterPinDialog = () => {
-    this.setState({ showEnterPinDialog: !this.state.showEnterPinDialog });
-  };
 
   handleSendNewCode = async () => {
     this.setState({ isResendingVCode: true }, async () => {
@@ -39,9 +34,15 @@ class VerifyPhoneField extends React.Component {
       }
     });
   };
+
+  submitPhone = (val) => {
+    const { verifyPhone, showTosStep } = this.props;
+    verifyPhone(val);
+    showTosStep();
+  };
   render() {
-    const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
-    const { verifyPhone, verifyingPhoneInProgress } = this.props;
+    const { isResendingVCode, inputCodeContent } = this.state;
+    const { verifyingPhoneInProgress, showTosStep } = this.props;
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
@@ -72,8 +73,7 @@ class VerifyPhoneField extends React.Component {
                   if (!inputCodeContent) {
                     alert('Please use the 6 digits code we sent to your phone');
                   } else if (inputCodeContent.length === 6) {
-                    verifyPhone(`${inputCodeContent}`);
-                    this.toggleEnterPinDialog();
+                    this.submitPhone(`${inputCodeContent}`);
                   } else {
                     alert("you've entered an invalid code. code is a 6 digit sent to your phone");
                   }
