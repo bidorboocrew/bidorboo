@@ -11,21 +11,29 @@ import VerifyPhoneField from './VerifyPhoneField';
 import UpdatePhoneNumberField from './UpdatePhoneNumberField';
 import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 
-const Step1 = ({ nextButton, backButton, userDetails, showSetupPhone }) => {
+const Step1 = ({ nextButton, backButton, userDetails, showSetupPhoneStep, showTosStep }) => {
+  const { phone } = userDetails;
+  let showTos = false;
+  if (phone && phone.phoneNumber && phone.isVerified) {
+    showTos = true;
+  }
   return (
     <div style={{ position: 'relative' }}>
       <div className="title has-text-centered">Verify your email address</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <p className="label">
-          We've sent an email to ({userDetails.email.emailAddress}) please check the email and enter
-          the code
-        </p>
+        <p className="label">{`We've sent the Code to: ${userDetails.email.emailAddress}`}</p>
         <VerifyEmailField />
       </div>
       <br />
 
-      <button onClick={showSetupPhone} className="button is-medium is-success is-pulled-right">
-        {`Skip >`}
+      <button
+        onClick={showTos ? showTosStep : showSetupPhoneStep}
+        className="button is-medium is-success is-pulled-right"
+      >
+        <span>Skip</span>
+        <span className="icon">
+          <i className="fas fa-chevron-right" />
+        </span>
       </button>
     </div>
   );
@@ -36,8 +44,8 @@ const Step2 = ({
   backButton,
   userDetails,
   onSubmit,
-  showPhoneVerification,
-  showEmailVerification,
+  showPhoneVerificationStep,
+  showEmailVerificationStep,
   showTosStep,
 }) => {
   return (
@@ -49,45 +57,56 @@ const Step2 = ({
           task
         </p>
         <UpdatePhoneNumberField
-          showPhoneVerification={showPhoneVerification}
+          showPhoneVerificationStep={showPhoneVerificationStep}
           userDetails={userDetails}
           onSubmit={onSubmit}
         />
       </div>
       <br />
       <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
-        {`Skip >`}
+        <span>Skip</span>
+        <span className="icon">
+          <i className="fas fa-chevron-right" />
+        </span>
       </button>
       <button
-        onClick={showEmailVerification}
+        onClick={showEmailVerificationStep}
         className="button is-medium is-success is-pulled-left is-outlined"
       >
-        {`< Back`}
+        <span className="icon">
+          <i className="fas fa-chevron-left" />
+        </span>
+        <span>Back</span>
       </button>
     </div>
   );
 };
 
-const Step3 = ({ nextButton, backButton, userDetails, showTosStep, showSetupPhone }) => {
+const Step3 = ({ nextButton, backButton, userDetails, showTosStep, showSetupPhoneStep }) => {
   return (
     <div style={{ position: 'relative' }}>
       <div className="title has-text-centered">Verify Your Phone Number</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
         <p className="label">
-          We've sent a verification code to your phone (
-          {userDetails.phone && userDetails.phone.phoneNumber}) please check your messages
+          {`We've sent the code to : ${userDetails.phone && userDetails.phone.phoneNumber}`}
         </p>
         <VerifyPhoneField />
       </div>
       <br />
       <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
-        {`Skip >`}
+        <span>Skip</span>
+        <span className="icon">
+          <i className="fas fa-chevron-right" />
+        </span>
       </button>
       <button
-        onClick={showSetupPhone}
+        onClick={showSetupPhoneStep}
         className="button is-medium is-success is-pulled-left is-outlined"
       >
-        {`< Back`}
+        <span className="icon">
+          <i className="fas fa-chevron-left" />
+        </span>
+        <span>Back</span>
       </button>
     </div>
   );
@@ -134,7 +153,7 @@ class Step4 extends React.Component {
   };
   render() {
     const { hasAgreedToTOS, tosError } = this.state;
-    const { showSetupPhone } = this.props;
+    const { showSetupPhoneStep } = this.props;
     return (
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
@@ -178,10 +197,13 @@ class Step4 extends React.Component {
           Start BidOrBooing Now
         </button>
         <button
-          onClick={showSetupPhone}
+          onClick={showSetupPhoneStep}
           className="button is-medium is-success is-pulled-left is-outlined"
         >
-          {`< Back`}
+          <span className="icon">
+            <i className="fas fa-chevron-left" />
+          </span>
+          <span>Back</span>
         </button>
       </div>
     );
@@ -196,15 +218,15 @@ export class SetupYourProfileFormSteps extends React.Component {
     };
   }
 
-  showEmailVerification = () => {
+  showEmailVerificationStep = () => {
     this.setState(() => ({ currentStep: 1 }));
   };
 
-  showSetupPhone = () => {
+  showSetupPhoneStep = () => {
     this.setState(() => ({ currentStep: 2 }));
   };
 
-  showPhoneVerification = () => {
+  showPhoneVerificationStep = () => {
     this.setState(() => ({ currentStep: 3 }));
   };
 
@@ -230,15 +252,21 @@ export class SetupYourProfileFormSteps extends React.Component {
     let stepToRender = null;
     switch (currentStep) {
       case 1:
-        stepToRender = <Step1 {...this.props} showSetupPhone={this.showSetupPhone} />;
+        stepToRender = (
+          <Step1
+            {...this.props}
+            showSetupPhoneStep={this.showSetupPhoneStep}
+            showTosStep={this.showTosStep}
+          />
+        );
         break;
       case 2:
         stepToRender = (
           <Step2
             {...this.props}
             showTosStep={this.showTosStep}
-            showEmailVerification={this.showEmailVerification}
-            showPhoneVerification={this.showPhoneVerification}
+            showEmailVerificationStep={this.showEmailVerificationStep}
+            showPhoneVerificationStep={this.showPhoneVerificationStep}
             onSubmit={updateProfileDetails}
           />
         );
@@ -248,12 +276,12 @@ export class SetupYourProfileFormSteps extends React.Component {
           <Step3
             {...this.props}
             showTosStep={this.showTosStep}
-            showSetupPhone={this.showSetupPhone}
+            showSetupPhoneStep={this.showSetupPhoneStep}
           />
         );
         break;
       case 4:
-        stepToRender = <Step4 {...this.props} showSetupPhone={this.showSetupPhone} />;
+        stepToRender = <Step4 {...this.props} showSetupPhoneStep={this.showSetupPhoneStep} />;
         break;
     }
     return <React.Fragment>{stepToRender}</React.Fragment>;

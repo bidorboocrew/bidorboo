@@ -174,8 +174,8 @@ ol.progtrckr li span {
 }
 @-webkit-keyframes slide-in-right {
   0% {
-    -webkit-transform: translateX(100px);
-    transform: translateX(100px);
+    -webkit-transform: translateX(70px);
+    transform: translateX(70px);
     opacity: 0;
   }
   100% {
@@ -186,8 +186,8 @@ ol.progtrckr li span {
 }
 @keyframes slide-in-right {
   0% {
-    -webkit-transform: translateX(100px);
-    transform: translateX(100px);
+    -webkit-transform: translateX(70px);
+    transform: translateX(70px);
     opacity: 0;
   }
   100% {

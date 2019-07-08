@@ -28,7 +28,7 @@ const EnhancedForms = withFormik({
     props.onSubmit({
       phone: { phoneNumber: values.phoneNumber },
     });
-    props.showPhoneVerification();
+    props.showPhoneVerificationStep();
     setSubmitting(false);
   },
   displayName: 'UpdatePhoneNumberField',

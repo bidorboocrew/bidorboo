@@ -9,36 +9,26 @@ const populateJobUpdates = require('./sendGrid-Htmltemplate-jobUpdates').populat
 sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {
-  sendEmail: ({
-    from = 'bidorboocrew@bidorboo.com',
-    to,
-    subject,
-    contentText,
-    toDisplayName,
-    contentHtml,
-    clickLink,
-    clickDisplayName,
-    callback,
-  }) => {
+  sendEmailVerificationCode: ({ emailVerificationCode, to, toDisplayName }) => {
     const msg = {
       to,
-      from,
-      subject,
-      text: contentText,
+      toDisplayName,
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `BidOrBoo: Email verification`,
+      text: `Your BidOrBoo Email Verification Code is ${emailVerificationCode}`,
       html: populateHtmlTemplate({
-        toDisplayName: toDisplayName || to,
-        contentHtml,
-        clickLink,
-        clickDisplayName,
+        toDisplayName,
+        contentHtml: `
+        <p>Your BidOrBoo Email Verification Code is</p>
+        <p>${emailVerificationCode}</p>
+
+        <p>Click to verify your email Address</p>
+        `,
       }),
     };
-    // function(error, response) {
-    //   console.log(response.statusCode);
-    //   console.log(response.body);
-    //   console.log(response.headers);
-    // }
     sgMail.send(msg);
   },
+
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
     const msg = {
       to,

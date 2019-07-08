@@ -36,10 +36,7 @@ exports.TxtMsgingService = {
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendPhoneVerificationText: (mobileNumber, phoneVerificationCode, callback = () => {}) => {
-    const msgContent = `BidOrBoo: click to verify your phone ${ROUTES.CLIENT.dynamicVerification(
-      'Phone',
-      phoneVerificationCode
-    )}`;
+    const msgContent = `BidOrBoo: ${phoneVerificationCode} is your phone verification code.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
