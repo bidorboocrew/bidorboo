@@ -58,17 +58,12 @@ class App extends React.Component {
     return { hasError: true };
   }
 
-  componentDidUpdate(prevProps) {
-    const userHasChanged = prevProps.userDetails._id !== this.props.userDetails._id;
-    const pushNotificationSettingsChanged =
-      !prevProps.userDetails.notifications.push && this.props.userDetails.notifications.push;
-
-    if (userHasChanged || pushNotificationSettingsChanged) {
-      if (this.props.userDetails.notifications && this.props.userDetails.notifications.push)
-        registerServiceWorker(
-          `${process.env.REACT_APP_VAPID_KEY}`,
-          userHasChanged && this.props.userDetails._id !== 'loggedOutUser_uuid',
-        );
+  componentDidUpdate() {
+    if (this.props.userDetails.notifications && this.props.userDetails.notifications.push) {
+      registerServiceWorker(
+        `${process.env.REACT_APP_VAPID_KEY}`,
+        this.props.userDetails._id !== 'loggedOutUser_uuid',
+      );
     }
   }
 
