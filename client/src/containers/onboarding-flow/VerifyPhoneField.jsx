@@ -22,9 +22,7 @@ class VerifyPhoneField extends React.Component {
     this.setState({ isResendingVCode: true }, async () => {
       try {
         const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
-        }
+        this.setState({ isResendingVCode: false, inputCodeContent: '' });
       } catch (e) {
         // some alert
         alert(
@@ -47,26 +45,26 @@ class VerifyPhoneField extends React.Component {
 
     return (
       <div className="field">
-        <label className="label">Enter Your Phone Verification Code:</label>
         <div style={{ marginTop: 2 }} className="control">
+          <input
+            value={inputCodeContent}
+            onChange={(e) => {
+              if (e.target.value && e.target.value.length > 6) {
+                // ignore after 6
+              } else {
+                this.setState({ inputCodeContent: e.target.value });
+              }
+            }}
+            disabled={isResendingVCode || verifyingPhoneInProgress}
+            style={{ flexGrow: 1, borderRadius: 0 }}
+            className="input"
+            type="number"
+            maxLength="6"
+            minLength="6"
+            placeholder="Enter 6 digits Verification Code"
+          />
+          <div className="help">* Check your phone text msgs</div>
           <div style={{ display: 'flex' }}>
-            <input
-              value={inputCodeContent}
-              onChange={(e) => {
-                if (e.target.value && e.target.value.length > 6) {
-                  // ignore after 6
-                } else {
-                  this.setState({ inputCodeContent: e.target.value });
-                }
-              }}
-              disabled={isResendingVCode || verifyingPhoneInProgress}
-              style={{ flexGrow: 1, borderRadius: 0 }}
-              className="input"
-              type="number"
-              maxLength="6"
-              minLength="6"
-              placeholder="Enter 6 digits Verification Code"
-            />
             <div
               onClick={() => {
                 if (!isResendingVCode || !verifyingPhoneInProgress) {
@@ -88,13 +86,12 @@ class VerifyPhoneField extends React.Component {
             <button
               style={{ marginLeft: 6 }}
               onClick={this.handleSendNewCode}
-              className="button is-text"
+              className="button is-outlined"
               disabled={isResendingVCode || verifyingPhoneInProgress}
             >
-              {`${isResendingVCode ? 'Code Sent' : 'Send New Code'}`}
+              {`${isResendingVCode ? 'Code Was Sent' : 'Get A New Code'}`}
             </button>
           </div>
-          <div className="help">* Check your phone text msgs</div>
         </div>
       </div>
     );

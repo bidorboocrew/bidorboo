@@ -32,9 +32,9 @@ export class FirstTimeUser extends React.Component {
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
-          <section id="ONBOARDING_CONTAINER">
-            <section className="hero is-white has-text-centered">
-              <div className="hero-body">
+          <div id="ONBOARDING_CONTAINER">
+            <section className="hero has-text-centered">
+              <div style={{ padding: '1.5rem 0.5rem 0 0.5rem' }} className="hero-body">
                 <div className="container has-text-centered">
                   <div>
                     <img
@@ -53,64 +53,16 @@ export class FirstTimeUser extends React.Component {
                 </div>
               </div>
             </section>
-            <div className="hero-body">
-              <div className="container" style={{ maxWidth: 800 }}>
-                <div className="card limitLargeMaxWidth">
-                  <div className="card-content">
-                    <div className="content">
-                      <SetupYourProfileFormSteps {...this.props} />
-                      {/* <div className="subtitle">Let's setup your profile</div>
-
-
-                    <div className="field">
-                      <div className="control">
-                        <label style={{ lineHeight: 1.5 }} className="checkbox">
-                          <input
-                            style={{ marginRight: 4 }}
-                            onChange={this.toggleHasAgreedToTOS}
-                            type="checkbox"
-                            value={hasAgreedToTOS}
-                          />
-                          {` I confirm that I have read and agreed to`}
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${ROUTES.CLIENT.TOS}`}
-                          >
-                            <strong>{` BidOrBoo Service Agreement `}</strong>
-                          </a>
-                          and
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://stripe.com/connect-account/legal"
-                          >
-                            <strong>{` Stripe Connected Account Agreement`}</strong>
-                          </a>
-                          .
-                        </label>
-                        {tosError && (
-                          <p className="help is-danger">
-                            * You Must Read And Accept Our Terms before continuing
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <br />
-                    <div className="has-text-centered">
-                      <a
-                        onClick={this.verifyAndSubmitOnBoarding}
-                        className="button is-success is-large"
-                      >
-                        GET ME STARTED
-                      </a>
-                    </div> */}
-                    </div>
+            <div style={{ padding: '0.5rem' }}>
+              <div style={{ height: 'unset' }} className="card limitLargeMaxWidth">
+                <div className="card-content">
+                  <div className="content">
+                    <SetupYourProfileFormSteps {...this.props} />
                   </div>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     );

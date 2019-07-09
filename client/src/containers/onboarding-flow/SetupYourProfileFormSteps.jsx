@@ -22,9 +22,9 @@ const Step1 = ({
 }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <div className="title has-text-centered">Verify your email address</div>
+      <div className="subtitle has-text-weight-bold">Verify your email address</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <p className="label">{`We've sent the Code to: ${userDetails.email.emailAddress}`}</p>
+        <div className="label">{`We've sent the Code to: ${userDetails.email.emailAddress}`}</div>
         <VerifyEmailField />
       </div>
       <br />
@@ -52,12 +52,8 @@ const Step2 = ({
 }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <div className="title has-text-centered">Let's Setup Your Phone Number</div>
+      <div className="subtitle has-text-weight-bold">Let's Setup Your Phone Number</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <p className="label">
-          Your phone number is necessary for facilitating communication when requesting or doing a
-          task
-        </p>
         <UpdatePhoneNumberField
           showPhoneVerificationStep={showPhoneVerificationStep}
           userDetails={userDetails}
@@ -97,11 +93,12 @@ const Step3 = ({
 }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <div className="title has-text-centered">Verify Your Phone Number</div>
+      <div className="subtitle">Verify Your Phone Number</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <p className="label">
-          {`We've sent the code to : ${userDetails.phone && userDetails.phone.phoneNumber}`}
-        </p>
+        <div className="label">
+          {`We've sent your verification code to : ${userDetails.phone &&
+            userDetails.phone.phoneNumber}`}
+        </div>
         <VerifyPhoneField showTosStep={showTosStep} />
       </div>
       <br />
@@ -171,7 +168,7 @@ class Step4 extends React.Component {
       isPhoneAlreadyVerified,
       showEmailVerificationStep,
     } = this.props;
-    debugger;
+
     return (
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
@@ -212,10 +209,10 @@ class Step4 extends React.Component {
           onClick={this.verifyAndSubmitOnBoarding}
           className="button is-medium is-success is-pulled-right"
         >
-          Start BidOrBooing Now
+          Get Started
         </button>
 
-        {!isEmailAlreadyVerified && (
+        {!isEmailAlreadyVerified && isPhoneAlreadyVerified && (
           <button
             onClick={showEmailVerificationStep}
             className="button is-medium is-success is-pulled-left is-outlined"

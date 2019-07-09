@@ -30,9 +30,7 @@ class VerifyEmailField extends React.Component {
         const resendVerificationReq = await axios.post(
           ROUTES.API.USER.POST.resendVerificationEmail,
         );
-        if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve an email shortly , please give 10-15 minutes');
-        }
+        this.setState({ isResendingVCode: false, inputCodeContent: '' });
       } catch (e) {
         // some alert
         alert(
@@ -48,26 +46,28 @@ class VerifyEmailField extends React.Component {
 
     return (
       <div>
-        <label className="label">Enter your Email Verification Code:</label>
         <div style={{ marginTop: 2 }} className="control">
+          <input
+            value={inputCodeContent}
+            onChange={(e) => {
+              if (e.target.value && e.target.value.length > 6) {
+                // ignore after 6
+              } else {
+                this.setState({ inputCodeContent: e.target.value });
+              }
+            }}
+            disabled={isResendingVCode || verifyingEmailInProgress}
+            style={{ flexGrow: 1, borderRadius: 0 }}
+            className="input"
+            type="number"
+            maxLength="6"
+            minLength="6"
+            placeholder="Enter 6 digits Verification Code"
+          />
+          <div className="help">
+            *Check inbox/junk folders for an email from bidorboocrew@bidorboo.com
+          </div>
           <div style={{ display: 'flex' }}>
-            <input
-              value={inputCodeContent}
-              onChange={(e) => {
-                if (e.target.value && e.target.value.length > 6) {
-                  // ignore after 6
-                } else {
-                  this.setState({ inputCodeContent: e.target.value });
-                }
-              }}
-              disabled={isResendingVCode || verifyingEmailInProgress}
-              style={{ flexGrow: 1, borderRadius: 0 }}
-              className="input"
-              type="number"
-              maxLength="6"
-              minLength="6"
-              placeholder="Enter 6 digits Verification Code"
-            />
             <div
               onClick={() => {
                 if (!isResendingVCode || !verifyingEmailInProgress) {
@@ -88,16 +88,13 @@ class VerifyEmailField extends React.Component {
               Verify Email
             </div>
             <button
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
               onClick={this.handleSendNewCode}
-              className="button is-text"
+              className="button is-outlined"
               disabled={isResendingVCode || verifyingEmailInProgress}
             >
-              {`${isResendingVCode ? 'pin sent' : 'Send New Code'}`}
+              {`${isResendingVCode ? 'Code Was Sent' : 'Get A New Code'}`}
             </button>
-          </div>
-          <div className="help">
-            * Check your email inbox/junk folders for emails from bidorboocrew@bidorboo.com
           </div>
         </div>
       </div>

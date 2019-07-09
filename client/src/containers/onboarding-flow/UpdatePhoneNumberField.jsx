@@ -50,30 +50,22 @@ const UpdatePhoneNumberField = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flexGrow: 1 }}>
-          <TextInput
-            id="phoneNumber"
-            type="tel"
-            style={{ borderRadius: 0 }}
-            label="Enter Your Phone Number"
-            placeholder="Enter your phone number"
-            helpText="Must Follow This format : 6133334444"
-            error={touched.phoneNumber && errors.phoneNumber}
-            value={values.phoneNumber}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        <div className="field">
-          <label className="label" style={{ color: 'white' }}>
-            .
-          </label>
-          <button style={{ borderRadius: 0 }} className="button is-success" type="submit">
-            {`Save & Send Code`}
-          </button>
-        </div>
-      </div>
+      <TextInput
+        id="phoneNumber"
+        type="tel"
+        style={{ borderRadius: 0 }}
+        label="Enter Your Phone Number"
+        placeholder="Enter your phone number"
+        helpText="Must Follow This format : 6133334444"
+        error={touched.phoneNumber && errors.phoneNumber}
+        value={values.phoneNumber}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+
+      <button style={{ borderRadius: 0 }} className="button is-success" type="submit">
+        {`Save Number & Send Code`}
+      </button>
     </form>
   );
 };

@@ -14,7 +14,7 @@ exports.EmailService = {
       to,
       toDisplayName,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BidOrBoo: Email verification`,
+      subject: `BidOrBoo: Verification Code ${emailVerificationCode}`,
       text: `Your BidOrBoo Email Verification Code is ${emailVerificationCode}`,
       html: populateHtmlTemplate({
         toDisplayName,
