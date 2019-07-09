@@ -274,6 +274,8 @@ const ProfileForm = (props) => {
       <div className="help">
         {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
       </div>
+
+      <br />
       <div className="field is-grouped">
         <div className="control">
           <button
