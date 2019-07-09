@@ -218,13 +218,13 @@ html body {
 
 #ONBOARDING_CONTAINER {
   position: absolute;
-  z-index: 9999;
-  top: 1rem;
+  z-index: 99999;
+  top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   bottom: 0;
-
-  background: white;
+  background: #eeeeee;
 }
 
 // .container {
@@ -442,7 +442,7 @@ article.media.limitHeight {
 }
 
 .limitLargeMaxWidth {
-  min-width: 20rem;
+  // min-width: 20rem;
   max-width: 40rem;
   margin: auto;
 }
@@ -480,6 +480,18 @@ article.media.limitHeight {
   position: absolute;
   bottom: -1rem;
   right: 1rem;
+  width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  &.nofixedwidth {
+    width: auto;
+  }
+}
+.firstButtonInCardLeft {
+  font-weight: 400;
+  position: absolute;
+  bottom: -1rem;
+  left: 1rem;
   width: 180px;
   border-radius: 6px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -541,7 +553,7 @@ article.media.limitHeight {
     margin: auto;
   }
   &.limitLargeMaxWidth {
-    min-width: 22rem !important;
+    // min-width: 22rem !important;
     max-width: 50rem !important;
     margin: auto;
   }

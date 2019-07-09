@@ -90,13 +90,11 @@ class NotificationSettings extends React.Component {
             <div className="field">
               <label className="label">You will be notified about key events</label>
               <ul>
-                <li>Requests or Tasks that are happening today</li>
-                <li>When you recieve new bids on your open request</li>
-                <li>When your bid wins and you get assigned to the task</li>
-                <li>If a cancellation happened at any point</li>
+                <li>Requests or Tasks key updates</li>
+                <li>Cancellation happened at any point</li>
+                <li>Payments and recietes</li>
               </ul>
             </div>
-            <hr className="divider" />
             <div className="field">
               <input
                 id="pushNotification"
@@ -128,9 +126,9 @@ class NotificationSettings extends React.Component {
                 onChange={this.toggleEnableTxtNotifications}
                 checked={this.state.enableTxtNotifications}
               />
-              <label htmlFor="txtNotification">Enable Text Messages Notifications</label>
+              <label htmlFor="txtNotification">Enable Text Msg Notifications</label>
             </div>
-            <br />
+
             <a
               className="button is-success"
               onClick={this.submit}

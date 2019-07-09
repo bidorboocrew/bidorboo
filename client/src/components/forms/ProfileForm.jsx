@@ -274,9 +274,6 @@ const ProfileForm = (props) => {
       <div className="help">
         {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
       </div>
-      <div className="help">{`* BidOrBooCrew will verify this ID in 3-5 business days. `}</div>
-
-      <br />
       <div className="field is-grouped">
         <div className="control">
           <button

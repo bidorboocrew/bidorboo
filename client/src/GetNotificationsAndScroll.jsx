@@ -12,6 +12,7 @@ import {
 } from './app-state/actions/uiActions';
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
+import { Spinner } from './components/Spinner';
 
 import { Header } from './containers/index';
 // const EVERY_30_SECS = 900000; //MS
@@ -126,6 +127,7 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   render() {
+    const { authIsInProgress } = this.props;
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -156,13 +158,19 @@ class GetNotificationsAndScroll extends React.Component {
         </div>
       );
     }
-    return this.props.children;
+
+    return authIsInProgress ? (
+      <Spinner renderLabel="securing your connection" />
+    ) : (
+      this.props.children
+    );
   }
 }
-const mapStateToProps = ({ userReducer }) => {
+const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     userDetails: userReducer.userDetails,
+    authIsInProgress: uiReducer.authIsInProgress,
   };
 };
 const mapDispatchToProps = (dispatch) => {

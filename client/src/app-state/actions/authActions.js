@@ -12,7 +12,7 @@ export const verifyPhone = (code) => (dispatch) => {
       })
       .then((verifyReq) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -47,7 +47,7 @@ export const verifyEmail = (code) => (dispatch) => {
       })
       .then((verifyReq) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -131,7 +131,6 @@ export const getCurrentUser = () => (dispatch) =>
               });
             }
           }
-
           if (resp.data.membershipStatus === 'NEW_MEMBER') {
             switchRoute(ROUTES.CLIENT.ONBOARDING);
           }
@@ -217,7 +216,6 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-
           switchRoute(ROUTES.CLIENT.ONBOARDING);
         }
       })

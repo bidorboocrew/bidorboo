@@ -1,3 +1,5 @@
+const ROUTES = require('../backend-route-constants');
+
 const webpush = require('web-push');
 const keys = require('../config/keys');
 const userDataAccess = require('../data-access/userDataAccess');
@@ -11,13 +13,14 @@ module.exports = (app) => {
     keys.vapidPrivateApiKey
   );
 
-  app.post('/api/pushNotification', async (req, res) => {
+  app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
     try {
       subscription = JSON.parse(req.body.data);
       const data = {
         title: req.body.payLoad.initialDetails.fromTemplateIdField,
         body: "It's a success!",
-        icon: 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+        icon:
+          'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
       };
 
       // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
@@ -29,12 +32,12 @@ module.exports = (app) => {
     }
   });
 
-  app.delete('/api/push/unregister', (req, res, next) => {
+  app.delete(ROUTES.API.PUSH.DELETE.unregisterPushNotification, (req, res, next) => {
     subscription = null;
     clearInterval(pushIntervalID);
     res.sendStatus(200);
   });
-  app.post('/api/push/register', async (req, res, next) => {
+  app.post(ROUTES.API.PUSH.POST.registerPushNotification, async (req, res, next) => {
     try {
       // user is not logged in . do not bother
       if (!req.user || !req.user.userId || !req.user._id) {
@@ -48,8 +51,9 @@ module.exports = (app) => {
       if (!noPushWasSentBefore) {
         const payload = JSON.stringify({
           title: 'BidOrBoo Push Enabled.',
-          body: ' Control Notification settings in your profile',
-          icon: 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+          body: ' Welcome to BidOrBoo , You Can Control Notification settings in your profile',
+          icon:
+            'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
           urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
         });
         await webpush.sendNotification(JSON.parse(subscription), payload);

@@ -154,9 +154,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           userRole: 0,
           settings: 0,
           extras: 0,
-          canBid: 0,
           notifications: 0,
-          canPost: 0,
           addressText: 0,
           verification: 0,
           password: 0,
@@ -485,23 +483,10 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         .exec();
 
       if (updatedUser && updatedUser.notifications && updatedUser.notifications.email) {
-        sendGridEmailing.sendEmail({
+        sendGridEmailing.sendEmailVerificationCode({
           to: `${updatedUser.email.emailAddress}`,
-          subject: `BidOrBoo: Email verification`,
-          contentText: `To verify your email Please click: ${ROUTES.CLIENT.dynamicVerification(
-            'Email',
-            emailVerificationCode
-          )}
-          `,
+          emailVerificationCode,
           toDisplayName: `${updatedUser.displayName}`,
-          contentHtml: `
-          <p>Your BidOrBoo Email Verification Code is</p>
-          <p>${emailVerificationCode}</p>
-
-          <p>Click to verify your email Address</p>
-          `,
-          clickLink: `${ROUTES.CLIENT.dynamicVerification('Email', emailVerificationCode)}`,
-          clickDisplayName: `Verify Email`,
         });
       }
       resolve({ success: true });

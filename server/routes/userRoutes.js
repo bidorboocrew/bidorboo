@@ -248,8 +248,6 @@ module.exports = (app) => {
           ip: req.connection.remoteAddress, //HARD CODED
         },
         membershipStatus: 'ONBOARDED_MEMBER',
-        canBid: true,
-        canPost: true,
       };
 
       const userId = req.user.userId;

@@ -1,6 +1,15 @@
 //any changes to these routes will need to be reflected on the front end
 module.exports = {
   API: {
+    PUSH: {
+      POST: {
+        pushNotification: '/api/pushNotification',
+        registerPushNotification: '/api/push/register',
+      },
+      DELETE: {
+        unregisterPushNotification: '/api/push/unregister',
+      },
+    },
     AUTH: {
       GOOGLE: '/api/auth/google',
       GOOGLE_CALLBACK: '/api/auth/google/callback',
