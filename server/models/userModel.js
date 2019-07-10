@@ -162,9 +162,6 @@ const UserSchema = new Schema(
     },
     settings: { type: Object },
     extras: { type: Object },
-    canBid: { type: Boolean, default: false },
-    canPost: { type: Boolean, default: false },
-    autoDetectlocation: { type: Boolean, required: true, default: false },
     picId: {
       front: { type: String },
       back: { type: String },
@@ -199,6 +196,23 @@ UserSchema.pre('save', async function(next) {
     }
   }
   next();
+});
+
+UserSchema.virtual('canBid').get(function() {
+  return this.phone && this.phone.isVerified && this.email && this.email.isVerified;
+});
+
+UserSchema.virtual('canPost').get(function() {
+  return (
+    this.phone &&
+    this.phone.isVerified &&
+    this.email &&
+    this.email.isVerified &&
+    this.stripeConnect &&
+    this.stripeConnect.accId &&
+    this.stripeConnect.isVerified &&
+    this.stripeConnect.payoutsEnabled
+  );
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

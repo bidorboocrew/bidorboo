@@ -118,7 +118,7 @@ class BidModal extends React.Component {
 
             <TextInput
               // setFocusImmediately={true}
-              label="Your Bid"
+              label="Enter Your Bid Amount"
               id="bidAmountField"
               className="input is-focused"
               type="number"
