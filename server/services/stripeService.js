@@ -123,7 +123,7 @@ https: exports.util = {
               statement_descriptor: 'BidOrBoo Charge',
             },
             payouts: {
-              schedule: { interval: 'manual', delay_days: 0 },
+              schedule: { interval: 'manual' },
               statement_descriptor: 'BidOrBoo Payout',
             },
           },
