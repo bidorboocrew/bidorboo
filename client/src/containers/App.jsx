@@ -9,12 +9,11 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
 import { getCurrentUser } from '../app-state/actions/authActions';
-import { Spinner } from '../components/Spinner';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
 import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
-import '../assets/index.css';
+import '../assets/index.scss';
 
 import {
   Header,
