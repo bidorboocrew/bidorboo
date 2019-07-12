@@ -261,7 +261,7 @@ module.exports = (app) => {
       const { jobId } = data;
       if (!jobId) {
         return res.status(400).send({
-          errorMsg: 'Bad Request forupdateViewedBy, jobId param was Not Specified',
+          errorMsg: 'Bad Request for updateViewedBy, jobId param was Not Specified',
         });
       }
       const mongoUser_id = req.user._id;

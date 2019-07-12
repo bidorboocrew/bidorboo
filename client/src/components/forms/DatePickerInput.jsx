@@ -43,7 +43,7 @@ export default class DatePickerInput extends React.Component {
         {selectedDate && selectedDate.format ? (
           <span>{selectedDate.format('D/MMMM/YYYY')}</span>
         ) : (
-          <span className="has-text-dark">Select a Date</span>
+          <span>Select a Date</span>
         )}
       </button>
     );

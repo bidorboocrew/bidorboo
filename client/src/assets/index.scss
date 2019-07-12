@@ -503,7 +503,7 @@ article.media.limitHeight {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 180px;
+  right: 160px;
   width: 180px;
   border-radius: 6px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -760,5 +760,6 @@ div.react-datepicker {
   top: calc(90vh - 1.5rem);
   right: -26px;
   transform: rotate(270deg);
-  z-index: 0;
+  z-index: 99;
+
 }

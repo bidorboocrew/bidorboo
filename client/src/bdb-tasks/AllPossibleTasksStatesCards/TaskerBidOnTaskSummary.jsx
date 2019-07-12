@@ -1,10 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
+import {
+  proposerConfirmsJobCompletion,
+  cancelJobById,
+  updateViewedBy,
+} from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -14,7 +18,6 @@ import {
   UserImageAndRating,
   CardTitleAndActionsInfo,
   StartDateAndTime,
-  TaskSpecificExtras,
   CountDownComponent,
 } from '../../containers/commonComponents';
 
@@ -23,9 +26,13 @@ import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonU
 import RequestBaseContainer from './RequestBaseContainer';
 
 class TaskerBidOnTaskSummary extends RequestBaseContainer {
-  render() {
-    const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog } = this.props;
+  toggleRegisterAsTasker = () => {
+    this.setState({ showRegisterAsTaskerModal: !this.state.showRegisterAsTaskerModal });
+  };
 
+  render() {
+    const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = this.props;
+    const { showRegisterAsTaskerModal } = this.state;
     if (
       !job ||
       !job._id ||
@@ -69,37 +76,126 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
     return (
-      <div
-        className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
-      >
-        <div className="card-content">
-          <div className="content">
-            <CardTitleAndActionsInfo
-              isOnMapView={isOnMapView}
-              userAlreadyBid={userAlreadyBid}
-              jobState={state}
-              templateId={templateId}
-              bidsList={_bidsListRef}
-              userAlreadyView={userAlreadyView}
-            />
-            <hr className="divider isTight" />
-            <div className="field">
-              <label className="label">Requester:</label>
-              <UserImageAndRating clipUserName userDetails={_ownerRef} />
+      <React.Fragment>
+        {showRegisterAsTaskerModal && (
+          <ShowRegisterAsTaskerModal handleClose={this.toggleRegisterAsTasker} />
+        )}
+        <div
+          className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
+        >
+          <div className="card-content">
+            <div className="content">
+              <CardTitleAndActionsInfo
+                isOnMapView={isOnMapView}
+                userAlreadyBid={userAlreadyBid}
+                jobState={state}
+                templateId={templateId}
+                bidsList={_bidsListRef}
+                userAlreadyView={userAlreadyView}
+              />
+              <hr className="divider isTight" />
+              <div className="field">
+                <label className="label">Requester:</label>
+                <UserImageAndRating clipUserName userDetails={_ownerRef} />
+              </div>
+              <StartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} />
+                )}
+              />
+              {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
+              {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
             </div>
-            <StartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
-            />
-            {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
-            {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
-          </div>
-          {!isOnMapView && (
-            <React.Fragment>
-              {userAlreadyBid ? (
-                <div style={{ display: 'flex' }}>
+            {!isOnMapView && (
+              <React.Fragment>
+                {userAlreadyBid ? (
+                  <div style={{ display: 'flex' }}>
+                    <a
+                      style={{ flexGrow: 1 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        switchRoute(
+                          ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
+                            userExistingBid._id,
+                          ),
+                        );
+                      }}
+                      className="button is-outlined is-info is-fullwidth firstButtonInCard nofixedwidth"
+                    >
+                      View My Bid
+                    </a>
+                    <a
+                      style={{ marginLeft: 12 }}
+                      onClick={(e) => {
+                        const markerRef = reactMapClusterRef;
+                        if (
+                          markerRef &&
+                          markerRef.current &&
+                          markerRef.current.props &&
+                          markerRef.current.props.onClick &&
+                          typeof markerRef.current.props.onClick === 'function'
+                        ) {
+                          markerRef.current.props.onClick();
+                        }
+                      }}
+                      className="button is-outlined is-info secondButtonInCard nofixedwidth"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-map-marked-alt" />
+                      </span>
+                      <span>Locate</span>
+                    </a>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex' }}>
+                    <a
+                      style={{ flexGrow: 1 }}
+                      onClick={(e) => {
+                        if (!isLoggedIn) {
+                          showLoginDialog(true);
+                          return;
+                        } else if (!userDetails.canBid) {
+                          this.toggleRegisterAsTasker();
+                        } else if (userDetails.canBid) {
+                          updateViewedBy(job);
+                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                        }
+                      }}
+                      className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
+                    >
+                      Place Your Bid
+                    </a>
+
+                    <a
+                      style={{ marginLeft: 12 }}
+                      onClick={(e) => {
+                        const markerRef = reactMapClusterRef;
+                        if (
+                          markerRef &&
+                          markerRef.current &&
+                          markerRef.current.props &&
+                          markerRef.current.props.onClick &&
+                          typeof markerRef.current.props.onClick === 'function'
+                        ) {
+                          markerRef.current.props.onClick();
+                        }
+                      }}
+                      className="button is-outlined is-info secondButtonInCard nofixedwidth"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-map-marked-alt" />
+                      </span>
+                      <span>Locate</span>
+                    </a>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
+            {isOnMapView && (
+              <React.Fragment>
+                {userAlreadyBid ? (
                   <a
-                    style={{ flexGrow: 1 }}
                     onClick={(e) => {
                       e.preventDefault();
                       switchRoute(
@@ -108,117 +204,41 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         ),
                       );
                     }}
-                    className="button is-outlined is-info is-fullwidth firstButtonInCard nofixedwidth"
+                    className="button is-outlined is-small is-fullwidth"
                   >
-                    View My Bid
+                    View Your existing Bid
                   </a>
+                ) : (
                   <a
-                    style={{ marginLeft: 12 }}
-                    onClick={(e) => {
-                      const markerRef = reactMapClusterRef;
-                      if (
-                        markerRef &&
-                        markerRef.current &&
-                        markerRef.current.props &&
-                        markerRef.current.props.onClick &&
-                        typeof markerRef.current.props.onClick === 'function'
-                      ) {
-                        markerRef.current.props.onClick();
-                      }
-                    }}
-                    className="button is-outlined is-info secondButtonInCard nofixedwidth"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-map-marked-alt" />
-                    </span>
-                    <span>Locate</span>
-                  </a>
-                </div>
-              ) : (
-                <div style={{ display: 'flex' }}>
-                  <a
-                    style={{ flexGrow: 1 }}
+                    style={{ marginTop: 10 }}
                     onClick={(e) => {
                       if (!isLoggedIn) {
                         showLoginDialog(true);
                         return;
-                      } else {
+                      } else if (!userDetails.canBid) {
+                        this.toggleRegisterAsTasker();
+                      } else if (userDetails.canBid) {
+                        updateViewedBy(job);
                         switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                       }
                     }}
-                    className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
+                    className="button is-success is-small is-outlined is-fullwidth"
                   >
-                    Place Your Bid!
+                    Place Your Bid
                   </a>
-
-                  <a
-                    style={{ marginLeft: 12 }}
-                    onClick={(e) => {
-                      const markerRef = reactMapClusterRef;
-                      if (
-                        markerRef &&
-                        markerRef.current &&
-                        markerRef.current.props &&
-                        markerRef.current.props.onClick &&
-                        typeof markerRef.current.props.onClick === 'function'
-                      ) {
-                        markerRef.current.props.onClick();
-                      }
-                    }}
-                    className="button is-outlined is-info secondButtonInCard nofixedwidth"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-map-marked-alt" />
-                    </span>
-                    <span>Locate</span>
-                  </a>
-                </div>
-              )}
-            </React.Fragment>
-          )}
-          {isOnMapView && (
-            <React.Fragment>
-              {userAlreadyBid ? (
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(
-                      ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                        userExistingBid._id,
-                      ),
-                    );
-                  }}
-                  className="button is-outlined is-small is-fullwidth"
-                >
-                  View Your existing Bid
-                </a>
-              ) : (
+                )}
                 <a
                   style={{ marginTop: 10 }}
-                  onClick={(e) => {
-                    if (!isLoggedIn) {
-                      showLoginDialog(true);
-                      return;
-                    } else {
-                      switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                    }
-                  }}
-                  className="button is-success is-small is-outlined is-fullwidth"
+                  onClick={onCloseHandler}
+                  className="button is-outlined is-small is-fullwidth"
                 >
-                  Place Your Bid!
+                  Close
                 </a>
-              )}
-              <a
-                style={{ marginTop: 10 }}
-                onClick={onCloseHandler}
-                className="button is-outlined is-small is-fullwidth"
-              >
-                Close
-              </a>
-            </React.Fragment>
-          )}
+              </React.Fragment>
+            )}
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -237,6 +257,7 @@ const mapDispatchToProps = (dispatch) => {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
   };
 };
 
@@ -244,3 +265,50 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(TaskerBidOnTaskSummary);
+
+const ShowRegisterAsTaskerModal = ({ handleClose }) => {
+  return (
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <div className="modal is-active">
+          <div onClick={handleClose} className="modal-background" />
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <div className="modal-card-title">Setup your payout info</div>
+            </header>
+            <section className="modal-card-body">
+              <div className="field">
+                <label className="label">In order to bid on jobs you must :</label>
+              </div>
+              <ul>
+                <li>- Be at least 16 years of old</li>
+                <li>
+                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}>
+                    - Verify your email and phone info
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings)}>
+                    - Setup your banking payout details
+                  </a>
+                </li>
+              </ul>
+            </section>
+            <footer className="modal-card-foot">
+              <button onClick={handleClose} className="button is-outline">
+                Close
+              </button>
+              <button
+                onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}
+                className="button is-success"
+              >
+                go to my profile
+              </button>
+            </footer>
+          </div>
+        </div>,
+        document.querySelector('#bidorboo-root-modals'),
+      )}
+    </React.Fragment>
+  );
+};

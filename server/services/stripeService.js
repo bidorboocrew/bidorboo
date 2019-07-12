@@ -17,10 +17,12 @@ https: exports.util = {
     return stripe.refunds.create({
       charge: chargeId,
       amount: refundAmount,
-      metadata,
+      metadata: {
+        ...metadata,
+        description: 'BidOrBoo refund due to cancelled agreement by Requester',
+      },
       reason: 'requested_by_customer',
       reverse_transfer: true,
-      description: 'BidOrBoo refund due to cancelled agreement by Requester',
       // refund_application_fee: true,
     });
   },
@@ -28,11 +30,13 @@ https: exports.util = {
     // xxxxxx
     return stripe.refunds.create({
       charge: chargeId,
-      metadata,
+      metadata: {
+        ...metadata,
+        description: 'BidOrBoo refund due to cancelled agreement by Tasker',
+      },
       reason: 'requested_by_customer',
       reverse_transfer: true,
       refund_application_fee: true,
-      description: 'BidOrBoo refund due to cancelled agreement by Tasker',
     });
   },
   validateSignature: (reqBody, sig, endpointSecret) => {

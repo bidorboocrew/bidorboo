@@ -211,11 +211,18 @@ const EnhancedForms = withFormik({
       // xxxx update without reload
       window.location.reload();
     } catch (e) {
-      let msg =
-        e && e.response && e.response.data && e.response.data.errorMsg
-          ? 'msg ' + e.response.data.errorMsg.message + ' param: ' + e.response.data.errorMsg.param
-          : 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
-      alert(JSON.stringify(e));
+      debugger;
+      let msg = 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
+      if (
+        e &&
+        e.response &&
+        e.response.data &&
+        e.response.data.errorMsg &&
+        e.response.data.errorMsg.message
+      ) {
+        msg = e.response.data.errorMsg.message;
+      }
+      alert(msg);
       setSubmitting(false);
       console.error(e);
     }

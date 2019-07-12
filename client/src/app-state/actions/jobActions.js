@@ -5,9 +5,23 @@ import { switchRoute, throwErrorNotification } from '../../utils';
 
 export const updateBooedBy = (jobDetails) => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+    type: A.JOB_ACTIONS.UPDATE_JOB_BOOED_BY,
     payload: axios
       .put(ROUTES.API.JOB.PUT.updateBooedBy, {
+        data: {
+          jobId: jobDetails._id,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+
+export const updateViewedBy = (jobDetails) => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.updateViewedBy, {
         data: {
           jobId: jobDetails._id,
         },
