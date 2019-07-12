@@ -268,7 +268,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
           extras: 0,
           updatedAt: 0,
           password: 0,
-        },
+        }
       )
         .populate({
           path: '_postedJobsRef',
