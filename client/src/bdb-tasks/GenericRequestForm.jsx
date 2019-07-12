@@ -539,7 +539,7 @@ class GenericRequestForm extends React.Component {
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
-      if (address && !address.toLowerCase().includes('Canada')) {
+      if (address && !address.toLowerCase().includes('canada')) {
         alert(
           'Sorry! Bid or Boo is only available in Canada',
         );
