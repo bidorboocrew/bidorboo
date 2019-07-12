@@ -29,7 +29,7 @@
     "devStart": "yarn install && concurrently --kill-others -c \"bgBlue.bold,bgMagenta.bold\" --names \"clientSetup,serverSetup\" -p \"{index}\" --success \"all\" --restart-tries 5 --restart-after 1000   \"npm run startClient\" \"npm run startServer\"",
     "start": "cd server && yarn run startwithpm2",
     "oldDevStart": "cd client && rm -rf node_modules && yarn install && cd ../server && rm -rf node_modules && yarn install",
-    "heroku-postbuild": "cd client && yarn install && yarn run build && cd ../server && yarn install",
+    "heroku-postbuild": "concurrently --kill-others  --names \"clientSetup,serverSetup\" -p \"{index}\" --success \"all\" --restart-tries 5 --restart-after 1000   \"cd client && yarn install && yarn run build\" \"cd server && yarn install\"",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
     "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
