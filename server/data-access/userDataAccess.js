@@ -1,10 +1,8 @@
 //handle all user data manipulations
 const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
-const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-const ROUTES = require('../backend-route-constants');
 const moment = require('moment');
 
 exports.updateStripeAccountRequirementsDetails = ({
@@ -266,14 +264,11 @@ exports.findUserAndAllNewNotifications = async (userId) => {
           _asProposerReviewsRef: 0,
           verification: 0,
           pushSubscription: 0,
-          // userRole: 0,
-          // tos_acceptance: 0,
           settings: 0,
           extras: 0,
-          // stripeConnect: 0,
           updatedAt: 0,
           password: 0,
-        }
+        },
       )
         .populate({
           path: '_postedJobsRef',
