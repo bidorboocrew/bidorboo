@@ -1,0 +1,32 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - eslint > table > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - cloudinary > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - eslint > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - twilio > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - eslint > inquirer > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - mongoose > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > @pm2/js-api > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > pm2-deploy > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > @pm2/agent > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > @pm2/io > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
+    - pm2 > vizion > async > lodash:
+        patched: '2019-07-12T04:39:27.463Z'
