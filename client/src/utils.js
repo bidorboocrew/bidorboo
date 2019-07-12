@@ -36,10 +36,22 @@ export const throwErrorNotification = (dispatch, error) => {
   if (error && error.response && error.response.status === 404) {
     msg = 'could not find the requested resource';
   } else if (error && error.response) {
-    msg =
-      error && error.response && error.response.data
-        ? JSON.stringify(error.response.data)
-        : JSON.stringify(error);
+    if (
+      error &&
+      error.response &&
+      error.response.data &&
+      error.response.data.errorMsg &&
+      error.response.data.errorMsg.message
+    ) {
+      msg = error.response.data.errorMsg.message;
+    } else if (error && error.response && error.response.data && error.response.data.errorMsg) {
+      msg = error.response.data.errorMsg;
+    } else {
+      msg =
+        error && error.response && error.response.data
+          ? JSON.stringify(error.response.data)
+          : JSON.stringify(error);
+    }
   }
 
   dispatch({

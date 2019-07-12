@@ -158,6 +158,9 @@ class ReviewRequestAndBidsPage extends React.Component {
                 jobId={selectedJobWithBids._id}
                 bidList={bidList}
                 markBidAsSeen={markBidAsSeen}
+                viewedByCount={
+                  selectedJobWithBids.viewedBy ? selectedJobWithBids.viewedBy.length : 0
+                }
                 showBidReviewModal={this.showBidReviewModal}
               />
             )}

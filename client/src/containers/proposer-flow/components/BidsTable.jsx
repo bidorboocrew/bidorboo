@@ -23,12 +23,12 @@ export default class BidsTable extends React.Component {
   };
 
   render() {
-    const { bidList } = this.props;
+    const { bidList, viewedByCount } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
 
     if (!areThereAnyBids) {
-      return <TableWithNoBids />;
+      return <TableWithNoBids viewedByCount={viewedByCount} />;
     }
 
     let tableRows = bidList.map((bid) => {
@@ -97,7 +97,7 @@ export default class BidsTable extends React.Component {
   }
 }
 
-const TableWithNoBids = () => {
+const TableWithNoBids = ({ viewedByCount }) => {
   return (
     <div className="card has-text-centered" style={{ height: 'unset' }}>
       <div className="card-content">
@@ -109,7 +109,9 @@ const TableWithNoBids = () => {
             <span style={{ marginLeft: 7 }}>Waiting for Taskers</span>
           </div>
           <div className="subtitle">
-            Taskers are reviewing your task and will place thier bids shortly
+            {`${
+              viewedByCount ? viewedByCount : ''
+            } Tasker(s) viewing your task and will place bids soon`}
           </div>
         </div>
       </div>
