@@ -1,0 +1,62 @@
+// https://github.com/gladchinda/joi-schema-validation-sourcecode/blob/master/schemas.js
+const ROUTES = require('../backend-route-constants');
+
+// load Joi module
+const Joi = require('@hapi/joi');
+
+const userDetailsReqSchema = Joi.object().keys({
+  data: Joi.object()
+    .keys({
+      displayName: Joi.string()
+        .trim()
+        .min(5)
+        .max(30)
+        .error(() => {
+          return {
+            message: '"display name" must be alphanumeric and (5-30) charachters long',
+          };
+        }),
+
+      personalParagraph: Joi.string()
+        .trim()
+        .min(5)
+        .max(500)
+        .error(() => {
+          return {
+            message: '"personal paragraph" must be valid alphanumeric and (5-500) charachters long',
+          };
+        }),
+      phone: Joi.object().keys({
+        phoneNumber: Joi.string()
+          .trim()
+          .regex(/^\d{10}$/)
+          .required()
+          .error(() => {
+            return { message: '"phone number" must be a valid format for example 9053334444' };
+          }),
+      }),
+      picId: Joi.object().keys({
+        front: Joi.string().trim(),
+        back: Joi.string().trim(),
+      }),
+      email: Joi.object().keys({
+        emailAddress: Joi.string()
+          .trim()
+          .min(5)
+          .max(100)
+          .required()
+          .error(() => {
+            return {
+              message:
+                '"email address" must be a valid email and (5-100) charachters long for example bidorboocrew@bidorboocrew.com',
+            };
+          }),
+      }),
+    })
+    .required(),
+});
+
+// export the schemas
+module.exports = {
+  [ROUTES.API.USER.PUT.userDetails]: userDetailsReqSchema,
+};
