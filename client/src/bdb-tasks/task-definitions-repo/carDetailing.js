@@ -47,38 +47,39 @@ Get one of our tasker to give your car a good cleaning!`,
                 type="hidden"
                 value={values.carSize}
               />
-              <div className="field">
-                <label className="label">How Big Is Your Car?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'mini', true)}
-                    className={`button is-info is-small ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
-                  >
-                    {`Small (ex, mini)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'sedan', true)}
-                    className={`button is-info is-small ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
-                  >
-                    {`Regular (ex, Sedan)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'suv', true)}
-                    className={`button is-info is-small ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
-                  >
-                    {`Large (ex, SUV)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'truck', true)}
-                    className={`button is-info is-small ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
-                  >
-                    {`XL (ex, Truck)`}
-                  </span>
+
+              <div className="group">
+                <div className="select">
+                  <select>
+                    <option
+                      selected={values.carSize === 'mini'}
+                      onClick={() => setFieldValue('carSize', 'mini', true)}
+                    >
+                      {`Small (ex, mini)`}
+                    </option>
+                    <option
+                      selected={values.carSize === 'sedan'}
+                      onClick={() => setFieldValue('carSize', 'sedan', true)}
+                    >
+                      {`Regular (ex, Sedan)`}
+                    </option>
+                    <option
+                      selected={values.carSize === 'suv'}
+                      onClick={() => setFieldValue('carSize', 'suv', true)}
+                    >
+                      {`Large (ex, SUV)`}
+                    </option>
+                    <option
+                      selected={values.carSize === 'truck'}
+                      onClick={() => setFieldValue('carSize', 'truck', true)}
+                    >
+                      {`XL (ex, Truck)`}
+                    </option>
+                  </select>
                 </div>
+                <span className="highlight" />
+                <span className="bar" />
+                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
               </div>
             </React.Fragment>
           );
@@ -117,37 +118,33 @@ Get one of our tasker to give your car a good cleaning!`,
                 type="hidden"
                 value={values.interiorType}
               />
-              <div className="field">
-                <label className="label">What is the car's interior Type?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'leather', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'leather' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Leather
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'fabric', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'fabric' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Fabric
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'other', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'other' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Other
-                  </span>
+
+              <div className="group">
+                <div className="select">
+                  <select>
+                    <option
+                      selected={values.interiorType === 'leather'}
+                      onClick={() => setFieldValue('interiorType', 'leather', true)}
+                    >
+                      Leather
+                    </option>
+                    <option
+                      selected={values.interiorType === 'fabric'}
+                      onClick={() => setFieldValue('interiorType', 'fabric', true)}
+                    >
+                      Fabric
+                    </option>
+                    <option
+                      selected={values.interiorType === 'other'}
+                      onClick={() => setFieldValue('interiorType', 'other', true)}
+                    >
+                      Other
+                    </option>
+                  </select>
                 </div>
+                <span className="highlight" />
+                <span className="bar" />
+                <label className="withPlaceholder hasSelectedValue">{'Interior Type'}</label>
               </div>
             </React.Fragment>
           );
@@ -179,33 +176,32 @@ Get one of our tasker to give your car a good cleaning!`,
           return (
             <React.Fragment key={'extras-trunkCleaning'}>
               <input
-                id="interiorType"
+                id="trunkCleaning"
                 className="input is-invisible"
                 type="hidden"
-                value={values.interiorType}
+                value={values.trunkCleaning}
               />
-              <div className="field">
-                <label className="label">Do you require trunk cleaning?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('trunkCleaning', 'isRequired', true)}
-                    className={`button is-info is-small ${
-                      values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Required
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('trunkCleaning', 'notRequired', true)}
-                    className={`button is-info is-small ${
-                      values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Not Required
-                  </span>
+
+              <div className="group">
+                <div className="select">
+                  <select>
+                    <option
+                      selected={values.trunkCleaning === 'leather'}
+                      onClick={() => setFieldValue('isRequired', 'isRequired', true)}
+                    >
+                      Requires Cleaning
+                    </option>
+                    <option
+                      selected={values.trunkCleaning === 'fabric'}
+                      onClick={() => setFieldValue('notRequired', 'notRequired', true)}
+                    >
+                      Not Required
+                    </option>
+                  </select>
                 </div>
+                <span className="highlight" />
+                <span className="bar" />
+                <label className="withPlaceholder hasSelectedValue">Trunk Cleaning</label>
               </div>
             </React.Fragment>
           );

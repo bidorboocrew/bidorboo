@@ -215,7 +215,7 @@ class MyProfile extends React.Component {
                         />
 
                         <DisplayLabelValue
-                          labelText="Picture ID verification status (Optional)"
+                          labelText="ID verification (Optional)"
                           labelValue={
                             <div>
                               <span>{didUserProvidePicId ? 'Uploaded' : 'Not Provided'}</span>

@@ -46,27 +46,23 @@ class GenericRequestForm extends React.Component {
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
-  shouldShowAutodetectControl = () => {
+  shouldShowAutodetectControl = (value) => {
     return navigator.geolocation ? (
-      <React.Fragment>
-        <div>
-          <a
-            style={{ marginTop: 6 }}
-            onClick={this.getCurrentAddress}
-            className="button is-small is-info is-outlined"
-          >
-            <span className="icon">
-              <i className="fas fa-map-marker-alt" />
-            </span>
-            <span>Auto Detect My Address</span>
-          </a>
-        </div>
-      </React.Fragment>
-    ) : (
-      <div>
-        <span>Manually input an address and select it from the drop down menu</span>
+      <div
+        onClick={this.getCurrentAddress}
+        style={{
+          top: -11,
+          left: 60,
+          fontSize: 10,
+          zIndex: 11,
+          cursor: 'pointer',
+          position: 'absolute',
+        }}
+        className="has-text-weight-bold has-text-link"
+      >
+        {`AUTO DETECT`}
       </div>
-    );
+    ) : null;
   };
   updateDateInputFieldValue = (val) => {
     const { setFieldValue } = this.props;
@@ -351,8 +347,22 @@ class GenericRequestForm extends React.Component {
             />
 
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-            <DisplayLabelValue labelText="Our Service Commitment" labelValue={TASK_EXPECTATIONS} />
-
+            {/* <DisplayLabelValue labelText="Our Service Commitment" labelValue={TASK_EXPECTATIONS} /> */}
+            <div style={{ marginBottom: 10 }} className="group">
+              <textarea
+                readOnly
+                style={{
+                  resize: 'none',
+                  fontSize: 16,
+                  padding: 10,
+                  height: 'unset',
+                }}
+                className="input readOnly"
+                type="text"
+                value={TASK_EXPECTATIONS}
+              />
+              <label className="withPlaceholder hasSelectedValue">our Commitment</label>
+            </div>
             <React.Fragment>
               <input
                 id="addressText"
@@ -420,73 +430,69 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="Date and Time"
+                label="Date"
                 onChangeEvent={this.updateDateInputFieldValue}
               />
-              <div className="buttons">
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('morning')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Morning (8AM-12PM)
-                </span>
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('afternoon')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Afternoon (12PM-5PM)
-                </span>
-
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('evening')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Evening (5PM-12AM)
-                </span>
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('anytime')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Anytime (8AM-12AM)
-                </span>
+              <div className="group">
+                <div className="select">
+                  <select>
+                    <option
+                      selected={selectedTimeButtonId === 'morning'}
+                      onClick={() => this.selectTimeButton('morning')}
+                    >
+                      Morning (8AM-12PM)
+                    </option>
+                    <option
+                      selected={selectedTimeButtonId === 'afternoon'}
+                      onClick={() => this.selectTimeButton('afternoon')}
+                    >
+                      Afternoon (12PM-5PM)
+                    </option>
+                    <option
+                      selected={selectedTimeButtonId === 'evening'}
+                      onClick={() => this.selectTimeButton('evening')}
+                    >
+                      Evening (5PM-12AM)
+                    </option>
+                    <option
+                      selected={selectedTimeButtonId === 'anytime'}
+                      onClick={() => this.selectTimeButton('anytime')}
+                    >
+                      Anytime (8AM-12AM)
+                    </option>
+                  </select>
+                </div>
+                <span className="highlight" />
+                <span className="bar" />
+                <label className="withPlaceholder hasSelectedValue">{'Time Of Day'}</label>
               </div>
             </React.Fragment>
-            <br />
+
             {/* {extras} */}
             {taskSpecificExtraFormFields}
-            <br />
 
             <TextAreaInput
               id="detailedDescription"
               type="text"
               helpText={
-                '* Add all the necessary details to help our BidOrBoo Taskers to get it done right.'
+                '* Extra details that would help the tasker finish this task to your expectations.'
               }
-              label="Add more details for the Tasker"
+              label="Additional Instructions"
               startWithTemplateButton={
-                <a
-                  style={{ marginBottom: 4 }}
-                  className="button is-text is-small"
+                <div
                   onClick={this.insertTemplateText}
+                  style={{
+                    top: -11,
+                    left: 140,
+                    fontSize: 10,
+                    zIndex: 11,
+                    cursor: 'pointer',
+                    position: 'absolute',
+                  }}
+                  className="has-text-weight-bold has-text-link"
                 >
-                  {/* <span className="icon">
-                  </span> */}
-                  <span>
-                    <i className="fas fa-pencil-alt" /> Or answer commonly asked questions
-                  </span>
-                </a>
+                  {`ANSWER FAQS`}
+                </div>
               }
               placeholder={SUGGESTION_TEXT}
               error={touched.detailedDescription && errors.detailedDescription}
@@ -494,7 +500,7 @@ class GenericRequestForm extends React.Component {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <br />
+
             <React.Fragment>
               <div className="field">
                 <button
@@ -540,15 +546,14 @@ class GenericRequestForm extends React.Component {
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
       if (address && !address.toLowerCase().includes('canada')) {
-        alert(
-          'Sorry! Bid or Boo is only available in Canada',
-        );
+        alert('Sorry! Bid or Boo is only available in Canada');
       } else {
         this.autoSetGeoLocation(address);
       }
     }
   };
   getCurrentAddress = () => {
+    debugger;
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       const getCurrentPositionOptions = {

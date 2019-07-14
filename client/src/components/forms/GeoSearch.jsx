@@ -2,26 +2,11 @@
 // on blur must be propagated to the calling form
 // Limit boundary of search into canada and usa only
 import React from 'react';
-import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 class GeoSearch extends React.Component {
-  static propTypes = {
-    handleSelect: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
-    onChangeEvent: PropTypes.func.isRequired,
-    onBlurEvent: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
-    autoSetValue: PropTypes.string,
-  };
-  static defaultProps = {
-    placeholder: '',
-    value: '',
-  };
   constructor(props) {
     super(props);
     this.state = { address: props.value };
@@ -38,10 +23,21 @@ class GeoSearch extends React.Component {
       handleSelect,
       onError,
       placeholder,
-      id,
       onBlurEvent,
       forceSetAddressValue,
+      id,
+      label,
+      helpText,
+      error,
+      autoDetectComponent,
+      value = '',
     } = this.props;
+
+    let inputClassName = 'input';
+
+    if (error) {
+      inputClassName += ' is-danger';
+    }
 
     const inputField = ({ getInputProps, suggestions, getSuggestionItemProps }) => {
       const containerDropDownStyle =
@@ -56,21 +52,34 @@ class GeoSearch extends React.Component {
           : {};
 
       return (
-        <div>
-          <div className="control has-icons-left">
-            <input
-              id={id}
-              onBlur={onBlurEvent}
-              {...getInputProps({
-                type: 'text',
-                placeholder: `${placeholder}`,
-                className: 'location-search-input input',
-              })}
-            />
-            <span className="icon is-small is-left">
-              <i className="fab fa-canadian-maple-leaf" />
-            </span>
-          </div>
+        <div className="group">
+          <input
+            id={id}
+            onBlur={onBlurEvent}
+            {...getInputProps({
+              type: 'text',
+              placeholder: `${placeholder}`,
+              className: `location-search-input ${inputClassName} has-icons-left`,
+            })}
+          />
+          <span className="highlight" />
+          <span className={`bar ${error ? 'is-danger' : ''}`} />
+          <label
+            style={{
+              top: -14,
+              zIndex: 9,
+              color: `${value ? '#2196f3' : '#424242'}`,
+              fontSize: 12,
+              cursor: 'pointer',
+            }}
+          >
+          {label}
+          </label>
+
+          {autoDetectComponent && autoDetectComponent(value)}
+
+          {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
+          {error && <p className="help is-danger">{error}</p>}
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -112,7 +121,6 @@ class GeoSearch extends React.Component {
     };
 
     return (
-      //xxx add US here
       <PlacesAutocomplete
         value={forceSetAddressValue ? forceSetAddressValue : this.state.address}
         onChange={this.updateField}

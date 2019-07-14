@@ -36,31 +36,32 @@ living room kitchen bedrooms and more ?`,
                 type="hidden"
                 value={values.effort}
               />
-              <div className="field">
-                <label className="label">Requested Duration</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'small', true)}
-                    className={`button is-info is-small ${values.effort === 'small' ? '' : 'is-outlined'}`}
-                  >
-                    {`Small (1-3 hours)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'medium', true)}
-                    className={`button is-info is-small ${values.effort === 'medium' ? '' : 'is-outlined'}`}
-                  >
-                    {`Medium (3-6 hours)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'large', true)}
-                    className={`button is-info is-small ${values.effort === 'large' ? '' : 'is-outlined'}`}
-                  >
-                    {`Large (6-8 hours)`}
-                  </span>
+              <div className="group">
+                <div className="select">
+                  <select>
+                    <option
+                      selected={values.effort === 'small'}
+                      onClick={() => setFieldValue('effort', 'small', true)}
+                    >
+                      {`Small (1-3 hours)`}
+                    </option>
+                    <option
+                      selected={values.effort === 'medium'}
+                      onClick={() => setFieldValue('effort', 'medium', true)}
+                    >
+                      {`Medium (3-6 hours)`}
+                    </option>
+                    <option
+                      selected={values.effort === 'large'}
+                      onClick={() => setFieldValue('effort', 'large', true)}
+                    >
+                      {`Large (6-8 hours)`}
+                    </option>
+                  </select>
                 </div>
+                <span className="highlight" />
+                <span className="bar" />
+                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
               </div>
             </React.Fragment>
           );

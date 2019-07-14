@@ -9,7 +9,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export default class DatePickerInput extends React.Component {
   static propTypes = {
-    onChangeEvent: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string]),
   };
   static defaultProps = {
@@ -33,32 +32,50 @@ export default class DatePickerInput extends React.Component {
   };
 
   render() {
-    const { selectedDate } = this.state;
-    const myInput = (
-      <button style={{ color: '#0a8fd1' }} className="button is-info">
-        <span className="icon">
-          <i className="fas fa-calendar-alt" />
-        </span>
+    const { label, error, helpText, iconLeft, value } = this.props;
+    let labelClass = 'withPlaceholder';
+    let inputClassName = 'input';
 
-        {selectedDate && selectedDate.format ? (
-          <span>{selectedDate.format('D/MMMM/YYYY')}</span>
-        ) : (
-          <span>Select a Date</span>
-        )}
-      </button>
-    );
+    if (error) {
+      inputClassName += ' is-danger';
+    }
+    if (iconLeft) {
+      inputClassName += ' has-icons-left';
+    }
+
+    if (value) {
+      labelClass += ' hasSelectedValue';
+    }
+    const { selectedDate } = this.state;
+
     return (
-      <DatePicker
-        className="input is-info is-outlined"
-        customInput={myInput}
-        selected={this.state.selectedDate}
-        onChange={this.handleChange}
-        minDate={this.minDate}
-        maxDate={moment().add(30, 'd')}
-        disabledKeyboardNavigation
-        placeholderText="Select a date..."
-        dateFormat={'D/MMMM/YYYY'}
-      />
+      <div className="group">
+        <DatePicker
+          className={inputClassName}
+          selected={selectedDate}
+          onChange={this.handleChange}
+          minDate={this.minDate}
+          maxDate={moment().add(30, 'd')}
+          disabledKeyboardNavigation
+          placeholderText="Select a date..."
+          dateFormat={'D/MMMM/YYYY'}
+        />
+        <label
+          style={{
+            top: -14,
+            zIndex: 9,
+            color: `${selectedDate ? '#2196f3' : '#424242'}`,
+            fontSize: 12,
+          }}
+          className={labelClass}
+        >
+          {label}
+        </label>
+        <span className="highlight" />
+        <span className={`bar ${error ? 'is-danger' : ''}`} />
+        {helpText ? <p className="help">{helpText}</p> : null}
+        {error ? <p className="help is-danger">{error}</p> : null}
+      </div>
     );
   }
 }
