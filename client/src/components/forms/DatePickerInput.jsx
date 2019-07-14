@@ -32,7 +32,7 @@ export default class DatePickerInput extends React.Component {
   };
 
   render() {
-    const { label, error, helpText, iconLeft, value } = this.props;
+    const { label, error, helpText, iconLeft } = this.props;
     let labelClass = 'withPlaceholder';
     let inputClassName = 'input';
 
@@ -43,7 +43,7 @@ export default class DatePickerInput extends React.Component {
       inputClassName += ' has-icons-left';
     }
 
-    if (value) {
+    if (selectedDate) {
       labelClass += ' hasSelectedValue';
     }
     const { selectedDate } = this.state;
@@ -62,10 +62,10 @@ export default class DatePickerInput extends React.Component {
         />
         <label
           style={{
-            top: -14,
+            top: -16,
             zIndex: 9,
             color: `${selectedDate ? '#2196f3' : '#424242'}`,
-            fontSize: 12,
+            fontSize: 14,
           }}
           className={labelClass}
         >

@@ -66,14 +66,14 @@ class GeoSearch extends React.Component {
           <span className={`bar ${error ? 'is-danger' : ''}`} />
           <label
             style={{
-              top: -14,
+              top: -16,
               zIndex: 9,
               color: `${value ? '#2196f3' : '#424242'}`,
-              fontSize: 12,
+              fontSize: 16,
               cursor: 'pointer',
             }}
           >
-          {label}
+            {label}
           </label>
 
           {autoDetectComponent && autoDetectComponent(value)}

@@ -46,13 +46,13 @@ class GenericRequestForm extends React.Component {
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
-  shouldShowAutodetectControl = (value) => {
+  shouldShowAutodetectControl = () => {
     return navigator.geolocation ? (
       <div
         onClick={this.getCurrentAddress}
         style={{
-          top: -11,
-          left: 60,
+          top: -10,
+          left: 70,
           fontSize: 10,
           zIndex: 11,
           cursor: 'pointer',
@@ -60,7 +60,7 @@ class GenericRequestForm extends React.Component {
         }}
         className="has-text-weight-bold has-text-link"
       >
-        {`AUTO DETECT`}
+        {`(AUTO DETECT)`}
       </div>
     ) : null;
   };
@@ -435,31 +435,14 @@ class GenericRequestForm extends React.Component {
               />
               <div className="group">
                 <div className="select">
-                  <select>
-                    <option
-                      selected={selectedTimeButtonId === 'morning'}
-                      onClick={() => this.selectTimeButton('morning')}
-                    >
-                      Morning (8AM-12PM)
-                    </option>
-                    <option
-                      selected={selectedTimeButtonId === 'afternoon'}
-                      onClick={() => this.selectTimeButton('afternoon')}
-                    >
-                      Afternoon (12PM-5PM)
-                    </option>
-                    <option
-                      selected={selectedTimeButtonId === 'evening'}
-                      onClick={() => this.selectTimeButton('evening')}
-                    >
-                      Evening (5PM-12AM)
-                    </option>
-                    <option
-                      selected={selectedTimeButtonId === 'anytime'}
-                      onClick={() => this.selectTimeButton('anytime')}
-                    >
-                      Anytime (8AM-12AM)
-                    </option>
+                  <select
+                    value={selectedTimeButtonId}
+                    onChange={(event) => this.selectTimeButton(event.target.value)}
+                  >
+                    <option value="morning">Morning (8AM-12PM)</option>
+                    <option value="afternoon">Afternoon (12PM-5PM)</option>
+                    <option value="evening">Evening (5PM-12AM)</option>
+                    <option value="evening">Anytime (8AM-12AM)</option>
                   </select>
                 </div>
                 <span className="highlight" />
@@ -482,8 +465,8 @@ class GenericRequestForm extends React.Component {
                 <div
                   onClick={this.insertTemplateText}
                   style={{
-                    top: -11,
-                    left: 140,
+                    top: -10,
+                    left: 170,
                     fontSize: 10,
                     zIndex: 11,
                     cursor: 'pointer',
@@ -491,7 +474,7 @@ class GenericRequestForm extends React.Component {
                   }}
                   className="has-text-weight-bold has-text-link"
                 >
-                  {`ANSWER FAQS`}
+                  {`(ANSWER FAQS)`}
                 </div>
               }
               placeholder={SUGGESTION_TEXT}

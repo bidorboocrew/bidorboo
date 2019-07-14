@@ -38,25 +38,13 @@ living room kitchen bedrooms and more ?`,
               />
               <div className="group">
                 <div className="select">
-                  <select>
-                    <option
-                      selected={values.effort === 'small'}
-                      onClick={() => setFieldValue('effort', 'small', true)}
-                    >
-                      {`Small (1-3 hours)`}
-                    </option>
-                    <option
-                      selected={values.effort === 'medium'}
-                      onClick={() => setFieldValue('effort', 'medium', true)}
-                    >
-                      {`Medium (3-6 hours)`}
-                    </option>
-                    <option
-                      selected={values.effort === 'large'}
-                      onClick={() => setFieldValue('effort', 'large', true)}
-                    >
-                      {`Large (6-8 hours)`}
-                    </option>
+                  <select
+                    value={values.effort}
+                    onChange={(event) => setFieldValue('effort', event.target.value, true)}
+                  >
+                    <option value="small">{`Small (1-3 hours)`}</option>
+                    <option value="medium">{`Medium (3-6 hours)`}</option>
+                    <option value="large">{`Large (6-8 hours)`}</option>
                   </select>
                 </div>
                 <span className="highlight" />

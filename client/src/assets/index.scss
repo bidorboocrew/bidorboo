@@ -813,20 +813,20 @@ $muted-color: mix(white, $bg-color, 70%);
 
     ~ label {
       &.withPlaceholder {
-        top: -14px;
-        font-size: 12px;
+        top: -16px;
+        font-size: 16px;
       }
 
       &.hasSelectedValue {
-        top: -14px;
-        font-size: 12px;
+        top: -16px;
+        font-size: 16px;
         color: $hl-color;
       }
     }
 
     &:focus ~ label {
-      top: -14px;
-      font-size: 12px;
+      top: -16px;
+      font-size: 16px;
       color: $hl-color;
     }
 
