@@ -181,9 +181,7 @@ class Header extends React.Component {
         {/* is-spaced is a good prop to add  */}
         <nav
           id="BID_OR_BOO_APP_HEADER"
-          className={`navbar is-fixed-top ${
-            isActingAsBidder ? 'bidderAppBar' : ''
-          }  `}
+          className={`navbar is-fixed-top ${isActingAsBidder ? 'bidderAppBar' : ''}  `}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -205,32 +203,10 @@ class Header extends React.Component {
               <img
                 src={logoImg}
                 alt="BidOrBoo"
-                width="32"
-                height="32"
+                width="46"
+                height="auto"
                 style={{ maxHeight: 'unset' }}
               />
-              <span
-                style={{
-                  paddingLeft: 2,
-                  marginBottom: -2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 500,
-                }}
-                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-touch"
-              >
-                BidOrBoo
-              </span>
-              <span
-                style={{
-                  paddingLeft: 2,
-                  marginBottom: -2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 500,
-                }}
-                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-desktop"
-              >
-                B.O.B
-              </span>
             </a>
             {!isHomePage && (
               <React.Fragment>

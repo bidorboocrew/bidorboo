@@ -29,19 +29,18 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
-
     return (
       <React.Fragment>
-        <section className="hero is-white">
+        <section className="hero is-transparent">
           <div className="hero-body">
             <div className="has-text-centered">
-              <h1 className="title">What Service do you need?</h1>
+              <h1 style={{ fontWeight: 300 }} className="title">
+                What Service do you need?
+              </h1>
             </div>
           </div>
         </section>
-        <div className="columns is-centered is-multiline is-mobile">
-          {this.AllActiveTasks}
-        </div>
+        <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
         <br />
 
         {/* <div className="columns forJobSummary is-centered is-multiline is-mobile">

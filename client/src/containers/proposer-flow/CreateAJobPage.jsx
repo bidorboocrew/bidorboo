@@ -34,7 +34,7 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="columns is-centered is-mobile">
+      <div className="columns is-centered is-mobile slide-in-right">
         <div className="column limitLargeMaxWidth">
           <nav className="breadcrumb" aria-label="breadcrumbs">
             <ul>

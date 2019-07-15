@@ -22,6 +22,8 @@ import { switchRoute } from '../utils';
 import { DisplayLabelValue } from '../containers/commonComponents';
 import RequesterRequestDetailsPreview from './AllPossibleTasksStatesCards/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
+import taskImage from '../assets/images/cleaning.png';
+
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -251,7 +253,7 @@ class GenericRequestForm extends React.Component {
       isValid,
     } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
+    const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT, DESCRIPTION } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
     const { showConfirmationDialog, selectedTimeButtonId } = this.state;
@@ -333,12 +335,27 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            <div style={{ marginBottom: 16 }} className="title">
+            <article class="media">
+              <figure class="media-left">
+                <p class="image is-128x128">
+                  <img src={taskImage} alt="BidOrBoo" style={{ borderRadius: '100%' }} />
+                </p>
+              </figure>
+              <div class="media-content">
+                <div class="content">
+                  <h1 style={{ fontWeight: 100 }} className="title">
+                    {TITLE}
+                  </h1>
+                  <p style={{ color: '#6c6c6c' }}>{DESCRIPTION}</p>
+                </div>
+              </div>
+            </article>
+            {/* <div style={{ marginBottom: 16 }} className="title">
               <span className="icon">
                 <i className={ICON} />
               </span>
               <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
-            </div>
+            </div> */}
             <input
               id="recaptcha"
               className="input is-invisible"
