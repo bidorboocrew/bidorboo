@@ -4,8 +4,7 @@ export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
-  DESCRIPTION: `Does your car need cleaning and detailing inside out ? Would like the interior of your car to look and smell better ?
-Get one of our tasker to give your car a good cleaning!`,
+  DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
   SUGGESTION_TEXT: `*What Year Make and model is your car?
 
 *Any particular stains or dirt that you want to make the tasker aware of ?

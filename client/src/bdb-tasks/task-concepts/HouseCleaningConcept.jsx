@@ -12,30 +12,36 @@ export default class HouseCleaningConcept extends React.Component {
     const { ID, TITLE, DESCRIPTION, ICON } = TASKS_DEFINITIONS[`bdbHouseCleaning`];
 
     return (
-      <div style={{ maxWidth: '36rem' }} className="card cardWithButton nofixedwidth">
-        <div style={{ padding: '2.5rem' }} className="card-content template">
-          <nav class="level">
-            <div class="level-left">
-              <div class="level-item">
+      <div
+        style={{ maxWidth: '36rem', boxShadow: 'none' }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div style={{ padding: '1.5rem' }} className="card-content template">
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
                 <figure>
-                  <p class="image is-128x128">
+                  <p className="image is-128x128">
                     <img src={taskImage} alt="BidOrBoo" style={{ borderRadius: '100%' }} />
                   </p>
                 </figure>
               </div>
             </div>
 
-            <div class="level-right">
-              <div class="level-item">
-                <div>
-                  <h1 style={{ fontWeight: 300, marginBottom: '1.5rem' }}>{TITLE}</h1>
-                  <p style={{ maxWidth: 320, color: '#6c6c6c' }}>{DESCRIPTION}</p>
+            <div className="level-right">
+              <div className="level-item">
+                <div style={{ paddingLeft: '1.5rem' }}>
+                  <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                    {TITLE}
+                  </h1>
+                  <p style={{ maxWidth: 320, color: '#6a748a' }}>{DESCRIPTION}</p>
                 </div>
               </div>
             </div>
           </nav>
 
           <a
+            style={{ fontSize: 14, width: 132 }}
             onClick={(e) => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
             }}

@@ -4,8 +4,7 @@ export default {
   ID: 'bdbHouseCleaning',
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',
-  DESCRIPTION: `Does your place need a cleaning ? Tired and want to get someone to clean the bathrooms
-living room kitchen bedrooms and more ?`,
+  DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
   SUGGESTION_TEXT: `*What Areas would you like the Tasker to focus on (living room , bathrooms, bedrooms) ?
 
 *Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?

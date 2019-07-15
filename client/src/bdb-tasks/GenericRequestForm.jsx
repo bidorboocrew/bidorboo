@@ -53,9 +53,9 @@ class GenericRequestForm extends React.Component {
       <div
         onClick={this.getCurrentAddress}
         style={{
-          top: -10,
-          left: 70,
-          fontSize: 10,
+          top: -12,
+          left: 80,
+          fontSize: 12,
           zIndex: 11,
           cursor: 'pointer',
           position: 'absolute',
@@ -335,14 +335,14 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-128x128">
+            <article className="media">
+              <figure className="media-left">
+                <p className="image is-128x128">
                   <img src={taskImage} alt="BidOrBoo" style={{ borderRadius: '100%' }} />
                 </p>
               </figure>
-              <div class="media-content">
-                <div class="content">
+              <div className="media-content">
+                <div className="content">
                   <h1 style={{ fontWeight: 100 }} className="title">
                     {TITLE}
                   </h1>
@@ -482,9 +482,9 @@ class GenericRequestForm extends React.Component {
                 <div
                   onClick={this.insertTemplateText}
                   style={{
-                    top: -10,
-                    left: 170,
-                    fontSize: 10,
+                    top: -12,
+                    left: 190,
+                    fontSize: 12,
                     zIndex: 11,
                     cursor: 'pointer',
                     position: 'absolute',
