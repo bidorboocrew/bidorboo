@@ -9,21 +9,25 @@ const renderTask = (taskDetails) => {
   const { ID, renderSummaryCard } = taskDetails;
 
   return (
-    <div>
-      <div style={{ background: 'white' }}>
-        {renderSummaryCard && renderSummaryCard()}
-        <div className="has-text-right">
-          <a
-            style={{ fontSize: 14, width: 132, borderRadius: 25, marginRight: '1.5rem' }}
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
-            }}
-            className="button is-success"
-          >
-            REQUEST NOW
-          </a>
-        </div>
-      </div>
+    <div
+      style={{
+        background: 'white',
+        borderRadius: 6,
+        position: 'relative',
+        boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
+      }}
+    >
+      {renderSummaryCard && renderSummaryCard({})}
+
+      <a
+        style={{ fontSize: 14, width: 132, borderRadius: 25 }}
+        onClick={() => {
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
+        }}
+        className="button is-success firstButtonInCard"
+      >
+        REQUEST NOW
+      </a>
     </div>
   );
 };

@@ -16,9 +16,9 @@ export default {
   defaultExtrasValues: {
     effort: 'small',
   },
-  renderSummaryCard: function() {
+  renderSummaryCard: function({ withDetails = true, paddingValue = '1rem 1rem 1.5rem 1rem '}) {
     return (
-      <div style={{ padding: '1.5rem' }}>
+      <div style={{ padding: paddingValue }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
@@ -41,9 +41,11 @@ export default {
                 <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
                   House Cleaning
                 </h1>
-                <p style={{ color: '#6a748a' }}>
-                  Does your place need a cleaning ? Let our Taskers clean your space.
-                </p>
+                {withDetails && (
+                  <p style={{ color: '#6a748a' }}>
+                    Does your place need a cleaning ? Let our Taskers clean your space.
+                  </p>
+                )}
               </div>
             </div>
           </div>

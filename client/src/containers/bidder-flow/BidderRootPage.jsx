@@ -186,7 +186,7 @@ class BidderRootPage extends React.Component {
           style={{ background: 'transparent', marginBottom: 0 }}
           className="tabs is-large is-centered"
         >
-          <ul>
+          <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
             <li>
               <a>
                 {/* <span className="icon is-large">

@@ -407,7 +407,7 @@ input[type='radio'] {
 }
 .table {
   border-radius: 6px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 
 header.card-header {
@@ -470,7 +470,7 @@ article.media.limitHeight {
   position: relative;
   width: 22rem;
   border-radius: 6px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
   }
@@ -482,7 +482,7 @@ article.media.limitHeight {
   right: 1rem;
   width: 180px;
   border-radius: 25px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
   }
@@ -494,7 +494,7 @@ article.media.limitHeight {
   left: 1rem;
   width: 180px;
   border-radius: 25px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
   }
@@ -506,7 +506,7 @@ article.media.limitHeight {
   right: 160px;
   width: 180px;
   border-radius: 25px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
   }
@@ -518,7 +518,7 @@ article.media.limitHeight {
   bottom: -1rem;
   right: 1rem;
   border-radius: 25px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 
 .card {
@@ -836,7 +836,7 @@ $trans-time: 300ms;
 }
 
 .level {
-  justify-content: space-evenly !important;
+  justify-content: left !important;
 }
 .level-item {
   flex-shrink: 1;
@@ -850,6 +850,6 @@ $trans-time: 300ms;
 .verificationBadge {
   margin: 5px;
   padding: 2px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   border-radius: 100%;
 }

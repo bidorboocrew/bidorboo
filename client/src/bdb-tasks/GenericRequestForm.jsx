@@ -332,7 +332,7 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            {renderSummaryCard()}
+            {renderSummaryCard({ withDetails: false, paddingValue: '0 0 1.5rem 0' })}
 
             <input
               id="recaptcha"
