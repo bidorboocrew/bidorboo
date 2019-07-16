@@ -62,9 +62,9 @@ class MyBidsPage extends React.Component {
           <ul>
             <li>
               <a>
-                <span className="icon is-large">
+                {/* <span className="icon is-large">
                   <i className="fas fa-money-check-alt" aria-hidden="true" />
-                </span>
+                </span> */}
                 <span>MY BIDS</span>
               </a>
             </li>
