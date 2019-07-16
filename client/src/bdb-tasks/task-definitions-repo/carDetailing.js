@@ -1,5 +1,6 @@
 import React from 'react';
-import taskImage from '../../assets/images/cleaning.png';
+import taskImage from '../../assets/images/carDetailing.png';
+// import watermarker from '../../assets/images/android-chrome-192x192.png';
 
 export default {
   ID: 'bdbCarDetailing',
@@ -24,15 +25,18 @@ export default {
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
-              <figure>
-                <p className="image is-128x128">
-                  <img
-                    src={taskImage}
-                    alt="BidOrBoo task img"
-                    style={{ borderRadius: '100%', height: 125, width: 125 }}
-                  />
-                </p>
-              </figure>
+              <div className="watermark">
+                <img
+                  src={taskImage}
+                  alt="BidOrBoo task img"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                />
+                {/* <img
+                  src={watermarker}
+                  className="watermarker"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                /> */}
+              </div>
             </div>
           </div>
 

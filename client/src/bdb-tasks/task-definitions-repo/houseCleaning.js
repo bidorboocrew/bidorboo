@@ -1,5 +1,6 @@
 import React from 'react';
-import taskImage from '../../assets/images/cleaning.png';
+import taskImage from '../../assets/images/houesCleaning.png';
+// import watermarker from '../../assets/images/android-chrome-192x192.png';
 
 export default {
   ID: 'bdbHouseCleaning',
@@ -16,22 +17,23 @@ export default {
   defaultExtrasValues: {
     effort: 'small',
   },
-  renderSummaryCard: function({ withDetails = true, paddingValue = '1rem 1rem 1.5rem 1rem '}) {
+  renderSummaryCard: function({ withDetails = true, paddingValue = '1rem 1rem 1.5rem 1rem ' }) {
     return (
       <div style={{ padding: paddingValue }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
-              <figure>
-                <p className="image is-128x128">
-                  <img
-                    src={taskImage}
-                    alt="BidOrBoo"
-                    alt="BidOrBoo task img"
-                    style={{ borderRadius: '100%', height: 125, width: 125 }}
-                  />
-                </p>
-              </figure>
+              <div className="watermark">
+                <img
+                  src={taskImage}
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                />
+                {/* <img
+                  src={watermarker}
+                  className="watermarker"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                /> */}
+              </div>
             </div>
           </div>
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import Tour from 'reactour';
-import bidsImg from '../assets/images/bids.png';
-import requestImg from '../assets/images/jobs.png';
 
 // import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
@@ -193,7 +191,6 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem' }} className="column">
             {/* <Fade bottom delay={250}> */}
             <RequestAService
-              logoImg={requestImg}
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
@@ -208,7 +205,6 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem' }} className="column">
             {/* <Fade bottom delay={250}> */}
             <ProvideAService
-              logoImg={bidsImg}
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
