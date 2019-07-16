@@ -343,21 +343,9 @@ class GenericRequestForm extends React.Component {
               value={values.recaptcha || ''}
             />
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-            <div className="group">
-              <div
-                className="input"
-                style={{
-                  resize: 'none',
-                  fontSize: 16,
-                  padding: 10,
-                  height: 'unset',
-                  borderBottom: 'none !important',
-                }}
-              >
-                {TASK_EXPECTATIONS}
-              </div>
-              <label className="withPlaceholder hasSelectedValue">Our Commitment</label>
-            </div>
+
+            <label className="formLabel">Our Commitment</label>
+            <div className="formInput">{TASK_EXPECTATIONS}</div>
 
             <input
               id="addressText"

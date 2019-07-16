@@ -770,7 +770,13 @@ div.react-datepicker {
 
 $width: 100%;
 $trans-time: 300ms;
-
+.formLabel {
+  font-size: 16px;
+  font-weight: 500;
+}
+.formInput {
+  padding: 0 4px 4px 4px;
+}
 .group {
   position: relative;
   margin: 40px 0;
@@ -800,6 +806,8 @@ $trans-time: 300ms;
     border-right: none;
     border-bottom: 1px solid #dbdbdb;
     outline: none !important;
+    outline-color: transparent;
+    box-shadow: none;
     &.readOnly {
       border-bottom: none;
     }
@@ -807,19 +815,15 @@ $trans-time: 300ms;
       border-bottom: 1px solid $red;
     }
     &:focus {
-      outline: none;
+      outline: none !important;
+      outline-color: transparent;
+      box-shadow: none;
     }
 
     ~ label {
-      &.withPlaceholder {
-        top: -16px;
-        font-size: 16px;
-      }
-      &.hasSelectedValue {
-        top: -16px;
-        font-size: 16px;
-        color: $blue;
-      }
+      top: -22px;
+      font-size: 16px;
+      font-weight: 500px;
     }
 
     &:focus ~ label {
@@ -864,6 +868,9 @@ $trans-time: 300ms;
 
 .level {
   justify-content: space-evenly !important;
+}
+.level-item {
+  flex-shrink: 1;
 }
 
 .card-header {

@@ -47,15 +47,15 @@ class GetNotificationsAndScroll extends React.Component {
       setServerAppBidderView,
     } = this.props;
     const currentUrlPathname = window.location.pathname;
-    if (
-      currentUrlPathname.indexOf('bdb-request/root') > 0 ||
-      currentUrlPathname.indexOf('my-profile/basic-settings') > 0 ||
-      currentUrlPathname.indexOf('BidOrBoo') > 0
-    ) {
-      document.querySelector('body').setAttribute('style', 'background:white');
-    } else {
-      document.querySelector('body').setAttribute('style', 'background:#f6f6f6');
-    }
+    // if (
+    //   currentUrlPathname.indexOf('bdb-request/root') > 0 ||
+    //   currentUrlPathname.indexOf('my-profile/basic-settings') > 0 ||
+    //   currentUrlPathname.indexOf('BidOrBoo') > 0
+    // ) {
+    //   document.querySelector('body').setAttribute('style', 'background:white');
+    // } else {
+    //   document.querySelector('body').setAttribute('style', 'background:#f6f6f6');
+    // }
     if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
       setTimeout(() => {
         window.scrollTo(0, 0);

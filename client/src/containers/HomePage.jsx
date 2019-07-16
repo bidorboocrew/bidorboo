@@ -90,8 +90,6 @@ export default class HomePage extends React.Component {
     this.state = {
       isTourOpen: false,
     };
-
-    document.querySelector('body').setAttribute('style', 'background:white');
   }
 
   toggleTour = () => {
