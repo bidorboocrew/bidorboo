@@ -55,11 +55,22 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Bids</h1>
-              {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
+        <div
+          style={{ background: 'transparent', marginBottom: 0 }}
+          className="tabs is-large is-centered"
+        >
+          <ul>
+            <li>
+              <a>
+                <span className="icon is-large">
+                  <i className="fas fa-money-check-alt" aria-hidden="true" />
+                </span>
+                <span>MY BIDS</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        {/* {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
                 <div>
                   <div
                     style={{ marginBottom: 4 }}
@@ -91,10 +102,8 @@ class MyBidsPage extends React.Component {
                     Payment Settings
                   </a>
                 </div>
-              )}
-            </div>
-          </div>
-        </section>
+              )} */}
+
         {/* <FloatingAddNewBidButton /> */}
 
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />

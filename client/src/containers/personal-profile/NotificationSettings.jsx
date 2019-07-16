@@ -76,7 +76,7 @@ class NotificationSettings extends React.Component {
 
   render() {
     return (
-      <div className="card">
+      <div className="card disabled">
         <header className="card-header">
           <p className="card-header-title">
             <span className="icon">

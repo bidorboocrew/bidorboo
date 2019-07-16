@@ -47,13 +47,21 @@ class PaymentSettings extends React.Component {
     let { stripeConnect } = userDetails;
     return (
       <section>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">PaymentSettings</h1>
-            </div>
-          </div>
-        </section>
+        <div
+          style={{ background: 'transparent', marginBottom: 0 }}
+          className="tabs is-large is-centered"
+        >
+          <ul>
+            <li>
+              <a>
+                <span className="icon is-large">
+                  <i className="far fa-credit-card" aria-hidden="true" />
+                </span>
+                <span>PAYMENT SETTINGS</span>
+              </a>
+            </li>
+          </ul>
+        </div>
         <div className="columns is-centered">
           <div className="column is-narrow">
             {(!stripeConnect || !stripeConnect.last4BankAcc) && (

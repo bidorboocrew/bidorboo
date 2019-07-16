@@ -13,19 +13,19 @@
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
 
 html body {
   color: #363636;
-  line-height: 1.4;
+  line-height: 1.5;
   background: #f6f6f6;
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
 
@@ -260,8 +260,8 @@ a.navbar-item.is-active {
 .title:last-child {
   margin-bottom: 1.5rem;
 }
-$family-primary: 'Work Sans', sans-serif;
-$family-sans-serif: 'Work Sans', sans-serif;
+$family-primary: 'Roboto', sans-serif;
+$family-sans-serif: 'Roboto', sans-serif;
 $body-background-color: #f6f6f6; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works
@@ -863,4 +863,16 @@ $trans-time: 300ms;
 
 .level {
   justify-content: space-evenly !important;
+}
+
+.card-header {
+  border-bottom: 1px solid #bdbdbd;
+  box-shadow: none;
+}
+
+.verificationBadge {
+  margin: 5px;
+  padding: 2px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 100%;
 }

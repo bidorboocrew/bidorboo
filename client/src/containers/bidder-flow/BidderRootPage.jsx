@@ -182,25 +182,22 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">Provide a Service</h1>
-              <h2 className="subtitle">Find Requests , Bid on them , do them , EARN MONEY ! </h2>
-            </div>
-          </div>
-        </section>
-        <div className="has-text-centered">
-          {anyVisibleJobs && (
-            <BidderRootFilterWrapper
-              submitSearchLocationParams={this.submitSearchLocationParams}
-              updateSearchLocationState={this.updateSearchLocationState}
-              activeSearchParams={activeSearchParams}
-              userLastStoredSearchParams={userLastStoredSearchParams}
-            />
-          )}
+        <div
+          style={{ background: 'transparent', marginBottom: 0 }}
+          className="tabs is-large is-centered"
+        >
+          <ul>
+            <li>
+              <a>
+                <span className="icon is-large">
+                  <i className="fas fa-hand-rock" aria-hidden="true" />
+                </span>
+                <span>PROVIDE A SERVICE</span>
+              </a>
+            </li>
+          </ul>
         </div>
-        <br />
+
         {isLoading && (
           <section className="section">
             <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
@@ -223,9 +220,21 @@ class BidderRootPage extends React.Component {
                   {` ${(currentJobsList && currentJobsList.length) ||
                     0} open requests in the search area`}
                 </div>
-                <br />
-                <AllJobsView jobsList={currentJobsList} {...this.props} />
               </React.Fragment>
+            )}
+            <div className="has-text-centered">
+              {anyVisibleJobs && (
+                <BidderRootFilterWrapper
+                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  updateSearchLocationState={this.updateSearchLocationState}
+                  activeSearchParams={activeSearchParams}
+                  userLastStoredSearchParams={userLastStoredSearchParams}
+                />
+              )}
+            </div>
+
+            {currentJobsList && currentJobsList.length > 0 && (
+              <AllJobsView jobsList={currentJobsList} {...this.props} />
             )}
             {!isThereAnActiveSearch && (
               <div className="HorizontalAligner-center column">

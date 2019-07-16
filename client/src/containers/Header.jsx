@@ -215,11 +215,12 @@ class Header extends React.Component {
                     style={{
                       paddingLeft: 0,
                       paddingRight: 0,
+                      flexGrow: 1,
                     }}
-                    className="navbar-item has-text-grey is-hidden-desktop"
+                    className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 12, paddingTop: 2 }}>
-                      ({navbarMobileDisplayName} As Bidder)
+                    <div style={{ fontSize: 16, paddingTop: 2 }}>
+                      {navbarMobileDisplayName} - Tasker
                     </div>
                   </div>
                 )}
@@ -228,11 +229,12 @@ class Header extends React.Component {
                     style={{
                       paddingLeft: 0,
                       paddingRight: 0,
+                      flexGrow: 1,
                     }}
-                    className="navbar-item has-text-grey is-hidden-desktop"
+                    className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 12, paddingTop: 2 }}>
-                      ({navbarMobileDisplayName} As Requester)
+                    <div style={{ fontSize: 16, paddingTop: 2 }}>
+                      {navbarMobileDisplayName} - Requester
                     </div>
                   </div>
                 )}

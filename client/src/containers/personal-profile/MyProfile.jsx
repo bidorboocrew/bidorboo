@@ -80,13 +80,18 @@ class MyProfile extends React.Component {
         )}
 
         <div>
-          <section className="hero is-white has-text-centered">
-            <div className="hero-body">
-              <div className="container">
-                <h1 className="title">My Profile</h1>
-              </div>
-            </div>
-          </section>
+          <div style={{ background: 'transparent' }} className="tabs is-large is-centered">
+            <ul>
+              <li>
+                <a>
+                  <span className="icon is-large">
+                    <i className="far fa-user" aria-hidden="true" />
+                  </span>
+                  <span>MY PROFILE</span>
+                </a>
+              </li>
+            </ul>
+          </div>
           <div className="columns is-centered">
             <div className="column is-narrow has-text-centered">
               {userImageAndStats(
@@ -99,7 +104,7 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <div className="card">
+              <div className="card disabled">
                 <header className="card-header">
                   <p className="card-header-title">
                     {!isEditProfile ? (
@@ -335,7 +340,7 @@ const userImageAndStats = (
 ) => {
   const { globalRating } = rating;
   return (
-    <div className="card">
+    <div className="card disabled">
       <div className="card-content">
         <div className="content">
           <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
@@ -359,7 +364,7 @@ const userImageAndStats = (
 
               <VerifiedVia userDetails={userDetails} />
             </div>
-            <hr className="divider isTight" />
+            <br />
             <div className="field">
               <label className="label">My Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (

@@ -49,6 +49,7 @@ class GetNotificationsAndScroll extends React.Component {
     const currentUrlPathname = window.location.pathname;
     if (
       currentUrlPathname.indexOf('bdb-request/root') > 0 ||
+      currentUrlPathname.indexOf('my-profile/basic-settings') > 0 ||
       currentUrlPathname.indexOf('BidOrBoo') > 0
     ) {
       document.querySelector('body').setAttribute('style', 'background:white');

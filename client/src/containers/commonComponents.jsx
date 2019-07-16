@@ -578,49 +578,61 @@ export const VerifiedVia = ({ userDetails, isCentered = true, smallfont = true }
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
         {!atLeastOneVerification && <label className="help">Unverified</label>}
         {isFbUser && (
-          <span title="Verified by facebook" className="icon">
-            <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
+          <span className="verificationBadge">
+            <span title="Verified by facebook" className="icon">
+              <i className={`fab fa-facebook ${isFbUser ? 'has-text-link' : 'has-text-grey'}`} />
+            </span>
           </span>
         )}
         {isGmailUser && (
-          <span title="Verified by gmail" className="icon">
-            <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
+          <span className="verificationBadge">
+            <span title="Verified by gmail" className="icon">
+              <i className={`fab fa-google ${isGmailUser ? 'has-text-danger' : 'has-text-grey'}`} />
+            </span>
           </span>
         )}
         {phone.isVerified && (
-          <span title="Verified by phone" className="icon">
-            <i
-              className={`fas fa-mobile-alt ${
-                phone.isVerified ? 'has-text-success' : 'has-text-grey'
-              }`}
-            />
+          <span className="verificationBadge">
+            <span title="Verified by phone" className="icon">
+              <i
+                className={`fas fa-mobile-alt ${
+                  phone.isVerified ? 'has-text-success' : 'has-text-grey'
+                }`}
+              />
+            </span>
           </span>
         )}
         {email.isVerified && (
-          <span title="Verified by email" className="icon">
-            <i
-              className={`far fa-envelope ${
-                email.isVerified ? 'has-text-success' : 'has-text-grey'
-              }`}
-            />
+          <span className="verificationBadge">
+            <span title="Verified by email" className="icon">
+              <i
+                className={`far fa-envelope ${
+                  email.isVerified ? 'has-text-success' : 'has-text-grey'
+                }`}
+              />
+            </span>
           </span>
         )}
         {stripeConnect.isVerified && (
-          <span title="Verified by bank account" className="icon">
-            <i
-              className={`fas fa-money-check-alt ${
-                stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
-              }`}
-            />
+          <span className="verificationBadge">
+            <span title="Verified by bank account" className="icon">
+              <i
+                className={`fas fa-money-check-alt ${
+                  stripeConnect.isVerified ? 'has-text-success' : 'has-text-grey'
+                }`}
+              />
+            </span>
           </span>
         )}
         {clearCriminalHistory && (
-          <span title="Verified by criminal check" className="icon">
-            <i
-              className={`fas fa-balance-scale ${
-                clearCriminalHistory ? 'has-text-success' : 'has-text-grey'
-              }`}
-            />
+          <span className="verificationBadge">
+            <span title="Verified by criminal check" className="icon">
+              <i
+                className={`fas fa-balance-scale ${
+                  clearCriminalHistory ? 'has-text-success' : 'has-text-grey'
+                }`}
+              />
+            </span>
           </span>
         )}
       </div>
