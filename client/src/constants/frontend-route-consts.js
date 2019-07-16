@@ -116,7 +116,7 @@ export const CLIENT = {
   VERIFICATION: '/verification/:field/:code',
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
   PROPOSER: {
-    root: '/bdb-request',
+    root: '/bdb-request/root',
     createjob: '/bdb-request/create-job/:templateId',
     dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
     myOpenJobs: '/my-open-jobs',
@@ -126,7 +126,7 @@ export const CLIENT = {
     dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
   },
   BIDDER: {
-    root: '/bdb-offer',
+    root: '/bdb-offer/root',
     bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
     getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
     mybids: '/my-bids',

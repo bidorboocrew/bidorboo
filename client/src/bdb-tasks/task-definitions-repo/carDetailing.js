@@ -1,4 +1,5 @@
 import React from 'react';
+import taskImage from '../../assets/images/cleaning.png';
 
 export default {
   ID: 'bdbCarDetailing',
@@ -16,6 +17,40 @@ export default {
     carSize: 'sedan',
     interiorType: 'leather',
     trunkCleaning: 'notRequired',
+  },
+  renderSummaryCard: function() {
+    return (
+      <div style={{ padding: '1.5rem' }}>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <figure>
+                <p className="image is-128x128">
+                  <img
+                    src={taskImage}
+                    alt="BidOrBoo task img"
+                    style={{ borderRadius: '100%', height: 125, width: 125 }}
+                  />
+                </p>
+              </figure>
+            </div>
+          </div>
+
+          <div className="level-right">
+            <div className="level-item">
+              <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                  Car Detailing
+                </h1>
+                <p style={{ color: '#6a748a' }}>
+                  Does your car need thourough cleaning ? let our Taskers pamper your car.
+                </p>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    );
   },
   extrasValidation: function() {
     const { values } = this.props;

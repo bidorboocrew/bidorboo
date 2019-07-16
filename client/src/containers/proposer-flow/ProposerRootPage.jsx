@@ -3,23 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import {
-  getAllActiveRequestsTemplateCards,
-  getAllUpcomingTemplateCards,
-} from '../../bdb-tasks/getAllRequestsTemplateCards';
+import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
 
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllActiveTasks = getAllActiveRequestsTemplateCards(props).map((task, index) => {
-      return (
-        <div key={index} className="column is-narrow isforCards">
-          {task}
-        </div>
-      );
-    });
-
-    this.AllUpcomingTasks = getAllUpcomingTemplateCards(props).map((task, index) => {
+    this.AllActiveTasks = getAllActiveRequestsTemplateCards().map((task, index) => {
       return (
         <div key={index} className="column is-narrow isforCards">
           {task}
@@ -41,11 +30,6 @@ class ProposerRoot extends React.Component {
           </div>
         </section>
         <div className="columns is-centered is-mobile is-multiline">{this.AllActiveTasks}</div>
-        <br />
-
-        {/* <div className="columns forJobSummary is-centered is-multiline is-mobile">
-          {this.AllUpcomingTasks}
-        </div> */}
       </React.Fragment>
     );
   }

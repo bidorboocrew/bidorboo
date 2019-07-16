@@ -90,6 +90,8 @@ export default class HomePage extends React.Component {
     this.state = {
       isTourOpen: false,
     };
+
+    document.querySelector('body').setAttribute('style', 'background:white');
   }
 
   toggleTour = () => {
@@ -140,7 +142,7 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="hero has-text-centered is-small is-white">
+        <section className="hero has-text-centered is-small is-transparent">
           <div className="hero-body">
             <div className="container">
               <h1
@@ -173,7 +175,7 @@ export default class HomePage extends React.Component {
                       border: 'none',
                     }}
                     onClick={this.toggleTour}
-                    className="button is-outlined is-dark is-small"
+                    className="button is-text"
                   >
                     <span className="help icon">
                       <i className="fas fa-chalkboard-teacher" />

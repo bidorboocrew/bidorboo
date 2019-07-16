@@ -19,7 +19,6 @@ import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/F
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import { DisplayLabelValue } from '../containers/commonComponents';
 import RequesterRequestDetailsPreview from './AllPossibleTasksStatesCards/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 import taskImage from '../assets/images/cleaning.png';
@@ -242,7 +241,6 @@ class GenericRequestForm extends React.Component {
   render() {
     const {
       values,
-      handleSubmit,
       isSubmitting,
       setFieldValue,
       currentUserDetails,
@@ -253,7 +251,7 @@ class GenericRequestForm extends React.Component {
       isValid,
     } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT, DESCRIPTION } = TASKS_DEFINITIONS[
+    const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
     const { showConfirmationDialog, selectedTimeButtonId } = this.state;
@@ -335,27 +333,8 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            <article className="media">
-              <figure className="media-left">
-                <p className="image is-128x128">
-                  <img src={taskImage} alt="BidOrBoo" style={{ borderRadius: '100%' }} />
-                </p>
-              </figure>
-              <div className="media-content">
-                <div className="content">
-                  <h1 style={{ fontWeight: 100 }} className="title">
-                    {TITLE}
-                  </h1>
-                  <p style={{ color: '#6c6c6c' }}>{DESCRIPTION}</p>
-                </div>
-              </div>
-            </article>
-            {/* <div style={{ marginBottom: 16 }} className="title">
-              <span className="icon">
-                <i className={ICON} />
-              </span>
-              <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
-            </div> */}
+            {renderSummaryCard()}
+
             <input
               id="recaptcha"
               className="input is-invisible"
@@ -553,7 +532,6 @@ class GenericRequestForm extends React.Component {
     }
   };
   getCurrentAddress = () => {
-    debugger;
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       const getCurrentPositionOptions = {
