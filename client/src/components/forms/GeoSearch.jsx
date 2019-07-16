@@ -71,6 +71,7 @@ class GeoSearch extends React.Component {
               color: `${value ? '#2196f3' : '#424242'}`,
               fontSize: 16,
               cursor: 'pointer',
+              fontWeight: 500
             }}
           >
             {label}

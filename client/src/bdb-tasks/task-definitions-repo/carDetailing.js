@@ -84,31 +84,14 @@ export default {
 
               <div className="group">
                 <div className="select">
-                  <select>
-                    <option
-                      selected={values.carSize === 'mini'}
-                      onClick={() => setFieldValue('carSize', 'mini', true)}
-                    >
-                      {`Small (ex, mini)`}
-                    </option>
-                    <option
-                      selected={values.carSize === 'sedan'}
-                      onClick={() => setFieldValue('carSize', 'sedan', true)}
-                    >
-                      {`Regular (ex, Sedan)`}
-                    </option>
-                    <option
-                      selected={values.carSize === 'suv'}
-                      onClick={() => setFieldValue('carSize', 'suv', true)}
-                    >
-                      {`Large (ex, SUV)`}
-                    </option>
-                    <option
-                      selected={values.carSize === 'truck'}
-                      onClick={() => setFieldValue('carSize', 'truck', true)}
-                    >
-                      {`XL (ex, Truck)`}
-                    </option>
+                  <select
+                    value={values.carSize}
+                    onChange={(event) => setFieldValue('carSize', event.target.value, true)}
+                  >
+                    <option value="mini">{`Small (ex, mini)`}</option>
+                    <option value="sedan">{`Regular (ex, Sedan)`}</option>
+                    <option value="suv">{`Large (ex, SUV)`}</option>
+                    <option value="truck">{`XL (ex, Truck)`}</option>
                   </select>
                 </div>
                 <span className="highlight" />
@@ -155,25 +138,13 @@ export default {
 
               <div className="group">
                 <div className="select">
-                  <select>
-                    <option
-                      selected={values.interiorType === 'leather'}
-                      onClick={() => setFieldValue('interiorType', 'leather', true)}
-                    >
-                      Leather
-                    </option>
-                    <option
-                      selected={values.interiorType === 'fabric'}
-                      onClick={() => setFieldValue('interiorType', 'fabric', true)}
-                    >
-                      Fabric
-                    </option>
-                    <option
-                      selected={values.interiorType === 'other'}
-                      onClick={() => setFieldValue('interiorType', 'other', true)}
-                    >
-                      Other
-                    </option>
+                  <select
+                    value={values.interiorType}
+                    onChange={(event) => setFieldValue('interiorType', event.target.value, true)}
+                  >
+                    <option value="leather">Leather</option>
+                    <option value="fabric">Fabric</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
                 <span className="highlight" />
@@ -218,19 +189,12 @@ export default {
 
               <div className="group">
                 <div className="select">
-                  <select>
-                    <option
-                      selected={values.trunkCleaning === 'leather'}
-                      onClick={() => setFieldValue('isRequired', 'isRequired', true)}
-                    >
-                      Requires Cleaning
-                    </option>
-                    <option
-                      selected={values.trunkCleaning === 'fabric'}
-                      onClick={() => setFieldValue('notRequired', 'notRequired', true)}
-                    >
-                      Not Required
-                    </option>
+                  <select
+                    value={values.isRequired}
+                    onChange={(event) => setFieldValue('isRequired', event.target.value, true)}
+                  >
+                    <option values="isRequired">Requires Cleaning</option>
+                    <option values="notRequired">Not Required</option>
                   </select>
                 </div>
                 <span className="highlight" />

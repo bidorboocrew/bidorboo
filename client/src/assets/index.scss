@@ -767,19 +767,17 @@ div.react-datepicker {
 // https://codepen.io/uzielweb/pen/vyXqpx
 
 // (this is it)  https://codepen.io/lewisvrobinson/pen/EyZwjR
-$bg-color: #424242;
-$hl-color: #2196f3;
+
 $width: 100%;
 $trans-time: 300ms;
-$muted-color: mix(white, $bg-color, 70%);
 
 .group {
   position: relative;
   margin: 40px 0;
   label {
-    color: $muted-color;
+    color: #363636;
     font-size: 16px;
-    font-weight: normal;
+    font-weight: 500;
     position: absolute;
     pointer-events: none;
     left: 5px;
@@ -795,20 +793,20 @@ $muted-color: mix(white, $bg-color, 70%);
   .textarea,
   select,
   .select {
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: 1px solid #dbdbdb !important;
+    box-shadow: none;
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #dbdbdb;
     &.readOnly {
-      border-bottom: none !important;
+      border-bottom: none;
     }
     &.is-danger {
-      border-bottom: 1px solid $red !important;
+      border-bottom: 1px solid $red;
     }
     &:focus {
-      outline: none !important;
+      outline: none;
     }
 
     ~ label {
@@ -816,18 +814,17 @@ $muted-color: mix(white, $bg-color, 70%);
         top: -16px;
         font-size: 16px;
       }
-
       &.hasSelectedValue {
         top: -16px;
         font-size: 16px;
-        color: $hl-color;
+        color: $blue;
       }
     }
 
     &:focus ~ label {
       top: -16px;
       font-size: 16px;
-      color: $hl-color;
+      color: $blue;
     }
 
     &:focus ~ .bar:before {
@@ -845,7 +842,7 @@ $muted-color: mix(white, $bg-color, 70%);
       width: 0;
       bottom: 0px;
       position: absolute;
-      background: $hl-color;
+      background: $blue;
       transition: $trans-time ease all;
       left: 0%;
     }

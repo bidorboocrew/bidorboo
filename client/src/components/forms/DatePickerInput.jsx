@@ -65,7 +65,8 @@ export default class DatePickerInput extends React.Component {
             top: -16,
             zIndex: 9,
             color: `${selectedDate ? '#2196f3' : '#424242'}`,
-            fontSize: 14,
+            fontSize: 16,
+            fontWeight: 500,
           }}
           className={labelClass}
         >
