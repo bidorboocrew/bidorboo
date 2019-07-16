@@ -203,7 +203,7 @@ class Header extends React.Component {
               <img
                 src={logoImg}
                 alt="BidOrBoo"
-                width="46"
+                width="36"
                 height="auto"
                 style={{ maxHeight: 'unset' }}
               />
@@ -219,9 +219,7 @@ class Header extends React.Component {
                     }}
                     className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 16, paddingTop: 2 }}>
-                      {navbarMobileDisplayName} - Tasker
-                    </div>
+                    <div style={{ fontSize: 14, paddingTop: 2 }}>TASKER VIEW</div>
                   </div>
                 )}
                 {!isActingAsBidder && (
@@ -233,9 +231,7 @@ class Header extends React.Component {
                     }}
                     className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 16, paddingTop: 2 }}>
-                      {navbarMobileDisplayName} - Requester
-                    </div>
+                    <div style={{ fontSize: 14, paddingTop: 2 }}>REQUESTER VIEW</div>
                   </div>
                 )}
               </React.Fragment>
