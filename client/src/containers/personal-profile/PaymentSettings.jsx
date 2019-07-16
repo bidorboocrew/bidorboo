@@ -54,9 +54,9 @@ class PaymentSettings extends React.Component {
           <ul>
             <li>
               <a>
-                <span className="icon is-large">
+                {/* <span className="icon is-large">
                   <i className="far fa-credit-card" aria-hidden="true" />
-                </span>
+                </span> */}
                 <span>PAYMENT SETTINGS</span>
               </a>
             </li>

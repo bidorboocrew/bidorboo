@@ -80,13 +80,16 @@ class MyProfile extends React.Component {
         )}
 
         <div>
-          <div style={{ background: 'transparent' }} className="tabs is-large is-centered">
+          <div
+            style={{ background: 'transparent', marginBottom: 0 }}
+            className="tabs is-large is-centered"
+          >
             <ul>
               <li>
                 <a>
-                  <span className="icon is-large">
+                  {/* <span className="icon is-large">
                     <i className="far fa-user" aria-hidden="true" />
-                  </span>
+                  </span> */}
                   <span>MY PROFILE</span>
                 </a>
               </li>

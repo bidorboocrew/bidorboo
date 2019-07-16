@@ -46,9 +46,9 @@ class MyRequestsPage extends React.Component {
           <ul>
             <li>
               <a>
-                <span className="icon is-large">
+                {/* <span className="icon is-large">
                   <i className="fas fa-list" aria-hidden="true" />
-                </span>
+                </span> */}
                 <span>My REQUESTS</span>
               </a>
             </li>

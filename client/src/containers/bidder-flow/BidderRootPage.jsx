@@ -189,9 +189,9 @@ class BidderRootPage extends React.Component {
           <ul>
             <li>
               <a>
-                <span className="icon is-large">
+                {/* <span className="icon is-large">
                   <i className="fas fa-hand-rock" aria-hidden="true" />
-                </span>
+                </span> */}
                 <span>PROVIDE A SERVICE</span>
               </a>
             </li>

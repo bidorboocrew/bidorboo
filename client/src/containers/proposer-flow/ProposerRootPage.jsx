@@ -27,9 +27,9 @@ class ProposerRoot extends React.Component {
           <ul>
             <li>
               <a>
-                <span className="icon is-large">
+                {/* <span className="icon is-large">
                   <i className="far fa-plus-square" aria-hidden="true" />
-                </span>
+                </span> */}
                 <span>REQUEST A SERVICE</span>
               </a>
             </li>
