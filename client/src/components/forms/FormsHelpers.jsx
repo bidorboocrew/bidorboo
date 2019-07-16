@@ -138,7 +138,7 @@ export const TextAreaInput = ({
     labelClass += ' hasSelectedValue';
   }
   return (
-    <div className="group">
+    <div className={`group ${error ? 'isError' : ''}`}>
       <label>{label}</label>
       <div>
         <textarea
