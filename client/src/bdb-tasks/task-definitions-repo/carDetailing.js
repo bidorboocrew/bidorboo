@@ -83,20 +83,20 @@ export default {
               />
 
               <div className="group">
-                <div className="select">
-                  <select
-                    value={values.carSize}
-                    onChange={(event) => setFieldValue('carSize', event.target.value, true)}
-                  >
-                    <option value="mini">{`Small (ex, mini)`}</option>
-                    <option value="sedan">{`Regular (ex, Sedan)`}</option>
-                    <option value="suv">{`Large (ex, SUV)`}</option>
-                    <option value="truck">{`XL (ex, Truck)`}</option>
-                  </select>
-                </div>
-                <span className="highlight" />
-                <span className="bar" />
                 <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.carSize}
+                      onChange={(event) => setFieldValue('carSize', event.target.value, true)}
+                    >
+                      <option value="mini">{`Small (ex, mini)`}</option>
+                      <option value="sedan">{`Regular (ex, Sedan)`}</option>
+                      <option value="suv">{`Large (ex, SUV)`}</option>
+                      <option value="truck">{`XL (ex, Truck)`}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           );
@@ -137,19 +137,19 @@ export default {
               />
 
               <div className="group">
-                <div className="select">
-                  <select
-                    value={values.interiorType}
-                    onChange={(event) => setFieldValue('interiorType', event.target.value, true)}
-                  >
-                    <option value="leather">Leather</option>
-                    <option value="fabric">Fabric</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <span className="highlight" />
-                <span className="bar" />
                 <label className="withPlaceholder hasSelectedValue">{'Interior Type'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.interiorType}
+                      onChange={(event) => setFieldValue('interiorType', event.target.value, true)}
+                    >
+                      <option value="leather">Leather</option>
+                      <option value="fabric">Fabric</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           );
@@ -188,18 +188,18 @@ export default {
               />
 
               <div className="group">
-                <div className="select">
-                  <select
-                    value={values.isRequired}
-                    onChange={(event) => setFieldValue('isRequired', event.target.value, true)}
-                  >
-                    <option values="isRequired">Requires Cleaning</option>
-                    <option values="notRequired">Not Required</option>
-                  </select>
-                </div>
-                <span className="highlight" />
-                <span className="bar" />
                 <label className="withPlaceholder hasSelectedValue">Trunk Cleaning</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.isRequired}
+                      onChange={(event) => setFieldValue('isRequired', event.target.value, true)}
+                    >
+                      <option values="isRequired">Requires Cleaning</option>
+                      <option values="notRequired">Not Required</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           );

@@ -52,17 +52,15 @@ class GenericRequestForm extends React.Component {
       <div
         onClick={this.getCurrentAddress}
         style={{
-          top: -13,
-          left: 80,
-          fontSize: 12,
-          zIndex: 11,
           cursor: 'pointer',
-          position: 'absolute',
           color: '#ce1bbf',
         }}
-        className="has-text-weight-bold"
+        className="help"
       >
-        {`(AUTO DETECT)`}
+        <span className="icon">
+          <i className="fas fa-map-marker-alt" />
+        </span>
+        <span>AUTO DETECT LOCATION</span>
       </div>
     ) : null;
   };
@@ -415,20 +413,20 @@ class GenericRequestForm extends React.Component {
               onChangeEvent={this.updateDateInputFieldValue}
             />
             <div className="group">
-              <div className="select">
-                <select
-                  value={selectedTimeButtonId}
-                  onChange={(event) => this.selectTimeButton(event.target.value)}
-                >
-                  <option value="morning">Morning (8AM-12PM)</option>
-                  <option value="afternoon">Afternoon (12PM-5PM)</option>
-                  <option value="evening">Evening (5PM-12AM)</option>
-                  <option value="evening">Anytime (8AM-12AM)</option>
-                </select>
-              </div>
-              <span className="highlight" />
-              <span className="bar" />
               <label className="withPlaceholder hasSelectedValue">{'Time Of Day'}</label>
+              <div>
+                <div className="select">
+                  <select
+                    value={selectedTimeButtonId}
+                    onChange={(event) => this.selectTimeButton(event.target.value)}
+                  >
+                    <option value="morning">Morning (8AM-12PM)</option>
+                    <option value="afternoon">Afternoon (12PM-5PM)</option>
+                    <option value="evening">Evening (5PM-12AM)</option>
+                    <option value="evening">Anytime (8AM-12AM)</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             {/* {extras} */}
@@ -445,17 +443,15 @@ class GenericRequestForm extends React.Component {
                 <div
                   onClick={this.insertTemplateText}
                   style={{
-                    top: -13,
-                    left: 190,
-                    fontSize: 12,
-                    zIndex: 11,
                     cursor: 'pointer',
-                    position: 'absolute',
                     color: '#ce1bbf',
                   }}
-                  className="has-text-weight-bold"
+                  className="help"
                 >
-                  {`(ANSWER FAQS)`}
+                  <span className="icon">
+                    <i className="fas fa-pen" />
+                  </span>
+                  <span>ANSWER TASK FAQS</span>
                 </div>
               }
               placeholder={SUGGESTION_TEXT}

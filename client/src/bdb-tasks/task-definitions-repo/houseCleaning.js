@@ -72,19 +72,19 @@ export default {
                 value={values.effort}
               />
               <div className="group">
-                <div className="select">
-                  <select
-                    value={values.effort}
-                    onChange={(event) => setFieldValue('effort', event.target.value, true)}
-                  >
-                    <option value="small">{`Small (1-3 hours)`}</option>
-                    <option value="medium">{`Medium (3-6 hours)`}</option>
-                    <option value="large">{`Large (6-8 hours)`}</option>
-                  </select>
-                </div>
-                <span className="highlight" />
-                <span className="bar" />
                 <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.effort}
+                      onChange={(event) => setFieldValue('effort', event.target.value, true)}
+                    >
+                      <option value="small">{`Small (1-3 hours)`}</option>
+                      <option value="medium">{`Medium (3-6 hours)`}</option>
+                      <option value="large">{`Large (6-8 hours)`}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </React.Fragment>
           );

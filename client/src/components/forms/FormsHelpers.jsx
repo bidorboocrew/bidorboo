@@ -37,21 +37,20 @@ export const Checkbox = ({
   return (
     <div className="field">
       <div className="group">
-        <input
-          id={id}
-          className={inputClassName}
-          type={type}
-          value={value || ''}
-          onChange={onChange}
-          {...props}
-        />
-        <span className="highlight" />
-        <span className="bar" />
+        <Label htmlFor={id} error={error}>
+          {label}
+        </Label>
+        <div>
+          <input
+            id={id}
+            className={inputClassName}
+            type={type}
+            value={value || ''}
+            onChange={onChange}
+            {...props}
+          />
+        </div>
       </div>
-
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
     </div>
   );
 };
@@ -88,19 +87,19 @@ export const TextInput = ({
 
   return (
     <div className="group">
-      <input
-        autoFocus={setFocusImmediately}
-        id={id}
-        className={inputClassName}
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className="highlight" />
-      <span className={`bar ${error ? 'is-danger' : ''}`} />
       <label className={labelClass}>{label}</label>
+      <div>
+        <input
+          autoFocus={setFocusImmediately}
+          id={id}
+          className={inputClassName}
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+          {...props}
+        />
+      </div>
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>
@@ -140,20 +139,20 @@ export const TextAreaInput = ({
   }
   return (
     <div className="group">
+      <label>{label}</label>
+      <div>
+        <textarea
+          style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: 100 }}
+          className={inputClassName}
+          id={id}
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+          {...props}
+        />
+      </div>
       {startWithTemplateButton && startWithTemplateButton}
-      <textarea
-        style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: 100 }}
-        className={inputClassName}
-        id={id}
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className="highlight" />
-      <span className={`bar ${error ? 'is-danger' : ''}`} />
-      <label className={labelClass}>{label}</label>
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>

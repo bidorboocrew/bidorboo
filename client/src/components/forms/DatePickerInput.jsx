@@ -33,47 +33,24 @@ export default class DatePickerInput extends React.Component {
 
   render() {
     const { label, error, helpText, iconLeft } = this.props;
-    let labelClass = 'withPlaceholder';
-    let inputClassName = 'input';
 
-    if (error) {
-      inputClassName += ' is-danger';
-    }
-    if (iconLeft) {
-      inputClassName += ' has-icons-left';
-    }
-
-    if (selectedDate) {
-      labelClass += ' hasSelectedValue';
-    }
     const { selectedDate } = this.state;
 
     return (
       <div className="group">
-        <DatePicker
-          className={inputClassName}
-          selected={selectedDate}
-          onChange={this.handleChange}
-          minDate={this.minDate}
-          maxDate={moment().add(30, 'd')}
-          disabledKeyboardNavigation
-          placeholderText="Select a date..."
-          dateFormat={'D/MMMM/YYYY'}
-        />
-        <label
-          style={{
-            top: -16,
-            zIndex: 9,
-            color: `${selectedDate ? '#2196f3' : '#424242'}`,
-            fontSize: 16,
-            fontWeight: 500,
-          }}
-          className={labelClass}
-        >
-          {label}
-        </label>
-        <span className="highlight" />
-        <span className={`bar ${error ? 'is-danger' : ''}`} />
+        <label>{label}</label>
+        <div>
+          <DatePicker
+            className={'input'}
+            selected={selectedDate}
+            onChange={this.handleChange}
+            minDate={this.minDate}
+            maxDate={moment().add(30, 'd')}
+            disabledKeyboardNavigation
+            placeholderText="Select a date..."
+            dateFormat={'D/MMMM/YYYY'}
+          />
+        </div>
         {helpText ? <p className="help">{helpText}</p> : null}
         {error ? <p className="help is-danger">{error}</p> : null}
       </div>

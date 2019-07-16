@@ -53,29 +53,18 @@ class GeoSearch extends React.Component {
 
       return (
         <div className="group">
-          <input
-            id={id}
-            onBlur={onBlurEvent}
-            {...getInputProps({
-              type: 'text',
-              placeholder: `${placeholder}`,
-              className: `location-search-input ${inputClassName} has-icons-left`,
-            })}
-          />
-          <span className="highlight" />
-          <span className={`bar ${error ? 'is-danger' : ''}`} />
-          <label
-            style={{
-              top: -16,
-              zIndex: 9,
-              color: `${value ? '#2196f3' : '#424242'}`,
-              fontSize: 16,
-              cursor: 'pointer',
-              fontWeight: 500
-            }}
-          >
-            {label}
-          </label>
+          <label>{label}</label>
+          <div>
+            <input
+              id={id}
+              onBlur={onBlurEvent}
+              {...getInputProps({
+                type: 'text',
+                placeholder: `${placeholder}`,
+                className: `location-search-input ${inputClassName} has-icons-left`,
+              })}
+            />
+          </div>
 
           {autoDetectComponent && autoDetectComponent(value)}
 

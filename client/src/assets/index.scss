@@ -776,18 +776,17 @@ $trans-time: 300ms;
 }
 .formInput {
   padding: 0 4px 4px 4px;
+  font-size: 16px;
+  margin-bottom: 1.25rem;
 }
+
 .group {
-  position: relative;
-  margin: 40px 0;
-  label {
+  margin-bottom: 1.25rem;
+  > label {
     color: #363636;
     font-size: 16px;
     font-weight: 500;
-    position: absolute;
-    pointer-events: none;
-    left: 5px;
-    top: 10px;
+    color: $blue;
     transition: $trans-time ease all;
     &.is-danger {
       color: $red;
@@ -799,15 +798,17 @@ $trans-time: 300ms;
   .textarea,
   select,
   .select {
+    padding-top: 0;
     box-shadow: none;
     border-radius: 0;
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: 1px solid #dbdbdb;
+    font-weight: 400;
+    border-bottom: 1px solid #eee;
+    display: inline-block;
     outline: none !important;
     outline-color: transparent;
-    box-shadow: none;
     &.readOnly {
       border-bottom: none;
     }
@@ -818,50 +819,6 @@ $trans-time: 300ms;
       outline: none !important;
       outline-color: transparent;
       box-shadow: none;
-    }
-
-    ~ label {
-      top: -22px;
-      font-size: 16px;
-      font-weight: 500px;
-    }
-
-    &:focus ~ label {
-      top: -16px;
-      font-size: 16px;
-      color: $blue;
-    }
-
-    &:focus ~ .bar:before {
-      width: $width;
-    }
-  }
-
-  .bar {
-    position: relative;
-    display: block;
-    width: $width;
-    &:before {
-      content: '';
-      height: 2px;
-      width: 0;
-      bottom: 0px;
-      position: absolute;
-      background: $blue;
-      transition: $trans-time ease all;
-      left: 0%;
-    }
-    &.is-danger {
-      &:before {
-        content: '';
-        height: 2px;
-        width: 0;
-        bottom: 0px;
-        position: absolute;
-        background: $red;
-        transition: $trans-time ease all;
-        left: 0%;
-      }
     }
   }
 }
