@@ -190,6 +190,7 @@ class Header extends React.Component {
 
           <div className="navbar-brand">
             <a
+              style={{ paddingRight: 4 }}
               id="BidOrBoo-logo-step"
               onClick={() => {
                 this.closeMenuThenExecute(() => {
@@ -203,7 +204,7 @@ class Header extends React.Component {
               <img
                 src={logoImg}
                 alt="BidOrBoo"
-                width="36"
+                width="34"
                 height="auto"
                 style={{ maxHeight: 'unset' }}
               />
@@ -219,7 +220,7 @@ class Header extends React.Component {
                     }}
                     className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 14, paddingTop: 2 }}>TASKER VIEW</div>
+                    <div style={{ fontSize: 14 }}>TASKER VIEW</div>
                   </div>
                 )}
                 {!isActingAsBidder && (
@@ -231,7 +232,7 @@ class Header extends React.Component {
                     }}
                     className="navbar-item has-text-grey"
                   >
-                    <div style={{ fontSize: 14, paddingTop: 2 }}>REQUESTER VIEW</div>
+                    <div style={{ fontSize: 14 }}>REQUESTER VIEW</div>
                   </div>
                 )}
               </React.Fragment>
@@ -245,7 +246,7 @@ class Header extends React.Component {
                 }}
                 className="navbar-item has-text-grey"
               >
-                <div style={{ fontSize: 14, paddingTop: 2 }}>BIDORBOO</div>
+                <div style={{ fontSize: 14 }}>BIDORBOO</div>
               </div>
             )}
             {!isLoggedIn && (
