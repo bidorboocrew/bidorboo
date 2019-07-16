@@ -236,6 +236,18 @@ class Header extends React.Component {
                 )}
               </React.Fragment>
             )}
+            {isHomePage && (
+              <div
+                style={{
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  flexGrow: 1,
+                }}
+                className="navbar-item has-text-grey"
+              >
+                <div style={{ fontSize: 14, paddingTop: 2 }}>BIDORBOO</div>
+              </div>
+            )}
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
