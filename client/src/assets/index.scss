@@ -799,6 +799,7 @@ $trans-time: 300ms;
     border-left: none;
     border-right: none;
     border-bottom: 1px solid #dbdbdb;
+    outline: none !important;
     &.readOnly {
       border-bottom: none;
     }
