@@ -46,32 +46,23 @@ class PaymentSettings extends React.Component {
 
     let { stripeConnect } = userDetails;
     return (
-      <section>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">PaymentSettings</h1>
-            </div>
-          </div>
-        </section>
-        <div className="columns is-centered">
-          <div className="column is-narrow">
-            {(!stripeConnect || !stripeConnect.last4BankAcc) && (
-              <InitialAccountSetupView
-                {...this.props}
-                {...this.state}
-                toggleAddPaymentDetails={this.toggleAddPaymentDetails}
-              />
-            )}
+      <div className="columns is-centered">
+        <div className="column is-narrow">
+          {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+            <InitialAccountSetupView
+              {...this.props}
+              {...this.state}
+              toggleAddPaymentDetails={this.toggleAddPaymentDetails}
+            />
+          )}
 
-            {stripeConnect && stripeConnect.last4BankAcc && (
-              <React.Fragment>
-                <EstablishedAccountView {...this.props} />
-              </React.Fragment>
-            )}
-          </div>
+          {stripeConnect && stripeConnect.last4BankAcc && (
+            <React.Fragment>
+              <EstablishedAccountView {...this.props} />
+            </React.Fragment>
+          )}
         </div>
-      </section>
+      </div>
     );
   }
 }

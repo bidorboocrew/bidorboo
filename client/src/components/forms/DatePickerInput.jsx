@@ -9,7 +9,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export default class DatePickerInput extends React.Component {
   static propTypes = {
-    onChangeEvent: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.instanceOf(moment), PropTypes.string]),
   };
   static defaultProps = {
@@ -33,32 +32,28 @@ export default class DatePickerInput extends React.Component {
   };
 
   render() {
-    const { selectedDate } = this.state;
-    const myInput = (
-      <button style={{ color: '#0a8fd1' }} className="button is-info">
-        <span className="icon">
-          <i className="fas fa-calendar-alt" />
-        </span>
+    const { label, error, helpText, iconLeft } = this.props;
 
-        {selectedDate && selectedDate.format ? (
-          <span>{selectedDate.format('D/MMMM/YYYY')}</span>
-        ) : (
-          <span>Select a Date</span>
-        )}
-      </button>
-    );
+    const { selectedDate } = this.state;
+
     return (
-      <DatePicker
-        className="input is-info is-outlined"
-        customInput={myInput}
-        selected={this.state.selectedDate}
-        onChange={this.handleChange}
-        minDate={this.minDate}
-        maxDate={moment().add(30, 'd')}
-        disabledKeyboardNavigation
-        placeholderText="Select a date..."
-        dateFormat={'D/MMMM/YYYY'}
-      />
+      <div className="group">
+        <label>{label}</label>
+        <div>
+          <DatePicker
+            className={'input'}
+            selected={selectedDate}
+            onChange={this.handleChange}
+            minDate={this.minDate}
+            maxDate={moment().add(30, 'd')}
+            disabledKeyboardNavigation
+            placeholderText="Select a date..."
+            dateFormat={'D/MMMM/YYYY'}
+          />
+        </div>
+        {helpText ? <p className="help">{helpText}</p> : null}
+        {error ? <p className="help is-danger">{error}</p> : null}
+      </div>
     );
   }
 }

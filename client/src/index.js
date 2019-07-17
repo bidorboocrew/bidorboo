@@ -1,4 +1,5 @@
-import 'babel-polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 // import 'typeface-roboto';
 
 import React from 'react';
@@ -18,11 +19,10 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
-const stripe = window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+const stripe = window.Stripe ? window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`) : {};
 window.BidorBoo.stripe = Object.freeze(stripe);
 
 if (process.env.NODE_ENV === 'production') {
-
   const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');

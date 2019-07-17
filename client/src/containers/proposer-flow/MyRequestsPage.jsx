@@ -39,11 +39,6 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <h1 className="title">MY REQUESTS</h1>
-          </div>
-        </section>
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (

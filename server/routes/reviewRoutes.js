@@ -32,7 +32,7 @@ module.exports = (app) => {
         const job = await jobDataAccess.getAwardedJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
-        const { proposerId, bidderId } = res.locals.bidOrBoo;
+        const { proposerId, awardedBidder } = res.locals.bidOrBoo;
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
           proposerReview: {
@@ -74,7 +74,7 @@ module.exports = (app) => {
           reviewId,
           proposerId,
           job._id,
-          bidderId,
+          awardedBidder._id,
           newBidderGlobalRating,
           newTotalOfAllRatings,
           personalComment
@@ -153,9 +153,9 @@ module.exports = (app) => {
 
         const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
           reviewId,
-          bidderId,
+          job._awardedBidRef._bidderRef._id,
           job._awardedBidRef._id,
-          proposerId,
+          job._ownerRef._id,
           newProposerGlobalRating,
           newTotalOfAllRatings,
           personalComment

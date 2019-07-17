@@ -19,9 +19,9 @@ import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/F
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import { DisplayLabelValue } from '../containers/commonComponents';
 import RequesterRequestDetailsPreview from './AllPossibleTasksStatesCards/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
+
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -48,25 +48,20 @@ class GenericRequestForm extends React.Component {
   }
   shouldShowAutodetectControl = () => {
     return navigator.geolocation ? (
-      <React.Fragment>
-        <div>
-          <a
-            style={{ marginTop: 6 }}
-            onClick={this.getCurrentAddress}
-            className="button is-small is-info is-outlined"
-          >
-            <span className="icon">
-              <i className="fas fa-map-marker-alt" />
-            </span>
-            <span>Auto Detect My Address</span>
-          </a>
-        </div>
-      </React.Fragment>
-    ) : (
-      <div>
-        <span>Manually input an address and select it from the drop down menu</span>
+      <div
+        onClick={this.getCurrentAddress}
+        style={{
+          cursor: 'pointer',
+          color: '#ce1bbf',
+        }}
+        className="help"
+      >
+        <span className="icon">
+          <i className="fas fa-map-marker-alt" />
+        </span>
+        <span>AUTO DETECT LOCATION</span>
       </div>
-    );
+    ) : null;
   };
   updateDateInputFieldValue = (val) => {
     const { setFieldValue } = this.props;
@@ -244,7 +239,6 @@ class GenericRequestForm extends React.Component {
   render() {
     const {
       values,
-      handleSubmit,
       isSubmitting,
       setFieldValue,
       currentUserDetails,
@@ -255,7 +249,7 @@ class GenericRequestForm extends React.Component {
       isValid,
     } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, TITLE, ICON, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
+    const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
     const { showConfirmationDialog, selectedTimeButtonId } = this.state;
@@ -316,7 +310,7 @@ class GenericRequestForm extends React.Component {
                       <span className="icon">
                         <i className="far fa-arrow-alt-circle-left" />
                       </span>
-                      <span>Go Back</span>
+                      <span>Back</span>
                     </button>
                     <button
                       style={{ width: 120 }}
@@ -328,7 +322,7 @@ class GenericRequestForm extends React.Component {
                       <span className="icon">
                         <i className="far fa-paper-plane" />
                       </span>
-                      <span>Submit</span>
+                      <span>Post It</span>
                     </button>
                   </footer>
                 </div>
@@ -337,156 +331,127 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            <div style={{ marginBottom: 16 }} className="title">
-              <span className="icon">
-                <i className={ICON} />
-              </span>
-              <span style={{ marginLeft: 6 }}>{TITLE} Request</span>
-            </div>
+            {renderSummaryCard({ withDetails: false })}
+
             <input
               id="recaptcha"
               className="input is-invisible"
               type="hidden"
               value={values.recaptcha || ''}
             />
-
             <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-            <DisplayLabelValue labelText="Our Service Commitment" labelValue={TASK_EXPECTATIONS} />
 
-            <React.Fragment>
-              <input
-                id="addressText"
-                className="input is-invisible"
-                type="hidden"
-                value={values.addressText || ''}
-              />
-              <input
-                id="location"
-                className="input is-invisible"
-                type="hidden"
-                value={values.location || ''}
-              />
+            <label className="formLabel">Our Commitment</label>
+            <div className="formInput">{TASK_EXPECTATIONS}</div>
 
-              <GeoAddressInput
-                id="geoInputField"
-                type="text"
-                helpText={'You must select an address from the drop down menu'}
-                label="Location"
-                placeholder="start typing an address"
-                autoDetectComponent={this.shouldShowAutodetectControl}
-                error={touched.addressText && errors.addressText}
-                value={values.addressText || ''}
-                onError={(e) => {
-                  errors.addressText = 'google api error ' + e;
-                }}
-                onChangeEvent={(e) => {
-                  setFieldValue('addressText', e, true);
-                }}
-                onBlurEvent={(e) => {
-                  if (e && e.target) {
-                    e.target.id = 'addressText';
-                    handleBlur(e);
-                  }
-                }}
-                handleSelect={(address) => {
-                  setFieldValue('addressText', address, false);
-                  geocodeByAddress(address)
-                    .then((results) => getLatLng(results[0]))
-                    .then((latLng) => {
-                      setFieldValue('location', latLng, false);
-                      console.log('Success', latLng);
-                    })
-                    .catch((error) => {
-                      errors.addressText = 'error getting lat lng ' + error;
-                      console.error('Error', error);
-                    });
-                }}
-              />
-            </React.Fragment>
+            <input
+              id="addressText"
+              className="input is-invisible"
+              type="hidden"
+              value={values.addressText || ''}
+            />
+            <input
+              id="location"
+              className="input is-invisible"
+              type="hidden"
+              value={values.location || ''}
+            />
 
-            <React.Fragment>
-              <input
-                id="startingDateAndTime"
-                className="input is-invisible"
-                type="hidden"
-                value={values.startingDateAndTime}
-              />
-              <input
-                id="timeField"
-                className="input is-invisible"
-                type="hidden"
-                value={this.state.selectedTime}
-              />
-              <DateInput
-                id="DateInputField"
-                type="text"
-                label="Date and Time"
-                onChangeEvent={this.updateDateInputFieldValue}
-              />
-              <div className="buttons">
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('morning')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'morning' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Morning (8AM-12PM)
-                </span>
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('afternoon')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'afternoon' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Afternoon (12PM-5PM)
-                </span>
+            <GeoAddressInput
+              id="geoInputField"
+              type="text"
+              helpText={'You must select an address from the drop down menu'}
+              label="Location"
+              placeholder="start typing an address"
+              autoDetectComponent={this.shouldShowAutodetectControl}
+              error={touched.addressText && errors.addressText}
+              value={values.addressText || ''}
+              onError={(e) => {
+                errors.addressText = 'google api error ' + e;
+              }}
+              onChangeEvent={(e) => {
+                setFieldValue('addressText', e, true);
+              }}
+              onBlurEvent={(e) => {
+                if (e && e.target) {
+                  e.target.id = 'addressText';
+                  handleBlur(e);
+                }
+              }}
+              handleSelect={(address) => {
+                setFieldValue('addressText', address, false);
+                geocodeByAddress(address)
+                  .then((results) => getLatLng(results[0]))
+                  .then((latLng) => {
+                    setFieldValue('location', latLng, false);
+                    console.log('Success', latLng);
+                  })
+                  .catch((error) => {
+                    errors.addressText = 'error getting lat lng ' + error;
+                    console.error('Error', error);
+                  });
+              }}
+            />
 
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('evening')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'evening' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Evening (5PM-12AM)
-                </span>
-                <span
-                  style={{ width: 140 }}
-                  onClick={() => this.selectTimeButton('anytime')}
-                  className={`button is-info is-small ${
-                    selectedTimeButtonId === 'anytime' ? '' : 'is-outlined'
-                  }`}
-                >
-                  Anytime (8AM-12AM)
-                </span>
+            <input
+              id="startingDateAndTime"
+              className="input is-invisible"
+              type="hidden"
+              value={values.startingDateAndTime}
+            />
+            <input
+              id="timeField"
+              className="input is-invisible"
+              type="hidden"
+              value={this.state.selectedTime}
+            />
+            <DateInput
+              id="DateInputField"
+              type="text"
+              label="Date"
+              onChangeEvent={this.updateDateInputFieldValue}
+            />
+            <div className="group">
+              <label className="withPlaceholder hasSelectedValue">{'Time Of Day'}</label>
+              <div>
+                <div className="select">
+                  <select
+                    value={selectedTimeButtonId}
+                    onChange={(event) => this.selectTimeButton(event.target.value)}
+                  >
+                    <option value="morning">Morning (8AM-12PM)</option>
+                    <option value="afternoon">Afternoon (12PM-5PM)</option>
+                    <option value="evening">Evening (5PM-12AM)</option>
+                    <option value="evening">Anytime (8AM-12AM)</option>
+                  </select>
+                </div>
               </div>
-            </React.Fragment>
-            <br />
+            </div>
+
             {/* {extras} */}
             {taskSpecificExtraFormFields}
-            <br />
 
             <TextAreaInput
               id="detailedDescription"
               type="text"
               helpText={
-                '* Add all the necessary details to help our BidOrBoo Taskers to get it done right.'
+                '* Extra details that would help the tasker finish this task to your expectations.'
               }
-              label="Add more details for the Tasker"
+              label="Additional Instructions"
               startWithTemplateButton={
-                <a
-                  style={{ marginBottom: 4 }}
-                  className="button is-text is-small"
+                <div
                   onClick={this.insertTemplateText}
+                  style={{
+                    cursor: 'pointer',
+                    color: '#ce1bbf',
+                  }}
+                  className="help"
                 >
-                  {/* <span className="icon">
-                  </span> */}
-                  <span>
-                    <i className="fas fa-pencil-alt" /> Or answer commonly asked questions
+                  <span className="icon">
+                    <i className="fas fa-pen" />
                   </span>
-                </a>
+                  <span>ANSWER TASK FAQS</span>
+                </div>
               }
               placeholder={SUGGESTION_TEXT}
               error={touched.detailedDescription && errors.detailedDescription}
@@ -494,37 +459,54 @@ class GenericRequestForm extends React.Component {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <br />
-            <React.Fragment>
-              <div className="field">
-                <button
-                  style={{ width: 120 }}
-                  type="button"
-                  className="button is-outlined is-medium"
-                  disabled={isSubmitting}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.onGoBack(e);
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-arrow-alt-circle-left" />
-                  </span>
-                  <span>Back</span>
-                </button>
-                <button
-                  style={{ width: 120, marginLeft: '1rem' }}
-                  className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
-                  disabled={isSubmitting || !isValid}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.toggleConfirmationDialog();
-                  }}
-                >
-                  <span>Preview</span>
-                </button>
-              </div>
-            </React.Fragment>
+
+            <div className="field">
+              <button
+                type="button"
+                className="button is-outlined"
+                disabled={isSubmitting}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.onGoBack(e);
+                }}
+              >
+                <span className="icon">
+                  <i className="far fa-arrow-alt-circle-left" />
+                </span>
+                <span>Back</span>
+              </button>
+              <button
+                style={{ marginLeft: '1rem' }}
+                className={`button is-success is-outlined ${isSubmitting ? 'is-loading' : ''}`}
+                disabled={isSubmitting || !isValid}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.toggleConfirmationDialog();
+                }}
+              >
+                <span>Preview</span>
+              </button>
+              <button
+                style={{ marginLeft: '1rem' }}
+                className={`button is-success ${isSubmitting ? 'is-loading' : ''}`}
+                disabled={isSubmitting || !isValid}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const { isLoggedIn, showLoginDialog } = this.props;
+                  if (!isLoggedIn) {
+                    showLoginDialog(true);
+                    return;
+                  } else {
+                    this.onSubmit();
+                  }
+                }}
+              >
+                <span className="icon">
+                  <i className="far fa-paper-plane" />
+                </span>
+                <span>Post It</span>
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -539,10 +521,8 @@ class GenericRequestForm extends React.Component {
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
-      if (address && !address.toLowerCase().includes('Canada')) {
-        alert(
-          'Sorry! Bid or Boo is only available in Canada',
-        );
+      if (address && !address.toLowerCase().includes('canada')) {
+        alert('Sorry! Bid or Boo is only available in Canada');
       } else {
         this.autoSetGeoLocation(address);
       }

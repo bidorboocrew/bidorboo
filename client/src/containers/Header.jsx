@@ -132,12 +132,6 @@ class Header extends React.Component {
       userAppView,
     } = this.props;
 
-    let navbarMobileDisplayName = displayName;
-    if (displayName && displayName.length > 0) {
-      const namePieces = displayName.split(' ');
-      navbarMobileDisplayName =
-        namePieces[0].length > 6 ? namePieces[0].substring(0, 5) : namePieces[0];
-    }
     const { profileImage } = userDetails;
 
     const {
@@ -165,7 +159,6 @@ class Header extends React.Component {
       isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
 
     const isActingAsBidder = userAppView === 'BIDDER';
-    const isHomePage = window.location.href.indexOf('BidOrBoo') > -1;
 
     return (
       <React.Fragment>
@@ -181,9 +174,7 @@ class Header extends React.Component {
         {/* is-spaced is a good prop to add  */}
         <nav
           id="BID_OR_BOO_APP_HEADER"
-          className={`navbar is-fixed-top ${
-            isActingAsBidder ? 'bidderAppBar' : ''
-          }  `}
+          className={`navbar is-fixed-top ${isActingAsBidder ? 'bidderAppBar' : ''}  `}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -192,6 +183,7 @@ class Header extends React.Component {
 
           <div className="navbar-brand">
             <a
+              style={{ paddingRight: 4 }}
               id="BidOrBoo-logo-step"
               onClick={() => {
                 this.closeMenuThenExecute(() => {
@@ -205,67 +197,30 @@ class Header extends React.Component {
               <img
                 src={logoImg}
                 alt="BidOrBoo"
-                width="32"
-                height="32"
+                width="34"
+                height="auto"
                 style={{ maxHeight: 'unset' }}
               />
-              <span
-                style={{
-                  paddingLeft: 2,
-                  marginBottom: -2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 500,
-                }}
-                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-touch"
-              >
-                BidOrBoo
-              </span>
-              <span
-                style={{
-                  paddingLeft: 2,
-                  marginBottom: -2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 500,
-                }}
-                className="has-text-weight-bold has-text-dark is-size-4 is-hidden-desktop"
-              >
-                B.O.B
-              </span>
             </a>
-            {!isHomePage && (
-              <React.Fragment>
-                {isActingAsBidder && (
-                  <div
-                    style={{
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                    }}
-                    className="navbar-item has-text-grey is-hidden-desktop"
-                  >
-                    <div style={{ fontSize: 12, paddingTop: 2 }}>
-                      ({navbarMobileDisplayName} As Bidder)
-                    </div>
-                  </div>
-                )}
-                {!isActingAsBidder && (
-                  <div
-                    style={{
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                    }}
-                    className="navbar-item has-text-grey is-hidden-desktop"
-                  >
-                    <div style={{ fontSize: 12, paddingTop: 2 }}>
-                      ({navbarMobileDisplayName} As Requester)
-                    </div>
-                  </div>
-                )}
-              </React.Fragment>
-            )}
+            <div
+              style={{
+                paddingLeft: 0,
+                paddingRight: 0,
+                flexGrow: 1,
+              }}
+              className="navbar-item has-text-grey"
+            >
+              <div
+                className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}
+                style={{ fontSize: 14 }}
+              >
+                {ROUTES.getRouteTitle()}
+              </div>
+            </div>
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a
-                  className="button is-danger is-outlined"
+                  className="button is-success"
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
                       this.toggleLoginDialog();
@@ -585,7 +540,7 @@ class Header extends React.Component {
                 {!isLoggedIn && (
                   <div className="is-hidden-touch navbar-item">
                     <a
-                      className="button is-danger is-outlined"
+                      className="button is-success"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();

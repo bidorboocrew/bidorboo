@@ -1,7 +1,5 @@
 import React from 'react';
 import Tour from 'reactour';
-import bidsImg from '../assets/images/bids.png';
-import requestImg from '../assets/images/jobs.png';
 
 // import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
@@ -140,11 +138,16 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="hero has-text-centered is-small is-white">
+        <section className="hero has-text-centered is-small is-transparent">
           <div className="hero-body">
             <div className="container">
               <h1
-                style={{ color: '#353535', marginBottom: 2, transform: 'scaleY(1.1)' }}
+                style={{
+                  color: '#353535',
+                  marginBottom: 2,
+                  transform: 'scaleY(1.1)',
+                  fontWeight: 400,
+                }}
                 className="title is-1"
               >
                 <span id="BidOrBoo-welcome-step">
@@ -162,9 +165,7 @@ export default class HomePage extends React.Component {
               <br />
               <div>
                 <Zoom>
-                  <div style={{ color: '#353535', fontSize: 24, fontWeight: 600 }}>
-                    What Do You Want To Do
-                  </div>
+                  <h2 className="is-5">What Do You Want To Do</h2>
                 </Zoom>
                 <div>
                   <a
@@ -173,7 +174,7 @@ export default class HomePage extends React.Component {
                       border: 'none',
                     }}
                     onClick={this.toggleTour}
-                    className="button is-outlined is-dark is-small"
+                    className="button is-text"
                   >
                     <span className="help icon">
                       <i className="fas fa-chalkboard-teacher" />
@@ -190,7 +191,6 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem' }} className="column">
             {/* <Fade bottom delay={250}> */}
             <RequestAService
-              logoImg={requestImg}
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
@@ -205,7 +205,6 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem' }} className="column">
             {/* <Fade bottom delay={250}> */}
             <ProvideAService
-              logoImg={bidsImg}
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.root);
               }}
@@ -228,13 +227,15 @@ const RequestAService = (props) => {
   return (
     <div className="card bidOrBooMainPage-Request has-text-centered is-outlined RequestAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
-        <div id={id} className="buttonlike has-text-weight-semibold is-size-4">
+        <div id={id} style={{ fontWeight: 400 }} className="buttonlike is-size-4">
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
           <div>Request A Service</div>
           <br />
-          <p className="is-size-6">I want to get my chores done for a good clear price</p>
+          <p className="is-size-6 has-text-grey">
+            I want to get my chores done for a good clear price
+          </p>
         </div>
       </div>
     </div>
@@ -246,13 +247,15 @@ const ProvideAService = (props) => {
   return (
     <div className="card bidOrBooMainPage-Provide has-text-centered ProvideAServiceForTour">
       <div onClick={onClickHandler} className="card-content" style={{ minHeight: 'unset' }}>
-        <div id={id} className="buttonlike has-text-weight-semibold is-size-4">
+        <div id={id} style={{ fontWeight: 400 }} className="buttonlike is-size-4">
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>
           <div>Provide A Service</div>
           <br />
-          <p className="is-size-6">I want to earn money by completing Tasks I enjoy </p>
+          <p className="is-size-6 has-text-grey">
+            I want to earn money by completing Tasks I enjoy{' '}
+          </p>
         </div>
       </div>
     </div>
@@ -262,7 +265,9 @@ const ProvideAService = (props) => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">How It Works?</h1>
+      <h1 style={{ fontWeight: 300 }} className="title has-text-centered is-size-4">
+        How It Works?
+      </h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />
@@ -290,7 +295,9 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">How It Works?</h1>
+      <h1 style={{ fontWeight: 300 }} className="title has-text-centered is-size-4">
+        How It Works?
+      </h1>
       <ul className="steps has-content-centered is-horizontal">
         <li className="steps-segment is-active">
           <span className="steps-marker" />

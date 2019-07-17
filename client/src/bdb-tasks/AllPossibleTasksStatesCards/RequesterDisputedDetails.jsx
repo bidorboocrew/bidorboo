@@ -124,7 +124,7 @@ export default class RequesterDisputedDetails extends React.Component {
                       border: 'none',
                       color: '#4a4a4a',
                       fontSize: '1rem',
-                      background: '#eeeeee',
+                      background: '#f6f6f6',
                     }}
                     readOnly
                   />

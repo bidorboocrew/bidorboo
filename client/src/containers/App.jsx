@@ -9,12 +9,11 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
 import { getCurrentUser } from '../app-state/actions/authActions';
-import { Spinner } from '../components/Spinner';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
 import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
-import '../assets/index.css';
+import '../assets/index.scss';
 
 import {
   Header,
@@ -207,7 +206,7 @@ class App extends React.Component {
             <nav className="level">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="has-text-grey is-size-7">Availablility</p>
+                  <p className="has-text-white is-size-7">Availablility</p>
                   <div className="is-size-7">
                     <img
                       width={21}
@@ -216,23 +215,6 @@ class App extends React.Component {
                       style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
                       src={canadaFlag}
                     />
-                  </div>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <div className="has-text-grey is-size-7">
-                    <img
-                      src={logoImg}
-                      alt="BidOrBoo"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      width={21}
-                      height={21}
-                    />
-                    {` BidOrBoo Inc`}
-                  </div>
-                  <div style={{ marginTop: 6 }}>
-                    <AddToMobileHomeScreenBanner />
                   </div>
                   <div>
                     <a
@@ -244,7 +226,7 @@ class App extends React.Component {
                     >
                       {`BidOrBoo Terms`}
                     </a>
-                    {`&`}
+                    <span className="has-text-white">{`&`}</span>
                     <a
                       style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
                       target="_blank"
@@ -257,11 +239,28 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="level-item has-text-centered">
+                <div>
+                  <div className="has-text-white is-size-7">
+                    <img
+                      src={logoImg}
+                      alt="BidOrBoo"
+                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
+                      width={21}
+                      height={21}
+                    />
+                    {` BidOrBoo Inc`}
+                  </div>
+                  <div style={{ marginTop: 6 }}>
+                    <AddToMobileHomeScreenBanner />
+                  </div>
+                </div>
+              </div>
 
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="has-text-grey is-size-7">Contact Us</p>
-                  <div className="has-text-grey is-size-7">bidorboocrew@bidorboo.com</div>
+                  <p className="has-text-white is-size-7">Contact Us</p>
+                  <div className="has-text-white is-size-7">bidorboocrew@bidorboo.com</div>
                 </div>
               </div>
             </nav>

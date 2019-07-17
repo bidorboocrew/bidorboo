@@ -3,8 +3,13 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const stripeServiceUtil = require('../services/stripeService').util;
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+
+// const { userDetailsReqSchema } = require('./userRoutesSchemas');
+const SchemaValidator = require('../middleware/SchemaValidator');
+
+// We are using the formatted Joi Validation error
+// Pass false as argument to use a generic error
+const validateRequest = SchemaValidator(true);
 
 const cloudinary = require('cloudinary');
 module.exports = (app) => {
@@ -260,11 +265,10 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.userDetails, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.userDetails, requireLogin, validateRequest, async (req, res) => {
     try {
-      const newProfileDetails = req.body.data;
       const userId = req.user.userId;
-
+      const newProfileDetails = req.body.data;
       // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
       Object.keys(newProfileDetails).forEach((property) => {
         newProfileDetails[`${property}`] = newProfileDetails[`${property}`];

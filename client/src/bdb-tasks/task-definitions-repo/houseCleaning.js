@@ -1,11 +1,12 @@
 import React from 'react';
+import taskImage from '../../assets/images/houesCleaning.png';
+// import watermarker from '../../assets/images/android-chrome-192x192.png';
 
 export default {
   ID: 'bdbHouseCleaning',
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',
-  DESCRIPTION: `Does your place need a cleaning ? Tired and want to get someone to clean the bathrooms
-living room kitchen bedrooms and more ?`,
+  DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
   SUGGESTION_TEXT: `*What Areas would you like the Tasker to focus on (living room , bathrooms, bedrooms) ?
 
 *Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?
@@ -15,6 +16,44 @@ living room kitchen bedrooms and more ?`,
 
   defaultExtrasValues: {
     effort: 'small',
+  },
+  renderSummaryCard: function({ withDetails = true }) {
+    return (
+      <div style={{ padding: '1rem' }}>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <div className="watermark">
+                <img
+                  src={taskImage}
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                />
+                {/* <img
+                  src={watermarker}
+                  className="watermarker"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                /> */}
+              </div>
+            </div>
+          </div>
+
+          <div className="level-right">
+            <div className="level-item">
+              <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                  House Cleaning
+                </h1>
+                {withDetails && (
+                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                    Does your place need a cleaning ? Let our Taskers clean your space.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    );
   },
   extrasValidation: function() {
     const { values } = this.props;
@@ -36,30 +75,19 @@ living room kitchen bedrooms and more ?`,
                 type="hidden"
                 value={values.effort}
               />
-              <div className="field">
-                <label className="label">Requested Duration</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'small', true)}
-                    className={`button is-info is-small ${values.effort === 'small' ? '' : 'is-outlined'}`}
-                  >
-                    {`Small (1-3 hours)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'medium', true)}
-                    className={`button is-info is-small ${values.effort === 'medium' ? '' : 'is-outlined'}`}
-                  >
-                    {`Medium (3-6 hours)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('effort', 'large', true)}
-                    className={`button is-info is-small ${values.effort === 'large' ? '' : 'is-outlined'}`}
-                  >
-                    {`Large (6-8 hours)`}
-                  </span>
+              <div className="group">
+                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.effort}
+                      onChange={(event) => setFieldValue('effort', event.target.value, true)}
+                    >
+                      <option value="small">{`Small (1-3 hours)`}</option>
+                      <option value="medium">{`Medium (3-6 hours)`}</option>
+                      <option value="large">{`Large (6-8 hours)`}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </React.Fragment>

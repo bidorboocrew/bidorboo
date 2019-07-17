@@ -1,11 +1,12 @@
 import React from 'react';
+import taskImage from '../../assets/images/carDetailing.png';
+// import watermarker from '../../assets/images/android-chrome-192x192.png';
 
 export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
-  DESCRIPTION: `Does your car need cleaning and detailing inside out ? Would like the interior of your car to look and smell better ?
-Get one of our tasker to give your car a good cleaning!`,
+  DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
   SUGGESTION_TEXT: `*What Year Make and model is your car?
 
 *Any particular stains or dirt that you want to make the tasker aware of ?
@@ -17,6 +18,45 @@ Get one of our tasker to give your car a good cleaning!`,
     carSize: 'sedan',
     interiorType: 'leather',
     trunkCleaning: 'notRequired',
+  },
+  renderSummaryCard: function({ withDetails = true }) {
+    return (
+      <div style={{ padding: '1rem' }}>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <div className="watermark">
+                <img
+                  src={taskImage}
+                  alt="BidOrBoo task img"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                />
+                {/* <img
+                  src={watermarker}
+                  className="watermarker"
+                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                /> */}
+              </div>
+            </div>
+          </div>
+
+          <div className="level-right">
+            <div className="level-item">
+              <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                  Car Detailing
+                </h1>
+                {withDetails && (
+                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                    Does your car need thourough cleaning ? let our Taskers pamper your car.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    );
   },
   extrasValidation: function() {
     const { values } = this.props;
@@ -47,37 +87,21 @@ Get one of our tasker to give your car a good cleaning!`,
                 type="hidden"
                 value={values.carSize}
               />
-              <div className="field">
-                <label className="label">How Big Is Your Car?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'mini', true)}
-                    className={`button is-info is-small ${values.carSize === 'mini' ? '' : 'is-outlined'}`}
-                  >
-                    {`Small (ex, mini)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'sedan', true)}
-                    className={`button is-info is-small ${values.carSize === 'sedan' ? '' : 'is-outlined'}`}
-                  >
-                    {`Regular (ex, Sedan)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'suv', true)}
-                    className={`button is-info is-small ${values.carSize === 'suv' ? '' : 'is-outlined'}`}
-                  >
-                    {`Large (ex, SUV)`}
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('carSize', 'truck', true)}
-                    className={`button is-info is-small ${values.carSize === 'truck' ? '' : 'is-outlined'}`}
-                  >
-                    {`XL (ex, Truck)`}
-                  </span>
+
+              <div className="group">
+                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.carSize}
+                      onChange={(event) => setFieldValue('carSize', event.target.value, true)}
+                    >
+                      <option value="mini">{`Small (ex, mini)`}</option>
+                      <option value="sedan">{`Regular (ex, Sedan)`}</option>
+                      <option value="suv">{`Large (ex, SUV)`}</option>
+                      <option value="truck">{`XL (ex, Truck)`}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </React.Fragment>
@@ -117,36 +141,20 @@ Get one of our tasker to give your car a good cleaning!`,
                 type="hidden"
                 value={values.interiorType}
               />
-              <div className="field">
-                <label className="label">What is the car's interior Type?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'leather', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'leather' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Leather
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'fabric', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'fabric' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Fabric
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('interiorType', 'other', true)}
-                    className={`button is-info is-small ${
-                      values.interiorType === 'other' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Other
-                  </span>
+
+              <div className="group">
+                <label className="withPlaceholder hasSelectedValue">{'Interior Type'}</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.interiorType}
+                      onChange={(event) => setFieldValue('interiorType', event.target.value, true)}
+                    >
+                      <option value="leather">Leather</option>
+                      <option value="fabric">Fabric</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </React.Fragment>
@@ -179,32 +187,24 @@ Get one of our tasker to give your car a good cleaning!`,
           return (
             <React.Fragment key={'extras-trunkCleaning'}>
               <input
-                id="interiorType"
+                id="trunkCleaning"
                 className="input is-invisible"
                 type="hidden"
-                value={values.interiorType}
+                value={values.trunkCleaning}
               />
-              <div className="field">
-                <label className="label">Do you require trunk cleaning?</label>
-                <div className="buttons">
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('trunkCleaning', 'isRequired', true)}
-                    className={`button is-info is-small ${
-                      values.trunkCleaning === 'isRequired' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Required
-                  </span>
-                  <span
-                    style={{ width: 160 }}
-                    onClick={() => setFieldValue('trunkCleaning', 'notRequired', true)}
-                    className={`button is-info is-small ${
-                      values.trunkCleaning === 'notRequired' ? '' : 'is-outlined'
-                    }`}
-                  >
-                    Not Required
-                  </span>
+
+              <div className="group">
+                <label className="withPlaceholder hasSelectedValue">Trunk Cleaning</label>
+                <div>
+                  <div className="select">
+                    <select
+                      value={values.isRequired}
+                      onChange={(event) => setFieldValue('trunkCleaning', event.target.value, true)}
+                    >
+                      <option values="isRequired">Requires Cleaning</option>
+                      <option values="notRequired">Not Required</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </React.Fragment>

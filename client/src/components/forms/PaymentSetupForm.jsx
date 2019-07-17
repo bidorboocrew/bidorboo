@@ -211,7 +211,6 @@ const EnhancedForms = withFormik({
       // xxxx update without reload
       window.location.reload();
     } catch (e) {
-      debugger;
       let msg = 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
       if (
         e &&

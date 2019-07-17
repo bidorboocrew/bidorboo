@@ -116,7 +116,7 @@ export const CLIENT = {
   VERIFICATION: '/verification/:field/:code',
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
   PROPOSER: {
-    root: '/bdb-request',
+    root: '/bdb-request/root',
     createjob: '/bdb-request/create-job/:templateId',
     dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
     myOpenJobs: '/my-open-jobs',
@@ -126,7 +126,7 @@ export const CLIENT = {
     dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
   },
   BIDDER: {
-    root: '/bdb-offer',
+    root: '/bdb-offer/root',
     bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
     getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
     mybids: '/my-bids',
@@ -147,4 +147,38 @@ export const CLIENT = {
     pastRequestedServices: '/my-profile/past-requested-services',
     pastProvidedServices: '/my-profile/past-provided-services',
   },
+};
+
+export const getRouteTitle = () => {
+  if (window.location.href.includes('/bdb-request/create-job')) {
+    return 'Request A Service';
+  } else if (window.location.href.includes('/bdb-request/root')) {
+    return 'B.O.B Services';
+  } else if (window.location.href.includes('/my-open-jobs')) {
+    return 'MY REQUESTS';
+  } else if (window.location.href.includes('/my-request/review-request-details')) {
+    return 'REQUEST DETAILS';
+  } else if (window.location.href.includes('/my-request/awarded-job-details')) {
+    return 'ASSIGNED REQUEST';
+  } else if (window.location.href.includes('/bdb-offer/root')) {
+    return 'SEARCH TASKS';
+  } else if (window.location.href.includes('/bdb-offer/bid-on-job')) {
+    return 'PLACE A BID';
+  } else if (window.location.href.includes('/my-bids')) {
+    return 'MY BIDS & TASKS';
+  } else if (window.location.href.includes('/my-profile/basic-settings')) {
+    return 'MY PROFILE';
+  } else if (window.location.href.includes('/review-my-bid-details')) {
+    return 'MY BID DETAILS';
+  } else if (window.location.href.includes('/awarded-bid-details')) {
+    return 'MY TASK DETAILS';
+  } else if (window.location.href.includes('/bdb-request/review')) {
+    return 'REVIEW REQUESTER';
+  } else if (window.location.href.includes('/bdb-offer/review')) {
+    return 'REVIEW TASKER';
+  } else if (window.location.href.includes('/my-profile/payment-settings')) {
+    return 'PAYMENT SETTINGS';
+  } else {
+    return 'BidOrBoo';
+  }
 };

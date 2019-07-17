@@ -28,19 +28,29 @@ export const Checkbox = ({
   iconLeft,
   ...props
 }) => {
+  let inputClassName = className || 'checkbox';
+
+  if (error) {
+    inputClassName += ' is-danger';
+  }
+
   return (
     <div className="field">
-      <input
-        id={id}
-        className={className || 'checkbox'}
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        {...props}
-      />
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
+      <div className="group">
+        <Label htmlFor={id} error={error}>
+          {label}
+        </Label>
+        <div>
+          <input
+            id={id}
+            className={inputClassName}
+            type={type}
+            value={value || ''}
+            onChange={onChange}
+            {...props}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -56,50 +66,40 @@ export const TextInput = ({
   helpText,
   iconLeft,
   setFocusImmediately,
+  placeholder,
   ...props
 }) => {
   let inputClassName = className || 'input';
+  let labelClass = '';
 
   if (error) {
     inputClassName += ' is-danger';
   }
+  if (iconLeft) {
+    inputClassName += ' has-icons-left';
+  }
+  if (placeholder) {
+    labelClass += ' withPlaceholder';
+  }
+  if (value) {
+    labelClass += ' hasSelectedValue';
+  }
 
   return (
-    <div className="field">
-      <Label labelClassName={labelClassName} htmlFor={id} error={error}>
-        {label}
-      </Label>
-      <div className="control">
-        {!iconLeft && (
-          <input
-            autoFocus={setFocusImmediately}
-            id={id}
-            className={inputClassName}
-            type={type}
-            value={value || ''}
-            onChange={onChange}
-            {...props}
-          />
-        )}
-        {iconLeft && (
-          <div className="field">
-            <div className="control has-icons-left">
-              <input
-                id={id}
-                className={inputClassName}
-                type={type}
-                value={value || ''}
-                onChange={onChange}
-                {...props}
-              />
-              <span className="icon is-small is-left">
-                <i className={iconLeft} />
-              </span>
-            </div>
-          </div>
-        )}
+    <div className="group">
+      <label className={labelClass}>{label}</label>
+      <div>
+        <input
+          autoFocus={setFocusImmediately}
+          id={id}
+          className={inputClassName}
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+          {...props}
+        />
       </div>
-
       <HelpText helpText={helpText} />
       <InputFeedback error={error} />
     </div>
@@ -114,53 +114,53 @@ export const TextAreaInput = ({
   value,
   onChange,
   className,
+  labelClassName,
   helpText,
+  iconLeft,
+  setFocusImmediately,
+  placeholder,
   startWithTemplateButton,
   ...props
 }) => {
+  let inputClassName = className || 'input';
+  let labelClass = '';
+
+  if (error) {
+    inputClassName += ' is-danger';
+  }
+  if (iconLeft) {
+    inputClassName += ' has-icons-left';
+  }
+  if (placeholder) {
+    labelClass += ' withPlaceholder';
+  }
+  if (value) {
+    labelClass += ' hasSelectedValue';
+  }
   return (
-    <div className="field">
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
+    <div className={`group ${error ? 'isError' : ''}`}>
+      <label>{label}</label>
+      <div>
+        <textarea
+          style={{ resize: 'none', height: 'unset', minHeight: 100 }}
+          className={inputClassName}
+          id={id}
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+          {...props}
+        />
+      </div>
       {startWithTemplateButton && startWithTemplateButton}
-      <textarea
-        style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: 150 }}
-        className="input textarea"
-        id={id}
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        {...props}
-      />
-
-      <HelpText helpText={helpText} />
-
       <InputFeedback error={error} />
+      <HelpText helpText={helpText} />
     </div>
   );
 };
 
-export const DateInput = ({
-  id,
-  label,
-  value,
-  helpText,
-  onError,
-  error,
-  handleSelect,
-  placeholder,
-  onChangeEvent,
-  onBlurEvent,
-}) => {
-  return (
-    <div className="field">
-      <Label>{label}</Label>
-      <DatePickerInput onChangeEvent={onChangeEvent} />
-      <HelpText helpText={helpText} />
-      <InputFeedback error={error} />
-    </div>
-  );
+export const DateInput = ({ ...props }) => {
+  return <DatePickerInput {...props} />;
 };
 
 export const TimeInput = ({ label, onChangeEvent }) => {
@@ -172,127 +172,29 @@ export const TimeInput = ({ label, onChangeEvent }) => {
   );
 };
 
-export const TimeInput2 = ({
-  id,
-  label,
-  helpText,
-  error,
-  onChange,
-  onBlur,
-  hoursFieldId,
-  minutesFieldId,
-  periodFieldId,
-  disabled,
-}) => {
-  return (
-    <div className="field">
-      <Label htmlFor={id} error={error}>
-        {label}
-      </Label>
-      <div className="control">
-        <div className="select is-info">
-          <select
-            disabled={disabled}
-            onChange={(e) => {
-              e.target.id = hoursFieldId;
-              onChange(e);
-            }}
-            onBlur={(e) => {
-              e.target.id = hoursFieldId;
-              onBlur(e);
-            }}
-            style={{ marginRight: 6 }}
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-          </select>
-        </div>
-        <div className="select is-info">
-          <select
-            onChange={(e) => {
-              e.target.id = minutesFieldId;
-              onChange(e);
-            }}
-            onBlur={(e) => {
-              e.target.id = minutesFieldId;
-              onBlur(e);
-            }}
-            style={{ marginRight: 6 }}
-            disabled={disabled}
-          >
-            <option>00</option>
-            <option>15</option>
-            <option>30</option>
-            <option>45</option>
-          </select>
-        </div>
-        <div
-          onChange={(e) => {
-            e.target.id = periodFieldId;
-            onChange(e);
-          }}
-          onBlur={(e) => {
-            e.target.id = periodFieldId;
-            onBlur(e);
-          }}
-          className="select is-info"
-        >
-          <select disabled={disabled}>
-            <option>PM</option>
-            <option>AM</option>
-          </select>
-        </div>
-      </div>
-      <HelpText helpText={helpText} />
-      <InputFeedback error={error} />
-    </div>
-  );
-};
-
 export class GeoAddressInput extends React.Component {
   render() {
     const {
       id,
-      label,
-      helpText,
       onError,
-      error,
       handleSelect,
       placeholder,
       onChangeEvent,
       onBlurEvent,
-      autoDetectComponent,
       value,
     } = this.props;
-    return (
-      <div className="field">
-        <Label htmlFor={id} error={error}>
-          {label}
-        </Label>
-        <GeoSearch
-          id={id}
-          onError={onError}
-          placeholder={placeholder}
-          handleSelect={handleSelect}
-          onChangeEvent={onChangeEvent}
-          onBlurEvent={onBlurEvent}
-          forceSetAddressValue={value}
-        />
-        {autoDetectComponent()}
-        {!autoDetectComponent && <HelpText helpText={helpText} />}
 
-        <InputFeedback error={error} />
-      </div>
+    return (
+      <GeoSearch
+        id={id}
+        onError={onError}
+        placeholder={placeholder}
+        handleSelect={handleSelect}
+        onChangeEvent={onChangeEvent}
+        onBlurEvent={onBlurEvent}
+        forceSetAddressValue={value}
+        {...this.props}
+      />
     );
   }
 }

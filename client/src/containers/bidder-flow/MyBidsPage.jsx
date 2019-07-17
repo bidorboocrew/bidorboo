@@ -55,11 +55,7 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Bids</h1>
-              {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
+        {/* {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
                 <div>
                   <div
                     style={{ marginBottom: 4 }}
@@ -91,10 +87,8 @@ class MyBidsPage extends React.Component {
                     Payment Settings
                   </a>
                 </div>
-              )}
-            </div>
-          </div>
-        </section>
+              )} */}
+
         {/* <FloatingAddNewBidButton /> */}
 
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />

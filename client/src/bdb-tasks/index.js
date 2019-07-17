@@ -25,16 +25,22 @@ export const POINT_OF_VIEW = {
 };
 
 export { default as TASKS_DEFINITIONS } from './tasksDefinitions';
-export { default as HouseCleaningConcept } from './task-concepts/HouseCleaningConcept';
-export { default as CarDetailingConcept } from './task-concepts/CarDetailingConcept';
 
-export { default as RequesterRequestDetails } from './AllPossibleTasksStatesCards/RequesterRequestDetails';
+export {
+  default as RequesterRequestDetails,
+} from './AllPossibleTasksStatesCards/RequesterRequestDetails';
 
-export { default as RequesterRequestSummary } from './AllPossibleTasksStatesCards/RequesterRequestSummary';
+export {
+  default as RequesterRequestSummary,
+} from './AllPossibleTasksStatesCards/RequesterRequestSummary';
 
-export { default as RequesterAwardedDetails } from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
+export {
+  default as RequesterAwardedDetails,
+} from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
 
-export { default as RequesterAwardedSummary } from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
+export {
+  default as RequesterAwardedSummary,
+} from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
 
 export {
   default as RequesterCanceledByRequesterSummary,
@@ -51,17 +57,29 @@ export {
   default as RequesterOpenCanceledDetails,
 } from './AllPossibleTasksStatesCards/RequesterOpenCanceledDetails';
 
-export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
+export {
+  default as TaskerBidOnTaskSummary,
+} from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 
-export { default as TaskerBidOnTaskDetails } from './AllPossibleTasksStatesCards/TaskerBidOnTaskDetails';
+export {
+  default as TaskerBidOnTaskDetails,
+} from './AllPossibleTasksStatesCards/TaskerBidOnTaskDetails';
 
-export { default as TaskerMyOpenBidSummary } from './AllPossibleTasksStatesCards/TaskerMyOpenBidSummary';
+export {
+  default as TaskerMyOpenBidSummary,
+} from './AllPossibleTasksStatesCards/TaskerMyOpenBidSummary';
 
-export { default as TaskerMyOpenBidDetails } from './AllPossibleTasksStatesCards/TaskerMyOpenBidDetails';
+export {
+  default as TaskerMyOpenBidDetails,
+} from './AllPossibleTasksStatesCards/TaskerMyOpenBidDetails';
 
-export { default as TaskerMyAwardedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidDetails';
+export {
+  default as TaskerMyAwardedBidDetails,
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedBidDetails';
 
-export { default as TaskerMyAwardedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyAwardedBidSummary';
+export {
+  default as TaskerMyAwardedBidSummary,
+} from './AllPossibleTasksStatesCards/TaskerMyAwardedBidSummary';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerDetails,
@@ -71,9 +89,13 @@ export {
   default as TaskerAwardedBidCanceledByTaskerSummary,
 } from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerSummary';
 
-export { default as RequesterDoneSummary } from './AllPossibleTasksStatesCards/RequesterDoneSummary';
+export {
+  default as RequesterDoneSummary,
+} from './AllPossibleTasksStatesCards/RequesterDoneSummary';
 
-export { default as RequesterDoneDetails } from './AllPossibleTasksStatesCards/RequesterDoneDetails';
+export {
+  default as RequesterDoneDetails,
+} from './AllPossibleTasksStatesCards/RequesterDoneDetails';
 
 export {
   default as TaskerMyAwardedDoneBidDetails,
@@ -83,10 +105,18 @@ export {
   default as TaskerMyAwardedDoneBidSummary,
 } from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidSummary';
 
-export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
+export {
+  default as RequesterDisputedSummary,
+} from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
 
-export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCards/RequesterDisputedDetails';
+export {
+  default as RequesterDisputedDetails,
+} from './AllPossibleTasksStatesCards/RequesterDisputedDetails';
 
-export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
+export {
+  default as TaskerMyDisputedBidDetails,
+} from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
 
-export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';
+export {
+  default as TaskerMyDisputedBidSummary,
+} from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';

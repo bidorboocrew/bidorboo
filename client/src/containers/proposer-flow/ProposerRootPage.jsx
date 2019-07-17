@@ -3,23 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import {
-  getAllActiveRequestsTemplateCards,
-  getAllUpcomingTemplateCards,
-} from '../../bdb-tasks/getAllRequestsTemplateCards';
+import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
 
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllActiveTasks = getAllActiveRequestsTemplateCards(props).map((task, index) => {
-      return (
-        <div key={index} className="column is-narrow isforCards">
-          {task}
-        </div>
-      );
-    });
-
-    this.AllUpcomingTasks = getAllUpcomingTemplateCards(props).map((task, index) => {
+    this.AllActiveTasks = getAllActiveRequestsTemplateCards().map((task, index) => {
       return (
         <div key={index} className="column is-narrow isforCards">
           {task}
@@ -29,24 +18,18 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
-
     return (
       <React.Fragment>
-        <section className="hero is-white">
+        <section className="hero is-transparent is-small has-text-centered">
           <div className="hero-body">
-            <div className="has-text-centered">
-              <h1 className="title">What Service do you need?</h1>
+            <div className="container">
+              <h1 style={{ marginBottom: 0, fontWeight: 300 }} className="title">
+                What Service are you looking for?
+              </h1>
             </div>
           </div>
         </section>
-        <div className="columns is-centered is-multiline is-mobile">
-          {this.AllActiveTasks}
-        </div>
-        <br />
-
-        {/* <div className="columns forJobSummary is-centered is-multiline is-mobile">
-          {this.AllUpcomingTasks}
-        </div> */}
+        <div className="columns is-centered is-mobile is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>
     );
   }
