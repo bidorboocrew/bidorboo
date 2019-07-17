@@ -32,9 +32,13 @@
     "heroku-postbuild": "cd client && yarn install && yarn run build && cd ../server && yarn install",
     "start-server-prod": "npm run start --prefix server",
     "start-client-prod": "npm run start-js --prefix client",
-    "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\""
+    "dev-from-scratch": "npm install && cd server && yarn install && cd.. && cd client && yarn install && cd.. && concurrently \"npm run start-server-prod\" \"npm run start-client-prod\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
-    "concurrently": "^3.5.1"
-  }
+    "concurrently": "^3.5.1",
+    "snyk": "^1.193.2"
+  },
+  "snyk": true
 }
