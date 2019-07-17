@@ -172,12 +172,6 @@ html body {
       }
     }
     #BidOrBoo-logo-step {
-      // &:hover {
-      //   background: lightgrey;
-      //   > span {
-      //     color: black !important;
-      //   }
-      // }
       > span {
         color: white !important;
       }
@@ -219,12 +213,6 @@ html body {
   background: #f6f6f6;
 }
 
-// .container {
-//   &.bidorbooContainerMargins {
-//     // margin-top: 0.5rem;
-//   }
-// }
-
 a.navbar-item.is-active {
   color: hsl(217, 71%, 53%);
 }
@@ -254,9 +242,7 @@ a.navbar-item.is-active {
 }
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
-$body-background-color: #f6f6f6; //#3b549c;
-// $navbar-background-color: white;
-// xxx scary but it works
+$body-background-color: hsl(0, 0%, 96%);
 $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
@@ -269,8 +255,8 @@ $red: #ee2a36 !default;
 $navbar-item-active-color: $cyan !important;
 $navbar-item-hover-color: black;
 
-$family-sans-serif: 'Nunito', sans-serif !default;
-$family-monospace: monospace !default;
+$family-sans-serif: 'Work Sans', sans-serif !default;
+$family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
 
 @import 'bulma-o-steps/bulma-steps.sass';

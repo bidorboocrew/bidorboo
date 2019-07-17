@@ -18,7 +18,20 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
-    return <div className="columns is-centered is-mobile is-multiline">{this.AllActiveTasks}</div>;
+    return (
+      <React.Fragment>
+        <section className="hero is-transparent is-small has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ marginBottom: 0, fontWeight: 300 }} className="title">
+                What Service are you looking for?
+              </h1>
+            </div>
+          </div>
+        </section>
+        <div className="columns is-centered is-mobile is-multiline">{this.AllActiveTasks}</div>
+      </React.Fragment>
+    );
   }
 }
 const mapStateToProps = ({ userReducer }) => {
