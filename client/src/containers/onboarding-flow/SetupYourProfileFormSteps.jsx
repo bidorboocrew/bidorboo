@@ -173,7 +173,7 @@ class Step4 extends React.Component {
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field" style={{ height: '10rem' }}>
-          <div className="field">
+          <div className="group saidTest">
             <label className="label">Please Read BidOrBoo terms of service</label>
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">

@@ -92,13 +92,13 @@ export default class RequesterDisputedDetails extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Task Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
@@ -113,7 +113,7 @@ export default class RequesterDisputedDetails extends React.Component {
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
             <React.Fragment>
               <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Detailed Description</label>
                 <span className="is-size-7">
                   <TextareaAutosize
@@ -133,7 +133,7 @@ export default class RequesterDisputedDetails extends React.Component {
             </React.Fragment>
           </div>
 
-          <div className="field">
+          <div className="group saidTest">
             <label className="label has-text-danger">What you need to know:</label>
             <div className="control">* BidorBooCrew will assess the dispute asap</div>
             <div className="control">

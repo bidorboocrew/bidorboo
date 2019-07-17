@@ -94,13 +94,13 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               className="navbar-divider"
             />
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
               <div className="help">* You have canceled this agreement</div>
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Task Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
 
@@ -116,7 +116,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
             <React.Fragment>
               <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Detailed Description</label>
                 <span className="is-size-7">
                   <TextareaAutosize
@@ -136,7 +136,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             </React.Fragment>
           </div>
 
-          <div className="field">
+          <div className="group saidTest">
             <label className="label has-text-danger">What you need to know:</label>
             <div className="control">
               * You will be <strong>penalized 20%</strong> of the total payment and will be refunded

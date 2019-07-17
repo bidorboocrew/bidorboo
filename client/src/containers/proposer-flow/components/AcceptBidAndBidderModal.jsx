@@ -28,7 +28,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <UserImageAndRating userDetails={bid._bidderRef} />
-            <div className="field">
+            <div className="group saidTest">
               <label style={{ marginBottom: 0, marginTop: 4 }} className="label">
                 Offered to do this task for a total of
               </label>

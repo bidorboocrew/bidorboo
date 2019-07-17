@@ -35,7 +35,7 @@ export const Checkbox = ({
   }
 
   return (
-    <div className="field">
+    <div className="group saidTest">
       <div className="group">
         <Label htmlFor={id} error={error}>
           {label}
@@ -165,7 +165,7 @@ export const DateInput = ({ ...props }) => {
 
 export const TimeInput = ({ label, onChangeEvent }) => {
   return (
-    <div className="field">
+    <div className="group saidTest">
       <Label>{label}</Label>
       <TimePickerInput onChangeEvent={onChangeEvent} />
     </div>

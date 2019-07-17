@@ -460,7 +460,7 @@ class GenericRequestForm extends React.Component {
               onBlur={handleBlur}
             />
 
-            <div className="field">
+            <div className="group saidTest">
               <button
                 type="button"
                 className="button is-outlined"

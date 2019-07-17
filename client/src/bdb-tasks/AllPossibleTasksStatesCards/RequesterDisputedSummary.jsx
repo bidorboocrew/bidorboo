@@ -56,7 +56,7 @@ export default class RequesterDisputedSummary extends React.Component {
               </div>
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>

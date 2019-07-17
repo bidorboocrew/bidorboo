@@ -62,7 +62,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
             {showMore && (
               <React.Fragment>
                 <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Detailed Description</label>
                   <span className="is-size-7">
                     <TextareaAutosize

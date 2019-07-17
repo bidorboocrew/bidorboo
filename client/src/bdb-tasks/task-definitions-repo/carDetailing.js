@@ -124,7 +124,7 @@ export default {
               break;
           }
           return (
-            <div key={'extras-carSize'} className="field">
+            <div key={'extras-carSize'} className="group saidTest">
               <label className="label">Car Size</label>
               <div className="control">{selectedValue}</div>
             </div>
@@ -174,7 +174,7 @@ export default {
               break;
           }
           return (
-            <div key={'extras-interiorType'} className="field">
+            <div key={'extras-interiorType'} className="group saidTest">
               <label className="label">Interior Type</label>
               <div className="control">{selectedValue}</div>
             </div>
@@ -221,7 +221,7 @@ export default {
               break;
           }
           return (
-            <div key={'extras-trunkCleaning'} className="field">
+            <div key={'extras-trunkCleaning'} className="group saidTest">
               <label className="label">Trunk cleaning</label>
               <div className="control">{selectedValue}</div>
             </div>

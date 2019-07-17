@@ -166,7 +166,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                 </div>
                 <br />
 
-                <div className="field">
+                <div className="group saidTest">
                   <div className="label">BidOrBoo Rules</div>
                   {values.bidAmountField && values.bidAmountField > 1 && (
                     <div className="help help has-text-success">

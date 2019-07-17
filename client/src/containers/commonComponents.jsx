@@ -42,7 +42,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
   return (
-    <div className="field">
+    <div className="group saidTest">
       <label className="label">{labelText}</label>
       <div className="control">{labelValue}</div>
       {renderHelpComponent()}
@@ -326,7 +326,7 @@ export class LocationLabelAndValue extends React.Component {
     }
 
     return (
-      <div className="field">
+      <div className="group saidTest">
         <label className="label">Location Near:</label>
         <div className="control">{this.state.addressText}</div>
         <p className="help">* Exact location is not displayed for privacy reasons</p>
@@ -572,7 +572,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, smallfont = true }
     clearCriminalHistory;
 
   return (
-    <div className="field">
+    <div className="group saidTest">
       <label className={`${smallfont ? 'help' : ''}`}>Verifications</label>
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>

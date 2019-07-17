@@ -866,33 +866,32 @@ img.watermarker {
 
 div.field {
   margin-bottom: 1.25rem;
-
-  ~ label.label {
-    color: #363636 !important;
-    font-size: 16px !important;
-    font-weight: 300 !important;
-    margin-bottom: 0 !important;
-    color: $blue !important;
-    transition: $trans-time ease all !important;
-    &.is-danger {
-      color: $red !important;
-    }
+}
+label.label {
+  color: #363636 !important;
+  font-size: 16px !important;
+  font-weight: 300 !important;
+  margin-bottom: 0 !important;
+  color: $blue !important;
+  transition: $trans-time ease all !important;
+  &.is-danger {
+    color: $red !important;
   }
-  ~ div.control {
-    padding-top: 0 !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    font-weight: 400 !important;
-    border-bottom: none !important;
-    display: inline-block !important;
-    outline: none !important;
-    font-size: 16 !important;
-    outline-color: transparent !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    transition: $trans-time ease all !important;
-  }
+}
+div.control {
+  padding-top: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  font-weight: 400 !important;
+  border-bottom: none !important;
+  display: inline-block !important;
+  outline: none !important;
+  font-size: 16 !important;
+  outline-color: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  transition: $trans-time ease all !important;
 }

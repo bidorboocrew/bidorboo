@@ -195,7 +195,7 @@ class RequesterRequestSummary extends React.Component {
                 )}
               </div>
               {isPastDue && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-dark">Past Due - Expired</div>
                   <div className="help">* This Request will be deleted in 48 hours</div>
@@ -205,7 +205,7 @@ class RequesterRequestSummary extends React.Component {
               {!isPastDue && (
                 <React.Fragment>
                   {!areThereAnyBidders && (
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">Request Status</label>
                       <div className="control">Awaiting on Taskers</div>
                       {!isHappeningSoon && !isHappeningToday && (
@@ -219,7 +219,7 @@ class RequesterRequestSummary extends React.Component {
                     </div>
                   )}
                   {areThereAnyBidders && (
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">Request Status</label>
                       <div className="control has-text-info">Taskers Available</div>
                       {!isHappeningSoon && !isHappeningToday && (

@@ -107,7 +107,7 @@ export default {
               break;
           }
           return (
-            <div key={'extras-effort'} className="field">
+            <div key={'extras-effort'} className="group saidTest">
               <label className="label">Task Effort</label>
               <div className="control">{selectedValue}</div>
             </div>

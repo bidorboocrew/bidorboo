@@ -116,14 +116,14 @@ const InitialAccountSetupView = (props) => {
   return (
     <React.Fragment>
       <div>
-        <div className="field">
+        <div className="group saidTest">
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card limitLargeMaxWidth">
             <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
               <HeaderTitle title="My Payments Details" />
 
               <div className="content">
                 <br />
-                <div className="field">
+                <div className="group saidTest">
                   <input
                     id="showPayoutSetupForm"
                     type="checkbox"

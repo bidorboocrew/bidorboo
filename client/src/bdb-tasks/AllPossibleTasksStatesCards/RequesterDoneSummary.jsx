@@ -83,7 +83,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             </div>
 
             {!requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
@@ -91,7 +91,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             )}
 
             {requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">Done!</div>
                 <div className="help">* Congratulations. Now it is time to review the Tasker</div>

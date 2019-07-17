@@ -44,7 +44,7 @@ class VerifyPhoneField extends React.Component {
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
-      <div className="field">
+      <div className="group saidTest">
         <div style={{ marginTop: 2 }} className="control">
           <input
             value={inputCodeContent}

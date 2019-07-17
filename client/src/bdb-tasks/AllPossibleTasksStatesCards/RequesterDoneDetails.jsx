@@ -123,7 +123,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             />
 
             {!requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
@@ -131,14 +131,14 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             )}
 
             {requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">Done!</div>
                 <div className="help">* Congratulations. Now it is time to review the Tasker</div>
               </div>
             )}
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Task Cost</label>
               <div className="control">{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -151,7 +151,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             {showMore && (
               <React.Fragment>
                 <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Detailed Description</label>
                   <span className="is-size-7">
                     <TextareaAutosize
@@ -188,7 +188,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               )}
             </div>
             <hr className="divider" />
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Assigned Tasker Details</label>
               <UserImageAndRating userDetails={_bidderRef} />
             </div>

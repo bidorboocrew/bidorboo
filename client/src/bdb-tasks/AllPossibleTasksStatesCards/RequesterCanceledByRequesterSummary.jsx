@@ -62,7 +62,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
               </div>
             </div>
             {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-danger">{displayStatus}</div>
                 <div className="help">{`* This was canceled by ${ownerDisplayName}`}</div>
@@ -70,7 +70,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
             )}
 
             {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control">{displayStatus}</div>
                 {`* This was canceled by ${_bidderRef.displayName}`}

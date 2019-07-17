@@ -88,7 +88,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               userAlreadyView={userAlreadyView}
             />
             <hr className="divider isTight" />
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Requester:</label>
               <UserImageAndRating userDetails={_ownerRef} />
             </div>
@@ -102,7 +102,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             <TaskSpecificExtras templateId={ID} extras={extras} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Detailed Description</label>
 
               <TextareaAutosize
