@@ -199,7 +199,7 @@ export default {
                   <div className="select">
                     <select
                       value={values.isRequired}
-                      onChange={(event) => setFieldValue('isRequired', event.target.value, true)}
+                      onChange={(event) => setFieldValue('trunkCleaning', event.target.value, true)}
                     >
                       <option values="isRequired">Requires Cleaning</option>
                       <option values="notRequired">Not Required</option>
