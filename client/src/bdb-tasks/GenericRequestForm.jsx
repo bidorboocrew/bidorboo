@@ -21,7 +21,6 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import RequesterRequestDetailsPreview from './AllPossibleTasksStatesCards/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
-import taskImage from '../assets/images/cleaning.png';
 
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions

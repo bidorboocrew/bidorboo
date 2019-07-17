@@ -182,22 +182,6 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-large is-centered"
-        >
-          <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
-            <li>
-              <a>
-                {/* <span className="icon is-large">
-                  <i className="fas fa-hand-rock" aria-hidden="true" />
-                </span> */}
-                <span>PROVIDE A SERVICE</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
         {isLoading && (
           <section className="section">
             <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />

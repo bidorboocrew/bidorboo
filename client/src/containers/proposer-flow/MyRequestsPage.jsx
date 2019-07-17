@@ -39,21 +39,6 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-large is-centered"
-        >
-       <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
-            <li>
-              <a>
-                {/* <span className="icon is-large">
-                  <i className="fas fa-list" aria-hidden="true" />
-                </span> */}
-                <span>My REQUESTS</span>
-              </a>
-            </li>
-          </ul>
-        </div>
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (

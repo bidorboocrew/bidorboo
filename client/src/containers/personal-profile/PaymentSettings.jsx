@@ -46,40 +46,23 @@ class PaymentSettings extends React.Component {
 
     let { stripeConnect } = userDetails;
     return (
-      <section>
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-large is-centered"
-        >
-       <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
-            <li>
-              <a>
-                {/* <span className="icon is-large">
-                  <i className="far fa-credit-card" aria-hidden="true" />
-                </span> */}
-                <span>PAYMENT SETTINGS</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="columns is-centered">
-          <div className="column is-narrow">
-            {(!stripeConnect || !stripeConnect.last4BankAcc) && (
-              <InitialAccountSetupView
-                {...this.props}
-                {...this.state}
-                toggleAddPaymentDetails={this.toggleAddPaymentDetails}
-              />
-            )}
+      <div className="columns is-centered">
+        <div className="column is-narrow">
+          {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+            <InitialAccountSetupView
+              {...this.props}
+              {...this.state}
+              toggleAddPaymentDetails={this.toggleAddPaymentDetails}
+            />
+          )}
 
-            {stripeConnect && stripeConnect.last4BankAcc && (
-              <React.Fragment>
-                <EstablishedAccountView {...this.props} />
-              </React.Fragment>
-            )}
-          </div>
+          {stripeConnect && stripeConnect.last4BankAcc && (
+            <React.Fragment>
+              <EstablishedAccountView {...this.props} />
+            </React.Fragment>
+          )}
         </div>
-      </section>
+      </div>
     );
   }
 }

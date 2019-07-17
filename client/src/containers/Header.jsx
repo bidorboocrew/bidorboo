@@ -165,7 +165,6 @@ class Header extends React.Component {
       isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
 
     const isActingAsBidder = userAppView === 'BIDDER';
-    const isHomePage = window.location.href.indexOf('BidOrBoo') > -1;
 
     return (
       <React.Fragment>
@@ -209,46 +208,21 @@ class Header extends React.Component {
                 style={{ maxHeight: 'unset' }}
               />
             </a>
-            {!isHomePage && (
-              <React.Fragment>
-                {isActingAsBidder && (
-                  <div
-                    style={{
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                      flexGrow: 1,
-                    }}
-                    className="navbar-item has-text-grey"
-                  >
-                    <div style={{ fontSize: 14 }}>TASKER VIEW</div>
-                  </div>
-                )}
-                {!isActingAsBidder && (
-                  <div
-                    style={{
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                      flexGrow: 1,
-                    }}
-                    className="navbar-item has-text-grey"
-                  >
-                    <div style={{ fontSize: 14 }}>REQUESTER VIEW</div>
-                  </div>
-                )}
-              </React.Fragment>
-            )}
-            {isHomePage && (
+            <div
+              style={{
+                paddingLeft: 0,
+                paddingRight: 0,
+                flexGrow: 1,
+              }}
+              className="navbar-item has-text-grey"
+            >
               <div
-                style={{
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                  flexGrow: 1,
-                }}
-                className="navbar-item has-text-grey"
+                className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}
+                style={{ fontSize: 14 }}
               >
-                <div style={{ fontSize: 14 }}>BIDORBOO</div>
+                {ROUTES.getRouteTitle()}
               </div>
-            )}
+            </div>
             {!isLoggedIn && (
               <div className="is-hidden-desktop navbar-item">
                 <a

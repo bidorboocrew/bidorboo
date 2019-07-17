@@ -13,7 +13,7 @@
 // Flexbox SASS mixins
 // The spec: http://www.w3.org/TR/css3-flexbox
 // --------------------------------------------------
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
 
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
 
@@ -25,7 +25,7 @@ html body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-weight: 300;
 }
 
@@ -204,7 +204,6 @@ html body {
             background: lightgrey;
             color: black !important;
           }
-          font-weight: 700;
           color: white !important;
         }
       }
@@ -260,8 +259,8 @@ a.navbar-item.is-active {
 .title:last-child {
   margin-bottom: 1.5rem;
 }
-$family-primary: 'Roboto', sans-serif;
-$family-sans-serif: 'Roboto', sans-serif;
+$family-primary: 'Work Sans', sans-serif;
+$family-sans-serif: 'Work Sans', sans-serif;
 $body-background-color: #f6f6f6; //#3b549c;
 // $navbar-background-color: white;
 // xxx scary but it works

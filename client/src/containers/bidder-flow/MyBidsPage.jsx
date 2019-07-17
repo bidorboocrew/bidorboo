@@ -55,21 +55,6 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-large is-centered"
-        >
-          <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
-            <li>
-              <a>
-                {/* <span className="icon is-large">
-                  <i className="fas fa-money-check-alt" aria-hidden="true" />
-                </span> */}
-                <span>MY BIDS</span>
-              </a>
-            </li>
-          </ul>
-        </div>
         {/* {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
                 <div>
                   <div
