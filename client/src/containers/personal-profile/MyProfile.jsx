@@ -80,21 +80,6 @@ class MyProfile extends React.Component {
         )}
 
         <div>
-          <div
-            style={{ background: 'transparent', marginBottom: 0 }}
-            className="tabs is-large is-centered"
-          >
-          <ul style={{ borderBottom: 'none', paddingTop: '2rem' }}>
-              <li>
-                <a>
-                  {/* <span className="icon is-large">
-                    <i className="far fa-user" aria-hidden="true" />
-                  </span> */}
-                  <span>MY PROFILE</span>
-                </a>
-              </li>
-            </ul>
-          </div>
           <div className="columns is-centered">
             <div className="column is-narrow has-text-centered">
               {userImageAndStats(

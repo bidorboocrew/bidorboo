@@ -311,7 +311,7 @@ class GenericRequestForm extends React.Component {
                       <span className="icon">
                         <i className="far fa-arrow-alt-circle-left" />
                       </span>
-                      <span>Go Back</span>
+                      <span>Back</span>
                     </button>
                     <button
                       style={{ width: 120 }}
@@ -323,7 +323,7 @@ class GenericRequestForm extends React.Component {
                       <span className="icon">
                         <i className="far fa-paper-plane" />
                       </span>
-                      <span>Submit</span>
+                      <span>Post It</span>
                     </button>
                   </footer>
                 </div>
@@ -332,7 +332,7 @@ class GenericRequestForm extends React.Component {
             )}
 
           <form onSubmit={(e) => e.preventDefault()}>
-            {renderSummaryCard({ withDetails: false, paddingValue: '0 0 1.5rem 0' })}
+            {renderSummaryCard({ withDetails: false })}
 
             <input
               id="recaptcha"
@@ -502,7 +502,10 @@ class GenericRequestForm extends React.Component {
                   }
                 }}
               >
-                <span>Post it</span>
+                <span className="icon">
+                  <i className="far fa-paper-plane" />
+                </span>
+                <span>Post It</span>
               </button>
             </div>
           </form>

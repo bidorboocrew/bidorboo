@@ -19,9 +19,9 @@ export default {
     interiorType: 'leather',
     trunkCleaning: 'notRequired',
   },
-  renderSummaryCard: function({ withDetails = true, paddingValue = '1rem 1rem 1.5rem 1rem ' }) {
+  renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: paddingValue }}>
+      <div style={{ padding: '1rem' }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
@@ -47,7 +47,7 @@ export default {
                   Car Detailing
                 </h1>
                 {withDetails && (
-                  <p style={{ color: '#6a748a' }}>
+                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
                     Does your car need thourough cleaning ? let our Taskers pamper your car.
                   </p>
                 )}

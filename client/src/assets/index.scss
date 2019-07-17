@@ -775,7 +775,7 @@ $trans-time: 300ms;
   font-weight: 500;
 }
 .formInput {
-  padding: 0 4px 4px 4px;
+  padding: 0 0 5px 0;
   font-size: 16px;
   margin-bottom: 1.25rem;
 }
@@ -809,6 +809,7 @@ $trans-time: 300ms;
   .input,
   .textarea,
   select,
+  .textarea,
   .select {
     padding-top: 0;
     box-shadow: none;
@@ -821,6 +822,12 @@ $trans-time: 300ms;
     display: inline-block;
     outline: none !important;
     outline-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    transition: $trans-time ease all;
+    &:focus {
+      border-bottom: 1px solid $blue;
+    }
     &.readOnly {
       border-bottom: none;
     }

@@ -65,11 +65,6 @@ class GeoSearch extends React.Component {
               })}
             />
           </div>
-
-          {autoDetectComponent && autoDetectComponent(value)}
-
-          {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
-          {error && <p className="help is-danger">{error}</p>}
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -106,6 +101,9 @@ class GeoSearch extends React.Component {
               );
             })}
           </div>
+          {autoDetectComponent && autoDetectComponent(value)}
+          {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
+          {error && <p className="help is-danger">{error}</p>}
         </div>
       );
     };

@@ -142,7 +142,7 @@ export const TextAreaInput = ({
       <label>{label}</label>
       <div>
         <textarea
-          style={{ resize: 'none', fontSize: 16, padding: 10, height: 'unset', minHeight: 100 }}
+          style={{ resize: 'none', height: 'unset', minHeight: 100 }}
           className={inputClassName}
           id={id}
           type={type}
@@ -153,8 +153,8 @@ export const TextAreaInput = ({
         />
       </div>
       {startWithTemplateButton && startWithTemplateButton}
-      <HelpText helpText={helpText} />
       <InputFeedback error={error} />
+      <HelpText helpText={helpText} />
     </div>
   );
 };
