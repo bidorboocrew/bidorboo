@@ -132,12 +132,6 @@ class Header extends React.Component {
       userAppView,
     } = this.props;
 
-    let navbarMobileDisplayName = displayName;
-    if (displayName && displayName.length > 0) {
-      const namePieces = displayName.split(' ');
-      navbarMobileDisplayName =
-        namePieces[0].length > 6 ? namePieces[0].substring(0, 5) : namePieces[0];
-    }
     const { profileImage } = userDetails;
 
     const {
@@ -196,7 +190,7 @@ class Header extends React.Component {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              className={`navbar-item ${
+              className={`navbar-item forHeader ${
                 activeNavBarMenuId === HREF_TO_TABID.HOME ? 'is-active' : ''
               }`}
             >
@@ -214,7 +208,7 @@ class Header extends React.Component {
                 paddingRight: 0,
                 flexGrow: 1,
               }}
-              className="navbar-item has-text-grey"
+              className="navbar-item forHeader has-text-grey"
             >
               <div
                 className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}
@@ -224,9 +218,9 @@ class Header extends React.Component {
               </div>
             </div>
             {!isLoggedIn && (
-              <div className="is-hidden-desktop navbar-item">
+              <div className="is-hidden-desktop navbar-item" forHeader>
                 <a
-                  className="button is-danger is-outlined"
+                  className="button is-success"
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
                       this.toggleLoginDialog();
@@ -238,7 +232,7 @@ class Header extends React.Component {
               </div>
             )}
             {isLoggedIn && showNotificationButton && (
-              <div className="navbar-item">
+              <div className="navbar-item" forHeader>
                 <a
                   style={{ borderRadius: '100%' }}
                   onClick={this.toggleNotificationMenu}
@@ -296,7 +290,7 @@ class Header extends React.Component {
                 {(!isActingAsBidder || !isLoggedIn) && (
                   <a
                     id={'viewDependentNavBarItems'}
-                    className={`navbar-item ${
+                    className={`navbar-item forHeader ${
                       activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
@@ -314,7 +308,7 @@ class Header extends React.Component {
 
                 {(isActingAsBidder || !isLoggedIn) && (
                   <a
-                    className={`navbar-item ${
+                    className={`navbar-item forHeader ${
                       activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
                     }`}
                     onClick={(e) => {
@@ -334,7 +328,7 @@ class Header extends React.Component {
                     {!isActingAsBidder && (
                       <a
                         id={'viewDependentNavBarItems'}
-                        className={`navbar-item ${
+                        className={`navbar-item forHeader ${
                           activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                         }`}
                         onClick={(e) => {
@@ -371,7 +365,7 @@ class Header extends React.Component {
                             return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
                           });
                         }}
-                        className={`navbar-item ${
+                        className={`navbar-item forHeader ${
                           activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
                         }`}
                       >
@@ -400,12 +394,12 @@ class Header extends React.Component {
 
                     <div
                       id="myprofile-step"
-                      className={`navbar-item dropdown is-right  ${
+                      className={`navbar-item forHeader dropdown is-right  ${
                         isProfileMenuActive ? 'is-active' : ''
                       }`}
                     >
                       <nav>
-                        <div className="navbar-item has-dropdown">
+                        <div className="navbar-item forHeader has-dropdown">
                           <a onClick={this.toggleProfileMenu} className="navbar-link">
                             <figure className="image is-32x32">
                               <img
@@ -434,6 +428,7 @@ class Header extends React.Component {
                                       })
                                     }
                                     className="navbar-item"
+                                    forHeader
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
                                       <i className="fab fa-nintendo-switch" />
@@ -464,6 +459,7 @@ class Header extends React.Component {
                                       })
                                     }
                                     className="navbar-item"
+                                    forHeader
                                   >
                                     <span style={{ position: 'relative' }} className="icon">
                                       <i className="fab fa-nintendo-switch" />
@@ -496,7 +492,7 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
                                 });
                               }}
-                              className={`navbar-item ${
+                              className={`navbar-item forHeader ${
                                 activeNavBarMenuId === HREF_TO_TABID.MY_PROFILE ? 'is-active' : ''
                               }`}
                             >
@@ -512,7 +508,7 @@ class Header extends React.Component {
                                   switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                                 });
                               }}
-                              className={`navbar-item ${
+                              className={`navbar-item forHeader ${
                                 activeNavBarMenuId === HREF_TO_TABID.PAYMENT_SETTINGS
                                   ? 'is-active'
                                   : ''
@@ -531,6 +527,7 @@ class Header extends React.Component {
                                 })
                               }
                               className="navbar-item"
+                              forHeader
                             >
                               <span className="icon">
                                 <i className="fas fa-sign-out-alt" />
@@ -544,9 +541,9 @@ class Header extends React.Component {
                   </React.Fragment>
                 )}
                 {!isLoggedIn && (
-                  <div className="is-hidden-touch navbar-item">
+                  <div className="is-hidden-touch navbar-item" forHeader>
                     <a
-                      className="button is-danger is-outlined"
+                      className="button is-success"
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
                           this.toggleLoginDialog();

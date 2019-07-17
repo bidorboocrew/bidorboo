@@ -41,7 +41,7 @@ html body {
 #mainFooter {
   margin-top: 1.5rem;
   padding: 1rem;
-  background: #dedede;
+  background: #363636;
 }
 
 #RoutesWrapper {
@@ -111,13 +111,6 @@ html body {
     > span {
       color: black !important;
     }
-
-    // &:hover {
-    //   background: lightgrey;
-    //   > span {
-    //     color: black !important;
-    //   }
-    // }
   }
   // special dark bidder navbar
   &.bidderAppBar {
@@ -137,9 +130,9 @@ html body {
           > div.navbar-dropdown.is-boxed {
             a {
               &:hover {
-                background: lightgrey;
+                background: hsl(0, 0%, 96%);
                 > span {
-                  color: black !important;
+                  color: #363636 !important;
                 }
               }
             }
@@ -151,7 +144,7 @@ html body {
     #mobile-nav-burger {
       color: white !important;
       &:hover {
-        background: lightgrey;
+        background: hsl(0, 0%, 96%);
         > span {
           color: black !important;
         }
@@ -161,17 +154,17 @@ html body {
       > nav > div {
         a.navbar-link {
           &:hover {
-            background: lightgrey;
-            color: black;
+            background: hsl(0, 0%, 96%);
+            color: #363636;
             &::after {
               border-color: black !important;
               margin-top: -0.375em;
               right: 1.125em;
             }
           }
-          color: lightgrey;
+          color: white;
           &::after {
-            border-color: lightgrey !important;
+            border-color: hsl(0, 0%, 96%) !important;
             margin-top: -0.375em;
             right: 1.125em;
           }
@@ -192,16 +185,16 @@ html body {
 
     div.navbar-start,
     div.navbar-end {
-      color: lightgrey;
+      color: white;
       > a.navbar-item {
-        color: lightgrey;
+        color: white;
         &:hover {
-          background: lightgrey;
+          background: hsl(0, 0%, 96%);
           color: black !important;
         }
         &.is-active {
           &:hover {
-            background: lightgrey;
+            background: hsl(0, 0%, 96%);
             color: black !important;
           }
           color: white !important;
@@ -875,3 +868,12 @@ img.watermarker {
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   pointer-events: none; /* Add a pointer on hover */
 }
+
+// .navbar-item {
+//   &.forHeader{
+//   transition: $trans-time ease all;
+//   color: #363636 !important;
+//   &.is-active {
+//     border-bottom: $orange 2px solid;
+//   }}
+// }
