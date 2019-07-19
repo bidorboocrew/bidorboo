@@ -15,7 +15,7 @@ export default {
 `,
 
   defaultExtrasValues: {
-    effort: 'small',
+    effort: 'noSelection',
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
@@ -57,7 +57,7 @@ export default {
   },
   extrasValidation: function() {
     const { values } = this.props;
-    if (!values.effort) {
+    if (!values.effort || values.effort === 'noSelection') {
       alert('please specify the effort');
       return false;
     }
@@ -66,23 +66,25 @@ export default {
   extras: function() {
     return {
       effort: {
-        renderFormOptions: ({ values, setFieldValue }) => {
+        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+          let effortClass = '';
+          let isTouched = touched && touched.effort;
+          if (isTouched) {
+            effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
             <React.Fragment key={'extras-effort'}>
-              <input
-                id="effort"
-                className="input is-invisible"
-                type="hidden"
-                value={values.effort}
-              />
               <div className="group">
-                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <label className={effortClass}>{'Approximate Duration'}</label>
                 <div>
-                  <div className="select">
+                  <div id="effort" className={`select ${effortClass} `}>
                     <select
+                      id="effort"
                       value={values.effort}
-                      onChange={(event) => setFieldValue('effort', event.target.value, true)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     >
+                      <option value="noSelection">{`Select Duration`}</option>
                       <option value="small">{`Small (1-3 hours)`}</option>
                       <option value="medium">{`Medium (3-6 hours)`}</option>
                       <option value="large">{`Large (6-8 hours)`}</option>

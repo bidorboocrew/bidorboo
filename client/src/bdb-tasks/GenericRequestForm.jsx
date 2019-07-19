@@ -34,7 +34,7 @@ class GenericRequestForm extends React.Component {
 
     this.state = {
       forceSetAddressValue: '',
-      selectedTimeButtonId: 'evening',
+      selectedTimeButtonId: 'noSelection',
       showConfirmationDialog: false,
     };
 
@@ -64,7 +64,7 @@ class GenericRequestForm extends React.Component {
     ) : null;
   };
   updateDateInputFieldValue = (val) => {
-    const { setFieldValue } = this.props;
+    const { setFieldValue, setFieldTouched } = this.props;
     const { selectedTimeButtonId } = this.state;
 
     let selectedTimeValue = this.getTimeAdjustment(selectedTimeButtonId);
@@ -74,6 +74,7 @@ class GenericRequestForm extends React.Component {
       .toISOString();
 
     setFieldValue('startingDateAndTime', adjustedTimeVal, false);
+    setFieldTouched('startingDateAndTime', true);
   };
 
   getTimeAdjustment = (selectedTimeButtonId) => {
@@ -96,28 +97,28 @@ class GenericRequestForm extends React.Component {
         selectedTimeValue = 10;
         break;
       }
-      default: {
-        selectedTimeValue = 17;
-        break;
-      }
     }
 
     return selectedTimeValue;
   };
 
   selectTimeButton = (selectionId) => {
-    const { setFieldValue, values } = this.props;
+    const { setFieldValue, values, setFieldTouched } = this.props;
 
-    let selectedTimeValue = this.getTimeAdjustment(selectionId);
+    if (selectionId !== 'noSelection') {
+      let selectedTimeValue = this.getTimeAdjustment(selectionId);
 
-    this.setState({ selectedTimeButtonId: selectionId }, () => {
-      setFieldValue('startingDateAndTime', selectedTimeValue, false);
-      const newAdjustedTimeVal = moment(values.startingDateAndTime)
-        .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
-        .toISOString();
+      this.setState({ selectedTimeButtonId: selectionId }, () => {
+        setFieldValue('startingDateAndTime', selectedTimeValue, false);
+        const newAdjustedTimeVal = moment(values.startingDateAndTime)
+          .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
+          .toISOString();
 
-      setFieldValue('startingDateAndTime', newAdjustedTimeVal, false);
-    });
+        setFieldValue('startingDateAndTime', newAdjustedTimeVal, false);
+      });
+    } else if (selectionId === 'noSelection') {
+      this.setState({ selectedTimeButtonId: 'noSelection' });
+    }
   };
 
   insertTemplateText = () => {
@@ -247,6 +248,7 @@ class GenericRequestForm extends React.Component {
       handleChange,
       handleBlur,
       isValid,
+      setFieldTouched,
     } = this.props;
 
     const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
@@ -276,10 +278,21 @@ class GenericRequestForm extends React.Component {
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
     Object.keys(extrasFields).forEach((key) => {
-      taskSpecificExtraFormFields.push(
-        extrasFields[key].renderFormOptions({ values, setFieldValue }),
-      );
+      taskSpecificExtraFormFields.push(extrasFields[key].renderFormOptions(this.props));
     });
+
+    let timeOfDayClass = '';
+    let istimeOfDayTouched = touched && touched.timeOfDay;
+    if (istimeOfDayTouched) {
+      timeOfDayClass = values.timeOfDay === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+    }
+
+    let startingDateAndTimeClass = '';
+    let startingDateAndTimeTouched = touched && touched.startingDateAndTime;
+    if (startingDateAndTimeTouched) {
+      startingDateAndTimeClass =
+        values.startingDateAndTime === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+    }
 
     return (
       <div className="card limitLargeMaxWidth">
@@ -399,12 +412,7 @@ class GenericRequestForm extends React.Component {
               type="hidden"
               value={values.startingDateAndTime}
             />
-            <input
-              id="timeField"
-              className="input is-invisible"
-              type="hidden"
-              value={this.state.selectedTime}
-            />
+
             <DateInput
               id="DateInputField"
               type="text"
@@ -412,13 +420,16 @@ class GenericRequestForm extends React.Component {
               onChangeEvent={this.updateDateInputFieldValue}
             />
             <div className="group">
-              <label className="withPlaceholder hasSelectedValue">{'Time Of Day'}</label>
+              <label className={timeOfDayClass}>{'Time Of Day'}</label>
               <div>
-                <div className="select">
+                <div className={`select ${timeOfDayClass}`}>
                   <select
-                    value={selectedTimeButtonId}
-                    onChange={(event) => this.selectTimeButton(event.target.value)}
+                    id="timeOfDay"
+                    value={values.timeOfDay}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   >
+                    <option value="noSelection">-Select One-</option>.
                     <option value="morning">Morning (8AM-12PM)</option>
                     <option value="afternoon">Afternoon (12PM-5PM)</option>
                     <option value="evening">Evening (5PM-12AM)</option>

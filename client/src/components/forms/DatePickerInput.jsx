@@ -36,12 +36,18 @@ export default class DatePickerInput extends React.Component {
 
     const { selectedDate } = this.state;
 
+    let dateClass = '';
+    if (!!selectedDate && selectedDate.toDate) {
+      debugger;
+      dateClass = selectedDate.toDate ? 'hasSelectedValue' : 'is-danger';
+    }
+
     return (
       <div className="group">
-        <label>{label}</label>
+        <label className={`label ${dateClass}`}>{label}</label>
         <div>
           <DatePicker
-            className={'input'}
+            className={'input is-fullwidth'}
             selected={selectedDate}
             onChange={this.handleChange}
             minDate={this.minDate}

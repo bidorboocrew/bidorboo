@@ -262,7 +262,7 @@ class GeoSearch extends React.Component {
               {...getInputProps({
                 type: 'text',
                 placeholder: `${placeholder}`,
-                className: 'location-search-input input',
+                className: 'input',
               })}
             />
           </div>

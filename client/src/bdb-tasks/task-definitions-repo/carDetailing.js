@@ -15,9 +15,9 @@ export default {
 
 `,
   defaultExtrasValues: {
-    carSize: 'sedan',
-    interiorType: 'leather',
-    trunkCleaning: 'notRequired',
+    carSize: 'noSelection',
+    interiorType: 'noSelection',
+    trunkCleaning: 'noSelection',
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
@@ -77,25 +77,27 @@ export default {
   extras: function() {
     return {
       carSize: {
-        renderFormOptions: ({ values, setFieldValue }) => {
+        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
           // this is assumed to render in the context of a formik form
+          let carSizeSelectClass = '';
+          let isTouched = touched && touched.carSize;
+          if (isTouched) {
+            carSizeSelectClass =
+              values.carSize === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
             <React.Fragment key={'extras-carSize'}>
-              <input
-                id="carSize"
-                className="input is-invisible"
-                type="hidden"
-                value={values.carSize}
-              />
-
               <div className="group">
-                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+                <label className={carSizeSelectClass}>{'Approximate Duration'}</label>
                 <div>
-                  <div className="select">
+                  <div className={`select ${carSizeSelectClass} `}>
                     <select
+                      id="carSize"
                       value={values.carSize}
-                      onChange={(event) => setFieldValue('carSize', event.target.value, true)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     >
+                      <option value="noSelection">-Select One-</option>.
                       <option value="mini">{`Small (ex, mini)`}</option>
                       <option value="sedan">{`Regular (ex, Sedan)`}</option>
                       <option value="suv">{`Large (ex, SUV)`}</option>
@@ -132,24 +134,26 @@ export default {
         },
       },
       interiorType: {
-        renderFormOptions: ({ values, setFieldValue }) => {
+        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+          let interiorTypeClass = '';
+          let isTouched = touched && touched.interiorType;
+          if (isTouched) {
+            interiorTypeClass =
+              values.interiorType === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
             <React.Fragment key={'extras-interiorType'}>
-              <input
-                id="interiorType"
-                className="input is-invisible"
-                type="hidden"
-                value={values.interiorType}
-              />
-
               <div className="group">
-                <label className="withPlaceholder hasSelectedValue">{'Interior Type'}</label>
+                <label className={interiorTypeClass}>{'Interior Type'}</label>
                 <div>
-                  <div className="select">
+                  <div className={`select ${interiorTypeClass} `}>
                     <select
+                      id="interiorType"
                       value={values.interiorType}
-                      onChange={(event) => setFieldValue('interiorType', event.target.value, true)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     >
+                      <option value="noSelection">-Select One-</option>.
                       <option value="leather">Leather</option>
                       <option value="fabric">Fabric</option>
                       <option value="other">Other</option>
@@ -182,25 +186,28 @@ export default {
         },
       },
       trunkCleaning: {
-        renderFormOptions: ({ values, setFieldValue }) => {
+        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
           // this is assumed to render in the context of a formik form
+
+          let trunkCleaningClass = '';
+          let isTouched = touched && touched.trunkCleaning;
+          if (isTouched) {
+            trunkCleaningClass =
+              values.trunkCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
             <React.Fragment key={'extras-trunkCleaning'}>
-              <input
-                id="trunkCleaning"
-                className="input is-invisible"
-                type="hidden"
-                value={values.trunkCleaning}
-              />
-
               <div className="group">
-                <label className="withPlaceholder hasSelectedValue">Trunk Cleaning</label>
+                <label className={trunkCleaningClass}>Trunk Cleaning</label>
                 <div>
-                  <div className="select">
+                  <div className={`select ${trunkCleaningClass}`}>
                     <select
-                      value={values.isRequired}
-                      onChange={(event) => setFieldValue('trunkCleaning', event.target.value, true)}
+                      id="trunkCleaning"
+                      value={values.trunkCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     >
+                      <option value="noSelection">-Select One-</option>.
                       <option values="isRequired">Requires Cleaning</option>
                       <option values="notRequired">Not Required</option>
                     </select>
@@ -214,7 +221,7 @@ export default {
           let selectedValue = null;
           switch (requiresTrunkCleaning) {
             case 'isRequired':
-              selectedValue = 'Required';
+              selectedValue = 'Requires Cleaning';
               break;
             case 'notRequired':
               selectedValue = 'Not Required';

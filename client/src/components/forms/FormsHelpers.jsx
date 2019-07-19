@@ -122,28 +122,22 @@ export const TextAreaInput = ({
   startWithTemplateButton,
   ...props
 }) => {
-  let inputClassName = className || 'input';
-  let labelClass = '';
+  let inputStateClass = '';
 
   if (error) {
-    inputClassName += ' is-danger';
+    inputStateClass = 'is-danger';
   }
-  if (iconLeft) {
-    inputClassName += ' has-icons-left';
-  }
-  if (placeholder) {
-    labelClass += ' withPlaceholder';
-  }
-  if (value) {
-    labelClass += ' hasSelectedValue';
+
+  if (value && value.length > 0) {
+    inputStateClass = 'hasSelectedValue';
   }
   return (
     <div className={`group ${error ? 'isError' : ''}`}>
-      <label>{label}</label>
+      <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
           style={{ resize: 'none', height: 'unset', minHeight: 100 }}
-          className={inputClassName}
+          className={`input ${inputStateClass} ${iconLeft ? 'has-icon-left' : ''}`}
           id={id}
           type={type}
           value={value || ''}

@@ -247,7 +247,7 @@ $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
 $yellow: #e19f00 !default;
-$green: #53c772 !default;
+$green: #26ca70 !default;
 $cyan: #0a8fd1 !default;
 $blue: #4285f4 !default;
 $purple: #ce1bbf !default;
@@ -502,7 +502,7 @@ article.media.limitHeight {
 .card {
   color: #353535;
   height: 100%;
-  border-radius: 6px;
+  border-radius: 0;
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;
@@ -773,13 +773,15 @@ $trans-time: 300ms;
     }
   }
   > label {
-    color: #363636;
-    font-size: 16px;
-    font-weight: 300;
-    color: $blue;
+    color: #26ca70;
+    font-size: 14px;
+    font-weight: 400;
     transition: $trans-time ease all;
     &.is-danger {
       color: $red;
+    }
+    &.hasSelectedValue {
+      color: #afafaf;
     }
   }
 
@@ -795,13 +797,16 @@ $trans-time: 300ms;
     border-top: none;
     border-left: none;
     border-right: none;
-    font-weight: 400;
+    font-weight: 500;
     border-bottom: 1px solid #eee;
     display: inline-block;
     outline: none !important;
-    outline-color: transparent;
+    outline-color: transparent !important;
     padding-left: 0;
     padding-right: 0;
+    color: #363636;
+    width: 100%;
+    box-shadow: none !important;
     transition: $trans-time ease all;
     &:focus {
       border-bottom: 1px solid $blue;
@@ -818,6 +823,42 @@ $trans-time: 300ms;
       box-shadow: none;
     }
   }
+}
+
+div.field {
+  margin-bottom: 1.25rem;
+}
+label.label {
+  color: #26ca70;
+  font-size: 14px;
+  font-weight: 400;
+  transition: $trans-time ease all;
+  &.is-danger {
+    color: $red;
+  }
+  &.hasSelectedValue {
+    color: #afafaf;
+  }
+}
+div.control {
+  padding-top: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  font-weight: 500 !important;
+  border-bottom: none !important;
+  display: inline-block !important;
+  outline: none !important;
+  font-size: 16 !important;
+  outline-color: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  transition: $trans-time ease all !important;
+}
+.react-datepicker-wrapper {
+  width: 100%;
 }
 
 .level {
@@ -864,41 +905,13 @@ img.watermarker {
 //   }}
 // }
 
-div.field {
-  margin-bottom: 1.25rem;
-}
-label.label {
-  color: #363636 !important;
-  font-size: 16px !important;
-  font-weight: 300 !important;
-  margin-bottom: 0 !important;
-  color: $blue !important;
-  transition: $trans-time ease all !important;
-  &.is-danger {
-    color: $red !important;
-  }
-}
-div.control {
-  padding-top: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  border-top: none !important;
-  border-left: none !important;
-  border-right: none !important;
-  font-weight: 400 !important;
-  border-bottom: none !important;
-  display: inline-block !important;
-  outline: none !important;
-  font-size: 16 !important;
-  outline-color: transparent !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  transition: $trans-time ease all !important;
-}
-
 .title {
   font-weight: 300 !important;
 }
 .subtitle {
   font-weight: 300 !important;
+}
+
+div.react-datepicker__input-container {
+  width: 100%;
 }
