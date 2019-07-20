@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -19,7 +18,6 @@ import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/F
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import RequesterRequestDetailsPreview from './AllPossibleTasksStatesCards/RequesterRequestDetailsPreview';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 
 // for reverse geocoding , get address from lat lng
@@ -29,13 +27,11 @@ import TASKS_DEFINITIONS from './tasksDefinitions';
 class GenericRequestForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.requestTemplateId = props.requestTemplateId;
 
     this.state = {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'noSelection',
-      showConfirmationDialog: false,
     };
 
     this.google = window.google;
@@ -64,7 +60,7 @@ class GenericRequestForm extends React.Component {
     ) : null;
   };
   updateDateInputFieldValue = (val) => {
-    const { setFieldValue, setFieldTouched } = this.props;
+    const { setFieldValue } = this.props;
     const { selectedTimeButtonId } = this.state;
 
     let selectedTimeValue = this.getTimeAdjustment(selectedTimeButtonId);
@@ -72,9 +68,7 @@ class GenericRequestForm extends React.Component {
     const adjustedTimeVal = moment(val)
       .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
       .toISOString();
-
-    setFieldValue('startingDateAndTime', adjustedTimeVal, false);
-    setFieldTouched('startingDateAndTime', true);
+    setFieldValue('startingDateAndTime', adjustedTimeVal, true);
   };
 
   getTimeAdjustment = (selectedTimeButtonId) => {
@@ -103,7 +97,7 @@ class GenericRequestForm extends React.Component {
   };
 
   selectTimeButton = (selectionId) => {
-    const { setFieldValue, values, setFieldTouched } = this.props;
+    const { setFieldValue, values } = this.props;
 
     if (selectionId !== 'noSelection') {
       let selectedTimeValue = this.getTimeAdjustment(selectionId);
@@ -113,8 +107,7 @@ class GenericRequestForm extends React.Component {
         const newAdjustedTimeVal = moment(values.startingDateAndTime)
           .set({ hour: selectedTimeValue, minute: 0, second: 0, millisecond: 0 })
           .toISOString();
-
-        setFieldValue('startingDateAndTime', newAdjustedTimeVal, false);
+        setFieldValue('startingDateAndTime', newAdjustedTimeVal, true);
       });
     } else if (selectionId === 'noSelection') {
       this.setState({ selectedTimeButtonId: 'noSelection' });
@@ -135,145 +128,33 @@ class GenericRequestForm extends React.Component {
     switchRoute(ROUTES.CLIENT.PROPOSER.root);
   };
 
-  onSubmit = () => {
-    const { addJob, values } = this.props;
-    // process the values to be sent to the server
-    const {
-      location,
-      detailedDescription,
-      startingDateAndTime,
-      addressText,
-      templateId,
-      ...extras // everything else
-    } = values;
-
-    // do some validation before submitting
-    if (!location || !location.lat || !location.lng) {
-      alert('sorry you must specify the location for this request');
-      return;
-    }
-    if (!addressText) {
-      alert('sorry you must specify the location for this request');
-      return;
-    }
-    if (!detailedDescription) {
-      alert('sorry you must add more details about this request');
-      return;
-    }
-    if (!startingDateAndTime) {
-      alert(
-        'sorry you must specify a starting Date And Time for when do you want this request to be done',
-      );
-      return;
-    }
-    if (!templateId) {
-      alert('sorry something went wrong , we could not detect the Job ID . please try again later');
-      return;
-    }
-
-    // validate any extra fields based on the task
-    if (this.extrasValidations) {
-      if (!this.extrasValidations()) {
-        return;
-      }
-    }
-
-    //  offset the location for security
-    // https://www.npmjs.com/package/haversine-offset
-    let lng = 0;
-    let lat = 0;
-    try {
-      lng = parseFloat(location.lng);
-      lat = parseFloat(location.lat);
-      let preOffset = { latitude: lat, longitude: lng };
-      let offset = {
-        x: Math.floor(Math.random() * Math.floor(1000)),
-        y: Math.floor(Math.random() * Math.floor(1000)),
-      };
-
-      let postOffset = haversineOffset(preOffset, offset);
-
-      if (postOffset.lat > 0) {
-        lat = Math.min(postOffset.lat, 90).toFixed(5);
-      } else if (postOffset.lat < 0) {
-        lat = Math.max(postOffset.lat, -90).toFixed(5);
-      }
-      if (postOffset.lng > 0) {
-        lng = Math.min(postOffset.lng, 180).toFixed(5);
-      } else if (postOffset.lng < 0) {
-        lng = Math.max(postOffset.lng, -180).toFixed(5);
-      }
-    } catch (e) {
-      console.log('failed to create location');
-    }
-
-    const mappedFieldsToJobSchema = {
-      detailedDescription: detailedDescription,
-      location: {
-        type: 'Point',
-        coordinates: [parseFloat(lng), parseFloat(lat)],
-      },
-      startingDateAndTime,
-      addressText,
-      templateId,
-      extras: {
-        ...extras,
-      },
-    };
-    addJob(mappedFieldsToJobSchema);
-  };
   autoSetGeoLocation = (addressText) => {
-    this.setState(() => ({ forceSetAddressValue: addressText }));
+    this.setState(
+      () => ({ forceSetAddressValue: addressText }),
+      () => {
+        this.props.setFieldValue('addressText', addressText, true);
+      },
+    );
     // update the form field with the current position coordinates
-    this.props.setFieldValue('addressText', addressText, false);
   };
-  toggleConfirmationDialog = () => {
-    const { isLoggedIn, showLoginDialog } = this.props;
-    if (!isLoggedIn) {
-      showLoginDialog(true);
-      return;
-    }
-    this.setState({
-      showConfirmationDialog: !this.state.showConfirmationDialog,
-    });
-  };
+
   render() {
     const {
       values,
       isSubmitting,
       setFieldValue,
-      currentUserDetails,
       touched,
       errors,
       handleChange,
+      handleSubmit,
       handleBlur,
-      isValid,
-      setFieldTouched,
     } = this.props;
 
     const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
       this.requestTemplateId
     ];
-    const { showConfirmationDialog, selectedTimeButtonId } = this.state;
 
-    const {
-      location,
-      detailedDescription,
-      startingDateAndTime,
-      addressText,
-      templateId,
-      ...extras // everything else
-    } = values;
-
-    const newTaskDetails = {
-      _ownerRef: currentUserDetails,
-      location,
-      detailedDescription,
-      startingDateAndTime,
-      addressText,
-      templateId,
-      extras,
-    };
+    const { location, detailedDescription, startingDateAndTime, addressText, templateId } = values;
 
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
@@ -284,66 +165,14 @@ class GenericRequestForm extends React.Component {
     let timeOfDayClass = '';
     let istimeOfDayTouched = touched && touched.timeOfDay;
     if (istimeOfDayTouched) {
-      timeOfDayClass = values.timeOfDay === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
-    }
-
-    let startingDateAndTimeClass = '';
-    let startingDateAndTimeTouched = touched && touched.startingDateAndTime;
-    if (startingDateAndTimeTouched) {
-      startingDateAndTimeClass =
-        values.startingDateAndTime === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+      timeOfDayClass =
+        values.timeOfDay === 'noSelection' || errors.timeOfDay ? 'is-danger' : 'hasSelectedValue';
     }
 
     return (
       <div className="card limitLargeMaxWidth">
         <div className="card-content">
-          {showConfirmationDialog &&
-            ReactDOM.createPortal(
-              <div className="modal is-active">
-                <div onClick={this.toggleConfirmationDialog} className="modal-background" />
-                <div className="modal-card">
-                  <header className="modal-card-head">
-                    <div className="modal-card-title">Request Preview</div>
-                    <button
-                      onClick={this.toggleConfirmationDialog}
-                      className="delete"
-                      aria-label="close"
-                    />
-                  </header>
-
-                  <section className="modal-card-body">
-                    <RequesterRequestDetailsPreview job={newTaskDetails} />
-                  </section>
-                  <footer className="modal-card-foot">
-                    <button
-                      style={{ width: 120 }}
-                      onClick={this.toggleConfirmationDialog}
-                      className="button is-outline"
-                    >
-                      <span className="icon">
-                        <i className="far fa-arrow-alt-circle-left" />
-                      </span>
-                      <span>Back</span>
-                    </button>
-                    <button
-                      style={{ width: 120 }}
-                      type="submit"
-                      disabled={isSubmitting}
-                      onClick={this.onSubmit}
-                      className="button is-success"
-                    >
-                      <span className="icon">
-                        <i className="far fa-paper-plane" />
-                      </span>
-                      <span>Post It</span>
-                    </button>
-                  </footer>
-                </div>
-              </div>,
-              document.querySelector('#bidorboo-root-modals'),
-            )}
-
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={handleSubmit}>
             {renderSummaryCard({ withDetails: false })}
 
             <input
@@ -362,12 +191,16 @@ class GenericRequestForm extends React.Component {
               className="input is-invisible"
               type="hidden"
               value={values.addressText || ''}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
             <input
               id="location"
               className="input is-invisible"
               type="hidden"
               value={values.location || ''}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
 
             <GeoAddressInput
@@ -377,7 +210,8 @@ class GenericRequestForm extends React.Component {
               label="Location"
               placeholder="start typing an address"
               autoDetectComponent={this.shouldShowAutodetectControl}
-              error={touched.addressText && errors.addressText}
+              error={errors.addressText || errors.location}
+              touched={touched.addressText || touched.location}
               value={values.addressText || ''}
               onError={(e) => {
                 errors.addressText = 'google api error ' + e;
@@ -392,11 +226,11 @@ class GenericRequestForm extends React.Component {
                 }
               }}
               handleSelect={(address) => {
-                setFieldValue('addressText', address, false);
+                setFieldValue('addressText', address, true);
                 geocodeByAddress(address)
                   .then((results) => getLatLng(results[0]))
                   .then((latLng) => {
-                    setFieldValue('location', latLng, false);
+                    setFieldValue('location', latLng, true);
                     console.log('Success', latLng);
                   })
                   .catch((error) => {
@@ -418,8 +252,10 @@ class GenericRequestForm extends React.Component {
               type="text"
               label="Date"
               onChangeEvent={this.updateDateInputFieldValue}
+              error={errors.startingDateAndTime}
+              touched={touched.startingDateAndTime}
             />
-            <div className="group">
+            <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
               <label className={timeOfDayClass}>{'Time Of Day'}</label>
               <div>
                 <div className={`select ${timeOfDayClass}`}>
@@ -435,6 +271,9 @@ class GenericRequestForm extends React.Component {
                     <option value="evening">Evening (5PM-12AM)</option>
                     <option value="evening">Anytime (8AM-12AM)</option>
                   </select>
+                  {touched.timeOfDay && errors.timeOfDay && (
+                    <div className="help is-danger">{errors.timeOfDay}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -473,44 +312,10 @@ class GenericRequestForm extends React.Component {
 
             <div className="group saidTest">
               <button
-                type="button"
-                className="button is-outlined"
-                disabled={isSubmitting}
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.onGoBack(e);
-                }}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>Back</span>
-              </button>
-              <button
                 style={{ marginLeft: '1rem' }}
-                className={`button is-success is-outlined ${isSubmitting ? 'is-loading' : ''}`}
-                disabled={isSubmitting || !isValid}
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.toggleConfirmationDialog();
-                }}
-              >
-                <span>Preview</span>
-              </button>
-              <button
-                style={{ marginLeft: '1rem' }}
+                type="submit"
                 className={`button is-success ${isSubmitting ? 'is-loading' : ''}`}
-                disabled={isSubmitting || !isValid}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const { isLoggedIn, showLoginDialog } = this.props;
-                  if (!isLoggedIn) {
-                    showLoginDialog(true);
-                    return;
-                  } else {
-                    this.onSubmit();
-                  }
-                }}
+                disabled={isSubmitting}
               >
                 <span className="icon">
                   <i className="far fa-paper-plane" />
@@ -600,36 +405,144 @@ class GenericRequestForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
-  validationSchema: Yup.object().shape({
-    templateId: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Template Id missing, This field is required'),
-    startingDateAndTime: Yup.string().required('*Date Field is required'),
-    detailedDescription: Yup.string()
-      .ensure()
-      .trim()
-      .min(
-        20,
-        'your description must be more than 20 chars , please be detailed in descibing the task',
-      )
-      .required('*Please provide a detailed description '),
-  }),
+  validationSchema: (props) => {
+    return Yup.object().shape({
+      templateId: Yup.string()
+        .ensure()
+        .trim()
+        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
+        .required('Template Id missing or not recognized, This field is required'),
+      startingDateAndTime: Yup.date()
+        .min(moment().add(1, 'day'), '*Tasks Can not be scheduled in the past')
+        .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
+        .required('* Date Field is required'),
+      timeOfDay: Yup.string()
+        .ensure()
+        .trim()
+        .oneOf(
+          ['morning', 'afternoon', 'evening', 'anytime'],
+          '*Please select a value from the drop down',
+        )
+        .required('*Please select a value from the drop down'),
+      detailedDescription: Yup.string()
+        .ensure()
+        .trim()
+        .min(20, 'your description must be more than 20 charachters')
+        .required('*Please provide a detailed description'),
+      ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
+    });
+  },
+  validate: (values) => {
+    let errors = {};
+    const extrasValidations = TASKS_DEFINITIONS[values.templateId].extrasValidation;
+
+    // process the values to be sent to the server
+    const {
+      location,
+      detailedDescription,
+      startingDateAndTime,
+      addressText,
+      templateId,
+      timeOfDay,
+    } = values;
+
+    // do some validation before submitting
+    if (!location || !location.lat || !location.lng) {
+      errors.location = '*Please type in an address and select location from the drop down';
+    }
+    if (!addressText) {
+      errors.addressText = '*Please type in an address and select location from the drop down';
+    }
+    if (!detailedDescription) {
+      errors.detailedDescription =
+        '*Please provide more details to help the tasker fulfil this request to yoru satisfaction';
+    }
+    if (!startingDateAndTime) {
+      errors.startingDateAndTime = '*Please specify a date for when you need this service';
+    }
+    if (!templateId) {
+      errors.templateId =
+        'Sorry something went wrong at our end, we could not detect the Job ID . please try again later';
+    }
+    if (!timeOfDay || timeOfDay === 'noSelection') {
+      errors.timeOfDay = '*Please select a value from the drop down';
+    }
+
+    if (extrasValidations) {
+      errors = { ...errors, ...extrasValidations(values) };
+    }
+
+    return errors;
+  },
   mapPropsToValues: (props) => {
     return {
       templateId: props.requestTemplateId,
-      startingDateAndTime: moment()
-        .set({ hour: 17, minute: 0, second: 0, millisecond: 0 })
-        .toISOString(),
+      startingDateAndTime: '',
+      detailedDescription: '',
+      addressText: '',
+      timeOfDay: 'noSelection',
+      location: { lat: 0, lng: 0 },
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    // https://stackoverflow.com/questions/32540667/moment-js-utc-to-local-time
-    // var x = moment.utc(values.date).format('YYYY-MM-DD HH:mm:ss');
-    // var y = moment.utc("2018-04-19T19:29:45.000Z").local().format('YYYY-MM-DD HH:mm:ss');;
-    // props.onSubmit(values);
-    // setSubmitting(false);
+    const { addJob } = props;
+
+    // process the values to be sent to the server
+    const {
+      location,
+      detailedDescription,
+      startingDateAndTime,
+      addressText,
+      templateId,
+      ...extras // everything else
+    } = values;
+
+    //  offset the location for security
+    // https://www.npmjs.com/package/haversine-offset
+    let lng = 0;
+    let lat = 0;
+    try {
+      lng = parseFloat(location.lng);
+      lat = parseFloat(location.lat);
+      let preOffset = { latitude: lat, longitude: lng };
+      let offset = {
+        x: Math.floor(Math.random() * Math.floor(1000)),
+        y: Math.floor(Math.random() * Math.floor(1000)),
+      };
+
+      let postOffset = haversineOffset(preOffset, offset);
+
+      if (postOffset.lat > 0) {
+        lat = Math.min(postOffset.lat, 90).toFixed(5);
+      } else if (postOffset.lat < 0) {
+        lat = Math.max(postOffset.lat, -90).toFixed(5);
+      }
+      if (postOffset.lng > 0) {
+        lng = Math.min(postOffset.lng, 180).toFixed(5);
+      } else if (postOffset.lng < 0) {
+        lng = Math.max(postOffset.lng, -180).toFixed(5);
+      }
+    } catch (e) {
+      console.log('failed to create location');
+    }
+
+    const mappedFieldsToJobSchema = {
+      detailedDescription: detailedDescription,
+      location: {
+        type: 'Point',
+        coordinates: [parseFloat(lng), parseFloat(lat)],
+      },
+      startingDateAndTime,
+      addressText,
+      templateId,
+      extras: {
+        ...extras,
+      },
+    };
+    addJob(mappedFieldsToJobSchema);
+
+    setSubmitting(false);
   },
   displayName: 'GenericRequestForm',
 });

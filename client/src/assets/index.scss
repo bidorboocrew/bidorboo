@@ -761,8 +761,10 @@ $trans-time: 300ms;
 .group {
   margin-bottom: 1.25rem;
   &.isError {
+    margin-bottom: 2.25rem;
     > label {
       color: $red;
+      font-weight: 700;
     }
     input,
     .input,

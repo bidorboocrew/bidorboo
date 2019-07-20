@@ -1,6 +1,7 @@
 import React from 'react';
 import taskImage from '../../assets/images/houesCleaning.png';
 // import watermarker from '../../assets/images/android-chrome-192x192.png';
+import * as Yup from 'yup';
 
 export default {
   ID: 'bdbHouseCleaning',
@@ -16,6 +17,13 @@ export default {
 
   defaultExtrasValues: {
     effort: 'noSelection',
+  },
+  extraValidationSchema: {
+    effort: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
+      .required('*Please select the effort required'),
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
@@ -55,18 +63,17 @@ export default {
       </div>
     );
   },
-  extrasValidation: function() {
-    const { values } = this.props;
+  extrasValidation: function(values) {
+    let errors = {};
     if (!values.effort || values.effort === 'noSelection') {
-      alert('please specify the effort');
-      return false;
+      errors.effort = 'Please select the required effort';
     }
-    return true;
+    return errors;
   },
   extras: function() {
     return {
       effort: {
-        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let effortClass = '';
           let isTouched = touched && touched.effort;
           if (isTouched) {
@@ -74,7 +81,7 @@ export default {
           }
           return (
             <React.Fragment key={'extras-effort'}>
-              <div className="group">
+              <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
                 <label className={effortClass}>{'Approximate Duration'}</label>
                 <div>
                   <div id="effort" className={`select ${effortClass} `}>
@@ -89,6 +96,9 @@ export default {
                       <option value="medium">{`Medium (3-6 hours)`}</option>
                       <option value="large">{`Large (6-8 hours)`}</option>
                     </select>
+                    {isTouched && errors.effort && (
+                      <div className="help is-danger">{errors.effort}</div>
+                    )}
                   </div>
                 </div>
               </div>

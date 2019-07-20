@@ -26,6 +26,7 @@ export const Checkbox = ({
   className,
   helpText,
   iconLeft,
+  touched,
   ...props
 }) => {
   let inputClassName = className || 'checkbox';
@@ -36,7 +37,7 @@ export const Checkbox = ({
 
   return (
     <div className="group saidTest">
-      <div className="group">
+      <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
         <Label htmlFor={id} error={error}>
           {label}
         </Label>
@@ -65,6 +66,7 @@ export const TextInput = ({
   labelClassName,
   helpText,
   iconLeft,
+  touched,
   setFocusImmediately,
   placeholder,
   ...props
@@ -86,7 +88,7 @@ export const TextInput = ({
   }
 
   return (
-    <div className="group">
+    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
       <label className={labelClass}>{label}</label>
       <div>
         <input
@@ -101,7 +103,7 @@ export const TextInput = ({
         />
       </div>
       <HelpText helpText={helpText} />
-      <InputFeedback error={error} />
+      {touched && id && touched[id] && error && <InputFeedback error={error} />}
     </div>
   );
 };
@@ -116,6 +118,7 @@ export const TextAreaInput = ({
   className,
   labelClassName,
   helpText,
+  touched,
   iconLeft,
   setFocusImmediately,
   placeholder,
@@ -132,7 +135,7 @@ export const TextAreaInput = ({
     inputStateClass = 'hasSelectedValue';
   }
   return (
-    <div className={`group ${error ? 'isError' : ''}`}>
+    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
       <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
@@ -147,8 +150,8 @@ export const TextAreaInput = ({
         />
       </div>
       {startWithTemplateButton && startWithTemplateButton}
-      <InputFeedback error={error} />
       <HelpText helpText={helpText} />
+      {touched && id && touched[id] && error && <InputFeedback error={error} />}
     </div>
   );
 };

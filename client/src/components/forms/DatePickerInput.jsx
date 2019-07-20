@@ -32,18 +32,20 @@ export default class DatePickerInput extends React.Component {
   };
 
   render() {
-    const { label, error, helpText, iconLeft } = this.props;
+    const { label, error, helpText, touched } = this.props;
 
     const { selectedDate } = this.state;
 
     let dateClass = '';
     if (!!selectedDate && selectedDate.toDate) {
-      debugger;
-      dateClass = selectedDate.toDate ? 'hasSelectedValue' : 'is-danger';
+      dateClass = selectedDate.toDate && !error ? 'hasSelectedValue' : 'is-danger';
+    }
+    if (touched && error) {
+      dateClass = 'is-danger';
     }
 
     return (
-      <div className="group">
+      <div className={`group ${touched && error ? 'isError' : ''}`}>
         <label className={`label ${dateClass}`}>{label}</label>
         <div>
           <DatePicker
@@ -57,8 +59,8 @@ export default class DatePickerInput extends React.Component {
             dateFormat={'D/MMMM/YYYY'}
           />
         </div>
-        {helpText ? <p className="help">{helpText}</p> : null}
-        {error ? <p className="help is-danger">{error}</p> : null}
+        {helpText && <p className="help">{helpText}</p>}
+        {touched && error && <p className="help is-danger">{error}</p>}
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React from 'react';
 import taskImage from '../../assets/images/carDetailing.png';
-// import watermarker from '../../assets/images/android-chrome-192x192.png';
+import * as Yup from 'yup';
+
+const NO_SELECTION = NO_SELECTION;
 
 export default {
   ID: 'bdbCarDetailing',
@@ -15,9 +17,27 @@ export default {
 
 `,
   defaultExtrasValues: {
-    carSize: 'noSelection',
-    interiorType: 'noSelection',
-    trunkCleaning: 'noSelection',
+    carSize: NO_SELECTION,
+    interiorType: NO_SELECTION,
+    trunkCleaning: NO_SELECTION,
+  },
+  extraValidationSchema: {
+    carSize: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['mini', 'sedan', 'suv', 'truck'], '*Please select an option from the drop down')
+      .required('*Please select a value from the drop down'),
+
+    interiorType: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['leather', 'fabric', 'other'], '*Please select a value from the drop down')
+      .required('*Please select a value from the drop down'),
+    trunkCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
+      .required('*Please select a value from the drop down'),
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
@@ -58,36 +78,32 @@ export default {
       </div>
     );
   },
-  extrasValidation: function() {
-    const { values } = this.props;
-    if (!values.carSize) {
-      alert('please choose a car size');
-      return false;
+  extrasValidation: function(values) {
+    let errors = {};
+    if (!values.carSize || values.carSize === NO_SELECTION) {
+      errors.carSize = '*Please select a value from the drop down';
     }
-    if (!values.interiorType) {
-      alert('please choose an interior type');
-      return false;
+    if (!values.interiorType || values.interiorType === NO_SELECTION) {
+      errors.interiorType = '*Please select a value from the drop down';
     }
-    if (!values.trunkCleaning) {
-      alert('please specify if trunk cleaning is required');
-      return false;
+    if (!values.trunkCleaning || values.trunkCleaning === NO_SELECTION) {
+      errors.trunkCleaning = '*Please select a value from the drop down';
     }
-    return true;
+    return errors;
   },
   extras: function() {
     return {
       carSize: {
-        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           // this is assumed to render in the context of a formik form
           let carSizeSelectClass = '';
           let isTouched = touched && touched.carSize;
           if (isTouched) {
-            carSizeSelectClass =
-              values.carSize === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+            carSizeSelectClass = values.carSize === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
           }
           return (
             <React.Fragment key={'extras-carSize'}>
-              <div className="group">
+              <div className={`group ${isTouched && errors.carSize ? 'isError' : ''}`}>
                 <label className={carSizeSelectClass}>{'Approximate Duration'}</label>
                 <div>
                   <div className={`select ${carSizeSelectClass} `}>
@@ -103,6 +119,9 @@ export default {
                       <option value="suv">{`Large (ex, SUV)`}</option>
                       <option value="truck">{`XL (ex, Truck)`}</option>
                     </select>
+                    {isTouched && errors.carSize && (
+                      <div className="help is-danger">{errors.carSize}</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -134,16 +153,16 @@ export default {
         },
       },
       interiorType: {
-        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let interiorTypeClass = '';
           let isTouched = touched && touched.interiorType;
           if (isTouched) {
             interiorTypeClass =
-              values.interiorType === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+              values.interiorType === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
           }
           return (
             <React.Fragment key={'extras-interiorType'}>
-              <div className="group">
+              <div className={`group ${isTouched && errors.interiorType ? 'isError' : ''}`}>
                 <label className={interiorTypeClass}>{'Interior Type'}</label>
                 <div>
                   <div className={`select ${interiorTypeClass} `}>
@@ -158,6 +177,9 @@ export default {
                       <option value="fabric">Fabric</option>
                       <option value="other">Other</option>
                     </select>
+                    {isTouched && errors.interiorType && (
+                      <div className="help is-danger">{errors.interiorType}</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -186,18 +208,18 @@ export default {
         },
       },
       trunkCleaning: {
-        renderFormOptions: ({ values, touched, handleChange, handleBlur }) => {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           // this is assumed to render in the context of a formik form
 
           let trunkCleaningClass = '';
           let isTouched = touched && touched.trunkCleaning;
           if (isTouched) {
             trunkCleaningClass =
-              values.trunkCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+              values.trunkCleaning === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
           }
           return (
             <React.Fragment key={'extras-trunkCleaning'}>
-              <div className="group">
+              <div className={`group ${isTouched && errors.trunkCleaning ? 'isError' : ''}`}>
                 <label className={trunkCleaningClass}>Trunk Cleaning</label>
                 <div>
                   <div className={`select ${trunkCleaningClass}`}>
@@ -208,9 +230,12 @@ export default {
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>.
-                      <option values="isRequired">Requires Cleaning</option>
-                      <option values="notRequired">Not Required</option>
+                      <option value="isRequired">Requires Cleaning</option>
+                      <option value="notRequired">Not Required</option>
                     </select>
+                    {isTouched && errors.trunkCleaning && (
+                      <div className="help is-danger">{errors.trunkCleaning}</div>
+                    )}
                   </div>
                 </div>
               </div>
