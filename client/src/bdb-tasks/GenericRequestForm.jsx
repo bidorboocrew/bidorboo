@@ -284,9 +284,6 @@ class GenericRequestForm extends React.Component {
             <TextAreaInput
               id="detailedDescription"
               type="text"
-              helpText={
-                '* Extra details that would help the tasker finish this task to your expectations.'
-              }
               label="Additional Instructions"
               startWithTemplateButton={
                 <div
@@ -303,7 +300,9 @@ class GenericRequestForm extends React.Component {
                   <span>ANSWER TASK FAQS</span>
                 </div>
               }
-              placeholder={SUGGESTION_TEXT}
+              placeholder={
+                'Type in any extra instructions to help the Tasker perform the task to your satisfation'
+              }
               error={touched.detailedDescription && errors.detailedDescription}
               value={values.detailedDescription || ''}
               onChange={handleChange}

@@ -384,7 +384,7 @@ input[type='radio'] {
   background: white;
 }
 .table {
-  border-radius: 6px;
+  border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 
@@ -447,7 +447,7 @@ article.media.limitHeight {
 .cardWithButton {
   position: relative;
   width: 22rem;
-  border-radius: 6px;
+  border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
@@ -614,7 +614,7 @@ article.media.limitHeight {
   cursor: default;
   padding: 1rem;
   border: 1px solid hsl(141, 71%, 48%);
-  border-radius: 6px;
+  border-radius: 0;
   margin-bottom: 1.5rem;
   height: 16rem;
   width: 21rem;

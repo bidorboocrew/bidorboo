@@ -36,18 +36,6 @@ class CreateAJobPage extends React.Component {
     return (
       <div className="columns is-centered is-mobile slide-in-right">
         <div className="column limitLargeMaxWidth">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}>
-                  <span>BidOrBoo Services</span>
-                </a>
-              </li>
-              <li className="is-active">
-                <a>Fill The Details</a>
-              </li>
-            </ul>
-          </nav>
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&
             creatJobsByIdMap[`${chosenTemplate}`](this.props)}
