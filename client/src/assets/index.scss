@@ -376,25 +376,20 @@ input[type='checkbox'],
 input[type='radio'] {
   transform: scale(1.5);
 }
-// .button {
-//   border-radius: 0;
-//   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-// }
+.button {
+  border-radius: 25px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
 .tabs {
   background: white;
 }
-.table {
-  border-radius: 0;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-}
+
 
 header.card-header {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.hero-body {
-  // padding: 0.75rem !important;
-}
+
 .columns {
   margin: 0 !important;
 }
