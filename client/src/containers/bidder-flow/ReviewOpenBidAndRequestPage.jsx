@@ -68,7 +68,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
             <ul>
               <li>
                 <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}>
-                  <span>My Bids</span>
+                  <span>My Existing Bids</span>
                 </a>
               </li>
               <li className="is-active">

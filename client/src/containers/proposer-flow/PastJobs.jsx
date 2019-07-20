@@ -86,7 +86,7 @@ const EmptyHistory = () => {
               className="button is-success"
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
             >
-              Request a Service
+              Request A New Service
             </a>
           </div>
         </div>

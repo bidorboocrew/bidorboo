@@ -222,7 +222,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             remind me later
           </button>
           <div className="help">
-            Your review will be revealed Only After <strong>Both of you have completed</strong>{' '}
+            Your review will be revealed Only After <strong>Both of you have completed</strong>
             rating eachother.
           </div>
           <div className="help">

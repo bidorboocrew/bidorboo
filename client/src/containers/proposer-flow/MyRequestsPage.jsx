@@ -103,7 +103,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Request a Service
+            Request A New Service
           </a>
         </div>
       </div>

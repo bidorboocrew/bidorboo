@@ -1,6 +1,7 @@
 import React from 'react';
 import taskImage from '../../assets/images/houesCleaning.png';
-// import watermarker from '../../assets/images/android-chrome-192x192.png';
+import watermark from '../../assets/images/watermark.png';
+
 import * as Yup from 'yup';
 
 export default {
@@ -36,11 +37,11 @@ export default {
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 />
-                {/* <img
-                  src={watermarker}
+                <img
+                  src={watermark}
                   className="watermarker"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                /> */}
+                />
               </div>
             </div>
           </div>

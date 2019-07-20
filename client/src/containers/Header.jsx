@@ -208,7 +208,7 @@ class Header extends React.Component {
                 paddingRight: 0,
                 flexGrow: 1,
               }}
-              className="navbar-item has-text-grey"
+              className="navbar-item has-text-grey is-hidden-desktop"
             >
               <div
                 className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}
@@ -302,7 +302,7 @@ class Header extends React.Component {
                     <span className="icon">
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Request a Service</span>
+                    <span>Request A New Service</span>
                   </a>
                 )}
 
@@ -320,7 +320,7 @@ class Header extends React.Component {
                     <span className="icon">
                       <i className="fas fa-hand-rock" />
                     </span>
-                    <span>Provide A Service</span>
+                    <span>Bid To Provide A Service</span>
                   </a>
                 )}
                 {isLoggedIn && (
@@ -355,7 +355,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>My Requests</span>
+                        <span>My Existing Requests</span>
                       </a>
                     )}
                     {isActingAsBidder && (
@@ -388,7 +388,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>My Bids</span>
+                        <span>My Existing Bids</span>
                       </a>
                     )}
 

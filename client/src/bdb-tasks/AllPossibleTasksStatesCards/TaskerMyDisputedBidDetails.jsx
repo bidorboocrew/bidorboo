@@ -78,7 +78,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>{' '}
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
             <div className="group saidTest">

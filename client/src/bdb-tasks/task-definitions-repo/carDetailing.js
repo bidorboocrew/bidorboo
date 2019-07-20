@@ -1,5 +1,7 @@
 import React from 'react';
 import taskImage from '../../assets/images/carDetailing.png';
+import watermark from '../../assets/images/watermark.png';
+
 import * as Yup from 'yup';
 
 const NO_SELECTION = NO_SELECTION;
@@ -51,11 +53,11 @@ export default {
                   alt="BidOrBoo task img"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 />
-                {/* <img
-                  src={watermarker}
+                <img
+                  src={watermark}
                   className="watermarker"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                /> */}
+                />
               </div>
             </div>
           </div>

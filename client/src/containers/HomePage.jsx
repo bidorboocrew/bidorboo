@@ -231,7 +231,7 @@ const RequestAService = (props) => {
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
-          <div>Request A Service</div>
+          <div>Request A New Service</div>
           <br />
           <p className="is-size-6 has-text-grey">
             I want to get my chores done for a good clear price
@@ -251,10 +251,10 @@ const ProvideAService = (props) => {
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>
-          <div>Provide A Service</div>
+          <div>Bid To Provide A Service</div>
           <br />
           <p className="is-size-6 has-text-grey">
-            I want to earn money by completing Tasks I enjoy{' '}
+            I want to earn money by completing Tasks I enjoy
           </p>
         </div>
       </div>
