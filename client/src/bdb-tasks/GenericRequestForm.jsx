@@ -171,7 +171,7 @@ class GenericRequestForm extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="card noBordered limitLargeMaxWidth">
+        <div className="card limitLargeMaxWidth">
           <div style={{ position: 'relative' }} className="card-content">
             <form onSubmit={handleSubmit}>
               {renderSummaryCard({ withDetails: false })}
@@ -183,9 +183,6 @@ class GenericRequestForm extends React.Component {
                 value={values.recaptcha || ''}
               />
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-
-              <label className="formLabel">Our Commitment</label>
-              <div className="formInput">{TASK_EXPECTATIONS}</div>
 
               <input
                 id="addressText"

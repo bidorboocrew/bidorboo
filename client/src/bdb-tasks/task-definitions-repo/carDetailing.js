@@ -18,6 +18,8 @@ export default {
 *Is there any pet stains or hair on the seats ?
 
 `,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
+
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
@@ -71,6 +73,13 @@ export default {
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
                     Does your car need thourough cleaning ? let our Taskers pamper your car.
+                  </p>
+                )}
+
+                {!withDetails && (
+                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                    BidOrBoo Tasker will bring the cleaning products and equipments required to
+                    clean your car thouroughally
                   </p>
                 )}
               </div>
@@ -264,5 +273,4 @@ export default {
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
 };
