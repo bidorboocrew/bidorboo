@@ -170,150 +170,158 @@ class GenericRequestForm extends React.Component {
     }
 
     return (
-      <div className="card limitLargeMaxWidth">
-        <div className="card-content">
-          <form onSubmit={handleSubmit}>
-            {renderSummaryCard({ withDetails: false })}
+      <React.Fragment>
+        <div className="card noBordered limitLargeMaxWidth">
+          <div style={{ position: 'relative' }} className="card-content">
+            <form onSubmit={handleSubmit}>
+              {renderSummaryCard({ withDetails: false })}
 
-            <input
-              id="recaptcha"
-              className="input is-invisible"
-              type="hidden"
-              value={values.recaptcha || ''}
-            />
-            <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
+              <input
+                id="recaptcha"
+                className="input is-invisible"
+                type="hidden"
+                value={values.recaptcha || ''}
+              />
+              <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
 
-            <label className="formLabel">Our Commitment</label>
-            <div className="formInput">{TASK_EXPECTATIONS}</div>
+              <label className="formLabel">Our Commitment</label>
+              <div className="formInput">{TASK_EXPECTATIONS}</div>
 
-            <input
-              id="addressText"
-              className="input is-invisible"
-              type="hidden"
-              value={values.addressText || ''}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            <input
-              id="location"
-              className="input is-invisible"
-              type="hidden"
-              value={values.location || ''}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+              <input
+                id="addressText"
+                className="input is-invisible"
+                type="hidden"
+                value={values.addressText || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <input
+                id="location"
+                className="input is-invisible"
+                type="hidden"
+                value={values.location || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
 
-            <GeoAddressInput
-              id="geoInputField"
-              type="text"
-              helpText={'You must select an address from the drop down menu'}
-              label="Location"
-              placeholder="start typing an address"
-              autoDetectComponent={this.shouldShowAutodetectControl}
-              error={errors.addressText || errors.location}
-              touched={touched.addressText || touched.location}
-              value={values.addressText || ''}
-              onError={(e) => {
-                errors.addressText = 'google api error ' + e;
-              }}
-              onChangeEvent={(e) => {
-                setFieldValue('addressText', e, true);
-              }}
-              onBlurEvent={(e) => {
-                if (e && e.target) {
-                  e.target.id = 'addressText';
-                  handleBlur(e);
-                }
-              }}
-              handleSelect={(address) => {
-                setFieldValue('addressText', address, true);
-                geocodeByAddress(address)
-                  .then((results) => getLatLng(results[0]))
-                  .then((latLng) => {
-                    setFieldValue('location', latLng, true);
-                    console.log('Success', latLng);
-                  })
-                  .catch((error) => {
-                    errors.addressText = 'error getting lat lng ' + error;
-                    console.error('Error', error);
-                  });
-              }}
-            />
+              <GeoAddressInput
+                id="geoInputField"
+                type="text"
+                helpText={'You must select an address from the drop down menu'}
+                label="Location"
+                placeholder="start typing an address"
+                autoDetectComponent={this.shouldShowAutodetectControl}
+                error={errors.addressText || errors.location}
+                touched={touched.addressText || touched.location}
+                value={values.addressText || ''}
+                onError={(e) => {
+                  errors.addressText = 'google api error ' + e;
+                }}
+                onChangeEvent={(e) => {
+                  setFieldValue('addressText', e, true);
+                }}
+                onBlurEvent={(e) => {
+                  if (e && e.target) {
+                    e.target.id = 'addressText';
+                    handleBlur(e);
+                  }
+                }}
+                handleSelect={(address) => {
+                  setFieldValue('addressText', address, true);
+                  geocodeByAddress(address)
+                    .then((results) => getLatLng(results[0]))
+                    .then((latLng) => {
+                      setFieldValue('location', latLng, true);
+                      console.log('Success', latLng);
+                    })
+                    .catch((error) => {
+                      errors.addressText = 'error getting lat lng ' + error;
+                      console.error('Error', error);
+                    });
+                }}
+              />
 
-            <input
-              id="startingDateAndTime"
-              className="input is-invisible"
-              type="hidden"
-              value={values.startingDateAndTime}
-            />
+              <input
+                id="startingDateAndTime"
+                className="input is-invisible"
+                type="hidden"
+                value={values.startingDateAndTime}
+              />
 
-            <DateInput
-              id="DateInputField"
-              type="text"
-              label="Date"
-              onChangeEvent={this.updateDateInputFieldValue}
-              error={errors.startingDateAndTime}
-              touched={touched.startingDateAndTime}
-            />
-            <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
-              <label className={timeOfDayClass}>{'Time Of Day'}</label>
-              <div>
-                <div className={`select ${timeOfDayClass}`}>
-                  <select
-                    id="timeOfDay"
-                    value={values.timeOfDay}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <option value="noSelection">-Select One-</option>.
-                    <option value="morning">Morning (8AM-12PM)</option>
-                    <option value="afternoon">Afternoon (12PM-5PM)</option>
-                    <option value="evening">Evening (5PM-12AM)</option>
-                    <option value="evening">Anytime (8AM-12AM)</option>
-                  </select>
-                  {touched.timeOfDay && errors.timeOfDay && (
-                    <div className="help is-danger">{errors.timeOfDay}</div>
-                  )}
+              <DateInput
+                id="DateInputField"
+                type="text"
+                label="Date"
+                onChangeEvent={this.updateDateInputFieldValue}
+                error={errors.startingDateAndTime}
+                touched={touched.startingDateAndTime}
+              />
+              <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
+                <label className={timeOfDayClass}>{'Time Of Day'}</label>
+                <div>
+                  <div className={`select ${timeOfDayClass}`}>
+                    <select
+                      id="timeOfDay"
+                      value={values.timeOfDay}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>.
+                      <option value="morning">Morning (8AM-12PM)</option>
+                      <option value="afternoon">Afternoon (12PM-5PM)</option>
+                      <option value="evening">Evening (5PM-12AM)</option>
+                      <option value="evening">Anytime (8AM-12AM)</option>
+                    </select>
+                    {touched.timeOfDay && errors.timeOfDay && (
+                      <div className="help is-danger">{errors.timeOfDay}</div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* {extras} */}
-            {taskSpecificExtraFormFields}
+              {/* {extras} */}
+              {taskSpecificExtraFormFields}
 
-            <TextAreaInput
-              id="detailedDescription"
-              type="text"
-              label="Additional Instructions"
-              startWithTemplateButton={
-                <div
-                  onClick={this.insertTemplateText}
-                  style={{
-                    cursor: 'pointer',
-                    color: '#ce1bbf',
-                  }}
-                  className="help"
-                >
-                  <span className="icon">
-                    <i className="fas fa-pen" />
-                  </span>
-                  <span>ANSWER TASK FAQS</span>
-                </div>
-              }
-              placeholder={
-                'Type in any extra instructions to help the Tasker perform the task to your satisfation'
-              }
-              error={touched.detailedDescription && errors.detailedDescription}
-              value={values.detailedDescription || ''}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-
-            <div className="group saidTest">
+              <TextAreaInput
+                id="detailedDescription"
+                type="text"
+                label="Additional Instructions"
+                startWithTemplateButton={
+                  <div
+                    onClick={this.insertTemplateText}
+                    style={{
+                      cursor: 'pointer',
+                      color: '#ce1bbf',
+                    }}
+                    className="help"
+                  >
+                    <span className="icon">
+                      <i className="fas fa-pen" />
+                    </span>
+                    <span>ANSWER TASK FAQS</span>
+                  </div>
+                }
+                placeholder={
+                  'Type in any extra instructions to help the Tasker perform the task to your satisfation'
+                }
+                error={touched.detailedDescription && errors.detailedDescription}
+                value={values.detailedDescription || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <br />
               <button
-                style={{ marginLeft: '1rem' }}
+                style={{
+                  marginLeft: '1rem',
+                  borderRadius: 25,
+                  position: 'absolute',
+                  bottom: '-1.5rem',
+                  right: '1.5rem',
+                  fontWeight: 400,
+                  boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
+                }}
                 type="submit"
-                className={`button is-success ${isSubmitting ? 'is-loading' : ''}`}
+                className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
                 disabled={isSubmitting}
               >
                 <span className="icon">
@@ -321,10 +329,11 @@ class GenericRequestForm extends React.Component {
                 </span>
                 <span>Post It</span>
               </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+        <br />
+      </React.Fragment>
     );
   }
 
