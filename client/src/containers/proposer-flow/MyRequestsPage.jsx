@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { Spinner } from '../../components/Spinner';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
+import watermark from '../../assets/images/watermark.png';
 
 import {
   getAllMyOpenJobs,
@@ -72,8 +73,8 @@ class MyRequestsPage extends React.Component {
         })
       : null;
 
-    const shouldShowTheThankyouNote =
-      thankYouNote && !isTaskMoreThan1MinuteOld && isThereFreshlyPostedJob;
+    const shouldShowTheThankyouNote = true;
+    // thankYouNote && !isTaskMoreThan1MinuteOld && isThereFreshlyPostedJob ;
 
     return (
       <div>
@@ -164,9 +165,51 @@ const ThankYou = ({ job }) => {
     <div className={`modal ${showModal ? 'is-active' : ''}`}>
       <div onClick={() => setShowModal(false)} className="modal-background" />
       <div className="modal-content has-text-centered">
-        <div className="card">
+        <div style={{ padding: '1.5rem', background: 'white' }}>
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <div className="watermark">
+                  <img
+                    src={taskDefinition.TASK_IMG}
+                    alt="BidOrBoo task img"
+                    style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                  />
+                  <img
+                    src={watermark}
+                    className="watermarker"
+                    style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="level-right">
+              <div className="level-item">
+                <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                  <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
+                    Thanks For Posting!
+                  </h1>
+
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+                    Our Taskers will be bidding on this request shortly
+                  </p>
+                </div>
+              </div>
+              <div className="level-item">
+                <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+                  <span className="icon is-large">
+                    <i className="fas fa-arrow-right" />
+                  </span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        {/* <div className="card">
           <div className="card-image">
-            <figure className="image is-2by2">
+            <figure className="image is-16by9">
               <img src={taskDefinition.TASK_IMG} />
             </figure>
           </div>
@@ -175,16 +218,18 @@ const ThankYou = ({ job }) => {
             <p>Our Taskers will be bidding on this request shortly</p>
             <br />
             <a className="button is-success is-outlined" onClick={() => setShowModal(false)}>
-              View My Existing Tasks
+              <span className="icon is-large">
+                <i className="fas fa-arrow-right" />
+              </span>
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
-      <button
+      {/* <button
         onClick={() => setShowModal(false)}
         className="modal-close is-large"
         aria-label="close"
-      />
+      /> */}
     </div>,
     document.querySelector('#bidorboo-root-modals'),
   );
