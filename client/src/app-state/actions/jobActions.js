@@ -299,7 +299,7 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   });
 };
 
-export const addJob = (jobDetails) => (dispatch) => {
+export const postNewJob = (jobDetails) => (dispatch) => {
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios

@@ -491,7 +491,7 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    const { addJob } = props;
+    const { postNewJob } = props;
 
     // process the values to be sent to the server
     const {
@@ -545,7 +545,7 @@ const EnhancedForms = withFormik({
         ...extras,
       },
     };
-    addJob(mappedFieldsToJobSchema);
+    postNewJob(mappedFieldsToJobSchema);
 
     setSubmitting(false);
   },

@@ -45,7 +45,7 @@ export default {
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: '1.5rem' }}>
+      <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">

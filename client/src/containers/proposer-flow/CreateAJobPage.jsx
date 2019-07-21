@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { addJob } from '../../app-state/actions/jobActions';
+import { postNewJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -54,7 +54,7 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addJob: bindActionCreators(addJob, dispatch),
+    postNewJob: bindActionCreators(postNewJob, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
