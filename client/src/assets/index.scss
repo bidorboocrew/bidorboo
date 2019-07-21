@@ -105,10 +105,84 @@ html body {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-bottom: 1px solid #eeeeee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+
+  * a.navbar-item {
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
+    }
+  }
+
+  * a.navbar-item.is-active {
+    font-weight: 600 !important;
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
+    }
+  }
+  #myprofile-step > nav > div > a {
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
+    }
+  }
+
   &.bidderAppBar {
-    background: #363636;
-    color: white;
+    background: #363636 !important;
+    color: white !important;
+    * a.navbar-item {
+      color: white !important;
+      background: none !important;
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+    }
+    * a.navbar-item.is-active {
+      color: white !important;
+      font-weight: 600 !important;
+      background: none !important;
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+    }
+
+    #myprofile-step > nav > div > a {
+      color: white !important;
+      background: none !important;
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+    }
+    #myprofile-step > nav > div > div.navbar-dropdown {
+      background: #505050 !important;
+    }
+    #myprofile-step.navbar-item.dropdown.is-right.is-active {
+      background: #505050 !important;
+    }
+    #navbarmenu {
+      background: #363636 !important;
+    }
+    * #mobile-nav-burger {
+      color: white !important;
+      background: none !important;
+
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+      div.navbar-end {
+        background: unset !important;
+        color: unset !important;
+      }
+    }
   }
   // #BidOrBoo-logo-step {
   //   > span {

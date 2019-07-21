@@ -386,6 +386,7 @@ class Header extends React.Component {
 
           <div
             id="navbarmenu"
+            style={{ padding: 0 }}
             className={classNames('navbar-menu', {
               'is-active': isHamburgerOpen,
             })}
@@ -513,15 +514,17 @@ class Header extends React.Component {
                       <nav>
                         <div className="navbar-item has-dropdown">
                           <a onClick={this.toggleProfileMenu} className="navbar-link">
-                            <figure className="image is-32x32">
-                              <img
-                                style={{
-                                  paddingRight: 4,
-                                }}
-                                src={profileImage.url}
-                              />
-                            </figure>
-                            {displayName}
+                            <span>
+                              <figure className="image is-32x32">
+                                <img
+                                  style={{
+                                    paddingRight: 4,
+                                  }}
+                                  src={profileImage.url}
+                                />
+                              </figure>
+                            </span>
+                            <span>{displayName}</span>
                           </a>
 
                           <div
