@@ -559,7 +559,7 @@ article.media.limitHeight {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 160px;
+  right: 170px;
   width: 180px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -814,7 +814,7 @@ div.react-datepicker {
 #bob-ChatSupport {
   position: fixed;
   top: calc(90vh - 1.5rem);
-  right: -26px;
+  right: -34px;
   transform: rotate(270deg);
   z-index: 99;
 }
@@ -963,7 +963,6 @@ img.watermarker {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   pointer-events: none; /* Add a pointer on hover */
 }
