@@ -208,13 +208,11 @@ class Header extends React.Component {
                 paddingRight: 0,
                 flexGrow: 1,
               }}
-              className="navbar-item has-text-grey is-hidden-desktop"
+              className="navbar-item has-text-grey"
             >
-              <div
-                className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}
-                style={{ fontSize: 14 }}
-              >
+              <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
+                <div className="is-hidden-touch">BidOrBoo</div>
               </div>
             </div>
             <div className="navbar-item is-hidden-desktop">
