@@ -162,7 +162,7 @@ export default class HomePage extends React.Component {
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
               {/* </Fade> */}
-              <br />
+              {/* <br />
               <div>
                 <Zoom>
                   <h2 className="is-5">What Do You Want To Do</h2>
@@ -182,7 +182,7 @@ export default class HomePage extends React.Component {
                     <span>View Product Tour</span>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
@@ -232,10 +232,10 @@ const RequestAService = (props) => {
             <i className="far fa-plus-square" />
           </span>
           <div>Request A New Service</div>
-          <br />
+          {/* <br />
           <p className="is-size-6 has-text-grey">
             I want to get my chores done for a good clear price
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
@@ -252,10 +252,10 @@ const ProvideAService = (props) => {
             <i className="fas fa-hand-rock" />
           </span>
           <div>Bid To Provide A Service</div>
-          <br />
+          {/* <br />
           <p className="is-size-6 has-text-grey">
             I want to earn money by completing Tasks I enjoy
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

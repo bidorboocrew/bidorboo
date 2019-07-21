@@ -18,6 +18,7 @@ import { switchRoute } from '../../utils';
 
 class MyRequestsPage extends React.Component {
   constructor(props) {
+    debugger
     super(props);
     if (props.match && props.match.params && props.match.params.templateId) {
       this.freshPostTemplateId = props.match.params.templateId;

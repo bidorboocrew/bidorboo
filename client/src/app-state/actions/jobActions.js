@@ -314,9 +314,11 @@ export const postNewJob = (jobDetails) => (dispatch) => {
           const { startingDateAndTime, templateId, createdAt } = resp.data;
 
           switchRoute(
-            `${
-              ROUTES.CLIENT.PROPOSER.myRequestsPage
-            }/${templateId}/${startingDateAndTime}/${createdAt}}`,
+            ROUTES.CLIENT.PROPOSER.dynamicMyRequestsPage(
+              templateId,
+              startingDateAndTime,
+              createdAt,
+            ),
           );
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,

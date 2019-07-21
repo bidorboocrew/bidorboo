@@ -120,6 +120,8 @@ export const CLIENT = {
     createjob: '/bdb-request/create-job/:templateId',
     dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
     myRequestsPage: '/my-open-jobs/:templateId/:startingDateAndTime/:createdAt',
+    dynamicMyRequestsPage: (templateId, startingDateAndTime, createdAt) =>
+      `/my-open-jobs/${templateId}/${startingDateAndTime}/${createdAt}`,
     reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',
     dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
     selectedAwardedJobPage: '/my-request/awarded-job-details/:jobId',
