@@ -153,11 +153,11 @@ export const CLIENT = {
 
 export const getRouteTitle = () => {
   if (window.location.href.includes('/bdb-request/create-job')) {
-    return 'New Service';
+    return 'New Request';
   } else if (window.location.href.includes('/bdb-request/root')) {
     return 'B.O.B Services';
   } else if (window.location.href.includes('/my-open-jobs')) {
-    return 'MY REQUESTS';
+    return 'Requests Inbox';
   } else if (window.location.href.includes('/my-request/review-request-details')) {
     return 'REQUEST DETAILS';
   } else if (window.location.href.includes('/my-request/awarded-job-details')) {

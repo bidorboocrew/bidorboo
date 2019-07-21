@@ -107,95 +107,102 @@ html body {
   height: 4rem !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-  #BidOrBoo-logo-step {
-    > span {
-      color: black !important;
-    }
-  }
-  // special dark bidder navbar
-  &.bidderAppBar {
-    background: #363636;
-    #navbarmenu > div.navbar-end > a.navbar-item.is-active {
-      color: #363636;
-    }
-    #navbarmenu.navbar-menu.is-active {
-      > div.navbar-end {
-        > a.navbar-item {
-          color: #363636 !important;
-        }
-        #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
-          > a.navbar-link {
-            color: #363636;
-          }
-          > div.navbar-dropdown.is-boxed {
-            a {
-              &:hover {
-                background: hsl(0, 0%, 96%);
-                > span {
-                  color: #363636 !important;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  // #BidOrBoo-logo-step {
+  //   > span {
+  //     color: black !important;
+  //   }
+  // }
+  // // special dark bidder navbar
+  // &.bidderAppBar {
+  //   div.navbar-brand {
+  //     div.navbar-item {
+  //       ~ a {
+  //         color: white !important;
+  //       }
+  //     }
+  //   }
+  //   background: #363636;
+  //   #navbarmenu > div.navbar-end > a.navbar-item.is-active {
+  //     color: #363636;
+  //   }
+  //   #navbarmenu.navbar-menu.is-active {
+  //     > div.navbar-end {
+  //       > a.navbar-item {
+  //         color: #363636 !important;
+  //       }
+  //       #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
+  //         > a.navbar-link {
+  //           color: #363636;
+  //         }
+  //         > div.navbar-dropdown.is-boxed {
+  //           a {
+  //             &:hover {
+  //               background: hsl(0, 0%, 96%);
+  //               > span {
+  //                 color: #363636 !important;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
 
-    #mobile-nav-burger {
-      color: white !important;
-      &:hover {
-        background: hsl(0, 0%, 96%);
-        > span {
-          color: black !important;
-        }
-      }
-    }
-    #myprofile-step {
-      > nav > div {
-        a.navbar-link {
-          &:hover {
-            background: hsl(0, 0%, 96%);
-            color: #363636;
-            &::after {
-              border-color: black !important;
-              margin-top: -0.375em;
-              right: 1.125em;
-            }
-          }
-          color: white;
-          &::after {
-            border-color: hsl(0, 0%, 96%) !important;
-            margin-top: -0.375em;
-            right: 1.125em;
-          }
-        }
-      }
-    }
-    #BidOrBoo-logo-step {
-      > span {
-        color: white !important;
-      }
-    }
+  //   #mobile-nav-burger {
+  //     color: white !important;
+  //     &:hover {
+  //       background: hsl(0, 0%, 96%);
+  //       > span {
+  //         color: black !important;
+  //       }
+  //     }
+  //   }
+  //   #myprofile-step {
+  //     > nav > div {
+  //       a.navbar-link {
+  //         &:hover {
+  //           background: hsl(0, 0%, 96%);
+  //           color: #363636;
+  //           &::after {
+  //             border-color: black !important;
+  //             margin-top: -0.375em;
+  //             right: 1.125em;
+  //           }
+  //         }
+  //         color: white;
+  //         &::after {
+  //           border-color: hsl(0, 0%, 96%) !important;
+  //           margin-top: -0.375em;
+  //           right: 1.125em;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   #BidOrBoo-logo-step {
+  //     > span {
+  //       color: white !important;
+  //     }
+  //   }
 
-    div.navbar-start,
-    div.navbar-end {
-      color: white;
-      > a.navbar-item {
-        color: white;
-        &:hover {
-          background: hsl(0, 0%, 96%);
-          color: black !important;
-        }
-        &.is-active {
-          &:hover {
-            background: hsl(0, 0%, 96%);
-            color: black !important;
-          }
-          color: white !important;
-        }
-      }
-    }
-  }
+  //   div.navbar-start,
+  //   div.navbar-end {
+  //     color: white;
+  //     > a.navbar-item {
+  //       color: white;
+  //       &:hover {
+  //         background: hsl(0, 0%, 96%);
+  //         color: black !important;
+  //       }
+  //       &.is-active {
+  //         &:hover {
+  //           background: hsl(0, 0%, 96%);
+  //           color: black !important;
+  //         }
+  //         color: white !important;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 #BID_OR_BOO_APP_BODY {

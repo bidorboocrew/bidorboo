@@ -59,7 +59,7 @@ class NotificationsModal extends React.Component {
                 <div style={{ marginBottom: 8, marginTop: 12 }} className="tabs">
                   <ul style={{ margin: 0 }}>
                     <li className="is-active">
-                      <a>MY REQUESTS UPDATES</a>
+                      <a>Requests Inbox UPDATES</a>
                     </li>
                   </ul>
                 </div>

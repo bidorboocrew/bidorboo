@@ -137,7 +137,7 @@ class ReviewRequestAndBidsPage extends React.Component {
               <ul>
                 <li>
                   <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage)}>
-                    <span>My Requests</span>
+                    <span>Requests Inbox</span>
                   </a>
                 </li>
                 <li className="is-active">

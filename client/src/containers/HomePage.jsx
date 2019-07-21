@@ -231,7 +231,7 @@ const RequestAService = (props) => {
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
-          <div>New Service</div>
+          <div>New Request</div>
           {/* <br />
           <p className="is-size-6 has-text-grey">
             I want to get my chores done for a good clear price
@@ -251,7 +251,7 @@ const ProvideAService = (props) => {
           <span className="icon">
             <i className="fas fa-hand-rock" />
           </span>
-          <div>Bid To Provide A Service</div>
+          <div>New Bid</div>
           {/* <br />
           <p className="is-size-6 has-text-grey">
             I want to earn money by completing Tasks I enjoy
