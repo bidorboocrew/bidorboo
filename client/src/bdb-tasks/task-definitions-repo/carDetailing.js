@@ -45,7 +45,7 @@ export default {
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: '1rem' }}>
+      <div style={{ padding: '1.5rem' }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
@@ -67,17 +67,17 @@ export default {
           <div className="level-right">
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
-                <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
                   Car Detailing
                 </h1>
                 {withDetails && (
-                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
                     Does your car need thourough cleaning ? let our Taskers pamper your car.
                   </p>
                 )}
 
                 {!withDetails && (
-                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
                     BidOrBoo Tasker will bring the cleaning products and equipments required to
                     clean your car thouroughally
                   </p>
