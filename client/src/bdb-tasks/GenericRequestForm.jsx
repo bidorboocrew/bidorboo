@@ -171,7 +171,7 @@ class GenericRequestForm extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="card limitLargeMaxWidth">
+        <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
           <div style={{ position: 'relative' }} className="card-content">
             <form onSubmit={handleSubmit}>
               {renderSummaryCard({ withDetails: false })}
@@ -306,7 +306,7 @@ class GenericRequestForm extends React.Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <br />
+
               <button
                 style={{
                   marginLeft: '1rem',
