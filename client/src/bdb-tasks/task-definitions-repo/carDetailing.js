@@ -55,11 +55,11 @@ export default {
                   alt="BidOrBoo task img"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 />
-                <img
+                {/* <img
                   src={watermark}
                   className="watermarker"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                />
+                /> */}
               </div>
             </div>
           </div>

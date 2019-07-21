@@ -37,11 +37,11 @@ export default {
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 />
-                <img
+                {/* <img
                   src={watermark}
                   className="watermarker"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -55,6 +55,12 @@ export default {
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
                     Does your place need a cleaning ? Let our Taskers clean your space.
+                  </p>
+                )}
+                {!withDetails && (
+                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
+                    to clean your house thouroughally.
                   </p>
                 )}
               </div>
