@@ -311,15 +311,9 @@ export const postNewJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          const { startingDateAndTime, templateId, createdAt } = resp.data;
+          const { _id, templateId, createdAt } = resp.data;
 
-          switchRoute(
-            ROUTES.CLIENT.PROPOSER.dynamicMyRequestsPage(
-              templateId,
-              startingDateAndTime,
-              createdAt,
-            ),
-          );
+          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyRequestsPage(templateId, createdAt, _id));
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {

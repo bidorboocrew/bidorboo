@@ -15,7 +15,7 @@ export default {
 
 *Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
-
+  TASK_IMG: taskImage,
   defaultExtrasValues: {
     effort: 'noSelection',
   },

@@ -19,7 +19,7 @@ export default {
 
 `,
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
-
+  TASK_IMG: taskImage,
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
