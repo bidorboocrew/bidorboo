@@ -148,7 +148,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Request A New Service
+            New Service
           </a>
         </div>
       </div>
@@ -172,7 +172,6 @@ const ThankYou = ({ job }) => {
           </div>
           <div className="card-content">
             <p className="title">Thanks For Posting!</p>
-
             <p>Our Taskers will be bidding on this request shortly</p>
             <br />
             <a className="button is-success is-outlined" onClick={() => setShowModal(false)}>

@@ -231,7 +231,7 @@ const RequestAService = (props) => {
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
-          <div>Request A New Service</div>
+          <div>New Service</div>
           {/* <br />
           <p className="is-size-6 has-text-grey">
             I want to get my chores done for a good clear price

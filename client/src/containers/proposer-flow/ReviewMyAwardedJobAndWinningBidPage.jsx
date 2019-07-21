@@ -69,7 +69,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
             <ul>
               <li>
                 <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage)}>
-                  <span>My Existing Requests</span>
+                  <span>My Requests</span>
                 </a>
               </li>
               <li className="is-active">

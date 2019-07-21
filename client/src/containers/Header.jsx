@@ -302,7 +302,7 @@ class Header extends React.Component {
                     <span className="icon">
                       <i className="far fa-plus-square" />
                     </span>
-                    <span>Request A New Service</span>
+                    <span>New Service</span>
                   </a>
                 )}
 
@@ -355,7 +355,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>My Existing Requests</span>
+                        <span>My Requests</span>
                       </a>
                     )}
                     {isActingAsBidder && (
