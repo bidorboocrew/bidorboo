@@ -340,7 +340,7 @@ class Header extends React.Component {
                 </a>
               </div>
             )}
-            {isLoggedIn && showNotificationButton && (
+            {/* {isLoggedIn && showNotificationButton && (
               <div className="navbar-item">
                 <a
                   style={{ borderRadius: '100%' }}
@@ -352,7 +352,7 @@ class Header extends React.Component {
                   </span>
                 </a>
               </div>
-            )}
+            )} */}
 
             {isNotificationMenuActive &&
               ReactDOM.createPortal(
