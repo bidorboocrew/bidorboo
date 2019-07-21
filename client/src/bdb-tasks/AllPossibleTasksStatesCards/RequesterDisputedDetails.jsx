@@ -15,7 +15,7 @@ export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const {
@@ -40,33 +40,33 @@ export default class RequesterDisputedDetails extends React.Component {
       !detailedDescription ||
       !processedPayment
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     if (!extras.effort) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { displayName: ownerDisplayName } = _ownerRef;
     if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     return (
@@ -150,7 +150,7 @@ export default class RequesterDisputedDetails extends React.Component {
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
               }}
               className={`button is-outlined`}
               style={{ flexGrow: 1, marginRight: 10 }}

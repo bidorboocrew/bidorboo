@@ -384,7 +384,6 @@ input[type='radio'] {
   background: white;
 }
 
-
 header.card-header {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -757,10 +756,7 @@ $trans-time: 300ms;
   margin-bottom: 1.25rem;
   &.isError {
     margin-bottom: 2.25rem;
-    > label {
-      color: $red;
-      font-weight: 700;
-    }
+
     input,
     .input,
     .textarea,
@@ -774,9 +770,7 @@ $trans-time: 300ms;
     font-size: 14px;
     font-weight: 400;
     transition: $trans-time ease all;
-    &.is-danger {
-      color: $red;
-    }
+
     &.hasSelectedValue {
       color: #afafaf;
     }
@@ -830,9 +824,6 @@ label.label {
   font-size: 14px;
   font-weight: 400;
   transition: $trans-time ease all;
-  &.is-danger {
-    color: $red;
-  }
   &.hasSelectedValue {
     color: #afafaf;
   }

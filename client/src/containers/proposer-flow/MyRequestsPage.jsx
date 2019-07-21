@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
+
 import { Spinner } from '../../components/Spinner';
 
 import {
@@ -15,12 +17,31 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 class MyRequestsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    if (props.match && props.match.params && props.match.params.templateId) {
+      this.freshPostTemplateId = props.match.params.templateId;
+    }
+
+    if (props.match && props.match.params && props.match.params.createdAt) {
+      this.freshPostedCreatedAt = props.match.params.createdAt;
+    }
+  }
   componentDidMount() {
     this.props.getAllMyRequests();
   }
 
   render() {
     const { allMyRequests, isLoading } = this.props;
+
+    // determine whether to show the new posted job thank you banner
+    let isTaskMoreThan1MinuteOld = false;
+    const isThereFreshlyPostedJob = this.freshPostedCreatedAt && this.freshPostTemplateId;
+    if (isThereFreshlyPostedJob) {
+      let aMinuteAgo = moment.now().subtract(1, 'm');
+      isTaskMoreThan1MinuteOld = this.freshPostedCreatedAt.isBefore(aMinuteAgo);
+    }
+    const shouldShowFreshlyPosted = isThereFreshlyPostedJob && isTaskMoreThan1MinuteOld;
 
     const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
     let myRequestsSummaryCards = areThereAnyJobsToView
@@ -42,7 +63,11 @@ class MyRequestsPage extends React.Component {
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
-          <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
+          <div className="columns is-multiline is-centered is-mobile">
+            {shouldShowFreshlyPosted && <div className="column is-narrow isforCards">sasda</div>}
+
+            {myRequestsSummaryCards}
+          </div>
         )}
 
         {!isLoading && !areThereAnyJobsToView && <EmptyStateComponent />}

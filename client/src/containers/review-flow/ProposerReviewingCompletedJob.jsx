@@ -65,7 +65,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,

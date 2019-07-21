@@ -64,7 +64,7 @@ class RequesterRequestDetails extends React.Component {
   render() {
     const { job, cancelJobById } = this.props;
     if (!job || !cancelJobById) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const {
       _id: jobId,
@@ -86,11 +86,11 @@ class RequesterRequestDetails extends React.Component {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;

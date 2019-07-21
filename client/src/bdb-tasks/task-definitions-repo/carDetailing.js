@@ -124,7 +124,7 @@ export default {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      <option value="noSelection">-Select One-</option>.
+                      <option value="noSelection">-Select One-</option>
                       <option value="mini">{`Small (ex, mini)`}</option>
                       <option value="sedan">{`Regular (ex, Sedan)`}</option>
                       <option value="suv">{`Large (ex, SUV)`}</option>

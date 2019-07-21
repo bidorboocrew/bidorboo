@@ -32,7 +32,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     }
     const { startingDateAndTime, addressText, detailedDescription, _ownerRef, extras } = job;
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {

@@ -98,7 +98,7 @@ export default {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      <option value="noSelection">{`Select Duration`}</option>
+                      <option value="noSelection">-Select One-</option>
                       <option value="small">{`Small (1-3 hours)`}</option>
                       <option value="medium">{`Medium (3-6 hours)`}</option>
                       <option value="large">{`Large (6-8 hours)`}</option>

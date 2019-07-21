@@ -61,7 +61,7 @@ export const cancelJobById = (jobId) => (dispatch) => {
         },
       });
 
-      switchRoute(`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`);
+      switchRoute(`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`);
     }
   });
 };
@@ -311,7 +311,13 @@ export const postNewJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          switchRoute(`${ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(resp.data._id)}`);
+          const { startingDateAndTime, templateId, createdAt } = resp.data;
+
+          switchRoute(
+            `${
+              ROUTES.CLIENT.PROPOSER.myRequestsPage
+            }/${templateId}/${startingDateAndTime}/${createdAt}}`,
+          );
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
