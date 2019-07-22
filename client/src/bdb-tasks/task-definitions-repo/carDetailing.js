@@ -50,7 +50,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i class="fas fa-car-alt" style={{ fontSize: 68 }} />
+                <i class="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
                 {/* <img
                   src={taskImage}
                   alt="BidOrBoo task img"

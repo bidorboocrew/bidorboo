@@ -33,7 +33,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i class="fas fa-home" style={{ fontSize: 68 }} />
+                <i class="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
                 {/* <img
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
