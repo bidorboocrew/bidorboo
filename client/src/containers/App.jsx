@@ -99,7 +99,6 @@ class App extends React.Component {
     }
 
     const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
-
     // if (authIsInProgress) {
     //   return (
     //     <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
@@ -146,7 +145,7 @@ class App extends React.Component {
 
             <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
 
-            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myOpenJobs}`} component={MyRequestsPage} />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`} component={MyRequestsPage} />
 
             <Route
               exact

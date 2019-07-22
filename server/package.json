@@ -17,9 +17,7 @@
     "oldStart": "pm2 start index.js",
     "dev": "nodemon index.js",
     "dev-ndb": "ndb nodemon index.js",
-    "debug": "node --nolazy --inspect-brk=9229 index.js",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "debug": "node --nolazy --inspect-brk=9229 index.js"
   },
   "dependencies": {
     "@bugsnag/js": "^6.2.0",
@@ -69,8 +67,6 @@
     "request": "^2.88.0",
     "stripe": "^6.34.0",
     "twilio": "^3.31.0",
-    "web-push": "^3.3.3",
-    "snyk": "^1.193.2"
-  },
-  "snyk": true
+    "web-push": "^3.3.3"
+  }
 }

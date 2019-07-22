@@ -28,7 +28,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { _id: currentUserId } = currentUserDetails;
 
     if (!cancelJobById || !job || !currentUserDetails || !currentUserId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const {
       _id: jobId,
@@ -65,35 +65,35 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { phone, email, _id: bidderId } = _bidderRef;
     if (!phone || !email || !bidderId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { emailAddress } = email;
     if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { showMore } = this.state;
@@ -123,7 +123,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             />
 
             {!requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
@@ -131,14 +131,14 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             )}
 
             {requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">Done!</div>
                 <div className="help">* Congratulations. Now it is time to review the Tasker</div>
               </div>
             )}
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Task Cost</label>
               <div className="control">{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -151,7 +151,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             {showMore && (
               <React.Fragment>
                 <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Detailed Description</label>
                   <span className="is-size-7">
                     <TextareaAutosize
@@ -188,7 +188,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               )}
             </div>
             <hr className="divider" />
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Assigned Tasker Details</label>
               <UserImageAndRating userDetails={_bidderRef} />
             </div>

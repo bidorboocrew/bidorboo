@@ -26,7 +26,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   componentDidMount() {
     const { getAwardedBidFullDetails } = this.props;
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
       return null;
     }
 
@@ -43,7 +43,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+        switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
         return null;
       }
 
@@ -68,8 +68,8 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
           <nav className="breadcrumb" aria-label="breadcrumbs">
             <ul>
               <li>
-                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs)}>
-                  <span>My Requests</span>
+                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage)}>
+                  <span>Requests Inbox</span>
                 </a>
               </li>
               <li className="is-active">

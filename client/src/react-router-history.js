@@ -23,6 +23,6 @@
  *
  */
 
-import createBrowserHistory from 'history/createBrowserHistory';
+const createBrowserHistory = require('history').createBrowserHistory;
 const browserHistory = createBrowserHistory();
 export default browserHistory;

@@ -105,97 +105,181 @@ html body {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-bottom: 1px solid #eeeeee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
 
-  #BidOrBoo-logo-step {
-    > span {
-      color: black !important;
+  * a.navbar-item {
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
     }
   }
-  // special dark bidder navbar
+
+  * a.navbar-item.is-active {
+    font-weight: 600 !important;
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
+    }
+  }
+  #myprofile-step > nav > div > a {
+    color: #363636 !important;
+    &:hover {
+      background: rgba(#363636, 0.4) !important;
+      color: #fff !important;
+    }
+  }
+
   &.bidderAppBar {
-    background: #363636;
-    #navbarmenu > div.navbar-end > a.navbar-item.is-active {
-      color: #363636;
-    }
-    #navbarmenu.navbar-menu.is-active {
-      > div.navbar-end {
-        > a.navbar-item {
-          color: #363636 !important;
-        }
-        #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
-          > a.navbar-link {
-            color: #363636;
-          }
-          > div.navbar-dropdown.is-boxed {
-            a {
-              &:hover {
-                background: hsl(0, 0%, 96%);
-                > span {
-                  color: #363636 !important;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    #mobile-nav-burger {
+    background: #363636 !important;
+    color: white !important;
+    * a.navbar-item {
       color: white !important;
+      background: none !important;
       &:hover {
-        background: hsl(0, 0%, 96%);
-        > span {
-          color: black !important;
-        }
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
       }
     }
-    #myprofile-step {
-      > nav > div {
-        a.navbar-link {
-          &:hover {
-            background: hsl(0, 0%, 96%);
-            color: #363636;
-            &::after {
-              border-color: black !important;
-              margin-top: -0.375em;
-              right: 1.125em;
-            }
-          }
-          color: white;
-          &::after {
-            border-color: hsl(0, 0%, 96%) !important;
-            margin-top: -0.375em;
-            right: 1.125em;
-          }
-        }
-      }
-    }
-    #BidOrBoo-logo-step {
-      > span {
-        color: white !important;
+    * a.navbar-item.is-active {
+      color: white !important;
+      font-weight: 600 !important;
+      background: none !important;
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
       }
     }
 
-    div.navbar-start,
-    div.navbar-end {
-      color: white;
-      > a.navbar-item {
-        color: white;
-        &:hover {
-          background: hsl(0, 0%, 96%);
-          color: black !important;
-        }
-        &.is-active {
-          &:hover {
-            background: hsl(0, 0%, 96%);
-            color: black !important;
-          }
-          color: white !important;
-        }
+    #myprofile-step > nav > div > a {
+      color: white !important;
+      background: none !important;
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+    }
+    #myprofile-step > nav > div > div.navbar-dropdown {
+      background: #505050 !important;
+    }
+    #myprofile-step.navbar-item.dropdown.is-right.is-active {
+      background: #505050 !important;
+    }
+    #navbarmenu {
+      background: #363636 !important;
+    }
+    * #mobile-nav-burger {
+      color: white !important;
+      background: none !important;
+
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+        color: #363636 !important;
+      }
+      div.navbar-end {
+        background: unset !important;
+        color: unset !important;
       }
     }
   }
+  // #BidOrBoo-logo-step {
+  //   > span {
+  //     color: black !important;
+  //   }
+  // }
+  // // special dark bidder navbar
+  // &.bidderAppBar {
+  //   div.navbar-brand {
+  //     div.navbar-item {
+  //       ~ a {
+  //         color: white !important;
+  //       }
+  //     }
+  //   }
+  //   background: #363636;
+  //   #navbarmenu > div.navbar-end > a.navbar-item.is-active {
+  //     color: #363636;
+  //   }
+  //   #navbarmenu.navbar-menu.is-active {
+  //     > div.navbar-end {
+  //       > a.navbar-item {
+  //         color: #363636 !important;
+  //       }
+  //       #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
+  //         > a.navbar-link {
+  //           color: #363636;
+  //         }
+  //         > div.navbar-dropdown.is-boxed {
+  //           a {
+  //             &:hover {
+  //               background: hsl(0, 0%, 96%);
+  //               > span {
+  //                 color: #363636 !important;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   #mobile-nav-burger {
+  //     color: white !important;
+  //     &:hover {
+  //       background: hsl(0, 0%, 96%);
+  //       > span {
+  //         color: black !important;
+  //       }
+  //     }
+  //   }
+  //   #myprofile-step {
+  //     > nav > div {
+  //       a.navbar-link {
+  //         &:hover {
+  //           background: hsl(0, 0%, 96%);
+  //           color: #363636;
+  //           &::after {
+  //             border-color: black !important;
+  //             margin-top: -0.375em;
+  //             right: 1.125em;
+  //           }
+  //         }
+  //         color: white;
+  //         &::after {
+  //           border-color: hsl(0, 0%, 96%) !important;
+  //           margin-top: -0.375em;
+  //           right: 1.125em;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   #BidOrBoo-logo-step {
+  //     > span {
+  //       color: white !important;
+  //     }
+  //   }
+
+  //   div.navbar-start,
+  //   div.navbar-end {
+  //     color: white;
+  //     > a.navbar-item {
+  //       color: white;
+  //       &:hover {
+  //         background: hsl(0, 0%, 96%);
+  //         color: black !important;
+  //       }
+  //       &.is-active {
+  //         &:hover {
+  //           background: hsl(0, 0%, 96%);
+  //           color: black !important;
+  //         }
+  //         color: white !important;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 #BID_OR_BOO_APP_BODY {
@@ -247,7 +331,7 @@ $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
 $yellow: #e19f00 !default;
-$green: #53c772 !default;
+$green: #26ca70 !default;
 $cyan: #0a8fd1 !default;
 $blue: #4285f4 !default;
 $purple: #ce1bbf !default;
@@ -376,25 +460,19 @@ input[type='checkbox'],
 input[type='radio'] {
   transform: scale(1.5);
 }
-// .button {
-//   border-radius: 0;
-//   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-// }
+.button {
+  border-radius: 25px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
 .tabs {
   background: white;
-}
-.table {
-  border-radius: 6px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 
 header.card-header {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.hero-body {
-  // padding: 0.75rem !important;
-}
+
 .columns {
   margin: 0 !important;
 }
@@ -447,7 +525,7 @@ article.media.limitHeight {
 .cardWithButton {
   position: relative;
   width: 22rem;
-  border-radius: 6px;
+  border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
@@ -481,7 +559,7 @@ article.media.limitHeight {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 160px;
+  right: 170px;
   width: 180px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -502,7 +580,7 @@ article.media.limitHeight {
 .card {
   color: #353535;
   height: 100%;
-  border-radius: 6px;
+  border-radius: 0;
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;
@@ -614,9 +692,9 @@ article.media.limitHeight {
   cursor: default;
   padding: 1rem;
   border: 1px solid hsl(141, 71%, 48%);
-  border-radius: 6px;
+  border-radius: 0;
   margin-bottom: 1.5rem;
-  height: 16rem;
+  height: 14rem;
   width: 21rem;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.34);
   > div.card-content {
@@ -624,7 +702,7 @@ article.media.limitHeight {
     > div.buttonlike {
       cursor: pointer;
       height: 100%;
-      padding: 0.5rem 0.5rem;
+      padding: 2rem;
       border-radius: 6px;
       &:hover {
         background: hsl(141, 71%, 48%);
@@ -736,7 +814,7 @@ div.react-datepicker {
 #bob-ChatSupport {
   position: fixed;
   top: calc(90vh - 1.5rem);
-  right: -26px;
+  right: -34px;
   transform: rotate(270deg);
   z-index: 99;
 }
@@ -761,9 +839,8 @@ $trans-time: 300ms;
 .group {
   margin-bottom: 1.25rem;
   &.isError {
-    > label {
-      color: $red;
-    }
+    margin-bottom: 2.25rem;
+
     input,
     .input,
     .textarea,
@@ -773,13 +850,13 @@ $trans-time: 300ms;
     }
   }
   > label {
-    color: #363636;
-    font-size: 16px;
-    font-weight: 300;
-    color: $blue;
+    color: #26ca70;
+    font-size: 14px;
+    font-weight: 400;
     transition: $trans-time ease all;
-    &.is-danger {
-      color: $red;
+
+    &.hasSelectedValue {
+      color: #afafaf;
     }
   }
 
@@ -795,13 +872,16 @@ $trans-time: 300ms;
     border-top: none;
     border-left: none;
     border-right: none;
-    font-weight: 400;
+    font-weight: 500;
     border-bottom: 1px solid #eee;
     display: inline-block;
     outline: none !important;
-    outline-color: transparent;
+    outline-color: transparent !important;
     padding-left: 0;
     padding-right: 0;
+    color: #363636;
+    width: 100%;
+    box-shadow: none !important;
     transition: $trans-time ease all;
     &:focus {
       border-bottom: 1px solid $blue;
@@ -818,6 +898,39 @@ $trans-time: 300ms;
       box-shadow: none;
     }
   }
+}
+
+div.field {
+  margin-bottom: 1.25rem;
+}
+label.label {
+  color: #26ca70;
+  font-size: 14px;
+  font-weight: 400;
+  transition: $trans-time ease all;
+  &.hasSelectedValue {
+    color: #afafaf;
+  }
+}
+div.control {
+  padding-top: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  font-weight: 500 !important;
+  border-bottom: none !important;
+  display: inline-block !important;
+  outline: none !important;
+  font-size: 16 !important;
+  outline-color: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  transition: $trans-time ease all !important;
+}
+.react-datepicker-wrapper {
+  width: 100%;
 }
 
 .level {
@@ -850,7 +963,6 @@ img.watermarker {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   pointer-events: none; /* Add a pointer on hover */
 }
@@ -863,3 +975,14 @@ img.watermarker {
 //     border-bottom: $orange 2px solid;
 //   }}
 // }
+
+.title {
+  font-weight: 300 !important;
+}
+.subtitle {
+  font-weight: 300 !important;
+}
+
+div.react-datepicker__input-container {
+  width: 100%;
+}

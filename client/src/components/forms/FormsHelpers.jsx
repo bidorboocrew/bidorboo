@@ -26,6 +26,7 @@ export const Checkbox = ({
   className,
   helpText,
   iconLeft,
+  touched,
   ...props
 }) => {
   let inputClassName = className || 'checkbox';
@@ -35,8 +36,8 @@ export const Checkbox = ({
   }
 
   return (
-    <div className="field">
-      <div className="group">
+    <div className="group saidTest">
+      <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
         <Label htmlFor={id} error={error}>
           {label}
         </Label>
@@ -65,6 +66,7 @@ export const TextInput = ({
   labelClassName,
   helpText,
   iconLeft,
+  touched,
   setFocusImmediately,
   placeholder,
   ...props
@@ -86,7 +88,7 @@ export const TextInput = ({
   }
 
   return (
-    <div className="group">
+    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
       <label className={labelClass}>{label}</label>
       <div>
         <input
@@ -101,7 +103,7 @@ export const TextInput = ({
         />
       </div>
       <HelpText helpText={helpText} />
-      <InputFeedback error={error} />
+      {touched && id && touched[id] && error && <InputFeedback error={error} />}
     </div>
   );
 };
@@ -116,34 +118,29 @@ export const TextAreaInput = ({
   className,
   labelClassName,
   helpText,
+  touched,
   iconLeft,
   setFocusImmediately,
   placeholder,
   startWithTemplateButton,
   ...props
 }) => {
-  let inputClassName = className || 'input';
-  let labelClass = '';
+  let inputStateClass = '';
 
   if (error) {
-    inputClassName += ' is-danger';
+    inputStateClass = 'is-danger';
   }
-  if (iconLeft) {
-    inputClassName += ' has-icons-left';
-  }
-  if (placeholder) {
-    labelClass += ' withPlaceholder';
-  }
-  if (value) {
-    labelClass += ' hasSelectedValue';
+
+  if (value && value.length > 0) {
+    inputStateClass = 'hasSelectedValue';
   }
   return (
-    <div className={`group ${error ? 'isError' : ''}`}>
-      <label>{label}</label>
+    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
+      <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
           style={{ resize: 'none', height: 'unset', minHeight: 100 }}
-          className={inputClassName}
+          className={`input ${inputStateClass} ${iconLeft ? 'has-icon-left' : ''}`}
           id={id}
           type={type}
           value={value || ''}
@@ -153,8 +150,8 @@ export const TextAreaInput = ({
         />
       </div>
       {startWithTemplateButton && startWithTemplateButton}
-      <InputFeedback error={error} />
       <HelpText helpText={helpText} />
+      {touched && id && touched[id] && error && <InputFeedback error={error} />}
     </div>
   );
 };
@@ -165,7 +162,7 @@ export const DateInput = ({ ...props }) => {
 
 export const TimeInput = ({ label, onChangeEvent }) => {
   return (
-    <div className="field">
+    <div className="group saidTest">
       <Label>{label}</Label>
       <TimePickerInput onChangeEvent={onChangeEvent} />
     </div>

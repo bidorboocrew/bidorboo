@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { addJob } from '../../app-state/actions/jobActions';
+import { postNewJob } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -36,18 +36,6 @@ class CreateAJobPage extends React.Component {
     return (
       <div className="columns is-centered is-mobile slide-in-right">
         <div className="column limitLargeMaxWidth">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}>
-                  <span>BidOrBoo Services</span>
-                </a>
-              </li>
-              <li className="is-active">
-                <a>Fill The Details</a>
-              </li>
-            </ul>
-          </nav>
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&
             creatJobsByIdMap[`${chosenTemplate}`](this.props)}
@@ -66,7 +54,7 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addJob: bindActionCreators(addJob, dispatch),
+    postNewJob: bindActionCreators(postNewJob, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

@@ -22,26 +22,11 @@ window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
 const stripe = window.Stripe ? window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`) : {};
 window.BidorBoo.stripe = Object.freeze(stripe);
 
-if (process.env.NODE_ENV === 'production') {
-  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-  bugsnagClient.use(bugsnagReact, React);
-  const ErrorBoundary = bugsnagClient.getPlugin('react');
-  ReactDOM.render(
-    <ErrorBoundary>
-      <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
-        <Provider store={store}>
-          <Router history={appHistory}>
-            <GetNotificationsAndScroll>
-              <App />
-            </GetNotificationsAndScroll>
-          </Router>
-        </Provider>
-      </StripeProvider>
-    </ErrorBoundary>,
-    document.getElementById('BidOrBoo-app'),
-  );
-} else {
-  ReactDOM.render(
+const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+bugsnagClient.use(bugsnagReact, React);
+const ErrorBoundary = bugsnagClient.getPlugin('react');
+ReactDOM.render(
+  <ErrorBoundary>
     <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
       <Provider store={store}>
         <Router history={appHistory}>
@@ -50,9 +35,9 @@ if (process.env.NODE_ENV === 'production') {
           </GetNotificationsAndScroll>
         </Router>
       </Provider>
-    </StripeProvider>,
-    document.getElementById('BidOrBoo-app'),
-  );
-}
+    </StripeProvider>
+  </ErrorBoundary>,
+  document.getElementById('BidOrBoo-app'),
+);
 
 registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);

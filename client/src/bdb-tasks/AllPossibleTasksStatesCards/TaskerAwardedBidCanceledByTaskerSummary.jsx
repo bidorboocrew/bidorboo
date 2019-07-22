@@ -64,13 +64,13 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                 }}
                 className="navbar-divider"
               />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-danger">{displayStatus}</div>
                 <div className="help">* You cancelled this after commitment.</div>
               </div>
 
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Missed Payout</label>
                 <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">

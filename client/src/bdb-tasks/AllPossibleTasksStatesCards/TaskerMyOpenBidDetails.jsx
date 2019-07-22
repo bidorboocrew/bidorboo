@@ -214,12 +214,12 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 </div>
               </div>
               <hr className="divider isTight" />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Requester:</label>
                 <UserImageAndRating userDetails={_ownerRef} />
               </div>
               {isAwardedToSomeoneElse && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Bid Status</label>
                   <div className="control has-text-info">Awarded to someone else</div>
                   <div className="help">
@@ -229,7 +229,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 </div>
               )}
               {requesterCanceledThierRequest && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Bid Status</label>
                   <div className="control has-text-info">Requester canceled this request</div>
                   <div className="help">
@@ -241,14 +241,14 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
                 <React.Fragment>
                   {isPastDue && (
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">Bid Status</label>
                       <div className="control has-text-dark">Past Due - Expired</div>
                       <div className="help">* Sorry! the requester did not select anyone</div>
                     </div>
                   )}
                   {!isPastDue && (
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">Bid Status</label>
                       <div className="control has-text-info">{displayStatus}</div>
                       <div className="help">* BidOrBooCrew wishes you best of luck!</div>
@@ -256,7 +256,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   )}
                 </React.Fragment>
               )}
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Potential Payout</label>
                 <div className="control has-text-info">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -274,7 +274,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 <React.Fragment>
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">Detailed Description</label>
 
                     <TextareaAutosize

@@ -55,13 +55,13 @@ class RequesterAwardedSummary extends RequestBaseContainer {
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
@@ -83,7 +83,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             </div>
 
             {!requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
@@ -91,7 +91,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
             )}
 
             {requiresProposerReview && (
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">Done!</div>
                 <div className="help">* Congratulations. Now it is time to review the Tasker</div>

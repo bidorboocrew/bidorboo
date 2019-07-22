@@ -44,7 +44,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { job, cancelJobById } = this.props;
 
     if (!cancelJobById || !job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const {
       _id,
@@ -76,34 +76,34 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { phone, email } = _bidderRef;
     if (!phone || !email) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { phoneNumber = 'not specified' } = phone;
     if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { emailAddress } = email;
     if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
@@ -141,7 +141,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     </div>
                     <hr className="divider" />
 
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">What you need to know:</label>
                       <div className="control">
                         * You will be <strong>penalized 20%</strong> of the total payment and will
@@ -206,7 +206,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 className="navbar-divider"
               />
               {bidderConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
@@ -216,7 +216,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 </div>
               )}
               {!bidderConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">{displayStatus}</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (
@@ -237,7 +237,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   )}
                 </div>
               )}
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Task Cost</label>
                 <div className="control has-text-success">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -253,7 +253,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
@@ -346,7 +346,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 </div>
               </div>
 
-              <div className="field">
+              <div className="group saidTest">
                 <UserImageAndRating userDetails={_bidderRef} />
                 <div className="field label">
                   <span className="icon">
@@ -435,7 +435,7 @@ class RequesterConfirmsCompletion extends React.Component {
                     hope that it was done to your satisfaction.
                   </p>
                   <br />
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">What will happen next?</label>
                     <div className="help">
                       * Once you've confirmed completion the Tasker will be paid
@@ -509,11 +509,11 @@ class RequesterDisputes extends React.Component {
                   </div>
 
                   <br />
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">What is your dispute?</label>
                   </div>
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -526,7 +526,7 @@ class RequesterDisputes extends React.Component {
                       {` Tasker did not show up`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -539,7 +539,7 @@ class RequesterDisputes extends React.Component {
                       {` Tasker did not do a good job`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -550,7 +550,7 @@ class RequesterDisputes extends React.Component {
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -562,7 +562,7 @@ class RequesterDisputes extends React.Component {
                     </label>
                   </div>
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">Tell us some more details</label>
                     <textarea
                       className="textarea"

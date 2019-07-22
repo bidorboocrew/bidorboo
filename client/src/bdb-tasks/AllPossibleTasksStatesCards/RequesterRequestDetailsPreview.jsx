@@ -32,7 +32,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     }
     const { startingDateAndTime, addressText, detailedDescription, _ownerRef, extras } = job;
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
@@ -62,7 +62,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
             {showMore && (
               <React.Fragment>
                 <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Detailed Description</label>
                   <span className="is-size-7">
                     <TextareaAutosize

@@ -15,7 +15,7 @@ export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const {
@@ -40,33 +40,33 @@ export default class RequesterDisputedDetails extends React.Component {
       !detailedDescription ||
       !processedPayment
     ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     if (!extras.effort) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     const { displayName: ownerDisplayName } = _ownerRef;
     if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
     const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     return (
@@ -92,13 +92,13 @@ export default class RequesterDisputedDetails extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Task Cost</label>
               <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
@@ -113,7 +113,7 @@ export default class RequesterDisputedDetails extends React.Component {
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
             <React.Fragment>
               <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Detailed Description</label>
                 <span className="is-size-7">
                   <TextareaAutosize
@@ -133,7 +133,7 @@ export default class RequesterDisputedDetails extends React.Component {
             </React.Fragment>
           </div>
 
-          <div className="field">
+          <div className="group saidTest">
             <label className="label has-text-danger">What you need to know:</label>
             <div className="control">* BidorBooCrew will assess the dispute asap</div>
             <div className="control">
@@ -150,7 +150,7 @@ export default class RequesterDisputedDetails extends React.Component {
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myOpenJobs);
+                switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
               }}
               className={`button is-outlined`}
               style={{ flexGrow: 1, marginRight: 10 }}

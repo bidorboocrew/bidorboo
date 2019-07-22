@@ -6,8 +6,7 @@ import { loadingBarMiddleware } from 'react-redux-loading-bar';
 
 import combinedReducers from './reducers';
 
-import createHistory from 'history/createBrowserHistory';
-export const history = createHistory();
+export const history = require('history').createBrowserHistory();
 
 const getMiddleware = () => {
   if (process.env.NODE_ENV === 'production') {

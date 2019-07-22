@@ -84,7 +84,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                     </div>
                     <hr className="divider" />
 
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">What you need to know:</label>
                       <div className="control">
                         * You will be <strong>penalized 20%</strong> of the total payment and will
@@ -172,7 +172,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                 </div>
               </div>
               {bidderConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
@@ -182,7 +182,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                 </div>
               )}
               {!bidderConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">{displayStatus}</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (

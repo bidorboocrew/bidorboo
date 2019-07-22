@@ -32,7 +32,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
-              Request a new Service
+              New Request
             </a>
           </div>
         </div>

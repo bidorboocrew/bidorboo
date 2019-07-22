@@ -99,7 +99,7 @@ class LocalLoginForm extends React.Component {
           type="hidden"
           value={values.recaptcha || ''}
         />
-        <div className="field">
+        <div className="group saidTest">
           <ReCAPTCHA
             style={{ display: 'none' }}
             ref={this.recaptchaRef}

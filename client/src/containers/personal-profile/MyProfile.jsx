@@ -132,7 +132,7 @@ class MyProfile extends React.Component {
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
 
-                        {/* <div className="field">
+                        {/* <div className="group saidTest">
                           <label className="label">Auto Detect Location</label>
                           <div className="control">
                             {autoDetectlocation && (
@@ -310,7 +310,7 @@ const HeaderTitle = (props) => {
 };
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
-    <div className="field">
+    <div className="group saidTest">
       <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
@@ -353,7 +353,7 @@ const userImageAndStats = (
               <VerifiedVia userDetails={userDetails} />
             </div>
             <br />
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">My Rating</label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <div className="control has-text-centered">No Ratings Yet</div>
@@ -375,7 +375,7 @@ const userImageAndStats = (
               )}
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Account Status</label>
               <div className="control has-text-centered">{membershipStatusDisplay}</div>
             </div>

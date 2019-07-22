@@ -125,7 +125,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     </div>
                     <hr className="divider" />
 
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">What you need to know:</label>
 
                       <div className="control">* Your global rating will be impacted</div>
@@ -224,7 +224,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               />
 
               {bidderConfirmed && !proposerConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
@@ -236,7 +236,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
 
               {!bidderConfirmed && !proposerConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Assigned To Me</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (
@@ -257,7 +257,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   )}
                 </div>
               )}
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">My Payout</label>
                 <div className="control has-text-success">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -275,7 +275,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               {showMore && (
                 <React.Fragment>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
@@ -312,7 +312,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 )}
               </div>
               <hr className="divider" />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Requester Details</label>
                 <UserImageAndRating userDetails={_ownerRef} />
                 <div className="control">
@@ -435,7 +435,7 @@ class TaskerConfirmsCompletion extends React.Component {
                   <p>If you are done please confirm that you finished this request.</p>
                   <br />
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">What will happen next?</label>
                     <div className="help">
                       * The Requester will confirm that you have completed this job
@@ -527,11 +527,11 @@ class TaskerDisputes extends React.Component {
                   </div>
 
                   <br />
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">What is your dispute?</label>
                   </div>
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -550,7 +550,7 @@ class TaskerDisputes extends React.Component {
                       {` Requester did not respond or show up on the agreed upon date and time`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -567,7 +567,7 @@ class TaskerDisputes extends React.Component {
                       {` Requester did not describe the workload accurately`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -578,7 +578,7 @@ class TaskerDisputes extends React.Component {
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
                   </div>
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="radio">
                       <input
                         type="radio"
@@ -590,7 +590,7 @@ class TaskerDisputes extends React.Component {
                     </label>
                   </div>
 
-                  <div className="field">
+                  <div className="group saidTest">
                     <label className="label">Tell us some more details</label>
                     <textarea
                       className="textarea"

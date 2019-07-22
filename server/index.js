@@ -3,6 +3,15 @@ const passport = require('passport');
 const path = require('path');
 const errorHandler = require('errorhandler');
 
+const keys = require('./config/keys');
+
+// initialize bugsnag
+const bugsnag = require('@bugsnag/js');
+const bugsnagExpress = require('@bugsnag/plugin-express');
+const bugsnagClient = bugsnag(keys.bugSnagApiKey);
+bugsnagClient.use(bugsnagExpress);
+const middleware = bugsnagClient.getPlugin('express');
+
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 require('./services/passport');
@@ -14,9 +23,9 @@ app.listen(PORT);
 if (process.env.NODE_ENV !== 'production') {
   app.use(errorHandler());
 }
-
+app.use(middleware.requestHandler);
 // initialize bugsnag
-require('./services/bugSnag')(app);
+// require('./services/bugSnag')(app);
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
 // initialize logging
@@ -37,6 +46,8 @@ app.use(passport.session());
 
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
+
+app.use(middleware.errorHandler);
 
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {

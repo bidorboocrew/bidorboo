@@ -10,13 +10,13 @@ export default class BidderRootFilterWrapper extends React.Component {
     const { isHorizontal = true } = this.props;
     return isHorizontal ? (
       <div style={{ background: 'white', border: '1px solid #eeeeee ', padding: '1rem' }}>
-        <div className="field">
+        <div className="group saidTest">
           <BidderRootLocationFilter {...this.props} />
         </div>
       </div>
     ) : (
       <div style={{ border: '1px solid #eeeeee ', padding: '1rem' }}>
-        <div className="field">
+        <div className="group saidTest">
           <div className="control">
             <BidderRootLocationFilter {...this.props} />
           </div>

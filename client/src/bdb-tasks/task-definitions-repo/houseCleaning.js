@@ -1,6 +1,8 @@
 import React from 'react';
 import taskImage from '../../assets/images/houesCleaning.png';
-// import watermarker from '../../assets/images/android-chrome-192x192.png';
+import watermark from '../../assets/images/watermark.png';
+
+import * as Yup from 'yup';
 
 export default {
   ID: 'bdbHouseCleaning',
@@ -13,23 +15,31 @@ export default {
 
 *Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
-
+  TASK_IMG: taskImage,
   defaultExtrasValues: {
-    effort: 'small',
+    effort: 'noSelection',
+  },
+  extraValidationSchema: {
+    effort: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
+      .required('*Please select the effort required'),
   },
   renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: '1rem' }}>
+      <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <img
+                <i class="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
+                {/* <img
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 />
-                {/* <img
-                  src={watermarker}
+                <img
+                  src={watermark}
                   className="watermarker"
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
                 /> */}
@@ -40,12 +50,18 @@ export default {
           <div className="level-right">
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
-                <h1 className="title" style={{ fontWeight: 300, marginBottom: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
                   House Cleaning
                 </h1>
                 {withDetails && (
-                  <p style={{ color: '#6a748a', paddingBottom: '1.25rem' }}>
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
                     Does your place need a cleaning ? Let our Taskers clean your space.
+                  </p>
+                )}
+                {!withDetails && (
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
+                    to clean your house thouroughally.
                   </p>
                 )}
               </div>
@@ -55,38 +71,42 @@ export default {
       </div>
     );
   },
-  extrasValidation: function() {
-    const { values } = this.props;
-    if (!values.effort) {
-      alert('please specify the effort');
-      return false;
+  extrasValidation: function(values) {
+    let errors = {};
+    if (!values.effort || values.effort === 'noSelection') {
+      errors.effort = 'Please select the required effort';
     }
-    return true;
+    return errors;
   },
   extras: function() {
     return {
       effort: {
-        renderFormOptions: ({ values, setFieldValue }) => {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let effortClass = '';
+          let isTouched = touched && touched.effort;
+          if (isTouched) {
+            effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
             <React.Fragment key={'extras-effort'}>
-              <input
-                id="effort"
-                className="input is-invisible"
-                type="hidden"
-                value={values.effort}
-              />
-              <div className="group">
-                <label className="withPlaceholder hasSelectedValue">{'Approximate Duration'}</label>
+              <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
+                <label className={effortClass}>{'Approximate Duration'}</label>
                 <div>
-                  <div className="select">
+                  <div id="effort" className={`select ${effortClass} `}>
                     <select
+                      id="effort"
                       value={values.effort}
-                      onChange={(event) => setFieldValue('effort', event.target.value, true)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     >
+                      <option value="noSelection">-Select One-</option>
                       <option value="small">{`Small (1-3 hours)`}</option>
                       <option value="medium">{`Medium (3-6 hours)`}</option>
                       <option value="large">{`Large (6-8 hours)`}</option>
                     </select>
+                    {isTouched && errors.effort && (
+                      <div className="help is-danger">{errors.effort}</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -107,7 +127,7 @@ export default {
               break;
           }
           return (
-            <div key={'extras-effort'} className="field">
+            <div key={'extras-effort'} className="group saidTest">
               <label className="label">Task Effort</label>
               <div className="control">{selectedValue}</div>
             </div>

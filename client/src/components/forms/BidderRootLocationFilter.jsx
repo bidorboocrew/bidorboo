@@ -161,7 +161,7 @@ export default class BidderRootLocationFilter extends React.Component {
                 </header>
                 <section style={{ padding: '1rem 0.5rem' }} className="modal-card-body">
                   <div className="content">
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">
                         Enter an address in order to search for requests
                       </label>
@@ -262,7 +262,7 @@ class GeoSearch extends React.Component {
               {...getInputProps({
                 type: 'text',
                 placeholder: `${placeholder}`,
-                className: 'location-search-input input',
+                className: 'input',
               })}
             />
           </div>
@@ -330,7 +330,7 @@ class SearchRadius extends React.Component {
   render() {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
-      <div className="field">
+      <div className="group saidTest">
         <label className="label">Search Radius</label>
         <div className="buttons has-addons">
           <span

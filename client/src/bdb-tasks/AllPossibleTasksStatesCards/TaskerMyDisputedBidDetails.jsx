@@ -75,13 +75,13 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>{' '}
+              <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
-            <div className="field">
+            <div className="group saidTest">
               <label className="label">Potential Payout</label>
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -94,7 +94,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               )}
             />
           </div>
-          <div className="field">
+          <div className="group saidTest">
             <label className="label has-text-danger">What you need to know:</label>
             <div className="control">* BidorBooCrew will assess the dispute asap</div>
             <div className="control">

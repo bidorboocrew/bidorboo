@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ReactDOM from 'react-dom';
+
+import moment from 'moment';
+
 import { Spinner } from '../../components/Spinner';
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
+import watermark from '../../assets/images/watermark.png';
 
 import {
   getAllMyOpenJobs,
@@ -15,6 +21,20 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 class MyRequestsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    if (props.match && props.match.params && props.match.params.templateId) {
+      this.freshPostTemplateId = props.match.params.templateId;
+    }
+
+    if (props.match && props.match.params && props.match.params.createdAt) {
+      this.freshPostedCreatedAt = props.match.params.createdAt;
+    }
+
+    if (props.match && props.match.params && props.match.params.jobId) {
+      this.freshJobId = props.match.params.jobId;
+    }
+  }
   componentDidMount() {
     this.props.getAllMyRequests();
   }
@@ -22,9 +42,25 @@ class MyRequestsPage extends React.Component {
   render() {
     const { allMyRequests, isLoading } = this.props;
 
+    // determine whether to show the new posted job thank you banner
+    let isTaskMoreThan1MinuteOld = false;
+    const isThereFreshlyPostedJob = !!(
+      this.freshPostedCreatedAt &&
+      this.freshPostTemplateId &&
+      this.freshJobId
+    );
+    if (isThereFreshlyPostedJob) {
+      let aMinuteAgo = moment().subtract(30, 's');
+      isTaskMoreThan1MinuteOld = moment(this.freshPostedCreatedAt).isBefore(aMinuteAgo);
+    }
+    let thankYouNote = null;
+
     const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
     let myRequestsSummaryCards = areThereAnyJobsToView
       ? allMyRequests.map((job) => {
+          if (job._id === this.freshJobId) {
+            thankYouNote = <ThankYou job={job} />;
+          }
           return (
             <div key={job._id} className="column is-narrow isforCards">
               {getMeTheRightRequestCard({
@@ -37,12 +73,22 @@ class MyRequestsPage extends React.Component {
         })
       : null;
 
+    const shouldShowTheThankyouNote = true;
+    // thankYouNote && !isTaskMoreThan1MinuteOld && isThereFreshlyPostedJob ;
+
     return (
       <div>
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
-          <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
+          <React.Fragment>
+            <div className="columns is-multiline is-centered is-mobile">
+              {shouldShowTheThankyouNote && <div>{thankYouNote}</div>}
+            </div>
+            <div className="columns is-multiline is-centered is-mobile">
+              {myRequestsSummaryCards}
+            </div>
+          </React.Fragment>
         )}
 
         {!isLoading && !areThereAnyJobsToView && <EmptyStateComponent />}
@@ -103,10 +149,88 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-            Request a Service
+            New Request
           </a>
         </div>
       </div>
     </div>
   </div>
 );
+
+const ThankYou = ({ job }) => {
+  const [showModal, setShowModal] = useState(true);
+
+  const taskDefinition = TASKS_DEFINITIONS[job.templateId];
+  return ReactDOM.createPortal(
+    <div className={`modal ${showModal ? 'is-active' : ''}`}>
+      <div onClick={() => setShowModal(false)} className="modal-background" />
+      <div className="modal-content has-text-centered">
+        <div style={{ padding: '1.5rem', background: 'white' }}>
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <div className="watermark">
+                  <img
+                    src={taskDefinition.TASK_IMG}
+                    alt="BidOrBoo task img"
+                    style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                  />
+                  <img
+                    src={watermark}
+                    className="watermarker"
+                    style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="level-right">
+              <div className="level-item">
+                <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                  <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
+                    Thanks For Posting!
+                  </h1>
+
+                  <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+                    Our Taskers will be bidding on this request shortly
+                  </p>
+                </div>
+              </div>
+              <div className="level-item">
+                <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+                  <span className="icon is-large">
+                    <i className="fas fa-arrow-right" />
+                  </span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        {/* <div className="card">
+          <div className="card-image">
+            <figure className="image is-16by9">
+              <img src={taskDefinition.TASK_IMG} />
+            </figure>
+          </div>
+          <div className="card-content">
+            <p className="title">Thanks For Posting!</p>
+            <p>Our Taskers will be bidding on this request shortly</p>
+            <br />
+            <a className="button is-success is-outlined" onClick={() => setShowModal(false)}>
+              <span className="icon is-large">
+                <i className="fas fa-arrow-right" />
+              </span>
+            </a>
+          </div>
+        </div> */}
+      </div>
+      {/* <button
+        onClick={() => setShowModal(false)}
+        className="modal-close is-large"
+        aria-label="close"
+      /> */}
+    </div>,
+    document.querySelector('#bidorboo-root-modals'),
+  );
+};

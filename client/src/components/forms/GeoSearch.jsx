@@ -29,14 +29,17 @@ class GeoSearch extends React.Component {
       label,
       helpText,
       error,
+      touched,
       autoDetectComponent,
       value = '',
     } = this.props;
 
-    let inputClassName = 'input';
-
-    if (error) {
-      inputClassName += ' is-danger';
+    let inputState = '';
+    if (value && value.length > 0) {
+      inputState = 'hasSelectedValue';
+    }
+    if (touched && error) {
+      inputState = 'is-danger';
     }
 
     const inputField = ({ getInputProps, suggestions, getSuggestionItemProps }) => {
@@ -52,8 +55,8 @@ class GeoSearch extends React.Component {
           : {};
 
       return (
-        <div className="group">
-          <label>{label}</label>
+        <div className={`group ${touched && error ? 'isError' : ''}`}>
+          <label className={inputState}>{label}</label>
           <div>
             <input
               id={id}
@@ -61,7 +64,7 @@ class GeoSearch extends React.Component {
               {...getInputProps({
                 type: 'text',
                 placeholder: `${placeholder}`,
-                className: `location-search-input ${inputClassName} has-icons-left`,
+                className: `input ${inputState}`,
               })}
             />
           </div>
@@ -103,7 +106,7 @@ class GeoSearch extends React.Component {
           </div>
           {autoDetectComponent && autoDetectComponent(value)}
           {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
-          {error && <p className="help is-danger">{error}</p>}
+          {touched && error && <p className="help is-danger">{error}</p>}
         </div>
       );
     };

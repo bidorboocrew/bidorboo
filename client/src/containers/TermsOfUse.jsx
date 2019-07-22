@@ -39,7 +39,7 @@ export default class TermsOfUse extends React.Component {
                 BidOrBoo
                 <a href="https://www.BidOrBoo.com/BidOrBoo/termsAndPrivacy">
                   Happiness Pledge
-                </a>{' '}
+                </a>
                 (the “<span className="u-bold">Happiness Pledge</span>”), and any future amendments
                 and additions to this Agreement (as defined below) as we may publish from time to
                 time. The Privacy Policy and the Happiness Pledge are incorporated by reference into

@@ -133,7 +133,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
                     </div>
                     <hr className="divider" />
 
-                    <div className="field">
+                    <div className="group saidTest">
                       <label className="label">What you need to know:</label>
 
                       <div className="control">* Your global rating will be impacted</div>
@@ -232,7 +232,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 className="navbar-divider"
               />
               {bidderConfirmed && !proposerConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Pending Confirmation</div>
 
@@ -244,7 +244,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               )}
 
               {!bidderConfirmed && !proposerConfirmed && (
-                <div className="field">
+                <div className="group saidTest">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Assigned To Me</div>
                   {!isHappeningSoon && !isHappeningToday && !isPastDue && (
@@ -266,7 +266,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 </div>
               )}
 
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">My Payout</label>
                 <div className={`has-text-success`}>{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>

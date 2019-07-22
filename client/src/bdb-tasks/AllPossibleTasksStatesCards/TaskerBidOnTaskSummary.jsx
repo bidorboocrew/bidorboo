@@ -94,7 +94,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 userAlreadyView={userAlreadyView}
               />
               <hr className="divider isTight" />
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">Requester:</label>
                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
               </div>
@@ -277,7 +277,7 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
               <div className="modal-card-title">Setup your payout info</div>
             </header>
             <section className="modal-card-body">
-              <div className="field">
+              <div className="group saidTest">
                 <label className="label">In order to bid on jobs you must :</label>
               </div>
               <ul>
