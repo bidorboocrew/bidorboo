@@ -26,6 +26,40 @@ export default {
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
   },
+  renderThankYouCard: function(setShowModal) {
+    return (
+      <div style={{ padding: '1.5rem', background: 'white' }}>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <i className="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
+            </div>
+          </div>
+
+          <div className="level-right">
+            <div className="level-item">
+              <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
+                <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
+                  Thanks For Posting!
+                </h1>
+
+                <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+                  Our Taskers will be bidding on this request shortly
+                </p>
+              </div>
+            </div>
+            <div className="level-item">
+              <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+                <span className="icon is-large">
+                  <i className="fas fa-arrow-right" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    );
+  },
   renderSummaryCard: function({ withDetails = true }) {
     return (
       <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
@@ -33,7 +67,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i class="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
+                <i className="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
                 {/* <img
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}

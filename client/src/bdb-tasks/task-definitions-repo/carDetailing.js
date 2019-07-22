@@ -43,6 +43,27 @@ export default {
       .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
       .required('*Please select a value from the drop down'),
   },
+  renderThankYouCard: function(setShowModal) {
+    return (
+      <div style={{ padding: '1.5rem', background: 'white' }}>
+        <div>
+          <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
+        </div>
+        <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
+          Thanks For Posting!
+        </h1>
+
+        <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+          Our Taskers will be bidding on this request shortly
+        </p>
+        <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+          <span className="icon is-large">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      </div>
+    );
+  },
   renderSummaryCard: function({ withDetails = true }) {
     return (
       <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
@@ -50,7 +71,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i class="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
+                <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
                 {/* <img
                   src={taskImage}
                   alt="BidOrBoo task img"
