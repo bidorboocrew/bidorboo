@@ -29,7 +29,7 @@ class ProposerRoot extends React.Component {
             </div>
           </div>
         </section>
-        <div className="columns is-centered is-mobile is-multiline">{this.AllActiveTasks}</div>
+        <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>
     );
   }
