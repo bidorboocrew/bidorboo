@@ -47,7 +47,7 @@ export default {
     return (
       <div style={{ padding: '1.5rem', background: 'white' }}>
         <div>
-          <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
+          <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
         </div>
         <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
           Thanks For Posting!
@@ -71,7 +71,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#5c5c5c' }} />
+                <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
                 {/* <img
                   src={taskImage}
                   alt="BidOrBoo task img"
