@@ -81,7 +81,7 @@ class MyRequestsPage extends React.Component {
           <React.Fragment>
             {shouldShowTheThankyouNote && <div>{thankYouNote}</div>}
 
-            <div className="columns is-multiline is-centered">{myRequestsSummaryCards}</div>
+            <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
           </React.Fragment>
         )}
 

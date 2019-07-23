@@ -512,19 +512,19 @@ article.media.limitHeight {
 
 .column {
   &.isforCards {
-    padding: 0;
+    padding: 0 !important;
     margin: 2rem 1.5rem;
   }
 }
-.button.is-outlined {
-  background: #fff !important;
-  &:hover {
-    color: #353535 !important;
-  }
-}
+// .button.is-outlined {
+//   background: #fff !important;
+//   &:hover {
+//     color: #353535 !important;
+//   }
+// }
 .cardWithButton {
   position: relative;
-  width: 22rem;
+  width: 20rem;
   border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
