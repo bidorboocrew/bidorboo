@@ -51,8 +51,9 @@ class FreshdeskChat extends React.Component {
             backgroundColor: '#ef2834',
             foregroundColor: '#353535',
             hideChatButton: true,
-            fontName: 'Nunito, sans-serif',
-            fontUrl: 'https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap',
+            fontName: 'Work Sans, sans-serif',
+            fontUrl:
+              'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap',
           },
           content: {
             headers: {

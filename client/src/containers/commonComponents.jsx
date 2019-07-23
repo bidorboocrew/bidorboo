@@ -74,7 +74,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
   let trimmedDisplayName = displayName;
   if (clipUserName) {
     trimmedDisplayName =
-      displayName && displayName.length > 8 ? `${displayName.substring(0, 8)}...` : displayName;
+      displayName && displayName.length > 20 ? `${displayName.substring(0, 20)}...` : displayName;
   }
 
   return (
