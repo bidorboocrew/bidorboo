@@ -38,31 +38,31 @@ class BidModal extends React.Component {
         <div className="buttons">
           <span
             onClick={() => this.onAutoBid(25)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             25$
           </span>
           <span
             onClick={() => this.onAutoBid(50)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             50$
           </span>
           <span
             onClick={() => this.onAutoBid(100)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             100$
           </span>
           <span
             onClick={() => this.onAutoBid(125)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             125$
           </span>
           <span
             onClick={() => this.onAutoBid(150)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             150$
           </span>
@@ -72,31 +72,31 @@ class BidModal extends React.Component {
           <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
             onClick={() => this.onAutoBid(avgBid - 10)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${avgBid - 10}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(avgBid - 5)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${avgBid - 5}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(avgBid)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${avgBid}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(avgBid + 5)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${avgBid + 5}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(avgBid + 10)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${avgBid + 10}$`}
           </span>

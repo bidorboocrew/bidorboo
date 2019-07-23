@@ -522,7 +522,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       displayItemIcons={false}
       event={event}
       buttonLabel={'Add to Calendar'}
-      buttonClassClosed="button is-outlined is-small"
+      buttonClassClosed="button is-small"
     />
   );
 };

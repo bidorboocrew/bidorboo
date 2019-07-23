@@ -152,7 +152,7 @@ export default class RequesterDisputedDetails extends React.Component {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
               }}
-              className={`button is-outlined`}
+              className={`button`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               <span className="icon">

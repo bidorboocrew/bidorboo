@@ -86,7 +86,7 @@ class VerifyPhoneField extends React.Component {
             <button
               style={{ marginLeft: 6 }}
               onClick={this.handleSendNewCode}
-              className="button is-outlined"
+              className="button"
               disabled={isResendingVCode || verifyingPhoneInProgress}
             >
               {`${isResendingVCode ? 'Code Was Sent' : 'Get A New Code'}`}

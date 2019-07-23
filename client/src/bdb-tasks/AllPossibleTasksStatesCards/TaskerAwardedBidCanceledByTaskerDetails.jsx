@@ -91,7 +91,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             </div>
             <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
               <a
-                className="button is-outlined"
+                className="button"
                 onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
               >
                 <span className="icon">

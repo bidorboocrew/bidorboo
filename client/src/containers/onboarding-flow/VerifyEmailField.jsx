@@ -90,7 +90,7 @@ class VerifyEmailField extends React.Component {
             <button
               style={{ marginLeft: 8 }}
               onClick={this.handleSendNewCode}
-              className="button is-outlined"
+              className="button"
               disabled={isResendingVCode || verifyingEmailInProgress}
             >
               {`${isResendingVCode ? 'Code Was Sent' : 'Get A New Code'}`}

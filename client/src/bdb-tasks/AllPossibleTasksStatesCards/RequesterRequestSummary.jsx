@@ -300,7 +300,7 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             onClick={() => {
               switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
             }}
-            className={`button is-info is-fullwidth ${areThereAnyBidders ? '' : ' is-outlined '}`}
+            className={`button is-info`}
           >
             {areThereAnyBidders && !isPastDue && (
               <span>

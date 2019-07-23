@@ -128,7 +128,7 @@ const renderFooter = ({ bid }) => {
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
-          className="button is-outlined is-danger"
+          className="button is-danger"
         >
           View Implications
         </a>

@@ -48,7 +48,7 @@ class VerifyEmailButton extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+        <div className="button is-info is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Email
         </div>
         {showEnterPinDialog &&
@@ -113,7 +113,7 @@ class VerifyEmailButton extends React.Component {
                             disabled={
                               !inputCodeContent || isResendingVCode || verifyingEmailInProgress
                             }
-                            className="button is-info is-outlined"
+                            className="button is-info"
                           >
                             Submit Code
                           </div>

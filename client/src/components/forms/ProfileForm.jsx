@@ -290,7 +290,7 @@ const ProfileForm = (props) => {
 
         <div className="control">
           <button
-            className="button is-outlined"
+            className="button"
             disabled={isSubmitting}
             onClick={(e) => {
               e.preventDefault();

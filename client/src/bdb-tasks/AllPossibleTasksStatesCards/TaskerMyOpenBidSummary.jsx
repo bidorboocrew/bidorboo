@@ -303,7 +303,7 @@ const renderFooter = ({
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
-          className={`button is-outlined is-fullwidth ${isPastDue ? '' : 'is-info'}`}
+          className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
         >
           {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
             <span>Change My Bid</span>

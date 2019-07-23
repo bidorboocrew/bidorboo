@@ -171,7 +171,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                       cancelJobById(job._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
-                    className="button is-outlined is-danger"
+                    className="button is-danger"
                   >
                     <span className="icon">
                       <i className="far fa-trash-alt" />
@@ -273,7 +273,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               )}
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show full details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -281,7 +281,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -597,7 +597,7 @@ class RequesterDisputes extends React.Component {
                         },
                       })
                     }
-                    className="button is-danger is-outlined"
+                    className="button is-danger"
                   >
                     File My Dispute
                   </button>

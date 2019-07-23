@@ -109,7 +109,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
                   ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
-              className="button is-outlined is-fullwidth is-danger"
+              className="button is-fullwidth is-danger"
             >
               View Disputed Task
             </a>

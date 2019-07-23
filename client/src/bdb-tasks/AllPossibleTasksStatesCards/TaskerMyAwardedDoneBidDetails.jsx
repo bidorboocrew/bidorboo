@@ -179,7 +179,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show full details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -187,7 +187,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -219,7 +219,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 onClick={() => {
                   alert('Archive not implemented yet, will take you to archieve');
                 }}
-                className={`button is-fullwidth is-outlined`}
+                className={`button is-fullwidth`}
               >
                 View In Archive
               </a>

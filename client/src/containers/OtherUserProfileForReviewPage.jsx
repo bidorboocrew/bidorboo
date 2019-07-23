@@ -107,7 +107,7 @@ class OtherUserProfileForReviewPage extends React.Component {
               <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
             </h1>
             <h2>
-              <a className="button is-link is-outlined" onClick={() => goBackToPreviousRoute()}>
+              <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>

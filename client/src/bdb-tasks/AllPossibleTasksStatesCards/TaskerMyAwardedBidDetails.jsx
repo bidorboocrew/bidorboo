@@ -295,7 +295,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show full details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -303,7 +303,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -338,7 +338,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 <a
                   disabled
                   onClick={() => null}
-                  className={`button is-fullwidth is-success is-outlined`}
+                  className={`button is-fullwidth is-success`}
                 >
                   <span>Review The Requester</span>
                 </a>
@@ -468,7 +468,7 @@ class TaskerConfirmsCompletion extends React.Component {
         <div style={{ flexGrow: 1 }}>
           <a
             onClick={this.toggleModal}
-            className={`button is-fullwidth is-success is-outlined ${
+            className={`button is-fullwidth is-success ${
               isPastDue ? 'heartbeatInstant' : ''
             }`}
           >

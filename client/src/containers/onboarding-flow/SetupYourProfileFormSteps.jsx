@@ -70,7 +70,7 @@ const Step2 = ({
       {!isEmailAlreadyVerified && (
         <button
           onClick={showEmailVerificationStep}
-          className="button is-medium is-success is-pulled-left is-outlined"
+          className="button is-medium is-success is-pulled-left"
         >
           <span className="icon">
             <i className="fas fa-chevron-left" />
@@ -110,7 +110,7 @@ const Step3 = ({
       </button>
       <button
         onClick={showSetupPhoneStep}
-        className="button is-medium is-success is-pulled-left is-outlined"
+        className="button is-medium is-success is-pulled-left"
       >
         <span className="icon">
           <i className="fas fa-chevron-left" />
@@ -215,7 +215,7 @@ class Step4 extends React.Component {
         {!isEmailAlreadyVerified && isPhoneAlreadyVerified && (
           <button
             onClick={showEmailVerificationStep}
-            className="button is-medium is-success is-pulled-left is-outlined"
+            className="button is-medium is-success is-pulled-left"
           >
             <span className="icon">
               <i className="fas fa-chevron-left" />
@@ -226,7 +226,7 @@ class Step4 extends React.Component {
         {!isPhoneAlreadyVerified && (
           <button
             onClick={showSetupPhoneStep}
-            className="button is-medium is-success is-pulled-left is-outlined"
+            className="button is-medium is-success is-pulled-left"
           >
             <span className="icon">
               <i className="fas fa-chevron-left" />

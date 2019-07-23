@@ -48,7 +48,7 @@ class VerifyPhoneButton extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="button is-info is-outlined is-small" onClick={this.toggleEnterPinDialog}>
+        <div className="button is-info is-small" onClick={this.toggleEnterPinDialog}>
           Verify Your Phone
         </div>
         {showEnterPinDialog &&
@@ -114,7 +114,7 @@ class VerifyPhoneButton extends React.Component {
                             disabled={
                               !inputCodeContent || isResendingVCode || verifyingPhoneInProgress
                             }
-                            className="button is-info is-outlined"
+                            className="button is-info"
                           >
                             Submit Code
                           </div>

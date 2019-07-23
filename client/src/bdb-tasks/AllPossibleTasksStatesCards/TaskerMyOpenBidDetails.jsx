@@ -293,7 +293,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               )}
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show full details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -301,7 +301,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />

@@ -197,7 +197,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
                   ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
-              className={`button is-fullwidth is-outlined`}
+              className={`button is-fullwidth`}
             >
               View In Archive
             </a>

@@ -109,7 +109,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-fullwidth is-success`}
+              className={`button is-success`}
             >
               Review Tasker
             </a>
@@ -119,7 +119,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-fullwidth is-outlined`}
+              className={`button`}
             >
               View In Archive
             </a>

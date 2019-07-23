@@ -113,7 +113,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.mybids);
               }}
-              className={`button is-outlined`}
+              className={`button`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               <span className="icon">

@@ -57,7 +57,7 @@ export default class MyBidsAwardedBid extends React.Component {
             <DisplayLabelValue labelText="Your pay:" labelValue={bidAmountText} />
             <div className="help">* After you complete the task.</div>
             <div style={{ padding: '0.5rem 0px', position: 'relative' }}>
-              <a className="button is-outlined is-success is-fullwidth">
+              <a className="button is-success is-fullwidth">
                 <span className="icon">
                   <i className="fas fa-bullseye" />
                 </span>

@@ -83,7 +83,7 @@ class ReviewAwardedBidPage extends React.Component {
           <div className="column limitLargeMaxWidth">
             <div style={{ marginBottom: '0.7rem' }}>
               <a
-                className="button is-outlined"
+                className="button"
                 onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
               >
                 <span className="icon">

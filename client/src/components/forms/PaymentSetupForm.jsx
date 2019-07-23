@@ -681,7 +681,7 @@ const PaymentSetupForm = (props) => {
 
                 <div className="control">
                   <button
-                    className="button is-outlined is-medium"
+                    className="button is-medium"
                     type="submit"
                     disabled={isSubmitting}
                     onClick={(e) => {

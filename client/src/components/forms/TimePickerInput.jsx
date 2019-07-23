@@ -16,7 +16,7 @@ class CustomTimeButton extends React.Component {
 
   render() {
     return (
-      <a className="button is-info is-outlined" onClick={this.props.onClick}>
+      <a className="button is-info" onClick={this.props.onClick}>
         <span className="icon">
           <i className="far fa-clock" />
         </span>

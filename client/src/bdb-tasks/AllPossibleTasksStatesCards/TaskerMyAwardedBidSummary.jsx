@@ -337,7 +337,7 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
-          className="button is-outlined is-fullwidth is-success"
+          className="button is-fullwidth is-success"
         >
           {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
 

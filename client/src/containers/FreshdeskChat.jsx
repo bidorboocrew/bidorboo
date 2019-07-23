@@ -121,7 +121,7 @@ class FreshdeskChat extends React.Component {
       <button
         id="bob-ChatSupport"
         onClick={this.togglChat}
-        className="button is-outlined is-danger"
+        className="button is-danger"
       >
         <span className="icon">
           <i className="far fa-comment-dots" />
