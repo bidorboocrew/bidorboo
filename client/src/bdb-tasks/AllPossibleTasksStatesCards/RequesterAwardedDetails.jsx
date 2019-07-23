@@ -576,7 +576,6 @@ class RequesterDisputes extends React.Component {
                       }}
                     />
                   </div>
-                  <hr className="divider isTight" />
                   <div className="help">
                     * BidOrBoo Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue

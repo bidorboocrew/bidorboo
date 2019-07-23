@@ -145,9 +145,6 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             <div className="control">* Your global rating will be impacted</div>
             <div className="control">* Cancelling often will put a ban on your account</div>
           </div>
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {

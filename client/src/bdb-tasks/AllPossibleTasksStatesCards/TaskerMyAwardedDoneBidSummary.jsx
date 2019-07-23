@@ -174,9 +174,6 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
           </div>
         </div>
 
-        <div style={{ padding: '0.5rem' }}>
-          <hr className="divider isTight" />
-        </div>
         <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
           {requiresBidderReview && (
             <a

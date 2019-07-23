@@ -202,7 +202,7 @@ class TaskerMyOpenBidSummary extends React.Component {
                   </div>
                 </div>
               </div>
-              <hr className="divider isTight" />
+
               {isAwardedToSomeoneElse && (
                 <div className="group saidTest">
                   <label className="label">Bid Status</label>
@@ -293,28 +293,23 @@ const renderFooter = ({
   requesterCanceledThierRequest,
 }) => {
   return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
-          }}
-          className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
-        >
-          {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-            <span>Change My Bid</span>
-          )}
-          {isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-            <span>View Expired Task</span>
-          )}
-          {requesterCanceledThierRequest && <span>View Canceled Task</span>}
-          {isAwardedToSomeoneElse && <span>View Task Details</span>}
-        </a>
-      </div>
-    </React.Fragment>
+    <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+      <a
+        style={{ position: 'relative' }}
+        onClick={() => {
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
+        }}
+        className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
+      >
+        {!isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+          <span>Change My Bid</span>
+        )}
+        {isPastDue && !isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+          <span>View Expired Task</span>
+        )}
+        {requesterCanceledThierRequest && <span>View Canceled Task</span>}
+        {isAwardedToSomeoneElse && <span>View Task Details</span>}
+      </a>
+    </div>
   );
 };

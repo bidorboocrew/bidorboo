@@ -202,7 +202,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <hr className="divider isTight" />
+
           <div style={{ padding: '0.5rem', display: 'flex' }}>
             {requiresBidderReview && (
               <a

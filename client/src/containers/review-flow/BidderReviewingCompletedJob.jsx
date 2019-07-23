@@ -201,7 +201,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider isTight" />
+
         <div className="card-content limitLargeMaxWidth">
           {bodyContent()}
           <button

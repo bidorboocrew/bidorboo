@@ -213,7 +213,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 </div>
               </div>
-              <hr className="divider isTight" />
+
               <div className="group saidTest">
                 <label className="label">Requester:</label>
                 <UserImageAndRating userDetails={_ownerRef} />

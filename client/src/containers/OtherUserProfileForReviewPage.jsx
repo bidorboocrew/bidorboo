@@ -228,7 +228,6 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asABidderReviews && (
                 <React.Fragment>
                   <br />
-                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Tasker :</label>
                   {asABidderReviews}
                 </React.Fragment>
@@ -237,7 +236,6 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asAProposerReviewsRef && (
                 <React.Fragment>
                   <br />
-                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Requester :</label>
                   {asAProposerReviewsRef}
                 </React.Fragment>

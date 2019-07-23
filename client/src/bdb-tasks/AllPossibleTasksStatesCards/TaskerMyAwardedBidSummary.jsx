@@ -325,10 +325,6 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
 
   return (
     <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
           style={{ position: 'relative' }}

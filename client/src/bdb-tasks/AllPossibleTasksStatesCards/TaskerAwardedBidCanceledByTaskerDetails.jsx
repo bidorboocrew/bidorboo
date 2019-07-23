@@ -86,14 +86,9 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 * If many cancellations happen in a row you will be ban from BidOrBoo
               </div>
             </div>
-            <div style={{ padding: '0.5rem' }}>
-              <hr className="divider isTight" />
-            </div>
+
             <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-              <a
-                className="button"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
-              >
+              <a className="button" onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}>
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>

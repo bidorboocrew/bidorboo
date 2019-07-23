@@ -116,23 +116,16 @@ export default connect(
 
 const renderFooter = ({ bid }) => {
   return (
-    <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-        <a
-          style={{ position: 'relative' }}
-          onClick={() => {
-            switchRoute(
-              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-            );
-          }}
-          className="button is-danger"
-        >
-          View Implications
-        </a>
-      </div>
-    </React.Fragment>
+    <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+      <a
+        style={{ position: 'relative' }}
+        onClick={() => {
+          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id));
+        }}
+        className="button is-danger"
+      >
+        View Implications
+      </a>
+    </div>
   );
 };

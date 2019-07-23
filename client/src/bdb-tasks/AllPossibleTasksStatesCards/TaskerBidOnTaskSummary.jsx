@@ -93,7 +93,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 bidsList={_bidsListRef}
                 userAlreadyView={userAlreadyView}
               />
-              <hr className="divider isTight" />
+
               <div className="group saidTest">
                 <label className="label">Requester:</label>
                 <UserImageAndRating clipUserName userDetails={_ownerRef} />

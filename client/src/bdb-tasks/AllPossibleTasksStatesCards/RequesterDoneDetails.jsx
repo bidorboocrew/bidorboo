@@ -193,7 +193,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <UserImageAndRating userDetails={_bidderRef} />
             </div>
           </div>
-          <hr className="divider isTight" />
           <div style={{ display: 'flex' }}>
             {requiresProposerReview && (
               <a
