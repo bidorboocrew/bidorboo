@@ -527,6 +527,7 @@ class Header extends React.Component {
                                 <img
                                   style={{
                                     paddingRight: 4,
+                                    borderRadius: '100%',
                                   }}
                                   src={profileImage.url}
                                 />

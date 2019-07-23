@@ -90,17 +90,17 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
       className="media limitHeight"
     >
       <figure style={{ margin: '0 6px 0 0' }} className="media-left">
-        <p className={`image ${large ? 'is-64x64' : 'is-48x48'} `}>
-          <img
-            style={{
-              width: `${large ? 64 : 48}`,
-              height: `${large ? 64 : 48}`,
-              boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-            }}
-            src={profileImage.url}
-            alt="image"
-          />
-        </p>
+        <img
+          className={`image ${large ? 'is-64x64' : 'is-48x48'} `}
+          style={{
+            borderRadius: '100%',
+            width: `${large ? 64 : 48}`,
+            height: `${large ? 64 : 48}`,
+            boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+          }}
+          src={profileImage.url}
+          alt="image"
+        />
       </figure>
 
       <div className="media-content">
