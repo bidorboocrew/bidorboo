@@ -30,7 +30,10 @@ exports.jobDataAccess = {
         .toISOString();
 
       await JobModel.find({
-        $and: [{ _awardedBidRef: { $exists: true } }, { startingDateAndTime: { $exists: true } }],
+        $and: [
+          { _awardedBidRef: { $exists: true } },
+          { startingDateAndTime: { $exists: true }, state: { $eq: 'AWARDED' } },
+        ],
       })
         .populate({
           path: '_ownerRef',
@@ -173,6 +176,8 @@ exports.jobDataAccess = {
         .tz('America/Toronto')
         .toISOString();
 
+      const rightNow = moment.utc(moment());
+
       await JobModel.find({
         startingDateAndTime: { $exists: true },
         _awardedBidRef: { $exists: false },
@@ -205,11 +210,11 @@ exports.jobDataAccess = {
               const jobStartDate = job.startingDateAndTime;
 
               // normalize the start date to the same timezone to comapre
-              const normalizedStartDate = moment(jobStartDate)
-                .tz('America/Toronto')
-                .toISOString();
+              // const normalizedStartDate = moment(jobStartDate)
+              //   .tz('America/Toronto')
+              //   .toISOString();
 
-              const isJobPastDue = moment(normalizedStartDate).isSameOrBefore(past48Hours);
+              const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
               if (isJobPastDue) {
                 const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
@@ -245,6 +250,11 @@ exports.jobDataAccess = {
                   .lean(true)
                   .exec();
 
+                console.log(
+                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${
+                    job._id
+                  } which was suppose to happen ${jobStartDate}`
+                );
                 await JobModel.deleteOne({ _id: job._id.toString() })
                   .lean(true)
                   .exec();
@@ -262,12 +272,18 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         $and: [
+          {
+            state: {
+              $in: ['AWARDED', 'DISPUTED'],
+            },
+          },
           { jobCompletion: { $exists: true } },
           { _awardedBidRef: { $exists: true } },
           {
-            state: {
-              $eq: 'AWARDED',
-            },
+            $and: [
+              { 'jobCompletion.proposerConfirmed': { $eq: false } },
+              { 'jobCompletion.proposerDisputed': { $eq: false } },
+            ],
           },
           {
             $or: [
