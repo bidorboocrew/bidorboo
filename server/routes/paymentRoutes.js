@@ -261,6 +261,7 @@ module.exports = (app) => {
   //xxxx
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
+      console.log('connectedAccountsWebhook is triggered');
       // sign key by strip
       let endpointSecret = keys.stripeWebhookConnectedAccSig;
       let sig = req.headers['stripe-signature'];
@@ -280,7 +281,15 @@ module.exports = (app) => {
             } = customerAcc;
 
             const { userId } = metadata;
-
+            console.log('updateStripeAccountRequirementsDetails started');
+            console.log({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              accRequirements,
+            });
             await userDataAccess.updateStripeAccountRequirementsDetails({
               eventId: id,
               userId,
@@ -289,6 +298,7 @@ module.exports = (app) => {
               payoutsEnabled: payouts_enabled,
               accRequirements,
             });
+            console.log('updateStripeAccountRequirementsDetails done');
           }
         }
       }
@@ -302,6 +312,8 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {
+      console.log('payoutsWebhook is triggered');
+
       // sign key by strip
       let endpointSecret = keys.stripeWebhookPayoutAccSig;
       let sig = req.headers['stripe-signature'];
@@ -313,6 +325,9 @@ module.exports = (app) => {
 
         switch (type) {
           case 'payout.paid':
+            console.log('payoutsWebhook payout.paid');
+            console.log({ jobId });
+
             // update the job about this
             jobDataAccess.updateJobById(jobId, {
               $set: {
@@ -323,6 +338,8 @@ module.exports = (app) => {
             //xxx inform user that it is paid via msg email..etc
             break;
           case 'payout.failed':
+            console.log('payoutsWebhook payout.failed');
+            console.log({ jobId });
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'PAYMENT_TO_BANK_FAILED',
