@@ -200,7 +200,6 @@ export class ProposerReviewingCompletedJob extends React.Component {
             </div>
           </div>
         </section>
-        <hr className="divider isTight" />
         <div className="card-content limitLargeMaxWidth">
           {bodyContent()}
           <button
@@ -213,7 +212,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
 
           <button
             style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-            className="button is-outlined has-text-dark  is-medium"
+            className="button has-text-dark  is-medium"
             onClick={() => {
               goBackToPreviousRoute();
             }}

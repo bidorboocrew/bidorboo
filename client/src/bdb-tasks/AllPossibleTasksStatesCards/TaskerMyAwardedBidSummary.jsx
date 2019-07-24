@@ -325,10 +325,6 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
 
   return (
     <React.Fragment>
-      <div style={{ padding: '0.5rem' }}>
-        <hr className="divider isTight" />
-      </div>
-
       <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
         <a
           style={{ position: 'relative' }}
@@ -337,7 +333,7 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
-          className="button is-outlined is-fullwidth is-success"
+          className="button is-fullwidth is-success"
         >
           {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
 

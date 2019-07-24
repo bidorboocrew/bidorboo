@@ -436,6 +436,53 @@ exports.EmailService = {
     sgMail.send(msg);
   },
 
+  tellRequesterThatWeMarkedJobDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `BidOrBoo Marked ${requestTitle} as Complete`,
+      text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
+      Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.
+      Please rate your Tasker
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled</p>
+        <p> Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.</p>
+        <p>Please rate your Tasker</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Completed Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
+  tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `BidOrBoo: Confirm ${requestTitle} completion!`,
+      text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
+
+      Please confirm the completion of this request and rate your Tasker
+       ${linkForOwner}
+     `,
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.</p>
+
+        <p>Please confirm the completion of this request and rate your Tasker</p>
+         <p>click to view the details</p>
+       `,
+        clickLink: `${linkForOwner}`,
+        clickDisplayName: 'Completed Request Details',
+      }),
+    };
+    sgMail.send(msg);
+  },
   informBobCrewAboutDispute: ({
     whoSubmitted,
     requesterDisplayName,

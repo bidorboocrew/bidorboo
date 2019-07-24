@@ -50,7 +50,7 @@ module.exports = (app) => {
            * chargeAmount passed in includes the 6% charge on the proposer
            *
            */
-
+          console.log('BidOrBooPayment - started');
           const originalBidAmount = bidAmount.value * 100;
 
           const bidOrBooChargeOnBidder = Math.ceil(originalBidAmount * 0.04);
@@ -62,6 +62,23 @@ module.exports = (app) => {
           const description = `BidOrBoo - Charge for your ${
             _jobRef.templateId
           } request was recieved.`;
+
+          console.log('-------BidOrBooLogging----------------------');
+          console.log('BidOrBooPayment - initiated charge details');
+          console.log('BidOrBooPayment - BidOrBoo Fees ' + bidOrBooTotalCommission);
+          console.log({
+            bidOrBooChargeOnBidder,
+            bidOrBooChargeOnProposer,
+            bidOrBooTotalCommission,
+            bidderId: _bidderRef._id.toString(),
+            bidderEmail: _bidderRef.email.emailAddress,
+            proposerId: req.user._id.toString(),
+            proposerEmail: _jobRef._ownerRef.email.emailAddress,
+            jobId: _jobRef._id.toString(),
+            bidId: _id.toString(),
+            note: `Requester Paid for  ${_jobRef.templateId}`,
+          });
+          console.log('-------BidOrBooLogging----------------------');
           const charge = await stripeServiceUtil.processDestinationCharge({
             statement_descriptor: 'BidOrBoo Charge',
             amount: chargeAmount,
@@ -86,6 +103,9 @@ module.exports = (app) => {
           });
 
           if (charge && charge.status === 'succeeded') {
+            console.log('-------BidOrBooLogging----------------------');
+            console.log('BidOrBooPayment - charge Succeeded');
+            console.log('-------BidOrBooLogging----------------------');
             // update the job and bidder with the chosen awarded bid
             const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
               _jobRef._id.toString(),
@@ -261,6 +281,9 @@ module.exports = (app) => {
   //xxxx
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
+      console.log('-------BidOrBooLogging----------------------');
+      console.log('connectedAccountsWebhook is triggered');
+      console.log('-------BidOrBooLogging----------------------');
       // sign key by strip
       let endpointSecret = keys.stripeWebhookConnectedAccSig;
       let sig = req.headers['stripe-signature'];
@@ -280,6 +303,16 @@ module.exports = (app) => {
             } = customerAcc;
 
             const { userId } = metadata;
+            console.log('-------BidOrBooLogging----------------------');
+            console.log('updateStripeAccountRequirementsDetails started');
+            console.log({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              accRequirements,
+            });
 
             await userDataAccess.updateStripeAccountRequirementsDetails({
               eventId: id,
@@ -289,6 +322,8 @@ module.exports = (app) => {
               payoutsEnabled: payouts_enabled,
               accRequirements,
             });
+            console.log('updateStripeAccountRequirementsDetails done');
+            console.log('-------BidOrBooLogging----------------------');
           }
         }
       }
@@ -302,6 +337,8 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {
+      console.log('payoutsWebhook is triggered');
+
       // sign key by strip
       let endpointSecret = keys.stripeWebhookPayoutAccSig;
       let sig = req.headers['stripe-signature'];
@@ -313,6 +350,9 @@ module.exports = (app) => {
 
         switch (type) {
           case 'payout.paid':
+            console.log('payoutsWebhook payout.paid');
+            console.log({ jobId });
+
             // update the job about this
             jobDataAccess.updateJobById(jobId, {
               $set: {
@@ -323,6 +363,8 @@ module.exports = (app) => {
             //xxx inform user that it is paid via msg email..etc
             break;
           case 'payout.failed':
+            console.log('payoutsWebhook payout.failed');
+            console.log({ jobId });
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'PAYMENT_TO_BANK_FAILED',

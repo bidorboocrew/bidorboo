@@ -139,7 +139,7 @@ class GetNotificationsAndScroll extends React.Component {
                     // xxxx update without reload
                     window.location.reload();
                   }}
-                  className="button is-outlined is-success is-small"
+                  className="button is-success is-small"
                 >
                   Go to Home Page
                 </a>

@@ -46,6 +46,18 @@ exports.TxtMsgingService = {
     } to Rate it.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
+  tellRequesterToConfirmJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo: Please Confirm that ${requestTitle} is Completed! go to ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } to confirm and Rate your Tasker.`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
+  tellRequesterThatWeMarkedJobDone: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+    const msgContent = `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days. go to ${
+      urlLink ? urlLink : 'https://www.bidorboo.com'
+    } to Rate your Tasker.`;
+    return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
+  },
 
   sendJobIsAwardedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: Your Bid Won and ${requestTitle} is Assigned to you! go to ${

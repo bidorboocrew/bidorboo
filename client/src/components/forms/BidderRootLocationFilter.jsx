@@ -182,7 +182,7 @@ export default class BidderRootLocationFilter extends React.Component {
                           <a
                             style={{ marginTop: 6, fontSize: 14 }}
                             onClick={this.autoDetectCurrentAddress}
-                            className="button is-small is-info is-outlined"
+                            className="button is-small is-info"
                           >
                             <span className="icon">
                               <i className="fas fa-map-marker-alt" />

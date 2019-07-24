@@ -274,7 +274,7 @@ class RequesterRequestDetails extends React.Component {
             </div>
             <React.Fragment>
               {!showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <a onClick={this.toggleShowMore} className="button is-small">
                   <span style={{ marginRight: 4 }}>show full details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-down" />
@@ -282,7 +282,7 @@ class RequesterRequestDetails extends React.Component {
                 </a>
               )}
               {showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <a onClick={this.toggleShowMore} className="button is-small">
                   <span style={{ marginRight: 4 }}>show less details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-up" />

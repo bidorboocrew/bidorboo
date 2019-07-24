@@ -63,7 +63,7 @@ export default class MyBidsOpenBid extends React.Component {
             <DisplayLabelValue labelText="My Bid:" labelValue={bidAmountText} />
             <div className="help">* waiting for requester to award.</div>
             <div style={{ margin: '0.5rem 0px' }} className="has-text-centered">
-              <a className="button is-outlined is-fullwidth">View Or Change</a>
+              <a className="button is-fullwidth">View Or Change</a>
             </div>
           </div>
         </div>

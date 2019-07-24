@@ -87,7 +87,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               bidsList={_bidsListRef}
               userAlreadyView={userAlreadyView}
             />
-            <hr className="divider isTight" />
+
             <div className="group saidTest">
               <label className="label">Requester:</label>
               <UserImageAndRating userDetails={_ownerRef} />
@@ -119,10 +119,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             </div>
 
             {userAlreadyBid && (
-              <React.Fragment>
-                <hr className="divider isTight" />
-                {renderTaskerBidInfo && renderTaskerBidInfo()}
-              </React.Fragment>
+              <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>
             )}
             {!userAlreadyBid && (
               <PostYourBid

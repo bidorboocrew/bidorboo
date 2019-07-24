@@ -7,7 +7,6 @@ import moment from 'moment';
 
 import { Spinner } from '../../components/Spinner';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
-import watermark from '../../assets/images/watermark.png';
 
 import {
   getAllMyOpenJobs,
@@ -73,21 +72,16 @@ class MyRequestsPage extends React.Component {
         })
       : null;
 
-    const shouldShowTheThankyouNote = true;
-    // thankYouNote && !isTaskMoreThan1MinuteOld && isThereFreshlyPostedJob ;
-
+    const shouldShowTheThankyouNote = isThereFreshlyPostedJob && !isTaskMoreThan1MinuteOld;
     return (
       <div>
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
           <React.Fragment>
-            <div className="columns is-multiline is-centered is-mobile">
-              {shouldShowTheThankyouNote && <div>{thankYouNote}</div>}
-            </div>
-            <div className="columns is-multiline is-centered is-mobile">
-              {myRequestsSummaryCards}
-            </div>
+            {shouldShowTheThankyouNote && <div>{thankYouNote}</div>}
+
+            <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
           </React.Fragment>
         )}
 

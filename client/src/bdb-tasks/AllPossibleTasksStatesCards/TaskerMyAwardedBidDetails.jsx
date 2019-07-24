@@ -295,7 +295,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show full details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -303,7 +303,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -331,15 +331,11 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <hr className="divider isTight" />
+
           <div style={{ padding: '0.5rem', display: 'flex' }}>
             {bidderConfirmed && !proposerConfirmed && (
               <div style={{ flexGrow: 1 }}>
-                <a
-                  disabled
-                  onClick={() => null}
-                  className={`button is-fullwidth is-success is-outlined`}
-                >
+                <a disabled onClick={() => null} className={`button is-fullwidth is-success`}>
                   <span>Review The Requester</span>
                 </a>
                 <div className="help">
@@ -468,9 +464,7 @@ class TaskerConfirmsCompletion extends React.Component {
         <div style={{ flexGrow: 1 }}>
           <a
             onClick={this.toggleModal}
-            className={`button is-fullwidth is-success is-outlined ${
-              isPastDue ? 'heartbeatInstant' : ''
-            }`}
+            className={`button is-fullwidth is-success ${isPastDue ? 'heartbeatInstant' : ''}`}
           >
             I am Done!
           </a>
@@ -604,7 +598,6 @@ class TaskerDisputes extends React.Component {
                       }}
                     />
                   </div>
-                  <hr className="divider isTight" />
                   <div className="help">
                     * BidOrBoo Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue

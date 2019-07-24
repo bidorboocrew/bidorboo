@@ -85,9 +85,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
               <label className="label">Potential Payout</label>
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">
-                * on hold
-              </div>
+              <div className="help">* on hold</div>
             </div>
             <StartDateAndTime
               date={startingDateAndTime}
@@ -97,24 +95,20 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             />
           </div>
         </div>
-        <React.Fragment>
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-            <a
-              style={{ position: 'relative' }}
-              onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-                );
-              }}
-              className="button is-outlined is-fullwidth is-danger"
-            >
-              View Disputed Task
-            </a>
-          </div>
-        </React.Fragment>
+
+        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+          <a
+            style={{ position: 'relative' }}
+            onClick={() => {
+              switchRoute(
+                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+              );
+            }}
+            className="button is-fullwidth is-danger"
+          >
+            View Disputed Task
+          </a>
+        </div>
       </div>
     );
   }

@@ -171,7 +171,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             )}
             <div>
               {!showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <a onClick={this.toggleShowMore} className="button is-small">
                   <span style={{ marginRight: 4 }}>show full details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-down" />
@@ -179,7 +179,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 </a>
               )}
               {showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small is-outlined">
+                <a onClick={this.toggleShowMore} className="button is-small">
                   <span style={{ marginRight: 4 }}>show less details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-up" />
@@ -193,7 +193,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <UserImageAndRating userDetails={_bidderRef} />
             </div>
           </div>
-          <hr className="divider isTight" />
           <div style={{ display: 'flex' }}>
             {requiresProposerReview && (
               <a
@@ -210,7 +209,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 onClick={() => {
                   alert('Archive not implemented yet, will take you to archieve');
                 }}
-                className={`button is-fullwidth is-outlined is-info`}
+                className={`button is-fullwidth is-info`}
               >
                 View In Archive
               </a>

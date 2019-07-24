@@ -119,7 +119,7 @@ class Toast extends React.Component {
           {displayToast && type === 'error' && (
             <button
               style={{ marginLeft: 6 }}
-              className="button is-small is-outlined"
+              className="button is-small"
               onClick={() => this.userCloseToast()}
             >
               <span className="icon">

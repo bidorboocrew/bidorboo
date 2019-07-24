@@ -93,7 +93,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 bidsList={_bidsListRef}
                 userAlreadyView={userAlreadyView}
               />
-              <hr className="divider isTight" />
+
               <div className="group saidTest">
                 <label className="label">Requester:</label>
                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
@@ -121,7 +121,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           ),
                         );
                       }}
-                      className="button is-outlined is-info is-fullwidth firstButtonInCard nofixedwidth"
+                      className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
                     >
                       View My Bid
                     </a>
@@ -139,7 +139,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           markerRef.current.props.onClick();
                         }
                       }}
-                      className="button is-outlined is-info secondButtonInCard nofixedwidth"
+                      className="button is-info secondButtonInCard nofixedwidth"
                     >
                       <span className="icon">
                         <i className="fas fa-map-marked-alt" />
@@ -181,7 +181,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           markerRef.current.props.onClick();
                         }
                       }}
-                      className="button is-outlined is-info secondButtonInCard nofixedwidth"
+                      className="button is-info secondButtonInCard nofixedwidth"
                     >
                       <span className="icon">
                         <i className="fas fa-map-marked-alt" />
@@ -204,7 +204,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         ),
                       );
                     }}
-                    className="button is-outlined is-small is-fullwidth"
+                    className="button is-small is-fullwidth"
                   >
                     View Your existing Bid
                   </a>
@@ -222,7 +222,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                       }
                     }}
-                    className="button is-success is-small is-outlined is-fullwidth"
+                    className="button is-success is-small is-fullwidth"
                   >
                     Place Your Bid
                   </a>
@@ -230,7 +230,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 <a
                   style={{ marginTop: 10 }}
                   onClick={onCloseHandler}
-                  className="button is-outlined is-small is-fullwidth"
+                  className="button is-small is-fullwidth"
                 >
                   Close
                 </a>

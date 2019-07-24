@@ -105,15 +105,13 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               * We will contact you asap to inform you of the next steps.
             </div>
           </div>
-          <div style={{ padding: '0.5rem' }}>
-            <hr className="divider isTight" />
-          </div>
+
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.mybids);
               }}
-              className={`button is-outlined`}
+              className={`button`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               <span className="icon">

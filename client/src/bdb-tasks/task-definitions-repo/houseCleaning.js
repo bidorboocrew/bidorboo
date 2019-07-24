@@ -32,7 +32,7 @@ export default {
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
-              <i className="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
+              <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
             </div>
           </div>
 
@@ -67,7 +67,7 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i className="fas fa-home" style={{ fontSize: 68, color: '#5c5c5c' }} />
+                <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
                 {/* <img
                   src={taskImage}
                   style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}

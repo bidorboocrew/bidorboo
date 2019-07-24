@@ -91,31 +91,31 @@ class TaskerEditOrUpdateBid extends React.Component {
         <div className="buttons">
           <span
             onClick={() => this.onAutoBid(bidAmount - 10)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${bidAmount - 10}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(bidAmount - 5)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${bidAmount - 5}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(bidAmount)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${bidAmount}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(bidAmount + 5)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${bidAmount + 5}$`}
           </span>
           <span
             onClick={() => this.onAutoBid(bidAmount + 10)}
-            className="button is-success is-outlined is-small"
+            className="button is-success is-small"
           >
             {`${bidAmount + 10}$`}
           </span>
@@ -214,7 +214,7 @@ class TaskerEditOrUpdateBid extends React.Component {
             onClick={() => {
               switchRoute(ROUTES.CLIENT.BIDDER.mybids);
             }}
-            className={`button is-outlined`}
+            className={`button`}
             style={{ flexGrow: 1, marginRight: 10 }}
           >
             <span className="icon">
@@ -229,7 +229,7 @@ class TaskerEditOrUpdateBid extends React.Component {
               e.preventDefault();
               this.showUpdateBidModal();
             }}
-            className="button is-info is-outlined is-outline is-fullwidth"
+            className="button is-info is-outline is-fullwidth"
           >
             <span className="icon">
               <i className="far fa-edit" />

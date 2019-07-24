@@ -343,7 +343,7 @@ const userImageAndStats = (
               </div>
               <div className="has-text-centered">{displayName}</div>
 
-              <a style={{ width: 120 }} className="button is-outlined is-small">
+              <a style={{ width: 120 }} className="button is-small">
                 <span className="icon">
                   <i className="fa fa-camera" />
                 </span>

@@ -107,7 +107,7 @@ class OtherUserProfileForReviewPage extends React.Component {
               <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
             </h1>
             <h2>
-              <a className="button is-link is-outlined" onClick={() => goBackToPreviousRoute()}>
+              <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
                 <span className="icon">
                   <i className="far fa-arrow-alt-circle-left" />
                 </span>
@@ -228,7 +228,6 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asABidderReviews && (
                 <React.Fragment>
                   <br />
-                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Tasker :</label>
                   {asABidderReviews}
                 </React.Fragment>
@@ -237,7 +236,6 @@ class OtherUserProfileForReviewPage extends React.Component {
               {asAProposerReviewsRef && (
                 <React.Fragment>
                   <br />
-                  <hr className="divider isTight" />
                   <label className="label">Reviews recieved as a Requester :</label>
                   {asAProposerReviewsRef}
                 </React.Fragment>
