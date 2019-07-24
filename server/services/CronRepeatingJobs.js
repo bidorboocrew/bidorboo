@@ -6,7 +6,7 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
 const CronJob = require('cron').CronJob;
 // http://pm2.keymetrics.io/docs/usage/environment/
 
-module.exports = (app) => {
+module.exports = () => {
   /**
    * Tasks that we would wana run
    *
@@ -23,7 +23,7 @@ module.exports = (app) => {
     // clean jobs at midnight
     new CronJob(
       // '00 00 00 * * *',
-      '00 00 22 * * *',
+      '00 45 00 * * *',
       async () => {
         try {
           console.log('start running cron job: CleanUpAllExpiredNonAwardedJobs ' + new Date());
@@ -35,16 +35,16 @@ module.exports = (app) => {
           console.log('running cron job: CleanUpAllExpiredNonAwardedJobs ' + JSON.stringify(e));
         }
       },
-      null,
+      () => console.log('end running cron job: CleanUpAllExpiredNonAwardedJobs ' + new Date()),
       true,
       'America/Toronto'
-    );
+    ).start();
 
     // run at midnight pm every day of the week
     // Notify anyone who is assigned a task via email and sms at 8pm
     new CronJob(
       // '00 00 20 * * *',
-      '00 00 22 * * *',
+      '00 45 00 * * *',
       async () => {
         try {
           console.log('start running cron job: SendRemindersForUpcomingJobs ' + new Date());
@@ -56,10 +56,10 @@ module.exports = (app) => {
           console.log('running cron job: SendRemindersForUpcomingJobs ' + JSON.stringify(e));
         }
       },
-      null,
+      () => console.log('end running cron job: SendRemindersForUpcomingJobs ' + new Date()),
       true,
       'America/Toronto'
-    );
+    ).start();
     return;
   }
 };
@@ -69,26 +69,25 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   // CleanUpAllBidsAssociatedWithDoneJobs at 3am
   new CronJob(
     // '00 00 03 * * *',
-    '00 00 22 * * *',
+    '00 45 00 * * *',
     async () => {
       try {
         console.log('start running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date());
         console.time('CleanUpAllBidsAssociatedWithDoneJobs');
         await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
         console.timeEnd('CleanUpAllBidsAssociatedWithDoneJobs');
-        console.log('end running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date());
       } catch (e) {
         console.log('running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e));
       }
     },
-    null,
+    () => console.log('end running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date()),
     true,
     'America/Toronto'
-  );
+  ).start();
 
   new CronJob(
     // '00 00 03 * * *',
-    '00 00 22 * * *',
+    '00 45 00 * * *',
     async () => {
       try {
         console.log(
@@ -98,10 +97,6 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
         console.time('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
         await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
         console.timeEnd('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
-        console.log(
-          'end running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
-            new Date()
-        );
       } catch (e) {
         console.log(
           'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
@@ -109,10 +104,14 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
         );
       }
     },
-    null,
+    () =>
+      console.log(
+        'end running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+          new Date()
+      ),
     true,
     'America/Toronto'
-  );
+  ).start();
 }
 
 if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '2') {
@@ -121,20 +120,19 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   // at 10pm submit payments
   new CronJob(
     // '00 00 */6 * * *',
-    '00 00 22 * * *',
+    '00 45 00 * * *',
     async () => {
       try {
         console.log('start running cron job: SendPayoutsToBanks ' + new Date());
         console.time('SendPayoutsToBanks');
         await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
         console.timeEnd('SendPayoutsToBanks');
-        console.log('end running cron job: SendPayoutsToBanks ' + new Date());
       } catch (e) {
         console.log('running cron job: SendPayoutsToBanks ' + JSON.stringify(e));
       }
     },
-    null,
+    () => console.log('end running cron job: SendPayoutsToBanks ' + new Date()),
     true,
     'America/Toronto'
-  );
+  ).start();
 }
