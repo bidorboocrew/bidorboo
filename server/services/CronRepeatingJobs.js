@@ -22,7 +22,8 @@ module.exports = (app) => {
     // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
     // clean jobs at midnight
     new CronJob(
-      '00 00 00 * * *',
+      // '00 00 00 * * *',
+      '00 00 22 * * *',
       async () => {
         try {
           console.log('start running cron job: CleanUpAllExpiredNonAwardedJobs ' + new Date());
@@ -42,7 +43,8 @@ module.exports = (app) => {
     // run at midnight pm every day of the week
     // Notify anyone who is assigned a task via email and sms at 8pm
     new CronJob(
-      '00 00 20 * * *',
+      // '00 00 20 * * *',
+      '00 00 22 * * *',
       async () => {
         try {
           console.log('start running cron job: SendRemindersForUpcomingJobs ' + new Date());
@@ -66,7 +68,8 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
   // CleanUpAllBidsAssociatedWithDoneJobs at 3am
   new CronJob(
-    '00 00 03 * * *',
+    // '00 00 03 * * *',
+    '00 00 22 * * *',
     async () => {
       try {
         console.log('start running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + new Date());
@@ -84,7 +87,8 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   );
 
   new CronJob(
-    '00 00 03 * * *',
+    // '00 00 03 * * *',
+    '00 00 22 * * *',
     async () => {
       try {
         console.log(
@@ -92,7 +96,7 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
             new Date()
         );
         console.time('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
-        await jobDataAccess.BidOrBooAdmin.InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct();
+        await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
         console.timeEnd('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
         console.log(
           'end running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
@@ -116,7 +120,8 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE === '
   // CleanUpAllBidsAssociatedWithDoneJobs at 3am
   // at 10pm submit payments
   new CronJob(
-    '00 00 */6 * * *',
+    // '00 00 */6 * * *',
+    '00 00 22 * * *',
     async () => {
       try {
         console.log('start running cron job: SendPayoutsToBanks ' + new Date());

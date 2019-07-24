@@ -71,6 +71,48 @@ exports.WebPushNotifications = {
       return e;
     }
   },
+  tellRequesterThatWeMarkedJobDone: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days.`,
+          body: `Click to rate the tasker`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
+  tellRequesterToConfirmJob: async (
+    targetUserPushSubscription,
+    { requestTitle, icon, urlToLaunch }
+  ) => {
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `BidOrBoo: Confirm that ${requestTitle} is Completed!`,
+          body: `Click to confirm completion and Rate the tasker`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
   pushJobIsHappeningSoon: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }

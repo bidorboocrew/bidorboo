@@ -171,10 +171,10 @@ exports.jobDataAccess = {
       return;
     },
     CleanUpAllExpiredNonAwardedJobs: async () => {
-      const past48Hours = moment()
-        .subtract(2, 'days')
-        .tz('America/Toronto')
-        .toISOString();
+      // const past48Hours = moment()
+      //   .subtract(2, 'days')
+      //   .tz('America/Toronto')
+      //   .toISOString();
 
       const rightNow = moment.utc(moment());
 
@@ -217,6 +217,8 @@ exports.jobDataAccess = {
               const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
               if (isJobPastDue) {
+                console.log('-------BidOrBooLogging----------------------');
+
                 const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
                 if (areThereAnyBids) {
                   bidsIds = [];
@@ -258,6 +260,7 @@ exports.jobDataAccess = {
                 await JobModel.deleteOne({ _id: job._id.toString() })
                   .lean(true)
                   .exec();
+                console.log('-------BidOrBooLogging----------------------');
               }
             });
           }
@@ -265,7 +268,7 @@ exports.jobDataAccess = {
 
       return;
     },
-    InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct: async () => {
+    nagRequesterToConfirmJob: async () => {
       // const past48Hours = moment()
       //   .tz('America/Toronto')
       //   .toISOString();
@@ -274,7 +277,7 @@ exports.jobDataAccess = {
         $and: [
           {
             state: {
-              $in: ['AWARDED', 'DISPUTED'],
+              $in: ['AWARDED'],
             },
           },
           { jobCompletion: { $exists: true } },
@@ -285,12 +288,7 @@ exports.jobDataAccess = {
               { 'jobCompletion.proposerDisputed': { $eq: false } },
             ],
           },
-          {
-            $or: [
-              { 'jobCompletion.bidderConfirmed': { $eq: true } },
-              { 'jobCompletion.bidderDisputed': { $eq: true } },
-            ],
-          },
+          { 'jobCompletion.bidderConfirmed': { $eq: true } },
         ],
       })
         .lean(true)
@@ -299,10 +297,129 @@ exports.jobDataAccess = {
             throw err;
           }
 
+          const threeDaysAgo = moment.utc().subtract(3, 'd');
+
           if (res && res.length > 0) {
             res.forEach(async (job) => {
-              // xxxx do more work here
-              const x = 1;
+              const jobStartDate = job.startingDateAndTime;
+              const markAsDoneAnyways = jobStartDate.isBefore(threeDaysAgo);
+
+              const {
+                requesterDisplayName,
+                jobDisplayName,
+                requestLinkForRequester,
+                requesterEmailAddress,
+                requesterPhoneNumber,
+                allowedToEmailRequester,
+                allowedToTextRequester,
+                allowedToPushNotifyRequester,
+                requesterPushNotSubscription,
+              } = await getAllContactDetails(job._id);
+              console.log('-------BidOrBooLogging----------------------');
+
+              if (markAsDoneAnyways) {
+                console.log('-------AUTO MARK JOB DONE----------------------');
+                console.log(job._id);
+
+                await JobModel.findOneAndUpdate(
+                  { _id: job._id },
+                  {
+                    $set: {
+                      state: 'DONE',
+                    },
+                  },
+                  { new: true }
+                )
+                  .lean(true)
+                  .exec();
+                console.log('-------AUTO MARK JOB DONE----------------------');
+                if (allowedToEmailRequester) {
+                  console.log('sensendGridEmailingdTextService.tellRequesterThatWeMarkedJobDone');
+                  console.log({
+                    to: requesterEmailAddress,
+                    requestTitle: jobDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                  sendGridEmailing.tellRequesterThatWeMarkedJobDone({
+                    to: requesterEmailAddress,
+                    requestTitle: jobDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                }
+
+                if (allowedToTextRequester) {
+                  console.log('sendTextService.tellRequesterThatWeMarkedJobDone');
+                  console.log({
+                    requesterPhoneNumber,
+                    jobDisplayName,
+                    requestLinkForRequester,
+                  });
+                  sendTextService.tellRequesterThatWeMarkedJobDone(
+                    requesterPhoneNumber,
+                    jobDisplayName,
+                    requestLinkForRequester
+                  );
+                }
+
+                if (allowedToPushNotifyRequester) {
+                  console.log('WebPushNotifications.tellRequesterToConfirmJob');
+                  console.log({
+                    requestTitle: jobDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+
+                  WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
+                    requestTitle: jobDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+                }
+              } else {
+                if (allowedToEmailRequester) {
+                  console.log('sensendGridEmailingdTextService.tellRequesterToConfirmJob');
+                  console.log({
+                    to: requesterEmailAddress,
+                    requestTitle: jobDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                  sendGridEmailing.tellRequesterToConfirmJob({
+                    to: requesterEmailAddress,
+                    requestTitle: jobDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                }
+
+                if (allowedToTextRequester) {
+                  console.log('sendTextService.tellRequesterToConfirmJob');
+                  console.log({
+                    requesterPhoneNumber,
+                    jobDisplayName,
+                    requestLinkForRequester,
+                  });
+                  sendTextService.tellRequesterToConfirmJob(
+                    requesterPhoneNumber,
+                    jobDisplayName,
+                    requestLinkForRequester
+                  );
+                }
+
+                if (allowedToPushNotifyRequester) {
+                  console.log('WebPushNotifications.tellRequesterToConfirmJob');
+                  console.log({
+                    requestTitle: jobDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+
+                  WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
+                    requestTitle: jobDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+                }
+              }
+              console.log('-------BidOrBooLogging----------------------');
             });
           }
         });
@@ -311,7 +428,8 @@ exports.jobDataAccess = {
     },
     SendPayoutsToBanks: async () => {
       // find all jobs that are done and does not have payment to bank on the way
-
+      console.log('-------BidOrBooLogging----------------------');
+      console.log(' SendPayoutsToBanks');
       return JobModel.find({
         _awardedBidRef: { $exists: true },
         state: { $in: ['DONE'] },
@@ -347,6 +465,8 @@ exports.jobDataAccess = {
 
                 // confirm there is enough available balance to cover payment
                 if (isThereEnoughToCoverPayout) {
+                  console.log('send payout');
+
                   const payoutInititated = await stripeServiceUtil.payoutToBank(bidderStripeAcc, {
                     amount: bidderPayout,
                     metadata: {
@@ -355,6 +475,13 @@ exports.jobDataAccess = {
                       bidderStripeAcc,
                       note: 'Release Payout to Tasker',
                     },
+                  });
+                  console.log({
+                    amount: bidderPayout,
+                    chargeId,
+                    jobId: _id.toString(),
+                    bidderStripeAcc,
+                    note: 'Release Payout to Tasker',
                   });
 
                   const { id, status } = payoutInititated;
@@ -374,12 +501,16 @@ exports.jobDataAccess = {
                   );
                 }
               }
+              console.log('-------BidOrBooLogging----------------------');
             });
           }
         });
     },
 
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
+      console.log('-------BidOrBooLogging----------------------');
+      console.log('CleanUpAllBidsAssociatedWithDoneJobs');
+
       await JobModel.find({
         _awardedBidRef: { $exists: true },
         state: { $in: ['ARCHIVE'] },
@@ -401,6 +532,8 @@ exports.jobDataAccess = {
             res.forEach(async (job) => {
               const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
               if (areThereAnyBids) {
+                console.log('cleaned ' + job._id);
+
                 bidsIds = [];
                 biddersIds = [];
                 const awardedBidRefId = job._awardedBidRef._id.toString();
