@@ -302,7 +302,7 @@ exports.jobDataAccess = {
           if (res && res.length > 0) {
             res.forEach(async (job) => {
               const jobStartDate = job.startingDateAndTime;
-              const markAsDoneAnyways = jobStartDate.isBefore(threeDaysAgo);
+              const markAsDoneAnyways = moment(jobStartDate).isBefore(threeDaysAgo);
 
               const {
                 requesterDisplayName,
