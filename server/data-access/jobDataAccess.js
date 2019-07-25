@@ -207,7 +207,7 @@ exports.jobDataAccess = {
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
-              const jobStartDate = job.startingDateAndTime;
+              const jobStartDate = moment(job.startingDateAndTime);
 
               // normalize the start date to the same timezone to comapre
               // const normalizedStartDate = moment(jobStartDate)
