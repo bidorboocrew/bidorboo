@@ -169,7 +169,7 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
-          className={`button is-light`}
+          className={`button is-info`}
         >
           <span>View Task</span>
         </a>
