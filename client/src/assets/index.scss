@@ -332,7 +332,7 @@ $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
 $yellow: #e19f00 !default;
 $green: #26ca70 !default;
-$cyan: #0a8fd1 !default;
+$cyan: #6b88e0 !default;
 $blue: #4285f4 !default;
 $purple: #ce1bbf !default;
 $red: #ee2a36 !default;
@@ -531,6 +531,23 @@ article.media.limitHeight {
     width: auto;
   }
 }
+
+div.centeredButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  border-radius: 25px;
+  margin-right: auto;
+  width: 160px;
+  bottom: -1rem;
+  > a {
+    width: 160px;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  }
+}
+
 .firstButtonInCard {
   font-weight: 400;
   position: absolute;

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,53 +9,16 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
+  SummaryStartDateAndTime,
+  AwaitingOnTasker,
+  PastdueExpired,
+  JobCardTitle,
+  TaskersAvailable,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import { isPast } from 'date-fns';
 
 class RequesterRequestSummary extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
-  toggleShowMore = () => {
-    this.setState({ showMore: !this.state.showMore });
-  };
-  toggleDeleteConfirmationDialog = () => {
-    this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
-  };
-
-  toggleShowMoreOptionsContextMenu = (e) => {
-    e.preventDefault();
-    this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
-      if (this.state.showMoreOptionsContextMenu) {
-        document.addEventListener('mousedown', this.handleClick, false);
-      } else {
-        document.removeEventListener('mousedown', this.handleClick, false);
-      }
-    });
-  };
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClick = (e) => {
-    if (this.node && e.target && this.node.contains(e.target)) {
-      return;
-    } else {
-      this.toggleShowMoreOptionsContextMenu(e);
-    }
-  };
   render() {
     const { job, cancelJobById, notificationFeed } = this.props;
     if (!job || !job._id || !notificationFeed || !cancelJobById) {
@@ -81,7 +43,6 @@ class RequesterRequestSummary extends React.Component {
     ) {
       return <div>RequesterRequestSummary is missing properties</div>;
     }
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
@@ -92,158 +53,30 @@ class RequesterRequestSummary extends React.Component {
 
     return (
       <React.Fragment>
-        {showDeleteDialog &&
-          ReactDOM.createPortal(
-            <div className="modal is-active">
-              <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Request</div>
-                  <button
-                    onClick={this.toggleDeleteConfirmationDialog}
-                    className="delete"
-                    aria-label="close"
-                  />
-                </header>
-                <section className="modal-card-body">
-                  <div className="content">
-                    When you cancel a request we will delete it and all associated bids within 24
-                    hours.
-                    <br /> You can always post a new request at any time
-                  </div>
-                  <div className="help">*This action will NOT affect your ratings.</div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button
-                    style={{ width: 160 }}
-                    onClick={this.toggleDeleteConfirmationDialog}
-                    className="button is-outline"
-                  >
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
-                  </button>
-                  <button
-                    style={{ width: 160 }}
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      cancelJobById(jobId);
-                      this.toggleDeleteConfirmationDialog();
-                    }}
-                    className="button is-danger"
-                  >
-                    <span className="icon">
-                      <i className="far fa-trash-alt" />
-                    </span>
-                    <span>Cancel Request</span>
-                  </button>
-                </footer>
-              </div>
-            </div>,
-            document.querySelector('#bidorboo-root-modals'),
-          )}
-        <div className={`card cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card has-text-centered cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="title">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
-                </div>
-                {!isPastDue && (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
+              <JobCardTitle icon={ICON} title={TITLE} />
 
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          className="dropdown-item  has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              {isPastDue && (
-                <div className="group saidTest">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-dark">Past Due - Expired</div>
-                  <div className="help">* This Request will be deleted in 48 hours</div>
-                </div>
-              )}
-
-              {!isPastDue && (
-                <React.Fragment>
-                  {!areThereAnyBidders && (
-                    <div className="group saidTest">
-                      <label className="label">Request Status</label>
-                      <div className="control">Awaiting on Taskers</div>
-                      {!isHappeningSoon && !isHappeningToday && (
-                        <div className="help">
-                          * No Taskers offered to do this yet! check again soon.
-                        </div>
-                      )}
-                      {(isHappeningSoon || isHappeningToday) && (
-                        <div className="help">* Expiring soon, if no Taskers are available yet</div>
-                      )}
-                    </div>
-                  )}
-                  {areThereAnyBidders && (
-                    <div className="group saidTest">
-                      <label className="label">Request Status</label>
-                      <div className="control has-text-info">Taskers Available</div>
-                      {!isHappeningSoon && !isHappeningToday && (
-                        <div className="help has-text-info">
-                          * Review the offers regularly and choose a Tasker.
-                        </div>
-                      )}
-                      {(isHappeningSoon || isHappeningToday) && (
-                        <div className="help has-text-info">
-                          * Expiring soon, Choose a Tasker asap
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
-              <StartDateAndTime
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              {isPastDue && <PastdueExpired />}
 
-              {/* <DisplayShortAddress addressText={addressText} /> */}
+              {!isPastDue && (
+                <React.Fragment>
+                  {!areThereAnyBidders && <AwaitingOnTasker />}
+                  {areThereAnyBidders && (
+                    <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
+                  )}
+                </React.Fragment>
+              )}
             </div>
           </div>
           {renderFooter({ job, notificationFeed, isPastDue })}
@@ -278,52 +111,71 @@ export default connect(
 const renderFooter = ({ job, notificationFeed, isPastDue }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
   let doesthisJobHaveNewBids = false;
-  // let numberOfNewBids = 0;
 
   if (!isPastDue && notificationFeed.jobIdsWithNewBids) {
     for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
       if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
         doesthisJobHaveNewBids = true;
-        // numberOfNewBids = notificationFeed.jobIdsWithNewBids[i]._bidsListRef.length;
         break;
       }
     }
   }
 
-  return (
-    <React.Fragment>
-      {!isPastDue && (
-        <div className="firstButtonInCard">
-          <a
-            disabled={isPastDue}
-            style={{ position: 'relative' }}
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
-            }}
-            className={`button is-info`}
-          >
-            {areThereAnyBidders && !isPastDue && (
-              <span>
-                <span className="icon">
-                  <i className="fa fa-hand-paper" />
-                </span>
-                <span>{`View (${job._bidsListRef.length}) ${
-                  job._bidsListRef.length > 1 ? 'Offers' : 'Offer'
-                }`}</span>
-              </span>
-            )}
-            {!areThereAnyBidders && <span>View Details</span>}
-            {areThereAnyBidders && doesthisJobHaveNewBids && (
-              <div
-                style={{ position: 'absolute', top: -5, right: -5, fontSize: 10 }}
-                className="has-text-danger"
-              >
-                <i className="fas fa-circle" />
-              </div>
-            )}
-          </a>
-        </div>
-      )}
-    </React.Fragment>
-  );
+  let cardButton = null;
+  if (isPastDue) {
+    cardButton = (
+      <div className="centeredButtonInCard">
+        <a className={`button is-danger`}>
+          <span>
+            <span className="icon">
+              <i className="fa fa-hand-paper" />
+            </span>
+            <span>{`Delete Task`}</span>
+          </span>
+        </a>
+      </div>
+    );
+  } else if (areThereAnyBidders) {
+    cardButton = (
+      <div className="centeredButtonInCard">
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+          }}
+          className={`button is-success`}
+        >
+          <span>
+            <span className="icon">
+              <i className="fa fa-hand-paper" />
+            </span>
+            <span>{`View ${job._bidsListRef.length > 1 ? 'Offers' : 'Offer'}`}</span>
+          </span>
+
+          {doesthisJobHaveNewBids && (
+            <div
+              style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+              className="has-text-danger"
+            >
+              <i className="fas fa-circle" />
+            </div>
+          )}
+        </a>
+      </div>
+    );
+  } else {
+    cardButton = (
+      <div className="centeredButtonInCard">
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+          }}
+          className={`button is-light`}
+        >
+          <span>View Task</span>
+        </a>
+      </div>
+    );
+  }
+
+  return cardButton;
 };

@@ -1,8 +1,9 @@
 import React from 'react';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
+  DisputedBy,
+  SummaryStartDateAndTime,
+  JobCardTitle,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -44,38 +45,24 @@ export default class RequesterDisputedSummary extends React.Component {
     }
 
     return (
-      <div className="card disputeOnlyView cardWithButton">
+      <div className="card has-text-centered disputeOnlyView cardWithButton">
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
+            <JobCardTitle icon={ICON} title={TITLE} />
 
-            <div className="group saidTest">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
-            </div>
-
-            <StartDateAndTime
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            {/* <DisplayShortAddress addressText={addressText} /> */}
+            <DisputedBy name="Tasker" />
           </div>
         </div>
 
         <React.Fragment>
-          <div className="firstButtonInCard">
+          <div className="centeredButtonInCard">
             <a
-              style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}

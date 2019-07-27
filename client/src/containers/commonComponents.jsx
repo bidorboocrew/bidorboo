@@ -639,3 +639,284 @@ export const VerifiedVia = ({ userDetails, isCentered = true, smallfont = true }
     </div>
   );
 };
+
+export const SummaryStartDateAndTime = ({ date }) => {
+  const startingDate = moment(date).format('DD/MMM');
+
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          fontWeight: 500,
+          fontSize: 18,
+        }}
+      >
+        <div style={{ borderRight: '1px solid lightgrey', padding: 10, flex: '1 1 0' }}>
+          {startingDate}
+        </div>
+        <div style={{ padding: 10, flex: '1 1 0' }}>{moment(date).fromNow()}</div>
+      </div>
+    </div>
+  );
+};
+export const AwaitingOnTasker = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          border: '1px solid lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid lightgrey',
+            width: 28,
+            background: 'lightgrey',
+            marginRight: 8,
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+          }}
+        >
+          Awaiting On Taskers
+        </div>
+      </div>
+      <div style={{ height: 45 }}>
+        <div className="help">*Check Back soon!</div>
+      </div>
+    </div>
+  );
+};
+
+export const PastdueExpired = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          border: '1px solid lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #ef2834',
+            width: 28,
+            background: '#ef2834',
+            marginRight: 8,
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+          }}
+        >
+          Past Due - Expired
+        </div>
+      </div>
+      <div style={{ height: 45 }}>
+        <div className="help">*BidOrBoo will auto delete this task</div>
+      </div>
+    </div>
+  );
+};
+
+export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          border: '1px solid lightgrey',
+        }}
+      >
+        <div
+          style={{
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #26ca70',
+            width: 28,
+            background: '#26ca70',
+            marginRight: 8,
+            alignItems: 'center',
+          }}
+        >
+          {numberOfAvailableTaskers}
+        </div>
+        <div
+          style={{
+            fontSize: 18,
+          }}
+        >
+          {numberOfAvailableTaskers > 1 ? 'Taskers Available' : 'Tasker Available'}
+        </div>
+      </div>
+      <div style={{ height: 45 }}>
+        <div className="help">*Review And Award A Tasker</div>
+      </div>
+    </div>
+  );
+};
+
+export const AssignedTasker = ({ displayName }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          border: '1px solid lightgrey',
+          background: 'lightgrey',
+        }}
+      >
+        <div
+          style={{
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #26ca70',
+            width: 28,
+            background: '#26ca70',
+            marginRight: 8,
+            alignItems: 'center',
+          }}
+        />
+        <div
+          style={{
+            fontSize: 18,
+          }}
+        >
+          {`${displayName} is Tasked`}
+        </div>
+      </div>
+      <div style={{ height: 45 }}>
+        <div className="help">*Contact Tasker To finalize details</div>
+      </div>
+    </div>
+  );
+};
+
+export const JobCardTitle = ({ icon, title }) => {
+  return (
+    <div style={{ display: 'flex' }}>
+      <div style={{ flexGrow: 1 }} className="title">
+        <span className="icon">
+          <i className={icon} />
+        </span>
+        <span style={{ marginLeft: 7 }}>{title}</span>
+      </div>
+    </div>
+  );
+};
+
+export const CancelledBy = ({ name, refundAmount }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          background: 'lightgrey',
+          border: '1px solid lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #ef2834',
+            width: 28,
+            background: '#ef2834',
+            marginRight: 8,
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+          }}
+        >
+          {`Cancelled by ${name}`}
+        </div>
+      </div>{' '}
+      <div style={{ height: 45 }}>
+        <div className="help">*BidorBoo will refund ${refundAmount}%</div>
+      </div>
+    </div>
+  );
+};
+
+export const DisputedBy = ({ name }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          borderRadius: 25,
+          border: '1px solid lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px dashed #ef2834',
+            width: 28,
+            marginRight: 8,
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 18,
+          }}
+        >
+          {`Disputed by ${name}`}
+        </div>
+      </div>
+      <div style={{ height: 45 }}>
+        <div className="help is-danger">*BidorBooCrew will resolve this ASAP</div>
+      </div>
+    </div>
+  );
+};

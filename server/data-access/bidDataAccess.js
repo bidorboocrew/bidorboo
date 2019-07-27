@@ -115,24 +115,45 @@ exports.bidDataAccess = {
           });
 
           if (refundCharge.status === 'succeeded') {
-            const jobStartDateAndtime = bidDetails._jobRef.startingDateAndTime;
-
             // normalize the start date to the same timezone to comapre
-            const normalizedStartDate = moment(jobStartDateAndtime)
-              .tz('America/Toronto')
-              .toISOString();
-            const today = moment()
-              .tz('America/Toronto')
-              .startOf('day')
-              .toISOString();
-            const isPastDue = moment(normalizedStartDate).isBefore(today);
 
+            // const jobStartDateAndtime = bidDetails._jobRef.startingDateAndTime;
+
+            // this code will auto re open the task xxxxxxxxxxxxxxxxxxxx
+            //   const normalizedStartDate = moment(jobStartDateAndtime)
+            //   .tz('America/Toronto')
+            //   .toISOString();
+            // const today = moment()
+            //   .tz('America/Toronto')
+            //   .startOf('day')
+            //   .toISOString();
+            // const isPastDue = moment(normalizedStartDate).isBefore(today);
+            // JobModel.findOneAndUpdate(
+            //   { _id: requestedJobId, _ownerRef: requesterId },
+            //   {
+            //     $set: {
+            //       state: `${isPastDue ? 'AWARDED_CANCELED_BY_BIDDER' : 'RE_OPEN'}`,
+            //       'processedPayment.refund': {
+            //         amount: refundCharge.amount,
+            //         charge: refundCharge.charge,
+            //         id: refundCharge.id,
+            //         status: refundCharge.status,
+            //       },
+            //       _awardedBidRef: null,
+            //     },
+            //     $push: { hideFrom: taskerId },
+            //     $pull: { _bidsListRef: bidDetails._id },
+            //   },
+            //   { new: true }
+            // )
+            //   .lean(true)
+            //   .exec(),
             const [updatedJob, updatedBid, updatedTasker] = await Promise.all([
               JobModel.findOneAndUpdate(
                 { _id: requestedJobId, _ownerRef: requesterId },
                 {
                   $set: {
-                    state: `${isPastDue ? 'AWARDED_CANCELED_BY_BIDDER' : 'OPEN'}`,
+                    state: 'AWARDED_CANCELED_BY_BIDDER',
                     'processedPayment.refund': {
                       amount: refundCharge.amount,
                       charge: refundCharge.charge,
@@ -160,9 +181,15 @@ exports.bidDataAccess = {
               UserModel.findByIdAndUpdate(
                 taskerId,
                 {
-                  $push: { 'rating.canceledBids': bidId },
+                  $push: {
+                    'rating.canceledBids': bidId,
+                    'rating.latestComment':
+                      'BidOrBoo Auto Review: Cancelled On The Requester After Making An Agreement',
+                  },
                   $inc: {
                     'rating.globalRating': -0.25,
+                    'rating.numberOfTimesBeenRated': 1,
+                    'rating.totalOfAllRating': 3.75,
                   },
                 },
                 { new: true }
@@ -249,7 +276,7 @@ exports.bidDataAccess = {
               }
             }
             return resolve({ success: true, bidId });
-            // ^-------- assert things
+            // ^-------- assert things xxxxxxxxxxxxxxxxxxxxxxxxx
           } else {
             return reject({
               refund: refundCharge,

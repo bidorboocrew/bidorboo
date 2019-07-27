@@ -2,7 +2,9 @@ import React from 'react';
 import {
   CountDownComponent,
   StartDateAndTime,
-  DisplayShortAddress,
+  SummaryStartDateAndTime,
+  JobCardTitle,
+  CancelledBy,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -47,56 +49,39 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
-      <div className="card readOnlyView cardWithButton">
-        {/* <div className="card-image">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
+      <div
+        style={{ border: '1px solid #ee2a36' }}
+        className="card has-text-centered cardWithButton"
+      >
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                <div className="help">{`* This was canceled by ${ownerDisplayName}`}</div>
-              </div>
-            )}
+            <JobCardTitle icon={ICON} title={TITLE} />
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control">{displayStatus}</div>
-                {`* This was canceled by ${_bidderRef.displayName}`}
-              </div>
-            )}
-
-            <StartDateAndTime
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            {/* <DisplayShortAddress addressText={addressText} /> */}
+            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
+              <CancelledBy name={'You'} refundAmount={75} />
+            )}
+
+            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
+              <CancelledBy name={_bidderRef.displayName} refundAmount={100} />
+            )}
           </div>
         </div>
 
         <React.Fragment>
-          <div className="firstButtonInCard">
+          <div className="centeredButtonInCard">
             <a
-              style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
               className="button is-danger"
             >
-              View Implications
+              Implications
             </a>
           </div>
         </React.Fragment>
