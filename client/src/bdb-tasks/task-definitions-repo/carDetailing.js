@@ -50,7 +50,7 @@ export default {
           <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
         </div>
         <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-          Thanks For Posting!
+          Thanks You!
         </h1>
 
         <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>

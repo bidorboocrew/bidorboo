@@ -15,6 +15,12 @@ export const showToastMessage = (toastDetails) => (dispatch) =>
     payload: { toastDetails: toastDetails },
   });
 
+export const showSpecialMoment = (specialMomentContent) => (dispatch) =>
+  dispatch({
+    type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
+    payload: { specialMomentContent },
+  });
+
 export const setServerAppBidderView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
   if (userAppView !== 'BIDDER') {

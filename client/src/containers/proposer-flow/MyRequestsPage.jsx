@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ReactDOM from 'react-dom';
-
-import moment from 'moment';
 
 import { Spinner } from '../../components/Spinner';
-import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
-
 import {
   getAllMyOpenJobs,
   cancelJobById,
@@ -20,20 +15,6 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 class MyRequestsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    if (props.match && props.match.params && props.match.params.templateId) {
-      this.freshPostTemplateId = props.match.params.templateId;
-    }
-
-    if (props.match && props.match.params && props.match.params.createdAt) {
-      this.freshPostedCreatedAt = props.match.params.createdAt;
-    }
-
-    if (props.match && props.match.params && props.match.params.jobId) {
-      this.freshJobId = props.match.params.jobId;
-    }
-  }
   componentDidMount() {
     this.props.getAllMyRequests();
   }
@@ -41,25 +22,9 @@ class MyRequestsPage extends React.Component {
   render() {
     const { allMyRequests, isLoading } = this.props;
 
-    // determine whether to show the new posted job thank you banner
-    let isTaskMoreThan1MinuteOld = false;
-    const isThereFreshlyPostedJob = !!(
-      this.freshPostedCreatedAt &&
-      this.freshPostTemplateId &&
-      this.freshJobId
-    );
-    if (isThereFreshlyPostedJob) {
-      let aMinuteAgo = moment().subtract(30, 's');
-      isTaskMoreThan1MinuteOld = moment(this.freshPostedCreatedAt).isBefore(aMinuteAgo);
-    }
-    let thankYouNote = null;
-
     const areThereAnyJobsToView = allMyRequests && allMyRequests.length > 0;
     let myRequestsSummaryCards = areThereAnyJobsToView
       ? allMyRequests.map((job) => {
-          if (job._id === this.freshJobId) {
-            thankYouNote = <ThankYou job={job} />;
-          }
           return (
             <div key={job._id} className="column is-narrow isforCards">
               {getMeTheRightRequestCard({
@@ -72,16 +37,15 @@ class MyRequestsPage extends React.Component {
         })
       : null;
 
-    const shouldShowTheThankyouNote = isThereFreshlyPostedJob && !isTaskMoreThan1MinuteOld;
     return (
       <div>
         {/* <FloatingAddNewRequestButton /> */}
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
           <React.Fragment>
-            {shouldShowTheThankyouNote && <div>{thankYouNote}</div>}
-
-            <div className="columns is-multiline is-centered is-mobile">{myRequestsSummaryCards}</div>
+            <div className="columns is-multiline is-centered is-mobile">
+              {myRequestsSummaryCards}
+            </div>
           </React.Fragment>
         )}
 
@@ -150,18 +114,3 @@ const EmptyStateComponent = () => (
     </div>
   </div>
 );
-
-const ThankYou = ({ job }) => {
-  const [showModal, setShowModal] = useState(true);
-
-  const taskDefinition = TASKS_DEFINITIONS[job.templateId];
-  return ReactDOM.createPortal(
-    <div className={`modal ${showModal ? 'is-active' : ''}`}>
-      <div onClick={() => setShowModal(false)} className="modal-background" />
-      <div className="modal-content has-text-centered">
-        {taskDefinition.renderThankYouCard(setShowModal)}
-      </div>
-    </div>,
-    document.querySelector('#bidorboo-root-modals'),
-  );
-};

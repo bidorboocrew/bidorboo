@@ -51,9 +51,6 @@ class FreshdeskChat extends React.Component {
             backgroundColor: '#ef2834',
             foregroundColor: '#353535',
             hideChatButton: true,
-            fontName: 'Work Sans, sans-serif',
-            fontUrl:
-              'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap',
           },
           content: {
             headers: {
@@ -118,11 +115,7 @@ class FreshdeskChat extends React.Component {
   render() {
     const { isInitialized } = this.state;
     return isInitialized ? (
-      <button
-        id="bob-ChatSupport"
-        onClick={this.togglChat}
-        className="button is-danger"
-      >
+      <button id="bob-ChatSupport" onClick={this.togglChat} className="button is-danger">
         <span className="icon">
           <i className="far fa-comment-dots" />
         </span>

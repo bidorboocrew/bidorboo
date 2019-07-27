@@ -2,6 +2,7 @@ import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
 export const updateBooedBy = (jobDetails) => (dispatch) =>
   dispatch({
@@ -311,9 +312,10 @@ export const postNewJob = (jobDetails) => (dispatch) => {
       .then((resp) => {
         //on successful creation of a job redirect the user to my jobs
         if (resp.data && resp.data._id) {
-          const { _id, templateId, createdAt } = resp.data;
+          const { templateId } = resp.data;
 
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicMyRequestsPage(templateId, createdAt, _id));
+          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
@@ -321,6 +323,15 @@ export const postNewJob = (jobDetails) => (dispatch) => {
                 type: 'success',
                 msg: 'Service Request was sucessfully created.',
               },
+            },
+          });
+
+          const taskDefinition = TASKS_DEFINITIONS[templateId];
+
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
+            payload: {
+              specialMomentContent: taskDefinition.renderThankYouCard,
             },
           });
         }

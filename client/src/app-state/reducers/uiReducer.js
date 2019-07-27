@@ -3,6 +3,7 @@ import * as A from '../actionTypes';
 import uuidv1 from 'uuid/v1';
 
 const initialState = {
+  specialMomentContent: null,
   authIsInProgress: true,
   shouldShowLoginDialog: false,
   userAppView: 'PROPOSER', //or BIDDER
@@ -26,7 +27,12 @@ const showToastNotification = (state = initialState, { payload }) => ({
   ...state,
   toastDetails: { ...payload.toastDetails, toastId: uuidv1() },
 });
-
+const showSpecialMoment = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    specialMomentContent: payload.specialMomentContent || null,
+  };
+};
 const updateNotificationFeed = (state = initialState, { payload }) => {
   if (payload) {
     // const
@@ -60,6 +66,7 @@ export default handleActions(
     [`${A.UI_ACTIONS.OPEN_LOGIN_DIALOG}`]: openLoginDialog,
     [`${A.UI_ACTIONS.CLOSE_LOGIN_DIALOG}`]: closeLoginDialog,
     [`${A.UI_ACTIONS.SHOW_TOAST_MSG}`]: showToastNotification,
+    [`${A.UI_ACTIONS.SHOW_SPECIAL_MOMENT}`]: showSpecialMoment,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
 
     [`${A.UI_ACTIONS.SET_APP_BIDDER_VIEW}`]: (state = initialState) => {
