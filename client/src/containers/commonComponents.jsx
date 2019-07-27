@@ -670,8 +670,8 @@ export const AwaitingOnTasker = () => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
-          border: '1px solid lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -685,7 +685,11 @@ export const AwaitingOnTasker = () => {
             background: 'lightgrey',
             marginRight: 8,
           }}
-        />
+        >
+          <div className="icon">
+            <i style={{ width: 15 }} className="far fa-clock" />
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
@@ -711,8 +715,8 @@ export const PastdueExpired = () => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
-          border: '1px solid lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -752,8 +756,8 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
-          border: '1px solid lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -794,9 +798,9 @@ export const AssignedTasker = ({ displayName }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
           border: '1px solid lightgrey',
-          background: 'lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -810,7 +814,11 @@ export const AssignedTasker = ({ displayName }) => {
             marginRight: 8,
             alignItems: 'center',
           }}
-        />
+        >
+          <div className="icon">
+            <i style={{ width: 15 }} className="fas fa-user-tie" />
+          </div>
+        </div>
         <div
           style={{
             fontSize: 18,
@@ -848,9 +856,9 @@ export const CancelledBy = ({ name, refundAmount }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
           background: 'lightgrey',
-          border: '1px solid lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -864,7 +872,11 @@ export const CancelledBy = ({ name, refundAmount }) => {
             background: '#ef2834',
             marginRight: 8,
           }}
-        />
+        >
+          <div className="icon">
+            <i style={{ width: 15, color: 'lightgrey' }} className="far fa-frown" />
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
@@ -873,9 +885,9 @@ export const CancelledBy = ({ name, refundAmount }) => {
         >
           {`Cancelled by ${name}`}
         </div>
-      </div>{' '}
+      </div>
       <div style={{ height: 45 }}>
-        <div className="help">*BidorBoo will refund ${refundAmount}%</div>
+        <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
       </div>
     </div>
   );
@@ -890,8 +902,8 @@ export const DisputedBy = ({ name }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderRadius: 25,
-          border: '1px solid lightgrey',
+          borderTop: '1px solid lightgrey',
+          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -904,7 +916,11 @@ export const DisputedBy = ({ name }) => {
             width: 28,
             marginRight: 8,
           }}
-        />
+        >
+          <div className="icon">
+            <i style={{ width: 15, color: 'grey' }} className="fas fa-heart-broken" />
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
