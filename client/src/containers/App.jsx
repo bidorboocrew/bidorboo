@@ -40,6 +40,7 @@ import {
   TermsOfUse,
 } from './index';
 
+import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 import FreshdeskChat from './FreshdeskChat';
 class App extends React.Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class App extends React.Component {
       );
     }
 
-    const { s_toastDetails, userAppView, isLoggedIn, authIsInProgress } = this.props;
+    const { s_toastDetails, s_showMomentContent } = this.props;
     // if (authIsInProgress) {
     //   return (
     //     <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
@@ -112,6 +113,7 @@ class App extends React.Component {
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <Toast toastDetails={s_toastDetails} />
+        <ShowSpecialMomentModal />
         <LoadingBar
           updateTime={700}
           style={{
@@ -145,7 +147,11 @@ class App extends React.Component {
 
             <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
 
-            <Route exact path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`} component={MyRequestsPage} />
+            <Route
+              exact
+              path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`}
+              component={MyRequestsPage}
+            />
 
             <Route
               exact

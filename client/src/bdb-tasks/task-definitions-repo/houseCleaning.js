@@ -26,7 +26,7 @@ export default {
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
   },
-  renderThankYouCard: function(setShowModal) {
+  renderThankYouCard: function(toggleModal) {
     return (
       <div style={{ padding: '1.5rem', background: 'white' }}>
         <nav className="level">
@@ -49,7 +49,7 @@ export default {
               </div>
             </div>
             <div className="level-item">
-              <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+              <a className="button is-large is-success" onClick={toggleModal}>
                 <span className="icon is-large">
                   <i className="fas fa-arrow-right" />
                 </span>
