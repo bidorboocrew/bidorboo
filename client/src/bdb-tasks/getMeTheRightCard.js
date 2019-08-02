@@ -89,6 +89,34 @@ const requesterCardTemplates = {
       <div>REQUEST_STATES.PAIDOUT details not implemented yet</div>
     );
   },
+  [REQUEST_STATES.ARCHIVE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.ARCHIVE summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.ARCHIVE details not implemented yet</div>
+    );
+  },
+  [REQUEST_STATES.PAYMENT_TO_BANK_FAILED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.PAYMENT_TO_BANK_FAILED summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.PAYMENT_TO_BANK_FAILED details not implemented yet</div>
+    );
+  },
+  [REQUEST_STATES.PAYMENT_RELEASED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.PAYMENT_RELEASED summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.PAYMENT_RELEASED details not implemented yet</div>
+    );
+  },
+  [REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER details not implemented yet</div>
+    );
+  },
 };
 
 const TaskerCardTemplates = {
@@ -245,7 +273,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
     return;
   }
 
-  const { templateId, state } = job;
+  const { state } = job;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
       const card = requesterCardTemplates[state]({
@@ -256,7 +284,8 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       });
       return card || <div>This type aint found</div>;
     } catch (e) {
-      console.error(e + ' Error Loading Requester Card ');
+      console.error(e + ' Error Loading Requester Card ' + state);
+      return null;
     }
   }
   if (pointOfView === POINT_OF_VIEW.TASKER) {
@@ -270,7 +299,8 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       });
       return card || <div>This type aint found</div>;
     } catch (e) {
-      console.error(e + ' Error Loading Tasker Card ');
+      console.error(e + ' Error Loading Tasker Card ' + state);
+      return null;
     }
   }
   return null;

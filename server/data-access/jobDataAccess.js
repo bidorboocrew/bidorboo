@@ -181,16 +181,6 @@ exports.jobDataAccess = {
       await JobModel.find({
         startingDateAndTime: { $exists: true },
         _awardedBidRef: { $exists: false },
-        state: {
-          $nin: [
-            'AWARDED', //
-            'DISPUTED', // disputed job
-            'AWARDED_CANCELED_BY_BIDDER',
-            'AWARDED_CANCELED_BY_REQUESTER',
-            'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
-            'ARCHIVE', //For historical record
-          ],
-        },
       })
         .populate({
           path: '_bidsListRef',
@@ -637,6 +627,18 @@ exports.jobDataAccess = {
     return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
       .populate({
         path: '_postedJobsRef',
+        match: {
+          state: {
+            $in: [
+              'OPEN',
+              'AWARDED', //
+              'DISPUTED', // disputed job
+              'AWARDED_CANCELED_BY_BIDDER',
+              'AWARDED_CANCELED_BY_REQUESTER',
+              'DONE',
+            ],
+          },
+        },
         select: {
           booedBy: 0,
           processedPayment: 0,
