@@ -265,19 +265,11 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         $and: [
-          {
-            state: {
-              $in: ['AWARDED'],
-            },
-          },
+          { state: { $eq: 'AWARDED' } },
           { jobCompletion: { $exists: true } },
           { _awardedBidRef: { $exists: true } },
-          {
-            $and: [
-              { 'jobCompletion.proposerConfirmed': { $eq: false } },
-              { 'jobCompletion.proposerDisputed': { $eq: false } },
-            ],
-          },
+          { 'jobCompletion.proposerConfirmed': { $eq: false } },
+          { 'jobCompletion.proposerDisputed': { $eq: false } },
           { 'jobCompletion.bidderConfirmed': { $eq: true } },
         ],
       })
@@ -287,7 +279,7 @@ exports.jobDataAccess = {
             throw err;
           }
 
-          const threeDaysAgo = moment.utc().subtract(3, 'd');
+          const threeDaysAgo = moment.utc().subtract(3, 'days');
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
