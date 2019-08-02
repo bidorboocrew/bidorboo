@@ -39,39 +39,39 @@ export default class BidsTable extends React.Component {
 
       return (
         <div style={{ marginBottom: '3.5rem' }} key={bid._bidderRef._id}>
-          <OtherUserProfileForReviewPage
+          <TaskerBidCard
             key={bid._bidderRef._id}
             otherUserProfileInfo={bid._bidderRef}
             bidAmountHtml={() => (
-              <button
-                style={{ height: 'unset' }}
-                className="button is-success has-text-centered bidButtonInCard"
+              <div
+                style={{
+                  position: 'absolute',
+                  right: '1.5rem',
+                  bottom: '-1.25rem',
+                }}
               >
-                <div className="tile is-ancestor has-text-centered">
-                  <div className="tile is-parent has-text-centered">
-                    <article
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.openBidDetailsModal(bid);
-                      }}
-                    >
-                      <div className="has-text-white">
-                        <span>{'will do it for '}</span>
-                        <span className="has-text-weight-bold is-size-4">${totalCharge}</span>
-                      </div>
-                      <div className="has-text-white help">{`select & checkout`}</div>
-                      {bid.isNewBid && (
-                        <span
-                          style={{ position: 'absolute', top: -4, right: -4, fontSize: 10 }}
-                          className="has-text-danger"
-                        >
-                          <i className="fas fa-circle" />
-                        </span>
-                      )}
-                    </article>
-                  </div>
+                <div style={{ width: 200 }} className="has-text-centered has-text-grey">
+                  accept bid for
                 </div>
-              </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.openBidDetailsModal(bid);
+                  }}
+                  style={{ width: 200 }}
+                  className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
+                >
+                  ${totalCharge}
+                  {bid.isNewBid && (
+                    <span
+                      style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </span>
+                  )}
+                </button>
+              </div>
             )}
           />
         </div>
@@ -81,12 +81,12 @@ export default class BidsTable extends React.Component {
       <div>
         <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
           <ul>
-            <li className="is-active">
+            <li>
               <a>
                 <span className="icon is-small">
-                  <i className="fas fa-user" aria-hidden="true" />
+                  <i className="fas fa-user-tie" aria-hidden="true" />
                 </span>
-                <span>Available Taskers</span>
+                <span>BidOrBoo Taskers</span>
               </a>
             </li>
           </ul>
@@ -119,7 +119,7 @@ const TableWithNoBids = ({ viewedByCount }) => {
   );
 };
 
-class OtherUserProfileForReviewPage extends React.Component {
+class TaskerBidCard extends React.Component {
   render() {
     const { otherUserProfileInfo, bidAmountHtml } = this.props;
     if (!otherUserProfileInfo) {
@@ -129,7 +129,6 @@ class OtherUserProfileForReviewPage extends React.Component {
     const {
       _id,
       rating,
-      createdAt,
       _asBidderReviewsRef,
       _asProposerReviewsRef,
       membershipStatus,
@@ -177,107 +176,93 @@ class OtherUserProfileForReviewPage extends React.Component {
       });
     }
 
+    let displayComment = lastComment || 'This user was not reviewed yet!';
+    if (displayComment.length > 100) {
+      displayComment = displayComment.substring(0, 99);
+    }
+
     return (
       <div className="card cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
-            <div>
-              <div style={{ display: 'flex' }}>
-                <div>
-                  <figure
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+            <div style={{ display: 'flex', marginBottom: '2rem' }}>
+              <div>
+                <figure
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                  }}
+                  style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem', width: 128 }}
+                  className="image is-128x128"
+                >
+                  <img
+                    style={{
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
                     }}
-                    style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem' }}
-                    className="image is-128x128"
-                  >
-                    <img
-                      style={{
-                        borderRadius: 6,
-                        cursor: 'pointer',
-                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-                      }}
-                      src={otherUserProfileInfo.profileImage.url}
-                    />
-                  </figure>
-                  <label style={{ marginBottom: 0 }} className="label">
-                    {otherUserProfileInfo.displayName}
-                  </label>
-                  {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                    <div>No Ratings Yet</div>
-                  ) : (
-                    <ReactStars
-                      className="ReactStars"
-                      half
-                      count={5}
-                      value={globalRating}
-                      edit={false}
-                      size={30}
-                      color1={'lightgrey'}
-                      color2={'#ffd700'}
-                    />
-                  )}
+                    src={otherUserProfileInfo.profileImage.url}
+                  />
+                </figure>
 
-                  <div>Status: {membershipStatusDisplay}</div>
-                  {/* <label className="help">
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <div>No Ratings Yet</div>
+                ) : (
+                  <ReactStars
+                    className="ReactStars"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={30}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+
+                {/* <label className="help">
                     joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                   </label> */}
+              </div>
+              <div style={{ flexGrow: 1, marginLeft: 24 }}>
+                <div style={{ marginRight: 12 }} className={`has-text-weight-semibold`}>
+                  <span>{otherUserProfileInfo.displayName}</span>
+                  <span className={`has-text-grey`} style={{ fontWeight: 300, marginLeft: 6 }}>
+                    ({membershipStatusDisplay})
+                  </span>
+                </div>
+                <br />
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {numberOfTimesBeenRated}
+                  </span>
+                  <span>Ratings Recieved</span>
+                </div>
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {fulfilledBids.length}
+                  </span>
+                  <span>Completed Tasks</span>
+                </div>
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {canceledBids.length}
+                  </span>
+                  <span>Cancellations</span>
+                </div>
+                <br />
+                <div className="field">
                   <VerifiedVia
                     userDetails={otherUserProfileInfo}
                     isCentered={false}
                     smallfont={false}
                   />
                 </div>
-                <div style={{ flexGrow: 1, padding: '0 0.75rem 4rem 0.75rem' }}>
-                  <div>
-                    <div
-                      style={{ marginBottom: '1rem' }}
-                      className="tile has-text-centered is-ancestor"
-                    >
-                      <div className="tile is-parent">
-                        <article style={{ margin: 'auto' }}>
-                          <p style={{ marginBottom: 4 }} className={`has-text-weight-bold`}>
-                            {numberOfTimesBeenRated}
-                          </p>
-                          <p>Ratings</p>
-                        </article>
-                      </div>
-
-                      <div className="tile is-parent">
-                        <article style={{ margin: 'auto' }}>
-                          <p
-                            style={{ marginBottom: 4 }}
-                            className={`has-text-weight-bold ${
-                              fulfilledBids.length > 0 ? 'has-text-success' : ''
-                            }`}
-                          >
-                            {fulfilledBids.length}
-                          </p>
-                          <p>Completed Tasks</p>
-                        </article>
-                      </div>
-                      <div className="tile is-parent">
-                        <article style={{ margin: 'auto' }}>
-                          <p
-                            style={{ marginBottom: 4 }}
-                            className={`has-text-weight-bold ${
-                              canceledBids.length > 0 ? 'has-text-danger' : ''
-                            }`}
-                          >
-                            {canceledBids.length}
-                          </p>
-                          <p>Cancellations</p>
-                        </article>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ margin: 'auto' }} className="field has-text-centered">
-                    <label className="label">Last Review</label>
-                    <div className="control  has-text-centered">
-                      {`"${lastComment || 'This user was not reviewed yet!'}"  `}
-                    </div>
+                <div className="field">
+                  <div>Last Review</div>
+                  <div style={{ fontStyle: 'italic' }} className="control">
+                    {displayComment}
                   </div>
                 </div>
               </div>

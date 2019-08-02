@@ -83,7 +83,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
             <div>
               {!showMore && (
                 <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show full details</span>
+                  <span style={{ marginRight: 4 }}>show full task details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-down" />
                   </span>

@@ -573,7 +573,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, smallfont = true }
 
   return (
     <div className="group saidTest">
-      <label className={`${smallfont ? 'help' : ''}`}>Verifications</label>
+      {/* <label className={`${smallfont ? 'help' : ''}`}>Verifications</label> */}
 
       <div className={`control ${isCentered ? 'has-text-centered' : ''}`}>
         {!atLeastOneVerification && <label className="help">Unverified</label>}
@@ -711,7 +711,6 @@ export const PastdueExpired = () => {
     <div className="group">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
@@ -721,19 +720,22 @@ export const PastdueExpired = () => {
       >
         <div
           style={{
-            display: 'flex',
-            flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
             background: '#ef2834',
+            color: '#ef2834',
             marginRight: 8,
+            display: 'inline-block',
           }}
-        />
+        >
+          1
+        </div>
+
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             fontSize: 18,
           }}
         >
@@ -749,10 +751,9 @@ export const PastdueExpired = () => {
 
 export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
   return (
-    <div className="group">
+    <div className="group has-text-centered">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
@@ -762,14 +763,13 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
       >
         <div
           style={{
-            flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
-            border: '1px solid #26ca70',
             width: 28,
             background: '#26ca70',
             marginRight: 8,
             alignItems: 'center',
+            display: 'inline-block',
           }}
         >
           {numberOfAvailableTaskers}
@@ -777,12 +777,13 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
         <div
           style={{
             fontSize: 18,
+            display: 'inline-block',
           }}
         >
           {numberOfAvailableTaskers > 1 ? 'Taskers Available' : 'Tasker Available'}
         </div>
       </div>
-      <div style={{ height: 45 }}>
+      <div>
         <div className="help">*Review And Award A Tasker</div>
       </div>
     </div>
@@ -794,7 +795,6 @@ export const AssignedTasker = ({ displayName }) => {
     <div className="group">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
@@ -804,13 +804,13 @@ export const AssignedTasker = ({ displayName }) => {
       >
         <div
           style={{
-            flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
             width: 28,
             background: '#26ca70',
             marginRight: 8,
             alignItems: 'center',
+            display: 'inline-block',
           }}
         >
           <div className="icon">
@@ -820,6 +820,7 @@ export const AssignedTasker = ({ displayName }) => {
         <div
           style={{
             fontSize: 18,
+            display: 'inline-block',
           }}
         >
           {`${displayName} is Tasked`}
@@ -832,7 +833,7 @@ export const AssignedTasker = ({ displayName }) => {
   );
 };
 
-export const JobCardTitle = ({ icon, title }) => {
+export const JobCardTitle = ({ icon, title, meatballMenu }) => {
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flexGrow: 1 }} className="title">
@@ -841,6 +842,7 @@ export const JobCardTitle = ({ icon, title }) => {
         </span>
         <span style={{ marginLeft: 7 }}>{title}</span>
       </div>
+      {meatballMenu && <div>{meatballMenu()}</div>}
     </div>
   );
 };

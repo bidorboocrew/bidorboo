@@ -97,7 +97,6 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { showBidReviewModal, bidUnderReview } = this.state;
 
     const bidList = selectedJobWithBids._bidsListRef;
-    const areThereAnyBids = bidList && bidList.length > 0;
 
     return (
       <div>
@@ -133,19 +132,6 @@ class ReviewRequestAndBidsPage extends React.Component {
 
         <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth">
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage)}>
-                    <span>Requests Inbox</span>
-                  </a>
-                </li>
-                <li className="is-active">
-                  <a>Request Details</a>
-                </li>
-              </ul>
-            </nav>
-
             {getMeTheRightRequestCard({
               job: selectedJobWithBids,
               isSummaryView: false,
