@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import ReactStars from 'react-stars';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import * as Constants from '../../constants/enumConstants';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,11 +18,14 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
-  StartDateAndTime,
+  VerifiedVia,
   DisplayLabelValue,
-  UserImageAndRating,
+  TaskCost,
   AddAwardedJobToCalendar,
   TaskSpecificExtras,
+  JobCardTitle,
+  SummaryStartDateAndTime,
+  AssignedTasker,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -108,13 +113,14 @@ class RequesterAwardedDetails extends RequestBaseContainer {
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
     const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const jobId = _id;
     return (
       <React.Fragment>
         <RequesterDisputes
           {...this.props}
           showDisputeModal={showDisputeModal}
           closeDisputeModal={this.closeDisputeModal}
-          jobId={job._id}
+          jobId={jobId}
         />
 
         {showDeleteDialog &&
@@ -139,13 +145,12 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                       tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
-                    <hr className="divider" />
+                    <br />
 
                     <div className="group saidTest">
                       <label className="label">What you need to know:</label>
                       <div className="control">
-                        * You will be <strong>penalized 20%</strong> of the total payment and will
-                        be refunded 80%.
+                        * You will be <strong>penalized 20%</strong>
                       </div>
                       <div className="control">* Your global rating will be impacted</div>
                       <div className="control">
@@ -183,72 +188,20 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-
-        <div style={{ height: 'auto' }} className="card">
+        <div className="card has-text-centered">
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="title">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
-              {bidderConfirmed && (
-                <div className="group saidTest">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">Pending Confirmation</div>
+              <JobCardTitle icon={ICON} title={TITLE} />
 
-                  <div className="help">
-                    * The Tasker is Done thier work, Please confirm completion asap
-                  </div>
-                </div>
-              )}
-              {!bidderConfirmed && (
-                <div className="group saidTest">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">{displayStatus}</div>
-                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
-                    <div className="help">
-                      * Get In touch with the tasker to confirm any further details
-                    </div>
-                  )}
-                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
-                  )}
-                  {isHappeningToday && !isPastDue && (
-                    <div className="help">* Happening today, Tasker will show up on time</div>
-                  )}
-                  {isPastDue && (
-                    <div className="help">
-                      * This request date is past Due, plz confirm completion
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="group saidTest">
-                <label className="label">Task Cost</label>
-                <div className="control has-text-success">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* will be charged after the request is completed.</div>
-              </div>
-              <StartDateAndTime
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+
+              {/* <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} /> */}
+              <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
               {showMore && (
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
@@ -293,81 +246,74 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           </div>
         </div>
         <br />
-        <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
-          <div className="card-content">
-            <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="title">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 7 }}>Assigned Tasker</span>
-                </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  {!bidderConfirmed && !proposerConfirmed && (
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a onClick={this.openDisputeModal} className="dropdown-item">
-                          <span className="icon">
-                            <i className="far fa-frown" aria-hidden="true" />
-                          </span>
-                          <span>File A Dispute</span>
-                        </a>
-                        <hr className="dropdown-divider" />
-                        <a
-                          onClick={this.toggleDeleteConfirmationDialog}
-                          className="dropdown-item has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Request</span>
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="group saidTest">
-                <UserImageAndRating userDetails={_bidderRef} />
-                <div className="field label">
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>{emailAddress}</span>
-                </div>
-                <div className="field label">
-                  <span className="icon">
-                    <i className="fas fa-mobile-alt" />
-                  </span>
-                  <span>{phoneNumber}</span>
-                </div>
-                {!isPastDue && <AddAwardedJobToCalendar job={job} />}
-                <div className="firstButtonInCard nofixedwidth">
-                  <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
+          <ul>
+            <li className="is-active">
+              <a>
+                <span className="icon is-small">
+                  <i className="fas fa-user-tie" aria-hidden="true" />
+                </span>
+                <span>Assigned Tasker</span>
+              </a>
+            </li>
+          </ul>
         </div>
+
+        <AssignedTaskerDetails
+          otherUserProfileInfo={_bidderRef}
+          emailAddress={emailAddress}
+          phoneNumber={phoneNumber}
+          renderAddToCalendar={() => {
+            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+          }}
+          renderActionButton={() => (
+            <div className="firstButtonInCard nofixedwidth">
+              <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
+            </div>
+          )}
+          renderContextMenu={() => (
+            <div
+              ref={(node) => (this.node = node)}
+              className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+            >
+              <div className="dropdown-trigger">
+                <button
+                  onClick={this.toggleShowMoreOptionsContextMenu}
+                  className="button"
+                  aria-haspopup="true"
+                  aria-controls="dropdown-menu"
+                  style={{ border: 'none', boxShadow: 'none' }}
+                >
+                  <div style={{ padding: 6 }} className="icon">
+                    <i className="fas fa-ellipsis-v" />
+                  </div>
+                </button>
+              </div>
+              {!bidderConfirmed && !proposerConfirmed && (
+                <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div className="dropdown-content">
+                    <a onClick={this.openDisputeModal} className="dropdown-item">
+                      <span className="icon">
+                        <i className="far fa-frown" aria-hidden="true" />
+                      </span>
+                      <span>File A Dispute</span>
+                    </a>
+                    <hr className="dropdown-divider" />
+                    <a
+                      onClick={this.toggleDeleteConfirmationDialog}
+                      className="dropdown-item has-text-danger"
+                    >
+                      <span className="icon">
+                        <i className="far fa-trash-alt" aria-hidden="true" />
+                      </span>
+                      <span>Cancel Request</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        />
       </React.Fragment>
     );
   }
@@ -463,11 +409,12 @@ class RequesterConfirmsCompletion extends React.Component {
           )}
         <a
           onClick={this.toggleModal}
-          className={`button is-fullwidth is-success ${
-            isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
-          }`}
+          className="button is-success"
+          // className={`button is-fullwidth is-success ${
+          //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
+          // }`}
         >
-          Confirm Task Completion
+          Confirm Completion
         </a>
       </React.Fragment>
     );
@@ -503,17 +450,14 @@ class RequesterDisputes extends React.Component {
                   <div className="modal-card-title">File A Dispute</div>
                 </header>
                 <section className="modal-card-body">
-                  <div>
-                    BidOrBooCrew is sorry to hear that you are not happy. We will work on resolving
-                    the issue asap.
-                  </div>
+                  <div>Don't you worry , BidOrBooCrew will work on resolving this ASAP</div>
 
                   <br />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">What is your dispute?</label>
                   </div>
 
-                  <div className="group saidTest">
+                  <div>
                     <label className="radio">
                       <input
                         type="radio"
@@ -526,7 +470,7 @@ class RequesterDisputes extends React.Component {
                       {` Tasker did not show up`}
                     </label>
                   </div>
-                  <div className="group saidTest">
+                  <div>
                     <label className="radio">
                       <input
                         type="radio"
@@ -539,7 +483,7 @@ class RequesterDisputes extends React.Component {
                       {` Tasker did not do a good job`}
                     </label>
                   </div>
-                  <div className="group saidTest">
+                  <div>
                     <label className="radio">
                       <input
                         type="radio"
@@ -550,7 +494,7 @@ class RequesterDisputes extends React.Component {
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
                   </div>
-                  <div className="group saidTest">
+                  <div>
                     <label className="radio">
                       <input
                         type="radio"
@@ -561,12 +505,13 @@ class RequesterDisputes extends React.Component {
                       {` Other`}
                     </label>
                   </div>
-
+                  <br />
                   <div className="group saidTest">
                     <label className="label">Tell us some more details</label>
                     <textarea
                       className="textarea"
-                      placeholder="Tell us a little more about your disppute..."
+                      style={{ resize: 'none' }}
+                      placeholder="Enter more details about your disppute..."
                       rows="3"
                       value={disputeText}
                       onChange={(e) => {
@@ -575,10 +520,6 @@ class RequesterDisputes extends React.Component {
                         }
                       }}
                     />
-                  </div>
-                  <div className="help">
-                    * BidOrBoo Support will confirm all these details and will get in touch with the
-                    Tasker to resolve this issue
                   </div>
                 </section>
                 <footer className="modal-card-foot">
@@ -606,6 +547,132 @@ class RequesterDisputes extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
       </React.Fragment>
+    );
+  }
+}
+
+class AssignedTaskerDetails extends React.Component {
+  render() {
+    const {
+      otherUserProfileInfo,
+      emailAddress,
+      phoneNumber,
+      renderActionButton,
+      renderContextMenu,
+      renderAddToCalendar,
+    } = this.props;
+
+    if (!otherUserProfileInfo) {
+      return null;
+    }
+
+    const { _id, rating, membershipStatus } = otherUserProfileInfo;
+
+    const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+
+    const { numberOfTimesBeenRated, globalRating, fulfilledBids, canceledBids } = rating;
+
+    return (
+      <div className="card cardWithButton nofixedwidth">
+        <div className="card-content">
+          <div className="content">
+            <div style={{ display: 'flex', marginBottom: '2rem' }}>
+              <div>
+                <figure
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                  }}
+                  style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem', width: 128 }}
+                  className="image is-128x128"
+                >
+                  <img
+                    style={{
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                    }}
+                    src={otherUserProfileInfo.profileImage.url}
+                  />
+                </figure>
+
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <div>No Ratings Yet</div>
+                ) : (
+                  <ReactStars
+                    className="ReactStars"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={30}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+                <div>{renderAddToCalendar && renderAddToCalendar()}</div>
+                {/* <label className="help">
+                    joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
+                  </label> */}
+              </div>
+              <div style={{ flexGrow: 1, marginLeft: '2rem' }}>
+                <div style={{ marginBottom: 0 }} className={`title`}>
+                  <span>{otherUserProfileInfo.displayName}</span>
+                </div>
+                <div className={`has-text-grey`} style={{ fontWeight: 300, marginBottom: '1rem' }}>
+                  ({membershipStatusDisplay})
+                </div>
+
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {numberOfTimesBeenRated}
+                  </span>
+                  <span>Ratings Recieved</span>
+                </div>
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {fulfilledBids.length}
+                  </span>
+                  <span>Completed Tasks</span>
+                </div>
+                <div>
+                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                    {canceledBids.length}
+                  </span>
+                  <span>Cancellations</span>
+                </div>
+                <br />
+                <div className="field">
+                  <VerifiedVia
+                    userDetails={otherUserProfileInfo}
+                    isCentered={false}
+                    smallfont={false}
+                  />
+                </div>
+
+                <label>Contact info</label>
+                <div style={{ color: '#26ca70' }}>
+                  <div>
+                    <span className="icon">
+                      <i className="far fa-envelope" />
+                    </span>
+                    <span className="has-text-weight-semibold">{emailAddress}</span>
+                  </div>
+                  <div>
+                    <span className="icon">
+                      <i className="fas fa-mobile-alt" />
+                    </span>
+                    <span className="has-text-weight-semibold">{phoneNumber}</span>
+                  </div>
+                </div>
+              </div>
+              {renderContextMenu && renderContextMenu()}
+            </div>
+          </div>
+        </div>
+        {renderActionButton && renderActionButton()}
+      </div>
     );
   }
 }

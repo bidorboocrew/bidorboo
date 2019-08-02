@@ -86,7 +86,7 @@ export default class BidsTable extends React.Component {
                 <span className="icon is-small">
                   <i className="fas fa-user-tie" aria-hidden="true" />
                 </span>
-                <span>BidOrBoo Taskers</span>
+                <span>Available Taskers</span>
               </a>
             </li>
           </ul>
@@ -225,14 +225,14 @@ class TaskerBidCard extends React.Component {
                     joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                   </label> */}
               </div>
-              <div style={{ flexGrow: 1, marginLeft: 24 }}>
-                <div style={{ marginRight: 12 }} className={`has-text-weight-semibold`}>
+              <div style={{ flexGrow: 1, marginLeft: '2rem' }}>
+                <div style={{ marginBottom: 0 }} className={`title`}>
                   <span>{otherUserProfileInfo.displayName}</span>
-                  <span className={`has-text-grey`} style={{ fontWeight: 300, marginLeft: 6 }}>
-                    ({membershipStatusDisplay})
-                  </span>
                 </div>
-                <br />
+                <div className={`has-text-grey`} style={{ fontWeight: 300, marginBottom: '1rem' }}>
+                  ({membershipStatusDisplay})
+                </div>
+
                 <div>
                   <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
                     {numberOfTimesBeenRated}

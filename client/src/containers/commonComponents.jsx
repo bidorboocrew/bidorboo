@@ -467,7 +467,7 @@ export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => n
   return null;
 };
 
-export const AddAwardedJobToCalendar = ({ job }) => {
+export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
   if (!job) {
     return null;
   }
@@ -522,7 +522,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       displayItemIcons={false}
       event={event}
       buttonLabel={'Add to Calendar'}
-      buttonClassClosed="button is-small"
+      buttonClassClosed={`button is-info ${extraClassName}`}
     />
   );
 };
@@ -670,8 +670,6 @@ export const AwaitingOnTasker = () => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -699,7 +697,7 @@ export const AwaitingOnTasker = () => {
           Awaiting On Taskers
         </div>
       </div>
-      <div style={{ height: 45 }}>
+      <div>
         <div className="help">*Check Back soon!</div>
       </div>
     </div>
@@ -714,8 +712,6 @@ export const PastdueExpired = () => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -742,7 +738,7 @@ export const PastdueExpired = () => {
           Past Due - Expired
         </div>
       </div>
-      <div style={{ height: 45 }}>
+      <div>
         <div className="help">*BidOrBoo will auto delete this task</div>
       </div>
     </div>
@@ -757,8 +753,6 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -798,8 +792,6 @@ export const AssignedTasker = ({ displayName }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -825,9 +817,9 @@ export const AssignedTasker = ({ displayName }) => {
         >
           {`${displayName} is Tasked`}
         </div>
-      </div>
-      <div style={{ height: 45 }}>
-        <div className="help">*Contact Tasker To finalize details</div>
+        <div>
+          <div className="help">*Contact Tasker To finalize details</div>
+        </div>
       </div>
     </div>
   );
@@ -857,8 +849,6 @@ export const CancelledBy = ({ name, refundAmount }) => {
           fontSize: 18,
           padding: 5,
           background: 'lightgrey',
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -886,7 +876,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
           {`Cancelled by ${name}`}
         </div>
       </div>
-      <div style={{ height: 45 }}>
+      <div>
         <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
       </div>
     </div>
@@ -902,8 +892,6 @@ export const DisputedBy = ({ name }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          borderTop: '1px solid lightgrey',
-          borderBottom: '1px solid lightgrey',
         }}
       >
         <div
@@ -929,9 +917,32 @@ export const DisputedBy = ({ name }) => {
         >
           {`Disputed by ${name}`}
         </div>
+        <div>
+          <div className="help is-danger">*BidorBooCrew will resolve this ASAP</div>
+        </div>
       </div>
-      <div style={{ height: 45 }}>
-        <div className="help is-danger">*BidorBooCrew will resolve this ASAP</div>
+    </div>
+  );
+};
+
+export const TaskCost = ({ cost }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            display: 'inline-block',
+          }}
+        >
+          <span style={{ marginRight: 6 }}>You Paid</span>
+          <span className="has-text-weight-semibold">{cost}</span>
+        </div>
       </div>
     </div>
   );

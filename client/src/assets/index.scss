@@ -565,7 +565,7 @@ div.centeredButtonInCard {
   position: absolute;
   bottom: -1rem;
   left: 1rem;
-  width: 180px;
+  // width: 180px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
@@ -858,7 +858,7 @@ $trans-time: 300ms;
   &.isError {
     margin-bottom: 2.25rem;
 
-    input,
+    input:not([type='checkbox']):not([type='radio']),
     .input,
     .textarea,
     select,
@@ -877,7 +877,7 @@ $trans-time: 300ms;
     }
   }
 
-  input,
+  input:not([type='checkbox']):not([type='radio']),
   .input,
   .textarea,
   select,

@@ -1006,6 +1006,7 @@ exports.jobDataAccess = {
                   profileImage: 1,
                   rating: 1,
                   userId: 1,
+                  membershipStatus: 1,
                 },
               },
             },
