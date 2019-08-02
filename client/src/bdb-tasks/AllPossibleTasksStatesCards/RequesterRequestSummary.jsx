@@ -53,7 +53,7 @@ class RequesterRequestSummary extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={`card has-text-centered cardWithButton ${isPastDue ? 'readOnlyView' : ''}`}>
+        <div className={`card has-text-centered cardWithButton`}>
           {/* <div className="card-image">
             <img className="bdb-cover-img" src={IMG_URL} />
           </div> */}

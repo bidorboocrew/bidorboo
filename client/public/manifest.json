@@ -1,10 +1,10 @@
 {
   "manifest_version": 1.5,
-  "short_name": "BoB",
+  "short_name": "BidorBoo",
   "name": "BidOrBoo",
   "homepage_url": "https://bidorboo.com",
   "version": "1.0.0",
-  "description": "BidOrBoo",
+  "description": "The best platform to request help with your everyday chores, or do tasks to earn money",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",

@@ -798,7 +798,6 @@ export const AssignedTasker = ({ displayName }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          border: '1px solid lightgrey',
           borderTop: '1px solid lightgrey',
           borderBottom: '1px solid lightgrey',
         }}
@@ -808,7 +807,6 @@ export const AssignedTasker = ({ displayName }) => {
             flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
-            border: '1px solid #26ca70',
             width: 28,
             background: '#26ca70',
             marginRight: 8,
