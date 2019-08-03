@@ -223,13 +223,14 @@ const ProfileForm = (props) => {
         id="personalParagraph"
         type="text"
         label="About Me"
-        placeholder="Sample: Hey I am handy with tools and can do everything... "
+        placeholder="Describe your best attributes and skills here, Promote yourself... "
         error={touched.personalParagraph && errors.personalParagraph}
         value={values.personalParagraph}
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <input id="idFrontImg" className="input is-invisible" type="hidden" />
+      {/* ID VERIFICATION XXXXXX  */}
+      {/* <input id="idFrontImg" className="input is-invisible" type="hidden" />
       <label className="label">ID Verification (Optional)</label>
       <Dropzone
         className="file is-boxed idVerification"
@@ -273,21 +274,9 @@ const ProfileForm = (props) => {
       </Dropzone>
       <div className="help">
         {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
-      </div>
+      </div> */}
 
-      <br />
       <div className="field is-grouped">
-        <div className="control">
-          <button
-            style={{ marginRight: 6 }}
-            className="button is-success"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Submit
-          </button>
-        </div>
-
         <div className="control">
           <button
             className="button"
@@ -298,6 +287,16 @@ const ProfileForm = (props) => {
             }}
           >
             Cancel
+          </button>
+        </div>
+        <div className="control">
+          <button
+            style={{ marginRight: 6 }}
+            className="button is-success"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Submit
           </button>
         </div>
       </div>

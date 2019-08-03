@@ -6,7 +6,6 @@
 @import './_addToCalendar.scss';
 
 // @import './_reactBigCalendar.scss';
-// @import './_timelineBulma.scss';
 
 // @import './_commonClasses.scss';
 // --------------------------------------------------
@@ -334,9 +333,8 @@ $family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
 $button-disabled-opacity: 0.85;
 
-@import 'bulma-o-steps/bulma-steps.sass';
-@import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';
+@import 'bulma-switch/dist/css/bulma-switch.sass';
 
 .VerticalAligner {
   display: flex;

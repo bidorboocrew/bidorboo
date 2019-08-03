@@ -17,8 +17,6 @@ import MapSection from './map/MapSection';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { StepsForTasker } from '../commonComponents';
-
 class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
@@ -226,7 +224,6 @@ class BidderRootPage extends React.Component {
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        {/* <StepsForTasker isSmall={true} step={1} /> */}
                         <br />
                         <div className="is-size-6">
                           Find Requests in the Areas where you're able to provide them
@@ -251,7 +248,6 @@ class BidderRootPage extends React.Component {
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        <StepsForTasker isSmall={true} step={1} />
                         <br />
                         <div className="is-size-6">
                           No Requests match your search criteria at this time.
