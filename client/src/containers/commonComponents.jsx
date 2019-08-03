@@ -578,102 +578,100 @@ export const VerifiedVia = ({
     clearCriminalHistory;
 
   return (
-    <div>
-      <div className={`${isCentered ? 'has-text-centered' : ''}`}>
-        {!atLeastOneVerification && <label className="has-text-grey">Unverified</label>}
-        {isFbUser && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by facebook" className="icon">
-              <i className="fab fa-facebook has-text-success" />
-            </span>
+    <div style={{ width: 150 }} className={`${isCentered ? 'has-text-centered' : ''}`}>
+      {!atLeastOneVerification && <label className="has-text-grey">Unverified</label>}
+      {isFbUser && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by facebook" className="icon">
+            <i className="fab fa-facebook has-text-success" />
           </span>
-        )}
-        {isGmailUser && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by gmail" className="icon">
-              <i className="fab fa-google has-text-success" />
-            </span>
+        </div>
+      )}
+      {isGmailUser && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by gmail" className="icon">
+            <i className="fab fa-google has-text-success" />
           </span>
-        )}
-        {phone.isVerified && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by phone" className="icon">
-              <i className="fas fa-mobile-alt has-text-success" />
-            </span>
+        </div>
+      )}
+      {phone.isVerified && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by phone" className="icon">
+            <i className="fas fa-mobile-alt has-text-success" />
           </span>
-        )}
-        {email.isVerified && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by email" className="icon">
-              <i className="far fa-envelope has-text-success" />
-            </span>
+        </div>
+      )}
+      {email.isVerified && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by email" className="icon">
+            <i className="far fa-envelope has-text-success" />
           </span>
-        )}
+        </div>
+      )}
 
-        {govId && govId.isVerified && (
-          <span className="verificationBadge isActive">
-            <span title="Verified goverment ID" className="icon">
-              <i className="fas fa-id-card has-text-success" />
-            </span>
+      {govId && govId.isVerified && (
+        <div className="verificationBadge isActive">
+          <span title="Verified goverment ID" className="icon">
+            <i className="fas fa-id-card has-text-success" />
           </span>
-        )}
-        {stripeConnect.isVerified && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by bank account" className="icon">
-              <i className="fas fa-dollar-sign has-text-success" />
-            </span>
+        </div>
+      )}
+      {stripeConnect.isVerified && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by bank account" className="icon">
+            <i className="fas fa-dollar-sign has-text-success" />
           </span>
-        )}
+        </div>
+      )}
 
-        {clearCriminalHistory && (
-          <span className="verificationBadge isActive">
-            <span title="Verified by criminal check" className="icon">
-              <i className="fas fa-balance-scale has-text-success" />
-            </span>
+      {clearCriminalHistory && (
+        <div className="verificationBadge isActive">
+          <span title="Verified by criminal check" className="icon">
+            <i className="fas fa-gavel has-text-success" />
           </span>
-        )}
+        </div>
+      )}
 
-        {showAll && (
-          <>
-            {!phone.isVerified && (
-              <span className="verificationBadge notActive">
-                <span title="Verified by phone" className="icon">
-                  <i className="fas fa-mobile-alt has-text-grey" />
-                </span>
+      {showAll && (
+        <>
+          {!phone.isVerified && (
+            <div className="verificationBadge notActive">
+              <span title="Verified by phone" className="icon">
+                <i className="fas fa-mobile-alt has-text-grey" />
               </span>
-            )}
-            {!email.isVerified && (
-              <span className="verificationBadge notActive">
-                <span title="Verified by email" className="icon">
-                  <i className="far fa-envelope has-text-grey" />
-                </span>
+            </div>
+          )}
+          {!email.isVerified && (
+            <div className="verificationBadge notActive">
+              <span title="Verified by email" className="icon">
+                <i className="far fa-envelope has-text-grey" />
               </span>
-            )}
-            {!govId ||
-              (!govId.isVerified && (
-                <span className="verificationBadge notActive">
-                  <span title="Verified goverment ID" className="icon">
-                    <i className="fas fa-id-card has-text-grey" />
-                  </span>
+            </div>
+          )}
+          {!govId ||
+            (!govId.isVerified && (
+              <div className="verificationBadge notActive">
+                <span title="Verified goverment ID" className="icon">
+                  <i className="fas fa-id-card has-text-grey" />
                 </span>
-              ))}
-            {!stripeConnect.isVerified && (
-              <span className="verificationBadge notActive">
-                <span title="Verified by bank account" className="icon">
-                  <i className="fas fa-dollar-sign has-text-grey" />
-                </span>
+              </div>
+            ))}
+          {!stripeConnect.isVerified && (
+            <div className="verificationBadge notActive">
+              <span title="Verified by bank account" className="icon">
+                <i className="fas fa-dollar-sign has-text-grey" />
               </span>
-            )}
-            {!clearCriminalHistory && (
-              <span className="verificationBadge notActive">
-                <span title="Verified by criminal check" className="icon">
-                  <i className="fas fa-balance-scale has-text-grey" />
-                </span>
+            </div>
+          )}
+          {!clearCriminalHistory && (
+            <div className="verificationBadge notActive">
+              <span title="Verified by criminal check" className="icon">
+                <i className="fas fa-gavel has-text-grey" />
               </span>
-            )}
-          </>
-        )}
-      </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

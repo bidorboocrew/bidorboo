@@ -954,10 +954,11 @@ div.control {
 }
 
 .verificationBadge {
-  margin: 5px;
+  margin: 10px 5px;
   padding: 5px;
   border-radius: 100%;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  display: inline-block;
   &.isActive {
     background: white;
     border: 1px solid #26ca70;

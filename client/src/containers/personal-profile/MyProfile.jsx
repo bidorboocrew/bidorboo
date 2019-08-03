@@ -335,62 +335,63 @@ const userImageAndStats = (
         <div className="content">
           <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
             <div className="has-text-centered">
-              <figure
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleShowUploadProfileImageDialog();
-                }}
-                style={{ margin: 'auto', width: 128, position: 'relative' }}
-                className="image is-128x128"
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    bottom: 6,
-                    background: 'rgba(0,0,0,0.6)',
-                    borderRadius: '100%',
-                    color: '#eeeeee',
-                    cursor: 'pointer',
+              <div style={{ marginBottom: 6 }}>
+                <figure
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleShowUploadProfileImageDialog();
                   }}
+                  style={{ margin: 'auto', width: 128, position: 'relative' }}
+                  className="image is-128x128"
                 >
-                  <span className="icon is-medium">
-                    <i className="fa fa-camera" />
-                  </span>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      bottom: 6,
+                      background: 'rgba(0,0,0,0.6)',
+                      borderRadius: '100%',
+                      color: '#eeeeee',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span className="icon is-medium">
+                      <i className="fa fa-camera" />
+                    </span>
+                  </div>
+                  <img
+                    style={{
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                    }}
+                    src={profileImage.url}
+                  />
+                </figure>
+                <div style={{ marginBottom: 0 }} className={`title`}>
+                  <span>{displayName}</span>
                 </div>
-                <img
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-                  }}
-                  src={profileImage.url}
-                />
-              </figure>
-              <div style={{ marginBottom: 0 }} className={`title`}>
-                <span>{displayName}</span>
-              </div>
-              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
-                ({membershipStatusDisplay})
-              </div>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="has-text-grey" style={{ lineHeight: '52px' }}>
-                  - No Ratings Yet -
+                <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
+                  ({membershipStatusDisplay})
                 </div>
-              ) : (
-                <ReactStars
-                  className="ReactStars"
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={35}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                    - No Ratings Yet -
+                  </div>
+                ) : (
+                  <ReactStars
+                    className="ReactStars"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={35}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+              </div>
             </div>
-
             <VerifiedVia userDetails={userDetails} showAll />
           </div>
         </div>
