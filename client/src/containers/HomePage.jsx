@@ -138,12 +138,50 @@ export default class HomePage extends React.Component {
 
         {/* new start page */}
 
-        <section className="hero has-text-centered is-small is-transparent">
-          <div className="hero-body">
+        <section
+          style={{ background: '#ee2a36', marginBottom: '2rem' }}
+          className="hero has-text-centered is-transparent"
+        >
+          <div style={{ position: 'relative' }} className="hero-body">
+            <div
+              style={{
+                position: 'absolute',
+                margin: 'auto',
+                left: 0,
+                bottom: '-1.5rem',
+                width: '100%',
+              }}
+            >
+              <button
+                style={{
+                  width: 150,
+                  marginRight: 30,
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+                }}
+                className="button is-success is-medium"
+              >
+                <span className="icon">
+                  <i className="far fa-plus-square" />
+                </span>
+                <span>Request</span>
+              </button>
+              <button
+                style={{
+                  width: 150,
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+                }}
+                className="button is-medium is-dark"
+              >
+                <span className="icon">
+                  <i className="fas fa-hand-rock" />
+                </span>
+                <span>Bid</span>
+              </button>
+            </div>
             <div className="container">
               <h1
                 style={{
-                  color: '#353535',
+                  color: 'white',
                   marginBottom: 2,
                   transform: 'scaleY(1.1)',
                   fontWeight: 400,
@@ -158,7 +196,7 @@ export default class HomePage extends React.Component {
                 </span>
               </h1>
               {/* <Fade> */}
-              <h2 className="is-5">
+              <h2 className="is-5 has-text-grey-lighter">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
               {/* </Fade> */}

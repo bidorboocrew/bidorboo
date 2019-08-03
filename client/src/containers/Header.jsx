@@ -217,13 +217,13 @@ class Header extends React.Component {
             >
               <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
-                <div style={{ fontSize: 24, fontWeight: 400 }} className="is-hidden-touch">
+                <div style={{ fontSize: 24 }} className="is-hidden-touch">
                   BidOrBoo
                 </div>
               </div>
             </div>
             {hideMobileNavButtons && (
-              <>
+              <div className="is-hidden-desktop navbar-item">
                 <a
                   id={'viewDependentNavBarItems'}
                   className={`navbar-item ${
@@ -255,7 +255,7 @@ class Header extends React.Component {
                   </span>
                   <span>Bid</span>
                 </a>
-              </>
+              </div>
             )}
 
             {!hideMobileNavButtons && (
