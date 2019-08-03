@@ -36,7 +36,7 @@ class VerifyEmailButton extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'we are unable to send the verification email, please contact us bidorboocrew@bidorboo.com and we will help you resolve this',
+          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboocrew@bidorboo.com to resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }

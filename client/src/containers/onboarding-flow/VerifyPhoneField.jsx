@@ -44,8 +44,9 @@ class VerifyPhoneField extends React.Component {
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
-      <div className="group saidTest">
-        <div style={{ marginTop: 2 }} className="control">
+      <div>
+        <div className="group">
+          <label className="label">Enter Phone Verification code</label>
           <input
             value={inputCodeContent}
             onChange={(e) => {
@@ -63,36 +64,36 @@ class VerifyPhoneField extends React.Component {
             minLength="6"
             placeholder="Enter 6 digits Verification Code"
           />
-          <div className="help">* Check your phone text msgs</div>
-          <div style={{ display: 'flex' }}>
-            <div
-              onClick={() => {
-                if (!isResendingVCode || !verifyingPhoneInProgress) {
-                  if (!inputCodeContent) {
-                    alert('Please use the 6 digits code we sent to your phone');
-                  } else if (inputCodeContent.length === 6) {
-                    this.submitPhone(`${inputCodeContent}`);
-                  } else {
-                    alert("you've entered an invalid code. code is a 6 digit sent to your phone");
-                  }
-                }
-              }}
-              style={{ borderRadius: 0 }}
-              disabled={!inputCodeContent || isResendingVCode || verifyingPhoneInProgress}
-              className="button is-success"
-            >
-              Verify Phone
-            </div>
-            <button
-              style={{ marginLeft: 6 }}
-              onClick={this.handleSendNewCode}
-              className="button"
-              disabled={isResendingVCode || verifyingPhoneInProgress}
-            >
-              {`${isResendingVCode ? 'Code Was Sent' : 'Get A New Code'}`}
-            </button>
-          </div>
         </div>
+        <div>
+          <div
+            onClick={() => {
+              if (!isResendingVCode || !verifyingPhoneInProgress) {
+                if (!inputCodeContent) {
+                  alert('Please use the 6 digits code we sent to your phone');
+                } else if (inputCodeContent.length === 6) {
+                  this.submitPhone(`${inputCodeContent}`);
+                } else {
+                  alert("you've entered an invalid code. code is a 6 digit sent to your phone");
+                }
+              }
+            }}
+            disabled={isResendingVCode || verifyingPhoneInProgress}
+            className="button is-success"
+          >
+            Verify Phone
+          </div>
+          <button
+            style={{ marginLeft: 6 }}
+            onClick={this.handleSendNewCode}
+            className="button"
+            disabled={isResendingVCode || verifyingPhoneInProgress}
+          >
+            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
+          </button>
+        </div>
+        <div className="help">* Check your phone text msgs</div>
+        <br />
       </div>
     );
   }
