@@ -64,7 +64,7 @@ const UpdatePhoneNumberField = (props) => {
       />
 
       <button className="button is-success" type="submit">
-        {`Save`}
+        {`Update My Phone Number`}
       </button>
     </form>
   );

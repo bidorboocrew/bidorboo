@@ -19,7 +19,7 @@ const Step1 = ({ userDetails, showSetupPhoneStep }) => {
         <div>{`We've sent the Code to: `}</div>
         <div className="has-text-weight-semibold">{`${userDetails.email.emailAddress}`}</div>
         <br />
-        <VerifyEmailField />
+        <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
 
       <button onClick={showSetupPhoneStep} className="button is-link  firstButtonInCard">
@@ -77,7 +77,7 @@ const Step3 = ({ userDetails, showTosStep, showSetupPhoneStep }) => {
         <div>{`We've sent the Code to: `}</div>
         <div className="has-text-weight-semibold">{`${userDetails.phone.phoneNumber}`}</div>
         <br />
-        <VerifyPhoneField />
+        <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
       </div>
 
       <button onClick={showTosStep} className="button is-link firstButtonInCard">
