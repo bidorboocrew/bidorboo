@@ -578,7 +578,11 @@ export const VerifiedVia = ({
     clearCriminalHistory;
 
   return (
-    <div style={{ width: 150 }} className={`${isCentered ? 'has-text-centered' : ''}`}>
+    <div
+      style={{ width: 150, margin: 'auto' }}
+      className={`${isCentered ? 'has-text-centered' : ''}`}
+    >
+      <label className="label">verifications</label>
       {!atLeastOneVerification && <label className="has-text-grey">Unverified</label>}
       {isFbUser && (
         <div className="verificationBadge isActive">

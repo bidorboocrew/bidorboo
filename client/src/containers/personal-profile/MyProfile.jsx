@@ -94,7 +94,7 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <div className="card disabled">
+              <div className="card cardWithButton nofixedwidth">
                 <header className="card-header">
                   <p className="card-header-title">
                     {!isEditProfile ? (
@@ -113,23 +113,23 @@ class MyProfile extends React.Component {
                       </React.Fragment>
                     )}
                   </p>
-                  {!isEditProfile && (
-                    <a
-                      onClick={() => {
-                        this.toggleEditProfile();
-                      }}
-                      className="card-header-icon has-text-success"
-                      aria-label="more options"
-                    >
-                      <span className="icon">
-                        <i className="far fa-edit" />
-                      </span>
-                      <span>Edit Details</span>
-                    </a>
-                  )}
                 </header>
                 <div className="card-content">
                   <div className="content">
+                    {!isEditProfile && (
+                      <button
+                        onClick={() => {
+                          this.toggleEditProfile();
+                        }}
+                        className="button firstButtonInCard is-success"
+                        aria-label="more options"
+                      >
+                        <span className="icon">
+                          <i className="far fa-edit" />
+                        </span>
+                        <span>Edit Details</span>
+                      </button>
+                    )}
                     {!isEditProfile && (
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
@@ -406,7 +406,7 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
       <div onClick={toggleUploadDialog} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
-          <div className="modal-card-title">Update Profile Image</div>
+          <div className="modal-card-title">Update Your Pic</div>
           <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">

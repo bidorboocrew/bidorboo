@@ -140,7 +140,7 @@ class MyForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div style={{ height: 180 }} className="form-group has-text-centered">
+        <div style={{ minHeight: 200 }} className="form-group has-text-centered">
           <input
             id="files"
             className="input is-invisible"
@@ -172,15 +172,16 @@ class MyForm extends React.Component {
                   style={{
                     pointerEvents: 'none',
                     borderRadius: '100%',
-                    height: 45,
+                    height: 58,
                   }}
-                  className="button is-success is-meduim"
+                  className="button is-success is-large"
                 >
                   <span>
                     <i className="fa fa-camera" aria-hidden="true" />
                   </span>
                 </a>
               </div>
+              <div className="help">Upload A New Profile Pic</div>
             </React.Fragment>
           </Dropzone>
 
@@ -231,7 +232,10 @@ class MyForm extends React.Component {
               </button>
               {showThumbNail && (
                 <button onClick={this.toggleCroppingOn} className="button is-info">
-                  crop
+                  <span className="icon">
+                    <i className="fas fa-crop-alt" />
+                  </span>
+                  <span>Crop</span>
                 </button>
               )}
               <button
@@ -242,7 +246,10 @@ class MyForm extends React.Component {
                 type="submit"
                 className="button is-success"
               >
-                Upload
+                <span className="icon">
+                  <i className="fas fa-cloud-upload-alt" />
+                </span>
+                <span>Upload</span>
               </button>
             </React.Fragment>
           )}

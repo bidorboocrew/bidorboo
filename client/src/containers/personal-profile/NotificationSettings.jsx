@@ -76,7 +76,7 @@ class NotificationSettings extends React.Component {
 
   render() {
     return (
-      <div className="card disabled">
+      <div className="card cardWithButton nofixedwidth">
         <header className="card-header">
           <p className="card-header-title">
             <span className="icon">
@@ -104,7 +104,9 @@ class NotificationSettings extends React.Component {
                 onChange={this.toggleEnablePushNotifications}
                 checked={this.state.enablePushNotifications}
               />
-              <label htmlFor="pushNotification">Enable Push Notifications</label>
+              <label className="has-text-dark" htmlFor="pushNotification">
+                Enable Push Notifications
+              </label>
             </div>
             <div className="group saidTest">
               <input
@@ -115,9 +117,11 @@ class NotificationSettings extends React.Component {
                 onChange={this.toggleEnableEmailNotification}
                 checked={this.state.enableEmailNotification}
               />
-              <label htmlFor="emailNotification">Enable Email Notifications</label>
+              <label className="has-text-dark" htmlFor="emailNotification">
+                Enable Email Notifications
+              </label>
             </div>
-            <div className="group saidTest">
+            <div className="group">
               <input
                 id="txtNotification"
                 type="checkbox"
@@ -126,11 +130,13 @@ class NotificationSettings extends React.Component {
                 onChange={this.toggleEnableTxtNotifications}
                 checked={this.state.enableTxtNotifications}
               />
-              <label htmlFor="txtNotification">Enable Text Msg Notifications</label>
+              <label className="has-text-dark" htmlFor="txtNotification">
+                Enable Text Msg Notifications
+              </label>
             </div>
 
             <a
-              className="button is-success"
+              className="button firstButtonInCard is-success"
               onClick={this.submit}
               disabled={!this.state.areThereChanges}
             >

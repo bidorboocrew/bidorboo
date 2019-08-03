@@ -333,6 +333,7 @@ $navbar-item-hover-color: black;
 $family-sans-serif: 'Work Sans', sans-serif !default;
 $family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
+$button-disabled-opacity: 0.85;
 
 @import 'bulma-o-steps/bulma-steps.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
