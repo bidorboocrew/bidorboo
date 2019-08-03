@@ -149,7 +149,6 @@ class TaskerEditOrUpdateBid extends React.Component {
                   label="Enter The New Bid Amount"
                   id="bidAmountField"
                   className="input is-focused"
-                  type="number"
                   onBlur={handleBlur}
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}

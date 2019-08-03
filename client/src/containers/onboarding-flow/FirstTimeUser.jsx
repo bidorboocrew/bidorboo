@@ -28,11 +28,7 @@ export class FirstTimeUser extends React.Component {
             <section className="hero has-text-centered">
               <div style={{ padding: '1.5rem 0.5rem 0 0.5rem' }} className="hero-body">
                 <div className="container has-text-centered">
-                  <div style={{ marginLeft: 7 }} className="title has-text-grey">
-                    BidOrBoo Welcomes
-                  </div>
-
-                  <h2 className="has-text-centered title has-text-weight-semibold">
+                  <div className="title has-text-grey">
                     <img
                       src={logoImg}
                       alt="BidOrBoo"
@@ -40,6 +36,9 @@ export class FirstTimeUser extends React.Component {
                       height="24"
                       style={{ maxHeight: 'unset' }}
                     />
+                    <span style={{ marginLeft: 4 }}>BidOrBoo Welcomes</span>
+                  </div>
+                  <h2 className="has-text-centered title has-text-weight-semibold">
                     {displayName}
                   </h2>
                 </div>

@@ -3,7 +3,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 
-export const verifyPhone = (code) => (dispatch) => {
+export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) => {
   dispatch({
     type: A.UI_ACTIONS.VERIFY_USER_PHONE,
     payload: axios
@@ -24,6 +24,8 @@ export const verifyPhone = (code) => (dispatch) => {
             },
           });
           getCurrentUserNotifications()(dispatch);
+
+          onSuccessCallback && onSuccessCallback();
         } else {
           throwErrorNotification(
             dispatch,
@@ -38,7 +40,7 @@ export const verifyPhone = (code) => (dispatch) => {
       }),
   });
 };
-export const verifyEmail = (code) => (dispatch) => {
+export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) => {
   dispatch({
     type: A.UI_ACTIONS.VERIFY_USER_EMAIL,
     payload: axios
@@ -59,6 +61,8 @@ export const verifyEmail = (code) => (dispatch) => {
             },
           });
           getCurrentUserNotifications()(dispatch);
+
+          onSuccessCallback && onSuccessCallback();
         } else {
           throwErrorNotification(
             dispatch,

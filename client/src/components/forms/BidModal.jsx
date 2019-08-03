@@ -121,8 +121,6 @@ class BidModal extends React.Component {
               label="Enter Your Bid Amount"
               id="bidAmountField"
               className="input is-focused"
-              type="number"
-              maxLength="5"
               onBlur={handleBlur}
               // helpText={
               //   avgBid > 0

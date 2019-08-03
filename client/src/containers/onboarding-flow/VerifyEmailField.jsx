@@ -60,9 +60,6 @@ class VerifyEmailField extends React.Component {
             disabled={isResendingVCode || verifyingEmailInProgress}
             style={{ flexGrow: 1, borderRadius: 0 }}
             className="input"
-            type="number"
-            maxLength="6"
-            minLength="6"
             placeholder="Enter 6 digits Verification Code"
           />
         </div>

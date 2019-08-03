@@ -26,9 +26,7 @@ class VerifyPhoneButton extends React.Component {
   handleSendNewCode = async () => {
     this.setState({ isResendingVCode: true }, async () => {
       try {
-        const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationMsg,
-        );
+        const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
         if (resendVerificationReq && resendVerificationReq.success) {
           alert('you should recieve a text shortly , please give 10-15 minutes');
         }
@@ -90,9 +88,6 @@ class VerifyPhoneButton extends React.Component {
                             disabled={isResendingVCode || verifyingPhoneInProgress}
                             style={{ flexGrow: 1, borderRadius: 0 }}
                             className="input"
-                            type="number"
-                            maxLength="6"
-                            minLength="6"
                             placeholder="Enter 6 digits Verification Code"
                           />
                           <div
@@ -101,8 +96,7 @@ class VerifyPhoneButton extends React.Component {
                                 if (!inputCodeContent) {
                                   alert('Please use the 6 digits code we sent to your phone');
                                 } else if (inputCodeContent.length === 6) {
-                                  verifyPhone(`${inputCodeContent}`);
-                                  this.toggleEnterPinDialog();
+                                  verifyPhone(`${inputCodeContent}`, this.toggleEnterPinDialog);
                                 } else {
                                   alert(
                                     "you've entered an invalid code. code is a 6 digit sent to your phone",

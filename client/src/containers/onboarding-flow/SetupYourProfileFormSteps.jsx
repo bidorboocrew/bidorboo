@@ -160,7 +160,7 @@ class Step4 extends React.Component {
                 />
                 {` I confirm that I have read and agreed to`}
                 <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  <strong>{` BidOrBoo Service Agreement `}</strong>
+                  {` BidOrBoo Service Agreement `}
                 </a>
                 and
                 <a
@@ -168,7 +168,7 @@ class Step4 extends React.Component {
                   rel="noopener noreferrer"
                   href="https://stripe.com/connect-account/legal"
                 >
-                  <strong>{` Stripe Connected Account Agreement`}</strong>
+                  {` Stripe Connected Account Agreement`}
                 </a>
                 .
               </label>
