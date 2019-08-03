@@ -1,6 +1,4 @@
 import React from 'react';
-import taskImage from '../../assets/images/carDetailing.png';
-import watermark from '../../assets/images/watermark.png';
 
 import * as Yup from 'yup';
 
@@ -19,7 +17,6 @@ export default {
 
 `,
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
-  TASK_IMG: taskImage,
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,

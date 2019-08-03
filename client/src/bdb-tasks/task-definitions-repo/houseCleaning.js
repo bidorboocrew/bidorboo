@@ -1,6 +1,4 @@
 import React from 'react';
-import taskImage from '../../assets/images/houesCleaning.png';
-import watermark from '../../assets/images/watermark.png';
 
 import * as Yup from 'yup';
 
@@ -15,7 +13,6 @@ export default {
 
 *Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
-  TASK_IMG: taskImage,
   defaultExtrasValues: {
     effort: 'noSelection',
   },
