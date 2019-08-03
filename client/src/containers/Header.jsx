@@ -217,9 +217,46 @@ class Header extends React.Component {
             >
               <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
-                <div className="is-hidden-touch">BidOrBoo</div>
+                <div style={{ fontSize: 24, fontWeight: 400 }} className="is-hidden-touch">
+                  BidOrBoo
+                </div>
               </div>
             </div>
+            {hideMobileNavButtons && (
+              <>
+                <a
+                  id={'viewDependentNavBarItems'}
+                  className={`navbar-item ${
+                    activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                  }`}
+                  onClick={(e) => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    });
+                  }}
+                >
+                  <span className="icon">
+                    <i className="far fa-plus-square" />
+                  </span>
+                  <span>Request</span>
+                </a>
+                <a
+                  className={`navbar-item ${
+                    activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                  }`}
+                  onClick={(e) => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    });
+                  }}
+                >
+                  <span className="icon">
+                    <i className="fas fa-hand-rock" />
+                  </span>
+                  <span>Bid</span>
+                </a>
+              </>
+            )}
 
             {!hideMobileNavButtons && (
               <div className="navbar-item is-hidden-desktop">
