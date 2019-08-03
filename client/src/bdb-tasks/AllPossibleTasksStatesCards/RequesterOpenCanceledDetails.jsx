@@ -93,7 +93,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
                     border: 'none',
                     color: '#4a4a4a',
                     fontSize: '1rem',
-                    background: '#f6f6f6',
+                    background: '#eeeeee',
                   }}
                   readOnly
                 />

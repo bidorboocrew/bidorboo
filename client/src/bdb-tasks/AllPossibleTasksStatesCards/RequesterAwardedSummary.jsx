@@ -87,7 +87,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
               }}
-              className={`button is-success`}
+              className={`button heartbeat is-success`}
             >
               {`${isPastDue || bidderConfirmed ? 'Confirm Completion' : 'View Tasker'}`}
             </a>

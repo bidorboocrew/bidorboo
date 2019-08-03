@@ -200,7 +200,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 )}
               />
 
-              {/* <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} /> */}
+              <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
               <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
               {showMore && (
                 <React.Fragment>
@@ -267,7 +267,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !false && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
           }}
           renderActionButton={() => (
             <div className="firstButtonInCard nofixedwidth">
@@ -400,7 +400,7 @@ class RequesterConfirmsCompletion extends React.Component {
                   <button
                     type="submit"
                     onClick={this.submitConfirmation}
-                    className="button is-success"
+                    className="button heartbeat is-success"
                   >
                     Confirm Completion
                   </button>
@@ -414,7 +414,7 @@ class RequesterConfirmsCompletion extends React.Component {
           )}
         <a
           onClick={this.toggleModal}
-          className="button is-success"
+          className="button heartbeat  is-success"
           // className={`button is-fullwidth is-success ${
           //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
           // }`}
@@ -655,7 +655,7 @@ class AssignedTaskerDetails extends React.Component {
             </div> */}
             <div style={{ marginBottom: '2rem' }}>
               <div className="field">
-                <label className="has-text-grey">Contact Tasker Via</label>
+                <label className="has-text-grey">Tasker Contact Info</label>
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
                   <div>
                     <span className="icon">
@@ -669,6 +669,9 @@ class AssignedTaskerDetails extends React.Component {
                     </span>
                     <span>{phoneNumber}</span>
                   </div>
+                </div>
+                <div className="help">
+                  *Get in touch to finalize exact details like location to meet, date, time... etc
                 </div>
               </div>
               {renderAddToCalendar && renderAddToCalendar()}

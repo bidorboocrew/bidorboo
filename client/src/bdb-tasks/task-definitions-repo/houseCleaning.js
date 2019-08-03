@@ -26,37 +26,24 @@ export default {
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
   },
-  renderThankYouCard: function(toggleModal) {
+  renderThankYouCard: function(setShowModal) {
     return (
       <div style={{ padding: '1.5rem', background: 'white' }}>
-        <nav className="level">
-          <div className="level-left">
-            <div className="level-item">
-              <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
-            </div>
-          </div>
+        <div>
+          <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
+        </div>
+        <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
+          Thank You!
+        </h1>
 
-          <div className="level-right">
-            <div className="level-item">
-              <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
-                <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-                  Thanks For Posting!
-                </h1>
-
-                <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                  Our Taskers will be bidding on this request shortly
-                </p>
-              </div>
-            </div>
-            <div className="level-item">
-              <a className="button is-large is-success" onClick={toggleModal}>
-                <span className="icon is-large">
-                  <i className="fas fa-arrow-right" />
-                </span>
-              </a>
-            </div>
-          </div>
-        </nav>
+        <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>
+          Our Taskers will be bidding on this request shortly
+        </p>
+        <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+          <span className="icon is-large">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
       </div>
     );
   },

@@ -692,10 +692,10 @@ export const AwaitingOnTasker = () => {
             fontSize: 18,
           }}
         >
-          Awaiting On Taskers
+          Waiting For Taskers
         </div>
 
-        <div className="help">*Check Back soon!</div>
+        {/* <div className="help">*Check Back soon!</div> */}
       </div>
     </div>
   );
@@ -775,9 +775,9 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
           {numberOfAvailableTaskers > 1 ? 'Taskers Available' : 'Tasker Available'}
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className="help">*Review And Award A Tasker</div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -936,7 +936,7 @@ export const TaskCost = ({ cost }) => {
             display: 'inline-block',
           }}
         >
-          <span style={{ marginRight: 6 }}>You Paid</span>
+          <span style={{ marginRight: 6 }}>Task will Cost</span>
           <span className="has-text-weight-semibold">{cost}</span>
         </div>
       </div>

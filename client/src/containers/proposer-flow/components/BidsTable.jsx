@@ -70,7 +70,7 @@ export default class BidsTable extends React.Component {
       );
     });
     return (
-      <div>
+      <React.Fragment>
         <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
           <ul>
             <li>
@@ -84,30 +84,42 @@ export default class BidsTable extends React.Component {
           </ul>
         </div>
         {tableRows}
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const TableWithNoBids = ({ viewedByCount }) => {
   return (
-    <div className="card has-text-centered" style={{ height: 'unset' }}>
-      <div className="card-content">
-        <div className="content">
-          <div className="title">
-            <span className="icon">
-              <i className="fas fa-user-clock" />
-            </span>
-            <span style={{ marginLeft: 7 }}>Waiting for Taskers</span>
-          </div>
-          <div className="subtitle">
-            {`${
-              viewedByCount ? viewedByCount : ''
-            } Tasker(s) viewing your task and will place bids soon`}
+    <>
+      <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
+        <ul>
+          <li>
+            <a>
+              <span className="icon is-small">
+                <i className="fas fa-user-clock" aria-hidden="true" />
+              </span>
+              <span>Waiting For Taskers</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="card has-text-centered" style={{ height: 'unset' }}>
+        <div className="card-content">
+          <div className="content">
+            <div className="subtitle">
+              {`${viewedByCount ? viewedByCount : ''}`}
+
+              {`${
+                viewedByCount > 1 || !viewedByCount
+                  ? 'Taskers are viewing your task and will place bids soon'
+                  : 'Tasker is viewing your task and will place a bid soon'
+              }`}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

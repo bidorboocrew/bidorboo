@@ -49,11 +49,11 @@ export default {
         <div>
           <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
         </div>
-        <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-          Thanks You!
+        <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
+          Thank You!
         </h1>
 
-        <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
+        <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>
           Our Taskers will be bidding on this request shortly
         </p>
         <a className="button is-large is-success" onClick={() => setShowModal(false)}>
