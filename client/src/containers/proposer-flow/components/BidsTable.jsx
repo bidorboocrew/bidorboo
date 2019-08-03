@@ -1,9 +1,9 @@
 import React from 'react';
-import moment from 'moment';
+
 import ReactStars from 'react-stars';
 import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute } from '../../../utils';
-import { UserImageAndRating, VerifiedVia } from '../../../containers/commonComponents';
+import { switchRoute } from '../../../utils';
+import { VerifiedVia } from '../../../containers/commonComponents';
 // import { VerifiedVia } from '../../commonComponents';
 import * as Constants from '../../../constants/enumConstants';
 
@@ -38,43 +38,35 @@ export default class BidsTable extends React.Component {
           : 'not specified';
 
       return (
-        <div style={{ marginBottom: '3.5rem' }} key={bid._bidderRef._id}>
-          <TaskerBidCard
-            key={bid._bidderRef._id}
-            otherUserProfileInfo={bid._bidderRef}
-            bidAmountHtml={() => (
-              <div
-                style={{
-                  position: 'absolute',
-                  right: '1.5rem',
-                  bottom: '-1.25rem',
-                }}
-              >
-                <div style={{ width: 200 }} className="has-text-centered has-text-grey">
-                  accept bid for
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.openBidDetailsModal(bid);
-                  }}
-                  style={{ width: 200 }}
-                  className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
-                >
-                  ${totalCharge}
-                  {bid.isNewBid && (
-                    <span
-                      style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
-                      className="has-text-danger"
-                    >
-                      <i className="fas fa-circle" />
-                    </span>
-                  )}
-                </button>
+        <TaskerBidCard
+          key={bid._bidderRef._id}
+          otherUserProfileInfo={bid._bidderRef}
+          bidAmountHtml={() => (
+            <div className="centeredButtonInCard">
+              <div style={{ width: 200 }} className="has-text-centered has-text-grey">
+                accept bid for
               </div>
-            )}
-          />
-        </div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  this.openBidDetailsModal(bid);
+                }}
+                style={{ width: 200 }}
+                className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
+              >
+                ${totalCharge}
+                {bid.isNewBid && (
+                  <span
+                    style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
+                    className="has-text-danger"
+                  >
+                    <i className="fas fa-circle" />
+                  </span>
+                )}
+              </button>
+            </div>
+          )}
+        />
       );
     });
     return (
@@ -182,95 +174,90 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div className="card cardWithButton nofixedwidth">
+      <div style={{ marginBottom: '3rem' }} className="card cardWithButton nofixedwidth">
         <div className="card-content">
-          <div className="content">
-            <div style={{ display: 'flex', marginBottom: '2rem' }}>
-              <div>
-                <figure
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+          <div style={{ marginBottom: '2rem' }} className="content">
+            <div className="has-text-centered">
+              <figure
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                }}
+                style={{ margin: 'auto', width: 128 }}
+                className="image is-128x128"
+              >
+                <img
+                  style={{
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
                   }}
-                  style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem', width: 128 }}
-                  className="image is-128x128"
-                >
-                  <img
-                    style={{
-                      borderRadius: '100%',
-                      cursor: 'pointer',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-                    }}
-                    src={otherUserProfileInfo.profileImage.url}
-                  />
-                </figure>
-
-                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div>No Ratings Yet</div>
-                ) : (
-                  <ReactStars
-                    className="ReactStars"
-                    half
-                    count={5}
-                    value={globalRating}
-                    edit={false}
-                    size={30}
-                    color1={'lightgrey'}
-                    color2={'#ffd700'}
-                  />
-                )}
-
-                {/* <label className="help">
+                  src={otherUserProfileInfo.profileImage.url}
+                />
+              </figure>
+              <div style={{ marginBottom: 0 }} className={`title`}>
+                <span>{otherUserProfileInfo.displayName}</span>
+              </div>
+              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
+                ({membershipStatusDisplay})
+              </div>
+              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                  - No Ratings Yet -
+                </div>
+              ) : (
+                <ReactStars
+                  className="ReactStars"
+                  half
+                  count={5}
+                  value={globalRating}
+                  edit={false}
+                  size={35}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              )}
+            </div>
+            {/* <label className="help">
                     joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                   </label> */}
-              </div>
-              <div style={{ flexGrow: 1, marginLeft: '2rem' }}>
-                <div style={{ marginBottom: 0 }} className={`title`}>
-                  <span>{otherUserProfileInfo.displayName}</span>
-                </div>
-                <div className={`has-text-grey`} style={{ fontWeight: 300, marginBottom: '1rem' }}>
-                  ({membershipStatusDisplay})
-                </div>
 
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {numberOfTimesBeenRated}
-                  </span>
-                  <span>Ratings Recieved</span>
-                </div>
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {fulfilledBids.length}
-                  </span>
-                  <span>Completed Tasks</span>
-                </div>
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {canceledBids.length}
-                  </span>
-                  <span>Cancellations</span>
-                </div>
-                <br />
-                <div className="field">
-                  <VerifiedVia
-                    userDetails={otherUserProfileInfo}
-                    isCentered={false}
-                    smallfont={false}
-                  />
-                </div>
-                <div className="field">
-                  <div>Last Review</div>
-                  <div style={{ fontStyle: 'italic' }} className="control">
-                    {displayComment}
-                  </div>
-                </div>
+            <div>
+              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                {numberOfTimesBeenRated}
+              </span>
+              <span>Ratings Recieved</span>
+            </div>
+            <div>
+              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                {fulfilledBids.length}
+              </span>
+              <span>Completed Tasks</span>
+            </div>
+            <div>
+              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                {canceledBids.length}
+              </span>
+              <span>Cancellations</span>
+            </div>
+            <br />
+            <div className="field">
+              <VerifiedVia
+                userDetails={otherUserProfileInfo}
+                isCentered={false}
+                smallfont={false}
+              />
+            </div>
+            <div style={{ marginBottom: '3rem' }} className="field">
+              <div>Last Review</div>
+              <div style={{ fontStyle: 'italic' }} className="control">
+                {displayComment}
               </div>
             </div>
-
-            {bidAmountHtml()}
           </div>
         </div>
+        {bidAmountHtml()}
       </div>
     );
   }

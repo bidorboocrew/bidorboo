@@ -112,7 +112,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
     const jobId = _id;
     return (
       <React.Fragment>
@@ -246,7 +246,10 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           </div>
         </div>
         <br />
-        <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
+        <div
+          style={{ background: 'transparent', marginBottom: 0 }}
+          className="tabs is-medium is-centered"
+        >
           <ul>
             <li className="is-active">
               <a>
@@ -264,7 +267,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return !false && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
           }}
           renderActionButton={() => (
             <div className="firstButtonInCard nofixedwidth">
@@ -274,7 +277,9 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           renderContextMenu={() => (
             <div
               ref={(node) => (this.node = node)}
-              className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+              className={`dropdown is-right is-pulled-right ${
+                showMoreOptionsContextMenu ? 'is-active' : ''
+              }`}
             >
               <div className="dropdown-trigger">
                 <button
@@ -570,103 +575,103 @@ class AssignedTaskerDetails extends React.Component {
 
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
-    const { numberOfTimesBeenRated, globalRating, fulfilledBids, canceledBids } = rating;
+    const { globalRating } = rating;
 
     return (
       <div className="card cardWithButton nofixedwidth">
         <div className="card-content">
-          <div className="content">
-            <div style={{ display: 'flex', marginBottom: '2rem' }}>
-              <div>
-                <figure
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+          <div className="content ">
+            {renderContextMenu && renderContextMenu()}
+            <div className="has-text-centered">
+              <figure
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                }}
+                style={{ margin: 'auto', width: 128 }}
+                className="image is-128x128"
+              >
+                <img
+                  style={{
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
                   }}
-                  style={{ marginLeft: 0, marginRight: 0, marginBottom: '0.25rem', width: 128 }}
-                  className="image is-128x128"
-                >
-                  <img
-                    style={{
-                      borderRadius: '100%',
-                      cursor: 'pointer',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-                    }}
-                    src={otherUserProfileInfo.profileImage.url}
-                  />
-                </figure>
-
-                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div>No Ratings Yet</div>
-                ) : (
-                  <ReactStars
-                    className="ReactStars"
-                    half
-                    count={5}
-                    value={globalRating}
-                    edit={false}
-                    size={30}
-                    color1={'lightgrey'}
-                    color2={'#ffd700'}
-                  />
-                )}
-                <div>{renderAddToCalendar && renderAddToCalendar()}</div>
-                {/* <label className="help">
+                  src={otherUserProfileInfo.profileImage.url}
+                />
+              </figure>
+              <div style={{ marginBottom: 0 }} className={`title`}>
+                <span>{otherUserProfileInfo.displayName}</span>
+              </div>
+              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
+                ({membershipStatusDisplay})
+              </div>
+              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                <div style={{ lineHeight: '52px' }}>No Ratings Yet</div>
+              ) : (
+                <ReactStars
+                  className="ReactStars"
+                  half
+                  count={5}
+                  value={globalRating}
+                  edit={false}
+                  size={35}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
+              )}
+            </div>
+            {/* <label className="help">
                     joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                   </label> */}
-              </div>
-              <div style={{ flexGrow: 1, marginLeft: '2rem' }}>
-                <div style={{ marginBottom: 0 }} className={`title`}>
-                  <span>{otherUserProfileInfo.displayName}</span>
-                </div>
-                <div className={`has-text-grey`} style={{ fontWeight: 300, marginBottom: '1rem' }}>
-                  ({membershipStatusDisplay})
-                </div>
-
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {numberOfTimesBeenRated}
-                  </span>
-                  <span>Ratings Recieved</span>
-                </div>
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {fulfilledBids.length}
-                  </span>
-                  <span>Completed Tasks</span>
-                </div>
-                <div>
-                  <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                    {canceledBids.length}
-                  </span>
-                  <span>Cancellations</span>
-                </div>
-                <br />
-                <div className="field">
-                  <VerifiedVia
-                    userDetails={otherUserProfileInfo}
-                    isCentered={false}
-                    smallfont={false}
-                  />
-                </div>
-              </div>
-              {renderContextMenu && renderContextMenu()}
-            </div>
-            <label>Contact info</label>
-            <div style={{ color: '#26ca70' }}>
+            {/* <div>
               <div>
-                <span className="icon">
-                  <i className="far fa-envelope" />
+                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                  {numberOfTimesBeenRated}
                 </span>
-                <span className="has-text-weight-semibold">{emailAddress}</span>
+                <span>Ratings Recieved</span>
               </div>
               <div>
-                <span className="icon">
-                  <i className="fas fa-mobile-alt" />
+                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                  {fulfilledBids.length}
                 </span>
-                <span className="has-text-weight-semibold">{phoneNumber}</span>
+                <span>Completed Tasks</span>
               </div>
+              <div>
+                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
+                  {canceledBids.length}
+                </span>
+                <span>Cancellations</span>
+              </div>
+              <br />
+              <div className="field">
+                <VerifiedVia
+                  userDetails={otherUserProfileInfo}
+                  isCentered={false}
+                  smallfont={false}
+                />
+              </div>
+            </div> */}
+            <div style={{ marginBottom: '2rem' }}>
+              <div className="field">
+                <label className="has-text-grey">Contact Tasker Via</label>
+                <div style={{ fontWeight: 500, fontSize: 18 }}>
+                  <div>
+                    <span className="icon">
+                      <i className="far fa-envelope" />
+                    </span>
+                    <span>{emailAddress}</span>
+                  </div>
+                  <div>
+                    <span className="icon">
+                      <i className="fas fa-mobile-alt" />
+                    </span>
+                    <span>{phoneNumber}</span>
+                  </div>
+                </div>
+              </div>
+              {renderAddToCalendar && renderAddToCalendar()}
             </div>
           </div>
         </div>
