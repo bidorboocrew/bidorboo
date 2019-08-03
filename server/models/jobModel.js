@@ -39,8 +39,8 @@ const JobSchema = new Schema(
         'OPEN',
         'AWARDED', //
         'DISPUTED', // disputed job
-        'AWARDED_CANCELED_BY_BIDDER',
-        'AWARDED_CANCELED_BY_REQUESTER',
+        'AWARDED_JOB_CANCELED_BY_BIDDER',
+        'AWARDED_JOB_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN', // Requester cancels a job before awarding
         'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
         'PAYMENT_RELEASED',
@@ -164,8 +164,8 @@ JobSchema.virtual('displayStatus').get(function() {
     OPEN: 'Waiting On Taskers Bids',
     AWARDED: 'Tasker is Assigned',
     DISPUTED: 'Dispute',
-    AWARDED_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
-    AWARDED_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    AWARDED_JOB_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
+    AWARDED_JOB_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     CANCELED_OPEN: 'Canceled Request',
     DONE: 'Completed',
     PAYMENT_RELEASED: 'Payment sent to Tasker',

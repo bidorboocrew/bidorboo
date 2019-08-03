@@ -638,8 +638,8 @@ exports.jobDataAccess = {
                 $in: [
                   'AWARDED', //
                   'DISPUTED', // disputed job
-                  'AWARDED_CANCELED_BY_BIDDER',
-                  'AWARDED_CANCELED_BY_REQUESTER',
+                  'AWARDED_JOB_CANCELED_BY_BIDDER',
+                  'AWARDED_JOB_CANCELED_BY_REQUESTER',
                   'DONE',
                 ],
               },
@@ -1735,10 +1735,10 @@ exports.jobDataAccess = {
      *      - 10% to our platform
      *
      *
-     *      - update JOB status to AWARDED_CANCELED_BY_REQUESTER
+     *      - update JOB status to AWARDED_JOB_CANCELED_BY_REQUESTER
      *      - update JOB with the refund charge field on the job with the refund details
      *
-     *      - find the AWARDED BID and switch its status to CANCELED_AWARDED_BY_REQUESTER
+     *      - find the AWARDED BID and switch its status to AWARDED_BID_CANCELED_BY_REQUESTER
      *
      *      - Update Requester User rating
      *                globalRating - 0.25 star
@@ -1823,7 +1823,7 @@ exports.jobDataAccess = {
                 { _id: jobId, _ownerRef: mongoUser_id },
                 {
                   $set: {
-                    state: 'AWARDED_CANCELED_BY_REQUESTER',
+                    state: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
                     'processedPayment.refund': {
                       amount: refundCharge.amount,
                       charge: refundCharge.charge,
@@ -1840,7 +1840,7 @@ exports.jobDataAccess = {
               BidModel.findByIdAndUpdate(
                 awardedBidId,
                 {
-                  $set: { state: 'CANCELED_AWARDED_BY_REQUESTER' },
+                  $set: { state: 'AWARDED_BID_CANCELED_BY_REQUESTER' },
                 },
                 { new: true }
               )
@@ -1918,12 +1918,12 @@ exports.jobDataAccess = {
             if (
               !updatedJob._id ||
               !updatedJob.processedPayment.refund ||
-              updatedJob.state === 'AWARDED_CANCELED_BY_REQUESTER'
+              updatedJob.state === 'AWARDED_JOB_CANCELED_BY_REQUESTER'
             ) {
               return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
 
-            if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_REQUESTER') {
+            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_REQUESTER') {
               return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
 

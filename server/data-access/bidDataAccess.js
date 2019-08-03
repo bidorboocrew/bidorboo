@@ -132,7 +132,7 @@ exports.bidDataAccess = {
             //   { _id: requestedJobId, _ownerRef: requesterId },
             //   {
             //     $set: {
-            //       state: `${isPastDue ? 'AWARDED_CANCELED_BY_BIDDER' : 'RE_OPEN'}`,
+            //       state: `${isPastDue ? 'AWARDED_JOB_CANCELED_BY_BIDDER' : 'RE_OPEN'}`,
             //       'processedPayment.refund': {
             //         amount: refundCharge.amount,
             //         charge: refundCharge.charge,
@@ -153,7 +153,7 @@ exports.bidDataAccess = {
                 { _id: requestedJobId, _ownerRef: requesterId },
                 {
                   $set: {
-                    state: 'AWARDED_CANCELED_BY_BIDDER',
+                    state: 'AWARDED_JOB_CANCELED_BY_BIDDER',
                     'processedPayment.refund': {
                       amount: refundCharge.amount,
                       charge: refundCharge.charge,
@@ -172,7 +172,7 @@ exports.bidDataAccess = {
               BidModel.findByIdAndUpdate(
                 bidId,
                 {
-                  $set: { state: 'CANCELED_AWARDED_BY_TASKER' },
+                  $set: { state: 'AWARDED_BID_CANCELED_BY_TASKER' },
                 },
                 { new: true }
               )
@@ -254,7 +254,7 @@ exports.bidDataAccess = {
             ) {
               return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
-            if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_TASKER') {
+            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_TASKER') {
               return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
             if (
@@ -633,8 +633,8 @@ exports.bidDataAccess = {
                 match: {
                   state: {
                     $in: [
-                      'CANCELED_AWARDED_BY_TASKER',
-                      'CANCELED_AWARDED_BY_REQUESTER',
+                      'AWARDED_BID_CANCELED_BY_TASKER',
+                      'AWARDED_BID_CANCELED_BY_REQUESTER',
                       'WON',
                       'WON_SEEN',
                       'DONE',

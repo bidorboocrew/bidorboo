@@ -255,7 +255,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       // xxxxx maybe we should notify of canceled by tasker
-      const bidsWithUpdatedStatus = ['WON', 'AWARDED', 'CANCELED_AWARDED_BY_REQUESTER'];
+      const bidsWithUpdatedStatus = ['WON', 'AWARDED', 'AWARDED_BID_CANCELED_BY_REQUESTER'];
 
       const user = await User.findOne(
         { userId },
@@ -272,7 +272,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
       )
         .populate({
           path: '_postedJobsRef',
-          match: { state: { $in: ['OPEN', 'AWARDED', 'AWARDED_CANCELED_BY_BIDDER'] } },
+          match: { state: { $in: ['OPEN', 'AWARDED', 'AWARDED_JOB_CANCELED_BY_BIDDER'] } },
           select: {
             _bidsListRef: 1,
             state: 1,

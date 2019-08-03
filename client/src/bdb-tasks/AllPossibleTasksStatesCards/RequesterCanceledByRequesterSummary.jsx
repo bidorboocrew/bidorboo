@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   CountDownComponent,
-  StartDateAndTime,
   SummaryStartDateAndTime,
   JobCardTitle,
   CancelledBy,
@@ -16,6 +15,7 @@ import { REQUEST_STATES } from '../index';
 export default class RequesterCanceledByRequesterSummary extends React.Component {
   render() {
     const { job } = this.props;
+    debugger;
     if (!job) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
@@ -46,7 +46,6 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     if (!TITLE) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
-    const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
       <div
@@ -63,11 +62,11 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
+            {state === REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER && (
               <CancelledBy name={'You'} refundAmount={75} />
             )}
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
+            {state === REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER && (
               <CancelledBy name={_bidderRef.displayName} refundAmount={100} />
             )}
           </div>
