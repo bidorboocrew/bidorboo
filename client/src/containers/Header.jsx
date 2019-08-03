@@ -222,7 +222,44 @@ class Header extends React.Component {
                 </div>
               </div>
             </div>
-            {hideMobileNavButtons && (
+
+            {!isLoggedIn && (
+              <div className="navbar-item">
+                <a
+                  id={'viewDependentNavBarItems'}
+                  className={`navbar-item ${
+                    activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                  }`}
+                  onClick={(e) => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                    });
+                  }}
+                >
+                  <span className="icon">
+                    <i className="far fa-plus-square" />
+                  </span>
+                  <span>Request</span>
+                </a>
+                <a
+                  className={`navbar-item ${
+                    activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                  }`}
+                  onClick={(e) => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    });
+                  }}
+                >
+                  <span className="icon">
+                    <i className="fas fa-hand-rock" />
+                  </span>
+                  <span>Bid</span>
+                </a>
+              </div>
+            )}
+
+            {isLoggedIn && hideMobileNavButtons && (
               <div className="is-hidden-desktop navbar-item">
                 <a
                   id={'viewDependentNavBarItems'}
@@ -440,8 +477,8 @@ class Header extends React.Component {
             {/* end */}
             <div className="navbar-end">
               <div className="navbar-item is-hidden-touch">
-                {!isActingAsBidder && (
-                  <React.Fragment>
+                {!isActingAsBidder && isLoggedIn && (
+                  <>
                     <a
                       id={'viewDependentNavBarItems'}
                       className={`navbar-item ${
@@ -458,44 +495,42 @@ class Header extends React.Component {
                       </span>
                       <span>New Request</span>
                     </a>
-                    {isLoggedIn && (
-                      <a
-                        id={'viewDependentNavBarItems'}
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
-                        }`}
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-                          });
-                        }}
-                      >
-                        <span style={{ position: 'relative' }} className="icon">
-                          <i className="fas fa-list" />
-                          {jobRecievedNewBids && (
-                            <span
-                              style={{
-                                fontSize: 8,
-                                position: 'absolute',
-                                top: -6,
-                                left: -6,
-                                borderRadius: '100%',
-                                textAlign: 'center',
-                              }}
-                              className="icon has-text-danger"
-                            >
-                              <i className="fas fa-circle" />
-                            </span>
-                          )}
-                        </span>
-                        <span>Requests Inbox</span>
-                      </a>
-                    )}
-                  </React.Fragment>
+                    <a
+                      id={'viewDependentNavBarItems'}
+                      className={`navbar-item ${
+                        activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
+                      }`}
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+                        });
+                      }}
+                    >
+                      <span style={{ position: 'relative' }} className="icon">
+                        <i className="fas fa-list" />
+                        {jobRecievedNewBids && (
+                          <span
+                            style={{
+                              fontSize: 8,
+                              position: 'absolute',
+                              top: -6,
+                              left: -6,
+                              borderRadius: '100%',
+                              textAlign: 'center',
+                            }}
+                            className="icon has-text-danger"
+                          >
+                            <i className="fas fa-circle" />
+                          </span>
+                        )}
+                      </span>
+                      <span>Requests Inbox</span>
+                    </a>
+                  </>
                 )}
 
-                {isActingAsBidder && (
-                  <React.Fragment>
+                {isActingAsBidder && isLoggedIn && (
+                  <>
                     <a
                       className={`navbar-item ${
                         activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
@@ -511,40 +546,38 @@ class Header extends React.Component {
                       </span>
                       <span>New Bid</span>
                     </a>
-                    {isLoggedIn && (
-                      <a
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                          });
-                        }}
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
-                        }`}
-                      >
-                        <span style={{ position: 'relative' }} className="icon">
-                          <i className="fas fa-money-check-alt" />
-                          {bidsGotAwardedToMe && (
-                            <span
-                              style={{
-                                fontSize: 8,
-                                position: 'absolute',
-                                top: -6,
-                                left: -6,
-                                borderRadius: '100%',
-                                textAlign: 'center',
-                              }}
-                            >
-                              <span className="has-text-danger icon">
-                                <i className="fas fa-circle" />
-                              </span>
+                    <a
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                        });
+                      }}
+                      className={`navbar-item ${
+                        activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
+                      }`}
+                    >
+                      <span style={{ position: 'relative' }} className="icon">
+                        <i className="fas fa-money-check-alt" />
+                        {bidsGotAwardedToMe && (
+                          <span
+                            style={{
+                              fontSize: 8,
+                              position: 'absolute',
+                              top: -6,
+                              left: -6,
+                              borderRadius: '100%',
+                              textAlign: 'center',
+                            }}
+                          >
+                            <span className="has-text-danger icon">
+                              <i className="fas fa-circle" />
                             </span>
-                          )}
-                        </span>
-                        <span>Bids Inbox</span>
-                      </a>
-                    )}
-                  </React.Fragment>
+                          </span>
+                        )}
+                      </span>
+                      <span>Bids Inbox</span>
+                    </a>
+                  </>
                 )}
               </div>
               <React.Fragment>
