@@ -651,6 +651,8 @@ export const SummaryStartDateAndTime = ({ date }) => {
           justifyContent: 'center',
           fontWeight: 500,
           fontSize: 18,
+          maxWidth: 300,
+          margin: 'auto',
         }}
       >
         <div style={{ borderRight: '1px solid lightgrey', padding: 10, flex: '1 1 0' }}>
@@ -666,7 +668,6 @@ export const AwaitingOnTasker = () => {
     <div className="group">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
@@ -674,13 +675,10 @@ export const AwaitingOnTasker = () => {
       >
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             flexGrow: 0,
             fontSize: 18,
-            borderRadius: '100%',
-            border: '1px solid lightgrey',
             width: 28,
-            background: 'lightgrey',
             marginRight: 8,
           }}
         >
@@ -690,14 +688,13 @@ export const AwaitingOnTasker = () => {
         </div>
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             fontSize: 18,
           }}
         >
           Awaiting On Taskers
         </div>
-      </div>
-      <div>
+
         <div className="help">*Check Back soon!</div>
       </div>
     </div>
@@ -738,9 +735,9 @@ export const PastdueExpired = () => {
           Past Due - Expired
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className="help">*BidOrBoo will auto delete this task</div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -797,9 +794,7 @@ export const AssignedTasker = ({ displayName }) => {
         <div
           style={{
             fontSize: 18,
-            borderRadius: '100%',
             width: 28,
-            background: '#26ca70',
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -817,9 +812,9 @@ export const AssignedTasker = ({ displayName }) => {
         >
           {`${displayName} is Tasked`}
         </div>
-        <div>
+        {/* <div>
           <div className="help">*Contact Tasker To finalize details</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

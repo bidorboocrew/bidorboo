@@ -650,24 +650,23 @@ class AssignedTaskerDetails extends React.Component {
                     smallfont={false}
                   />
                 </div>
-
-                <label>Contact info</label>
-                <div style={{ color: '#26ca70' }}>
-                  <div>
-                    <span className="icon">
-                      <i className="far fa-envelope" />
-                    </span>
-                    <span className="has-text-weight-semibold">{emailAddress}</span>
-                  </div>
-                  <div>
-                    <span className="icon">
-                      <i className="fas fa-mobile-alt" />
-                    </span>
-                    <span className="has-text-weight-semibold">{phoneNumber}</span>
-                  </div>
-                </div>
               </div>
               {renderContextMenu && renderContextMenu()}
+            </div>
+            <label>Contact info</label>
+            <div style={{ color: '#26ca70' }}>
+              <div>
+                <span className="icon">
+                  <i className="far fa-envelope" />
+                </span>
+                <span className="has-text-weight-semibold">{emailAddress}</span>
+              </div>
+              <div>
+                <span className="icon">
+                  <i className="fas fa-mobile-alt" />
+                </span>
+                <span className="has-text-weight-semibold">{phoneNumber}</span>
+              </div>
             </div>
           </div>
         </div>
