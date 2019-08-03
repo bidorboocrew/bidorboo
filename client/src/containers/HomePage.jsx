@@ -73,7 +73,7 @@ export default class HomePage extends React.Component {
               >
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1>
-              <h2 className="is-5 has-text-grey-lighter">
+              <h2 className="is-5 has-text-white">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
             </div>
@@ -117,7 +117,7 @@ export default class HomePage extends React.Component {
 
 const RequestAService = (props) => {
   return (
-    <div style={{ height: '28rem' }} className="card cardWithButton">
+    <div style={{ height: '30rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
           <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
@@ -149,7 +149,7 @@ const RequestAService = (props) => {
 
 const ProvideAService = (props) => {
   return (
-    <div style={{ height: '28rem' }} className="card cardWithButton">
+    <div style={{ height: '30rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
           <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
@@ -181,9 +181,7 @@ const ProvideAService = (props) => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 style={{ fontWeight: 300 }} className="title is-size-4">
-        How It Works?
-      </h1>
+      <h1 className="title has-text-centered">How It Works?</h1>
       <ul>
         <li>
           <p className="is-size-5">Fill A Request</p>
@@ -202,9 +200,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 style={{ fontWeight: 300 }} className="title is-size-4">
-        How It Works?
-      </h1>
+      <h1 className="title has-text-centered">How It Works?</h1>
       <ul>
         <li>
           <p className="is-size-5">Browse Tasks</p>
