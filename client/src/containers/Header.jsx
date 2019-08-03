@@ -382,7 +382,7 @@ class Header extends React.Component {
               <span style={{ position: 'relative' }} aria-hidden="true">
                 {(jobRecievedNewBids || bidsGotAwardedToMe) && (
                   <i
-                    style={{ position: 'absolute', top: -5, right: 0, fontSize: 8 }}
+                    style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
                     className="has-text-danger fas fa-circle"
                   />
                 )}
