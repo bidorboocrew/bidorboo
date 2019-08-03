@@ -620,16 +620,31 @@ exports.jobDataAccess = {
       .populate({
         path: '_postedJobsRef',
         match: {
-          state: {
-            $in: [
-              'OPEN',
-              'AWARDED', //
-              'DISPUTED', // disputed job
-              'AWARDED_CANCELED_BY_BIDDER',
-              'AWARDED_CANCELED_BY_REQUESTER',
-              'DONE',
-            ],
-          },
+          $or: [
+            {
+              $and: [
+                { state: { $eq: 'OPEN' } },
+                {
+                  startingDateAndTime: {
+                    $gt: moment()
+                      .utc()
+                      .toISOString(),
+                  },
+                },
+              ],
+            },
+            {
+              state: {
+                $in: [
+                  'AWARDED', //
+                  'DISPUTED', // disputed job
+                  'AWARDED_CANCELED_BY_BIDDER',
+                  'AWARDED_CANCELED_BY_REQUESTER',
+                  'DONE',
+                ],
+              },
+            },
+          ],
         },
         select: {
           booedBy: 0,
