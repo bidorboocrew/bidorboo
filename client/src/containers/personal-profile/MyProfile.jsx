@@ -15,7 +15,9 @@ import NotificationSettings from './NotificationSettings';
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
 import { VerifiedVia } from '../commonComponents';
+import { switchRoute } from '../../utils';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -332,53 +334,64 @@ const userImageAndStats = (
       <div className="card-content">
         <div className="content">
           <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
-            <div
-              onClick={(e) => {
-                e.preventDefault();
-                toggleShowUploadProfileImageDialog();
-              }}
-            >
-              <div>
-                <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-              </div>
-              <div className="has-text-centered">{displayName}</div>
-
-              <a style={{ width: 120 }} className="button is-small">
-                <span className="icon">
-                  <i className="fa fa-camera" />
-                </span>
-                <span>Change Picture</span>
-              </a>
-
-              <VerifiedVia userDetails={userDetails} />
-            </div>
-            <br />
-            <div className="group saidTest">
-              <label className="label">My Rating</label>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="control has-text-centered">No Ratings Yet</div>
-              ) : (
-                <div className="control has-text-centered">
-                  <span>
-                    <ReactStars
-                      className="ReactStars"
-                      half
-                      count={5}
-                      value={globalRating}
-                      edit={false}
-                      size={25}
-                      color1={'lightgrey'}
-                      color2={'#ffd700'}
-                    />
+            <div className="has-text-centered">
+              <figure
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleShowUploadProfileImageDialog();
+                }}
+                style={{ margin: 'auto', width: 128, position: 'relative' }}
+                className="image is-128x128"
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 6,
+                    background: 'rgba(0,0,0,0.6)',
+                    borderRadius: '100%',
+                    color: '#eeeeee',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <span className="icon is-medium">
+                    <i className="fa fa-camera" />
                   </span>
                 </div>
+                <img
+                  style={{
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                  }}
+                  src={profileImage.url}
+                />
+              </figure>
+              <div style={{ marginBottom: 0 }} className={`title`}>
+                <span>{displayName}</span>
+              </div>
+              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
+                ({membershipStatusDisplay})
+              </div>
+              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                  - No Ratings Yet -
+                </div>
+              ) : (
+                <ReactStars
+                  className="ReactStars"
+                  half
+                  count={5}
+                  value={globalRating}
+                  edit={false}
+                  size={35}
+                  color1={'lightgrey'}
+                  color2={'#ffd700'}
+                />
               )}
             </div>
 
-            <div className="group saidTest">
-              <label className="label">Account Status</label>
-              <div className="control has-text-centered">{membershipStatusDisplay}</div>
-            </div>
+            <VerifiedVia userDetails={userDetails} showAll />
           </div>
         </div>
       </div>

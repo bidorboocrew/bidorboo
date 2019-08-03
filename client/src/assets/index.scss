@@ -955,9 +955,18 @@ div.control {
 
 .verificationBadge {
   margin: 5px;
-  padding: 2px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  padding: 5px;
   border-radius: 100%;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  &.isActive {
+    background: white;
+    border: 1px solid #26ca70;
+  }
+  &.notActive {
+    background: #cdcdcd;
+    border: 1px dashed #363636;
+    cursor: pointer;
+  }
 }
 
 div.watermark {
