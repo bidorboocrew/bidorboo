@@ -93,12 +93,11 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  Because you cancelled your booking, the refund was calculated
-                  <strong>by deducting 20%</strong> from the original full payment.
+                  <strong>20% was deducted</strong> from the original full payment because you
+                  cancelled your apppointment.
                 </li>
                 <li>
-                  You were issued a <strong>refunded</strong> for the amount of
-                  <strong>{` $${refundAmount}`}</strong> back to you
+                  <strong>{` $${refundAmount}`} was refunded </strong> back to you.
                 </li>
 
                 <li>Your global rating will be negatively impacted</li>

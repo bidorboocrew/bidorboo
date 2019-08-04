@@ -91,14 +91,13 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
               <label className="label">What you need to know:</label>
               <ul>
                 <li>
-                  We Issued a <strong>full refund</strong> for the amount of
-                  <strong>{` $${proposerPaid / 100}`}</strong> back to your card.
+                  <strong>100% refund for the amount of {` $${proposerPaid / 100}`}</strong> was
+                  issued back to your card.
                 </li>
                 <li>
-                  You should recieve the money back into the same card you used within the next 3-5
-                  business days
+                  <strong>The Tasker's rating has been negatively</strong> impacted for their
+                  cancellation
                 </li>
-                <li><strong>The Tasker's</strong> rating has been negatively impacted for their cancellation</li>
               </ul>
             </div>
           </div>
