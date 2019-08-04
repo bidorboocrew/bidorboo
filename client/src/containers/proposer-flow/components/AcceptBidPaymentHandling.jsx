@@ -87,7 +87,12 @@ class AcceptBidPaymentHandling extends React.Component {
           token={this.onTokenResponse}
           stripeKey={process.env.REACT_APP_STRIPE_KEY}
         >
-          <button className="button is-success">Accept This Offer</button>
+          <button className="button is-success">
+            <span>Proceed to Checkout</span>
+            <span className="icon">
+              <i className="fas fa-chevron-right" />
+            </span>
+          </button>
         </StripeCheckout>
       </React.Fragment>
     );
