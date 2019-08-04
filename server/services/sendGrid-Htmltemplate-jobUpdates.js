@@ -202,56 +202,6 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
       border-bottom: 1px solid #eeeeee;
       margin: 20px 0;
     }
-
-    /* -------------------------------------
-        RESPONSIVE AND MOBILE FRIENDLY STYLES
-    ------------------------------------- */
-    @media only screen and (max-width: 620px) {
-      table[class=body] h1 {
-        font-size: 28px !important;
-        margin-bottom: 10px !important;
-      }
-      table[class=body] p,
-      table[class=body] ul,
-      table[class=body] ol,
-      table[class=body] td,
-      table[class=body] span,
-      table[class=body] a {
-        font-size: 16px !important;
-      }
-      table[class=body] .wrapper,
-      table[class=body] .article {
-        padding: 10px !important;
-      }
-      table[class=body] .content {
-        padding: 0 !important;
-      }
-      table[class=body] .container {
-        padding: 0 !important;
-        width: 100% !important;
-      }
-      table[class=body] .main {
-        border-left-width: 0 !important;
-        border-radius: 0 !important;
-        border-right-width: 0 !important;
-      }
-      table[class=body] .btn table {
-        width: 100% !important;
-      }
-      table[class=body] .btn a {
-        width: 100% !important;
-      }
-      table[class=body] .img-responsive {
-        height: auto !important;
-        max-width: 100% !important;
-        width: auto !important;
-      }
-    }
-
-    /* -------------------------------------
-        PRESERVE THESE STYLES IN THE HEAD
-    ------------------------------------- */
-
   </style>
   </head>
 
@@ -264,9 +214,9 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
             <!-- START CENTERED WHITE CONTAINER -->
             <span class="preheader">BidOrBoo updates!</span>
 
-            <table dir="ltr" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
+            <table style="width:100%;border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
               <tbody>
-              <tr style="border-bottom:4px solid #ee2a36">
+              <tr style="width:100%;border-bottom:4px solid #ee2a36">
                 <td class="wrapper">
                 <img alt="" height="64" width="64" src="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png" style="display:block;border:0;height:64px;width:64px;margin:auto" >
                 </td>
