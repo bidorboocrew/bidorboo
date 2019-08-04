@@ -872,6 +872,48 @@ export const TaskCost = ({ cost }) => {
   );
 };
 
+export const TaskerIsDoneTask = ({ displayName = '' }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          // background: 'lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            width: 28,
+            background: '#00d1b2',
+            marginRight: 8,
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18, color: 'white' }} className="far fa-smile-beam" />
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          {`Tasker is Done`}
+        </div>
+      </div>
+      {/* <div>
+      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
+    </div> */}
+    </div>
+  );
+};
+
 export const BidsTableVerifiedVia = ({ userDetails }) => {
   const {
     stripeConnect = { isVerified: false },
