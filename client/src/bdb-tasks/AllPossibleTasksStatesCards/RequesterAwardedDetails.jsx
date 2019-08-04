@@ -400,7 +400,7 @@ class RequesterConfirmsCompletion extends React.Component {
                   <button
                     type="submit"
                     onClick={this.submitConfirmation}
-                    className="button heartbeat is-success"
+                    className="button is-success"
                   >
                     Confirm Completion
                   </button>
@@ -414,7 +414,7 @@ class RequesterConfirmsCompletion extends React.Component {
           )}
         <a
           onClick={this.toggleModal}
-          className="button heartbeat  is-success"
+          className="button is-success"
           // className={`button is-fullwidth is-success ${
           //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
           // }`}
