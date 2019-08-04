@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { switchRoute } from '../../utils';
