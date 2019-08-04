@@ -769,16 +769,15 @@ export const CancelledBy = ({ name, refundAmount }) => {
     <div className="group">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          background: 'lightgrey',
+          // background: 'lightgrey',
         }}
       >
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
@@ -789,21 +788,21 @@ export const CancelledBy = ({ name, refundAmount }) => {
           }}
         >
           <div className="icon">
-            <i style={{ width: 15, color: 'lightgrey' }} className="far fa-frown" />
+            <i style={{ width: 18, color: 'white' }} className="far fa-frown" />
           </div>
         </div>
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             fontSize: 18,
           }}
         >
           {`Cancelled by ${name}`}
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
-      </div>
+      </div> */}
     </div>
   );
 };

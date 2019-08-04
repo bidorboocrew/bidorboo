@@ -9,6 +9,8 @@ import {
   RequesterOpenCanceledDetails,
   RequesterCanceledByRequesterSummary,
   RequesterCanceledByRequesterDetails,
+  RequesterCanceledByTaskerSummary,
+  RequesterCanceledByTaskerDetails,
   TaskerBidOnTaskDetails,
   TaskerBidOnTaskSummary,
   TaskerMyOpenBidSummary,
@@ -75,9 +77,9 @@ const requesterCardTemplates = {
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <RequesterCanceledByRequesterSummary job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerSummary job={job} {...otherArgs} />
     ) : (
-      <RequesterCanceledByRequesterDetails job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {

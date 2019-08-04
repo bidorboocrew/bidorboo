@@ -54,6 +54,14 @@ export {
 } from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterDetails';
 
 export {
+  default as RequesterCanceledByTaskerSummary,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerSummary';
+
+export {
+  default as RequesterCanceledByTaskerDetails,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerDetails';
+
+export {
   default as RequesterOpenCanceledSummary,
 } from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
 export {

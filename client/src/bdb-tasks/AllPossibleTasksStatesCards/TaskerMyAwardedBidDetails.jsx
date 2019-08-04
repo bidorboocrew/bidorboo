@@ -449,7 +449,7 @@ class TaskerConfirmsCompletion extends React.Component {
                   <button
                     type="submit"
                     onClick={this.submitConfirmation}
-                    className="button heartbeat  is-success"
+                    className="button is-success"
                   >
                     Confirm Completion
                   </button>

@@ -158,7 +158,7 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '3rem' }} className="card cardWithButton nofixedwidth">
+      <div style={{ marginBottom: '1rem' }} className="card cardWithButton nofixedwidth">
         <div style={{ padding: '1rem' }} className="card-content">
           <nav className="level">
             <div className="level-item has-text-centered">

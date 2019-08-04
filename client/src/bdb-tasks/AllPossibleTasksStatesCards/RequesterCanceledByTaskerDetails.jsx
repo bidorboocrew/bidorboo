@@ -1,5 +1,5 @@
 import React from 'react';
-
+import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
@@ -8,12 +8,12 @@ import {
   JobCardTitle,
   CancelledBy,
 } from '../../containers/commonComponents';
-
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-export default class RequesterCanceledByRequesterDetails extends React.Component {
+export default class RequesterCanceledByTaskerDetails extends React.Component {
   render() {
     const { job } = this.props;
+
     if (!job) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -68,9 +68,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-
     const { proposerPaid } = processedPayment;
-    const refundAmount = Math.floor((proposerPaid / 100) * 0.8);
 
     return (
       <div
@@ -88,23 +86,19 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               )}
             />
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={`Tasker ${_bidderRef.displayName}`} refundAmount={100} />
             <div className="group has-text-left">
-              <label className="label has-text-danger">What you need to know:</label>
+              <label className="label">What you need to know:</label>
               <ul>
                 <li>
-                  Because you cancelled your booking, the refund was calculated
-                  <strong>by deducting 20%</strong> from the original full payment.
+                  We Issued a <strong>full refund</strong> for the amount of
+                  <strong>{` $${proposerPaid / 100}`}</strong> back to your card.
                 </li>
                 <li>
-                  You were issued a <strong>refunded</strong> for the amount of
-                  <strong>{` $${refundAmount}`}</strong> back to you
+                  You should recieve the money back into the same card you used within the next 3-5
+                  business days
                 </li>
-
-                <li>Your global rating will be negatively impacted</li>
-                <li>
-                  Cancelling after booking will put a ban on your account if is done frequently.
-                </li>
+                <li><strong>The Tasker's</strong> rating has been negatively impacted for their cancellation</li>
               </ul>
             </div>
           </div>

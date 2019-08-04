@@ -12,12 +12,12 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import { REQUEST_STATES } from '../index';
 
-export default class RequesterCanceledByRequesterSummary extends React.Component {
+export default class RequesterCanceledByTaskerSummary extends React.Component {
   render() {
     const { job } = this.props;
 
     if (!job) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
     }
 
     const {
@@ -36,15 +36,15 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
       !state ||
       !_ownerRef
     ) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
     }
     const { _bidderRef } = _awardedBidRef;
     if (!_bidderRef) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
     }
     const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
+      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
     }
 
     return (
@@ -63,20 +63,22 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
               )}
             />
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={'Tasker'} refundAmount={100} />
           </div>
         </div>
 
-        <div className="centeredButtonInCard">
-          <a
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
-            }}
-            className="button is-danger"
-          >
-            Implications
-          </a>
-        </div>
+        <React.Fragment>
+          <div className="centeredButtonInCard">
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              }}
+              className="button is-danger"
+            >
+              Implications
+            </a>
+          </div>
+        </React.Fragment>
       </div>
     );
   }

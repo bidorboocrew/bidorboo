@@ -115,39 +115,6 @@ exports.bidDataAccess = {
           });
 
           if (refundCharge.status === 'succeeded') {
-            // normalize the start date to the same timezone to comapre
-
-            // const jobStartDateAndtime = bidDetails._jobRef.startingDateAndTime;
-
-            // this code will auto re open the task xxxxxxxxxxxxxxxxxxxx
-            //   const normalizedStartDate = moment(jobStartDateAndtime)
-            //   .tz('America/Toronto')
-            //   .toISOString();
-            // const today = moment()
-            //   .tz('America/Toronto')
-            //   .startOf('day')
-            //   .toISOString();
-            // const isPastDue = moment(normalizedStartDate).isBefore(today);
-            // JobModel.findOneAndUpdate(
-            //   { _id: requestedJobId, _ownerRef: requesterId },
-            //   {
-            //     $set: {
-            //       state: `${isPastDue ? 'AWARDED_JOB_CANCELED_BY_BIDDER' : 'RE_OPEN'}`,
-            //       'processedPayment.refund': {
-            //         amount: refundCharge.amount,
-            //         charge: refundCharge.charge,
-            //         id: refundCharge.id,
-            //         status: refundCharge.status,
-            //       },
-            //       _awardedBidRef: null,
-            //     },
-            //     $push: { hideFrom: taskerId },
-            //     $pull: { _bidsListRef: bidDetails._id },
-            //   },
-            //   { new: true }
-            // )
-            //   .lean(true)
-            //   .exec(),
             const [updatedJob, updatedBid, updatedTasker] = await Promise.all([
               JobModel.findOneAndUpdate(
                 { _id: requestedJobId, _ownerRef: requesterId },
@@ -160,7 +127,6 @@ exports.bidDataAccess = {
                       id: refundCharge.id,
                       status: refundCharge.status,
                     },
-                    _awardedBidRef: null,
                   },
                   $push: { hideFrom: taskerId },
                   $pull: { _bidsListRef: bidDetails._id },
@@ -205,7 +171,6 @@ exports.bidDataAccess = {
                 requestTitle: jobDisplayName,
                 toDisplayName: requesterDisplayName,
                 linkForOwner: requestLinkForRequester,
-                isPastDue,
               });
             }
             if (allowedToEmailTasker) {
@@ -246,12 +211,8 @@ exports.bidDataAccess = {
             }
             // -------------notify
 
-            // -------------------------------- assert things
-            if (
-              !updatedJob._id ||
-              updatedJob._awardedBidRef ||
-              !updatedJob.processedPayment.refund
-            ) {
+            // -------------------------------- assert things sxxxxx
+            if (!updatedJob._id || !updatedJob.processedPayment.refund) {
               return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
             if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_TASKER') {
