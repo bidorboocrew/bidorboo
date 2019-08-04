@@ -56,7 +56,7 @@ export default class RequesterDisputedSummary extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisputedBy name="Tasker" />
+            <DisputedBy name="You" />
           </div>
         </div>
 

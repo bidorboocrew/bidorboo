@@ -10,8 +10,9 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   SummaryStartDateAndTime,
   JobCardTitle,
-  TaskerIsDoneTask,
+  TaskIsFulfilled,
   CountDownComponent,
+  ArchiveTask,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -79,15 +80,9 @@ class RequesterDoneSummary extends RequestBaseContainer {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            {!requiresProposerReview && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-dark">Archived !</div>
-                <div className="help">* Congratulations. This was a success</div>
-              </div>
-            )}
+            {!requiresProposerReview && <ArchiveTask />}
 
-            {requiresProposerReview && <TaskerIsDoneTask />}
+            {requiresProposerReview && <TaskIsFulfilled />}
           </div>
         </div>
 

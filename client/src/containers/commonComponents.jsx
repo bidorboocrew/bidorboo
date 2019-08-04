@@ -712,6 +712,10 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
 };
 
 export const AssignedTasker = ({ displayName }) => {
+  let taskerName = displayName;
+  if (taskerName && taskerName.length > 8) {
+    taskerName = taskerName.substring(0, 7);
+  }
   return (
     <div className="group">
       <div
@@ -728,10 +732,12 @@ export const AssignedTasker = ({ displayName }) => {
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
+            backgroundColor: '#26ca70',
+            borderRadius: '100%',
           }}
         >
           <div className="icon">
-            <i style={{ width: 15 }} className="fas fa-user-tie" />
+            <i style={{ width: 18 }} className="fas fa-user-tie" />
           </div>
         </div>
         <div
@@ -740,7 +746,7 @@ export const AssignedTasker = ({ displayName }) => {
             display: 'inline-block',
           }}
         >
-          {`${displayName} is Tasked`}
+          {`${taskerName} is Tasked`}
         </div>
         {/* <div>
           <div className="help">*Contact Tasker To finalize details</div>
@@ -812,7 +818,6 @@ export const DisputedBy = ({ name }) => {
     <div className="group">
       <div
         style={{
-          display: 'flex',
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
@@ -820,7 +825,7 @@ export const DisputedBy = ({ name }) => {
       >
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
@@ -830,12 +835,12 @@ export const DisputedBy = ({ name }) => {
           }}
         >
           <div className="icon">
-            <i style={{ width: 15, color: 'grey' }} className="fas fa-heart-broken" />
+            <i style={{ width: 18, color: '#ef2834' }} className="fas fa-heart-broken" />
           </div>
         </div>
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             fontSize: 18,
           }}
         >
@@ -864,7 +869,7 @@ export const TaskCost = ({ cost }) => {
             display: 'inline-block',
           }}
         >
-          <span style={{ marginRight: 6 }}>Task will Cost</span>
+          <span style={{ marginRight: 6 }}>Task Cost</span>
           <span className="has-text-weight-semibold">{cost}</span>
         </div>
       </div>
@@ -872,7 +877,7 @@ export const TaskCost = ({ cost }) => {
   );
 };
 
-export const TaskerIsDoneTask = ({ displayName = '' }) => {
+export const TaskIsFulfilled = ({ displayName = '' }) => {
   return (
     <div className="group">
       <div
@@ -904,7 +909,50 @@ export const TaskerIsDoneTask = ({ displayName = '' }) => {
             fontSize: 18,
           }}
         >
-          {`Tasker is Done`}
+          {`Task is Fullfilled`}
+        </div>
+      </div>
+      {/* <div>
+      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
+    </div> */}
+    </div>
+  );
+};
+
+export const ArchiveTask = ({ displayName = '' }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+          // background: 'lightgrey',
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #ef2834',
+            width: 28,
+            background: '#ef2834',
+            marginRight: 8,
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18, color: 'white' }} className="far fa-frown" />
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          {`Job Was Archived`}
         </div>
       </div>
       {/* <div>
