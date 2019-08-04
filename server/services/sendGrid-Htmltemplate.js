@@ -258,7 +258,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           <!-- START CENTERED WHITE CONTAINER -->
           <span class="preheader">BidOrBoo updates!</span>
 
-          <table dir="ltr" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
+          <table dir="ltr" width="100%" style="width:100%;border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
             <tbody>
             <tr style="border-bottom:4px solid #ee2a36">
               <td class="wrapper">

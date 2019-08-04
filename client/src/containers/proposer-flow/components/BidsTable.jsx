@@ -3,8 +3,7 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
-import { VerifiedVia } from '../../../containers/commonComponents';
-// import { VerifiedVia } from '../../commonComponents';
+import { BidsTableVerifiedVia, UserImageAndRating } from '../../../containers/commonComponents';
 import * as Constants from '../../../constants/enumConstants';
 
 // confirm award and pay
@@ -42,8 +41,8 @@ export default class BidsTable extends React.Component {
           key={bid._bidderRef._id}
           otherUserProfileInfo={bid._bidderRef}
           bidAmountHtml={() => (
-            <div className="centeredButtonInCard">
-              <div style={{ width: 200 }} className="has-text-centered has-text-grey">
+            <div>
+              <div style={{ width: 150 }} className="has-text-centered has-text-grey">
                 accept bid for
               </div>
               <button
@@ -51,7 +50,7 @@ export default class BidsTable extends React.Component {
                   e.preventDefault();
                   this.openBidDetailsModal(bid);
                 }}
-                style={{ width: 200 }}
+                style={{ width: 150 }}
                 className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
               >
                 ${totalCharge}
@@ -124,6 +123,17 @@ const TableWithNoBids = ({ viewedByCount }) => {
 };
 
 class TaskerBidCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMore: false,
+    };
+  }
+
+  toggleShowMore = () => {
+    this.setState({ showMore: !this.state.showMore });
+  };
+
   render() {
     const { otherUserProfileInfo, bidAmountHtml } = this.props;
     if (!otherUserProfileInfo) {
@@ -140,45 +150,7 @@ class TaskerBidCard extends React.Component {
 
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
-    const {
-      numberOfTimesBeenRated,
-      globalRating,
-      fulfilledBids,
-      canceledBids,
-      lastComment,
-    } = rating;
-
-    let asABidderReviews = null;
-    if (_asBidderReviewsRef && _asBidderReviewsRef.length > 0) {
-      asABidderReviews = _asBidderReviewsRef.map(({ _id, proposerId, proposerReview }) => {
-        const { displayName, profileImage } = proposerId;
-
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={proposerReview.personalComment}
-          />
-        );
-      });
-    }
-
-    let asAProposerReviewsRef = null;
-    if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
-      asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, bidderId, bidderReview }) => {
-        const { displayName, profileImage } = bidderId;
-
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={bidderReview.personalComment}
-          />
-        );
-      });
-    }
+    const { globalRating, lastComment } = rating;
 
     let displayComment = lastComment || 'This user was not reviewed yet!';
     if (displayComment.length > 100) {
@@ -187,8 +159,65 @@ class TaskerBidCard extends React.Component {
 
     return (
       <div style={{ marginBottom: '3rem' }} className="card cardWithButton nofixedwidth">
-        <div className="card-content">
-          <div style={{ marginBottom: '2rem' }} className="content">
+        <div style={{ padding: '1rem' }} className="card-content">
+          <nav className="level">
+            <div className="level-item has-text-centered">
+              <div>
+                <img
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                  }}
+                  style={{
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                    boxShadow:
+                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
+                    height: 64,
+                    width: 64,
+                  }}
+                  src={otherUserProfileInfo.profileImage.url}
+                />
+                <div className={'is-size-6'}>{otherUserProfileInfo.displayName}</div>
+                <div className={`has-text-grey`} style={{ fontWeight: 300, fontSize: 12 }}>
+                  ({membershipStatusDisplay})
+                </div>
+              </div>
+            </div>
+            <div className="level-item has-text-centered">
+              <div>
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                    No Ratings Yet
+                  </div>
+                ) : (
+                  <ReactStars
+                    style={{ cursor: 'pointer' }}
+                    className="is-size-7"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={35}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+                <div>
+                  <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
+                </div>
+              </div>
+            </div>
+
+            <div className="level-item has-text-centered">{bidAmountHtml()}</div>
+          </nav>
+
+          {/* <div className="field">
+            <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
+          </div> */}
+
+          {/* <div style={{ marginBottom: '2rem' }} className="content">
             <div className="has-text-centered">
               <figure
                 onClick={(e) => {
@@ -200,6 +229,12 @@ class TaskerBidCard extends React.Component {
                 className="image is-128x128"
               >
                 <img
+                   onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                }}
+
                   style={{
                     borderRadius: '100%',
                     cursor: 'pointer',
@@ -231,9 +266,6 @@ class TaskerBidCard extends React.Component {
                 />
               )}
             </div>
-            {/* <label className="help">
-                    joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
-                  </label> */}
 
             <div>
               <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
@@ -255,7 +287,7 @@ class TaskerBidCard extends React.Component {
             </div>
             <br />
             <div className="field">
-              <VerifiedVia
+              <BidsTableVerifiedVia
                 userDetails={otherUserProfileInfo}
                 isCentered={false}
                 smallfont={false}
@@ -267,9 +299,9 @@ class TaskerBidCard extends React.Component {
                 {displayComment}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-        {bidAmountHtml()}
+        {/* {bidAmountHtml()} */}
       </div>
     );
   }

@@ -89,7 +89,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
       }}
       className="media limitHeight"
     >
-      <figure style={{ margin: '0 6px 0 0' }} className="media-left">
+      <figure style={{ margin: '0 8px 0 0' }} className="media-left">
         <img
           className={`image ${large ? 'is-64x64' : 'is-48x48'} `}
           style={{
@@ -108,7 +108,9 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
           <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <p className="is-size-7">No Ratings Yet</p>
+            <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+              - No Ratings Yet -
+            </div>
           ) : (
             <ReactStars
               style={{ cursor: 'pointer' }}
@@ -466,7 +468,7 @@ export const VerifiedVia = ({
 
   return (
     <div
-      style={{ width: 150, margin: 'auto' }}
+      style={{ width: 150, margin: isCentered ? 'auto' : '' }}
       className={`${isCentered ? 'has-text-centered' : ''}`}
     >
       <label className="label">verifications</label>
@@ -867,6 +869,83 @@ export const TaskCost = ({ cost }) => {
           <span className="has-text-weight-semibold">{cost}</span>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const BidsTableVerifiedVia = ({ userDetails }) => {
+  const {
+    stripeConnect = { isVerified: false },
+    phone = { isVerified: false },
+    email = { isVerified: false },
+    isGmailUser = false,
+    isFbUser = false,
+    clearCriminalHistory = false,
+    govId = { isVerified: false },
+  } = userDetails;
+
+  const atLeastOneVerification =
+    isFbUser ||
+    isGmailUser ||
+    phone.isVerified ||
+    email.isVerified ||
+    stripeConnect.isVerified ||
+    clearCriminalHistory;
+
+  return (
+    <div>
+      {!atLeastOneVerification && <label className="has-text-grey">Unverified User</label>}
+      {isFbUser && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by facebook" className="icon">
+            <i className="fab fa-facebook has-text-success" />
+          </span>
+        </div>
+      )}
+      {isGmailUser && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by gmail" className="icon">
+            <i className="fab fa-google has-text-success" />
+          </span>
+        </div>
+      )}
+      {phone.isVerified && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by phone" className="icon">
+            <i className="fas fa-mobile-alt has-text-success" />
+          </span>
+        </div>
+      )}
+      {email.isVerified && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by email" className="icon">
+            <i className="far fa-envelope has-text-success" />
+          </span>
+        </div>
+      )}
+
+      {govId && govId.isVerified && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified goverment ID" className="icon">
+            <i className="fas fa-id-card has-text-success" />
+          </span>
+        </div>
+      )}
+      {stripeConnect.isVerified && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by bank account" className="icon">
+            <i className="fas fa-dollar-sign has-text-success" />
+          </span>
+        </div>
+      )}
+
+      {clearCriminalHistory && (
+        <div className="verificationBadge isActive small">
+          <span title="Verified by criminal check" className="icon">
+            <i className="fas fa-gavel has-text-success" />
+          </span>
+        </div>
+      )}
     </div>
   );
 };

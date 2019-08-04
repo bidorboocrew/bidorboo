@@ -75,7 +75,7 @@ export default class HomePage extends React.Component {
               >
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1>
-              <h2 className="is-5 has-text-white">
+              <h2 style={{ fontSize: 12 }} className="has-text-white">
                 Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
               </h2>
             </div>
@@ -149,7 +149,7 @@ const RequestAService = (props) => {
   );
 };
 
-const ProvideAService = (props) => {
+const ProvideAService = () => {
   return (
     <div style={{ height: '30rem' }} className="card cardWithButton">
       <div className="card-image">

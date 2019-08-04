@@ -29,7 +29,7 @@ html body {
 }
 
 #mainFooter {
-  margin-top: 1.5rem;
+  margin-top: 3rem;
   padding: 1rem;
   background: #363636;
 }
@@ -977,6 +977,11 @@ div.control {
     background: #cdcdcd;
     border: 1px dashed #363636;
     cursor: pointer;
+  }
+  &.small {
+    padding: 0;
+    font-size: 12px;
+    margin: 2px 4px;
   }
 }
 
