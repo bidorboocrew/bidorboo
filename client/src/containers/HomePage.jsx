@@ -119,7 +119,7 @@ export default class HomePage extends React.Component {
 
 const RequestAService = (props) => {
   return (
-    <div style={{ height: '30rem' }} className="card cardWithButton">
+    <div style={{ height: '31rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
           <img src={RequesterImg} alt="Placeholder image" />
@@ -151,10 +151,10 @@ const RequestAService = (props) => {
 
 const ProvideAService = () => {
   return (
-    <div style={{ height: '30rem' }} className="card cardWithButton">
+    <div style={{ height: '31rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
-          <img src={TaskerImg} alt="Placeholder image" />
+          <img src={RequesterImg} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">
@@ -183,7 +183,7 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">How It Works?</h1>
+      <h1 className="title has-text-centered">Request A Service?</h1>
       <ul>
         <li>
           <p className="is-size-5">Fill A Request</p>
@@ -192,7 +192,7 @@ const HowItWorksRequestService = () => {
           <p className="is-size-5">Taskers Will Bid</p>
         </li>
         <li>
-          <p className="is-size-5">Chose a Tasker</p>
+          <p className="is-size-5">Choose a Tasker</p>
         </li>
       </ul>
     </div>
@@ -202,7 +202,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">How It Works?</h1>
+      <h1 className="title has-text-centered">Wat To Earn Money?</h1>
       <ul>
         <li>
           <p className="is-size-5">Browse Tasks</p>
