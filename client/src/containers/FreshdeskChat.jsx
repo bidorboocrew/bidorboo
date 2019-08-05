@@ -1,19 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
-
-import { onLogout } from '../app-state/actions/authActions';
-import LoginOrRegisterModal from '../LoginOrRegisterModal';
-import { showLoginDialog } from '../app-state/actions/uiActions';
-
-import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
-import { NotificationsModal } from './index';
-import logoImg from '../assets/images/android-chrome-192x192.png';
 
 // https://developers.freshchat.com/web-sdk/#customisation-wgt
 
@@ -24,6 +11,35 @@ class FreshdeskChat extends React.Component {
     this.state = {
       isInitialized: false,
     };
+  }
+
+  componentDidMount() {
+    if (window.fcWidget && !window.fcWidget.isInitialized()) {
+      window.fcWidget.init({
+        token: `${process.env.REACT_APP_FRESHDESK_CHAT_KEY}`,
+        host: 'https://wchat.freshchat.com',
+        config: {
+          disableEvents: true,
+          headerProperty: {
+            //If you have multiple sites you can use the appName and appLogo to overwrite the values.
+            appName: 'BidOrBoo',
+            appLogo:
+              'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
+            backgroundColor: '#ef2834',
+            foregroundColor: '#353535',
+            hideChatButton: true,
+          },
+          content: {
+            headers: {
+              chat: 'BidOrBooCrew Support',
+              chat_help: 'Reach out to us if you have any questions',
+              push_notification: 'Allow push notifications to get instant replies',
+            },
+          },
+        },
+      });
+      this.setState({ isInitialized: true });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -113,15 +129,21 @@ class FreshdeskChat extends React.Component {
   };
 
   render() {
+    const { isFooter } = this.props;
     const { isInitialized } = this.state;
-    return isInitialized ? (
-      <button id="bob-ChatSupport" onClick={this.togglChat} className="button is-danger">
+    return (
+      <button
+        id="bob-ChatSupport"
+        className={`${isFooter ? 'isFooter' : ''}`}
+        onClick={this.togglChat}
+        className="button is-danger"
+      >
         <span className="icon">
           <i className="far fa-comment-dots" />
         </span>
         <span>Chat</span>
       </button>
-    ) : null;
+    );
   }
 }
 

@@ -830,11 +830,15 @@ div.react-datepicker {
 // }
 
 #bob-ChatSupport {
-  position: fixed;
-  top: calc(100vh - 4rem);
-  right: -30px;
-  transform: rotate(270deg);
-  z-index: 151;
+  // position: fixed;
+  // top: calc(100vh - 4rem);
+  // right: -30px;
+  // transform: rotate(270deg);
+  // z-index: 151;
+  // &.isFooter{
+  //   transform: unset;
+  //   position: block;
+  // }
 }
 
 // materialize css input

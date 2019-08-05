@@ -1,12 +1,11 @@
 import React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayLabelValue,
-  TaskSpecificExtras,
+  DisputedBy,
+  SummaryStartDateAndTime,
+  JobCardTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -70,96 +69,46 @@ export default class RequesterDisputedDetails extends React.Component {
     }
 
     return (
-      <div className="card disputeOnlyView">
+      <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
-
-            <div className="group saidTest">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
-            </div>
-
-            <div className="group saidTest">
-              <label className="label">Task Cost</label>
-              <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
-            </div>
-
-            <StartDateAndTime
+            <JobCardTitle icon={ICON} title={TITLE} />
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisplayLabelValue labelText="Address" labelValue={addressText} />
-            <React.Fragment>
-              <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="group saidTest">
-                <label className="label">Detailed Description</label>
-                <span className="is-size-7">
-                  <TextareaAutosize
-                    value={detailedDescription}
-                    className="textarea is-marginless is-paddingless is-size-6"
-                    style={{
-                      resize: 'none',
-                      border: 'none',
-                      color: '#4a4a4a',
-                      fontSize: '1rem',
-                      background: '#eeeeee',
-                    }}
-                    readOnly
-                  />
-                </span>
-              </div>
-            </React.Fragment>
-          </div>
-
-          <div className="group saidTest">
-            <label className="label has-text-danger">What you need to know:</label>
-            <div className="control">* BidorBooCrew will assess the dispute asap</div>
-            <div className="control">
-              * Our customer relation team will be in touch with tasker and requester to gather
-              facts
+            <DisputedBy name="You" />
+            <div className="group has-text-left">
+              <label className="label has-text-danger">What you need to know:</label>
+              <ul>
+                <li>
+                  <strong>
+                    BidorBooCrew will assess the dispute asap to ensure your satisfaction
+                  </strong>
+                </li>
+                <li>
+                  Our customer relation team will be in touch with tasker and requester to gather
+                  facts
+                </li>
+                <li>We will get in touch with you to update you regularly with the status</li>
+              </ul>
             </div>
-            <div className="control">
-              * We will contact you asap to inform you of the next steps.
-            </div>
-          </div>
-
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-              }}
-              className={`button`}
-              style={{ flexGrow: 1, marginRight: 10 }}
-            >
-              <span className="icon">
-                <i className="far fa-arrow-alt-circle-left" />
-              </span>
-              <span>I understand</span>
-            </a>
           </div>
         </div>
+
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+          }}
+          className="button firstButtonInCard"
+        >
+          <span className="icon">
+            <i className="far fa-arrow-alt-circle-left" />
+          </span>
+          <span>I understand</span>
+        </a>
       </div>
     );
   }
