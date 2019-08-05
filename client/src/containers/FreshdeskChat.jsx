@@ -5,14 +5,6 @@ import { withRouter } from 'react-router-dom';
 // https://developers.freshchat.com/web-sdk/#customisation-wgt
 
 class FreshdeskChat extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isInitialized: false,
-    };
-  }
-
   componentDidMount() {
     if (window.fcWidget && !window.fcWidget.isInitialized()) {
       window.fcWidget.init({
@@ -38,7 +30,6 @@ class FreshdeskChat extends React.Component {
           },
         },
       });
-      this.setState({ isInitialized: true });
     }
   }
 
@@ -77,7 +68,6 @@ class FreshdeskChat extends React.Component {
           },
         },
       });
-      this.setState({ isInitialized: true });
     }
   }
 
@@ -130,7 +120,6 @@ class FreshdeskChat extends React.Component {
 
   render() {
     const { isFooter } = this.props;
-    const { isInitialized } = this.state;
     return (
       <button
         id="bob-ChatSupport"
