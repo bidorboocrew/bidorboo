@@ -37,35 +37,35 @@ export default class BidsTable extends React.Component {
           : 'not specified';
 
       return (
-        <TaskerBidCard
-          key={bid._bidderRef._id}
-          otherUserProfileInfo={bid._bidderRef}
-          bidAmountHtml={() => (
-            <div>
-              <div style={{ width: 150 }} className="has-text-centered has-text-grey">
-                accept bid for
+        <div key={bid._id} className="column is-narrow isforCards">
+          <TaskerBidCard
+            otherUserProfileInfo={bid._bidderRef}
+            bidAmountHtml={() => (
+              <div className="firstButtonInCard">
+                <div style={{ fontSize: 12 }} className="has-text-centered has-text-grey">
+                  will do it for
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.openBidDetailsModal(bid);
+                  }}
+                  className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
+                >
+                  ${totalCharge}
+                  {bid.isNewBid && (
+                    <span
+                      style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
+                      className="has-text-danger"
+                    >
+                      <i className="fas fa-circle" />
+                    </span>
+                  )}
+                </button>
               </div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  this.openBidDetailsModal(bid);
-                }}
-                style={{ width: 150 }}
-                className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
-              >
-                ${totalCharge}
-                {bid.isNewBid && (
-                  <span
-                    style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
-                    className="has-text-danger"
-                  >
-                    <i className="fas fa-circle" />
-                  </span>
-                )}
-              </button>
-            </div>
-          )}
-        />
+            )}
+          />{' '}
+        </div>
       );
     });
     return (
@@ -82,7 +82,7 @@ export default class BidsTable extends React.Component {
             </li>
           </ul>
         </div>
-        {tableRows}
+        <div className="columns is-multiline is-centered is-mobile">{tableRows}</div>
       </React.Fragment>
     );
   }
@@ -143,8 +143,7 @@ class TaskerBidCard extends React.Component {
     const {
       _id,
       rating,
-      _asBidderReviewsRef,
-      _asProposerReviewsRef,
+
       membershipStatus,
     } = otherUserProfileInfo;
 
@@ -158,61 +157,52 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '1rem' }} className="card cardWithButton nofixedwidth">
+      <div style={{ marginBottom: '1.5rem ', width: '13rem' }} className="card cardWithButton">
         <div style={{ padding: '1rem' }} className="card-content">
-          <nav className="level">
-            <div className="level-item has-text-centered">
-              <div>
-                <img
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                  }}
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow:
-                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
-                    height: 64,
-                    width: 64,
-                  }}
-                  src={otherUserProfileInfo.profileImage.url}
-                />
-                <div className={'is-size-6'}>{otherUserProfileInfo.displayName}</div>
-                <div className={`has-text-grey`} style={{ fontWeight: 300, fontSize: 12 }}>
-                  ({membershipStatusDisplay})
-                </div>
+          <img
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+            }}
+            style={{
+              borderRadius: '100%',
+              cursor: 'pointer',
+              boxShadow:
+                '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
+              height: 64,
+              width: 64,
+            }}
+            src={otherUserProfileInfo.profileImage.url}
+          />
+          <div className={'is-size-6'}>{otherUserProfileInfo.displayName}</div>
+          <div className={`has-text-grey`} style={{ fontWeight: 300, fontSize: 12 }}>
+            ({membershipStatusDisplay})
+          </div>
+          <div>
+            {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+              <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                No Ratings Yet
               </div>
+            ) : (
+              <ReactStars
+                style={{ cursor: 'pointer' }}
+                className="is-size-7"
+                half
+                count={5}
+                value={globalRating}
+                edit={false}
+                size={35}
+                color1={'lightgrey'}
+                color2={'#ffd700'}
+              />
+            )}
+            <div>
+              <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
             </div>
-            <div className="level-item has-text-centered">
-              <div>
-                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div className="has-text-grey" style={{ lineHeight: '52px' }}>
-                    No Ratings Yet
-                  </div>
-                ) : (
-                  <ReactStars
-                    style={{ cursor: 'pointer' }}
-                    className="is-size-7"
-                    half
-                    count={5}
-                    value={globalRating}
-                    edit={false}
-                    size={35}
-                    color1={'lightgrey'}
-                    color2={'#ffd700'}
-                  />
-                )}
-                <div>
-                  <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
-                </div>
-              </div>
-            </div>
+          </div>
 
-            <div className="level-item has-text-centered">{bidAmountHtml()}</div>
-          </nav>
-
+          {bidAmountHtml()}
           {/* <div className="field">
             <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
           </div> */}
