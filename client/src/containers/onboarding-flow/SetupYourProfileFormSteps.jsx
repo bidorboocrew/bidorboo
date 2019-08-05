@@ -23,7 +23,7 @@ const Step1 = ({ userDetails, showSetupPhoneStep }) => {
       </div>
 
       <button onClick={showSetupPhoneStep} className="button is-link  firstButtonInCard">
-        <span>Skip for now</span>
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -52,7 +52,7 @@ const Step2 = ({
       </div>
       <br />
       <button onClick={showTosStep} className="button is-link is-pulled-right">
-        <span>Skip for now</span>
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -81,7 +81,7 @@ const Step3 = ({ userDetails, showTosStep, showSetupPhoneStep }) => {
       </div>
 
       <button onClick={showTosStep} className="button is-link firstButtonInCard">
-        <span>Skip for now</span>
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>

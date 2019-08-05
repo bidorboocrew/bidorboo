@@ -712,10 +712,10 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
 };
 
 export const AssignedTasker = ({ displayName }) => {
-  let taskerName = displayName;
-  if (taskerName && taskerName.length > 8) {
-    taskerName = taskerName.substring(0, 7);
-  }
+  // let taskerName = displayName;
+  // if (taskerName && taskerName.length > 8) {
+  //   taskerName = taskerName.substring(0, 7) + '..';
+  // }
   return (
     <div className="group">
       <div
@@ -746,7 +746,7 @@ export const AssignedTasker = ({ displayName }) => {
             display: 'inline-block',
           }}
         >
-          {`${taskerName} is Tasked`}
+          Tasker is Assigned
         </div>
         {/* <div>
           <div className="help">*Contact Tasker To finalize details</div>
