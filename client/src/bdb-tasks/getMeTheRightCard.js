@@ -129,6 +129,7 @@ const requesterCardTemplates = {
 const TaskerCardTemplates = {
   [BID_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
+      debugger
       if (withBidDetails) {
         return <TaskerMyOpenBidSummary job={job} {...otherArgs} />;
       }
@@ -271,6 +272,7 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  debugger
   if (!job || !job.templateId) {
     console.error('no job passed in');
     return; //return

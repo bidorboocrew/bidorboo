@@ -31,7 +31,16 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
   };
 
   render() {
-    const { job, otherArgs, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = this.props;
+    const {
+      job,
+      otherArgs = {},
+      isLoggedIn,
+      userDetails,
+      showLoginDialog,
+      updateViewedBy,
+    } = this.props;
+
+    const { showMapView = false } = otherArgs;
     const { showRegisterAsTaskerModal } = this.state;
     if (
       !job ||
@@ -125,27 +134,29 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     >
                       View My Bid
                     </a>
-                    <a
-                      style={{ marginLeft: 12 }}
-                      onClick={(e) => {
-                        const markerRef = reactMapClusterRef;
-                        if (
-                          markerRef &&
-                          markerRef.current &&
-                          markerRef.current.props &&
-                          markerRef.current.props.onClick &&
-                          typeof markerRef.current.props.onClick === 'function'
-                        ) {
-                          markerRef.current.props.onClick();
-                        }
-                      }}
-                      className="button is-info secondButtonInCard nofixedwidth"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-map-marked-alt" />
-                      </span>
-                      <span>Locate</span>
-                    </a>
+                    {showMapView && (
+                      <a
+                        style={{ marginLeft: 12 }}
+                        onClick={(e) => {
+                          const markerRef = reactMapClusterRef;
+                          if (
+                            markerRef &&
+                            markerRef.current &&
+                            markerRef.current.props &&
+                            markerRef.current.props.onClick &&
+                            typeof markerRef.current.props.onClick === 'function'
+                          ) {
+                            markerRef.current.props.onClick();
+                          }
+                        }}
+                        className="button is-info secondButtonInCard nofixedwidth"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-map-marked-alt" />
+                        </span>
+                        <span>Locate</span>
+                      </a>
+                    )}
                   </div>
                 ) : (
                   <div style={{ display: 'flex' }}>

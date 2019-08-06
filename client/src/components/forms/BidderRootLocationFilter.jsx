@@ -8,12 +8,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import classNames from 'classnames';
 
-import ReactDOM from 'react-dom';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import autoBind from 'react-autobind';
 
 // for reverse geocoding , get addressText from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -27,7 +25,7 @@ export default class BidderRootLocationFilter extends React.Component {
       this.geocoder = new this.google.maps.Geocoder();
     }
     this.state = {
-      showModal: false,
+      enableNotifyMeAboutJobsInMyArea: false,
     };
   }
 
@@ -125,112 +123,123 @@ export default class BidderRootLocationFilter extends React.Component {
     }
     // alert(msg);
   };
-  toggleModal = () => {
-    this.setState({ showModal: !this.state.showModal });
-  };
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams } = this.props;
+    const { activeSearchParams, submitSearchLocationParams, toggleSideNav } = this.props;
     submitSearchLocationParams(activeSearchParams);
-    this.toggleModal();
+    toggleSideNav();
   };
 
-  handleCancel = () => {
-    const { updateSearchLocationState, userLastStoredSearchParams } = this.props;
-    updateSearchLocationState(userLastStoredSearchParams);
-    this.toggleModal();
+  toggleEnableNotifyMeAboutJobsInMyArea = () => {
+    this.setState({
+      enableNotifyMeAboutJobsInMyArea: !this.state.enableNotifyMeAboutJobsInMyArea,
+    });
   };
 
   render() {
-    const { showModal } = this.state;
-    const { activeSearchParams } = this.props;
+    const { activeSearchParams, toggleSideNav } = this.props;
     const { addressText, latLng, searchRadius } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
       <React.Fragment>
-        {showModal &&
-          ReactDOM.createPortal(
-            <div className="modal is-active">
-              <div onClick={this.toggleModal} className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <div className="modal-card-title">Search By Address</div>
-                  <button onClick={this.toggleModal} className="delete" aria-label="close" />
-                </header>
-                <section style={{ padding: '1rem 0.5rem' }} className="modal-card-body">
-                  <div className="content">
-                    <div className="group saidTest">
-                      <label className="label">
-                        Enter an address in order to search for requests
-                      </label>
-                      <GeoSearch
-                        value={addressText}
-                        onChange={this.handleChange}
-                        onSelect={this.handleSelect}
-                        handleSelect={this.handleSelect}
-                        onError={this.errorHandling}
-                        // onChangeEvent={this.handleSelect}
-                        // onBlurEvent={this.handleChange}
-                        placeholder="Start entering an adddress"
-                        forceSetAddressValue={addressText}
-                        id="filter-tasker-job"
-                      />
-                      <React.Fragment>
-                        <div>
-                          <a
-                            style={{ marginTop: 6, fontSize: 14 }}
-                            onClick={this.autoDetectCurrentAddress}
-                            className="button is-small is-info"
-                          >
-                            <span className="icon">
-                              <i className="fas fa-map-marker-alt" />
-                            </span>
-                            <span>Auto Detect My Address</span>
-                          </a>
-                        </div>
-                      </React.Fragment>
-                    </div>
-
-                    <SearchRadius
-                      updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-                      searchRadiusValue={searchRadius}
-                    />
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button
-                    disabled={disableSubmit}
-                    onClick={this.handleSubmit}
-                    className="button is-success"
-                  >
-                    <span>Search For Requests</span>
-                  </button>
-                  <button type="submit" onClick={this.handleCancel} className="button">
-                    <span>Cancel</span>
-                  </button>
-                </footer>
-              </div>
-            </div>,
-            document.querySelector('#bidorboo-root-modals'),
-          )}
-        <a
-          style={{ height: 'unset', maxWidth: '30rem', whiteSpace: 'unset', margin: 'auto' }}
-          onClick={this.toggleModal}
-          className="button is-link is-fullwidth"
+        <button
+          style={{ borderRadius: 0 }}
+          onClick={toggleSideNav}
+          className="button is-large is-fullwidth is-success"
         >
           <span className="icon">
-            <i className="is-size-4 fas fa-search-location" />
+            <i className="fas fa-chevron-left" />
           </span>
-          <span>
-            {`${
-              addressText
-                ? `Currently Viewing Requests within ${searchRadius}km of ${addressText}`
-                : 'Click to specify a search area'
-            }`}
-          </span>
-        </a>
+          <span>Tasker Settings</span>
+        </button>
+        <>
+          <div style={{ borderBottom: '1px solid #eeeeee', padding: '1rem 0.5rem 0.5rem 0.5rem' }}>
+            Search Area Preferences
+          </div>
+          <section style={{ padding: '0.5rem' }} className="modal-card-body">
+            <div className="content">
+              <div className="group saidTest">
+                <label className="label">Enter Search Address</label>
+                <GeoSearch
+                  value={addressText}
+                  onChange={this.handleChange}
+                  onSelect={this.handleSelect}
+                  handleSelect={this.handleSelect}
+                  onError={this.errorHandling}
+                  placeholder="Start entering an adddress"
+                  forceSetAddressValue={addressText}
+                  id="filter-tasker-job"
+                />
+                <React.Fragment>
+                  <div>
+                    <a
+                      style={{ marginTop: 6, fontSize: 14 }}
+                      onClick={this.autoDetectCurrentAddress}
+                      className="is-small is-text"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-map-marker-alt" />
+                      </span>
+                      <span>Auto Detect</span>
+                    </a>
+                  </div>
+                </React.Fragment>
+              </div>
+
+              <SearchRadius
+                updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+                searchRadiusValue={searchRadius}
+              />
+            </div>
+          </section>
+        </>
+        <hr
+          style={{ backgroundColor: '#26ca70', marginTop: '0.25rem', marginBottom: '0.25rem' }}
+          className="divider"
+        />
+        <div style={{ padding: '0.5rem' }}>
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+            Should BidOrBoo Notify you When A New Task is Posted?
+          </div>
+
+          <input
+            id="newJobNotification"
+            type="checkbox"
+            name="newJobNotification"
+            className="switch is-rounded is-success"
+            onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
+            checked={this.state.enableNotifyMeAboutJobsInMyArea}
+          />
+          <label className="has-text-dark" htmlFor="newJobNotification">
+            {this.state.enableNotifyMeAboutJobsInMyArea ? 'Yes, Notify Me' : "No, Don't Notify Me"}
+          </label>
+        </div>
+        <br />
+        <div className="has-text-centered">
+          <button
+            disabled={disableSubmit}
+            style={{ width: 300 }}
+            onClick={this.handleSubmit}
+            className="button is-success"
+          >
+            <span className="icon">
+              <i className="far fa-share-square" />
+            </span>
+            <span>{`Save & Apply`}</span>
+          </button>
+        </div>
+        <br />
+        <div className="has-text-centered">
+          <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">
+            <span className="icon">
+              <i className="fas fa-chevron-left" />
+            </span>
+            <span>{`Discard & Close`}</span>
+          </button>
+        </div>
       </React.Fragment>
     );
   }
@@ -254,7 +263,7 @@ class GeoSearch extends React.Component {
 
       return (
         <div>
-          <div className="control">
+          <div>
             <input
               id={id}
               value={value}
@@ -331,9 +340,10 @@ class SearchRadius extends React.Component {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
       <div className="group saidTest">
-        <label className="label">Search Radius</label>
+        <label className="label">Select Search Radius</label>
         <div className="buttons has-addons">
           <span
+            style={{ borderRadius: 0 }}
             onClick={() => updateSearchRaduisSelection(25)}
             className={classNames('button ', {
               'is-info is-selected': searchRadiusValue === 25,
@@ -358,6 +368,7 @@ class SearchRadius extends React.Component {
             100km
           </span>
           <span
+            style={{ borderRadius: 0 }}
             onClick={() => updateSearchRaduisSelection(150)}
             className={classNames('button ', {
               'is-info is-selected': searchRadiusValue === 150,

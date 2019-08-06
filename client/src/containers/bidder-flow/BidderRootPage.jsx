@@ -22,8 +22,9 @@ class BidderRootPage extends React.Component {
     super(props);
 
     this.state = {
+      showMapView: false,
+      shouldShowSearch: false,
       isThereAnActiveSearch: false,
-      // showSideNav: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
         lng: -75.801867,
@@ -39,7 +40,7 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
+    const { userDetails, searchJobsToBidOn } = this.props;
 
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
@@ -157,9 +158,21 @@ class BidderRootPage extends React.Component {
     );
   };
 
+  toggleMapView = () => {
+    this.setState({ showMapView: !this.state.showMapView });
+  };
+  toggleShouldShowSearch = () => {
+    this.setState({ shouldShowSearch: !this.state.shouldShowSearch });
+  };
+
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    const { isThereAnActiveSearch, userLastStoredSearchParams } = this.state;
+    const {
+      isThereAnActiveSearch,
+      userLastStoredSearchParams,
+      showMapView,
+      shouldShowSearch,
+    } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
@@ -179,7 +192,32 @@ class BidderRootPage extends React.Component {
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
 
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
+        <button
+          onClick={this.toggleShouldShowSearch}
+          className="button is-success bdbFloatingButtonText iconbutton"
+        >
+          <i className="fas fa-search-location" />
+        </button>
+        <BidderRootFilterWrapper
+          toggleSideNav={this.toggleShouldShowSearch}
+          show={shouldShowSearch}
+          submitSearchLocationParams={this.submitSearchLocationParams}
+          updateSearchLocationState={this.updateSearchLocationState}
+          activeSearchParams={activeSearchParams}
+          userLastStoredSearchParams={userLastStoredSearchParams}
+          {...this.props}
+        />
+
+        <section className="hero is-transparent is-small has-text-centered">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ marginBottom: 0, fontWeight: 300 }} className="title">
+                {`Provide Your Services`}
+              </h1>
+            </div>
+          </div>
+        </section>
         {isLoading && (
           <section className="section">
             <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
@@ -187,7 +225,7 @@ class BidderRootPage extends React.Component {
         )}
         {!isLoading && (
           <React.Fragment>
-            {currentJobsList && currentJobsList.length > 0 && (
+            {showMapView && currentJobsList && currentJobsList.length > 0 && (
               <React.Fragment>
                 <MapSection
                   mapCenterPoint={mapCenterPoint}
@@ -204,19 +242,38 @@ class BidderRootPage extends React.Component {
                 </div>
               </React.Fragment>
             )}
-            <div className="has-text-centered">
-              {anyVisibleJobs && (
-                <BidderRootFilterWrapper
-                  submitSearchLocationParams={this.submitSearchLocationParams}
-                  updateSearchLocationState={this.updateSearchLocationState}
-                  activeSearchParams={activeSearchParams}
-                  userLastStoredSearchParams={userLastStoredSearchParams}
-                />
-              )}
-            </div>
+
+            {anyVisibleJobs && (
+              <BidderRootFilterWrapper
+                submitSearchLocationParams={this.submitSearchLocationParams}
+                updateSearchLocationState={this.updateSearchLocationState}
+                activeSearchParams={activeSearchParams}
+                userLastStoredSearchParams={userLastStoredSearchParams}
+                {...this.props}
+              />
+            )}
 
             {currentJobsList && currentJobsList.length > 0 && (
-              <AllJobsView jobsList={currentJobsList} {...this.props} />
+              <>
+                <div className="has-text-centered">
+                  <input
+                    id="togglemapView"
+                    type="checkbox"
+                    name="togglemapView"
+                    className="switch is-rounded is-success"
+                    onChange={this.toggleMapView}
+                    checked={showMapView}
+                  />
+                  <label
+                    className="has-text-dark"
+                    style={{ fontWeight: 400 }}
+                    htmlFor="togglemapView"
+                  >
+                    Toggle Map View
+                  </label>
+                </div>
+                <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
+              </>
             )}
             {!isThereAnActiveSearch && (
               <div className="HorizontalAligner-center column">
@@ -230,11 +287,11 @@ class BidderRootPage extends React.Component {
                         </div>
 
                         <BidderRootFilterWrapper
-                          isHorizontal={false}
                           submitSearchLocationParams={this.submitSearchLocationParams}
                           updateSearchLocationState={this.updateSearchLocationState}
                           activeSearchParams={activeSearchParams}
                           userLastStoredSearchParams={userLastStoredSearchParams}
+                          {...this.props}
                         />
                       </div>
                     </div>
@@ -255,11 +312,11 @@ class BidderRootPage extends React.Component {
                         </div>
 
                         <BidderRootFilterWrapper
-                          isHorizontal={false}
                           submitSearchLocationParams={this.submitSearchLocationParams}
                           updateSearchLocationState={this.updateSearchLocationState}
                           activeSearchParams={activeSearchParams}
                           userLastStoredSearchParams={userLastStoredSearchParams}
+                          {...this.props}
                         />
                       </div>
                     </div>
