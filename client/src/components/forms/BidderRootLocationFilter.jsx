@@ -138,32 +138,37 @@ export default class BidderRootLocationFilter extends React.Component {
   };
 
   render() {
-    const { activeSearchParams, toggleSideNav } = this.props;
+    const { activeSearchParams, toggleSideNav, isLoggedIn } = this.props;
     const { addressText, latLng, searchRadius } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
       <React.Fragment>
-        <button
-          style={{ borderRadius: 0 }}
+        <div
+          style={{ height: '4rem', background: '#6b88e0', color: 'white', padding: '1rem 0.25rem' }}
           onClick={toggleSideNav}
-          className="button is-large is-fullwidth is-success"
+          className="title"
         >
           <span className="icon">
             <i className="fas fa-chevron-left" />
           </span>
-          <span>Tasker Settings</span>
-        </button>
+          <span style={{ marginLeft: 8 }}>Tasker Settings</span>
+        </div>
         <>
-          <div
+          {/* <div
             style={{
               fontWeight: 500,
               borderBottom: '1px solid #eeeeee',
               padding: '1rem 0.5rem 0.5rem 0.5rem',
+              marginBottom: '0.5rem',
             }}
+            className="subtitle"
           >
             Search Area Preferences
+          </div> */}
+          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+            Specify The Area Where you will be providing your services
           </div>
           <section style={{ padding: '0.5rem' }} className="modal-card-body">
             <div className="content">
@@ -202,27 +207,39 @@ export default class BidderRootLocationFilter extends React.Component {
             </div>
           </section>
         </>
+        {isLoggedIn && (
+          <>
+            <hr
+              style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
+              className="divider"
+            />
+
+            <div style={{ padding: '0.5rem' }}>
+              <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+                Should BidOrBoo Notify you When A New Task is Posted?
+              </div>
+
+              <input
+                id="newJobNotification"
+                type="checkbox"
+                name="newJobNotification"
+                className="switch is-rounded is-success"
+                onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
+                checked={this.state.enableNotifyMeAboutJobsInMyArea}
+              />
+              <label className="has-text-dark" htmlFor="newJobNotification">
+                {this.state.enableNotifyMeAboutJobsInMyArea
+                  ? 'Yes, Notify Me'
+                  : "No, Don't Notify Me"}
+              </label>
+            </div>
+          </>
+        )}
+
         <hr
-          style={{ backgroundColor: '#26ca70', marginTop: '0.25rem', marginBottom: '0.25rem' }}
+          style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
           className="divider"
         />
-        <div style={{ padding: '0.5rem' }}>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
-            Should BidOrBoo Notify you When A New Task is Posted?
-          </div>
-
-          <input
-            id="newJobNotification"
-            type="checkbox"
-            name="newJobNotification"
-            className="switch is-rounded is-success"
-            onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
-            checked={this.state.enableNotifyMeAboutJobsInMyArea}
-          />
-          <label className="has-text-dark" htmlFor="newJobNotification">
-            {this.state.enableNotifyMeAboutJobsInMyArea ? 'Yes, Notify Me' : "No, Don't Notify Me"}
-          </label>
-        </div>
         <br />
         <div className="has-text-centered">
           <button
@@ -234,9 +251,10 @@ export default class BidderRootLocationFilter extends React.Component {
             <span className="icon">
               <i className="far fa-share-square" />
             </span>
-            <span>{`Save & Apply`}</span>
+            <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
           </button>
         </div>
+
         <br />
         <div className="has-text-centered">
           <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">

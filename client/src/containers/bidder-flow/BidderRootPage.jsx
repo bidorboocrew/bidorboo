@@ -195,7 +195,7 @@ class BidderRootPage extends React.Component {
       <div style={{ position: 'relative' }}>
         <button
           onClick={this.toggleShouldShowSearch}
-          className="button is-success bdbFloatingButtonText iconbutton"
+          className="button is-info bdbFloatingButtonText iconbutton"
         >
           <i className="fas fa-search-location" />
         </button>
