@@ -85,13 +85,16 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
     const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
+    const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
+    const specialStyleCard = isOnMapView ? { width: 300 } : {};
+
     return (
       <React.Fragment>
-        <div className="card has-text-centered cardWithButton">
-          <div className="card-content">
+        <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
+          <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} />
-              <UserImageAndRating clipUserName large userDetails={_ownerRef} />
+              {!isOnMapView && <UserImageAndRating clipUserName large userDetails={_ownerRef} />}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -100,17 +103,20 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
               />
               <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-              <div className="group">
-                <label className="label">Status</label>
-                <CardTitleAndActionsInfo
-                  isOnMapView={isOnMapView}
-                  userAlreadyBid={userAlreadyBid}
-                  jobState={state}
-                  templateId={templateId}
-                  bidsList={_bidsListRef}
-                  userAlreadyView={userAlreadyView}
-                />
-              </div>
+              {!isOnMapView && (
+                <div className="group">
+                  <label className="label">Status</label>
+                  <CardTitleAndActionsInfo
+                    isOnMapView={isOnMapView}
+                    userAlreadyBid={userAlreadyBid}
+                    jobState={state}
+                    templateId={templateId}
+                    bidsList={_bidsListRef}
+                    userAlreadyView={userAlreadyView}
+                  />
+                </div>
+              )}
+
               {!isOnMapView && (
                 <React.Fragment>
                   {userAlreadyBid ? (
@@ -201,48 +207,52 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 </React.Fragment>
               )}
               {isOnMapView && (
-                <React.Fragment>
-                  {userAlreadyBid ? (
-                    <a
-                      onClick={(e) => {
-                        e.preventDefault();
-                        switchRoute(
-                          ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                            userExistingBid._id,
-                          ),
-                        );
-                      }}
-                      className="button is-small is-fullwidth"
-                    >
-                      View Your existing Bid
-                    </a>
-                  ) : (
+                <div>
+                  <div style={{ display: 'inline-block', marginRight: 12 }}>
                     <a
                       style={{ marginTop: 10 }}
-                      onClick={(e) => {
-                        if (!isLoggedIn) {
-                          showLoginDialog(true);
-                          return;
-                        } else if (!userDetails.canBid) {
-                          this.toggleRegisterAsTasker();
-                        } else if (userDetails.canBid) {
-                          updateViewedBy(job);
-                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                        }
-                      }}
-                      className="button is-success is-small is-fullwidth"
+                      onClick={onCloseHandler}
+                      className="button is-small"
                     >
-                      Place Your Bid
+                      Close
                     </a>
-                  )}
-                  <a
-                    style={{ marginTop: 10 }}
-                    onClick={onCloseHandler}
-                    className="button is-small is-fullwidth"
-                  >
-                    Close
-                  </a>
-                </React.Fragment>
+                  </div>
+                  <div style={{ display: 'inline-block' }}>
+                    {userAlreadyBid ? (
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          switchRoute(
+                            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
+                              userExistingBid._id,
+                            ),
+                          );
+                        }}
+                        className="button is-small is-fullwidth"
+                      >
+                        View Your existing Bid
+                      </a>
+                    ) : (
+                      <a
+                        style={{ marginTop: 10 }}
+                        onClick={(e) => {
+                          if (!isLoggedIn) {
+                            showLoginDialog(true);
+                            return;
+                          } else if (!userDetails.canBid) {
+                            this.toggleRegisterAsTasker();
+                          } else if (userDetails.canBid) {
+                            updateViewedBy(job);
+                            switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                          }
+                        }}
+                        className="button is-success is-small"
+                      >
+                        Place Your Bid
+                      </a>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           </div>
