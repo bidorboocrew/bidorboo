@@ -578,7 +578,10 @@ exports.updateNotificationSettings = (userId, notificationSettings) => {
   });
 };
 
-exports.updateUserLastSearchDetails = (userId, { searchRadius, location, addressText }) => {
+exports.updateUserLastSearchDetails = (
+  userId,
+  { searchRadius, location, addressText, notifyMeAboutNewTasks }
+) => {
   return new Promise(async (resolve, reject) => {
     try {
       let updatedUser = await User.findOneAndUpdate(
@@ -590,6 +593,7 @@ exports.updateUserLastSearchDetails = (userId, { searchRadius, location, address
               location: { type: 'Point', coordinates: [location.lng, location.lat] },
               addressText,
             },
+            notifyMeAboutNewTasks: { sendNotification: notifyMeAboutNewTasks },
           },
         },
         { new: true }

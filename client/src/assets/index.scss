@@ -577,7 +577,7 @@ div.centeredButtonInCard {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 170px;
+  right: 175px;
   width: 100px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -735,13 +735,13 @@ div.centeredButtonInCard {
 .bdbFloatingButtonText {
   box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.26) !important;
   position: fixed !important;
-  bottom: 6.5rem !important;
-  left: 1.5rem !important;
+  top: 4.2rem !important;
+  left: -10px !important;
   z-index: 99;
-  width: 56px !important;
-  height: 56px !important;
-  border-radius: 100% !important;
-  font-size: 32px !important;
+  width: 42px !important;
+  height: 50px !important;
+  border-radius: 10px !important;
+  font-size: 24px !important;
   font-weight: 400 !important;
   &.iconbutton {
     font-size: 27px !important;
@@ -751,7 +751,7 @@ div.centeredButtonInCard {
   position: fixed;
   display: block;
   background: white;
-  top: 0;
+  top: 4rem;
   left: 0;
   width: 320px;
   overflow-y: auto;
@@ -765,7 +765,7 @@ div.centeredButtonInCard {
 }
 #bdb-background {
   position: fixed;
-  top: 0;
+  top: 4rem;
   left: 0;
   width: 100%;
   min-height: 100vh;

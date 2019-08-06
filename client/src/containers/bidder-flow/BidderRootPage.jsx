@@ -34,6 +34,7 @@ class BidderRootPage extends React.Component {
         searchRadius: '',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
+        notifyMeAboutNewTasks: false,
       },
     };
     this.mapRootRef = React.createRef();
@@ -45,7 +46,12 @@ class BidderRootPage extends React.Component {
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const {
+          searchRadius,
+          location,
+          addressText,
+          notifyMeAboutNewTasks,
+        } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -56,11 +62,13 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                notifyMeAboutNewTasks,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                notifyMeAboutNewTasks,
               },
             };
           },
@@ -69,6 +77,7 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
+              notifyMeAboutNewTasks,
             });
           },
         );
@@ -81,7 +90,12 @@ class BidderRootPage extends React.Component {
     if (isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const {
+          searchRadius,
+          location,
+          addressText,
+          notifyMeAboutNewTasks,
+        } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -92,11 +106,13 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                notifyMeAboutNewTasks,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                notifyMeAboutNewTasks,
               },
             };
           },
@@ -105,6 +121,7 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
+              notifyMeAboutNewTasks,
             });
           },
         );
@@ -112,7 +129,7 @@ class BidderRootPage extends React.Component {
     }
   }
 
-  submitSearchLocationParams = ({ addressText, latLng, searchRadius }) => {
+  submitSearchLocationParams = ({ addressText, latLng, searchRadius, notifyMeAboutNewTasks }) => {
     const { searchJobsToBidOn } = this.props;
 
     // do some validation xxxxx latLng
@@ -124,6 +141,7 @@ class BidderRootPage extends React.Component {
           addressText,
           latLng,
           searchRadius,
+          notifyMeAboutNewTasks,
         },
       }),
       () => {
@@ -131,6 +149,7 @@ class BidderRootPage extends React.Component {
           searchRadius: searchRadius,
           location: latLng,
           addressText,
+          notifyMeAboutNewTasks,
         });
       },
     );
@@ -190,6 +209,7 @@ class BidderRootPage extends React.Component {
 
     const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
+    const { searchRadius, addressText } = activeSearchParams;
 
     return (
       <div style={{ position: 'relative' }}>
@@ -197,7 +217,7 @@ class BidderRootPage extends React.Component {
           onClick={this.toggleShouldShowSearch}
           className="button is-info bdbFloatingButtonText iconbutton"
         >
-          <i className="fas fa-search-location" />
+          <i className="fas fa-chevron-right" />
         </button>
         <BidderRootFilterWrapper
           toggleSideNav={this.toggleShouldShowSearch}
@@ -255,44 +275,64 @@ class BidderRootPage extends React.Component {
 
             {currentJobsList && currentJobsList.length > 0 && (
               <>
-                <div className="has-text-centered">
-                  <input
-                    id="togglemapView"
-                    type="checkbox"
-                    name="togglemapView"
-                    className="switch is-rounded is-success"
-                    onChange={this.toggleMapView}
-                    checked={showMapView}
-                  />
-                  <label
-                    className="has-text-dark"
-                    style={{ fontWeight: 400 }}
-                    htmlFor="togglemapView"
+                <div
+                  style={{ border: '1px solid #6b88e0' }}
+                  className="card cardWithButton nofixedwidth"
+                >
+                  <div className="card-content">
+                    <div className="content has-text-centered">
+                      <div style={{ marginBottom: '0.75rem' }}>
+                        <div style={{ color: '#6b88e0', fontWeight: 400 }}>
+                          You're Viewing Tasks
+                        </div>
+                        <div>{`within ${searchRadius}km`}</div>
+                        <div>{`of ${addressText}`}</div>
+                      </div>
+                      <div style={{ marginBottom: '0.75rem' }}>
+                        <input
+                          id="togglemapView"
+                          type="checkbox"
+                          name="togglemapView"
+                          className="switch is-rounded is-success"
+                          onChange={this.toggleMapView}
+                          checked={showMapView}
+                        />
+                        <label style={{ fontWeight: 400 }} htmlFor="togglemapView">
+                          Toggle Map
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={this.toggleShouldShowSearch}
+                    className="button is-info firstButtonInCard"
                   >
-                    Toggle Map View
-                  </label>
+                    Edit Filters
+                  </button>
                 </div>
+
                 <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
               </>
             )}
+
             {!isThereAnActiveSearch && (
               <div className="HorizontalAligner-center column">
                 <div className="is-fullwidth">
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        <br />
                         <div className="is-size-6">
                           Find Requests in the Areas where you're able to provide them
                         </div>
-
-                        <BidderRootFilterWrapper
-                          submitSearchLocationParams={this.submitSearchLocationParams}
-                          updateSearchLocationState={this.updateSearchLocationState}
-                          activeSearchParams={activeSearchParams}
-                          userLastStoredSearchParams={userLastStoredSearchParams}
-                          {...this.props}
-                        />
+                        <div>
+                          <br />
+                          <button onClick={this.toggleShouldShowSearch} className="button is-info">
+                            <span className="icon">
+                              <i className="fas fa-search-location" />
+                            </span>
+                            <span>Change Your Search Criteria</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -305,19 +345,18 @@ class BidderRootPage extends React.Component {
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        <br />
                         <div className="is-size-6">
                           No Requests match your search criteria at this time.
-                          <br /> Please try Changing your search criteria or check again later.
                         </div>
-
-                        <BidderRootFilterWrapper
-                          submitSearchLocationParams={this.submitSearchLocationParams}
-                          updateSearchLocationState={this.updateSearchLocationState}
-                          activeSearchParams={activeSearchParams}
-                          userLastStoredSearchParams={userLastStoredSearchParams}
-                          {...this.props}
-                        />
+                        <div>
+                          <br />
+                          <button onClick={this.toggleShouldShowSearch} className="button is-info">
+                            <span className="icon">
+                              <i className="fas fa-search-location" />
+                            </span>
+                            <span>Change Your Search Criteria</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

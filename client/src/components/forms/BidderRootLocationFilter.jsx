@@ -127,7 +127,10 @@ export default class BidderRootLocationFilter extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams, toggleSideNav } = this.props;
-    submitSearchLocationParams(activeSearchParams);
+    submitSearchLocationParams({
+      ...activeSearchParams,
+      notifyMeAboutNewTasks: this.state.enableNotifyMeAboutJobsInMyArea,
+    });
     toggleSideNav();
   };
 
@@ -155,114 +158,110 @@ export default class BidderRootLocationFilter extends React.Component {
           </span>
           <span style={{ marginLeft: 8 }}>Tasker Settings</span>
         </div>
-        <>
-          {/* <div
-            style={{
-              fontWeight: 500,
-              borderBottom: '1px solid #eeeeee',
-              padding: '1rem 0.5rem 0.5rem 0.5rem',
-              marginBottom: '0.5rem',
-            }}
-            className="subtitle"
-          >
-            Search Area Preferences
-          </div> */}
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
-            Specify The Area Where you will be providing your services
-          </div>
-          <section style={{ padding: '0.5rem' }} className="modal-card-body">
-            <div className="content">
-              <div className="group saidTest">
-                <label className="label">Enter Search Address</label>
-                <GeoSearch
-                  value={addressText}
-                  onChange={this.handleChange}
-                  onSelect={this.handleSelect}
-                  handleSelect={this.handleSelect}
-                  onError={this.errorHandling}
-                  placeholder="Start entering an adddress"
-                  forceSetAddressValue={addressText}
-                  id="filter-tasker-job"
-                />
-                <React.Fragment>
-                  <div>
-                    <a
-                      style={{ marginTop: 6, fontSize: 14 }}
-                      onClick={this.autoDetectCurrentAddress}
-                      className="is-small is-text"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-map-marker-alt" />
-                      </span>
-                      <span>Auto Detect</span>
-                    </a>
-                  </div>
-                </React.Fragment>
-              </div>
 
-              <SearchRadius
-                updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-                searchRadiusValue={searchRadius}
-              />
-            </div>
-          </section>
-        </>
-        {isLoggedIn && (
+        <div style={{ minHeight: 'calc(100% + 4rem)', height: 'calc(100% + 4rem)' }}>
           <>
-            <hr
-              style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
-              className="divider"
-            />
-
-            <div style={{ padding: '0.5rem' }}>
-              <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
-                Should BidOrBoo Notify you When A New Task is Posted?
-              </div>
-
-              <input
-                id="newJobNotification"
-                type="checkbox"
-                name="newJobNotification"
-                className="switch is-rounded is-success"
-                onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
-                checked={this.state.enableNotifyMeAboutJobsInMyArea}
-              />
-              <label className="has-text-dark" htmlFor="newJobNotification">
-                {this.state.enableNotifyMeAboutJobsInMyArea
-                  ? 'Yes, Notify Me'
-                  : "No, Don't Notify Me"}
-              </label>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+              Specify The Area Where you will be providing your services
             </div>
+            <section style={{ padding: '0.5rem' }} className="modal-card-body">
+              <div className="content">
+                <div className="group saidTest">
+                  <label className="label">Enter Search Address</label>
+                  <GeoSearch
+                    value={addressText}
+                    onChange={this.handleChange}
+                    onSelect={this.handleSelect}
+                    handleSelect={this.handleSelect}
+                    onError={this.errorHandling}
+                    placeholder="Start entering an adddress"
+                    forceSetAddressValue={addressText}
+                    id="filter-tasker-job"
+                  />
+                  <React.Fragment>
+                    <div>
+                      <a
+                        style={{ marginTop: 6, fontSize: 14 }}
+                        onClick={this.autoDetectCurrentAddress}
+                        className="is-small is-text"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-map-marker-alt" />
+                        </span>
+                        <span>Auto Detect</span>
+                      </a>
+                    </div>
+                  </React.Fragment>
+                </div>
+
+                <SearchRadius
+                  updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+                  searchRadiusValue={searchRadius}
+                />
+              </div>
+            </section>
           </>
-        )}
+          {isLoggedIn && (
+            <>
+              <hr
+                style={{
+                  backgroundColor: '#6b88e0',
+                  marginTop: '0.25rem',
+                  marginBottom: '0.25rem',
+                }}
+                className="divider"
+              />
 
-        <hr
-          style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
-          className="divider"
-        />
-        <br />
-        <div className="has-text-centered">
-          <button
-            disabled={disableSubmit}
-            style={{ width: 300 }}
-            onClick={this.handleSubmit}
-            className="button is-success"
-          >
-            <span className="icon">
-              <i className="far fa-share-square" />
-            </span>
-            <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
-          </button>
-        </div>
+              <div style={{ padding: '0.5rem' }}>
+                <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+                  Should BidOrBoo Notify you When A New Task is Posted?
+                </div>
 
-        <br />
-        <div className="has-text-centered">
-          <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">
-            <span className="icon">
-              <i className="fas fa-chevron-left" />
-            </span>
-            <span>{`Discard & Close`}</span>
-          </button>
+                <input
+                  id="newJobNotification"
+                  type="checkbox"
+                  name="newJobNotification"
+                  className="switch is-rounded is-success"
+                  onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
+                  checked={this.state.enableNotifyMeAboutJobsInMyArea}
+                />
+                <label className="has-text-dark" htmlFor="newJobNotification">
+                  {this.state.enableNotifyMeAboutJobsInMyArea
+                    ? 'Yes, Notify Me'
+                    : "No, Don't Notify Me"}
+                </label>
+              </div>
+            </>
+          )}
+
+          <hr
+            style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
+            className="divider"
+          />
+          <br />
+          <div className="has-text-centered">
+            <button
+              disabled={disableSubmit}
+              style={{ width: 300 }}
+              onClick={this.handleSubmit}
+              className="button is-success"
+            >
+              <span className="icon">
+                <i className="far fa-share-square" />
+              </span>
+              <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
+            </button>
+          </div>
+
+          <br />
+          <div className="has-text-centered">
+            <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">
+              <span className="icon">
+                <i className="fas fa-chevron-left" />
+              </span>
+              <span>{`Discard & Close`}</span>
+            </button>
+          </div>
         </div>
       </React.Fragment>
     );
