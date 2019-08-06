@@ -55,9 +55,7 @@ const UserSchema = new Schema(
         type: Boolean,
         default: true,
       },
-    },
-    notifyMeAboutNewTasks: {
-      sendNotification: { type: Boolean, default: true },
+      newPostedTasks: { type: Boolean, default: true },
     },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],

@@ -86,7 +86,7 @@ const EmptyHistory = () => {
               className="button is-success"
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
             >
-              New Request
+              Post Requests
             </a>
           </div>
         </div>

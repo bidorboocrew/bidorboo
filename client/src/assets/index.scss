@@ -753,7 +753,8 @@ div.centeredButtonInCard {
   background: white;
   top: 0;
   left: 0;
-  width: 320px;
+  width: 97%;
+  max-width: 30rem;
   overflow: hidden;
   height: 100%;
   z-index: 105;

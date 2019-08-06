@@ -493,7 +493,7 @@ class Header extends React.Component {
                       <span className="icon">
                         <i className="far fa-plus-square" />
                       </span>
-                      <span>New Request</span>
+                      <span>Post Requests</span>
                     </a>
                     <a
                       id={'viewDependentNavBarItems'}
@@ -544,7 +544,7 @@ class Header extends React.Component {
                       <span className="icon">
                         <i className="fas fa-hand-rock" />
                       </span>
-                      <span>New Bid</span>
+                      <span>Post Bids</span>
                     </a>
                     <a
                       onClick={(e) => {
@@ -691,7 +691,7 @@ class Header extends React.Component {
                               <span className="icon">
                                 <i className="far fa-user" aria-hidden="true" />
                               </span>
-                              <span>My Profile</span>
+                              <span>{`Profile & Settings`}</span>
                             </a>
                             <hr className="navbar-divider" />
                             <a

@@ -31,7 +31,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.PROPOSER.root);
               }}
             >
-              New Request
+              Post Requests
             </a>
           </div>
         </div>

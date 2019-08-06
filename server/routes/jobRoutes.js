@@ -350,7 +350,7 @@ module.exports = (app) => {
           errorMsg: 'searchDetails failed due to missing params',
         });
       }
-      const { searchRadius, location, addressText, notifyMeAboutNewTasks = false } = searchDetails;
+      const { searchRadius, location, addressText } = searchDetails;
       if (
         !searchRadius ||
         !addressText ||
@@ -370,7 +370,6 @@ module.exports = (app) => {
           searchRadius,
           location,
           addressText,
-          notifyMeAboutNewTasks,
         });
       }
 

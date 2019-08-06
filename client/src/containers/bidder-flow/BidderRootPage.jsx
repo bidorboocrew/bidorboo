@@ -34,7 +34,6 @@ class BidderRootPage extends React.Component {
         searchRadius: '',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
-        notifyMeAboutNewTasks: false,
       },
     };
     this.mapRootRef = React.createRef();
@@ -46,12 +45,7 @@ class BidderRootPage extends React.Component {
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const {
-          searchRadius,
-          location,
-          addressText,
-          notifyMeAboutNewTasks,
-        } = userLastStoredSearchParams;
+        const { searchRadius, location, addressText } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -62,13 +56,11 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
-                notifyMeAboutNewTasks,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
-                notifyMeAboutNewTasks,
               },
             };
           },
@@ -77,7 +69,6 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
-              notifyMeAboutNewTasks,
             });
           },
         );
@@ -90,12 +81,7 @@ class BidderRootPage extends React.Component {
     if (isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const {
-          searchRadius,
-          location,
-          addressText,
-          notifyMeAboutNewTasks,
-        } = userLastStoredSearchParams;
+        const { searchRadius, location, addressText } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -106,13 +92,11 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
-                notifyMeAboutNewTasks,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
-                notifyMeAboutNewTasks,
               },
             };
           },
@@ -121,7 +105,6 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
-              notifyMeAboutNewTasks,
             });
           },
         );
@@ -129,7 +112,7 @@ class BidderRootPage extends React.Component {
     }
   }
 
-  submitSearchLocationParams = ({ addressText, latLng, searchRadius, notifyMeAboutNewTasks }) => {
+  submitSearchLocationParams = ({ addressText, latLng, searchRadius }) => {
     const { searchJobsToBidOn } = this.props;
 
     // do some validation xxxxx latLng
@@ -141,7 +124,6 @@ class BidderRootPage extends React.Component {
           addressText,
           latLng,
           searchRadius,
-          notifyMeAboutNewTasks,
         },
       }),
       () => {
@@ -149,7 +131,6 @@ class BidderRootPage extends React.Component {
           searchRadius: searchRadius,
           location: latLng,
           addressText,
-          notifyMeAboutNewTasks,
         });
       },
     );

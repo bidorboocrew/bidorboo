@@ -129,15 +129,8 @@ export default class BidderRootLocationFilter extends React.Component {
     const { activeSearchParams, submitSearchLocationParams, toggleSideNav } = this.props;
     submitSearchLocationParams({
       ...activeSearchParams,
-      notifyMeAboutNewTasks: this.state.enableNotifyMeAboutJobsInMyArea,
     });
     toggleSideNav();
-  };
-
-  toggleEnableNotifyMeAboutJobsInMyArea = () => {
-    this.setState({
-      enableNotifyMeAboutJobsInMyArea: !this.state.enableNotifyMeAboutJobsInMyArea,
-    });
   };
 
   render() {
@@ -150,30 +143,29 @@ export default class BidderRootLocationFilter extends React.Component {
       <React.Fragment>
         <div
           style={{
-            height: '4rem',
             background: '#6b88e0',
             color: 'white',
-            padding: '1rem 0.25rem',
+            padding: '0.75rem 0.25rem',
             marginBottom: '0',
+            fontSize: '1.5rem',
           }}
           onClick={toggleSideNav}
-          className="title"
         >
           <span className="icon">
             <i className="fas fa-chevron-left" />
           </span>
-          <span style={{ marginLeft: 8 }}>Tasker Settings</span>
+          <span style={{ marginLeft: 8 }}>Filter Tasks</span>
         </div>
 
         <div className="theContent">
           <>
-            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-              Specify The Area Where you will be providing your services
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 600 }}>
+              Where will you provide your services?
             </div>
             <section style={{ padding: '0.5rem' }} className="modal-card-body">
               <div className="content">
                 <div className="group saidTest">
-                  <label className="label">Enter Search Address</label>
+                  <label className="label">Enter Address</label>
                   <GeoSearch
                     value={addressText}
                     onChange={this.handleChange}
@@ -207,17 +199,8 @@ export default class BidderRootLocationFilter extends React.Component {
               </div>
             </section>
           </>
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <>
-              <hr
-                style={{
-                  backgroundColor: '#6b88e0',
-                  marginTop: '0.25rem',
-                  marginBottom: '0.25rem',
-                }}
-                className="divider"
-              />
-
               <div style={{ padding: '0.5rem' }}>
                 <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
                   Should BidOrBoo Notify you When A New Task is Posted?
@@ -241,12 +224,8 @@ export default class BidderRootLocationFilter extends React.Component {
                 </label>
               </div>
             </>
-          )}
-          <hr
-            style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
-            className="divider"
-          />
-          <br />
+          )} */}
+
           <div className="has-text-centered">
             <button
               disabled={disableSubmit}
@@ -262,7 +241,7 @@ export default class BidderRootLocationFilter extends React.Component {
           </div>
           <br />
           <div className="has-text-centered">
-            <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">
+            <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-light">
               <span className="icon">
                 <i className="fas fa-chevron-left" />
               </span>
