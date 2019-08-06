@@ -15,8 +15,10 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   AvgBidDisplayLabelAndValue,
+  SummaryStartDateAndTime,
   UserImageAndRating,
   CardTitleAndActionsInfo,
+  JobCardTitle,
   StartDateAndTime,
   CountDownComponent,
 } from '../../containers/commonComponents';
@@ -39,9 +41,8 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
       showLoginDialog,
       updateViewedBy,
     } = this.props;
-
-    const { showMapView = false } = otherArgs;
     const { showRegisterAsTaskerModal } = this.state;
+    const { showMapView } = otherArgs;
     if (
       !job ||
       !job._id ||
@@ -86,42 +87,111 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
 
     return (
       <React.Fragment>
-        {showRegisterAsTaskerModal && (
-          <ShowRegisterAsTaskerModal handleClose={this.toggleRegisterAsTasker} />
-        )}
-        <div
-          className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
-        >
+        <div className="card has-text-centered cardWithButton">
           <div className="card-content">
             <div className="content">
-              <CardTitleAndActionsInfo
-                isOnMapView={isOnMapView}
-                userAlreadyBid={userAlreadyBid}
-                jobState={state}
-                templateId={templateId}
-                bidsList={_bidsListRef}
-                userAlreadyView={userAlreadyView}
-              />
-
-              <div className="group saidTest">
-                <label className="label">Requester:</label>
-                <UserImageAndRating clipUserName userDetails={_ownerRef} />
-              </div>
-              <StartDateAndTime
+              <JobCardTitle icon={ICON} title={TITLE} />
+              <UserImageAndRating clipUserName userDetails={_ownerRef} />
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} />
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
               {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
-            </div>
-            {!isOnMapView && (
-              <React.Fragment>
-                {userAlreadyBid ? (
-                  <div style={{ display: 'flex' }}>
+              {!isOnMapView && (
+                <React.Fragment>
+                  {userAlreadyBid ? (
+                    <div style={{ display: 'flex' }}>
+                      <a
+                        style={{ flexGrow: 1 }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          switchRoute(
+                            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
+                              userExistingBid._id,
+                            ),
+                          );
+                        }}
+                        className="button is-success firstButtonInCard"
+                      >
+                        View My Bid
+                      </a>
+                      {showMapView && (
+                        <a
+                          style={{ marginLeft: 12 }}
+                          onClick={(e) => {
+                            const markerRef = reactMapClusterRef;
+                            if (
+                              markerRef &&
+                              markerRef.current &&
+                              markerRef.current.props &&
+                              markerRef.current.props.onClick &&
+                              typeof markerRef.current.props.onClick === 'function'
+                            ) {
+                              markerRef.current.props.onClick();
+                            }
+                          }}
+                          className="button is-info secondButtonInCard "
+                        >
+                          <span className="icon">
+                            <i className="fas fa-map-marked-alt" />
+                          </span>
+                          <span>Locate</span>
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex' }}>
+                      <a
+                        style={{ flexGrow: 1 }}
+                        onClick={(e) => {
+                          if (!isLoggedIn) {
+                            showLoginDialog(true);
+                            return;
+                          } else if (!userDetails.canBid) {
+                            this.toggleRegisterAsTasker();
+                          } else if (userDetails.canBid) {
+                            updateViewedBy(job);
+                            switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                          }
+                        }}
+                        className="button is-success firstButtonInCard"
+                      >
+                        Place Your Bid
+                      </a>
+
+                      {showMapView && (
+                        <a
+                          style={{ marginLeft: 12 }}
+                          onClick={(e) => {
+                            const markerRef = reactMapClusterRef;
+                            if (
+                              markerRef &&
+                              markerRef.current &&
+                              markerRef.current.props &&
+                              markerRef.current.props.onClick &&
+                              typeof markerRef.current.props.onClick === 'function'
+                            ) {
+                              markerRef.current.props.onClick();
+                            }
+                          }}
+                          className="button is-info secondButtonInCard "
+                        >
+                          <span className="icon">
+                            <i className="fas fa-map-marked-alt" />
+                          </span>
+                          <span>Locate</span>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+              {isOnMapView && (
+                <React.Fragment>
+                  {userAlreadyBid ? (
                     <a
-                      style={{ flexGrow: 1 }}
                       onClick={(e) => {
                         e.preventDefault();
                         switchRoute(
@@ -130,38 +200,13 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           ),
                         );
                       }}
-                      className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
+                      className="button is-small is-fullwidth"
                     >
-                      View My Bid
+                      View Your existing Bid
                     </a>
-                    {showMapView && (
-                      <a
-                        style={{ marginLeft: 12 }}
-                        onClick={(e) => {
-                          const markerRef = reactMapClusterRef;
-                          if (
-                            markerRef &&
-                            markerRef.current &&
-                            markerRef.current.props &&
-                            markerRef.current.props.onClick &&
-                            typeof markerRef.current.props.onClick === 'function'
-                          ) {
-                            markerRef.current.props.onClick();
-                          }
-                        }}
-                        className="button is-info secondButtonInCard nofixedwidth"
-                      >
-                        <span className="icon">
-                          <i className="fas fa-map-marked-alt" />
-                        </span>
-                        <span>Locate</span>
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex' }}>
+                  ) : (
                     <a
-                      style={{ flexGrow: 1 }}
+                      style={{ marginTop: 10 }}
                       onClick={(e) => {
                         if (!isLoggedIn) {
                           showLoginDialog(true);
@@ -173,82 +218,27 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                         }
                       }}
-                      className="button is-info is-fullwidth firstButtonInCard nofixedwidth"
+                      className="button is-success is-small is-fullwidth"
                     >
                       Place Your Bid
                     </a>
-
-                    <a
-                      style={{ marginLeft: 12 }}
-                      onClick={(e) => {
-                        const markerRef = reactMapClusterRef;
-                        if (
-                          markerRef &&
-                          markerRef.current &&
-                          markerRef.current.props &&
-                          markerRef.current.props.onClick &&
-                          typeof markerRef.current.props.onClick === 'function'
-                        ) {
-                          markerRef.current.props.onClick();
-                        }
-                      }}
-                      className="button is-info secondButtonInCard nofixedwidth"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-map-marked-alt" />
-                      </span>
-                      <span>Locate</span>
-                    </a>
-                  </div>
-                )}
-              </React.Fragment>
-            )}
-            {isOnMapView && (
-              <React.Fragment>
-                {userAlreadyBid ? (
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      switchRoute(
-                        ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                          userExistingBid._id,
-                        ),
-                      );
-                    }}
-                    className="button is-small is-fullwidth"
-                  >
-                    View Your existing Bid
-                  </a>
-                ) : (
+                  )}
                   <a
                     style={{ marginTop: 10 }}
-                    onClick={(e) => {
-                      if (!isLoggedIn) {
-                        showLoginDialog(true);
-                        return;
-                      } else if (!userDetails.canBid) {
-                        this.toggleRegisterAsTasker();
-                      } else if (userDetails.canBid) {
-                        updateViewedBy(job);
-                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                      }
-                    }}
-                    className="button is-success is-small is-fullwidth"
+                    onClick={onCloseHandler}
+                    className="button is-small is-fullwidth"
                   >
-                    Place Your Bid
+                    Close
                   </a>
-                )}
-                <a
-                  style={{ marginTop: 10 }}
-                  onClick={onCloseHandler}
-                  className="button is-small is-fullwidth"
-                >
-                  Close
-                </a>
-              </React.Fragment>
-            )}
+                </React.Fragment>
+              )}
+            </div>
           </div>
         </div>
+
+        {showRegisterAsTaskerModal && (
+          <ShowRegisterAsTaskerModal handleClose={this.toggleRegisterAsTasker} />
+        )}
       </React.Fragment>
     );
   }
@@ -323,3 +313,34 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
     </React.Fragment>
   );
 };
+
+// <div
+//           className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
+//         >
+//           <div className="card-content">
+//             <div className="content">
+//               <CardTitleAndActionsInfo
+//                 isOnMapView={isOnMapView}
+//                 userAlreadyBid={userAlreadyBid}
+//                 jobState={state}
+//                 templateId={templateId}
+//                 bidsList={_bidsListRef}
+//                 userAlreadyView={userAlreadyView}
+//               />
+
+//               <div className="group saidTest">
+//                 <label className="label">Requester:</label>
+//                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
+//               </div>
+//               <StartDateAndTime
+//                 date={startingDateAndTime}
+//                 renderHelpComponent={() => (
+//                   <CountDownComponent startingDate={startingDateAndTime} />
+//                 )}
+//               />
+//               {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
+//               {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
+//             </div>
+
+//           </div>
+//         </div>

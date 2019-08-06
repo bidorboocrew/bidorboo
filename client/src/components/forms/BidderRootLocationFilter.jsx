@@ -156,7 +156,13 @@ export default class BidderRootLocationFilter extends React.Component {
           <span>Tasker Settings</span>
         </button>
         <>
-          <div style={{ borderBottom: '1px solid #eeeeee', padding: '1rem 0.5rem 0.5rem 0.5rem' }}>
+          <div
+            style={{
+              fontWeight: 500,
+              borderBottom: '1px solid #eeeeee',
+              padding: '1rem 0.5rem 0.5rem 0.5rem',
+            }}
+          >
             Search Area Preferences
           </div>
           <section style={{ padding: '0.5rem' }} className="modal-card-body">

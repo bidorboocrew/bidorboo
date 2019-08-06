@@ -109,7 +109,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <div className="has-text-grey" style={{ lineHeight: '52px' }}>
-              - No Ratings Yet -
+              {`(No Ratings Yet)`}
             </div>
           ) : (
             <ReactStars
@@ -760,7 +760,7 @@ export const JobCardTitle = ({ icon, title, meatballMenu }) => {
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flexGrow: 1 }} className="title">
-        <span className="icon">
+        <span style={{ color: '#ee2a36' }} className="icon">
           <i className={icon} />
         </span>
         <span style={{ marginLeft: 7 }}>{title}</span>
