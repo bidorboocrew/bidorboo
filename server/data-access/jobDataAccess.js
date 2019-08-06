@@ -1155,6 +1155,8 @@ exports.jobDataAccess = {
             state: 1,
             location: 1,
             _bidsListRef: 1,
+            viewedBy: 1,
+            hideFrom: 1,
           },
           { lean: { virtuals: true } }
         )

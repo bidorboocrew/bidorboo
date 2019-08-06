@@ -91,14 +91,26 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} />
-              <UserImageAndRating clipUserName userDetails={_ownerRef} />
+              <UserImageAndRating clipUserName large userDetails={_ownerRef} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
+              <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+
+              <div className="group">
+                <label className="label">Status</label>
+                <CardTitleAndActionsInfo
+                  isOnMapView={isOnMapView}
+                  userAlreadyBid={userAlreadyBid}
+                  jobState={state}
+                  templateId={templateId}
+                  bidsList={_bidsListRef}
+                  userAlreadyView={userAlreadyView}
+                />
+              </div>
               {!isOnMapView && (
                 <React.Fragment>
                   {userAlreadyBid ? (
@@ -113,7 +125,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                             ),
                           );
                         }}
-                        className="button is-success firstButtonInCard"
+                        className="button is-dark firstButtonInCard"
                       >
                         View My Bid
                       </a>
@@ -319,14 +331,14 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
 //         >
 //           <div className="card-content">
 //             <div className="content">
-//               <CardTitleAndActionsInfo
-//                 isOnMapView={isOnMapView}
-//                 userAlreadyBid={userAlreadyBid}
-//                 jobState={state}
-//                 templateId={templateId}
-//                 bidsList={_bidsListRef}
-//                 userAlreadyView={userAlreadyView}
-//               />
+// <CardTitleAndActionsInfo
+//   isOnMapView={isOnMapView}
+//   userAlreadyBid={userAlreadyBid}
+//   jobState={state}
+//   templateId={templateId}
+//   bidsList={_bidsListRef}
+//   userAlreadyView={userAlreadyView}
+// />
 
 //               <div className="group saidTest">
 //                 <label className="label">Requester:</label>

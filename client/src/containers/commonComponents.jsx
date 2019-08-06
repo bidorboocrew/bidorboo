@@ -33,9 +33,9 @@ export const findAvgBidInBidList = (bidsList) => {
 export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let minBid = findAvgBidInBidList(bidsList);
   let avgBidLabel = minBid ? (
-    <DisplayLabelValue labelText="Avg Bid:" labelValue={`${minBid}$ (CAD)`} />
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`${minBid}$ (CAD)`} />
   ) : (
-    <DisplayLabelValue labelText="Avg Bid:" labelValue={`Be the first bidder!`} />
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first bidder!`} />
   );
   return avgBidLabel;
 };
@@ -151,56 +151,38 @@ export const CardTitleAndActionsInfo = ({
 
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
-    <nav style={{ marginBottom: 8 }} className="level is-mobile">
-      <div className="level-left">
-        <div className="level-item">
-          <div className={`${isOnMapView ? 'is-size-6' : 'is-size-5'} has-text-weight-bold`}>
-            <span className="icon">
-              <i className={ICON} />
-            </span>
-            <span style={{ marginLeft: 4 }}>
-              {TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}
-            </span>
+    <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+      <div style={{ width: 80, display: 'inline-block' }}>
+        {userAlreadyView && (
+          <div>
+            <div className="icon">
+              <i className="far fa-eye" />
+            </div>
+            <div className="help">Viewed</div>
           </div>
-        </div>
+        )}
       </div>
-      {!isOnMapView && (
-        <React.Fragment>
-          <div className="level-right">
-            <div className="level-item has-text-centered">
-              {userAlreadyView && (
-                <div>
-                  <div className="icon">
-                    <i className="far fa-eye" />
-                  </div>
-                  <div className="help">Viewed</div>
-                </div>
-              )}
+      <div style={{ width: 80, display: 'inline-block' }}>
+        {!isAwarded && (
+          <div className="has-text-grey">
+            <div className="icon">
+              <i className="fas fa-hand-paper" />
             </div>
-            <div className="level-item has-text-centered">
-              {!isAwarded && !userAlreadyBid && (
-                <div className="has-text-grey">
-                  <div className="icon">
-                    <i className="fas fa-hand-paper" />
-                  </div>
-                  <div className="help">{bidsCountLabel}</div>
-                </div>
-              )}
-            </div>
-            <div className="level-item has-text-centered">
-              {userAlreadyBid && (
-                <div>
-                  <div className="icon">
-                    <i className="fas fa-dollar-sign" />
-                  </div>
-                  <div className="help">Already Bid</div>
-                </div>
-              )}
-            </div>
+            <div className="help">{bidsCountLabel}</div>
           </div>
-        </React.Fragment>
-      )}
-    </nav>
+        )}
+      </div>
+      <div style={{ width: 80, display: 'inline-block' }}>
+        {userAlreadyBid && (
+          <div>
+            <div className="icon">
+              <i className="fas fa-dollar-sign" />
+            </div>
+            <div className="help">You've Bid</div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
