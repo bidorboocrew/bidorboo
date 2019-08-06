@@ -275,42 +275,43 @@ class BidderRootPage extends React.Component {
 
             {currentJobsList && currentJobsList.length > 0 && (
               <>
-                <div
-                  style={{ border: '1px solid #6b88e0' }}
-                  className="card cardWithButton nofixedwidth"
-                >
-                  <div className="card-content">
-                    <div className="content has-text-centered">
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <div style={{ color: '#6b88e0', fontWeight: 400 }}>
-                          You're Viewing Tasks
+                <div className="container">
+                  <div
+                    style={{ border: '1px solid #6b88e0' }}
+                    className="card cardWithButton nofixedwidth"
+                  >
+                    <div className="card-content">
+                      <div className="content has-text-centered">
+                        <div style={{ marginBottom: '0.75rem' }}>
+                          <div style={{ color: '#6b88e0', fontWeight: 400 }}>
+                            You're Viewing Tasks
+                          </div>
+                          <div>{`within ${searchRadius}km`}</div>
+                          <div>{`of ${addressText}`}</div>
                         </div>
-                        <div>{`within ${searchRadius}km`}</div>
-                        <div>{`of ${addressText}`}</div>
-                      </div>
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <input
-                          id="togglemapView"
-                          type="checkbox"
-                          name="togglemapView"
-                          className="switch is-rounded is-success"
-                          onChange={this.toggleMapView}
-                          checked={showMapView}
-                        />
-                        <label style={{ fontWeight: 400 }} htmlFor="togglemapView">
-                          Toggle Map
-                        </label>
+                        <div style={{ marginBottom: '0.75rem' }}>
+                          <input
+                            id="togglemapView"
+                            type="checkbox"
+                            name="togglemapView"
+                            className="switch is-rounded is-success"
+                            onChange={this.toggleMapView}
+                            checked={showMapView}
+                          />
+                          <label style={{ fontWeight: 400 }} htmlFor="togglemapView">
+                            Toggle Map
+                          </label>
+                        </div>
                       </div>
                     </div>
+                    <button
+                      onClick={this.toggleShouldShowSearch}
+                      className="button is-info firstButtonInCard"
+                    >
+                      Edit Filters
+                    </button>
                   </div>
-                  <button
-                    onClick={this.toggleShouldShowSearch}
-                    className="button is-info firstButtonInCard"
-                  >
-                    Edit Filters
-                  </button>
                 </div>
-
                 <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
               </>
             )}
