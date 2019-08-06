@@ -751,21 +751,25 @@ div.centeredButtonInCard {
   position: fixed;
   display: block;
   background: white;
-  top: 4rem;
+  top: 0;
   left: 0;
   width: 320px;
-  overflow-y: auto;
+  overflow: hidden;
   height: 100%;
-  min-height: 100vh;
   z-index: 105;
   border-right: 1px solid white;
   &.slide-in-left-reversed {
     display: none;
   }
+  div.theContent {
+    height: calc(100% - 4.25rem);
+    overflow-y: auto;
+    padding: 0.5rem 0;
+  }
 }
 #bdb-background {
   position: fixed;
-  top: 4rem;
+  top: 0;
   left: 0;
   width: 100%;
   min-height: 100vh;

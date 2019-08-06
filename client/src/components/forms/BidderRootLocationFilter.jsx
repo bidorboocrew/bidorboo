@@ -149,7 +149,13 @@ export default class BidderRootLocationFilter extends React.Component {
     return (
       <React.Fragment>
         <div
-          style={{ height: '4rem', background: '#6b88e0', color: 'white', padding: '1rem 0.25rem' }}
+          style={{
+            height: '4rem',
+            background: '#6b88e0',
+            color: 'white',
+            padding: '1rem 0.25rem',
+            marginBottom: '0',
+          }}
           onClick={toggleSideNav}
           className="title"
         >
@@ -159,9 +165,9 @@ export default class BidderRootLocationFilter extends React.Component {
           <span style={{ marginLeft: 8 }}>Tasker Settings</span>
         </div>
 
-        <div style={{ minHeight: 'calc(100% + 4rem)', height: 'calc(100% + 4rem)' }}>
+        <div className="theContent">
           <>
-            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
               Specify The Area Where you will be providing your services
             </div>
             <section style={{ padding: '0.5rem' }} className="modal-card-body">
@@ -213,7 +219,7 @@ export default class BidderRootLocationFilter extends React.Component {
               />
 
               <div style={{ padding: '0.5rem' }}>
-                <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 500 }}>
+                <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
                   Should BidOrBoo Notify you When A New Task is Posted?
                 </div>
 
@@ -225,7 +231,10 @@ export default class BidderRootLocationFilter extends React.Component {
                   onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
                   checked={this.state.enableNotifyMeAboutJobsInMyArea}
                 />
-                <label className="has-text-dark" htmlFor="newJobNotification">
+                <label
+                  className="has-text-dark has-text-weight-normal"
+                  htmlFor="newJobNotification"
+                >
                   {this.state.enableNotifyMeAboutJobsInMyArea
                     ? 'Yes, Notify Me'
                     : "No, Don't Notify Me"}
@@ -233,7 +242,6 @@ export default class BidderRootLocationFilter extends React.Component {
               </div>
             </>
           )}
-
           <hr
             style={{ backgroundColor: '#6b88e0', marginTop: '0.25rem', marginBottom: '0.25rem' }}
             className="divider"
@@ -252,7 +260,6 @@ export default class BidderRootLocationFilter extends React.Component {
               <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
             </button>
           </div>
-
           <br />
           <div className="has-text-centered">
             <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-dark">
@@ -262,6 +269,7 @@ export default class BidderRootLocationFilter extends React.Component {
               <span>{`Discard & Close`}</span>
             </button>
           </div>
+          <br />
         </div>
       </React.Fragment>
     );
