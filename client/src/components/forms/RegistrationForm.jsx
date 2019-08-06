@@ -150,7 +150,7 @@ class NewUserRegistrationForm extends React.Component {
             type="submit"
             disabled={isSubmitting || !isValid}
           >
-            Join BidOrBoo
+            Welcome To BidOrBoo
           </button>
         </div>
         <div style={{ marginTop: 10 }}>
