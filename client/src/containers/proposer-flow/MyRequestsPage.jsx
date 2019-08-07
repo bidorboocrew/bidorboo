@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -39,7 +39,16 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        {/* <FloatingAddNewRequestButton /> */}
+        <section className="hero is-white">
+          <div className="hero-body  has-text-centered">
+            <div className="container">
+              <h1 style={{ marginBottom: 0 }} className="has-text-dark title">
+                My Tasks Inbox
+              </h1>
+            </div>
+          </div>
+        </section>
+
         <Spinner renderLabel={'Getting all your requests'} isLoading={isLoading} size={'large'} />
         {!isLoading && (
           <React.Fragment>
@@ -107,7 +116,7 @@ const EmptyStateComponent = () => (
               switchRoute(ROUTES.CLIENT.PROPOSER.root);
             }}
           >
-           Post Requests
+            Post Requests
           </a>
         </div>
       </div>
