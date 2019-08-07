@@ -111,10 +111,7 @@ class BidModal extends React.Component {
             <button onClick={handleClose} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-            <p>
-              Enter your bid (a total amount) you'd like to recieve in exchange for fulfilling this
-              task.
-            </p>
+          <p>Enter a <strong>total $ amount</strong> you want to recieve in exchange for fulfilling this task</p>
 
             <TextInput
               // setFocusImmediately={true}
@@ -141,7 +138,7 @@ class BidModal extends React.Component {
             </div>
             <br />
 
-            {/* <div className="group saidTest">
+            {/* <div className="group">
               <div className="label">BidOrBoo Rules</div>
 
               {values.bidAmountField && values.bidAmountField > 1 && (

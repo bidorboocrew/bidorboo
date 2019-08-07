@@ -335,7 +335,7 @@ const PaymentSetupForm = (props) => {
 
               <label className="label">Date of birth</label>
               <div className="field is-grouped">
-                <div style={{ marginRight: 10 }} className="group saidTest">
+                <div style={{ marginRight: 10 }} className="group">
                   <div className="control">
                     <div
                       className={`select ${touched.dob_day && errors.dob_day ? 'is-danger' : ''}`}
@@ -363,7 +363,7 @@ const PaymentSetupForm = (props) => {
                     </div>
                   </div>
                 </div>
-                <div style={{ marginRight: 10 }} className="group saidTest">
+                <div style={{ marginRight: 10 }} className="group">
                   <div className="control">
                     <div
                       className={`select ${
@@ -401,7 +401,7 @@ const PaymentSetupForm = (props) => {
                   </div>
                 </div>
 
-                <div style={{ marginRight: 10 }} className="group saidTest">
+                <div style={{ marginRight: 10 }} className="group">
                   <div className="control">
                     <div
                       className={`select ${touched.dob_year && errors.dob_year ? 'is-danger' : ''}`}
@@ -434,7 +434,7 @@ const PaymentSetupForm = (props) => {
                 </div>
               </div>
               <label className="label">PAYOUT BANK DETAILS</label>
-              <div className="group saidTest">
+              <div className="group">
                 <TextInput
                   labelClassName=" "
                   id="account_holder_full_name"
@@ -450,7 +450,7 @@ const PaymentSetupForm = (props) => {
                   statement
                 </div>
               </div>
-              <div className="group saidTest">
+              <div className="group">
                 <TextInput
                   labelClassName=" "
                   id="bank_name"
@@ -515,7 +515,7 @@ const PaymentSetupForm = (props) => {
               >
                 * click to view a sample cheque
               </a>
-              <div className="group saidTest" />
+              <div className="group" />
               <label className="label">ADDRESS DETAILS</label>
               <div className="field is-grouped">
                 <div style={{ marginRight: 10 }}>
@@ -558,7 +558,7 @@ const PaymentSetupForm = (props) => {
                   />
                 </div>
 
-                <div style={{ marginRight: 10 }} className="group saidTest">
+                <div style={{ marginRight: 10 }} className="group">
                   <label>Select Province</label>
                   <div className="control">
                     <div
@@ -647,7 +647,7 @@ const PaymentSetupForm = (props) => {
               </div>
               <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
               <br />
-              <div className="group saidTest">
+              <div className="group">
                 <div className="control">
                   <label className="checkbox">
                     <input style={{ marginRight: 4 }} type="checkbox" />

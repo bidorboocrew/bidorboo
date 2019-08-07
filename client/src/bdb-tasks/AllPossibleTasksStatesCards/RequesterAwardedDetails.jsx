@@ -147,7 +147,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     </div>
                     <br />
 
-                    <div className="group saidTest">
+                    <div className="group">
                       <label className="label">What you need to know:</label>
                       <div className="control">
                         * You will be <strong>penalized 20%</strong>
@@ -206,7 +206,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
@@ -386,7 +386,7 @@ class RequesterConfirmsCompletion extends React.Component {
                     hope that it was done to your satisfaction.
                   </p>
                   <br />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">What will happen next?</label>
                     <div className="help">
                       * Once you've confirmed completion the Tasker will be paid
@@ -511,7 +511,7 @@ class RequesterDisputes extends React.Component {
                     </label>
                   </div>
                   <br />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Tell us some more details</label>
                     <textarea
                       className="textarea"

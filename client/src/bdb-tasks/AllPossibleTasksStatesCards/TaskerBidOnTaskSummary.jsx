@@ -300,7 +300,7 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
               <div className="modal-card-title">Setup your payout info</div>
             </header>
             <section className="modal-card-body">
-              <div className="group saidTest">
+              <div className="group">
                 <label className="label">In order to bid on jobs you must :</label>
               </div>
               <ul>
@@ -350,7 +350,7 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
 //   userAlreadyView={userAlreadyView}
 // />
 
-//               <div className="group saidTest">
+//               <div className="group">
 //                 <label className="label">Requester:</label>
 //                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
 //               </div>

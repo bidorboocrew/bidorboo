@@ -8,8 +8,6 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
-import { DisplayLabelValue } from '../../commonComponents';
-
 class TaskerEditOrUpdateBid extends React.Component {
   constructor(props) {
     super(props);
@@ -74,7 +72,6 @@ class TaskerEditOrUpdateBid extends React.Component {
       isValid,
       isSubmitting,
       isAwardedToSomeoneElse = false,
-      requesterCanceledThierRequest = false,
     } = this.props;
 
     if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
@@ -101,10 +98,7 @@ class TaskerEditOrUpdateBid extends React.Component {
           >
             {`${bidAmount - 5}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(bidAmount)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(bidAmount)} className="button is-success is-small">
             {`${bidAmount}$`}
           </span>
           <span
@@ -134,7 +128,7 @@ class TaskerEditOrUpdateBid extends React.Component {
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
         {showUpdateBidDialog && (
-          <div className="modal is-active">
+          <div className="modal is-active  has-text-left">
             <div className="modal-background" />
             <div className="modal-card">
               <header className="modal-card-head">
@@ -143,12 +137,14 @@ class TaskerEditOrUpdateBid extends React.Component {
               </header>
               <section className="modal-card-body">
                 <p>
-                  You can change your bid amount as long as this task is not awarded or past due
+                  Enter a new <strong>total $ amount</strong> you want to recieve in exchange for
+                  fulfilling this task
                 </p>
                 <TextInput
                   label="Enter The New Bid Amount"
                   id="bidAmountField"
                   className="input is-focused"
+                  placeholder="Enter bid amount"
                   onBlur={handleBlur}
                   error={touched.bidAmountField && errors.bidAmountField}
                   value={values.bidAmountField || ''}
@@ -163,36 +159,12 @@ class TaskerEditOrUpdateBid extends React.Component {
                   <div className="help">* Use our quick bid options</div>
                   {autoBidOptions}
                 </div>
-                <br />
-
-                <div className="group saidTest">
-                  <div className="label">BidOrBoo Rules</div>
-                  {values.bidAmountField && values.bidAmountField > 1 && (
-                    <div className="help help has-text-success">
-                      * Your Net Payout After deucting BidOrBoo Service Fee:
-                      <strong>
-                        {` ${values.bidAmountField -
-                          Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}
-                      </strong>
-                    </div>
-                  )}
-                  <div className="help">
-                    * You must read all the request details thoroughly before bidding.
-                  </div>
-                  <div className="help">
-                    * If your bid is chosen this task will be assigned to you
-                  </div>
-                  <div className="help">
-                    *
-                    <strong>
-                      Canceling after being assigned will negatively impact your rating or if done
-                      frequently will put a ban on your account
-                    </strong>
-                  </div>
-                </div>
               </section>
 
-              <footer className="modal-card-foot">
+              <footer className="modal-card-foot has-text-right">
+                <button onClick={this.closeUpdateBidModal} className="button is-outline">
+                  Cancel
+                </button>
                 <button
                   disabled={isSubmitting || !isValid}
                   onClick={this.submitUpdateBid}
@@ -200,15 +172,12 @@ class TaskerEditOrUpdateBid extends React.Component {
                 >
                   Submit Bid Changes
                 </button>
-                <button onClick={this.closeUpdateBidModal} className="button is-outline">
-                  Cancel
-                </button>
               </footer>
             </div>
           </div>
         )}
 
-        {(isAwardedToSomeoneElse || requesterCanceledThierRequest) && (
+        {isAwardedToSomeoneElse && (
           <a
             onClick={() => {
               switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -222,13 +191,14 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span>I understand</span>
           </a>
         )}
-        {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
+        {!isAwardedToSomeoneElse && (
           <a
+            style={{ width: 'unset' }}
             onClick={(e) => {
               e.preventDefault();
               this.showUpdateBidModal();
             }}
-            className="button is-info is-outline is-fullwidth"
+            className="button is-info firstButtonInCard"
           >
             <span className="icon">
               <i className="far fa-edit" />

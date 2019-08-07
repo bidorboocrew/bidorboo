@@ -143,7 +143,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               className="navbar-divider"
             />
             {!requiresBidderReview && (
-              <div className="group saidTest">
+              <div className="group">
                 <label className="label">Request Status</label>
                 <div className="control has-text-dark">Archived !</div>
                 <div className="help">* Congratulations. This was a success</div>
@@ -151,7 +151,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
             )}
 
             {requiresBidderReview && (
-              <div className="group saidTest">
+              <div className="group">
                 <label className="label">Request Status</label>
                 <div className="control has-text-success">Done!</div>
                 <div className="help">
@@ -159,7 +159,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
                 </div>
               </div>
             )}
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">My Payout</label>
               <div className="control">{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>

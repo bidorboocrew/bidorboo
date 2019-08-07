@@ -75,13 +75,13 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Potential Payout</label>
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>

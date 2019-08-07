@@ -173,7 +173,7 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      {/* <div className="group saidTest">
+      {/* <div className="group">
         <div className="control">
           <label className="label">Auto Detect Location</label>
           <label className="checkbox">

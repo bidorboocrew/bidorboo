@@ -102,7 +102,7 @@ class NotificationSettings extends React.Component {
         </header>
         <div className="card-content">
           <div className="content">
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">You will be notified about key events</label>
               <ul>
                 <li>Requests or Tasks key updates</li>
@@ -110,7 +110,7 @@ class NotificationSettings extends React.Component {
                 <li>Payments and recietes</li>
               </ul>
             </div>
-            <div className="group saidTest">
+            <div className="group">
               <input
                 id="pushNotification"
                 type="checkbox"
@@ -123,7 +123,7 @@ class NotificationSettings extends React.Component {
                 Enable Push Notifications
               </label>
             </div>
-            <div className="group saidTest">
+            <div className="group">
               <input
                 id="emailNotification"
                 type="checkbox"
@@ -149,7 +149,7 @@ class NotificationSettings extends React.Component {
                 Enable Text Msg Notifications
               </label>
             </div>
-            <div className="group saidTest">
+            <div className="group">
               <input
                 id="notifyMeAboutNewTasksEnabled"
                 type="checkbox"

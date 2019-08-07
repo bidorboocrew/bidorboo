@@ -122,7 +122,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize

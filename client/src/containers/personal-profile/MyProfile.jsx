@@ -134,7 +134,7 @@ class MyProfile extends React.Component {
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
 
-                        {/* <div className="group saidTest">
+                        {/* <div className="group">
                           <label className="label">Auto Detect Location</label>
                           <div className="control">
                             {autoDetectlocation && (
@@ -312,7 +312,7 @@ const HeaderTitle = (props) => {
 };
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}

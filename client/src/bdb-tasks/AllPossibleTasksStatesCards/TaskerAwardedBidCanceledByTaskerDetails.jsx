@@ -59,13 +59,13 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
               }}
               className="navbar-divider"
             />
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">{displayStatus}</div>
               <div className="help">* You cancelled this after commitment.</div>
             </div>
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Missed Payout</label>
               <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
               <div className="help">* Was fully refunded to the Requester since you cancelled</div>
@@ -77,7 +77,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <div className="group saidTest">
+            <div className="group">
               <label className="label has-text-danger">What you need to know:</label>
 
               <div className="control">* Your global rating will be impacted</div>

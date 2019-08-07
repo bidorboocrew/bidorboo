@@ -126,13 +126,13 @@
 //         </div>
 //       </div>
 
-//       <div className="group saidTest">
+//       <div className="group">
 //         <label className="label">Name</label>
 //         <div className="control">
 //           <div className="control">{displayName}</div>
 //         </div>
 //       </div>
-//       <div className="group saidTest">
+//       <div className="group">
 //         <label className="label">Rating</label>
 //         {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
 //           <p className="is-size-7">No Ratings Yet</p>
@@ -155,7 +155,7 @@
 //           </div>
 //         )}
 //       </div>
-//       <div className="group saidTest">
+//       <div className="group">
 //         <label className="label">Status</label>
 //         <div className="control">
 //           <div className="control">{membershipStatusDisplay}</div>

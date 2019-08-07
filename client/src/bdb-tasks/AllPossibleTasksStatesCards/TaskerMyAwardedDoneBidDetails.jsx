@@ -123,7 +123,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               />
 
               {!requiresBidderReview && (
-                <div className="group saidTest">
+                <div className="group">
                   <label className="label">Request Status</label>
                   <div className="control has-text-dark">Archived !</div>
                   <div className="help">* Congratulations. This was a success</div>
@@ -131,7 +131,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
 
               {requiresBidderReview && (
-                <div className="group saidTest">
+                <div className="group">
                   <label className="label">Request Status</label>
                   <div className="control has-text-success">Done!</div>
                   <div className="help">
@@ -140,7 +140,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </div>
               )}
 
-              <div className="group saidTest">
+              <div className="group">
                 <label className="label">My Payout</label>
                 <div className="control">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
@@ -159,7 +159,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               {showMore && (
                 <React.Fragment>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
@@ -196,7 +196,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 )}
               </div>
               <hr className="divider" />
-              <div className="group saidTest">
+              <div className="group">
                 <label className="label">Requester Details</label>
                 <UserImageAndRating userDetails={_ownerRef} />
               </div>

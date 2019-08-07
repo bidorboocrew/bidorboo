@@ -42,7 +42,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label className="label">{labelText}</label>
       <div className="control">{labelValue}</div>
       {renderHelpComponent()}
@@ -108,21 +108,19 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
           <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px' }}>
-              {`(No Ratings Yet)`}
+            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+              <span className="icon">
+                <i className="far fa-star" />
+              </span>
+              <span>Not Rated</span>
             </div>
           ) : (
-            <ReactStars
-              style={{ cursor: 'pointer' }}
-              className="is-size-7"
-              half
-              count={5}
-              value={rating.globalRating}
-              edit={false}
-              size={large ? 35 : 20}
-              color1={'lightgrey'}
-              color2={'#ffd700'}
-            />
+            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+              <span>{rating.globalRating}</span>
+            </div>
           )}
         </div>
       </div>
@@ -137,9 +135,12 @@ export const CardTitleAndActionsInfo = ({
   userAlreadyView = false,
   userAlreadyBid = false,
   isOnMapView = false,
+  job,
 }) => {
   const { ID, ICON } = TASKS_DEFINITIONS[templateId];
   const areThereAnyBidders = bidsList && bidsList.length > 0;
+
+  const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
@@ -153,12 +154,14 @@ export const CardTitleAndActionsInfo = ({
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
       <div style={{ width: 80, display: 'inline-block' }}>
-        {userAlreadyView && (
+        {viewCount > 0 && (
           <div>
             <div className="icon">
               <i className="far fa-eye" />
             </div>
-            <div className="help">Viewed</div>
+            <div className={`help  ${userAlreadyView ? 'has-text-weight-bold' : ''}`}>
+              ({viewCount}) Views
+            </div>
           </div>
         )}
       </div>
@@ -310,7 +313,7 @@ export class LocationLabelAndValue extends React.Component {
     }
 
     return (
-      <div className="group saidTest">
+      <div className="group">
         <label className="label">Location Near:</label>
         <div className="control">{this.state.addressText}</div>
         <p className="help">* Exact location is not displayed for privacy reasons</p>

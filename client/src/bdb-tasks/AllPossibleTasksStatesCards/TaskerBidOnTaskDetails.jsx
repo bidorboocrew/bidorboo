@@ -81,6 +81,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
         <div className="card-content">
           <div className="content">
             <CardTitleAndActionsInfo
+              job={job}
               userAlreadyBid={userAlreadyBid}
               jobState={state}
               templateId={templateId}
@@ -88,7 +89,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               userAlreadyView={userAlreadyView}
             />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Requester:</label>
               <UserImageAndRating userDetails={_ownerRef} />
             </div>
@@ -102,7 +103,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             <TaskSpecificExtras templateId={ID} extras={extras} />
             <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Detailed Description</label>
 
               <TextareaAutosize

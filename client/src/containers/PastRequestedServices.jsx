@@ -233,7 +233,7 @@ class RequestSummary extends React.Component {
 
 const PleaseSubmitYourReview = () => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label>
         Your Review will be revealed when both (YOU) the Requester and the Tasker submit your
         reviews

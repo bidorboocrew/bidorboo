@@ -73,7 +73,7 @@ class VerifyEmailButton extends React.Component {
                       Taskers
                     </div>
                     <br />
-                    <div className="group saidTest">
+                    <div className="group">
                       <label className="label">Enter Verification Code:</label>
                       <div style={{ marginTop: 2 }} className="control">
                         <div style={{ display: 'flex' }}>

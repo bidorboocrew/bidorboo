@@ -164,7 +164,7 @@ export default class BidderRootLocationFilter extends React.Component {
             </div>
             <section style={{ padding: '0.5rem' }} className="modal-card-body">
               <div className="content">
-                <div className="group saidTest">
+                <div className="group">
                   <label className="label">Enter Address</label>
                   <GeoSearch
                     value={addressText}
@@ -349,7 +349,7 @@ class SearchRadius extends React.Component {
   render() {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
-      <div className="group saidTest">
+      <div className="group">
         <label className="label">Select Search Radius</label>
         <div className="buttons has-addons">
           <span

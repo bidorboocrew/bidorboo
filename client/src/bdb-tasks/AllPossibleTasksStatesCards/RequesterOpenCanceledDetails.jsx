@@ -66,7 +66,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
               <div className="help">* This will be deleted in 48 hours</div>
@@ -82,7 +82,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
             <TaskSpecificExtras templateId={ID} extras={extras} />
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Detailed Description</label>
               <span className="is-size-7">
                 <TextareaAutosize
