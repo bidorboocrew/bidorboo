@@ -217,7 +217,7 @@ class App extends React.Component {
                       width={21}
                       height={21}
                       alt="Canada"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
+                      style={{ WebkitFilter: 'grayscale(50%)', filter: 'grayscale(50%)' }}
                       src={canadaFlag}
                     />
                   </div>
@@ -248,13 +248,7 @@ class App extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <div className="has-text-white is-size-7">
-                    <img
-                      src={logoImg}
-                      alt="BidOrBoo"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      width={21}
-                      height={21}
-                    />
+                    <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
                     {` BidOrBoo Inc`}
                   </div>
                   <div style={{ marginTop: 6 }}>
