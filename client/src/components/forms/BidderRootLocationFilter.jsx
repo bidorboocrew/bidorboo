@@ -185,9 +185,17 @@ export default class BidderRootLocationFilter extends React.Component {
               justifyContent: 'center',
             }}
           >
-            <div disabled={disableSubmit} onClick={this.handleSubmit} className="button is-success">
+            <div
+              disabled={disableSubmit}
+              onClick={this.handleSubmit}
+              style={{
+                boxShadow:
+                  'rgba(255, 255, 255, 0.2) 0px 0px 7px, rgba(236, 255, 255, 0.3) 0px 0px 14px 1px',
+              }}
+              className="button is-success is-medium"
+            >
               <span className="icon">
-                <i className="far fa-share-square" />
+                <i className="fas fa-search" />
               </span>
               <span>{`Search`}</span>
             </div>

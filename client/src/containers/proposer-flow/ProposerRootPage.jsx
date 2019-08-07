@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
+import RequestRootBg from '../../assets/images/RequestRootBg.png';
 
 class ProposerRoot extends React.Component {
   constructor(props) {
@@ -20,15 +21,19 @@ class ProposerRoot extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <section className="hero is-transparent is-small has-text-centered">
-          <div className="hero-body">
+        <section className="hero">
+          <div
+            style={{ backgroundImage: `url(${RequestRootBg})` }}
+            className="hero-body  has-text-centered"
+          >
             <div className="container">
-              <h1 style={{ marginBottom: 0, fontWeight: 300 }} className="title">
+              <h1 style={{ marginBottom: 0 }} className="has-text-white title">
                 What Service are you looking for?
               </h1>
             </div>
           </div>
         </section>
+
         <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>
     );
