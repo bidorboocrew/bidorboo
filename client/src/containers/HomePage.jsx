@@ -201,7 +201,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Wat To Earn Money?</h1>
+      <h1 className="title has-text-centered">Want To Earn Money?</h1>
       <ul>
         <li>
           <p className="is-size-5">Browse Tasks</p>

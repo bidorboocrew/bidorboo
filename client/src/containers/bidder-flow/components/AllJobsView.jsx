@@ -48,7 +48,7 @@ const OtherPeoplesJobs = (props) => {
     .filter((job) => job._ownerRef._id !== currentUserId)
     .map((job) => {
       return (
-        <div key={job._id} className="column is-narrow isforCards">
+        <div key={job._id} className="column is-narrow isforCards slide-in-bottom-small">
           {getMeTheRightRequestCard({
             job,
             isSummaryView: true,
