@@ -111,7 +111,7 @@ class BidModal extends React.Component {
             <button onClick={handleClose} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-          <p>Enter a <strong>total $ amount</strong> you want to recieve in exchange for fulfilling this task</p>
+          <p>Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling this task</p>
 
             <TextInput
               // setFocusImmediately={true}
