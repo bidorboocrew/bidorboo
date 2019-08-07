@@ -141,18 +141,19 @@ class OtherUserProfileForReviewPage extends React.Component {
                   {otherUserProfileInfo.displayName}
                 </label>
                 {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <p className="is-size-7">No Ratings Yet</p>
+                  <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+                    <span className="icon">
+                      <i className="far fa-star" />
+                    </span>
+                    <span>Not Rated</span>
+                  </div>
                 ) : (
-                  <ReactStars
-                    className="ReactStars"
-                    half
-                    count={5}
-                    value={globalRating}
-                    edit={false}
-                    size={30}
-                    color1={'lightgrey'}
-                    color2={'#ffd700'}
-                  />
+                  <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+                    <span className="icon">
+                      <i className="fas fa-star" />
+                    </span>
+                    <span>{globalRating}</span>
+                  </div>
                 )}
                 <VerifiedVia userDetails={otherUserProfileInfo} />
 
