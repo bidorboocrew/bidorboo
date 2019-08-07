@@ -25,7 +25,6 @@ class BidderRootPage extends React.Component {
 
     this.state = {
       showMapView: false,
-      shouldShowSearch: false,
       isThereAnActiveSearch: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
@@ -33,7 +32,7 @@ class BidderRootPage extends React.Component {
         lat: 45.296898,
       },
       activeSearchParams: {
-        searchRadius: '',
+        searchRadius: '25',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
       },
@@ -163,18 +162,10 @@ class BidderRootPage extends React.Component {
   toggleMapView = () => {
     this.setState({ showMapView: !this.state.showMapView });
   };
-  toggleShouldShowSearch = () => {
-    this.setState({ shouldShowSearch: !this.state.shouldShowSearch });
-  };
 
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    const {
-      isThereAnActiveSearch,
-      userLastStoredSearchParams,
-      showMapView,
-      shouldShowSearch,
-    } = this.state;
+    const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
@@ -192,7 +183,6 @@ class BidderRootPage extends React.Component {
 
     const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
-    const { searchRadius, addressText } = activeSearchParams;
 
     return (
       <div>
@@ -210,8 +200,6 @@ class BidderRootPage extends React.Component {
               >
                 <div style={{ padding: 0 }} className="card-content">
                   <BidderRootLocationFilter
-                    toggleSideNav={this.toggleShouldShowSearch}
-                    show={shouldShowSearch}
                     submitSearchLocationParams={this.submitSearchLocationParams}
                     updateSearchLocationState={this.updateSearchLocationState}
                     activeSearchParams={activeSearchParams}
@@ -291,16 +279,7 @@ class BidderRootPage extends React.Component {
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
                         <div className="is-size-6">
-                          Find Requests in the Areas where you're able to provide them
-                        </div>
-                        <div>
-                          <br />
-                          <button onClick={this.toggleShouldShowSearch} className="button is-info">
-                            <span className="icon">
-                              <i className="fas fa-search-location" />
-                            </span>
-                            <span>Change Your Search Criteria</span>
-                          </button>
+                          Search to Find Tasks in Areas where you're able to provide them
                         </div>
                       </div>
                     </div>
@@ -315,16 +294,11 @@ class BidderRootPage extends React.Component {
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
                         <div className="is-size-6">
-                          No Requests match your search criteria at this time.
+                          No Tasks available around this area at this time.
                         </div>
-                        <div>
-                          <br />
-                          <button onClick={this.toggleShouldShowSearch} className="button is-info">
-                            <span className="icon">
-                              <i className="fas fa-search-location" />
-                            </span>
-                            <span>Change Your Search Criteria</span>
-                          </button>
+                        <br />
+                        <div className="help">
+                          Try Changing Your Search Criteria or search a different area
                         </div>
                       </div>
                     </div>

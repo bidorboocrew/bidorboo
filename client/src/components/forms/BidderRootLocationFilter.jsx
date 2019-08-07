@@ -124,15 +124,14 @@ export default class BidderRootLocationFilter extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams, toggleSideNav } = this.props;
+    const { activeSearchParams, submitSearchLocationParams } = this.props;
     submitSearchLocationParams({
       ...activeSearchParams,
     });
-    toggleSideNav();
   };
 
   render() {
-    const { activeSearchParams, toggleSideNav, isLoggedIn } = this.props;
+    const { activeSearchParams } = this.props;
     const { addressText, latLng, searchRadius } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
