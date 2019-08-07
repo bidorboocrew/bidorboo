@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
@@ -127,55 +129,61 @@ class TaskerEditOrUpdateBid extends React.Component {
           onChange={this.updateRecaptchaField}
           sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
         />
-        {showUpdateBidDialog && (
-          <div className="modal is-active  has-text-left">
-            <div className="modal-background" />
-            <div className="modal-card">
-              <header className="modal-card-head">
-                <div className="modal-card-title">Change My Bid</div>
-                <button onClick={this.closeUpdateBidModal} className="delete" aria-label="close" />
-              </header>
-              <section className="modal-card-body">
-                <p>
-                  Enter a new <strong>total $ amount</strong> you want to recieve in exchange for
-                  fulfilling this task
-                </p>
-                <TextInput
-                  label="Enter The New Bid Amount"
-                  id="bidAmountField"
-                  className="input is-focused"
-                  placeholder="Enter bid amount"
-                  onBlur={handleBlur}
-                  error={touched.bidAmountField && errors.bidAmountField}
-                  value={values.bidAmountField || ''}
-                  onChange={(e) => {
-                    //run normalizer to get rid of alpha chars
-                    const normalizedVal = enforceNumericField(e.target.value);
-                    e.target.value = normalizedVal;
-                    handleChange(e);
-                  }}
-                />
-                <div style={{ marginTop: -8 }}>
-                  <div className="help">* Use our quick bid options</div>
-                  {autoBidOptions}
-                </div>
-              </section>
+        {showUpdateBidDialog &&
+          ReactDOM.createPortal(
+            <div className="modal is-active  has-text-left">
+              <div className="modal-background" />
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <div className="modal-card-title">Change My Bid</div>
+                  <button
+                    onClick={this.closeUpdateBidModal}
+                    className="delete"
+                    aria-label="close"
+                  />
+                </header>
+                <section className="modal-card-body">
+                  <p>
+                    Enter a new <strong>$ total amount</strong> you want to recieve in exchange for
+                    fulfilling this task
+                  </p>
+                  <TextInput
+                    label="Enter The New Bid Amount"
+                    id="bidAmountField"
+                    className="input is-focused"
+                    placeholder="Enter bid amount"
+                    onBlur={handleBlur}
+                    error={touched.bidAmountField && errors.bidAmountField}
+                    value={values.bidAmountField || ''}
+                    onChange={(e) => {
+                      //run normalizer to get rid of alpha chars
+                      const normalizedVal = enforceNumericField(e.target.value);
+                      e.target.value = normalizedVal;
+                      handleChange(e);
+                    }}
+                  />
+                  <div style={{ marginTop: -8 }}>
+                    <div className="help">* Use our quick bid options</div>
+                    {autoBidOptions}
+                  </div>
+                </section>
 
-              <footer className="modal-card-foot has-text-right">
-                <button onClick={this.closeUpdateBidModal} className="button is-outline">
-                  Cancel
-                </button>
-                <button
-                  disabled={isSubmitting || !isValid}
-                  onClick={this.submitUpdateBid}
-                  className="button is-success"
-                >
-                  Submit Bid Changes
-                </button>
-              </footer>
-            </div>
-          </div>
-        )}
+                <footer className="modal-card-foot has-text-right">
+                  <button onClick={this.closeUpdateBidModal} className="button is-outline">
+                    Cancel
+                  </button>
+                  <button
+                    disabled={isSubmitting || !isValid}
+                    onClick={this.submitUpdateBid}
+                    className="button is-success"
+                  >
+                    Submit Bid Changes
+                  </button>
+                </footer>
+              </div>
+            </div>,
+            document.querySelector('#bidorboo-root-modals'),
+          )}
 
         {isAwardedToSomeoneElse && (
           <a

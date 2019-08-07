@@ -9,7 +9,7 @@ import { REQUEST_STATES } from '../index';
 
 import {
   CountDownComponent,
-  UserImageAndRating,
+  CenteredUserImageAndRating,
   AvgBidDisplayLabelAndValue,
   LocationLabelAndValue,
   TaskSpecificExtras,
@@ -134,8 +134,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <div className="content">
                     Are you sure you want to delete your bid on this task?
                     <br />
-                    You can always edit your bid price as long as the Requester did not chose a
-                    tasker.
+                    <p>You can always edit your bid as long as the Requester did not award a bid</p>
                   </div>
                   <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
@@ -237,7 +236,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 <React.Fragment>
                   <div className="group">
                     <label className="label">Requester:</label>
-                    <UserImageAndRating userDetails={_ownerRef} />
+                    <CenteredUserImageAndRating userDetails={_ownerRef} />
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />
