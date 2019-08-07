@@ -29,10 +29,10 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
-    recaptchaField: Yup.string()
-      .ensure()
-      .trim()
-      .required('passing recaptcha is required.'),
+    // recaptchaField: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .required('passing recaptcha is required.'),
   }),
 
   validate: (values) => {
@@ -58,7 +58,7 @@ const EnhancedForms = withFormik({
       password: values.password,
       originPath: values.originPath,
       displayName: values.displayName,
-      recaptchaField: values.recaptchaField,
+      // recaptchaField: values.recaptchaField,
     });
     setSubmitting(false);
   },
@@ -66,16 +66,16 @@ const EnhancedForms = withFormik({
 });
 
 class NewUserRegistrationForm extends React.Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.recaptchaRef = React.createRef();
-  }
-  componentDidMount() {
-    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
-      this.recaptchaRef.current.execute();
-    }
-  }
+  //   this.recaptchaRef = React.createRef();
+  // }
+  // componentDidMount() {
+  //   if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
+  //     this.recaptchaRef.current.execute();
+  //   }
+  // }
   render() {
     const {
       values,
@@ -92,6 +92,7 @@ class NewUserRegistrationForm extends React.Component {
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
+        <div className="subtitle">Join Our BidOrBoo Crew !</div>
         <input
           id="originPath"
           className="input is-invisible"
@@ -102,7 +103,7 @@ class NewUserRegistrationForm extends React.Component {
           id="displayName"
           type="text"
           label="Name"
-          placeholder="Enter your name..."
+          placeholder="Enter your display name..."
           error={touched.displayName && errors.displayName}
           value={values.displayName || ''}
           onChange={handleChange}
@@ -122,6 +123,7 @@ class NewUserRegistrationForm extends React.Component {
           id="password"
           type="password"
           label="Password"
+          placeholder="Enter the same password..."
           error={touched.password && errors.password}
           value={values.password || ''}
           onChange={handleChange}
@@ -131,29 +133,25 @@ class NewUserRegistrationForm extends React.Component {
           id="passwordVerification"
           type="password"
           label="Verify Your password"
+          placeholder="Enter the same password..."
           error={touched.passwordVerification && errors.passwordVerification}
           value={values.passwordVerification || ''}
           onChange={handleChange}
           onBlur={handleBlur}
         />
 
-        <input
+        <div className="has-text-centered">
+          <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
+            Join BidOrBoo
+          </button>
+        </div>
+        {/* <input
           id="recaptchaField"
           className="input is-invisible"
           type="hidden"
           value={values.recaptcha || ''}
-        />
-
-        <div className="has-text-centered">
-          <button
-            className="button is-success is-medium is-fullwidth"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Welcome To BidOrBoo
-          </button>
-        </div>
-        <div style={{ marginTop: 10 }}>
+        /> */}
+        {/* <div style={{ marginTop: 10 }}>
           <ReCAPTCHA
             ref={this.recaptchaRef}
             onExpired={() => this.recaptchaRef.current.execute()}
@@ -164,8 +162,8 @@ class NewUserRegistrationForm extends React.Component {
             }}
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
-        </div>
-        {errors.recaptchaField && (
+        </div> */}
+        {/* {errors.recaptchaField && (
           <p className="help has-text-danger is-danger">
             {errors.recaptchaField}
             <a
@@ -176,7 +174,7 @@ class NewUserRegistrationForm extends React.Component {
             />
             recaptcha couldn't validate your request, click to try again
           </p>
-        )}
+        )} */}
       </form>
     );
   }
