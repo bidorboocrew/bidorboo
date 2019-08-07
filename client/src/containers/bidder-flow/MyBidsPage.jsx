@@ -41,7 +41,7 @@ class MyBidsPage extends React.Component {
     let myBidsSummaryCards = areThereAnyBidsToView
       ? openBidsList.map((bid) => {
           return (
-            <div key={bid._id} className="column">
+            <div key={bid._id} className="column is-narrow isforCards">
               {getMeTheRightBidCard({
                 bid: bid,
                 isSummaryView: true,
@@ -66,9 +66,7 @@ class MyBidsPage extends React.Component {
         </section>
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
-        {!isLoading && (
-          <div className="columns forJobSummary is-multiline is-centered">{myBidsSummaryCards}</div>
-        )}
+        {!isLoading && <div className="columns is-multiline is-centered">{myBidsSummaryCards}</div>}
 
         {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}
       </div>
