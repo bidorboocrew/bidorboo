@@ -9,13 +9,11 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  StartDateAndTime,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
   BSPastDueExpired,
   JobCardTitle,
   BSAwardedToSomeoneElse,
-  // LocationLabelAndValue,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';

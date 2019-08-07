@@ -238,7 +238,8 @@ class BidderRootPage extends React.Component {
           <React.Fragment>
             {showMapView && currentJobsList && currentJobsList.length > 0 && (
               <React.Fragment>
-                <div className="container">
+                <br />
+                <div className="container slide-in-bottom-small">
                   <MapSection
                     mapCenterPoint={mapCenterPoint}
                     mapZoomLevel={mapZoomLevel}
