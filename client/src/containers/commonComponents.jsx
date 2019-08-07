@@ -1020,3 +1020,117 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
     </div>
   );
 };
+
+export const BSawaitingOnRequester = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            flexGrow: 0,
+            fontSize: 18,
+            width: 28,
+            marginRight: 8,
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 15 }} className="far fa-clock" />
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          Awaiting On Requester
+        </div>
+        <div className="help">*Check Back soon!</div>
+      </div>
+    </div>
+  );
+};
+
+export const BSPastDueExpired = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #ef2834',
+            width: 28,
+            background: '#ef2834',
+            color: '#ef2834',
+            marginRight: 8,
+            display: 'inline-block',
+          }}
+        >
+          1
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          Past Due - Expired
+        </div>{' '}
+        <div className="help">* Task Was not awarded to anyone</div>
+      </div>
+    </div>
+  );
+};
+
+export const BSAwardedToSomeoneElse = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #35335',
+            width: 28,
+            marginRight: 8,
+            display: 'inline-block',
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18 }} className="far fa-frown" />
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          Bid Rejected
+        </div>
+        <div className="help">*Task Was awarded to someone else</div>
+      </div>
+    </div>
+  );
+};
