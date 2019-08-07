@@ -9,6 +9,8 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 // for reverse geocoding , get addressText from lat lng
@@ -31,8 +33,8 @@ export default class BidderRootLocationFilter extends React.Component {
     this.props.updateSearchLocationState({ addressText, latLng });
   };
 
-  updateSearchRaduisSelection = (event) => {
-    this.props.updateSearchLocationState({ searchRadius: event.target.value });
+  updateSearchRaduisSelection = (raduisKm) => {
+    this.props.updateSearchLocationState({ searchRadius: raduisKm });
   };
 
   handleSelect = (addressText) => {
@@ -138,62 +140,117 @@ export default class BidderRootLocationFilter extends React.Component {
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', textAlign: 'left' }}>
-        <div style={{ width: 500, padding: 10 }}>
-          <div>
-            <label style={{ fontWeight: 400 }} className="label">
-              Enter An Address
-            </label>
-            <GeoSearch
-              value={addressText}
-              onChange={this.handleChange}
-              onSelect={this.handleSelect}
-              handleSelect={this.handleSelect}
-              onError={this.errorHandling}
-              placeholder="Start entering an adddress"
-              forceSetAddressValue={addressText}
-              id="filter-tasker-job"
-            />
+      <React.Fragment>
+        <div
+          style={{
+            background: '#6b88e0',
+            color: 'white',
+            padding: '0.75rem 0.25rem',
+            marginBottom: '0',
+            fontSize: '1.5rem',
+          }}
+          onClick={toggleSideNav}
+        >
+          <span className="icon">
+            <i className="fas fa-chevron-left" />
+          </span>
+          <span style={{ marginLeft: 8 }}>Filter Tasks</span>
+        </div>
 
-            <a
-              style={{ marginTop: 6, fontSize: 14, color: 'white' }}
-              onClick={this.autoDetectCurrentAddress}
-              className="is-small is-text"
+        <div className="theContent">
+          <>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 600 }}>
+              Where will you provide your services?
+            </div>
+            <section style={{ padding: '0.5rem' }} className="modal-card-body">
+              <div className="content">
+                <div className="group saidTest">
+                  <label className="label">Enter Address</label>
+                  <GeoSearch
+                    value={addressText}
+                    onChange={this.handleChange}
+                    onSelect={this.handleSelect}
+                    handleSelect={this.handleSelect}
+                    onError={this.errorHandling}
+                    placeholder="Start entering an adddress"
+                    forceSetAddressValue={addressText}
+                    id="filter-tasker-job"
+                  />
+                  <React.Fragment>
+                    <div>
+                      <a
+                        style={{ marginTop: 6, fontSize: 14 }}
+                        onClick={this.autoDetectCurrentAddress}
+                        className="is-small is-text"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-map-marker-alt" />
+                        </span>
+                        <span>Auto Detect</span>
+                      </a>
+                    </div>
+                  </React.Fragment>
+                </div>
+
+                <SearchRadius
+                  updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+                  searchRadiusValue={searchRadius}
+                />
+              </div>
+            </section>
+          </>
+          {/* {isLoggedIn && (
+            <>
+              <div style={{ padding: '0.5rem' }}>
+                <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+                  Should BidOrBoo Notify you When A New Task is Posted?
+                </div>
+
+                <input
+                  id="newJobNotification"
+                  type="checkbox"
+                  name="newJobNotification"
+                  className="switch is-rounded is-success"
+                  onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
+                  checked={this.state.enableNotifyMeAboutJobsInMyArea}
+                />
+                <label
+                  className="has-text-dark has-text-weight-normal"
+                  htmlFor="newJobNotification"
+                >
+                  {this.state.enableNotifyMeAboutJobsInMyArea
+                    ? 'Yes, Notify Me'
+                    : "No, Don't Notify Me"}
+                </label>
+              </div>
+            </>
+          )} */}
+
+          <div className="has-text-centered">
+            <button
+              disabled={disableSubmit}
+              style={{ width: 300 }}
+              onClick={this.handleSubmit}
+              className="button is-success"
             >
-              <span className="icon">
-                <i className="fas fa-map-marker-alt" />
-              </span>
-              <span>Auto Detect</span>
-            </a>
-          </div>
-        </div>
-        <div style={{ width: 150, padding: 10 }}>
-          <SearchRadius
-            updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-            searchRadiusValue={searchRadius}
-          />
-        </div>
-        <div style={{ padding: '10px 10px 20px 10px' }}>
-          <div
-            style={{
-              display: '-webkit-box',
-              display: '-webkit-flex',
-              display: '-ms-flexbox',
-              display: 'flex',
-              alignItems: 'center',
-              height: '90px',
-              justifyContent: 'center',
-            }}
-          >
-            <div disabled={disableSubmit} onClick={this.handleSubmit} className="button is-success">
               <span className="icon">
                 <i className="far fa-share-square" />
               </span>
-              <span>{`Search`}</span>
-            </div>
+              <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
+            </button>
           </div>
+          <br />
+          <div className="has-text-centered">
+            <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-light">
+              <span className="icon">
+                <i className="fas fa-chevron-left" />
+              </span>
+              <span>{`Discard & Close`}</span>
+            </button>
+          </div>
+          <br />
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -216,27 +273,18 @@ class GeoSearch extends React.Component {
 
       return (
         <div>
-          <input
-            id={id}
-            value={value}
-            onBlur={onBlurEvent}
-            {...getInputProps({
-              type: 'text',
-              placeholder: `${placeholder}`,
-              className: 'input',
-              style: {
-                fontWeight: 500,
-
-                backgroundColor: 'white',
-                borderLeft: 'unset',
-                borderRight: 'unset',
-                borderTop: 'unset',
-                boxShadow: 'unset',
-                borderRadius: 0,
-              },
-            })}
-          />
-
+          <div>
+            <input
+              id={id}
+              value={value}
+              onBlur={onBlurEvent}
+              {...getInputProps({
+                type: 'text',
+                placeholder: `${placeholder}`,
+                className: 'input',
+              })}
+            />
+          </div>
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -301,26 +349,43 @@ class SearchRadius extends React.Component {
   render() {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
-      <div style={{ marginBottom: 0 }} className="group">
-        <label style={{ fontWeight: 400 }} className="label">
-          Search Radius
-        </label>
-        <div>
-          <div className="select">
-            <select
-              style={{
-                padding: '0 6px',
-              }}
-              value={searchRadiusValue}
-              onChange={updateSearchRaduisSelection}
-              onBlur={updateSearchRaduisSelection}
-            >
-              <option value="25">{`25km`}</option>
-              <option value="50">{`50km`}</option>
-              <option value="100">{`100km`}</option>
-              <option value="150">{`150km`}</option>
-            </select>
-          </div>
+      <div className="group saidTest">
+        <label className="label">Select Search Radius</label>
+        <div className="buttons has-addons">
+          <span
+            style={{ borderRadius: 0 }}
+            onClick={() => updateSearchRaduisSelection(25)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 25,
+            })}
+          >
+            25km
+          </span>
+          <span
+            onClick={() => updateSearchRaduisSelection(50)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 50,
+            })}
+          >
+            50km
+          </span>
+          <span
+            onClick={() => updateSearchRaduisSelection(100)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 100,
+            })}
+          >
+            100km
+          </span>
+          <span
+            style={{ borderRadius: 0 }}
+            onClick={() => updateSearchRaduisSelection(150)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 150,
+            })}
+          >
+            150km
+          </span>
         </div>
       </div>
     );

@@ -544,7 +544,7 @@ class Header extends React.Component {
                       <span className="icon">
                         <i className="fas fa-hand-rock" />
                       </span>
-                      <span>Post Bids</span>
+                      <span>Bid Now</span>
                     </a>
                     <a
                       onClick={(e) => {

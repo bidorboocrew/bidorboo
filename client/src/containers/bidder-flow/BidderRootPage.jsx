@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import BidRootBg from '../../assets/images/BidRootBg.png';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
@@ -9,6 +10,7 @@ import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jo
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
 import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
+import BidderRootLocationFilter from '../../components/forms/BidderRootLocationFilter';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -193,32 +195,52 @@ class BidderRootPage extends React.Component {
     const { searchRadius, addressText } = activeSearchParams;
 
     return (
-      <div style={{ position: 'relative' }}>
-        <button
-          onClick={this.toggleShouldShowSearch}
-          className="button is-info bdbFloatingButtonText iconbutton"
-        >
-          <i className="fas fa-chevron-right" />
-        </button>
-        <BidderRootFilterWrapper
-          toggleSideNav={this.toggleShouldShowSearch}
-          show={shouldShowSearch}
-          submitSearchLocationParams={this.submitSearchLocationParams}
-          updateSearchLocationState={this.updateSearchLocationState}
-          activeSearchParams={activeSearchParams}
-          userLastStoredSearchParams={userLastStoredSearchParams}
-          {...this.props}
-        />
-
-        <section className="hero is-transparent is-small has-text-centered">
-          <div className="hero-body">
+      <div>
+        <section className="hero is-small">
+          <div
+            style={{ padding: '1rem 0.5rem', backgroundImage: `url(${BidRootBg})` }}
+            className="hero-body"
+          >
             <div className="container">
-              <h1 style={{ marginBottom: 0, fontWeight: 300 }} className="title">
-                {`Provide Your Services`}
-              </h1>
+              <h1 className="has-text-white title">Search Tasks To Bid On</h1>
+
+              <div
+                style={{ background: 'transparent' }}
+                className="card cardWithButton nofixedwidth disabled has-text-centered"
+              >
+                <div style={{ padding: 0 }} className="card-content">
+                  <BidderRootLocationFilter
+                    toggleSideNav={this.toggleShouldShowSearch}
+                    show={shouldShowSearch}
+                    submitSearchLocationParams={this.submitSearchLocationParams}
+                    updateSearchLocationState={this.updateSearchLocationState}
+                    activeSearchParams={activeSearchParams}
+                    userLastStoredSearchParams={userLastStoredSearchParams}
+                    {...this.props}
+                  />
+                </div>
+              </div>
+              <div className="columns is-centered is-mobile is-multiline">
+                <div className="column has-text-left">
+                  <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
+                    <input
+                      id="togglemapView"
+                      type="checkbox"
+                      name="togglemapView"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleMapView}
+                      checked={showMapView}
+                    />
+                    <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
+                      Toggle Map View
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
         {isLoading && (
           <section className="section">
             <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
@@ -228,18 +250,20 @@ class BidderRootPage extends React.Component {
           <React.Fragment>
             {showMapView && currentJobsList && currentJobsList.length > 0 && (
               <React.Fragment>
-                <MapSection
-                  mapCenterPoint={mapCenterPoint}
-                  mapZoomLevel={mapZoomLevel}
-                  jobsList={currentJobsList}
-                  {...this.props}
-                />
-                <div
-                  style={{ marginBottom: 6 }}
-                  className="help container is-widescreen has-text-grey has-text-centered"
-                >
-                  {` ${(currentJobsList && currentJobsList.length) ||
-                    0} open requests in the search area`}
+                <div className="container">
+                  <MapSection
+                    mapCenterPoint={mapCenterPoint}
+                    mapZoomLevel={mapZoomLevel}
+                    jobsList={currentJobsList}
+                    {...this.props}
+                  />
+                  <div
+                    style={{ marginBottom: 6 }}
+                    className="help container is-widescreen has-text-grey has-text-centered"
+                  >
+                    {` ${(currentJobsList && currentJobsList.length) ||
+                      0} open requests in the search area`}
+                  </div>
                 </div>
               </React.Fragment>
             )}
@@ -256,43 +280,6 @@ class BidderRootPage extends React.Component {
 
             {currentJobsList && currentJobsList.length > 0 && (
               <>
-                <div className="container">
-                  <div
-                    style={{ border: '1px solid #6b88e0' }}
-                    className="card cardWithButton nofixedwidth"
-                  >
-                    <div className="card-content">
-                      <div className="content has-text-centered">
-                        <div style={{ marginBottom: '0.75rem' }}>
-                          <div style={{ color: '#6b88e0', fontWeight: 400 }}>
-                            You're Viewing Tasks
-                          </div>
-                          <div>{`within ${searchRadius}km`}</div>
-                          <div>{`of ${addressText}`}</div>
-                        </div>
-                        <div style={{ marginBottom: '0.75rem' }}>
-                          <input
-                            id="togglemapView"
-                            type="checkbox"
-                            name="togglemapView"
-                            className="switch is-rounded is-success"
-                            onChange={this.toggleMapView}
-                            checked={showMapView}
-                          />
-                          <label style={{ fontWeight: 400 }} htmlFor="togglemapView">
-                            Toggle Map
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={this.toggleShouldShowSearch}
-                      className="button is-info firstButtonInCard"
-                    >
-                      Edit Filters
-                    </button>
-                  </div>
-                </div>
                 <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
               </>
             )}

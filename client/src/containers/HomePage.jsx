@@ -5,7 +5,6 @@ import { switchRoute } from '../utils';
 import howItWorks from '../assets/images/howItWorks.png';
 import MainBanner from '../assets/images/MainBanner.png';
 import RequesterImg from '../assets/images/RequesterImg.png';
-import TaskerImg from '../assets/images/TaskerImg.png';
 
 export default class HomePage extends React.Component {
   render() {
