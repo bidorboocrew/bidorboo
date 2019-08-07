@@ -227,7 +227,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               )}
 
               <div className="group">
-                <label className="label">Potential Payout</label>
+                <label className="label">My Bid</label>
                 <div className="control">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
               </div>

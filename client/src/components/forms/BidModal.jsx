@@ -36,68 +36,38 @@ class BidModal extends React.Component {
     const autoBidOptions =
       avgBid < 10 ? (
         <div className="buttons">
-          <span
-            onClick={() => this.onAutoBid(25)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(25)} className="button is-success is-small">
             25$
           </span>
-          <span
-            onClick={() => this.onAutoBid(50)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(50)} className="button is-success is-small">
             50$
           </span>
-          <span
-            onClick={() => this.onAutoBid(100)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(100)} className="button is-success is-small">
             100$
           </span>
-          <span
-            onClick={() => this.onAutoBid(125)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(125)} className="button is-success is-small">
             125$
           </span>
-          <span
-            onClick={() => this.onAutoBid(150)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(150)} className="button is-success is-small">
             150$
           </span>
         </div>
       ) : (
         <div className="buttons">
           <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
-          <span
-            onClick={() => this.onAutoBid(avgBid - 10)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid - 10)} className="button is-success is-small">
             {`${avgBid - 10}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid - 5)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid - 5)} className="button is-success is-small">
             {`${avgBid - 5}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid)} className="button is-success is-small">
             {`${avgBid}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid + 5)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid + 5)} className="button is-success is-small">
             {`${avgBid + 5}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid + 10)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid + 10)} className="button is-success is-small">
             {`${avgBid + 10}$`}
           </span>
         </div>
@@ -111,7 +81,10 @@ class BidModal extends React.Component {
             <button onClick={handleClose} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-          <p>Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling this task</p>
+            <p>
+              Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling
+              this task
+            </p>
 
             <TextInput
               // setFocusImmediately={true}
@@ -164,6 +137,9 @@ class BidModal extends React.Component {
           </section>
 
           <footer className="modal-card-foot">
+            <button onClick={handleClose} className="button is-outline">
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={isSubmitting || !isValid}
@@ -171,9 +147,6 @@ class BidModal extends React.Component {
               className="button is-success"
             >
               Submit Bid
-            </button>
-            <button onClick={handleClose} className="button is-outline">
-              Cancel
             </button>
           </footer>
         </div>

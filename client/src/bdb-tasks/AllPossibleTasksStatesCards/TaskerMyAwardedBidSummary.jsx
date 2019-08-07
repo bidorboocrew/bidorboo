@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,51 +11,13 @@ import {
   CountDownComponent,
   StartDateAndTime,
   DisplayShortAddress,
+  JobCardTitle,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerMyAwardedBidSummary extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
-  toggleShowMore = () => {
-    this.setState({ showMore: !this.state.showMore });
-  };
-  toggleDeleteConfirmationDialog = () => {
-    this.setState({ showDeleteDialog: !this.state.showDeleteDialog });
-  };
-
-  toggleShowMoreOptionsContextMenu = (e) => {
-    e.preventDefault();
-    this.setState({ showMoreOptionsContextMenu: !this.state.showMoreOptionsContextMenu }, () => {
-      if (this.state.showMoreOptionsContextMenu) {
-        document.addEventListener('mousedown', this.handleClick, false);
-      } else {
-        document.removeEventListener('mousedown', this.handleClick, false);
-      }
-    });
-  };
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClick = (e) => {
-    if (this.node && e.target && this.node.contains(e.target)) {
-      return;
-    } else {
-      this.toggleShowMoreOptionsContextMenu(e);
-    }
-  };
   render() {
     const { bid, job, cancelAwardedBid } = this.props;
 
@@ -100,137 +61,15 @@ class TaskerMyAwardedBidSummary extends React.Component {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
     return (
       <React.Fragment>
-        {showDeleteDialog &&
-          ReactDOM.createPortal(
-            <div className="modal is-active">
-              <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Agreement</div>
-                  <button
-                    onClick={this.toggleDeleteConfirmationDialog}
-                    className="delete"
-                    aria-label="close"
-                  />
-                </header>
-                <section className="modal-card-body">
-                  <div className="content">
-                    <div>
-                      Cancelling a bid after you have been assigned is considered a missed
-                      appointment.
-                    </div>
-                    <br />
-                    <div>
-                      We understand that life "happens" but to keep things fair for you and the
-                      tasker we encourage you to reach out and try to reschedule this task to avoid
-                      cancellation
-                    </div>
-                    <hr className="divider" />
-
-                    <div className="group">
-                      <label className="label">What you need to know:</label>
-
-                      <div className="control">* Your global rating will be impacted</div>
-                      <div className="control">
-                        * This cancellation will show up on your profile
-                      </div>
-                      <div className="control">
-                        * If many cancellations happen in a row you will be ban from BidOrBoo
-                      </div>
-                    </div>
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button
-                    onClick={this.toggleDeleteConfirmationDialog}
-                    className="button is-outline"
-                  >
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      cancelAwardedBid(bid._id);
-                      this.toggleDeleteConfirmationDialog();
-                    }}
-                    className="button is-danger"
-                  >
-                    <span className="icon">
-                      <i className="far fa-trash-alt" />
-                    </span>
-                    <span>Cancel Agreement</span>
-                  </button>
-                </footer>
-              </div>
-            </div>,
-            document.querySelector('#bidorboo-root-modals'),
-          )}
-        <div className={`card limitWidthOfCard`}>
+        <div className={`card has-text-centered cardWithButton`}>
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
-                </div>
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  {!bidderConfirmed && (
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div className="dropdown-content">
-                        <a
-                          onClick={() => {
-                            this.toggleDeleteConfirmationDialog();
-                          }}
-                          className="dropdown-item has-text-danger"
-                        >
-                          <span className="icon">
-                            <i className="far fa-trash-alt" aria-hidden="true" />
-                          </span>
-                          <span>Cancel Agreement</span>
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
+              <JobCardTitle icon={ICON} title={TITLE} />
+
               {bidderConfirmed && !proposerConfirmed && (
                 <div className="group">
                   <label className="label">Request Status</label>
@@ -266,24 +105,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
                 </div>
               )}
 
-              <div className="group">
-                <label className="label">My Payout</label>
-                <div className={`has-text-success`}>{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Will be auto paid when you confirm completion.</div>
-              </div>
-              <StartDateAndTime
-                date={startingDateAndTime}
-                renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-                )}
-              />
-              <DisplayShortAddress
-                addressText={addressText}
-                renderHelpComponent={() => (
-                  <div className="help">* The Address provided by the requester</div>
-                )}
-              />
             </div>
           </div>
           {renderFooter({ bid, isPastDue, jobCompletion })}
@@ -316,16 +137,11 @@ export default connect(
 )(TaskerMyAwardedBidSummary);
 
 const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
-  const {
-    proposerConfirmed = false,
-    bidderConfirmed = false,
-    bidderDisputed = false,
-    proposerDisputed = false,
-  } = jobCompletion;
+  const { proposerConfirmed = false, bidderConfirmed = false } = jobCompletion;
 
   return (
     <React.Fragment>
-      <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+      <div className="centeredButtonInCard">
         <a
           style={{ position: 'relative' }}
           onClick={() => {
