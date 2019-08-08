@@ -12,6 +12,7 @@ import {
   TaskIsFulfilled,
   JobCardTitle,
   SummaryStartDateAndTime,
+  ArchiveTask,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -74,13 +75,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               )}
             />
 
-            {!requiresBidderReview && (
-              <div className="group">
-                <label className="label">Request Status</label>
-                <div className="control has-text-dark">Archived !</div>
-                <div className="help">* Congratulations. This was a success</div>
-              </div>
-            )}
+            {!requiresBidderReview && <ArchiveTask />}
 
             {requiresBidderReview && <TaskIsFulfilled />}
           </div>
@@ -104,7 +99,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
                 ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
-            className={`button centeredButtonInCard is-dark`}
+            className={`button centerFirstButtonInCard is-dark`}
           >
             {`Done & Archived`}
           </a>
