@@ -81,28 +81,32 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
           </div>
         </div>
         {requiresBidderReview && (
-          <a
-            onClick={() => {
-              switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-              );
-            }}
-            className={`button centerFirstButtonInCard is-primary`}
-          >
-            Review Requester
-          </a>
+          <div className="centeredButtonInCard">
+            <a
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className={`button is-primary`}
+            >
+              View Details
+            </a>
+          </div>
         )}
         {!requiresBidderReview && (
-          <a
-            onClick={() => {
-              switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-              );
-            }}
-            className={`button centerFirstButtonInCard is-dark`}
-          >
-            {`Done & Archived`}
-          </a>
+          <div className="centeredButtonInCard">
+            <a
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className={`button is-dark`}
+            >
+              {`Done & Archived`}
+            </a>
+          </div>
         )}
       </div>
     );

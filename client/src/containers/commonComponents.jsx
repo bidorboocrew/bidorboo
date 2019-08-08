@@ -927,7 +927,7 @@ export const BidAmount = ({ renderHelp, bidAmount }) => {
   );
 };
 
-export const TaskIsFulfilled = ({ displayName = '' }) => {
+export const TaskIsFulfilled = () => {
   return (
     <div className="group">
       <div
@@ -1155,7 +1155,7 @@ export const BSPastDueExpired = () => {
           }}
         >
           Past Due - Expired
-        </div>{' '}
+        </div>
         <div className="help">* Task Was not awarded to anyone</div>
       </div>
     </div>

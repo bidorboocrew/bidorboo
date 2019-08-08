@@ -92,7 +92,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               }}
               className={`button is-success`}
             >
-              {`${isPastDue || bidderConfirmed ? 'Confirm Completion' : 'View Tasker'}`}
+              View Details
             </a>
           </div>
         </div>

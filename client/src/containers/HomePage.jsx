@@ -129,21 +129,19 @@ const RequestAService = (props) => {
           <HowItWorksRequestService />
         </div>
       </div>
-
-      <button
-        style={{
-          width: 150,
-        }}
-        onClick={(e) => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-        }}
-        className="button centerFirstButtonInCard is-success"
-      >
-        <span className="icon">
-          <i className="far fa-plus-square" />
-        </span>
-        <span>Request</span>
-      </button>
+      <div className="centeredButtonInCard">
+        <button
+          onClick={(e) => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+          }}
+          className="button is-success"
+        >
+          <span className="icon">
+            <i className="far fa-plus-square" />
+          </span>
+          <span>Request</span>
+        </button>
+      </div>
     </div>
   );
 };
@@ -161,20 +159,22 @@ const ProvideAService = () => {
           <HowItWorksProvideService />
         </div>
       </div>
-      <button
-        style={{
-          width: 150,
-        }}
-        onClick={(e) => {
-          switchRoute(ROUTES.CLIENT.BIDDER.root);
-        }}
-        className="button centerFirstButtonInCard is-dark"
-      >
-        <span className="icon">
-          <i className="fas fa-hand-rock" />
-        </span>
-        <span>Bid</span>
-      </button>
+      <div className="centeredButtonInCard">
+        <button
+          style={{
+            width: 150,
+          }}
+          onClick={(e) => {
+            switchRoute(ROUTES.CLIENT.BIDDER.root);
+          }}
+          className="button is-dark"
+        >
+          <span className="icon">
+            <i className="fas fa-hand-rock" />
+          </span>
+          <span>Bid</span>
+        </button>
+      </div>
     </div>
   );
 };

@@ -67,7 +67,7 @@ export default class BidsTable extends React.Component {
                 </button>
               </div>
             )}
-          />{' '}
+          />
         </div>
       );
     });

@@ -114,9 +114,7 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyAwardedBidSummary);
 
-const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
-  const { proposerConfirmed = false, bidderConfirmed = false } = jobCompletion;
-
+const renderFooter = ({ bid }) => {
   return (
     <React.Fragment>
       <div className="centeredButtonInCard">
@@ -129,12 +127,7 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
           }}
           className="button is-success"
         >
-          {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
-
-          {proposerConfirmed && <React.Fragment>Review Requester</React.Fragment>}
-          {!proposerConfirmed && !bidderConfirmed && (
-            <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
-          )}
+          View Details
         </a>
       </div>
     </React.Fragment>

@@ -98,7 +98,7 @@ export class LoginOrRegisterModal extends React.Component {
                       bidOrBooLogin(vals);
                       handleCancel();
                     }}
-                  />{' '}
+                  />
                 </div>
               </React.Fragment>
             )}

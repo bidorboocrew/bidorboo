@@ -230,7 +230,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         }}
                         className="button is-small is-fullwidth"
                       >
-                        View Your existing Bid
+                        View My existing Bid
                       </a>
                     ) : (
                       <a

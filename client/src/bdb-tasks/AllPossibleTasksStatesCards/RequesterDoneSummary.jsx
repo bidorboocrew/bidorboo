@@ -87,26 +87,14 @@ class RequesterDoneSummary extends RequestBaseContainer {
         </div>
 
         <div className="centeredButtonInCard ">
-          {requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className={`button is-primary`}
-            >
-              Review Tasker
-            </a>
-          )}
-          {!requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className={`button is-dark`}
-            >
-              View In Archive
-            </a>
-          )}
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+            }}
+            className={`button ${requiresProposerReview ? 'is-primary' : 'is-dark'}`}
+          >
+            View Details
+          </a>
         </div>
       </div>
     );
