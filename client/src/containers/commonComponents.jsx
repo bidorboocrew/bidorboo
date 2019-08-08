@@ -912,22 +912,8 @@ export const DisputedBy = ({ name }) => {
 export const TaskCost = ({ cost }) => {
   return (
     <div className="group">
-      <div
-        style={{
-          fontSize: 18,
-          padding: 5,
-        }}
-      >
-        <div
-          style={{
-            fontSize: 18,
-            display: 'inline-block',
-          }}
-        >
-          <span style={{ marginRight: 6 }}>Task Cost</span>
-          <span className="has-text-weight-semibold">{cost}</span>
-        </div>
-      </div>
+      <label className="label hasSelectedValue">You Paid</label>
+      <div className="control">${cost}</div>
     </div>
   );
 };
@@ -935,22 +921,8 @@ export const TaskCost = ({ cost }) => {
 export const BidAmount = ({ bidAmount }) => {
   return (
     <div className="group">
-      <div
-        style={{
-          fontSize: 18,
-          padding: 5,
-        }}
-      >
-        <div
-          style={{
-            fontSize: 18,
-            display: 'inline-block',
-          }}
-        >
-          <span style={{ marginRight: 6 }}>Bid Amount</span>
-          <span className="has-text-weight-semibold">${bidAmount}</span>
-        </div>
-      </div>
+      <label className="label hasSelectedValue">Bid Amount</label>
+      <div className="control">${bidAmount}</div>
     </div>
   );
 };
