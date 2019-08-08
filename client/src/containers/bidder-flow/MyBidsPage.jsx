@@ -66,7 +66,9 @@ class MyBidsPage extends React.Component {
         </section>
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
-        {!isLoading && <div className="columns is-multiline is-centered">{myBidsSummaryCards}</div>}
+        {!isLoading && (
+          <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
+        )}
 
         {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}
       </div>

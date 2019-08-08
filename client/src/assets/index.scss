@@ -172,6 +172,18 @@ html body {
       }
     }
   }
+
+  .navbar-brand {
+    cursor: pointer;
+    #BidOrBoo-logo-step {
+      &:hover {
+        background: none !important;
+      }
+    }
+    &:hover {
+      background: none !important;
+    }
+  }
   // #BidOrBoo-logo-step {
   //   > span {
   //     color: black !important;

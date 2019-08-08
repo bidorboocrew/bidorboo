@@ -156,12 +156,6 @@ class Header extends React.Component {
 
     const isActingAsBidder = userAppView === 'BIDDER';
 
-    let hideMobileNavButtons =
-      window.location.href.includes('BidOrBoo') ||
-      window.location.href.includes('my-profile') ||
-      window.location.href.includes('my-archive');
-
-
     let onlyShowReqAndBidButtons =
       window.location.href.includes('BidOrBoo') ||
       window.location.href.includes('my-profile') ||
@@ -194,20 +188,12 @@ class Header extends React.Component {
               height="auto"
               style={{ maxHeight: 'unset' }}
             />
-          </a>
-          <div
-            style={{
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-            className="navbar-item has-text-grey"
-          >
             <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
               <div style={{ fontSize: 24 }} className="is-hidden-touch">
                 BidOrBoo
               </div>
             </div>
-          </div>
+          </a>
 
           <div style={{ flexGrow: 1 }} className="navbar-item">
             <a
@@ -320,7 +306,7 @@ class Header extends React.Component {
             </div>
 
             {onlyShowReqAndBidButtons && (
-              <div className="is-hidden-desktop navbar-item">
+              <div className="navbar-item">
                 <a
                   id={'viewDependentNavBarItems'}
                   className={`navbar-item ${
@@ -439,7 +425,7 @@ class Header extends React.Component {
                       }`}
                     >
                       <span style={{ position: 'relative' }} className="icon">
-                        <i className="fas fa-money-check-alt" />
+                        <i className="fas fa-list" />
                         {bidsGotAwardedToMe && (
                           <span
                             style={{
@@ -517,113 +503,113 @@ class Header extends React.Component {
               'is-active': isHamburgerOpen,
             })}
           >
-            {/* <div className="navbar-start" /> */}
-            {/* end */}
             <div className="navbar-end">
-              <div className="navbar-item is-hidden-touch">
-                {!isActingAsBidder && (
-                  <>
-                    <a
-                      id={'viewDependentNavBarItems'}
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="far fa-plus-square" />
-                      </span>
-                      <span>Request</span>
-                    </a>
-                    <a
-                      id={'viewDependentNavBarItems'}
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-                        });
-                      }}
-                    >
-                      <span style={{ position: 'relative' }} className="icon">
-                        <i className="fas fa-list" />
-                        {jobRecievedNewBids && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: -6,
-                              left: -6,
-                              borderRadius: '100%',
-                              textAlign: 'center',
-                            }}
-                            className="icon has-text-danger"
-                          >
-                            <i className="fas fa-circle" />
-                          </span>
-                        )}
-                      </span>
-                      <span>Requests Inbox</span>
-                    </a>
-                  </>
-                )}
-
-                {isActingAsBidder && (
-                  <>
-                    <a
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-hand-rock" />
-                      </span>
-                      <span>Bid Now</span>
-                    </a>
-                    <a
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-                        });
-                      }}
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
-                      }`}
-                    >
-                      <span style={{ position: 'relative' }} className="icon">
-                        <i className="fas fa-money-check-alt" />
-                        {bidsGotAwardedToMe && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: -6,
-                              left: -6,
-                              borderRadius: '100%',
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-danger icon">
+              {!onlyShowReqAndBidButtons && (
+                <div className="navbar-item is-hidden-touch">
+                  {!isActingAsBidder && (
+                    <>
+                      <a
+                        id={'viewDependentNavBarItems'}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                        }`}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                          });
+                        }}
+                      >
+                        <span className="icon">
+                          <i className="far fa-plus-square" />
+                        </span>
+                        <span>Request</span>
+                      </a>
+                      <a
+                        id={'viewDependentNavBarItems'}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
+                        }`}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+                          });
+                        }}
+                      >
+                        <span style={{ position: 'relative' }} className="icon">
+                          <i className="fas fa-list" />
+                          {jobRecievedNewBids && (
+                            <span
+                              style={{
+                                fontSize: 8,
+                                position: 'absolute',
+                                top: -6,
+                                left: -6,
+                                borderRadius: '100%',
+                                textAlign: 'center',
+                              }}
+                              className="icon has-text-danger"
+                            >
                               <i className="fas fa-circle" />
                             </span>
-                          </span>
-                        )}
-                      </span>
-                      <span>Bids Inbox</span>
-                    </a>
-                  </>
-                )}
-              </div>
+                          )}
+                        </span>
+                        <span>Requests Inbox</span>
+                      </a>
+                    </>
+                  )}
+
+                  {isActingAsBidder && (
+                    <>
+                      <a
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                        }`}
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.BIDDER.root);
+                          });
+                        }}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-hand-rock" />
+                        </span>
+                        <span>Bid Now</span>
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
+                        }`}
+                      >
+                        <span style={{ position: 'relative' }} className="icon">
+                          <i className="fas fa-list" />
+                          {bidsGotAwardedToMe && (
+                            <span
+                              style={{
+                                fontSize: 8,
+                                position: 'absolute',
+                                top: -6,
+                                left: -6,
+                                borderRadius: '100%',
+                                textAlign: 'center',
+                              }}
+                            >
+                              <span className="has-text-danger icon">
+                                <i className="fas fa-circle" />
+                              </span>
+                            </span>
+                          )}
+                        </span>
+                        <span>Bids Inbox</span>
+                      </a>
+                    </>
+                  )}
+                </div>
+              )}
 
               <div
                 id="myprofile-step"
