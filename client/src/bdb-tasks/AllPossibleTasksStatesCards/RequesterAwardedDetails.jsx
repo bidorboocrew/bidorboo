@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
-import ReactStars from 'react-stars';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import * as Constants from '../../constants/enumConstants';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,6 +22,7 @@ import {
   TaskSpecificExtras,
   JobCardTitle,
   SummaryStartDateAndTime,
+  CenteredUserImageAndRating,
   AssignedTasker,
 } from '../../containers/commonComponents';
 
@@ -187,10 +186,65 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div className="card has-text-centered">
+        <div
+          style={{
+            boxShadow: 'none',
+            borderLeft: '1px solid rgba(10,10,10,0.2)',
+            borderTop: '1px solid rgba(10,10,10,0.2)',
+            borderRight: '1px solid rgba(10,10,10,0.2)',
+          }}
+          className="card has-text-centered"
+        >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle
+                icon={ICON}
+                title={TITLE}
+                meatballMenu={() => (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right is-pulled-right ${
+                      showMoreOptionsContextMenu ? 'is-active' : ''
+                    }`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none', boxShadow: 'none' }}
+                      >
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+                    {!bidderConfirmed && !proposerConfirmed && (
+                      <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div className="dropdown-content">
+                          <a onClick={this.openDisputeModal} className="dropdown-item">
+                            <span className="icon">
+                              <i className="far fa-frown" aria-hidden="true" />
+                            </span>
+                            <span>File A Dispute</span>
+                          </a>
+                          <hr className="dropdown-divider" />
+                          <a
+                            onClick={this.toggleDeleteConfirmationDialog}
+                            className="dropdown-item has-text-danger"
+                          >
+                            <span className="icon">
+                              <i className="far fa-trash-alt" aria-hidden="true" />
+                            </span>
+                            <span>Cancel Request</span>
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
 
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -244,22 +298,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
             </div>
           </div>
         </div>
-        <br />
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-medium is-centered"
-        >
-          <ul>
-            <li className="is-active">
-              <a>
-                <span className="icon is-small">
-                  <i className="fas fa-user-tie" aria-hidden="true" />
-                </span>
-                <span>Assigned Tasker</span>
-              </a>
-            </li>
-          </ul>
-        </div>
 
         <AssignedTaskerDetails
           otherUserProfileInfo={_bidderRef}
@@ -271,50 +309,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           renderActionButton={() => (
             <div className="firstButtonInCard nofixedwidth">
               <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
-            </div>
-          )}
-          renderContextMenu={() => (
-            <div
-              ref={(node) => (this.node = node)}
-              className={`dropdown is-right is-pulled-right ${
-                showMoreOptionsContextMenu ? 'is-active' : ''
-              }`}
-            >
-              <div className="dropdown-trigger">
-                <button
-                  onClick={this.toggleShowMoreOptionsContextMenu}
-                  className="button"
-                  aria-haspopup="true"
-                  aria-controls="dropdown-menu"
-                  style={{ border: 'none', boxShadow: 'none' }}
-                >
-                  <div style={{ padding: 6 }} className="icon">
-                    <i className="fas fa-ellipsis-v" />
-                  </div>
-                </button>
-              </div>
-              {!bidderConfirmed && !proposerConfirmed && (
-                <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                  <div className="dropdown-content">
-                    <a onClick={this.openDisputeModal} className="dropdown-item">
-                      <span className="icon">
-                        <i className="far fa-frown" aria-hidden="true" />
-                      </span>
-                      <span>File A Dispute</span>
-                    </a>
-                    <hr className="dropdown-divider" />
-                    <a
-                      onClick={this.toggleDeleteConfirmationDialog}
-                      className="dropdown-item has-text-danger"
-                    >
-                      <span className="icon">
-                        <i className="far fa-trash-alt" aria-hidden="true" />
-                      </span>
-                      <span>Cancel Request</span>
-                    </a>
-                  </div>
-                </div>
-              )}
             </div>
           )}
         />
@@ -562,7 +556,7 @@ class AssignedTaskerDetails extends React.Component {
       emailAddress,
       phoneNumber,
       renderActionButton,
-      renderContextMenu,
+
       renderAddToCalendar,
     } = this.props;
 
@@ -570,89 +564,39 @@ class AssignedTaskerDetails extends React.Component {
       return null;
     }
 
-    const { _id, rating, membershipStatus } = otherUserProfileInfo;
-
-    const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-
-    const { globalRating } = rating;
+    const { rating, membershipStatus } = otherUserProfileInfo;
 
     return (
-      <div className="card cardWithButton nofixedwidth">
+      <div
+        style={{
+          boxShadow: 'none',
+          borderLeft: '1px solid rgba(10,10,10,0.2)',
+          borderBottom: '1px solid rgba(10,10,10,0.2)',
+          borderRight: '1px solid rgba(10,10,10,0.2)',
+        }}
+        className="card cardWithButton nofixedwidth"
+      >
         <div className="card-content">
           <div className="content ">
-            {renderContextMenu && renderContextMenu()}
-            <div className="has-text-centered">
-              <figure
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                }}
-                style={{ margin: 'auto', width: 128 }}
-                className="image is-128x128"
-              >
-                <img
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow:
-                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
-                  }}
-                  src={otherUserProfileInfo.profileImage.url}
-                />
-              </figure>
-              <div style={{ marginBottom: 0 }} className={`title`}>
-                <span>{otherUserProfileInfo.displayName}</span>
-              </div>
-              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
-                ({membershipStatusDisplay})
-              </div>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div style={{ lineHeight: '52px' }}>No Ratings Yet</div>
-              ) : (
-                <ReactStars
-                  className="ReactStars"
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={35}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Assigned Tasker</span>
+                  </a>
+                </li>
+              </ul>
             </div>
-            {/* <label className="help">
-                    joined B.o.B: {moment.duration(moment().diff(moment(createdAt))).humanize()}
-                  </label> */}
-            {/* <div>
-              <div>
-                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                  {numberOfTimesBeenRated}
-                </span>
-                <span>Ratings Recieved</span>
-              </div>
-              <div>
-                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                  {fulfilledBids.length}
-                </span>
-                <span>Completed Tasks</span>
-              </div>
-              <div>
-                <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                  {canceledBids.length}
-                </span>
-                <span>Cancellations</span>
-              </div>
-              <br />
-              <div className="field">
-                <VerifiedVia
-                  userDetails={otherUserProfileInfo}
-                  isCentered={false}
-                  smallfont={false}
-                />
-              </div>
-            </div> */}
+
+            <CenteredUserImageAndRating
+              userDetails={otherUserProfileInfo}
+              large
+              isCentered={false}
+            />
+
             <div style={{ marginBottom: '2rem' }}>
               <div className="field">
                 <label className="has-text-grey">Tasker Contact Info</label>
