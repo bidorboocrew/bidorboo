@@ -18,7 +18,6 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
-  VerifiedVia,
   DisplayLabelValue,
   TaskCost,
   AddAwardedJobToCalendar,

@@ -16,10 +16,9 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 import {
   AvgBidDisplayLabelAndValue,
   SummaryStartDateAndTime,
-  UserImageAndRating,
+  CenteredUserImageAndRating,
   CardTitleAndActionsInfo,
   JobCardTitle,
-  StartDateAndTime,
   CountDownComponent,
 } from '../../containers/commonComponents';
 
@@ -94,7 +93,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} />
-              {!isOnMapView && <UserImageAndRating clipUserName large userDetails={_ownerRef} />}
+              {!isOnMapView && <CenteredUserImageAndRating clipUserName large userDetails={_ownerRef} />}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

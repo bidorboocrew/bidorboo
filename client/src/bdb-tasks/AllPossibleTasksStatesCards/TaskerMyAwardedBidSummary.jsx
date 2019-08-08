@@ -9,9 +9,10 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
+  SummaryStartDateAndTime,
+  BSTaskerAwarded,
   JobCardTitle,
+  BSWaitingOnRequesterToConfirm,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -65,46 +66,23 @@ class TaskerMyAwardedBidSummary extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={`card has-text-centered cardWithButton`}>
+        <div
+          style={{ border: '1px solid #26ca70' }}
+          className={`card has-text-centered cardWithButton`}
+        >
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} />
+              <SummaryStartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                )}
+              />
 
-              {bidderConfirmed && !proposerConfirmed && (
-                <div className="group">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">Pending Confirmation</div>
+              {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
 
-                  <div className="help">
-                    * Awaiting on the requester to confirm this request is completed. this shouldn't
-                    take long
-                  </div>
-                </div>
-              )}
-
-              {!bidderConfirmed && !proposerConfirmed && (
-                <div className="group">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">Assigned To Me</div>
-                  {!isHappeningSoon && !isHappeningToday && !isPastDue && (
-                    <div className="help">
-                      * Get In touch with the Requester to confirm any further details
-                    </div>
-                  )}
-                  {isHappeningSoon && !isHappeningToday && !isPastDue && (
-                    <div className="help">* Happening soon, Make sure to contact the Tasker</div>
-                  )}
-                  {isHappeningToday && !isPastDue && (
-                    <div className="help">* Happening today, Tasker will show up on time</div>
-                  )}
-                  {isPastDue && (
-                    <div className="help">
-                      * This request date is past Due, plz confirm completion
-                    </div>
-                  )}
-                </div>
-              )}
-
+              {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
             </div>
           </div>
           {renderFooter({ bid, isPastDue, jobCompletion })}

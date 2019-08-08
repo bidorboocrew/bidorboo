@@ -141,7 +141,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               )}
 
               <div className="group">
-                <label className="label">My Payout</label>
+                <label className="label">My Bid</label>
                 <div className="control">{`${bidValue -
                   Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
                 <div className="help">* Paid Out</div>

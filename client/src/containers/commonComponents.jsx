@@ -132,6 +132,7 @@ export const CenteredUserImageAndRating = ({
   userDetails,
   clipUserName = false,
   large = false,
+  isCentered = true,
 }) => {
   let temp = userDetails
     ? userDetails
@@ -150,7 +151,7 @@ export const CenteredUserImageAndRating = ({
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
-        margin: 'auto',
+        margin: isCentered ? 'auto' : '',
         width: '13rem',
         overflow: 'hidden',
       }}
@@ -1202,6 +1203,86 @@ export const BSAwardedToSomeoneElse = () => {
           Bid Rejected
         </div>
         <div className="help">*Task Was awarded to someone else</div>
+      </div>
+    </div>
+  );
+};
+
+export const BSTaskerAwarded = ({ isPastDue, bidValue = '' }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            width: 28,
+            marginRight: 8,
+            alignItems: 'center',
+            display: 'inline-block',
+            backgroundColor: '#26ca70',
+            borderRadius: '100%',
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18 }} className="fas fa-dollar-sign" />
+          </div>
+        </div>
+        <div
+          style={{
+            fontSize: 18,
+            display: 'inline-block',
+          }}
+        >
+          {bidValue ? `Your bid of $(${bidValue}) Won` : 'Your Bid Won'}
+        </div>
+        <div className="help">{`${
+          !isPastDue ? 'Contact Requester To finalize details' : 'Confirm completion'
+        }`}</div>
+      </div>
+    </div>
+  );
+};
+
+export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            width: 28,
+            marginRight: 8,
+            alignItems: 'center',
+            display: 'inline-block',
+            backgroundColor: '#26ca70',
+            borderRadius: '100%',
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18 }} className="fas fa-user-tie" />
+          </div>
+        </div>
+        <div
+          style={{
+            fontSize: 18,
+            display: 'inline-block',
+          }}
+        >
+          Awaiting Confirmation
+        </div>
+        <div className="help">We contacted the Requester to confirm completion</div>
       </div>
     </div>
   );

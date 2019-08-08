@@ -66,10 +66,13 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     const { bidderConfirmed } = jobCompletion;
     return (
       <React.Fragment>
-        <div className="card has-text-centered cardWithButton">
+        <div
+          style={{ border: '1px solid #26ca70' }}
+          className="card has-text-centered cardWithButton"
+        >
           <div className="card-content">
             <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle icon={ICON} title={TITLE} />
 
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

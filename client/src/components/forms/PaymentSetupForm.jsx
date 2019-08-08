@@ -287,7 +287,7 @@ const PaymentSetupForm = (props) => {
       <form onSubmit={handleSubmit}>
         <div style={{ minHeight: 'unset', height: 'unset' }} className="card  limitLargeMaxWidth">
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-            <HeaderTitle title="Setup My Payout Banking Details" />
+            <HeaderTitle title="Setup My Banking Details" />
             <div className="card-content">
               <label className="label">BASIC INFO</label>
               <div className="field is-grouped">
