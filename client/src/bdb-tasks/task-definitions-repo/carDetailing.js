@@ -176,7 +176,7 @@ export default {
           }
           return (
             <div key={'extras-carSize'} className="group">
-              <label className="label">Car Size</label>
+              <label className="label hasSelectedValue">Car Size</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -231,7 +231,7 @@ export default {
           }
           return (
             <div key={'extras-interiorType'} className="group">
-              <label className="label">Interior Type</label>
+              <label className="label hasSelectedValue">Interior Type</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -284,7 +284,7 @@ export default {
           }
           return (
             <div key={'extras-trunkCleaning'} className="group">
-              <label className="label">Trunk cleaning</label>
+              <label className="label hasSelectedValue">Trunk cleaning</label>
               <div className="control">{selectedValue}</div>
             </div>
           );

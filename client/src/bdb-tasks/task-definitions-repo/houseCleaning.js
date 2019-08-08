@@ -146,7 +146,7 @@ export default {
           }
           return (
             <div key={'extras-effort'} className="group">
-              <label className="label">Task Effort</label>
+              <label className="label hasSelectedValue">Task Effort</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
