@@ -192,7 +192,7 @@ class BidderRootPage extends React.Component {
             className="hero-body"
           >
             <div className="container">
-              <h1 className="has-text-white title">Search Tasks To Bid On</h1>
+              <h1 className="has-text-white title">Search For Tasks</h1>
 
               <div
                 style={{ background: 'transparent' }}

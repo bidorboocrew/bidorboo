@@ -219,6 +219,8 @@ export const CardTitleAndActionsInfo = ({
     bidsCountLabel = `${bidsList.length} bids`;
   }
 
+  const avgBid = findAvgBidInBidList(bidsList);
+
   const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
@@ -245,15 +247,23 @@ export const CardTitleAndActionsInfo = ({
         )}
       </div>
       <div style={{ width: 80, display: 'inline-block' }}>
+        <div>
+          <div />
+          <div className="has-text-weight-semibold">{avgBid > 0 ? avgBid : '--'}</div>
+          <div className="help">Avg Bid</div>
+        </div>
+      </div>
+      {/* <div style={{ width: 80, display: 'inline-block' }}>
         {userAlreadyBid && (
           <div>
+            <div />
             <div className="icon">
               <i className="fas fa-dollar-sign" />
             </div>
             <div className="help">You've Bid</div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

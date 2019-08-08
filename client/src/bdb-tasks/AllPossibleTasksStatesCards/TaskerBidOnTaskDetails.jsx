@@ -84,14 +84,16 @@ export default class TaskerBidOnTaskDetails extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-
+            <div className="group">
+              <label className="label hasSelectedValue">Requester</label>
+              <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+            </div>
             <LocationLabelAndValue location={coordinates} />
 
             <TaskSpecificExtras templateId={ID} extras={extras} />
@@ -111,8 +113,9 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 />
               </span>
             </div>
+
             <div className="group">
-              <label className="label hasSelectedValue">Status</label>
+              <label className="label hasSelectedValue">Task Info</label>
               <CardTitleAndActionsInfo
                 userAlreadyBid={userAlreadyBid}
                 jobState={state}
@@ -122,7 +125,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 job={job}
               />
             </div>
-            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+            {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
+
             <br />
             {userAlreadyBid && (
               <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>

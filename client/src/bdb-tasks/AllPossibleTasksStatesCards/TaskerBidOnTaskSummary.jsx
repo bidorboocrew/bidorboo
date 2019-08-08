@@ -104,7 +104,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
 
               {!isOnMapView && (
                 <div className="group">
-                  <label className="label">Status</label>
+                  <label className="label">Task Info</label>
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
                     userAlreadyBid={userAlreadyBid}
