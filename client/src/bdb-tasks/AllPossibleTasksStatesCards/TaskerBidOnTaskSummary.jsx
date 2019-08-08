@@ -93,7 +93,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} />
-              {!isOnMapView && <CenteredUserImageAndRating clipUserName large userDetails={_ownerRef} />}
+              {/* {!isOnMapView && <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />} */}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -112,6 +112,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     templateId={templateId}
                     bidsList={_bidsListRef}
                     userAlreadyView={userAlreadyView}
+                    job={job}
                   />
                 </div>
               )}

@@ -75,7 +75,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     if (job && job._bidsListRef && job._bidsListRef.length > 0) {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
-
     return (
       <div style={{ height: 'auto ' }} className="card cardWithButton nofixedwidth">
         <div className="card-content">

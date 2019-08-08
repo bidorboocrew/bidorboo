@@ -211,7 +211,7 @@ export const CardTitleAndActionsInfo = ({
   const areThereAnyBidders = bidsList && bidsList.length > 0;
 
   const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
-
+  debugger;
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
     bidsCountLabel = '1 bid';
@@ -229,8 +229,8 @@ export const CardTitleAndActionsInfo = ({
             <div className="icon">
               <i className="far fa-eye" />
             </div>
-            <div className={`help  ${userAlreadyView ? 'has-text-weight-bold' : ''}`}>
-              ({viewCount}) Views
+            <div className={`help  ${userAlreadyView ? 'has-text-weight-semibold' : ''}`}>
+              {viewCount > 1 ? `${viewCount} Views` : `${viewCount} View`}
             </div>
           </div>
         )}
