@@ -143,7 +143,65 @@ export const CenteredUserImageAndRating = ({
     trimmedDisplayName =
       displayName && displayName.length > 20 ? `${displayName.substring(0, 20)}...` : displayName;
   }
+  return (
+    <div
+      style={{
+        flexWrap: 'wrap',
+        display: 'flex',
+        width: '100%',
+        cursor: 'pointer',
+        alignItems: isCentered ? 'center' : '',
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          overflow: ' hidden',
+          margin: isCentered ? 'auto' : '',
+        }}
+      >
+        <figure style={{ margin: '0.5rem' }} className="media-left">
+          <img
+            className={`image ${large ? 'is-64x64' : 'is-48x48'} `}
+            style={{
+              borderRadius: '100%',
+              width: `${large ? 64 : 48}`,
+              height: `${large ? 64 : 48}`,
+              boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+            }}
+            src={profileImage.url}
+            alt="image"
+          />
+        </figure>
 
+        <div className="content">
+          <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
+
+          {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
+            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+              <span className="icon">
+                <i className="far fa-star" />
+              </span>
+              <span>Not Rated</span>
+            </div>
+          ) : (
+            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+              <span>{rating.globalRating}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
   return (
     <div
       style={{

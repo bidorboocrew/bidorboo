@@ -44,7 +44,7 @@ export default class BidsTable extends React.Component {
           <TaskerBidCard
             otherUserProfileInfo={bid._bidderRef}
             bidAmountHtml={() => (
-              <div className="firstButtonInCard">
+              <div className="centeredButtonInCard">
                 <div style={{ fontSize: 12 }} className="has-text-centered has-text-grey">
                   will do it for
                 </div>
@@ -53,7 +53,7 @@ export default class BidsTable extends React.Component {
                     e.preventDefault();
                     this.openBidDetailsModal(bid);
                   }}
-                  className="button is-success has-text-centered is-size-5 has-text-weight-semibold"
+                  className="button is-success has-text-centered is-fullwidth has-text-weight-semibold"
                 >
                   ${totalCharge}
                   {bid.isNewBid && (
@@ -160,8 +160,8 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '1.5rem ', width: '13rem' }} className="card cardWithButton">
-        <div style={{ padding: '1rem' }} className="card-content">
+      <div style={{ marginBottom: '1.5rem ', width: '15rem' }} className="card cardWithButton">
+        <div style={{ padding: '1rem' }} className="card-content has-text-centered">
           <CenteredUserImageAndRating userDetails={otherUserProfileInfo} />
 
           <div className="group">
