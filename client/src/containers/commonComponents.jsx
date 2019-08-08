@@ -176,7 +176,7 @@ export const CenteredUserImageAndRating = ({
       </figure>
 
       <div className="content">
-        <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
+        <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
         {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
           <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
@@ -932,6 +932,29 @@ export const TaskCost = ({ cost }) => {
   );
 };
 
+export const BidAmount = ({ bidAmount }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            display: 'inline-block',
+          }}
+        >
+          <span style={{ marginRight: 6 }}>Bid Amount</span>
+          <span className="has-text-weight-semibold">${bidAmount}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const TaskIsFulfilled = ({ displayName = '' }) => {
   return (
     <div className="group">
@@ -1208,7 +1231,7 @@ export const BSAwardedToSomeoneElse = () => {
   );
 };
 
-export const BSTaskerAwarded = ({ isPastDue, bidValue = '' }) => {
+export const BSTaskerAwarded = ({ isPastDue }) => {
   return (
     <div className="group">
       <div
@@ -1239,7 +1262,7 @@ export const BSTaskerAwarded = ({ isPastDue, bidValue = '' }) => {
             display: 'inline-block',
           }}
         >
-          {bidValue ? `Your bid of $(${bidValue}) Won` : 'Your Bid Won'}
+          Your Bid Won
         </div>
         <div className="help">{`${
           !isPastDue ? 'Contact Requester To finalize details' : 'Confirm completion'

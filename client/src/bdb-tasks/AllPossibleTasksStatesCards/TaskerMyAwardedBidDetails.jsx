@@ -19,6 +19,7 @@ import {
   SummaryStartDateAndTime,
   BSTaskerAwarded,
   JobCardTitle,
+  BidAmount,
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
 } from '../../containers/commonComponents';
@@ -231,22 +232,19 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
               {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
 
-              {!bidderConfirmed && !proposerConfirmed && (
-                <BSTaskerAwarded isPastDue={isPastDue} bidValue={bidValue} />
-              )}
+              {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
 
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
+              <BidAmount bidAmount={bidValue} />
+              <div className="group">
+                <label className="label hasSelectedValue">Task Address</label>
+                <div className="control">{addressText}</div>
+              </div>
 
               {showMore && (
                 <React.Fragment>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">My Bid</label>
-                    <div className="control">{bidValue}</div>
-                    <div className="help">* will be paid out after completing this task</div>
-                  </div>
-                  <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
                         value={detailedDescription}
@@ -614,7 +612,7 @@ class RequesterDetails extends React.Component {
         }}
         className="card cardWithButton nofixedwidth"
       >
-        <div style={{ paddingTop: 0, borderTop: 0 }} className="card-content">
+        <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content">
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>

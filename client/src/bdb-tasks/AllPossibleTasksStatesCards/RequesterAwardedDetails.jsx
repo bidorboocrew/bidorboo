@@ -195,7 +195,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           }}
           className="card has-text-centered"
         >
-          <div className="card-content">
+          <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <JobCardTitle
                 icon={ICON}
@@ -564,8 +564,6 @@ class AssignedTaskerDetails extends React.Component {
       return null;
     }
 
-    const { rating, membershipStatus } = otherUserProfileInfo;
-
     return (
       <div
         style={{
@@ -576,7 +574,7 @@ class AssignedTaskerDetails extends React.Component {
         }}
         className="card cardWithButton nofixedwidth"
       >
-        <div className="card-content">
+        <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content ">
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>
