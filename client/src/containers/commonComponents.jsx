@@ -225,26 +225,22 @@ export const CardTitleAndActionsInfo = ({
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
       <div style={{ width: 80, display: 'inline-block' }}>
-        {viewCount > 0 && (
-          <div>
-            <div className="icon">
-              <i className="far fa-eye" />
-            </div>
-            <div className={`help  ${userAlreadyView ? 'has-text-weight-semibold' : ''}`}>
-              {viewCount > 1 ? `${viewCount} Views` : `${viewCount} View`}
-            </div>
+        <div>
+          <div className="icon">
+            <i className="far fa-eye" />
           </div>
-        )}
+          <div className={`help  ${userAlreadyView ? 'has-text-weight-semibold' : ''}`}>
+            {viewCount > 1 || viewCount === 0 ? `${viewCount} Views` : `${viewCount} View`}
+          </div>
+        </div>
       </div>
       <div style={{ width: 80, display: 'inline-block' }}>
-        {!isAwarded && (
-          <div className="has-text-grey">
-            <div className="icon">
-              <i className="fas fa-hand-paper" />
-            </div>
-            <div className="help">{bidsCountLabel}</div>
+        <div className="has-text-grey">
+          <div className="icon">
+            <i className="fas fa-hand-paper" />
           </div>
-        )}
+          <div className="help">{bidsCountLabel}</div>
+        </div>
       </div>
       <div style={{ width: 80, display: 'inline-block' }}>
         <div>

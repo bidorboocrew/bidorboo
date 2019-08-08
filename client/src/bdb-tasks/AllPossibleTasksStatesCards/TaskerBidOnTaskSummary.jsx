@@ -100,7 +100,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+              {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
 
               {!isOnMapView && (
                 <div className="group">
