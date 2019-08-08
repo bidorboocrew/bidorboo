@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactStars from 'react-stars';
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
 import * as ROUTES from '../constants/frontend-route-consts';

@@ -161,6 +161,12 @@ class Header extends React.Component {
       window.location.href.includes('my-profile') ||
       window.location.href.includes('my-archive');
 
+
+    let onlyShowReqAndBidButtons =
+      window.location.href.includes('BidOrBoo') ||
+      window.location.href.includes('my-profile') ||
+      window.location.href.includes('my-archive');
+
     const loggedOutView = (
       <nav
         id="BID_OR_BOO_APP_HEADER"
@@ -313,7 +319,7 @@ class Header extends React.Component {
               </div>
             </div>
 
-            {hideMobileNavButtons && (
+            {onlyShowReqAndBidButtons && (
               <div className="is-hidden-desktop navbar-item">
                 <a
                   id={'viewDependentNavBarItems'}
@@ -349,7 +355,7 @@ class Header extends React.Component {
               </div>
             )}
 
-            {!hideMobileNavButtons && (
+            {!onlyShowReqAndBidButtons && (
               <div className="navbar-item is-hidden-desktop">
                 {!isActingAsBidder && (
                   <React.Fragment>
