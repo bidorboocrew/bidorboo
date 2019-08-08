@@ -28,7 +28,7 @@ class ProposerRoot extends React.Component {
           >
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="has-text-white title">
-                What Service are you looking for?
+                What services are you looking for?
               </h1>
             </div>
           </div>
