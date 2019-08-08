@@ -112,10 +112,6 @@ class Header extends React.Component {
         if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
           return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
         }
-        // make cool effect on the logo
-        // if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
-        //   return { activeNavBarMenuId: HREF_TO_TABID.HOME };
-        // }
       }
     }
     return null;
@@ -403,7 +399,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>Req. Inbox</span>
+                      <span>Inbox</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -455,7 +451,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>Bids Inbox</span>
+                      <span>Inbox</span>
                     </a>
                   </React.Fragment>
                 )}
