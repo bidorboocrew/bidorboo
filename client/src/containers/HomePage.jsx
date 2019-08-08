@@ -131,10 +131,10 @@ const RequestAService = (props) => {
       </div>
       <div className="centeredButtonInCard">
         <button
-          onClick={(e) => {
+          onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.root);
           }}
-          className="button is-success"
+          className="button is-fullwidth is-success"
         >
           <span className="icon">
             <i className="far fa-plus-square" />
@@ -161,13 +161,10 @@ const ProvideAService = () => {
       </div>
       <div className="centeredButtonInCard">
         <button
-          style={{
-            width: 150,
-          }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.BIDDER.root);
           }}
-          className="button is-dark"
+          className="button is-fullwidth is-dark"
         >
           <span className="icon">
             <i className="fas fa-hand-rock" />

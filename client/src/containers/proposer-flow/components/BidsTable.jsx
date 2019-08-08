@@ -74,7 +74,7 @@ export default class BidsTable extends React.Component {
     return (
       <React.Fragment>
         <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
-          <ul>
+          <ul style={{ marginBottom: 0 }}>
             <li>
               <a>
                 <span className="icon is-small">
