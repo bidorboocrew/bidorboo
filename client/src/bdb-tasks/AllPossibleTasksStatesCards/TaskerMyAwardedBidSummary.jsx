@@ -127,18 +127,11 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
-          className="button is-fullwidth is-success"
+          className="button is-success"
         >
           {bidderConfirmed && !proposerConfirmed && <span>View Details</span>}
 
-          {proposerConfirmed && (
-            <React.Fragment>
-              <span className="icon">
-                <i className="fas fa-user-check" />
-              </span>
-              <span>Review Requester</span>
-            </React.Fragment>
-          )}
+          {proposerConfirmed && <React.Fragment>Review Requester</React.Fragment>}
           {!proposerConfirmed && !bidderConfirmed && (
             <span>{`${isPastDue ? 'Confirm Completion' : 'View Full Details'}`}</span>
           )}

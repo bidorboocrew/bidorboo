@@ -16,7 +16,7 @@ import {
   SummaryStartDateAndTime,
   BidAmount,
   CenteredUserImageAndRating,
-  BSTaskIsDone,
+  TaskIsFulfilled,
   ArchiveTask,
 } from '../../containers/commonComponents';
 
@@ -101,7 +101,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
 
               {!requiresBidderReview && <ArchiveTask />}
 
-              {requiresBidderReview && <BSTaskIsDone />}
+              {requiresBidderReview && <TaskIsFulfilled />}
 
               <BidAmount
                 bidAmount={bidValue}
@@ -163,12 +163,9 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     onClick={() => {
                       switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
                     }}
-                    className={`button firstButtonInCard is-link`}
+                    className={`button firstButtonInCard is-primary`}
                   >
-                    <span className="icon">
-                      <i className="fas fa-user-check" />
-                    </span>
-                    <span>Review Requester</span>
+                    Review Requester
                   </a>
                 )}
                 {!requiresBidderReview && (

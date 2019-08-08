@@ -9,7 +9,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  BSTaskIsDone,
+  TaskIsFulfilled,
   JobCardTitle,
   SummaryStartDateAndTime,
 } from '../../containers/commonComponents';
@@ -82,7 +82,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               </div>
             )}
 
-            {requiresBidderReview && <BSTaskIsDone />}
+            {requiresBidderReview && <TaskIsFulfilled />}
           </div>
         </div>
         {requiresBidderReview && (
@@ -92,12 +92,9 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
                 ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
-            className={`button centerFirstButtonInCard is-link`}
+            className={`button centerFirstButtonInCard is-primary`}
           >
-            <span className="icon">
-              <i className="fas fa-user-check" />
-            </span>
-            <span>Review Requester</span>
+            Review Requester
           </a>
         )}
         {!requiresBidderReview && (
