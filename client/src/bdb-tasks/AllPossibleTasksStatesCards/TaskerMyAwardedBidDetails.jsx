@@ -563,6 +563,9 @@ class TaskerDisputes extends React.Component {
                   </div>
                 </section>
                 <footer className="modal-card-foot">
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Close
+                  </button>
                   <button
                     type="submit"
                     onClick={() =>
@@ -577,9 +580,6 @@ class TaskerDisputes extends React.Component {
                     className="button is-danger"
                   >
                     Submit Dispute
-                  </button>
-                  <button onClick={this.toggleModal} className="button is-outline">
-                    Close
                   </button>
                 </footer>
               </div>
