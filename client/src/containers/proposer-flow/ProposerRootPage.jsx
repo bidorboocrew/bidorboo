@@ -11,7 +11,7 @@ class ProposerRoot extends React.Component {
     super(props);
     this.AllActiveTasks = getAllActiveRequestsTemplateCards().map((task, index) => {
       return (
-        <div key={index} className="column is-narrow isforCards">
+        <div key={index} className="column is-narrow isforCards slide-in-bottom-small">
           {task}
         </div>
       );

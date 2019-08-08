@@ -41,7 +41,7 @@ class MyBidsPage extends React.Component {
     let myBidsSummaryCards = areThereAnyBidsToView
       ? openBidsList.map((bid) => {
           return (
-            <div key={bid._id} className="column is-narrow isforCards">
+            <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
               {getMeTheRightBidCard({
                 bid: bid,
                 isSummaryView: true,

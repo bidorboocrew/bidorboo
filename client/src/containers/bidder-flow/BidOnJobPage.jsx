@@ -51,55 +51,58 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div>
-        <div className="columns is-centered">
-          <div className="column limitLargeMaxWidth">
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
-                    <span>All Requests</span>
-                  </a>
-                </li>
-                <li className="is-active">
-                  <a>Place your bid</a>
-                </li>
-              </ul>
-            </nav>
-            <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
-              <div className="card-content">
-                <div className="content">
-                  <div className="subtitle">
-                    {`How much will you `}
-                    <span>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const elmnt = document.getElementById('bob-bid-on-request');
-                          elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
-                        }}
-                        className="is-text"
-                      >
-                        {`Bid`}
-                      </a>
-                    </span>
-                    {` to fulfill this request?`}
+      <>
+        <div>
+          <div className="columns is-centered">
+            <div className="column limitLargeMaxWidth">
+              <nav className="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                  <li>
+                    <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
+                      <span>All Requests</span>
+                    </a>
+                  </li>
+                  <li className="is-active">
+                    <a>Place your bid</a>
+                  </li>
+                </ul>
+              </nav>
+              <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+                <div className="card-content">
+                  <div className="content">
+                    <div className="subtitle">
+                      {`What is your `}
+                      <span>
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            const elmnt = document.getElementById('bob-bid-on-request');
+                            elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                          }}
+                          className="is-text"
+                        >
+                          {`Bid`}
+                        </a>
+                      </span>
+                      {` to fulfill this request?`}
+                    </div>
                   </div>
+                  {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
                 </div>
-                {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
-              </div>
-            </section>
+              </section>
 
-            {getMeTheRightRequestCard({
-              job: jobDetails,
-              isSummaryView: false,
-              pointOfView: POINT_OF_VIEW.TASKER,
-              submitBid,
-              userDetails: currentUserDetails,
-            })}
+              {getMeTheRightRequestCard({
+                job: jobDetails,
+                isSummaryView: false,
+                pointOfView: POINT_OF_VIEW.TASKER,
+                submitBid,
+                userDetails: currentUserDetails,
+              })}
+            </div>
           </div>
         </div>
-      </div>
+        <br />
+      </>
     );
   }
 }

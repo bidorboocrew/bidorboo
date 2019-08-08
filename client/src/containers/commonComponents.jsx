@@ -384,9 +384,9 @@ export class LocationLabelAndValue extends React.Component {
 
     return (
       <div className="group">
-        <label className="label">Location Near:</label>
+        <label className="label hasSelectedValue">Location Near</label>
         <div className="control">{this.state.addressText}</div>
-        <p className="help">* Exact location is not displayed for privacy reasons</p>
+        <p className="help">* exact location will be shared when the requester accepts your bid</p>
       </div>
     );
   }

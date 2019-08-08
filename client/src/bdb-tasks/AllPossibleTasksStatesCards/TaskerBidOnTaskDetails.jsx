@@ -6,12 +6,13 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   CountDownComponent,
-  UserImageAndRating,
   AvgBidDisplayLabelAndValue,
-  StartDateAndTime,
+  SummaryStartDateAndTime,
+  CenteredUserImageAndRating,
   LocationLabelAndValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
+  JobCardTitle,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
@@ -76,48 +77,53 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
     return (
-      <div style={{ height: 'auto ' }} className="card cardWithButton nofixedwidth">
+      <div
+        style={{ height: 'auto ' }}
+        className="card cardWithButton nofixedwidth has-text-centered"
+      >
         <div className="card-content">
           <div className="content">
-            <CardTitleAndActionsInfo
-              job={job}
-              userAlreadyBid={userAlreadyBid}
-              jobState={state}
-              templateId={templateId}
-              bidsList={_bidsListRef}
-              userAlreadyView={userAlreadyView}
-            />
-
-            <div className="group">
-              <label className="label">Requester:</label>
-              <UserImageAndRating userDetails={_ownerRef} />
-            </div>
-            <StartDateAndTime
+            <JobCardTitle icon={ICON} title={TITLE} />
+            <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+              renderHelpComponent={() => (
+                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+              )}
             />
 
             <LocationLabelAndValue location={coordinates} />
 
             <TaskSpecificExtras templateId={ID} extras={extras} />
-            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-
             <div className="group">
-              <label className="label">Detailed Description</label>
-
-              <TextareaAutosize
-                value={detailedDescription}
-                className="textarea is-marginless is-paddingless is-size-6"
-                style={{
-                  resize: 'none',
-                  border: 'none',
-                  color: '#4a4a4a',
-                  fontSize: '1rem',
-                }}
-                readOnly
+              <label className="label hasSelectedValue">Detailed Description</label>
+              <span className="is-size-7">
+                <TextareaAutosize
+                  value={detailedDescription}
+                  className="textarea is-marginless is-paddingless is-size-6 has-text-centered "
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                    color: '#4a4a4a',
+                    fontSize: '1rem',
+                  }}
+                  readOnly
+                />
+              </span>
+            </div>
+            <div className="group">
+              <label className="label hasSelectedValue">Status</label>
+              <CardTitleAndActionsInfo
+                userAlreadyBid={userAlreadyBid}
+                jobState={state}
+                templateId={templateId}
+                bidsList={_bidsListRef}
+                userAlreadyView={userAlreadyView}
+                job={job}
               />
             </div>
-
+            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+            <br />
             {userAlreadyBid && (
               <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>
             )}

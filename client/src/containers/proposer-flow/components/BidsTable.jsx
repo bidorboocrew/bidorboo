@@ -40,7 +40,7 @@ export default class BidsTable extends React.Component {
           : 'not specified';
 
       return (
-        <div key={bid._id} className="column is-narrow isforCards">
+        <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
           <TaskerBidCard
             otherUserProfileInfo={bid._bidderRef}
             bidAmountHtml={() => (

@@ -73,7 +73,7 @@ class BidModal extends React.Component {
         </div>
       );
     return (
-      <div className="modal is-active">
+      <div className="modal is-active has-text-left">
         <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">

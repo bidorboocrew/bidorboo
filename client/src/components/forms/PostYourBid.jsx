@@ -34,7 +34,7 @@ export default class PostYourBid extends React.Component {
   render() {
     const { showBidDialog } = this.state;
     return (
-      <React.Fragment>
+      <div className="centeredButtonInCard">
         <ReCAPTCHA
           style={{ display: 'none' }}
           onExpired={() => this.recaptchaRef.current.execute()}
@@ -50,7 +50,7 @@ export default class PostYourBid extends React.Component {
           onClick={this.openShowBidDialog}
           type="button"
           id="bob-bid-on-request"
-          className="button firstButtonInCard is-success is-medium"
+          className="button  is-success is-medium"
         >
           <span className="icon">
             <i className="fas fa-hand-paper" />
@@ -65,7 +65,7 @@ export default class PostYourBid extends React.Component {
             handleClose={this.closeShowBidDialog}
           />
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
