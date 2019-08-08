@@ -97,6 +97,14 @@ export {
 } from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerDetails';
 
 export {
+  default as TaskerAwardedBidCanceledByRequesterSummary,
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByRequesterSummary';
+
+export {
+  default as TaskerAwardedBidCanceledByRequesterDetails,
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByRequesterDetails';
+
+export {
   default as TaskerAwardedBidCanceledByTaskerSummary,
 } from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerSummary';
 

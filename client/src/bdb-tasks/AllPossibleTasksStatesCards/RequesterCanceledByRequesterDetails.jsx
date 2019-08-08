@@ -93,6 +93,10 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
+                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  seriously
+                </li>
+                <li>
                   <strong>20% was deducted</strong> from the original full payment because you
                   cancelled your apppointment.
                 </li>

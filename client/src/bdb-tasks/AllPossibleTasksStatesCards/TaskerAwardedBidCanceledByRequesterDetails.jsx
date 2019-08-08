@@ -56,7 +56,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <CancelledBy name="You" />
+            <CancelledBy name="Requester" />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
@@ -65,21 +65,19 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                   seriously
                 </li>
                 <li>
-                  <strong>Requester was notified about this</strong> and will not be expecting you
-                  to show up.
+                  You will <strong>be paid ~ ${Math.floor(bidValue * 0.1)}</strong> for your
+                  commitment with us.
                 </li>
                 <li>
-                  You will <strong>Not</strong> recieve any payout for this task.
+                  <strong>Do NOT</strong> show up or go to do this task as you will not be paid for
+                  it.
                 </li>
                 <li>
-                  Your global rating will be <strong>Negatively</strong> affected because you
-                  cancelled.
+                  The Requester global rating will be <strong>Negatively</strong> affected because
+                  they cancelled after awarding you.
                 </li>
-
-                <li>Your global rating will be negatively impacted</li>
                 <li>
-                  If many cancellations happen in a row you will be <strong>banned</strong> from
-                  BidOrBoo
+                  If The requester cancels often we will <strong>ban</strong> them from BidOrBoo
                 </li>
               </ul>
             </div>

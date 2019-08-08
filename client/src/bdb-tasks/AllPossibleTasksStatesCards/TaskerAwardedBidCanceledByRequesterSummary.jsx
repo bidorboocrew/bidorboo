@@ -56,7 +56,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <CancelledBy name="You" />
+              <CancelledBy name="Requester" />
             </div>
           </div>
           <div className="centeredButtonInCard">

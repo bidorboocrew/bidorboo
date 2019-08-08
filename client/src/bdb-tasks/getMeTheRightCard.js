@@ -19,6 +19,8 @@ import {
   TaskerMyAwardedBidDetails,
   TaskerAwardedBidCanceledByTaskerDetails,
   TaskerAwardedBidCanceledByTaskerSummary,
+  TaskerAwardedBidCanceledByRequesterSummary,
+  TaskerAwardedBidCanceledByRequesterDetails,
   RequesterDoneSummary,
   RequesterDoneDetails,
   TaskerMyAwardedDoneBidDetails,
@@ -168,6 +170,19 @@ const TaskerCardTemplates = {
       return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
     }
   },
+  [BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER]: ({
+    job,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
+    if (isSummaryView) {
+      return <TaskerAwardedBidCanceledByRequesterSummary job={job} {...otherArgs} />;
+    } else {
+      return <TaskerAwardedBidCanceledByRequesterDetails job={job} {...otherArgs} />;
+    }
+  },
   [BID_STATES.DONE]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
       return <TaskerMyAwardedDoneBidSummary job={job} {...otherArgs} />;
@@ -213,7 +228,19 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       }
       break;
     case BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER:
-      return <div>This type aint found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
+      try {
+        const card = TaskerCardTemplates[bid.state]({
+          bid,
+          job: _jobRef,
+          isSummaryView,
+          pointOfView: POINT_OF_VIEW.TASKER,
+          withBidDetails: true,
+          otherArgs,
+        });
+        return card || <div>this aint found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
+      } catch (e) {
+        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+      }
       break;
     case BID_STATES.AWARDED_BID_CANCELED_BY_TASKER:
       try {
@@ -225,7 +252,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card || <div>This type aint found</div>;
+        return card || <div>this aint found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
@@ -241,7 +268,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card || <div>This type aint found</div>;
+        return card || <div>BID_STATES.DONE</div>;
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
