@@ -91,7 +91,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -180,6 +180,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <JobCardTitle
                 icon={ICON}
                 title={TITLE}
+                img={IMG}
                 meatballMenu={() => (
                   <div
                     ref={(node) => (this.node = node)}

@@ -92,7 +92,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -105,7 +105,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
         <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
           <div className="card-content">
             <div className="content has-text-centered">
-              <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

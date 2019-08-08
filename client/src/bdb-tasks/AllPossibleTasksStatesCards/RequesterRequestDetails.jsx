@@ -93,7 +93,7 @@ class RequesterRequestDetails extends React.Component {
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -162,6 +162,7 @@ class RequesterRequestDetails extends React.Component {
               <JobCardTitle
                 icon={ICON}
                 title={TITLE}
+                img={IMG}
                 meatballMenu={() => (
                   <div
                     ref={(node) => (this.node = node)}

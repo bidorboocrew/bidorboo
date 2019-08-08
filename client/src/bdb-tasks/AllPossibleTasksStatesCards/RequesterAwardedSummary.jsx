@@ -58,7 +58,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }
 
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterAwardedSummary is missing properties</div>;
     }
@@ -72,7 +72,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

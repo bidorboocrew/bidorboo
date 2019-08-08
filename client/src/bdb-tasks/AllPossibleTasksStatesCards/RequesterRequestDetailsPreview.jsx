@@ -34,7 +34,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG  } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }

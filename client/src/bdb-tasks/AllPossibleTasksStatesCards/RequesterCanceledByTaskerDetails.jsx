@@ -64,7 +64,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -77,7 +77,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}

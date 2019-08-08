@@ -106,7 +106,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -173,6 +173,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               <JobCardTitle
                 icon={ICON}
                 title={TITLE}
+                img={IMG}
                 meatballMenu={() => (
                   <div
                     ref={(node) => (this.node = node)}

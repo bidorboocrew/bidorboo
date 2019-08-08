@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as Yup from 'yup';
+import carDetailing_img from '../../assets/images/carDetailing_img.png';
 
 const NO_SELECTION = NO_SELECTION;
 
@@ -8,6 +9,7 @@ export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
+  IMG: carDetailing_img,
   DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
   SUGGESTION_TEXT: `*What Year Make and model is your car?
 
@@ -44,7 +46,11 @@ export default {
     return (
       <div style={{ padding: '1.5rem', background: 'white' }}>
         <div>
-          <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
+          <img
+            src={carDetailing_img}
+            alt="BidOrBoo task img"
+            style={{ height: 125, width: 125, objectFit: 'cover' }}
+          />
         </div>
         <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
           Thank You!
@@ -68,17 +74,12 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} />
-                {/* <img
-                  src={taskImage}
-                  alt="BidOrBoo task img"
-                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                />
+                {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
-                  src={watermark}
-                  className="watermarker"
-                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                /> */}
+                  src={carDetailing_img}
+                  alt="BidOrBoo task img"
+                  style={{ height: 125, width: 125, objectFit: 'cover' }}
+                />
               </div>
             </div>
           </div>

@@ -104,7 +104,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -200,6 +200,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <JobCardTitle
                 icon={ICON}
                 title={TITLE}
+                img={IMG}
                 meatballMenu={() => (
                   <div
                     ref={(node) => (this.node = node)}

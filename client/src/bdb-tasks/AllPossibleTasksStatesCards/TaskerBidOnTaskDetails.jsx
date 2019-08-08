@@ -50,7 +50,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -83,7 +83,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
             <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}

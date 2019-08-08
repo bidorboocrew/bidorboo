@@ -71,7 +71,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
     }
     const { requiresBidderReview } = _reviewRef;
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -91,7 +91,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

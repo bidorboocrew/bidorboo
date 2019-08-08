@@ -76,7 +76,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
       return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -92,7 +92,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
         <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} />
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               {/* {!isOnMapView && <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />} */}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

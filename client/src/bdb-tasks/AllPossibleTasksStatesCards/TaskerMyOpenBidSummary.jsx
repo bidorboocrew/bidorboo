@@ -53,7 +53,7 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
@@ -64,7 +64,7 @@ class TaskerMyOpenBidSummary extends React.Component {
       <div className={`card has-text-centered cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}

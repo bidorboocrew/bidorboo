@@ -42,7 +42,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     if (!_bidderRef) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
@@ -54,7 +54,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}

@@ -1,11 +1,13 @@
 import React from 'react';
 
 import * as Yup from 'yup';
+import houseCleaning_img from '../../assets/images/houseCleaning_img.png';
 
 export default {
   ID: 'bdbHouseCleaning',
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',
+  IMG: houseCleaning_img,
   DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
   SUGGESTION_TEXT: `*What Areas would you like the Tasker to focus on (living room , bathrooms, bedrooms) ?
 
@@ -27,7 +29,7 @@ export default {
     return (
       <div style={{ padding: '1.5rem', background: 'white' }}>
         <div>
-          <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
+          <img src={houseCleaning_img} style={{ height: 125, width: 125, objectFit: 'cover' }} />
         </div>
         <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
           Thank You!
@@ -51,16 +53,10 @@ export default {
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <i className="fas fa-home" style={{ fontSize: 68, color: '#ee2a36' }} />
-                {/* <img
-                  src={taskImage}
-                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                />
                 <img
-                  src={watermark}
-                  className="watermarker"
-                  style={{ borderRadius: '100%', height: 125, width: 125, objectFit: 'cover' }}
-                /> */}
+                  src={houseCleaning_img}
+                  style={{ height: 125, width: 125, objectFit: 'cover' }}
+                />
               </div>
             </div>
           </div>

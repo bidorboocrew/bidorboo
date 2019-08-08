@@ -810,18 +810,42 @@ export const AssignedTasker = ({ displayName }) => {
   );
 };
 
-export const JobCardTitle = ({ icon, title, meatballMenu }) => {
+export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flexGrow: 1 }} className="title">
-        <span style={{ color: '#ee2a36' }} className="icon">
-          <i className={icon} />
-        </span>
-        <span style={{ marginLeft: 7 }}>{title}</span>
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: '1.25rem' }}>
+      <div
+        style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+
+          overflow: 'hidden',
+          margin: 'auto',
+        }}
+      >
+        <figure style={{ margin: 0 }} className="media-left">
+          <img style={{ height: 64, width: 64, objectFit: 'cover' }} src={img} alt="task image" />
+        </figure>
+
+        <div className="content">
+          <span style={{ fontSize: 28 }}>{title}</span>
+        </div>
       </div>
-      {meatballMenu && <div>{meatballMenu()}</div>}
+
+      {meatballMenu && <div style={{ alignSelf: 'flex-start' }}>{meatballMenu()}</div>}
     </div>
   );
+
+  // return (
+  //   <div style={{ display: 'flex' }}>
+  //     <div style={{ flexGrow: 1 }} className="title">
+  //       <img src={img} style={{ height: 'auto', width: 64, objectFit: 'cover' }} />
+
+  //       <span style={{ marginLeft: 7 }}>{title}</span>
+  //     </div>
+  //
+  //   </div>
+  // );
 };
 
 export const CancelledBy = ({ name, refundAmount }) => {

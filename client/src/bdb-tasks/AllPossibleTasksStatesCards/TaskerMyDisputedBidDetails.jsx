@@ -38,7 +38,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
     ) {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
