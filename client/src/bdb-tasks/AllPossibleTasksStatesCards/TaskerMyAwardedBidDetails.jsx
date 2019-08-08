@@ -293,26 +293,22 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 <a
                   disabled
                   onClick={() => null}
-                  className={`firstButtonInCard nofixedwidth is-success`}
+                  className={`button firstButtonInCard nofixedwidth is-success`}
                 >
+                  <span>Wait For Requester To Review</span>
+                </a>
+              )}
+              {proposerConfirmed && (
+                <a
+                  onClick={() => alert('not implemented but redirect me to review page')}
+                  className={`button firstButtonInCard nofixedwidth is-success`}
+                >
+                  <span className="icon">
+                    <i className="fas fa-user-check" />
+                  </span>
                   <span>Review The Requester</span>
                 </a>
               )}
-
-              {proposerConfirmed && (
-                <div style={{ flexGrow: 1 }}>
-                  <a
-                    onClick={() => alert('not implemented but redirect me to review page')}
-                    className={`button is-fullwidth is-success heartbeatInstant`}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-user-check" />
-                    </span>
-                    <span>Review The Requester</span>
-                  </a>
-                </div>
-              )}
-
               {!proposerConfirmed && !bidderConfirmed && (
                 <TaskerConfirmsCompletion {...this.props} />
               )}
@@ -405,15 +401,15 @@ class TaskerConfirmsCompletion extends React.Component {
                   </div>
                 </section>
                 <footer className="modal-card-foot">
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Close
+                  </button>
                   <button
                     type="submit"
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
                     Confirm Completion
-                  </button>
-                  <button onClick={this.toggleModal} className="button is-outline">
-                    Close
                   </button>
                 </footer>
               </div>
