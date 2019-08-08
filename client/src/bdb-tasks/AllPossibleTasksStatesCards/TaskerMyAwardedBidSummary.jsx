@@ -136,7 +136,7 @@ const renderFooter = ({ bid, isPastDue, jobCompletion }) => {
               <span className="icon">
                 <i className="fas fa-user-check" />
               </span>
-              <span>Review The Requester</span>
+              <span>Review Requester</span>
             </React.Fragment>
           )}
           {!proposerConfirmed && !bidderConfirmed && (

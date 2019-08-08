@@ -1282,3 +1282,41 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
     </div>
   );
 };
+
+export const BSTaskIsDone = () => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 18,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px solid #4285f4',
+            width: 28,
+            background: '#4285f4',
+            color: '#4285f4',
+            marginRight: 8,
+            display: 'inline-block',
+          }}
+        >
+          1
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 18,
+          }}
+        >
+          Task Is Done
+        </div>
+        <div className="help">* You've completed This</div>
+      </div>
+    </div>
+  );
+};
