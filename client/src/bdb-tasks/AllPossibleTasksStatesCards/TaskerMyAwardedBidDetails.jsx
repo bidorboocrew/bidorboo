@@ -13,7 +13,6 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  DisplayLabelValue,
   AddAwardedJobToCalendar,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
@@ -366,7 +365,6 @@ class TaskerConfirmsCompletion extends React.Component {
 
   render() {
     const { showConfirmationModal } = this.state;
-    const { isPastDue } = this.props;
 
     return (
       <React.Fragment>
@@ -613,7 +611,7 @@ class RequesterDetails extends React.Component {
         className="card cardWithButton nofixedwidth"
       >
         <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content">
+          <div className="content has-text-left">
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
@@ -634,7 +632,7 @@ class RequesterDetails extends React.Component {
 
             <div style={{ marginBottom: '2rem' }}>
               <div className="field">
-                <label className="has-text-grey">Ways to Get In Touch</label>
+                <label className="has-text-grey">Contact Details</label>
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
                   <div>
                     <span className="icon">
@@ -655,6 +653,7 @@ class RequesterDetails extends React.Component {
               </div>
             </div>
             {renderAddToCalendar && renderAddToCalendar()}
+            <br />
           </div>
         </div>
         {renderActionButton && renderActionButton()}

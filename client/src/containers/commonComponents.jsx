@@ -918,11 +918,12 @@ export const TaskCost = ({ cost }) => {
   );
 };
 
-export const BidAmount = ({ bidAmount }) => {
+export const BidAmount = ({ renderHelp, bidAmount }) => {
   return (
     <div className="group">
       <label className="label hasSelectedValue">Bid Amount</label>
       <div className="control">${bidAmount}</div>
+      {renderHelp && renderHelp()}
     </div>
   );
 };
@@ -977,7 +978,6 @@ export const ArchiveTask = ({ displayName = '' }) => {
           fontWeight: 500,
           fontSize: 18,
           padding: 5,
-          // background: 'lightgrey',
         }}
       >
         <div
@@ -986,15 +986,14 @@ export const ArchiveTask = ({ displayName = '' }) => {
             flexGrow: 0,
             fontSize: 18,
             borderRadius: '100%',
-            border: '1px solid #ef2834',
+            border: '1px solid #353535',
             width: 28,
-            background: '#ef2834',
+            background: '#353535',
             marginRight: 8,
+            color: '#353535',
           }}
         >
-          <div className="icon">
-            <i style={{ width: 18, color: 'white' }} className="far fa-frown" />
-          </div>
+          1
         </div>
         <div
           style={{
@@ -1002,7 +1001,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
             fontSize: 18,
           }}
         >
-          {`Job Was Archived`}
+          {`Done & Archived`}
         </div>
       </div>
       {/* <div>

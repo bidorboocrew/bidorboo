@@ -617,6 +617,7 @@ class AssignedTaskerDetails extends React.Component {
                 </div>
               </div>
               {renderAddToCalendar && renderAddToCalendar()}
+              <br />
             </div>
           </div>
         </div>

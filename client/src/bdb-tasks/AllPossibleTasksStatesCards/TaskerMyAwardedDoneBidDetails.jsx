@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { connect } from 'react-redux';
@@ -12,25 +11,25 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayLabelValue,
-  UserImageAndRating,
-  AddAwardedJobToCalendar,
   TaskSpecificExtras,
+  JobCardTitle,
+  SummaryStartDateAndTime,
+  BidAmount,
+  CenteredUserImageAndRating,
+  BSTaskIsDone,
+  ArchiveTask,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
-import { Spinner } from '../../components/Spinner';
 
-class TaskerMyAwardedBidDetails extends RequestBaseContainer {
+class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
   render() {
-    const { bid, cancelAwardedBid, currentUserDetails } = this.props;
+    const { bid, currentUserDetails } = this.props;
     if (!bid || !bid._id || !currentUserDetails) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
-    const { _jobRef: job, _id: bidId } = bid;
-    const { _id: bidderId } = currentUserDetails;
+    const { _jobRef: job } = bid;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -81,83 +80,40 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
     return (
       <React.Fragment>
-        <div style={{ height: 'auto' }} className="card">
-          <div className="card-content">
+        <div
+          style={{
+            boxShadow: 'none',
+            borderLeft: '1px solid rgba(10,10,10,0.2)',
+            borderTop: '1px solid rgba(10,10,10,0.2)',
+            borderRight: '1px solid rgba(10,10,10,0.2)',
+          }}
+          className="card has-text-centered"
+        >
+          <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
-                </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
-
-              {!requiresBidderReview && (
-                <div className="group">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-dark">Archived !</div>
-                  <div className="help">* Congratulations. This was a success</div>
-                </div>
-              )}
-
-              {requiresBidderReview && (
-                <div className="group">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-success">Done!</div>
-                  <div className="help">
-                    * Congratulations. Now it is time to review the Requester
-                  </div>
-                </div>
-              )}
-
-              <div className="group">
-                <label className="label">My Bid</label>
-                <div className="control">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Paid Out</div>
-              </div>
-
-              <StartDateAndTime
+              <JobCardTitle icon={ICON} title={TITLE} />
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
 
-              <DisplayLabelValue labelText="Address" labelValue={addressText} />
+              {!requiresBidderReview && <ArchiveTask />}
+
+              {requiresBidderReview && <BSTaskIsDone />}
+
+              <BidAmount
+                bidAmount={bidValue}
+                renderHelp={() => <div className="help">Your Payout is on the way</div>}
+              />
 
               {showMore && (
                 <React.Fragment>
+                  <div className="group">
+                    <label className="label hasSelectedValue">Task Address</label>
+                    <div className="control">{addressText}</div>
+                  </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label">Detailed Description</label>
@@ -195,36 +151,39 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </a>
                 )}
               </div>
-              <hr className="divider" />
-              <div className="group">
-                <label className="label">Requester Details</label>
-                <UserImageAndRating userDetails={_ownerRef} />
-              </div>
             </div>
           </div>
 
-          <div style={{ padding: '0.5rem', display: 'flex' }}>
-            {requiresBidderReview && (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
-                }}
-                className={`button hearbeatInstant is-fullwidth is-success`}
-              >
-                Review Requester
-              </a>
+          <RequesterDetails
+            otherUserProfileInfo={_ownerRef}
+            renderActionButton={() => (
+              <>
+                {requiresBidderReview && (
+                  <a
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                    }}
+                    className={`button firstButtonInCard is-link`}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-user-check" />
+                    </span>
+                    <span>Review Requester</span>
+                  </a>
+                )}
+                {!requiresBidderReview && (
+                  <a
+                    onClick={() => {
+                      alert('Archive not implemented yet, will take you to archieve');
+                    }}
+                    className={`button firstButtonInCard is-dark`}
+                  >
+                    {`Done & Archived`}
+                  </a>
+                )}
+              </>
             )}
-            {!requiresBidderReview && (
-              <a
-                onClick={() => {
-                  alert('Archive not implemented yet, will take you to archieve');
-                }}
-                className={`button is-fullwidth`}
-              >
-                View In Archive
-              </a>
-            )}
-          </div>
+          />
         </div>
       </React.Fragment>
     );
@@ -251,4 +210,46 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TaskerMyAwardedBidDetails);
+)(TaskerMyAwardedDoneBidDetails);
+
+class RequesterDetails extends React.Component {
+  render() {
+    const { otherUserProfileInfo, renderActionButton } = this.props;
+
+    if (!otherUserProfileInfo) {
+      return null;
+    }
+
+    return (
+      <div
+        style={{
+          boxShadow: 'none',
+          borderLeft: '1px solid rgba(10,10,10,0.2)',
+          borderBottom: '1px solid rgba(10,10,10,0.2)',
+          borderRight: '1px solid rgba(10,10,10,0.2)',
+        }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div style={{ paddingTop: 0 }} className="card-content">
+          <div className="content has-text-left">
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Task Requester</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large />
+            <br />
+          </div>
+        </div>
+        {renderActionButton && renderActionButton()}
+      </div>
+    );
+  }
+}
