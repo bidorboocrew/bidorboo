@@ -10,11 +10,6 @@
     "npm": "6.4.1",
     "yarn": "1.16.0"
   },
-  "contributors": [
-    {
-      "name": "Yacoub Abdulla"
-    }
-  ],
   "cacheDirectories": [
     "client/node_modules",
     "server/node_modules",
