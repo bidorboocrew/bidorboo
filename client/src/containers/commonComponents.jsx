@@ -211,7 +211,7 @@ export const CardTitleAndActionsInfo = ({
   const areThereAnyBidders = bidsList && bidsList.length > 0;
 
   const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
-  debugger;
+
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
     bidsCountLabel = '1 bid';
