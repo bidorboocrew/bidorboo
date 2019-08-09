@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { goBackToPreviousRoute } from '../../utils';
+
 import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
@@ -38,18 +38,15 @@ class BidOnJobPage extends React.Component {
         <div>
           <div className="columns is-centered">
             <div className="column limitLargeMaxWidth">
-              <nav className="breadcrumb" aria-label="breadcrumbs">
-                <ul>
-                  <li>
-                    <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
-                      <span>All Requests</span>
-                    </a>
-                  </li>
-                  <li className="is-active">
-                    <a>Place your bid</a>
-                  </li>
-                </ul>
-              </nav>
+              <a
+                style={{ margin: '0 0 1rem 0' }}
+                className="button"
+                onClick={() => goBackToPreviousRoute()}
+              >
+                <span className="icon is-large">
+                  <i className="fas fa-chevron-left" />
+                </span>
+              </a>
 
               {getMeTheRightRequestCard({
                 job: jobDetails,
