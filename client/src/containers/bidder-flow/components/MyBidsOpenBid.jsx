@@ -51,7 +51,7 @@ export default class MyBidsOpenBid extends React.Component {
           <img className="bdb-cover-img" src={`${tasksDefinitions[templateId].IMG_URL}`} />
         </div>
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="card-content">
-          <div className="has-text-dark is-size-7">Requester:</div>
+          <label className="label hasSelectedValue">Requester</label>
           <UserImageAndRating userDetails={_ownerRef} />
 
           <div className="content">

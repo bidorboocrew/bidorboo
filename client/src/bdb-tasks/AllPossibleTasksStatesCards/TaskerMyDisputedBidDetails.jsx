@@ -1,11 +1,11 @@
 import React from 'react';
+import {Collapse} from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
   StartDateAndTime,
-  DisplayShortAddress,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -82,7 +82,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             </div>
 
             <div className="group">
-              <label className="label">My Bid</label>
+              <label className="label hasSelectedValue">My Bid</label>
               <div className={`has-text-danger`}>${bidValue}</div>
               <div className="help">* on hold</div>
             </div>
@@ -93,7 +93,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               )}
             />
           </div>
-          <div className="group">
+          <div className="group has-text-left">
             <label className="label has-text-danger">What you need to know:</label>
             <div className="control">* BidorBooCrew will assess the dispute asap</div>
             <div className="control">

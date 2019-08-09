@@ -1,5 +1,6 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -116,14 +117,13 @@ class RequesterDoneDetails extends RequestBaseContainer {
 
               {requiresProposerReview && <TaskIsFulfilled />}
 
-              <TaskCost cost={`$${bidValue}`} />
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <TaskCost cost={bidValue} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
                         value={detailedDescription}
@@ -131,19 +131,19 @@ class RequesterDoneDetails extends RequestBaseContainer {
                         style={{
                           resize: 'none',
                           border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
+                          color: '#353535',
+                          fontSize: 16,
                         }}
                         readOnly
                       />
                     </span>
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
@@ -163,17 +163,14 @@ class RequesterDoneDetails extends RequestBaseContainer {
         </div>
 
         <br />
-        <div
-          style={{ background: 'transparent', marginBottom: 0 }}
-          className="tabs is-medium is-centered"
-        >
+        <div style={{ background: 'transparent', marginBottom: 0 }} className="tabs is-centered">
           <ul>
             <li className="is-active">
               <a>
                 <span className="icon is-small">
                   <i className="fas fa-user-tie" aria-hidden="true" />
                 </span>
-                <span>Review Your Tasker</span>
+                <span>Your Tasker</span>
               </a>
             </li>
           </ul>
@@ -256,8 +253,8 @@ class AssignedTaskerDetails extends React.Component {
                   e.stopPropagation();
                   switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
                 }}
-                style={{ margin: 'auto', width: 128 }}
-                className="image is-128x128"
+                style={{ margin: 'auto', width: 90 }}
+                className="image"
               >
                 <img
                   style={{

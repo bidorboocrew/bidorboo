@@ -730,7 +730,9 @@ div.centeredButtonInCard {
     }
   }
 }
-
+.card-content {
+  padding: 1rem;
+}
 .bdbFloatingButtonText {
   box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.26) !important;
   position: fixed !important;
@@ -890,7 +892,7 @@ $trans-time: 300ms;
 }
 
 .group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   &.isError {
     margin-bottom: 2.25rem;
 

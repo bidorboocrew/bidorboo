@@ -14,7 +14,6 @@ export const BID_STATUS_TO_DISPLAYLABEL = {
   CANCEL_SEEN: 'Cancelled',
 };
 
-
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;
@@ -68,7 +67,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
       displayItemIcons={false}
       event={event}
-      buttonClassClosed="button is-success"
+      buttonClassClosed="button is-info"
     />
   );
 };

@@ -86,7 +86,7 @@ class GeoSearch extends React.Component {
                     padding: '.375rem 1rem',
                   }
                 : {
-                    color: '#4a4a4a',
+                    color: '#353535',
                     fontSize: '.875rem',
                     lineHeight: '1.5',
                     padding: '.375rem 1rem',

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Collapse } from 'react-collapse';
+
 import BidRootBg from '../../assets/images/BidRootBg.png';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
@@ -236,26 +238,23 @@ class BidderRootPage extends React.Component {
         )}
         {!isLoading && (
           <React.Fragment>
-            {showMapView && currentJobsList && currentJobsList.length > 0 && (
-              <React.Fragment>
-                <br />
-                <div className="container slide-in-bottom-small">
-                  <MapSection
-                    mapCenterPoint={mapCenterPoint}
-                    mapZoomLevel={mapZoomLevel}
-                    jobsList={currentJobsList}
-                    {...this.props}
-                  />
-                  <div
-                    style={{ marginBottom: 6 }}
-                    className="help container is-widescreen has-text-grey has-text-centered"
-                  >
-                    {` ${(currentJobsList && currentJobsList.length) ||
-                      0} open requests in the search area`}
-                  </div>
+            <Collapse isOpened={showMapView}>
+              <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
+                <MapSection
+                  mapCenterPoint={mapCenterPoint}
+                  mapZoomLevel={mapZoomLevel}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
+                <div
+                  style={{ marginBottom: 6 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentJobsList && currentJobsList.length) ||
+                    0} open requests in the search area`}
                 </div>
-              </React.Fragment>
-            )}
+              </div>
+            </Collapse>
 
             {anyVisibleJobs && (
               <BidderRootFilterWrapper

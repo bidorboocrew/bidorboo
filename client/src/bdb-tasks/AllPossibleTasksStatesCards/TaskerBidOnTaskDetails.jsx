@@ -6,7 +6,6 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   CountDownComponent,
-  AvgBidDisplayLabelAndValue,
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   LocationLabelAndValue,
@@ -90,28 +89,30 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <div className="group">
-              <label className="label hasSelectedValue">Requester</label>
-              <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
-            </div>
-            <LocationLabelAndValue location={coordinates} />
+            <div className="has-text-left">
+              <div className="group">
+                <label className="label hasSelectedValue">Requester</label>
+                <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+              </div>
+              <LocationLabelAndValue location={coordinates} />
 
-            <TaskSpecificExtras templateId={ID} extras={extras} />
-            <div className="group">
-              <label className="label hasSelectedValue">Detailed Description</label>
-              <span className="is-size-7">
-                <TextareaAutosize
-                  value={detailedDescription}
-                  className="textarea is-marginless is-paddingless is-size-6 has-text-centered "
-                  style={{
-                    resize: 'none',
-                    border: 'none',
-                    color: '#4a4a4a',
-                    fontSize: '1rem',
-                  }}
-                  readOnly
-                />
-              </span>
+              <TaskSpecificExtras templateId={ID} extras={extras} />
+              <div className="group">
+                <label className="label hasSelectedValue">Detailed Description</label>
+                <span className="is-size-7">
+                  <TextareaAutosize
+                    value={detailedDescription}
+                    className="textarea is-marginless is-paddingless is-size-6 has-text-centered "
+                    style={{
+                      resize: 'none',
+                      border: 'none',
+                      color: '#353535',
+                      fontSize: 16,
+                    }}
+                    readOnly
+                  />
+                </span>
+              </div>
             </div>
 
             <div className="group">

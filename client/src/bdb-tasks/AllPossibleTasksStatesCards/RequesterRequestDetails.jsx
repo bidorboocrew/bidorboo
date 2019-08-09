@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,7 +11,6 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import {
   DisplayLabelValue,
   CountDownComponent,
-  StartDateAndTime,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   AwaitingOnTasker,
@@ -216,13 +216,13 @@ class RequesterRequestDetails extends React.Component {
                   )}
                 </React.Fragment>
               )}
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
                         value={detailedDescription}
@@ -230,19 +230,19 @@ class RequesterRequestDetails extends React.Component {
                         style={{
                           resize: 'none',
                           border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
+                          color: '#353535',
+                          fontSize: 16,
                         }}
                         readOnly
                       />
                     </span>
                   </div>
-                </React.Fragment>
-              )}
-              <React.Fragment>
+                </div>
+              </Collapse>
+              <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
@@ -256,7 +256,7 @@ class RequesterRequestDetails extends React.Component {
                     </span>
                   </a>
                 )}
-              </React.Fragment>
+              </div>
             </div>
           </div>
         </div>

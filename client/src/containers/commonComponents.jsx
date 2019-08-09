@@ -42,7 +42,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
   return (
     <div className="group">
-      <label className="label">{labelText}</label>
+      <label className="label hasSelectedValue">{labelText}</label>
       <div className="control">{labelValue}</div>
       {renderHelpComponent()}
     </div>
@@ -107,14 +107,14 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
           <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="far fa-star" />
               </span>
               <span>Not Rated</span>
             </div>
           ) : (
-            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="fas fa-star" />
               </span>
@@ -184,14 +184,14 @@ export const CenteredUserImageAndRating = ({
           <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="far fa-star" />
               </span>
               <span>Not Rated</span>
             </div>
           ) : (
-            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="fas fa-star" />
               </span>
@@ -236,14 +236,14 @@ export const CenteredUserImageAndRating = ({
   //       <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
   //       {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-  //         <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+  //         <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
   //           <span className="icon">
   //             <i className="far fa-star" />
   //           </span>
   //           <span>Not Rated</span>
   //         </div>
   //       ) : (
-  //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+  //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
   //           <span className="icon">
   //             <i className="fas fa-star" />
   //           </span>
@@ -449,7 +449,7 @@ export class LocationLabelAndValue extends React.Component {
       <div className="group">
         <label className="label hasSelectedValue">Location Near</label>
         <div className="control">{this.state.addressText}</div>
-        <p className="help">* exact location will be shared when the requester accepts your bid</p>
+        <p className="help">*This is an approximate location</p>
       </div>
     );
   }
@@ -697,7 +697,7 @@ export const SummaryStartDateAndTime = ({ date }) => {
           display: 'flex',
           justifyContent: 'center',
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           maxWidth: 300,
           margin: 'auto',
         }}
@@ -716,7 +716,7 @@ export const AwaitingOnTasker = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -724,7 +724,7 @@ export const AwaitingOnTasker = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
           }}
@@ -736,7 +736,7 @@ export const AwaitingOnTasker = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Waiting For Taskers
@@ -754,13 +754,13 @@ export const PastdueExpired = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -776,7 +776,7 @@ export const PastdueExpired = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Past Due - Expired
@@ -795,13 +795,13 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             width: 28,
             background: '#6b88e0',
@@ -815,7 +815,7 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -839,13 +839,13 @@ export const AssignedTasker = ({ displayName }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -860,7 +860,7 @@ export const AssignedTasker = ({ displayName }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -918,7 +918,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
           // background: 'lightgrey',
         }}
@@ -927,7 +927,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -942,7 +942,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Cancelled by ${name}`}
@@ -961,7 +961,7 @@ export const DisputedBy = ({ name }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -969,7 +969,7 @@ export const DisputedBy = ({ name }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px dashed #ef2834',
             width: 28,
@@ -983,7 +983,7 @@ export const DisputedBy = ({ name }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Disputed by ${name}`}
@@ -1021,7 +1021,7 @@ export const TaskIsFulfilled = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
           // background: 'lightgrey',
         }}
@@ -1030,7 +1030,7 @@ export const TaskIsFulfilled = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             width: 28,
             background: '#00d1b2',
@@ -1044,7 +1044,7 @@ export const TaskIsFulfilled = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Task is Fullfilled`}
@@ -1063,7 +1063,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -1071,7 +1071,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #353535',
             width: 28,
@@ -1085,7 +1085,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Done & Archived`}
@@ -1181,7 +1181,7 @@ export const BSawaitingOnRequester = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -1189,7 +1189,7 @@ export const BSawaitingOnRequester = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
           }}
@@ -1201,7 +1201,7 @@ export const BSawaitingOnRequester = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Awaiting On Requester
@@ -1218,13 +1218,13 @@ export const BSPastDueExpired = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -1239,7 +1239,7 @@ export const BSPastDueExpired = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Past Due - Expired
@@ -1256,13 +1256,13 @@ export const BSAwardedToSomeoneElse = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #35335',
             width: 28,
@@ -1278,7 +1278,7 @@ export const BSAwardedToSomeoneElse = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Bid Rejected
@@ -1295,13 +1295,13 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -1316,7 +1316,7 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -1336,13 +1336,13 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -1357,7 +1357,7 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -1375,13 +1375,13 @@ export const BSTaskIsDone = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #4285f4',
             width: 28,
@@ -1396,7 +1396,7 @@ export const BSTaskIsDone = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Task Is Done

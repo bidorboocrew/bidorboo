@@ -36,7 +36,7 @@ export class LoginOrRegisterModal extends React.Component {
         <div onClick={handleCancel} className="modal-background" />
         <div className="modal-content">
           <div style={{ background: 'white', padding: '0 1rem 1rem' }}>
-            <div className="tabs is-medium  is-centered">
+            <div className="tabs is-centered">
               <ul>
                 <li className={`${showRegistrationForm ? '' : 'is-active'}`}>
                   <a onClick={this.setShowLoginForm}>

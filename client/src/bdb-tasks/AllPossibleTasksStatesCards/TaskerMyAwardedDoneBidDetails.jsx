@@ -1,5 +1,6 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -103,20 +104,19 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
 
               {requiresBidderReview && <TaskIsFulfilled />}
 
-              <BidAmount
-                bidAmount={bidValue}
-                renderHelp={() => <div className="help">Your Payout is on the way</div>}
-              />
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <BidAmount
+                    bidAmount={bidValue}
+                    renderHelp={() => <div className="help">Your Payout is on the way</div>}
+                  />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
                         value={detailedDescription}
@@ -124,19 +124,19 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                         style={{
                           resize: 'none',
                           border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
+                          color: '#353535',
+                          fontSize: 16,
                         }}
                         readOnly
                       />
                     </span>
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>

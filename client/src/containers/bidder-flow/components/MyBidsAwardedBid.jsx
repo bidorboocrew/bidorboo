@@ -35,23 +35,23 @@ export default class MyBidsAwardedBid extends React.Component {
         onClick={(e) => {
           e.preventDefault();
           updateBidState(bidDetails._id, 'WON_SEEN');
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bidDetails._id));
+          switchRoute(
+            ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bidDetails._id),
+          );
         }}
         className="card limitWidthOfCard"
       >
         <div className="card-image is-clipped">
-          <img
-            className="bdb-cover-img"
-            src={`${tasksDefinitions[templateId].IMG_URL}`}
-          />
+          <img className="bdb-cover-img" src={`${tasksDefinitions[templateId].IMG_URL}`} />
         </div>
         <div
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <div className="has-text-dark is-size-7">Requester:</div>
-          <UserImageAndRating userDetails={_ownerRef} />
-
+          <div className="group">
+            <label className="label hasSelectedValue">Requester</label>
+            <UserImageAndRating userDetails={_ownerRef} />
+          </div>
           <div className="content">
             <StartDateAndTime date={_jobRef.startingDateAndTime} />
             <DisplayLabelValue labelText="Your pay:" labelValue={bidAmountText} />

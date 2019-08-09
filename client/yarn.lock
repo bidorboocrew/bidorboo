@@ -9314,6 +9314,13 @@ react-big-calendar@^0.20.3:
     uncontrollable "^6.0.0"
     warning "^4.0.2"
 
+react-collapse@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-collapse/-/react-collapse-4.0.3.tgz#b96de959ed0092a43534630b599a4753dd76d543"
+  integrity sha512-OO4NhtEqFtz+1ma31J1B7+ezdRnzHCZiTGSSd/Pxoks9hxrZYhzFEddeYt05A/1477xTtdrwo7xEa2FLJyWGCQ==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-cropper@^1.0.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-1.2.0.tgz#f0e51adbf4bdc91b19d0c766e8b7d87d89057a47"

@@ -60,7 +60,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
       displayItemIcons={false}
       event={event}
-      buttonClassClosed="button is-success"
+      buttonClassClosed="button is-info"
     />
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -255,13 +256,15 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
-              <TaskCost cost={`$${bidValue}`} />
-              {showMore && (
-                <React.Fragment>
+
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <TaskCost cost={bidValue} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
+
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
                         value={detailedDescription}
@@ -269,26 +272,26 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                         style={{
                           resize: 'none',
                           border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
+                          color: '#353535',
+                          fontSize: 16,
                         }}
                         readOnly
                       />
                     </span>
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                  <a onClick={this.toggleShowMore} className="button">
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small">
+                  <a onClick={this.toggleShowMore} className="button">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -493,7 +496,7 @@ class RequesterDisputes extends React.Component {
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
                   </div>
-                  <div>
+                  <div className="group">
                     <label className="radio">
                       <input
                         type="radio"
@@ -504,7 +507,6 @@ class RequesterDisputes extends React.Component {
                       {` Other`}
                     </label>
                   </div>
-                  <br />
                   <div className="group">
                     <label className="label">Tell us some more details</label>
                     <textarea
@@ -597,9 +599,9 @@ class AssignedTaskerDetails extends React.Component {
             />
 
             <div style={{ marginBottom: '2rem' }}>
-              <div className="field">
-                <label className="has-text-grey">Tasker Contact Info</label>
-                <div style={{ fontWeight: 500, fontSize: 18 }}>
+              <div className="group">
+                <label className="label hasSelectedValue">Tasker Contact Info</label>
+                <div style={{ fontWeight: 500, fontSize: 16 }}>
                   <div>
                     <span className="icon">
                       <i className="far fa-envelope" />

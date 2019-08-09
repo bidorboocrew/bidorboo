@@ -137,17 +137,16 @@ class RequestSummary extends React.Component {
                   <div className="content">
                     <DisplayLabelValue
                       labelText={'Request Type'}
-                      labelValue={`${
-                        tasksDefinitions[templateId].TITLE
-                      } Task`}
+                      labelValue={`${tasksDefinitions[templateId].TITLE} Task`}
                     />
 
                     <StartDateAndTime date={startingDateAndTime} />
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
-
-                    <label className="label">You Earned</label>
-                    <div className="is-size-5 is-success">{`${jobId.processedPayment.bidderPayout /
-                      100}$ (CAD)`}</div>
+                    <div className="group">
+                      <label className="label">You Earned</label>
+                      <div className="control is-success">{`${jobId.processedPayment.bidderPayout /
+                        100}$ (CAD)`}</div>
+                    </div>
                   </div>
                 </div>
               </div>

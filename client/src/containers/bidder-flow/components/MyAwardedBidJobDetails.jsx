@@ -43,14 +43,14 @@ export default class MyAwardedBidJobDetails extends React.Component {
           style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem', position: 'relative' }}
           className="card-content"
         >
-          <label className="label">Requester:</label>
+          <label className="label hasSelectedValue">Requester</label>
           <UserImageAndRating userDetails={_ownerRef} />
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
-            <DisplayLabelValue labelText="State:" labelValue={state} />
+            <DisplayLabelValue labelText="State" labelValue={state} />
 
-            <label className="label">Detailed Description</label>
+            <label className="label hasSelectedValue">Detailed Description</label>
             <span className="is-size-7">
               <TextareaAutosize
                 value={detailedDescription}
@@ -58,8 +58,8 @@ export default class MyAwardedBidJobDetails extends React.Component {
                 style={{
                   resize: 'none',
                   border: 'none',
-                  color: '#4a4a4a',
-                  fontSize: '1rem',
+                  color: '#353535',
+                  fontSize: 16,
                 }}
                 readOnly
               />

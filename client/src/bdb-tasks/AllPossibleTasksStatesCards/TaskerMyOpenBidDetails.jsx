@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import { Collapse } from 'react-collapse';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { REQUEST_STATES } from '../index';
@@ -227,16 +228,16 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 </React.Fragment>
               )}
 
-              <div className="group">
-                <label className="label">My Bid</label>
-                <div className="control">${bidValue}</div>
-              </div>
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
                   <div className="group">
-                    <label className="label">Requester:</label>
-                    <CenteredUserImageAndRating userDetails={_ownerRef} />
+                    <label className="label hasSelectedValue">My Bid</label>
+                    <div className="control">${bidValue}</div>
+                  </div>
+
+                  <div className="group">
+                    <label className="label hasSelectedValue">Requester</label>
+                    <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />
@@ -244,7 +245,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
                   <div className="group">
-                    <label className="label">Detailed Description</label>
+                    <label className="label hasSelectedValue">Detailed Description</label>
 
                     <TextareaAutosize
                       value={detailedDescription}
@@ -252,18 +253,18 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                       style={{
                         resize: 'none',
                         border: 'none',
-                        color: '#4a4a4a',
-                        fontSize: '1rem',
+                        color: '#353535',
+                        fontSize: 16,
                       }}
                       readOnly
                     />
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
