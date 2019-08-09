@@ -312,7 +312,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             </>
           )}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} />;
+            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
           }}
         />
       </React.Fragment>

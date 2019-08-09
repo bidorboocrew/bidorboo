@@ -308,7 +308,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} />;
+            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
           }}
           renderActionButton={() => (
             <div className="firstButtonInCard nofixedwidth">
