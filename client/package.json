@@ -43,6 +43,7 @@
     "react-dropzone": "^7.0.1",
     "react-google-maps": "^9.4.5",
     "react-google-recaptcha": "^1.0.5",
+    "react-motion": "^0.5.2",
     "react-places-autocomplete": "^7.2.0",
     "react-redux": "^5.1.0",
     "react-redux-loading-bar": "^4.1.0",
