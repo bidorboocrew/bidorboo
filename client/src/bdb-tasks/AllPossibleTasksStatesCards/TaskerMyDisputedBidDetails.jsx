@@ -83,8 +83,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
 
             <div className="group">
               <label className="label">My Bid</label>
-              <div className={`has-text-danger`}>{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <div className={`has-text-danger`}>${bidValue}</div>
               <div className="help">* on hold</div>
             </div>
             <StartDateAndTime

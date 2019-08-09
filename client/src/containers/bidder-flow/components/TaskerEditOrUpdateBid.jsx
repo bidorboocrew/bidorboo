@@ -36,8 +36,8 @@ class TaskerEditOrUpdateBid extends React.Component {
   submitUpdateBid = (e) => {
     e.preventDefault();
 
-    const { updateBidAction, bid, setSubmitting, values } = this.props;
-    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField });
+    const { updateBidAction, bid, setSubmitting, values, job } = this.props;
+    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField, job });
     this.setState({
       showUpdateBidDialog: false,
     });

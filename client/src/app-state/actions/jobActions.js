@@ -331,7 +331,7 @@ export const postNewJob = (jobDetails) => (dispatch) => {
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
-              specialMomentContent: taskDefinition.renderThankYouCard,
+              specialMomentContent: taskDefinition.renderThankYouForPostingMoment,
             },
           });
         }

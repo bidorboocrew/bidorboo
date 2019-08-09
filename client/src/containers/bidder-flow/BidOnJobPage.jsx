@@ -14,8 +14,8 @@ import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTh
 
 class BidOnJobPage extends React.Component {
   componentDidMount() {
-    const { match, getJobToBidOnDetails } = this.props;
-    const { jobDetails } = this.state;
+    const { match, getJobToBidOnDetails, jobDetails } = this.props;
+
     if (!jobDetails || !jobDetails._id) {
       if (match.params && match.params.jobId) {
         getJobToBidOnDetails(match.params.jobId);

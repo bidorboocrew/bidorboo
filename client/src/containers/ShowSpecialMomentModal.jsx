@@ -10,10 +10,10 @@ class ShowSpecialMomentModal extends React.Component {
     this.props.showSpecialMoment(null);
   };
   render() {
-    const { s_specialMomentContent } = this.props;
+    const { specialMomentContent } = this.props;
     let boundSpecialMoment = null;
-    if (s_specialMomentContent) {
-      boundSpecialMoment = s_specialMomentContent.bind(this);
+    if (specialMomentContent) {
+      boundSpecialMoment = specialMomentContent.bind(this);
     }
     return boundSpecialMoment
       ? ReactDOM.createPortal(
@@ -30,7 +30,7 @@ class ShowSpecialMomentModal extends React.Component {
 }
 const mapStateToProps = ({ uiReducer }) => {
   return {
-    s_specialMomentContent: uiReducer.specialMomentContent,
+    specialMomentContent: uiReducer.specialMomentContent,
   };
 };
 const mapDispatchToProps = (dispatch) => {

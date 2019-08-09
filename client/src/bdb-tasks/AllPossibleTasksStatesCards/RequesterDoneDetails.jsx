@@ -116,7 +116,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
 
               {requiresProposerReview && <TaskIsFulfilled />}
 
-              <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
+              <TaskCost cost={`$${bidValue}`} />
 
               {showMore && (
                 <React.Fragment>

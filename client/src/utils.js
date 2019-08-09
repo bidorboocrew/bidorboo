@@ -17,6 +17,11 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
   return null;
 };
 
+export const reload = (routeAndParams) => {
+  console.error(routeAndParams);
+  setTimeout(() => window.location.reload(), 3000);
+};
+
 export const goBackToPreviousRoute = () => {
   setTimeout(() => {
     appHistory.goBack();

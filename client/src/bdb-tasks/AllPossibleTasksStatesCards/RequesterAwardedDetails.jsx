@@ -255,7 +255,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
-              <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
+              <TaskCost cost={`$${bidValue}`} />
               {showMore && (
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />

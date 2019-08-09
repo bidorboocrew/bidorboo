@@ -136,7 +136,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 avgBid={avgBid}
                 onSubmit={(values) => {
                   submitBid({
-                    jobId: job._id,
+                    job,
                     bidAmount: values.bidAmountField,
                   });
                 }}
