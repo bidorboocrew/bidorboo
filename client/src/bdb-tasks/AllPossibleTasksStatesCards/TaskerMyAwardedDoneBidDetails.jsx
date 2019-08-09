@@ -241,7 +241,11 @@ class RequesterDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large />
+            <CenteredUserImageAndRating
+              userDetails={otherUserProfileInfo}
+              large
+              isCentered={false}
+            />
             <br />
           </div>
         </div>

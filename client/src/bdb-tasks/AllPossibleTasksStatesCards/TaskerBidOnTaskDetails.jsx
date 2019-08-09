@@ -92,7 +92,11 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             <div className="has-text-left">
               <div className="group">
                 <label className="label hasSelectedValue">Requester</label>
-                <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                <CenteredUserImageAndRating
+                  clipUserName
+                  userDetails={_ownerRef}
+                  isCentered={false}
+                />
               </div>
               <LocationLabelAndValue location={coordinates} />
 
