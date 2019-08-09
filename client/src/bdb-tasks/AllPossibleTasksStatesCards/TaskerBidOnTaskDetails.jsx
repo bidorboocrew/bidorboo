@@ -1,5 +1,7 @@
 import React from 'react';
+import { Collapse } from 'react-collapse';
 import TextareaAutosize from 'react-autosize-textarea';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -22,8 +24,21 @@ import {
 } from '../../containers/commonUtils';
 
 export default class TaskerBidOnTaskDetails extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showMore: false,
+    };
+  }
+
+  toggleShowMore = () => {
+    this.setState({ showMore: !this.state.showMore });
+  };
+
   render() {
     const { job, otherArgs } = this.props;
+    const { showMore } = this.state;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -76,84 +91,106 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
     return (
-      <div
-        style={{ height: 'auto ' }}
-        className="card cardWithButton nofixedwidth has-text-centered"
-      >
-        <div className="card-content">
-          <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <SummaryStartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
-            />
-            <div className="has-text-left">
-              <div className="group">
-                <label className="label hasSelectedValue">Requester</label>
-                <CenteredUserImageAndRating
-                  clipUserName
-                  userDetails={_ownerRef}
-                  isCentered={false}
-                />
-              </div>
-              <LocationLabelAndValue location={coordinates} />
-
-              <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="group">
-                <label className="label hasSelectedValue">Detailed Description</label>
-                <span className="is-size-7">
-                  <TextareaAutosize
-                    value={detailedDescription}
-                    className="textarea is-marginless is-paddingless is-size-6 has-text-centered "
-                    style={{
-                      resize: 'none',
-                      border: 'none',
-                      color: '#353535',
-                      fontSize: 16,
+      <>
+        {showMore && (
+          <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+            <div className="card-content">
+              <div className="content  subtitle has-text-centered">
+                <span>
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const elmnt = document.getElementById('bob-bid-on-request');
+                      elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
                     }}
-                    readOnly
-                  />
+                    className="is-text  slide-in-bottom-small"
+                  >
+                    {`Place your Bid Now`}
+                  </a>
                 </span>
               </div>
             </div>
+          </section>
+        )}
 
-            <div className="group">
-              <label className="label hasSelectedValue">Task Info</label>
-              <CardTitleAndActionsInfo
-                userAlreadyBid={userAlreadyBid}
-                jobState={state}
-                templateId={templateId}
-                bidsList={_bidsListRef}
-                userAlreadyView={userAlreadyView}
-                job={job}
+        <div
+          style={{ height: 'auto ' }}
+          className="card cardWithButton nofixedwidth has-text-centered"
+        >
+          <div className="card-content">
+            <div className="content">
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <SummaryStartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                )}
               />
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <div className="group">
+                    <label className="label hasSelectedValue">Requester</label>
+                    <CenteredUserImageAndRating
+                      clipUserName
+                      userDetails={_ownerRef}
+                      isCentered={false}
+                    />
+                  </div>
+                  <LocationLabelAndValue location={coordinates} />
+
+                  <TaskSpecificExtras templateId={ID} extras={extras} />
+                  <div className="group">
+                    <label className="label hasSelectedValue">Detailed Description</label>
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless control"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                      }}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </Collapse>
+              <div className="group">
+                <label className="label hasSelectedValue">Task Info</label>
+                <CardTitleAndActionsInfo
+                  userAlreadyBid={userAlreadyBid}
+                  jobState={state}
+                  templateId={templateId}
+                  bidsList={_bidsListRef}
+                  userAlreadyView={userAlreadyView}
+                  job={job}
+                />
+              </div>
+
+              <br />
+              <br />
+              {userAlreadyBid && (
+                <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>
+              )}
+              {!userAlreadyBid && (
+                <PostYourBid
+                  toggleShowMore={this.toggleShowMore}
+                  userReadDetails={showMore}
+                  avgBid={avgBid}
+                  onSubmit={(values) => {
+                    submitBid({
+                      job,
+                      bidAmount: values.bidAmountField,
+                    });
+                  }}
+                  onCancel={() => {
+                    // updateBooedBy(job);
+                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  }}
+                />
+              )}
             </div>
-            {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
-
-            <br />
-            {userAlreadyBid && (
-              <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>
-            )}
-            {!userAlreadyBid && (
-              <PostYourBid
-                avgBid={avgBid}
-                onSubmit={(values) => {
-                  submitBid({
-                    job,
-                    bidAmount: values.bidAmountField,
-                  });
-                }}
-                onCancel={() => {
-                  // updateBooedBy(job);
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
-                }}
-              />
-            )}
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

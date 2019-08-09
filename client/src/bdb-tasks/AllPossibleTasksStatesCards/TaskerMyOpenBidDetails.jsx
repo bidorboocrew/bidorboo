@@ -246,15 +246,12 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
-
                     <TextareaAutosize
                       value={detailedDescription}
-                      className="textarea is-marginless is-paddingless is-size-6"
+                      className="textarea is-marginless is-paddingless control"
                       style={{
                         resize: 'none',
                         border: 'none',
-                        color: '#353535',
-                        fontSize: 16,
                       }}
                       readOnly
                     />

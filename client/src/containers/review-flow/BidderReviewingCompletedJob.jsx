@@ -176,10 +176,9 @@ export class BidderReviewingCompletedJob extends React.Component {
 
           <div>ADD A PERSONAL COMMENT</div>
           <TextareaAutosize
-            className="textarea is-marginless"
+            className="textarea is-marginless control"
             style={{
               resize: 'none',
-              color: '#363636',
               height: 'auto',
               padding: '0.5rem',
               minHeight: 100,

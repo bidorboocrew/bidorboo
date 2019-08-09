@@ -243,12 +243,10 @@ class MyProfile extends React.Component {
                         <HeaderTitle title="About Me" />
                         <TextareaAutosize
                           value={personalParagraph}
-                          className="textarea is-marginless is-paddingless"
+                          className="textarea is-marginless is-paddingless control"
                           style={{
                             resize: 'none',
                             border: 'none',
-                            color: '#353535',
-                            height: 'auto',
                           }}
                           readOnly
                         />
@@ -313,7 +311,9 @@ const HeaderTitle = (props) => {
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="group">
-      <label className="label hasSelectedValue">{typeof labelText === 'function' ? labelText() : labelText}</label>
+      <label className="label hasSelectedValue">
+        {typeof labelText === 'function' ? labelText() : labelText}
+      </label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
     </div>

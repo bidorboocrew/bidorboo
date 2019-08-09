@@ -223,19 +223,15 @@ class RequesterRequestDetails extends React.Component {
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#353535',
-                          fontSize: 16,
-                        }}
-                        readOnly
-                      />
-                    </span>
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless control"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                      }}
+                      readOnly
+                    />
                   </div>
                 </div>
               </Collapse>

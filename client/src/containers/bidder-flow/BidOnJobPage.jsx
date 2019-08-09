@@ -50,29 +50,6 @@ class BidOnJobPage extends React.Component {
                   </li>
                 </ul>
               </nav>
-              <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
-                <div className="card-content">
-                  <div className="content">
-                    <div className="subtitle">
-                      {`What is your `}
-                      <span>
-                        <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            const elmnt = document.getElementById('bob-bid-on-request');
-                            elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
-                          }}
-                          className="is-text"
-                        >
-                          {`Bid`}
-                        </a>
-                      </span>
-                      {` to fulfill this request?`}
-                    </div>
-                  </div>
-                  {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
-                </div>
-              </section>
 
               {getMeTheRightRequestCard({
                 job: jobDetails,
