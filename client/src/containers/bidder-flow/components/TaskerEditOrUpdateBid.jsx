@@ -114,7 +114,7 @@ class TaskerEditOrUpdateBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Change My Bid</div>
+                  <div className="modal-card-title">Change my bid</div>
                   <button
                     onClick={this.closeUpdateBidModal}
                     className="delete"
@@ -190,7 +190,7 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span className="icon">
               <i className="far fa-edit" />
             </span>
-            <span>Change My Bid</span>
+            <span>Change my bid</span>
           </a>
         )}
       </div>

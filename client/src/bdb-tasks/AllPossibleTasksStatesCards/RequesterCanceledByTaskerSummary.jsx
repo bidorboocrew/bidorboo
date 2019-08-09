@@ -75,7 +75,7 @@ export default class RequesterCanceledByTaskerSummary extends React.Component {
               }}
               className="button is-danger"
             >
-              View Details
+              View details
             </a>
           </div>
         </React.Fragment>

@@ -93,7 +93,7 @@ class RequesterDoneSummary extends RequestBaseContainer {
             }}
             className={`button ${requiresProposerReview ? 'is-primary' : 'is-dark'}`}
           >
-            View Details
+            View details
           </a>
         </div>
       </div>

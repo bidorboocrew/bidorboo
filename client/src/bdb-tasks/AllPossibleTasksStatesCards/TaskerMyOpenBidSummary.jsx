@@ -127,7 +127,7 @@ const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
           }}
           className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
         >
-          <span>Change My Bid</span>
+          <span>Change my bid</span>
         </a>
       </div>
     );

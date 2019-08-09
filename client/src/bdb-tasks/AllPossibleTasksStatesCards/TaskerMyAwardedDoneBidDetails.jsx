@@ -171,7 +171,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-dark`}
                   >
-                    {`Done & Archived`}
+                    Archived
                   </a>
                 )}
               </>

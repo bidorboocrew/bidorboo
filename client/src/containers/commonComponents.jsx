@@ -1088,7 +1088,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
             fontSize: 16,
           }}
         >
-          {`Done & Archived`}
+          Archived
         </div>
       </div>
       {/* <div>

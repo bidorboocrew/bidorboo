@@ -102,7 +102,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             }}
             className="button is-fullwidth is-danger"
           >
-            View Details
+            View details
           </a>
         </div>
       </div>

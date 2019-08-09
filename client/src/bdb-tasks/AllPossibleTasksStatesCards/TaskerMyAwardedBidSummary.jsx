@@ -127,7 +127,7 @@ const renderFooter = ({ bid }) => {
           }}
           className="button is-success"
         >
-          View Details
+          View details
         </a>
       </div>
     </React.Fragment>

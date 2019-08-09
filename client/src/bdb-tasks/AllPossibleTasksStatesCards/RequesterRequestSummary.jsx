@@ -127,7 +127,7 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`View Details`}</span>
+            <span>View details</span>
           </span>
         </a>
       </div>

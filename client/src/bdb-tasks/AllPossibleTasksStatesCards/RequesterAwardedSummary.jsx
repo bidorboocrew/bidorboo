@@ -92,7 +92,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               }}
               className={`button is-success`}
             >
-              View Details
+              View details
             </a>
           </div>
         </div>
