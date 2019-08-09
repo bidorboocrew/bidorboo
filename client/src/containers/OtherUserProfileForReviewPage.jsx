@@ -145,7 +145,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                     <span className="icon">
                       <i className="far fa-star" />
                     </span>
-                    <span>Not Rated</span>
+                    <span>--</span>
                   </div>
                 ) : (
                   <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>

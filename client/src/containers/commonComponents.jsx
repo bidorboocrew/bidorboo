@@ -111,7 +111,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
               <span className="icon">
                 <i className="far fa-star" />
               </span>
-              <span>Not Rated</span>
+              <span>--</span>
             </div>
           ) : (
             <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
@@ -184,18 +184,18 @@ export const CenteredUserImageAndRating = ({
           <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
+            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="far fa-star" />
               </span>
-              <span>Not Rated</span>
+              <span className="has-text-dark">--</span>
             </div>
           ) : (
-            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
+            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="fas fa-star" />
               </span>
-              <span>{rating.globalRating}</span>
+              <span className="has-text-dark">{rating.globalRating}</span>
             </div>
           )}
         </div>
@@ -240,7 +240,7 @@ export const CenteredUserImageAndRating = ({
   //           <span className="icon">
   //             <i className="far fa-star" />
   //           </span>
-  //           <span>Not Rated</span>
+  //           <span>--</span>
   //         </div>
   //       ) : (
   //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
