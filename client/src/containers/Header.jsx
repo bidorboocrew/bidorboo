@@ -522,7 +522,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-plus-square" />
                         </span>
-                        <span>Request</span>
+                        <span>Request Now</span>
                       </a>
                       <a
                         id={'viewDependentNavBarItems'}

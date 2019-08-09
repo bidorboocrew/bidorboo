@@ -37,6 +37,7 @@ export default class DatePickerInput extends React.Component {
     const { selectedDate } = this.state;
 
     let dateClass = '';
+
     if (!!selectedDate && selectedDate.toDate) {
       dateClass = selectedDate.toDate && !error ? 'hasSelectedValue' : 'is-danger';
     }
@@ -49,12 +50,12 @@ export default class DatePickerInput extends React.Component {
         <label className={`label ${dateClass}`}>{label}</label>
         <div>
           <DatePicker
-            className={'input is-fullwidth'}
             selected={selectedDate}
             onChange={this.handleChange}
             minDate={this.minDate}
             maxDate={moment().add(30, 'd')}
             disabledKeyboardNavigation
+            customInput={<CustomDateButton />}
             placeholderText="Select a date..."
             dateFormat={'D/MMMM/YYYY'}
           />
@@ -62,6 +63,23 @@ export default class DatePickerInput extends React.Component {
         {helpText && <p className="help">{helpText}</p>}
         {touched && error && <p className="help is-danger">{error}</p>}
       </div>
+    );
+  }
+}
+class CustomDateButton extends React.Component {
+  render() {
+    return (
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.props.onClick(e);
+        }}
+        style={{ boxShadow: 'none' }}
+        className={'input is-fullwidth has-text-left'}
+      >
+        {this.props.value ? this.props.value : 'Select a Date'}
+      </button>
     );
   }
 }
