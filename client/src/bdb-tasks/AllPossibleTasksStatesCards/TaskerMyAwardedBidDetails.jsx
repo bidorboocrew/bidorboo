@@ -234,7 +234,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
               {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
 
-              <BidAmount bidAmount={`$${bidValue}`} />
+              <BidAmount bidAmount={bidValue} />
               <div className="group">
                 <label className="label hasSelectedValue">Task Address</label>
                 <div className="control">{addressText}</div>

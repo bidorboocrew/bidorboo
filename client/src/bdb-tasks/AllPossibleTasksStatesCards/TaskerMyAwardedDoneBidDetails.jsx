@@ -104,7 +104,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
               {requiresBidderReview && <TaskIsFulfilled />}
 
               <BidAmount
-                bidAmount={`$${bidValue}`}
+                bidAmount={bidValue}
                 renderHelp={() => <div className="help">Your Payout is on the way</div>}
               />
 
