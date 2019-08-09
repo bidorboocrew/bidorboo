@@ -1,5 +1,4 @@
 import React from 'react';
-import { Collapse } from 'react-collapse';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -24,21 +23,8 @@ import {
 } from '../../containers/commonUtils';
 
 export default class TaskerBidOnTaskDetails extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showMore: false,
-    };
-  }
-
-  toggleShowMore = () => {
-    this.setState({ showMore: !this.state.showMore });
-  };
-
   render() {
     const { job, otherArgs } = this.props;
-    const { showMore } = this.state;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -92,26 +78,25 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     }
     return (
       <>
-        {showMore && (
-          <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
-            <div className="card-content">
-              <div className="content  subtitle has-text-centered">
-                <span>
-                  <a
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const elmnt = document.getElementById('bob-bid-on-request');
-                      elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
-                    }}
-                    className="is-text  slide-in-bottom-small"
-                  >
-                    {`Place your Bid Now`}
-                  </a>
-                </span>
-              </div>
+        <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content subtitle">
+              Review The Task Details Then
+              <span>
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const elmnt = document.getElementById('bob-bid-on-request');
+                    elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                  }}
+                  className="is-text"
+                >
+                  {` Place your Bid`}
+                </a>
+              </span>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         <div
           style={{ height: 'auto ' }}
@@ -126,33 +111,33 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <Collapse isOpened={showMore}>
-                <div className="has-text-left">
-                  <div className="group">
-                    <label className="label hasSelectedValue">Requester</label>
-                    <CenteredUserImageAndRating
-                      clipUserName
-                      userDetails={_ownerRef}
-                      isCentered={false}
-                    />
-                  </div>
-                  <LocationLabelAndValue location={coordinates} />
 
-                  <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="group">
-                    <label className="label hasSelectedValue">Detailed Description</label>
-                    <TextareaAutosize
-                      value={detailedDescription}
-                      className="textarea is-marginless is-paddingless control"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                      }}
-                      readOnly
-                    />
-                  </div>
+              <div className="has-text-left">
+                <div className="group">
+                  <label className="label hasSelectedValue">Requester</label>
+                  <CenteredUserImageAndRating
+                    clipUserName
+                    userDetails={_ownerRef}
+                    isCentered={false}
+                  />
                 </div>
-              </Collapse>
+                <LocationLabelAndValue location={coordinates} />
+
+                <TaskSpecificExtras templateId={ID} extras={extras} />
+                <div className="group">
+                  <label className="label hasSelectedValue">Detailed Description</label>
+                  <TextareaAutosize
+                    value={detailedDescription}
+                    className="textarea is-marginless is-paddingless control"
+                    style={{
+                      resize: 'none',
+                      border: 'none',
+                    }}
+                    readOnly
+                  />
+                </div>
+              </div>
+
               <div className="group">
                 <label className="label hasSelectedValue">Task Info</label>
                 <CardTitleAndActionsInfo
@@ -172,8 +157,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               )}
               {!userAlreadyBid && (
                 <PostYourBid
-                  toggleShowMore={this.toggleShowMore}
-                  userReadDetails={showMore}
                   avgBid={avgBid}
                   onSubmit={(values) => {
                     submitBid({
