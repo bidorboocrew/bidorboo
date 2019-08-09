@@ -12,6 +12,11 @@ import {
   CountDownComponent,
   StartDateAndTime,
   TaskSpecificExtras,
+  SummaryStartDateAndTime,
+  AwaitingOnTasker,
+  PastdueExpired,
+  JobCardTitle,
+  TaskersAvailable,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -88,7 +93,7 @@ class RequesterRequestDetails extends React.Component {
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -151,109 +156,72 @@ class RequesterRequestDetails extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div style={{ height: 'unset' }} className={`card ${isPastDue ? 'readOnlyView' : ''}`}>
-          {/* <div className="card-image">
-            <img className="bdb-cover-img" src={IMG_URL} />
-          </div> */}
+        <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="title">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 7 }}>{TITLE}</span>
-                </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item has-text-danger"
+              <JobCardTitle
+                icon={ICON}
+                title={TITLE}
+                img={IMG}
+                meatballMenu={() => (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none', boxShadow: 'none' }}
                       >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Cancel Request</span>
-                      </a>
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Cancel Request</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                )}
+              />
 
-              {isPastDue && (
-                <div className="group saidTest">
-                  <label className="label">Request Status</label>
-                  <div className="control has-text-dark">Past Due - Expired</div>
-                  <div className="help">* This Request will be deleted in 48 hours</div>
-                </div>
-              )}
-
-              {!isPastDue && (
-                <React.Fragment>
-                  {!areThereAnyBidders && (
-                    <div className="group saidTest">
-                      <label className="label">Request Status</label>
-                      <div className="control">Awaiting on Taskers</div>
-                      {!isHappeningSoon && !isHappeningToday && (
-                        <div className="help">
-                          * No Taskers offered to do this yet! check again soon.
-                        </div>
-                      )}
-                      {(isHappeningSoon || isHappeningToday) && (
-                        <div className="help">* Expiring soon, if no Taskers are available yet</div>
-                      )}
-                    </div>
-                  )}
-                  {areThereAnyBidders && (
-                    <div className="group saidTest">
-                      <label className="label">Request Status</label>
-                      <div className="control has-text-info">Taskers Available</div>
-                      {!isHappeningSoon && !isHappeningToday && (
-                        <div className="help has-text-info">
-                          * Review the offers regularly and choose a Tasker.
-                        </div>
-                      )}
-                      {(isHappeningSoon || isHappeningToday) && (
-                        <div className="help has-text-info">
-                          * Expiring soon, Choose a Tasker asap
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
-              <StartDateAndTime
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              {isPastDue && <PastdueExpired />}
+
+              {!isPastDue && (
+                <React.Fragment>
+                  {!areThereAnyBidders && <AwaitingOnTasker />}
+                  {areThereAnyBidders && (
+                    <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
+                  )}
+                </React.Fragment>
+              )}
               {showMore && (
                 <React.Fragment>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
                   <TaskSpecificExtras templateId={ID} extras={extras} />
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Detailed Description</label>
                     <span className="is-size-7">
                       <TextareaAutosize
@@ -271,25 +239,25 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 </React.Fragment>
               )}
+              <React.Fragment>
+                {!showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small">
+                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-down" />
+                    </span>
+                  </a>
+                )}
+                {showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small">
+                    <span style={{ marginRight: 4 }}>show less details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-up" />
+                    </span>
+                  </a>
+                )}
+              </React.Fragment>
             </div>
-            <React.Fragment>
-              {!showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show full details</span>
-                  <span className="icon">
-                    <i className="fas fa-angle-double-down" />
-                  </span>
-                </a>
-              )}
-              {showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show less details</span>
-                  <span className="icon">
-                    <i className="fas fa-angle-double-up" />
-                  </span>
-                </a>
-              )}
-            </React.Fragment>
           </div>
         </div>
       </React.Fragment>

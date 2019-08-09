@@ -38,7 +38,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
     ) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
@@ -75,14 +75,14 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control has-text-danger">Disputed</div>
               <div className="help">* BidorBooCrew will resolve this asap</div>
             </div>
 
-            <div className="group saidTest">
-              <label className="label">Potential Payout</label>
+            <div className="group">
+              <label className="label">My Bid</label>
               <div className={`has-text-danger`}>{`${bidValue -
                 Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
               <div className="help">* on hold</div>
@@ -106,7 +106,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             }}
             className="button is-fullwidth is-danger"
           >
-            View Disputed Task
+            View Details
           </a>
         </div>
       </div>

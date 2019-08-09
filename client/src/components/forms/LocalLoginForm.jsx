@@ -67,7 +67,7 @@ class LocalLoginForm extends React.Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form className="has-text-left" onSubmit={handleSubmit}>
         <input
           id="originPath"
           className="input is-invisible"
@@ -88,6 +88,7 @@ class LocalLoginForm extends React.Component {
           id="loginPassword"
           type="password"
           label="Password"
+          placeholder="Enter your password..."
           error={touched.loginPassword && errors.loginPassword}
           value={values.loginPassword || ''}
           onChange={handleChange}
@@ -99,7 +100,7 @@ class LocalLoginForm extends React.Component {
           type="hidden"
           value={values.recaptcha || ''}
         />
-        <div className="group saidTest">
+        <div className="group">
           <ReCAPTCHA
             style={{ display: 'none' }}
             ref={this.recaptchaRef}
@@ -120,21 +121,19 @@ class LocalLoginForm extends React.Component {
             sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
           />
         </div>
-        <div className="has-text-centered">
-          <button
-            style={{ marginRight: '2rem', width: 120 }}
-            className="button is-success is-inline-flex"
-            type="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            Login Now
+        <div className="has-text-left">
+          <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
+            Login Now !
           </button>
+        </div>
+        <div className="has-text-left">
           <button
-            className="button is-text is-outline is-inline-flex"
+            style={{ boxShadow: 'none', padding: 0, marginTop: 14 }}
+            className="button is-text is-small"
             onClick={() => alert('Not implemented yet')}
             disabled={isSubmitting}
           >
-            Reset credentials
+            reset your credentials ?
           </button>
         </div>
       </form>

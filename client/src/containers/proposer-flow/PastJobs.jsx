@@ -86,7 +86,7 @@ const EmptyHistory = () => {
               className="button is-success"
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
             >
-              New Request
+              Post Requests
             </a>
           </div>
         </div>
@@ -221,7 +221,7 @@ class RequestSummary extends React.Component {
 
 const PleaseSubmitYourReview = () => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label>
         Your Review will be revealed when both (YOU) the Requester and the Tasker submit your
         reviews

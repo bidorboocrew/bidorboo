@@ -6,12 +6,13 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
   CountDownComponent,
-  UserImageAndRating,
   AvgBidDisplayLabelAndValue,
-  StartDateAndTime,
+  SummaryStartDateAndTime,
+  CenteredUserImageAndRating,
   LocationLabelAndValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
+  JobCardTitle,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
@@ -49,7 +50,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -75,49 +76,58 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     if (job && job._bidsListRef && job._bidsListRef.length > 0) {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
-
     return (
-      <div style={{ height: 'auto ' }} className="card cardWithButton nofixedwidth">
+      <div
+        style={{ height: 'auto ' }}
+        className="card cardWithButton nofixedwidth has-text-centered"
+      >
         <div className="card-content">
           <div className="content">
-            <CardTitleAndActionsInfo
-              userAlreadyBid={userAlreadyBid}
-              jobState={state}
-              templateId={templateId}
-              bidsList={_bidsListRef}
-              userAlreadyView={userAlreadyView}
-            />
-
-            <div className="group saidTest">
-              <label className="label">Requester:</label>
-              <UserImageAndRating userDetails={_ownerRef} />
-            </div>
-            <StartDateAndTime
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+              renderHelpComponent={() => (
+                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+              )}
             />
-
+            <div className="group">
+              <label className="label hasSelectedValue">Requester</label>
+              <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+            </div>
             <LocationLabelAndValue location={coordinates} />
 
             <TaskSpecificExtras templateId={ID} extras={extras} />
-            <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
-
-            <div className="group saidTest">
-              <label className="label">Detailed Description</label>
-
-              <TextareaAutosize
-                value={detailedDescription}
-                className="textarea is-marginless is-paddingless is-size-6"
-                style={{
-                  resize: 'none',
-                  border: 'none',
-                  color: '#4a4a4a',
-                  fontSize: '1rem',
-                }}
-                readOnly
-              />
+            <div className="group">
+              <label className="label hasSelectedValue">Detailed Description</label>
+              <span className="is-size-7">
+                <TextareaAutosize
+                  value={detailedDescription}
+                  className="textarea is-marginless is-paddingless is-size-6 has-text-centered "
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                    color: '#4a4a4a',
+                    fontSize: '1rem',
+                  }}
+                  readOnly
+                />
+              </span>
             </div>
 
+            <div className="group">
+              <label className="label hasSelectedValue">Task Info</label>
+              <CardTitleAndActionsInfo
+                userAlreadyBid={userAlreadyBid}
+                jobState={state}
+                templateId={templateId}
+                bidsList={_bidsListRef}
+                userAlreadyView={userAlreadyView}
+                job={job}
+              />
+            </div>
+            {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
+
+            <br />
             {userAlreadyBid && (
               <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>
             )}

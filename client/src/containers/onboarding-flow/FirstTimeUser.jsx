@@ -9,13 +9,6 @@ import { updateOnBoardingDetails } from '../../app-state/actions/userModelAction
 import logoImg from '../../assets/images/android-chrome-192x192.png';
 import SetupYourProfileFormSteps from './SetupYourProfileFormSteps';
 export class FirstTimeUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasAgreedToTOS: false,
-      tosError: false,
-    };
-  }
   componentDidMount() {
     const { isLoggedIn, userDetails } = this.props;
 
@@ -28,7 +21,6 @@ export class FirstTimeUser extends React.Component {
 
   render() {
     const { displayName } = this.props;
-    const { hasAgreedToTOS, tosError } = this.state;
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
@@ -36,7 +28,7 @@ export class FirstTimeUser extends React.Component {
             <section className="hero has-text-centered">
               <div style={{ padding: '1.5rem 0.5rem 0 0.5rem' }} className="hero-body">
                 <div className="container has-text-centered">
-                  <div>
+                  <div className="title has-text-grey">
                     <img
                       src={logoImg}
                       alt="BidOrBoo"
@@ -44,21 +36,22 @@ export class FirstTimeUser extends React.Component {
                       height="24"
                       style={{ maxHeight: 'unset' }}
                     />
-
-                    <span style={{ marginLeft: 7 }} className="title">
-                      BidOrBoo Welcomes
-                    </span>
+                    <span style={{ marginLeft: 4 }}>BidOrBoo Welcomes</span>
                   </div>
-                  <h2 className="has-text-centered title has-text-grey">{displayName}</h2>
+                  <h2 className="has-text-centered title has-text-weight-semibold">
+                    {displayName}
+                  </h2>
                 </div>
               </div>
             </section>
-            <div style={{ padding: '0.5rem' }}>
-              <div style={{ height: 'unset' }} className="card limitLargeMaxWidth">
-                <div className="card-content">
-                  <div className="content">
-                    <SetupYourProfileFormSteps {...this.props} />
-                  </div>
+
+            <div
+              style={{ height: 'unset' }}
+              className="card cardWithButton limitLargeMaxWidth nofixedwidth"
+            >
+              <div className="card-content">
+                <div className="content">
+                  <SetupYourProfileFormSteps {...this.props} />
                 </div>
               </div>
             </div>

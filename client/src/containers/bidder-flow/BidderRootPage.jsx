@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import BidRootBg from '../../assets/images/BidRootBg.png';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
@@ -9,6 +10,7 @@ import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jo
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
 import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
+import BidderRootLocationFilter from '../../components/forms/BidderRootLocationFilter';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -17,22 +19,20 @@ import MapSection from './map/MapSection';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 
-import { StepsForTasker } from '../commonComponents';
-
 class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      showMapView: false,
       isThereAnActiveSearch: false,
-      // showSideNav: false,
       mapZoomLevel: 6,
       mapCenterPoint: {
         lng: -75.801867,
         lat: 45.296898,
       },
       activeSearchParams: {
-        searchRadius: '',
+        searchRadius: '25',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
       },
@@ -41,7 +41,7 @@ class BidderRootPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
+    const { userDetails, searchJobsToBidOn } = this.props;
 
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
@@ -159,9 +159,13 @@ class BidderRootPage extends React.Component {
     );
   };
 
+  toggleMapView = () => {
+    this.setState({ showMapView: !this.state.showMapView });
+  };
+
   render() {
     const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
-    const { isThereAnActiveSearch, userLastStoredSearchParams } = this.state;
+    const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
@@ -182,6 +186,49 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
+        <section className="hero is-small">
+          <div
+            style={{ padding: '1rem 0.5rem', backgroundImage: `url(${BidRootBg})` }}
+            className="hero-body"
+          >
+            <div className="container">
+              <h1 className="has-text-white title">Search For Tasks</h1>
+
+              <div
+                style={{ background: 'transparent' }}
+                className="card cardWithButton nofixedwidth disabled has-text-centered"
+              >
+                <div style={{ padding: 0 }} className="card-content">
+                  <BidderRootLocationFilter
+                    submitSearchLocationParams={this.submitSearchLocationParams}
+                    updateSearchLocationState={this.updateSearchLocationState}
+                    activeSearchParams={activeSearchParams}
+                    userLastStoredSearchParams={userLastStoredSearchParams}
+                    {...this.props}
+                  />
+                </div>
+              </div>
+              <div className="columns is-centered is-mobile is-multiline">
+                <div className="column has-text-left">
+                  <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
+                    <input
+                      id="togglemapView"
+                      type="checkbox"
+                      name="togglemapView"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleMapView}
+                      checked={showMapView}
+                    />
+                    <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
+                      Toggle Map View
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {isLoading && (
           <section className="section">
             <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
@@ -189,56 +236,52 @@ class BidderRootPage extends React.Component {
         )}
         {!isLoading && (
           <React.Fragment>
-            {currentJobsList && currentJobsList.length > 0 && (
+            {showMapView && currentJobsList && currentJobsList.length > 0 && (
               <React.Fragment>
-                <MapSection
-                  mapCenterPoint={mapCenterPoint}
-                  mapZoomLevel={mapZoomLevel}
-                  jobsList={currentJobsList}
-                  {...this.props}
-                />
-                <div
-                  style={{ marginBottom: 6 }}
-                  className="help container is-widescreen has-text-grey has-text-centered"
-                >
-                  {` ${(currentJobsList && currentJobsList.length) ||
-                    0} open requests in the search area`}
+                <br />
+                <div className="container slide-in-bottom-small">
+                  <MapSection
+                    mapCenterPoint={mapCenterPoint}
+                    mapZoomLevel={mapZoomLevel}
+                    jobsList={currentJobsList}
+                    {...this.props}
+                  />
+                  <div
+                    style={{ marginBottom: 6 }}
+                    className="help container is-widescreen has-text-grey has-text-centered"
+                  >
+                    {` ${(currentJobsList && currentJobsList.length) ||
+                      0} open requests in the search area`}
+                  </div>
                 </div>
               </React.Fragment>
             )}
-            <div className="has-text-centered">
-              {anyVisibleJobs && (
-                <BidderRootFilterWrapper
-                  submitSearchLocationParams={this.submitSearchLocationParams}
-                  updateSearchLocationState={this.updateSearchLocationState}
-                  activeSearchParams={activeSearchParams}
-                  userLastStoredSearchParams={userLastStoredSearchParams}
-                />
-              )}
-            </div>
+
+            {anyVisibleJobs && (
+              <BidderRootFilterWrapper
+                submitSearchLocationParams={this.submitSearchLocationParams}
+                updateSearchLocationState={this.updateSearchLocationState}
+                activeSearchParams={activeSearchParams}
+                userLastStoredSearchParams={userLastStoredSearchParams}
+                {...this.props}
+              />
+            )}
 
             {currentJobsList && currentJobsList.length > 0 && (
-              <AllJobsView jobsList={currentJobsList} {...this.props} />
+              <>
+                <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
+              </>
             )}
+
             {!isThereAnActiveSearch && (
               <div className="HorizontalAligner-center column">
                 <div className="is-fullwidth">
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        {/* <StepsForTasker isSmall={true} step={1} /> */}
-                        <br />
                         <div className="is-size-6">
-                          Find Requests in the Areas where you're able to provide them
+                          Search to Find Tasks in Areas where you're able to provide them
                         </div>
-
-                        <BidderRootFilterWrapper
-                          isHorizontal={false}
-                          submitSearchLocationParams={this.submitSearchLocationParams}
-                          updateSearchLocationState={this.updateSearchLocationState}
-                          activeSearchParams={activeSearchParams}
-                          userLastStoredSearchParams={userLastStoredSearchParams}
-                        />
                       </div>
                     </div>
                   </div>
@@ -251,20 +294,13 @@ class BidderRootPage extends React.Component {
                   <div className="card">
                     <div className="card-content VerticalAligner">
                       <div className="has-text-centered">
-                        <StepsForTasker isSmall={true} step={1} />
-                        <br />
                         <div className="is-size-6">
-                          No Requests match your search criteria at this time.
-                          <br /> Please try Changing your search criteria or check again later.
+                          No Tasks available around this area at this time.
                         </div>
-
-                        <BidderRootFilterWrapper
-                          isHorizontal={false}
-                          submitSearchLocationParams={this.submitSearchLocationParams}
-                          updateSearchLocationState={this.updateSearchLocationState}
-                          activeSearchParams={activeSearchParams}
-                          userLastStoredSearchParams={userLastStoredSearchParams}
-                        />
+                        <br />
+                        <div className="help">
+                          Try Changing Your Search Criteria or search a different area
+                        </div>
                       </div>
                     </div>
                   </div>

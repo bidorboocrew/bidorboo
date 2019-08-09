@@ -9,11 +9,15 @@ import { REQUEST_STATES } from '../index';
 
 import {
   CountDownComponent,
-  UserImageAndRating,
+  CenteredUserImageAndRating,
   AvgBidDisplayLabelAndValue,
-  StartDateAndTime,
   LocationLabelAndValue,
   TaskSpecificExtras,
+  SummaryStartDateAndTime,
+  BSawaitingOnRequester,
+  BSPastDueExpired,
+  JobCardTitle,
+  BSAwardedToSomeoneElse,
 } from '../../containers/commonComponents';
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
@@ -102,7 +106,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
@@ -110,7 +114,6 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
-    const requesterCanceledThierRequest = state === REQUEST_STATES.CANCELED_OPEN;
 
     return (
       <React.Fragment>
@@ -131,8 +134,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <div className="content">
                     Are you sure you want to delete your bid on this task?
                     <br />
-                    You can always edit your bid price as long as the Requester did not chose a
-                    tasker.
+                    <p>You can always edit your bid as long as the Requester did not award a bid</p>
                   </div>
                   <div className="help">*This action will NOT affect your ratings.</div>
                 </section>
@@ -165,116 +167,84 @@ export default class TaskerMyOpenBidDetails extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div
-          style={{ height: 'auto ' }}
-          className={`card  ${isPastDue || requesterCanceledThierRequest ? 'readOnlyView' : ''}`}
-        >
+        <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
-                </div>
-
-                <div
-                  ref={(node) => (this.node = node)}
-                  className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
-                >
-                  <div className="dropdown-trigger">
-                    <button
-                      onClick={this.toggleShowMoreOptionsContextMenu}
-                      className="button"
-                      aria-haspopup="true"
-                      aria-controls="dropdown-menu"
-                      style={{ border: 'none' }}
-                    >
-                      <div style={{ padding: 6 }} className="icon">
-                        <i className="fas fa-ellipsis-v" />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div className="dropdown-content">
-                      <a
-                        onClick={() => {
-                          this.toggleDeleteConfirmationDialog();
-                        }}
-                        className="dropdown-item has-text-danger"
+              <JobCardTitle
+                icon={ICON}
+                title={TITLE}
+                img={IMG}
+                meatballMenu={() => (
+                  <div
+                    ref={(node) => (this.node = node)}
+                    className={`dropdown is-right ${showMoreOptionsContextMenu ? 'is-active' : ''}`}
+                  >
+                    <div className="dropdown-trigger">
+                      <button
+                        onClick={this.toggleShowMoreOptionsContextMenu}
+                        className="button"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu"
+                        style={{ border: 'none', boxShadow: 'none' }}
                       >
-                        <span className="icon">
-                          <i className="far fa-trash-alt" aria-hidden="true" />
-                        </span>
-                        <span>Delete Bid</span>
-                      </a>
+                        <div style={{ padding: 6 }} className="icon">
+                          <i className="fas fa-ellipsis-v" />
+                        </div>
+                      </button>
+                    </div>
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div className="dropdown-content">
+                        <a
+                          onClick={() => {
+                            this.toggleDeleteConfirmationDialog();
+                          }}
+                          className="dropdown-item has-text-danger"
+                        >
+                          <span className="icon">
+                            <i className="far fa-trash-alt" aria-hidden="true" />
+                          </span>
+                          <span>Delete Bid</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                )}
+              />
 
-              <div className="group saidTest">
-                <label className="label">Requester:</label>
-                <UserImageAndRating userDetails={_ownerRef} />
-              </div>
-              {isAwardedToSomeoneElse && (
-                <div className="group saidTest">
-                  <label className="label">Bid Status</label>
-                  <div className="control has-text-info">Awarded to someone else</div>
-                  <div className="help">
-                    * but don't worry If The chosen tasker cancels for any reason, you will get
-                    another chance
-                  </div>
-                </div>
-              )}
-              {requesterCanceledThierRequest && (
-                <div className="group saidTest">
-                  <label className="label">Bid Status</label>
-                  <div className="control has-text-info">Requester canceled this request</div>
-                  <div className="help">
-                    * This request is no longer active, the request and your bid will be deleted in
-                    48hours
-                  </div>
-                </div>
-              )}
-              {!isAwardedToSomeoneElse && !requesterCanceledThierRequest && (
-                <React.Fragment>
-                  {isPastDue && (
-                    <div className="group saidTest">
-                      <label className="label">Bid Status</label>
-                      <div className="control has-text-dark">Past Due - Expired</div>
-                      <div className="help">* Sorry! the requester did not select anyone</div>
-                    </div>
-                  )}
-                  {!isPastDue && (
-                    <div className="group saidTest">
-                      <label className="label">Bid Status</label>
-                      <div className="control has-text-info">{displayStatus}</div>
-                      <div className="help">* BidOrBooCrew wishes you best of luck!</div>
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
-              <div className="group saidTest">
-                <label className="label">Potential Payout</label>
-                <div className="control has-text-info">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">* Potential earnings if your bid wins.</div>
-              </div>
-              <StartDateAndTime
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <TaskSpecificExtras templateId={ID} extras={extras} />
-              <LocationLabelAndValue location={location.coordinates} />
+
+              {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
+
+              {!isAwardedToSomeoneElse && (
+                <React.Fragment>
+                  {isPastDue && <BSPastDueExpired />}
+                  {!isPastDue && <BSawaitingOnRequester />}
+                </React.Fragment>
+              )}
+
+              <div className="group">
+                <label className="label">My Bid</label>
+                <div className="control">{`${bidValue -
+                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              </div>
+
               {showMore && (
                 <React.Fragment>
+                  <div className="group">
+                    <label className="label">Requester:</label>
+                    <CenteredUserImageAndRating userDetails={_ownerRef} />
+                  </div>
+                  <TaskSpecificExtras templateId={ID} extras={extras} />
+                  <LocationLabelAndValue location={location.coordinates} />
+
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
-                  <div className="group saidTest">
+                  <div className="group">
                     <label className="label">Detailed Description</label>
 
                     <TextareaAutosize
@@ -294,7 +264,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full details</span>
+                    <span style={{ marginRight: 4 }}>show full task details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
@@ -309,14 +279,12 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </a>
                 )}
               </div>
-              <hr className="divider" />
-
+              <br />
               <TaskerEditOrUpdateBid
                 bid={bid}
                 job={job}
                 updateBidAction={updateBid}
                 isAwardedToSomeoneElse={isAwardedToSomeoneElse}
-                requesterCanceledThierRequest={requesterCanceledThierRequest}
               />
             </div>
           </div>

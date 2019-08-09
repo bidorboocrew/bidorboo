@@ -36,7 +36,7 @@ export const Checkbox = ({
   }
 
   return (
-    <div className="group saidTest">
+    <div className="group">
       <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
         <Label htmlFor={id} error={error}>
           {label}
@@ -162,7 +162,7 @@ export const DateInput = ({ ...props }) => {
 
 export const TimeInput = ({ label, onChangeEvent }) => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <Label>{label}</Label>
       <TimePickerInput onChangeEvent={onChangeEvent} />
     </div>

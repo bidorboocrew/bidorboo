@@ -34,7 +34,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG  } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }
@@ -62,7 +62,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
             {showMore && (
               <React.Fragment>
                 <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="group saidTest">
+                <div className="group">
                   <label className="label">Detailed Description</label>
                   <span className="is-size-7">
                     <TextareaAutosize
@@ -83,7 +83,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
             <div>
               {!showMore && (
                 <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show full details</span>
+                  <span style={{ marginRight: 4 }}>show full task details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-down" />
                   </span>

@@ -108,7 +108,7 @@ class App extends React.Component {
 
     return (
       <div id="bidorboo-root-view">
-        <FreshdeskChat />
+        {/* <FreshdeskChat /> */}
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
@@ -217,7 +217,7 @@ class App extends React.Component {
                       width={21}
                       height={21}
                       alt="Canada"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
+                      style={{ WebkitFilter: 'grayscale(50%)', filter: 'grayscale(50%)' }}
                       src={canadaFlag}
                     />
                   </div>
@@ -231,7 +231,8 @@ class App extends React.Component {
                     >
                       {`BidOrBoo Terms`}
                     </a>
-                    <span className="has-text-white">{`&`}</span>
+                  </div>
+                  <div>
                     <a
                       style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
                       target="_blank"
@@ -247,13 +248,7 @@ class App extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <div className="has-text-white is-size-7">
-                    <img
-                      src={logoImg}
-                      alt="BidOrBoo"
-                      style={{ WebkitFilter: 'grayscale(100%)', filter: 'grayscale(100%)' }}
-                      width={21}
-                      height={21}
-                    />
+                    <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
                     {` BidOrBoo Inc`}
                   </div>
                   <div style={{ marginTop: 6 }}>
@@ -264,6 +259,12 @@ class App extends React.Component {
 
               <div className="level-item has-text-centered">
                 <div>
+                  <p className="has-text-white is-size-7">Chat With Us</p>
+
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <FreshdeskChat isFooter />
+                  </div>
+
                   <p className="has-text-white is-size-7">Contact Us</p>
                   <div className="has-text-white is-size-7">bidorboocrew@bidorboo.com</div>
                 </div>

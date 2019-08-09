@@ -51,55 +51,58 @@ class BidOnJobPage extends React.Component {
     }
 
     return (
-      <div>
-        <div className="columns is-centered">
-          <div className="column limitLargeMaxWidth">
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
-                    <span>All Requests</span>
-                  </a>
-                </li>
-                <li className="is-active">
-                  <a>Place your bid</a>
-                </li>
-              </ul>
-            </nav>
-            <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
-              <div className="card-content">
-                <div className="content">
-                  <div className="subtitle">
-                    {`How much will you `}
-                    <span>
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const elmnt = document.getElementById('bob-bid-on-request');
-                          elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
-                        }}
-                        className="is-text"
-                      >
-                        {`Bid`}
-                      </a>
-                    </span>
-                    {` to fulfill this request?`}
+      <>
+        <div>
+          <div className="columns is-centered">
+            <div className="column limitLargeMaxWidth">
+              <nav className="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                  <li>
+                    <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.root)}>
+                      <span>All Requests</span>
+                    </a>
+                  </li>
+                  <li className="is-active">
+                    <a>Place your bid</a>
+                  </li>
+                </ul>
+              </nav>
+              <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+                <div className="card-content">
+                  <div className="content">
+                    <div className="subtitle">
+                      {`What is your `}
+                      <span>
+                        <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            const elmnt = document.getElementById('bob-bid-on-request');
+                            elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                          }}
+                          className="is-text"
+                        >
+                          {`Bid`}
+                        </a>
+                      </span>
+                      {` to fulfill this request?`}
+                    </div>
                   </div>
+                  {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
                 </div>
-                {/* <HowItWorks step={2} isMoreDetails isSmall /> */}
-              </div>
-            </section>
+              </section>
 
-            {getMeTheRightRequestCard({
-              job: jobDetails,
-              isSummaryView: false,
-              pointOfView: POINT_OF_VIEW.TASKER,
-              submitBid,
-              userDetails: currentUserDetails,
-            })}
+              {getMeTheRightRequestCard({
+                job: jobDetails,
+                isSummaryView: false,
+                pointOfView: POINT_OF_VIEW.TASKER,
+                submitBid,
+                userDetails: currentUserDetails,
+              })}
+            </div>
           </div>
         </div>
-      </div>
+        <br />
+      </>
     );
   }
 }
@@ -121,81 +124,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BidOnJobPage);
-
-const breadCrumbs = () => {
-  return (
-    <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-      <nav className="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-          <li>
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
-              }}
-            >
-              All Requests
-            </a>
-          </li>
-
-          <li className="is-active">
-            <a>Place Your Bid!</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-};
-
-export const HowItWorks = ({ step, isMoreDetails, isSmall }) => {
-  return (
-    <ul
-      className={`limitLargeMaxWidth steps has-content-centered is-horizontal ${
-        isSmall ? 'is-small' : ''
-      }`}
-    >
-      <li className={`steps-segment ${step === 1 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fas fa-book" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Review Details</p>
-        </div>
-      </li>
-      <li className={`steps-segment is-dashed ${step === 2 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fas fa-pencil-alt" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Place your Bid</p>
-        </div>
-      </li>
-      {isMoreDetails && (
-        <li className={`steps-segment is-dashed ${step === 3 ? 'is-active' : ''}`}>
-          <span className="steps-marker">
-            <span className="icon">
-              <i className="fas fa-check" />
-            </span>
-          </span>
-          <div className="steps-content">
-            <p className={`${isSmall ? 'help' : ''}`}>Requester Selects a Tasker</p>
-          </div>
-        </li>
-      )}
-      <li className={`steps-segment ${step === 4 ? 'is-active' : ''}`}>
-        <span className="steps-marker">
-          <span className="icon">
-            <i className="fa fa-usd" />
-          </span>
-        </span>
-        <div className="steps-content">
-          <p className={`${isSmall ? 'help' : ''}`}>Do it, get paid</p>
-        </div>
-      </li>
-    </ul>
-  );
-};

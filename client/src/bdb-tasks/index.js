@@ -2,17 +2,20 @@ export const REQUEST_STATES = {
   OPEN: 'OPEN',
   AWARDED: 'AWARDED',
   DISPUTED: 'DISPUTED',
-  AWARDED_CANCELED_BY_BIDDER: 'AWARDED_CANCELED_BY_BIDDER',
-  AWARDED_CANCELED_BY_REQUESTER: 'AWARDED_CANCELED_BY_REQUESTER',
+  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
+  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
   CANCELED_OPEN: 'CANCELED_OPEN',
   DONE: 'DONE',
   PAIDOUT: 'PAIDOUT',
+  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  ARCHIVE: 'ARCHIVE',
 };
 
 export const BID_STATES = {
   OPEN: 'OPEN',
-  CANCELED_AWARDED_BY_TASKER: 'CANCELED_AWARDED_BY_TASKER',
-  CANCELED_AWARDED_BY_REQUESTER: 'CANCELED_AWARDED_BY_REQUESTER',
+  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
+  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
   WON: 'WON',
   WON_SEEN: 'WON_SEEN',
   DONE: 'DONE',
@@ -51,6 +54,14 @@ export {
 } from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterDetails';
 
 export {
+  default as RequesterCanceledByTaskerSummary,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerSummary';
+
+export {
+  default as RequesterCanceledByTaskerDetails,
+} from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerDetails';
+
+export {
   default as RequesterOpenCanceledSummary,
 } from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
 export {
@@ -84,6 +95,14 @@ export {
 export {
   default as TaskerAwardedBidCanceledByTaskerDetails,
 } from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByTaskerDetails';
+
+export {
+  default as TaskerAwardedBidCanceledByRequesterSummary,
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByRequesterSummary';
+
+export {
+  default as TaskerAwardedBidCanceledByRequesterDetails,
+} from './AllPossibleTasksStatesCards/TaskerAwardedBidCanceledByRequesterDetails';
 
 export {
   default as TaskerAwardedBidCanceledByTaskerSummary,

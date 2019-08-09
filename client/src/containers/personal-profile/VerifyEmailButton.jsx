@@ -36,7 +36,7 @@ class VerifyEmailButton extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'we are unable to send the verification email, please contact us bidorboocrew@bidorboo.com and we will help you resolve this',
+          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboocrew@bidorboo.com to resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
@@ -73,7 +73,7 @@ class VerifyEmailButton extends React.Component {
                       Taskers
                     </div>
                     <br />
-                    <div className="group saidTest">
+                    <div className="group">
                       <label className="label">Enter Verification Code:</label>
                       <div style={{ marginTop: 2 }} className="control">
                         <div style={{ display: 'flex' }}>
@@ -89,9 +89,6 @@ class VerifyEmailButton extends React.Component {
                             disabled={isResendingVCode || verifyingEmailInProgress}
                             style={{ flexGrow: 1, borderRadius: 0 }}
                             className="input"
-                            type="number"
-                            maxLength="6"
-                            minLength="6"
                             placeholder="Enter 6 digits Verification Code"
                           />
                           <div

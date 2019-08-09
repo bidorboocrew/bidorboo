@@ -36,74 +36,44 @@ class BidModal extends React.Component {
     const autoBidOptions =
       avgBid < 10 ? (
         <div className="buttons">
-          <span
-            onClick={() => this.onAutoBid(25)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(25)} className="button is-success is-small">
             25$
           </span>
-          <span
-            onClick={() => this.onAutoBid(50)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(50)} className="button is-success is-small">
             50$
           </span>
-          <span
-            onClick={() => this.onAutoBid(100)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(100)} className="button is-success is-small">
             100$
           </span>
-          <span
-            onClick={() => this.onAutoBid(125)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(125)} className="button is-success is-small">
             125$
           </span>
-          <span
-            onClick={() => this.onAutoBid(150)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(150)} className="button is-success is-small">
             150$
           </span>
         </div>
       ) : (
         <div className="buttons">
           <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
-          <span
-            onClick={() => this.onAutoBid(avgBid - 10)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid - 10)} className="button is-success is-small">
             {`${avgBid - 10}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid - 5)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid - 5)} className="button is-success is-small">
             {`${avgBid - 5}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid)} className="button is-success is-small">
             {`${avgBid}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid + 5)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid + 5)} className="button is-success is-small">
             {`${avgBid + 5}$`}
           </span>
-          <span
-            onClick={() => this.onAutoBid(avgBid + 10)}
-            className="button is-success is-small"
-          >
+          <span onClick={() => this.onAutoBid(avgBid + 10)} className="button is-success is-small">
             {`${avgBid + 10}$`}
           </span>
         </div>
       );
     return (
-      <div className="modal is-active">
+      <div className="modal is-active has-text-left">
         <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
@@ -112,8 +82,8 @@ class BidModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <p>
-              Enter your bid (a total amount) you'd like to recieve in exchange for fulfilling this
-              task.
+              Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling
+              this task
             </p>
 
             <TextInput
@@ -121,8 +91,7 @@ class BidModal extends React.Component {
               label="Enter Your Bid Amount"
               id="bidAmountField"
               className="input is-focused"
-              type="number"
-              maxLength="5"
+              placeholder={'Enter total bid amount...'}
               onBlur={handleBlur}
               // helpText={
               //   avgBid > 0
@@ -143,7 +112,7 @@ class BidModal extends React.Component {
             </div>
             <br />
 
-            {/* <div className="group saidTest">
+            {/* <div className="group">
               <div className="label">BidOrBoo Rules</div>
 
               {values.bidAmountField && values.bidAmountField > 1 && (
@@ -169,6 +138,9 @@ class BidModal extends React.Component {
           </section>
 
           <footer className="modal-card-foot">
+            <button onClick={handleClose} className="button is-outline">
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={isSubmitting || !isValid}
@@ -176,9 +148,6 @@ class BidModal extends React.Component {
               className="button is-success"
             >
               Submit Bid
-            </button>
-            <button onClick={handleClose} className="button is-outline">
-              Cancel
             </button>
           </footer>
         </div>

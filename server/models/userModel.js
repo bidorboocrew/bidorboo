@@ -55,6 +55,7 @@ const UserSchema = new Schema(
         type: Boolean,
         default: true,
       },
+      newPostedTasks: { type: Boolean, default: true },
     },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
@@ -200,20 +201,23 @@ UserSchema.pre('save', async function(next) {
 });
 
 UserSchema.virtual('canPost').get(function() {
-  return this.phone && this.phone.isVerified && this.email && this.email.isVerified;
+  // return this.phone && this.phone.isVerified &&
+  return this.email && this.email.isVerified;
 });
 
 UserSchema.virtual('canBid').get(function() {
-  return !!(
-    this.phone &&
-    this.phone.isVerified &&
-    this.email &&
-    this.email.isVerified &&
-    this.stripeConnect &&
-    this.stripeConnect.accId &&
-    this.stripeConnect.isVerified &&
-    this.stripeConnect.payoutsEnabled
-  );
+  return this.email && this.email.isVerified;
+
+  // return !!(
+  // this.phone &&
+  // this.phone.isVerified &&
+  // this.email &&
+  // this.email.isVerified
+  // // this.stripeConnect &&
+  // this.stripeConnect.accId &&
+  // this.stripeConnect.isVerified &&
+  // this.stripeConnect.payoutsEnabled
+  // );
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

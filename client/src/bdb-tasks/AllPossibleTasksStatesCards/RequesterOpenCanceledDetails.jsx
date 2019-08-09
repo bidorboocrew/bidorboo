@@ -38,7 +38,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG  } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -66,7 +66,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
               className="navbar-divider"
             />
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
               <div className="help">* This will be deleted in 48 hours</div>
@@ -82,7 +82,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
             <TaskSpecificExtras templateId={ID} extras={extras} />
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Detailed Description</label>
               <span className="is-size-7">
                 <TextareaAutosize
@@ -93,7 +93,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
                     border: 'none',
                     color: '#4a4a4a',
                     fontSize: '1rem',
-                    background: '#f6f6f6',
+                    background: '#eeeeee',
                   }}
                   readOnly
                 />

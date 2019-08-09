@@ -14,8 +14,8 @@ const BidSchema = new Schema(
       type: String,
       enum: [
         'OPEN',
-        'CANCELED_AWARDED_BY_TASKER',
-        'CANCELED_AWARDED_BY_REQUESTER',
+        'AWARDED_BID_CANCELED_BY_TASKER',
+        'AWARDED_BID_CANCELED_BY_REQUESTER',
         'WON', // when Tasker is awarded
         'WON_SEEN', // when tasker seen the awarded bid
         'DONE', // when Requester confirms job is done
@@ -43,8 +43,8 @@ BidSchema.virtual('displayStatus').get(function() {
     OPEN: 'Awaiting On Requester',
     WON: 'Winning Bid',
     WON_SEEN: 'Winning Bid',
-    CANCELED_AWARDED_BY_REQUESTER: 'Requester Cancelled the Agreement',
-    CANCELED_AWARDED_BY_TASKER: 'Tasker Cancelled the Agreement',
+    AWARDED_BID_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    AWARDED_BID_CANCELED_BY_TASKER: 'Tasker Cancelled the Agreement',
     DONE: 'Task is Completed',
     PAID_OUT: 'Paid out to Tasker',
   };

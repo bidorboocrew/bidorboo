@@ -6,7 +6,6 @@
 @import './_addToCalendar.scss';
 
 // @import './_reactBigCalendar.scss';
-// @import './_timelineBulma.scss';
 
 // @import './_commonClasses.scss';
 // --------------------------------------------------
@@ -20,7 +19,7 @@ $border-divider: 1px solid rgba(0, 0, 0, 0.12);
 html body {
   color: #363636;
   line-height: 1.5;
-  background: #f6f6f6;
+  background: #eeeeee;
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -29,17 +28,8 @@ html body {
   font-weight: 300;
 }
 
-// body {
-//   position: relative;
-// }
-// #fc_frame {
-//   position: absolute !important;
-//   bottom: 0.5rem !important;
-//   right: 1rem !important;
-//   z-index: 10 !important;
-// }
 #mainFooter {
-  margin-top: 1.5rem;
+  margin-top: 3rem;
   padding: 1rem;
   background: #363636;
 }
@@ -105,7 +95,6 @@ html body {
 
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
-  border-bottom: 1px solid #eeeeee;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
 
   * a.navbar-item {
@@ -162,10 +151,10 @@ html body {
       }
     }
     #myprofile-step > nav > div > div.navbar-dropdown {
-      background: #505050 !important;
+      background: #363636 !important;
     }
     #myprofile-step.navbar-item.dropdown.is-right.is-active {
-      background: #505050 !important;
+      background: #363636 !important;
     }
     #navbarmenu {
       background: #363636 !important;
@@ -173,7 +162,6 @@ html body {
     * #mobile-nav-burger {
       color: white !important;
       background: none !important;
-
       &:hover {
         background: rgba(#fff, 0.8) !important;
         color: #363636 !important;
@@ -182,6 +170,18 @@ html body {
         background: unset !important;
         color: unset !important;
       }
+    }
+  }
+
+  .navbar-brand {
+    cursor: pointer;
+    #BidOrBoo-logo-step {
+      &:hover {
+        background: none !important;
+      }
+    }
+    &:hover {
+      background: none !important;
     }
   }
   // #BidOrBoo-logo-step {
@@ -288,13 +288,13 @@ html body {
 
 #ONBOARDING_CONTAINER {
   position: absolute;
-  z-index: 99999;
+  z-index: 150;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 1000px;
   bottom: 0;
-  background: #f6f6f6;
+  background: #eeeeee;
 }
 
 a.navbar-item.is-active {
@@ -326,13 +326,13 @@ a.navbar-item.is-active {
 }
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
-$body-background-color: hsl(0, 0%, 96%);
+$body-background-color: #eeeeee;
 $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
 $yellow: #e19f00 !default;
 $green: #26ca70 !default;
-$cyan: #0a8fd1 !default;
+$cyan: #6b88e0 !default;
 $blue: #4285f4 !default;
 $purple: #ce1bbf !default;
 $red: #ee2a36 !default;
@@ -342,10 +342,10 @@ $navbar-item-hover-color: black;
 $family-sans-serif: 'Work Sans', sans-serif !default;
 $family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
+$button-disabled-opacity: 0.85;
 
-@import 'bulma-o-steps/bulma-steps.sass';
-@import 'bulma-switch/dist/css/bulma-switch.sass';
 @import 'bulma/bulma.sass';
+@import 'bulma-switch/dist/css/bulma-switch.sass';
 
 .VerticalAligner {
   display: flex;
@@ -531,14 +531,31 @@ article.media.limitHeight {
     width: auto;
   }
 }
+
+div.centeredButtonInCard {
+  font-weight: 400;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  border-radius: 25px;
+  margin-right: auto;
+  width: 184px;
+  bottom: -1rem;
+  > a {
+    // width: 184px;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  }
+}
+
 .firstButtonInCard {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 1rem;
+  right: 1.75rem;
   // width: 180px;
   border-radius: 25px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  // box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
     width: auto;
   }
@@ -548,7 +565,7 @@ article.media.limitHeight {
   position: absolute;
   bottom: -1rem;
   left: 1rem;
-  width: 180px;
+  // width: 180px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
@@ -559,8 +576,8 @@ article.media.limitHeight {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 170px;
-  width: 180px;
+  right: 184px;
+  width: 100px;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
@@ -717,17 +734,49 @@ article.media.limitHeight {
 .bdbFloatingButtonText {
   box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.26) !important;
   position: fixed !important;
-  bottom: 6.5rem !important;
-  right: 1.5rem !important;
-  z-index: 999;
-  width: 56px !important;
-  height: 56px !important;
-  border-radius: 100% !important;
-  font-size: 32px !important;
-  font-weight: 700 !important;
+  top: 5rem !important;
+  left: -10px !important;
+  z-index: 99;
+  width: 42px !important;
+  height: 50px !important;
+  border-radius: 2px !important;
+  font-size: 24px !important;
+  font-weight: 400 !important;
   &.iconbutton {
-    font-size: 20px !important;
+    font-size: 27px !important;
   }
+}
+#bdb-searchTasks {
+  position: fixed;
+  display: block;
+  background: white;
+  top: 0;
+  left: 0;
+  width: 97%;
+  max-width: 30rem;
+  overflow: hidden;
+  height: 100%;
+  z-index: 105;
+  border-right: 1px solid white;
+  &.slide-in-left-reversed {
+    display: none;
+  }
+  div.theContent {
+    height: calc(100% - 4.25rem);
+    overflow-y: auto;
+    padding: 0.5rem 0;
+  }
+}
+#bdb-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  z-index: 104;
+  background: rgba(10, 10, 10, 0.86);
+  pointer-events: all;
+  display: block;
 }
 
 .bdbfooter {
@@ -737,7 +786,7 @@ article.media.limitHeight {
   left: 0;
   padding: 1rem;
   width: 100%;
-  background-color: #f6f6f6;
+  background-color: #eeeeee;
   text-align: center;
 }
 
@@ -812,11 +861,15 @@ div.react-datepicker {
 // }
 
 #bob-ChatSupport {
-  position: fixed;
-  top: calc(90vh - 1.5rem);
-  right: -34px;
-  transform: rotate(270deg);
-  z-index: 99;
+  // position: fixed;
+  // top: calc(100vh - 4rem);
+  // right: -30px;
+  // transform: rotate(270deg);
+  // z-index: 151;
+  // &.isFooter{
+  //   transform: unset;
+  //   position: block;
+  // }
 }
 
 // materialize css input
@@ -841,7 +894,7 @@ $trans-time: 300ms;
   &.isError {
     margin-bottom: 2.25rem;
 
-    input,
+    input:not([type='checkbox']):not([type='radio']),
     .input,
     .textarea,
     select,
@@ -860,7 +913,7 @@ $trans-time: 300ms;
     }
   }
 
-  input,
+  input:not([type='checkbox']):not([type='radio']),
   .input,
   .textarea,
   select,
@@ -946,10 +999,25 @@ div.control {
 }
 
 .verificationBadge {
-  margin: 5px;
-  padding: 2px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  margin: 10px 5px;
+  padding: 5px;
   border-radius: 100%;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  display: inline-block;
+  &.isActive {
+    background: white;
+    border: 1px solid #26ca70;
+  }
+  &.notActive {
+    background: #cdcdcd;
+    border: 1px dashed #363636;
+    cursor: pointer;
+  }
+  &.small {
+    padding: 0;
+    font-size: 12px;
+    margin: 2px 4px;
+  }
 }
 
 div.watermark {

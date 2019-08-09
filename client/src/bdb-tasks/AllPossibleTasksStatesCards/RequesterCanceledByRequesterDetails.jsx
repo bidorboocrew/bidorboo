@@ -1,12 +1,12 @@
 import React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayLabelValue,
-  TaskSpecificExtras,
+  SummaryStartDateAndTime,
+  JobCardTitle,
+  CancelledBy,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -44,9 +44,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    if (!extras.effort) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+
     const { bidAmount, _bidderRef } = _awardedBidRef;
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -66,100 +64,66 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
     if (!ownerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
+    const { proposerPaid } = processedPayment;
+    const refundAmount = Math.floor((proposerPaid / 100) * 0.8);
+
     return (
-      <div className="card readOnlyView">
+      <div
+        style={{ border: '1px solid #ee2a36' }}
+        className="card has-text-centered cardWithButton nofixedwidth"
+      >
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
-            <div className="group saidTest">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* You have canceled this agreement</div>
-            </div>
-
-            <div className="group saidTest">
-              <label className="label">Task Cost</label>
-              <div className="control">{` ${bidValue}$ (${bidCurrency}) `}</div>
-
-              <div className="help">* will refund 80% of the payment to your card.</div>
-            </div>
-
-            <StartDateAndTime
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisplayLabelValue labelText="Address" labelValue={addressText} />
-            <React.Fragment>
-              <TaskSpecificExtras templateId={ID} extras={extras} />
-              <div className="group saidTest">
-                <label className="label">Detailed Description</label>
-                <span className="is-size-7">
-                  <TextareaAutosize
-                    value={detailedDescription}
-                    className="textarea is-marginless is-paddingless is-size-6"
-                    style={{
-                      resize: 'none',
-                      border: 'none',
-                      color: '#4a4a4a',
-                      fontSize: '1rem',
-                      background: '#f6f6f6',
-                    }}
-                    readOnly
-                  />
-                </span>
-              </div>
-            </React.Fragment>
-          </div>
 
-          <div className="group saidTest">
-            <label className="label has-text-danger">What you need to know:</label>
-            <div className="control">
-              * You will be <strong>penalized 20%</strong> of the total payment and will be refunded
-              80%.
+            <CancelledBy name={'You'} refundAmount={75} />
+            <div className="group has-text-left">
+              <label className="label has-text-danger">What you need to know:</label>
+              <ul>
+                <li>
+                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  seriously
+                </li>
+                <li>
+                  <strong>20% was deducted</strong> from the original full payment because you
+                  cancelled your apppointment.
+                </li>
+                <li>
+                  <strong>{` $${refundAmount}`} was refunded </strong> back to you.
+                </li>
+
+                <li>Your global rating will be negatively impacted</li>
+                <li>
+                  Cancelling after booking will put a ban on your account if is done frequently.
+                </li>
+              </ul>
             </div>
-            <div className="control">* Your global rating will be impacted</div>
-            <div className="control">* Cancelling often will put a ban on your account</div>
-          </div>
-          <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-              }}
-              className={`button`}
-              style={{ flexGrow: 1, marginRight: 10 }}
-            >
-              <span className="icon">
-                <i className="far fa-arrow-alt-circle-left" />
-              </span>
-              <span>I understand</span>
-            </a>
           </div>
         </div>
+
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+          }}
+          className="button firstButtonInCard"
+        >
+          <span className="icon">
+            <i className="far fa-arrow-alt-circle-left" />
+          </span>
+          <span>I understand</span>
+        </a>
       </div>
     );
   }

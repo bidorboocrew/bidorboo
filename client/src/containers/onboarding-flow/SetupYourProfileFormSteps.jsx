@@ -5,32 +5,25 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
+// import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
 import VerifyEmailField from './VerifyEmailField';
 import VerifyPhoneField from './VerifyPhoneField';
 import UpdatePhoneNumberField from './UpdatePhoneNumberField';
 import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 
-const Step1 = ({
-  nextButton,
-  backButton,
-  userDetails,
-  showSetupPhoneStep,
-  showTosStep,
-  isEmailAlreadyVerified,
-  isPhoneAlreadyVerified,
-}) => {
+const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
-    <div style={{ position: 'relative' }}>
-      <div className="subtitle has-text-weight-bold">Verify your email address</div>
-      <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <div className="label">{`We've sent the Code to: ${userDetails.email.emailAddress}`}</div>
-        <VerifyEmailField />
+    <div>
+      <div className="subtitle">Verify your email address</div>
+      <div className="slide-in-right field">
+        <div>{`We've sent the Code to: `}</div>
+        <div className="has-text-weight-semibold">{`${userDetails.email.emailAddress}`}</div>
+        <br />
+        <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
-      <br />
 
-      <button onClick={showSetupPhoneStep} className="button is-medium is-success is-pulled-right">
-        <span>Skip</span>
+      <button onClick={showSetupPhoneStep} className="button is-link  firstButtonInCard">
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -40,15 +33,12 @@ const Step1 = ({
 };
 
 const Step2 = ({
-  nextButton,
-  backButton,
   userDetails,
   onSubmit,
   showPhoneVerificationStep,
   showEmailVerificationStep,
   showTosStep,
   isEmailAlreadyVerified,
-  isPhoneAlreadyVerified,
 }) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -61,17 +51,14 @@ const Step2 = ({
         />
       </div>
       <br />
-      <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
-        <span>Skip</span>
+      <button onClick={showTosStep} className="button is-link is-pulled-right">
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
       </button>
       {!isEmailAlreadyVerified && (
-        <button
-          onClick={showEmailVerificationStep}
-          className="button is-medium is-success is-pulled-left"
-        >
+        <button onClick={showEmailVerificationStep} className="button is-pulled-left">
           <span className="icon">
             <i className="fas fa-chevron-left" />
           </span>
@@ -82,36 +69,24 @@ const Step2 = ({
   );
 };
 
-const Step3 = ({
-  nextButton,
-  backButton,
-  userDetails,
-  showTosStep,
-  showSetupPhoneStep,
-  isEmailAlreadyVerified,
-  isPhoneAlreadyVerified,
-}) => {
+const Step3 = ({ userDetails, showTosStep, showSetupPhoneStep }) => {
   return (
-    <div style={{ position: 'relative' }}>
-      <div className="subtitle">Verify Your Phone Number</div>
-      <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <div className="label">
-          {`We've sent your verification code to : ${userDetails.phone &&
-            userDetails.phone.phoneNumber}`}
-        </div>
-        <VerifyPhoneField showTosStep={showTosStep} />
+    <div>
+      <div className="subtitle">Verify your phone number</div>
+      <div className="slide-in-right field">
+        <div>{`We've sent the Code to: `}</div>
+        <div className="has-text-weight-semibold">{`${userDetails.phone.phoneNumber}`}</div>
+        <br />
+        <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
       </div>
-      <br />
-      <button onClick={showTosStep} className="button is-medium is-success is-pulled-right">
-        <span>Skip</span>
+
+      <button onClick={showTosStep} className="button is-link firstButtonInCard">
+        <span>Do it later</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
       </button>
-      <button
-        onClick={showSetupPhoneStep}
-        className="button is-medium is-success is-pulled-left"
-      >
+      <button onClick={showSetupPhoneStep} className="button is-pulled-left">
         <span className="icon">
           <i className="fas fa-chevron-left" />
         </span>
@@ -173,7 +148,7 @@ class Step4 extends React.Component {
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field" style={{ height: '10rem' }}>
-          <div className="group saidTest">
+          <div className="group">
             <label className="label">Please Read BidOrBoo terms of service</label>
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">
@@ -185,7 +160,7 @@ class Step4 extends React.Component {
                 />
                 {` I confirm that I have read and agreed to`}
                 <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  <strong>{` BidOrBoo Service Agreement `}</strong>
+                  {` BidOrBoo Service Agreement `}
                 </a>
                 and
                 <a
@@ -193,7 +168,7 @@ class Step4 extends React.Component {
                   rel="noopener noreferrer"
                   href="https://stripe.com/connect-account/legal"
                 >
-                  <strong>{` Stripe Connected Account Agreement`}</strong>
+                  {` Stripe Connected Account Agreement`}
                 </a>
                 .
               </label>
@@ -207,16 +182,13 @@ class Step4 extends React.Component {
         </div>
         <button
           onClick={this.verifyAndSubmitOnBoarding}
-          className="button is-medium is-success is-pulled-right"
+          className="button is-success is-pulled-right"
         >
           Get Started
         </button>
 
         {!isEmailAlreadyVerified && isPhoneAlreadyVerified && (
-          <button
-            onClick={showEmailVerificationStep}
-            className="button is-medium is-success is-pulled-left"
-          >
+          <button onClick={showEmailVerificationStep} className="button is-pulled-left">
             <span className="icon">
               <i className="fas fa-chevron-left" />
             </span>
@@ -224,10 +196,7 @@ class Step4 extends React.Component {
           </button>
         )}
         {!isPhoneAlreadyVerified && (
-          <button
-            onClick={showSetupPhoneStep}
-            className="button is-medium is-success is-pulled-left"
-          >
+          <button onClick={showSetupPhoneStep} className="button is-pulled-left">
             <span className="icon">
               <i className="fas fa-chevron-left" />
             </span>

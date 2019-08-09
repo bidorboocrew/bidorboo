@@ -1,10 +1,10 @@
 // https://jscompress.com/ compress xxxxx
-
+// https://web-push-book.gauntface.com/chapter-05/02-display-a-notification/#icon
 'use strict';
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.6.0';
+var CACHE_NAME = 'bob-app-cache-v6.8.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -34,21 +34,35 @@ var googleFontsReq = new Request(
 
 var urlsToCache = [
   '/favicon.ico',
+  '/offline.html',
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
-  '/offline.html',
+  '/apple-touch-icon-60x60.png',
+  '/apple-touch-icon-76x76.png',
+  '/apple-touch-icon-120x120.png',
+  '/apple-touch-icon-152x152.png',
+  '/apple-touch-icon-180x180.png',
+  '/apple-touch-icon.png',
+  '/favicon-32x32.png',
+  '/favicon-16x16.png',
+  '/mstile-70x70.png',
+  '/mstile-144x144.png',
+  '/mstile-150x150.png',
+  '/mstile-310x150.png',
+  '/mstile-310x310.png',
+  '/android-chrome-192x192-mono.png'
 ];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 self.addEventListener('activate', function(event) {
   // anything listed here will not be deleted
   var cacheWhitelist = [CACHE_NAME];
-  console.info('deleting caches ');
+  // console.info('deleting bidorboo old caches');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return cacheNames.map(function(cacheName) {
         if (cacheWhitelist.indexOf(cacheName) === -1) {
-          console.info('deleting caches ' + cacheName);
+          // console.info('deleting bidorboo old caches' + cacheName);
           return caches.delete(cacheName);
         }
       });
@@ -60,17 +74,15 @@ self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-
       fetch(fontAwesomeReq).then((response) => {
-        console.info('putting fontawesome in cache');
+        // console.info('putting fontawesome in cache');
         cache.put(fontAwesomeReq, response);
       });
       fetch(googleFontsReq).then((response) => {
-        console.info('putting google fonts in cache');
+        // console.info('putting google fonts in cache');
         cache.put(googleFontsReq, response);
       });
 
-      console.info('Opened cache to cache' + urlsToCache);
       return cache.addAll(urlsToCache);
     }),
   );
@@ -150,7 +162,8 @@ self.addEventListener('push', (event) => {
   var options = {
     body: data.body,
     icon: '/android-chrome-192x192.png',
-    badge: '/android-chrome-192x192.png',
+    badge: '/android-chrome-192x192-mono.png',
+    image: '/mstile-310x310.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,20 +8,21 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
+  SummaryStartDateAndTime,
+  JobCardTitle,
+  TaskIsFulfilled,
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
-  UserImageAndRating,
+  ArchiveTask,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterAwardedSummary extends RequestBaseContainer {
+class RequesterDoneSummary extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
     if (!job || !job._id || !cancelJobById) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
+      return <div>RequesterDoneSummary is missing properties</div>;
     }
 
     const {
@@ -50,7 +50,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
+      return <div>RequesterDoneSummary is missing properties</div>;
     }
 
     const { bidAmount, _bidderRef } = _awardedBidRef;
@@ -63,67 +63,38 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
+      return <div>RequesterDoneSummary is missing properties</div>;
     }
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
+    const { requiresProposerReview } = _reviewRef;
 
     return (
-      <div className="card cardWithButton">
+      <div className="card has-text-centered cardWithButton">
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <SummaryStartDateAndTime
+              date={startingDateAndTime}
+              renderHelpComponent={() => (
+                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+              )}
+            />
+            {!requiresProposerReview && <ArchiveTask />}
 
-            {!requiresProposerReview && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-dark">Archived !</div>
-                <div className="help">* Congratulations. This was a success</div>
-              </div>
-            )}
-
-            {requiresProposerReview && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">Done!</div>
-                <div className="help">* Congratulations. Now it is time to review the Tasker</div>
-              </div>
-            )}
-
-            <StartDateAndTime date={startingDateAndTime} />
-            {/* <DisplayShortAddress addressText={addressText} /> */}
+            {requiresProposerReview && <TaskIsFulfilled />}
           </div>
         </div>
 
-        <div className="firstButtonInCard ">
-          {requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className={`button is-success`}
-            >
-              Review Tasker
-            </a>
-          )}
-          {!requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className={`button`}
-            >
-              View In Archive
-            </a>
-          )}
+        <div className="centeredButtonInCard ">
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+            }}
+            className={`button ${requiresProposerReview ? 'is-primary' : 'is-dark'}`}
+          >
+            View Details
+          </a>
         </div>
       </div>
     );
@@ -150,4 +121,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RequesterAwardedSummary);
+)(RequesterDoneSummary);

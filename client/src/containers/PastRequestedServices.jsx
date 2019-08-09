@@ -42,9 +42,7 @@ class PastRequestedServices extends React.Component {
     let AllTheRequestsByThisUser = null;
     if (myPastRequestedServices && myPastRequestedServices.length > 0) {
       AllTheRequestsByThisUser = myPastRequestedServices.map((requestDetails, index) => {
-        return (
-          <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />
-        );
+        return <RequestSummary key={requestDetails._id} index={index} {...requestDetails} />;
       });
     }
 
@@ -102,7 +100,7 @@ const EmptyHistory = () => {
               className="button is-success"
               onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.root)}
             >
-              New Request
+              Post Requests
             </a>
           </div>
         </div>
@@ -235,7 +233,7 @@ class RequestSummary extends React.Component {
 
 const PleaseSubmitYourReview = () => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label>
         Your Review will be revealed when both (YOU) the Requester and the Tasker submit your
         reviews

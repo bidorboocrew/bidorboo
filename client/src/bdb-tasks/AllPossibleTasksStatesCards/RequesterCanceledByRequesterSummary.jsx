@@ -1,8 +1,9 @@
 import React from 'react';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
+  SummaryStartDateAndTime,
+  JobCardTitle,
+  CancelledBy,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -14,6 +15,7 @@ import { REQUEST_STATES } from '../index';
 export default class RequesterCanceledByRequesterSummary extends React.Component {
   render() {
     const { job } = this.props;
+
     if (!job) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
@@ -40,66 +42,41 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
     if (!_bidderRef) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
     }
-    const { displayName: ownerDisplayName } = _ownerRef;
 
     return (
-      <div className="card readOnlyView cardWithButton">
-        {/* <div className="card-image">
-          <img className="bdb-cover-img" src={IMG_URL} />
-        </div> */}
+      <div
+        style={{ border: '1px solid #ee2a36' }}
+        className="card has-text-centered cardWithButton"
+      >
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_REQUESTER && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                <div className="help">{`* This was canceled by ${ownerDisplayName}`}</div>
-              </div>
-            )}
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
 
-            {state === REQUEST_STATES.AWARDED_CANCELED_BY_BIDDER && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control">{displayStatus}</div>
-                {`* This was canceled by ${_bidderRef.displayName}`}
-              </div>
-            )}
-
-            <StartDateAndTime
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            {/* <DisplayShortAddress addressText={addressText} /> */}
+
+            <CancelledBy name={'You'} refundAmount={75} />
           </div>
         </div>
 
-        <React.Fragment>
-          <div className="firstButtonInCard">
-            <a
-              style={{ position: 'relative' }}
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
-              }}
-              className="button is-danger"
-            >
-              View Implications
-            </a>
-          </div>
-        </React.Fragment>
+        <div className="centeredButtonInCard">
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+            }}
+            className="button is-danger"
+          >
+            View Details
+          </a>
+        </div>
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 
 import { switchRoute } from '../../utils';
@@ -12,17 +11,19 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
-  StartDateAndTime,
   DisplayLabelValue,
-  UserImageAndRating,
-  AddAwardedJobToCalendar,
+  TaskCost,
   TaskSpecificExtras,
+  ArchiveTask,
+  JobCardTitle,
+  SummaryStartDateAndTime,
+  TaskIsFulfilled,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterAwardedDetails extends RequestBaseContainer {
+class RequesterDoneDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById, currentUserDetails } = this.props;
     const { _id: currentUserId } = currentUserDetails;
@@ -91,7 +92,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { TITLE, ID, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -100,123 +101,114 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
     return (
-      <div style={{ height: 'auto' }} className="card">
-        <div className="card-content">
-          <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="title">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 7 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
+      <>
+        <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content has-text-centered">
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <SummaryStartDateAndTime
+                date={startingDateAndTime}
+                renderHelpComponent={() => (
+                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                )}
+              />
+              {!requiresProposerReview && <ArchiveTask />}
 
-            {!requiresProposerReview && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-dark">Archived !</div>
-                <div className="help">* Congratulations. This was a success</div>
-              </div>
-            )}
+              {requiresProposerReview && <TaskIsFulfilled />}
 
-            {requiresProposerReview && (
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-success">Done!</div>
-                <div className="help">* Congratulations. Now it is time to review the Tasker</div>
-              </div>
-            )}
+              <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
 
-            <div className="group saidTest">
-              <label className="label">Task Cost</label>
-              <div className="control">{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">* Paid out to Tasker.</div>
-            </div>
-            <StartDateAndTime date={startingDateAndTime} />
-
-            <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
-            {showMore && (
-              <React.Fragment>
-                <TaskSpecificExtras templateId={ID} extras={extras} />
-                <div className="group saidTest">
-                  <label className="label">Detailed Description</label>
-                  <span className="is-size-7">
-                    <TextareaAutosize
-                      value={detailedDescription}
-                      className="textarea is-marginless is-paddingless is-size-6"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a',
-                        fontSize: '1rem',
-                      }}
-                      readOnly
-                    />
-                  </span>
-                </div>
-              </React.Fragment>
-            )}
-            <div>
-              {!showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show full details</span>
-                  <span className="icon">
-                    <i className="fas fa-angle-double-down" />
-                  </span>
-                </a>
-              )}
               {showMore && (
-                <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show less details</span>
-                  <span className="icon">
-                    <i className="fas fa-angle-double-up" />
-                  </span>
-                </a>
+                <React.Fragment>
+                  <DisplayLabelValue labelText="Address" labelValue={addressText} />
+                  <TaskSpecificExtras templateId={ID} extras={extras} />
+                  <div className="group">
+                    <label className="label">Detailed Description</label>
+                    <span className="is-size-7">
+                      <TextareaAutosize
+                        value={detailedDescription}
+                        className="textarea is-marginless is-paddingless is-size-6"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                          color: '#4a4a4a',
+                          fontSize: '1rem',
+                        }}
+                        readOnly
+                      />
+                    </span>
+                  </div>
+                </React.Fragment>
               )}
+              <div>
+                {!showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small">
+                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-down" />
+                    </span>
+                  </a>
+                )}
+                {showMore && (
+                  <a onClick={this.toggleShowMore} className="button is-small">
+                    <span style={{ marginRight: 4 }}>show less details</span>
+                    <span className="icon">
+                      <i className="fas fa-angle-double-up" />
+                    </span>
+                  </a>
+                )}
+              </div>
             </div>
-            <hr className="divider" />
-            <div className="group saidTest">
-              <label className="label">Assigned Tasker Details</label>
-              <UserImageAndRating userDetails={_bidderRef} />
-            </div>
-          </div>
-          <div style={{ display: 'flex' }}>
-            {requiresProposerReview && (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                }}
-                className={`button is-fullwidth is-success`}
-              >
-                Review Tasker
-              </a>
-            )}
-            {!requiresProposerReview && (
-              <a
-                onClick={() => {
-                  alert('Archive not implemented yet, will take you to archieve');
-                }}
-                className={`button is-fullwidth is-info`}
-              >
-                View In Archive
-              </a>
-            )}
           </div>
         </div>
-      </div>
+
+        <br />
+        <div
+          style={{ background: 'transparent', marginBottom: 0 }}
+          className="tabs is-medium is-centered"
+        >
+          <ul>
+            <li className="is-active">
+              <a>
+                <span className="icon is-small">
+                  <i className="fas fa-user-tie" aria-hidden="true" />
+                </span>
+                <span>Review Your Tasker</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <AssignedTaskerDetails
+          otherUserProfileInfo={_bidderRef}
+          emailAddress={emailAddress}
+          phoneNumber={phoneNumber}
+          renderActionButton={() => (
+            <>
+              {requiresProposerReview && (
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                  }}
+                  className={`button firstButtonInCard is-primary`}
+                >
+                  Review Tasker
+                </a>
+              )}
+              {!requiresProposerReview && (
+                <a
+                  onClick={() => {
+                    alert('Archive not implemented yet, will take you to archieve');
+                  }}
+                  className={`button firstButtonInCard is-dark`}
+                >
+                  View In Archive
+                </a>
+              )}
+            </>
+          )}
+        />
+      </>
     );
   }
 }
@@ -241,4 +233,51 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RequesterAwardedDetails);
+)(RequesterDoneDetails);
+
+class AssignedTaskerDetails extends React.Component {
+  render() {
+    const { otherUserProfileInfo, renderActionButton } = this.props;
+
+    if (!otherUserProfileInfo) {
+      return null;
+    }
+
+    const { _id } = otherUserProfileInfo;
+
+    return (
+      <div className="card cardWithButton nofixedwidth">
+        <div className="card-content">
+          <div className="content ">
+            <div className="has-text-centered">
+              <figure
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
+                }}
+                style={{ margin: 'auto', width: 128 }}
+                className="image is-128x128"
+              >
+                <img
+                  style={{
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                    boxShadow:
+                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
+                  }}
+                  src={otherUserProfileInfo.profileImage.url}
+                />
+              </figure>
+              <div style={{ marginBottom: 0 }} className={`title`}>
+                <span>{otherUserProfileInfo.displayName}</span>
+              </div>
+              <br />
+            </div>
+          </div>
+        </div>
+        {renderActionButton && renderActionButton()}
+      </div>
+    );
+  }
+}

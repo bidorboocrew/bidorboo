@@ -7,21 +7,18 @@ import BidderRootLocationFilter from './BidderRootLocationFilter';
 
 export default class BidderRootFilterWrapper extends React.Component {
   render() {
-    const { isHorizontal = true } = this.props;
-    return isHorizontal ? (
-      <div style={{ background: 'white', border: '1px solid #eeeeee ', padding: '1rem' }}>
-        <div className="group saidTest">
+    const { show, toggleSideNav } = this.props;
+    return (
+      <>
+        {show && <div onClick={toggleSideNav} id="bdb-background" />}
+
+        <div
+          id="bdb-searchTasks"
+          className={`${show ? 'slide-in-left' : 'slide-in-left-reversed'}`}
+        >
           <BidderRootLocationFilter {...this.props} />
         </div>
-      </div>
-    ) : (
-      <div style={{ border: '1px solid #eeeeee ', padding: '1rem' }}>
-        <div className="group saidTest">
-          <div className="control">
-            <BidderRootLocationFilter {...this.props} />
-          </div>
-        </div>
-      </div>
+      </>
     );
   }
 }

@@ -50,7 +50,7 @@ class GetNotificationsAndScroll extends React.Component {
     if (currentUrlPathname.indexOf('my-profile/basic-settings') > 0) {
       document.querySelector('body').setAttribute('style', 'background:white');
     } else {
-      document.querySelector('body').setAttribute('style', 'background:#f6f6f6');
+      document.querySelector('body').setAttribute('style', 'background:#eeeeee');
     }
     if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
       setTimeout(() => {

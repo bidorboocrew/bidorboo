@@ -8,12 +8,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-import ReactDOM from 'react-dom';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import autoBind from 'react-autobind';
 
 // for reverse geocoding , get addressText from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
@@ -27,7 +23,7 @@ export default class BidderRootLocationFilter extends React.Component {
       this.geocoder = new this.google.maps.Geocoder();
     }
     this.state = {
-      showModal: false,
+      enableNotifyMeAboutJobsInMyArea: false,
     };
   }
 
@@ -35,8 +31,8 @@ export default class BidderRootLocationFilter extends React.Component {
     this.props.updateSearchLocationState({ addressText, latLng });
   };
 
-  updateSearchRaduisSelection = (raduisKm) => {
-    this.props.updateSearchLocationState({ searchRadius: raduisKm });
+  updateSearchRaduisSelection = (event) => {
+    this.props.updateSearchLocationState({ searchRadius: event.target.value });
   };
 
   handleSelect = (addressText) => {
@@ -125,113 +121,86 @@ export default class BidderRootLocationFilter extends React.Component {
     }
     // alert(msg);
   };
-  toggleModal = () => {
-    this.setState({ showModal: !this.state.showModal });
-  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
-    submitSearchLocationParams(activeSearchParams);
-    this.toggleModal();
-  };
-
-  handleCancel = () => {
-    const { updateSearchLocationState, userLastStoredSearchParams } = this.props;
-    updateSearchLocationState(userLastStoredSearchParams);
-    this.toggleModal();
+    submitSearchLocationParams({
+      ...activeSearchParams,
+    });
   };
 
   render() {
-    const { showModal } = this.state;
     const { activeSearchParams } = this.props;
     const { addressText, latLng, searchRadius } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <React.Fragment>
-        {showModal &&
-          ReactDOM.createPortal(
-            <div className="modal is-active">
-              <div onClick={this.toggleModal} className="modal-background" />
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <div className="modal-card-title">Search By Address</div>
-                  <button onClick={this.toggleModal} className="delete" aria-label="close" />
-                </header>
-                <section style={{ padding: '1rem 0.5rem' }} className="modal-card-body">
-                  <div className="content">
-                    <div className="group saidTest">
-                      <label className="label">
-                        Enter an address in order to search for requests
-                      </label>
-                      <GeoSearch
-                        value={addressText}
-                        onChange={this.handleChange}
-                        onSelect={this.handleSelect}
-                        handleSelect={this.handleSelect}
-                        onError={this.errorHandling}
-                        // onChangeEvent={this.handleSelect}
-                        // onBlurEvent={this.handleChange}
-                        placeholder="Start entering an adddress"
-                        forceSetAddressValue={addressText}
-                        id="filter-tasker-job"
-                      />
-                      <React.Fragment>
-                        <div>
-                          <a
-                            style={{ marginTop: 6, fontSize: 14 }}
-                            onClick={this.autoDetectCurrentAddress}
-                            className="button is-small is-info"
-                          >
-                            <span className="icon">
-                              <i className="fas fa-map-marker-alt" />
-                            </span>
-                            <span>Auto Detect My Address</span>
-                          </a>
-                        </div>
-                      </React.Fragment>
-                    </div>
+      <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', textAlign: 'left' }}>
+        <div style={{ width: 500, padding: 10 }}>
+          <div>
+            <label style={{ fontWeight: 400 }} className="label">
+              Enter An Address
+            </label>
+            <GeoSearch
+              value={addressText}
+              onChange={this.handleChange}
+              onSelect={this.handleSelect}
+              handleSelect={this.handleSelect}
+              onError={this.errorHandling}
+              placeholder="Start entering an adddress"
+              forceSetAddressValue={addressText}
+              id="filter-tasker-job"
+            />
 
-                    <SearchRadius
-                      updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-                      searchRadiusValue={searchRadius}
-                    />
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button
-                    disabled={disableSubmit}
-                    onClick={this.handleSubmit}
-                    className="button is-success"
-                  >
-                    <span>Search For Requests</span>
-                  </button>
-                  <button type="submit" onClick={this.handleCancel} className="button">
-                    <span>Cancel</span>
-                  </button>
-                </footer>
-              </div>
-            </div>,
-            document.querySelector('#bidorboo-root-modals'),
-          )}
-        <a
-          style={{ height: 'unset', maxWidth: '30rem', whiteSpace: 'unset', margin: 'auto' }}
-          onClick={this.toggleModal}
-          className="button is-link is-fullwidth"
-        >
-          <span className="icon">
-            <i className="is-size-4 fas fa-search-location" />
-          </span>
-          <span>
-            {`${
-              addressText
-                ? `Currently Viewing Requests within ${searchRadius}km of ${addressText}`
-                : 'Click to specify a search area'
-            }`}
-          </span>
-        </a>
-      </React.Fragment>
+            <a
+              style={{ marginTop: 6, fontSize: 14, color: 'white' }}
+              onClick={this.autoDetectCurrentAddress}
+              className="is-small is-text"
+            >
+              <span className="icon">
+                <i className="fas fa-map-marker-alt" />
+              </span>
+              <span>Auto Detect</span>
+            </a>
+          </div>
+        </div>
+        <div style={{ width: 150, padding: 10 }}>
+          <SearchRadius
+            updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+            searchRadiusValue={searchRadius}
+          />
+        </div>
+        <div style={{ padding: '10px 10px 20px 10px' }}>
+          <div
+            style={{
+              display: '-webkit-box',
+              display: '-webkit-flex',
+              display: '-ms-flexbox',
+              display: 'flex',
+              alignItems: 'center',
+              height: '90px',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              disabled={disableSubmit}
+              onClick={this.handleSubmit}
+              style={{
+                boxShadow:
+                  'rgba(255, 255, 255, 0.2) 0px 0px 7px, rgba(236, 255, 255, 0.3) 0px 0px 14px 1px',
+              }}
+              className="button is-success is-medium"
+            >
+              <span className="icon">
+                <i className="fas fa-search" />
+              </span>
+              <span>{`Search`}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -254,18 +223,27 @@ class GeoSearch extends React.Component {
 
       return (
         <div>
-          <div className="control">
-            <input
-              id={id}
-              value={value}
-              onBlur={onBlurEvent}
-              {...getInputProps({
-                type: 'text',
-                placeholder: `${placeholder}`,
-                className: 'input',
-              })}
-            />
-          </div>
+          <input
+            id={id}
+            value={value}
+            onBlur={onBlurEvent}
+            {...getInputProps({
+              type: 'text',
+              placeholder: `${placeholder}`,
+              className: 'input',
+              style: {
+                fontWeight: 500,
+
+                backgroundColor: 'white',
+                borderLeft: 'unset',
+                borderRight: 'unset',
+                borderTop: 'unset',
+                boxShadow: 'unset',
+                borderRadius: 0,
+              },
+            })}
+          />
+
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -330,41 +308,26 @@ class SearchRadius extends React.Component {
   render() {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
-      <div className="group saidTest">
-        <label className="label">Search Radius</label>
-        <div className="buttons has-addons">
-          <span
-            onClick={() => updateSearchRaduisSelection(25)}
-            className={classNames('button ', {
-              'is-info is-selected': searchRadiusValue === 25,
-            })}
-          >
-            25km
-          </span>
-          <span
-            onClick={() => updateSearchRaduisSelection(50)}
-            className={classNames('button ', {
-              'is-info is-selected': searchRadiusValue === 50,
-            })}
-          >
-            50km
-          </span>
-          <span
-            onClick={() => updateSearchRaduisSelection(100)}
-            className={classNames('button ', {
-              'is-info is-selected': searchRadiusValue === 100,
-            })}
-          >
-            100km
-          </span>
-          <span
-            onClick={() => updateSearchRaduisSelection(150)}
-            className={classNames('button ', {
-              'is-info is-selected': searchRadiusValue === 150,
-            })}
-          >
-            150km
-          </span>
+      <div style={{ marginBottom: 0 }} className="group">
+        <label style={{ fontWeight: 400 }} className="label">
+          Search Radius
+        </label>
+        <div>
+          <div className="select">
+            <select
+              style={{
+                padding: '0 6px',
+              }}
+              value={searchRadiusValue}
+              onChange={updateSearchRaduisSelection}
+              onBlur={updateSearchRaduisSelection}
+            >
+              <option value="25">{`25km`}</option>
+              <option value="50">{`50km`}</option>
+              <option value="100">{`100km`}</option>
+              <option value="150">{`150km`}</option>
+            </select>
+          </div>
         </div>
       </div>
     );

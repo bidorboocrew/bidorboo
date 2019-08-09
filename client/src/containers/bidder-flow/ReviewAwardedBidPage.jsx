@@ -72,27 +72,8 @@ class ReviewAwardedBidPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white has-text-centered">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">My Bid Details</h1>
-            </div>
-          </div>
-        </section>
-        <div className="columns is-centered">
-          <div className="column limitLargeMaxWidth">
-            <div style={{ marginBottom: '0.7rem' }}>
-              <a
-                className="button"
-                onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
-              >
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>View My Other Bids</span>
-              </a>
-            </div>
-
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
             {getMeTheRightBidCard({
               bid: selectedAwardedBid,
               isSummaryView: false,

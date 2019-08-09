@@ -65,18 +65,6 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     return (
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a onClick={() => switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage)}>
-                  <span>Requests Inbox</span>
-                </a>
-              </li>
-              <li className="is-active">
-                <a>Request Details</a>
-              </li>
-            </ul>
-          </nav>
           {getMeTheRightRequestCard({
             job: selectedAwardedJob,
             isSummaryView: false,

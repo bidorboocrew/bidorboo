@@ -115,31 +115,18 @@ exports.bidDataAccess = {
           });
 
           if (refundCharge.status === 'succeeded') {
-            const jobStartDateAndtime = bidDetails._jobRef.startingDateAndTime;
-
-            // normalize the start date to the same timezone to comapre
-            const normalizedStartDate = moment(jobStartDateAndtime)
-              .tz('America/Toronto')
-              .toISOString();
-            const today = moment()
-              .tz('America/Toronto')
-              .startOf('day')
-              .toISOString();
-            const isPastDue = moment(normalizedStartDate).isBefore(today);
-
             const [updatedJob, updatedBid, updatedTasker] = await Promise.all([
               JobModel.findOneAndUpdate(
                 { _id: requestedJobId, _ownerRef: requesterId },
                 {
                   $set: {
-                    state: `${isPastDue ? 'AWARDED_CANCELED_BY_BIDDER' : 'OPEN'}`,
+                    state: 'AWARDED_JOB_CANCELED_BY_BIDDER',
                     'processedPayment.refund': {
                       amount: refundCharge.amount,
                       charge: refundCharge.charge,
                       id: refundCharge.id,
                       status: refundCharge.status,
                     },
-                    _awardedBidRef: null,
                   },
                   $push: { hideFrom: taskerId },
                   $pull: { _bidsListRef: bidDetails._id },
@@ -151,7 +138,7 @@ exports.bidDataAccess = {
               BidModel.findByIdAndUpdate(
                 bidId,
                 {
-                  $set: { state: 'CANCELED_AWARDED_BY_TASKER' },
+                  $set: { state: 'AWARDED_BID_CANCELED_BY_TASKER' },
                 },
                 { new: true }
               )
@@ -160,9 +147,15 @@ exports.bidDataAccess = {
               UserModel.findByIdAndUpdate(
                 taskerId,
                 {
-                  $push: { 'rating.canceledBids': bidId },
+                  $push: {
+                    'rating.canceledBids': bidId,
+                    'rating.latestComment':
+                      'BidOrBoo Auto Review: Cancelled On The Requester After Making An Agreement',
+                  },
                   $inc: {
                     'rating.globalRating': -0.25,
+                    'rating.numberOfTimesBeenRated': 1,
+                    'rating.totalOfAllRating': 3.75,
                   },
                 },
                 { new: true }
@@ -178,7 +171,6 @@ exports.bidDataAccess = {
                 requestTitle: jobDisplayName,
                 toDisplayName: requesterDisplayName,
                 linkForOwner: requestLinkForRequester,
-                isPastDue,
               });
             }
             if (allowedToEmailTasker) {
@@ -219,15 +211,11 @@ exports.bidDataAccess = {
             }
             // -------------notify
 
-            // -------------------------------- assert things
-            if (
-              !updatedJob._id ||
-              updatedJob._awardedBidRef ||
-              !updatedJob.processedPayment.refund
-            ) {
+            // -------------------------------- assert things sxxxxx
+            if (!updatedJob._id || !updatedJob.processedPayment.refund) {
               return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
-            if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_TASKER') {
+            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_TASKER') {
               return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
             if (
@@ -249,7 +237,7 @@ exports.bidDataAccess = {
               }
             }
             return resolve({ success: true, bidId });
-            // ^-------- assert things
+            // ^-------- assert things xxxxxxxxxxxxxxxxxxxxxxxxx
           } else {
             return reject({
               refund: refundCharge,
@@ -606,8 +594,8 @@ exports.bidDataAccess = {
                 match: {
                   state: {
                     $in: [
-                      'CANCELED_AWARDED_BY_TASKER',
-                      'CANCELED_AWARDED_BY_REQUESTER',
+                      'AWARDED_BID_CANCELED_BY_TASKER',
+                      'AWARDED_BID_CANCELED_BY_REQUESTER',
                       'WON',
                       'WON_SEEN',
                       'DONE',

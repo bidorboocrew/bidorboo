@@ -1,5 +1,5 @@
 const userDataAccess = require('../data-access/userDataAccess');
-// const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
@@ -288,20 +288,6 @@ module.exports = (app) => {
   });
 
   app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res) => {
-    // try {
-    // xxxxxxxxxx test cron jobs
-    //   await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
-    //   console.log(
-    //     'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' + new Date()
-    //   );
-    //   return res.send(true);
-    // } catch (e) {
-    //   console.log(
-    //     'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
-    //       JSON.stringify(e)
-    //   );
-    //   return res.status(400).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
-    // }
     try {
       const { appViewId } = req.body.data;
       const userId = req.user.userId;

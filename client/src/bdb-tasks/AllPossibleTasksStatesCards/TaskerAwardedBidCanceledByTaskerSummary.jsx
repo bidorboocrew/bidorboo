@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,8 +9,9 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
+  JobCardTitle,
+  CancelledBy,
+  SummaryStartDateAndTime,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -28,7 +28,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
@@ -43,49 +43,35 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={`card limitWidthOfCard readOnlyView`}>
+        <div
+          style={{ border: '1px solid #ee2a36' }}
+          className={`card has-text-centered cardWithButton`}
+        >
           <div className="card-content">
             <div className="content">
-              <div style={{ display: 'flex' }}>
-                <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                  <span className="icon">
-                    <i className={ICON} />
-                  </span>
-                  <span style={{ marginLeft: 4 }}>{TITLE}</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  backgroundColor: ' whitesmoke',
-                  border: 'none',
-                  display: 'block',
-                  height: 2,
-                  margin: '0.5rem 0',
-                }}
-                className="navbar-divider"
-              />
-              <div className="group saidTest">
-                <label className="label">Request Status</label>
-                <div className="control has-text-danger">{displayStatus}</div>
-                <div className="help">* You cancelled this after commitment.</div>
-              </div>
-
-              <div className="group saidTest">
-                <label className="label">Missed Payout</label>
-                <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-                <div className="help">
-                  * Was fully refunded to the Requester since you cancelled
-                </div>
-              </div>
-              <StartDateAndTime
+              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <CancelledBy name="You" />
             </div>
           </div>
-          {renderFooter({ bid })}
+          <div className="centeredButtonInCard">
+            <a
+              style={{ position: 'relative' }}
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className="button is-danger "
+            >
+              View Details
+            </a>
+          </div>
         </div>
       </React.Fragment>
     );
@@ -115,17 +101,5 @@ export default connect(
 )(TaskerAwardedBidCanceledByTaskerSummary);
 
 const renderFooter = ({ bid }) => {
-  return (
-    <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-      <a
-        style={{ position: 'relative' }}
-        onClick={() => {
-          switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id));
-        }}
-        className="button is-danger"
-      >
-        View Implications
-      </a>
-    </div>
-  );
+  return <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }} />;
 };

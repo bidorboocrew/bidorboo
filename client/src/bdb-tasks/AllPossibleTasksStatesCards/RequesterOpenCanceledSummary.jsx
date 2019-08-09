@@ -22,7 +22,7 @@ export default class RequesterOpenCanceledSummary extends React.Component {
     if (!jobId || !startingDateAndTime || !addressText || !displayStatus) {
       return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>RequesterOpenCanceledSummary is missing properties</div>;
     }
@@ -43,7 +43,7 @@ export default class RequesterOpenCanceledSummary extends React.Component {
               </div>
             </div>
 
-            <div className="group saidTest">
+            <div className="group">
               <label className="label">Request Status</label>
               <div className="control">{displayStatus}</div>
               <div className="help">* This Request will be deleted in 48 hours</div>

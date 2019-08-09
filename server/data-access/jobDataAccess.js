@@ -181,16 +181,6 @@ exports.jobDataAccess = {
       await JobModel.find({
         startingDateAndTime: { $exists: true },
         _awardedBidRef: { $exists: false },
-        state: {
-          $nin: [
-            'AWARDED', //
-            'DISPUTED', // disputed job
-            'AWARDED_CANCELED_BY_BIDDER',
-            'AWARDED_CANCELED_BY_REQUESTER',
-            'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
-            'ARCHIVE', //For historical record
-          ],
-        },
       })
         .populate({
           path: '_bidsListRef',
@@ -275,19 +265,11 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         $and: [
-          {
-            state: {
-              $in: ['AWARDED'],
-            },
-          },
+          { state: { $eq: 'AWARDED' } },
           { jobCompletion: { $exists: true } },
           { _awardedBidRef: { $exists: true } },
-          {
-            $and: [
-              { 'jobCompletion.proposerConfirmed': { $eq: false } },
-              { 'jobCompletion.proposerDisputed': { $eq: false } },
-            ],
-          },
+          { 'jobCompletion.proposerConfirmed': { $eq: false } },
+          { 'jobCompletion.proposerDisputed': { $eq: false } },
           { 'jobCompletion.bidderConfirmed': { $eq: true } },
         ],
       })
@@ -297,7 +279,7 @@ exports.jobDataAccess = {
             throw err;
           }
 
-          const threeDaysAgo = moment.utc().subtract(3, 'd');
+          const threeDaysAgo = moment.utc().subtract(3, 'days');
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
@@ -637,6 +619,33 @@ exports.jobDataAccess = {
     return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
       .populate({
         path: '_postedJobsRef',
+        match: {
+          $or: [
+            {
+              $and: [
+                { state: { $eq: 'OPEN' } },
+                {
+                  startingDateAndTime: {
+                    $gt: moment()
+                      .utc()
+                      .toISOString(),
+                  },
+                },
+              ],
+            },
+            {
+              state: {
+                $in: [
+                  'AWARDED', //
+                  'DISPUTED', // disputed job
+                  'AWARDED_JOB_CANCELED_BY_BIDDER',
+                  'AWARDED_JOB_CANCELED_BY_REQUESTER',
+                  'DONE',
+                ],
+              },
+            },
+          ],
+        },
         select: {
           booedBy: 0,
           processedPayment: 0,
@@ -1004,6 +1013,7 @@ exports.jobDataAccess = {
                   profileImage: 1,
                   rating: 1,
                   userId: 1,
+                  membershipStatus: 1,
                 },
               },
             },
@@ -1145,6 +1155,8 @@ exports.jobDataAccess = {
             state: 1,
             location: 1,
             _bidsListRef: 1,
+            viewedBy: 1,
+            hideFrom: 1,
           },
           { lean: { virtuals: true } }
         )
@@ -1725,10 +1737,10 @@ exports.jobDataAccess = {
      *      - 10% to our platform
      *
      *
-     *      - update JOB status to AWARDED_CANCELED_BY_REQUESTER
+     *      - update JOB status to AWARDED_JOB_CANCELED_BY_REQUESTER
      *      - update JOB with the refund charge field on the job with the refund details
      *
-     *      - find the AWARDED BID and switch its status to CANCELED_AWARDED_BY_REQUESTER
+     *      - find the AWARDED BID and switch its status to AWARDED_BID_CANCELED_BY_REQUESTER
      *
      *      - Update Requester User rating
      *                globalRating - 0.25 star
@@ -1813,7 +1825,7 @@ exports.jobDataAccess = {
                 { _id: jobId, _ownerRef: mongoUser_id },
                 {
                   $set: {
-                    state: 'AWARDED_CANCELED_BY_REQUESTER',
+                    state: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
                     'processedPayment.refund': {
                       amount: refundCharge.amount,
                       charge: refundCharge.charge,
@@ -1830,7 +1842,7 @@ exports.jobDataAccess = {
               BidModel.findByIdAndUpdate(
                 awardedBidId,
                 {
-                  $set: { state: 'CANCELED_AWARDED_BY_REQUESTER' },
+                  $set: { state: 'AWARDED_BID_CANCELED_BY_REQUESTER' },
                 },
                 { new: true }
               )
@@ -1839,9 +1851,15 @@ exports.jobDataAccess = {
               User.findOneAndUpdate(
                 { _id: mongoUser_id },
                 {
-                  $push: { 'rating.canceledJobs': jobId },
+                  $push: {
+                    'rating.canceledJobs': jobId,
+                    'rating.latestComment':
+                      'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                  },
                   $inc: {
                     'rating.globalRating': -0.25,
+                    'rating.numberOfTimesBeenRated': 1,
+                    'rating.totalOfAllRating': 3.75,
                   },
                 },
                 {
@@ -1902,12 +1920,12 @@ exports.jobDataAccess = {
             if (
               !updatedJob._id ||
               !updatedJob.processedPayment.refund ||
-              updatedJob.state === 'AWARDED_CANCELED_BY_REQUESTER'
+              updatedJob.state === 'AWARDED_JOB_CANCELED_BY_REQUESTER'
             ) {
               return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
             }
 
-            if (!updatedBid._id || updatedBid.state !== 'CANCELED_AWARDED_BY_REQUESTER') {
+            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_REQUESTER') {
               return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
             }
 

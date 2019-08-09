@@ -7,7 +7,12 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { CountDownComponent, StartDateAndTime } from '../../containers/commonComponents';
+import {
+  CountDownComponent,
+  JobCardTitle,
+  SummaryStartDateAndTime,
+  CancelledBy,
+} from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -23,7 +28,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
-    const { TITLE, ICON } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
@@ -31,72 +36,65 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     if (!displayStatus || !bidAmount || !_id) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
-    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxx get bid amount from processed payment
+
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
 
     return (
-      <div className={`card readOnlyView`}>
+      <div
+        style={{ border: '1px solid #ee2a36' }}
+        className={`card has-text-centered cardWithButton nofixedwidth`}
+      >
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 4 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
-            <div className="group saidTest">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">{displayStatus}</div>
-              <div className="help">* You cancelled this after commitment.</div>
-            </div>
-
-            <div className="group saidTest">
-              <label className="label">Missed Payout</label>
-              <div>{`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              <div className="help">* Was fully refunded to the Requester since you cancelled</div>
-            </div>
-
-            <StartDateAndTime
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <div className="group saidTest">
+            <CancelledBy name="You" />
+            <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
+              <ul>
+                <li>
+                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  seriously
+                </li>
+                <li>
+                  <strong>Requester was notified about this</strong> and will not be expecting you
+                  to show up.
+                </li>
+                <li>
+                  You will <strong>Not</strong> recieve any payout for this task.
+                </li>
+                <li>
+                  Your global rating will be <strong>Negatively</strong> affected because you
+                  cancelled.
+                </li>
 
-              <div className="control">* Your global rating will be impacted</div>
-              <div className="control">* This cancellation will show up on your profile</div>
-              <div className="control">
-                * If many cancellations happen in a row you will be ban from BidOrBoo
-              </div>
-            </div>
-
-            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-              <a className="button" onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}>
-                <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
-                </span>
-                <span>I understand</span>
-              </a>
+                <li>Your global rating will be negatively impacted</li>
+                <li>
+                  If many cancellations happen in a row you will be <strong>banned</strong> from
+                  BidOrBoo
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+
+        <a
+          className="button firstButtonInCard"
+          onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+        >
+          <span className="icon">
+            <i className="far fa-arrow-alt-circle-left" />
+          </span>
+          <span>I understand</span>
+        </a>
       </div>
     );
   }

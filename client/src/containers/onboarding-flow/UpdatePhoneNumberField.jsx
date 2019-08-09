@@ -63,8 +63,8 @@ const UpdatePhoneNumberField = (props) => {
         onBlur={handleBlur}
       />
 
-      <button style={{ borderRadius: 0 }} className="button is-success" type="submit">
-        {`Save Number & Send Code`}
+      <button className="button is-success" type="submit">
+        {`Update My Phone Number`}
       </button>
     </form>
   );

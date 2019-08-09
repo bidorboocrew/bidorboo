@@ -41,7 +41,7 @@ class MyBidsPage extends React.Component {
     let myBidsSummaryCards = areThereAnyBidsToView
       ? openBidsList.map((bid) => {
           return (
-            <div key={bid._id} className="column">
+            <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
               {getMeTheRightBidCard({
                 bid: bid,
                 isSummaryView: true,
@@ -55,46 +55,19 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
-        {/* {isLoggedIn && !didUserSetupABankAccount && !isBankVerified && (
-                <div>
-                  <div
-                    style={{ marginBottom: 4 }}
-                    className="subtitle has-text-weight-bold has-text-link"
-                  >
-                    Setup your payout banking info to get your payments on time
-                  </div>
-                  <a
-                    className="button is-link"
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                    }}
-                  >
-                    Add Banking Info
-                  </a>
-                </div>
-              )}
-              {isLoggedIn && didUserSetupABankAccount && !isBankVerified && (
-                <div>
-                  <h3 className="subtitle has-text-weight-bold">
-                    Check on your verification status to get your payments on time
-                  </h3>
-                  <a
-                    className="button is-link"
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                    }}
-                  >
-                    Payment Settings
-                  </a>
-                </div>
-              )} */}
-
-        {/* <FloatingAddNewBidButton /> */}
-
+        <section className="hero is-dark">
+          <div className="hero-body  has-text-centered">
+            <div className="container">
+              <h1 style={{ marginBottom: 0 }} className="has-text-white title">
+                Bids Inbox
+              </h1>
+            </div>
+          </div>
+        </section>
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
         {!isLoading && (
-          <div className="columns forJobSummary is-multiline is-centered">{myBidsSummaryCards}</div>
+          <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
         )}
 
         {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}

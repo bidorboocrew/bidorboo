@@ -15,7 +15,9 @@ import NotificationSettings from './NotificationSettings';
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
 import { VerifiedVia } from '../commonComponents';
+import { switchRoute } from '../../utils';
 
+import * as ROUTES from '../../constants/frontend-route-consts';
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -92,7 +94,7 @@ class MyProfile extends React.Component {
               )}
             </div>
             <div className="column">
-              <div className="card disabled">
+              <div className="card cardWithButton nofixedwidth">
                 <header className="card-header">
                   <p className="card-header-title">
                     {!isEditProfile ? (
@@ -111,28 +113,28 @@ class MyProfile extends React.Component {
                       </React.Fragment>
                     )}
                   </p>
-                  {!isEditProfile && (
-                    <a
-                      onClick={() => {
-                        this.toggleEditProfile();
-                      }}
-                      className="card-header-icon has-text-success"
-                      aria-label="more options"
-                    >
-                      <span className="icon">
-                        <i className="far fa-edit" />
-                      </span>
-                      <span>Edit Details</span>
-                    </a>
-                  )}
                 </header>
                 <div className="card-content">
                   <div className="content">
                     {!isEditProfile && (
+                      <button
+                        onClick={() => {
+                          this.toggleEditProfile();
+                        }}
+                        className="button firstButtonInCard is-success"
+                        aria-label="more options"
+                      >
+                        <span className="icon">
+                          <i className="far fa-edit" />
+                        </span>
+                        <span>Edit Details</span>
+                      </button>
+                    )}
+                    {!isEditProfile && (
                       <div>
                         <DisplayLabelValue labelText="User Name" labelValue={displayName} />
 
-                        {/* <div className="group saidTest">
+                        {/* <div className="group">
                           <label className="label">Auto Detect Location</label>
                           <div className="control">
                             {autoDetectlocation && (
@@ -310,7 +312,7 @@ const HeaderTitle = (props) => {
 };
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
-    <div className="group saidTest">
+    <div className="group">
       <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
@@ -332,53 +334,65 @@ const userImageAndStats = (
       <div className="card-content">
         <div className="content">
           <div style={{ padding: '0.25rem', height: '100%' }} className="has-text-dark">
-            <div
-              onClick={(e) => {
-                e.preventDefault();
-                toggleShowUploadProfileImageDialog();
-              }}
-            >
-              <div>
-                <img className="bdb-img-profile-pic" src={`${profileImage.url}`} />
-              </div>
-              <div className="has-text-centered">{displayName}</div>
-
-              <a style={{ width: 120 }} className="button is-small">
-                <span className="icon">
-                  <i className="fa fa-camera" />
-                </span>
-                <span>Change Picture</span>
-              </a>
-
-              <VerifiedVia userDetails={userDetails} />
-            </div>
-            <br />
-            <div className="group saidTest">
-              <label className="label">My Rating</label>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="control has-text-centered">No Ratings Yet</div>
-              ) : (
-                <div className="control has-text-centered">
-                  <span>
-                    <ReactStars
-                      className="ReactStars"
-                      half
-                      count={5}
-                      value={globalRating}
-                      edit={false}
-                      size={25}
-                      color1={'lightgrey'}
-                      color2={'#ffd700'}
-                    />
-                  </span>
+            <div className="has-text-centered">
+              <div style={{ marginBottom: 6 }}>
+                <figure
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleShowUploadProfileImageDialog();
+                  }}
+                  style={{ margin: 'auto', width: 128, position: 'relative' }}
+                  className="image is-128x128"
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      bottom: 6,
+                      background: 'rgba(0,0,0,0.6)',
+                      borderRadius: '100%',
+                      color: '#eeeeee',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span className="icon is-medium">
+                      <i className="fa fa-camera" />
+                    </span>
+                  </div>
+                  <img
+                    style={{
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                    }}
+                    src={profileImage.url}
+                  />
+                </figure>
+                <div style={{ marginBottom: 0 }} className={`title`}>
+                  <span>{displayName}</span>
                 </div>
-              )}
+                <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
+                  ({membershipStatusDisplay})
+                </div>
+                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                  <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                    - No Ratings Yet -
+                  </div>
+                ) : (
+                  <ReactStars
+                    className="ReactStars"
+                    half
+                    count={5}
+                    value={globalRating}
+                    edit={false}
+                    size={35}
+                    color1={'lightgrey'}
+                    color2={'#ffd700'}
+                  />
+                )}
+              </div>
             </div>
-
-            <div className="group saidTest">
-              <label className="label">Account Status</label>
-              <div className="control has-text-centered">{membershipStatusDisplay}</div>
-            </div>
+            <VerifiedVia userDetails={userDetails} showAll />
           </div>
         </div>
       </div>
@@ -392,7 +406,7 @@ const uploadImageDialog = (toggleUploadDialog, showImageUploadDialog, updateProf
       <div onClick={toggleUploadDialog} className="modal-background" />
       <div className="modal-card">
         <header className="modal-card-head">
-          <div className="modal-card-title">Update Profile Image</div>
+          <div className="modal-card-title">Update Your Pic</div>
           <button onClick={toggleUploadDialog} className="delete" aria-label="close" />
         </header>
         <section className="modal-card-body">

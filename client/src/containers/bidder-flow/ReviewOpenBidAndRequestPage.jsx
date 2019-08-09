@@ -63,20 +63,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
     return (
       <div className="columns is-centered is-mobile">
-        <div className="column limitLargeMaxWidth">
-          <nav className="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li>
-                <a onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}>
-                  <span>Bids Inbox</span>
-                </a>
-              </li>
-              <li className="is-active">
-                <a>Bid Details</a>
-              </li>
-            </ul>
-          </nav>
-
+        <div className="column limitLargeMaxWidth slide-in-right">
           {getMeTheRightBidCard({
             bid: selectedOpenBid,
             isSummaryView: false,
