@@ -145,7 +145,9 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`View ${job._bidsListRef.length > 1 ? 'Offers' : 'Offer'}`}</span>
+            <span>{`View ${
+              job._bidsListRef.length > 1 || job._bidsListRef.length === 0 ? 'offers' : 'offer'
+            }`}</span>
           </span>
 
           {doesthisJobHaveNewBids && (
@@ -166,9 +168,9 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
-          className={`button is-link`}
+          className={`button is-light`}
         >
-          <span>View Task</span>
+          <span>View request</span>
         </a>
       </div>
     );
